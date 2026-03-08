@@ -250,12 +250,35 @@
       Compare your quote with Dallas roofing prices using community reported pricing and market estimates. Over time, TruePrice will replace estimates with real homeowner submitted quotes.
     </div>
 
-    <div class="hero-box">
-      <div class="input-row">
-        <input id="priceInput" type="number" placeholder="Enter your roofing quote" />
-        <button onclick="analyzeQuote()">Analyze My Quote</button>
-      </div>
+<input id="fairQuote"
+placeholder="Your quote ($)"
+style="padding:12px;width:160px;border-radius:6px;border:1px solid #ccc">
 
+<select id="fairMaterial"
+style="padding:12px;border-radius:6px;border:1px solid #ccc">
+<option value="5.5">Asphalt shingles</option>
+<option value="6.5">Architectural shingles</option>
+<option value="11">Metal roof</option>
+<option value="14">Tile roof</option>
+</select>
+
+<select id="fairCity"
+style="padding:12px;border-radius:6px;border:1px solid #ccc">
+<option>Dallas</option>
+<option>Atlanta</option>
+<option>Houston</option>
+<option>Phoenix</option>
+<option>Denver</option>
+</select>
+
+<button onclick="checkRoofQuote()"
+style="padding:12px 18px;background:#0f172a;color:white;border:none;border-radius:6px;font-weight:600">
+Analyze My Quote
+</button>
+
+</div>
+
+<div id="fairResult" style="margin-top:15px;font-weight:600;text-align:center"></div>
       <div id="resultCard" class="result-card">
         <div class="result-title">Your Quote Analysis</div>
         <div id="resultMain" class="result-main"></div>
@@ -540,6 +563,7 @@ More roofing guides:
   
 </body>
 </html>
+
 
 
 
