@@ -1354,6 +1354,8 @@
     const compareTableBody = document.getElementById("compareTableBody");
     const compareSummary = document.getElementById("compareSummary");
 
+    const downloadReportBtn = document.getElementById("downloadReportBtn");
+
     function currency(value) {
       return new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -1527,6 +1529,8 @@
         "Most homeowners get more than one quote. After you estimate your fair range, use the quote comparison tool below to compare contractors side by side.";
     });
 
+    downloadReportBtn.addEventListener("click", downloadTruePriceReport);
+    
     function getQuote(index) {
       const name = document.getElementById(`c${index}name`).value.trim();
       const price = Number(document.getElementById(`c${index}price`).value || 0);
@@ -1609,6 +1613,59 @@
         document.getElementById(`c${i}material`).value = "Architectural shingles";
       });
 
+  function downloadTruePriceReport() {
+
+  if (!latestReportData.fairLow || !latestReportData.fairHigh) {
+    alert("Please run an estimate first.");
+    return;
+  }
+
+  const reportText = `
+TRUEPRICE ROOFING QUOTE REPORT
+
+Website
+https://trueprice-tech.github.io/trueprice/
+
+PROJECT SUMMARY
+Roof Size: ${latestReportData.roofSize} sq ft
+Material: ${latestReportData.material}
+Pitch: ${latestReportData.pitch}
+Tear Off: ${latestReportData.tearOff}
+Stories: ${latestReportData.stories}
+Complexity: ${latestReportData.complexity}
+ZIP Code: ${latestReportData.zip}
+
+ESTIMATED FAIR PRICE RANGE
+${currency(latestReportData.fairLow)} to ${currency(latestReportData.fairHigh)}
+
+ESTIMATED PRICE PER SQUARE
+${currency(latestReportData.pricePerSquareLow)} to ${currency(latestReportData.pricePerSquareHigh)}
+
+CONTRACTOR QUOTE
+${latestReportData.quotePrice ? currency(latestReportData.quotePrice) : "Not provided"}
+
+QUOTE STATUS
+${latestReportData.quoteStatus}
+
+NOTES
+This TruePrice estimate is directional only and should be used as a homeowner reference point when evaluating roofing quotes.
+Compare contractor scope, flashing, ventilation, underlayment, cleanup, workmanship warranty, and manufacturer warranty before making a final decision.
+`.trim();
+
+  const blob = new Blob([reportText], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "trueprice-report.txt";
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  URL.revokeObjectURL(url);
+}
+      
       compareTableBody.innerHTML = "";
       compareSummary.textContent = "Your comparison summary will appear here.";
       compareResults.classList.add("hidden");
@@ -1616,5 +1673,6 @@
   </script>
 </body>
 </html>
+
 
 
