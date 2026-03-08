@@ -1,1678 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TruePrice | Check If Your Roofing Quote Is Fair</title>
-  <meta
-    name="description"
-    content="TruePrice helps homeowners estimate fair roofing costs and compare contractor quotes side by side by price, material, warranty, and value."
-  />
-  <meta
-    name="keywords"
-    content="roof estimate, roofing quote comparison, roof replacement cost, roofing calculator, compare roofing quotes, roof quote estimator, trueprice"
-  />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <meta name="theme-color" content="#0f172a" />
-  <meta name="author" content="TruePrice" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TruePrice | Roofing Quote Calculator</title>
+<meta name="description" content="Estimate a fair roofing price and compare contractor quotes with the TruePrice roofing estimator.">
+
+<link rel="canonical" href="https://trueprice-tech.github.io/trueprice/">
+
+<meta property="og:title" content="TruePrice Roofing Calculator">
+<meta property="og:description" content="Estimate fair roofing costs and compare contractor quotes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://trueprice-tech.github.io/trueprice/">
+
+<style>
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+margin:0;
+background:#f5f7fa;
+color:#222;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+h1,h2{
+margin-top:0;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:8px;
+margin-bottom:30px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+label{
+display:block;
+margin-top:15px;
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin-top:6px;
+border:1px solid #ccc;
+border-radius:4px;
+}
+
+button{
+margin-top:20px;
+padding:12px 18px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:15px;
+}
+
+.btn-primary{
+background:#2b6df6;
+color:white;
+}
+
+.btn-secondary{
+background:#555;
+color:white;
+}
+
+.result{
+font-size:22px;
+font-weight:bold;
+margin-top:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:left;
+}
+
+th{
+background:#f1f1f1;
+}
+
+@media(max-width:600px){
+
+.container{
+padding:15px;
+}
+
+}
 
-  <meta property="og:title" content="TruePrice | Check If Your Roofing Quote Is Fair" />
-  <meta
-    property="og:description"
-    content="Estimate fair roofing costs and compare contractor quotes side by side."
-  />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://trueprice-tech.github.io/trueprice/" />
-  <meta property="og:image" content="https://trueprice-tech.github.io/trueprice/og-image.jpg" />
-  <meta property="og:site_name" content="TruePrice" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="TruePrice | Check If Your Roofing Quote Is Fair" />
-  <meta
-    name="twitter:description"
-    content="Estimate fair roofing costs and compare contractor quotes side by side."
-  />
-  <meta name="twitter:image" content="https://trueprice-tech.github.io/trueprice/og-image.jpg" />
-
-  <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/" />
-
-  <style>
-    :root {
-      --bg: #f8fafc;
-      --bg-soft: #eef4ff;
-      --surface: #ffffff;
-      --surface-2: #f8fbff;
-      --text: #0f172a;
-      --muted: #475569;
-      --line: #e2e8f0;
-      --brand: #2563eb;
-      --brand-2: #1d4ed8;
-      --success: #166534;
-      --success-bg: #dcfce7;
-      --warn: #92400e;
-      --warn-bg: #fef3c7;
-      --danger: #991b1b;
-      --danger-bg: #fee2e2;
-      --radius: 18px;
-      --radius-sm: 12px;
-      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-      --max: 1180px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .skip-link {
-      position: absolute;
-      left: -9999px;
-      top: auto;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-    }
-
-    .skip-link:focus {
-      position: fixed;
-      left: 16px;
-      top: 16px;
-      width: auto;
-      height: auto;
-      padding: 12px 16px;
-      background: #fff;
-      color: #000;
-      border-radius: 10px;
-      z-index: 1000;
-      box-shadow: var(--shadow);
-    }
-
-    .container {
-      width: min(100% - 32px, var(--max));
-      margin: 0 auto;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(248, 250, 252, 0.88);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.7);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      min-height: 74px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      font-size: 1.15rem;
-      white-space: nowrap;
-    }
-
-    .brand-badge {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--brand), #7c3aed);
-      color: white;
-      font-weight: 800;
-      box-shadow: var(--shadow);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 0.96rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .nav-links a:hover,
-    .nav-links a:focus-visible {
-      color: var(--text);
-    }
-
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 11px 16px;
-      border-radius: 999px;
-      background: var(--brand);
-      color: white;
-      font-weight: 700;
-      transition: 0.2s ease;
-    }
-
-    .nav-cta:hover,
-    .nav-cta:focus-visible {
-      background: var(--brand-2);
-      transform: translateY(-1px);
-    }
-
-    .hero {
-      padding: 62px 0 28px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.12fr 0.88fr;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(37, 99, 235, 0.1);
-      color: var(--brand-2);
-      font-weight: 700;
-      font-size: 0.9rem;
-      margin-bottom: 18px;
-    }
-
-    h1,
-    h2,
-    h3 {
-      margin: 0 0 14px;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-    }
-
-    h1 {
-      font-size: clamp(2.35rem, 5vw, 4.25rem);
-    }
-
-    h2 {
-      font-size: clamp(1.75rem, 3vw, 2.4rem);
-    }
-
-    h3 {
-      font-size: 1.08rem;
-    }
-
-    .hero p {
-      color: var(--muted);
-      font-size: 1.06rem;
-      max-width: 62ch;
-      margin: 0 0 22px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 18px;
-      border-radius: 12px;
-      font-weight: 700;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: 0.2s ease;
-      font-size: 0.98rem;
-      font-family: inherit;
-    }
-
-    .btn-primary {
-      background: var(--brand);
-      color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-primary:hover,
-    .btn-primary:focus-visible {
-      background: var(--brand-2);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--text);
-      border-color: var(--line);
-    }
-
-    .btn-secondary:hover,
-    .btn-secondary:focus-visible {
-      background: #f8fafc;
-      transform: translateY(-1px);
-    }
-
-    .hero-points {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 18px;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .hero-points span::before {
-      content: "✓";
-      color: var(--success);
-      font-weight: 800;
-      margin-right: 8px;
-    }
-
-    .hero-card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .hero-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .mini-tag {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--brand-2);
-      background: rgba(37, 99, 235, 0.1);
-      border-radius: 999px;
-      padding: 7px 10px;
-    }
-
-    .price-band {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .band-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px 14px;
-      background: #fcfdff;
-      gap: 12px;
-    }
-
-    .band-row strong {
-      font-size: 1.05rem;
-    }
-
-    .band-row small {
-      color: var(--muted);
-      display: block;
-      margin-top: 4px;
-    }
-
-    main section {
-      padding: 26px 0;
-    }
-
-    .section-head {
-      max-width: 760px;
-      margin-bottom: 24px;
-    }
-
-    .section-head p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .estimator-wrap {
-      display: grid;
-      grid-template-columns: 1fr 0.95fr;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .panel {
-      padding: 24px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    .field.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-weight: 700;
-      font-size: 0.94rem;
-    }
-
-    input,
-    select {
-      width: 100%;
-      padding: 14px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: white;
-      color: var(--text);
-      font: inherit;
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: rgba(37, 99, 235, 0.65);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-    }
-
-    .helper {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: -2px;
-    }
-
-    .actions,
-    .compare-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .result-box {
-      display: grid;
-      gap: 16px;
-    }
-
-    .result-stat {
-      padding: 18px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff, #f8fbff);
-    }
-
-    .result-stat .label {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 4px;
-    }
-
-    .result-stat .value {
-      font-size: clamp(1.6rem, 3vw, 2.5rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-    }
-
-    .result-stat .sub {
-      color: var(--muted);
-      margin-top: 6px;
-      font-size: 0.94rem;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      width: fit-content;
-    }
-
-    .pill.fair {
-      color: var(--success);
-      background: var(--success-bg);
-    }
-
-    .pill.low {
-      color: var(--warn);
-      background: var(--warn-bg);
-    }
-
-    .pill.high {
-      color: var(--danger);
-      background: var(--danger-bg);
-    }
-
-    .meter {
-      position: relative;
-      border-radius: 999px;
-      height: 14px;
-      background: linear-gradient(90deg, #fde68a 0%, #bbf7d0 50%, #fecaca 100%);
-      overflow: hidden;
-      border: 1px solid var(--line);
-    }
-
-    .meter-pin {
-      position: absolute;
-      top: 50%;
-      width: 18px;
-      height: 18px;
-      background: var(--text);
-      border: 3px solid white;
-      border-radius: 999px;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-    }
-
-    .meter-labels {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 0.84rem;
-      margin-top: 8px;
-    }
-
-    .facts {
-      display: grid;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .fact-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      border-bottom: 1px dashed var(--line);
-      padding-bottom: 10px;
-    }
-
-    .fact-row:last-child {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .fact-row span:first-child {
-      color: var(--muted);
-    }
-
-    .feature-section {
-      margin-top: 8px;
-    }
-
-    .compare-card {
-      padding: 24px;
-      display: grid;
-      gap: 18px;
-    }
-
-    .compare-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      align-items: start;
-      flex-wrap: wrap;
-    }
-
-    .compare-top p {
-      margin: 0;
-      color: var(--muted);
-      max-width: 720px;
-    }
-
-    .quote-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .quote-card {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 18px;
-      background: #fcfdff;
-    }
-
-    .quote-card h3 {
-      margin-bottom: 12px;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: white;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-    }
-
-    th,
-    td {
-      padding: 14px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-      font-size: 0.95rem;
-    }
-
-    th {
-      background: #f8fafc;
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    tr.highlight-row {
-      background: #f0fdf4;
-    }
-
-    .insight-box {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 18px;
-      background: #f8fafc;
-      color: var(--text);
-    }
-
-    .insight-box p {
-      margin: 0;
-    }
-
-    .steps,
-    .seo-grid,
-    .faq-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .steps {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .step,
-    .seo-card,
-    .faq-card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .step-number {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      color: white;
-      background: var(--brand);
-      margin-bottom: 12px;
-    }
-
-    .seo-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .seo-card p,
-    .faq-card p,
-    .step p {
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .faq-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .site-footer {
-      padding: 36px 0 60px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .footer-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      border-top: 1px solid var(--line);
-      padding-top: 24px;
-      flex-wrap: wrap;
-    }
-
-    .fine-print {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 10px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 1024px) {
-      .hero-grid,
-      .estimator-wrap,
-      .steps,
-      .seo-grid,
-      .faq-grid,
-      .quote-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .nav {
-        min-height: auto;
-        padding: 14px 0;
-        flex-wrap: wrap;
-      }
-
-      .nav-links {
-        width: 100%;
-      }
-
-      .hero {
-        padding-top: 36px;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .panel,
-      .compare-card {
-        padding: 18px;
-      }
-
-      .btn,
-      .nav-cta {
-        width: 100%;
-      }
-
-      .hero-actions,
-      .actions,
-      .compare-actions {
-        flex-direction: column;
-      }
-
-      .band-row {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .fact-row {
-        flex-direction: column;
-        gap: 4px;
-      }
-    }
-  </style>
-
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "TruePrice",
-      "url": "https://trueprice-tech.github.io/trueprice/",
-      "description": "TruePrice helps homeowners estimate fair roofing costs and compare contractor quotes side by side."
-    }
-  </script>
-
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "TruePrice",
-      "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Any",
-      "description": "TruePrice helps homeowners estimate fair roofing costs and compare contractor quotes side by side.",
-      "url": "https://trueprice-tech.github.io/trueprice/"
-    }
-  </script>
-
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How do I compare roofing quotes?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Compare roofing quotes by total price, price per square, material type, warranty, and whether key line items are included."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is a fair price for roof replacement?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A fair price depends on roof size, material, pitch, tear off, location, and complexity. TruePrice estimates a reasonable range based on those factors."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What does roofing price per square mean?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A roofing square equals 100 square feet of roof area. Contractors often price projects by cost per square."
-          }
-        }
-      ]
-    }
-  </script>
+</style>
 </head>
+
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <header class="site-header">
-    <div class="container nav">
-      <a href="https://trueprice-tech.github.io/trueprice/" class="brand" aria-label="TruePrice home">
-        <span class="brand-badge">T</span>
-        <span>TruePrice</span>
-      </a>
+<div class="container">
 
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#estimator">Estimator</a>
-        <a href="#compare">Compare Quotes</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#faq">FAQ</a>
-      </nav>
+<h1>TruePrice Roofing Calculator</h1>
+<p>Estimate a fair roofing price and compare contractor quotes.</p>
 
-      <a href="#estimator" class="nav-cta">Check My Quote</a>
-    </div>
-  </header>
 
-  <main id="main-content">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow">Roofing quote clarity for homeowners</div>
-          <h1>Check if your roofing quote is fair</h1>
-          <p>
-            TruePrice helps homeowners estimate a fair roof replacement range and compare contractor quotes side by side by price, material, and warranty.
-          </p>
+<div class="card">
 
-          <div class="hero-actions">
-            <a href="#estimator" class="btn btn-primary">Start Free Estimate</a>
-            <a href="#compare" class="btn btn-secondary">Compare Roofing Quotes</a>
-          </div>
+<h2>Roof Price Estimator</h2>
 
-          <div class="hero-points" aria-label="Benefits">
-            <span>Fair price range</span>
-            <span>Price per square analysis</span>
-            <span>Simple contractor comparison</span>
-          </div>
-        </div>
+<label>Roof Size (sq ft)</label>
+<input id="roofSize">
 
-        <aside class="hero-card" aria-label="Sample estimate">
-          <div class="hero-card-top">
-            <div>
-              <strong>Example result</strong>
-              <div style="color: var(--muted); font-size: 0.93rem;">2,100 sq ft architectural shingle roof</div>
-            </div>
-            <span class="mini-tag">Estimator Preview</span>
-          </div>
+<label>Material</label>
+<select id="material">
+<option value="500">Architectural Shingles</option>
+<option value="400">3-Tab Shingles</option>
+<option value="900">Metal Roofing</option>
+<option value="1200">Tile Roofing</option>
+</select>
 
-          <div class="price-band">
-            <div class="band-row">
-              <div>
-                <strong>$12,400 to $15,100</strong>
-                <small>Estimated fair range</small>
-              </div>
-              <div class="pill fair">Fair Range</div>
-            </div>
+<label>Pitch</label>
+<select id="pitch">
+<option value="1">Low</option>
+<option value="1.1">Medium</option>
+<option value="1.2">Steep</option>
+</select>
 
-            <div class="band-row">
-              <div>
-                <strong>$21,800</strong>
-                <small>Sample contractor quote</small>
-              </div>
-              <div class="pill high">Likely High</div>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
+<label>Number of Stories</label>
+<select id="stories">
+<option value="1">1</option>
+<option value="1.1">2</option>
+<option value="1.2">3</option>
+</select>
 
-    <section id="estimator">
-      <div class="container">
-        <div class="section-head">
-          <h2>Roof Estimate Calculator</h2>
-          <p>
-            Enter a few details about the project and TruePrice will estimate a fair market range.
-          </p>
-        </div>
+<label>Complexity</label>
+<select id="complexity">
+<option value="1">Standard</option>
+<option value="1.1">Moderate</option>
+<option value="1.2">Complex</option>
+</select>
 
-        <div class="estimator-wrap">
-          <div class="card panel">
-            <form id="roofEstimatorForm" novalidate>
-              <div class="form-grid">
-                <div class="field">
-                  <label for="roofSize">Roof size (sq ft)</label>
-                  <input id="roofSize" name="roofSize" type="number" min="500" step="1" placeholder="e.g. 2100" required />
-                </div>
+<label>Contractor Quote (optional)</label>
+<input id="quotePrice">
 
-                <div class="field">
-                  <label for="quotePrice">Your quote price ($)</label>
-                  <input id="quotePrice" name="quotePrice" type="number" min="0" step="1" placeholder="e.g. 16500" />
-                  <div class="helper">Optional, but useful for comparison</div>
-                </div>
+<button class="btn-primary" id="estimateBtn">Estimate Fair Price</button>
 
-                <div class="field">
-                  <label for="material">Material type</label>
-                  <select id="material" name="material">
-                    <option value="asphalt-3tab">3 tab shingles</option>
-                    <option value="asphalt-arch" selected>Architectural shingles</option>
-                    <option value="metal">Metal roof</option>
-                    <option value="tile">Tile roof</option>
-                  </select>
-                </div>
+<div class="result" id="result"></div>
 
-                <div class="field">
-                  <label for="pitch">Roof pitch</label>
-                  <select id="pitch" name="pitch">
-                    <option value="low">Low</option>
-                    <option value="medium" selected>Medium</option>
-                    <option value="steep">Steep</option>
-                  </select>
-                </div>
+<button class="btn-secondary" id="downloadReportBtn">Download TruePrice Report</button>
 
-                <div class="field">
-                  <label for="tearOff">Existing layers / tear off</label>
-                  <select id="tearOff" name="tearOff">
-                    <option value="overlay">No tear off / overlay</option>
-                    <option value="single" selected>Single layer tear off</option>
-                    <option value="double">Double layer tear off</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="stories">Home stories</label>
-                  <select id="stories" name="stories">
-                    <option value="1" selected>1 story</option>
-                    <option value="2">2 stories</option>
-                    <option value="3">3 stories</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="complexity">Roof complexity</label>
-                  <select id="complexity" name="complexity">
-                    <option value="simple">Simple</option>
-                    <option value="standard" selected>Standard</option>
-                    <option value="complex">Complex</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="zip">ZIP code</label>
-                  <input id="zip" name="zip" type="text" inputmode="numeric" maxlength="10" placeholder="e.g. 28202" />
-                  <div class="helper">Stored only in page state. Not submitted anywhere.</div>
-                </div>
-
-                <div class="field full">
-                  <div class="actions">
-                    <button type="submit" class="btn btn-primary">Estimate Fair Price</button>
-                    <button type="button" id="resetEstimator" class="btn btn-secondary">Reset</button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <div class="card panel">
-            <div class="result-box" id="estimatorResults" aria-live="polite">
-              <div class="result-stat">
-                <div class="label">Estimated fair price range</div>
-                <div class="value" id="fairRangeValue">$0 to $0</div>
-                <div class="sub" id="fairRangeSub">Enter project details to calculate a range.</div>
-              </div>
-
-              <div>
-                <div class="pill fair" id="quoteVerdict">Ready to estimate</div>
-              </div>
-
-              <div>
-                <div class="meter" aria-hidden="true">
-                  <div class="meter-pin" id="meterPin" style="left: 50%;"></div>
-                </div>
-                <div class="meter-labels">
-                  <span>Low</span>
-                  <span>Fair</span>
-                  <span>High</span>
-                </div>
-              </div>
-
-              <div class="facts">
-                <div class="fact-row">
-                  <span>Estimated price per square</span>
-                  <strong id="pricePerSquareRange">$0 to $0</strong>
-                </div>
-                <div class="fact-row">
-                  <span>Roofing squares</span>
-                  <strong id="roofSquares">0</strong>
-                </div>
-                <div class="fact-row">
-                  <span>Your quote status</span>
-                  <strong id="quoteDelta">Add a quote to compare</strong>
-                </div>
-              </div>
-
-              <div class="insight-box">
-                <p id="estimatorInsight">
-                  Most homeowners get more than one quote. After you estimate your fair range, use the quote comparison tool below to compare contractors side by side.
-                </p>
-              </div>
-              <div class="actions">
-  <button type="button" id="downloadReportBtn" class="btn btn-secondary">
-    Download TruePrice Report
-  </button>
 </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="compare" class="feature-section">
-      <div class="container">
-        <div class="section-head">
-          <h2>Compare Roofing Quotes</h2>
-          <p>
-            Most homeowners receive multiple roofing estimates and are not sure which contractor is offering the best value.
-            Use this tool to compare price, price per square, material, warranty, and overall value.
-          </p>
-        </div>
-
-        <div class="card compare-card">
-          <div class="compare-top">
-            <div>
-              <h3>Compare up to 4 contractor quotes</h3>
-              <p>
-                Fill in only the quotes you have. The tool will ignore empty entries and highlight the strongest value.
-              </p>
-            </div>
-
-            <div class="compare-actions">
-              <button id="compareQuotesBtn" class="btn btn-primary" type="button">Compare Quotes</button>
-              <button id="resetQuotesBtn" class="btn btn-secondary" type="button">Reset Quotes</button>
-            </div>
-          </div>
-
-          <div class="quote-grid" id="quoteInputs">
-            <div class="quote-card">
-              <h3>Quote 1</h3>
-              <div class="form-grid">
-                <div class="field full">
-                  <label for="c1name">Contractor name</label>
-                  <input id="c1name" type="text" placeholder="ABC Roofing" />
-                </div>
-                <div class="field">
-                  <label for="c1price">Quote price ($)</label>
-                  <input id="c1price" type="number" min="0" placeholder="18900" />
-                </div>
-                <div class="field">
-                  <label for="c1size">Roof size (sq ft)</label>
-                  <input id="c1size" type="number" min="100" placeholder="3000" />
-                </div>
-                <div class="field">
-                  <label for="c1material">Material</label>
-                  <select id="c1material">
-                    <option value="Architectural shingles" selected>Architectural shingles</option>
-                    <option value="3 tab shingles">3 tab shingles</option>
-                    <option value="Metal roof">Metal roof</option>
-                    <option value="Tile roof">Tile roof</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="c1warranty">Warranty (years)</label>
-                  <input id="c1warranty" type="number" min="0" placeholder="25" />
-                </div>
-              </div>
-            </div>
-
-            <div class="quote-card">
-              <h3>Quote 2</h3>
-              <div class="form-grid">
-                <div class="field full">
-                  <label for="c2name">Contractor name</label>
-                  <input id="c2name" type="text" placeholder="Elite Roofing" />
-                </div>
-                <div class="field">
-                  <label for="c2price">Quote price ($)</label>
-                  <input id="c2price" type="number" min="0" placeholder="14200" />
-                </div>
-                <div class="field">
-                  <label for="c2size">Roof size (sq ft)</label>
-                  <input id="c2size" type="number" min="100" placeholder="3000" />
-                </div>
-                <div class="field">
-                  <label for="c2material">Material</label>
-                  <select id="c2material">
-                    <option value="Architectural shingles" selected>Architectural shingles</option>
-                    <option value="3 tab shingles">3 tab shingles</option>
-                    <option value="Metal roof">Metal roof</option>
-                    <option value="Tile roof">Tile roof</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="c2warranty">Warranty (years)</label>
-                  <input id="c2warranty" type="number" min="0" placeholder="30" />
-                </div>
-              </div>
-            </div>
-
-            <div class="quote-card">
-              <h3>Quote 3</h3>
-              <div class="form-grid">
-                <div class="field full">
-                  <label for="c3name">Contractor name</label>
-                  <input id="c3name" type="text" placeholder="Solid Top Roofing" />
-                </div>
-                <div class="field">
-                  <label for="c3price">Quote price ($)</label>
-                  <input id="c3price" type="number" min="0" placeholder="11000" />
-                </div>
-                <div class="field">
-                  <label for="c3size">Roof size (sq ft)</label>
-                  <input id="c3size" type="number" min="100" placeholder="3000" />
-                </div>
-                <div class="field">
-                  <label for="c3material">Material</label>
-                  <select id="c3material">
-                    <option value="Architectural shingles" selected>Architectural shingles</option>
-                    <option value="3 tab shingles">3 tab shingles</option>
-                    <option value="Metal roof">Metal roof</option>
-                    <option value="Tile roof">Tile roof</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="c3warranty">Warranty (years)</label>
-                  <input id="c3warranty" type="number" min="0" placeholder="10" />
-                </div>
-              </div>
-            </div>
-
-            <div class="quote-card">
-              <h3>Quote 4</h3>
-              <div class="form-grid">
-                <div class="field full">
-                  <label for="c4name">Contractor name</label>
-                  <input id="c4name" type="text" placeholder="Optional fourth quote" />
-                </div>
-                <div class="field">
-                  <label for="c4price">Quote price ($)</label>
-                  <input id="c4price" type="number" min="0" />
-                </div>
-                <div class="field">
-                  <label for="c4size">Roof size (sq ft)</label>
-                  <input id="c4size" type="number" min="100" />
-                </div>
-                <div class="field">
-                  <label for="c4material">Material</label>
-                  <select id="c4material">
-                    <option value="Architectural shingles" selected>Architectural shingles</option>
-                    <option value="3 tab shingles">3 tab shingles</option>
-                    <option value="Metal roof">Metal roof</option>
-                    <option value="Tile roof">Tile roof</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="c4warranty">Warranty (years)</label>
-                  <input id="c4warranty" type="number" min="0" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="compareResults" class="hidden" aria-live="polite">
-            <div class="table-wrap">
-              <table aria-label="Roofing quote comparison table">
-                <thead>
-                  <tr>
-                    <th>Contractor</th>
-                    <th>Total Price</th>
-                    <th>Price per Square</th>
-                    <th>Material</th>
-                    <th>Warranty</th>
-                    <th>Verdict</th>
-                  </tr>
-                </thead>
-                <tbody id="compareTableBody"></tbody>
-              </table>
-            </div>
-
-            <div class="insight-box">
-              <p id="compareSummary">Your comparison summary will appear here.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="how-it-works">
-      <div class="container">
-        <div class="section-head">
-          <h2>How TruePrice Works</h2>
-          <p>
-            TruePrice is designed to make roofing quotes easier to understand and compare.
-          </p>
-        </div>
-
-        <div class="steps">
-          <div class="step">
-            <div class="step-number">1</div>
-            <h3>Estimate fair cost</h3>
-            <p>
-              Enter roof size, material, pitch, tear off, stories, and complexity to estimate a fair price range.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">2</div>
-            <h3>Compare contractor quotes</h3>
-            <p>
-              Compare multiple roofing estimates by total price, price per square, materials, and warranty.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">3</div>
-            <h3>Hire with more confidence</h3>
-            <p>
-              Spot quotes that look too high, suspiciously low, or simply stronger value than the rest.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="seo-content-heading">
-      <div class="container">
-        <div class="section-head">
-          <h2 id="seo-content-heading">How to Compare Roofing Quotes</h2>
-          <p>
-            Many homeowners receive multiple roofing estimates and struggle to determine which contractor is offering the best value.
-            The TruePrice roofing quote comparison tool helps analyze estimates by price per square, materials, and warranty coverage.
-          </p>
-        </div>
-
-        <div class="seo-grid">
-          <div class="seo-card">
-            <h3>Check price per square</h3>
-            <p>
-              Roofing contractors often price by the square, which equals 100 square feet. Comparing quotes by price per square helps normalize different bid formats.
-            </p>
-          </div>
-
-          <div class="seo-card">
-            <h3>Review material differences</h3>
-            <p>
-              A lower quote may use lower grade materials, while a higher quote may include upgraded shingles, underlayment, or ventilation components.
-            </p>
-          </div>
-
-          <div class="seo-card">
-            <h3>Compare warranty value</h3>
-            <p>
-              Contractor workmanship warranties and manufacturer warranties can materially change the value of a roofing quote.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq">
-      <div class="container">
-        <div class="section-head">
-          <h2>Frequently Asked Questions</h2>
-          <p>
-            Common questions homeowners ask when evaluating roofing quotes.
-          </p>
-        </div>
-
-        <div class="faq-grid">
-          <article class="faq-card">
-            <h3>What is a roofing square?</h3>
-            <p>
-              One roofing square equals 100 square feet of roof area. Contractors often use price per square to quote jobs.
-            </p>
-          </article>
-
-          <article class="faq-card">
-            <h3>How do I know if a roofing quote is too high?</h3>
-            <p>
-              Compare it against a fair range based on your roof size, materials, and job complexity. Then compare contractor quotes side by side.
-            </p>
-          </article>
-
-          <article class="faq-card">
-            <h3>Should I pick the cheapest roofer?</h3>
-            <p>
-              Not automatically. Very low quotes can reflect weaker materials, missing line items, or thin margins that create future risk.
-            </p>
-          </article>
-
-          <article class="faq-card">
-            <h3>What should be included in a roofing quote?</h3>
-            <p>
-              A strong quote should clearly identify material type, tear off, disposal, underlayment, flashing, ventilation, warranty, and total price.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-card">
-      <div>
-        <strong>TruePrice</strong>
-        <div class="fine-print">
-          Roofing quote estimator and comparison tool for homeowners.
-        </div>
-      </div>
-
-      <div class="fine-print">
-        Estimates are directional only and not a substitute for contractor inspection.
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    const estimatorForm = document.getElementById("roofEstimatorForm");
-    const resetEstimatorBtn = document.getElementById("resetEstimator");
-
-    const fairRangeValue = document.getElementById("fairRangeValue");
-    const fairRangeSub = document.getElementById("fairRangeSub");
-    const quoteVerdict = document.getElementById("quoteVerdict");
-    const meterPin = document.getElementById("meterPin");
-    const pricePerSquareRange = document.getElementById("pricePerSquareRange");
-    const roofSquares = document.getElementById("roofSquares");
-    const quoteDelta = document.getElementById("quoteDelta");
-    const estimatorInsight = document.getElementById("estimatorInsight");
-
-    const compareQuotesBtn = document.getElementById("compareQuotesBtn");
-    const resetQuotesBtn = document.getElementById("resetQuotesBtn");
-    const compareResults = document.getElementById("compareResults");
-    const compareTableBody = document.getElementById("compareTableBody");
-    const compareSummary = document.getElementById("compareSummary");
-
-    const downloadReportBtn = document.getElementById("downloadReportBtn");
-
-    function currency(value) {
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        maximumFractionDigits: 0
-      }).format(value);
-    }
-
-    function pricePerSquare(totalPrice, roofSize) {
-      return totalPrice / (roofSize / 100);
-    }
-
-    function getMaterialRate(material) {
-      switch (material) {
-        case "asphalt-3tab":
-          return { low: 400, high: 550, label: "3 tab shingles" };
-        case "asphalt-arch":
-          return { low: 500, high: 750, label: "Architectural shingles" };
-        case "metal":
-          return { low: 1000, high: 1600, label: "Metal roof" };
-        case "tile":
-          return { low: 1500, high: 3000, label: "Tile roof" };
-        default:
-          return { low: 500, high: 750, label: "Architectural shingles" };
-      }
-    }
-
-    function getMultiplier(type, value) {
-      const map = {
-        pitch: {
-          low: 1,
-          medium: 1.08,
-          steep: 1.18
-        },
-        tearOff: {
-          overlay: 0.92,
-          single: 1,
-          double: 1.12
-        },
-        stories: {
-          "1": 1,
-          "2": 1.08,
-          "3": 1.16
-        },
-        complexity: {
-          simple: 0.95,
-          standard: 1,
-          complex: 1.16
-        }
-      };
-      return map[type][value] || 1;
-    }
-
-    function verdictLabel(price, low, high) {
-      if (price < low * 0.95) return "Likely Low";
-      if (price > high * 1.05) return "Likely High";
-      return "Fair";
-    }
-
-    function verdictClass(label) {
-      if (label === "Fair" || label === "Ready to estimate") return "fair";
-      if (label === "Likely Low") return "low";
-      return "high";
-    }
-
-    function updatePill(el, label) {
-      el.className = "pill " + verdictClass(label);
-      el.textContent = label;
-    }
-
-    estimatorForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const roofSizeInput = Number(document.getElementById("roofSize").value);
-      const quotePriceInput = Number(document.getElementById("quotePrice").value || 0);
-      const material = document.getElementById("material").value;
-      const pitch = document.getElementById("pitch").value;
-      const tearOff = document.getElementById("tearOff").value;
-      const stories = document.getElementById("stories").value;
-      const complexity = document.getElementById("complexity").value;
-      const zip = document.getElementById("zip").value.trim();
-
-      if (!roofSizeInput || roofSizeInput < 500) {
-        alert("Please enter a roof size of at least 500 square feet.");
-        return;
-      }
-
-      const base = getMaterialRate(material);
-      const multiplier =
-        getMultiplier("pitch", pitch) *
-        getMultiplier("tearOff", tearOff) *
-        getMultiplier("stories", stories) *
-        getMultiplier("complexity", complexity);
-
-      const lowPps = Math.round(base.low * multiplier);
-      const highPps = Math.round(base.high * multiplier);
-
-      const squares = roofSizeInput / 100;
-      const lowTotal = Math.round(lowPps * squares);
-      const highTotal = Math.round(highPps * squares);
-
-      fairRangeValue.textContent = currency(lowTotal) + " to " + currency(highTotal);
-      fairRangeSub.textContent =
-        base.label +
-        " • " +
-        roofSizeInput.toLocaleString() +
-        " sq ft" +
-        (zip ? " • ZIP " + zip : "");
-
-      pricePerSquareRange.textContent = currency(lowPps) + " to " + currency(highPps);
-      roofSquares.textContent = squares.toFixed(1);
-
-      let insightText =
-        "This estimate is based on roof size, material, pitch, stories, tear off, and complexity. Use the comparison tool below if you have multiple contractor bids.";
-
-      if (quotePriceInput > 0) {
-        const label = verdictLabel(quotePriceInput, lowTotal, highTotal);
-        updatePill(quoteVerdict, label);
-
-        const diffPercent =
-          quotePriceInput > highTotal
-            ? Math.round(((quotePriceInput - highTotal) / highTotal) * 100)
-            : quotePriceInput < lowTotal
-            ? Math.round(((lowTotal - quotePriceInput) / lowTotal) * 100)
-            : 0;
-
-        if (label === "Fair") {
-          quoteDelta.textContent = "Your quote falls inside the estimated fair range";
-          insightText =
-            "Your quote appears to fall within a fair estimated range. Compare it against other bids to see whether the materials and warranty are also competitive.";
-        } else if (label === "Likely High") {
-          quoteDelta.textContent = "About " + diffPercent + "% above estimated high end";
-          insightText =
-            "Your quote appears high relative to this estimate. That does not automatically mean it is wrong, but it should prompt a closer look at materials, warranty, and included scope.";
-        } else {
-          quoteDelta.textContent = "About " + diffPercent + "% below estimated low end";
-          insightText =
-            "Your quote appears low relative to this estimate. That may be a strong deal, or it could mean corners are being cut on scope, materials, or labor.";
-        }
-
-        const normalized =
-          ((quotePriceInput - lowTotal) / Math.max(highTotal - lowTotal, 1)) * 50 + 25;
-        const clamped = Math.min(92, Math.max(8, normalized));
-        meterPin.style.left = clamped + "%";
-      } else {
-        updatePill(quoteVerdict, "Ready to estimate");
-        quoteDelta.textContent = "Add a quote to compare";
-        meterPin.style.left = "50%";
-      }
-
-      estimatorInsight.textContent = insightText;
-    });
-
-    resetEstimatorBtn.addEventListener("click", function () {
-      estimatorForm.reset();
-      document.getElementById("material").value = "asphalt-arch";
-      document.getElementById("pitch").value = "medium";
-      document.getElementById("tearOff").value = "single";
-      document.getElementById("stories").value = "1";
-      document.getElementById("complexity").value = "standard";
-
-      fairRangeValue.textContent = "$0 to $0";
-      fairRangeSub.textContent = "Enter project details to calculate a range.";
-      pricePerSquareRange.textContent = "$0 to $0";
-      roofSquares.textContent = "0";
-      quoteDelta.textContent = "Add a quote to compare";
-      quoteVerdict.textContent = "Ready to estimate";
-      quoteVerdict.className = "pill fair";
-      meterPin.style.left = "50%";
-      estimatorInsight.textContent =
-        "Most homeowners get more than one quote. After you estimate your fair range, use the quote comparison tool below to compare contractors side by side.";
-    });
-
-    downloadReportBtn.addEventListener("click", downloadTruePriceReport);
-    
-    function getQuote(index) {
-      const name = document.getElementById(`c${index}name`).value.trim();
-      const price = Number(document.getElementById(`c${index}price`).value || 0);
-      const size = Number(document.getElementById(`c${index}size`).value || 0);
-      const material = document.getElementById(`c${index}material`).value;
-      const warranty = Number(document.getElementById(`c${index}warranty`).value || 0);
-
-      if (!price || !size) return null;
-
-      const pps = pricePerSquare(price, size);
-      let verdict = "Fair";
-
-      if (pps < 450) verdict = "Likely Low";
-      else if (pps > 750) verdict = "Likely High";
-
-      const scoreBase = verdict === "Fair" ? 100 : verdict === "Likely Low" ? 82 : 74;
-      const warrantyBonus = Math.min(warranty, 30);
-      const score = scoreBase + warrantyBonus * 0.6 - Math.abs(pps - 600) * 0.03;
-
-      return {
-        name: name || `Contractor ${index}`,
-        price,
-        size,
-        material,
-        warranty,
-        pps,
-        verdict,
-        score
-      };
-    }
-
-    compareQuotesBtn.addEventListener("click", function () {
-      const quotes = [1, 2, 3, 4].map(getQuote).filter(Boolean);
-
-      if (quotes.length < 2) {
-        alert("Please enter at least 2 quotes with price and roof size.");
-        return;
-      }
-
-      const bestQuote = [...quotes].sort((a, b) => b.score - a.score)[0];
-
-      compareTableBody.innerHTML = quotes
-        .map((quote) => {
-          const isBest = quote.name === bestQuote.name && quote.price === bestQuote.price;
-          const verdictClassName =
-            quote.verdict === "Fair" ? "fair" : quote.verdict === "Likely Low" ? "low" : "high";
-
-          return `
-            <tr class="${isBest ? "highlight-row" : ""}">
-              <td><strong>${quote.name}</strong>${isBest ? "<br><small>Recommended value</small>" : ""}</td>
-              <td>${currency(quote.price)}</td>
-              <td>${currency(Math.round(quote.pps))}</td>
-              <td>${quote.material}</td>
-              <td>${quote.warranty ? quote.warranty + " years" : "Not provided"}</td>
-              <td><span class="pill ${verdictClassName}">${quote.verdict}</span></td>
-            </tr>
-          `;
-        })
-        .join("");
-
-      const lowest = [...quotes].sort((a, b) => a.price - b.price)[0];
-      const highest = [...quotes].sort((a, b) => b.price - a.price)[0];
-
-      compareSummary.textContent =
-        `${bestQuote.name} appears to offer the strongest overall value based on price per square and warranty. ` +
-        `Lowest total quote: ${lowest.name} at ${currency(lowest.price)}. ` +
-        `Highest total quote: ${highest.name} at ${currency(highest.price)}. ` +
-        `Use caution with quotes marked Likely Low or Likely High and verify scope, materials, flashing, underlayment, ventilation, cleanup, and warranty terms.`;
-
-      compareResults.classList.remove("hidden");
-      compareResults.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-
-    resetQuotesBtn.addEventListener("click", function () {
-      [1, 2, 3, 4].forEach((i) => {
-        document.getElementById(`c${i}name`).value = "";
-        document.getElementById(`c${i}price`).value = "";
-        document.getElementById(`c${i}size`).value = "";
-        document.getElementById(`c${i}warranty`).value = "";
-        document.getElementById(`c${i}material`).value = "Architectural shingles";
-      });
-
-  function downloadTruePriceReport() {
-
-  if (!latestReportData.fairLow || !latestReportData.fairHigh) {
-    alert("Please run an estimate first.");
-    return;
-  }
-
-  const reportText = `
-TRUEPRICE ROOFING QUOTE REPORT
-
-Website
+
+
+<div class="card">
+
+<h2>Compare Roofing Quotes</h2>
+
+<table>
+<thead>
+<tr>
+<th>Contractor</th>
+<th>Price</th>
+<th>Roof Size</th>
+<th>Price / Square</th>
+</tr>
+</thead>
+
+<tbody id="comparisonTable">
+<tr>
+<td><input class="contractor"></td>
+<td><input class="price"></td>
+<td><input class="size"></td>
+<td class="pps"></td>
+</tr>
+
+<tr>
+<td><input class="contractor"></td>
+<td><input class="price"></td>
+<td><input class="size"></td>
+<td class="pps"></td>
+</tr>
+
+<tr>
+<td><input class="contractor"></td>
+<td><input class="price"></td>
+<td><input class="size"></td>
+<td class="pps"></td>
+</tr>
+
+<tr>
+<td><input class="contractor"></td>
+<td><input class="price"></td>
+<td><input class="size"></td>
+<td class="pps"></td>
+</tr>
+
+</tbody>
+
+</table>
+
+<button class="btn-primary" id="compareBtn">Compare Quotes</button>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+let latestReportData = {}
+
+function currency(v){
+return "$"+Number(v).toLocaleString()
+}
+
+document.getElementById("estimateBtn").addEventListener("click",function(){
+
+let roofSize=parseFloat(document.getElementById("roofSize").value)
+let material=parseFloat(document.getElementById("material").value)
+let pitch=parseFloat(document.getElementById("pitch").value)
+let stories=parseFloat(document.getElementById("stories").value)
+let complexity=parseFloat(document.getElementById("complexity").value)
+
+if(!roofSize){
+alert("Enter roof size")
+return
+}
+
+let pricePerSq=material*pitch*stories*complexity
+
+let squares=roofSize/100
+
+let low=pricePerSq*squares*0.9
+let high=pricePerSq*squares*1.1
+
+document.getElementById("result").innerText=
+"Estimated fair range: "+currency(low)+" – "+currency(high)
+
+let quote=document.getElementById("quotePrice").value
+
+let status="No quote entered"
+
+if(quote){
+
+quote=parseFloat(quote)
+
+if(quote<low) status="Quote is LOW"
+else if(quote>high) status="Quote is HIGH"
+else status="Quote is FAIR"
+
+}
+
+latestReportData={
+roofSize,
+material,
+low,
+high,
+quote,
+status
+}
+
+})
+
+
+document.getElementById("compareBtn").addEventListener("click",function(){
+
+let rows=document.querySelectorAll("#comparisonTable tr")
+
+rows.forEach(r=>{
+
+let price=r.querySelector(".price").value
+let size=r.querySelector(".size").value
+let cell=r.querySelector(".pps")
+
+if(price && size){
+
+let pps=price/(size/100)
+
+cell.innerText=currency(Math.round(pps))
+
+}
+
+})
+
+})
+
+
+document.getElementById("downloadReportBtn").addEventListener("click",function(){
+
+if(!latestReportData.low){
+
+alert("Run estimate first")
+return
+
+}
+
+let report=`
+
+TRUEPRICE ROOF REPORT
+
+Roof Size
+${latestReportData.roofSize}
+
+Fair Price Range
+${currency(latestReportData.low)} – ${currency(latestReportData.high)}
+
+Contractor Quote
+${latestReportData.quote || "Not entered"}
+
+Status
+${latestReportData.status}
+
+Generated by
 https://trueprice-tech.github.io/trueprice/
 
-PROJECT SUMMARY
-Roof Size: ${latestReportData.roofSize} sq ft
-Material: ${latestReportData.material}
-Pitch: ${latestReportData.pitch}
-Tear Off: ${latestReportData.tearOff}
-Stories: ${latestReportData.stories}
-Complexity: ${latestReportData.complexity}
-ZIP Code: ${latestReportData.zip}
+`
 
-ESTIMATED FAIR PRICE RANGE
-${currency(latestReportData.fairLow)} to ${currency(latestReportData.fairHigh)}
+let blob=new Blob([report],{type:"text/plain"})
 
-ESTIMATED PRICE PER SQUARE
-${currency(latestReportData.pricePerSquareLow)} to ${currency(latestReportData.pricePerSquareHigh)}
+let link=document.createElement("a")
+link.href=URL.createObjectURL(blob)
+link.download="trueprice-report.txt"
+link.click()
 
-CONTRACTOR QUOTE
-${latestReportData.quotePrice ? currency(latestReportData.quotePrice) : "Not provided"}
+})
 
-QUOTE STATUS
-${latestReportData.quoteStatus}
 
-NOTES
-This TruePrice estimate is directional only and should be used as a homeowner reference point when evaluating roofing quotes.
-Compare contractor scope, flashing, ventilation, underlayment, cleanup, workmanship warranty, and manufacturer warranty before making a final decision.
-`.trim();
+</script>
 
-  const blob = new Blob([reportText], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
 
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "trueprice-report.txt";
+<script type="application/ld+json">
 
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-
-  URL.revokeObjectURL(url);
+{
+"@context":"https://schema.org",
+"@type":"WebApplication",
+"name":"TruePrice Roofing Calculator",
+"url":"https://trueprice-tech.github.io/trueprice/",
+"applicationCategory":"FinanceApplication",
+"operatingSystem":"Any",
+"description":"Estimate fair roofing costs and compare contractor quotes."
 }
-      
-      compareTableBody.innerHTML = "";
-      compareSummary.textContent = "Your comparison summary will appear here.";
-      compareResults.classList.add("hidden");
-    });
-  </script>
+
+</script>
+
+
 </body>
 </html>
-
-
-
