@@ -19,6 +19,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://trueprice-tech.github.io/trueprice/" />
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
   <style>
     :root {
       --bg: #f5f7fa;
@@ -1014,6 +1016,27 @@ estimateAddressBtn.disabled = false;
 
 });
 
+// ---- QUOTE UPLOAD FEATURE STARTS HERE ----
+
+const quoteFileInput = document.getElementById("quoteFile");
+const analyzeQuoteBtn = document.getElementById("analyzeQuoteBtn");
+const quoteAnalysisResult = document.getElementById("quoteAnalysisResult");
+
+analyzeQuoteBtn.addEventListener("click", async function () {
+
+  const file = quoteFileInput.files[0];
+
+  if (!file) {
+    quoteAnalysisResult.innerHTML =
+    "<span class='muted'>Please upload a roofing quote first.</span>";
+    return;
+  }
+
+  quoteAnalysisResult.innerHTML =
+  "<span class='spinner'></span> Reading quote...";
+
+});
+
     clearAddressBtn.addEventListener("click", function () {
       propertyAddress.value = "";
       latestAddressEstimate = {
@@ -1278,6 +1301,7 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
   </script>
 </body>
 </html>
+
 
 
 
