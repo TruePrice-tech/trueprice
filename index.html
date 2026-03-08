@@ -40,6 +40,31 @@
       --max: 1000px;
     }
 
+  .spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #2563eb;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.lookup-success {
+  color: #166534;
+  font-weight: 500;
+}
+
+.lookup-loading {
+  color: #374151;
+}
+    
     * {
       box-sizing: border-box;
     }
@@ -869,7 +894,10 @@ async function getRoofSizeFromAddress(address) {
     return;
   }
 
-  addressLookupResult.textContent = "Looking up roof size estimate...";
+ addressLookupResult.innerHTML =
+  '<span class="spinner"></span> Looking up property data...';
+
+estimateAddressBtn.disabled = true;
 
   try {
 
@@ -882,13 +910,19 @@ async function getRoofSizeFromAddress(address) {
 
     roofSize.value = estimatedRoofSize;
 
-    addressLookupResult.textContent =
-      "Estimated roof size: " + estimatedRoofSize.toLocaleString() + " sq ft";
+addressLookupResult.innerHTML =
+  '<span class="lookup-success">✓ Estimated roof size: ' +
+  estimatedRoofSize.toLocaleString() +
+  ' sq ft</span>';
+
+estimateAddressBtn.disabled = false;
 
   } catch (error) {
 
-    addressLookupResult.textContent =
-      "Unable to estimate roof size.";
+addressLookupResult.innerHTML =
+  "Unable to estimate roof size. Try a different address.";
+
+estimateAddressBtn.disabled = false;
 
   }
 
@@ -1158,6 +1192,7 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
   </script>
 </body>
 </html>
+
 
 
 
