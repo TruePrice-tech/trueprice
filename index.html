@@ -1412,9 +1412,10 @@ if (!detectedTotal) {
             }
 
             let html = `
-              <div class="analysis-grid">
-                <div><strong>Detected quote total:</strong> ${currency(detectedTotal)}</div>
-            `;
+        <div class="analysis-grid">
+        <div><strong>Detected quote total:</strong> ${currency(detectedTotal)}</div>
+        <div><strong>Detection method:</strong> ${detectionMethod}</div>
+`;
 
             if (latestReportData.fairLow && latestReportData.fairHigh) {
               html += `
@@ -1439,15 +1440,16 @@ if (!detectedTotal) {
 
             quoteAnalysisResult.innerHTML = html;
 
-            saveQuoteAnalysisToLocalStore({
-              propertyAddress: latestReportData.propertyAddress || propertyAddress.value.trim() || "Not provided",
-              detectedTotal,
-              detectedPrices: cleanedPrices.slice(0, 10),
-              fairLow: latestReportData.fairLow || 0,
-              fairHigh: latestReportData.fairHigh || 0,
-              verdict: verdict || "Estimator not run",
-              fileName: file.name
-            });
+ saveQuoteAnalysisToLocalStore({
+  propertyAddress: latestReportData.propertyAddress || propertyAddress.value.trim() || "Not provided",
+  detectedTotal,
+  detectionMethod,
+  detectedPrices: cleanedPrices.slice(0, 10),
+  fairLow: latestReportData.fairLow || 0,
+  fairHigh: latestReportData.fairHigh || 0,
+  verdict: verdict || "Estimator not run",
+  fileName: file.name
+});
           } catch (err) {
             quoteAnalysisResult.innerHTML =
               "<span class='muted'>Unable to read this PDF. Try another quote file.</span>";
@@ -1540,6 +1542,7 @@ if (!detectedTotal) {
   </script>
 </body>
 </html>
+
 
 
 
