@@ -107,13 +107,23 @@ color:#555;
 
 <script>
 
-let dataset = JSON.parse(localStorage.getItem("roofPrices")) || [
-7200,8100,9400,10100,10900,11200,
-11800,12400,13900,15600,9800,
-10400,11500,12100,13400,14900
-];
+let dataset = [];
 
+async function loadData() {
 
+const response = await fetch("data/dallas_roof_prices.json");
+
+const data = await response.json();
+
+dataset = data.map(item => item.price);
+
+drawGraph();
+updateStats();
+
+}
+
+loadData();
+  
 function average(arr){
 return arr.reduce((a,b)=>a+b)/arr.length;
 }
@@ -232,4 +242,5 @@ updateStats();
 </script>
 
 </body>
+
 </html>
