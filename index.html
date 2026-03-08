@@ -940,6 +940,16 @@
     const analyzeQuoteBtn = document.getElementById("analyzeQuoteBtn");
     const quoteAnalysisResult = document.getElementById("quoteAnalysisResult");
     const quoteFileStatus = document.getElementById("quoteFileStatus");
+    quoteFileInput.addEventListener("change", function () {
+  const file = quoteFileInput.files[0];
+
+  if (!file) {
+    quoteFileStatus.textContent = "";
+    return;
+  }
+
+  quoteFileStatus.textContent = "Selected file: " + file.name;
+});
 
     let latestAddressEstimate = {
       address: "",
@@ -1499,5 +1509,6 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
   </script>
 </body>
 </html>
+
 
 
