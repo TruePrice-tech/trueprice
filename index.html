@@ -860,28 +860,39 @@ async function getRoofSizeFromAddress(address) {
     }
 
     estimateAddressBtn.addEventListener("click", function () {
-      const address = propertyAddress.value.trim();
+     estimateAddressBtn.addEventListener("click", async function () {
 
-      if (!address) {
-        alert("Please enter a property address.");
-        return;
-      }
+  const address = propertyAddress.value.trim();
 
-      addressLookupResult.textContent = "Looking up roof size estimate...";
+  if (!address) {
+    alert("Please enter a property address.");
+    return;
+  }
 
-      setTimeout(function () {
-        const estimatedRoofSize = mockRoofSizeFromAddress(address);
+  addressLookupResult.textContent = "Looking up roof size estimate...";
 
-        latestAddressEstimate = {
-          address: address,
-          roofSize: estimatedRoofSize
-        };
+  try {
 
-        roofSize.value = estimatedRoofSize;
-        addressLookupResult.textContent =
-          "Estimated roof size: " + estimatedRoofSize.toLocaleString() + " sq ft";
-      }, 500);
-    });
+    const estimatedRoofSize = await getRoofSizeFromAddress(address);
+
+    latestAddressEstimate = {
+      address: address,
+      roofSize: estimatedRoofSize
+    };
+
+    roofSize.value = estimatedRoofSize;
+
+    addressLookupResult.textContent =
+      "Estimated roof size: " + estimatedRoofSize.toLocaleString() + " sq ft";
+
+  } catch (error) {
+
+    addressLookupResult.textContent =
+      "Unable to estimate roof size.";
+
+  }
+
+});
 
     clearAddressBtn.addEventListener("click", function () {
       propertyAddress.value = "";
@@ -1147,6 +1158,7 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
   </script>
 </body>
 </html>
+
 
 
 
