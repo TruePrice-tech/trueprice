@@ -1313,9 +1313,10 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
       }
 
       if (file.type !== "application/pdf") {
-        quoteAnalysisResult.innerHTML =
-          "<span class='muted'>Currently only PDF quotes are supported in this version.</span>";
-        return;
+  quoteAnalysisResult.innerHTML =
+    "<span class='muted'>Currently only PDF quotes are supported in this version. Please upload a PDF export from your contractor if possible.</span>";
+  return;
+}
       }
 
       if (!window.pdfjsLib) {
@@ -1509,6 +1510,7 @@ quoteAnalysisResult.innerHTML =
   </script>
 </body>
 </html>
+
 
 
 
