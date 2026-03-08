@@ -271,10 +271,43 @@ style="padding:12px;border-radius:6px;border:1px solid #ccc">
 <option>Denver</option>
 </select>
 
-<button onclick="checkRoofQuote()"
-style="padding:12px 18px;background:#0f172a;color:white;border:none;border-radius:6px;font-weight:600">
-Analyze My Quote
-</button>
+<div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+
+  <input id="fairSqft"
+  type="number"
+  placeholder="Home size (sq ft)"
+  style="padding:12px;width:160px;border-radius:6px;border:1px solid #ccc">
+
+  <input id="fairQuote"
+  type="number"
+  placeholder="Your quote ($)"
+  style="padding:12px;width:160px;border-radius:6px;border:1px solid #ccc">
+
+  <select id="fairMaterial"
+  style="padding:12px;border-radius:6px;border:1px solid #ccc">
+    <option value="5.5">Asphalt shingles</option>
+    <option value="6.5">Architectural shingles</option>
+    <option value="11">Metal roof</option>
+    <option value="14">Tile roof</option>
+  </select>
+
+  <select id="fairCity"
+  style="padding:12px;border-radius:6px;border:1px solid #ccc">
+    <option>Dallas</option>
+    <option>Atlanta</option>
+    <option>Houston</option>
+    <option>Phoenix</option>
+    <option>Denver</option>
+  </select>
+
+  <button onclick="checkRoofQuote()"
+  style="padding:12px 18px;background:#0f172a;color:white;border:none;border-radius:6px;font-weight:600">
+    Analyze My Quote
+  </button>
+
+</div>
+
+<div id="fairResult" style="margin-top:15px;font-weight:600;text-align:center"></div>
 
 </div>
 
@@ -563,6 +596,7 @@ More roofing guides:
   
 </body>
 </html>
+
 
 
 
