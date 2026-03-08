@@ -670,12 +670,21 @@
           Upload your contractor estimate and TruePrice will analyze it against typical market pricing.
         </p>
 
-        <input type="file" id="quoteFile" accept=".pdf,.png,.jpg,.jpeg" />
-        <div class="button-row">
-          <button class="btn-primary" id="analyzeQuoteBtn" type="button">Analyze Quote</button>
-        </div>
+<label for="quoteFile">Upload Roofing Quote PDF</label>
+<input type="file" id="quoteFile" accept=".pdf,.png,.jpg,.jpeg" />
+<div id="quoteFileStatus" class="small" style="margin-top:8px;"></div>
 
-        <div id="quoteAnalysisResult">
+<div class="small" style="margin-top:8px;">
+  Best results come from text-based PDF quotes. Scanned image PDFs may not parse correctly yet.
+</div>
+
+<div class="button-row">
+  <button class="btn-primary" id="analyzeQuoteBtn" type="button">Analyze Quote</button>
+</div>
+
+<div id="quoteAnalysisResult">
+  <span class="muted">Upload a text-based roofing quote PDF and run analysis.</span>
+</div>
           <span class="muted">Upload a text-based roofing quote PDF and run analysis.</span>
         </div>
       </div>
@@ -1489,3 +1498,4 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
   </script>
 </body>
 </html>
+
