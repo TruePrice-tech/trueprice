@@ -1349,21 +1349,48 @@ quoteAnalysisResult.innerHTML =
 
             const rawMatches = fullText.match(/\$?\d{1,3}(,\d{3})*(\.\d{2})?/g) || [];
 
-            const cleanedPrices = rawMatches
-              .map(p => p.replace(/\$/g, "").trim())
-              .filter(p => p.length > 0)
-              .filter(p => !isNaN(Number(p.replace(/,/g, ""))))
-              .map(p => Number(p.replace(/,/g, "")))
-              .filter(n => n >= 1000)
-              .sort((a, b) => b - a);
+const totalPatterns = [
+  /grand total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
+  /project total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
+  /contract price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
+  /proposal amount[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
+  /total due[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
+  /total price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
+  /total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i
+];
 
-            if (cleanedPrices.length === 0) {
-              quoteAnalysisResult.innerHTML =
-                "<strong>Quote uploaded</strong><br><span class='muted'>No likely project price was detected.</span>";
-              return;
-            }
+let detectedTotal = null;
 
-            const detectedTotal = cleanedPrices[0];
+for (const pattern of totalPatterns) {
+  const match = fullText.match(pattern);
+  if (match && match[1]) {
+    const parsed = Number(match[1].replace(/,/g, ""));
+    if (!isNaN(parsed) && parsed >= 1000) {
+      detectedTotal = parsed;
+      break;
+    }
+  }
+}
+
+const rawMatches = fullText.match(/\$?\d{1,3}(,\d{3})*(\.\d{2})?/g) || [];
+
+const cleanedPrices = rawMatches
+  .map(p => p.replace(/\$/g, "").trim())
+  .filter(p => p.length > 0)
+  .filter(p => !isNaN(Number(p.replace(/,/g, ""))))
+  .map(p => Number(p.replace(/,/g, "")))
+  .filter(n => n >= 1000)
+  .sort((a, b) => b - a);
+
+if (!detectedTotal && cleanedPrices.length > 0) {
+  detectedTotal = cleanedPrices[0];
+}
+
+if (!detectedTotal) {
+  quoteAnalysisResult.innerHTML =
+    "<strong>Quote uploaded</strong><br><span class='muted'>No likely project price was detected.</span>";
+  return;
+}
 
             let verdict = "";
             let verdictClass = "lookup-success";
@@ -1510,6 +1537,7 @@ quoteAnalysisResult.innerHTML =
   </script>
 </body>
 </html>
+
 
 
 
