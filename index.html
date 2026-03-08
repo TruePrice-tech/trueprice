@@ -473,6 +473,38 @@
     }
 
     loadData();
+
+  function checkRoofQuote() {
+  const city = document.getElementById("fairCity").value;
+  const sqft = Number(document.getElementById("fairSqft").value);
+  const rate = Number(document.getElementById("fairMaterial").value);
+  const quote = Number(document.getElementById("fairQuote").value);
+
+  if (!sqft || !quote) return;
+
+  const cityAdj = {
+    Dallas: 1.0,
+    Atlanta: 1.03,
+    Houston: 1.02,
+    Phoenix: 1.05,
+    Denver: 1.08
+  };
+
+  const base = sqft * rate * (cityAdj[city] || 1);
+  const low = Math.round(base * 0.85);
+  const high = Math.round(base * 1.15);
+
+  let verdict = "Fair";
+  if (quote > high * 1.1) verdict = "High";
+  else if (quote > high) verdict = "A little high";
+  else if (quote < low) verdict = "Low";
+
+  document.getElementById("fairResult").innerHTML =
+    `Estimated fair range in ${city}: $${low.toLocaleString()} to $${high.toLocaleString()}<br>` +
+    `Your quote: $${quote.toLocaleString()}<br>` +
+    `Result: ${verdict}`;
+}
+  
 </script>
 
 <p>
@@ -508,6 +540,7 @@ More roofing guides:
   
 </body>
 </html>
+
 
 
 
