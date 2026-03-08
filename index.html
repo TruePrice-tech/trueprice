@@ -1,1 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="eCCLg1Uhj74WYrYWTUwxm_MbmiGIiHlAaY1eK3IGamY">
+<title>TruePrice | Check if your roofing quote is fair</title>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RTL04ZT2QJ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RTL04ZT2QJ');
+</script>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f3f6fa;
+margin:0;
+padding:0;
+color:#1f2937;
+}
+
+.container{
+max-width:860px;
+margin:40px auto;
+background:white;
+border-radius:14px;
+box-shadow:0 8px 24px rgba(0,0,0,.08);
+padding:40px 32px;
+}
+
+h1{
+font-size:44px;
+text-align:center;
+margin-bottom:6px;
+}
+
+.subhead{
+text-align:center;
+font-size:22px;
+font-weight:700;
+}
+
+.supporting{
+text-align:center;
+color:#4b5563;
+margin:10px auto 30px auto;
+max-width:640px;
+}
+
+.hero-box{
+background:#f9fafb;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:24px;
+margin-bottom:28px;
+}
+
+.input-row{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+input,select{
+padding:14px;
+font-size:18px;
+border-radius:10px;
+border:1px solid #cbd5e1;
+min-width:180px;
+}
+
+button{
+padding:14px 22px;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:#111827;
+color:white;
+cursor:pointer;
+font-weight:700;
+}
+
+button:hover{
+opacity:.92;
+}
+
+#fairResult{
+margin-top:18px;
+font-weight:700;
+text-align:center;
+line-height:1.6;
+}
+
+.section{
+margin-top:34px;
+}
+
+.section h2{
+font-size:28px;
+margin-bottom:10px;
+}
+
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:14px;
+margin-top:16px;
+}
+
+.stat{
+background:#f9fafb;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:18px;
+text-align:center;
+}
+
+.stat-value{
+font-size:26px;
+font-weight:800;
+}
+
+.graph{
+margin-top:18px;
+background:#f9fafb;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:18px;
+font-family:Consolas,monospace;
+white-space:pre-wrap;
+}
+
+.footer-note{
+margin-top:24px;
+font-size:13px;
+color:#6b7280;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>TruePrice</h1>
+<div class="subhead">Check if your roofing quote is fair</div>
+
+<div class="supporting">
+Compare your quote with roofing price estimates by city, material, and home size.
+</div>
+
+<div class="hero-box">
+
+<div class="input-row">
+
+<input id="fairSqft" type="number" placeholder="Home size (sq ft)">
+
+<input id="fairQuote" type="number" placeholder="Your quote ($)">
+
+<select id="fairMaterial">
+<option value="5.5">Asphalt shingles</option>
+<option value="6.5">Architectural shingles</option>
+<option value="11">Metal roof</option>
+<option value="14">Tile roof</option>
+</select>
+
+<select id="fairCity">
+<option>Dallas</option>
+<option>Atlanta</option>
+<option>Houston</option>
+<option>Phoenix</option>
+<option>Denver</option>
+</select>
+
+<button onclick="checkRoofQuote()">Analyze My Quote</button>
+
+</div>
+
+<div id="fairResult"></div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Dallas roof pricing snapshot</h2>
+
+<div class="stats-grid">
+
+<div class="stat">
+<div>Submissions</div>
+<div id="submissionCount" class="stat-value">0</div>
+</div>
+
+<div class="stat">
+<div>Average Price</div>
+<div id="averagePrice" class="stat-value">$0</div>
+</div>
+
+<div class="stat">
+<div>Low Price</div>
+<div id="lowPrice" class="stat-value">$0</div>
+</div>
+
+<div class="stat">
+<div>High Price</div>
+<div id="highPrice" class="stat-value">$0</div>
+</div>
+
+</div>
+
+<div id="graph" class="graph">Loading price distribution...</div>
+
+</div>
+
+
+<div class="footer-note">
+TruePrice is an early market transparency tool. Current Dallas pricing reflects market estimates and community reports.
+</div>
+
+</div>
+
+
+<script>
+
+let rawData=[];
+let dataset=[];
+
+async function loadData(){
+
+const response=await fetch("data/dallas_roof_prices.json");
+rawData=await response.json();
+dataset=rawData.map(x=>x.price);
+
+updateStats();
+drawGraph();
+
+}
+
+function average(arr){
+return arr.reduce((a,b)=>a+b)/arr.length;
+}
+
+function formatMoney(n){
+return "$"+Math.round(n).toLocaleString();
+}
+
+function updateStats(){
+
+if(dataset.length===0)return;
+
+const avg=average(dataset);
+const low=Math.min(...dataset);
+const high=Math.max(...dataset);
+
+document.getElementById("submissionCount").textContent=dataset.length;
+document.getElementById("averagePrice").textContent=formatMoney(avg);
+document.getElementById("lowPrice").textContent=formatMoney(low);
+document.getElementById("highPrice").textContent=formatMoney(high);
+
+}
+
+function drawGraph(){
+
+const buckets={
+"$7k–$8.9k":0,
+"$9k–$10.9k":0,
+"$11k–$12.9k":0,
+"$13k–$14.9k":0,
+"$15k–$16.9k":0,
+"$17k+":0
+};
+
+dataset.forEach(price=>{
+if(price<9000)buckets["$7k–$8.9k"]++;
+else if(price<11000)buckets["$9k–$10.9k"]++;
+else if(price<13000)buckets["$11k–$12.9k"]++;
+else if(price<15000)buckets["$13k–$14.9k"]++;
+else if(price<17000)buckets["$15k–$16.9k"]++;
+else buckets["$17k+"]++;
+});
+
+let graph="Price distribution\n\n";
+
+for(const key in buckets){
+graph+=key.padEnd(14," ")+" "+ "█".repeat(buckets[key])+"\n";
+}
+
+document.getElementById("graph").textContent=graph;
+
+}
+
+
+function checkRoofQuote(){
+
+const city=document.getElementById("fairCity").value;
+const sqft=Number(document.getElementById("fairSqft").value);
+const rate=Number(document.getElementById("fairMaterial").value);
+const quote=Number(document.getElementById("fairQuote").value);
+
+if(!sqft||!quote){
+alert("Please enter home size and quote price.");
+return;
+}
+
+const cityAdj={
+Dallas:1.0,
+Atlanta:1.03,
+Houston:1.02,
+Phoenix:1.05,
+Denver:1.08
+};
+
+const base=sqft*rate*(cityAdj[city]||1);
+
+const low=Math.round(base*0.85);
+const high=Math.round(base*1.15);
+
+let verdict="Fair";
+
+if(quote>high*1.1)verdict="High";
+else if(quote>high)verdict="A little high";
+else if(quote<low)verdict="Low";
+
+const color=
+verdict==="Fair"?"#166534":
+verdict==="Low"?"#1d4ed8":
+"#991b1b";
+
+document.getElementById("fairResult").innerHTML=
+`Estimated fair range in ${city}: $${low.toLocaleString()} to $${high.toLocaleString()}<br>
+Your quote: $${quote.toLocaleString()}<br>
+Result: <span style="color:${color}">${verdict}</span>`;
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
 
