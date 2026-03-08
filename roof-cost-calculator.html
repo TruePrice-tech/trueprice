@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="google-site-verification" content="eCCLglUhJ74WYrWUWxm_MbmiGIiHlAaY1eK3IGamY" />
+<title>Roof Cost Calculator | TruePrice</title>
+<meta name="description" content="Estimate your roof replacement cost by square footage and material type. Use the TruePrice roof cost calculator to benchmark your quote." />
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RTL04ZT2QJ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RTL04ZT2QJ');
+</script>
+
+<style>
+body{font-family:Arial,sans-serif;background:#f3f6fa;padding:40px;color:#1f2937;}
+.container{max-width:900px;margin:auto;background:white;padding:40px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.08);}
+input,select{padding:12px;font-size:16px;margin:8px 8px 8px 0;}
+button{padding:12px 18px;font-size:16px;background:#111827;color:white;border:none;border-radius:8px;cursor:pointer;}
+.result{margin-top:20px;padding:20px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;}
+a.button{display:inline-block;background:#111827;color:white;padding:14px 20px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:15px;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Roof Cost Calculator</h1>
+<p>Use this simple calculator to estimate roof replacement cost by house size and material.</p>
+
+<label>Home size (sq ft)</label><br>
+<input id="sqft" type="number" placeholder="e.g. 2200">
+
+<br>
+
+<label>Material</label><br>
+<select id="material">
+<option value="5.5">Asphalt shingles</option>
+<option value="6.5">Architectural shingles</option>
+<option value="11">Metal roofing</option>
+<option value="14">Tile roofing</option>
+</select>
+
+<br>
+<button onclick="calcRoof()">Estimate Roof Cost</button>
+
+<div id="result" class="result" style="display:none;"></div>
+
+<a class="button" href="index.html">Check if your roofing quote is fair →</a>
+
+<script>
+function calcRoof(){
+  const sqft = Number(document.getElementById('sqft').value);
+  const rate = Number(document.getElementById('material').value);
+  if(!sqft) return;
+
+  const low = Math.round(sqft * (rate - 1));
+  const mid = Math.round(sqft * rate);
+  const high = Math.round(sqft * (rate + 1.5));
+
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').innerHTML = `
+    <strong>Estimated range:</strong> $${low.toLocaleString()} to $${high.toLocaleString()}<br>
+    <strong>Midpoint estimate:</strong> $${mid.toLocaleString()}<br><br>
+    Compare your real contractor quote with this estimate using the TruePrice analyzer.
+  `;
+}
+</script>
+
+</div>
+</body>
+</html>
