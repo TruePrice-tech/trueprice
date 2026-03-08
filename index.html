@@ -731,12 +731,16 @@
     const resetCompareBtn = document.getElementById("resetCompareBtn");
     const compareSummary = document.getElementById("compareSummary");
 
-    async function getRoofSizeFromAddress(address) {
+async function getRoofSizeFromAddress(address) {
 
   const response = await fetch(
     "https://trueprice-roofsize.glane0303.workers.dev/?address=" +
     encodeURIComponent(address)
   );
+
+  if (!response.ok) {
+    throw new Error("API request failed");
+  }
 
   const data = await response.json();
 
@@ -1143,5 +1147,6 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
   </script>
 </body>
 </html>
+
 
 
