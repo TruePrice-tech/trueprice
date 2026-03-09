@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,8 +28,6 @@
     name="twitter:description"
     content="Estimate a fair roofing price, compare contractor quotes, and analyze your roofing quote with TruePrice."
   />
-
-  <!-- If you already have a Google Search Console verification meta tag, paste it below this comment. -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
@@ -74,6 +71,16 @@
 
     .lookup-success {
       color: #166534;
+      font-weight: 600;
+    }
+
+    .lookup-warn {
+      color: #92400e;
+      font-weight: 600;
+    }
+
+    .lookup-danger {
+      color: #991b1b;
       font-weight: 600;
     }
 
@@ -581,7 +588,7 @@
           <label for="material">Material</label>
           <select id="material">
             <option value="asphalt-arch" selected>Architectural Shingles</option>
-            <option value="asphalt-3tab">3-Tab Shingles</option>
+            <option value="asphalt-3tab">3 Tab Shingles</option>
             <option value="metal">Metal Roofing</option>
             <option value="tile">Tile Roofing</option>
           </select>
@@ -670,22 +677,20 @@
           Upload your contractor estimate and TruePrice will analyze it against typical market pricing.
         </p>
 
-<label for="quoteFile">Upload Roofing Quote PDF</label>
-<input type="file" id="quoteFile" accept=".pdf,.png,.jpg,.jpeg" />
-<div id="quoteFileStatus" class="small" style="margin-top:8px;"></div>
+        <label for="quoteFile">Upload Roofing Quote PDF</label>
+        <input type="file" id="quoteFile" accept=".pdf,.png,.jpg,.jpeg" />
+        <div id="quoteFileStatus" class="small" style="margin-top:8px;"></div>
 
-<div class="small" style="margin-top:8px;">
-  Best results come from text-based PDF quotes. Scanned image PDFs may not parse correctly yet.
-</div>
+        <div class="small" style="margin-top:8px;">
+          Best results come from text based PDF quotes. Scanned image PDFs may not parse correctly yet.
+        </div>
 
-<div class="button-row">
-  <button class="btn-primary" id="analyzeQuoteBtn" type="button">Analyze Quote</button>
-</div>
+        <div class="button-row">
+          <button class="btn-primary" id="analyzeQuoteBtn" type="button">Analyze Quote</button>
+        </div>
 
-<div id="quoteAnalysisResult">
-  <span class="muted">Upload a text-based roofing quote PDF and run analysis.</span>
-</div>
-          <span class="muted">Upload a text-based roofing quote PDF and run analysis.</span>
+        <div id="quoteAnalysisResult">
+          <span class="muted">Upload a text based roofing quote PDF and run analysis.</span>
         </div>
       </div>
     </section>
@@ -716,7 +721,7 @@
             <td>
               <select class="quote-input material-select">
                 <option selected>Architectural shingles</option>
-                <option>3-tab shingles</option>
+                <option>3 Tab shingles</option>
                 <option>Metal roof</option>
                 <option>Tile roof</option>
               </select>
@@ -732,7 +737,7 @@
             <td>
               <select class="quote-input material-select">
                 <option selected>Architectural shingles</option>
-                <option>3-tab shingles</option>
+                <option>3 Tab shingles</option>
                 <option>Metal roof</option>
                 <option>Tile roof</option>
               </select>
@@ -748,7 +753,7 @@
             <td>
               <select class="quote-input material-select">
                 <option selected>Architectural shingles</option>
-                <option>3-tab shingles</option>
+                <option>3 Tab shingles</option>
                 <option>Metal roof</option>
                 <option>Tile roof</option>
               </select>
@@ -764,7 +769,7 @@
             <td>
               <select class="quote-input material-select">
                 <option selected>Architectural shingles</option>
-                <option>3-tab shingles</option>
+                <option>3 Tab shingles</option>
                 <option>Metal roof</option>
                 <option>Tile roof</option>
               </select>
@@ -895,7 +900,7 @@
     </section>
 
     <div class="footer">
-      TruePrice estimates are directional only and should not replace an in-person contractor inspection.
+      TruePrice estimates are directional only and should not replace an in person contractor inspection.
     </div>
   </div>
 
@@ -940,16 +945,17 @@
     const analyzeQuoteBtn = document.getElementById("analyzeQuoteBtn");
     const quoteAnalysisResult = document.getElementById("quoteAnalysisResult");
     const quoteFileStatus = document.getElementById("quoteFileStatus");
+
     quoteFileInput.addEventListener("change", function () {
-  const file = quoteFileInput.files[0];
+      const file = quoteFileInput.files[0];
 
-  if (!file) {
-    quoteFileStatus.textContent = "";
-    return;
-  }
+      if (!file) {
+        quoteFileStatus.textContent = "";
+        return;
+      }
 
-  quoteFileStatus.textContent = "Selected file: " + file.name;
-});
+      quoteFileStatus.textContent = "Selected file: " + file.name;
+    });
 
     let latestAddressEstimate = {
       address: "",
@@ -981,6 +987,196 @@
       }).format(Number(v));
     }
 
+    function normalizePdfText(text) {
+      return text
+        .replace(/\s+/g, " ")
+        .replace(/[–—]/g, "-")
+        .replace(/\u00A0/g, " ")
+        .trim();
+    }
+
+    const totalPatterns = [
+      { label: "grand_total", regex: /grand total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.95 },
+      { label: "project_total", regex: /project total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.92 },
+      { label: "contract_price", regex: /contract price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.90 },
+      { label: "proposal_amount", regex: /proposal amount[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.88 },
+      { label: "total_due", regex: /total due[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.85 },
+      { label: "total_price", regex: /total price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.82 },
+      { label: "generic_total", regex: /total[^0-9$]{0,20}\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.75 }
+    ];
+
+    function extractLargestReasonableDollarAmount(text) {
+      const matches = [...text.matchAll(/\$?\s*([0-9]{1,3}(?:,[0-9]{3})+(?:\.\d{2})?|[0-9]{4,6}(?:\.\d{2})?)/g)];
+
+      const values = matches
+        .map(m => parseFloat(m[1].replace(/,/g, "")))
+        .filter(v => v >= 2000 && v <= 200000);
+
+      if (!values.length) {
+        return {
+          value: null,
+          confidence: 0,
+          pattern: null,
+          label: null
+        };
+      }
+
+      const value = Math.max(...values);
+
+      return {
+        value,
+        confidence: 0.45,
+        pattern: "largest_reasonable_dollar_amount",
+        label: "largest_reasonable_dollar_amount"
+      };
+    }
+
+    function extractTotalPrice(text) {
+      for (const pattern of totalPatterns) {
+        const match = text.match(pattern.regex);
+
+        if (match) {
+          const value = parseFloat(match[1].replace(/,/g, ""));
+
+          if (value < 2000 || value > 200000) continue;
+
+          return {
+            value,
+            confidence: pattern.confidence,
+            pattern: pattern.regex.toString(),
+            label: pattern.label
+          };
+        }
+      }
+
+      return extractLargestReasonableDollarAmount(text);
+    }
+
+    function extractContractorName(text) {
+      const contractorPatterns = [
+        {
+          label: "explicit_contractor_label",
+          regex: /(?:contractor|company|roofer|business name)[^A-Za-z0-9]{0,20}([A-Z][A-Za-z0-9&.,' ]{3,60})/i,
+          confidence: 0.90
+        },
+        {
+          label: "roofing_brand_style_name",
+          regex: /([A-Z][A-Za-z0-9&.,' ]{3,60}\s(?:Roofing|Roofers|Exteriors|Construction|Contracting|Home Services))/i,
+          confidence: 0.82
+        }
+      ];
+
+      for (const pattern of contractorPatterns) {
+        const match = text.match(pattern.regex);
+        if (match && match[1]) {
+          return {
+            value: match[1].trim(),
+            confidence: pattern.confidence,
+            label: pattern.label
+          };
+        }
+      }
+
+      return {
+        value: "Not detected",
+        confidence: 0,
+        label: null
+      };
+    }
+
+    function extractWarranty(text) {
+      const warrantyPatterns = [
+        {
+          label: "year_warranty_phrase",
+          regex: /(\d{1,2})\s*-?\s*year\s+(?:workmanship|labor|manufacturer|material)?\s*warranty/i,
+          confidence: 0.88
+        },
+        {
+          label: "warranty_before_years",
+          regex: /warranty[^0-9]{0,20}(\d{1,2})\s*-?\s*year/i,
+          confidence: 0.82
+        },
+        {
+          label: "yr_warranty",
+          regex: /(\d{1,2})\s*yr\s+warranty/i,
+          confidence: 0.78
+        }
+      ];
+
+      for (const pattern of warrantyPatterns) {
+        const match = text.match(pattern.regex);
+        if (match && match[1]) {
+          return {
+            value: match[1].trim() + " years",
+            confidence: pattern.confidence,
+            label: pattern.label
+          };
+        }
+      }
+
+      return {
+        value: "Not detected",
+        confidence: 0,
+        label: null
+      };
+    }
+
+    function extractMaterial(text) {
+      const materialPatterns = [
+        { label: "architectural_shingles", pattern: /architectural shingles?/i, value: "Architectural shingles", confidence: 0.92 },
+        { label: "three_tab_shingles", pattern: /3[\s-]?tab shingles?/i, value: "3 Tab shingles", confidence: 0.92 },
+        { label: "metal_roof", pattern: /metal roof(?:ing)?/i, value: "Metal roof", confidence: 0.92 },
+        { label: "tile_roof", pattern: /tile roof(?:ing)?/i, value: "Tile roof", confidence: 0.92 },
+        { label: "owens_corning_brand", pattern: /owens corning/i, value: "Architectural shingles", confidence: 0.72 },
+        { label: "gaf_brand", pattern: /gaf/i, value: "Architectural shingles", confidence: 0.68 },
+        { label: "certainteed_brand", pattern: /certainteed/i, value: "Architectural shingles", confidence: 0.68 }
+      ];
+
+      for (const item of materialPatterns) {
+        if (item.pattern.test(text)) {
+          return {
+            value: item.value,
+            confidence: item.confidence,
+            label: item.label
+          };
+        }
+      }
+
+      return {
+        value: "Not detected",
+        confidence: 0,
+        label: null
+      };
+    }
+
+    function calculateParserConfidence(fields) {
+      const weights = {
+        price: 0.40,
+        material: 0.25,
+        warranty: 0.20,
+        contractor: 0.15
+      };
+
+      return (
+        (fields.price || 0) * weights.price +
+        (fields.material || 0) * weights.material +
+        (fields.warranty || 0) * weights.warranty +
+        (fields.contractor || 0) * weights.contractor
+      );
+    }
+
+    function confidenceLabel(score) {
+      if (score >= 0.8) return "High";
+      if (score >= 0.55) return "Medium";
+      return "Low";
+    }
+
+    function confidenceClass(score) {
+      if (score >= 0.8) return "lookup-success";
+      if (score >= 0.55) return "lookup-warn";
+      return "lookup-danger";
+    }
+
     async function getRoofSizeFromAddress(address) {
       const response = await fetch(
         "https://trueprice-roofsize.glane0303.workers.dev/?address=" +
@@ -998,7 +1194,7 @@
     function getMaterialRate(materialValue) {
       switch (materialValue) {
         case "asphalt-3tab":
-          return { low: 400, high: 550, label: "3-Tab Shingles" };
+          return { low: 400, high: 550, label: "3 Tab Shingles" };
         case "asphalt-arch":
           return { low: 500, high: 750, label: "Architectural Shingles" };
         case "metal":
@@ -1105,7 +1301,7 @@
         addressLookupResult.innerHTML =
           '<span class="lookup-success">✓ Estimated roof size: ' +
           estimatedRoofSize.toLocaleString() +
-          ' sq ft</span>';
+          " sq ft</span>";
 
         estimateAddressBtn.disabled = false;
       } catch (error) {
@@ -1313,10 +1509,9 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
       }
 
       if (file.type !== "application/pdf") {
-  quoteAnalysisResult.innerHTML =
-    "<span class='muted'>Currently only PDF quotes are supported in this version. Please upload a PDF export from your contractor if possible.</span>";
-  return;
-}
+        quoteAnalysisResult.innerHTML =
+          "<span class='muted'>Currently only PDF quotes are supported in this version. Please upload a PDF export from your contractor if possible.</span>";
+        return;
       }
 
       if (!window.pdfjsLib) {
@@ -1325,8 +1520,8 @@ Compare scope, flashing, ventilation, underlayment, cleanup, workmanship warrant
         return;
       }
 
-quoteAnalysisResult.innerHTML =
-  "<span class='spinner'></span> Reading quote and detecting prices...";
+      quoteAnalysisResult.innerHTML =
+        "<span class='spinner'></span> Reading quote and detecting prices...";
 
       try {
         const reader = new FileReader();
@@ -1347,210 +1542,86 @@ quoteAnalysisResult.innerHTML =
               });
             }
 
-            const rawMatches = fullText.match(/\$?\d{1,3}(,\d{3})*(\.\d{2})?/g) || [];
+            const normalizedText = normalizePdfText(fullText);
 
-const totalPatterns = [
-  { label: "grand_total", regex: /grand total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.95 },
-  { label: "project_total", regex: /project total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.92 },
-  { label: "contract_price", regex: /contract price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.90 },
-  { label: "proposal_amount", regex: /proposal amount[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.88 },
-  { label: "total_due", regex: /total due[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.85 },
-  { label: "total_price", regex: /total price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.82 },
-  { label: "generic_total", regex: /total[^0-9$]{0,20}\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.75 }
-];
+            const totalPriceResult = extractTotalPrice(normalizedText);
+            let detectedTotal = totalPriceResult.value;
+            let detectionMethod = totalPriceResult.label
+              ? "Matched total style label: " + totalPriceResult.label
+              : "Largest detected price fallback";
 
- function extractTotalPrice(text) {
-  for (const pattern of totalPatterns) {
-    const match = text.match(pattern.regex);
+            const contractorResult = extractContractorName(normalizedText);
+            const warrantyResult = extractWarranty(normalizedText);
+            const materialResult = extractMaterial(normalizedText);
 
-    if (match) {
-      const value = parseFloat(match[1].replace(/,/g, ''));
+            const detectedContractor = contractorResult.value;
+            const detectedWarranty = warrantyResult.value;
+            const detectedMaterial = materialResult.value;
 
-      if (value < 2000 || value > 200000) continue;
-      
-    return {
-  value,
-  confidence: pattern.confidence,
-  pattern: pattern.regex.toString(),
-  label: pattern.label
-      };
-    }
-  }
+            const rawMatches = normalizedText.match(/\$?\d{1,3}(?:,\d{3})*(?:\.\d{2})?/g) || [];
 
-return {
-  value: null,
-  confidence: 0,
-  pattern: null,
-  label: null
-  };
-}           
+            const cleanedPrices = rawMatches
+              .map(p => p.replace(/\$/g, "").trim())
+              .filter(p => p.length > 0)
+              .filter(p => !isNaN(Number(p.replace(/,/g, ""))))
+              .map(p => Number(p.replace(/,/g, "")))
+              .filter(n => n >= 1000)
+              .sort((a, b) => b - a);
 
-let detectedTotal = null;
-let detectionMethod = "Largest detected price";
+            if (!detectedTotal && cleanedPrices.length > 0) {
+              detectedTotal = cleanedPrices[0];
+              detectionMethod = "Largest detected price fallback";
+            }
 
-let detectedContractor = "Not detected";
-let detectedWarranty = "Not detected";
-let detectedMaterial = "Not detected";
+            if (!detectedTotal) {
+              quoteAnalysisResult.innerHTML =
+                "<strong>Quote uploaded</strong><br><span class='muted'>No likely project price was detected.</span>";
+              return;
+            }
 
-// Contractor name heuristics
-const contractorPatterns = [
-  /(?:contractor|company|roofer|business name)[^A-Za-z0-9]{0,20}([A-Z][A-Za-z0-9&.,' -]{3,60})/i,
-  /([A-Z][A-Za-z0-9&.,' -]{3,60}\s(?:Roofing|Roofers|Exteriors|Construction|Contracting|Home Services))/i
-];
+            const parserConfidenceScore = calculateParserConfidence({
+              price: totalPriceResult.confidence,
+              material: materialResult.confidence,
+              warranty: warrantyResult.confidence,
+              contractor: contractorResult.confidence
+            });
 
-for (const pattern of contractorPatterns) {
-  const match = fullText.match(pattern);
-  if (match && match[1]) {
-    detectedContractor = match[1].trim();
-    break;
-  }
-}
+            const parserConfidencePct = Math.round(parserConfidenceScore * 100);
+            const parserConfidenceText = confidenceLabel(parserConfidenceScore);
+            const parserConfidenceCss = confidenceClass(parserConfidenceScore);
 
-// Warranty heuristics
-const warrantyPatterns = [
-  /(\d{1,2})\s*-?\s*year\s+(?:workmanship|labor|manufacturer|material)?\s*warranty/i,
-  /warranty[^0-9]{0,20}(\d{1,2})\s*-?\s*year/i,
-  /(\d{1,2})\s*yr\s+warranty/i
-];
-
-for (const pattern of warrantyPatterns) {
-  const match = fullText.match(pattern);
-  if (match && match[1]) {
-    detectedWarranty = match[1].trim() + " years";
-    break;
-  }
-}
-
-// Material heuristics
-const materialPatterns = [
-  { pattern: /architectural shingles?/i, value: "Architectural shingles" },
-  { pattern: /3-tab shingles?/i, value: "3-tab shingles" },
-  { pattern: /metal roof(?:ing)?/i, value: "Metal roof" },
-  { pattern: /tile roof(?:ing)?/i, value: "Tile roof" },
-  { pattern: /owens corning/i, value: "Architectural shingles" },
-  { pattern: /gaf/i, value: "Architectural shingles" },
-  { pattern: /certainteed/i, value: "Architectural shingles" }
-];
-
-for (const item of materialPatterns) {
-  if (item.pattern.test(fullText)) {
-    detectedMaterial = item.value;
-    break;
-  }
-}
-
-for (const pattern of totalPatterns) {
-  const match = fullText.match(pattern);
-if (match && match[1]) {
-  const parsed = Number(match[1].replace(/,/g, ""));
-  if (!isNaN(parsed) && parsed >= 1000) {
-    detectedTotal = parsed;
-    detectionMethod = "Matched total-style label";
-    break;
-  }
-}
-}
-
-const rawMatches = fullText.match(/\$?\d{1,3}(,\d{3})*(\.\d{2})?/g) || [];
-
-const cleanedPrices = rawMatches
-  .map(p => p.replace(/\$/g, "").trim())
-  .filter(p => p.length > 0)
-  .filter(p => !isNaN(Number(p.replace(/,/g, ""))))
-  .map(p => Number(p.replace(/,/g, "")))
-  .filter(n => n >= 1000)
-  .sort((a, b) => b - a);
-
-if (!detectedTotal && cleanedPrices.length > 0) {
-  detectedTotal = cleanedPrices[0];
-  detectionMethod = "Largest detected price fallback";
-}
-
-if (!detectedTotal) {
-  quoteAnalysisResult.innerHTML =
-    "<strong>Quote uploaded</strong><br><span class='muted'>No likely project price was detected.</span>";
-  return;
-}
-
-let detectedContractor = "Not detected";
-let detectedWarranty = "Not detected";
-let detectedMaterial = "Not detected";
-
-// Contractor name heuristics
-const contractorPatterns = [
-  /(?:contractor|company|roofer|business name)[^A-Za-z0-9]{0,20}([A-Z][A-Za-z0-9&.,' -]{3,60})/i,
-  /([A-Z][A-Za-z0-9&.,' -]{3,60}\s(?:Roofing|Roofers|Exteriors|Construction|Contracting|Home Services))/i
-];
-
-for (const pattern of contractorPatterns) {
-  const match = fullText.match(pattern);
-  if (match && match[1]) {
-    detectedContractor = match[1].trim();
-    break;
-  }
-}
-
-// Warranty heuristics
-const warrantyPatterns = [
-  /(\d{1,2})\s*-?\s*year\s+(?:workmanship|labor|manufacturer|material)?\s*warranty/i,
-  /warranty[^0-9]{0,20}(\d{1,2})\s*-?\s*year/i,
-  /(\d{1,2})\s*yr\s+warranty/i
-];
-
-for (const pattern of warrantyPatterns) {
-  const match = fullText.match(pattern);
-  if (match && match[1]) {
-    detectedWarranty = match[1].trim() + " years";
-    break;
-  }
-}
-
-// Material heuristics
-const materialPatterns = [
-  { pattern: /architectural shingles?/i, value: "Architectural shingles" },
-  { pattern: /3-tab shingles?/i, value: "3-tab shingles" },
-  { pattern: /metal roof(?:ing)?/i, value: "Metal roof" },
-  { pattern: /tile roof(?:ing)?/i, value: "Tile roof" },
-  { pattern: /owens corning/i, value: "Architectural shingles" },
-  { pattern: /gaf/i, value: "Architectural shingles" },
-  { pattern: /certainteed/i, value: "Architectural shingles" }
-];
-
-for (const item of materialPatterns) {
-  if (item.pattern.test(fullText)) {
-    detectedMaterial = item.value;
-    break;
-  }
-}
             let verdict = "";
-            let verdictClass = "lookup-success";
+            let verdictClassName = "lookup-success";
 
             if (latestReportData.fairLow && latestReportData.fairHigh) {
               if (detectedTotal < latestReportData.fairLow * 0.95) {
                 verdict = "Likely below market";
-                verdictClass = "";
+                verdictClassName = "";
               } else if (detectedTotal > latestReportData.fairHigh * 1.05) {
                 verdict = "Likely above market";
-                verdictClass = "";
+                verdictClassName = "";
               } else {
                 verdict = "Within fair range";
-                verdictClass = "lookup-success";
+                verdictClassName = "lookup-success";
               }
             }
 
-         let html = `
-  <div class="analysis-grid">
-    <div><strong>Detected quote total:</strong> ${currency(detectedTotal)}</div>
-    <div><strong>Detection method:</strong> ${detectionMethod}</div>
-    <div><strong>Contractor:</strong> ${detectedContractor}</div>
-    <div><strong>Warranty:</strong> ${detectedWarranty}</div>
-    <div><strong>Material:</strong> ${detectedMaterial}</div>
-`;
+            let html = `
+              <div class="analysis-grid">
+                <div><strong>Detected quote total:</strong> ${currency(detectedTotal)}</div>
+                <div><strong>Overall parser confidence:</strong> <span class="${parserConfidenceCss}">${parserConfidenceText} (${parserConfidencePct}%)</span></div>
+                <div><strong>Price detection confidence:</strong> ${Math.round(totalPriceResult.confidence * 100)}%</div>
+                <div><strong>Detection method:</strong> ${detectionMethod}</div>
+                <div><strong>Contractor:</strong> ${detectedContractor}</div>
+                <div><strong>Warranty:</strong> ${detectedWarranty}</div>
+                <div><strong>Material:</strong> ${detectedMaterial}</div>
+                <div><strong>Field confidence:</strong> Price ${Math.round(totalPriceResult.confidence * 100)}% • Contractor ${Math.round(contractorResult.confidence * 100)}% • Warranty ${Math.round(warrantyResult.confidence * 100)}% • Material ${Math.round(materialResult.confidence * 100)}%</div>
+            `;
 
             if (latestReportData.fairLow && latestReportData.fairHigh) {
               html += `
                 <div><strong>TruePrice fair range:</strong> ${currency(latestReportData.fairLow)} to ${currency(latestReportData.fairHigh)}</div>
-                <div><strong>Verdict:</strong> <span class="${verdictClass}">${verdict}</span></div>
+                <div><strong>Verdict:</strong> <span class="${verdictClassName}">${verdict}</span></div>
               `;
             } else {
               html += `
@@ -1559,31 +1630,40 @@ for (const item of materialPatterns) {
             }
 
             html += `
-              <details style="margin-top:10px;">
-                <summary>Show detected prices</summary>
-                <div style="margin-top:8px;">
-                  ${cleanedPrices.slice(0, 10).map(n => currency(n)).join("<br>")}
-                </div>
-              </details>
-            </div>
+                <details style="margin-top:10px;">
+                  <summary>Show detected prices</summary>
+                  <div style="margin-top:8px;">
+                    ${cleanedPrices.slice(0, 10).map(n => currency(n)).join("<br>")}
+                  </div>
+                </details>
+              </div>
             `;
 
             quoteAnalysisResult.innerHTML = html;
 
-saveQuoteAnalysisToLocalStore({
-  propertyAddress: latestReportData.propertyAddress || propertyAddress.value.trim() || "Not provided",
-  detectedTotal,
-  detectionMethod,
-  detectedContractor,
-  detectedWarranty,
-  detectedMaterial,
-  detectedPrices: cleanedPrices.slice(0, 10),
-  fairLow: latestReportData.fairLow || 0,
-  fairHigh: latestReportData.fairHigh || 0,
-  verdict: verdict || "Estimator not run",
-  fileName: file.name
-});
-            
+            saveQuoteAnalysisToLocalStore({
+              propertyAddress: latestReportData.propertyAddress || propertyAddress.value.trim() || "Not provided",
+              detectedTotal,
+              totalPriceConfidence: totalPriceResult.confidence,
+              totalPricePattern: totalPriceResult.label,
+              parserConfidence: parserConfidenceScore,
+              parserConfidenceLabel: parserConfidenceText,
+              contractorConfidence: contractorResult.confidence,
+              contractorPattern: contractorResult.label,
+              warrantyConfidence: warrantyResult.confidence,
+              warrantyPattern: warrantyResult.label,
+              materialConfidence: materialResult.confidence,
+              materialPattern: materialResult.label,
+              detectionMethod,
+              detectedContractor,
+              detectedWarranty,
+              detectedMaterial,
+              detectedPrices: cleanedPrices.slice(0, 10),
+              fairLow: latestReportData.fairLow || 0,
+              fairHigh: latestReportData.fairHigh || 0,
+              verdict: verdict || "Estimator not run",
+              fileName: file.name
+            });
           } catch (err) {
             quoteAnalysisResult.innerHTML =
               "<span class='muted'>Unable to read this PDF. Try another quote file.</span>";
@@ -1676,15 +1756,3 @@ saveQuoteAnalysisToLocalStore({
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
