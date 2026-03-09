@@ -1446,6 +1446,56 @@ if (!detectedTotal) {
   return;
 }
 
+let detectedContractor = "Not detected";
+let detectedWarranty = "Not detected";
+let detectedMaterial = "Not detected";
+
+// Contractor name heuristics
+const contractorPatterns = [
+  /(?:contractor|company|roofer|business name)[^A-Za-z0-9]{0,20}([A-Z][A-Za-z0-9&.,' -]{3,60})/i,
+  /([A-Z][A-Za-z0-9&.,' -]{3,60}\s(?:Roofing|Roofers|Exteriors|Construction|Contracting|Home Services))/i
+];
+
+for (const pattern of contractorPatterns) {
+  const match = fullText.match(pattern);
+  if (match && match[1]) {
+    detectedContractor = match[1].trim();
+    break;
+  }
+}
+
+// Warranty heuristics
+const warrantyPatterns = [
+  /(\d{1,2})\s*-?\s*year\s+(?:workmanship|labor|manufacturer|material)?\s*warranty/i,
+  /warranty[^0-9]{0,20}(\d{1,2})\s*-?\s*year/i,
+  /(\d{1,2})\s*yr\s+warranty/i
+];
+
+for (const pattern of warrantyPatterns) {
+  const match = fullText.match(pattern);
+  if (match && match[1]) {
+    detectedWarranty = match[1].trim() + " years";
+    break;
+  }
+}
+
+// Material heuristics
+const materialPatterns = [
+  { pattern: /architectural shingles?/i, value: "Architectural shingles" },
+  { pattern: /3-tab shingles?/i, value: "3-tab shingles" },
+  { pattern: /metal roof(?:ing)?/i, value: "Metal roof" },
+  { pattern: /tile roof(?:ing)?/i, value: "Tile roof" },
+  { pattern: /owens corning/i, value: "Architectural shingles" },
+  { pattern: /gaf/i, value: "Architectural shingles" },
+  { pattern: /certainteed/i, value: "Architectural shingles" }
+];
+
+for (const item of materialPatterns) {
+  if (item.pattern.test(fullText)) {
+    detectedMaterial = item.value;
+    break;
+  }
+}
             let verdict = "";
             let verdictClass = "lookup-success";
 
@@ -1600,6 +1650,7 @@ saveQuoteAnalysisToLocalStore({
   </script>
 </body>
 </html>
+
 
 
 
