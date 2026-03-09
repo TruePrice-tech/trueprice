@@ -1,92 +1,137 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-<title>Compare Roofing Quotes | TruePrice</title>
-
-<meta name="description" content="Compare roofing quotes side-by-side.">
-
-<style>
-
-body{
-font-family:Arial;
-background:#f5f7fa;
-padding:40px;
-}
-
-.card{
-background:white;
-padding:30px;
-border-radius:10px;
-max-width:900px;
-margin:auto;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-td,th{
-padding:10px;
-border:1px solid #ddd;
-}
-
-button{
-padding:12px 16px;
-background:#2563eb;
-border:none;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Roofing Quotes | TruePrice</title>
+  <meta name="description" content="Compare roofing quotes side by side by price, materials, warranty, and scope so you can choose the right contractor with confidence." />
+  <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/compare-roofing-quotes.html" />
+  <meta name="robots" content="index,follow" />
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f7f9fc; color: #1f2937; line-height: 1.6; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 24px; }
+    .box { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    input { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { border: 1px solid #e5e7eb; padding: 12px; text-align: left; vertical-align: top; }
+    th { background: #f3f4f6; }
+    button { margin-top: 16px; padding: 12px 18px; border: 0; border-radius: 10px; background: #0f62fe; color: #fff; font-weight: 700; cursor: pointer; }
+    .muted { color: #6b7280; }
+  </style>
 </head>
-
 <body>
+  <main class="wrap">
+    <p><a href="/trueprice/">Home</a></p>
+    <h1>Compare Roofing Quotes</h1>
+    <p class="muted">
+      Compare contractor bids side by side so you can judge value, not just total price.
+    </p>
 
-<div class="card">
+    <section class="box">
+      <h2>Quick comparison tool</h2>
+      <div class="grid">
+        <div>
+          <label for="contractor1">Contractor</label>
+          <input id="contractor1" type="text" placeholder="Contractor A" />
+        </div>
+        <div>
+          <label for="quote1">Quote total</label>
+          <input id="quote1" type="text" placeholder="$14,500" />
+        </div>
+        <div>
+          <label for="warranty1">Warranty</label>
+          <input id="warranty1" type="text" placeholder="10 year workmanship" />
+        </div>
+      </div>
 
-<h1>Compare Roofing Quotes</h1>
+      <button type="button">Compare Quotes</button>
 
-<table>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Quote A</th>
+            <th>Quote B</th>
+            <th>Quote C</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total price</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Material type</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Underlayment</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Flashing</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ventilation</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Warranty</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-<tr>
-<th>Contractor</th>
-<th>Quote</th>
-<th>Warranty</th>
-</tr>
+    <section class="box">
+      <h2>How to compare roofing quotes correctly</h2>
+      <p>
+        Homeowners often compare quotes by headline price alone. That is the fastest way to make a costly mistake. The better approach is to compare the exact scope of work. Ask whether each quote includes tear off, disposal, underlayment, flashing replacement, ridge ventilation, drip edge, permit assumptions, and any decking replacement terms.
+      </p>
+      <p>
+        One contractor may price lower simply because they omitted critical items that will show up later as change orders. Another may look expensive at first but include stronger materials, better workmanship coverage, and more complete flashing and ventilation work.
+      </p>
+      <p>
+        Use this page to compare contractors side by side, then use the roofing quote analyzer to review specific estimates in more detail.
+      </p>
+    </section>
 
-<tr>
-<td><input></td>
-<td><input></td>
-<td><input></td>
-</tr>
+    <section class="box">
+      <h2>Most important fields to compare</h2>
+      <ul>
+        <li>Total project cost</li>
+        <li>Exact roofing material and brand</li>
+        <li>Underlayment type</li>
+        <li>Flashing and drip edge scope</li>
+        <li>Ventilation upgrades</li>
+        <li>Workmanship warranty length</li>
+        <li>Change order language</li>
+        <li>Decking replacement assumptions</li>
+      </ul>
+    </section>
 
-<tr>
-<td><input></td>
-<td><input></td>
-<td><input></td>
-</tr>
-
-<tr>
-<td><input></td>
-<td><input></td>
-<td><input></td>
-</tr>
-
-</table>
-
-<br>
-
-<button onclick="alert('Comparison logic here')">
-Compare Quotes
-</button>
-
-</div>
-
+    <section class="box">
+      <h2>Related guides</h2>
+      <ul>
+        <li><a href="/trueprice/roofing-quote-analyzer.html">Roofing quote analyzer</a></li>
+        <li><a href="/trueprice/how-to-compare-roofing-quotes.html">How to compare roofing quotes</a></li>
+        <li><a href="/trueprice/what-should-a-roofing-quote-include.html">What should a roofing quote include</a></li>
+      </ul>
+    </section>
+  </main>
 </body>
 </html>
