@@ -1350,14 +1350,38 @@ quoteAnalysisResult.innerHTML =
             const rawMatches = fullText.match(/\$?\d{1,3}(,\d{3})*(\.\d{2})?/g) || [];
 
 const totalPatterns = [
-  /grand total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
-  /project total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
-  /contract price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
-  /proposal amount[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
-  /total due[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
-  /total price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i,
-  /total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i
+  { regex: /grand total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.95 },
+  { regex: /project total[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.92 },
+  { regex: /contract price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.90 },
+  { regex: /proposal amount[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.88 },
+  { regex: /total due[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.85 },
+  { regex: /total price[^0-9$]*\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.82 },
+  { regex: /total[^0-9$]{0,20}\$?\s*([0-9,]+(?:\.\d{2})?)/i, confidence: 0.75 }
 ];
+
+ function extractTotalPrice(text) {
+  for (const pattern of totalPatterns) {
+    const match = text.match(pattern.regex);
+
+    if (match) {
+      const value = parseFloat(match[1].replace(/,/g, ''));
+
+      if (value < 2000 || value > 200000) continue;
+      
+      return {
+        value: value,
+        confidence: pattern.confidence,
+        pattern: pattern.regex.toString()
+      };
+    }
+  }
+
+  return {
+    value: null,
+    confidence: 0,
+    pattern: null
+  };
+}           
 
 let detectedTotal = null;
 let detectionMethod = "Largest detected price";
@@ -1650,6 +1674,7 @@ saveQuoteAnalysisToLocalStore({
   </script>
 </body>
 </html>
+
 
 
 
