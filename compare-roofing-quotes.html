@@ -8,96 +8,213 @@
   <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/compare-roofing-quotes.html" />
   <meta name="robots" content="index,follow" />
   <style>
-    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f7f9fc; color: #1f2937; line-height: 1.6; }
-    .wrap { max-width: 1040px; margin: 0 auto; padding: 24px; }
-    .box { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-    input { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
-    th, td { border: 1px solid #e5e7eb; padding: 12px; text-align: left; vertical-align: top; }
-    th { background: #f3f4f6; }
-    button { margin-top: 16px; padding: 12px 18px; border: 0; border-radius: 10px; background: #0f62fe; color: #fff; font-weight: 700; cursor: pointer; }
-    .muted { color: #6b7280; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      background: #f7f9fc;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .nav {
+      margin-bottom: 16px;
+    }
+
+    .nav a {
+      margin-right: 14px;
+      color: #0f62fe;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav a:hover {
+      text-decoration: underline;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+    }
+
+    .muted {
+      color: #6b7280;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #0f62fe;
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 0;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+
+    .btn:hover {
+      text-decoration: none;
+      opacity: 0.95;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      background: #ffffff;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f3f4f6;
+    }
+
+    .highlight-good {
+      background: #ecfdf3;
+    }
+
+    .highlight-warn {
+      background: #fff7ed;
+    }
+
+    .output-note {
+      margin-top: 12px;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
   </style>
 </head>
 <body>
   <main class="wrap">
-    <p><a href="/trueprice/">Home</a></p>
+    <p class="nav">
+      <a href="/trueprice/">Home</a>
+      <a href="/trueprice/roofing-quote-analyzer.html">Quote Analyzer</a>
+      <a href="/trueprice/roof-replacement-cost-calculator.html">Calculator</a>
+    </p>
+
     <h1>Compare Roofing Quotes</h1>
     <p class="muted">
       Compare contractor bids side by side so you can judge value, not just total price.
     </p>
 
-    <section class="box">
-      <h2>Quick comparison tool</h2>
+    <section class="card">
+      <h2>Compare up to 3 roofing quotes</h2>
+      <p>
+        Enter the key details from each quote below. The tool will compare total price, price per square foot, materials, and warranty side by side.
+      </p>
+
       <div class="grid">
         <div>
-          <label for="contractor1">Contractor</label>
-          <input id="contractor1" type="text" placeholder="Contractor A" />
+          <h3>Quote A</h3>
+          <label for="contractorA">Contractor</label>
+          <input id="contractorA" type="text" placeholder="Contractor A" />
+
+          <label for="priceA">Quote total ($)</label>
+          <input id="priceA" type="number" placeholder="14500" />
+
+          <label for="sizeA">Roof size (sq ft)</label>
+          <input id="sizeA" type="number" placeholder="2400" />
+
+          <label for="materialA">Material</label>
+          <input id="materialA" type="text" placeholder="Architectural shingles" />
+
+          <label for="warrantyA">Warranty</label>
+          <input id="warrantyA" type="text" placeholder="10 year workmanship" />
         </div>
+
         <div>
-          <label for="quote1">Quote total</label>
-          <input id="quote1" type="text" placeholder="$14,500" />
+          <h3>Quote B</h3>
+          <label for="contractorB">Contractor</label>
+          <input id="contractorB" type="text" placeholder="Contractor B" />
+
+          <label for="priceB">Quote total ($)</label>
+          <input id="priceB" type="number" placeholder="16200" />
+
+          <label for="sizeB">Roof size (sq ft)</label>
+          <input id="sizeB" type="number" placeholder="2400" />
+
+          <label for="materialB">Material</label>
+          <input id="materialB" type="text" placeholder="Architectural shingles" />
+
+          <label for="warrantyB">Warranty</label>
+          <input id="warrantyB" type="text" placeholder="15 year workmanship" />
         </div>
+
         <div>
-          <label for="warranty1">Warranty</label>
-          <input id="warranty1" type="text" placeholder="10 year workmanship" />
+          <h3>Quote C</h3>
+          <label for="contractorC">Contractor</label>
+          <input id="contractorC" type="text" placeholder="Contractor C" />
+
+          <label for="priceC">Quote total ($)</label>
+          <input id="priceC" type="number" placeholder="17800" />
+
+          <label for="sizeC">Roof size (sq ft)</label>
+          <input id="sizeC" type="number" placeholder="2400" />
+
+          <label for="materialC">Material</label>
+          <input id="materialC" type="text" placeholder="Architectural shingles" />
+
+          <label for="warrantyC">Warranty</label>
+          <input id="warrantyC" type="text" placeholder="20 year workmanship" />
         </div>
       </div>
 
-      <button type="button">Compare Quotes</button>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Category</th>
-            <th>Quote A</th>
-            <th>Quote B</th>
-            <th>Quote C</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Total price</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Material type</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Underlayment</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Flashing</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Ventilation</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Warranty</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+      <button class="btn" type="button" onclick="compareQuotes()">Compare Quotes</button>
     </section>
 
-    <section class="box">
+    <section class="card">
+      <h2>Comparison Result</h2>
+      <div id="comparisonOutput">
+        Enter at least 2 quotes above to compare contractor bids.
+      </div>
+    </section>
+
+    <section class="card">
       <h2>How to compare roofing quotes correctly</h2>
       <p>
         Homeowners often compare quotes by headline price alone. That is the fastest way to make a costly mistake. The better approach is to compare the exact scope of work. Ask whether each quote includes tear off, disposal, underlayment, flashing replacement, ridge ventilation, drip edge, permit assumptions, and any decking replacement terms.
@@ -110,10 +227,11 @@
       </p>
     </section>
 
-    <section class="box">
+    <section class="card">
       <h2>Most important fields to compare</h2>
       <ul>
         <li>Total project cost</li>
+        <li>Price per square foot</li>
         <li>Exact roofing material and brand</li>
         <li>Underlayment type</li>
         <li>Flashing and drip edge scope</li>
@@ -124,14 +242,114 @@
       </ul>
     </section>
 
-    <section class="box">
-      <h2>Related guides</h2>
+    <section class="card">
+      <h2>Helpful Roofing Guides</h2>
       <ul>
-        <li><a href="/trueprice/roofing-quote-analyzer.html">Roofing quote analyzer</a></li>
-        <li><a href="/trueprice/how-to-compare-roofing-quotes.html">How to compare roofing quotes</a></li>
-        <li><a href="/trueprice/what-should-a-roofing-quote-include.html">What should a roofing quote include</a></li>
+        <li><a href="/trueprice/roofing-quote-analyzer.html">Roofing Quote Analyzer</a></li>
+        <li><a href="/trueprice/how-to-compare-roofing-quotes.html">How to Compare Roofing Quotes</a></li>
+        <li><a href="/trueprice/what-should-a-roofing-quote-include.html">What Should a Roofing Quote Include</a></li>
+        <li><a href="/trueprice/roof-replacement-cost-calculator.html">Roof Replacement Cost Calculator</a></li>
+        <li><a href="/trueprice/roof-replacement-cost-per-square-foot.html">Roof Replacement Cost Per Square Foot</a></li>
       </ul>
     </section>
   </main>
+
+  <script>
+    function getQuoteData(letter) {
+      const contractor = document.getElementById(`contractor${letter}`).value.trim() || `Quote ${letter}`;
+      const price = parseFloat(document.getElementById(`price${letter}`).value);
+      const size = parseFloat(document.getElementById(`size${letter}`).value);
+      const material = document.getElementById(`material${letter}`).value.trim() || "Not entered";
+      const warranty = document.getElementById(`warranty${letter}`).value.trim() || "Not entered";
+
+      if (isNaN(price) || isNaN(size) || price <= 0 || size <= 0) {
+        return null;
+      }
+
+      return {
+        name: contractor,
+        price: price,
+        size: size,
+        material: material,
+        warranty: warranty,
+        pricePerSqFt: price / size
+      };
+    }
+
+    function compareQuotes() {
+      const output = document.getElementById("comparisonOutput");
+      const quotes = ["A", "B", "C"]
+        .map(getQuoteData)
+        .filter(q => q !== null);
+
+      if (quotes.length < 2) {
+        output.innerHTML = "Please enter valid price and roof size values for at least 2 quotes.";
+        return;
+      }
+
+      const sortedByPrice = [...quotes].sort((a, b) => a.price - b.price);
+      const lowestPrice = sortedByPrice[0].price;
+      const highestPrice = sortedByPrice[sortedByPrice.length - 1].price;
+
+      const sortedBySqFt = [...quotes].sort((a, b) => a.pricePerSqFt - b.pricePerSqFt);
+      const lowestSqFt = sortedBySqFt[0].pricePerSqFt;
+      const highestSqFt = sortedBySqFt[sortedBySqFt.length - 1].pricePerSqFt;
+
+      let table = `
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              ${quotes.map(q => `<th>${q.name}</th>`).join("")}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Total price</td>
+              ${quotes.map(q => {
+                const cls = q.price === lowestPrice ? "highlight-good" : q.price === highestPrice ? "highlight-warn" : "";
+                return `<td class="${cls}">$${q.price.toLocaleString()}</td>`;
+              }).join("")}
+            </tr>
+            <tr>
+              <td>Roof size</td>
+              ${quotes.map(q => `<td>${q.size.toLocaleString()} sq ft</td>`).join("")}
+            </tr>
+            <tr>
+              <td>Price per square foot</td>
+              ${quotes.map(q => {
+                const cls = q.pricePerSqFt === lowestSqFt ? "highlight-good" : q.pricePerSqFt === highestSqFt ? "highlight-warn" : "";
+                return `<td class="${cls}">$${q.pricePerSqFt.toFixed(2)}</td>`;
+              }).join("")}
+            </tr>
+            <tr>
+              <td>Material</td>
+              ${quotes.map(q => `<td>${q.material}</td>`).join("")}
+            </tr>
+            <tr>
+              <td>Warranty</td>
+              ${quotes.map(q => `<td>${q.warranty}</td>`).join("")}
+            </tr>
+          </tbody>
+        </table>
+      `;
+
+      const spread = highestPrice - lowestPrice;
+      const spreadPct = (spread / lowestPrice) * 100;
+
+      table += `
+        <p class="output-note">
+          Lowest total quote: <strong>$${lowestPrice.toLocaleString()}</strong><br>
+          Highest total quote: <strong>$${highestPrice.toLocaleString()}</strong><br>
+          Quote spread: <strong>$${spread.toLocaleString()}</strong> (${spreadPct.toFixed(1)}%)
+        </p>
+        <p class="output-note">
+          A lower quote is not automatically the best value. Compare scope, materials, warranty, flashing, ventilation, tear off assumptions, and change order language before choosing a contractor.
+        </p>
+      `;
+
+      output.innerHTML = table;
+    }
+  </script>
 </body>
 </html>
