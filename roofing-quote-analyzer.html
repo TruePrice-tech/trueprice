@@ -109,6 +109,12 @@
     #analysisOutput p {
       margin: 0 0 10px;
     }
+
+    .result-note {
+      margin-top: 10px;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body>
@@ -126,11 +132,13 @@
 
     <section class="card">
       <h2>Analyze Your Roofing Quote</h2>
-      <p>Upload a PDF or image of your roofing estimate.</p>
-      <input type="file" aria-label="Upload roofing quote" />
-      <button type="button" class="btn">Analyze Quote</button>
+      <p>Upload a PDF roofing estimate to extract basic quote details automatically.</p>
+
+      <input type="file" id="quoteFile" accept=".pdf" aria-label="Upload roofing quote PDF" />
+      <button type="button" class="btn" onclick="parseQuote()">Analyze Uploaded Quote</button>
+
       <p class="muted">
-        This upload area is the future parser entry point where quote totals, materials, warranty terms, and contractor details can be extracted automatically.
+        This automatic extraction is an early parser version. It is designed to detect likely price, material, and warranty clues from many roofing PDFs, but it will not be perfect on every contractor format.
       </p>
     </section>
 
@@ -146,13 +154,13 @@
       <label for="quotePrice">Total Quote Price ($)</label>
       <input id="quotePrice" type="number" placeholder="ex: 16500" />
 
-      <button class="btn" type="button" onclick="analyzeQuote()">Analyze Quote</button>
+      <button class="btn" type="button" onclick="analyzeQuote()">Analyze Numbers</button>
     </section>
 
     <section class="card">
       <h2>Analysis Result</h2>
       <div id="analysisOutput">
-        Enter values above to analyze the quote.
+        Upload a PDF quote above or enter values manually to analyze the quote.
       </div>
     </section>
 
@@ -211,7 +219,7 @@
       <details>
         <summary>What file types should I upload?</summary>
         <p>
-          PDF is ideal, but image based quotes can also be useful if they are legible and contain the full estimate.
+          PDF is ideal for the automatic parser. Image based quotes can still be useful for manual review, but this version of the parser is set up for PDF upload.
         </p>
       </details>
 
@@ -235,7 +243,110 @@
     </section>
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
+    async function parseQuote() {
+      const fileInput = document.getElementById("quoteFile");
+      const output = document.getElementById("analysisOutput");
+
+      if (!fileInput.files.length) {
+        output.innerHTML = "Please upload a PDF roofing quote first.";
+        return;
+      }
+
+      const file = fileInput.files[0];
+
+      if (!file.name.toLowerCase().endsWith(".pdf")) {
+        output.innerHTML = "Please upload a PDF file.";
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = async function () {
+        try {
+          const typedarray = new Uint8Array(this.result);
+          const pdf = await pdfjsLib.getDocument(typedarray).promise;
+
+          let text = "";
+
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const content = await page.getTextContent();
+
+            content.items.forEach((item) => {
+              text += item.str + " ";
+            });
+          }
+
+          analyzeText(text);
+        } catch (error) {
+          output.innerHTML = "Unable to read this PDF. Please try manual analysis below.";
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+
+    function analyzeText(text) {
+      const output = document.getElementById("analysisOutput");
+      const normalizedText = text.replace(/\s+/g, " ").trim();
+      const lowerText = normalizedText.toLowerCase();
+
+      const pricePatterns = [
+        /total[^$]{0,40}\$?\s?([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/i,
+        /grand total[^$]{0,40}\$?\s?([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/i,
+        /proposal total[^$]{0,40}\$?\s?([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/i,
+        /contract price[^$]{0,40}\$?\s?([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/i,
+        /\$([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/
+      ];
+
+      let detectedPrice = "Not detected";
+      for (const pattern of pricePatterns) {
+        const match = normalizedText.match(pattern);
+        if (match && match[1]) {
+          detectedPrice = "$" + match[1];
+          break;
+        }
+      }
+
+      const warrantyMatch = normalizedText.match(/(5|10|15|20|25|30|40|50)\s?-?\s?year/i);
+      const warranty = warrantyMatch ? warrantyMatch[0] : "Not detected";
+
+      let material = "Unknown";
+      if (lowerText.includes("architectural")) {
+        material = "Architectural Shingles";
+      } else if (lowerText.includes("metal")) {
+        material = "Metal Roofing";
+      } else if (lowerText.includes("asphalt")) {
+        material = "Asphalt Shingles";
+      } else if (lowerText.includes("standing seam")) {
+        material = "Standing Seam Metal Roofing";
+      }
+
+      let contractor = "Not detected";
+      const contractorPatterns = [
+        /(?:contractor|company|roofing company|proposal by|prepared by)[:\s]+([a-z0-9&.,' -]{4,60})/i,
+        /^([A-Z][A-Za-z0-9&.,' -]{3,60}(?:Roofing|Roof|Exteriors|Construction|Contracting))/m
+      ];
+
+      for (const pattern of contractorPatterns) {
+        const match = normalizedText.match(pattern);
+        if (match && match[1]) {
+          contractor = match[1].trim();
+          break;
+        }
+      }
+
+      output.innerHTML = `
+        <p><strong>Detected Price:</strong> ${detectedPrice}</p>
+        <p><strong>Material:</strong> ${material}</p>
+        <p><strong>Warranty:</strong> ${warranty}</p>
+        <p><strong>Contractor:</strong> ${contractor}</p>
+        <p class="result-note">This automatic extraction is experimental and may not detect every value correctly. For a directional pricing benchmark, use the manual analysis tool above as well.</p>
+      `;
+    }
+
     function analyzeQuote() {
       const roofSize = parseFloat(document.getElementById("roofSize").value);
       const price = parseFloat(document.getElementById("quotePrice").value);
