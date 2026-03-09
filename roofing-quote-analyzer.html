@@ -1,116 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roofing Quote Analyzer | TruePrice</title>
-  <meta name="description" content="Upload a roofing quote and review pricing, materials, warranty, and scope signals with the TruePrice roofing quote analyzer." />
-  <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/roofing-quote-analyzer.html" />
-  <meta name="robots" content="index,follow" />
-  <style>
-    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f7f9fc; color: #1f2937; line-height: 1.6; }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
-    .box, .tool, .faq details { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; }
-    .tool { margin: 20px 0 28px; }
-    h1, h2, h3 { line-height: 1.2; }
-    .muted { color: #6b7280; }
-    .btn { display: inline-block; background: #0f62fe; color: #fff; padding: 12px 18px; border-radius: 10px; font-weight: 700; text-decoration: none; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-    input[type="file"] { display: block; margin: 12px 0 14px; }
-    .faq details { margin-bottom: 12px; }
-    .nav a { margin-right: 14px; }
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <p class="nav">
-      <a href="/trueprice/">Home</a>
-      <a href="/trueprice/roof-replacement-cost-calculator.html">Calculator</a>
-      <a href="/trueprice/compare-roofing-quotes.html">Compare quotes</a>
-    </p>
+<section class="card">
 
-    <h1>Roofing Quote Analyzer</h1>
-    <p class="muted">
-      Upload your contractor estimate and review the price, scope, materials, and warranty signals that matter most before you sign.
-    </p>
+<h2>Quick Roofing Quote Analysis</h2>
 
-    <section class="tool">
-      <h2>Analyze your roofing quote</h2>
-      <p>Upload a PDF or image of your roofing estimate.</p>
-      <input type="file" aria-label="Upload roofing quote" />
-      <button type="button">Analyze Quote</button>
-      <p class="muted">This is where your parser output and confidence scoring can surface as you continue building the product.</p>
-    </section>
+<p>
+Enter the key numbers from your roofing quote to estimate whether the price appears low, typical, or high for many markets.
+</p>
 
-    <section class="grid">
-      <article class="box">
-        <h3>What the analyzer should look for</h3>
-        <ul>
-          <li>Total quoted price</li>
-          <li>Material type and brand</li>
-          <li>Tear off and disposal scope</li>
-          <li>Underlayment and flashing details</li>
-          <li>Ventilation items</li>
-          <li>Warranty terms</li>
-          <li>Decking assumptions</li>
-        </ul>
-      </article>
+<label>Roof Size (square feet)</label>
+<input id="roofSize" type="number" placeholder="ex: 2400">
 
-      <article class="box">
-        <h3>Why this matters</h3>
-        <p>
-          Two roofing quotes can differ by thousands of dollars even when they appear similar. Often the real difference is hidden in missing scope, vague line items, or lower quality materials.
-        </p>
-      </article>
+<label>Total Quote Price ($)</label>
+<input id="quotePrice" type="number" placeholder="ex: 16500">
 
-      <article class="box">
-        <h3>Long term TruePrice moat</h3>
-        <p>
-          Every uploaded quote can become structured pricing data. Over time, that can improve quote analysis, local benchmarks, and the quality of your roofing cost guides.
-        </p>
-      </article>
-    </section>
+<br><br>
 
-    <section class="box" style="margin-top:20px;">
-      <h2>How to use the roofing quote analyzer</h2>
-      <p>
-        Start by uploading the proposal you received from a contractor. The most useful quotes include line items for materials, labor, tear off, flashing, underlayment, ventilation, disposal, and warranty. Once parsed, the quote can be compared against other bids and against typical pricing ranges for similar roofing jobs.
-      </p>
-      <p>
-        A useful analyzer should not just ask whether the total price looks fair. It should also help homeowners identify what may be missing. For example, a low quote can look attractive until you realize it excludes decking replacement assumptions, drip edge, chimney flashing, ridge ventilation, or permit related costs.
-      </p>
-      <p>
-        TruePrice is moving toward a more structured approach where uploaded roofing estimates become local pricing data. That is important because roofing cost is not one national number. The right benchmark depends on city, roof size, material choice, and complexity.
-      </p>
-    </section>
+<button class="btn" onclick="analyzeQuote()">Analyze Quote</button>
 
-    <section class="box faq" style="margin-top:20px;">
-      <h2>Frequently asked questions</h2>
+</section>
 
-      <details>
-        <summary>Can I compare two roofing quotes with this?</summary>
-        <p>Yes. The most useful next step after analysis is side by side comparison of total price, material scope, warranty, and key omitted items.</p>
-      </details>
+<section class="card">
 
-      <details>
-        <summary>What file types should I upload?</summary>
-        <p>PDF is ideal, but image based quotes can also be useful if they are legible and contain the full estimate.</p>
-      </details>
+<h2>Analysis Result</h2>
 
-      <details>
-        <summary>What makes one roofing quote better than another?</summary>
-        <p>The best quote is not always the cheapest. A strong quote is clear, complete, specific about materials and warranty, and priced appropriately for the actual work being proposed.</p>
-      </details>
-    </section>
+<div id="analysisOutput">
+Enter values above to analyze the quote.
+</div>
 
-    <section class="box" style="margin-top:20px;">
-      <h2>Related guides</h2>
-      <ul>
-        <li><a href="/trueprice/compare-roofing-quotes.html">Compare roofing quotes</a></li>
-        <li><a href="/trueprice/how-to-compare-roofing-quotes.html">How to compare roofing quotes</a></li>
-        <li><a href="/trueprice/what-should-a-roofing-quote-include.html">What should a roofing quote include</a></li>
-      </ul>
-    </section>
-  </main>
-</body>
-</html>
+</section>
+
+<script>
+
+function analyzeQuote(){
+
+const roofSize = parseFloat(document.getElementById("roofSize").value);
+const price = parseFloat(document.getElementById("quotePrice").value);
+
+if(!roofSize || !price){
+document.getElementById("analysisOutput").innerHTML =
+"Please enter both roof size and quote price.";
+return;
+}
+
+const pricePerSqFt = price / roofSize;
+const squares = roofSize / 100;
+const pricePerSquare = price / squares;
+
+let category;
+
+if(pricePerSqFt < 4.5){
+category = "Low";
+}
+else if(pricePerSqFt < 8){
+category = "Typical";
+}
+else{
+category = "High";
+}
+
+document.getElementById("analysisOutput").innerHTML = `
+<p><strong>Price per square foot:</strong> $${pricePerSqFt.toFixed(2)}</p>
+<p><strong>Price per roofing square:</strong> $${pricePerSquare.toFixed(0)}</p>
+<p><strong>Estimated pricing category:</strong> ${category}</p>
+<p>Pricing varies by material, roof complexity, and region, but this gives a directional benchmark.</p>
+`;
+
+}
+
+</script>
