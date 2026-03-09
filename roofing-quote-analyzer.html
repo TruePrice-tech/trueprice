@@ -241,8 +241,8 @@
       const price = parseFloat(document.getElementById("quotePrice").value);
       const output = document.getElementById("analysisOutput");
 
-      if (!roofSize || !price || roofSize <= 0 || price <= 0) {
-        output.innerHTML = "Please enter both roof size and quote price.";
+      if (isNaN(roofSize) || isNaN(price) || roofSize <= 0 || price <= 0) {
+        output.innerHTML = "Please enter valid positive numbers for roof size and quote price.";
         return;
       }
 
