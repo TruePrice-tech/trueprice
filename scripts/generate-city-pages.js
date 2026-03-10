@@ -1062,13 +1062,51 @@ function generatePages() {
 
   return generated;
 }
+function generateSitemap(cityData) {
+  const staticPages = [
+    "",
+    "/roof-replacement-cost-calculator.html",
+    "/roofing-quote-analyzer.html",
+    "/compare-roofing-quotes.html",
+    "/roof-replacement-cost-guide.html",
+    "/architectural-shingle-roof-cost.html",
+    "/metal-roof-replacement-cost.html"
+  ];
 
+  const urls = [];
+
+  staticPages.forEach((page) => {
+    urls.push(`${BASE_URL}${page}`);
+  });
+
+  Object.keys(cityData).forEach((cityKey) => {
+    urls.push(`${BASE_URL}/${cityKey}-roof-cost.html`);
+  });
+
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+  urls.forEach((url) => {
+    sitemap += `  <url>\n`;
+    sitemap += `    <loc>${url}</loc>\n`;
+    sitemap += `  </url>\n`;
+  });
+
+  sitemap += `</urlset>\n`;
+
+  const outputPath = path.join(ROOT, "sitemap.xml");
+  fs.writeFileSync(outputPath, sitemap, "utf8");
+}
 try {
+  const cityData = loadCityData();
   const generated = generatePages();
+  generateSitemap(cityData);
+
   console.log(`Generated ${generated.length} city pages:`);
   for (const file of generated) {
     console.log(`  - ${file}`);
   }
+  console.log("Generated sitemap.xml");
 } catch (error) {
   console.error(error.message);
   process.exit(1);
