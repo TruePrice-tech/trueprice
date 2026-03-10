@@ -83,25 +83,35 @@ function calculatePriceTable(cityRow, pricingModel, stateRegions) {
 }
 
 function generateCityPageHtml(cityPricing) {
-  const city = cityPricing.city;
-  const state = cityPricing.state;
-  const stateCode = cityPricing.state_code;
 
-  const title = `Roof Replacement Cost in ${city} ${stateCode} (2026) | TruePrice`;
-  const description = `Average roof replacement cost in ${city} ${stateCode}. See roofing prices by material and house size, compare quotes, and check if your contractor quote is fair.`;
-  const canonical = `${SITE_BASE_URL}/${buildCityPageFilename(city, stateCode)}`;
+  let template = loadTemplate();
 
-  const sizeRows = Object.entries(cityPricing.sizes).map(([sizeLabel, materials]) => {
-    return `
-      <tr>
-        <td>${sizeLabel} sq ft</td>
-        <td>${formatCurrency(materials.asphalt)}</td>
-        <td>${formatCurrency(materials.architectural)}</td>
-        <td>${formatCurrency(materials.metal)}</td>
-        <td>${formatCurrency(materials.tile)}</td>
-      </tr>
-    `;
-  }).join("");
+  const slug = buildCityPageFilename(
+    cityPricing.city,
+    cityPricing.state_code
+  );
+
+  const priceRows = Object.entries(cityPricing.sizes)
+    .map(([size, materials]) => {
+      return `
+<tr>
+<td>${size} sq ft</td>
+<td>$${materials.asphalt.toLocaleString()}</td>
+<td>$${materials.architectural.toLocaleString()}</td>
+<td>$${materials.metal.toLocaleString()}</td>
+<td>$${materials.tile.toLocaleString()}</td>
+</tr>
+`;
+    })
+    .join("");
+
+  template = template.replaceAll("{{CITY}}", cityPricing.city);
+  template = template.replaceAll("{{STATE_CODE}}", cityPricing.state_code);
+  template = template.replaceAll("{{SLUG}}", slug);
+  template = template.replace("{{PRICE_ROWS}}", priceRows);
+
+  return template;
+}
 
   const pricingScript = JSON.stringify(cityPricing);
 
