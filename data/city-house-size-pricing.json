@@ -1,0 +1,242 @@
+{
+  "atlanta-ga": {
+    "city": "Atlanta",
+    "state": "GA",
+    "sizes": {
+      "1500": { "low": 7000, "high": 14500 },
+      "2000": { "low": 8500, "high": 17000 },
+      "2500": { "low": 10400, "high": 20500 },
+      "3000": { "low": 12300, "high": 24000 }
+    }
+  },
+  "austin-tx": {
+    "city": "Austin",
+    "state": "TX",
+    "sizes": {
+      "1500": { "low": 7200, "high": 14800 },
+      "2000": { "low": 8700, "high": 17500 },
+      "2500": { "low": 10700, "high": 21000 },
+      "3000": { "low": 12700, "high": 24500 }
+    }
+  },
+  "boston-ma": {
+    "city": "Boston",
+    "state": "MA",
+    "sizes": {
+      "1500": { "low": 7900, "high": 15900 },
+      "2000": { "low": 9600, "high": 19800 },
+      "2500": { "low": 11600, "high": 22800 },
+      "3000": { "low": 13800, "high": 26500 }
+    }
+  },
+  "chattanooga-tn": {
+    "city": "Chattanooga",
+    "state": "TN",
+    "sizes": {
+      "1500": { "low": 7000, "high": 14400 },
+      "2000": { "low": 8500, "high": 17100 },
+      "2500": { "low": 10500, "high": 20700 },
+      "3000": { "low": 12600, "high": 24000 }
+    }
+  },
+  "chicago-il": {
+    "city": "Chicago",
+    "state": "IL",
+    "sizes": {
+      "1500": { "low": 7800, "high": 15500 },
+      "2000": { "low": 9500, "high": 19500 },
+      "2500": { "low": 11500, "high": 22500 },
+      "3000": { "low": 13700, "high": 26200 }
+    }
+  },
+  "cleveland-oh": {
+    "city": "Cleveland",
+    "state": "OH",
+    "sizes": {
+      "1500": { "low": 7400, "high": 14900 },
+      "2000": { "low": 8900, "high": 18100 },
+      "2500": { "low": 10900, "high": 21300 },
+      "3000": { "low": 12900, "high": 24800 }
+    }
+  },
+  "columbus-oh": {
+    "city": "Columbus",
+    "state": "OH",
+    "sizes": {
+      "1500": { "low": 7300, "high": 14800 },
+      "2000": { "low": 8700, "high": 17900 },
+      "2500": { "low": 10700, "high": 21000 },
+      "3000": { "low": 12800, "high": 24500 }
+    }
+  },
+  "dallas-tx": {
+    "city": "Dallas",
+    "state": "TX",
+    "sizes": {
+      "1500": { "low": 7300, "high": 14900 },
+      "2000": { "low": 9000, "high": 18500 },
+      "2500": { "low": 11000, "high": 21500 },
+      "3000": { "low": 13000, "high": 25000 }
+    }
+  },
+  "denver-co": {
+    "city": "Denver",
+    "state": "CO",
+    "sizes": {
+      "1500": { "low": 7600, "high": 15200 },
+      "2000": { "low": 9200, "high": 18200 },
+      "2500": { "low": 11100, "high": 21600 },
+      "3000": { "low": 13200, "high": 25200 }
+    }
+  },
+  "houston-tx": {
+    "city": "Houston",
+    "state": "TX",
+    "sizes": {
+      "1500": { "low": 7100, "high": 14700 },
+      "2000": { "low": 8800, "high": 17800 },
+      "2500": { "low": 10800, "high": 21200 },
+      "3000": { "low": 12900, "high": 24700 }
+    }
+  },
+  "indianapolis-in": {
+    "city": "Indianapolis",
+    "state": "IN",
+    "sizes": {
+      "1500": { "low": 7100, "high": 14400 },
+      "2000": { "low": 8600, "high": 17400 },
+      "2500": { "low": 10600, "high": 20800 },
+      "3000": { "low": 12600, "high": 24200 }
+    }
+  },
+  "jacksonville-fl": {
+    "city": "Jacksonville",
+    "state": "FL",
+    "sizes": {
+      "1500": { "low": 7300, "high": 14800 },
+      "2000": { "low": 8900, "high": 17900 },
+      "2500": { "low": 10900, "high": 21400 },
+      "3000": { "low": 12900, "high": 24900 }
+    }
+  },
+  "kansas-city-mo": {
+    "city": "Kansas City",
+    "state": "MO",
+    "sizes": {
+      "1500": { "low": 7200, "high": 14700 },
+      "2000": { "low": 8800, "high": 17700 },
+      "2500": { "low": 10800, "high": 21100 },
+      "3000": { "low": 12800, "high": 24600 }
+    }
+  },
+  "las-vegas-nv": {
+    "city": "Las Vegas",
+    "state": "NV",
+    "sizes": {
+      "1500": { "low": 7500, "high": 15100 },
+      "2000": { "low": 9100, "high": 18300 },
+      "2500": { "low": 11000, "high": 21500 },
+      "3000": { "low": 13100, "high": 25000 }
+    }
+  },
+  "los-angeles-ca": {
+    "city": "Los Angeles",
+    "state": "CA",
+    "sizes": {
+      "1500": { "low": 8300, "high": 17000 },
+      "2000": { "low": 10200, "high": 21500 },
+      "2500": { "low": 12200, "high": 24500 },
+      "3000": { "low": 14500, "high": 28500 }
+    }
+  },
+  "miami-fl": {
+    "city": "Miami",
+    "state": "FL",
+    "sizes": {
+      "1500": { "low": 8000, "high": 16500 },
+      "2000": { "low": 9800, "high": 20500 },
+      "2500": { "low": 11900, "high": 24000 },
+      "3000": { "low": 14200, "high": 28000 }
+    }
+  },
+  "nashville-tn": {
+    "city": "Nashville",
+    "state": "TN",
+    "sizes": {
+      "1500": { "low": 7200, "high": 14600 },
+      "2000": { "low": 8700, "high": 17300 },
+      "2500": { "low": 10600, "high": 20900 },
+      "3000": { "low": 12700, "high": 24300 }
+    }
+  },
+  "newark-nj": {
+    "city": "Newark",
+    "state": "NJ",
+    "sizes": {
+      "1500": { "low": 8000, "high": 16200 },
+      "2000": { "low": 9700, "high": 19900 },
+      "2500": { "low": 11700, "high": 23100 },
+      "3000": { "low": 13900, "high": 26900 }
+    }
+  },
+  "orlando-fl": {
+    "city": "Orlando",
+    "state": "FL",
+    "sizes": {
+      "1500": { "low": 7400, "high": 15000 },
+      "2000": { "low": 8900, "high": 17600 },
+      "2500": { "low": 10900, "high": 21500 },
+      "3000": { "low": 13000, "high": 25000 }
+    }
+  },
+  "philadelphia-pa": {
+    "city": "Philadelphia",
+    "state": "PA",
+    "sizes": {
+      "1500": { "low": 7900, "high": 15800 },
+      "2000": { "low": 9600, "high": 19200 },
+      "2500": { "low": 11500, "high": 22600 },
+      "3000": { "low": 13700, "high": 26300 }
+    }
+  },
+  "pittsburgh-pa": {
+    "city": "Pittsburgh",
+    "state": "PA",
+    "sizes": {
+      "1500": { "low": 7500, "high": 15100 },
+      "2000": { "low": 9100, "high": 18400 },
+      "2500": { "low": 11000, "high": 21700 },
+      "3000": { "low": 13100, "high": 25200 }
+    }
+  },
+  "raleigh-nc": {
+    "city": "Raleigh",
+    "state": "NC",
+    "sizes": {
+      "1500": { "low": 7200, "high": 14700 },
+      "2000": { "low": 8700, "high": 17500 },
+      "2500": { "low": 10700, "high": 21100 },
+      "3000": { "low": 12800, "high": 24600 }
+    }
+  },
+  "san-francisco-ca": {
+    "city": "San Francisco",
+    "state": "CA",
+    "sizes": {
+      "1500": { "low": 8800, "high": 17800 },
+      "2000": { "low": 10800, "high": 22500 },
+      "2500": { "low": 12900, "high": 25500 },
+      "3000": { "low": 15300, "high": 29500 }
+    }
+  },
+  "wilmington-nc": {
+    "city": "Wilmington",
+    "state": "NC",
+    "sizes": {
+      "1500": { "low": 7300, "high": 14700 },
+      "2000": { "low": 8800, "high": 17700 },
+      "2500": { "low": 10800, "high": 21200 },
+      "3000": { "low": 12900, "high": 24700 }
+    }
+  }
+}
