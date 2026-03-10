@@ -1,9 +1,9 @@
 [
   {
-    "city": "Dallas",
-    "state": "Texas",
-    "state_code": "TX",
-    "population": 1304379,
+    "city": "New York",
+    "state": "New York",
+    "state_code": "NY",
+    "population": 8336817,
     "region": "south",
     "sizes": {
       "1000": {
@@ -39,119 +39,41 @@
     }
   },
   {
-    "city": "Austin",
-    "state": "Texas",
-    "state_code": "TX",
-    "population": 979882,
-    "region": "south",
+    "city": "Los Angeles",
+    "state": "California",
+    "state_code": "CA",
+    "population": 3820914,
+    "region": "west",
     "sizes": {
       "1000": {
-        "asphalt": 6300,
-        "architectural": 7750,
-        "metal": 13300,
-        "tile": 20700
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
       },
       "1500": {
-        "asphalt": 9400,
-        "architectural": 11650,
-        "metal": 19950,
-        "tile": 31050
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
       },
       "2000": {
-        "asphalt": 12550,
-        "architectural": 15500,
-        "metal": 26600,
-        "tile": 41400
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
       },
       "2500": {
-        "asphalt": 15700,
-        "architectural": 19400,
-        "metal": 33250,
-        "tile": 51750
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
       },
       "3000": {
-        "asphalt": 18850,
-        "architectural": 23300,
-        "metal": 39900,
-        "tile": 62100
-      }
-    }
-  },
-  {
-    "city": "Houston",
-    "state": "Texas",
-    "state_code": "TX",
-    "population": 2304580,
-    "region": "south",
-    "sizes": {
-      "1000": {
-        "asphalt": 6300,
-        "architectural": 7750,
-        "metal": 13300,
-        "tile": 20700
-      },
-      "1500": {
-        "asphalt": 9400,
-        "architectural": 11650,
-        "metal": 19950,
-        "tile": 31050
-      },
-      "2000": {
-        "asphalt": 12550,
-        "architectural": 15500,
-        "metal": 26600,
-        "tile": 41400
-      },
-      "2500": {
-        "asphalt": 15700,
-        "architectural": 19400,
-        "metal": 33250,
-        "tile": 51750
-      },
-      "3000": {
-        "asphalt": 18850,
-        "architectural": 23300,
-        "metal": 39900,
-        "tile": 62100
-      }
-    }
-  },
-  {
-    "city": "Atlanta",
-    "state": "Georgia",
-    "state_code": "GA",
-    "population": 510823,
-    "region": "southeast",
-    "sizes": {
-      "1000": {
-        "asphalt": 6450,
-        "architectural": 8000,
-        "metal": 13700,
-        "tile": 21300
-      },
-      "1500": {
-        "asphalt": 9700,
-        "architectural": 12000,
-        "metal": 20550,
-        "tile": 32000
-      },
-      "2000": {
-        "asphalt": 12950,
-        "architectural": 16000,
-        "metal": 27400,
-        "tile": 42650
-      },
-      "2500": {
-        "asphalt": 16200,
-        "architectural": 20000,
-        "metal": 34250,
-        "tile": 53300
-      },
-      "3000": {
-        "asphalt": 19400,
-        "architectural": 24000,
-        "metal": 41100,
-        "tile": 63950
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
       }
     }
   },
@@ -195,10 +117,88 @@
     }
   },
   {
-    "city": "Boston",
-    "state": "Massachusetts",
-    "state_code": "MA",
-    "population": 675647,
+    "city": "Houston",
+    "state": "Texas",
+    "state_code": "TX",
+    "population": 2304580,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Phoenix",
+    "state": "Arizona",
+    "state_code": "AZ",
+    "population": 1650070,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Philadelphia",
+    "state": "Pennsylvania",
+    "state_code": "PA",
+    "population": 1576251,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -230,6 +230,474 @@
         "architectural": 26800,
         "metal": 45900,
         "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "San Antonio",
+    "state": "Texas",
+    "state_code": "TX",
+    "population": 1452510,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "San Diego",
+    "state": "California",
+    "state_code": "CA",
+    "population": 1388320,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Dallas",
+    "state": "Texas",
+    "state_code": "TX",
+    "population": 1304379,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Jacksonville",
+    "state": "Florida",
+    "state_code": "FL",
+    "population": 985843,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Austin",
+    "state": "Texas",
+    "state_code": "TX",
+    "population": 979882,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Fort Worth",
+    "state": "Texas",
+    "state_code": "TX",
+    "population": 978468,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "San Jose",
+    "state": "California",
+    "state_code": "CA",
+    "population": 969655,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Columbus",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 913175,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Charlotte",
+    "state": "North Carolina",
+    "state_code": "NC",
+    "population": 911311,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Indianapolis",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 887642,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "San Francisco",
+    "state": "California",
+    "state_code": "CA",
+    "population": 808988,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Seattle",
+    "state": "Washington",
+    "state_code": "WA",
+    "population": 755078,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
       }
     }
   },
@@ -273,10 +741,49 @@
     }
   },
   {
-    "city": "Miami",
-    "state": "Florida",
-    "state_code": "FL",
-    "population": 455924,
+    "city": "Oklahoma City",
+    "state": "Oklahoma",
+    "state_code": "OK",
+    "population": 702767,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Nashville",
+    "state": "Tennessee",
+    "state_code": "TN",
+    "population": 689447,
     "region": "southeast",
     "sizes": {
       "1000": {
@@ -312,80 +819,158 @@
     }
   },
   {
-    "city": "Orlando",
-    "state": "Florida",
-    "state_code": "FL",
-    "population": 320742,
-    "region": "southeast",
+    "city": "El Paso",
+    "state": "Texas",
+    "state_code": "TX",
+    "population": 678958,
+    "region": "south",
     "sizes": {
       "1000": {
-        "asphalt": 6450,
-        "architectural": 8000,
-        "metal": 13700,
-        "tile": 21300
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
       },
       "1500": {
-        "asphalt": 9700,
-        "architectural": 12000,
-        "metal": 20550,
-        "tile": 32000
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
       },
       "2000": {
-        "asphalt": 12950,
-        "architectural": 16000,
-        "metal": 27400,
-        "tile": 42650
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
       },
       "2500": {
-        "asphalt": 16200,
-        "architectural": 20000,
-        "metal": 34250,
-        "tile": 53300
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
       },
       "3000": {
-        "asphalt": 19400,
-        "architectural": 24000,
-        "metal": 41100,
-        "tile": 63950
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
       }
     }
   },
   {
-    "city": "Raleigh",
-    "state": "North Carolina",
-    "state_code": "NC",
-    "population": 482295,
-    "region": "southeast",
+    "city": "Boston",
+    "state": "Massachusetts",
+    "state_code": "MA",
+    "population": 675647,
+    "region": "northeast",
     "sizes": {
       "1000": {
-        "asphalt": 6450,
-        "architectural": 8000,
-        "metal": 13700,
-        "tile": 21300
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
       },
       "1500": {
-        "asphalt": 9700,
-        "architectural": 12000,
-        "metal": 20550,
-        "tile": 32000
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
       },
       "2000": {
-        "asphalt": 12950,
-        "architectural": 16000,
-        "metal": 27400,
-        "tile": 42650
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
       },
       "2500": {
-        "asphalt": 16200,
-        "architectural": 20000,
-        "metal": 34250,
-        "tile": 53300
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
       },
       "3000": {
-        "asphalt": 19400,
-        "architectural": 24000,
-        "metal": 41100,
-        "tile": 63950
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Las Vegas",
+    "state": "Nevada",
+    "state_code": "NV",
+    "population": 660929,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Detroit",
+    "state": "Michigan",
+    "state_code": "MI",
+    "population": 633218,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
       }
     }
   }
