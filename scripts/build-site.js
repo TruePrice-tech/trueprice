@@ -263,6 +263,7 @@ function main() {
 
   updateHomepageCitySection(cityRows);
   generateSitemap(cityRows);
+  generateAllCitiesPage(cityRows);
 
   console.log("Build complete.");
 }
