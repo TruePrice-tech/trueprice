@@ -8,78 +8,194 @@
   <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/roof-replacement-cost-calculator.html" />
   <meta name="robots" content="index,follow" />
   <style>
-    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f7f9fc; color: #1f2937; line-height: 1.6; }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
-    .box { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-    label { display: block; font-weight: 700; margin-bottom: 6px; }
-    input, select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; }
-    button { margin-top: 16px; padding: 12px 18px; border: 0; border-radius: 10px; background: #0f62fe; color: #fff; font-weight: 700; cursor: pointer; }
-    .muted { color: #6b7280; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      background: #f7f9fc;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .nav {
+      margin-bottom: 16px;
+    }
+
+    .nav a {
+      margin-right: 14px;
+      color: #0f62fe;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav a:hover {
+      text-decoration: underline;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      margin-top: 16px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: #0f62fe;
+      color: #ffffff;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      opacity: 0.95;
+    }
+
+    .muted {
+      color: #6b7280;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+
+    th,
+    td {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f3f4f6;
+    }
+
+    .result-box p {
+      margin: 0 0 10px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .faq details {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
   </style>
 </head>
 <body>
   <main class="wrap">
-    <p><a href="/trueprice/">Home</a></p>
-    <h1>Roof Replacement Cost Calculator</h1>
-    <p class="muted">Estimate a rough roofing price range based on the biggest cost drivers.</p>
+    <p class="nav">
+      <a href="/trueprice/">Home</a>
+      <a href="/trueprice/roofing-quote-analyzer.html">Quote Analyzer</a>
+      <a href="/trueprice/compare-roofing-quotes.html">Compare Quotes</a>
+    </p>
 
-    <section class="box">
-      <h2>Estimate your roof cost</h2>
+    <h1>Roof Replacement Cost Calculator</h1>
+    <p class="muted">
+      Estimate a directional roof replacement price range based on roof size, material, tear off, and complexity.
+    </p>
+
+    <section class="card">
+      <h2>Estimate Your Roof Cost</h2>
+
       <div class="grid">
         <div>
-          <label for="roof-size">Roof size (sq ft)</label>
-          <input id="roof-size" type="number" placeholder="e.g. 2400" />
+          <label for="roofSize">Roof size (sq ft)</label>
+          <input id="roofSize" type="number" placeholder="e.g. 2400" />
         </div>
 
         <div>
           <label for="material">Roofing material</label>
           <select id="material">
-            <option>Architectural shingles</option>
-            <option>Metal roofing</option>
-            <option>Designer shingles</option>
+            <option value="6.00">Architectural shingles</option>
+            <option value="12.00">Metal roofing</option>
+            <option value="14.00">Standing seam metal</option>
+            <option value="9.00">Designer shingles</option>
           </select>
         </div>
 
         <div>
           <label for="tearoff">Existing roof removal</label>
           <select id="tearoff">
-            <option>Yes, tear off needed</option>
-            <option>No, no tear off</option>
+            <option value="1.00">Yes, tear off needed</option>
+            <option value="0.00">No tear off</option>
           </select>
         </div>
 
         <div>
           <label for="complexity">Roof complexity</label>
           <select id="complexity">
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
+            <option value="0.90">Low</option>
+            <option value="1.00" selected>Medium</option>
+            <option value="1.15">High</option>
           </select>
         </div>
       </div>
 
-      <button type="button">Estimate Cost</button>
-      <p class="muted">You can wire this button to your existing estimator logic after paste in.</p>
+      <button class="btn" type="button" onclick="estimateRoofCost()">Estimate Cost</button>
     </section>
 
-    <section class="box">
-      <h2>How roof replacement cost is calculated</h2>
+    <section class="card result-box">
+      <h2>Estimated Result</h2>
+      <div id="calculatorOutput">
+        Enter your project details above to estimate a roof replacement price range.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>How This Roof Cost Calculator Works</h2>
       <p>
-        Roof replacement pricing usually starts with roof size, not home square footage alone. The final number is then shaped by material choice, roof pitch, number of penetrations and valleys, tear off requirements, disposal, flashing work, ventilation, and local labor costs.
+        Roof replacement pricing usually starts with actual roof size, not just home square footage. The final number then changes based on material type, roof pitch, complexity, tear off requirements, disposal, flashing work, ventilation, and local labor costs.
       </p>
       <p>
-        That is why two homes with similar living area can still get very different roofing quotes. A straightforward single story architectural shingle job may price far differently from a complex roof with steep pitch, multiple sections, and upgraded materials.
-      </p>
-      <p>
-        This calculator is best used as a directional benchmark. It helps you understand whether a quote feels broadly in line with the type of project you have. It should still be paired with a detailed scope review and quote comparison.
+        This calculator gives a directional range rather than a guaranteed contractor price. It is most useful for checking whether a bid feels broadly reasonable before you compare detailed roofing quotes.
       </p>
     </section>
 
-    <section class="box">
-      <h2>Typical factors that raise roofing cost</h2>
+    <section class="card">
+      <h2>Typical Factors That Raise Roofing Cost</h2>
       <ul>
-        <li>Steep pitch or hard access</li>
+        <li>Steep pitch or difficult access</li>
         <li>Multiple valleys, dormers, skylights, or chimneys</li>
         <li>Decking replacement</li>
         <li>Premium underlayment or flashing upgrades</li>
@@ -88,14 +204,120 @@
       </ul>
     </section>
 
-    <section class="box">
-      <h2>Related pages</h2>
+    <section class="card">
+      <h2>Helpful Roofing Guides</h2>
       <ul>
-        <li><a href="/trueprice/roof-replacement-cost-per-square-foot.html">Roof replacement cost per square foot</a></li>
-        <li><a href="/trueprice/architectural-shingle-roof-cost.html">Architectural shingle roof cost</a></li>
-        <li><a href="/trueprice/roofing-quote-analyzer.html">Roofing quote analyzer</a></li>
+        <li><a href="/trueprice/roof-replacement-cost-per-square-foot.html">Roof Replacement Cost Per Square Foot</a></li>
+        <li><a href="/trueprice/roof-replacement-cost-by-house-size.html">Roof Replacement Cost by House Size</a></li>
+        <li><a href="/trueprice/architectural-shingle-roof-cost.html">Architectural Shingle Roof Cost</a></li>
+        <li><a href="/trueprice/metal-roof-replacement-cost.html">Metal Roof Replacement Cost</a></li>
+        <li><a href="/trueprice/roofing-quote-analyzer.html">Roofing Quote Analyzer</a></li>
       </ul>
     </section>
+
+    <section class="card faq">
+      <h2>Frequently Asked Questions</h2>
+
+      <details>
+        <summary>How accurate is this roof cost calculator?</summary>
+        <p>
+          It is a directional pricing tool. It can help you benchmark a project, but a final contractor quote still depends on exact measurements, materials, local labor, flashing details, ventilation, and deck condition.
+        </p>
+      </details>
+
+      <details>
+        <summary>Why is roof size different from house size?</summary>
+        <p>
+          Roof area is often larger than interior square footage because of pitch, overhangs, garages, porches, and layout complexity.
+        </p>
+      </details>
+
+      <details>
+        <summary>What should I do after using this calculator?</summary>
+        <p>
+          The best next step is to compare actual contractor quotes and review whether materials, flashing, tear off, ventilation, and warranty coverage are clearly included.
+        </p>
+      </details>
+    </section>
   </main>
+
+  <script>
+    function formatCurrency(value) {
+      return "$" + Math.round(value).toLocaleString();
+    }
+
+    function estimateRoofCost() {
+      const roofSize = parseFloat(document.getElementById("roofSize").value);
+      const baseRate = parseFloat(document.getElementById("material").value);
+      const tearoff = parseFloat(document.getElementById("tearoff").value);
+      const complexity = parseFloat(document.getElementById("complexity").value);
+      const output = document.getElementById("calculatorOutput");
+
+      if (isNaN(roofSize) || roofSize <= 0) {
+        output.innerHTML = "Please enter a valid positive roof size.";
+        return;
+      }
+
+      const tearoffRate = tearoff;
+      const adjustedRate = (baseRate + tearoffRate) * complexity;
+
+      const lowEstimate = roofSize * adjustedRate * 0.9;
+      const midEstimate = roofSize * adjustedRate;
+      const highEstimate = roofSize * adjustedRate * 1.12;
+
+      const pricePerSqFtLow = lowEstimate / roofSize;
+      const pricePerSqFtMid = midEstimate / roofSize;
+      const pricePerSqFtHigh = highEstimate / roofSize;
+
+      output.innerHTML = `
+        <p><strong>Estimated range:</strong> ${formatCurrency(lowEstimate)} to ${formatCurrency(highEstimate)}</p>
+        <p><strong>Midpoint estimate:</strong> ${formatCurrency(midEstimate)}</p>
+        <p><strong>Estimated price per square foot:</strong> $${pricePerSqFtLow.toFixed(2)} to $${pricePerSqFtHigh.toFixed(2)}</p>
+        <p><strong>Directional benchmark:</strong> $${pricePerSqFtMid.toFixed(2)} per sq ft</p>
+        <p class="muted">This estimate does not include unknown deck replacement, unusual flashing scope, permit anomalies, or major repair surprises.</p>
+      `;
+    }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much does roof replacement cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Roof replacement often ranges from about $10,000 to $25,000 for many homes, depending on roof size, materials, complexity, and local labor costs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What affects roof replacement cost the most?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The biggest factors are roof size, material type, tear off requirements, roof complexity, flashing details, ventilation, and local labor pricing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is roof size the same as house size?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Roof size is often larger than house size because of pitch, overhangs, garages, porches, and roof layout."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What should I do after using a roof cost calculator?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the estimate as a benchmark, then compare actual contractor quotes for materials, tear off, flashing, ventilation, and warranty details."
+        }
+      }
+    ]
+  }
+  </script>
 </body>
 </html>
