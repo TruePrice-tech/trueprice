@@ -3,10 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TruePrice | Roofing Quote Analyzer & Roof Cost Calculator</title>
-  <meta name="description" content="Analyze roofing quotes, estimate roof replacement costs, compare contractor bids, and learn what a fair roofing price looks like with TruePrice." />
+
+  <title>TruePrice | Roofing Quote Analyzer, Roof Cost Calculator & Roofing Price Guides</title>
+  <meta
+    name="description"
+    content="Analyze roofing quotes, estimate roof replacement costs, compare contractor bids, and explore roofing price guides by city, house size, material, and roof pitch with TruePrice."
+  />
   <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/" />
   <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="TruePrice | Roofing Quote Analyzer, Roof Cost Calculator & Roofing Price Guides" />
+  <meta
+    property="og:description"
+    content="Check if your roofing quote is fair. Compare contractor bids, estimate roof replacement cost, and explore roofing guides by city, house size, material, and pitch."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trueprice-tech.github.io/trueprice/" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TruePrice | Roofing Quote Analyzer, Roof Cost Calculator & Roofing Price Guides" />
+  <meta
+    name="twitter:description"
+    content="Analyze roofing quotes, compare bids, and estimate roof replacement cost with TruePrice."
+  />
+
   <style>
     :root {
       --bg: #f7f9fc;
@@ -16,9 +36,18 @@
       --line: #e5e7eb;
       --brand: #0f62fe;
       --brand-dark: #0b4fd1;
+      --brand-soft: #eef4ff;
       --max: 1100px;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -26,34 +55,48 @@
       background: var(--bg);
       line-height: 1.6;
     }
-    a { color: var(--brand); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+
+    a {
+      color: var(--brand);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
     .wrap {
       max-width: var(--max);
       margin: 0 auto;
       padding: 24px;
     }
+
     .hero {
       background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
       border-bottom: 1px solid var(--line);
     }
+
     .hero h1 {
       margin: 0 0 12px;
-      font-size: 2.3rem;
-      line-height: 1.15;
+      font-size: 2.4rem;
+      line-height: 1.12;
+      color: var(--text);
     }
+
     .hero p {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 0 20px;
       color: var(--muted);
       font-size: 1.05rem;
     }
+
     .cta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       margin-top: 18px;
     }
+
     .btn {
       display: inline-block;
       background: var(--brand);
@@ -61,44 +104,83 @@
       padding: 12px 18px;
       border-radius: 10px;
       font-weight: 700;
+      border: 1px solid var(--brand);
     }
+
     .btn:hover {
       background: var(--brand-dark);
+      border-color: var(--brand-dark);
       text-decoration: none;
     }
+
     .btn.secondary {
       background: #fff;
       color: var(--brand);
       border: 1px solid var(--brand);
     }
+
+    .btn.secondary:hover {
+      background: var(--brand-soft);
+    }
+
+    .quick-links {
+      margin-top: 18px;
+      font-size: 0.97rem;
+      color: var(--muted);
+    }
+
+    .quick-links a {
+      margin-right: 16px;
+      white-space: nowrap;
+    }
+
+    .section {
+      padding: 28px 0;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-size: 1.75rem;
+      line-height: 1.2;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 18px;
       margin-top: 26px;
     }
+
     .card {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 20px;
     }
-    .card h2, .card h3 {
+
+    .card h2,
+    .card h3 {
       margin-top: 0;
       margin-bottom: 10px;
+      line-height: 1.25;
     }
-    .section {
-      padding: 28px 0;
+
+    .card p:last-child {
+      margin-bottom: 0;
     }
-    .section h2 {
-      margin: 0 0 14px;
-      font-size: 1.7rem;
+
+    .info-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 18px;
     }
-    .muted { color: var(--muted); }
-    ul.clean {
-      padding-left: 18px;
-      margin-top: 10px;
-    }
+
     .link-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -107,12 +189,14 @@
       list-style: none;
       margin: 14px 0 0;
     }
+
     .link-list li {
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: 12px 14px;
     }
+
     .faq details {
       background: #fff;
       border: 1px solid var(--line);
@@ -120,13 +204,98 @@
       padding: 14px 16px;
       margin-bottom: 12px;
     }
+
+    .faq summary {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .faq p {
+      margin-top: 12px;
+      margin-bottom: 0;
+    }
+
     footer {
       border-top: 1px solid var(--line);
       background: #fff;
       margin-top: 28px;
     }
-    .small { font-size: 0.95rem; }
+
+    .small {
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding: 18px;
+      }
+
+      .hero h1 {
+        font-size: 1.95rem;
+      }
+
+      .section h2 {
+        font-size: 1.45rem;
+      }
+    }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TruePrice",
+    "url": "https://trueprice-tech.github.io/trueprice/",
+    "description": "TruePrice helps homeowners analyze roofing quotes, compare contractor bids, and estimate roof replacement costs.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://trueprice-tech.github.io/trueprice/",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TruePrice",
+    "url": "https://trueprice-tech.github.io/trueprice/"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"What is a fair price for a new roof?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"A fair roofing price depends on roof size, material, tear off, local labor costs, complexity, flashing work, ventilation, and warranty coverage. A useful benchmark combines price per square foot with a review of what is actually included in the quote."
+        }
+      },
+      {
+        "@type":"Question",
+        "name":"Why do roofing quotes vary so much?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"Roofing quotes often vary because contractors include different materials, underlayment, flashing, disposal, decking assumptions, labor assumptions, and warranty terms. Some bids also omit items that later show up as change orders."
+        }
+      },
+      {
+        "@type":"Question",
+        "name":"Should I choose the cheapest roofing quote?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"Not automatically. The lowest quote can still be the worst value if it omits ventilation upgrades, flashing details, or quality materials. Compare scope first, then compare price."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="hero">
@@ -135,10 +304,19 @@
       <p>
         TruePrice helps homeowners analyze roofing estimates, compare contractor bids, and estimate roof replacement costs using structured pricing logic. The long term goal is simple: turn real uploaded roofing quotes into better local pricing intelligence.
       </p>
+
       <div class="cta-row">
-        <a class="btn" href="/trueprice/roofing-quote-analyzer.html">Analyze your quote</a>
-        <a class="btn secondary" href="/trueprice/roof-replacement-cost-calculator.html">Estimate roof cost</a>
-        <a class="btn secondary" href="/trueprice/compare-roofing-quotes.html">Compare quotes</a>
+        <a class="btn" href="roofing-quote-analyzer.html">Analyze your quote</a>
+        <a class="btn secondary" href="roof-replacement-cost-calculator.html">Estimate roof cost</a>
+        <a class="btn secondary" href="compare-roofing-quotes.html">Compare quotes</a>
+      </div>
+
+      <div class="quick-links">
+        <a href="#popular-guides">Popular guides</a>
+        <a href="#city-guides">City pricing</a>
+        <a href="#house-size-guides">House size guides</a>
+        <a href="#pitch-guides">Roof pitch guide</a>
+        <a href="#faq">FAQ</a>
       </div>
     </div>
   </header>
@@ -149,72 +327,116 @@
         <article class="card">
           <h2>Roofing Quote Analyzer</h2>
           <p>Upload a roofing estimate and review pricing, scope signals, and key line items that homeowners often miss.</p>
-          <p><a href="/trueprice/roofing-quote-analyzer.html">Open the analyzer</a></p>
+          <p><a href="roofing-quote-analyzer.html">Open the analyzer</a></p>
         </article>
 
         <article class="card">
           <h2>Roof Replacement Cost Calculator</h2>
           <p>Estimate replacement cost by roof size, material, tear off requirements, and complexity.</p>
-          <p><a href="/trueprice/roof-replacement-cost-calculator.html">Use the calculator</a></p>
+          <p><a href="roof-replacement-cost-calculator.html">Use the calculator</a></p>
         </article>
 
         <article class="card">
           <h2>Compare Roofing Quotes</h2>
           <p>Compare contractors side by side so you can see price, materials, warranty, and missing scope items in one place.</p>
-          <p><a href="/trueprice/compare-roofing-quotes.html">Compare quotes now</a></p>
+          <p><a href="compare-roofing-quotes.html">Compare quotes now</a></p>
         </article>
       </div>
     </section>
 
-    <section class="section">
-      <h2>Popular roofing cost guides</h2>
+    <section class="section" id="popular-guides">
+      <h2>Popular Roofing Cost Guides</h2>
       <p class="muted">
-        These pages target the highest intent questions homeowners ask before signing a roofing contract.
+        These pages target high intent roofing questions homeowners ask before signing a contract.
       </p>
       <ul class="link-list">
-        <li><a href="/trueprice/roof-replacement-cost-per-square-foot.html">Roof replacement cost per square foot</a></li>
-        <li><a href="/trueprice/how-to-compare-roofing-quotes.html">How to compare roofing quotes</a></li>
-        <li><a href="/trueprice/what-should-a-roofing-quote-include.html">What should a roofing quote include</a></li>
-        <li><a href="/trueprice/architectural-shingle-roof-cost.html">Architectural shingle roof cost</a></li>
-        <li><a href="/trueprice/roof-replacement-cost-by-house-size.html">Roof replacement cost by house size</a></li>
+        <li><a href="roof-replacement-cost-per-square-foot.html">Roof Replacement Cost Per Square Foot</a></li>
+        <li><a href="roof-replacement-cost-by-house-size.html">Roof Replacement Cost by House Size</a></li>
+        <li><a href="roof-replacement-cost-by-roof-pitch.html">Roof Replacement Cost by Roof Pitch</a></li>
+        <li><a href="how-to-compare-roofing-quotes.html">How to Compare Roofing Quotes</a></li>
+        <li><a href="what-should-a-roofing-quote-include.html">What Should a Roofing Quote Include</a></li>
+        <li><a href="roof-replacement-vs-roof-repair.html">Roof Replacement vs Roof Repair</a></li>
+        <li><a href="architectural-shingle-roof-cost.html">Architectural Shingle Roof Cost</a></li>
+        <li><a href="metal-roof-replacement-cost.html">Metal Roof Replacement Cost</a></li>
+        <li><a href="standing-seam-metal-roof-cost.html">Standing Seam Metal Roof Cost</a></li>
+      </ul>
+    </section>
+
+    <section class="section" id="city-guides">
+      <h2>Roof Replacement Cost by City</h2>
+      <p class="muted">
+        Roofing prices vary by labor market, disposal costs, permit requirements, material demand, and weather exposure. Explore current roof cost guides for major U.S. cities below.
+      </p>
+      <ul class="link-list">
+        <li><a href="atlanta-ga-roof-cost.html">Roof Replacement Cost in Atlanta GA</a></li>
+        <li><a href="austin-tx-roof-cost.html">Roof Replacement Cost in Austin TX</a></li>
+        <li><a href="boston-ma-roof-cost.html">Roof Replacement Cost in Boston MA</a></li>
+        <li><a href="chicago-il-roof-cost.html">Roof Replacement Cost in Chicago IL</a></li>
+        <li><a href="cleveland-oh-roof-cost.html">Roof Replacement Cost in Cleveland OH</a></li>
+        <li><a href="columbus-oh-roof-cost.html">Roof Replacement Cost in Columbus OH</a></li>
+        <li><a href="dallas-tx-roof-cost.html">Roof Replacement Cost in Dallas TX</a></li>
+        <li><a href="denver-co-roof-cost.html">Roof Replacement Cost in Denver CO</a></li>
+        <li><a href="houston-tx-roof-cost.html">Roof Replacement Cost in Houston TX</a></li>
+        <li><a href="indianapolis-in-roof-cost.html">Roof Replacement Cost in Indianapolis IN</a></li>
+        <li><a href="jacksonville-fl-roof-cost.html">Roof Replacement Cost in Jacksonville FL</a></li>
+        <li><a href="kansas-city-mo-roof-cost.html">Roof Replacement Cost in Kansas City MO</a></li>
+        <li><a href="las-vegas-nv-roof-cost.html">Roof Replacement Cost in Las Vegas NV</a></li>
+        <li><a href="los-angeles-ca-roof-cost.html">Roof Replacement Cost in Los Angeles CA</a></li>
+        <li><a href="miami-fl-roof-cost.html">Roof Replacement Cost in Miami FL</a></li>
+        <li><a href="nashville-tn-roof-cost.html">Roof Replacement Cost in Nashville TN</a></li>
+        <li><a href="newark-nj-roof-cost.html">Roof Replacement Cost in Newark NJ</a></li>
+        <li><a href="orlando-fl-roof-cost.html">Roof Replacement Cost in Orlando FL</a></li>
+        <li><a href="philadelphia-pa-roof-cost.html">Roof Replacement Cost in Philadelphia PA</a></li>
+        <li><a href="pittsburgh-pa-roof-cost.html">Roof Replacement Cost in Pittsburgh PA</a></li>
+        <li><a href="raleigh-nc-roof-cost.html">Roof Replacement Cost in Raleigh NC</a></li>
+        <li><a href="san-francisco-ca-roof-cost.html">Roof Replacement Cost in San Francisco CA</a></li>
+        <li><a href="chattanooga-tn-roof-cost.html">Roof Replacement Cost in Chattanooga TN</a></li>
+        <li><a href="wilmington-nc-roof-cost.html">Roof Replacement Cost in Wilmington NC</a></li>
+      </ul>
+    </section>
+
+    <section class="section" id="house-size-guides">
+      <h2>Roof Replacement Cost by House Size</h2>
+      <p class="muted">
+        House size is one of the most common starting points for estimating roof replacement cost. Use these detailed guides to compare price ranges for common home sizes.
+      </p>
+      <ul class="link-list">
+        <li><a href="roof-replacement-cost-by-house-size.html">Roof Replacement Cost by House Size</a></li>
+        <li><a href="roof-replacement-cost-1500-sq-ft.html">Roof Replacement Cost for 1500 Sq Ft House</a></li>
+        <li><a href="roof-replacement-cost-2000-sq-ft.html">Roof Replacement Cost for 2000 Sq Ft House</a></li>
+        <li><a href="roof-replacement-cost-2500-sq-ft.html">Roof Replacement Cost for 2500 Sq Ft House</a></li>
+        <li><a href="roof-replacement-cost-3000-sq-ft.html">Roof Replacement Cost for 3000 Sq Ft House</a></li>
+      </ul>
+
+      <div class="info-box">
+        <p>
+          House size alone does not fully determine cost. Roof pitch, material type, local labor rates, flashing complexity, tear off scope, and actual roof measurements can all materially change the final price.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="pitch-guides">
+      <h2>Roof Replacement Cost by Roof Pitch</h2>
+      <p class="muted">
+        Roof pitch can materially change total replacement cost by increasing labor difficulty, safety requirements, and actual roofing surface area.
+      </p>
+      <ul class="link-list">
+        <li><a href="roof-replacement-cost-by-roof-pitch.html">Roof Replacement Cost by Roof Pitch</a></li>
       </ul>
     </section>
 
     <section class="section">
-<h2>Roof Replacement Cost by City</h2>
-
-<p>Roofing prices vary by labor market, disposal costs, permit requirements, material demand, and weather exposure. Explore current roof cost guides for major U.S. cities below.</p>
-
-<ul>
-  <li><a href="atlanta-ga-roof-cost.html">Roof Replacement Cost in Atlanta GA</a></li>
-  <li><a href="austin-tx-roof-cost.html">Roof Replacement Cost in Austin TX</a></li>
-  <li><a href="boston-ma-roof-cost.html">Roof Replacement Cost in Boston MA</a></li>
-  <li><a href="chicago-il-roof-cost.html">Roof Replacement Cost in Chicago IL</a></li>
-  <li><a href="cleveland-oh-roof-cost.html">Roof Replacement Cost in Cleveland OH</a></li>
-  <li><a href="columbus-oh-roof-cost.html">Roof Replacement Cost in Columbus OH</a></li>
-  <li><a href="dallas-tx-roof-cost.html">Roof Replacement Cost in Dallas TX</a></li>
-  <li><a href="denver-co-roof-cost.html">Roof Replacement Cost in Denver CO</a></li>
-  <li><a href="houston-tx-roof-cost.html">Roof Replacement Cost in Houston TX</a></li>
-  <li><a href="indianapolis-in-roof-cost.html">Roof Replacement Cost in Indianapolis IN</a></li>
-  <li><a href="jacksonville-fl-roof-cost.html">Roof Replacement Cost in Jacksonville FL</a></li>
-  <li><a href="kansas-city-mo-roof-cost.html">Roof Replacement Cost in Kansas City MO</a></li>
-  <li><a href="las-vegas-nv-roof-cost.html">Roof Replacement Cost in Las Vegas NV</a></li>
-  <li><a href="los-angeles-ca-roof-cost.html">Roof Replacement Cost in Los Angeles CA</a></li>
-  <li><a href="miami-fl-roof-cost.html">Roof Replacement Cost in Miami FL</a></li>
-  <li><a href="nashville-tn-roof-cost.html">Roof Replacement Cost in Nashville TN</a></li>
-  <li><a href="newark-nj-roof-cost.html">Roof Replacement Cost in Newark NJ</a></li>
-  <li><a href="orlando-fl-roof-cost.html">Roof Replacement Cost in Orlando FL</a></li>
-  <li><a href="philadelphia-pa-roof-cost.html">Roof Replacement Cost in Philadelphia PA</a></li>
-  <li><a href="pittsburgh-pa-roof-cost.html">Roof Replacement Cost in Pittsburgh PA</a></li>
-  <li><a href="raleigh-nc-roof-cost.html">Roof Replacement Cost in Raleigh NC</a></li>
-  <li><a href="san-francisco-ca-roof-cost.html">Roof Replacement Cost in San Francisco CA</a></li>
-  <li><a href="chattanooga-tn-roof-cost.html">Roof Replacement Cost in Chattanooga TN</a></li>
-  <li><a href="wilmington-nc-roof-cost.html">Roof Replacement Cost in Wilmington NC</a></li>
-</ul>
-</section>
+      <h2>Real Roofing Quote Examples</h2>
+      <p class="muted">
+        Review real roofing quote examples to better understand contractor pricing, scope differences, and common line items.
+      </p>
+      <ul class="link-list">
+        <li><a href="roofing-quote-examples.html">View Roofing Quote Examples</a></li>
+      </ul>
+    </section>
 
     <section class="section">
-      <h2>How TruePrice gets stronger over time</h2>
+      <h2>How TruePrice Gets Stronger Over Time</h2>
       <div class="grid">
         <div class="card">
           <h3>1. Upload quotes</h3>
@@ -231,8 +453,8 @@
       </div>
     </section>
 
-    <section class="section faq">
-      <h2>Frequently asked questions</h2>
+    <section class="section faq" id="faq">
+      <h2>Frequently Asked Questions</h2>
 
       <details>
         <summary>What is a fair price for a new roof?</summary>
@@ -256,59 +478,5 @@
       <p>TruePrice is building a roofing quote analyzer and pricing intelligence platform for homeowners.</p>
     </div>
   </footer>
-<h2>Roof Replacement Cost by House Size</h2>
-
-<p>House size is one of the most common starting points for estimating roof replacement cost. Use these detailed guides to compare price ranges for common home sizes.</p>
-
-<ul>
-  <li><a href="roof-replacement-cost-by-house-size.html">Roof Replacement Cost by House Size</a></li>
-  <li><a href="roof-replacement-cost-1500-sq-ft.html">Roof Replacement Cost for 1500 Sq Ft House</a></li>
-  <li><a href="roof-replacement-cost-2000-sq-ft.html">Roof Replacement Cost for 2000 Sq Ft House</a></li>
-  <li><a href="roof-replacement-cost-2500-sq-ft.html">Roof Replacement Cost for 2500 Sq Ft House</a></li>
-  <li><a href="roof-replacement-cost-3000-sq-ft.html">Roof Replacement Cost for 3000 Sq Ft House</a></li>
-</ul>
-
-<h2>Roof Replacement Cost by Roof Pitch</h2>
-
-<p>Roof pitch can materially change total replacement cost by increasing labor difficulty, safety requirements, and actual roofing surface area.</p>
-
-<ul>
-  <li><a href="roof-replacement-cost-by-roof-pitch.html">Roof Replacement Cost by Roof Pitch</a></li>
-</ul>
-<h2>Real Roofing Quote Examples</h2>
-
-<p>
-See real roofing quotes to understand typical contractor pricing.
-</p>
-
-<p>
-<a href="roofing-quote-examples.html">View roofing quote examples</a>
-</p>
-<section class="section">
-
-<h2>Roof Replacement Cost by House Size</h2>
-
-<ul class="link-list">
-
-<li><a href="roof-replacement-cost-1500-sq-ft.html">Roof Replacement Cost for 1500 sq ft House</a></li>
-
-<li><a href="roof-replacement-cost-2000-sq-ft.html">Roof Replacement Cost for 2000 sq ft House</a></li>
-
-<li><a href="roof-replacement-cost-2500-sq-ft.html">Roof Replacement Cost for 2500 sq ft House</a></li>
-
-<li><a href="roof-replacement-cost-3000-sq-ft.html">Roof Replacement Cost for 3000 sq ft House</a></li>
-
-</ul>
-
-</section>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
