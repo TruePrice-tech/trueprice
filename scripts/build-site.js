@@ -202,7 +202,28 @@ ${urls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}
   fs.writeFileSync(SITEMAP_PATH, xml, "utf8");
   console.log("Generated sitemap.xml");
 }
+function generateAllCitiesPage(cityRows) {
+  if (!fs.existsSync(ALL_CITIES_TEMPLATE_PATH)) {
+    console.log("All cities template missing");
+    return;
+  }
 
+  const template = fs.readFileSync(ALL_CITIES_TEMPLATE_PATH, "utf8");
+
+  const links = cityRows
+    .sort((a, b) => a.city.localeCompare(b.city))
+    .map((city) => {
+      const filename = buildCityPageFilename(city.city, city.state_code);
+      return `<li><a href="/trueprice/${filename}">${city.city}, ${city.state_code}</a></li>`;
+    })
+    .join("\n");
+
+  const html = template.replace("{{CITY_LINKS}}", links);
+
+  fs.writeFileSync(ALL_CITIES_PAGE_PATH, html, "utf8");
+
+  console.log("Generated all-cities.html");
+}
 function main() {
   if (!fs.existsSync(INPUT_CSV)) {
     throw new Error("Missing inputs/cities.csv");
