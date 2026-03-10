@@ -9,6 +9,8 @@ const OUTPUT_PRICING_JSON = path.join(ROOT, "data", "city-house-size-pricing.jso
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 const INDEX_PATH = path.join(ROOT, "index.html");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "city-page-template.html");
+const ALL_CITIES_TEMPLATE_PATH = path.join(ROOT, "templates", "all-cities-template.html");
+const ALL_CITIES_PAGE_PATH = path.join(ROOT, "all-cities.html");
 
 const SITE_BASE_URL = "https://trueprice-tech.github.io/trueprice";
 
