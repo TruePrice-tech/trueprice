@@ -1,0 +1,26 @@
+{
+  "basePricePerSquare": {
+    "asphalt": 425,
+    "architectural": 525,
+    "metal": 900,
+    "tile": 1400
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.15,
+    "midwest": 1.06,
+    "mountain": 1.08,
+    "west": 1.18
+  },
+  "wasteFactor": 1.1,
+  "overheadMultiplier": 1.12,
+  "roundTo": 50,
+  "houseSizes": [
+    { "label": "1000", "roofSquares": 12 },
+    { "label": "1500", "roofSquares": 18 },
+    { "label": "2000", "roofSquares": 24 },
+    { "label": "2500", "roofSquares": 30 },
+    { "label": "3000", "roofSquares": 36 }
+  ]
+}
