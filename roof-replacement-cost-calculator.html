@@ -3,43 +3,107 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Roof Replacement Cost Calculator | TruePrice</title>
-  <meta name="description" content="Estimate roof replacement cost by size, material, tear off, and complexity with the TruePrice roof cost calculator." />
-  <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/roof-replacement-cost-calculator.html" />
+  <meta
+    name="description"
+    content="Estimate roof replacement cost by size, material, tear off, and complexity with the TruePrice roof cost calculator."
+  />
+  <link
+    rel="canonical"
+    href="https://trueprice-tech.github.io/trueprice/roof-replacement-cost-calculator.html"
+  />
   <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Roof Replacement Cost Calculator | TruePrice" />
+  <meta
+    property="og:description"
+    content="Estimate roof replacement cost by roof size, material, tear off, and complexity with the TruePrice roof cost calculator."
+  />
+  <meta property="og:type" content="article" />
+  <meta
+    property="og:url"
+    content="https://trueprice-tech.github.io/trueprice/roof-replacement-cost-calculator.html"
+  />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Roof Replacement Cost Calculator | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Estimate roof replacement cost by size, material, tear off, and complexity."
+  />
+
   <style>
+    :root {
+      --bg: #f7f9fc;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --brand: #0f62fe;
+      --brand-dark: #0b4fd1;
+      --brand-soft: #eef4ff;
+      --max: 980px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, Helvetica, sans-serif;
       margin: 0;
-      background: #f7f9fc;
-      color: #1f2937;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
     }
 
+    a {
+      color: var(--brand);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
     .wrap {
-      max-width: 980px;
+      max-width: var(--max);
       margin: 0 auto;
       padding: 24px;
     }
 
     .nav {
       margin-bottom: 16px;
+      font-size: 0.98rem;
     }
 
     .nav a {
       margin-right: 14px;
-      color: #0f62fe;
-      text-decoration: none;
+      color: var(--brand);
       font-weight: 600;
     }
 
-    .nav a:hover {
-      text-decoration: underline;
+    h1 {
+      font-size: 2.25rem;
+      line-height: 1.15;
+      margin: 0 0 12px;
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      line-height: 1.2;
+      margin-top: 0;
+      margin-bottom: 14px;
+    }
+
+    .muted {
+      color: var(--muted);
     }
 
     .card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
+      background: var(--card);
+      border: 1px solid var(--line);
       border-radius: 12px;
       padding: 20px;
       margin-bottom: 20px;
@@ -64,6 +128,9 @@
       border: 1px solid #d1d5db;
       border-radius: 8px;
       box-sizing: border-box;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
     }
 
     .btn {
@@ -71,7 +138,7 @@
       padding: 12px 18px;
       border: 0;
       border-radius: 10px;
-      background: #0f62fe;
+      background: var(--brand);
       color: #ffffff;
       font-weight: 700;
       cursor: pointer;
@@ -80,54 +147,92 @@
     }
 
     .btn:hover {
-      opacity: 0.95;
+      background: var(--brand-dark);
+      text-decoration: none;
     }
 
-    .muted {
-      color: #6b7280;
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .helper-box {
+      background: var(--brand-soft);
+      border: 1px solid #cfe0ff;
+      border-radius: 12px;
+      padding: 14px 16px;
       margin-top: 14px;
-    }
-
-    th,
-    td {
-      border: 1px solid #e5e7eb;
-      padding: 12px;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: #f3f4f6;
     }
 
     .result-box p {
       margin: 0 0 10px;
     }
 
+    .result-box p:last-child {
+      margin-bottom: 0;
+    }
+
     ul {
       padding-left: 20px;
     }
 
+    .link-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px 20px;
+      padding: 0;
+      list-style: none;
+      margin: 14px 0 0;
+    }
+
+    .link-list li {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
     .faq details {
       background: #ffffff;
-      border: 1px solid #e5e7eb;
+      border: 1px solid var(--line);
       border-radius: 10px;
       padding: 14px 16px;
       margin-bottom: 12px;
+    }
+
+    .faq summary {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .faq p {
+      margin-top: 12px;
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 1.9rem;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+      }
     }
   </style>
 </head>
 <body>
   <main class="wrap">
     <p class="nav">
-      <a href="/trueprice/">Home</a>
-      <a href="/trueprice/roofing-quote-analyzer.html">Quote Analyzer</a>
-      <a href="/trueprice/compare-roofing-quotes.html">Compare Quotes</a>
+      <a href="index.html">Home</a>
+      <a href="roofing-quote-analyzer.html">Quote Analyzer</a>
+      <a href="compare-roofing-quotes.html">Compare Quotes</a>
     </p>
 
     <h1>Roof Replacement Cost Calculator</h1>
@@ -138,10 +243,14 @@
     <section class="card">
       <h2>Estimate Your Roof Cost</h2>
 
-      <div class="grid">
+      <div class="helper-box">
+        Enter your approximate roof size in square feet to generate a directional roofing cost range. After QA, the address-based roof size estimator should be re-added here.
+      </div>
+
+      <div class="grid" style="margin-top:16px;">
         <div>
           <label for="roofSize">Roof size (sq ft)</label>
-          <input id="roofSize" type="number" placeholder="e.g. 2400" />
+          <input id="roofSize" type="number" placeholder="e.g. 2400" min="1" />
         </div>
 
         <div>
@@ -172,7 +281,9 @@
         </div>
       </div>
 
-      <button class="btn" type="button" onclick="estimateRoofCost()">Estimate Cost</button>
+      <div class="btn-row">
+        <button class="btn" type="button" onclick="estimateRoofCost()">Estimate Cost</button>
+      </div>
     </section>
 
     <section class="card result-box">
@@ -206,12 +317,37 @@
 
     <section class="card">
       <h2>Helpful Roofing Guides</h2>
-      <ul>
-        <li><a href="/trueprice/roof-replacement-cost-per-square-foot.html">Roof Replacement Cost Per Square Foot</a></li>
-        <li><a href="/trueprice/roof-replacement-cost-by-house-size.html">Roof Replacement Cost by House Size</a></li>
-        <li><a href="/trueprice/architectural-shingle-roof-cost.html">Architectural Shingle Roof Cost</a></li>
-        <li><a href="/trueprice/metal-roof-replacement-cost.html">Metal Roof Replacement Cost</a></li>
-        <li><a href="/trueprice/roofing-quote-analyzer.html">Roofing Quote Analyzer</a></li>
+      <ul class="link-list">
+        <li><a href="roof-replacement-cost-per-square-foot.html">Roof Replacement Cost Per Square Foot</a></li>
+        <li><a href="roof-replacement-cost-by-house-size.html">Roof Replacement Cost by House Size</a></li>
+        <li><a href="roof-replacement-cost-by-roof-pitch.html">Roof Replacement Cost by Roof Pitch</a></li>
+        <li><a href="architectural-shingle-roof-cost.html">Architectural Shingle Roof Cost</a></li>
+        <li><a href="metal-roof-replacement-cost.html">Metal Roof Replacement Cost</a></li>
+        <li><a href="roofing-quote-analyzer.html">Roofing Quote Analyzer</a></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Roof Replacement Cost by House Size</h2>
+      <ul class="link-list">
+        <li><a href="roof-replacement-cost-1500-sq-ft.html">1500 Sq Ft House</a></li>
+        <li><a href="roof-replacement-cost-2000-sq-ft.html">2000 Sq Ft House</a></li>
+        <li><a href="roof-replacement-cost-2500-sq-ft.html">2500 Sq Ft House</a></li>
+        <li><a href="roof-replacement-cost-3000-sq-ft.html">3000 Sq Ft House</a></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Roof Replacement Cost by City</h2>
+      <ul class="link-list">
+        <li><a href="atlanta-ga-roof-cost.html">Atlanta GA</a></li>
+        <li><a href="austin-tx-roof-cost.html">Austin TX</a></li>
+        <li><a href="boston-ma-roof-cost.html">Boston MA</a></li>
+        <li><a href="chicago-il-roof-cost.html">Chicago IL</a></li>
+        <li><a href="dallas-tx-roof-cost.html">Dallas TX</a></li>
+        <li><a href="denver-co-roof-cost.html">Denver CO</a></li>
+        <li><a href="houston-tx-roof-cost.html">Houston TX</a></li>
+        <li><a href="miami-fl-roof-cost.html">Miami FL</a></li>
       </ul>
     </section>
 
@@ -258,8 +394,7 @@
         return;
       }
 
-      const tearoffRate = tearoff;
-      const adjustedRate = (baseRate + tearoffRate) * complexity;
+      const adjustedRate = (baseRate + tearoff) * complexity;
 
       const lowEstimate = roofSize * adjustedRate * 0.9;
       const midEstimate = roofSize * adjustedRate;
@@ -319,43 +454,5 @@
     ]
   }
   </script>
-  <h2>Roof Replacement Cost by City</h2>
-
-<ul>
-
-<li><a href="roof-replacement-cost-charlotte-nc.html">Charlotte NC</a></li>
-
-<li><a href="roof-replacement-cost-atlanta-ga.html">Atlanta GA</a></li>
-
-<li><a href="roof-replacement-cost-dallas-tx.html">Dallas TX</a></li>
-
-<li><a href="roof-replacement-cost-phoenix-az.html">Phoenix AZ</a></li>
-
-<li><a href="roof-replacement-cost-tampa-fl.html">Tampa FL</a></li>
-
-</ul>
-<h2>Roof Replacement Cost by House Size</h2>
-
-<ul>
-
-<li><a href="roof-replacement-cost-1500-sq-ft.html">1500 sq ft house</a></li>
-
-<li><a href="roof-replacement-cost-2000-sq-ft.html">2000 sq ft house</a></li>
-
-<li><a href="roof-replacement-cost-2500-sq-ft.html">2500 sq ft house</a></li>
-
-<li><a href="roof-replacement-cost-3000-sq-ft.html">3000 sq ft house</a></li>
-
-</ul>
-<h2>Roof Replacement Cost by City</h2>
-
-<ul>
-
-<li><a href="atlanta-ga-roof-cost.html">Atlanta GA</a></li>
-<li><a href="charlotte-nc-roof-cost.html">Charlotte NC</a></li>
-<li><a href="dallas-tx-roof-cost.html">Dallas TX</a></li>
-<li><a href="denver-co-roof-cost.html">Denver CO</a></li>
-
-</ul>
 </body>
 </html>
