@@ -84,7 +84,26 @@ function calculatePriceTable(cityRow, pricingModel, stateRegions) {
   return result;
 }
 
-function generateCityPageHtml(cityPricing) {
+function generateRelatedCityLinks(currentCityPricing, allCityRows) {
+  const currentFile = buildCityPageFilename(
+    currentCityPricing.city,
+    currentCityPricing.state_code
+  );
+
+  const related = allCityRows
+    .filter((city) => buildCityPageFilename(city.city, city.state_code) !== currentFile)
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
+    .slice(0, 8);
+
+  return related
+    .map((city) => {
+      const filename = buildCityPageFilename(city.city, city.state_code);
+      return `<li><a href="/trueprice/${filename}">${city.city}, ${city.state_code}</a></li>`;
+    })
+    .join("\n");
+}
+
+function generateCityPageHtml(cityPricing, allCityRows) {
   let template = loadTemplate();
 
   const slug = buildCityPageFilename(
@@ -106,10 +125,13 @@ function generateCityPageHtml(cityPricing) {
     })
     .join("");
 
+  const relatedCityLinks = generateRelatedCityLinks(cityPricing, allCityRows);
+
   template = template.replaceAll("{{CITY}}", cityPricing.city);
   template = template.replaceAll("{{STATE_CODE}}", cityPricing.state_code);
   template = template.replaceAll("{{SLUG}}", slug);
   template = template.replace("{{PRICE_ROWS}}", priceRows);
+  template = template.replace("{{RELATED_CITY_LINKS}}", relatedCityLinks);
 
   return template;
 }
@@ -210,7 +232,7 @@ function main() {
       cityPricing.state_code
     );
     const filePath = path.join(ROOT, filename);
-    const html = generateCityPageHtml(cityPricing);
+    const html = generateCityPageHtml(cityPricing, cityRows);
 
     fs.writeFileSync(filePath, html, "utf8");
     console.log(`Generated ${filename}`);
