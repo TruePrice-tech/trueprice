@@ -10,7 +10,9 @@ const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 const INDEX_PATH = path.join(ROOT, "index.html");
 
 const SITE_BASE_URL = "https://trueprice-tech.github.io/trueprice";
-
+function loadTemplate() {
+  return fs.readFileSync("templates/city-page-template.html", "utf8");
+}
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
