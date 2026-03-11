@@ -244,18 +244,47 @@
       <h2>Estimate Your Roof Cost</h2>
 
       <div class="helper-box">
-  Enter your approximate roof size in square feet to generate a directional roofing cost range.
+  Estimate roof size from house size, stories, pitch, and roof complexity. This is more reliable than address based lookup and gives a stronger starting point for pricing.
 </div>
 
 <div class="grid" style="margin-top:16px;">
-  <div style="grid-column: 1 / -1;">
-    <label for="address-input">Home address</label>
-    <input id="address-input" type="text" placeholder="e.g. 123 Main St, Dallas, TX" />
+  <div>
+    <label for="houseSize">House size (sq ft)</label>
+    <input id="houseSize" type="number" placeholder="e.g. 2200" min="1" />
+  </div>
+
+  <div>
+    <label for="stories">Stories</label>
+    <select id="stories">
+      <option value="1">1 story</option>
+      <option value="2" selected>2 stories</option>
+      <option value="3">3 stories</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="pitchFactor">Roof pitch</label>
+    <select id="pitchFactor">
+      <option value="1.05">Low slope</option>
+      <option value="1.10" selected>Standard pitch</option>
+      <option value="1.18">Steep pitch</option>
+      <option value="1.26">Very steep / complex pitch</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="shapeFactor">Roof complexity</label>
+    <select id="shapeFactor">
+      <option value="1.00">Simple</option>
+      <option value="1.08" selected>Moderate</option>
+      <option value="1.18">Complex</option>
+      <option value="1.28">Very complex</option>
+    </select>
   </div>
 </div>
 
 <div class="btn-row">
-  <button class="btn" type="button" onclick="estimateRoofSize()">Estimate Roof Size from Address</button>
+  <button class="btn" type="button" onclick="estimateRoofSizeFromInputs()">Estimate Roof Size</button>
 </div>
 
       <div class="grid" style="margin-top:16px;">
@@ -393,6 +422,32 @@
       return "$" + Math.round(value).toLocaleString();
     }
 
+    function estimateRoofSizeFromInputs() {
+  const houseSize = parseFloat(document.getElementById("houseSize").value);
+  const stories = parseFloat(document.getElementById("stories").value);
+  const pitchFactor = parseFloat(document.getElementById("pitchFactor").value);
+  const shapeFactor = parseFloat(document.getElementById("shapeFactor").value);
+  const roofSizeInput = document.getElementById("roofSize");
+  const output = document.getElementById("calculatorOutput");
+
+  if (isNaN(houseSize) || houseSize <= 0) {
+    output.innerHTML = "Please enter a valid positive house size first.";
+    return;
+  }
+
+  const footprintFactor = 1 / stories;
+  const baseFootprint = houseSize * footprintFactor;
+  const roofSize = Math.round(baseFootprint * pitchFactor * shapeFactor * 1.15);
+
+  roofSizeInput.value = roofSize;
+
+  output.innerHTML = `
+    <p><strong>Estimated roof size:</strong> ${roofSize.toLocaleString()} sq ft</p>
+    <p><strong>How this was estimated:</strong> house size, story count, pitch, and roof complexity were used to approximate actual roofing surface area.</p>
+    <p class="muted">This is a directional estimate. Actual measurements can differ based on overhangs, garages, porches, dormers, and roof layout.</p>
+  `;
+}
+
     function estimateRoofCost() {
       const roofSize = parseFloat(document.getElementById("roofSize").value);
       const baseRate = parseFloat(document.getElementById("material").value);
@@ -425,9 +480,7 @@
     }
     </script>
 
-    <script src="/trueprice/js/roof-estimator.js"></script>
-
-    <script type="application/ld+json">
+     <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
