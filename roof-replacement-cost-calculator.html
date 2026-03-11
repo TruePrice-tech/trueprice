@@ -46,6 +46,7 @@
       --max: 980px;
     }
 
+    
     * {
       box-sizing: border-box;
     }
@@ -146,6 +147,16 @@
       text-decoration: none;
     }
 
+    .btn.secondary {
+    background: #fff;
+    color: var(--brand);
+    border: 1px solid var(--brand);
+    }
+
+    .btn.secondary:hover {
+    background: var(--brand-soft);
+    }
+
     .btn:hover {
       background: var(--brand-dark);
       text-decoration: none;
@@ -244,6 +255,16 @@
       <h2>Estimate Your Roof Cost</h2>
 
       <div class="helper-box">
+  Quick examples (click to load):
+</div>
+
+<div class="btn-row">
+  <button class="btn secondary" onclick="loadExample(1800)">1800 sq ft home</button>
+  <button class="btn secondary" onclick="loadExample(2400)">2400 sq ft home</button>
+  <button class="btn secondary" onclick="loadExample(3200)">3200 sq ft home</button>
+</div>
+
+      <div class="helper-box">
   Estimate roof area from home size and roof characteristics. This is a directional planning tool designed to give you a stronger starting point before comparing roofing quotes.
 </div>
 
@@ -291,6 +312,8 @@
     </select>
   </div>
 </div>
+
+
 
 <div class="btn-row">
   <button class="btn" type="button" onclick="estimateRoofSizeFromInputs()">Estimate Roof Size</button>
@@ -430,6 +453,15 @@
     function formatCurrency(value) {
       return "$" + Math.round(value).toLocaleString();
     }
+
+  function loadExample(size) {
+  document.getElementById("houseSize").value = size;
+  document.getElementById("stories").value = "2";
+  document.getElementById("pitchFactor").value = "1.10";
+  document.getElementById("shapeFactor").value = "1.08";
+
+  estimateRoofSizeFromInputs();
+}
 
     function estimateRoofSizeFromInputs() {
   const houseSize = parseFloat(document.getElementById("houseSize").value);
