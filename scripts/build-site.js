@@ -279,7 +279,7 @@ function main() {
       cityPricing.state_code
     );
     const filePath = path.join(ROOT, filename);
-    const html = generateCityPageHtml(cityPricing, cityRows);
+    const html = generateCityPageHtml(cityPricing, cityPricingArray);
 
     fs.writeFileSync(filePath, html, "utf8");
     console.log(`Generated ${filename}`);
