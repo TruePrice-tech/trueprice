@@ -1,5 +1,20 @@
 {
-  "min_population": 50000,
-  "max_cities_per_state": 20,
-  "max_total_cities": 500
+  "active_profile": "large",
+  "profiles": {
+    "small": {
+      "min_population": 150000,
+      "max_cities_per_state": 10,
+      "max_total_cities": 100
+    },
+    "medium": {
+      "min_population": 50000,
+      "max_cities_per_state": 20,
+      "max_total_cities": 500
+    },
+    "large": {
+      "min_population": 20000,
+      "max_cities_per_state": 40,
+      "max_total_cities": 1500
+    }
+  }
 }

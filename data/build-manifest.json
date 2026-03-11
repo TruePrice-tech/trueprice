@@ -1,15 +1,15 @@
 {
-  "build_timestamp": "2026-03-11T23:00:53.156Z",
-  "profile": "medium",
-  "city_count": 491,
-  "state_count": 49,
+  "build_timestamp": "2026-03-11T23:09:39.039Z",
+  "profile": "large",
+  "city_count": 739,
+  "state_count": 50,
   "material_count": 4,
-  "material_city_pages": 1964,
+  "material_city_pages": 2956,
   "pricing_json_exists": true,
   "sitemap_exists": true,
   "all_cities_exists": true,
   "config": {
-    "active_profile": "medium",
+    "active_profile": "large",
     "profiles": {
       "small": {
         "min_population": 150000,
