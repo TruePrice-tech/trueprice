@@ -96,6 +96,7 @@ function main() {
     runStep("2. Build entire site", "node scripts/build-site.js");
 
     writeBuildManifest(rows);
+    printBuildSummary(rows);
 
     console.log("\n✅ FULL BUILD COMPLETE\n");
   } catch (err) {
@@ -103,6 +104,32 @@ function main() {
     console.error(err.message);
     process.exit(1);
   }
+}
+
+function printBuildSummary(rows) {
+
+  const cityCount = rows.length;
+  const stateCount = new Set(rows.map(r => r.state_code)).size;
+  const materialPages = 4;
+  const materialCityPages = cityCount * 4;
+
+  console.log("\n========== BUILD SUMMARY ==========");
+  console.log("Cities:", cityCount);
+  console.log("States:", stateCount);
+  console.log("City pages:", cityCount);
+  console.log("Material pages:", materialPages);
+  console.log("Material-city pages:", materialCityPages);
+  const statePages = stateCount;
+  const utilityPages = 1;
+
+  console.log("State pages:", statePages);
+  console.log("Utility pages:", utilityPages);
+  console.log(
+  "Total pages approx:",
+  cityCount + materialPages + materialCityPages + statePages + utilityPages
+);
+  console.log("===================================\n");
+
 }
 
 main();
