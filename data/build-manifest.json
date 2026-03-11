@@ -1,0 +1,15 @@
+{
+  "build_timestamp": "2026-03-11T17:02:03.357Z",
+  "city_count": 491,
+  "state_count": 49,
+  "material_count": 4,
+  "material_city_pages": 1964,
+  "pricing_json_exists": true,
+  "sitemap_exists": true,
+  "all_cities_exists": true,
+  "config": {
+    "min_population": 50000,
+    "max_cities_per_state": 20,
+    "max_total_cities": 500
+  }
+}
