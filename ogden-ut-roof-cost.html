@@ -25,7 +25,7 @@
       color: #1f2937;
     }
 
-    h1, h2 {
+    h1, h2, h3 {
       color: #111827;
     }
 
@@ -61,6 +61,56 @@
     .city-links-list {
       columns: 2;
       padding-left: 18px;
+    }
+
+    .estimator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .estimator-grid label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .estimator-grid input,
+    .estimator-grid select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font: inherit;
+      background: #fff;
+    }
+
+    .estimator-actions {
+      margin-top: 16px;
+    }
+
+    .estimator-actions button {
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .estimator-actions button:hover {
+      background: #1d4ed8;
+    }
+
+    .estimator-result {
+      margin-top: 16px;
+      background: #eef4ff;
+      border: 1px solid #cfe0ff;
+      border-radius: 12px;
+      padding: 14px 16px;
     }
   </style>
 </head>
@@ -137,6 +187,75 @@
   </div>
 
   <div class="section">
+    <h2>Estimate Roof Replacement Cost in Ogden</h2>
+    <p>
+      Use this quick estimator to approximate roof area and local roof replacement cost in Ogden, UT.
+    </p>
+
+    <div class="estimator-grid">
+      <div>
+        <label for="houseSize">Home size (sq ft)</label>
+        <input id="houseSize" type="number" placeholder="e.g. 2400" min="1" />
+      </div>
+
+      <div>
+        <label for="stories">Stories</label>
+        <select id="stories">
+          <option value="1">1 story</option>
+          <option value="2" selected>2 stories</option>
+          <option value="3">3 stories</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="garageFactor">Attached garage / added roof area</label>
+        <select id="garageFactor">
+          <option value="1.00">None or minimal</option>
+          <option value="1.10" selected>Typical attached garage</option>
+          <option value="1.20">Large attached garage / added sections</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="pitchFactor">Roof pitch</label>
+        <select id="pitchFactor">
+          <option value="1.05">Low slope</option>
+          <option value="1.10" selected>Standard pitch</option>
+          <option value="1.18">Steep pitch</option>
+          <option value="1.26">Very steep</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="shapeFactor">Roof complexity</label>
+        <select id="shapeFactor">
+          <option value="1.00">Simple</option>
+          <option value="1.08" selected>Moderate</option>
+          <option value="1.18">Complex</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="materialRate">Roofing material</label>
+        <select id="materialRate">
+          <option value="8.38" selected>Architectural shingles</option>
+          <option value="6.78">Asphalt shingles</option>
+          <option value="14.38">Metal roofing</option>
+          <option value="22.35">Tile roofing</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="estimator-actions">
+      <button type="button" onclick="estimateCityRoofCost()">Estimate Local Cost</button>
+    </div>
+
+    <div class="estimator-result" id="cityEstimatorOutput">
+      Enter your home details above to estimate roof replacement cost in Ogden.
+    </div>
+  </div>
+
+  <div class="section">
     <h2>What Affects Roof Replacement Cost in Ogden</h2>
     <ul>
       <li>Roof pitch and cut-up complexity</li>
@@ -157,12 +276,15 @@
     </ul>
   </div>
 
-## Roof Cost by Material in Ogden
-
-* <a href="/trueprice/asphalt-roof-cost-ogden-ut.html">Asphalt Roof Cost in Ogden</a>
-* <a href="/trueprice/architectural-roof-cost-ogden-ut.html">Architectural Shingle Cost in Ogden</a>
-* <a href="/trueprice/metal-roof-cost-ogden-ut.html">Metal Roof Cost in Ogden</a>
-* <a href="/trueprice/tile-roof-cost-ogden-ut.html">Tile Roof Cost in Ogden</a>
+  <div class="section">
+    <h2>Roof Cost by Material in Ogden</h2>
+    <ul>
+      <li><a href="/trueprice/asphalt-roof-cost-ogden-ut.html">Asphalt Roof Cost in Ogden</a></li>
+<li><a href="/trueprice/architectural-roof-cost-ogden-ut.html">Architectural Shingle Cost in Ogden</a></li>
+<li><a href="/trueprice/metal-roof-cost-ogden-ut.html">Metal Roof Cost in Ogden</a></li>
+<li><a href="/trueprice/tile-roof-cost-ogden-ut.html">Tile Roof Cost in Ogden</a></li>
+    </ul>
+  </div>
 
   <div class="section">
     <h2>How to Compare Roofing Quotes</h2>
@@ -173,7 +295,26 @@
   </div>
 
   <div class="section">
-    <h2>Roof Cost Guides in Other Cities</h2>
+    <h2>Frequently Asked Questions About Roofing in Ogden</h2>
+
+    <h3>How much does roof replacement cost in Ogden, UT?</h3>
+    <p>
+      Roof replacement cost in Ogden, UT depends on roof size, roofing material, labor rates, tear-off scope, flashing work, and roof complexity. Use the pricing table above as a directional benchmark.
+    </p>
+
+    <h3>Why do roofing quotes vary so much in Ogden?</h3>
+    <p>
+      Roofing quotes often vary because contractors include different materials, underlayment, flashing, ventilation work, disposal, warranty coverage, and labor assumptions.
+    </p>
+
+    <h3>What should a roofing quote include?</h3>
+    <p>
+      A strong roofing quote should clearly show tear-off, underlayment, flashing, ventilation, disposal, warranty terms, and any assumptions about decking replacement or exclusions.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>More Roof Cost Guides in Utah</h2>
     <ul class="city-links-list">
       <li><a href="/trueprice/salt-lake-city-ut-roof-cost.html">Salt Lake City, UT</a></li>
 <li><a href="/trueprice/west-valley-city-ut-roof-cost.html">West Valley City, UT</a></li>
@@ -182,7 +323,21 @@
 <li><a href="/trueprice/orem-ut-roof-cost.html">Orem, UT</a></li>
 <li><a href="/trueprice/sandy-ut-roof-cost.html">Sandy, UT</a></li>
 <li><a href="/trueprice/st-george-ut-roof-cost.html">St. George, UT</a></li>
-<li><a href="/trueprice/denver-co-roof-cost.html">Denver, CO</a></li>
+<li><a href="/trueprice/layton-ut-roof-cost.html">Layton, UT</a></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Roof Cost Guides in Other Cities</h2>
+    <ul class="city-links-list">
+      <li><a href="/trueprice/denver-co-roof-cost.html">Denver, CO</a></li>
+<li><a href="/trueprice/albuquerque-nm-roof-cost.html">Albuquerque, NM</a></li>
+<li><a href="/trueprice/colorado-springs-co-roof-cost.html">Colorado Springs, CO</a></li>
+<li><a href="/trueprice/aurora-co-roof-cost.html">Aurora, CO</a></li>
+<li><a href="/trueprice/boise-city-id-roof-cost.html">Boise City, ID</a></li>
+<li><a href="/trueprice/fort-collins-co-roof-cost.html">Fort Collins, CO</a></li>
+<li><a href="/trueprice/lakewood-co-roof-cost.html">Lakewood, CO</a></li>
+<li><a href="/trueprice/thornton-co-roof-cost.html">Thornton, CO</a></li>
     </ul>
   </div>
 
@@ -193,6 +348,41 @@
       to check whether a roofing quote looks fair.
     </p>
   </div>
+
+  <script>
+    function formatCityCurrency(value) {
+      return "$" + Math.round(value).toLocaleString();
+    }
+
+    function estimateCityRoofCost() {
+      const houseSize = parseFloat(document.getElementById("houseSize").value);
+      const stories = parseFloat(document.getElementById("stories").value);
+      const garageFactor = parseFloat(document.getElementById("garageFactor").value);
+      const pitchFactor = parseFloat(document.getElementById("pitchFactor").value);
+      const shapeFactor = parseFloat(document.getElementById("shapeFactor").value);
+      const materialRate = parseFloat(document.getElementById("materialRate").value);
+      const output = document.getElementById("cityEstimatorOutput");
+
+      if (isNaN(houseSize) || houseSize <= 0) {
+        output.innerHTML = "Please enter a valid positive home size first.";
+        return;
+      }
+
+      const footprint = houseSize / stories;
+      const roofArea = Math.round(
+        footprint * garageFactor * pitchFactor * shapeFactor * 1.12
+      );
+
+      const low = roofArea * materialRate * 0.9;
+      const mid = roofArea * materialRate;
+      const high = roofArea * materialRate * 1.12;
+
+      output.innerHTML = `
+        <strong>Estimated roof area:</strong> ${roofArea.toLocaleString()} sq ft<br>
+        <strong>Estimated project range:</strong> ${formatCityCurrency(low)} to ${formatCityCurrency(high)}<br>
+        <strong>Typical project cost:</strong> ${formatCityCurrency(mid)}
+      `;
+    }
+  </script>
 </body>
 </html>
-

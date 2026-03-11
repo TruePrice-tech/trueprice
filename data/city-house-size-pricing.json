@@ -1,9 +1,126 @@
 [
   {
+    "city": "Auburn",
+    "state": "Alabama",
+    "state_code": "AL",
+    "population": 58582,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Birmingham",
     "state": "Alabama",
     "state_code": "AL",
     "population": 212113,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Decatur",
+    "state": "Alabama",
+    "state_code": "AL",
+    "population": 55816,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Dothan",
+    "state": "Alabama",
+    "state_code": "AL",
+    "population": 68001,
     "region": "southeast",
     "sizes": {
       "1000": {
@@ -312,10 +429,127 @@
     }
   },
   {
+    "city": "Buckeye",
+    "state": "Arizona",
+    "state_code": "AZ",
+    "population": 56683,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Casa Grande",
+    "state": "Arizona",
+    "state_code": "AZ",
+    "population": 50111,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
     "city": "Chandler",
     "state": "Arizona",
     "state_code": "AZ",
     "population": 249146,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Flagstaff",
+    "state": "Arizona",
+    "state_code": "AZ",
+    "population": 68667,
     "region": "west",
     "sizes": {
       "1000": {
@@ -394,6 +628,84 @@
     "state": "Arizona",
     "state_code": "AZ",
     "population": 234632,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Goodyear",
+    "state": "Arizona",
+    "state_code": "AZ",
+    "population": 72864,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Lake Havasu City",
+    "state": "Arizona",
+    "state_code": "AZ",
+    "population": 52844,
     "region": "west",
     "sizes": {
       "1000": {
@@ -741,6 +1053,45 @@
     }
   },
   {
+    "city": "Conway",
+    "state": "Arkansas",
+    "state_code": "AR",
+    "population": 63816,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
     "city": "Fayetteville",
     "state": "Arkansas",
     "state_code": "AR",
@@ -819,10 +1170,127 @@
     }
   },
   {
+    "city": "Jonesboro",
+    "state": "Arkansas",
+    "state_code": "AR",
+    "population": 71551,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
     "city": "Little Rock",
     "state": "Arkansas",
     "state_code": "AR",
     "population": 197357,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "North Little Rock",
+    "state": "Arkansas",
+    "state_code": "AR",
+    "population": 66075,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Rogers",
+    "state": "Arkansas",
+    "state_code": "AR",
+    "population": 60112,
     "region": "south",
     "sizes": {
       "1000": {
@@ -1794,6 +2262,84 @@
     }
   },
   {
+    "city": "Broomfield",
+    "state": "Colorado",
+    "state_code": "CO",
+    "population": 59471,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Castle Rock",
+    "state": "Colorado",
+    "state_code": "CO",
+    "population": 53063,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
     "city": "Centennial",
     "state": "Colorado",
     "state_code": "CO",
@@ -1950,6 +2496,45 @@
     }
   },
   {
+    "city": "Grand Junction",
+    "state": "Colorado",
+    "state_code": "CO",
+    "population": 59778,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
     "city": "Greeley",
     "state": "Colorado",
     "state_code": "CO",
@@ -2032,6 +2617,45 @@
     "state": "Colorado",
     "state_code": "CO",
     "population": 89919,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Loveland",
+    "state": "Colorado",
+    "state_code": "CO",
+    "population": 71334,
     "region": "mountain",
     "sizes": {
       "1000": {
@@ -2223,6 +2847,45 @@
     }
   },
   {
+    "city": "Bristol",
+    "state": "Connecticut",
+    "state_code": "CT",
+    "population": 60568,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Danbury",
     "state": "Connecticut",
     "state_code": "CT",
@@ -2266,6 +2929,123 @@
     "state": "Connecticut",
     "state_code": "CT",
     "population": 125017,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Meriden",
+    "state": "Connecticut",
+    "state_code": "CT",
+    "population": 60456,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Milford",
+    "state": "Connecticut",
+    "state_code": "CT",
+    "population": 51644,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "New Britain",
+    "state": "Connecticut",
+    "state_code": "CT",
+    "population": 72939,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -2422,6 +3202,84 @@
     "state": "Connecticut",
     "state_code": "CT",
     "population": 109676,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "West Haven",
+    "state": "Connecticut",
+    "state_code": "CT",
+    "population": 55046,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Wilmington",
+    "state": "Delaware",
+    "state_code": "DE",
+    "population": 71525,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -3276,6 +4134,45 @@
     }
   },
   {
+    "city": "Alpharetta",
+    "state": "Georgia",
+    "state_code": "GA",
+    "population": 62298,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Athens-Clarke County",
     "state": "Georgia",
     "state_code": "GA",
@@ -3358,6 +4255,45 @@
     "state": "Georgia",
     "state_code": "GA",
     "population": 197350,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Brookhaven",
+    "state": "Georgia",
+    "state_code": "GA",
+    "population": 50603,
     "region": "southeast",
     "sizes": {
       "1000": {
@@ -3510,6 +4446,45 @@
     }
   },
   {
+    "city": "Marietta",
+    "state": "Georgia",
+    "state_code": "GA",
+    "population": 59089,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Roswell",
     "state": "Georgia",
     "state_code": "GA",
@@ -3627,6 +4602,123 @@
     }
   },
   {
+    "city": "Smyrna",
+    "state": "Georgia",
+    "state_code": "GA",
+    "population": 53438,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Valdosta",
+    "state": "Georgia",
+    "state_code": "GA",
+    "population": 56481,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Warner Robins",
+    "state": "Georgia",
+    "state_code": "GA",
+    "population": 72531,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Honolulu",
     "state": "Hawaii",
     "state_code": "HI",
@@ -3705,6 +4797,45 @@
     }
   },
   {
+    "city": "Idaho Falls",
+    "state": "Idaho",
+    "state_code": "ID",
+    "population": 58292,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
     "city": "Meridian",
     "state": "Idaho",
     "state_code": "ID",
@@ -3748,6 +4879,45 @@
     "state": "Idaho",
     "state_code": "ID",
     "population": 86518,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Pocatello",
+    "state": "Idaho",
+    "state_code": "ID",
+    "population": 54350,
     "region": "mountain",
     "sizes": {
       "1000": {
@@ -3900,6 +5070,45 @@
     }
   },
   {
+    "city": "Bolingbrook",
+    "state": "Illinois",
+    "state_code": "IL",
+    "population": 73936,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Champaign",
     "state": "Illinois",
     "state_code": "IL",
@@ -3982,6 +5191,84 @@
     "state": "Illinois",
     "state_code": "IL",
     "population": 84103,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Decatur",
+    "state": "Illinois",
+    "state_code": "IL",
+    "population": 74710,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Des Plaines",
+    "state": "Illinois",
+    "state_code": "IL",
+    "population": 58918,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -4173,6 +5460,45 @@
     }
   },
   {
+    "city": "Palatine",
+    "state": "Illinois",
+    "state_code": "IL",
+    "population": 69350,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Peoria",
     "state": "Illinois",
     "state_code": "IL",
@@ -4216,6 +5542,84 @@
     "state": "Illinois",
     "state_code": "IL",
     "population": 150251,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Schaumburg",
+    "state": "Illinois",
+    "state_code": "IL",
+    "population": 74907,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Skokie",
+    "state": "Illinois",
+    "state_code": "IL",
+    "population": 65176,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -4329,6 +5733,45 @@
     }
   },
   {
+    "city": "Anderson",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 55670,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Bloomington",
     "state": "Indiana",
     "state_code": "IN",
@@ -4372,6 +5815,45 @@
     "state": "Indiana",
     "state_code": "IN",
     "population": 85927,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Elkhart",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 51265,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -4563,6 +6045,45 @@
     }
   },
   {
+    "city": "Greenwood",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 53665,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Hammond",
     "state": "Indiana",
     "state_code": "IN",
@@ -4641,6 +6162,162 @@
     }
   },
   {
+    "city": "Kokomo",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 56895,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Lafayette",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 70373,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Muncie",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 70316,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Noblesville",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 56540,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "South Bend",
     "state": "Indiana",
     "state_code": "IN",
@@ -4680,10 +6357,166 @@
     }
   },
   {
+    "city": "Terre Haute",
+    "state": "Indiana",
+    "state_code": "IN",
+    "population": 61025,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Ames",
+    "state": "Iowa",
+    "state_code": "IA",
+    "population": 61792,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Ankeny",
+    "state": "Iowa",
+    "state_code": "IA",
+    "population": 51567,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Cedar Rapids",
     "state": "Iowa",
     "state_code": "IA",
     "population": 128429,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Council Bluffs",
+    "state": "Iowa",
+    "state_code": "IA",
+    "population": 61969,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -4797,10 +6630,166 @@
     }
   },
   {
+    "city": "Dubuque",
+    "state": "Iowa",
+    "state_code": "IA",
+    "population": 58253,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Iowa City",
+    "state": "Iowa",
+    "state_code": "IA",
+    "population": 71591,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Sioux City",
     "state": "Iowa",
     "state_code": "IA",
     "population": 82459,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Waterloo",
+    "state": "Iowa",
+    "state_code": "IA",
+    "population": 68366,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "West Des Moines",
+    "state": "Iowa",
+    "state_code": "IA",
+    "population": 61255,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -4914,6 +6903,84 @@
     }
   },
   {
+    "city": "Lenexa",
+    "state": "Kansas",
+    "state_code": "KS",
+    "population": 50344,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Manhattan",
+    "state": "Kansas",
+    "state_code": "KS",
+    "population": 56143,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Olathe",
     "state": "Kansas",
     "state_code": "KS",
@@ -4957,6 +7024,45 @@
     "state": "Kansas",
     "state_code": "KS",
     "population": 181260,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Shawnee",
+    "state": "Kansas",
+    "state_code": "KS",
+    "population": 64323,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -5070,6 +7176,45 @@
     }
   },
   {
+    "city": "Bowling Green",
+    "state": "Kentucky",
+    "state_code": "KY",
+    "population": 61488,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Lexington-Fayette",
     "state": "Kentucky",
     "state_code": "KY",
@@ -5148,6 +7293,45 @@
     }
   },
   {
+    "city": "Owensboro",
+    "state": "Kentucky",
+    "state_code": "KY",
+    "population": 58416,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Baton Rouge",
     "state": "Louisiana",
     "state_code": "LA",
@@ -5187,10 +7371,127 @@
     }
   },
   {
+    "city": "Bossier City",
+    "state": "Louisiana",
+    "state_code": "LA",
+    "population": 66333,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Kenner",
+    "state": "Louisiana",
+    "state_code": "LA",
+    "population": 66975,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
     "city": "Lafayette",
     "state": "Louisiana",
     "state_code": "LA",
     "population": 124276,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Lake Charles",
+    "state": "Louisiana",
+    "state_code": "LA",
+    "population": 74024,
     "region": "south",
     "sizes": {
       "1000": {
@@ -5304,10 +7605,205 @@
     }
   },
   {
+    "city": "Portland",
+    "state": "Maine",
+    "state_code": "ME",
+    "population": 66318,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Baltimore",
     "state": "Maryland",
     "state_code": "MD",
     "population": 622104,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Bowie",
+    "state": "Maryland",
+    "state_code": "MD",
+    "population": 56759,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Frederick",
+    "state": "Maryland",
+    "state_code": "MD",
+    "population": 66893,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Gaithersburg",
+    "state": "Maryland",
+    "state_code": "MD",
+    "population": 65690,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Rockville",
+    "state": "Maryland",
+    "state_code": "MD",
+    "population": 64072,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -5460,10 +7956,88 @@
     }
   },
   {
+    "city": "Chicopee",
+    "state": "Massachusetts",
+    "state_code": "MA",
+    "population": 55717,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Fall River",
     "state": "Massachusetts",
     "state_code": "MA",
     "population": 88697,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Haverhill",
+    "state": "Massachusetts",
+    "state_code": "MA",
+    "population": 62088,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -5581,6 +8155,84 @@
     "state": "Massachusetts",
     "state_code": "MA",
     "population": 91589,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Malden",
+    "state": "Massachusetts",
+    "state_code": "MA",
+    "population": 60509,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Medford",
+    "state": "Massachusetts",
+    "state_code": "MA",
+    "population": 57170,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -5776,6 +8428,123 @@
     "state": "Massachusetts",
     "state_code": "MA",
     "population": 153703,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Taunton",
+    "state": "Massachusetts",
+    "state_code": "MA",
+    "population": 56069,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Waltham",
+    "state": "Massachusetts",
+    "state_code": "MA",
+    "population": 62227,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Weymouth Town",
+    "state": "Massachusetts",
+    "state_code": "MA",
+    "population": 55419,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -6201,10 +8970,244 @@
     }
   },
   {
+    "city": "Pontiac",
+    "state": "Michigan",
+    "state_code": "MI",
+    "population": 59887,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Rochester Hills",
+    "state": "Michigan",
+    "state_code": "MI",
+    "population": 72952,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Royal Oak",
+    "state": "Michigan",
+    "state_code": "MI",
+    "population": 58946,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Southfield",
+    "state": "Michigan",
+    "state_code": "MI",
+    "population": 73006,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "St. Clair Shores",
+    "state": "Michigan",
+    "state_code": "MI",
+    "population": 60070,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Sterling Heights",
     "state": "Michigan",
     "state_code": "MI",
     "population": 131224,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Taylor",
+    "state": "Michigan",
+    "state_code": "MI",
+    "population": 61817,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -6357,6 +9360,123 @@
     }
   },
   {
+    "city": "Wyoming",
+    "state": "Michigan",
+    "state_code": "MI",
+    "population": 74100,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Apple Valley",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 50201,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Blaine",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 60407,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Bloomington",
     "state": "Minnesota",
     "state_code": "MN",
@@ -6435,10 +9555,244 @@
     }
   },
   {
+    "city": "Burnsville",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 61434,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Coon Rapids",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 62103,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Duluth",
     "state": "Minnesota",
     "state_code": "MN",
     "population": 86128,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Eagan",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 65453,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Eden Prairie",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 62603,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Lakeville",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 58562,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Maple Grove",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 65415,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -6513,10 +9867,127 @@
     }
   },
   {
+    "city": "Minnetonka",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 51368,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Plymouth",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 73987,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Rochester",
     "state": "Minnesota",
     "state_code": "MN",
     "population": 110742,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "St. Cloud",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 66297,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -6591,6 +10062,84 @@
     }
   },
   {
+    "city": "Woodbury",
+    "state": "Minnesota",
+    "state_code": "MN",
+    "population": 65656,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Gulfport",
+    "state": "Mississippi",
+    "state_code": "MS",
+    "population": 71012,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
     "city": "Jackson",
     "state": "Mississippi",
     "state_code": "MS",
@@ -6626,6 +10175,84 @@
         "architectural": 23300,
         "metal": 39900,
         "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Southaven",
+    "state": "Mississippi",
+    "state_code": "MS",
+    "population": 50997,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Blue Springs",
+    "state": "Missouri",
+    "state_code": "MO",
+    "population": 53294,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
       }
     }
   },
@@ -6669,10 +10296,88 @@
     }
   },
   {
+    "city": "Florissant",
+    "state": "Missouri",
+    "state_code": "MO",
+    "population": 52363,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Independence",
     "state": "Missouri",
     "state_code": "MO",
     "population": 117240,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Joplin",
+    "state": "Missouri",
+    "state_code": "MO",
+    "population": 50789,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -6864,6 +10569,45 @@
     }
   },
   {
+    "city": "St. Charles",
+    "state": "Missouri",
+    "state_code": "MO",
+    "population": 67569,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "St. Joseph",
     "state": "Missouri",
     "state_code": "MO",
@@ -6942,6 +10686,45 @@
     }
   },
   {
+    "city": "St. Peters",
+    "state": "Missouri",
+    "state_code": "MO",
+    "population": 54842,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Billings",
     "state": "Montana",
     "state_code": "MT",
@@ -6977,6 +10760,162 @@
         "architectural": 25150,
         "metal": 43100,
         "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Great Falls",
+    "state": "Montana",
+    "state_code": "MT",
+    "population": 59351,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Missoula",
+    "state": "Montana",
+    "state_code": "MT",
+    "population": 69122,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Bellevue",
+    "state": "Nebraska",
+    "state_code": "NE",
+    "population": 53663,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Grand Island",
+    "state": "Nebraska",
+    "state_code": "NE",
+    "population": 50550,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
       }
     }
   },
@@ -7055,6 +10994,45 @@
         "architectural": 24700,
         "metal": 42300,
         "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Carson City",
+    "state": "Nevada",
+    "state_code": "NV",
+    "population": 54080,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
       }
     }
   },
@@ -7332,6 +11310,45 @@
     }
   },
   {
+    "city": "Bayonne",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 65028,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Camden",
     "state": "New Jersey",
     "state_code": "NJ",
@@ -7410,10 +11427,88 @@
     }
   },
   {
+    "city": "East Orange",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 64544,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Elizabeth",
     "state": "New Jersey",
     "state_code": "NJ",
     "population": 127558,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Hoboken",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 52575,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -7488,10 +11583,88 @@
     }
   },
   {
+    "city": "New Brunswick",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 55831,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Newark",
     "state": "New Jersey",
     "state_code": "NJ",
     "population": 278427,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Passaic",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 70868,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -7566,10 +11739,205 @@
     }
   },
   {
+    "city": "Perth Amboy",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 51982,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Plainfield",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 50588,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Trenton",
     "state": "New Jersey",
     "state_code": "NJ",
     "population": 84349,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Union City",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 68247,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Vineland",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 61050,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "West New York",
+    "state": "New Jersey",
+    "state_code": "NJ",
+    "population": 52122,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -7722,6 +12090,45 @@
     }
   },
   {
+    "city": "Santa Fe",
+    "state": "New Mexico",
+    "state_code": "NM",
+    "population": 69976,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
     "city": "Albany",
     "state": "New York",
     "state_code": "NY",
@@ -7765,6 +12172,84 @@
     "state": "New York",
     "state_code": "NY",
     "population": 258959,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Hempstead",
+    "state": "New York",
+    "state_code": "NY",
+    "population": 55361,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Mount Vernon",
+    "state": "New York",
+    "state_code": "NY",
+    "population": 68224,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -7917,10 +12402,127 @@
     }
   },
   {
+    "city": "Schenectady",
+    "state": "New York",
+    "state_code": "NY",
+    "population": 65902,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Syracuse",
     "state": "New York",
     "state_code": "NY",
     "population": 144669,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Utica",
+    "state": "New York",
+    "state_code": "NY",
+    "population": 61808,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "White Plains",
+    "state": "New York",
+    "state_code": "NY",
+    "population": 57866,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -8034,10 +12636,88 @@
     }
   },
   {
+    "city": "Burlington",
+    "state": "North Carolina",
+    "state_code": "NC",
+    "population": 51510,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Cary",
     "state": "North Carolina",
     "state_code": "NC",
     "population": 151088,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Chapel Hill",
+    "state": "North Carolina",
+    "state_code": "NC",
+    "population": 59635,
     "region": "southeast",
     "sizes": {
       "1000": {
@@ -8229,6 +12909,45 @@
     }
   },
   {
+    "city": "Gastonia",
+    "state": "North Carolina",
+    "state_code": "NC",
+    "population": 73209,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Greensboro",
     "state": "North Carolina",
     "state_code": "NC",
@@ -8346,10 +13065,127 @@
     }
   },
   {
+    "city": "Huntersville",
+    "state": "North Carolina",
+    "state_code": "NC",
+    "population": 50458,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Jacksonville",
+    "state": "North Carolina",
+    "state_code": "NC",
+    "population": 69079,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "Raleigh",
     "state": "North Carolina",
     "state_code": "NC",
     "population": 431746,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Rocky Mount",
+    "state": "North Carolina",
+    "state_code": "NC",
+    "population": 56954,
     "region": "southeast",
     "sizes": {
       "1000": {
@@ -8463,6 +13299,45 @@
     }
   },
   {
+    "city": "Bismarck",
+    "state": "North Dakota",
+    "state_code": "ND",
+    "population": 67034,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Fargo",
     "state": "North Dakota",
     "state_code": "ND",
@@ -8502,10 +13377,88 @@
     }
   },
   {
+    "city": "Grand Forks",
+    "state": "North Dakota",
+    "state_code": "ND",
+    "population": 54932,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Akron",
     "state": "Ohio",
     "state_code": "OH",
     "population": 198100,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Canton",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 72535,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -8697,6 +13650,201 @@
     }
   },
   {
+    "city": "Elyria",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 53956,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Hamilton",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 62258,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Kettering",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 55870,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Lakewood",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 51143,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Lorain",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 63710,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Parma",
     "state": "Ohio",
     "state_code": "OH",
@@ -8736,10 +13884,88 @@
     }
   },
   {
+    "city": "Springfield",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 59357,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Toledo",
     "state": "Ohio",
     "state_code": "OH",
     "population": 282313,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Youngstown",
+    "state": "Ohio",
+    "state_code": "OH",
+    "population": 65184,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -8853,10 +14079,127 @@
     }
   },
   {
+    "city": "Enid",
+    "state": "Oklahoma",
+    "state_code": "OK",
+    "population": 50725,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
     "city": "Lawton",
     "state": "Oklahoma",
     "state_code": "OK",
     "population": 97151,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Midwest City",
+    "state": "Oklahoma",
+    "state_code": "OK",
+    "population": 56756,
+    "region": "south",
+    "sizes": {
+      "1000": {
+        "asphalt": 6300,
+        "architectural": 7750,
+        "metal": 13300,
+        "tile": 20700
+      },
+      "1500": {
+        "asphalt": 9400,
+        "architectural": 11650,
+        "metal": 19950,
+        "tile": 31050
+      },
+      "2000": {
+        "asphalt": 12550,
+        "architectural": 15500,
+        "metal": 26600,
+        "tile": 41400
+      },
+      "2500": {
+        "asphalt": 15700,
+        "architectural": 19400,
+        "metal": 33250,
+        "tile": 51750
+      },
+      "3000": {
+        "asphalt": 18850,
+        "architectural": 23300,
+        "metal": 39900,
+        "tile": 62100
+      }
+    }
+  },
+  {
+    "city": "Moore",
+    "state": "Oklahoma",
+    "state_code": "OK",
+    "population": 58414,
     "region": "south",
     "sizes": {
       "1000": {
@@ -9009,6 +14352,45 @@
     }
   },
   {
+    "city": "Albany",
+    "state": "Oregon",
+    "state_code": "OR",
+    "population": 51583,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
     "city": "Beaverton",
     "state": "Oregon",
     "state_code": "OR",
@@ -9052,6 +14434,45 @@
     "state": "Oregon",
     "state_code": "OR",
     "population": 81236,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Corvallis",
+    "state": "Oregon",
+    "state_code": "OR",
+    "population": 55298,
     "region": "west",
     "sizes": {
       "1000": {
@@ -9321,6 +14742,84 @@
     }
   },
   {
+    "city": "Springfield",
+    "state": "Oregon",
+    "state_code": "OR",
+    "population": 60177,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Tigard",
+    "state": "Oregon",
+    "state_code": "OR",
+    "population": 50444,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
     "city": "Allentown",
     "state": "Pennsylvania",
     "state_code": "PA",
@@ -9403,6 +14902,45 @@
     "state": "Pennsylvania",
     "state_code": "PA",
     "population": 100671,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
+    "city": "Lancaster",
+    "state": "Pennsylvania",
+    "state_code": "PA",
+    "population": 59325,
     "region": "northeast",
     "sizes": {
       "1000": {
@@ -9633,6 +15171,45 @@
     }
   },
   {
+    "city": "Pawtucket",
+    "state": "Rhode Island",
+    "state_code": "RI",
+    "population": 71172,
+    "region": "northeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 7250,
+        "architectural": 8950,
+        "metal": 15300,
+        "tile": 23800
+      },
+      "1500": {
+        "asphalt": 10850,
+        "architectural": 13400,
+        "metal": 22950,
+        "tile": 35700
+      },
+      "2000": {
+        "asphalt": 14450,
+        "architectural": 17850,
+        "metal": 30600,
+        "tile": 47600
+      },
+      "2500": {
+        "asphalt": 18050,
+        "architectural": 22300,
+        "metal": 38250,
+        "tile": 59500
+      },
+      "3000": {
+        "asphalt": 21700,
+        "architectural": 26800,
+        "metal": 45900,
+        "tile": 71400
+      }
+    }
+  },
+  {
     "city": "Providence",
     "state": "Rhode Island",
     "state_code": "RI",
@@ -9789,6 +15366,84 @@
     }
   },
   {
+    "city": "Greenville",
+    "state": "South Carolina",
+    "state_code": "SC",
+    "population": 61397,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Mount Pleasant",
+    "state": "South Carolina",
+    "state_code": "SC",
+    "population": 74885,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
     "city": "North Charleston",
     "state": "South Carolina",
     "state_code": "SC",
@@ -9828,6 +15483,84 @@
     }
   },
   {
+    "city": "Rock Hill",
+    "state": "South Carolina",
+    "state_code": "SC",
+    "population": 69103,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Rapid City",
+    "state": "South Dakota",
+    "state_code": "SD",
+    "population": 70812,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Sioux Falls",
     "state": "South Dakota",
     "state_code": "SD",
@@ -9863,6 +15596,45 @@
         "architectural": 24700,
         "metal": 42300,
         "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Bartlett",
+    "state": "Tennessee",
+    "state_code": "TN",
+    "population": 58226,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
       }
     }
   },
@@ -9910,6 +15682,201 @@
     "state": "Tennessee",
     "state_code": "TN",
     "population": 142357,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Franklin",
+    "state": "Tennessee",
+    "state_code": "TN",
+    "population": 68886,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Hendersonville",
+    "state": "Tennessee",
+    "state_code": "TN",
+    "population": 54068,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Jackson",
+    "state": "Tennessee",
+    "state_code": "TN",
+    "population": 67685,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Johnson City",
+    "state": "Tennessee",
+    "state_code": "TN",
+    "population": 65123,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Kingsport",
+    "state": "Tennessee",
+    "state_code": "TN",
+    "population": 52962,
     "region": "southeast",
     "sizes": {
       "1000": {
@@ -10881,6 +16848,84 @@
     }
   },
   {
+    "city": "Layton",
+    "state": "Utah",
+    "state_code": "UT",
+    "population": 70790,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Lehi",
+    "state": "Utah",
+    "state_code": "UT",
+    "population": 54382,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
     "city": "Ogden",
     "state": "Utah",
     "state_code": "UT",
@@ -11076,10 +17121,88 @@
     }
   },
   {
+    "city": "South Jordan",
+    "state": "Utah",
+    "state_code": "UT",
+    "population": 59366,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
     "city": "St. George",
     "state": "Utah",
     "state_code": "UT",
     "population": 76817,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Taylorsville",
+    "state": "Utah",
+    "state_code": "UT",
+    "population": 60519,
     "region": "mountain",
     "sizes": {
       "1000": {
@@ -11275,6 +17398,45 @@
     "state": "Virginia",
     "state_code": "VA",
     "population": 136699,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Harrisonburg",
+    "state": "Virginia",
+    "state_code": "VA",
+    "population": 51395,
     "region": "southeast",
     "sizes": {
       "1000": {
@@ -11622,6 +17784,45 @@
     }
   },
   {
+    "city": "Auburn",
+    "state": "Washington",
+    "state_code": "WA",
+    "population": 74860,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
     "city": "Bellevue",
     "state": "Washington",
     "state_code": "WA",
@@ -11895,6 +18096,162 @@
     }
   },
   {
+    "city": "Lakewood",
+    "state": "Washington",
+    "state_code": "WA",
+    "population": 59097,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Marysville",
+    "state": "Washington",
+    "state_code": "WA",
+    "population": 63269,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Pasco",
+    "state": "Washington",
+    "state_code": "WA",
+    "population": 67599,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Redmond",
+    "state": "Washington",
+    "state_code": "WA",
+    "population": 57530,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
     "city": "Renton",
     "state": "Washington",
     "state_code": "WA",
@@ -11938,6 +18295,45 @@
     "state": "Washington",
     "state_code": "WA",
     "population": 652405,
+    "region": "west",
+    "sizes": {
+      "1000": {
+        "asphalt": 7400,
+        "architectural": 9150,
+        "metal": 15700,
+        "tile": 24400
+      },
+      "1500": {
+        "asphalt": 11100,
+        "architectural": 13750,
+        "metal": 23550,
+        "tile": 36650
+      },
+      "2000": {
+        "asphalt": 14850,
+        "architectural": 18300,
+        "metal": 31400,
+        "tile": 48850
+      },
+      "2500": {
+        "asphalt": 18550,
+        "architectural": 22900,
+        "metal": 39250,
+        "tile": 61050
+      },
+      "3000": {
+        "asphalt": 22250,
+        "architectural": 27500,
+        "metal": 47100,
+        "tile": 73250
+      }
+    }
+  },
+  {
+    "city": "Shoreline",
+    "state": "Washington",
+    "state_code": "WA",
+    "population": 54790,
     "region": "west",
     "sizes": {
       "1000": {
@@ -12168,6 +18564,123 @@
     }
   },
   {
+    "city": "Charleston",
+    "state": "West Virginia",
+    "state_code": "WV",
+    "population": 50821,
+    "region": "southeast",
+    "sizes": {
+      "1000": {
+        "asphalt": 6450,
+        "architectural": 8000,
+        "metal": 13700,
+        "tile": 21300
+      },
+      "1500": {
+        "asphalt": 9700,
+        "architectural": 12000,
+        "metal": 20550,
+        "tile": 32000
+      },
+      "2000": {
+        "asphalt": 12950,
+        "architectural": 16000,
+        "metal": 27400,
+        "tile": 42650
+      },
+      "2500": {
+        "asphalt": 16200,
+        "architectural": 20000,
+        "metal": 34250,
+        "tile": 53300
+      },
+      "3000": {
+        "asphalt": 19400,
+        "architectural": 24000,
+        "metal": 41100,
+        "tile": 63950
+      }
+    }
+  },
+  {
+    "city": "Appleton",
+    "state": "Wisconsin",
+    "state_code": "WI",
+    "population": 73596,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Eau Claire",
+    "state": "Wisconsin",
+    "state_code": "WI",
+    "population": 67545,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Green Bay",
     "state": "Wisconsin",
     "state_code": "WI",
@@ -12207,10 +18720,88 @@
     }
   },
   {
+    "city": "Janesville",
+    "state": "Wisconsin",
+    "state_code": "WI",
+    "population": 63820,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Kenosha",
     "state": "Wisconsin",
     "state_code": "WI",
     "population": 99889,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "La Crosse",
+    "state": "Wisconsin",
+    "state_code": "WI",
+    "population": 51522,
     "region": "midwest",
     "sizes": {
       "1000": {
@@ -12324,6 +18915,45 @@
     }
   },
   {
+    "city": "Oshkosh",
+    "state": "Wisconsin",
+    "state_code": "WI",
+    "population": 66778,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
     "city": "Racine",
     "state": "Wisconsin",
     "state_code": "WI",
@@ -12359,6 +18989,162 @@
         "architectural": 24700,
         "metal": 42300,
         "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Waukesha",
+    "state": "Wisconsin",
+    "state_code": "WI",
+    "population": 71016,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "West Allis",
+    "state": "Wisconsin",
+    "state_code": "WI",
+    "population": 60697,
+    "region": "midwest",
+    "sizes": {
+      "1000": {
+        "asphalt": 6650,
+        "architectural": 8250,
+        "metal": 14100,
+        "tile": 21950
+      },
+      "1500": {
+        "asphalt": 10000,
+        "architectural": 12350,
+        "metal": 21150,
+        "tile": 32900
+      },
+      "2000": {
+        "asphalt": 13300,
+        "architectural": 16450,
+        "metal": 28200,
+        "tile": 43900
+      },
+      "2500": {
+        "asphalt": 16650,
+        "architectural": 20550,
+        "metal": 35250,
+        "tile": 54850
+      },
+      "3000": {
+        "asphalt": 20000,
+        "architectural": 24700,
+        "metal": 42300,
+        "tile": 65800
+      }
+    }
+  },
+  {
+    "city": "Casper",
+    "state": "Wyoming",
+    "state_code": "WY",
+    "population": 59628,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
+      }
+    }
+  },
+  {
+    "city": "Cheyenne",
+    "state": "Wyoming",
+    "state_code": "WY",
+    "population": 62448,
+    "region": "mountain",
+    "sizes": {
+      "1000": {
+        "asphalt": 6800,
+        "architectural": 8400,
+        "metal": 14350,
+        "tile": 22350
+      },
+      "1500": {
+        "asphalt": 10200,
+        "architectural": 12550,
+        "metal": 21550,
+        "tile": 33550
+      },
+      "2000": {
+        "asphalt": 13550,
+        "architectural": 16750,
+        "metal": 28750,
+        "tile": 44700
+      },
+      "2500": {
+        "asphalt": 16950,
+        "architectural": 20950,
+        "metal": 35950,
+        "tile": 55900
+      },
+      "3000": {
+        "asphalt": 20350,
+        "architectural": 25150,
+        "metal": 43100,
+        "tile": 67050
       }
     }
   }

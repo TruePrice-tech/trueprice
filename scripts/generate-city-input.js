@@ -6,9 +6,9 @@ const ROOT = path.resolve(__dirname, "..");
 const SOURCE_CSV = path.join(ROOT, "data", "us-cities-source.csv");
 const OUTPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
 
-const MIN_POPULATION = 75000;
+const MIN_POPULATION = 50000;
 const MAX_CITIES_PER_STATE = 20;
-const MAX_TOTAL_CITIES = 350;
+const MAX_TOTAL_CITIES = 500;
 
 const FORCE_INCLUDE = new Set([
   "New York|NY",

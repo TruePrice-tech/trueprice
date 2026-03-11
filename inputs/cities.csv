@@ -1,5 +1,8 @@
 city,state,state_code,population
+Auburn,Alabama,AL,58582
 Birmingham,Alabama,AL,212113
+Decatur,Alabama,AL,55816
+Dothan,Alabama,AL,68001
 Hoover,Alabama,AL,84126
 Huntsville,Alabama,AL,186254
 Mobile,Alabama,AL,194899
@@ -7,9 +10,14 @@ Montgomery,Alabama,AL,201332
 Tuscaloosa,Alabama,AL,95334
 Anchorage,Alaska,AK,300950
 Avondale,Arizona,AZ,78822
+Buckeye,Arizona,AZ,56683
+Casa Grande,Arizona,AZ,50111
 Chandler,Arizona,AZ,249146
+Flagstaff,Arizona,AZ,68667
 Gilbert,Arizona,AZ,229972
 Glendale,Arizona,AZ,234632
+Goodyear,Arizona,AZ,72864
+Lake Havasu City,Arizona,AZ,52844
 Mesa,Arizona,AZ,457587
 Peoria,Arizona,AZ,162592
 Phoenix,Arizona,AZ,1513367
@@ -18,9 +26,13 @@ Surprise,Arizona,AZ,123546
 Tempe,Arizona,AZ,168228
 Tucson,Arizona,AZ,526116
 Yuma,Arizona,AZ,91923
+Conway,Arkansas,AR,63816
 Fayetteville,Arkansas,AR,78960
 Fort Smith,Arkansas,AR,87650
+Jonesboro,Arkansas,AR,71551
 Little Rock,Arkansas,AR,197357
+North Little Rock,Arkansas,AR,66075
+Rogers,Arkansas,AR,60112
 Springdale,Arkansas,AR,75229
 Anaheim,California,CA,345012
 Bakersfield,California,CA,363630
@@ -45,23 +57,33 @@ Stockton,California,CA,298118
 Arvada,Colorado,CO,111707
 Aurora,Colorado,CO,345803
 Boulder,Colorado,CO,103166
+Broomfield,Colorado,CO,59471
+Castle Rock,Colorado,CO,53063
 Centennial,Colorado,CO,106114
 Colorado Springs,Colorado,CO,439886
 Denver,Colorado,CO,649495
 Fort Collins,Colorado,CO,152061
+Grand Junction,Colorado,CO,59778
 Greeley,Colorado,CO,96539
 Lakewood,Colorado,CO,147214
 Longmont,Colorado,CO,89919
+Loveland,Colorado,CO,71334
 Pueblo,Colorado,CO,108249
 Thornton,Colorado,CO,127359
 Westminster,Colorado,CO,110945
 Bridgeport,Connecticut,CT,147216
+Bristol,Connecticut,CT,60568
 Danbury,Connecticut,CT,83684
 Hartford,Connecticut,CT,125017
+Meriden,Connecticut,CT,60456
+Milford,Connecticut,CT,51644
+New Britain,Connecticut,CT,72939
 New Haven,Connecticut,CT,130660
 Norwalk,Connecticut,CT,87776
 Stamford,Connecticut,CT,126456
 Waterbury,Connecticut,CT,109676
+West Haven,Connecticut,CT,55046
+Wilmington,Delaware,DE,71525
 Cape Coral,Florida,FL,165831
 Clearwater,Florida,FL,109703
 Coral Springs,Florida,FL,126604
@@ -83,71 +105,120 @@ Tallahassee,Florida,FL,186411
 Tampa,Florida,FL,352957
 West Palm Beach,Florida,FL,102436
 Albany,Georgia,GA,76185
+Alpharetta,Georgia,GA,62298
 Athens-Clarke County,Georgia,GA,119980
 Atlanta,Georgia,GA,447841
 Augusta-Richmond County,Georgia,GA,197350
+Brookhaven,Georgia,GA,50603
 Columbus,Georgia,GA,202824
 Johns Creek,Georgia,GA,82788
 Macon,Georgia,GA,89981
+Marietta,Georgia,GA,59089
 Roswell,Georgia,GA,94034
 Sandy Springs,Georgia,GA,99770
 Savannah,Georgia,GA,142772
+Smyrna,Georgia,GA,53438
+Valdosta,Georgia,GA,56481
+Warner Robins,Georgia,GA,72531
 Honolulu,Hawaii,HI,347884
 Boise City,Idaho,ID,214237
+Idaho Falls,Idaho,ID,58292
 Meridian,Idaho,ID,83596
 Nampa,Idaho,ID,86518
+Pocatello,Idaho,ID,54350
 Arlington Heights,Illinois,IL,75994
 Aurora,Illinois,IL,199963
 Bloomington,Illinois,IL,78902
+Bolingbrook,Illinois,IL,73936
 Champaign,Illinois,IL,83424
 Chicago,Illinois,IL,2718782
 Cicero,Illinois,IL,84103
+Decatur,Illinois,IL,74710
+Des Plaines,Illinois,IL,58918
 Elgin,Illinois,IL,110145
 Evanston,Illinois,IL,75570
 Joliet,Illinois,IL,147806
 Naperville,Illinois,IL,144864
+Palatine,Illinois,IL,69350
 Peoria,Illinois,IL,116513
 Rockford,Illinois,IL,150251
+Schaumburg,Illinois,IL,74907
+Skokie,Illinois,IL,65176
 Springfield,Illinois,IL,117006
 Waukegan,Illinois,IL,88826
+Anderson,Indiana,IN,55670
 Bloomington,Indiana,IN,82575
 Carmel,Indiana,IN,85927
+Elkhart,Indiana,IN,51265
 Evansville,Indiana,IN,120310
 Fishers,Indiana,IN,83891
 Fort Wayne,Indiana,IN,256496
 Gary,Indiana,IN,78450
+Greenwood,Indiana,IN,53665
 Hammond,Indiana,IN,78967
 Indianapolis,Indiana,IN,843393
+Kokomo,Indiana,IN,56895
+Lafayette,Indiana,IN,70373
+Muncie,Indiana,IN,70316
+Noblesville,Indiana,IN,56540
 South Bend,Indiana,IN,100886
+Terre Haute,Indiana,IN,61025
+Ames,Iowa,IA,61792
+Ankeny,Iowa,IA,51567
 Cedar Rapids,Iowa,IA,128429
+Council Bluffs,Iowa,IA,61969
 Davenport,Iowa,IA,102157
 Des Moines,Iowa,IA,207510
+Dubuque,Iowa,IA,58253
+Iowa City,Iowa,IA,71591
 Sioux City,Iowa,IA,82459
+Waterloo,Iowa,IA,68366
+West Des Moines,Iowa,IA,61255
 Kansas City,Kansas,KS,148483
 Lawrence,Kansas,KS,90811
+Lenexa,Kansas,KS,50344
+Manhattan,Kansas,KS,56143
 Olathe,Kansas,KS,131885
 Overland Park,Kansas,KS,181260
+Shawnee,Kansas,KS,64323
 Topeka,Kansas,KS,127679
 Wichita,Kansas,KS,386552
+Bowling Green,Kentucky,KY,61488
 Lexington-Fayette,Kentucky,KY,308428
 Louisville,Kentucky,KY,609893
+Owensboro,Kentucky,KY,58416
 Baton Rouge,Louisiana,LA,229426
+Bossier City,Louisiana,LA,66333
+Kenner,Louisiana,LA,66975
 Lafayette,Louisiana,LA,124276
+Lake Charles,Louisiana,LA,74024
 New Orleans,Louisiana,LA,378715
 Shreveport,Louisiana,LA,200327
+Portland,Maine,ME,66318
 Baltimore,Maryland,MD,622104
+Bowie,Maryland,MD,56759
+Frederick,Maryland,MD,66893
+Gaithersburg,Maryland,MD,65690
+Rockville,Maryland,MD,64072
 Boston,Massachusetts,MA,645966
 Brockton,Massachusetts,MA,94089
 Cambridge,Massachusetts,MA,107289
+Chicopee,Massachusetts,MA,55717
 Fall River,Massachusetts,MA,88697
+Haverhill,Massachusetts,MA,62088
 Lawrence,Massachusetts,MA,77657
 Lowell,Massachusetts,MA,108861
 Lynn,Massachusetts,MA,91589
+Malden,Massachusetts,MA,60509
+Medford,Massachusetts,MA,57170
 New Bedford,Massachusetts,MA,95078
 Newton,Massachusetts,MA,87971
 Quincy,Massachusetts,MA,93494
 Somerville,Massachusetts,MA,78804
 Springfield,Massachusetts,MA,153703
+Taunton,Massachusetts,MA,56069
+Waltham,Massachusetts,MA,62227
+Weymouth Town,Massachusetts,MA,55419
 Worcester,Massachusetts,MA,182544
 Ann Arbor,Michigan,MI,117025
 Dearborn,Michigan,MI,95884
@@ -158,28 +229,59 @@ Grand Rapids,Michigan,MI,192294
 Kalamazoo,Michigan,MI,75548
 Lansing,Michigan,MI,113972
 Livonia,Michigan,MI,95208
+Pontiac,Michigan,MI,59887
+Rochester Hills,Michigan,MI,72952
+Royal Oak,Michigan,MI,58946
+Southfield,Michigan,MI,73006
+St. Clair Shores,Michigan,MI,60070
 Sterling Heights,Michigan,MI,131224
+Taylor,Michigan,MI,61817
 Troy,Michigan,MI,82821
 Warren,Michigan,MI,134873
 Westland,Michigan,MI,82578
+Wyoming,Michigan,MI,74100
+Apple Valley,Minnesota,MN,50201
+Blaine,Minnesota,MN,60407
 Bloomington,Minnesota,MN,86319
 Brooklyn Park,Minnesota,MN,78373
+Burnsville,Minnesota,MN,61434
+Coon Rapids,Minnesota,MN,62103
 Duluth,Minnesota,MN,86128
+Eagan,Minnesota,MN,65453
+Eden Prairie,Minnesota,MN,62603
+Lakeville,Minnesota,MN,58562
+Maple Grove,Minnesota,MN,65415
 Minneapolis,Minnesota,MN,400070
+Minnetonka,Minnesota,MN,51368
+Plymouth,Minnesota,MN,73987
 Rochester,Minnesota,MN,110742
+St. Cloud,Minnesota,MN,66297
 St. Paul,Minnesota,MN,294873
+Woodbury,Minnesota,MN,65656
+Gulfport,Mississippi,MS,71012
 Jackson,Mississippi,MS,172638
+Southaven,Mississippi,MS,50997
+Blue Springs,Missouri,MO,53294
 Columbia,Missouri,MO,115276
+Florissant,Missouri,MO,52363
 Independence,Missouri,MO,117240
+Joplin,Missouri,MO,50789
 Kansas City,Missouri,MO,467007
 Lee's Summit,Missouri,MO,93184
 O'Fallon,Missouri,MO,82809
 Springfield,Missouri,MO,164122
+St. Charles,Missouri,MO,67569
 St. Joseph,Missouri,MO,77147
 St. Louis,Missouri,MO,318416
+St. Peters,Missouri,MO,54842
 Billings,Montana,MT,109059
+Great Falls,Montana,MT,59351
+Missoula,Montana,MT,69122
+Bellevue,Nebraska,NE,53663
+Grand Island,Nebraska,NE,50550
 Lincoln,Nebraska,NE,268738
 Omaha,Nebraska,NE,434353
+Carson City,Nevada,NV,54080
 Henderson,Nevada,NV,270811
 Las Vegas,Nevada,NV,603488
 North Las Vegas,Nevada,NV,226877
@@ -187,73 +289,124 @@ Reno,Nevada,NV,233294
 Sparks,Nevada,NV,93282
 Manchester,New Hampshire,NH,110378
 Nashua,New Hampshire,NH,87137
+Bayonne,New Jersey,NJ,65028
 Camden,New Jersey,NJ,76903
 Clifton,New Jersey,NJ,85390
+East Orange,New Jersey,NJ,64544
 Elizabeth,New Jersey,NJ,127558
+Hoboken,New Jersey,NJ,52575
 Jersey City,New Jersey,NJ,257342
+New Brunswick,New Jersey,NJ,55831
 Newark,New Jersey,NJ,278427
+Passaic,New Jersey,NJ,70868
 Paterson,New Jersey,NJ,145948
+Perth Amboy,New Jersey,NJ,51982
+Plainfield,New Jersey,NJ,50588
 Trenton,New Jersey,NJ,84349
+Union City,New Jersey,NJ,68247
+Vineland,New Jersey,NJ,61050
+West New York,New Jersey,NJ,52122
 Albuquerque,New Mexico,NM,556495
 Las Cruces,New Mexico,NM,101324
 Rio Rancho,New Mexico,NM,91956
+Santa Fe,New Mexico,NM,69976
 Albany,New York,NY,98424
 Buffalo,New York,NY,258959
+Hempstead,New York,NY,55361
+Mount Vernon,New York,NY,68224
 New Rochelle,New York,NY,79446
 New York,New York,NY,8405837
 Rochester,New York,NY,210358
+Schenectady,New York,NY,65902
 Syracuse,New York,NY,144669
+Utica,New York,NY,61808
+White Plains,New York,NY,57866
 Yonkers,New York,NY,199766
 Asheville,North Carolina,NC,87236
+Burlington,North Carolina,NC,51510
 Cary,North Carolina,NC,151088
+Chapel Hill,North Carolina,NC,59635
 Charlotte,North Carolina,NC,792862
 Concord,North Carolina,NC,83506
 Durham,North Carolina,NC,245475
 Fayetteville,North Carolina,NC,204408
+Gastonia,North Carolina,NC,73209
 Greensboro,North Carolina,NC,279639
 Greenville,North Carolina,NC,89130
 High Point,North Carolina,NC,107741
+Huntersville,North Carolina,NC,50458
+Jacksonville,North Carolina,NC,69079
 Raleigh,North Carolina,NC,431746
+Rocky Mount,North Carolina,NC,56954
 Wilmington,North Carolina,NC,112067
 Winston-Salem,North Carolina,NC,236441
+Bismarck,North Dakota,ND,67034
 Fargo,North Dakota,ND,113658
+Grand Forks,North Dakota,ND,54932
 Akron,Ohio,OH,198100
+Canton,Ohio,OH,72535
 Cincinnati,Ohio,OH,297517
 Cleveland,Ohio,OH,390113
 Columbus,Ohio,OH,822553
 Dayton,Ohio,OH,143355
+Elyria,Ohio,OH,53956
+Hamilton,Ohio,OH,62258
+Kettering,Ohio,OH,55870
+Lakewood,Ohio,OH,51143
+Lorain,Ohio,OH,63710
 Parma,Ohio,OH,80429
+Springfield,Ohio,OH,59357
 Toledo,Ohio,OH,282313
+Youngstown,Ohio,OH,65184
 Broken Arrow,Oklahoma,OK,103500
 Edmond,Oklahoma,OK,87004
+Enid,Oklahoma,OK,50725
 Lawton,Oklahoma,OK,97151
+Midwest City,Oklahoma,OK,56756
+Moore,Oklahoma,OK,58414
 Norman,Oklahoma,OK,118197
 Oklahoma City,Oklahoma,OK,610613
 Tulsa,Oklahoma,OK,398121
+Albany,Oregon,OR,51583
 Beaverton,Oregon,OR,93542
 Bend,Oregon,OR,81236
+Corvallis,Oregon,OR,55298
 Eugene,Oregon,OR,159190
 Gresham,Oregon,OR,109397
 Hillsboro,Oregon,OR,97368
 Medford,Oregon,OR,77677
 Portland,Oregon,OR,609456
 Salem,Oregon,OR,160614
+Springfield,Oregon,OR,60177
+Tigard,Oregon,OR,50444
 Allentown,Pennsylvania,PA,118577
 Bethlehem,Pennsylvania,PA,75018
 Erie,Pennsylvania,PA,100671
+Lancaster,Pennsylvania,PA,59325
 Philadelphia,Pennsylvania,PA,1553165
 Pittsburgh,Pennsylvania,PA,305841
 Reading,Pennsylvania,PA,87893
 Scranton,Pennsylvania,PA,75806
 Cranston,Rhode Island,RI,80566
+Pawtucket,Rhode Island,RI,71172
 Providence,Rhode Island,RI,177994
 Warwick,Rhode Island,RI,81971
 Charleston,South Carolina,SC,127999
 Columbia,South Carolina,SC,133358
+Greenville,South Carolina,SC,61397
+Mount Pleasant,South Carolina,SC,74885
 North Charleston,South Carolina,SC,104054
+Rock Hill,South Carolina,SC,69103
+Rapid City,South Dakota,SD,70812
 Sioux Falls,South Dakota,SD,164676
+Bartlett,Tennessee,TN,58226
 Chattanooga,Tennessee,TN,173366
 Clarksville,Tennessee,TN,142357
+Franklin,Tennessee,TN,68886
+Hendersonville,Tennessee,TN,54068
+Jackson,Tennessee,TN,67685
+Johnson City,Tennessee,TN,65123
+Kingsport,Tennessee,TN,52962
 Knoxville,Tennessee,TN,183270
 Memphis,Tennessee,TN,653450
 Murfreesboro,Tennessee,TN,117044
@@ -278,17 +431,22 @@ Mesquite,Texas,TX,143484
 Pasadena,Texas,TX,152735
 Plano,Texas,TX,274409
 San Antonio,Texas,TX,1409019
+Layton,Utah,UT,70790
+Lehi,Utah,UT,54382
 Ogden,Utah,UT,84249
 Orem,Utah,UT,91648
 Provo,Utah,UT,116288
 Salt Lake City,Utah,UT,191180
 Sandy,Utah,UT,90231
+South Jordan,Utah,UT,59366
 St. George,Utah,UT,76817
+Taylorsville,Utah,UT,60519
 West Jordan,Utah,UT,110077
 West Valley City,Utah,UT,133579
 Alexandria,Virginia,VA,148892
 Chesapeake,Virginia,VA,230571
 Hampton,Virginia,VA,136699
+Harrisonburg,Virginia,VA,51395
 Lynchburg,Virginia,VA,78014
 Newport News,Virginia,VA,182020
 Norfolk,Virginia,VA,246139
@@ -297,6 +455,7 @@ Richmond,Virginia,VA,214114
 Roanoke,Virginia,VA,98465
 Suffolk,Virginia,VA,85728
 Virginia Beach,Virginia,VA,448479
+Auburn,Washington,WA,74860
 Bellevue,Washington,WA,133992
 Bellingham,Washington,WA,82631
 Everett,Washington,WA,105370
@@ -304,15 +463,30 @@ Federal Way,Washington,WA,92734
 Kennewick,Washington,WA,76762
 Kent,Washington,WA,124435
 Kirkland,Washington,WA,84430
+Lakewood,Washington,WA,59097
+Marysville,Washington,WA,63269
+Pasco,Washington,WA,67599
+Redmond,Washington,WA,57530
 Renton,Washington,WA,97003
 Seattle,Washington,WA,652405
+Shoreline,Washington,WA,54790
 Spokane,Washington,WA,210721
 Spokane Valley,Washington,WA,91113
 Tacoma,Washington,WA,203446
 Vancouver,Washington,WA,167405
 Yakima,Washington,WA,93257
+Charleston,West Virginia,WV,50821
+Appleton,Wisconsin,WI,73596
+Eau Claire,Wisconsin,WI,67545
 Green Bay,Wisconsin,WI,104779
+Janesville,Wisconsin,WI,63820
 Kenosha,Wisconsin,WI,99889
+La Crosse,Wisconsin,WI,51522
 Madison,Wisconsin,WI,243344
 Milwaukee,Wisconsin,WI,599164
+Oshkosh,Wisconsin,WI,66778
 Racine,Wisconsin,WI,78199
+Waukesha,Wisconsin,WI,71016
+West Allis,Wisconsin,WI,60697
+Casper,Wyoming,WY,59628
+Cheyenne,Wyoming,WY,62448
