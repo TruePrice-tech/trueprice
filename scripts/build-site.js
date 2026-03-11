@@ -197,6 +197,22 @@ function generateRelatedCityLinks(currentCityPricing, allCityRows) {
     .join("\n");
 }
 
+function generateSameStateCityLinks(currentCityPricing, allCityRows) {
+  return allCityRows
+    .filter(
+      (city) =>
+        city.state_code === currentCityPricing.state_code &&
+        city.city !== currentCityPricing.city
+    )
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
+    .slice(0, 8)
+    .map((city) => {
+      const filename = buildCityPageFilename(city.city, city.state_code);
+      return `<li><a href="/trueprice/${filename}">${city.city}, ${city.state_code}</a></li>`;
+    })
+    .join("\n");
+}
+
 function getStatePageLink(cityPricing) {
   const stateFilename = buildStatePageFilename(cityPricing.state);
   return `<a href="/trueprice/${stateFilename}">${cityPricing.state}</a>`;
@@ -271,6 +287,7 @@ function generateCityPageHtml(cityPricing, allCityRows) {
     .join("");
 
   const relatedCityLinks = generateRelatedCityLinks(cityPricing, allCityRows);
+  const sameStateCityLinks = generateSameStateCityLinks(cityPricing, allCityRows);
   const cityMaterialLinks = generateCityMaterialLinks(cityPricing);
   const statePageLink = getStatePageLink(cityPricing);
   const cityRates = getCityMaterialRates(cityPricing);
@@ -287,6 +304,7 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{CITY_RATE_ARCHITECTURAL}}", cityRates.architectural);
   template = template.replaceAll("{{CITY_RATE_METAL}}", cityRates.metal);
   template = template.replaceAll("{{CITY_RATE_TILE}}", cityRates.tile);
+  template = template.replace("{{SAME_STATE_CITY_LINKS}}", sameStateCityLinks);
 
   return template;
 }
