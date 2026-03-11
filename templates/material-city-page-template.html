@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>{{PAGE_TITLE}}</title>
+  <meta name="description" content="{{META_DESCRIPTION}}" />
+  <link rel="canonical" href="{{CANONICAL_URL}}" />
+
+  <meta property="og:title" content="{{PAGE_TITLE}}" />
+  <meta property="og:description" content="{{META_DESCRIPTION}}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{CANONICAL_URL}}" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      color: #222;
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .breadcrumbs {
+      font-size: 14px;
+      margin-bottom: 18px;
+      color: #666;
+    }
+
+    .breadcrumbs a {
+      color: #0b57d0;
+      text-decoration: none;
+    }
+
+    h1 {
+      font-size: 34px;
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+
+    h2 {
+      margin-top: 34px;
+      margin-bottom: 12px;
+      font-size: 26px;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    a {
+      color: #0b57d0;
+    }
+
+    .summary-box {
+      background: #f7f9fc;
+      border: 1px solid #d9e3f0;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 22px 0 28px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .summary-card {
+      background: #fff;
+      border: 1px solid #e3e7ee;
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .summary-card span {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .price-table th,
+    .price-table td {
+      border: 1px solid #e3e7ee;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .price-table th {
+      background: #f7f9fc;
+    }
+
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .link-card {
+      border: 1px solid #e3e7ee;
+      border-radius: 10px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .link-card a {
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .link-card p {
+      font-size: 14px;
+      color: #555;
+      margin: 6px 0 0 0;
+    }
+
+    .cta-box {
+      margin-top: 28px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #f5f8ff;
+      border: 1px solid #d7e4ff;
+    }
+
+    .footer-note {
+      margin-top: 36px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    @media (max-width: 700px) {
+      .price-table {
+        font-size: 14px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="/trueprice/">Home</a> ›
+      <a href="/trueprice/all-cities.html">All Cities</a> ›
+      <a href="/trueprice/{{STATE_PAGE_FILENAME}}">{{STATE_NAME}}</a> ›
+      <a href="/trueprice/{{CITY_PAGE_FILENAME}}">{{CITY}}, {{STATE_CODE}}</a> ›
+      <a href="/trueprice/{{MATERIAL_PAGE_FILENAME}}">{{MATERIAL_DISPLAY_NAME}}</a>
+    </div>
+
+    <h1>{{H1}}</h1>
+
+    <p>{{INTRO_PARAGRAPH}}</p>
+
+    <div class="summary-box">
+      <div class="summary-grid">
+        <div class="summary-card">
+          <strong>City</strong>
+          <span>{{CITY}}, {{STATE_CODE}}</span>
+        </div>
+        <div class="summary-card">
+          <strong>Material</strong>
+          <span>{{MATERIAL_DISPLAY_NAME}}</span>
+        </div>
+        <div class="summary-card">
+          <strong>Typical Price Range</strong>
+          <span>{{PRICE_RANGE}}</span>
+        </div>
+        <div class="summary-card">
+          <strong>State</strong>
+          <span>{{STATE_NAME}}</span>
+        </div>
+      </div>
+    </div>
+
+    <h2>{{MATERIAL_DISPLAY_NAME}} roof cost in {{CITY}}</h2>
+    <p>
+      The table below shows estimated {{MATERIAL_NAME}} roof replacement pricing in {{CITY}}, {{STATE_CODE}}
+      by home size. Final quotes may vary based on tear off complexity, roof pitch, decking repairs,
+      flashing, ventilation, and contractor markup.
+    </p>
+
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th>House Size</th>
+          <th>{{MATERIAL_DISPLAY_NAME}} Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{PRICE_ROWS}}
+      </tbody>
+    </table>
+
+    <h2>Compare other roofing options in {{CITY}}</h2>
+    <div class="link-grid">
+      {{OTHER_MATERIAL_LINKS}}
+    </div>
+
+    <h2>Explore more {{MATERIAL_NAME}} roof pricing</h2>
+    <div class="link-grid">
+      {{RELATED_CITY_LINKS}}
+    </div>
+
+    <div class="cta-box">
+      <strong>Need a broader comparison?</strong>
+      <p style="margin-top: 8px;">
+        Compare all roof types on the <a href="/trueprice/{{CITY_PAGE_FILENAME}}">{{CITY}} roof cost guide</a>
+        or browse the <a href="/trueprice/{{MATERIAL_PAGE_FILENAME}}">{{MATERIAL_DISPLAY_NAME}} hub page</a>.
+      </p>
+    </div>
+
+    <h2>How to compare {{MATERIAL_NAME}} roofing quotes</h2>
+    <p>
+      Ask contractors to separate material, labor, tear off, underlayment, flashing, ventilation,
+      disposal, and warranty. That makes it much easier to compare {{MATERIAL_NAME}} quotes fairly
+      across contractors in {{CITY}}.
+    </p>
+
+    <p class="footer-note">
+      TruePrice estimates are modeled from regional roofing cost assumptions and are intended for planning
+      and quote benchmarking.
+    </p>
+  </div>
+</body>
+</html>
