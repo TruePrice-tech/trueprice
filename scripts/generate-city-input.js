@@ -6,9 +6,12 @@ const ROOT = path.resolve(__dirname, "..");
 const SOURCE_CSV = path.join(ROOT, "data", "us-cities-source.csv");
 const OUTPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
 
-const MIN_POPULATION = 50000;
-const MAX_CITIES_PER_STATE = 20;
-const MAX_TOTAL_CITIES = 500;
+const CONFIG_PATH = path.join(ROOT, "config", "city-selection.json");
+const CITY_SELECTION_CONFIG = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
+
+const MIN_POPULATION = CITY_SELECTION_CONFIG.min_population;
+const MAX_CITIES_PER_STATE = CITY_SELECTION_CONFIG.max_cities_per_state;
+const MAX_TOTAL_CITIES = CITY_SELECTION_CONFIG.max_total_cities;
 
 const FORCE_INCLUDE = new Set([
   "New York|NY",
