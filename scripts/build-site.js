@@ -11,10 +11,10 @@ const INDEX_PATH = path.join(ROOT, "index.html");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "city-page-template.html");
 const ALL_CITIES_TEMPLATE_PATH = path.join(ROOT, "templates", "all-cities-template.html");
 const STATE_TEMPLATE_PATH = path.join(ROOT, "templates", "state-page-template.html");
+const MATERIAL_TEMPLATE_PATH = path.join(ROOT, "templates", "material-page-template.html");
 const ALL_CITIES_PAGE_PATH = path.join(ROOT, "all-cities.html");
 
 const SITE_BASE_URL = "https://trueprice-tech.github.io/trueprice";
-const MATERIAL_TEMPLATE_PATH = path.join(ROOT, "templates", "material-page-template.html");
 
 function loadTemplate() {
   return fs.readFileSync(TEMPLATE_PATH, "utf8");
@@ -22,6 +22,10 @@ function loadTemplate() {
 
 function loadStateTemplate() {
   return fs.readFileSync(STATE_TEMPLATE_PATH, "utf8");
+}
+
+function loadMaterialTemplate() {
+  return fs.readFileSync(MATERIAL_TEMPLATE_PATH, "utf8");
 }
 
 function readJson(filePath) {
@@ -72,6 +76,18 @@ function buildCityPageFilename(city, stateCode) {
 
 function buildStatePageFilename(stateName) {
   return `${slugifyState(stateName)}-roof-cost.html`;
+}
+
+function buildMaterialPageFilename(material) {
+  return `${material.toLowerCase()}-roof-cost.html`;
+}
+
+function formatMaterialName(material) {
+  if (material === "architectural") return "Architectural Shingle";
+  if (material === "asphalt") return "Asphalt Shingle";
+  if (material === "metal") return "Metal";
+  if (material === "tile") return "Tile";
+  return material.charAt(0).toUpperCase() + material.slice(1);
 }
 
 function calculatePriceTable(cityRow, pricingModel, stateRegions) {
@@ -259,7 +275,27 @@ function generateHomepageStateLinks(cities) {
 `.trim();
 }
 
-function updateHomepageCitySection(cities) {
+function generateHomepageMaterialLinks(pricingModel) {
+  const materials = Object.keys(pricingModel.basePricePerSquare);
+
+  const links = materials
+    .map((material) => {
+      const filename = buildMaterialPageFilename(material);
+      return `<li><a href="/trueprice/${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
+    })
+    .join("\n");
+
+  return `
+<section class="material-links-section">
+  <h2>Roof Cost Guides by Material</h2>
+  <ul>
+    ${links}
+  </ul>
+</section>
+`.trim();
+}
+
+function updateHomepageCitySection(cities, pricingModel) {
   if (!fs.existsSync(INDEX_PATH)) {
     console.log("index.html not found. Skipping homepage update.");
     return;
@@ -291,19 +327,36 @@ function updateHomepageCitySection(cities) {
     console.log("State link markers not found in index.html. Skipping homepage state update.");
   }
 
+  const materialMarkerRegex =
+    /<!--\s*MATERIAL_LINKS_START\s*-->[\s\S]*?<!--\s*MATERIAL_LINKS_END\s*-->/;
+
+  if (materialMarkerRegex.test(indexHtml)) {
+    const newMaterialSection = generateHomepageMaterialLinks(pricingModel);
+    const materialReplacement = `<!-- MATERIAL_LINKS_START -->\n${newMaterialSection}\n<!-- MATERIAL_LINKS_END -->`;
+    indexHtml = indexHtml.replace(materialMarkerRegex, materialReplacement);
+    console.log("Updated homepage material section.");
+  } else {
+    console.log("Material link markers not found in index.html. Skipping homepage material update.");
+  }
+
   fs.writeFileSync(INDEX_PATH, indexHtml, "utf8");
 }
 
-function generateSitemap(cityRows) {
+function generateSitemap(cityRows, pricingModel) {
   const groupedStates = groupCitiesByState(cityRows);
   const stateUrls = Object.keys(groupedStates).map(
     (stateName) => `${SITE_BASE_URL}/${buildStatePageFilename(stateName)}`
+  );
+
+  const materialUrls = Object.keys(pricingModel.basePricePerSquare).map(
+    (material) => `${SITE_BASE_URL}/${buildMaterialPageFilename(material)}`
   );
 
   const urls = [
     `${SITE_BASE_URL}/`,
     `${SITE_BASE_URL}/all-cities.html`,
     ...stateUrls,
+    ...materialUrls,
     ...cityRows.map(
       (city) =>
         `${SITE_BASE_URL}/${buildCityPageFilename(city.city, city.state_code)}`
@@ -319,7 +372,7 @@ ${urls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}
   console.log("Generated sitemap.xml");
 }
 
-function generateAllCitiesPage(cityRows) {
+function generateAllCitiesPage(cityRows, pricingModel) {
   if (!fs.existsSync(ALL_CITIES_TEMPLATE_PATH)) {
     console.log("All cities template missing");
     return;
@@ -327,7 +380,7 @@ function generateAllCitiesPage(cityRows) {
 
   let template = fs.readFileSync(ALL_CITIES_TEMPLATE_PATH, "utf8");
 
-  const links = cityRows
+  const cityLinks = cityRows
     .sort((a, b) => a.city.localeCompare(b.city))
     .map((city) => {
       const filename = buildCityPageFilename(city.city, city.state_code);
@@ -335,7 +388,7 @@ function generateAllCitiesPage(cityRows) {
     })
     .join("\n");
 
-  template = template.replace("{{CITY_LINKS}}", links);
+  template = template.replace("{{CITY_LINKS}}", cityLinks);
 
   const groupedStates = groupCitiesByState(cityRows);
   const stateLinks = Object.keys(groupedStates)
@@ -348,8 +401,16 @@ function generateAllCitiesPage(cityRows) {
 
   template = template.replace("{{STATE_LINKS}}", stateLinks);
 
-  fs.writeFileSync(ALL_CITIES_PAGE_PATH, template, "utf8");
+  const materialLinks = Object.keys(pricingModel.basePricePerSquare)
+    .map((material) => {
+      const filename = buildMaterialPageFilename(material);
+      return `<li><a href="/trueprice/${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
+    })
+    .join("\n");
 
+  template = template.replace("{{MATERIAL_LINKS}}", materialLinks);
+
+  fs.writeFileSync(ALL_CITIES_PAGE_PATH, template, "utf8");
   console.log("Generated all-cities.html");
 }
 
@@ -395,6 +456,7 @@ function summarizeStateSquareRange(stateCities, pricingModel, stateRegions) {
       (basePrice) =>
         basePrice * laborMultiplier * pricingModel.overheadMultiplier
     );
+
     return {
       min: Math.min(...materialValues),
       max: Math.max(...materialValues)
@@ -425,6 +487,7 @@ function generateRelatedStateLinks(currentStateName, groupedStates) {
 
 function generateStateCityLinks(stateCities) {
   return stateCities
+    .slice()
     .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
     .map((city) => {
       const filename = buildCityPageFilename(city.city, city.state_code);
@@ -482,10 +545,7 @@ function generateStatePageHtml(
     "{{STATE_PRICE_RANGE}}",
     `${priceRange.low} to ${priceRange.high}`
   );
-  template = template.replaceAll(
-    "{{STATE_AVG_SQUARE_RANGE}}",
-    avgSquareRange
-  );
+  template = template.replaceAll("{{STATE_AVG_SQUARE_RANGE}}", avgSquareRange);
   template = template.replace("{{STATE_CITY_LINKS}}", cityLinks);
   template = template.replace("{{RELATED_STATE_LINKS}}", relatedStateLinks);
 
@@ -511,6 +571,142 @@ function generateStatePages(cityRows, cityPricingArray, pricingModel, stateRegio
       cityPricingArray,
       pricingModel,
       stateRegions
+    );
+
+    const filePath = path.join(ROOT, filename);
+    fs.writeFileSync(filePath, html, "utf8");
+    console.log(`Generated ${filename}`);
+  }
+}
+
+function summarizeMaterialPricing(material, cityPricingArray) {
+  const values = [];
+
+  for (const cityPricing of cityPricingArray) {
+    for (const sizeData of Object.values(cityPricing.sizes)) {
+      if (sizeData[material] !== undefined) {
+        values.push(Number(sizeData[material]));
+      }
+    }
+  }
+
+  if (!values.length) {
+    return {
+      low: "$0",
+      high: "$0"
+    };
+  }
+
+  return {
+    low: formatCurrency(Math.min(...values)),
+    high: formatCurrency(Math.max(...values))
+  };
+}
+
+function generateMaterialCityLinks(material, cityPricingArray) {
+  return cityPricingArray
+    .slice()
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
+    .slice(0, 48)
+    .map((cityPricing) => {
+      const filename = buildCityPageFilename(
+        cityPricing.city,
+        cityPricing.state_code
+      );
+
+      const prices = Object.values(cityPricing.sizes)
+        .map((sizeData) => Number(sizeData[material]))
+        .filter((v) => !Number.isNaN(v));
+
+      const min = prices.length ? Math.min(...prices) : null;
+      const max = prices.length ? Math.max(...prices) : null;
+      const rangeText =
+        min !== null && max !== null
+          ? `${formatCurrency(min)} to ${formatCurrency(max)}`
+          : "See local pricing";
+
+      return `
+<div class="city-link-card">
+  <a href="/trueprice/${filename}">${cityPricing.city}, ${cityPricing.state_code}</a>
+  <p>${formatMaterialName(material)} roof pricing: ${rangeText}</p>
+</div>
+`.trim();
+    })
+    .join("\n");
+}
+
+function generateRelatedMaterialLinks(currentMaterial, pricingModel) {
+  return Object.keys(pricingModel.basePricePerSquare)
+    .filter((material) => material !== currentMaterial)
+    .map((material) => {
+      const filename = buildMaterialPageFilename(material);
+      return `<li><a href="/trueprice/${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
+    })
+    .join("\n");
+}
+
+function generateMaterialPageHtml(material, cityPricingArray, pricingModel) {
+  let template = loadMaterialTemplate();
+
+  const filename = buildMaterialPageFilename(material);
+  const canonicalUrl = `${SITE_BASE_URL}/${filename}`;
+  const materialDisplayName = formatMaterialName(material);
+  const priceRange = summarizeMaterialPricing(material, cityPricingArray);
+  const cityLinks = generateMaterialCityLinks(material, cityPricingArray);
+  const relatedMaterialLinks = generateRelatedMaterialLinks(material, pricingModel);
+
+  template = template.replaceAll(
+    "{{MATERIAL_PAGE_TITLE}}",
+    `${materialDisplayName} Roof Replacement Cost (2026) | TruePrice`
+  );
+  template = template.replaceAll(
+    "{{MATERIAL_META_DESCRIPTION}}",
+    `Average ${materialDisplayName.toLowerCase()} roof replacement cost. Compare ${materialDisplayName.toLowerCase()} roofing prices across cities in 2026.`
+  );
+  template = template.replaceAll("{{MATERIAL_CANONICAL_URL}}", canonicalUrl);
+  template = template.replaceAll(
+    "{{MATERIAL_H1}}",
+    `${materialDisplayName} Roof Replacement Cost (2026)`
+  );
+  template = template.replaceAll(
+    "{{MATERIAL_NAME}}",
+    materialDisplayName.toLowerCase()
+  );
+  template = template.replaceAll("{{MATERIAL_DISPLAY_NAME}}", materialDisplayName);
+  template = template.replaceAll(
+    "{{MATERIAL_INTRO}}",
+    `Use this guide to compare ${materialDisplayName.toLowerCase()} roof replacement costs across city markets. Prices vary based on roof size, labor rates, tear off complexity, underlayment, flashing, and local demand.`
+  );
+  template = template.replaceAll(
+    "{{MATERIAL_CITY_COUNT}}",
+    String(cityPricingArray.length)
+  );
+  template = template.replaceAll(
+    "{{MATERIAL_PRICE_RANGE}}",
+    `${priceRange.low} to ${priceRange.high}`
+  );
+  template = template.replace("{{MATERIAL_CITY_LINKS}}", cityLinks);
+  template = template.replace("{{RELATED_MATERIAL_LINKS}}", relatedMaterialLinks);
+
+  return {
+    filename,
+    html: template
+  };
+}
+
+function generateMaterialPages(cityPricingArray, pricingModel) {
+  if (!fs.existsSync(MATERIAL_TEMPLATE_PATH)) {
+    console.log("Material page template missing. Skipping material page generation.");
+    return;
+  }
+
+  const materials = Object.keys(pricingModel.basePricePerSquare);
+
+  for (const material of materials) {
+    const { filename, html } = generateMaterialPageHtml(
+      material,
+      cityPricingArray,
+      pricingModel
     );
 
     const filePath = path.join(ROOT, filename);
@@ -557,9 +753,10 @@ function main() {
   }
 
   generateStatePages(cityRows, cityPricingArray, pricingModel, stateRegions);
-  updateHomepageCitySection(cityRows);
-  generateSitemap(cityRows);
-  generateAllCitiesPage(cityRows);
+  generateMaterialPages(cityPricingArray, pricingModel);
+  updateHomepageCitySection(cityRows, pricingModel);
+  generateSitemap(cityRows, pricingModel);
+  generateAllCitiesPage(cityRows, pricingModel);
 
   console.log("Build complete.");
 }
