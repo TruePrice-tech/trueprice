@@ -6,9 +6,9 @@ const ROOT = path.resolve(__dirname, "..");
 const SOURCE_CSV = path.join(ROOT, "data", "us-cities-source.csv");
 const OUTPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
 
-const MIN_POPULATION = 150000;
-const MAX_CITIES_PER_STATE = 12;
-const MAX_TOTAL_CITIES = 300;
+const MIN_POPULATION = 75000;
+const MAX_CITIES_PER_STATE = 20;
+const MAX_TOTAL_CITIES = 350;
 
 const FORCE_INCLUDE = new Set([
   "New York|NY",
@@ -140,6 +140,12 @@ function main() {
     if (a.state === b.state) return a.city.localeCompare(b.city);
     return a.state.localeCompare(b.state);
   });
+
+  console.log(`Source rows: ${sourceRows.length}`);
+  console.log(`Normalized rows: ${normalized.length}`);
+  console.log(`Forced rows: ${forced.length}`);
+  console.log(`Filtered rows >= ${MIN_POPULATION}: ${filtered.length}`);
+  console.log(`Selected rows before write: ${selected.length}`);
 
   const headers = ["city", "state", "state_code", "population"];
   const output = toCsv(selected, headers);

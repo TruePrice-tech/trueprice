@@ -721,6 +721,23 @@ function generateMaterialCityPriceRows(material, cityPricing) {
     .join("\n");
 }
 
+function generateCityMaterialClusterLinks(currentMaterial, cityPricing, pricingModel) {
+  return Object.keys(pricingModel.basePricePerSquare)
+    .filter((material) => material !== currentMaterial)
+    .map((material) => {
+      const filename = buildMaterialCityPageFilename(
+        material,
+        cityPricing.city,
+        cityPricing.state_code
+      );
+
+      return `<a href="/trueprice/${filename}">
+${formatMaterialName(material)} Roof Cost in ${cityPricing.city}
+</a>`;
+    })
+    .join("<br>");
+}
+
 function generateOtherMaterialLinksForCity(
   currentMaterial,
   cityPricing,
@@ -809,6 +826,13 @@ function generateMaterialCityPageHtml(
     cityPricing,
     pricingModel
   );
+
+  const cityMaterialClusterLinks = generateCityMaterialClusterLinks(
+    material,
+    cityPricing,
+    pricingModel
+  );
+
   const relatedCityLinks = generateRelatedMaterialCityLinks(
     material,
     cityPricing,
@@ -846,6 +870,7 @@ function generateMaterialCityPageHtml(
   template = template.replaceAll("{{PRICE_RANGE}}", priceRange);
   template = template.replace("{{PRICE_ROWS}}", priceRows);
   template = template.replace("{{OTHER_MATERIAL_LINKS}}", otherMaterialLinks);
+  template = template.replace("{{CITY_MATERIAL_CLUSTER_LINKS}}", cityMaterialClusterLinks);
   template = template.replace("{{RELATED_CITY_LINKS}}", relatedCityLinks);
   template = template.replaceAll("{{CITY_PAGE_FILENAME}}", cityPageFilename);
   template = template.replaceAll("{{STATE_PAGE_FILENAME}}", statePageFilename);
