@@ -14,6 +14,7 @@ const STATE_TEMPLATE_PATH = path.join(ROOT, "templates", "state-page-template.ht
 const ALL_CITIES_PAGE_PATH = path.join(ROOT, "all-cities.html");
 
 const SITE_BASE_URL = "https://trueprice-tech.github.io/trueprice";
+const MATERIAL_TEMPLATE_PATH = path.join(ROOT, "templates", "material-page-template.html");
 
 function loadTemplate() {
   return fs.readFileSync(TEMPLATE_PATH, "utf8");
