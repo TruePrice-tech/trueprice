@@ -228,9 +228,24 @@ function generateCityMaterialLinks(cityPricing) {
   return links
     .map(({ material, label }) => {
       const filename = buildMaterialCityPageFilename(material, city, stateCode);
-      return `* <a href="/trueprice/${filename}">${label}</a>`;
+      return `<li><a href="/trueprice/${filename}">${label}</a></li>`;
     })
     .join("\n");
+}
+
+function getCityMaterialRates(cityPricing) {
+  const sizeKey =
+    Object.keys(cityPricing.sizes).find((label) => label.includes("2000")) ||
+    Object.keys(cityPricing.sizes)[0];
+
+  const sizeData = cityPricing.sizes[sizeKey];
+
+  return {
+    asphalt: (sizeData.asphalt / 2000).toFixed(2),
+    architectural: (sizeData.architectural / 2000).toFixed(2),
+    metal: (sizeData.metal / 2000).toFixed(2),
+    tile: (sizeData.tile / 2000).toFixed(2)
+  };
 }
 
 function generateCityPageHtml(cityPricing, allCityRows) {
@@ -258,6 +273,7 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   const relatedCityLinks = generateRelatedCityLinks(cityPricing, allCityRows);
   const cityMaterialLinks = generateCityMaterialLinks(cityPricing);
   const statePageLink = getStatePageLink(cityPricing);
+  const cityRates = getCityMaterialRates(cityPricing);
 
   template = template.replaceAll("{{CITY}}", cityPricing.city);
   template = template.replaceAll("{{STATE_CODE}}", cityPricing.state_code);
@@ -267,6 +283,10 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replace("{{RELATED_CITY_LINKS}}", relatedCityLinks);
   template = template.replace("{{CITY_MATERIAL_LINKS}}", cityMaterialLinks);
   template = template.replaceAll("{{STATE_PAGE_LINK}}", statePageLink);
+  template = template.replaceAll("{{CITY_RATE_ASPHALT}}", cityRates.asphalt);
+  template = template.replaceAll("{{CITY_RATE_ARCHITECTURAL}}", cityRates.architectural);
+  template = template.replaceAll("{{CITY_RATE_METAL}}", cityRates.metal);
+  template = template.replaceAll("{{CITY_RATE_TILE}}", cityRates.tile);
 
   return template;
 }
@@ -826,13 +846,11 @@ function generateMaterialCityPageHtml(
     cityPricing,
     pricingModel
   );
-
   const cityMaterialClusterLinks = generateCityMaterialClusterLinks(
     material,
     cityPricing,
     pricingModel
   );
-
   const relatedCityLinks = generateRelatedMaterialCityLinks(
     material,
     cityPricing,
