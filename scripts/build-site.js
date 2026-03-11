@@ -92,10 +92,34 @@ function generateRelatedCityLinks(currentCityPricing, allCityRows) {
     currentCityPricing.state_code
   );
 
-  const related = allCityRows
-    .filter((city) => buildCityPageFilename(city.city, city.state_code) !== currentFile)
-    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
-    .slice(0, 8);
+  const currentState = currentCityPricing.state_code;
+  const currentRegion = currentCityPricing.region;
+
+  const otherCities = allCityRows.filter(
+    (city) => buildCityPageFilename(city.city, city.state_code) !== currentFile
+  );
+
+  const sameState = otherCities
+    .filter((city) => city.state_code === currentState)
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0));
+
+  const sameRegion = otherCities
+    .filter(
+      (city) =>
+        city.state_code !== currentState &&
+        city.region === currentRegion
+    )
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0));
+
+  const fallback = otherCities
+    .filter(
+      (city) =>
+        city.state_code !== currentState &&
+        city.region !== currentRegion
+    )
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0));
+
+  const related = [...sameState, ...sameRegion, ...fallback].slice(0, 8);
 
   return related
     .map((city) => {
