@@ -322,12 +322,12 @@
       <div class="grid" style="margin-top:16px;">
         <div>
           <label for="roofSize">Roof area used for pricing (sq ft)</label>
-          <input id="roofSize" type="number" placeholder="e.g. 2400" min="1" />
+          <input id="roofSize" type="number" placeholder="e.g. 2400" min="1" oninput="updateLivePreview()" />
         </div>
 
         <div>
           <label for="material">Roofing material</label>
-          <select id="material">
+          <select id="material" onchange="updateLivePreview()">
             <option value="6.00">Architectural shingles</option>
             <option value="12.00">Metal roofing</option>
             <option value="14.00">Standing seam metal</option>
@@ -337,7 +337,7 @@
 
         <div>
           <label for="tearoff">Existing roof removal</label>
-          <select id="tearoff">
+          <select id="tearoff" onchange="updateLivePreview()">
             <option value="1.00">Yes, tear off needed</option>
             <option value="0.00">No tear off</option>
           </select>
@@ -345,7 +345,7 @@
 
         <div>
           <label for="complexity">Roof complexity</label>
-          <select id="complexity">
+          <select id="complexity" onchange="updateLivePreview()">
             <option value="0.90">Low</option>
             <option value="1.00" selected>Medium</option>
             <option value="1.15">High</option>
@@ -357,6 +357,10 @@
         <button class="btn" type="button" onclick="estimateRoofCost()">Estimate Cost</button>
       </div>
     </section>
+
+    <div class="helper-box" id="livePreview">
+  Live estimate preview will appear here as you enter inputs.
+    </div>
 
     <section class="card result-box">
       <h2>Estimated Result</h2>
@@ -460,6 +464,8 @@
   document.getElementById("pitchFactor").value = "1.10";
   document.getElementById("shapeFactor").value = "1.08";
 
+  updateLivePreview();
+
   estimateRoofSizeFromInputs();
 }
 
@@ -484,6 +490,8 @@
 
   roofSizeInput.value = estimatedRoofArea;
 
+  updateLivePreview();
+
   output.innerHTML = `
     <p><strong>Estimated roof area:</strong> ${estimatedRoofArea.toLocaleString()} sq ft</p>
     <p><strong>How this was estimated:</strong> home size, story count, attached roof area, pitch, and roof complexity were used to create a directional planning estimate.</p>
@@ -501,6 +509,33 @@
     <p><strong>Estimated roof size:</strong> ${roofSize.toLocaleString()} sq ft</p>
     <p><strong>How this was estimated:</strong> house size, story count, pitch, and roof complexity were used to approximate actual roofing surface area.</p>
     <p class="muted">This is a directional estimate. Actual measurements can differ based on overhangs, garages, porches, dormers, and roof layout.</p>
+  `;
+}
+
+function updateLivePreview() {
+  const roofSize = parseFloat(document.getElementById("roofSize").value);
+  const baseRate = parseFloat(document.getElementById("material").value);
+  const tearoff = parseFloat(document.getElementById("tearoff").value);
+  const complexity = parseFloat(document.getElementById("complexity").value);
+  const preview = document.getElementById("livePreview");
+
+  if (
+    isNaN(roofSize) || roofSize <= 0 ||
+    isNaN(baseRate) || isNaN(tearoff) || isNaN(complexity)
+  ) {
+    preview.innerHTML = "Live estimate preview will appear here as you enter inputs.";
+    return;
+  }
+
+  const adjustedRate = (baseRate + tearoff) * complexity;
+  const lowEstimate = roofSize * adjustedRate * 0.9;
+  const highEstimate = roofSize * adjustedRate * 1.12;
+  const midpoint = roofSize * adjustedRate;
+
+  preview.innerHTML = `
+    <strong>Live preview:</strong> ${formatCurrency(lowEstimate)} to ${formatCurrency(highEstimate)}
+    <br>
+    <span class="muted">Midpoint: ${formatCurrency(midpoint)} • ${roofSize.toLocaleString()} sq ft used for pricing</span>
   `;
 }
 
