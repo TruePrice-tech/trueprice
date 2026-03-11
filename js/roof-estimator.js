@@ -55,9 +55,12 @@ async function estimateRoofSize() {
 
   area = Math.abs(area / 2) * 111139 * 111139;
 
-  const roofSize = Math.round(area * 1.15);
+    const roofSizeInput = document.getElementById("roofSize");
 
-  document.getElementById("roof-size").value = roofSize;
+    if (!roofSizeInput) {
+    alert("Roof size field not found on page.");
+    return;
+  }
 
-  alert("Estimated roof size: " + roofSize + " sq ft");
-}
+    roofSizeInput.value = roofSize;
+  }
