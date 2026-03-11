@@ -244,7 +244,7 @@
       <h2>Estimate Your Roof Cost</h2>
 
       <div class="helper-box">
-  Estimate roof size from house size, stories, pitch, and roof complexity. This is more reliable than address based lookup and gives a stronger starting point for pricing.
+  Estimate roof area from home size and roof characteristics. This is a directional planning tool designed to give you a stronger starting point before comparing roofing quotes.
 </div>
 
 <div class="grid" style="margin-top:16px;">
@@ -260,6 +260,15 @@
       <option value="2" selected>2 stories</option>
       <option value="3">3 stories</option>
     </select>
+  </div>
+
+  <div>
+  <label for="garageFactor">Attached garage / added roof area</label>
+  <select id="garageFactor">
+    <option value="1.00">None or minimal</option>
+    <option value="1.10" selected>Typical attached garage</option>
+    <option value="1.20">Large attached garage / added sections</option>
+  </select>
   </div>
 
   <div>
@@ -289,7 +298,7 @@
 
       <div class="grid" style="margin-top:16px;">
         <div>
-          <label for="roofSize">Roof size (sq ft)</label>
+          <label for="roofSize">Roof area used for pricing (sq ft)</label>
           <input id="roofSize" type="number" placeholder="e.g. 2400" min="1" />
         </div>
 
@@ -425,15 +434,30 @@
     function estimateRoofSizeFromInputs() {
   const houseSize = parseFloat(document.getElementById("houseSize").value);
   const stories = parseFloat(document.getElementById("stories").value);
+  const garageFactor = parseFloat(document.getElementById("garageFactor").value);
   const pitchFactor = parseFloat(document.getElementById("pitchFactor").value);
   const shapeFactor = parseFloat(document.getElementById("shapeFactor").value);
   const roofSizeInput = document.getElementById("roofSize");
   const output = document.getElementById("calculatorOutput");
 
   if (isNaN(houseSize) || houseSize <= 0) {
-    output.innerHTML = "Please enter a valid positive house size first.";
+    output.innerHTML = "Please enter a valid positive home size first.";
     return;
   }
+
+  const footprint = houseSize / stories;
+  const estimatedRoofArea = Math.round(
+    footprint * garageFactor * pitchFactor * shapeFactor * 1.12
+  );
+
+  roofSizeInput.value = estimatedRoofArea;
+
+  output.innerHTML = `
+    <p><strong>Estimated roof area:</strong> ${estimatedRoofArea.toLocaleString()} sq ft</p>
+    <p><strong>How this was estimated:</strong> home size, story count, attached roof area, pitch, and roof complexity were used to create a directional planning estimate.</p>
+    <p class="muted">This is a starting benchmark, not an exact measurement. Final roof area can differ based on overhangs, porches, dormers, layout, and contractor measurement methods.</p>
+  `;
+}
 
   const footprintFactor = 1 / stories;
   const baseFootprint = houseSize * footprintFactor;
