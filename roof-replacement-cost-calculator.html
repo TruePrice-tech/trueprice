@@ -458,13 +458,12 @@
       return "$" + Math.round(value).toLocaleString();
     }
 
-  function loadExample(size) {
+function loadExample(size) {
   document.getElementById("houseSize").value = size;
   document.getElementById("stories").value = "2";
+  document.getElementById("garageFactor").value = "1.10";
   document.getElementById("pitchFactor").value = "1.10";
   document.getElementById("shapeFactor").value = "1.08";
-
-  updateLivePreview();
 
   estimateRoofSizeFromInputs();
 }
@@ -496,19 +495,6 @@
     <p><strong>Estimated roof area:</strong> ${estimatedRoofArea.toLocaleString()} sq ft</p>
     <p><strong>How this was estimated:</strong> home size, story count, attached roof area, pitch, and roof complexity were used to create a directional planning estimate.</p>
     <p class="muted">This is a starting benchmark, not an exact measurement. Final roof area can differ based on overhangs, porches, dormers, layout, and contractor measurement methods.</p>
-  `;
-}
-
-  const footprintFactor = 1 / stories;
-  const baseFootprint = houseSize * footprintFactor;
-  const roofSize = Math.round(baseFootprint * pitchFactor * shapeFactor * 1.15);
-
-  roofSizeInput.value = roofSize;
-
-  output.innerHTML = `
-    <p><strong>Estimated roof size:</strong> ${roofSize.toLocaleString()} sq ft</p>
-    <p><strong>How this was estimated:</strong> house size, story count, pitch, and roof complexity were used to approximate actual roofing surface area.</p>
-    <p class="muted">This is a directional estimate. Actual measurements can differ based on overhangs, garages, porches, dormers, and roof layout.</p>
   `;
 }
 
