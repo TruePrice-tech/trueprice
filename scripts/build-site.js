@@ -202,6 +202,37 @@ function getStatePageLink(cityPricing) {
   return `<a href="/trueprice/${stateFilename}">${cityPricing.state}</a>`;
 }
 
+function generateCityMaterialLinks(cityPricing) {
+  const city = cityPricing.city;
+  const stateCode = cityPricing.state_code;
+
+  const links = [
+    {
+      material: "asphalt",
+      label: `Asphalt Roof Cost in ${city}`,
+    },
+    {
+      material: "architectural",
+      label: `Architectural Shingle Cost in ${city}`,
+    },
+    {
+      material: "metal",
+      label: `Metal Roof Cost in ${city}`,
+    },
+    {
+      material: "tile",
+      label: `Tile Roof Cost in ${city}`,
+    },
+  ];
+
+  return links
+    .map(({ material, label }) => {
+      const filename = buildMaterialCityPageFilename(material, city, stateCode);
+      return `* <a href="/trueprice/${filename}">${label}</a>`;
+    })
+    .join("\n");
+}
+
 function generateCityPageHtml(cityPricing, allCityRows) {
   let template = loadTemplate();
 
@@ -225,6 +256,7 @@ function generateCityPageHtml(cityPricing, allCityRows) {
     .join("");
 
   const relatedCityLinks = generateRelatedCityLinks(cityPricing, allCityRows);
+  const cityMaterialLinks = generateCityMaterialLinks(cityPricing);
   const statePageLink = getStatePageLink(cityPricing);
 
   template = template.replaceAll("{{CITY}}", cityPricing.city);
@@ -233,6 +265,7 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{SLUG}}", slug);
   template = template.replace("{{PRICE_ROWS}}", priceRows);
   template = template.replace("{{RELATED_CITY_LINKS}}", relatedCityLinks);
+  template = template.replace("{{CITY_MATERIAL_LINKS}}", cityMaterialLinks);
   template = template.replaceAll("{{STATE_PAGE_LINK}}", statePageLink);
 
   return template;
