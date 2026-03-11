@@ -1,5 +1,6 @@
 {
-  "build_timestamp": "2026-03-11T17:02:03.357Z",
+  "build_timestamp": "2026-03-11T22:45:20.656Z",
+  "profile": "medium",
   "city_count": 491,
   "state_count": 49,
   "material_count": 4,
@@ -8,8 +9,23 @@
   "sitemap_exists": true,
   "all_cities_exists": true,
   "config": {
-    "min_population": 50000,
-    "max_cities_per_state": 20,
-    "max_total_cities": 500
+    "active_profile": "medium",
+    "profiles": {
+      "small": {
+        "min_population": 150000,
+        "max_cities_per_state": 10,
+        "max_total_cities": 100
+      },
+      "medium": {
+        "min_population": 50000,
+        "max_cities_per_state": 20,
+        "max_total_cities": 500
+      },
+      "large": {
+        "min_population": 20000,
+        "max_cities_per_state": 40,
+        "max_total_cities": 1500
+      }
+    }
   }
 }

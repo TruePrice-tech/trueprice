@@ -20,6 +20,7 @@ function runStep(name, command) {
 function parseCsv(csvText) {
   const lines = csvText.trim().split(/\r?\n/);
   if (!lines.length) return [];
+
   const headers = lines[0].split(",").map((h) => h.trim());
 
   return lines.slice(1).map((line) => {
@@ -66,8 +67,12 @@ function validateInputs() {
 }
 
 function writeBuildManifest(rows) {
+  const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
+  const activeProfileName = config.active_profile || "medium";
+
   const manifest = {
     build_timestamp: new Date().toISOString(),
+    profile: activeProfileName,
     city_count: rows.length,
     state_count: new Set(rows.map((r) => r.state_code)).size,
     material_count: 4,
@@ -75,7 +80,7 @@ function writeBuildManifest(rows) {
     pricing_json_exists: fs.existsSync(PRICING_JSON),
     sitemap_exists: fs.existsSync(SITEMAP_PATH),
     all_cities_exists: fs.existsSync(ALL_CITIES_PATH),
-    config: JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"))
+    config
   };
 
   fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2), "utf8");
