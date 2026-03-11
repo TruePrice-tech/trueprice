@@ -244,8 +244,19 @@
       <h2>Estimate Your Roof Cost</h2>
 
       <div class="helper-box">
-        Enter your approximate roof size in square feet to generate a directional roofing cost range. After QA, the address-based roof size estimator should be re-added here.
-      </div>
+  Enter your approximate roof size in square feet to generate a directional roofing cost range.
+</div>
+
+<div class="grid" style="margin-top:16px;">
+  <div style="grid-column: 1 / -1;">
+    <label for="address-input">Home address</label>
+    <input id="address-input" type="text" placeholder="e.g. 123 Main St, Dallas, TX" />
+  </div>
+</div>
+
+<div class="btn-row">
+  <button class="btn" type="button" onclick="estimateRoofSize()">Estimate Roof Size from Address</button>
+</div>
 
       <div class="grid" style="margin-top:16px;">
         <div>
@@ -412,9 +423,11 @@
         <p class="muted">This estimate does not include unknown deck replacement, unusual flashing scope, permit anomalies, or major repair surprises.</p>
       `;
     }
-  </script>
+    </script>
 
-  <script type="application/ld+json">
+    <script src="/trueprice/js/roof-estimator.js"></script>
+
+    <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
