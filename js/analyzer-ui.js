@@ -88,6 +88,11 @@ function renderParsedResults(parsed) {
       <h4>Parsed quote details</h4>
       <ul class="mini-list">
         <li>Price: ${parsed.price ? formatCurrency(parsed.price) : "Not detected"}</li>
+        <li>Top price candidates: ${
+        parsed.priceCandidates && parsed.priceCandidates.length
+        ? parsed.priceCandidates.slice(0, 5).map(item => `${formatCurrency(item.value)} (${item.score})`).join(", ")
+        : "None"
+        }</li>  
         <li>Material: ${parsed.materialLabel || "Not detected"}</li>
         <li>Roof size: ${parsed.roofSize ? `${formatNumber(parsed.roofSize)} sq ft` : "Not detected"}</li>
         <li>Warranty: ${parsed.warrantyYears ? `${parsed.warrantyYears} years` : "Not detected"}</li>
