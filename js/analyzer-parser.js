@@ -17,30 +17,90 @@ function scoreMoneyCandidate(value, contextText) {
 
 function extractPriceCandidates(text) {
   const candidates = [];
-
-  const moneyRegex = /\$?\s?([0-9]{3,6}(?:,[0-9]{3})*(?:\.[0-9]{2})?)/g;
+  const seen = new Set();
+  const regex = /\$?\s?[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|\$?\s?[0-9]{4,6}(?:\.[0-9]{2})?/g;
 
   let match;
+  while ((match = regex.exec(text)) !== null) {
+    const matchText = match[0];
+    const value = parseMoneyToNumber(matchText);
+    if (!isFinite(value) || value < 500 || value > 250000) continue;
 
-  while ((match = moneyRegex.exec(text)) !== null) {
-    const raw = match[0];
-    const value = parseMoneyToNumber(raw);
+    const start = match.index;
+    const end = match.index + matchText.length;
 
-    if (!isFinite(value)) continue;
+    const contextStart = Math.max(0, start - 140);
+    const contextEnd = Math.min(text.length, end + 140);
+    const context = text.slice(contextStart, contextEnd);
+    const lowerContext = context.toLowerCase();
 
-    const start = Math.max(0, match.index - 40);
-    const end = Math.min(text.length, match.index + 40);
-    const context = text.slice(start, end);
+    let score = scoreMoneyCandidate(value, context);
 
-    const score = scoreMoneyCandidate(value, context);
+    const veryStrongPositive = [
+      "total estimated cost",
+      "estimated cost",
+      "grand total",
+      "proposal total",
+      "contract total",
+      "total due",
+      "project total",
+      "total cost",
+      "amount due",
+      "total"
+    ];
+
+    const strongNegative = [
+      "deductible",
+      "deposit",
+      "down payment",
+      "monthly",
+      "finance",
+      "payment",
+      "claim",
+      "allowance",
+      "phone",
+      "tel",
+      "call",
+      "fax"
+    ];
+
+    veryStrongPositive.forEach(term => {
+      if (lowerContext.includes(term)) score += 90;
+    });
+
+    strongNegative.forEach(term => {
+      if (lowerContext.includes(term)) score -= 70;
+    });
+
+    if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(lowerContext)) {
+      score -= 100;
+    }
+
+    const lineStart = text.lastIndexOf("\n", start) + 1;
+    const lineEndRaw = text.indexOf("\n", end);
+    const lineEnd = lineEndRaw === -1 ? text.length : lineEndRaw;
+    const lineText = text.slice(lineStart, lineEnd).trim().toLowerCase();
+
+    if (/total estimated cost|grand total|proposal total|contract total|total due|project total|estimated cost/.test(lineText)) {
+      score += 120;
+    }
+
+    const key = `${Math.round(value)}|${Math.round(score)}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
 
     candidates.push({
       value,
-      raw,
-      context,
-      score
+      display: matchText.trim(),
+      score,
+      context: normalizeEvidence(context)
     });
   }
+
+  return candidates
+    .sort((a, b) => b.score - a.score || b.value - a.value)
+    .slice(0, 10);
+}
 
   candidates.sort((a, b) => b.score - a.score);
 
@@ -94,18 +154,73 @@ function detectContractor(text) {
 }
 
 function detectRoofSize(text) {
+  const normalized = text.toLowerCase();
   const candidates = [];
+  let match;
 
-  const sqFtRegex = /\b([0-9]{3,5})\s*(sq\.?\s*ft|square feet|sf)\b/i;
+  const explicitPatterns = [
+    {
+      regex: /\broof size\b[^0-9]{0,25}([0-9]{3,5})(?:\.[0-9]+)?\s*(?:sq\.?\s*ft|square feet|sq ft|sf)\b/g,
+      source: "roof size label",
+      score: 120
+    },
+    {
+      regex: /\broof area\b[^0-9]{0,25}([0-9]{3,5})(?:\.[0-9]+)?\s*(?:sq\.?\s*ft|square feet|sq ft|sf)?\b/g,
+      source: "roof area label",
+      score: 115
+    },
+    {
+      regex: /\btotal roof area\b[^0-9]{0,25}([0-9]{3,5})(?:\.[0-9]+)?\s*(?:sq\.?\s*ft|square feet|sq ft|sf)?\b/g,
+      source: "total roof area",
+      score: 118
+    }
+  ];
 
-  const match = text.match(sqFtRegex);
+  explicitPatterns.forEach(({ regex, source, score }) => {
+    while ((match = regex.exec(normalized)) !== null) {
+      const value = Number(String(match[1]).replace(/,/g, ""));
+      if (value >= 600 && value <= 12000) {
+        candidates.push({ value, source, score });
+      }
+    }
+  });
 
-  if (match) {
-    candidates.push({
-      value: Number(match[1]),
-      source: "sqft"
-    });
+  const sqFtRegex = /\b([0-9]{3,5})(?:\.[0-9]+)?\s*(?:sq\.?\s*ft|square feet|square foot|sq ft|sf)\b/g;
+  while ((match = sqFtRegex.exec(normalized)) !== null) {
+    const value = Number(String(match[1]).replace(/,/g, ""));
+    if (value >= 600 && value <= 12000) {
+      let score = 88;
+      const context = normalized.slice(Math.max(0, match.index - 80), Math.min(normalized.length, match.index + 80));
+      if (/roof size|roof area|total roof area|property info/.test(context)) score += 20;
+      if (/house|living|garage|lot/.test(context)) score -= 20;
+      candidates.push({ value, source: "square feet", score });
+    }
   }
+
+  const squaresRegex = /\b([0-9]{1,3}(?:\.[0-9]+)?)\s*(?:squares|square|sq)\b/g;
+  while ((match = squaresRegex.exec(normalized)) !== null) {
+    const raw = Number(match[1]);
+    const value = raw * 100;
+    if (value >= 600 && value <= 12000) {
+      let score = 82;
+      const context = normalized.slice(Math.max(0, match.index - 80), Math.min(normalized.length, match.index + 80));
+      if (/roof|roofing|shingles|replace|tear off/.test(context)) score += 15;
+      if (/price|cost|total|dollars/.test(context)) score -= 10;
+      candidates.push({ value, source: "roofing squares", score });
+    }
+  }
+
+  if (!candidates.length) {
+    return { value: "", source: "" };
+  }
+
+  candidates.sort((a, b) => b.score - a.score || a.value - b.value);
+
+  return {
+    value: Math.round(candidates[0].value),
+    source: candidates[0].source
+  };
+}
 
   const squaresRegex = /\b([0-9]{2,3})\s*(squares?)\b/i;
   const sqMatch = text.match(squaresRegex);
