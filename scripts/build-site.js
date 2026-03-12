@@ -139,9 +139,7 @@ function calculatePriceTable(cityRow, pricingModel, stateRegions) {
     const squares = size.roofSquares * pricingModel.wasteFactor;
     result.sizes[size.label] = {};
 
-    for (const [material, basePrice] of Object.entries(
-      pricingModel.basePricePerSquare
-    )) {
+    for (const [material, basePrice] of Object.entries(pricingModel.basePricePerSquare)) {
       const rawPrice =
         squares *
         basePrice *
@@ -250,20 +248,20 @@ function generateCityMaterialLinks(cityPricing) {
   const links = [
     {
       material: "asphalt",
-      label: `Asphalt Roof Cost in ${city}`,
+      label: `Asphalt Roof Cost in ${city}`
     },
     {
       material: "architectural",
-      label: `Architectural Shingle Cost in ${city}`,
+      label: `Architectural Shingle Cost in ${city}`
     },
     {
       material: "metal",
-      label: `Metal Roof Cost in ${city}`,
+      label: `Metal Roof Cost in ${city}`
     },
     {
       material: "tile",
-      label: `Tile Roof Cost in ${city}`,
-    },
+      label: `Tile Roof Cost in ${city}`
+    }
   ];
 
   return links
@@ -289,10 +287,51 @@ function getCityMaterialRates(cityPricing) {
   };
 }
 
+function summarizeCityPricing(cityPricing) {
+  const allValues = [];
+
+  for (const sizeData of Object.values(cityPricing.sizes)) {
+    for (const materialPrice of Object.values(sizeData)) {
+      allValues.push(Number(materialPrice));
+    }
+  }
+
+  if (!allValues.length) {
+    return { low: "0", high: "0" };
+  }
+
+  return {
+    low: Math.min(...allValues).toLocaleString(),
+    high: Math.max(...allValues).toLocaleString()
+  };
+}
+
+function summarizeCityPerSqFt(cityPricing) {
+  const perSqFtValues = [];
+
+  for (const [sizeLabel, sizeData] of Object.entries(cityPricing.sizes)) {
+    const numericSize = parseInt(sizeLabel.replace(/[^\d]/g, ""), 10);
+    if (!numericSize) continue;
+
+    for (const materialPrice of Object.values(sizeData)) {
+      perSqFtValues.push(Number(materialPrice) / numericSize);
+    }
+  }
+
+  if (!perSqFtValues.length) {
+    return { low: "0.00", high: "0.00" };
+  }
+
+  return {
+    low: Math.min(...perSqFtValues).toFixed(2),
+    high: Math.max(...perSqFtValues).toFixed(2)
+  };
+}
+
 function generateCityPageHtml(cityPricing, allCityRows) {
   let template = loadTemplate();
 
-  const slug = buildCityPageFilename(
+  const filename = buildCityPageFilename(
     cityPricing.city,
     cityPricing.state_code
   );
@@ -317,24 +356,34 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   const statePageLink = getStatePageLink(cityPricing);
   const cityRates = getCityMaterialRates(cityPricing);
   const nearbyCitiesSection = buildNearbyCities(cityPricing, allCityRows);
+  const citySummary = summarizeCityPricing(cityPricing);
+  const cityPerSqFt = summarizeCityPerSqFt(cityPricing);
+  const cityState = `${cityPricing.city}, ${cityPricing.state_code}`;
+  const canonicalUrl = `${SITE_BASE_URL}/${filename}`;
 
   template = template.replaceAll("{{CITY}}", cityPricing.city);
   template = template.replaceAll("{{STATE_CODE}}", cityPricing.state_code);
   template = template.replaceAll("{{STATE_NAME}}", cityPricing.state);
-  template = template.replaceAll("{{SLUG}}", slug);
-  template = template.replace("{{PRICE_ROWS}}", priceRows);
-  template = template.replace("{{RELATED_CITY_LINKS}}", relatedCityLinks);
-  template = template.replace("{{CITY_MATERIAL_LINKS}}", cityMaterialLinks);
+  template = template.replaceAll("{{CITY_STATE}}", cityState);
+  template = template.replaceAll("{{SLUG}}", filename);
+  template = template.replaceAll("{{CANONICAL_URL}}", canonicalUrl);
+  template = template.replaceAll("{{AVG_LOW}}", citySummary.low);
+  template = template.replaceAll("{{AVG_HIGH}}", citySummary.high);
+  template = template.replaceAll("{{PRICE_SQFT_LOW}}", cityPerSqFt.low);
+  template = template.replaceAll("{{PRICE_SQFT_HIGH}}", cityPerSqFt.high);
+  template = template.replaceAll("{{PRICE_ROWS}}", priceRows);
+  template = template.replaceAll("{{RELATED_CITY_LINKS}}", relatedCityLinks);
+  template = template.replaceAll("{{CITY_MATERIAL_LINKS}}", cityMaterialLinks);
   template = template.replaceAll("{{STATE_PAGE_LINK}}", statePageLink);
   template = template.replaceAll("{{CITY_RATE_ASPHALT}}", cityRates.asphalt);
   template = template.replaceAll("{{CITY_RATE_ARCHITECTURAL}}", cityRates.architectural);
   template = template.replaceAll("{{CITY_RATE_METAL}}", cityRates.metal);
   template = template.replaceAll("{{CITY_RATE_TILE}}", cityRates.tile);
-  template = template.replace("{{SAME_STATE_CITY_LINKS}}", sameStateCityLinks);
+  template = template.replaceAll("{{SAME_STATE_CITY_LINKS}}", sameStateCityLinks);
 
   if (template.includes("{{NEARBY_CITIES_SECTION}}")) {
     template = template.replace("{{NEARBY_CITIES_SECTION}}", nearbyCitiesSection);
-  } else {
+  } else if (nearbyCitiesSection) {
     template = template.replace("</main>", `${nearbyCitiesSection}\n</main>`);
   }
 
@@ -490,8 +539,7 @@ function summarizeStateSquareRange(stateCities, pricingModel, stateRegions) {
     const laborMultiplier = pricingModel.laborMultiplierByRegion[region] || 1;
 
     const materialValues = Object.values(pricingModel.basePricePerSquare).map(
-      (basePrice) =>
-        basePrice * laborMultiplier * pricingModel.overheadMultiplier
+      (basePrice) => basePrice * laborMultiplier * pricingModel.overheadMultiplier
     );
 
     return {
@@ -582,8 +630,8 @@ function generateStatePageHtml(
     `${priceRange.low} to ${priceRange.high}`
   );
   template = template.replaceAll("{{STATE_AVG_SQUARE_RANGE}}", avgSquareRange);
-  template = template.replace("{{STATE_CITY_LINKS}}", cityLinks);
-  template = template.replace("{{RELATED_STATE_LINKS}}", relatedStateLinks);
+  template = template.replaceAll("{{STATE_CITY_LINKS}}", cityLinks);
+  template = template.replaceAll("{{RELATED_STATE_LINKS}}", relatedStateLinks);
 
   return {
     filename,
@@ -730,8 +778,8 @@ function generateMaterialPageHtml(material, cityPricingArray, pricingModel) {
     "{{MATERIAL_PRICE_RANGE}}",
     `${priceRange.low} to ${priceRange.high}`
   );
-  template = template.replace("{{MATERIAL_CITY_LINKS}}", cityLinks);
-  template = template.replace(
+  template = template.replaceAll("{{MATERIAL_CITY_LINKS}}", cityLinks);
+  template = template.replaceAll(
     "{{RELATED_MATERIAL_LINKS}}",
     relatedMaterialLinks
   );
@@ -936,10 +984,10 @@ function generateMaterialCityPageHtml(
     materialDisplayName.toLowerCase()
   );
   template = template.replaceAll("{{PRICE_RANGE}}", priceRange);
-  template = template.replace("{{PRICE_ROWS}}", priceRows);
-  template = template.replace("{{OTHER_MATERIAL_LINKS}}", otherMaterialLinks);
-  template = template.replace("{{CITY_MATERIAL_CLUSTER_LINKS}}", cityMaterialClusterLinks);
-  template = template.replace("{{RELATED_CITY_LINKS}}", relatedCityLinks);
+  template = template.replaceAll("{{PRICE_ROWS}}", priceRows);
+  template = template.replaceAll("{{OTHER_MATERIAL_LINKS}}", otherMaterialLinks);
+  template = template.replaceAll("{{CITY_MATERIAL_CLUSTER_LINKS}}", cityMaterialClusterLinks);
+  template = template.replaceAll("{{RELATED_CITY_LINKS}}", relatedCityLinks);
   template = template.replaceAll("{{CITY_PAGE_FILENAME}}", cityPageFilename);
   template = template.replaceAll("{{STATE_PAGE_FILENAME}}", statePageFilename);
   template = template.replaceAll(
@@ -1038,7 +1086,7 @@ function generateAllCitiesPage(cityRows, pricingModel) {
     })
     .join("\n");
 
-  template = template.replace("{{CITY_LINKS}}", cityLinks);
+  template = template.replaceAll("{{CITY_LINKS}}", cityLinks);
 
   const groupedStates = groupCitiesByState(cityRows);
   const stateLinks = Object.keys(groupedStates)
@@ -1049,7 +1097,7 @@ function generateAllCitiesPage(cityRows, pricingModel) {
     })
     .join("\n");
 
-  template = template.replace("{{STATE_LINKS}}", stateLinks);
+  template = template.replaceAll("{{STATE_LINKS}}", stateLinks);
 
   const materialLinks = Object.keys(pricingModel.basePricePerSquare)
     .map((material) => {
@@ -1058,7 +1106,7 @@ function generateAllCitiesPage(cityRows, pricingModel) {
     })
     .join("\n");
 
-  template = template.replace("{{MATERIAL_LINKS}}", materialLinks);
+  template = template.replaceAll("{{MATERIAL_LINKS}}", materialLinks);
 
   fs.writeFileSync(ALL_CITIES_PAGE_PATH, template, "utf8");
   console.log("Generated all-cities.html");
