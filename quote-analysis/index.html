@@ -292,6 +292,43 @@
         padding: 20px;
       }
     }
+
+    #pdfReportContent {
+  background: transparent;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+  }
+
+  .wrap {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .nav,
+  .btn-row,
+  #copyShareFeedback {
+    display: none !important;
+  }
+
+  .hero,
+  .card,
+  .panel,
+  .signal-box,
+  .notice {
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -302,6 +339,8 @@
       <a href="/compare-roofing-quotes.html">Compare Quotes</a>
       <a href="/roof-replacement-cost-calculator.html">Calculator</a>
     </p>
+
+    <div id="pdfReportContent">
 
     <section class="hero">
       <span class="eyebrow">TruePrice Quote Result</span>
@@ -317,6 +356,7 @@
     <div class="btn-row">
   <a id="rerunAnalyzerLink" class="btn" href="/roofing-quote-analyzer.html">Run another analysis</a>
   <button id="copyShareLinkBtn" class="btn secondary" type="button" onclick="copyShareLink()">Copy Share Link</button>
+  <button id="downloadPdfBtn" class="btn secondary" type="button" onclick="downloadPdfReport()">Download PDF Report</button>
   <a class="btn secondary" href="/compare-roofing-quotes.html">Compare roofing quotes</a>
   <a class="btn secondary" href="/roof-replacement-cost-calculator.html">Estimate roof cost</a>
     </div>
@@ -421,8 +461,11 @@
         </div>
       </article>
     </section>
+    </div>
   </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
   <script>
     function escapeHtml(text) {
       return String(text || "")
@@ -571,93 +614,133 @@ async function copyShareLink() {
   }
 }
 
-    function renderPage() {
-      const city = getParam("city", "");
-      const state = getParam("state", "");
-      const size = Number(getParam("size", "0"));
-      const material = getParam("material", "architectural");
-      const price = Number(getParam("price", "0"));
-      const low = Number(getParam("low", "0"));
-      const mid = Number(getParam("mid", "0"));
-      const high = Number(getParam("high", "0"));
-      const verdict = getParam("verdict", "Unknown");
-      const ppsf = Number(getParam("ppsf", size > 0 ? price / size : 0));
-      const confidence = getParam("confidence", "Low");
-      const tearoff = parseBoolLike(getParam("tearoff", ""));
-      const warranty = getParam("warranty", "");
-      const underlayment = parseBoolLike(getParam("underlayment", ""));
-      const flashing = parseBoolLike(getParam("flashing", ""));
-      const ventilation = parseBoolLike(getParam("ventilation", ""));
-      const decking = parseBoolLike(getParam("decking", ""));
-      const permit = parseBoolLike(getParam("permit", ""));
-      const disposal = parseBoolLike(getParam("disposal", ""));
+function downloadPdfReport() {
+  const feedback = document.getElementById("copyShareFeedback");
+  const element = document.getElementById("pdfReportContent");
 
-      const locationLabel = city && state ? `${city}, ${state}` : "your area";
-      const title = `${slugToLabel(material)} quote result for ${locationLabel}`;
+  if (!element || typeof html2pdf === "undefined") {
+    feedback.textContent = "PDF generator not available. Use browser print and choose Save as PDF.";
+    return;
+  }
 
-      document.title = `${title} | TruePrice`;
-      document.getElementById("pageTitle").textContent = title;
+  feedback.textContent = "Generating PDF report...";
 
-      const verdictBadge = document.getElementById("verdictBadge");
-      verdictBadge.textContent = verdict;
-      verdictBadge.className = `verdict ${verdictClass(verdict)}`;
+  const city = getParam("city", "quote");
+  const state = getParam("state", "result");
+  const material = getParam("material", "roof");
 
-      const confidenceBadge = document.getElementById("confidenceBadge");
-      confidenceBadge.textContent = `Confidence: ${confidence}`;
-      confidenceBadge.className = `confidence ${confidenceClass(confidence)}`;
+  const filename = `trueprice-${city}-${state}-${material}-quote-report.pdf`
+    .toLowerCase()
+    .replace(/[^a-z0-9.-]+/g, "-");
 
-      document.getElementById("heroSummary").textContent =
-        `This result compares your ${formatCurrency(price)} quote against an expected range of ${formatCurrency(low)} to ${formatCurrency(high)} for ${locationLabel}.`;
+  const options = {
+    margin: 0.4,
+    filename,
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+    jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    pagebreak: { mode: ["avoid-all", "css", "legacy"] }
+  };
 
-      const delta = price - mid;
-      const deltaText = `${delta >= 0 ? "+" : "-"}${formatCurrency(Math.abs(delta))}`;
+  html2pdf()
+    .set(options)
+    .from(element)
+    .save()
+    .then(() => {
+      feedback.textContent = "PDF report downloaded.";
+    })
+    .catch(() => {
+      feedback.textContent = "Could not generate PDF automatically. Use browser print and choose Save as PDF.";
+    });
+}
 
-      document.getElementById("quotePriceMetric").textContent = formatCurrency(price);
-      document.getElementById("rangeMetric").textContent = `${formatCurrency(low)} to ${formatCurrency(high)}`;
-      document.getElementById("deltaMetric").textContent = deltaText;
-      document.getElementById("deltaSub").textContent =
-        mid > 0 ? `${delta >= 0 ? "Above" : "Below"} midpoint of ${formatCurrency(mid)}` : "Compared with benchmark midpoint";
+function renderPage() {
+  const city = getParam("city", "");
+  const state = getParam("state", "");
+  const size = Number(getParam("size", "0"));
+  const material = getParam("material", "architectural");
+  const price = Number(getParam("price", "0"));
+  const low = Number(getParam("low", "0"));
+  const mid = Number(getParam("mid", "0"));
+  const high = Number(getParam("high", "0"));
+  const verdict = getParam("verdict", "Unknown");
+  const ppsf = Number(getParam("ppsf", size > 0 ? price / size : 0));
+  const confidence = getParam("confidence", "Low");
+  const tearoff = parseBoolLike(getParam("tearoff", ""));
+  const warranty = getParam("warranty", "");
+  const underlayment = parseBoolLike(getParam("underlayment", ""));
+  const flashing = parseBoolLike(getParam("flashing", ""));
+  const ventilation = parseBoolLike(getParam("ventilation", ""));
+  const decking = parseBoolLike(getParam("decking", ""));
+  const permit = parseBoolLike(getParam("permit", ""));
+  const disposal = parseBoolLike(getParam("disposal", ""));
 
-      document.getElementById("locationText").textContent = locationLabel;
-      document.getElementById("materialText").textContent = slugToLabel(material);
-      document.getElementById("sizeText").textContent = size ? `${formatNumber(size)} sq ft` : "Unknown";
-      document.getElementById("warrantyText").textContent = warranty ? `${warranty} years` : "Not provided";
-      document.getElementById("tearoffText").textContent = tearoff;
-      document.getElementById("ppsfText").textContent = ppsf ? `${formatCurrency(ppsf)} / sq ft` : "Unknown";
+  const locationLabel = city && state ? `${city}, ${state}` : "your area";
+  const title = `${slugToLabel(material)} quote result for ${locationLabel}`;
 
-      document.getElementById("explanationBox").textContent =
-        getExplanation(verdict, price, low, mid, high, material, size, city, state);
+  document.title = `${title} | TruePrice`;
+  document.getElementById("pageTitle").textContent = title;
 
-      const signals = {
-        "Tear off": tearoff,
-        "Underlayment": underlayment,
-        "Flashing": flashing,
-        "Ventilation": ventilation,
-        "Decking": decking,
-        "Permit": permit,
-        "Disposal": disposal
-      };
+  const verdictBadge = document.getElementById("verdictBadge");
+  verdictBadge.textContent = verdict;
+  verdictBadge.className = `verdict ${verdictClass(verdict)}`;
 
-      document.getElementById("signalGrid").innerHTML = Object.entries(signals)
-        .map(([label, status]) => buildSignalBox(label, status))
-        .join("");
+  const confidenceBadge = document.getElementById("confidenceBadge");
+  confidenceBadge.textContent = `Confidence: ${confidence}`;
+  confidenceBadge.className = `confidence ${confidenceClass(confidence)}`;
 
-      const verifyItems = buildVerifyItems(signals, verdict);
-      document.getElementById("verifyList").innerHTML = verifyItems
-        .map(item => `<li>${escapeHtml(item)}</li>`)
-        .join("");
+  document.getElementById("heroSummary").textContent =
+    `This result compares your ${formatCurrency(price)} quote against an expected range of ${formatCurrency(low)} to ${formatCurrency(high)} for ${locationLabel}.`;
 
-      const analyzerParams = new URLSearchParams();
-      if (city) analyzerParams.set("city", city);
-      if (state) analyzerParams.set("state", state);
-      if (size) analyzerParams.set("size", size);
-      if (material) analyzerParams.set("material", material);
-      if (price) analyzerParams.set("price", price);
-      document.getElementById("rerunAnalyzerLink").href =
-        `/roofing-quote-analyzer.html${analyzerParams.toString() ? "?" + analyzerParams.toString() : ""}`;
-    }
+  const delta = price - mid;
+  const deltaText = `${delta >= 0 ? "+" : "-"}${formatCurrency(Math.abs(delta))}`;
 
-    renderPage();
+  document.getElementById("quotePriceMetric").textContent = formatCurrency(price);
+  document.getElementById("rangeMetric").textContent = `${formatCurrency(low)} to ${formatCurrency(high)}`;
+  document.getElementById("deltaMetric").textContent = deltaText;
+  document.getElementById("deltaSub").textContent =
+    mid > 0 ? `${delta >= 0 ? "Above" : "Below"} midpoint of ${formatCurrency(mid)}` : "Compared with benchmark midpoint";
+
+  document.getElementById("locationText").textContent = locationLabel;
+  document.getElementById("materialText").textContent = slugToLabel(material);
+  document.getElementById("sizeText").textContent = size ? `${formatNumber(size)} sq ft` : "Unknown";
+  document.getElementById("warrantyText").textContent = warranty ? `${warranty} years` : "Not provided";
+  document.getElementById("tearoffText").textContent = tearoff;
+  document.getElementById("ppsfText").textContent = ppsf ? `${formatCurrency(ppsf)} / sq ft` : "Unknown";
+
+  document.getElementById("explanationBox").textContent =
+    getExplanation(verdict, price, low, mid, high, material, size, city, state);
+
+  const signals = {
+    "Tear off": tearoff,
+    "Underlayment": underlayment,
+    "Flashing": flashing,
+    "Ventilation": ventilation,
+    "Decking": decking,
+    "Permit": permit,
+    "Disposal": disposal
+  };
+
+  document.getElementById("signalGrid").innerHTML = Object.entries(signals)
+    .map(([label, status]) => buildSignalBox(label, status))
+    .join("");
+
+  const verifyItems = buildVerifyItems(signals, verdict);
+  document.getElementById("verifyList").innerHTML = verifyItems
+    .map(item => `<li>${escapeHtml(item)}</li>`)
+    .join("");
+
+  const analyzerParams = new URLSearchParams();
+  if (city) analyzerParams.set("city", city);
+  if (state) analyzerParams.set("state", state);
+  if (size) analyzerParams.set("size", size);
+  if (material) analyzerParams.set("material", material);
+  if (price) analyzerParams.set("price", price);
+  document.getElementById("rerunAnalyzerLink").href =
+    `/roofing-quote-analyzer.html${analyzerParams.toString() ? "?" + analyzerParams.toString() : ""}`;
+}
+
+renderPage();
   </script>
 </body>
 </html>
