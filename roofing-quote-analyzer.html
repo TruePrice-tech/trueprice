@@ -2029,89 +2029,96 @@
       return Math.min(100, score);
     }
 
-    function buildAIExplanation({
-      verdict,
-      quotePrice,
-      low,
-      mid,
-      high,
-      material,
-      roofSize,
-      complexityLabel,
-      city,
-      stateCode,
-      localDataUsed,
-      sizeLabelUsed,
-      tearOffLabel,
-      warrantyYears,
-      parsedSignals,
-      premiumSignals,
-      analysisConfidenceLabel
-    }) {
-      const diffPct = ((quotePrice - mid) / mid) * 100;
-      const absDiffPct = Math.abs(diffPct).toFixed(0);
-      const materialLabel = getMaterialLabel(material);
 
-      const marketText = localDataUsed
-        ? `for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet in ${city}, ${stateCode}`
-        : `for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet using the fallback benchmark`;
+function buildAIExplanation({
+  verdict,
+  quotePrice,
+  low,
+  mid,
+  high,
+  material,
+  roofSize,
+  complexityLabel,
+  city,
+  stateCode,
+  localDataUsed,
+  sizeLabelUsed,
+  tearOffLabel,
+  warrantyYears,
+  parsedSignals,
+  premiumSignals,
+  analysisConfidenceLabel
+}) {
+  const diffPct = ((quotePrice - mid) / mid) * 100;
+  const absDiffPct = Math.abs(diffPct).toFixed(0);
+  const materialLabel = getMaterialLabel(material);
 
-      let explanation = "";
+  const marketText = localDataUsed
+    ? `for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet in ${city}, ${stateCode}`
+    : `for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet using the fallback benchmark`;
 
-      if (verdict === "Excellent Value") {
-        explanation =
-          `This quote appears below the modeled market range ${marketText}. That can be a strong value, but only if the scope is complete and the contractor is including all critical items.`;
-      } else if (verdict === "Fair Price") {
-        explanation =
-          `This quote appears broadly in line with the modeled market range ${marketText}. The total does not stand out as unusually high once material, complexity, and tear off factors are considered.`;
-      } else if (verdict === "Slightly High") {
-        explanation =
-          `This quote appears somewhat above the modeled benchmark ${marketText}, roughly ${absDiffPct}% above the midpoint. That may still be reasonable if the quote includes stronger scope, premium shingles, decking work, or steep roof conditions.`;
-      } else if (verdict === "Overpriced") {
-        explanation =
-          `This quote appears materially above the modeled market range ${marketText}, about ${absDiffPct}% above the midpoint benchmark. Unless the proposal includes clear premium scope, this likely deserves a second quote.`;
-      } else {
-        explanation =
-          `This quote appears far above the modeled market range ${marketText}, about ${absDiffPct}% above the midpoint benchmark. That is a potential red flag unless the roof is unusually complex or the proposal includes major upgrades clearly documented in writing.`;
-      }
+  let explanation = "";
 
-      const missingSignals = [];
-      const excludedSignals = [];
+  if (verdict === "Unusually Low") {
+    explanation =
+      `This quote appears materially below the modeled market range ${marketText}, about ${absDiffPct}% below the midpoint benchmark. That can be a strong value, but it can also mean key scope items are missing, excluded, or not clearly documented.`;
+  } else if (verdict === "Excellent Value") {
+    explanation =
+      `This quote appears below the modeled market range ${marketText}. That can be a strong value, but only if the scope is complete and the contractor is including all critical items.`;
+  } else if (verdict === "Fair Price") {
+    explanation =
+      `This quote appears broadly in line with the modeled market range ${marketText}. The total does not stand out as unusually high once material, complexity, and tear off factors are considered.`;
+  } else if (verdict === "Slightly High") {
+    explanation =
+      `This quote appears somewhat above the modeled benchmark ${marketText}, roughly ${absDiffPct}% above the midpoint. That may still be reasonable if the quote includes stronger scope, premium shingles, decking work, or steep roof conditions.`;
+  } else if (verdict === "Overpriced") {
+    explanation =
+      `This quote appears materially above the modeled market range ${marketText}, about ${absDiffPct}% above the midpoint benchmark. Unless the proposal includes clear premium scope, this likely deserves a second quote.`;
+  } else if (verdict === "Potential Red Flag") {
+    explanation =
+      `This quote appears far above the modeled market range ${marketText}, about ${absDiffPct}% above the midpoint benchmark. That is a potential red flag unless the roof is unusually complex or the proposal includes major upgrades clearly documented in writing.`;
+  } else {
+    explanation =
+      `This quote needs more review before a reliable pricing conclusion can be made.`;
+  }
 
-      Object.entries(parsedSignals || {}).forEach(([key, item]) => {
-        if (!item || key === "premiumBrand") return;
-        if (item.status === "unclear") missingSignals.push(item.label.toLowerCase());
-        if (item.status === "excluded") excludedSignals.push(item.label.toLowerCase());
-      });
+  const missingSignals = [];
+  const excludedSignals = [];
 
-      const bullets = [
-        `Modeled range: ${formatCurrency(low)} to ${formatCurrency(high)}`,
-        `Midpoint benchmark: ${formatCurrency(mid)}`,
-        `Analysis confidence: ${analysisConfidenceLabel}`,
-        `Complexity used: ${complexityLabel}`,
-        `Tear off setting: ${tearOffLabel}`,
-        localDataUsed ? `Nearest local size bucket used: ${sizeLabelUsed}` : "Fallback benchmark used because local pricing was not found",
-        warrantyYears ? `Warranty entered or parsed: ${warrantyYears} years` : "Warranty not entered or confidently parsed",
-        premiumSignals.length ? `Premium complexity signals: ${premiumSignals.join(", ")}` : "No major premium complexity signals detected"
-      ];
+  Object.entries(parsedSignals || {}).forEach(([key, item]) => {
+    if (!item || key === "premiumBrand") return;
+    if (item.status === "unclear") missingSignals.push(item.label.toLowerCase());
+    if (item.status === "excluded") excludedSignals.push(item.label.toLowerCase());
+  });
 
-      let verifyText = "";
-      if (excludedSignals.length) {
-        verifyText += `<p><strong>Items that may be excluded or extra:</strong> ${escapeHtml(excludedSignals.join(", "))}.</p>`;
-      }
-      if (missingSignals.length) {
-        verifyText += `<p><strong>Items still unclear:</strong> ${escapeHtml(missingSignals.slice(0, 6).join(", "))}.</p>`;
-      }
+  const bullets = [
+    `Modeled range: ${formatCurrency(low)} to ${formatCurrency(high)}`,
+    `Midpoint benchmark: ${formatCurrency(mid)}`,
+    `Analysis confidence: ${analysisConfidenceLabel}`,
+    `Complexity used: ${complexityLabel}`,
+    `Tear off setting: ${tearOffLabel}`,
+    localDataUsed ? `Nearest local size bucket used: ${sizeLabelUsed}` : "Fallback benchmark used because local pricing was not found",
+    warrantyYears ? `Warranty entered or parsed: ${warrantyYears} years` : "Warranty not entered or confidently parsed",
+    premiumSignals.length ? `Premium complexity signals: ${premiumSignals.join(", ")}` : "No major premium complexity signals detected"
+  ];
 
-      return `
-        <p>${escapeHtml(explanation)}</p>
-        ${verifyText}
-        <p><strong>What to verify next:</strong></p>
-        <ul>
-          ${bullets.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
-        </ul>
-      `;
-    }
+  let verifyText = "";
+  if (excludedSignals.length) {
+    verifyText += `<p><strong>Items that may be excluded or extra:</strong> ${escapeHtml(excludedSignals.join(", "))}.</p>`;
+  }
+  if (missingSignals.length) {
+    verifyText += `<p><strong>Items still unclear:</strong> ${escapeHtml(missingSignals.slice(0, 6).join(", "))}.</p>`;
+  }
+
+  return `
+    <p>${escapeHtml(explanation)}</p>
+    ${verifyText}
+    <p><strong>What to verify next:</strong></p>
+    <ul>
+      ${bullets.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+    </ul>
+  `;
+}
 
     function renderAnalysisPanels({
       roofSize,
