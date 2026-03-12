@@ -591,6 +591,7 @@
         <input id="secondQuotePrice" type="number" placeholder="ex: 18250" />
         <div class="btn-row">
           <button class="btn secondary" type="button" onclick="compareSecondQuote()">Compare Second Quote</button>
+          <button class="btn secondary" type="button" onclick="viewShareableResult()">View Shareable Result</button>
         </div>
         <div id="comparisonOutput" class="small muted" style="margin-top:12px;">
           Enter a second quote after running the main analysis.
@@ -2115,6 +2116,82 @@
         <p class="small muted">Lower is not always better. Compare scope, flashing, ventilation, underlayment, tear off, warranty, and decking assumptions before choosing.</p>
       `;
     }
+
+    function viewShareableResult() {
+  if (!latestAnalysis) {
+    alert("Run the main analysis first.");
+    return;
+  }
+
+  const city = document.getElementById("cityName").value.trim() || lastParsedData.city || "";
+  const state = document.getElementById("stateCode").value.trim().toUpperCase() || lastParsedData.stateCode || "";
+  const size = parseFloat(document.getElementById("roofSize").value) || latestAnalysis.roofSize || 0;
+  const material = document.getElementById("materialType").value || latestAnalysis.material || "architectural";
+  const price = parseFloat(document.getElementById("quotePrice").value) || latestAnalysis.price || 0;
+  const warranty = parseFloat(document.getElementById("warrantyYears").value) || lastParsedData.warrantyYears || "";
+  const tearOffValue = document.getElementById("tearOffIncluded").value;
+
+  let tearoff = "";
+  if (tearOffValue === "1.05") {
+    tearoff = "yes";
+  } else if (tearOffValue === "0.97") {
+    tearoff = "no";
+  }
+
+  const params = new URLSearchParams({
+    city,
+    state,
+    size: String(Math.round(size)),
+    material,
+    price: String(Math.round(price)),
+    low: String(Math.round(latestAnalysis.low || 0)),
+    mid: String(Math.round(latestAnalysis.mid || 0)),
+    high: String(Math.round(latestAnalysis.high || 0)),
+    verdict: latestAnalysis.verdict || "Unknown",
+    ppsf: size > 0 ? String((price / size).toFixed(2)) : "",
+    confidence: getConfidenceLabel(lastParsedData.confidenceScore || 0),
+    tearoff,
+    warranty: warranty ? String(Math.round(warranty)) : "",
+    underlayment:
+      lastParsedData.signals?.underlayment?.status === "included"
+        ? "yes"
+        : lastParsedData.signals?.underlayment?.status === "excluded"
+        ? "no"
+        : "",
+    flashing:
+      lastParsedData.signals?.flashing?.status === "included"
+        ? "yes"
+        : lastParsedData.signals?.flashing?.status === "excluded"
+        ? "no"
+        : "",
+    ventilation:
+      lastParsedData.signals?.ventilation?.status === "included"
+        ? "yes"
+        : lastParsedData.signals?.ventilation?.status === "excluded"
+        ? "no"
+        : "",
+    decking:
+      lastParsedData.signals?.decking?.status === "included"
+        ? "yes"
+        : lastParsedData.signals?.decking?.status === "excluded"
+        ? "no"
+        : "",
+    permit:
+      lastParsedData.signals?.permit?.status === "included"
+        ? "yes"
+        : lastParsedData.signals?.permit?.status === "excluded"
+        ? "no"
+        : "",
+    disposal:
+      lastParsedData.signals?.disposal?.status === "included"
+        ? "yes"
+        : lastParsedData.signals?.disposal?.status === "excluded"
+        ? "no"
+        : ""
+  });
+
+  window.location.href = "/quote-analysis/index.html?" + params.toString();
+}
 
     function showLeadPlaceholder() {
       const out = document.getElementById("leadPlaceholderOutput");

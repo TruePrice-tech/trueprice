@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Roof Quote Analysis Result | TruePrice</title>
+  <meta
+    name="description"
+    content="Review your roofing quote result, compare it to local pricing benchmarks, and understand what to verify before signing."
+  />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="canonical" href="https://truepricehq.com/quote-analysis/index.html" />
+
+  <meta property="og:title" content="Roof Quote Analysis Result | TruePrice" />
+  <meta
+    property="og:description"
+    content="See how your roofing quote compares to expected pricing and review key scope signals."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/quote-analysis/index.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --brand: #0f62fe;
+      --brand-dark: #0b4fd1;
+      --brand-soft: #eef4ff;
+      --good-bg: #ecfdf5;
+      --good-line: #a7f3d0;
+      --warn-bg: #fff7ed;
+      --warn-line: #fdba74;
+      --bad-bg: #fef2f2;
+      --bad-line: #fca5a5;
+      --neutral-bg: #f3f4f6;
+      --neutral-line: #d1d5db;
+      --shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+      --radius: 14px;
+      --max: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--brand);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 18px;
+      font-size: 0.98rem;
+    }
+
+    .nav a {
+      font-weight: 700;
+    }
+
+    .hero {
+      background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--brand-dark);
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .panel h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .verdict {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin: 0 8px 12px 0;
+    }
+
+    .verdict.excellent-value,
+    .verdict.fair-price {
+      background: var(--good-bg);
+      border: 1px solid var(--good-line);
+    }
+
+    .verdict.slightly-high,
+    .verdict.unusually-low {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-line);
+    }
+
+    .verdict.overpriced,
+    .verdict.potential-red-flag {
+      background: var(--bad-bg);
+      border: 1px solid var(--bad-line);
+    }
+
+    .verdict.unknown {
+      background: var(--neutral-bg);
+      border: 1px solid var(--neutral-line);
+    }
+
+    .confidence {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      border: 1px solid var(--line);
+      background: white;
+    }
+
+    .confidence.high {
+      background: var(--good-bg);
+      border-color: var(--good-line);
+    }
+
+    .confidence.medium {
+      background: var(--warn-bg);
+      border-color: var(--warn-line);
+    }
+
+    .confidence.low {
+      background: var(--bad-bg);
+      border-color: var(--bad-line);
+    }
+
+    .metric {
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .signal-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .signal-box h4 {
+      margin: 0 0 8px;
+      font-size: 0.98rem;
+    }
+
+    .good-text {
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .warn-text {
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    .bad-text {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--brand);
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid var(--brand);
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: var(--brand-dark);
+      border-color: var(--brand-dark);
+      text-decoration: none;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--brand);
+    }
+
+    .btn.secondary:hover {
+      background: var(--brand-soft);
+    }
+
+    ul.compact {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    ul.compact li + li {
+      margin-top: 5px;
+    }
+
+    .notice {
+      background: #fafafa;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding: 18px;
+      }
+
+      .hero {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="nav">
+      <a href="/">Home</a>
+      <a href="/roofing-quote-analyzer.html">Analyzer</a>
+      <a href="/compare-roofing-quotes.html">Compare Quotes</a>
+      <a href="/roof-replacement-cost-calculator.html">Calculator</a>
+    </p>
+
+    <section class="hero">
+      <span class="eyebrow">TruePrice Quote Result</span>
+      <h1 id="pageTitle">Roof quote analysis result</h1>
+      <div>
+        <span id="verdictBadge" class="verdict unknown">Unknown</span>
+        <span id="confidenceBadge" class="confidence low">Confidence: Low</span>
+      </div>
+      <p id="heroSummary" class="muted">
+        Review how your quote compares to the expected local range and what to verify next.
+      </p>
+
+      <div class="btn-row">
+        <a id="rerunAnalyzerLink" class="btn" href="/roofing-quote-analyzer.html">Run another analysis</a>
+        <a class="btn secondary" href="/compare-roofing-quotes.html">Compare roofing quotes</a>
+        <a class="btn secondary" href="/roof-replacement-cost-calculator.html">Estimate roof cost</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Quote summary</h2>
+        <div class="grid">
+          <div class="panel">
+            <h3>Quoted price</h3>
+            <div id="quotePriceMetric" class="metric">$0</div>
+            <div id="quotePriceSub" class="muted">Entered quote total</div>
+          </div>
+          <div class="panel">
+            <h3>Expected range</h3>
+            <div id="rangeMetric" class="metric">$0 to $0</div>
+            <div id="rangeSub" class="muted">Modeled local range</div>
+          </div>
+          <div class="panel">
+            <h3>Difference vs midpoint</h3>
+            <div id="deltaMetric" class="metric">$0</div>
+            <div id="deltaSub" class="muted">Compared with benchmark midpoint</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Project details</h2>
+        <div class="grid">
+          <div class="panel">
+            <h3>Location</h3>
+            <div id="locationText">Unknown</div>
+          </div>
+          <div class="panel">
+            <h3>Material</h3>
+            <div id="materialText">Unknown</div>
+          </div>
+          <div class="panel">
+            <h3>Roof size</h3>
+            <div id="sizeText">Unknown</div>
+          </div>
+          <div class="panel">
+            <h3>Warranty</h3>
+            <div id="warrantyText">Unknown</div>
+          </div>
+          <div class="panel">
+            <h3>Tear off</h3>
+            <div id="tearoffText">Unknown</div>
+          </div>
+          <div class="panel">
+            <h3>Price per sq ft</h3>
+            <div id="ppsfText">Unknown</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>What this result means</h2>
+      <div id="explanationBox" class="notice">
+        We compare your quote against an expected pricing band based on the values passed into this result page.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Scope signal summary</h2>
+      <p class="muted">These are trust signals you can use to review whether the quote appears complete or still needs clarification.</p>
+      <div id="signalGrid" class="signal-grid"></div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>What to verify next</h2>
+        <ul id="verifyList" class="compact">
+          <li>Confirm the quote includes underlayment, flashing, ventilation, and disposal.</li>
+          <li>Check whether permits and decking replacement are included or extra.</li>
+          <li>Compare at least one more contractor quote before signing.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Why roofing quotes vary</h2>
+        <ul class="compact">
+          <li>Roof complexity and steep pitch</li>
+          <li>Tear off vs overlay scope</li>
+          <li>Premium shingles or metal systems</li>
+          <li>Decking replacement assumptions</li>
+          <li>Ventilation, flashing, and drip edge scope</li>
+          <li>Warranty quality and workmanship coverage</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Helpful next steps</h2>
+        <div class="btn-row">
+          <a class="btn secondary" href="/compare-roofing-quotes.html">Compare quotes</a>
+          <a class="btn secondary" href="/what-should-a-roofing-quote-include.html">What should a roofing quote include</a>
+          <a class="btn secondary" href="/how-to-compare-roofing-quotes.html">How to compare roofing quotes</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    function escapeHtml(text) {
+      return String(text || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatCurrency(value) {
+      const num = Number(value);
+      if (!isFinite(num)) return "$0";
+      return "$" + Math.round(num).toLocaleString();
+    }
+
+    function formatNumber(value) {
+      const num = Number(value);
+      if (!isFinite(num)) return "";
+      return num.toLocaleString();
+    }
+
+    function slugToLabel(value) {
+      const map = {
+        architectural: "Architectural shingles",
+        asphalt: "Asphalt shingles",
+        metal: "Metal roofing",
+        tile: "Tile roofing"
+      };
+      return map[value] || value || "Unknown";
+    }
+
+    function verdictClass(verdict) {
+      return String(verdict || "unknown").toLowerCase().replace(/\s+/g, "-");
+    }
+
+    function confidenceClass(confidence) {
+      const lower = String(confidence || "low").toLowerCase();
+      if (lower === "high") return "high";
+      if (lower === "medium") return "medium";
+      return "low";
+    }
+
+    function parseBoolLike(value) {
+      const v = String(value || "").toLowerCase();
+      if (["yes", "true", "1", "included"].includes(v)) return "Included";
+      if (["no", "false", "0", "excluded"].includes(v)) return "Excluded or not included";
+      return "Unclear";
+    }
+
+    function signalHtml(status) {
+      if (status === "Included") return '<span class="good-text">✓ Included</span>';
+      if (status === "Excluded or not included") return '<span class="bad-text">✗ Excluded or not included</span>';
+      return '<span class="warn-text">⚠ Unclear</span>';
+    }
+
+    function buildSignalBox(label, status) {
+      return `
+        <div class="signal-box">
+          <h4>${escapeHtml(label)}</h4>
+          <div>${signalHtml(status)}</div>
+        </div>
+      `;
+    }
+
+    function getParam(name, fallback = "") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name) || fallback;
+    }
+
+    function getExplanation(verdict, quotePrice, low, mid, high, material, size, city, state) {
+      const diffPct = mid ? (((quotePrice - mid) / mid) * 100) : 0;
+      const absDiffPct = Math.abs(diffPct).toFixed(0);
+      const placeText = city && state ? `${city}, ${state}` : "your area";
+      const materialText = slugToLabel(material).toLowerCase();
+
+      if (verdict === "Excellent Value") {
+        return `This quote sits below the expected range for a ${materialText} roof of about ${formatNumber(size)} square feet in ${placeText}. That may represent a strong value, but only if the scope is complete and the contractor is not excluding important items.`;
+      }
+
+      if (verdict === "Fair Price") {
+        return `This quote appears broadly in line with the expected range for a ${materialText} roof of about ${formatNumber(size)} square feet in ${placeText}. It does not stand out as unusually high based on the values provided.`;
+      }
+
+      if (verdict === "Slightly High") {
+        return `This quote appears somewhat above the expected range for a ${materialText} roof of about ${formatNumber(size)} square feet in ${placeText}, roughly ${absDiffPct}% above the midpoint benchmark. That can still be reasonable if the roof has premium materials or added complexity.`;
+      }
+
+      if (verdict === "Overpriced") {
+        return `This quote appears materially above the expected range for a ${materialText} roof of about ${formatNumber(size)} square feet in ${placeText}, roughly ${absDiffPct}% above the midpoint benchmark. It likely deserves a second quote and a clearer scope breakdown.`;
+      }
+
+      if (verdict === "Potential Red Flag") {
+        return `This quote is far above the expected range for a ${materialText} roof of about ${formatNumber(size)} square feet in ${placeText}. Unless there are major upgrades or unusual roof conditions, this should be treated as a strong warning sign.`;
+      }
+
+      if (verdict === "Unusually Low") {
+        return `This quote is well below the expected range for a ${materialText} roof of about ${formatNumber(size)} square feet in ${placeText}. That can look attractive, but it sometimes means important scope items are missing or left vague.`;
+      }
+
+      return `This result compares your entered quote against an expected pricing range based on the inputs supplied to this page. Review the scope carefully before making a decision.`;
+    }
+
+    function buildVerifyItems(signals, verdict) {
+      const items = [];
+
+      Object.entries(signals).forEach(([label, status]) => {
+        if (status !== "Included") {
+          items.push(`Verify whether ${label.toLowerCase()} is included, excluded, or charged separately.`);
+        }
+      });
+
+      if (verdict === "Overpriced" || verdict === "Potential Red Flag") {
+        items.unshift("Ask for a line by line scope breakdown and compare at least one more quote.");
+      }
+
+      if (verdict === "Unusually Low") {
+        items.unshift("Confirm the low price is not due to missing materials, skipped tear off, or weaker warranty coverage.");
+      }
+
+      items.push("Confirm workmanship warranty and manufacturer warranty terms in writing.");
+
+      return items.slice(0, 6);
+    }
+
+    function renderPage() {
+      const city = getParam("city", "");
+      const state = getParam("state", "");
+      const size = Number(getParam("size", "0"));
+      const material = getParam("material", "architectural");
+      const price = Number(getParam("price", "0"));
+      const low = Number(getParam("low", "0"));
+      const mid = Number(getParam("mid", "0"));
+      const high = Number(getParam("high", "0"));
+      const verdict = getParam("verdict", "Unknown");
+      const ppsf = Number(getParam("ppsf", size > 0 ? price / size : 0));
+      const confidence = getParam("confidence", "Low");
+      const tearoff = parseBoolLike(getParam("tearoff", ""));
+      const warranty = getParam("warranty", "");
+      const underlayment = parseBoolLike(getParam("underlayment", ""));
+      const flashing = parseBoolLike(getParam("flashing", ""));
+      const ventilation = parseBoolLike(getParam("ventilation", ""));
+      const decking = parseBoolLike(getParam("decking", ""));
+      const permit = parseBoolLike(getParam("permit", ""));
+      const disposal = parseBoolLike(getParam("disposal", ""));
+
+      const locationLabel = city && state ? `${city}, ${state}` : "your area";
+      const title = `${slugToLabel(material)} quote result for ${locationLabel}`;
+
+      document.title = `${title} | TruePrice`;
+      document.getElementById("pageTitle").textContent = title;
+
+      const verdictBadge = document.getElementById("verdictBadge");
+      verdictBadge.textContent = verdict;
+      verdictBadge.className = `verdict ${verdictClass(verdict)}`;
+
+      const confidenceBadge = document.getElementById("confidenceBadge");
+      confidenceBadge.textContent = `Confidence: ${confidence}`;
+      confidenceBadge.className = `confidence ${confidenceClass(confidence)}`;
+
+      document.getElementById("heroSummary").textContent =
+        `This result compares your ${formatCurrency(price)} quote against an expected range of ${formatCurrency(low)} to ${formatCurrency(high)} for ${locationLabel}.`;
+
+      const delta = price - mid;
+      const deltaText = `${delta >= 0 ? "+" : "-"}${formatCurrency(Math.abs(delta))}`;
+
+      document.getElementById("quotePriceMetric").textContent = formatCurrency(price);
+      document.getElementById("rangeMetric").textContent = `${formatCurrency(low)} to ${formatCurrency(high)}`;
+      document.getElementById("deltaMetric").textContent = deltaText;
+      document.getElementById("deltaSub").textContent =
+        mid > 0 ? `${delta >= 0 ? "Above" : "Below"} midpoint of ${formatCurrency(mid)}` : "Compared with benchmark midpoint";
+
+      document.getElementById("locationText").textContent = locationLabel;
+      document.getElementById("materialText").textContent = slugToLabel(material);
+      document.getElementById("sizeText").textContent = size ? `${formatNumber(size)} sq ft` : "Unknown";
+      document.getElementById("warrantyText").textContent = warranty ? `${warranty} years` : "Not provided";
+      document.getElementById("tearoffText").textContent = tearoff;
+      document.getElementById("ppsfText").textContent = ppsf ? `${formatCurrency(ppsf)} / sq ft` : "Unknown";
+
+      document.getElementById("explanationBox").textContent =
+        getExplanation(verdict, price, low, mid, high, material, size, city, state);
+
+      const signals = {
+        "Tear off": tearoff,
+        "Underlayment": underlayment,
+        "Flashing": flashing,
+        "Ventilation": ventilation,
+        "Decking": decking,
+        "Permit": permit,
+        "Disposal": disposal
+      };
+
+      document.getElementById("signalGrid").innerHTML = Object.entries(signals)
+        .map(([label, status]) => buildSignalBox(label, status))
+        .join("");
+
+      const verifyItems = buildVerifyItems(signals, verdict);
+      document.getElementById("verifyList").innerHTML = verifyItems
+        .map(item => `<li>${escapeHtml(item)}</li>`)
+        .join("");
+
+      const analyzerParams = new URLSearchParams();
+      if (city) analyzerParams.set("city", city);
+      if (state) analyzerParams.set("state", state);
+      if (size) analyzerParams.set("size", size);
+      if (material) analyzerParams.set("material", material);
+      if (price) analyzerParams.set("price", price);
+      document.getElementById("rerunAnalyzerLink").href =
+        `/roofing-quote-analyzer.html${analyzerParams.toString() ? "?" + analyzerParams.toString() : ""}`;
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>
