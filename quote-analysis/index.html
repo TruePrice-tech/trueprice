@@ -314,11 +314,14 @@
         Review how your quote compares to the expected local range and what to verify next.
       </p>
 
-      <div class="btn-row">
-        <a id="rerunAnalyzerLink" class="btn" href="/roofing-quote-analyzer.html">Run another analysis</a>
-        <a class="btn secondary" href="/compare-roofing-quotes.html">Compare roofing quotes</a>
-        <a class="btn secondary" href="/roof-replacement-cost-calculator.html">Estimate roof cost</a>
-      </div>
+    <div class="btn-row">
+  <a id="rerunAnalyzerLink" class="btn" href="/roofing-quote-analyzer.html">Run another analysis</a>
+  <button id="copyShareLinkBtn" class="btn secondary" type="button" onclick="copyShareLink()">Copy Share Link</button>
+  <a class="btn secondary" href="/compare-roofing-quotes.html">Compare roofing quotes</a>
+  <a class="btn secondary" href="/roof-replacement-cost-calculator.html">Estimate roof cost</a>
+    </div>
+
+<div id="copyShareFeedback" class="small muted" style="margin-top:10px;"></div>
     </section>
 
     <section class="grid">
@@ -544,6 +547,29 @@
 
       return items.slice(0, 6);
     }
+
+async function copyShareLink() {
+  const feedback = document.getElementById("copyShareFeedback");
+  const url = window.location.href;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+    } else {
+      const tempInput = document.createElement("input");
+      tempInput.value = url;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      tempInput.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+    }
+
+    feedback.textContent = "Share link copied.";
+  } catch (error) {
+    feedback.textContent = "Unable to copy automatically. Copy the URL from your browser bar.";
+  }
+}
 
     function renderPage() {
       const city = getParam("city", "");
