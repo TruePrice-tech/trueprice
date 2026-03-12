@@ -12,7 +12,23 @@
 
   <link
     rel="canonical"
-    href="https://trueprice-tech.github.io/trueprice/{{SLUG}}"
+    href="https://truepricehq.com/{{SLUG}}"
+  />
+
+  <meta property="og:title" content="{{CITY}} Roof Replacement Cost (2026) | TruePrice" />
+  <meta
+    property="og:description"
+    content="Average roof replacement cost in {{CITY}}, {{STATE_CODE}}. Compare roofing prices by material and house size with TruePrice."
+  />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://truepricehq.com/{{SLUG}}" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{CITY}} Roof Replacement Cost (2026) | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Average roof replacement cost in {{CITY}}, {{STATE_CODE}}. Compare roofing prices by material and house size."
   />
 
   <style>
@@ -112,7 +128,51 @@
       border-radius: 12px;
       padding: 14px 16px;
     }
+
+    .nearby-cities {
+      margin-top: 40px;
+    }
+
+    .nearby-cities ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+    }
+
+    .nearby-cities li {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .city-links-list {
+        columns: 1;
+      }
+    }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Roof Replacement Cost in {{CITY}}, {{STATE_CODE}}",
+    "description": "Average roof replacement cost in {{CITY}}, {{STATE_CODE}}. Compare roofing prices by material and house size.",
+    "url": "https://truepricehq.com/{{SLUG}}",
+    "author": {
+      "@type": "Organization",
+      "name": "TruePrice"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TruePrice"
+    }
+  }
+  </script>
 </head>
 <body>
   <h1>Roof Replacement Cost in {{CITY}}, {{STATE_CODE}}</h1>
@@ -284,10 +344,12 @@
     </ul>
   </div>
 
+  {{NEARBY_CITIES_SECTION}}
+
   <div class="section">
     <h2>Compare Roofing Quotes</h2>
     <p>
-      Use the <a href="https://trueprice-tech.github.io/trueprice/">TruePrice calculator and quote analyzer</a>
+      Use the <a href="https://truepricehq.com/">TruePrice calculator and quote analyzer</a>
       to check whether a roofing quote looks fair.
     </p>
   </div>

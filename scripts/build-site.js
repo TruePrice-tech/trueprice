@@ -24,7 +24,7 @@ const ALL_CITIES_TEMPLATE_PATH = path.join(ROOT, "templates", "all-cities-templa
 
 const ALL_CITIES_PAGE_PATH = path.join(ROOT, "all-cities.html");
 
-const SITE_BASE_URL = "https://-tech.github.io/";
+const SITE_BASE_URL = "https://truepricehq.com";
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -156,6 +156,35 @@ function calculatePriceTable(cityRow, pricingModel, stateRegions) {
   return result;
 }
 
+function buildNearbyCities(currentCity, cities) {
+  const nearby = cities
+    .filter(
+      (c) =>
+        c.state_code === currentCity.state_code &&
+        c.city !== currentCity.city
+    )
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
+    .slice(0, 8);
+
+  if (!nearby.length) return "";
+
+  const links = nearby
+    .map((c) => {
+      const filename = buildCityPageFilename(c.city, c.state_code);
+      return `<li><a href="/${filename}">${c.city}, ${c.state_code}</a></li>`;
+    })
+    .join("");
+
+  return `
+<section class="nearby-cities">
+  <h2>Roof Replacement Cost in Nearby Cities</h2>
+  <ul>
+    ${links}
+  </ul>
+</section>
+`;
+}
+
 function generateRelatedCityLinks(currentCityPricing, allCityRows) {
   const currentFile = buildCityPageFilename(
     currentCityPricing.city,
@@ -188,7 +217,7 @@ function generateRelatedCityLinks(currentCityPricing, allCityRows) {
   return related
     .map((city) => {
       const filename = buildCityPageFilename(city.city, city.state_code);
-      return `<li><a href="//${filename}">${city.city}, ${city.state_code}</a></li>`;
+      return `<li><a href="/${filename}">${city.city}, ${city.state_code}</a></li>`;
     })
     .join("\n");
 }
@@ -204,14 +233,14 @@ function generateSameStateCityLinks(currentCityPricing, allCityRows) {
     .slice(0, 8)
     .map((city) => {
       const filename = buildCityPageFilename(city.city, city.state_code);
-      return `<li><a href="//${filename}">${city.city}, ${city.state_code}</a></li>`;
+      return `<li><a href="/${filename}">${city.city}, ${city.state_code}</a></li>`;
     })
     .join("\n");
 }
 
 function getStatePageLink(cityPricing) {
   const stateFilename = buildStatePageFilename(cityPricing.state);
-  return `<a href="//${stateFilename}">${cityPricing.state}</a>`;
+  return `<a href="/${stateFilename}">${cityPricing.state}</a>`;
 }
 
 function generateCityMaterialLinks(cityPricing) {
@@ -240,7 +269,7 @@ function generateCityMaterialLinks(cityPricing) {
   return links
     .map(({ material, label }) => {
       const filename = buildMaterialCityPageFilename(material, city, stateCode);
-      return `<li><a href="//${filename}">${label}</a></li>`;
+      return `<li><a href="/${filename}">${label}</a></li>`;
     })
     .join("\n");
 }
@@ -287,6 +316,7 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   const cityMaterialLinks = generateCityMaterialLinks(cityPricing);
   const statePageLink = getStatePageLink(cityPricing);
   const cityRates = getCityMaterialRates(cityPricing);
+  const nearbyCitiesSection = buildNearbyCities(cityPricing, allCityRows);
 
   template = template.replaceAll("{{CITY}}", cityPricing.city);
   template = template.replaceAll("{{STATE_CODE}}", cityPricing.state_code);
@@ -302,6 +332,12 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{CITY_RATE_TILE}}", cityRates.tile);
   template = template.replace("{{SAME_STATE_CITY_LINKS}}", sameStateCityLinks);
 
+  if (template.includes("{{NEARBY_CITIES_SECTION}}")) {
+    template = template.replace("{{NEARBY_CITIES_SECTION}}", nearbyCitiesSection);
+  } else {
+    template = template.replace("</main>", `${nearbyCitiesSection}\n</main>`);
+  }
+
   return template;
 }
 
@@ -315,7 +351,7 @@ function generateHomepageCityLinks(cities) {
   const links = topCities
     .map((city) => {
       const filename = buildCityPageFilename(city.city, city.state_code);
-      return `<li><a href="//${filename}">${city.city}, ${city.state_code}</a></li>`;
+      return `<li><a href="/${filename}">${city.city}, ${city.state_code}</a></li>`;
     })
     .join("\n");
 
@@ -345,7 +381,7 @@ function generateHomepageStateLinks(cities) {
   const links = states
     .map(({ stateName }) => {
       const filename = buildStatePageFilename(stateName);
-      return `<li><a href="//${filename}">${stateName}</a></li>`;
+      return `<li><a href="/${filename}">${stateName}</a></li>`;
     })
     .join("\n");
 
@@ -365,7 +401,7 @@ function generateHomepageMaterialLinks(pricingModel) {
   const links = materials
     .map((material) => {
       const filename = buildMaterialPageFilename(material);
-      return `<li><a href="//${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
+      return `<li><a href="/${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
     })
     .join("\n");
 
@@ -481,7 +517,7 @@ function generateRelatedStateLinks(currentStateName, groupedStates) {
     .slice(0, 12)
     .map((stateName) => {
       const filename = buildStatePageFilename(stateName);
-      return `<li><a href="//${filename}">${stateName}</a></li>`;
+      return `<li><a href="/${filename}">${stateName}</a></li>`;
     })
     .join("\n");
 }
@@ -493,7 +529,7 @@ function generateStateCityLinks(stateCities) {
       const filename = buildCityPageFilename(city.city, city.state_code);
       return `
 <div class="city-link-card">
-  <a href="//${filename}">${city.city}, ${city.state_code}</a>
+  <a href="/${filename}">${city.city}, ${city.state_code}</a>
   <p>Compare local roof replacement pricing in ${city.city}.</p>
 </div>
 `.trim();
@@ -630,7 +666,7 @@ function generateMaterialCityLinks(material, cityPricingArray) {
 
       return `
 <div class="city-link-card">
-  <a href="//${filename}">${cityPricing.city}, ${cityPricing.state_code}</a>
+  <a href="/${filename}">${cityPricing.city}, ${cityPricing.state_code}</a>
   <p>${formatMaterialName(material)} roof pricing: ${rangeText}</p>
 </div>
 `.trim();
@@ -643,7 +679,7 @@ function generateRelatedMaterialLinks(currentMaterial, pricingModel) {
     .filter((material) => material !== currentMaterial)
     .map((material) => {
       const filename = buildMaterialPageFilename(material);
-      return `<li><a href="//${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
+      return `<li><a href="/${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
     })
     .join("\n");
 }
@@ -765,7 +801,7 @@ function generateCityMaterialClusterLinks(currentMaterial, cityPricing, pricingM
         cityPricing.state_code
       );
 
-      return `<a href="//${filename}">
+      return `<a href="/${filename}">
 ${formatMaterialName(material)} Roof Cost in ${cityPricing.city}
 </a>`;
     })
@@ -790,7 +826,7 @@ function generateOtherMaterialLinksForCity(
 
       return `
 <div class="link-card">
-  <a href="//${filename}">${formatMaterialName(material)} in ${cityPricing.city}</a>
+  <a href="/${filename}">${formatMaterialName(material)} in ${cityPricing.city}</a>
   <p>${range}</p>
 </div>
 `.trim();
@@ -824,7 +860,7 @@ function generateRelatedMaterialCityLinks(
 
       return `
 <div class="link-card">
-  <a href="//${filename}">${formatMaterialName(currentMaterial)} in ${item.city}, ${item.state_code}</a>
+  <a href="/${filename}">${formatMaterialName(currentMaterial)} in ${item.city}, ${item.state_code}</a>
   <p>${range}</p>
 </div>
 `.trim();
@@ -998,7 +1034,7 @@ function generateAllCitiesPage(cityRows, pricingModel) {
     .sort((a, b) => a.city.localeCompare(b.city))
     .map((city) => {
       const filename = buildCityPageFilename(city.city, city.state_code);
-      return `<li><a href="//${filename}">${city.city}, ${city.state_code}</a></li>`;
+      return `<li><a href="/${filename}">${city.city}, ${city.state_code}</a></li>`;
     })
     .join("\n");
 
@@ -1009,7 +1045,7 @@ function generateAllCitiesPage(cityRows, pricingModel) {
     .sort((a, b) => a.localeCompare(b))
     .map((stateName) => {
       const filename = buildStatePageFilename(stateName);
-      return `<li><a href="//${filename}">${stateName}</a></li>`;
+      return `<li><a href="/${filename}">${stateName}</a></li>`;
     })
     .join("\n");
 
@@ -1018,7 +1054,7 @@ function generateAllCitiesPage(cityRows, pricingModel) {
   const materialLinks = Object.keys(pricingModel.basePricePerSquare)
     .map((material) => {
       const filename = buildMaterialPageFilename(material);
-      return `<li><a href="//${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
+      return `<li><a href="/${filename}">${formatMaterialName(material)} Roof Cost</a></li>`;
     })
     .join("\n");
 
