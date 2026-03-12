@@ -855,14 +855,18 @@
     };
 
     async function loadCityPricingData() {
-      try {
-        const response = await fetch("/data/city-house-size-pricing.json");
-        cityPricingData = await response.json();
-        buildCityPricingIndex();
-      } catch (error) {
-        console.error("Could not load city pricing data", error);
-      }
-    }
+  try {
+    const response = await fetch("/data/city-house-size-pricing.json");
+    cityPricingData = await response.json();
+    buildCityPricingIndex();
+    prefillAnalyzerFromUrl();
+    autoRunAnalyzerFromUrl();
+  } catch (error) {
+    console.error("Could not load city pricing data", error);
+    prefillAnalyzerFromUrl();
+    autoRunAnalyzerFromUrl();
+  }
+}
 
     function buildCityPricingIndex() {
       cityPricingIndex = new Map();
@@ -1094,6 +1098,25 @@
   } else if (tearoff === "no") {
     document.getElementById("tearOffIncluded").value = "0.97";
   }
+}
+
+function autoRunAnalyzerFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+
+  const size = parseFloat(params.get("size") || "");
+  const price = parseFloat(params.get("price") || "");
+  const material = params.get("material") || "";
+
+  const hasMinimumInputs =
+    !isNaN(size) &&
+    size > 0 &&
+    !isNaN(price) &&
+    price > 0 &&
+    material;
+
+  if (!hasMinimumInputs) return;
+
+  analyzeQuote();
 }
 
     function resetAnalyzer() {
@@ -2252,8 +2275,6 @@
 
       out.innerHTML = "Lead capture placeholder saved. Wire this form to your future contractor routing flow.";
     }
-
-    prefillAnalyzerFromUrl();
 
   </script>
 </body>
