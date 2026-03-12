@@ -46,7 +46,7 @@
       --bad-line: #fca5a5;
       --neutral-bg: #f3f4f6;
       --neutral-line: #d1d5db;
-      --max: 1080px;
+      --max: 1120px;
       --shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
       --radius: 14px;
     }
@@ -96,7 +96,8 @@
 
     h1,
     h2,
-    h3 {
+    h3,
+    h4 {
       line-height: 1.2;
       margin-top: 0;
     }
@@ -144,6 +145,25 @@
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px 16px;
       margin-top: 10px;
+    }
+
+    .analysis-panels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .panel {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .panel h4 {
+      margin-bottom: 10px;
+      font-size: 1rem;
     }
 
     label {
@@ -224,20 +244,20 @@
       margin-bottom: 12px;
     }
 
-    .verdict.fair {
+    .verdict.excellent-value,
+    .verdict.fair-price {
       background: var(--good-bg);
       border: 1px solid var(--good-line);
     }
 
     .verdict.slightly-high,
-    .verdict.slightly-low,
-    .verdict.premium-explainable {
+    .verdict.unusually-low {
       background: var(--warn-bg);
       border: 1px solid var(--warn-line);
     }
 
-    .verdict.high,
-    .verdict.low {
+    .verdict.overpriced,
+    .verdict.potential-red-flag {
       background: var(--bad-bg);
       border: 1px solid var(--bad-line);
     }
@@ -245,6 +265,33 @@
     .verdict.unknown {
       background: var(--neutral-bg);
       border: 1px solid var(--neutral-line);
+    }
+
+    .confidence-badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-left: 8px;
+      margin-bottom: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .confidence-badge.high {
+      background: var(--good-bg);
+      border-color: var(--good-line);
+    }
+
+    .confidence-badge.medium {
+      background: var(--warn-bg);
+      border-color: var(--warn-line);
+    }
+
+    .confidence-badge.low {
+      background: var(--bad-bg);
+      border-color: var(--bad-line);
     }
 
     .ai-analysis {
@@ -353,6 +400,15 @@
       font-weight: 700;
     }
 
+    .mini-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .mini-list li + li {
+      margin-top: 4px;
+    }
+
     @media (max-width: 640px) {
       .wrap {
         padding: 18px;
@@ -429,24 +485,24 @@
 
     <section class="card">
       <h2>Upload Roofing Quote</h2>
-      <p>Upload a PDF roofing estimate to extract basic quote details automatically.</p>
+      <p>Upload a PDF roofing estimate to extract quote details automatically.</p>
 
       <input type="file" id="quoteFile" accept=".pdf" aria-label="Upload roofing quote PDF" />
 
       <div class="btn-row">
         <button type="button" class="btn" onclick="parseQuote()">Analyze Uploaded Quote</button>
-        <button type="button" class="btn secondary" onclick="copyParsedToForm()">Use Parsed Values Below</button>
+        <button type="button" class="btn secondary" onclick="copyParsedToForm()">Refresh Form With Parsed Values</button>
       </div>
 
       <p class="muted small">
-        This automatic extraction is an early parser version. It is designed to detect likely price, material, warranty, and scope clues from many roofing PDFs, but it will not be perfect on every contractor format.
+        This parser now ranks multiple total price candidates, detects more scope items, and auto fills likely values into the form below. Review the parsed results before relying on them.
       </p>
     </section>
 
     <section class="card">
       <h2>Manual Quote Analysis</h2>
       <p>
-        Enter the key numbers from your roofing quote to estimate whether the price appears fair, slightly high, premium but explainable, or suspiciously low.
+        Enter the key numbers from your roofing quote to estimate whether the price appears fair, slightly high, overpriced, or a possible red flag.
       </p>
 
       <div class="form-grid">
@@ -517,6 +573,8 @@
       <div id="analysisOutput" class="result-box">
         Upload a PDF quote above or enter values manually to analyze the quote.
       </div>
+
+      <div id="analysisPanels" class="analysis-panels"></div>
 
       <div class="ai-analysis">
         <h3>AI Quote Assessment</h3>
@@ -662,28 +720,163 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     let cityPricingData = [];
+    let cityPricingIndex = new Map();
     let latestAnalysis = null;
     let lastParsedData = {
       price: "",
+      priceCandidates: [],
       material: "",
+      materialLabel: "",
       warranty: "",
+      warrantyYears: "",
       contractor: "",
-      signals: {}
+      city: "",
+      stateCode: "",
+      roofSize: "",
+      roofSizeSource: "",
+      confidenceScore: 0,
+      confidenceLabel: "Low",
+      signals: {},
+      premiumSignals: [],
+      rawText: ""
+    };
+
+    const STATE_CODES = [
+      "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+      "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+      "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","DC"
+    ];
+
+    const CITY_ALIASES = {
+      "st louis": "saint louis",
+      "st. louis": "saint louis",
+      "ft worth": "fort worth",
+      "ft. worth": "fort worth",
+      "st paul": "saint paul",
+      "st. paul": "saint paul",
+      "st petersburg": "saint petersburg",
+      "st. petersburg": "saint petersburg",
+      "saint pete": "saint petersburg",
+      "las vegas city": "las vegas",
+      "oklahoma city city": "oklahoma city",
+      "kansas city city": "kansas city"
+    };
+
+    const MATERIAL_PATTERNS = [
+      {
+        value: "metal",
+        label: "Standing seam metal roofing",
+        score: 96,
+        patterns: [/\bstanding seam\b/, /\bmechanically seamed\b/, /\bmetal roof\b/, /\bmetal roofing\b/]
+      },
+      {
+        value: "architectural",
+        label: "Architectural shingles",
+        score: 94,
+        patterns: [/\barchitectural\b/, /\bdimensional\b/, /\blaminate shingles?\b/, /\bhdz\b/, /\btimberline\b/]
+      },
+      {
+        value: "tile",
+        label: "Tile roofing",
+        score: 90,
+        patterns: [/\btile roof\b/, /\bconcrete tile\b/, /\bclay tile\b/, /\bbarrel tile\b/]
+      },
+      {
+        value: "asphalt",
+        label: "Asphalt shingles",
+        score: 84,
+        patterns: [/\basphalt shingles?\b/, /\b3[- ]tab\b/, /\bstrip shingles?\b/, /\bcomposition shingles?\b/]
+      },
+      {
+        value: "metal",
+        label: "Metal roofing",
+        score: 80,
+        patterns: [/\bmetal\b/]
+      }
+    ];
+
+    const SCOPE_DEFINITIONS = {
+      tearOff: {
+        label: "Tear off",
+        positive: [/\btear[\s-]?off\b/, /\bremove old roof\b/, /\bremove existing shingles?\b/, /\bcomplete removal\b/],
+        negative: [/\bno tear[\s-]?off\b/, /\bwithout tear[\s-]?off\b/, /\bover lay\b/, /\boverlay\b/, /\blayover\b/]
+      },
+      underlayment: {
+        label: "Underlayment",
+        positive: [/\bunderlayment\b/, /\bsynthetic felt\b/, /\bsynthetic underlayment\b/, /\bice and water\b/, /\bice & water\b/, /\bfelt\b/],
+        negative: [/\bunderlayment not included\b/, /\bexclude(?:d)? underlayment\b/, /\bby owner\b/]
+      },
+      flashing: {
+        label: "Flashing",
+        positive: [/\bflashing\b/, /\bdrip edge\b/, /\bstep flashing\b/, /\bcounter flashing\b/, /\bpipe boot\b/, /\bvalley metal\b/],
+        negative: [/\bflashing not included\b/, /\bexisting flashing only\b/, /\breuse flashing\b/, /\bby owner\b/]
+      },
+      ventilation: {
+        label: "Ventilation",
+        positive: [/\bventilation\b/, /\bridge vent\b/, /\bsoffit vent\b/, /\bintake vent\b/, /\bexhaust vent\b/, /\bbox vent\b/],
+        negative: [/\bventilation not included\b/, /\bno ventilation\b/, /\bby owner\b/]
+      },
+      decking: {
+        label: "Decking",
+        positive: [/\bdecking\b/, /\bdeck repair\b/, /\bosb\b/, /\bplywood\b/, /\bsheathing\b/, /\bdeck replacement\b/],
+        negative: [/\bdecking not included\b/, /\bdeck repair not included\b/, /\bwood replacement extra\b/, /\bas needed at additional cost\b/]
+      },
+      permit: {
+        label: "Permit",
+        positive: [/\bpermit\b/, /\bpermits\b/, /\bpermit fee\b/],
+        negative: [/\bpermit not included\b/, /\bowner to pull permit\b/, /\bpermits by owner\b/]
+      },
+      disposal: {
+        label: "Disposal",
+        positive: [/\bdisposal\b/, /\bdumpster\b/, /\bhaul away\b/, /\bdebris removal\b/, /\bclean up\b/, /\bcleanup\b/],
+        negative: [/\bdisposal not included\b/, /\bowner responsible for cleanup\b/]
+      },
+      dripEdge: {
+        label: "Drip edge",
+        positive: [/\bdrip edge\b/],
+        negative: [/\bdrip edge not included\b/, /\breuse existing drip edge\b/]
+      },
+      iceWater: {
+        label: "Ice and water shield",
+        positive: [/\bice and water\b/, /\bice & water\b/, /\bice shield\b/, /\bwater shield\b/],
+        negative: [/\bice and water not included\b/, /\bwater shield not included\b/]
+      },
+      starter: {
+        label: "Starter strip",
+        positive: [/\bstarter strip\b/, /\bstarter shingles?\b/],
+        negative: [/\bstarter not included\b/]
+      },
+      warrantyMention: {
+        label: "Warranty mention",
+        positive: [/\bwarranty\b/, /\bworkmanship\b/, /\bmanufacturer warranty\b/],
+        negative: []
+      }
     };
 
     async function loadCityPricingData() {
       try {
         const response = await fetch("/data/city-house-size-pricing.json");
         cityPricingData = await response.json();
+        buildCityPricingIndex();
       } catch (error) {
         console.error("Could not load city pricing data", error);
       }
     }
 
+    function buildCityPricingIndex() {
+      cityPricingIndex = new Map();
+      cityPricingData.forEach(item => {
+        const key = buildCityKey(item.city, item.state_code);
+        cityPricingIndex.set(key, item);
+      });
+    }
+
     loadCityPricingData();
 
     function formatCurrency(value) {
-      return "$" + Math.round(Number(value)).toLocaleString();
+      const num = Number(value);
+      if (!isFinite(num)) return "$0";
+      return "$" + Math.round(num).toLocaleString();
     }
 
     function escapeHtml(text) {
@@ -695,23 +888,66 @@
         .replaceAll("'", "&#039;");
     }
 
-    function findCityPricing(city, stateCode) {
-      const normalizedCity = city.trim().toLowerCase();
-      const normalizedState = stateCode.trim().toUpperCase();
+    function titleCase(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/\b\w/g, c => c.toUpperCase())
+        .replace(/\bUsa\b/g, "USA");
+    }
 
-      return cityPricingData.find(item =>
-        item.city.toLowerCase() === normalizedCity &&
-        item.state_code.toUpperCase() === normalizedState
-      );
+    function normalizeWhitespace(text) {
+      return String(text || "")
+        .replace(/\s+/g, " ")
+        .replace(/[|]+/g, " ")
+        .trim();
+    }
+
+    function normalizeCityName(city) {
+      let value = String(city || "").toLowerCase().trim();
+      value = value.replace(/[.,]/g, " ");
+      value = value.replace(/\bsaint\b/g, "saint");
+      value = value.replace(/\bst\b/g, "saint");
+      value = value.replace(/\bft\b/g, "fort");
+      value = value.replace(/\bmt\b/g, "mount");
+      value = value.replace(/\s+/g, " ").trim();
+      if (CITY_ALIASES[value]) {
+        value = CITY_ALIASES[value];
+      }
+      return value;
+    }
+
+    function buildCityKey(city, stateCode) {
+      return `${normalizeCityName(city)}|${String(stateCode || "").trim().toUpperCase()}`;
+    }
+
+    function findCityPricing(city, stateCode) {
+      const normalizedState = String(stateCode || "").trim().toUpperCase();
+      if (!normalizedState) return null;
+
+      const exactKey = buildCityKey(city, normalizedState);
+      if (cityPricingIndex.has(exactKey)) {
+        return cityPricingIndex.get(exactKey);
+      }
+
+      const cityNormalized = normalizeCityName(city);
+      for (const [key, value] of cityPricingIndex.entries()) {
+        const [cityKey, stateKey] = key.split("|");
+        if (stateKey === normalizedState && (cityKey === cityNormalized || cityKey.includes(cityNormalized) || cityNormalized.includes(cityKey))) {
+          return value;
+        }
+      }
+
+      return null;
     }
 
     function getNearestSizeLabel(cityPricing, roofSize) {
-      const sizeLabels = Object.keys(cityPricing.sizes);
-      let bestLabel = sizeLabels[0];
+      const sizeLabels = Object.keys(cityPricing.sizes || {});
+      let bestLabel = sizeLabels[0] || "";
       let smallestDiff = Infinity;
 
       for (const label of sizeLabels) {
-        const numericSize = parseInt(label.replace(/[^\d]/g, ""), 10);
+        const numericSize = parseInt(String(label).replace(/[^\d]/g, ""), 10);
+        if (!numericSize) continue;
         const diff = Math.abs(numericSize - roofSize);
 
         if (diff < smallestDiff) {
@@ -734,39 +970,27 @@
     }
 
     function getVerdictClass(verdict) {
-      const key = verdict.toLowerCase().replace(/\s+/g, "-");
-      return key;
+      return String(verdict || "unknown").toLowerCase().replace(/\s+/g, "-");
     }
 
     function getMaterialLabel(material) {
       const materialLabelMap = {
-        architectural: "architectural shingle",
-        asphalt: "asphalt shingle",
-        metal: "metal",
-        tile: "tile"
+        architectural: "architectural shingles",
+        asphalt: "asphalt shingles",
+        metal: "metal roofing",
+        tile: "tile roofing"
       };
       return materialLabelMap[material] || "roofing";
     }
 
-    function detectScopeSignals(lowerText) {
-      return {
-        tearOff: /\btear[\s-]?off\b|\bremove old roof\b|\bremove shingles\b/.test(lowerText),
-        underlayment: /\bunderlayment\b|\bsynthetic felt\b|\bice and water\b|\bice & water\b|\bfelt\b/.test(lowerText),
-        flashing: /\bflashing\b|\bdrip edge\b|\bstep flashing\b|\bcounter flashing\b/.test(lowerText),
-        ventilation: /\bventilation\b|\bridge vent\b|\bsoffit vent\b|\bintake vent\b|\bexhaust vent\b/.test(lowerText),
-        decking: /\bdecking\b|\bosb\b|\bplywood\b|\bsheathing\b/.test(lowerText),
-        permit: /\bpermit\b|\bpermits\b/.test(lowerText),
-        disposal: /\bdisposal\b|\bdumpster\b|\bhaul away\b|\bdebris removal\b/.test(lowerText),
-        warrantyMention: /\bwarranty\b|\bworkmanship\b|\bmanufacturer warranty\b/.test(lowerText),
-        premiumBrand: /\bgaf\b|\bowens corning\b|\bcertainteed\b|\bmalarkey\b|\biko\b|\btamko\b/.test(lowerText)
-      };
-    }
-
-    function getSignalLabel(found) {
-      if (found) {
-        return '<span class="good-text">Detected</span>';
+    function getSignalHtml(status) {
+      if (status === "included") {
+        return '<span class="good-text">✓ Included</span>';
       }
-      return '<span class="warn-text">Not clearly detected</span>';
+      if (status === "excluded") {
+        return '<span class="bad-text">✗ Excluded or extra</span>';
+      }
+      return '<span class="warn-text">⚠ Unclear</span>';
     }
 
     function renderParsedSignals(signals) {
@@ -776,125 +1000,53 @@
         return;
       }
 
-      container.innerHTML = `
-        <div class="signal-box">
-          <h4>Tear off</h4>
-          <div>${getSignalLabel(signals.tearOff)}</div>
-        </div>
-        <div class="signal-box">
-          <h4>Underlayment</h4>
-          <div>${getSignalLabel(signals.underlayment)}</div>
-        </div>
-        <div class="signal-box">
-          <h4>Flashing</h4>
-          <div>${getSignalLabel(signals.flashing)}</div>
-        </div>
-        <div class="signal-box">
-          <h4>Ventilation</h4>
-          <div>${getSignalLabel(signals.ventilation)}</div>
-        </div>
-        <div class="signal-box">
-          <h4>Decking</h4>
-          <div>${getSignalLabel(signals.decking)}</div>
-        </div>
-        <div class="signal-box">
-          <h4>Permit</h4>
-          <div>${getSignalLabel(signals.permit)}</div>
-        </div>
-        <div class="signal-box">
-          <h4>Disposal</h4>
-          <div>${getSignalLabel(signals.disposal)}</div>
-        </div>
-        <div class="signal-box">
-          <h4>Warranty mention</h4>
-          <div>${getSignalLabel(signals.warrantyMention)}</div>
-        </div>
-      `;
-    }
-
-    function buildAIExplanation({
-      verdict,
-      quotePrice,
-      low,
-      mid,
-      high,
-      material,
-      roofSize,
-      complexityLabel,
-      city,
-      stateCode,
-      localDataUsed,
-      sizeLabelUsed,
-      tearOffLabel,
-      warrantyYears,
-      parsedSignals
-    }) {
-      const diffPct = ((quotePrice - mid) / mid) * 100;
-      const absDiffPct = Math.abs(diffPct).toFixed(0);
-      const materialLabel = getMaterialLabel(material);
-
-      const marketText = localDataUsed
-        ? `for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet in ${city}, ${stateCode}`
-        : `for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet using the fallback benchmark`;
-
-      let explanation = "";
-
-      if (verdict === "Fair") {
-        explanation =
-          `This quote appears broadly in line with the modeled market range ${marketText}. ` +
-          `That does not automatically make it the best quote, but the total price does not stand out as unusually high or unusually low based on the inputs you entered.`;
-      } else if (verdict === "Slightly High") {
-        explanation =
-          `This quote appears somewhat above the modeled midpoint ${marketText}, roughly ${absDiffPct}% above the benchmark. ` +
-          `That can still be reasonable if the roof has added complexity, stronger materials, upgraded underlayment, ventilation work, or broader warranty terms.`;
-      } else if (verdict === "Premium but Explainable") {
-        explanation =
-          `This quote is above the typical modeled range ${marketText}, but there are enough premium or complexity signals to make the number potentially explainable. ` +
-          `That said, you should still verify the exact scope and ask the contractor to justify the higher price in writing.`;
-      } else if (verdict === "High") {
-        explanation =
-          `This quote appears meaningfully above the modeled market range ${marketText}, about ${absDiffPct}% above the midpoint benchmark. ` +
-          `Unless the proposal includes major upgrades, complex roof geometry, decking replacement, premium accessories, or other unusually difficult scope, this may justify getting another quote.`;
-      } else if (verdict === "Slightly Low") {
-        explanation =
-          `This quote is somewhat below the modeled benchmark ${marketText}. ` +
-          `That can be a good value, but lower prices sometimes come from missing items or weaker materials rather than true efficiency.`;
-      } else {
-        explanation =
-          `This quote appears well below the modeled range ${marketText}, roughly ${absDiffPct}% below the midpoint benchmark. ` +
-          `That can be attractive, but it may also mean important items are missing such as flashing, ventilation, tear off, disposal, permit costs, or warranty coverage.`;
-      }
-
-      const missingSignals = [];
-      if (parsedSignals) {
-        if (!parsedSignals.tearOff) missingSignals.push("tear off");
-        if (!parsedSignals.underlayment) missingSignals.push("underlayment");
-        if (!parsedSignals.flashing) missingSignals.push("flashing");
-        if (!parsedSignals.ventilation) missingSignals.push("ventilation");
-        if (!parsedSignals.disposal) missingSignals.push("disposal");
-      }
-
-      const bullets = [
-        `Modeled range: ${formatCurrency(low)} to ${formatCurrency(high)}`,
-        `Midpoint benchmark: ${formatCurrency(mid)}`,
-        `Complexity selected: ${complexityLabel}`,
-        `Tear off setting: ${tearOffLabel}`,
-        localDataUsed ? `Nearest local size bucket used: ${sizeLabelUsed}` : "Fallback benchmark used because local pricing was not found",
-        warrantyYears ? `Warranty entered: ${warrantyYears} years` : "Warranty not entered",
-        missingSignals.length ? `Not clearly detected in parsed quote: ${missingSignals.join(", ")}` : "Several important scope signals were detected in the parsed quote"
+      const priorityKeys = [
+        "tearOff",
+        "underlayment",
+        "flashing",
+        "ventilation",
+        "decking",
+        "permit",
+        "disposal",
+        "dripEdge",
+        "iceWater",
+        "starter",
+        "warrantyMention"
       ];
 
-      return `
-        <p>${escapeHtml(explanation)}</p>
-        <p><strong>What to verify next:</strong></p>
-        <ul>
-          ${bullets.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
-        </ul>
-      `;
+      container.innerHTML = priorityKeys.map(key => {
+        const item = signals[key];
+        if (!item) return "";
+        return `
+          <div class="signal-box">
+            <h4>${escapeHtml(item.label)}</h4>
+            <div>${getSignalHtml(item.status)}</div>
+            ${item.evidence ? `<div class="small muted" style="margin-top:6px;">${escapeHtml(item.evidence)}</div>` : ""}
+          </div>
+        `;
+      }).join("");
     }
 
     function buildPill(text) {
       return `<span class="pill">${escapeHtml(text)}</span>`;
+    }
+
+    function getConfidenceLabel(score) {
+      if (score >= 75) return "High";
+      if (score >= 45) return "Medium";
+      return "Low";
+    }
+
+    function getConfidenceClass(score) {
+      if (score >= 75) return "high";
+      if (score >= 45) return "medium";
+      return "low";
+    }
+
+    function formatNumber(value) {
+      const num = Number(value);
+      if (!isFinite(num)) return "";
+      return num.toLocaleString();
     }
 
     function resetAnalyzer() {
@@ -914,14 +1066,440 @@
       document.getElementById("comparisonOutput").innerHTML =
         "Enter a second quote after running the main analysis.";
       document.getElementById("parsedSignalSection").innerHTML = "";
+      document.getElementById("analysisPanels").innerHTML = "";
       latestAnalysis = null;
       lastParsedData = {
         price: "",
+        priceCandidates: [],
         material: "",
+        materialLabel: "",
         warranty: "",
+        warrantyYears: "",
         contractor: "",
-        signals: {}
+        city: "",
+        stateCode: "",
+        roofSize: "",
+        roofSizeSource: "",
+        confidenceScore: 0,
+        confidenceLabel: "Low",
+        signals: {},
+        premiumSignals: [],
+        rawText: ""
       };
+    }
+
+    function parseMoneyToNumber(value) {
+      if (value == null) return NaN;
+      const cleaned = String(value).replace(/[^0-9.]/g, "");
+      const num = Number(cleaned);
+      return isFinite(num) ? num : NaN;
+    }
+
+    function normalizeEvidence(text) {
+      return normalizeWhitespace(text).slice(0, 120);
+    }
+
+    function scoreMoneyCandidate(rawText, matchText, startIndex, endIndex, value) {
+      const contextStart = Math.max(0, startIndex - 80);
+      const contextEnd = Math.min(rawText.length, endIndex + 80);
+      const context = rawText.slice(contextStart, contextEnd).toLowerCase();
+
+      let score = 10;
+
+      if (value < 2500) score -= 40;
+      if (value >= 6000 && value <= 150000) score += 20;
+      if (value >= 8000 && value <= 60000) score += 8;
+
+      const strongPositive = [
+        "grand total",
+        "proposal total",
+        "contract price",
+        "total due",
+        "total project",
+        "total cost",
+        "total investment",
+        "project total",
+        "your price",
+        "amount due",
+        "price total",
+        "sum total"
+      ];
+
+      const weakPositive = [
+        "total",
+        "balance",
+        "invoice total",
+        "quoted price",
+        "estimate"
+      ];
+
+      const negative = [
+        "deposit",
+        "down payment",
+        "monthly",
+        "per month",
+        "tax",
+        "sales tax",
+        "finance charge",
+        "apr",
+        "interest",
+        "subtotal",
+        "material only",
+        "labor only",
+        "discount",
+        "coupon",
+        "rebate",
+        "insurance deductible",
+        "deductible",
+        "draw",
+        "progress payment",
+        "payment 1",
+        "payment 2",
+        "payment 3"
+      ];
+
+      strongPositive.forEach(term => {
+        if (context.includes(term)) score += 45;
+      });
+
+      weakPositive.forEach(term => {
+        if (context.includes(term)) score += 18;
+      });
+
+      negative.forEach(term => {
+        if (context.includes(term)) score -= 24;
+      });
+
+      if (/^\$?[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?$/.test(matchText.trim())) {
+        score += 4;
+      }
+
+      return score;
+    }
+
+    function extractPriceCandidates(text) {
+      const candidates = [];
+      const seen = new Set();
+      const regex = /\$?\s?[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|\$?\s?[0-9]{4,6}(?:\.[0-9]{2})?/g;
+
+      let match;
+      while ((match = regex.exec(text)) !== null) {
+        const matchText = match[0];
+        const value = parseMoneyToNumber(matchText);
+        if (!isFinite(value) || value < 2500 || value > 250000) continue;
+
+        const score = scoreMoneyCandidate(text, matchText, match.index, match.index + matchText.length, value);
+        const key = `${Math.round(value)}|${Math.round(score)}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        const context = normalizeEvidence(text.slice(Math.max(0, match.index - 60), Math.min(text.length, match.index + matchText.length + 60)));
+        candidates.push({
+          value,
+          display: matchText.trim(),
+          score,
+          context
+        });
+      }
+
+      return candidates
+        .sort((a, b) => b.score - a.score || b.value - a.value)
+        .slice(0, 8);
+    }
+
+    function detectWarranty(text) {
+      const normalized = text.toLowerCase();
+      const candidates = [];
+      const patterns = [
+        { regex: /\blifetime\b.{0,40}\bwarranty\b/i, years: 50, label: "Lifetime warranty", score: 90 },
+        { regex: /\b(5|10|15|20|25|30|40|50)\s*[- ]?\s*year\b.{0,25}\bworkmanship\b/i, years: null, labelFn: y => `${y}-year workmanship warranty`, score: 92 },
+        { regex: /\b(5|10|15|20|25|30|40|50)\s*[- ]?\s*year\b.{0,25}\bwarranty\b/i, years: null, labelFn: y => `${y}-year warranty`, score: 84 },
+        { regex: /\bworkmanship\b.{0,25}\b(5|10|15|20|25|30)\s*[- ]?\s*year\b/i, years: null, labelFn: y => `${y}-year workmanship warranty`, score: 90 },
+        { regex: /\bmanufacturer warranty\b.{0,25}\b(20|25|30|40|50)\s*[- ]?\s*year\b/i, years: null, labelFn: y => `${y}-year manufacturer warranty`, score: 84 }
+      ];
+
+      patterns.forEach(item => {
+        const match = normalized.match(item.regex);
+        if (match) {
+          const years = item.years || Number(match[1]);
+          const label = item.label || item.labelFn(years);
+          candidates.push({ years, label, score: item.score });
+        }
+      });
+
+      if (!candidates.length) {
+        return { label: "Not detected", years: "" };
+      }
+
+      candidates.sort((a, b) => b.score - a.score || b.years - a.years);
+      return { label: candidates[0].label, years: candidates[0].years };
+    }
+
+    function detectMaterial(text) {
+      const normalized = text.toLowerCase();
+      const matches = [];
+
+      MATERIAL_PATTERNS.forEach(item => {
+        item.patterns.forEach(pattern => {
+          if (pattern.test(normalized)) {
+            matches.push({
+              value: item.value,
+              label: item.label,
+              score: item.score
+            });
+          }
+        });
+      });
+
+      if (!matches.length) {
+        return { value: "", label: "Unknown" };
+      }
+
+      matches.sort((a, b) => b.score - a.score);
+      return { value: matches[0].value, label: matches[0].label };
+    }
+
+    function detectContractor(text) {
+      const patterns = [
+        /(?:proposal by|prepared by|roofing company|contractor|company)[:\s]+([A-Za-z0-9&.,' -]{4,70})/i,
+        /^([A-Z][A-Za-z0-9&.,' -]{3,70}(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration))/m
+      ];
+
+      for (const pattern of patterns) {
+        const match = text.match(pattern);
+        if (match && match[1]) {
+          return normalizeWhitespace(match[1]);
+        }
+      }
+
+      return "Not detected";
+    }
+
+    function detectRoofSize(text) {
+      const normalized = text.toLowerCase();
+      const candidates = [];
+
+      let match;
+      const sqFtRegex = /\b([0-9]{3,5})(?:\.[0-9]+)?\s*(?:sq\.?\s*ft|square feet|sq ft|sf)\b/g;
+      while ((match = sqFtRegex.exec(normalized)) !== null) {
+        const value = Number(match[1]);
+        if (value >= 600 && value <= 12000) {
+          candidates.push({ value, source: "square feet", score: 90 });
+        }
+      }
+
+      const squaresRegex = /\b([0-9]{1,3}(?:\.[0-9]+)?)\s*(?:squares|square)\b/g;
+      while ((match = squaresRegex.exec(normalized)) !== null) {
+        const value = Number(match[1]) * 100;
+        if (value >= 600 && value <= 12000) {
+          candidates.push({ value, source: "roofing squares", score: 88 });
+        }
+      }
+
+      const roofAreaRegex = /\broof area\b[^0-9]{0,15}([0-9]{3,5})(?:\.[0-9]+)?/g;
+      while ((match = roofAreaRegex.exec(normalized)) !== null) {
+        const value = Number(match[1]);
+        if (value >= 600 && value <= 12000) {
+          candidates.push({ value, source: "roof area", score: 92 });
+        }
+      }
+
+      if (!candidates.length) {
+        return { value: "", source: "" };
+      }
+
+      candidates.sort((a, b) => b.score - a.score || b.value - a.value);
+      return { value: Math.round(candidates[0].value), source: candidates[0].source };
+    }
+
+    function detectLocation(text) {
+      const compact = normalizeWhitespace(text);
+      const patterns = [
+        /\b([A-Z][a-z]+(?:[ .-][A-Z][a-z]+){0,3}),\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)\b/g,
+        /\b(City of\s+)?([A-Z][a-z]+(?:[ .-][A-Z][a-z]+){0,3})\s+(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)\b/g
+      ];
+
+      for (const regex of patterns) {
+        let match;
+        while ((match = regex.exec(compact)) !== null) {
+          const city = normalizeWhitespace(match[1] ? match[1].replace(/^City of\s+/i, "") : match[2] || "");
+          const stateCode = (match[2] && STATE_CODES.includes(match[2])) ? match[2] : match[3];
+          if (!city || !stateCode) continue;
+
+          const lower = city.toLowerCase();
+          const banned = ["invoice total", "proposal total", "grand total", "roofing company", "project total"];
+          if (banned.some(term => lower.includes(term))) continue;
+
+          return {
+            city: titleCase(city),
+            stateCode: stateCode.toUpperCase()
+          };
+        }
+      }
+
+      return { city: "", stateCode: "" };
+    }
+
+    function hasNearbyNegation(text, index) {
+      const start = Math.max(0, index - 60);
+      const end = Math.min(text.length, index + 60);
+      const window = text.slice(start, end);
+      return /\b(not included|excluded|exclude|by owner|owner to provide|reuse existing|at additional cost|extra charge|optional|allowance only|if needed)\b/.test(window);
+    }
+
+    function evaluateScopeSignal(text, definition) {
+      const lower = text.toLowerCase();
+
+      for (const negativePattern of definition.negative) {
+        const negativeMatch = lower.match(negativePattern);
+        if (negativeMatch) {
+          return {
+            label: definition.label,
+            status: "excluded",
+            evidence: normalizeEvidence(negativeMatch[0])
+          };
+        }
+      }
+
+      for (const positivePattern of definition.positive) {
+        const match = positivePattern.exec(lower);
+        if (match) {
+          const idx = match.index || 0;
+          if (hasNearbyNegation(lower, idx)) {
+            return {
+              label: definition.label,
+              status: "excluded",
+              evidence: normalizeEvidence(match[0])
+            };
+          }
+          return {
+            label: definition.label,
+            status: "included",
+            evidence: normalizeEvidence(match[0])
+          };
+        }
+      }
+
+      return {
+        label: definition.label,
+        status: "unclear",
+        evidence: ""
+      };
+    }
+
+    function detectScopeSignals(text) {
+      const results = {};
+      Object.entries(SCOPE_DEFINITIONS).forEach(([key, definition]) => {
+        results[key] = evaluateScopeSignal(text, definition);
+      });
+
+      results.premiumBrand = {
+        label: "Premium brand",
+        status: /\bgaf\b|\bowens corning\b|\bcertainteed\b|\bmalarkey\b|\biko\b|\btamko\b|\bdecra\b|\bmcelroy\b/i.test(text)
+          ? "included"
+          : "unclear",
+        evidence: (() => {
+          const match = text.match(/\bgaf\b|\bowens corning\b|\bcertainteed\b|\bmalarkey\b|\biko\b|\btamko\b|\bdecra\b|\bmcelroy\b/i);
+          return match ? normalizeEvidence(match[0]) : "";
+        })()
+      };
+
+      return results;
+    }
+
+    function detectPremiumSignals(text, signals, roofSize, material) {
+      const lower = text.toLowerCase();
+      const items = [];
+
+      if (/\bsteep\b|\bsteep pitch\b|\bhigh pitch\b|\b12\/12\b|\b10\/12\b|\b8\/12\b/.test(lower)) {
+        items.push("Steep pitch mentioned");
+      }
+
+      if (/\bmultiple layers\b|\b2 layers\b|\btwo layers\b|\bsecond layer\b/.test(lower)) {
+        items.push("Multiple layers detected");
+      }
+
+      if (/\bvalley\b|\bmultiple valleys\b|\bdormer\b|\bskylight\b|\bchimney\b|\bcomplex roof\b/.test(lower)) {
+        items.push("Complex roof features detected");
+      }
+
+      if (signals.decking && signals.decking.status === "included") {
+        items.push("Decking work mentioned");
+      }
+
+      if (signals.premiumBrand && signals.premiumBrand.status === "included") {
+        items.push("Premium brand mentioned");
+      }
+
+      if (material === "metal" || material === "tile") {
+        items.push("Premium roofing material");
+      }
+
+      if (Number(roofSize) >= 3500) {
+        items.push("Large roof size");
+      }
+
+      return items;
+    }
+
+    function calculateParserConfidence(parsed) {
+      let score = 0;
+
+      if (parsed.price) score += 28;
+      if (parsed.priceCandidates && parsed.priceCandidates[0] && parsed.priceCandidates[0].score >= 55) score += 10;
+      if (parsed.material) score += 14;
+      if (parsed.warrantyYears) score += 8;
+      if (parsed.roofSize) score += 12;
+      if (parsed.city && parsed.stateCode) score += 10;
+
+      const signals = parsed.signals || {};
+      const includedCount = Object.values(signals).filter(item => item && item.status === "included").length;
+      if (includedCount >= 3) score += 10;
+      if (includedCount >= 5) score += 8;
+
+      return Math.min(100, score);
+    }
+
+    function autoApplyParsedValues() {
+      if (lastParsedData.price) {
+        document.getElementById("quotePrice").value = Math.round(lastParsedData.price);
+      }
+
+      if (lastParsedData.material) {
+        document.getElementById("materialType").value = lastParsedData.material;
+      }
+
+      if (lastParsedData.warrantyYears) {
+        document.getElementById("warrantyYears").value = lastParsedData.warrantyYears;
+      }
+
+      if (lastParsedData.roofSize) {
+        document.getElementById("roofSize").value = lastParsedData.roofSize;
+      }
+
+      if (lastParsedData.city && !document.getElementById("cityName").value.trim()) {
+        document.getElementById("cityName").value = lastParsedData.city;
+      }
+
+      if (lastParsedData.stateCode && !document.getElementById("stateCode").value.trim()) {
+        document.getElementById("stateCode").value = lastParsedData.stateCode;
+      }
+
+      if (lastParsedData.signals && lastParsedData.signals.tearOff) {
+        if (lastParsedData.signals.tearOff.status === "included") {
+          document.getElementById("tearOffIncluded").value = "1.05";
+        } else if (lastParsedData.signals.tearOff.status === "excluded") {
+          document.getElementById("tearOffIncluded").value = "0.97";
+        }
+      }
+
+      if (lastParsedData.premiumSignals && lastParsedData.premiumSignals.length >= 2) {
+        document.getElementById("complexityFactor").value = "1.12";
+      }
+
+      if (lastParsedData.premiumSignals && lastParsedData.premiumSignals.length >= 4) {
+        document.getElementById("complexityFactor").value = "1.20";
+      }
     }
 
     async function parseQuote() {
@@ -955,14 +1533,13 @@
           for (let i = 1; i <= pdf.numPages; i++) {
             const page = await pdf.getPage(i);
             const content = await page.getTextContent();
-
-            content.items.forEach((item) => {
-              text += item.str + " ";
-            });
+            const pageText = content.items.map(item => item.str).join(" ");
+            text += " " + pageText;
           }
 
           analyzeParsedText(text);
         } catch (error) {
+          console.error(error);
           output.innerHTML = "Unable to read this PDF. Please try manual analysis below.";
           aiOutput.innerHTML = "The PDF could not be parsed. Enter the key quote numbers manually to receive an expert explanation.";
         }
@@ -974,137 +1551,344 @@
     function analyzeParsedText(text) {
       const output = document.getElementById("analysisOutput");
       const aiOutput = document.getElementById("aiAnalysisOutput");
-      const normalizedText = text.replace(/\s+/g, " ").trim();
-      const lowerText = normalizedText.toLowerCase();
+      const panels = document.getElementById("analysisPanels");
 
-      const pricePatterns = [
-        /grand total[^$]{0,40}\$?\s?([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/i,
-        /proposal total[^$]{0,40}\$?\s?([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/i,
-        /contract price[^$]{0,40}\$?\s?([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/i,
-        /total[^$]{0,40}\$?\s?([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/i,
-        /\$([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|[0-9]{4,}(?:\.[0-9]{2})?)/
-      ];
-
-      let detectedPrice = "";
-      for (const pattern of pricePatterns) {
-        const match = normalizedText.match(pattern);
-        if (match && match[1]) {
-          detectedPrice = match[1].replace(/,/g, "");
-          break;
-        }
-      }
-
-      const warrantyMatch = normalizedText.match(/(5|10|15|20|25|30|40|50)\s?-?\s?year/i);
-      const warranty = warrantyMatch ? warrantyMatch[0] : "Not detected";
-
-      let material = "Unknown";
-      let materialValue = "";
-      if (lowerText.includes("standing seam")) {
-        material = "Standing Seam Metal Roofing";
-        materialValue = "metal";
-      } else if (lowerText.includes("architectural")) {
-        material = "Architectural Shingles";
-        materialValue = "architectural";
-      } else if (lowerText.includes("metal")) {
-        material = "Metal Roofing";
-        materialValue = "metal";
-      } else if (lowerText.includes("asphalt")) {
-        material = "Asphalt Shingles";
-        materialValue = "asphalt";
-      } else if (lowerText.includes("tile")) {
-        material = "Tile Roofing";
-        materialValue = "tile";
-      }
-
-      let contractor = "Not detected";
-      const contractorPatterns = [
-        /(?:contractor|company|roofing company|proposal by|prepared by)[:\s]+([a-z0-9&.,' -]{4,60})/i,
-        /^([A-Z][A-Za-z0-9&.,' -]{3,60}(?:Roofing|Roof|Exteriors|Construction|Contracting))/m
-      ];
-
-      for (const pattern of contractorPatterns) {
-        const match = normalizedText.match(pattern);
-        if (match && match[1]) {
-          contractor = match[1].trim();
-          break;
-        }
-      }
-
-      const signals = detectScopeSignals(lowerText);
+      const normalizedText = normalizeWhitespace(text);
+      const priceCandidates = extractPriceCandidates(normalizedText);
+      const selectedPrice = priceCandidates[0] ? priceCandidates[0].value : "";
+      const warranty = detectWarranty(normalizedText);
+      const material = detectMaterial(normalizedText);
+      const contractor = detectContractor(normalizedText);
+      const roofSize = detectRoofSize(normalizedText);
+      const location = detectLocation(text);
+      const signals = detectScopeSignals(normalizedText);
+      const premiumSignals = detectPremiumSignals(normalizedText, signals, roofSize.value, material.value);
 
       lastParsedData = {
-        price: detectedPrice,
-        material: materialValue,
-        warranty,
+        price: selectedPrice,
+        priceCandidates,
+        material: material.value,
+        materialLabel: material.label,
+        warranty: warranty.label,
+        warrantyYears: warranty.years,
         contractor,
-        signals
+        city: location.city,
+        stateCode: location.stateCode,
+        roofSize: roofSize.value,
+        roofSizeSource: roofSize.source,
+        signals,
+        premiumSignals,
+        rawText: normalizedText
       };
 
+      const confidenceScore = calculateParserConfidence(lastParsedData);
+      lastParsedData.confidenceScore = confidenceScore;
+      lastParsedData.confidenceLabel = getConfidenceLabel(confidenceScore);
+
+      autoApplyParsedValues();
+      renderParsedSignals(signals);
+
+      const candidateList = priceCandidates.length
+        ? priceCandidates.slice(0, 3).map(item => `${formatCurrency(item.value)} (${item.score})`).join(", ")
+        : "None detected";
+
+      const detectedPills = [
+        material.label !== "Unknown" ? buildPill(material.label) : "",
+        warranty.years ? buildPill(`${warranty.years} year warranty`) : "",
+        roofSize.value ? buildPill(`${formatNumber(roofSize.value)} sq ft`) : "",
+        location.city && location.stateCode ? buildPill(`${location.city}, ${location.stateCode}`) : "",
+        signals.tearOff.status === "included" ? buildPill("Tear off included") : "",
+        premiumSignals.length ? buildPill(`${premiumSignals.length} premium signals`) : ""
+      ].filter(Boolean).join("");
+
       output.innerHTML = `
-        <p><strong>Detected Price:</strong> ${detectedPrice ? formatCurrency(detectedPrice) : "Not detected"}</p>
-        <p><strong>Material:</strong> ${escapeHtml(material)}</p>
-        <p><strong>Warranty:</strong> ${escapeHtml(warranty)}</p>
+        <div class="confidence-badge ${getConfidenceClass(confidenceScore)}">Parser confidence: ${escapeHtml(lastParsedData.confidenceLabel)}</div>
+        <p><strong>Selected total price:</strong> ${selectedPrice ? formatCurrency(selectedPrice) : "Not detected"}</p>
+        <p><strong>Top price candidates:</strong> ${escapeHtml(candidateList)}</p>
+        <p><strong>Material:</strong> ${escapeHtml(material.label)}</p>
+        <p><strong>Warranty:</strong> ${escapeHtml(warranty.label)}</p>
+        <p><strong>Roof size:</strong> ${roofSize.value ? `${formatNumber(roofSize.value)} sq ft` : "Not detected"}${roofSize.source ? ` <span class="small muted">from ${escapeHtml(roofSize.source)}</span>` : ""}</p>
+        <p><strong>Location:</strong> ${location.city && location.stateCode ? `${escapeHtml(location.city)}, ${escapeHtml(location.stateCode)}` : "Not detected"}</p>
         <p><strong>Contractor:</strong> ${escapeHtml(contractor)}</p>
-        <p><strong>Parsed scope clues:</strong> ${buildPill(signals.tearOff ? "tear off found" : "tear off unclear")} ${buildPill(signals.underlayment ? "underlayment found" : "underlayment unclear")} ${buildPill(signals.flashing ? "flashing found" : "flashing unclear")} ${buildPill(signals.ventilation ? "ventilation found" : "ventilation unclear")}</p>
-        <p class="small muted">This automatic extraction is experimental and may not detect every value correctly. Use the manual fields below for a stronger pricing benchmark.</p>
+        <p><strong>Detected signals:</strong> ${detectedPills || "No strong structured signals yet"}</p>
+        <p class="small muted">Parsed values were auto applied to the analysis form below where available.</p>
+      `;
+
+      panels.innerHTML = `
+        <div class="panel">
+          <h4>Parsed quote details</h4>
+          <ul class="mini-list">
+            <li>Price: ${selectedPrice ? formatCurrency(selectedPrice) : "Not detected"}</li>
+            <li>Material: ${escapeHtml(material.label)}</li>
+            <li>Warranty: ${escapeHtml(warranty.label)}</li>
+            <li>Roof size: ${roofSize.value ? `${formatNumber(roofSize.value)} sq ft` : "Not detected"}</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Parser quality</h4>
+          <ul class="mini-list">
+            <li>Confidence: ${escapeHtml(lastParsedData.confidenceLabel)}</li>
+            <li>Price candidates found: ${priceCandidates.length}</li>
+            <li>Scope items found: ${Object.values(signals).filter(item => item.status === "included").length}</li>
+            <li>Premium signals: ${premiumSignals.length}</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>What was auto filled</h4>
+          <ul class="mini-list">
+            <li>Quote price ${selectedPrice ? "filled" : "not filled"}</li>
+            <li>Material ${material.value ? "filled" : "not filled"}</li>
+            <li>Warranty ${warranty.years ? "filled" : "not filled"}</li>
+            <li>Roof size ${roofSize.value ? "filled" : "not filled"}</li>
+          </ul>
+        </div>
       `;
 
       aiOutput.innerHTML = `
-        <p>This parser found some likely quote signals, but it does not yet have enough structured context to calculate a reliable local pricing verdict by itself.</p>
-        <p><strong>Best next step:</strong> use the parsed values below, then add city, state, roof size, and complexity in the manual analysis section.</p>
+        <p>This parser selected the most likely total by ranking multiple dollar amounts instead of grabbing the first number it sees.</p>
+        <p><strong>Best next step:</strong> confirm the auto filled values, especially total price and roof size, then run the full quote analysis below for a local pricing verdict.</p>
       `;
-
-      renderParsedSignals(signals);
     }
 
     function copyParsedToForm() {
-      if (lastParsedData.price) {
-        document.getElementById("quotePrice").value = lastParsedData.price;
-      }
-      if (lastParsedData.material) {
-        document.getElementById("materialType").value = lastParsedData.material;
-      }
-      if (lastParsedData.warranty && /^\d+/.test(lastParsedData.warranty)) {
-        document.getElementById("warrantyYears").value = parseInt(lastParsedData.warranty, 10);
-      }
+      autoApplyParsedValues();
     }
 
-    function determineVerdict({ price, low, mid, high, complexityFactor, tearOffFactor, warrantyYears, parsedSignals }) {
+    function getIncludedSignalCount(parsedSignals) {
+      return Object.values(parsedSignals || {}).filter(item => item && item.status === "included").length;
+    }
+
+    function determineVerdict({
+      price,
+      mid,
+      complexityFactor,
+      tearOffFactor,
+      warrantyYears,
+      parsedSignals,
+      premiumSignals
+    }) {
       const pctVsMid = ((price - mid) / mid) * 100;
-
-      if (pctVsMid <= -20) {
-        return "Suspiciously Low";
-      }
-
-      if (pctVsMid > -20 && pctVsMid <= -8) {
-        return "Slightly Low";
-      }
-
-      if (pctVsMid > -8 && pctVsMid <= 12) {
-        return "Fair";
-      }
 
       const premiumSignalCount =
         (complexityFactor >= 1.12 ? 1 : 0) +
         (tearOffFactor > 1 ? 1 : 0) +
-        (warrantyYears >= 30 ? 1 : 0) +
-        (parsedSignals.premiumBrand ? 1 : 0) +
-        (parsedSignals.decking ? 1 : 0);
+        ((Number(warrantyYears) || 0) >= 30 ? 1 : 0) +
+        ((parsedSignals.premiumBrand && parsedSignals.premiumBrand.status === "included") ? 1 : 0) +
+        ((parsedSignals.decking && parsedSignals.decking.status === "included") ? 1 : 0) +
+        ((premiumSignals || []).length >= 2 ? 1 : 0);
+
+      if (pctVsMid <= -18) {
+        return "Unusually Low";
+      }
+
+      if (pctVsMid > -18 && pctVsMid <= -5) {
+        return "Excellent Value";
+      }
+
+      if (pctVsMid > -5 && pctVsMid <= 12) {
+        return "Fair Price";
+      }
 
       if (pctVsMid > 12 && pctVsMid <= 22 && premiumSignalCount >= 2) {
-        return "Premium but Explainable";
+        return "Fair Price";
       }
 
       if (pctVsMid > 12 && pctVsMid <= 22) {
         return "Slightly High";
       }
 
-      return "High";
+      if (pctVsMid > 22 && pctVsMid <= 35 && premiumSignalCount >= 3) {
+        return "Slightly High";
+      }
+
+      if (pctVsMid > 22 && pctVsMid <= 35) {
+        return "Overpriced";
+      }
+
+      return "Potential Red Flag";
+    }
+
+    function getSuggestedComplexity(parsedPremiumSignals) {
+      const count = (parsedPremiumSignals || []).length;
+      if (count >= 4) return { factor: 1.20, label: "Very complex" };
+      if (count >= 2) return { factor: 1.12, label: "Complex" };
+      return { factor: 1.00, label: "Typical" };
+    }
+
+    function calculateAnalysisConfidence({
+      cityPricing,
+      roofSize,
+      price,
+      material,
+      parsedSignals,
+      parserConfidence
+    }) {
+      let score = 0;
+
+      if (cityPricing) score += 30;
+      if (roofSize >= 600 && roofSize <= 12000) score += 20;
+      if (price >= 2500 && price <= 250000) score += 20;
+      if (material) score += 10;
+
+      const includedSignals = getIncludedSignalCount(parsedSignals);
+      if (includedSignals >= 2) score += 8;
+      if (includedSignals >= 4) score += 6;
+
+      if (parserConfidence >= 75) score += 6;
+      if (parserConfidence >= 45 && parserConfidence < 75) score += 3;
+
+      return Math.min(100, score);
+    }
+
+    function buildAIExplanation({
+      verdict,
+      quotePrice,
+      low,
+      mid,
+      high,
+      material,
+      roofSize,
+      complexityLabel,
+      city,
+      stateCode,
+      localDataUsed,
+      sizeLabelUsed,
+      tearOffLabel,
+      warrantyYears,
+      parsedSignals,
+      premiumSignals,
+      analysisConfidenceLabel
+    }) {
+      const diffPct = ((quotePrice - mid) / mid) * 100;
+      const absDiffPct = Math.abs(diffPct).toFixed(0);
+      const materialLabel = getMaterialLabel(material);
+
+      const marketText = localDataUsed
+        ? `for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet in ${city}, ${stateCode}`
+        : `for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet using the fallback benchmark`;
+
+      let explanation = "";
+
+      if (verdict === "Excellent Value") {
+        explanation =
+          `This quote appears below the modeled market range ${marketText}. That can be a strong value, but only if the scope is complete and the contractor is including all critical items.`;
+      } else if (verdict === "Fair Price") {
+        explanation =
+          `This quote appears broadly in line with the modeled market range ${marketText}. The total does not stand out as unusually high once material, complexity, and tear off factors are considered.`;
+      } else if (verdict === "Slightly High") {
+        explanation =
+          `This quote appears somewhat above the modeled benchmark ${marketText}, roughly ${absDiffPct}% above the midpoint. That may still be reasonable if the quote includes stronger scope, premium shingles, decking work, or steep roof conditions.`;
+      } else if (verdict === "Overpriced") {
+        explanation =
+          `This quote appears materially above the modeled market range ${marketText}, about ${absDiffPct}% above the midpoint benchmark. Unless the proposal includes clear premium scope, this likely deserves a second quote.`;
+      } else {
+        explanation =
+          `This quote appears far above the modeled market range ${marketText}, about ${absDiffPct}% above the midpoint benchmark. That is a potential red flag unless the roof is unusually complex or the proposal includes major upgrades clearly documented in writing.`;
+      }
+
+      const missingSignals = [];
+      const excludedSignals = [];
+
+      Object.entries(parsedSignals || {}).forEach(([key, item]) => {
+        if (!item || key === "premiumBrand") return;
+        if (item.status === "unclear") missingSignals.push(item.label.toLowerCase());
+        if (item.status === "excluded") excludedSignals.push(item.label.toLowerCase());
+      });
+
+      const bullets = [
+        `Modeled range: ${formatCurrency(low)} to ${formatCurrency(high)}`,
+        `Midpoint benchmark: ${formatCurrency(mid)}`,
+        `Analysis confidence: ${analysisConfidenceLabel}`,
+        `Complexity used: ${complexityLabel}`,
+        `Tear off setting: ${tearOffLabel}`,
+        localDataUsed ? `Nearest local size bucket used: ${sizeLabelUsed}` : "Fallback benchmark used because local pricing was not found",
+        warrantyYears ? `Warranty entered or parsed: ${warrantyYears} years` : "Warranty not entered or confidently parsed",
+        premiumSignals.length ? `Premium complexity signals: ${premiumSignals.join(", ")}` : "No major premium complexity signals detected"
+      ];
+
+      let verifyText = "";
+      if (excludedSignals.length) {
+        verifyText += `<p><strong>Items that may be excluded or extra:</strong> ${escapeHtml(excludedSignals.join(", "))}.</p>`;
+      }
+      if (missingSignals.length) {
+        verifyText += `<p><strong>Items still unclear:</strong> ${escapeHtml(missingSignals.slice(0, 6).join(", "))}.</p>`;
+      }
+
+      return `
+        <p>${escapeHtml(explanation)}</p>
+        ${verifyText}
+        <p><strong>What to verify next:</strong></p>
+        <ul>
+          ${bullets.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+        </ul>
+      `;
+    }
+
+    function renderAnalysisPanels({
+      roofSize,
+      material,
+      warrantyYears,
+      low,
+      high,
+      mid,
+      price,
+      parsedSignals,
+      premiumSignals,
+      analysisConfidenceScore,
+      analysisConfidenceLabel
+    }) {
+      const included = [];
+      const unclear = [];
+      const excluded = [];
+
+      Object.values(parsedSignals || {}).forEach(item => {
+        if (!item || item.label === "Premium brand") return;
+        if (item.status === "included") included.push(item.label);
+        if (item.status === "unclear") unclear.push(item.label);
+        if (item.status === "excluded") excluded.push(item.label);
+      });
+
+      document.getElementById("analysisPanels").innerHTML = `
+        <div class="panel">
+          <h4>Parsed details</h4>
+          <ul class="mini-list">
+            <li>Roof size: ${formatNumber(roofSize)} sq ft</li>
+            <li>Material: ${escapeHtml(getMaterialLabel(material))}</li>
+            <li>Warranty: ${warrantyYears ? `${escapeHtml(String(warrantyYears))} years` : "Not entered"}</li>
+            <li>Quote total: ${formatCurrency(price)}</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Market benchmark</h4>
+          <ul class="mini-list">
+            <li>Low: ${formatCurrency(low)}</li>
+            <li>Midpoint: ${formatCurrency(mid)}</li>
+            <li>High: ${formatCurrency(high)}</li>
+            <li>Confidence: ${escapeHtml(analysisConfidenceLabel)}</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Scope analysis</h4>
+          <ul class="mini-list">
+            <li>Included: ${included.length ? escapeHtml(included.slice(0, 5).join(", ")) : "None clearly detected"}</li>
+            <li>Excluded or extra: ${excluded.length ? escapeHtml(excluded.slice(0, 5).join(", ")) : "None detected"}</li>
+            <li>Unclear: ${unclear.length ? escapeHtml(unclear.slice(0, 5).join(", ")) : "Few major gaps"}</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Premium roof signals</h4>
+          <ul class="mini-list">
+            <li>Signals found: ${premiumSignals.length}</li>
+            <li>${premiumSignals.length ? escapeHtml(premiumSignals.slice(0, 4).join(", ")) : "No strong premium signals detected"}</li>
+            <li>Benchmark quality score: ${analysisConfidenceScore}/100</li>
+          </ul>
+        </div>
+      `;
     }
 
     function analyzeQuote() {
-      const city = document.getElementById("cityName").value.trim();
-      const stateCode = document.getElementById("stateCode").value.trim().toUpperCase();
+      const cityInput = document.getElementById("cityName").value.trim();
+      const stateCodeInput = document.getElementById("stateCode").value.trim().toUpperCase();
       const roofSize = parseFloat(document.getElementById("roofSize").value);
       const price = parseFloat(document.getElementById("quotePrice").value);
       const material = document.getElementById("materialType").value;
@@ -1121,6 +1905,27 @@
         return;
       }
 
+      const parsedSignals = lastParsedData.signals || {};
+      const parserConfidence = lastParsedData.confidenceScore || 0;
+      const premiumSignals = detectPremiumSignals(lastParsedData.rawText || "", parsedSignals, roofSize, material);
+
+      let city = cityInput;
+      let stateCode = stateCodeInput;
+
+      if (!city && lastParsedData.city) {
+        city = lastParsedData.city;
+      }
+      if (!stateCode && lastParsedData.stateCode) {
+        stateCode = lastParsedData.stateCode;
+      }
+
+      const suggestedComplexity = getSuggestedComplexity(premiumSignals);
+
+      let effectiveComplexityFactor = complexityFactor;
+      if (premiumSignals.length >= 2 && complexityFactor < suggestedComplexity.factor) {
+        effectiveComplexityFactor = suggestedComplexity.factor;
+      }
+
       let low;
       let mid;
       let high;
@@ -1130,34 +1935,37 @@
 
       if (cityPricing) {
         sizeLabelUsed = getNearestSizeLabel(cityPricing, roofSize);
-        const localBasePrice = Number(cityPricing.sizes[sizeLabelUsed][material]);
-        const adjustedMid = localBasePrice * complexityFactor * tearOffFactor;
-        low = adjustedMid * 0.9;
-        mid = adjustedMid;
-        high = adjustedMid * 1.12;
-        localDataUsed = true;
-      } else {
+        const sizeRecord = cityPricing.sizes[sizeLabelUsed] || {};
+        const localBasePrice = Number(sizeRecord[material]);
+        if (isFinite(localBasePrice) && localBasePrice > 0) {
+          const adjustedMid = localBasePrice * effectiveComplexityFactor * tearOffFactor;
+          low = adjustedMid * 0.90;
+          mid = adjustedMid;
+          high = adjustedMid * 1.12;
+          localDataUsed = true;
+        }
+      }
+
+      if (!localDataUsed) {
         const baseRate = getMaterialBenchmarkPerSqFt(material);
-        const adjustedRate = baseRate * complexityFactor * tearOffFactor;
-        low = roofSize * adjustedRate * 0.9;
+        const adjustedRate = baseRate * effectiveComplexityFactor * tearOffFactor;
+        low = roofSize * adjustedRate * 0.90;
         mid = roofSize * adjustedRate;
         high = roofSize * adjustedRate * 1.12;
       }
 
-      const parsedSignals = lastParsedData.signals || {};
       const pricePerSqFt = price / roofSize;
       const squares = roofSize / 100;
       const pricePerSquare = price / squares;
 
       const verdict = determineVerdict({
         price,
-        low,
         mid,
-        high,
-        complexityFactor,
+        complexityFactor: effectiveComplexityFactor,
         tearOffFactor,
         warrantyYears: isNaN(warrantyYears) ? 0 : warrantyYears,
-        parsedSignals
+        parsedSignals,
+        premiumSignals
       });
 
       const delta = price - mid;
@@ -1176,17 +1984,27 @@
         0.97: "No"
       };
 
-      const complexityLabel = complexityLabelMap[complexityFactor] || "Typical";
+      const complexityLabel = complexityLabelMap[effectiveComplexityFactor] || "Typical";
       const tearOffLabel = tearOffLabelMap[tearOffFactor] || "Not sure";
 
       const likelyMissing = [];
-      if (!parsedSignals.tearOff) likelyMissing.push("tear off scope");
-      if (!parsedSignals.underlayment) likelyMissing.push("underlayment");
-      if (!parsedSignals.flashing) likelyMissing.push("flashing");
-      if (!parsedSignals.ventilation) likelyMissing.push("ventilation");
-      if (!parsedSignals.disposal) likelyMissing.push("disposal");
-      if (!parsedSignals.permit) likelyMissing.push("permits");
-      if (!parsedSignals.decking) likelyMissing.push("decking assumptions");
+      const likelyExcluded = [];
+
+      Object.values(parsedSignals).forEach(item => {
+        if (!item || item.label === "Premium brand") return;
+        if (item.status === "unclear") likelyMissing.push(item.label.toLowerCase());
+        if (item.status === "excluded") likelyExcluded.push(item.label.toLowerCase());
+      });
+
+      const analysisConfidenceScore = calculateAnalysisConfidence({
+        cityPricing,
+        roofSize,
+        price,
+        material,
+        parsedSignals,
+        parserConfidence
+      });
+      const analysisConfidenceLabel = getConfidenceLabel(analysisConfidenceScore);
 
       latestAnalysis = {
         city,
@@ -1202,6 +2020,7 @@
 
       output.innerHTML = `
         <div class="verdict ${getVerdictClass(verdict)}">${escapeHtml(verdict)}</div>
+        <span class="confidence-badge ${getConfidenceClass(analysisConfidenceScore)}">Analysis confidence: ${escapeHtml(analysisConfidenceLabel)}</span>
         <p><strong>Price per square foot:</strong> ${formatCurrency(pricePerSqFt)} / sq ft</p>
         <p><strong>Price per roofing square:</strong> ${formatCurrency(pricePerSquare)} / square</p>
         <p><strong>Modeled market range:</strong> ${formatCurrency(low)} to ${formatCurrency(high)}</p>
@@ -1209,9 +2028,25 @@
         <p><strong>Entered quote:</strong> ${formatCurrency(price)}</p>
         <p><strong>Difference from midpoint:</strong> ${delta >= 0 ? "+" : "-"}${formatCurrency(Math.abs(delta))} (${deltaPct >= 0 ? "+" : ""}${deltaPct.toFixed(1)}%)</p>
         <p><strong>Signals used:</strong> ${buildPill(getMaterialLabel(material))} ${buildPill(complexityLabel)} ${buildPill("Tear off: " + tearOffLabel)} ${warrantyYears ? buildPill("Warranty: " + warrantyYears + " yrs") : ""}</p>
-        <p><strong>Missing scope checks:</strong> ${likelyMissing.length ? escapeHtml(likelyMissing.join(", ")) : "No obvious missing scope signals from the parsed text."}</p>
+        <p><strong>Premium adjustments:</strong> ${premiumSignals.length ? escapeHtml(premiumSignals.join(", ")) : "No major premium complexity signals detected."}</p>
+        <p><strong>Unclear scope items:</strong> ${likelyMissing.length ? escapeHtml(likelyMissing.slice(0, 8).join(", ")) : "No major unclear scope items from parsed text."}</p>
+        <p><strong>Excluded or extra items:</strong> ${likelyExcluded.length ? escapeHtml(likelyExcluded.slice(0, 8).join(", ")) : "None detected from parsed text."}</p>
         <p class="small muted">${localDataUsed ? `Using local pricing data for ${escapeHtml(city)}, ${escapeHtml(stateCode)}.` : "Using fallback benchmark data because local pricing was not found."}</p>
       `;
+
+      renderAnalysisPanels({
+        roofSize,
+        material,
+        warrantyYears,
+        low,
+        high,
+        mid,
+        price,
+        parsedSignals,
+        premiumSignals,
+        analysisConfidenceScore,
+        analysisConfidenceLabel
+      });
 
       aiOutput.innerHTML = buildAIExplanation({
         verdict,
@@ -1228,7 +2063,9 @@
         sizeLabelUsed,
         tearOffLabel,
         warrantyYears,
-        parsedSignals
+        parsedSignals,
+        premiumSignals,
+        analysisConfidenceLabel
       });
 
       renderParsedSignals(parsedSignals);
