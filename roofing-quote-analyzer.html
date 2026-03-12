@@ -44,6 +44,8 @@
       --warn-line: #fdba74;
       --bad-bg: #fef2f2;
       --bad-line: #fca5a5;
+      --neutral-bg: #f3f4f6;
+      --neutral-line: #d1d5db;
       --max: 1080px;
       --shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
       --radius: 14px;
@@ -172,11 +174,6 @@
       color: var(--text);
     }
 
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
     .btn-row {
       display: flex;
       flex-wrap: wrap;
@@ -233,7 +230,8 @@
     }
 
     .verdict.slightly-high,
-    .verdict.typical {
+    .verdict.slightly-low,
+    .verdict.premium-explainable {
       background: var(--warn-bg);
       border: 1px solid var(--warn-line);
     }
@@ -242,6 +240,11 @@
     .verdict.low {
       background: var(--bad-bg);
       border: 1px solid var(--bad-line);
+    }
+
+    .verdict.unknown {
+      background: var(--neutral-bg);
+      border: 1px solid var(--neutral-line);
     }
 
     .ai-analysis {
@@ -311,12 +314,43 @@
       font-size: 0.9rem;
     }
 
-    .hidden {
-      display: none;
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
     }
 
-    .spacer-top {
-      margin-top: 28px;
+    .signal-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .signal-box h4 {
+      margin: 0 0 8px;
+      font-size: 0.98rem;
+    }
+
+    .good-text {
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .warn-text {
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    .bad-text {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+
+    .neutral-text {
+      color: #4b5563;
+      font-weight: 700;
     }
 
     @media (max-width: 640px) {
@@ -405,14 +439,14 @@
       </div>
 
       <p class="muted small">
-        This automatic extraction is an early parser version. It is designed to detect likely price, material, and warranty clues from many roofing PDFs, but it will not be perfect on every contractor format.
+        This automatic extraction is an early parser version. It is designed to detect likely price, material, warranty, and scope clues from many roofing PDFs, but it will not be perfect on every contractor format.
       </p>
     </section>
 
     <section class="card">
       <h2>Manual Quote Analysis</h2>
       <p>
-        Enter the key numbers from your roofing quote to estimate whether the price appears fair, slightly high, or suspiciously low.
+        Enter the key numbers from your roofing quote to estimate whether the price appears fair, slightly high, premium but explainable, or suspiciously low.
       </p>
 
       <div class="form-grid">
@@ -490,6 +524,8 @@
           Run the quote analysis to receive an expert explanation.
         </div>
       </div>
+
+      <div id="parsedSignalSection" class="signal-grid"></div>
 
       <div class="comparison-box">
         <h3>Compare a Second Quote</h3>
@@ -631,7 +667,8 @@
       price: "",
       material: "",
       warranty: "",
-      contractor: ""
+      contractor: "",
+      signals: {}
     };
 
     async function loadCityPricingData() {
@@ -646,7 +683,7 @@
     loadCityPricingData();
 
     function formatCurrency(value) {
-      return "$" + Math.round(value).toLocaleString();
+      return "$" + Math.round(Number(value)).toLocaleString();
     }
 
     function escapeHtml(text) {
@@ -670,7 +707,6 @@
 
     function getNearestSizeLabel(cityPricing, roofSize) {
       const sizeLabels = Object.keys(cityPricing.sizes);
-
       let bestLabel = sizeLabels[0];
       let smallestDiff = Infinity;
 
@@ -698,13 +734,8 @@
     }
 
     function getVerdictClass(verdict) {
-      const key = verdict.toLowerCase();
-      if (key.includes("fair")) return "fair";
-      if (key.includes("slightly high")) return "slightly-high";
-      if (key.includes("typical")) return "typical";
-      if (key.includes("high")) return "high";
-      if (key.includes("low")) return "low";
-      return "";
+      const key = verdict.toLowerCase().replace(/\s+/g, "-");
+      return key;
     }
 
     function getMaterialLabel(material) {
@@ -715,6 +746,70 @@
         tile: "tile"
       };
       return materialLabelMap[material] || "roofing";
+    }
+
+    function detectScopeSignals(lowerText) {
+      return {
+        tearOff: /\btear[\s-]?off\b|\bremove old roof\b|\bremove shingles\b/.test(lowerText),
+        underlayment: /\bunderlayment\b|\bsynthetic felt\b|\bice and water\b|\bice & water\b|\bfelt\b/.test(lowerText),
+        flashing: /\bflashing\b|\bdrip edge\b|\bstep flashing\b|\bcounter flashing\b/.test(lowerText),
+        ventilation: /\bventilation\b|\bridge vent\b|\bsoffit vent\b|\bintake vent\b|\bexhaust vent\b/.test(lowerText),
+        decking: /\bdecking\b|\bosb\b|\bplywood\b|\bsheathing\b/.test(lowerText),
+        permit: /\bpermit\b|\bpermits\b/.test(lowerText),
+        disposal: /\bdisposal\b|\bdumpster\b|\bhaul away\b|\bdebris removal\b/.test(lowerText),
+        warrantyMention: /\bwarranty\b|\bworkmanship\b|\bmanufacturer warranty\b/.test(lowerText),
+        premiumBrand: /\bgaf\b|\bowens corning\b|\bcertainteed\b|\bmalarkey\b|\biko\b|\btamko\b/.test(lowerText)
+      };
+    }
+
+    function getSignalLabel(found) {
+      if (found) {
+        return '<span class="good-text">Detected</span>';
+      }
+      return '<span class="warn-text">Not clearly detected</span>';
+    }
+
+    function renderParsedSignals(signals) {
+      const container = document.getElementById("parsedSignalSection");
+      if (!signals || Object.keys(signals).length === 0) {
+        container.innerHTML = "";
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="signal-box">
+          <h4>Tear off</h4>
+          <div>${getSignalLabel(signals.tearOff)}</div>
+        </div>
+        <div class="signal-box">
+          <h4>Underlayment</h4>
+          <div>${getSignalLabel(signals.underlayment)}</div>
+        </div>
+        <div class="signal-box">
+          <h4>Flashing</h4>
+          <div>${getSignalLabel(signals.flashing)}</div>
+        </div>
+        <div class="signal-box">
+          <h4>Ventilation</h4>
+          <div>${getSignalLabel(signals.ventilation)}</div>
+        </div>
+        <div class="signal-box">
+          <h4>Decking</h4>
+          <div>${getSignalLabel(signals.decking)}</div>
+        </div>
+        <div class="signal-box">
+          <h4>Permit</h4>
+          <div>${getSignalLabel(signals.permit)}</div>
+        </div>
+        <div class="signal-box">
+          <h4>Disposal</h4>
+          <div>${getSignalLabel(signals.disposal)}</div>
+        </div>
+        <div class="signal-box">
+          <h4>Warranty mention</h4>
+          <div>${getSignalLabel(signals.warrantyMention)}</div>
+        </div>
+      `;
     }
 
     function buildAIExplanation({
@@ -731,7 +826,8 @@
       localDataUsed,
       sizeLabelUsed,
       tearOffLabel,
-      warrantyYears
+      warrantyYears,
+      parsedSignals
     }) {
       const diffPct = ((quotePrice - mid) / mid) * 100;
       const absDiffPct = Math.abs(diffPct).toFixed(0);
@@ -751,14 +847,31 @@
         explanation =
           `This quote appears somewhat above the modeled midpoint ${marketText}, roughly ${absDiffPct}% above the benchmark. ` +
           `That can still be reasonable if the roof has added complexity, stronger materials, upgraded underlayment, ventilation work, or broader warranty terms.`;
+      } else if (verdict === "Premium but Explainable") {
+        explanation =
+          `This quote is above the typical modeled range ${marketText}, but there are enough premium or complexity signals to make the number potentially explainable. ` +
+          `That said, you should still verify the exact scope and ask the contractor to justify the higher price in writing.`;
       } else if (verdict === "High") {
         explanation =
           `This quote appears meaningfully above the modeled market range ${marketText}, about ${absDiffPct}% above the midpoint benchmark. ` +
           `Unless the proposal includes major upgrades, complex roof geometry, decking replacement, premium accessories, or other unusually difficult scope, this may justify getting another quote.`;
+      } else if (verdict === "Slightly Low") {
+        explanation =
+          `This quote is somewhat below the modeled benchmark ${marketText}. ` +
+          `That can be a good value, but lower prices sometimes come from missing items or weaker materials rather than true efficiency.`;
       } else {
         explanation =
-          `This quote appears below the modeled range ${marketText}, roughly ${absDiffPct}% below the midpoint benchmark. ` +
+          `This quote appears well below the modeled range ${marketText}, roughly ${absDiffPct}% below the midpoint benchmark. ` +
           `That can be attractive, but it may also mean important items are missing such as flashing, ventilation, tear off, disposal, permit costs, or warranty coverage.`;
+      }
+
+      const missingSignals = [];
+      if (parsedSignals) {
+        if (!parsedSignals.tearOff) missingSignals.push("tear off");
+        if (!parsedSignals.underlayment) missingSignals.push("underlayment");
+        if (!parsedSignals.flashing) missingSignals.push("flashing");
+        if (!parsedSignals.ventilation) missingSignals.push("ventilation");
+        if (!parsedSignals.disposal) missingSignals.push("disposal");
       }
 
       const bullets = [
@@ -768,7 +881,7 @@
         `Tear off setting: ${tearOffLabel}`,
         localDataUsed ? `Nearest local size bucket used: ${sizeLabelUsed}` : "Fallback benchmark used because local pricing was not found",
         warrantyYears ? `Warranty entered: ${warrantyYears} years` : "Warranty not entered",
-        "Check whether tear off, underlayment, flashing, ventilation, disposal, and warranty are clearly included"
+        missingSignals.length ? `Not clearly detected in parsed quote: ${missingSignals.join(", ")}` : "Several important scope signals were detected in the parsed quote"
       ];
 
       return `
@@ -800,7 +913,15 @@
         "Run the quote analysis to receive an expert explanation.";
       document.getElementById("comparisonOutput").innerHTML =
         "Enter a second quote after running the main analysis.";
+      document.getElementById("parsedSignalSection").innerHTML = "";
       latestAnalysis = null;
+      lastParsedData = {
+        price: "",
+        material: "",
+        warranty: "",
+        contractor: "",
+        signals: {}
+      };
     }
 
     async function parseQuote() {
@@ -909,11 +1030,14 @@
         }
       }
 
+      const signals = detectScopeSignals(lowerText);
+
       lastParsedData = {
         price: detectedPrice,
         material: materialValue,
         warranty,
-        contractor
+        contractor,
+        signals
       };
 
       output.innerHTML = `
@@ -921,6 +1045,7 @@
         <p><strong>Material:</strong> ${escapeHtml(material)}</p>
         <p><strong>Warranty:</strong> ${escapeHtml(warranty)}</p>
         <p><strong>Contractor:</strong> ${escapeHtml(contractor)}</p>
+        <p><strong>Parsed scope clues:</strong> ${buildPill(signals.tearOff ? "tear off found" : "tear off unclear")} ${buildPill(signals.underlayment ? "underlayment found" : "underlayment unclear")} ${buildPill(signals.flashing ? "flashing found" : "flashing unclear")} ${buildPill(signals.ventilation ? "ventilation found" : "ventilation unclear")}</p>
         <p class="small muted">This automatic extraction is experimental and may not detect every value correctly. Use the manual fields below for a stronger pricing benchmark.</p>
       `;
 
@@ -928,6 +1053,8 @@
         <p>This parser found some likely quote signals, but it does not yet have enough structured context to calculate a reliable local pricing verdict by itself.</p>
         <p><strong>Best next step:</strong> use the parsed values below, then add city, state, roof size, and complexity in the manual analysis section.</p>
       `;
+
+      renderParsedSignals(signals);
     }
 
     function copyParsedToForm() {
@@ -940,6 +1067,39 @@
       if (lastParsedData.warranty && /^\d+/.test(lastParsedData.warranty)) {
         document.getElementById("warrantyYears").value = parseInt(lastParsedData.warranty, 10);
       }
+    }
+
+    function determineVerdict({ price, low, mid, high, complexityFactor, tearOffFactor, warrantyYears, parsedSignals }) {
+      const pctVsMid = ((price - mid) / mid) * 100;
+
+      if (pctVsMid <= -20) {
+        return "Suspiciously Low";
+      }
+
+      if (pctVsMid > -20 && pctVsMid <= -8) {
+        return "Slightly Low";
+      }
+
+      if (pctVsMid > -8 && pctVsMid <= 12) {
+        return "Fair";
+      }
+
+      const premiumSignalCount =
+        (complexityFactor >= 1.12 ? 1 : 0) +
+        (tearOffFactor > 1 ? 1 : 0) +
+        (warrantyYears >= 30 ? 1 : 0) +
+        (parsedSignals.premiumBrand ? 1 : 0) +
+        (parsedSignals.decking ? 1 : 0);
+
+      if (pctVsMid > 12 && pctVsMid <= 22 && premiumSignalCount >= 2) {
+        return "Premium but Explainable";
+      }
+
+      if (pctVsMid > 12 && pctVsMid <= 22) {
+        return "Slightly High";
+      }
+
+      return "High";
     }
 
     function analyzeQuote() {
@@ -984,20 +1144,21 @@
         high = roofSize * adjustedRate * 1.12;
       }
 
+      const parsedSignals = lastParsedData.signals || {};
       const pricePerSqFt = price / roofSize;
       const squares = roofSize / 100;
       const pricePerSquare = price / squares;
 
-      let verdict = "";
-      if (price < low * 0.95) {
-        verdict = "Suspiciously Low";
-      } else if (price <= high) {
-        verdict = "Fair";
-      } else if (price <= mid * 1.2) {
-        verdict = "Slightly High";
-      } else {
-        verdict = "High";
-      }
+      const verdict = determineVerdict({
+        price,
+        low,
+        mid,
+        high,
+        complexityFactor,
+        tearOffFactor,
+        warrantyYears: isNaN(warrantyYears) ? 0 : warrantyYears,
+        parsedSignals
+      });
 
       const delta = price - mid;
       const deltaPct = (delta / mid) * 100;
@@ -1017,6 +1178,15 @@
 
       const complexityLabel = complexityLabelMap[complexityFactor] || "Typical";
       const tearOffLabel = tearOffLabelMap[tearOffFactor] || "Not sure";
+
+      const likelyMissing = [];
+      if (!parsedSignals.tearOff) likelyMissing.push("tear off scope");
+      if (!parsedSignals.underlayment) likelyMissing.push("underlayment");
+      if (!parsedSignals.flashing) likelyMissing.push("flashing");
+      if (!parsedSignals.ventilation) likelyMissing.push("ventilation");
+      if (!parsedSignals.disposal) likelyMissing.push("disposal");
+      if (!parsedSignals.permit) likelyMissing.push("permits");
+      if (!parsedSignals.decking) likelyMissing.push("decking assumptions");
 
       latestAnalysis = {
         city,
@@ -1039,6 +1209,7 @@
         <p><strong>Entered quote:</strong> ${formatCurrency(price)}</p>
         <p><strong>Difference from midpoint:</strong> ${delta >= 0 ? "+" : "-"}${formatCurrency(Math.abs(delta))} (${deltaPct >= 0 ? "+" : ""}${deltaPct.toFixed(1)}%)</p>
         <p><strong>Signals used:</strong> ${buildPill(getMaterialLabel(material))} ${buildPill(complexityLabel)} ${buildPill("Tear off: " + tearOffLabel)} ${warrantyYears ? buildPill("Warranty: " + warrantyYears + " yrs") : ""}</p>
+        <p><strong>Missing scope checks:</strong> ${likelyMissing.length ? escapeHtml(likelyMissing.join(", ")) : "No obvious missing scope signals from the parsed text."}</p>
         <p class="small muted">${localDataUsed ? `Using local pricing data for ${escapeHtml(city)}, ${escapeHtml(stateCode)}.` : "Using fallback benchmark data because local pricing was not found."}</p>
       `;
 
@@ -1056,8 +1227,11 @@
         localDataUsed,
         sizeLabelUsed,
         tearOffLabel,
-        warrantyYears
+        warrantyYears,
+        parsedSignals
       });
+
+      renderParsedSignals(parsedSignals);
 
       document.getElementById("comparisonOutput").innerHTML =
         "Enter a second quote to compare it against the analyzed quote above.";
@@ -1082,19 +1256,26 @@
       const pct = (diff / firstQuote) * 100;
 
       let summary = "";
+      let winner = "";
+
       if (diff === 0) {
         summary = "Both quotes are the same.";
+        winner = "Neither quote is cheaper.";
       } else if (diff > 0) {
         summary = `The second quote is ${formatCurrency(Math.abs(diff))} higher than the first quote (${pct.toFixed(1)}%).`;
+        winner = "Quote A is cheaper on total price.";
       } else {
         summary = `The second quote is ${formatCurrency(Math.abs(diff))} lower than the first quote (${Math.abs(pct).toFixed(1)}%).`;
+        winner = "Quote B is cheaper on total price.";
       }
 
       comparisonOutput.innerHTML = `
         <p><strong>Quote A:</strong> ${formatCurrency(firstQuote)}</p>
         <p><strong>Quote B:</strong> ${formatCurrency(secondQuote)}</p>
+        <p><strong>Spread:</strong> ${formatCurrency(Math.abs(diff))}</p>
         <p>${escapeHtml(summary)}</p>
-        <p class="small muted">Lower is not always better. Check scope, materials, warranty, flashing, ventilation, and tear off assumptions before choosing.</p>
+        <p><strong>Current takeaway:</strong> ${escapeHtml(winner)}</p>
+        <p class="small muted">Lower is not always better. Compare scope, flashing, ventilation, underlayment, tear off, warranty, and decking assumptions before choosing.</p>
       `;
     }
 
