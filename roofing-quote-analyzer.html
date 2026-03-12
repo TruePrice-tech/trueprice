@@ -1964,7 +1964,8 @@ function autoRunAnalyzerFromUrl() {
       const material = document.getElementById("materialType").value;
       const complexityFactor = parseFloat(document.getElementById("complexityFactor").value);
       const tearOffFactor = parseFloat(document.getElementById("tearOffIncluded").value);
-      const warrantyYears = parseFloat(document.getElementById("warrantyYears").value);
+      const warrantyValue = document.getElementById("warrantyYears").value;
+      const warranty = warrantyValue !== "" ? parseFloat(warrantyValue) : (lastParsedData.warrantyYears || "");
 
       const output = document.getElementById("analysisOutput");
       const aiOutput = document.getElementById("aiAnalysisOutput");
@@ -2076,17 +2077,19 @@ function autoRunAnalyzerFromUrl() {
       });
       const analysisConfidenceLabel = getConfidenceLabel(analysisConfidenceScore);
 
-      latestAnalysis = {
-        city,
-        stateCode,
-        roofSize,
-        price,
-        material,
-        low,
-        mid,
-        high,
-        verdict
-      };
+        latestAnalysis = {
+  city,
+  stateCode,
+  roofSize,
+  price,
+  material,
+  low,
+  mid,
+  high,
+  verdict,
+  analysisConfidenceLabel,
+  analysisConfidenceScore
+};
 
       output.innerHTML = `
         <div class="verdict ${getVerdictClass(verdict)}">${escapeHtml(verdict)}</div>
@@ -2218,7 +2221,7 @@ function autoRunAnalyzerFromUrl() {
     high: String(Math.round(latestAnalysis.high || 0)),
     verdict: latestAnalysis.verdict || "Unknown",
     ppsf: size > 0 ? String((price / size).toFixed(2)) : "",
-    confidence: getConfidenceLabel(lastParsedData.confidenceScore || 0),
+    confidence: latestAnalysis.analysisConfidenceLabel || "Low",
     tearoff,
     warranty: warranty ? String(Math.round(warranty)) : "",
     underlayment:
