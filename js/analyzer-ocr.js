@@ -7,6 +7,11 @@ async function fileToImageDataUrl(file) {
   });
 }
 
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+}
+
 async function runOcrOnImageSource(imageSource, progressCallback) {
   const result = await Tesseract.recognize(imageSource, "eng", {
     logger: message => {
