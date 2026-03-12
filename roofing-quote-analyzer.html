@@ -294,6 +294,35 @@
       border-color: var(--bad-line);
     }
 
+    .upload-status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 0.95rem;
+    }
+
+    .upload-status.info {
+      background: #eef4ff;
+      border-color: #cfe0ff;
+    }
+
+    .upload-status.success {
+      background: var(--good-bg);
+      border-color: var(--good-line);
+    }
+
+    .upload-status.warn {
+      background: var(--warn-bg);
+      border-color: var(--warn-line);
+    }
+
+    .upload-status.error {
+      background: var(--bad-bg);
+      border-color: var(--bad-line);
+    }
+
     .ai-analysis {
       margin-top: 20px;
       padding: 14px 16px;
@@ -448,7 +477,7 @@
         "name":"What file types should I upload?",
         "acceptedAnswer":{
           "@type":"Answer",
-          "text":"PDF is ideal for the automatic parser. Image based quotes can still be useful for manual review, but this version of the parser is set up for PDF upload."
+          "text":"PDF is ideal, but this analyzer now also supports image based quotes such as screenshots, phone photos, and scanned documents through OCR."
         }
       },
       {
@@ -485,17 +514,26 @@
 
     <section class="card">
       <h2>Upload Roofing Quote</h2>
-      <p>Upload a PDF roofing estimate to extract quote details automatically.</p>
+      <p>Upload a roofing estimate PDF, screenshot, or photo to extract quote details automatically.</p>
 
-      <input type="file" id="quoteFile" accept=".pdf" aria-label="Upload roofing quote PDF" />
+      <input
+        type="file"
+        id="quoteFile"
+        accept=".pdf,image/*"
+        aria-label="Upload roofing quote PDF or image"
+      />
 
       <div class="btn-row">
         <button type="button" class="btn" onclick="parseQuote()">Analyze Uploaded Quote</button>
         <button type="button" class="btn secondary" onclick="copyParsedToForm()">Refresh Form With Parsed Values</button>
       </div>
 
+      <div id="uploadStatus" class="upload-status info">
+        Ready to analyze PDF or image uploads.
+      </div>
+
       <p class="muted small">
-        This parser now ranks multiple total price candidates, detects more scope items, and auto fills likely values into the form below. Review the parsed results before relying on them.
+        This parser now ranks multiple total price candidates, detects more scope items, supports OCR fallback for scanned PDFs and images, and auto fills likely values into the form below. Review the parsed results before relying on them.
       </p>
     </section>
 
@@ -571,7 +609,7 @@
       <h2>Analysis Result</h2>
 
       <div id="analysisOutput" class="result-box">
-        Upload a PDF quote above or enter values manually to analyze the quote.
+        Upload a roofing quote above or enter values manually to analyze the quote.
       </div>
 
       <div id="analysisPanels" class="analysis-panels"></div>
@@ -694,7 +732,7 @@
       <details>
         <summary>What file types should I upload?</summary>
         <p>
-          PDF is ideal for the automatic parser. Image based quotes can still be useful for manual review, but this version of the parser is set up for PDF upload.
+          PDF is ideal, but this analyzer now also supports image based quotes such as screenshots, phone photos, and scanned documents through OCR.
         </p>
       </details>
 
@@ -718,8 +756,8 @@
     </section>
   </main>
 
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script>
     let cityPricingData = [];
     let cityPricingIndex = new Map();
@@ -740,7 +778,9 @@
       confidenceLabel: "Low",
       signals: {},
       premiumSignals: [],
-      rawText: ""
+      rawText: "",
+      extractionMethod: "",
+      extractedTextLength: 0
     };
 
     const STATE_CODES = [
@@ -855,19 +895,25 @@
       }
     };
 
+    function setUploadStatus(message, type = "info") {
+      const el = document.getElementById("uploadStatus");
+      el.className = `upload-status ${type}`;
+      el.textContent = message;
+    }
+
     async function loadCityPricingData() {
-  try {
-    const response = await fetch("/data/city-house-size-pricing.json");
-    cityPricingData = await response.json();
-    buildCityPricingIndex();
-    prefillAnalyzerFromUrl();
-    autoRunAnalyzerFromUrl();
-  } catch (error) {
-    console.error("Could not load city pricing data", error);
-    prefillAnalyzerFromUrl();
-    autoRunAnalyzerFromUrl();
-  }
-}
+      try {
+        const response = await fetch("/data/city-house-size-pricing.json");
+        cityPricingData = await response.json();
+        buildCityPricingIndex();
+        prefillAnalyzerFromUrl();
+        autoRunAnalyzerFromUrl();
+      } catch (error) {
+        console.error("Could not load city pricing data", error);
+        prefillAnalyzerFromUrl();
+        autoRunAnalyzerFromUrl();
+      }
+    }
 
     function buildCityPricingIndex() {
       cityPricingIndex = new Map();
@@ -1056,69 +1102,69 @@
     }
 
     function prefillAnalyzerFromUrl() {
-  const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(window.location.search);
 
-  const city = params.get("city") || "";
-  const state = params.get("state") || "";
-  const size = params.get("size") || "";
-  const material = params.get("material") || "";
-  const price = params.get("price") || "";
-  const warranty = params.get("warranty") || "";
-  const tearoff = (params.get("tearoff") || "").toLowerCase();
+      const city = params.get("city") || "";
+      const state = params.get("state") || "";
+      const size = params.get("size") || "";
+      const material = params.get("material") || "";
+      const price = params.get("price") || "";
+      const warranty = params.get("warranty") || "";
+      const tearoff = (params.get("tearoff") || "").toLowerCase();
 
-  if (city) {
-    document.getElementById("cityName").value = city;
-  }
+      if (city) {
+        document.getElementById("cityName").value = city;
+      }
 
-  if (state) {
-    document.getElementById("stateCode").value = state.toUpperCase();
-  }
+      if (state) {
+        document.getElementById("stateCode").value = state.toUpperCase();
+      }
 
-  if (size) {
-    document.getElementById("roofSize").value = size;
-  }
+      if (size) {
+        document.getElementById("roofSize").value = size;
+      }
 
-  if (price) {
-    document.getElementById("quotePrice").value = price;
-  }
+      if (price) {
+        document.getElementById("quotePrice").value = price;
+      }
 
-  if (material) {
-    const materialSelect = document.getElementById("materialType");
-    const validValues = Array.from(materialSelect.options).map(option => option.value);
-    if (validValues.includes(material)) {
-      materialSelect.value = material;
+      if (material) {
+        const materialSelect = document.getElementById("materialType");
+        const validValues = Array.from(materialSelect.options).map(option => option.value);
+        if (validValues.includes(material)) {
+          materialSelect.value = material;
+        }
+      }
+
+      if (warranty) {
+        document.getElementById("warrantyYears").value = warranty;
+      }
+
+      if (tearoff === "yes") {
+        document.getElementById("tearOffIncluded").value = "1.05";
+      } else if (tearoff === "no") {
+        document.getElementById("tearOffIncluded").value = "0.97";
+      }
     }
-  }
 
-  if (warranty) {
-    document.getElementById("warrantyYears").value = warranty;
-  }
+    function autoRunAnalyzerFromUrl() {
+      const params = new URLSearchParams(window.location.search);
 
-  if (tearoff === "yes") {
-    document.getElementById("tearOffIncluded").value = "1.05";
-  } else if (tearoff === "no") {
-    document.getElementById("tearOffIncluded").value = "0.97";
-  }
-}
+      const size = parseFloat(params.get("size") || "");
+      const price = parseFloat(params.get("price") || "");
+      const material = params.get("material") || "";
 
-function autoRunAnalyzerFromUrl() {
-  const params = new URLSearchParams(window.location.search);
+      const hasMinimumInputs =
+        !isNaN(size) &&
+        size > 0 &&
+        !isNaN(price) &&
+        price > 0 &&
+        material;
 
-  const size = parseFloat(params.get("size") || "");
-  const price = parseFloat(params.get("price") || "");
-  const material = params.get("material") || "";
+      if (!hasMinimumInputs) return;
 
-  const hasMinimumInputs =
-    !isNaN(size) &&
-    size > 0 &&
-    !isNaN(price) &&
-    price > 0 &&
-    material;
-
-  if (!hasMinimumInputs) return;
-
-  analyzeQuote();
-}
+      analyzeQuote();
+    }
 
     function resetAnalyzer() {
       document.getElementById("cityName").value = "";
@@ -1130,14 +1176,17 @@ function autoRunAnalyzerFromUrl() {
       document.getElementById("tearOffIncluded").value = "1.00";
       document.getElementById("warrantyYears").value = "";
       document.getElementById("secondQuotePrice").value = "";
+      document.getElementById("quoteFile").value = "";
       document.getElementById("analysisOutput").innerHTML =
-        "Upload a PDF quote above or enter values manually to analyze the quote.";
+        "Upload a roofing quote above or enter values manually to analyze the quote.";
       document.getElementById("aiAnalysisOutput").innerHTML =
         "Run the quote analysis to receive an expert explanation.";
       document.getElementById("comparisonOutput").innerHTML =
         "Enter a second quote after running the main analysis.";
       document.getElementById("parsedSignalSection").innerHTML = "";
       document.getElementById("analysisPanels").innerHTML = "";
+      setUploadStatus("Ready to analyze PDF or image uploads.", "info");
+
       latestAnalysis = null;
       lastParsedData = {
         price: "",
@@ -1155,7 +1204,9 @@ function autoRunAnalyzerFromUrl() {
         confidenceLabel: "Low",
         signals: {},
         premiumSignals: [],
-        rawText: ""
+        rawText: "",
+        extractionMethod: "",
+        extractedTextLength: 0
       };
     }
 
@@ -1414,8 +1465,8 @@ function autoRunAnalyzerFromUrl() {
     function hasNearbyNegation(text, index) {
       const start = Math.max(0, index - 60);
       const end = Math.min(text.length, index + 60);
-      const window = text.slice(start, end);
-      return /\b(not included|excluded|exclude|by owner|owner to provide|reuse existing|at additional cost|extra charge|optional|allowance only|if needed)\b/.test(window);
+      const windowText = text.slice(start, end);
+      return /\b(not included|excluded|exclude|by owner|owner to provide|reuse existing|at additional cost|extra charge|optional|allowance only|if needed)\b/.test(windowText);
     }
 
     function evaluateScopeSignal(text, definition) {
@@ -1527,6 +1578,9 @@ function autoRunAnalyzerFromUrl() {
       const includedCount = Object.values(signals).filter(item => item && item.status === "included").length;
       if (includedCount >= 3) score += 10;
       if (includedCount >= 5) score += 8;
+      if (parsed.extractedTextLength >= 300) score += 5;
+      if (parsed.extractionMethod === "pdf_text") score += 4;
+      if (parsed.extractionMethod === "pdf_ocr_fallback" || parsed.extractionMethod === "image_ocr") score += 2;
 
       return Math.min(100, score);
     }
@@ -1573,53 +1627,196 @@ function autoRunAnalyzerFromUrl() {
       }
     }
 
+    async function fileToImageDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function runOcrOnImageSource(imageSource, progressCallback) {
+      const result = await Tesseract.recognize(imageSource, "eng", {
+        logger: m => {
+          if (m.status === "recognizing text" && typeof progressCallback === "function") {
+            progressCallback(m.progress || 0);
+          }
+        }
+      });
+
+      return (result && result.data && result.data.text ? result.data.text : "").trim();
+    }
+
+    async function extractTextFromPdfNative(file) {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+      let fullText = "";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const pageText = content.items.map(item => ("str" in item ? item.str : "")).join(" ");
+        fullText += " " + pageText;
+      }
+
+      return normalizeWhitespace(fullText);
+    }
+
+    function isWeakExtractedText(text) {
+      const cleaned = normalizeWhitespace(text);
+      if (!cleaned || cleaned.length < 120) return true;
+
+      const signals = [
+        "roof",
+        "shingle",
+        "estimate",
+        "proposal",
+        "total",
+        "warranty",
+        "flashing",
+        "underlayment",
+        "tear off",
+        "square",
+        "sq ft",
+        "contractor"
+      ];
+
+      const hits = signals.filter(term => cleaned.toLowerCase().includes(term)).length;
+      return hits < 2;
+    }
+
+    async function renderPdfPagesToImages(file, scale = 2) {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const images = [];
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+
+        canvas.width = Math.ceil(viewport.width);
+        canvas.height = Math.ceil(viewport.height);
+
+        await page.render({
+          canvasContext: context,
+          viewport
+        }).promise;
+
+        images.push(canvas.toDataURL("image/png"));
+      }
+
+      return images;
+    }
+
+    async function extractTextFromPdfWithOcrFallback(file) {
+      setUploadStatus("Reading PDF text...", "info");
+
+      const nativeText = await extractTextFromPdfNative(file);
+
+      if (!isWeakExtractedText(nativeText)) {
+        return {
+          text: nativeText,
+          method: "pdf_text"
+        };
+      }
+
+      setUploadStatus("PDF text looked weak. Running OCR fallback...", "warn");
+
+      const pageImages = await renderPdfPagesToImages(file);
+      let ocrText = "";
+
+      for (let i = 0; i < pageImages.length; i++) {
+        const pageNumber = i + 1;
+        const totalPages = pageImages.length;
+
+        const pageText = await runOcrOnImageSource(pageImages[i], progress => {
+          setUploadStatus(`Running OCR on PDF page ${pageNumber} of ${totalPages}... ${Math.round(progress * 100)}%`, "warn");
+        });
+
+        ocrText += " " + pageText;
+      }
+
+      const merged = normalizeWhitespace([nativeText, ocrText].filter(Boolean).join(" "));
+
+      return {
+        text: merged,
+        method: "pdf_ocr_fallback"
+      };
+    }
+
+    async function extractTextFromUploadedFile(file) {
+      const name = String(file.name || "").toLowerCase();
+      const mimeType = String(file.type || "").toLowerCase();
+
+      const isPdf = mimeType === "application/pdf" || name.endsWith(".pdf");
+      const isImage =
+        mimeType.startsWith("image/") ||
+        name.endsWith(".png") ||
+        name.endsWith(".jpg") ||
+        name.endsWith(".jpeg") ||
+        name.endsWith(".webp") ||
+        name.endsWith(".bmp") ||
+        name.endsWith(".gif") ||
+        name.endsWith(".heic");
+
+      if (isPdf) {
+        return await extractTextFromPdfWithOcrFallback(file);
+      }
+
+      if (isImage) {
+        setUploadStatus("Running OCR on uploaded image...", "warn");
+        const imageDataUrl = await fileToImageDataUrl(file);
+        const text = await runOcrOnImageSource(imageDataUrl, progress => {
+          setUploadStatus(`Running OCR on uploaded image... ${Math.round(progress * 100)}%`, "warn");
+        });
+
+        return {
+          text: normalizeWhitespace(text),
+          method: "image_ocr"
+        };
+      }
+
+      throw new Error("Unsupported file type. Please upload a PDF or image.");
+    }
+
     async function parseQuote() {
       const fileInput = document.getElementById("quoteFile");
       const output = document.getElementById("analysisOutput");
       const aiOutput = document.getElementById("aiAnalysisOutput");
 
       if (!fileInput.files.length) {
-        output.innerHTML = "Please upload a PDF roofing quote first.";
+        output.innerHTML = "Please upload a roofing quote file first.";
         aiOutput.innerHTML = "Upload a quote or run the manual analysis to receive an expert explanation.";
+        setUploadStatus("No file selected yet.", "error");
         return;
       }
 
       const file = fileInput.files[0];
 
-      if (!file.name.toLowerCase().endsWith(".pdf")) {
-        output.innerHTML = "Please upload a PDF file.";
-        aiOutput.innerHTML = "Upload a quote or run the manual analysis to receive an expert explanation.";
-        return;
-      }
+      try {
+        setUploadStatus(`Analyzing ${file.name}...`, "info");
 
-      const reader = new FileReader();
+        const extractionResult = await extractTextFromUploadedFile(file);
+        const parsedText = normalizeWhitespace(extractionResult.text || "");
 
-      reader.onload = async function () {
-        try {
-          const typedarray = new Uint8Array(this.result);
-          const pdf = await pdfjsLib.getDocument(typedarray).promise;
-
-          let text = "";
-
-          for (let i = 1; i <= pdf.numPages; i++) {
-            const page = await pdf.getPage(i);
-            const content = await page.getTextContent();
-            const pageText = content.items.map(item => item.str).join(" ");
-            text += " " + pageText;
-          }
-
-          analyzeParsedText(text);
-        } catch (error) {
-          console.error(error);
-          output.innerHTML = "Unable to read this PDF. Please try manual analysis below.";
-          aiOutput.innerHTML = "The PDF could not be parsed. Enter the key quote numbers manually to receive an expert explanation.";
+        if (!parsedText) {
+          throw new Error("We could not read usable text from that file.");
         }
-      };
 
-      reader.readAsArrayBuffer(file);
+        analyzeParsedText(parsedText, extractionResult.method);
+      } catch (error) {
+        console.error(error);
+        output.innerHTML = "Unable to read this file. Please try a clearer PDF, screenshot, photo, or use manual analysis below.";
+        aiOutput.innerHTML = "The uploaded file could not be parsed. Enter the key quote numbers manually to receive an expert explanation.";
+        setUploadStatus(error.message || "Unable to parse uploaded file.", "error");
+      }
     }
 
-    function analyzeParsedText(text) {
+    function analyzeParsedText(text, extractionMethod = "unknown") {
       const output = document.getElementById("analysisOutput");
       const aiOutput = document.getElementById("aiAnalysisOutput");
       const panels = document.getElementById("analysisPanels");
@@ -1649,7 +1846,9 @@ function autoRunAnalyzerFromUrl() {
         roofSizeSource: roofSize.source,
         signals,
         premiumSignals,
-        rawText: normalizedText
+        rawText: normalizedText,
+        extractionMethod,
+        extractedTextLength: normalizedText.length
       };
 
       const confidenceScore = calculateParserConfidence(lastParsedData);
@@ -1669,11 +1868,13 @@ function autoRunAnalyzerFromUrl() {
         roofSize.value ? buildPill(`${formatNumber(roofSize.value)} sq ft`) : "",
         location.city && location.stateCode ? buildPill(`${location.city}, ${location.stateCode}`) : "",
         signals.tearOff.status === "included" ? buildPill("Tear off included") : "",
-        premiumSignals.length ? buildPill(`${premiumSignals.length} premium signals`) : ""
+        premiumSignals.length ? buildPill(`${premiumSignals.length} premium signals`) : "",
+        extractionMethod ? buildPill(`Method: ${extractionMethod.replaceAll("_", " ")}`) : ""
       ].filter(Boolean).join("");
 
       output.innerHTML = `
         <div class="confidence-badge ${getConfidenceClass(confidenceScore)}">Parser confidence: ${escapeHtml(lastParsedData.confidenceLabel)}</div>
+        <p><strong>Extraction method:</strong> ${escapeHtml(extractionMethod.replaceAll("_", " "))}</p>
         <p><strong>Selected total price:</strong> ${selectedPrice ? formatCurrency(selectedPrice) : "Not detected"}</p>
         <p><strong>Top price candidates:</strong> ${escapeHtml(candidateList)}</p>
         <p><strong>Material:</strong> ${escapeHtml(material.label)}</p>
@@ -1705,6 +1906,15 @@ function autoRunAnalyzerFromUrl() {
           </ul>
         </div>
         <div class="panel">
+          <h4>Upload pipeline</h4>
+          <ul class="mini-list">
+            <li>Method: ${escapeHtml(extractionMethod.replaceAll("_", " "))}</li>
+            <li>Text length: ${escapeHtml(String(normalizedText.length))} chars</li>
+            <li>OCR used: ${extractionMethod === "pdf_ocr_fallback" || extractionMethod === "image_ocr" ? "Yes" : "No"}</li>
+            <li>Ready for auto analysis: ${confidenceScore >= 75 ? "Yes" : "Review first"}</li>
+          </ul>
+        </div>
+        <div class="panel">
           <h4>What was auto filled</h4>
           <ul class="mini-list">
             <li>Quote price ${selectedPrice ? "filled" : "not filled"}</li>
@@ -1719,10 +1929,18 @@ function autoRunAnalyzerFromUrl() {
         <p>This parser selected the most likely total by ranking multiple dollar amounts instead of grabbing the first number it sees.</p>
         <p><strong>Best next step:</strong> confirm the auto filled values, especially total price and roof size, then run the full quote analysis below for a local pricing verdict.</p>
       `;
+
+      if (confidenceScore >= 75) {
+        setUploadStatus(`Extraction complete via ${extractionMethod.replaceAll("_", " ")}. Confidence is high, so the quote analysis was auto run.`, "success");
+        analyzeQuote();
+      } else {
+        setUploadStatus(`Extraction complete via ${extractionMethod.replaceAll("_", " ")}. Review the parsed fields, then run the quote analysis.`, "warn");
+      }
     }
 
     function copyParsedToForm() {
       autoApplyParsedValues();
+      setUploadStatus("Manual form refreshed with parsed values.", "success");
     }
 
     function getIncludedSignalCount(parsedSignals) {
@@ -1966,7 +2184,7 @@ function autoRunAnalyzerFromUrl() {
       const complexityFactor = parseFloat(document.getElementById("complexityFactor").value);
       const tearOffFactor = parseFloat(document.getElementById("tearOffIncluded").value);
       const warrantyValue = document.getElementById("warrantyYears").value;
-      const warranty = warrantyValue !== "" ? parseFloat(warrantyValue) : (lastParsedData.warrantyYears || "");
+      const warrantyYears = warrantyValue !== "" ? parseFloat(warrantyValue) : (lastParsedData.warrantyYears || "");
 
       const output = document.getElementById("analysisOutput");
       const aiOutput = document.getElementById("aiAnalysisOutput");
@@ -2078,19 +2296,19 @@ function autoRunAnalyzerFromUrl() {
       });
       const analysisConfidenceLabel = getConfidenceLabel(analysisConfidenceScore);
 
-        latestAnalysis = {
-  city,
-  stateCode,
-  roofSize,
-  price,
-  material,
-  low,
-  mid,
-  high,
-  verdict,
-  analysisConfidenceLabel,
-  analysisConfidenceScore
-};
+      latestAnalysis = {
+        city,
+        stateCode,
+        roofSize,
+        price,
+        material,
+        low,
+        mid,
+        high,
+        verdict,
+        analysisConfidenceLabel,
+        analysisConfidenceScore
+      };
 
       output.innerHTML = `
         <div class="verdict ${getVerdictClass(verdict)}">${escapeHtml(verdict)}</div>
@@ -2191,80 +2409,80 @@ function autoRunAnalyzerFromUrl() {
     }
 
     function viewShareableResult() {
-  if (!latestAnalysis) {
-    alert("Run the main analysis first.");
-    return;
-  }
+      if (!latestAnalysis) {
+        alert("Run the main analysis first.");
+        return;
+      }
 
-  const city = document.getElementById("cityName").value.trim() || lastParsedData.city || "";
-  const state = document.getElementById("stateCode").value.trim().toUpperCase() || lastParsedData.stateCode || "";
-  const size = parseFloat(document.getElementById("roofSize").value) || latestAnalysis.roofSize || 0;
-  const material = document.getElementById("materialType").value || latestAnalysis.material || "architectural";
-  const price = parseFloat(document.getElementById("quotePrice").value) || latestAnalysis.price || 0;
-  const warranty = parseFloat(document.getElementById("warrantyYears").value) || lastParsedData.warrantyYears || "";
-  const tearOffValue = document.getElementById("tearOffIncluded").value;
+      const city = document.getElementById("cityName").value.trim() || lastParsedData.city || "";
+      const state = document.getElementById("stateCode").value.trim().toUpperCase() || lastParsedData.stateCode || "";
+      const size = parseFloat(document.getElementById("roofSize").value) || latestAnalysis.roofSize || 0;
+      const material = document.getElementById("materialType").value || latestAnalysis.material || "architectural";
+      const price = parseFloat(document.getElementById("quotePrice").value) || latestAnalysis.price || 0;
+      const warranty = parseFloat(document.getElementById("warrantyYears").value) || lastParsedData.warrantyYears || "";
+      const tearOffValue = document.getElementById("tearOffIncluded").value;
 
-  let tearoff = "";
-  if (tearOffValue === "1.05") {
-    tearoff = "yes";
-  } else if (tearOffValue === "0.97") {
-    tearoff = "no";
-  }
+      let tearoff = "";
+      if (tearOffValue === "1.05") {
+        tearoff = "yes";
+      } else if (tearOffValue === "0.97") {
+        tearoff = "no";
+      }
 
-  const params = new URLSearchParams({
-    city,
-    state,
-    size: String(Math.round(size)),
-    material,
-    price: String(Math.round(price)),
-    low: String(Math.round(latestAnalysis.low || 0)),
-    mid: String(Math.round(latestAnalysis.mid || 0)),
-    high: String(Math.round(latestAnalysis.high || 0)),
-    verdict: latestAnalysis.verdict || "Unknown",
-    ppsf: size > 0 ? String((price / size).toFixed(2)) : "",
-    confidence: latestAnalysis.analysisConfidenceLabel || "Low",
-    tearoff,
-    warranty: warranty ? String(Math.round(warranty)) : "",
-    underlayment:
-      lastParsedData.signals?.underlayment?.status === "included"
-        ? "yes"
-        : lastParsedData.signals?.underlayment?.status === "excluded"
-        ? "no"
-        : "",
-    flashing:
-      lastParsedData.signals?.flashing?.status === "included"
-        ? "yes"
-        : lastParsedData.signals?.flashing?.status === "excluded"
-        ? "no"
-        : "",
-    ventilation:
-      lastParsedData.signals?.ventilation?.status === "included"
-        ? "yes"
-        : lastParsedData.signals?.ventilation?.status === "excluded"
-        ? "no"
-        : "",
-    decking:
-      lastParsedData.signals?.decking?.status === "included"
-        ? "yes"
-        : lastParsedData.signals?.decking?.status === "excluded"
-        ? "no"
-        : "",
-    permit:
-      lastParsedData.signals?.permit?.status === "included"
-        ? "yes"
-        : lastParsedData.signals?.permit?.status === "excluded"
-        ? "no"
-        : "",
-    disposal:
-      lastParsedData.signals?.disposal?.status === "included"
-        ? "yes"
-        : lastParsedData.signals?.disposal?.status === "excluded"
-        ? "no"
-        : ""
-  });
+      const params = new URLSearchParams({
+        city,
+        state,
+        size: String(Math.round(size)),
+        material,
+        price: String(Math.round(price)),
+        low: String(Math.round(latestAnalysis.low || 0)),
+        mid: String(Math.round(latestAnalysis.mid || 0)),
+        high: String(Math.round(latestAnalysis.high || 0)),
+        verdict: latestAnalysis.verdict || "Unknown",
+        ppsf: size > 0 ? String((price / size).toFixed(2)) : "",
+        confidence: latestAnalysis.analysisConfidenceLabel || "Low",
+        tearoff,
+        warranty: warranty ? String(Math.round(warranty)) : "",
+        underlayment:
+          lastParsedData.signals?.underlayment?.status === "included"
+            ? "yes"
+            : lastParsedData.signals?.underlayment?.status === "excluded"
+            ? "no"
+            : "",
+        flashing:
+          lastParsedData.signals?.flashing?.status === "included"
+            ? "yes"
+            : lastParsedData.signals?.flashing?.status === "excluded"
+            ? "no"
+            : "",
+        ventilation:
+          lastParsedData.signals?.ventilation?.status === "included"
+            ? "yes"
+            : lastParsedData.signals?.ventilation?.status === "excluded"
+            ? "no"
+            : "",
+        decking:
+          lastParsedData.signals?.decking?.status === "included"
+            ? "yes"
+            : lastParsedData.signals?.decking?.status === "excluded"
+            ? "no"
+            : "",
+        permit:
+          lastParsedData.signals?.permit?.status === "included"
+            ? "yes"
+            : lastParsedData.signals?.permit?.status === "excluded"
+            ? "no"
+            : "",
+        disposal:
+          lastParsedData.signals?.disposal?.status === "included"
+            ? "yes"
+            : lastParsedData.signals?.disposal?.status === "excluded"
+            ? "no"
+            : ""
+      });
 
-  window.location.href = "/quote-analysis/index.html?" + params.toString();
-}
+      window.location.href = "/quote-analysis/index.html?" + params.toString();
+    }
 
     function showLeadPlaceholder() {
       const out = document.getElementById("leadPlaceholderOutput");
@@ -2279,7 +2497,6 @@ function autoRunAnalyzerFromUrl() {
 
       out.innerHTML = "Lead capture placeholder saved. Wire this form to your future contractor routing flow.";
     }
-
   </script>
 </body>
 </html>
