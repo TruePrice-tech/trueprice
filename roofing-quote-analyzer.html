@@ -1050,6 +1050,52 @@
       return num.toLocaleString();
     }
 
+    function prefillAnalyzerFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+
+  const city = params.get("city") || "";
+  const state = params.get("state") || "";
+  const size = params.get("size") || "";
+  const material = params.get("material") || "";
+  const price = params.get("price") || "";
+  const warranty = params.get("warranty") || "";
+  const tearoff = (params.get("tearoff") || "").toLowerCase();
+
+  if (city) {
+    document.getElementById("cityName").value = city;
+  }
+
+  if (state) {
+    document.getElementById("stateCode").value = state.toUpperCase();
+  }
+
+  if (size) {
+    document.getElementById("roofSize").value = size;
+  }
+
+  if (price) {
+    document.getElementById("quotePrice").value = price;
+  }
+
+  if (material) {
+    const materialSelect = document.getElementById("materialType");
+    const validValues = Array.from(materialSelect.options).map(option => option.value);
+    if (validValues.includes(material)) {
+      materialSelect.value = material;
+    }
+  }
+
+  if (warranty) {
+    document.getElementById("warrantyYears").value = warranty;
+  }
+
+  if (tearoff === "yes") {
+    document.getElementById("tearOffIncluded").value = "1.05";
+  } else if (tearoff === "no") {
+    document.getElementById("tearOffIncluded").value = "0.97";
+  }
+}
+
     function resetAnalyzer() {
       document.getElementById("cityName").value = "";
       document.getElementById("stateCode").value = "";
@@ -2206,6 +2252,9 @@
 
       out.innerHTML = "Lead capture placeholder saved. Wire this form to your future contractor routing flow.";
     }
+
+    prefillAnalyzerFromUrl();
+
   </script>
 </body>
 </html>
