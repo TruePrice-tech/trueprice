@@ -5,13 +5,20 @@ const ROOT = path.resolve(__dirname, "..");
 
 const SOURCE_CSV = path.join(ROOT, "data", "us-cities-source.csv");
 const OUTPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
-
 const CONFIG_PATH = path.join(ROOT, "config", "city-selection.json");
+
 const CITY_SELECTION_CONFIG = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
 
-const MIN_POPULATION = CITY_SELECTION_CONFIG.min_population;
-const MAX_CITIES_PER_STATE = CITY_SELECTION_CONFIG.max_cities_per_state;
-const MAX_TOTAL_CITIES = CITY_SELECTION_CONFIG.max_total_cities;
+const activeProfileName = CITY_SELECTION_CONFIG.active_profile || "medium";
+const activeProfile = CITY_SELECTION_CONFIG.profiles?.[activeProfileName];
+
+if (!activeProfile) {
+  throw new Error(`Missing active profile "${activeProfileName}" in ${CONFIG_PATH}`);
+}
+
+const MIN_POPULATION = activeProfile.min_population;
+const MAX_CITIES_PER_STATE = activeProfile.max_cities_per_state;
+const MAX_TOTAL_CITIES = activeProfile.max_total_cities;
 
 const FORCE_INCLUDE = new Set([
   "New York|NY",
@@ -65,6 +72,8 @@ const FORCE_INCLUDE = new Set([
 
 function parseCsv(csvText) {
   const lines = csvText.trim().split(/\r?\n/);
+  if (!lines.length) return [];
+
   const headers = lines[0].split(",").map((h) => h.trim());
 
   return lines.slice(1).map((line) => {
@@ -95,16 +104,31 @@ function normalizeCity(row) {
 }
 
 function main() {
+  if (!fs.existsSync(CONFIG_PATH)) {
+    throw new Error(`Missing config file: ${CONFIG_PATH}`);
+  }
+
   if (!fs.existsSync(SOURCE_CSV)) {
     throw new Error(`Missing source city file: ${SOURCE_CSV}`);
   }
+
+  console.log(`Using profile: ${activeProfileName}`);
+  console.log(`Min population: ${MIN_POPULATION}`);
+  console.log(`Max cities per state: ${MAX_CITIES_PER_STATE}`);
+  console.log(`Max total cities: ${MAX_TOTAL_CITIES}`);
 
   const csvText = fs.readFileSync(SOURCE_CSV, "utf8");
   const sourceRows = parseCsv(csvText);
 
   const normalized = sourceRows
     .map(normalizeCity)
-    .filter((row) => row.city && row.state && row.state_code && Number(row.population) > 0);
+    .filter(
+      (row) =>
+        row.city &&
+        row.state &&
+        row.state_code &&
+        Number(row.population) > 0
+    );
 
   const forced = [];
   const forcedKeys = new Set();
@@ -144,17 +168,16 @@ function main() {
     return a.state.localeCompare(b.state);
   });
 
-  console.log(`Source rows: ${sourceRows.length}`);
-  console.log(`Normalized rows: ${normalized.length}`);
-  console.log(`Forced rows: ${forced.length}`);
-  console.log(`Filtered rows >= ${MIN_POPULATION}: ${filtered.length}`);
-  console.log(`Selected rows before write: ${selected.length}`);
-
   const headers = ["city", "state", "state_code", "population"];
   const output = toCsv(selected, headers);
 
   fs.writeFileSync(OUTPUT_CSV, output, "utf8");
 
+  console.log(`Source rows: ${sourceRows.length}`);
+  console.log(`Normalized rows: ${normalized.length}`);
+  console.log(`Forced rows: ${forced.length}`);
+  console.log(`Filtered rows >= ${MIN_POPULATION}: ${filtered.length}`);
+  console.log(`Selected rows before write: ${selected.length}`);
   console.log(`Generated ${OUTPUT_CSV}`);
   console.log(`Selected ${selected.length} cities`);
 }

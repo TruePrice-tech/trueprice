@@ -169,10 +169,6 @@ function generateRelatedCityLinks(currentCityPricing, allCityRows) {
     (city) => buildCityPageFilename(city.city, city.state_code) !== currentFile
   );
 
-  const sameState = otherCities
-    .filter((city) => city.state_code === currentState)
-    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0));
-
   const sameRegion = otherCities
     .filter(
       (city) =>
@@ -187,7 +183,7 @@ function generateRelatedCityLinks(currentCityPricing, allCityRows) {
     )
     .sort((a, b) => Number(b.population || 0) - Number(a.population || 0));
 
-  const related = [...sameState, ...sameRegion, ...fallback].slice(0, 8);
+  const related = [...sameRegion, ...fallback].slice(0, 8);
 
   return related
     .map((city) => {
