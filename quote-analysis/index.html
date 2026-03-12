@@ -293,13 +293,44 @@
       }
     }
 
-    #pdfReportContent {
+  
+#pdfReportContent {
   background: transparent;
+}
+
+.pdf-report-header {
+  display: none;
+}
+
+.pdf-report-brand {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.pdf-report-title {
+  margin: 0 0 6px;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+.pdf-report-meta {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.pdf-hide-during-export {
+  display: block;
 }
 
 @media print {
   body {
     background: #ffffff;
+    color: #111827;
   }
 
   .wrap {
@@ -313,6 +344,13 @@
     display: none !important;
   }
 
+  .pdf-report-header {
+    display: block;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
   .hero,
   .card,
   .panel,
@@ -321,6 +359,30 @@
     box-shadow: none !important;
     break-inside: avoid;
     page-break-inside: avoid;
+    border-color: #d1d5db;
+  }
+
+  .hero {
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .panel,
+  .signal-box {
+    padding: 10px;
+  }
+
+  .metric {
+    font-size: 1.35rem;
+  }
+
+  h1, h2, h3, h4 {
+    color: #111827;
   }
 
   a {
@@ -342,6 +404,14 @@
 
     <div id="pdfReportContent">
 
+  <section class="pdf-report-header">
+    <div class="pdf-report-brand">TruePrice</div>
+    <h1 class="pdf-report-title">Roof Quote Analysis Report</h1>
+    <p class="pdf-report-meta">
+      Generated on <span id="pdfGeneratedDate"></span>
+    </p>
+  </section>
+
     <section class="hero">
       <span class="eyebrow">TruePrice Quote Result</span>
       <h1 id="pageTitle">Roof quote analysis result</h1>
@@ -353,7 +423,7 @@
         Review how your quote compares to the expected local range and what to verify next.
       </p>
 
-    <div class="btn-row">
+    <div class="btn-row pdf-hide-during-export">
   <a id="rerunAnalyzerLink" class="btn" href="/roofing-quote-analyzer.html">Run another analysis</a>
   <button id="copyShareLinkBtn" class="btn secondary" type="button" onclick="copyShareLink()">Copy Share Link</button>
   <button id="downloadPdfBtn" class="btn secondary" type="button" onclick="downloadPdfReport()">Download PDF Report</button>
@@ -617,6 +687,7 @@ async function copyShareLink() {
 function downloadPdfReport() {
   const feedback = document.getElementById("copyShareFeedback");
   const element = document.getElementById("pdfReportContent");
+  const exportHiddenEls = document.querySelectorAll(".pdf-hide-during-export");
 
   if (!element || typeof html2pdf === "undefined") {
     feedback.textContent = "PDF generator not available. Use browser print and choose Save as PDF.";
@@ -624,6 +695,11 @@ function downloadPdfReport() {
   }
 
   feedback.textContent = "Generating PDF report...";
+
+  exportHiddenEls.forEach(el => {
+    el.dataset.originalDisplay = el.style.display || "";
+    el.style.display = "none";
+  });
 
   const city = getParam("city", "quote");
   const state = getParam("state", "result");
@@ -651,6 +727,12 @@ function downloadPdfReport() {
     })
     .catch(() => {
       feedback.textContent = "Could not generate PDF automatically. Use browser print and choose Save as PDF.";
+    })
+    .finally(() => {
+      exportHiddenEls.forEach(el => {
+        el.style.display = el.dataset.originalDisplay;
+        delete el.dataset.originalDisplay;
+      });
     });
 }
 
@@ -677,6 +759,17 @@ function renderPage() {
 
   const locationLabel = city && state ? `${city}, ${state}` : "your area";
   const title = `${slugToLabel(material)} quote result for ${locationLabel}`;
+
+const generatedDate = new Date().toLocaleDateString(undefined, {
+  year: "numeric",
+  month: "long",
+  day: "numeric"
+});
+
+const pdfDateEl = document.getElementById("pdfGeneratedDate");
+if (pdfDateEl) {
+  pdfDateEl.textContent = generatedDate;
+}
 
   document.title = `${title} | TruePrice`;
   document.getElementById("pageTitle").textContent = title;
