@@ -4,31 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roofing Quote Analyzer | TruePrice</title>
-  <meta name="description" content="Upload a roofing quote and review pricing, materials, warranty, and scope signals with the TruePrice roofing quote analyzer." />
-  <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/roofing-quote-analyzer.html" />
+  <meta
+    name="description"
+    content="Upload a roofing quote and review pricing, materials, warranty, and scope signals with the TruePrice roofing quote analyzer."
+  />
+  <link rel="canonical" href="https://truepricehq.com/roofing-quote-analyzer.html" />
   <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Roofing Quote Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Analyze roofing quotes, review pricing signals, and get a plain-English assessment before you sign."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/roofing-quote-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Roofing Quote Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Analyze roofing quotes, review pricing signals, and get a plain-English assessment before you sign."
+  />
+
   <style>
+    :root {
+      --bg: #f7f9fc;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --brand: #0f62fe;
+      --brand-dark: #0b4fd1;
+      --brand-soft: #eef4ff;
+      --success-bg: #ecfdf5;
+      --success-line: #a7f3d0;
+      --warn-bg: #fff7ed;
+      --warn-line: #fdba74;
+      --danger-bg: #fef2f2;
+      --danger-line: #fca5a5;
+      --shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+      --radius: 14px;
+      --max: 980px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, Helvetica, sans-serif;
       margin: 0;
-      background: #f7f9fc;
-      color: #1f2937;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
     }
 
     .wrap {
-      max-width: 980px;
+      max-width: var(--max);
       margin: 0 auto;
       padding: 24px;
     }
 
     .nav {
       margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
     }
 
     .nav a {
-      margin-right: 14px;
-      color: #0f62fe;
+      color: var(--brand);
       text-decoration: none;
       font-weight: 600;
     }
@@ -37,20 +83,25 @@
       text-decoration: underline;
     }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
       line-height: 1.2;
+      margin-top: 0;
+      color: #111827;
     }
 
     .muted {
-      color: #6b7280;
+      color: var(--muted);
     }
 
     .card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
       padding: 20px;
       margin-bottom: 20px;
+      box-shadow: var(--shadow);
     }
 
     .grid {
@@ -59,15 +110,25 @@
       gap: 16px;
     }
 
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px 16px;
+      margin-top: 10px;
+    }
+
     input[type="file"],
-    input[type="number"] {
+    input[type="number"],
+    select {
       width: 100%;
-      max-width: 420px;
       padding: 10px;
       border: 1px solid #d1d5db;
       border-radius: 8px;
       box-sizing: border-box;
       margin-top: 6px;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
     }
 
     label {
@@ -76,9 +137,13 @@
       margin-top: 14px;
     }
 
+    .form-grid label {
+      margin-top: 0;
+    }
+
     .btn {
       display: inline-block;
-      background: #0f62fe;
+      background: var(--brand);
       color: #ffffff;
       padding: 12px 18px;
       border-radius: 10px;
@@ -91,12 +156,22 @@
 
     .btn:hover {
       text-decoration: none;
-      opacity: 0.95;
+      background: var(--brand-dark);
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--brand);
+      border: 1px solid var(--brand);
+    }
+
+    .btn.secondary:hover {
+      background: var(--brand-soft);
     }
 
     .faq details {
       background: #ffffff;
-      border: 1px solid #e5e7eb;
+      border: 1px solid var(--line);
       border-radius: 10px;
       padding: 14px 16px;
       margin-bottom: 12px;
@@ -106,16 +181,100 @@
       padding-left: 20px;
     }
 
-    #analysisOutput p {
+    #analysisOutput p,
+    #aiAnalysisOutput p {
       margin: 0 0 10px;
     }
 
     .result-note {
       margin-top: 10px;
-      color: #6b7280;
+      color: var(--muted);
       font-size: 0.95rem;
     }
+
+    .result-box {
+      background: #f9fafb;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .verdict {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .verdict.fair {
+      background: var(--success-bg);
+      border: 1px solid var(--success-line);
+    }
+
+    .verdict.slightly-high,
+    .verdict.typical {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-line);
+    }
+
+    .verdict.high,
+    .verdict.low {
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-line);
+    }
+
+    .ai-analysis {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: #f9fafb;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    .ai-analysis h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    #aiAnalysisOutput {
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    .helper-list {
+      margin-top: 8px;
+    }
+
+    .helper-list li + li {
+      margin-top: 6px;
+    }
+
+    .cta-box {
+      background: var(--brand-soft);
+      border: 1px solid #cfe0ff;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding: 18px;
+      }
+    }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Roofing Quote Analyzer",
+    "url": "https://truepricehq.com/roofing-quote-analyzer.html",
+    "description": "Analyze roofing quotes, review pricing, materials, warranty, and scope signals with the TruePrice roofing quote analyzer."
+  }
+  </script>
 </head>
 <body>
   <main class="wrap">
@@ -127,7 +286,7 @@
 
     <h1>Roofing Quote Analyzer</h1>
     <p class="muted">
-      Upload your contractor estimate and review the price, scope, materials, and warranty signals that matter most before you sign.
+      Upload your contractor estimate and review pricing, scope, materials, and warranty signals that matter most before you sign.
     </p>
 
     <section class="card">
@@ -145,29 +304,70 @@
     <section class="card">
       <h2>Quick Roofing Quote Analysis</h2>
       <p>
-        Enter the key numbers from your roofing quote to estimate whether the price appears low, typical, or high for many markets.
+        Enter the key numbers from your roofing quote to estimate whether the price appears fair, slightly high, or high for many markets.
       </p>
 
-      <label for="roofSize">Roof Size (square feet)</label>
-      <input id="roofSize" type="number" placeholder="ex: 2400" />
+      <div class="form-grid">
+        <div>
+          <label for="roofSize">Roof Size (square feet)</label>
+          <input id="roofSize" type="number" placeholder="ex: 2400" />
+        </div>
 
-      <label for="quotePrice">Total Quote Price ($)</label>
-      <input id="quotePrice" type="number" placeholder="ex: 16500" />
+        <div>
+          <label for="quotePrice">Total Quote Price ($)</label>
+          <input id="quotePrice" type="number" placeholder="ex: 16500" />
+        </div>
+
+        <div>
+          <label for="materialType">Material</label>
+          <select id="materialType">
+            <option value="architectural" selected>Architectural shingles</option>
+            <option value="asphalt">Asphalt shingles</option>
+            <option value="metal">Metal roofing</option>
+            <option value="tile">Tile roofing</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="complexityFactor">Roof Complexity</label>
+          <select id="complexityFactor">
+            <option value="0.95">Simple</option>
+            <option value="1.00" selected>Typical</option>
+            <option value="1.12">Complex</option>
+            <option value="1.20">Very complex</option>
+          </select>
+        </div>
+      </div>
 
       <button class="btn" type="button" onclick="analyzeQuote()">Analyze Numbers</button>
     </section>
 
     <section class="card">
       <h2>Analysis Result</h2>
-      <div id="analysisOutput">
+
+      <div id="analysisOutput" class="result-box">
         Upload a PDF quote above or enter values manually to analyze the quote.
+      </div>
+
+      <div class="ai-analysis">
+        <h3>AI Quote Assessment</h3>
+        <div id="aiAnalysisOutput">
+          Run the quote analysis to receive an expert explanation.
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <strong>Why this matters</strong>
+        <p class="result-note">
+          A quote can look fair on total price but still be weak on scope. Use this result as a starting point, then verify underlayment, flashing, ventilation, warranty, tear off, and decking assumptions.
+        </p>
       </div>
     </section>
 
     <section class="grid">
       <article class="card">
         <h3>What the analyzer should look for</h3>
-        <ul>
+        <ul class="helper-list">
           <li>Total quoted price</li>
           <li>Material type and brand</li>
           <li>Tear off and disposal scope</li>
@@ -245,12 +445,95 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
+    function formatCurrency(value) {
+      return "$" + Math.round(value).toLocaleString();
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getMaterialBenchmarkPerSqFt(material) {
+      const benchmarks = {
+        architectural: 6.35,
+        asphalt: 5.10,
+        metal: 10.50,
+        tile: 13.75
+      };
+      return benchmarks[material] || 6.35;
+    }
+
+    function getVerdictClass(verdict) {
+      const key = verdict.toLowerCase();
+      if (key.includes("fair")) return "fair";
+      if (key.includes("slightly high")) return "slightly-high";
+      if (key.includes("typical")) return "typical";
+      if (key.includes("high")) return "high";
+      if (key.includes("low")) return "low";
+      return "";
+    }
+
+    function buildAIExplanation({ verdict, quotePrice, low, mid, high, material, roofSize, complexityLabel }) {
+      const diffPct = ((quotePrice - mid) / mid) * 100;
+      const absDiffPct = Math.abs(diffPct).toFixed(0);
+
+      const materialLabelMap = {
+        architectural: "architectural shingle",
+        asphalt: "asphalt shingle",
+        metal: "metal",
+        tile: "tile"
+      };
+
+      const materialLabel = materialLabelMap[material] || "roofing";
+      let explanation = "";
+
+      if (verdict === "Fair") {
+        explanation =
+          `This quote appears broadly in line with the modeled market range for a ${materialLabel} roof of about ${roofSize.toLocaleString()} square feet. ` +
+          `That does not automatically make it the best quote, but the total price does not stand out as unusually high or unusually low based on the inputs you entered.`;
+      } else if (verdict === "Slightly High") {
+        explanation =
+          `This quote appears somewhat above the modeled midpoint, roughly ${absDiffPct}% above the typical benchmark. ` +
+          `That can still be reasonable if the roof has added complexity, better materials, upgraded underlayment, ventilation work, or stronger warranty terms.`;
+      } else if (verdict === "High") {
+        explanation =
+          `This quote appears meaningfully above the modeled market range, about ${absDiffPct}% above the midpoint benchmark. ` +
+          `Unless the proposal includes substantial upgrades, complex roof geometry, major tear off issues, decking replacement, or premium accessories, this may justify getting another quote.`;
+      } else {
+        explanation =
+          `This quote appears below the modeled range, roughly ${absDiffPct}% below the midpoint benchmark. ` +
+          `That can be attractive, but it may also mean important items are missing such as flashing, ventilation, underlayment upgrades, disposal, permit costs, or warranty coverage.`;
+      }
+
+      const factors = [
+        `Modeled range: ${formatCurrency(low)} to ${formatCurrency(high)}`,
+        `Midpoint benchmark: ${formatCurrency(mid)}`,
+        `Entered complexity: ${complexityLabel}`,
+        `Check whether tear off, underlayment, flashing, ventilation, disposal, and warranty are clearly included`
+      ];
+
+      return `
+        <p>${escapeHtml(explanation)}</p>
+        <p><strong>What to verify next:</strong></p>
+        <ul>
+          ${factors.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+        </ul>
+      `;
+    }
+
     async function parseQuote() {
       const fileInput = document.getElementById("quoteFile");
       const output = document.getElementById("analysisOutput");
+      const aiOutput = document.getElementById("aiAnalysisOutput");
 
       if (!fileInput.files.length) {
         output.innerHTML = "Please upload a PDF roofing quote first.";
+        aiOutput.innerHTML = "Upload a quote or run the manual analysis to receive an expert explanation.";
         return;
       }
 
@@ -258,6 +541,7 @@
 
       if (!file.name.toLowerCase().endsWith(".pdf")) {
         output.innerHTML = "Please upload a PDF file.";
+        aiOutput.innerHTML = "Upload a quote or run the manual analysis to receive an expert explanation.";
         return;
       }
 
@@ -282,6 +566,7 @@
           analyzeText(text);
         } catch (error) {
           output.innerHTML = "Unable to read this PDF. Please try manual analysis below.";
+          aiOutput.innerHTML = "The PDF could not be parsed. Enter the key quote numbers manually to receive an expert explanation.";
         }
       };
 
@@ -290,6 +575,7 @@
 
     function analyzeText(text) {
       const output = document.getElementById("analysisOutput");
+      const aiOutput = document.getElementById("aiAnalysisOutput");
       const normalizedText = text.replace(/\s+/g, " ").trim();
       const lowerText = normalizedText.toLowerCase();
 
@@ -314,14 +600,16 @@
       const warranty = warrantyMatch ? warrantyMatch[0] : "Not detected";
 
       let material = "Unknown";
-      if (lowerText.includes("architectural")) {
+      if (lowerText.includes("standing seam")) {
+        material = "Standing Seam Metal Roofing";
+      } else if (lowerText.includes("architectural")) {
         material = "Architectural Shingles";
       } else if (lowerText.includes("metal")) {
         material = "Metal Roofing";
       } else if (lowerText.includes("asphalt")) {
         material = "Asphalt Shingles";
-      } else if (lowerText.includes("standing seam")) {
-        material = "Standing Seam Metal Roofing";
+      } else if (lowerText.includes("tile")) {
+        material = "Tile Roofing";
       }
 
       let contractor = "Not detected";
@@ -339,43 +627,88 @@
       }
 
       output.innerHTML = `
-        <p><strong>Detected Price:</strong> ${detectedPrice}</p>
-        <p><strong>Material:</strong> ${material}</p>
-        <p><strong>Warranty:</strong> ${warranty}</p>
-        <p><strong>Contractor:</strong> ${contractor}</p>
+        <p><strong>Detected Price:</strong> ${escapeHtml(detectedPrice)}</p>
+        <p><strong>Material:</strong> ${escapeHtml(material)}</p>
+        <p><strong>Warranty:</strong> ${escapeHtml(warranty)}</p>
+        <p><strong>Contractor:</strong> ${escapeHtml(contractor)}</p>
         <p class="result-note">This automatic extraction is experimental and may not detect every value correctly. For a directional pricing benchmark, use the manual analysis tool above as well.</p>
+      `;
+
+      aiOutput.innerHTML = `
+        <p>This upload parser found some likely quote signals, but it does not yet have enough structured context to calculate a pricing verdict by itself.</p>
+        <p><strong>Best next step:</strong> enter the roof size, total quote, material, and complexity in the manual tool above to get a clearer assessment.</p>
       `;
     }
 
     function analyzeQuote() {
       const roofSize = parseFloat(document.getElementById("roofSize").value);
       const price = parseFloat(document.getElementById("quotePrice").value);
+      const material = document.getElementById("materialType").value;
+      const complexityFactor = parseFloat(document.getElementById("complexityFactor").value);
+
       const output = document.getElementById("analysisOutput");
+      const aiOutput = document.getElementById("aiAnalysisOutput");
 
       if (isNaN(roofSize) || isNaN(price) || roofSize <= 0 || price <= 0) {
         output.innerHTML = "Please enter valid positive numbers for roof size and quote price.";
+        aiOutput.innerHTML = "Enter valid quote details to receive an expert explanation.";
         return;
       }
+
+      const baseRate = getMaterialBenchmarkPerSqFt(material);
+      const adjustedRate = baseRate * complexityFactor;
+
+      const low = roofSize * adjustedRate * 0.9;
+      const mid = roofSize * adjustedRate;
+      const high = roofSize * adjustedRate * 1.12;
 
       const pricePerSqFt = price / roofSize;
       const squares = roofSize / 100;
       const pricePerSquare = price / squares;
 
-      let category = "";
-      if (pricePerSqFt < 4.5) {
-        category = "Low";
-      } else if (pricePerSqFt < 8) {
-        category = "Typical";
+      let verdict = "";
+      if (price < low * 0.95) {
+        verdict = "Suspiciously Low";
+      } else if (price <= high) {
+        verdict = "Fair";
+      } else if (price <= mid * 1.2) {
+        verdict = "Slightly High";
       } else {
-        category = "High";
+        verdict = "High";
       }
 
+      const delta = price - mid;
+      const deltaPct = ((delta / mid) * 100);
+
+      const complexityLabelMap = {
+        0.95: "Simple",
+        1: "Typical",
+        1.12: "Complex",
+        1.2: "Very complex"
+      };
+      const complexityLabel = complexityLabelMap[complexityFactor] || "Typical";
+
       output.innerHTML = `
-        <p><strong>Price per square foot:</strong> $${pricePerSqFt.toFixed(2)}</p>
-        <p><strong>Price per roofing square:</strong> $${pricePerSquare.toFixed(0)}</p>
-        <p><strong>Estimated pricing category:</strong> ${category}</p>
-        <p>Pricing varies by material, roof complexity, region, tear off requirements, and warranty coverage, but this gives a directional benchmark.</p>
+        <div class="verdict ${getVerdictClass(verdict)}">${escapeHtml(verdict)}</div>
+        <p><strong>Price per square foot:</strong> ${formatCurrency(pricePerSqFt)} / sq ft</p>
+        <p><strong>Price per roofing square:</strong> ${formatCurrency(pricePerSquare)} / square</p>
+        <p><strong>Modeled market range:</strong> ${formatCurrency(low)} to ${formatCurrency(high)}</p>
+        <p><strong>Modeled midpoint:</strong> ${formatCurrency(mid)}</p>
+        <p><strong>Entered quote:</strong> ${formatCurrency(price)}</p>
+        <p><strong>Difference from midpoint:</strong> ${delta >= 0 ? "+" : "-"}${formatCurrency(Math.abs(delta))} (${deltaPct >= 0 ? "+" : ""}${deltaPct.toFixed(1)}%)</p>
+        <p class="result-note">This is a directional benchmark based on roof size, material, and selected complexity. Final pricing can still move based on tear off, decking, ventilation, flashing, access, and warranty details.</p>
       `;
+
+      aiOutput.innerHTML = buildAIExplanation({
+        verdict,
+        quotePrice: price,
+        low,
+        mid,
+        high,
+        material,
+        roofSize,
+        complexityLabel
+      });
     }
   </script>
 </body>
