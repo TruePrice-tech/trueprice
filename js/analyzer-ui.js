@@ -16,7 +16,7 @@ function autoFillForm(parsed) {
   }
 
   if (parsed.material) {
-    document.getElementById("material").value = parsed.material;
+    document.getElementById("materialType").value = parsed.material;
   }
 
   if (parsed.warrantyYears) {
@@ -24,11 +24,11 @@ function autoFillForm(parsed) {
   }
 
   if (parsed.city) {
-    document.getElementById("city").value = parsed.city;
+    document.getElementById("cityName").value = parsed.city;
   }
 
   if (parsed.stateCode) {
-    document.getElementById("state").value = parsed.stateCode;
+    document.getElementById("stateCode").value = parsed.stateCode;
   }
 }
 
@@ -74,49 +74,33 @@ function analyzeParsedText(text, extractionMethod) {
 }
 
 function renderParsedResults(parsed) {
-
-  const container = document.getElementById("parsedResults");
+  const container = document.getElementById("analysisPanels");
+  if (!container) return;
 
   const signals = parsed.signals || {};
 
-  const scopeHtml = Object.entries(signals)
-    .map(([key, item]) => {
-      return `
-        <div class="signal-row">
-          <div>${escapeHtml(item.label)}</div>
-          <div>${getSignalHtml(item.status)}</div>
-        </div>
-      `;
-    })
-    .join("");
+  const includedCount = Object.values(signals).filter(item => item.status === "included").length;
 
   container.innerHTML = `
-  <div class="parsed-card">
-
-    <h3>Parsed quote details</h3>
-
-    <div class="parsed-grid">
-      <div>Price</div>
-      <div>${parsed.price ? formatCurrency(parsed.price) : "Not detected"}</div>
-
-      <div>Material</div>
-      <div>${parsed.materialLabel || "Not detected"}</div>
-
-      <div>Roof size</div>
-      <div>${parsed.roofSize ? formatNumber(parsed.roofSize) + " sq ft" : "Not detected"}</div>
-
-      <div>Warranty</div>
-      <div>${parsed.warrantyYears ? parsed.warrantyYears + " years" : "Not detected"}</div>
-
-      <div>Parser confidence</div>
-      <div>${parsed.confidenceLabel}</div>
+    <div class="panel">
+      <h4>Parsed quote details</h4>
+      <ul class="mini-list">
+        <li>Price: ${parsed.price ? formatCurrency(parsed.price) : "Not detected"}</li>
+        <li>Material: ${parsed.materialLabel || "Not detected"}</li>
+        <li>Roof size: ${parsed.roofSize ? `${formatNumber(parsed.roofSize)} sq ft` : "Not detected"}</li>
+        <li>Warranty: ${parsed.warrantyYears ? `${parsed.warrantyYears} years` : "Not detected"}</li>
+      </ul>
     </div>
 
-    <h4>Scope signals</h4>
-
-    ${scopeHtml}
-
-  </div>
+    <div class="panel">
+      <h4>Parser quality</h4>
+      <ul class="mini-list">
+        <li>Confidence: ${parsed.confidenceLabel || "Low"}</li>
+        <li>Price candidates found: ${parsed.priceCandidates ? parsed.priceCandidates.length : 0}</li>
+        <li>Scope items found: ${includedCount}</li>
+        <li>Extraction method: ${parsed.extractionMethod ? parsed.extractionMethod.replaceAll("_", " ") : "unknown"}</li>
+      </ul>
+    </div>
   `;
 }
 
