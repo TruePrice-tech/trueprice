@@ -37,13 +37,9 @@ function autoFillForm(parsed) {
 function analyzeParsedText(text, extractionMethod) {
 
   const priceCandidates = extractPriceCandidates(text);
-  const totalLinePrice = detectTotalLinePrice(parsedText);
-
-  if (totalLinePrice) {
-  parsed.price = totalLinePrice;
-  }
-
-  const bestPrice = priceCandidates.length ? priceCandidates[0].value : "";
+  const totalLinePrice = detectTotalLinePrice(text);
+  const forcedTotal = detectTotalLinePrice(text);
+  const bestPrice = forcedTotal || (priceCandidates.length ? priceCandidates[0].value : "");
 
   const material = detectMaterial(text);
   const warranty = detectWarranty(text);
@@ -58,7 +54,7 @@ function analyzeParsedText(text, extractionMethod) {
     priceCandidates,
     material: material.value,
     materialLabel: material.label,
-    warranty: warranty.raw,
+    warranty: warranty.label,
     warrantyYears: warranty.years,
     contractor,
     city: location.city,
