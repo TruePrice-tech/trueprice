@@ -14,7 +14,7 @@ if (window.pdfjsLib) {
 
 async function runOcrOnImageSource(imageSource, progressCallback) {
   const result = await Tesseract.recognize(imageSource, "eng", {
-    logger: message => {
+    logger: (message) => {
       if (typeof progressCallback === "function" && message.status === "recognizing text") {
         progressCallback(message.progress || 0);
       }
@@ -33,7 +33,7 @@ async function extractTextFromPdfNative(file) {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    const pageText = content.items.map(item => ("str" in item ? item.str : "")).join(" ");
+    const pageText = content.items.map((item) => ("str" in item ? item.str : "")).join(" ");
     fullText += "\n" + pageText;
   }
 
@@ -62,7 +62,7 @@ function isWeakExtractedText(text) {
     "contractor"
   ];
 
-  const hits = signals.filter(term => cleaned.toLowerCase().includes(term)).length;
+  const hits = signals.filter((term) => cleaned.toLowerCase().includes(term)).length;
   return hits < 2;
 }
 
@@ -113,7 +113,7 @@ async function extractTextFromPdfWithOcrFallback(file) {
     const pageNumber = i + 1;
     const totalPages = pageImages.length;
 
-    const pageText = await runOcrOnImageSource(pageImages[i], progress => {
+    const pageText = await runOcrOnImageSource(pageImages[i], (progress) => {
       setUploadStatus(
         `Running OCR on PDF page ${pageNumber} of ${totalPages}... ${Math.round(progress * 100)}%`,
         "warn"
@@ -153,7 +153,7 @@ async function extractTextFromUploadedFile(file) {
     setUploadStatus("Running OCR on uploaded image...", "warn");
 
     const imageDataUrl = await fileToImageDataUrl(file);
-    const text = await runOcrOnImageSource(imageDataUrl, progress => {
+    const text = await runOcrOnImageSource(imageDataUrl, (progress) => {
       setUploadStatus(`Running OCR on uploaded image... ${Math.round(progress * 100)}%`, "warn");
     });
 
@@ -166,14 +166,18 @@ async function extractTextFromUploadedFile(file) {
   throw new Error("Unsupported file type. Please upload a PDF or image.");
 }
 
-async function parseQuote() {
+export async function parseQuote() {
   const fileInput = document.getElementById("quoteFile");
   const output = document.getElementById("analysisOutput");
   const aiOutput = document.getElementById("aiAnalysisOutput");
 
-  if (!fileInput.files.length) {
-    output.innerHTML = "Please upload a roofing quote file first.";
-    aiOutput.innerHTML = "Upload a quote or run the manual analysis to receive an expert explanation.";
+  if (!fileInput?.files?.length) {
+    if (output) {
+      output.innerHTML = "Please upload a roofing quote file first.";
+    }
+    if (aiOutput) {
+      aiOutput.innerHTML = "Upload a quote or run the manual analysis to receive an expert explanation.";
+    }
     setUploadStatus("No file selected yet.", "error");
     return;
   }
@@ -190,11 +194,24 @@ async function parseQuote() {
       throw new Error("We could not read usable text from that file.");
     }
 
-    analyzeParsedText(parsedText, extractionResult.method);
+    setUploadStatus("Extracted text successfully. Running SmartQuote analysis...", "info");
+
+    await analyzeParsedText(parsedText, extractionResult.method);
+
+    setUploadStatus("Quote parsed and analyzer updated.", "success");
   } catch (error) {
     console.error(error);
-    output.innerHTML = "Unable to read this file. Please try a clearer PDF, screenshot, photo, or use manual analysis below.";
-    aiOutput.innerHTML = "The uploaded file could not be parsed. Enter the key quote numbers manually to receive an expert explanation.";
+
+    if (output) {
+      output.innerHTML =
+        "Unable to read this file. Please try a clearer PDF, screenshot, photo, or use manual analysis below.";
+    }
+
+    if (aiOutput) {
+      aiOutput.innerHTML =
+        "The uploaded file could not be parsed. Enter the key quote numbers manually to receive an expert explanation.";
+    }
+
     setUploadStatus(error.message || "Unable to parse uploaded file.", "error");
   }
 }
