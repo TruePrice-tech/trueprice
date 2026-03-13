@@ -1,4 +1,4 @@
-console.log("ANALYZER UI V6 LOADED");
+console.log("ANALYZER UI V7 LOADED");
 
 function setUploadStatus(message, type = "info") {
   const el = document.getElementById("uploadStatus");
