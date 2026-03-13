@@ -1,4 +1,4 @@
-console.log("ANALYZER UI V4 LOADED");
+console.log("ANALYZER UI V6 LOADED");
 
 function setUploadStatus(message, type = "info") {
   const el = document.getElementById("uploadStatus");
@@ -37,8 +37,8 @@ function autoFillForm(parsed) {
 function analyzeParsedText(text, extractionMethod) {
 
   const priceCandidates = extractPriceCandidates(text);
+  const totalLinePrice = detectTotalLinePrice(text);
   const forcedTotal = detectTotalLinePrice(text);
-
   const bestPrice = forcedTotal || (priceCandidates.length ? priceCandidates[0].value : "");
 
   const material = detectMaterial(text);
