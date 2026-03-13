@@ -40,6 +40,16 @@ async function extractTextFromPdfNative(file) {
   return normalizeWhitespace(fullText);
 }
 
+function normalizeWhitespace(text) {
+  if (!text) return "";
+
+  return text
+    .replace(/\r/g, " ")
+    .replace(/\n/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function isWeakExtractedText(text) {
   const cleaned = normalizeWhitespace(text);
   if (!cleaned || cleaned.length < 120) return true;
