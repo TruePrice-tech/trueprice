@@ -122,6 +122,30 @@ function detectWarranty(text) {
     }
   });
 
+const roofAreaLoose = normalized.match(/(roof|roof area|roof size)[^0-9]{0,30}([0-9]{3,5})/);
+
+if (roofAreaLoose) {
+  const value = Number(roofAreaLoose[2]);
+  if (value >= 600 && value <= 12000) {
+    return {
+      value,
+      source: "roof loose fallback"
+    };
+  }
+}
+
+const squareLoose = normalized.match(/\b([1-9][0-9](?:\.[0-9]+)?)\s*(squares|square|sq)\b/);
+
+if (squareLoose) {
+  const value = Number(squareLoose[1]) * 100;
+  if (value >= 600 && value <= 12000) {
+    return {
+      value: Math.round(value),
+      source: "square loose fallback"
+    };
+  }
+}
+
   if (!candidates.length) {
     return { label: "Not detected", years: "" };
   }
@@ -347,39 +371,6 @@ function detectScopeSignals(text) {
   return results;
 }
 
-function detectTotalLinePrice(text) {
-  const lines = String(text || "").split("\n");
-
-  const patterns = [
-    /total estimated cost/i,
-    /grand total/i,
-    /proposal total/i,
-    /contract total/i,
-    /total due/i,
-    /total cost/i
-  ];
-
-  for (const line of lines) {
-    const lower = line.toLowerCase();
-
-    if (patterns.some(p => p.test(lower))) {
-
-      const numberMatch = line.match(/[0-9][0-9,\s]{3,12}/);
-
-      if (numberMatch) {
-        const cleaned = numberMatch[0].replace(/[^\d]/g, "");
-        const value = Number(cleaned);
-
-        if (value >= 1000 && value <= 200000) {
-          return value;
-        }
-      }
-    }
-  }
-
-  return null;
-}
-
 function detectPremiumSignals(text, signals, roofSize, material) {
   const lower = String(text || "").toLowerCase();
   const items = [];
@@ -413,48 +404,6 @@ function detectPremiumSignals(text, signals, roofSize, material) {
   }
 
   return items;
-}
-
-function detectTotalLinePrice(text) {
-  const lines = String(text || "").split("\n");
-
-  const patterns = [
-    /total estimated cost/i,
-    /grand total/i,
-    /proposal total/i,
-    /contract total/i,
-    /total due/i,
-    /total cost/i,
-    /estimated cost/i,
-    /project total/i
-  ];
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const lower = line.toLowerCase();
-
-    if (!patterns.some(p => p.test(lower))) continue;
-
-    const candidateLines = [
-      line,
-      lines[i + 1] || "",
-      lines[i + 2] || ""
-    ];
-
-    for (const candidateLine of candidateLines) {
-      const numberLikeMatches = candidateLine.match(/[0-9OBSIGZAl.,\s]{4,20}/gi);
-      if (!numberLikeMatches) continue;
-
-      for (const raw of numberLikeMatches) {
-        const value = parsePossiblyBrokenMoney(raw);
-        if (isFinite(value) && value >= 1000 && value <= 200000) {
-          return value;
-        }
-      }
-    }
-  }
-
-  return null;
 }
 
 function detectTotalLinePrice(text) {
