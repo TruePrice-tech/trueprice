@@ -189,6 +189,18 @@ function detectRoofSize(text) {
     }
   }
 
+  const roofLine = normalized.match(/roof[^0-9]{0,20}([0-9]{3,5})/);
+
+  if (roofLine) {
+  const value = Number(roofLine[1]);
+  if (value >= 600 && value <= 12000) {
+    return {
+      value,
+      source: "roof line fallback"
+    };
+  }
+}
+  
   const squaresRegex = /\b([0-9]{1,3}(?:\.[0-9]+)?)\s*(?:squares|square|sq)\b/g;
   while ((match = squaresRegex.exec(normalized)) !== null) {
     const raw = Number(match[1]);
@@ -309,6 +321,39 @@ function detectScopeSignals(text) {
   return results;
 }
 
+function detectTotalLinePrice(text) {
+  const lines = String(text || "").split("\n");
+
+  const patterns = [
+    /total estimated cost/i,
+    /grand total/i,
+    /proposal total/i,
+    /contract total/i,
+    /total due/i,
+    /total cost/i
+  ];
+
+  for (const line of lines) {
+    const lower = line.toLowerCase();
+
+    if (patterns.some(p => p.test(lower))) {
+
+      const numberMatch = line.match(/[0-9][0-9,\s]{3,12}/);
+
+      if (numberMatch) {
+        const cleaned = numberMatch[0].replace(/[^\d]/g, "");
+        const value = Number(cleaned);
+
+        if (value >= 1000 && value <= 200000) {
+          return value;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
 function detectPremiumSignals(text, signals, roofSize, material) {
   const lower = String(text || "").toLowerCase();
   const items = [];
@@ -343,6 +388,7 @@ function detectPremiumSignals(text, signals, roofSize, material) {
 
   return items;
 }
+
 
 function calculateParserConfidence(parsed) {
   let score = 0;

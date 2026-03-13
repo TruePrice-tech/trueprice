@@ -37,6 +37,11 @@ function autoFillForm(parsed) {
 function analyzeParsedText(text, extractionMethod) {
 
   const priceCandidates = extractPriceCandidates(text);
+  const totalLinePrice = detectTotalLinePrice(parsedText);
+
+  if (totalLinePrice) {
+  parsed.price = totalLinePrice;
+  }
 
   const bestPrice = priceCandidates.length ? priceCandidates[0].value : "";
 
