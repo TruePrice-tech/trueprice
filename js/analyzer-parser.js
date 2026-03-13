@@ -1,16 +1,23 @@
 function scoreMoneyCandidate(value, contextText) {
   let score = 50;
 
-  const ctx = contextText.toLowerCase();
+  const ctx = String(contextText || "").toLowerCase();
 
-  if (/total|grand total|total cost|project total|estimated cost/.test(ctx)) score += 40;
-  if (/price|cost|amount|proposal|contract/.test(ctx)) score += 20;
+  if (/total estimated cost|estimated cost|grand total|proposal total|contract total|total due|project total|total cost/.test(ctx)) {
+    score += 100;
+  } else if (/total|price|cost|amount|proposal|contract|investment/.test(ctx)) {
+    score += 25;
+  }
 
-  if (/phone|tel|fax|mobile|call/.test(ctx)) score -= 60;
-  if (/zip|address|invoice|account/.test(ctx)) score -= 30;
+  if (/phone|tel|fax|mobile|call/.test(ctx)) score -= 80;
+  if (/zip|address|invoice|account|claim number|policy number/.test(ctx)) score -= 40;
+  if (/deductible|deposit|down payment|monthly|finance|payment|allowance|rebate|coupon|discount/.test(ctx)) {
+    score -= 70;
+  }
 
-  if (value < 2000) score -= 30;
-  if (value > 200000) score -= 30;
+  if (value < 500) score -= 60;
+  else if (value < 2000) score -= 20;
+  if (value > 250000) score -= 80;
 
   return score;
 }
@@ -18,71 +25,38 @@ function scoreMoneyCandidate(value, contextText) {
 function extractPriceCandidates(text) {
   const candidates = [];
   const seen = new Set();
+  const source = String(text || "");
+
   const regex = /\$?\s?[0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{2})?|\$?\s?[0-9]{4,6}(?:\.[0-9]{2})?/g;
 
   let match;
-  while ((match = regex.exec(text)) !== null) {
+  while ((match = regex.exec(source)) !== null) {
     const matchText = match[0];
     const value = parseMoneyToNumber(matchText);
+
     if (!isFinite(value) || value < 500 || value > 250000) continue;
 
     const start = match.index;
     const end = match.index + matchText.length;
 
     const contextStart = Math.max(0, start - 140);
-    const contextEnd = Math.min(text.length, end + 140);
-    const context = text.slice(contextStart, contextEnd);
+    const contextEnd = Math.min(source.length, end + 140);
+    const context = source.slice(contextStart, contextEnd);
     const lowerContext = context.toLowerCase();
 
     let score = scoreMoneyCandidate(value, context);
 
-    const veryStrongPositive = [
-      "total estimated cost",
-      "estimated cost",
-      "grand total",
-      "proposal total",
-      "contract total",
-      "total due",
-      "project total",
-      "total cost",
-      "amount due",
-      "total"
-    ];
-
-    const strongNegative = [
-      "deductible",
-      "deposit",
-      "down payment",
-      "monthly",
-      "finance",
-      "payment",
-      "claim",
-      "allowance",
-      "phone",
-      "tel",
-      "call",
-      "fax"
-    ];
-
-    veryStrongPositive.forEach(term => {
-      if (lowerContext.includes(term)) score += 90;
-    });
-
-    strongNegative.forEach(term => {
-      if (lowerContext.includes(term)) score -= 70;
-    });
-
-    if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(lowerContext)) {
-      score -= 100;
-    }
-
-    const lineStart = text.lastIndexOf("\n", start) + 1;
-    const lineEndRaw = text.indexOf("\n", end);
-    const lineEnd = lineEndRaw === -1 ? text.length : lineEndRaw;
-    const lineText = text.slice(lineStart, lineEnd).trim().toLowerCase();
+    const lineStart = source.lastIndexOf("\n", start) + 1;
+    const lineEndRaw = source.indexOf("\n", end);
+    const lineEnd = lineEndRaw === -1 ? source.length : lineEndRaw;
+    const lineText = source.slice(lineStart, lineEnd).trim().toLowerCase();
 
     if (/total estimated cost|grand total|proposal total|contract total|total due|project total|estimated cost/.test(lineText)) {
       score += 120;
+    }
+
+    if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(lowerContext)) {
+      score -= 120;
     }
 
     const key = `${Math.round(value)}|${Math.round(score)}`;
@@ -102,59 +76,77 @@ function extractPriceCandidates(text) {
     .slice(0, 10);
 }
 
-  candidates.sort((a, b) => b.score - a.score);
-
-  return candidates;
-}
-
 function detectWarranty(text) {
-  const regex = /(\d{1,2})\s*(year|yr)/i;
-  const match = text.match(regex);
+  const normalized = String(text || "").toLowerCase();
+  const candidates = [];
+  const patterns = [
+    { regex: /\blifetime\b.{0,40}\bwarranty\b/i, years: 50, label: "Lifetime warranty", score: 90 },
+    { regex: /\b(5|10|15|20|25|30|40|50)\s*[- ]?\s*year\b.{0,25}\bworkmanship\b/i, years: null, score: 92 },
+    { regex: /\b(5|10|15|20|25|30|40|50)\s*[- ]?\s*year\b.{0,25}\bwarranty\b/i, years: null, score: 84 },
+    { regex: /\bworkmanship\b.{0,25}\b(5|10|15|20|25|30)\s*[- ]?\s*year\b/i, years: null, score: 90 },
+    { regex: /\bmanufacturer warranty\b.{0,25}\b(20|25|30|40|50)\s*[- ]?\s*year\b/i, years: null, score: 84 }
+  ];
 
-  if (!match) return { years: "", raw: "" };
+  patterns.forEach(item => {
+    const match = normalized.match(item.regex);
+    if (match) {
+      const years = item.years || Number(match[1]);
+      const label = item.years ? item.label : `${years}-year warranty`;
+      candidates.push({ years, label, score: item.score });
+    }
+  });
 
-  return {
-    years: Number(match[1]),
-    raw: match[0]
-  };
+  if (!candidates.length) {
+    return { label: "Not detected", years: "" };
+  }
+
+  candidates.sort((a, b) => b.score - a.score || b.years - a.years);
+  return { label: candidates[0].label, years: candidates[0].years };
 }
 
 function detectMaterial(text) {
-  const lower = text.toLowerCase();
+  const normalized = String(text || "").toLowerCase();
+  const matches = [];
 
-  for (const material of MATERIAL_PATTERNS) {
-    for (const pattern of material.patterns) {
-      if (pattern.test(lower)) {
-        return {
-          value: material.value,
-          label: material.label,
-          confidence: material.score
-        };
+  MATERIAL_PATTERNS.forEach(item => {
+    item.patterns.forEach(pattern => {
+      if (pattern.test(normalized)) {
+        matches.push({
+          value: item.value,
+          label: item.label,
+          score: item.score
+        });
       }
-    }
+    });
+  });
+
+  if (!matches.length) {
+    return { value: "", label: "Unknown" };
   }
 
-  return {
-    value: "",
-    label: "",
-    confidence: 0
-  };
+  matches.sort((a, b) => b.score - a.score);
+  return { value: matches[0].value, label: matches[0].label };
 }
 
 function detectContractor(text) {
-  const lines = text.split("\n");
+  const source = String(text || "");
+  const patterns = [
+    /(?:proposal by|prepared by|roofing company|contractor|company)[:\s]+([A-Za-z0-9&.,' -]{4,70})/i,
+    /^([A-Z][A-Za-z0-9&.,' -]{3,70}(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration))/m
+  ];
 
-  for (const line of lines.slice(0, 10)) {
-    if (/roof|construction|contracting|roofing|company/i.test(line)) {
-      return line.trim();
+  for (const pattern of patterns) {
+    const match = source.match(pattern);
+    if (match && match[1]) {
+      return normalizeWhitespace(match[1]);
     }
   }
 
-  return "";
+  return "Not detected";
 }
 
 function detectRoofSize(text) {
-  const normalized = text.toLowerCase();
+  const normalized = String(text || "").toLowerCase();
   const candidates = [];
   let match;
 
@@ -222,37 +214,28 @@ function detectRoofSize(text) {
   };
 }
 
-  const squaresRegex = /\b([0-9]{2,3})\s*(squares?)\b/i;
-  const sqMatch = text.match(squaresRegex);
-
-  if (sqMatch) {
-    candidates.push({
-      value: Number(sqMatch[1]) * 100,
-      source: "squares"
-    });
-  }
-
-  if (!candidates.length) return { value: "", source: "" };
-
-  return candidates[0];
-}
-
 function detectLocation(text) {
-  const lines = text.split("\n");
+  const compact = normalizeWhitespace(text);
+  const patterns = [
+    /\b([A-Z][a-z]+(?:[ .-][A-Z][a-z]+){0,3}),\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)\b/g,
+    /\b(City of\s+)?([A-Z][a-z]+(?:[ .-][A-Z][a-z]+){0,3})\s+(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)\b/g
+  ];
 
-  for (const line of lines) {
-    const parts = line.split(",");
+  for (const regex of patterns) {
+    let match;
+    while ((match = regex.exec(compact)) !== null) {
+      const city = normalizeWhitespace(match[1] ? match[1].replace(/^City of\s+/i, "") : match[2] || "");
+      const stateCode = (match[2] && STATE_CODES.includes(match[2])) ? match[2] : match[3];
+      if (!city || !stateCode) continue;
 
-    if (parts.length >= 2) {
-      const city = parts[0].trim();
-      const statePart = parts[1].trim().split(" ")[0];
+      const lower = city.toLowerCase();
+      const banned = ["invoice total", "proposal total", "grand total", "roofing company", "project total"];
+      if (banned.some(term => lower.includes(term))) continue;
 
-      if (STATE_CODES.includes(statePart.toUpperCase())) {
-        return {
-          city: titleCase(city),
-          stateCode: statePart.toUpperCase()
-        };
-      }
+      return {
+        city: titleCase(city),
+        stateCode: stateCode.toUpperCase()
+      };
     }
   }
 
@@ -260,76 +243,124 @@ function detectLocation(text) {
 }
 
 function hasNearbyNegation(text, index) {
-  const start = Math.max(0, index - 40);
-  const context = text.slice(start, index).toLowerCase();
-
-  return /not|exclude|without|owner/.test(context);
+  const start = Math.max(0, index - 60);
+  const end = Math.min(text.length, index + 60);
+  const windowText = text.slice(start, end);
+  return /\b(not included|excluded|exclude|by owner|owner to provide|reuse existing|at additional cost|extra charge|optional|allowance only|if needed)\b/.test(windowText);
 }
 
 function evaluateScopeSignal(text, definition) {
-  const lower = text.toLowerCase();
+  const lower = String(text || "").toLowerCase();
 
-  for (const neg of definition.negative) {
-    if (neg.test(lower)) {
+  for (const negativePattern of definition.negative) {
+    const negativeMatch = lower.match(negativePattern);
+    if (negativeMatch) {
       return {
+        label: definition.label,
         status: "excluded",
-        evidence: neg.source
+        evidence: normalizeEvidence(negativeMatch[0])
       };
     }
   }
 
-  for (const pos of definition.positive) {
-    if (pos.test(lower)) {
+  for (const positivePattern of definition.positive) {
+    const match = positivePattern.exec(lower);
+    if (match) {
+      const idx = match.index || 0;
+      if (hasNearbyNegation(lower, idx)) {
+        return {
+          label: definition.label,
+          status: "excluded",
+          evidence: normalizeEvidence(match[0])
+        };
+      }
       return {
+        label: definition.label,
         status: "included",
-        evidence: pos.source
+        evidence: normalizeEvidence(match[0])
       };
     }
   }
 
-  return { status: "unclear" };
+  return {
+    label: definition.label,
+    status: "unclear",
+    evidence: ""
+  };
 }
 
 function detectScopeSignals(text) {
   const results = {};
+  Object.entries(SCOPE_DEFINITIONS).forEach(([key, definition]) => {
+    results[key] = evaluateScopeSignal(text, definition);
+  });
 
-  for (const key in SCOPE_DEFINITIONS) {
-    const def = SCOPE_DEFINITIONS[key];
-
-    const res = evaluateScopeSignal(text, def);
-
-    results[key] = {
-      label: def.label,
-      status: res.status,
-      evidence: normalizeEvidence(res.evidence || "")
-    };
-  }
+  results.premiumBrand = {
+    label: "Premium brand",
+    status: /\bgaf\b|\bowens corning\b|\bcertainteed\b|\bmalarkey\b|\biko\b|\btamko\b|\bdecra\b|\bmcelroy\b/i.test(text)
+      ? "included"
+      : "unclear",
+    evidence: (() => {
+      const match = String(text || "").match(/\bgaf\b|\bowens corning\b|\bcertainteed\b|\bmalarkey\b|\biko\b|\btamko\b|\bdecra\b|\bmcelroy\b/i);
+      return match ? normalizeEvidence(match[0]) : "";
+    })()
+  };
 
   return results;
 }
 
-function detectPremiumSignals(text) {
-  const signals = [];
+function detectPremiumSignals(text, signals, roofSize, material) {
+  const lower = String(text || "").toLowerCase();
+  const items = [];
 
-  if (/steep|12\/12|10\/12|high pitch/i.test(text)) signals.push("steep pitch");
-  if (/complex|multiple valley/i.test(text)) signals.push("complex roof");
-  if (/skylight/i.test(text)) signals.push("skylight");
-  if (/chimney/i.test(text)) signals.push("chimney flashing");
+  if (/\bsteep\b|\bsteep pitch\b|\bhigh pitch\b|\b12\/12\b|\b10\/12\b|\b8\/12\b/.test(lower)) {
+    items.push("Steep pitch mentioned");
+  }
 
-  return signals;
+  if (/\bmultiple layers\b|\b2 layers\b|\btwo layers\b|\bsecond layer\b/.test(lower)) {
+    items.push("Multiple layers detected");
+  }
+
+  if (/\bvalley\b|\bmultiple valleys\b|\bdormer\b|\bskylight\b|\bchimney\b|\bcomplex roof\b/.test(lower)) {
+    items.push("Complex roof features detected");
+  }
+
+  if (signals && signals.decking && signals.decking.status === "included") {
+    items.push("Decking work mentioned");
+  }
+
+  if (signals && signals.premiumBrand && signals.premiumBrand.status === "included") {
+    items.push("Premium brand mentioned");
+  }
+
+  if (material === "metal" || material === "tile") {
+    items.push("Premium roofing material");
+  }
+
+  if (Number(roofSize) >= 3500) {
+    items.push("Large roof size");
+  }
+
+  return items;
 }
 
 function calculateParserConfidence(parsed) {
   let score = 0;
 
-  if (parsed.price) score += 30;
-  if (parsed.roofSize) score += 20;
-  if (parsed.material) score += 15;
-  if (parsed.city) score += 10;
+  if (parsed.price) score += 28;
+  if (parsed.priceCandidates && parsed.priceCandidates[0] && parsed.priceCandidates[0].score >= 55) score += 10;
+  if (parsed.material) score += 14;
+  if (parsed.warrantyYears) score += 8;
+  if (parsed.roofSize) score += 12;
+  if (parsed.city && parsed.stateCode) score += 10;
 
-  const includedSignals = Object.values(parsed.signals || {}).filter(s => s.status === "included").length;
+  const signals = parsed.signals || {};
+  const includedCount = Object.values(signals).filter(item => item && item.status === "included").length;
+  if (includedCount >= 3) score += 10;
+  if (includedCount >= 5) score += 8;
+  if (parsed.extractedTextLength >= 300) score += 5;
+  if (parsed.extractionMethod === "pdf_text") score += 4;
+  if (parsed.extractionMethod === "pdf_ocr_fallback" || parsed.extractionMethod === "image_ocr") score += 2;
 
-  score += Math.min(includedSignals * 3, 15);
-
-  return Math.min(score, 100);
+  return Math.min(100, score);
 }
