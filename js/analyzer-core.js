@@ -1,7 +1,10 @@
+import { fetchSmartQuote } from "./analyzer-smartquote.js";
+
 let cityPricingData = [];
 let cityPricingIndex = new Map();
-let latestAnalysis = null;
-let lastParsedData = {
+
+export let latestAnalysis = null;
+export let lastParsedData = {
   price: "",
   priceCandidates: [],
   material: "",
@@ -21,6 +24,86 @@ let lastParsedData = {
   extractionMethod: "",
   extractedTextLength: 0
 };
+
+export function setLastParsedData(parsed) {
+  lastParsedData = parsed;
+}
+
+export function setLatestAnalysis(analysis) {
+  latestAnalysis = analysis;
+}
+
+export async function getSmartQuoteData(extractedText) {
+  try {
+    const smartQuoteData = await fetchSmartQuote(extractedText);
+    console.log("SmartQuote result:", smartQuoteData);
+    return smartQuoteData;
+  } catch (err) {
+    console.warn("SmartQuote failed, falling back to parser data", err);
+    return null;
+  }
+}
+
+export function buildFinalData(smartQuoteData, parsedData) {
+  const parsedPrice = parseMoneyToNumber(parsedData.price);
+  const parsedRoofSize = Number(parsedData.roofSize);
+  const parsedWarrantyYears = Number(parsedData.warrantyYears);
+
+  const parsedTearOff =
+    parsedData.signals?.tearOff?.status === "included"
+      ? true
+      : parsedData.signals?.tearOff?.status === "excluded"
+        ? false
+        : null;
+
+  return {
+    total_price:
+      smartQuoteData?.total_price ??
+      (Number.isFinite(parsedPrice) ? parsedPrice : null),
+
+    roof_size_sqft:
+      smartQuoteData?.roof_size_sqft ??
+      (Number.isFinite(parsedRoofSize) ? parsedRoofSize : null),
+
+    material:
+      smartQuoteData?.material ??
+      parsedData.materialLabel ??
+      parsedData.material ??
+      null,
+
+    warranty_years:
+      smartQuoteData?.warranty_years ??
+      (Number.isFinite(parsedWarrantyYears) ? parsedWarrantyYears : null),
+
+    tear_off_included:
+      smartQuoteData?.tear_off_included ??
+      parsedTearOff,
+
+    contractor_name:
+      smartQuoteData?.contractor_name ??
+      parsedData.contractor ??
+      null,
+
+    city:
+      smartQuoteData?.city ??
+      parsedData.city ??
+      null,
+
+    state:
+      smartQuoteData?.state ??
+      parsedData.stateCode ??
+      null,
+
+    scope_items: Array.isArray(smartQuoteData?.scope_items)
+      ? smartQuoteData.scope_items
+      : [],
+
+    confidence:
+      smartQuoteData?.confidence ??
+      (Number(parsedData.confidenceScore) / 100) ??
+      0
+  };
+}
 
 const STATE_CODES = [
   "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
@@ -134,13 +217,13 @@ const SCOPE_DEFINITIONS = {
   }
 };
 
-function formatCurrency(value) {
+export function formatCurrency(value) {
   const num = Number(value);
   if (!isFinite(num)) return "$0";
   return "$" + Math.round(num).toLocaleString();
 }
 
-function escapeHtml(text) {
+export function escapeHtml(text) {
   return String(text)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -149,21 +232,21 @@ function escapeHtml(text) {
     .replaceAll("'", "&#039;");
 }
 
-function titleCase(value) {
+export function titleCase(value) {
   return String(value || "")
     .toLowerCase()
     .replace(/\b\w/g, c => c.toUpperCase())
     .replace(/\bUsa\b/g, "USA");
 }
 
-function normalizeWhitespace(text) {
+export function normalizeWhitespace(text) {
   return String(text || "")
     .replace(/\s+/g, " ")
     .replace(/[|]+/g, " ")
     .trim();
 }
 
-function normalizeCityName(city) {
+export function normalizeCityName(city) {
   let value = String(city || "").toLowerCase().trim();
   value = value.replace(/[.,]/g, " ");
   value = value.replace(/\bsaint\b/g, "saint");
@@ -177,11 +260,11 @@ function normalizeCityName(city) {
   return value;
 }
 
-function buildCityKey(city, stateCode) {
+export function buildCityKey(city, stateCode) {
   return `${normalizeCityName(city)}|${String(stateCode || "").trim().toUpperCase()}`;
 }
 
-function findCityPricing(city, stateCode) {
+export function findCityPricing(city, stateCode) {
   const normalizedState = String(stateCode || "").trim().toUpperCase();
   if (!normalizedState) return null;
 
@@ -204,7 +287,7 @@ function findCityPricing(city, stateCode) {
   return null;
 }
 
-function getNearestSizeLabel(cityPricing, roofSize) {
+export function getNearestSizeLabel(cityPricing, roofSize) {
   const sizeLabels = Object.keys(cityPricing.sizes || {});
   let bestLabel = sizeLabels[0] || "";
   let smallestDiff = Infinity;
@@ -223,7 +306,7 @@ function getNearestSizeLabel(cityPricing, roofSize) {
   return bestLabel;
 }
 
-function getMaterialBenchmarkPerSqFt(material) {
+export function getMaterialBenchmarkPerSqFt(material) {
   const benchmarks = {
     architectural: 6.35,
     asphalt: 5.10,
@@ -233,11 +316,11 @@ function getMaterialBenchmarkPerSqFt(material) {
   return benchmarks[material] || 6.35;
 }
 
-function getVerdictClass(verdict) {
+export function getVerdictClass(verdict) {
   return String(verdict || "unknown").toLowerCase().replace(/\s+/g, "-");
 }
 
-function getMaterialLabel(material) {
+export function getMaterialLabel(material) {
   const materialLabelMap = {
     architectural: "architectural shingles",
     asphalt: "asphalt shingles",
@@ -247,7 +330,7 @@ function getMaterialLabel(material) {
   return materialLabelMap[material] || "roofing";
 }
 
-function getSignalHtml(status) {
+export function getSignalHtml(status) {
   if (status === "included") {
     return '<span class="good-text">✓ Included</span>';
   }
@@ -257,35 +340,44 @@ function getSignalHtml(status) {
   return '<span class="warn-text">⚠ Unclear</span>';
 }
 
-function buildPill(text) {
+export function buildPill(text) {
   return `<span class="pill">${escapeHtml(text)}</span>`;
 }
 
-function getConfidenceLabel(score) {
+export function getConfidenceLabel(score) {
   if (score >= 75) return "High";
   if (score >= 45) return "Medium";
   return "Low";
 }
 
-function getConfidenceClass(score) {
+export function getConfidenceClass(score) {
   if (score >= 75) return "high";
   if (score >= 45) return "medium";
   return "low";
 }
 
-function formatNumber(value) {
+export function formatNumber(value) {
   const num = Number(value);
   if (!isFinite(num)) return "";
   return num.toLocaleString();
 }
 
-function parseMoneyToNumber(value) {
+export function parseMoneyToNumber(value) {
   if (value == null) return NaN;
   const cleaned = String(value).replace(/[^0-9.]/g, "");
   const num = Number(cleaned);
   return isFinite(num) ? num : NaN;
 }
 
-function normalizeEvidence(text) {
+export function normalizeEvidence(text) {
   return normalizeWhitespace(text).slice(0, 120);
 }
+
+/*
+  These parsing helpers are referenced by analyzer-ui.js.
+  Keep them in this module if they already exist elsewhere in your full file.
+  If your original analyzer-core.js contains fuller implementations below this point,
+  keep those implementations and export them instead of replacing them with stubs.
+*/
+
+export { STATE_CODES, CITY_ALIASES, MATERIAL_PATTERNS, SCOPE_DEFINITIONS };
