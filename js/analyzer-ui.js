@@ -37,9 +37,17 @@ function autoFillForm(parsed) {
 function analyzeParsedText(text, extractionMethod) {
 
   const priceCandidates = extractPriceCandidates(text);
-  const totalLinePrice = detectTotalLinePrice(text);
+
+  let bestPrice = "";
+
   const forcedTotal = detectTotalLinePrice(text);
-  const bestPrice = forcedTotal || (priceCandidates.length ? priceCandidates[0].value : "");
+
+  if (forcedTotal) {
+    bestPrice = forcedTotal;
+  } else if (priceCandidates.length) {
+    bestPrice = priceCandidates
+      .sort((a,b) => b.score - a.score || b.value - a.value)[0].value;
+  }
 
   const material = detectMaterial(text);
   const warranty = detectWarranty(text);
@@ -47,7 +55,7 @@ function analyzeParsedText(text, extractionMethod) {
   const roofSize = detectRoofSize(text);
   const location = detectLocation(text);
   const signals = detectScopeSignals(text);
-  const premiumSignals = detectPremiumSignals(text);
+  const premiumSignals = detectPremiumSignals(text, signals, roofSize.value, material.value);
 
   const parsed = {
     price: bestPrice,
