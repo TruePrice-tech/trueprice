@@ -22,6 +22,32 @@ function scoreMoneyCandidate(value, contextText) {
   return score;
 }
 
+function normalizeOcrNumberString(raw) {
+  let value = String(raw || "").trim();
+
+  value = value
+    .replace(/[Oo]/g, "0")
+    .replace(/[Il|]/g, "1")
+    .replace(/[Ss]/g, "5")
+    .replace(/[Bb]/g, "8")
+    .replace(/[Gg]/g, "9")
+    .replace(/[Zz]/g, "2")
+    .replace(/A/g, "4");
+
+  value = value.replace(/[^\d.,\s]/g, "");
+
+  const digitsOnly = value.replace(/[^\d]/g, "");
+  return digitsOnly;
+}
+
+function parsePossiblyBrokenMoney(raw) {
+  const repaired = normalizeOcrNumberString(raw);
+  if (!repaired) return NaN;
+
+  const num = Number(repaired);
+  return isFinite(num) ? num : NaN;
+}
+
 function extractPriceCandidates(text) {
   const candidates = [];
   const seen = new Set();
@@ -342,6 +368,101 @@ function detectPremiumSignals(text, signals, roofSize, material) {
   }
 
   return items;
+}
+
+function detectTotalLinePrice(text) {
+  const lines = String(text || "").split("\n");
+
+  const patterns = [
+    /total estimated cost/i,
+    /grand total/i,
+    /proposal total/i,
+    /contract total/i,
+    /total due/i,
+    /total cost/i,
+    /estimated cost/i,
+    /project total/i
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lower = line.toLowerCase();
+
+    if (!patterns.some(p => p.test(lower))) continue;
+
+    const candidateLines = [
+      line,
+      lines[i + 1] || "",
+      lines[i + 2] || ""
+    ];
+
+    for (const candidateLine of candidateLines) {
+      const numberLikeMatches = candidateLine.match(/[0-9OBSIGZAl.,\s]{4,20}/gi);
+      if (!numberLikeMatches) continue;
+
+      for (const raw of numberLikeMatches) {
+        const value = parsePossiblyBrokenMoney(raw);
+        if (isFinite(value) && value >= 1000 && value <= 200000) {
+          return value;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function detectTotalLinePrice(text) {
+  const lines = String(text || "").split("\n");
+
+  const patterns = [
+    /total estimated cost/i,
+    /grand total/i,
+    /proposal total/i,
+    /contract total/i,
+    /total due/i,
+    /total cost/i,
+    /estimated cost/i,
+    /project total/i
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lower = line.toLowerCase();
+
+    if (!patterns.some(p => p.test(lower))) continue;
+
+    const candidateLines = [
+      line,
+      lines[i + 1] || "",
+      lines[i + 2] || ""
+    ];
+
+    for (const candidateLine of candidateLines) {
+      const numberMatches = candidateLine.match(/[0-9OBSIGZAl.,\s]{4,20}/gi);
+      if (!numberMatches) continue;
+
+      for (const raw of numberMatches) {
+        const repaired = raw
+          .replace(/[Oo]/g, "0")
+          .replace(/[Il|]/g, "1")
+          .replace(/[Ss]/g, "5")
+          .replace(/[Bb]/g, "8")
+          .replace(/[Gg]/g, "9")
+          .replace(/[Zz]/g, "2")
+          .replace(/A/g, "4")
+          .replace(/[^\d]/g, "");
+
+        const value = Number(repaired);
+
+        if (isFinite(value) && value >= 1000 && value <= 200000) {
+          return value;
+        }
+      }
+    }
+  }
+
+  return null;
 }
 
 function calculateParserConfidence(parsed) {
