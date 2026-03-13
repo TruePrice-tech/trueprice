@@ -1,4 +1,4 @@
-console.log("ANALYZER UI V6 LOADED");
+console.log("ANALYZER UI V7 LOADED");
 
 function setUploadStatus(message, type = "info") {
   const el = document.getElementById("uploadStatus");
@@ -37,7 +37,8 @@ function autoFillForm(parsed) {
 function analyzeParsedText(text, extractionMethod) {
 
   const priceCandidates = extractPriceCandidates(text);
-
+  console.log("RAW OCR TEXT:", text);
+  console.log("TOTAL LINE RECOVERY:", detectTotalLinePrice(text));
   let bestPrice = "";
 
   const forcedTotal = detectTotalLinePrice(text);

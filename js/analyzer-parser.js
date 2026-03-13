@@ -122,6 +122,30 @@ function detectWarranty(text) {
     }
   });
 
+  const roofAreaLoose = normalized.match(/(roof|roof area|roof size)[^0-9]{0,30}([0-9]{3,5})/);
+
+if (roofAreaLoose) {
+  const value = Number(roofAreaLoose[2]);
+  if (value >= 600 && value <= 12000) {
+    return {
+      value,
+      source: "roof loose fallback"
+    };
+  }
+}
+
+const squareLoose = normalized.match(/\b([1-9][0-9](?:\.[0-9]+)?)\s*(squares|square|sq)\b/);
+
+if (squareLoose) {
+  const value = Number(squareLoose[1]) * 100;
+  if (value >= 600 && value <= 12000) {
+    return {
+      value: Math.round(value),
+      source: "square loose fallback"
+    };
+  }
+}
+
   if (!candidates.length) {
     return { label: "Not detected", years: "" };
   }
@@ -348,31 +372,35 @@ function detectScopeSignals(text) {
 }
 
 function detectTotalLinePrice(text) {
-  const lines = String(text || "").split("\n");
+  const source = String(text || "");
+  const normalized = source.replace(/\r/g, "");
 
-  const patterns = [
-    /total estimated cost/i,
-    /grand total/i,
-    /proposal total/i,
-    /contract total/i,
-    /total due/i,
-    /total cost/i
-  ];
+  const keywordRegex =
+    /(total estimated cost|grand total|proposal total|contract total|total due|total cost|estimated cost|project total)/ig;
 
-  for (const line of lines) {
-    const lower = line.toLowerCase();
+  let match;
+  while ((match = keywordRegex.exec(normalized)) !== null) {
+    const start = match.index;
+    const windowText = normalized.slice(start, Math.min(normalized.length, start + 160));
 
-    if (patterns.some(p => p.test(lower))) {
+    const numberLikeMatches = windowText.match(/[0-9OBSIGZAl.,\s]{4,24}/gi);
+    if (!numberLikeMatches) continue;
 
-      const numberMatch = line.match(/[0-9][0-9,\s]{3,12}/);
+    for (const raw of numberLikeMatches) {
+      const repaired = raw
+        .replace(/[Oo]/g, "0")
+        .replace(/[Il|]/g, "1")
+        .replace(/[Ss]/g, "5")
+        .replace(/[Bb]/g, "8")
+        .replace(/[Gg]/g, "9")
+        .replace(/[Zz]/g, "2")
+        .replace(/A/g, "4")
+        .replace(/[^\d]/g, "");
 
-      if (numberMatch) {
-        const cleaned = numberMatch[0].replace(/[^\d]/g, "");
-        const value = Number(cleaned);
+      const value = Number(repaired);
 
-        if (value >= 1000 && value <= 200000) {
-          return value;
-        }
+      if (isFinite(value) && value >= 1000 && value <= 200000) {
+        return value;
       }
     }
   }
