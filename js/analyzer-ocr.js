@@ -1,3 +1,15 @@
+import { setUploadStatus, analyzeParsedText } from "./analyzer-ui.js?v=9";
+
+function normalizeWhitespace(text) {
+  if (!text) return "";
+
+  return String(text)
+    .replace(/\r/g, "\n")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 async function fileToImageDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -10,6 +22,34 @@ async function fileToImageDataUrl(file) {
 if (window.pdfjsLib) {
   pdfjsLib.GlobalWorkerOptions.workerSrc =
     "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+}
+
+function preprocessCanvas(canvas) {
+  const processed = document.createElement("canvas");
+  processed.width = canvas.width;
+  processed.height = canvas.height;
+
+  const ctx = processed.getContext("2d");
+  ctx.drawImage(canvas, 0, 0);
+
+  const imageData = ctx.getImageData(0, 0, processed.width, processed.height);
+  const data = imageData.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+
+    const gray = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+    const contrast = gray > 170 ? 255 : gray < 110 ? 0 : gray;
+
+    data[i] = contrast;
+    data[i + 1] = contrast;
+    data[i + 2] = contrast;
+  }
+
+  ctx.putImageData(imageData, 0, 0);
+  return processed;
 }
 
 async function runOcrOnImageSource(imageSource, progressCallback) {
@@ -33,21 +73,15 @@ async function extractTextFromPdfNative(file) {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    const pageText = content.items.map((item) => ("str" in item ? item.str : "")).join(" ");
-    fullText += "\n" + pageText;
+
+    const pageText = content.items
+      .map((item) => ("str" in item ? item.str : ""))
+      .join(" ");
+
+    fullText += `\n${pageText}`;
   }
 
   return normalizeWhitespace(fullText);
-}
-
-function normalizeWhitespace(text) {
-  if (!text) return "";
-
-  return text
-    .replace(/\r/g, " ")
-    .replace(/\n/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 function isWeakExtractedText(text) {
@@ -76,12 +110,14 @@ function isWeakExtractedText(text) {
   return hits < 2;
 }
 
-async function renderPdfPagesToImages(file, scale = 2) {
+async function renderPdfPagesToImages(file, scale = 3, maxPages = 2) {
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
   const images = [];
 
-  for (let i = 1; i <= pdf.numPages; i++) {
+  const pagesToRender = Math.min(pdf.numPages, maxPages);
+
+  for (let i = 1; i <= pagesToRender; i++) {
     const page = await pdf.getPage(i);
     const viewport = page.getViewport({ scale });
 
@@ -96,7 +132,8 @@ async function renderPdfPagesToImages(file, scale = 2) {
       viewport
     }).promise;
 
-    images.push(canvas.toDataURL("image/png"));
+    const processedCanvas = preprocessCanvas(canvas);
+    images.push(processedCanvas.toDataURL("image/png"));
   }
 
   return images;
@@ -106,17 +143,18 @@ async function extractTextFromPdfWithOcrFallback(file) {
   setUploadStatus("Reading PDF text...", "info");
 
   const nativeText = await extractTextFromPdfNative(file);
+  const pageImages = await renderPdfPagesToImages(file, 3, 2);
 
   if (!isWeakExtractedText(nativeText)) {
     return {
       text: nativeText,
-      method: "pdf_text"
+      method: "pdf_text",
+      images: pageImages
     };
   }
 
   setUploadStatus("PDF text looked weak. Running OCR fallback...", "warn");
 
-  const pageImages = await renderPdfPagesToImages(file);
   let ocrText = "";
 
   for (let i = 0; i < pageImages.length; i++) {
@@ -130,14 +168,13 @@ async function extractTextFromPdfWithOcrFallback(file) {
       );
     });
 
-    ocrText += "\n" + pageText;
+    ocrText += `\n${pageText}`;
   }
 
-  const mergedText = normalizeWhitespace([nativeText, ocrText].filter(Boolean).join(" "));
-
   return {
-    text: mergedText,
-    method: "pdf_ocr_fallback"
+    text: [nativeText, ocrText].filter(Boolean).join("\n\n"),
+    method: "pdf_ocr_fallback",
+    images: pageImages
   };
 }
 
@@ -164,12 +201,16 @@ async function extractTextFromUploadedFile(file) {
 
     const imageDataUrl = await fileToImageDataUrl(file);
     const text = await runOcrOnImageSource(imageDataUrl, (progress) => {
-      setUploadStatus(`Running OCR on uploaded image... ${Math.round(progress * 100)}%`, "warn");
+      setUploadStatus(
+        `Running OCR on uploaded image... ${Math.round(progress * 100)}%`,
+        "warn"
+      );
     });
 
     return {
-      text: normalizeWhitespace(text),
-      method: "image_ocr"
+      text,
+      method: "image_ocr",
+      images: [imageDataUrl]
     };
   }
 
@@ -198,15 +239,19 @@ export async function parseQuote() {
     setUploadStatus(`Analyzing ${file.name}...`, "info");
 
     const extractionResult = await extractTextFromUploadedFile(file);
-    const parsedText = normalizeWhitespace(extractionResult.text || "");
+    const parsedText = extractionResult.text || "";
+    const images = Array.isArray(extractionResult.images) ? extractionResult.images : [];
 
-    if (!parsedText) {
-      throw new Error("We could not read usable text from that file.");
+    console.log("EXTRACTED TEXT:", parsedText);
+    console.log("SMARTQUOTE IMAGE COUNT:", images.length);
+
+    if (!normalizeWhitespace(parsedText) && !images.length) {
+      throw new Error("We could not read usable text or images from that file.");
     }
 
-    setUploadStatus("Extracted text successfully. Running SmartQuote analysis...", "info");
+    setUploadStatus("Extracted quote data successfully. Running SmartQuote analysis...", "info");
 
-    await analyzeParsedText(parsedText, extractionResult.method);
+    await analyzeParsedText(parsedText, extractionResult.method, images);
 
     setUploadStatus("Quote parsed and analyzer updated.", "success");
   } catch (error) {

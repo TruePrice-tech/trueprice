@@ -1,0 +1,6 @@
+name = "trueprice-smartquote"
+main = "workers/smartquote-worker.js"
+compatibility_date = "2026-03-13"
+
+[vars]
+SMARTQUOTE_MODEL = "gpt-4.1-mini"

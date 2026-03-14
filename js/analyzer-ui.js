@@ -13,6 +13,20 @@ import {
   lastParsedData
 } from "./analyzer-core.js";
 
+import {
+  extractPriceCandidates,
+  detectTotalLinePrice,
+  detectMaterial,
+  detectWarranty,
+  detectContractor,
+  detectRoofSize,
+  detectLocation,
+  detectScopeSignals,
+  detectPremiumSignals,
+  calculateParserConfidence,
+  buildAIExplanation
+} from "./analyzer-parser.js";
+
 console.log("ANALYZER UI V7 LOADED");
 
 export function setUploadStatus(message, type = "info") {
@@ -32,12 +46,12 @@ function autoFillForm(parsed) {
   const stateCodeEl = document.getElementById("stateCode");
   const tearOffEl = document.getElementById("tearOffIncluded");
 
-  if (quotePriceEl && parsed.price) {
-    quotePriceEl.value = parsed.price;
+  if (quotePriceEl) {
+    quotePriceEl.value = parsed.price || "";
   }
 
-  if (roofSizeEl && parsed.roofSize) {
-    roofSizeEl.value = parsed.roofSize;
+  if (roofSizeEl) {
+    roofSizeEl.value = Number(parsed.roofSize) > 0 ? parsed.roofSize : "";
   }
 
   if (materialTypeEl && parsed.material) {
@@ -57,16 +71,16 @@ function autoFillForm(parsed) {
     materialTypeEl.value = materialValue;
   }
 
-  if (warrantyYearsEl && parsed.warrantyYears) {
-    warrantyYearsEl.value = parsed.warrantyYears;
+  if (warrantyYearsEl) {
+    warrantyYearsEl.value = Number(parsed.warrantyYears) > 0 ? parsed.warrantyYears : "";
   }
 
-  if (cityNameEl && parsed.city) {
-    cityNameEl.value = parsed.city;
+  if (cityNameEl) {
+    cityNameEl.value = parsed.city || "";
   }
 
-  if (stateCodeEl && parsed.stateCode) {
-    stateCodeEl.value = parsed.stateCode;
+  if (stateCodeEl) {
+    stateCodeEl.value = parsed.stateCode || "";
   }
 
   if (tearOffEl && parsed.signals?.tearOff?.status) {
@@ -80,17 +94,27 @@ function autoFillForm(parsed) {
   }
 }
 
-export async function analyzeParsedText(text, extractionMethod) {
+export async function analyzeParsedText(text, extractionMethod, images = []) {
   const priceCandidates = extractPriceCandidates(text);
 
-  let bestPrice = "";
+  let bestPrice = null;
   const forcedTotal = detectTotalLinePrice(text);
 
   if (forcedTotal) {
     bestPrice = forcedTotal;
   } else if (priceCandidates.length) {
-    bestPrice = priceCandidates
-      .sort((a, b) => b.score - a.score || b.value - a.value)[0].value;
+    const sorted = [...priceCandidates].sort((a, b) => b.value - a.value);
+    const largest = sorted[0];
+    const second = sorted[1];
+
+    if (!second) {
+      bestPrice = largest.value;
+    } else if (largest.value > second.value * 1.4) {
+      bestPrice = largest.value;
+    } else {
+      bestPrice = priceCandidates
+        .sort((a, b) => b.score - a.score || b.value - a.value)[0].value;
+    }
   }
 
   const material = detectMaterial(text);
@@ -112,7 +136,6 @@ export async function analyzeParsedText(text, extractionMethod) {
     city: location.city,
     stateCode: location.stateCode,
     roofSize: roofSize.value,
-    roofSizeSource: roofSize.source,
     signals,
     premiumSignals,
     rawText: text,
@@ -125,39 +148,31 @@ export async function analyzeParsedText(text, extractionMethod) {
   let smartQuoteData = null;
 
   try {
-    smartQuoteData = await getSmartQuoteData(text);
+    smartQuoteData = await getSmartQuoteData({ text, images });
+    console.log("SmartQuote result:", JSON.stringify(smartQuoteData, null, 2));
   } catch (err) {
-    console.warn("SmartQuote failed, using parser only", err);
+    console.warn("SmartQuote failed", err);
   }
 
   const finalData = buildFinalData(smartQuoteData, parsed);
 
-  parsed.price =
-    finalData.total_price != null ? String(finalData.total_price) : parsed.price;
+  if (bestPrice && bestPrice < 100000) {
+  console.log("Parser best price:", bestPrice);
+}
+  console.log("Final merged data:", JSON.stringify(finalData, null, 2));
 
-  parsed.roofSize =
-    finalData.roof_size_sqft != null ? String(finalData.roof_size_sqft) : parsed.roofSize;
-
-  parsed.material =
-    finalData.material || parsed.material;
-
+  parsed.price = finalData.total_price ?? parsed.price;
+  parsed.roofSize = finalData.roof_size_sqft ?? parsed.roofSize;
+  parsed.material = finalData.material ?? parsed.material;
   parsed.materialLabel =
     finalData.material ? titleCase(finalData.material) : parsed.materialLabel;
-
-  parsed.warrantyYears =
-    finalData.warranty_years != null ? String(finalData.warranty_years) : parsed.warrantyYears;
-
-  parsed.contractor =
-    finalData.contractor_name || parsed.contractor;
-
-  parsed.city =
-    finalData.city || parsed.city;
-
-  parsed.stateCode =
-    finalData.state || parsed.stateCode;
+  parsed.warrantyYears = finalData.warranty_years ?? parsed.warrantyYears;
+  parsed.contractor = finalData.contractor_name ?? parsed.contractor;
+  parsed.city = finalData.city ?? parsed.city;
+  parsed.stateCode = finalData.state ?? parsed.stateCode;
 
   if (finalData.confidence != null) {
-    parsed.confidenceScore = Math.round(finalData.confidence * 100);
+    parsed.confidenceScore = Math.round(Number(finalData.confidence) * 100);
     parsed.confidenceLabel = getConfidenceLabel(parsed.confidenceScore);
   }
 
@@ -173,38 +188,25 @@ export async function analyzeParsedText(text, extractionMethod) {
   }
 
   parsed.smartQuoteData = smartQuoteData;
+
   setLastParsedData(parsed);
 
   renderParsedResults(parsed);
   autoFillForm(parsed);
-  analyzeQuote();
 }
 
 function renderParsedResults(parsed) {
   const container = document.getElementById("analysisPanels");
   if (!container) return;
 
-  const signals = parsed.signals || {};
-  const includedCount = Object.values(signals).filter(
-    (item) => item.status === "included"
-  ).length;
-
   container.innerHTML = `
     <div class="panel">
       <h4>Parsed quote details</h4>
       <ul class="mini-list">
         <li>Price: ${parsed.price ? formatCurrency(parsed.price) : "Not detected"}</li>
-        <li>Top price candidates: ${
-          parsed.priceCandidates && parsed.priceCandidates.length
-            ? parsed.priceCandidates
-                .slice(0, 5)
-                .map((item) => `${formatCurrency(item.value)} (${item.score})`)
-                .join(", ")
-            : "None"
-        }</li>
         <li>Material: ${parsed.materialLabel || "Not detected"}</li>
-        <li>Roof size: ${parsed.roofSize ? `${formatNumber(parsed.roofSize)} sq ft` : "Not detected"}</li>
-        <li>Warranty: ${parsed.warrantyYears ? `${parsed.warrantyYears} years` : "Not detected"}</li>
+        <li>Roof size: ${Number(parsed.roofSize) > 0 ? `${formatNumber(parsed.roofSize)} sq ft` : "Not detected"}</li>
+        <li>Warranty: ${Number(parsed.warrantyYears) > 0 ? `${parsed.warrantyYears} years` : "Not detected"}</li>
       </ul>
     </div>
 
@@ -212,13 +214,8 @@ function renderParsedResults(parsed) {
       <h4>Parser quality</h4>
       <ul class="mini-list">
         <li>Confidence: ${parsed.confidenceLabel || "Low"}</li>
-        <li>Price candidates found: ${parsed.priceCandidates ? parsed.priceCandidates.length : 0}</li>
-        <li>Scope items found: ${includedCount}</li>
-        <li>Extraction method: ${
-          parsed.extractionMethod
-            ? parsed.extractionMethod.replaceAll("_", " ")
-            : "unknown"
-        }</li>
+        <li>Price candidates found: ${parsed.priceCandidates?.length || 0}</li>
+        <li>Extraction method: ${parsed.extractionMethod || "unknown"}</li>
       </ul>
     </div>
   `;
@@ -227,137 +224,30 @@ function renderParsedResults(parsed) {
 export function analyzeQuote() {
   const roofSize = Number(document.getElementById("roofSize")?.value);
   const quotePrice = Number(document.getElementById("quotePrice")?.value);
-  const city = document.getElementById("cityName")?.value.trim() || "";
-  const stateCode = document.getElementById("stateCode")?.value.toUpperCase().trim() || "";
-  const material = document.getElementById("materialType")?.value || "";
-  const complexity = document.getElementById("complexityFactor")?.value || "";
-  const tearOff = document.getElementById("tearOffIncluded")?.value || "unknown";
-  const warrantyYears = Number(document.getElementById("warrantyYears")?.value);
 
   const resultContainer = document.getElementById("analysisOutput");
-  const aiOutput = document.getElementById("aiAnalysisOutput");
-
-  if (!resultContainer || !aiOutput) return;
 
   if (!roofSize || !quotePrice) {
     resultContainer.innerHTML = "Please enter valid positive numbers for roof size and quote price.";
     return;
   }
 
-  let localDataUsed = false;
-  let sizeLabelUsed = "";
-  let low;
-  let mid;
-  let high;
-
-  const cityPricing = findCityPricing(city, stateCode);
-
-  if (cityPricing) {
-    const sizeLabel = getNearestSizeLabel(cityPricing, roofSize);
-    sizeLabelUsed = sizeLabel;
-
-    const data = cityPricing.sizes[sizeLabel];
-    const materialKey = material || "architectural";
-    const perSqFt = data[materialKey] || getMaterialBenchmarkPerSqFt(materialKey);
-
-    mid = perSqFt * roofSize;
-    localDataUsed = true;
-  } else {
-    const perSqFt = getMaterialBenchmarkPerSqFt(material || "architectural");
-    mid = perSqFt * roofSize;
-  }
-
-  let tearOffMultiplier = 1;
-  if (tearOff === "yes") {
-    tearOffMultiplier = 1.05;
-  } else if (tearOff === "no") {
-    tearOffMultiplier = 0.97;
-  }
-
-  mid = mid * tearOffMultiplier;
-
-  low = mid * 0.9;
-  high = mid * 1.12;
-
-  const diff = quotePrice - mid;
-  const diffPct = (diff / mid) * 100;
-
-  let verdict;
-  if (diffPct < -18) verdict = "Unusually Low";
-  else if (diffPct < -8) verdict = "Excellent Value";
-  else if (diffPct <= 10) verdict = "Fair Price";
-  else if (diffPct <= 20) verdict = "Slightly High";
-  else if (diffPct <= 35) verdict = "Overpriced";
-  else verdict = "Potential Red Flag";
-
   const pricePerSqFt = quotePrice / roofSize;
-  const pricePerSquare = pricePerSqFt * 100;
 
   resultContainer.innerHTML = `
-    <h3>${verdict}</h3>
-
+    <h3>Quote Analysis</h3>
     <div class="analysis-grid">
       <div>Price per square foot</div>
-      <div>$${pricePerSqFt.toFixed(2)} / sq ft</div>
-
-      <div>Price per roofing square</div>
-      <div>$${Math.round(pricePerSquare)} / square</div>
-
-      <div>Modeled market range</div>
-      <div>${formatCurrency(low)} to ${formatCurrency(high)}</div>
-
-      <div>Modeled midpoint</div>
-      <div>${formatCurrency(mid)}</div>
-
-      <div>Entered quote</div>
-      <div>${formatCurrency(quotePrice)}</div>
-
-      <div>Difference from midpoint</div>
-      <div>${formatCurrency(diff)} (${diffPct.toFixed(1)}%)</div>
+      <div>$${pricePerSqFt.toFixed(2)}</div>
     </div>
   `;
-
-  const explanation = buildAIExplanation({
-    verdict,
-    quotePrice,
-    low,
-    mid,
-    high,
-    material,
-    roofSize,
-    complexityLabel: complexity,
-    city,
-    stateCode,
-    localDataUsed,
-    sizeLabelUsed,
-    tearOffLabel: tearOff,
-    warrantyYears,
-    parsedSignals: lastParsedData.signals,
-    premiumSignals: lastParsedData.premiumSignals,
-    analysisConfidenceLabel: lastParsedData.confidenceLabel
-  });
-
-  aiOutput.innerHTML = explanation;
-
-  setLatestAnalysis({
-    verdict,
-    quotePrice,
-    low,
-    mid,
-    high
-  });
 }
 
 export function resetAnalyzer() {
   const analysisOutput = document.getElementById("analysisOutput");
-  const aiOutput = document.getElementById("aiAnalysisOutput");
 
   if (analysisOutput) {
     analysisOutput.innerHTML = "";
-  }
-
-  if (aiOutput) {
-    aiOutput.innerHTML = "Enter valid quote details to receive an expert explanation.";
   }
 
   setLatestAnalysis(null);

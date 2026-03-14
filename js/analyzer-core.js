@@ -4,6 +4,7 @@ let cityPricingData = [];
 let cityPricingIndex = new Map();
 
 export let latestAnalysis = null;
+
 export let lastParsedData = {
   price: "",
   priceCandidates: [],
@@ -33,9 +34,9 @@ export function setLatestAnalysis(analysis) {
   latestAnalysis = analysis;
 }
 
-export async function getSmartQuoteData(extractedText) {
+export async function getSmartQuoteData({ text = "", images = [] } = {}) {
   try {
-    const smartQuoteData = await fetchSmartQuote(extractedText);
+    const smartQuoteData = await fetchSmartQuote({ text, images });
     console.log("SmartQuote result:", smartQuoteData);
     return smartQuoteData;
   } catch (err) {
@@ -45,9 +46,33 @@ export async function getSmartQuoteData(extractedText) {
 }
 
 export function buildFinalData(smartQuoteData, parsedData) {
-  const parsedPrice = parseMoneyToNumber(parsedData.price);
-  const parsedRoofSize = Number(parsedData.roofSize);
-  const parsedWarrantyYears = Number(parsedData.warrantyYears);
+  const parsedPriceRaw = parseMoneyToNumber(parsedData.price);
+
+  const looksLikeYear =
+    Number.isFinite(parsedPriceRaw) &&
+    parsedPriceRaw >= 1900 &&
+    parsedPriceRaw <= 2035;
+
+  const parsedPrice =
+    Number.isFinite(parsedPriceRaw) &&
+    parsedPriceRaw >= 3000 &&
+    parsedPriceRaw <= 50000 &&
+    !looksLikeYear
+      ? parsedPriceRaw
+      : null;
+
+  const parsedRoofSizeRaw = Number(parsedData.roofSize);
+  const parsedWarrantyYearsRaw = Number(parsedData.warrantyYears);
+
+  const parsedRoofSize =
+    Number.isFinite(parsedRoofSizeRaw) && parsedRoofSizeRaw > 0
+      ? parsedRoofSizeRaw
+      : null;
+
+  const parsedWarrantyYears =
+    Number.isFinite(parsedWarrantyYearsRaw) && parsedWarrantyYearsRaw > 0
+      ? parsedWarrantyYearsRaw
+      : null;
 
   const parsedTearOff =
     parsedData.signals?.tearOff?.status === "included"
@@ -56,14 +81,28 @@ export function buildFinalData(smartQuoteData, parsedData) {
         ? false
         : null;
 
+  const aiConfidence = Number(smartQuoteData?.confidence ?? 0);
+
+  const aiHasStrongTotal =
+    Number.isFinite(Number(smartQuoteData?.total_price)) &&
+    Number(smartQuoteData.total_price) > 0 &&
+    aiConfidence >= 0.75;
+
+  const aiHasAnyTotal =
+    Number.isFinite(Number(smartQuoteData?.total_price)) &&
+    Number(smartQuoteData.total_price) > 0;
+
   return {
     total_price:
-      smartQuoteData?.total_price ??
-      (Number.isFinite(parsedPrice) ? parsedPrice : null),
+      aiHasStrongTotal
+        ? Number(smartQuoteData.total_price)
+        : aiHasAnyTotal
+          ? Number(smartQuoteData.total_price)
+          : parsedPrice,
 
     roof_size_sqft:
       smartQuoteData?.roof_size_sqft ??
-      (Number.isFinite(parsedRoofSize) ? parsedRoofSize : null),
+      parsedRoofSize,
 
     material:
       smartQuoteData?.material ??
@@ -73,7 +112,7 @@ export function buildFinalData(smartQuoteData, parsedData) {
 
     warranty_years:
       smartQuoteData?.warranty_years ??
-      (Number.isFinite(parsedWarrantyYears) ? parsedWarrantyYears : null),
+      parsedWarrantyYears,
 
     tear_off_included:
       smartQuoteData?.tear_off_included ??
@@ -99,9 +138,9 @@ export function buildFinalData(smartQuoteData, parsedData) {
       : [],
 
     confidence:
-      smartQuoteData?.confidence ??
-      (Number(parsedData.confidenceScore) / 100) ??
-      0
+      aiConfidence > 0
+        ? aiConfidence
+        : (Number(parsedData.confidenceScore) / 100) || 0
   };
 }
 
@@ -373,11 +412,9 @@ export function normalizeEvidence(text) {
   return normalizeWhitespace(text).slice(0, 120);
 }
 
-/*
-  These parsing helpers are referenced by analyzer-ui.js.
-  Keep them in this module if they already exist elsewhere in your full file.
-  If your original analyzer-core.js contains fuller implementations below this point,
-  keep those implementations and export them instead of replacing them with stubs.
-*/
-
-export { STATE_CODES, CITY_ALIASES, MATERIAL_PATTERNS, SCOPE_DEFINITIONS };
+export {
+  STATE_CODES,
+  CITY_ALIASES,
+  MATERIAL_PATTERNS,
+  SCOPE_DEFINITIONS
+};
