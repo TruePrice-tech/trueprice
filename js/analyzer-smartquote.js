@@ -1,42 +1,26 @@
-const SMARTQUOTE_ENDPOINT = "https://trueprice-smartquote.glane0303.workers.dev";
-const SMARTQUOTE_TIMEOUT_MS = 5000;
+export async function fetchSmartQuote({ text = "", images = [] } = {}) {
+  const safeText = typeof text === "string" ? text : "";
+  const safeImages = Array.isArray(images) ? images : [];
 
-export async function fetchSmartQuote(text) {
-  if (!text || typeof text !== "string") {
-    throw new Error("SmartQuote requires extracted text");
+  if (!safeText.trim() && safeImages.length === 0) {
+    throw new Error("SmartQuote requires extracted text or images");
   }
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), SMARTQUOTE_TIMEOUT_MS);
+  const response = await fetch("https://trueprice-smartquote.glane0303.workers.dev", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      text: safeText,
+      images: safeImages
+    })
+  });
 
-  try {
-    const response = await fetch(SMARTQUOTE_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ text }),
-      signal: controller.signal
-    });
-
-    clearTimeout(timeout);
-
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`SmartQuote failed: ${response.status} ${errText}`);
-    }
-
-    const data = await response.json();
-
-    return data || null;
-
-  } catch (err) {
-    clearTimeout(timeout);
-
-    if (err.name === "AbortError") {
-      throw new Error("SmartQuote request timed out");
-    }
-
-    throw err;
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`SmartQuote failed: ${response.status} ${err}`);
   }
+
+  return await response.json();
 }

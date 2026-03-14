@@ -1,17 +1,12 @@
-import "./analyzer-core.js";
-import "./analyzer-parser.js";
-import { parseQuote } from "./analyzer-ocr.js";
+import "./analyzer-core.js?v=9";
+import { parseQuote } from "./analyzer-ocr.js?v=9";
 import {
   analyzeQuote,
   resetAnalyzer,
   setUploadStatus
-} from "./analyzer-ui.js";
+} from "./analyzer-ui.js?v=9";
 
 window.parseQuote = parseQuote;
 window.analyzeQuote = analyzeQuote;
 window.resetAnalyzer = resetAnalyzer;
 window.setUploadStatus = setUploadStatus;
-window.copyParsedToForm = () => {};
-window.compareSecondQuote = () => {};
-window.viewShareableResult = () => {};
-window.showLeadPlaceholder = () => {};
