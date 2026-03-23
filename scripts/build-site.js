@@ -612,7 +612,7 @@ function generateStatePageHtml(
 
   template = template.replaceAll(
     "{{STATE_PAGE_TITLE}}",
-    `Roof Replacement Cost in ${stateName} (2026) | `
+    `Roof Replacement Cost in ${stateName} (2026) | TruePrice`
   );
   template = template.replaceAll(
     "{{STATE_META_DESCRIPTION}}",
@@ -748,7 +748,7 @@ function generateMaterialPageHtml(material, cityPricingArray, pricingModel) {
 
   template = template.replaceAll(
     "{{MATERIAL_PAGE_TITLE}}",
-    `${materialDisplayName} Roof Replacement Cost (2026) | `
+    `${materialDisplayName} Roof Replacement Cost (2026) | TruePrice`
   );
   template = template.replaceAll(
     "{{MATERIAL_META_DESCRIPTION}}",
@@ -1074,9 +1074,10 @@ function generateSitemap(cityRows, pricingModel) {
     )
   ];
 
+  const today = new Date().toISOString().split("T")[0];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}
+${urls.map((url) => `  <url><loc>${url}</loc><lastmod>${today}</lastmod></url>`).join("\n")}
 </urlset>`;
 
   fs.writeFileSync(SITEMAP_PATH, xml, "utf8");
