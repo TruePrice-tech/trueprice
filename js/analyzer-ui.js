@@ -7243,16 +7243,25 @@ function buildComparisonWinnerHtml(summary) {
         { key: "decking", label: "Decking" }
       ];
 
-      // Find winner by scope score + price proximity to midpoint
+      // Find winner: best value = strong scope + low price + good warranty
+      // Price: lower is better (rank among quotes), with red flag only if scope weak AND price suspiciously low
       const mid = latestAnalysis?.mid || 0;
+      const maxPrice = Math.max(...quotes.map(q => q.price), 1);
       let bestIdx = 0;
       let bestScore = -1;
       quotes.forEach((q, i) => {
-        const scopeScore = q.scopeConfirmed * 10;
-        const priceDist = mid > 0 ? Math.abs(q.price - mid) / mid : 0;
-        const priceScore = Math.max(0, 100 - priceDist * 200);
+        const scopeScore = q.scopeConfirmed * 10; // 0-100
+
+        // Price score: lower price = higher score (relative to other quotes)
+        const priceScore = Math.round((1 - q.price / maxPrice) * 100);
+
+        // Red flag: very low price AND weak scope = suspicious
+        const isSuspicious = mid > 0 && q.price < mid * 0.5 && q.scopeConfirmed < 5;
+        const suspiciousPenalty = isSuspicious ? 30 : 0;
+
         const warrantyScore = q.warrantyYears ? Math.min(Number(q.warrantyYears), 50) : 0;
-        q.totalScore = Math.round(scopeScore * 0.5 + priceScore * 0.35 + warrantyScore * 0.15);
+
+        q.totalScore = Math.max(0, Math.round(scopeScore * 0.45 + priceScore * 0.35 + warrantyScore * 0.2 - suspiciousPenalty));
         if (q.totalScore > bestScore) { bestScore = q.totalScore; bestIdx = i; }
       });
 
