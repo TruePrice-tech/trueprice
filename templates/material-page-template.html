@@ -13,137 +13,34 @@
   <meta property="og:type" content="article" />
   <meta property="og:url" content="{{MATERIAL_CANONICAL_URL}}" />
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      color: #222;
-      background: #fff;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    .breadcrumbs {
-      font-size: 14px;
-      margin-bottom: 18px;
-      color: #666;
-    }
-
-    .breadcrumbs a {
-      color: #0b57d0;
-      text-decoration: none;
-    }
-
-    h1 {
-      font-size: 34px;
-      line-height: 1.2;
-      margin: 0 0 12px;
-    }
-
-    h2 {
-      margin-top: 34px;
-      margin-bottom: 12px;
-      font-size: 26px;
-    }
-
-    p {
-      margin: 0 0 16px;
-    }
-
-    .summary-box {
-      background: #f7f9fc;
-      border: 1px solid #d9e3f0;
-      border-radius: 12px;
-      padding: 18px;
-      margin: 22px 0 28px;
-    }
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-    }
-
-    .summary-card {
-      background: #fff;
-      border: 1px solid #e3e7ee;
-      border-radius: 10px;
-      padding: 14px;
-    }
-
-    .summary-card strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .summary-card span {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .city-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .city-link-card {
-      border: 1px solid #e3e7ee;
-      border-radius: 10px;
-      padding: 14px;
-      background: #fff;
-    }
-
-    .city-link-card a {
-      text-decoration: none;
-      color: #0b57d0;
-      font-weight: 700;
-    }
-
-    .city-link-card p {
-      font-size: 14px;
-      color: #555;
-      margin-top: 6px;
-      margin-bottom: 0;
-    }
-
-    .related-links ul {
-      padding-left: 18px;
-    }
-
-    .footer-note {
-      margin-top: 36px;
-      font-size: 14px;
-      color: #666;
-    }
-
-    a {
-      color: #0b57d0;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/trueprice.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="breadcrumbs">
-      <a href="/">Home</a> ›
-      <a href="/all-cities.html">All Cities</a> ›
-      <span>{{MATERIAL_NAME}}</span>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/roof-replacement-cost-calculator.html">Calculator</a>
+        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+      </nav>
     </div>
+  </header>
 
-    <h1>{{MATERIAL_H1}}</h1>
+  <div class="hero">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="/">Home</a> &rsaquo;
+        <a href="/all-cities.html">All Cities</a> &rsaquo;
+        <span>{{MATERIAL_NAME}}</span>
+      </div>
 
-    <p>{{MATERIAL_INTRO}}</p>
+      <h1>{{MATERIAL_H1}}</h1>
+      <p>{{MATERIAL_INTRO}}</p>
+    </div>
+  </div>
 
+  <main class="container" style="padding-top:32px; padding-bottom:32px;">
     <div class="summary-box">
       <div class="summary-grid">
         <div class="summary-card">
@@ -155,36 +52,50 @@
           <span>{{MATERIAL_CITY_COUNT}}</span>
         </div>
         <div class="summary-card">
-          <strong>Typical Price Range</strong>
+          <strong>Typical Range</strong>
           <span>{{MATERIAL_PRICE_RANGE}}</span>
         </div>
       </div>
     </div>
 
-    <h2>{{MATERIAL_DISPLAY_NAME}} roof cost guides by city</h2>
-    <p>Explore local pricing pages for {{MATERIAL_NAME}} roofing across available cities.</p>
+    <section class="section">
+      <h2>{{MATERIAL_DISPLAY_NAME}} roof cost by city</h2>
+      <p>Explore local pricing pages for {{MATERIAL_NAME}} roofing across available cities.</p>
+      <div class="city-grid">
+        {{MATERIAL_CITY_LINKS}}
+      </div>
+    </section>
 
-    <div class="city-grid">
-      {{MATERIAL_CITY_LINKS}}
-    </div>
+    <section class="section">
+      <h2>How to compare {{MATERIAL_NAME}} quotes</h2>
+      <p>
+        Compare your contractor quote against the local city guides above. Ask for a written scope that
+        breaks out tear off, underlayment, flashing, ventilation, disposal, labor, warranty, and material grade.
+      </p>
+    </section>
 
-    <h2>How to compare {{MATERIAL_NAME}} roofing quotes</h2>
-    <p>
-      Compare your contractor quote against the local city guides above. Ask for a written scope that
-      breaks out tear off, underlayment, flashing, ventilation, disposal, labor, warranty, and material grade.
-    </p>
-
-    <h2>More roofing material guides</h2>
-    <div class="related-links">
-      <ul>
-        {{RELATED_MATERIAL_LINKS}}
-      </ul>
-    </div>
+    <section class="section">
+      <h2>More material guides</h2>
+      <div class="related-links">
+        <ul>
+          {{RELATED_MATERIAL_LINKS}}
+        </ul>
+      </div>
+    </section>
 
     <p class="footer-note">
       TruePrice material pages are generated from city level roofing cost models and intended for planning
       and quote benchmarking.
     </p>
-  </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        TruePrice helps homeowners analyze roofing quotes,
+        compare contractor bids, and estimate roof replacement costs.
+      </p>
+    </div>
+  </footer>
 </body>
 </html>
