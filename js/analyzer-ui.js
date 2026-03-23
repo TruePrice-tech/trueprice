@@ -3838,12 +3838,26 @@ function buildComparisonWinnerHtml(summary) {
         const state = a?.stateCode || journeyState?.propertyPreview?.state || "";
         const location = city && state ? `${city}, ${state}` : city || "your area";
 
-        const deltaText = isFinite(deltaAbs) && deltaAbs >= 100
-          ? `${safeFormatCurrency(deltaAbs)} ${deltaFromMid > 0 ? "above" : "below"} expected for ${escapeHtml(location)}`
-          : "";
-
         const roofSizeValue = roofMeta?.value ?? a?.roofSize ?? null;
         const roofSizeSource = roofMeta?.source || a?.roofSizeEstimateSource || "";
+        const materialLabel = a.material && typeof getMaterialLabel === "function"
+          ? getMaterialLabel(a.material).toLowerCase()
+          : "";
+        const contractorName = latestParsed?.contractor && latestParsed.contractor !== "Not detected"
+          ? latestParsed.contractor
+          : "";
+
+        // Build personalized delta text
+        let deltaText = "";
+        if (isFinite(deltaAbs) && deltaAbs >= 100) {
+          const direction = deltaFromMid > 0 ? "above" : "below";
+          const details = [];
+          if (roofSizeValue) details.push(Number(roofSizeValue).toLocaleString() + " sq ft");
+          if (materialLabel) details.push(materialLabel);
+          if (location && location !== "your area") details.push(location);
+          const suffix = details.length > 0 ? " for a " + details.join(" ") + " roof" : "";
+          deltaText = `${safeFormatCurrency(deltaAbs)} ${direction} expected${suffix}`;
+        }
 
         return `
           <div class="verdict-card ${getVerdictCardClass(a.verdict)}">

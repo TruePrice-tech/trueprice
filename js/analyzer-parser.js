@@ -1224,7 +1224,20 @@ function detectLocation(text) {
     "Routing",
     "Information",
     "Labor",
-    "Materials"
+    "Materials",
+    "Docusign",
+    "Envelope",
+    "Signature",
+    "Authorization",
+    "Company",
+    "Representative",
+    "Certificate",
+    "Insurance",
+    "Agreement",
+    "Contract",
+    "Invoice",
+    "Receipt",
+    "Authorized"
   ]);
 
   function cleanCity(value) {
@@ -1251,7 +1264,7 @@ function detectLocation(text) {
     const lowerCity = String(city || "").toLowerCase();
 
     if (
-      /\b(description|qty|quantity|unit|price|subtotal|payment|account|routing|information|labor|materials)\b/.test(lowerCity)
+      /\b(description|qty|quantity|unit|price|subtotal|payment|account|routing|information|labor|materials|docusign|envelope|signature|authorization|company|representative|certificate|insurance|agreement|contract|invoice)\b/.test(lowerCity)
     ) {
       return false;
     }
