@@ -606,6 +606,63 @@ class TruePriceHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
 
+        if parsed.path == "/api/geocode-suggest":
+            params = parse_qs(parsed.query)
+            query = str(params.get("q", [""])[0]).strip()
+
+            if not query or len(query) < 3:
+                self._send_json({"suggestions": []})
+                return
+
+            if not MAPBOX_TOKEN:
+                self._send_json({"suggestions": [], "error": "Geocoding not configured"})
+                return
+
+            try:
+                url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + requests.utils.quote(query) + ".json"
+                res = SESSION.get(url, params={
+                    "access_token": MAPBOX_TOKEN,
+                    "country": "us",
+                    "types": "address",
+                    "limit": "5",
+                    "autocomplete": "true"
+                }, headers=DEFAULT_HEADERS, timeout=DEFAULT_TIMEOUT)
+
+                data = res.json()
+                suggestions = []
+
+                for feature in data.get("features", []):
+                    place_name = feature.get("place_name", "")
+                    context = feature.get("context", [])
+
+                    city = ""
+                    state = ""
+                    postcode = ""
+                    for ctx in context:
+                        ctx_id = ctx.get("id", "")
+                        if ctx_id.startswith("place"):
+                            city = ctx.get("text", "")
+                        elif ctx_id.startswith("region"):
+                            state = ctx.get("short_code", "").replace("US-", "")
+                        elif ctx_id.startswith("postcode"):
+                            postcode = ctx.get("text", "")
+
+                    street = feature.get("text", "") + " " + feature.get("address", "")
+                    street = feature.get("place_name", "").split(",")[0] if not feature.get("address") else feature.get("address", "") + " " + feature.get("text", "")
+
+                    suggestions.append({
+                        "label": place_name,
+                        "street": street.strip(),
+                        "city": city,
+                        "state": state,
+                        "zip": postcode
+                    })
+
+                self._send_json({"suggestions": suggestions})
+            except Exception:
+                self._send_json({"suggestions": []})
+            return
+
         if parsed.path == "/api/community-quotes":
             params = parse_qs(parsed.query)
 

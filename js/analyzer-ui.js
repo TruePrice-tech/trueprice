@@ -7464,6 +7464,50 @@ function buildComparisonWinnerHtml(summary) {
               }
             });
           }
+
+          // Address autocomplete binding
+          const addrInput = document.getElementById("journeyStreetAddress");
+          const sugBox = document.getElementById("addressSuggestions");
+          if (addrInput && sugBox) {
+            let debounceTimer = null;
+            addrInput.addEventListener("input", function() {
+              clearTimeout(debounceTimer);
+              const q = addrInput.value.trim();
+              if (q.length < 4) { sugBox.style.display = "none"; return; }
+              debounceTimer = setTimeout(async function() {
+                try {
+                  const res = await fetch("/api/geocode-suggest?q=" + encodeURIComponent(q));
+                  const data = await res.json();
+                  if (!data.suggestions || data.suggestions.length === 0) { sugBox.style.display = "none"; return; }
+                  sugBox.innerHTML = data.suggestions.map(function(s, i) {
+                    return '<div data-idx="' + i + '" style="padding:10px 14px; cursor:pointer; font-size:14px; border-bottom:1px solid #f1f5f9; transition:background 0.1s;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' + escapeHtml(s.label) + '</div>';
+                  }).join("");
+                  sugBox.style.display = "block";
+                  sugBox.querySelectorAll("[data-idx]").forEach(function(el) {
+                    el.addEventListener("click", function() {
+                      const idx = parseInt(el.dataset.idx);
+                      const s = data.suggestions[idx];
+                      if (!s) return;
+                      addrInput.value = s.street || s.label.split(",")[0] || "";
+                      var cityEl = document.getElementById("journeyCity");
+                      var stateEl = document.getElementById("journeyState");
+                      var zipEl = document.getElementById("journeyZipCode");
+                      if (cityEl) cityEl.value = s.city || "";
+                      if (stateEl) stateEl.value = s.state || "";
+                      if (zipEl) zipEl.value = s.zip || "";
+                      sugBox.style.display = "none";
+                    });
+                  });
+                } catch (e) { sugBox.style.display = "none"; }
+              }, 300);
+            });
+            // Hide suggestions on click outside
+            document.addEventListener("click", function(e) {
+              if (!addrInput.contains(e.target) && !sugBox.contains(e.target)) {
+                sugBox.style.display = "none";
+              }
+            });
+          }
         }, 0);
 
         return;
@@ -7560,8 +7604,9 @@ function buildComparisonWinnerHtml(summary) {
               </p>
 
               <div class="journey-address-grid">
-                <div class="journey-address-full">
-                  <input id="journeyStreetAddress" type="text" placeholder="Street address" />
+                <div class="journey-address-full" style="position:relative;">
+                  <input id="journeyStreetAddress" type="text" placeholder="Start typing your address..." autocomplete="off" />
+                  <div id="addressSuggestions" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:50; background:#fff; border:1px solid #e2e8f0; border-top:none; border-radius:0 0 10px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;"></div>
                 </div>
 
                 <div>
