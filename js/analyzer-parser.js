@@ -122,6 +122,7 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
   if (lineClass === "table_money") score -= 100;
 
   if (value < 500) score -= 60;
+  if (value >= 500 && value < 1500) score -= 40;
   else if (value < 2000) score -= 20;
   else if (value >= 3000 && value <= 100000) score += 20;
 
@@ -836,6 +837,9 @@ function detectMaterial(text) {
   const materialLineMatch = repairedSource.match(materialLineRegex);
   const materialLine = materialLineMatch ? materialLineMatch[1].toLowerCase() : "";
 
+  // Check if shingle-related terms dominate the document
+  const hasShingleSignals = /\bshingles?\b|\barchitectural\b|\b3[- ]tab\b|\basphalt\b|\bcertainteed\b|\bgaf\b|\btimberline\b|\bowens corning\b/i.test(normalized);
+
   MATERIAL_PATTERNS.forEach(item => {
     item.patterns.forEach(pattern => {
       if (pattern.test(normalized)) {
@@ -843,6 +847,19 @@ function detectMaterial(text) {
 
         if (materialLine && pattern.test(materialLine)) {
           score += 80;
+        }
+
+        // Penalize metal when shingle signals dominate the document
+        if (item.value === "metal" && hasShingleSignals) {
+          score -= 40;
+        }
+
+        // Penalize metal matches found only in boilerplate/payment terms
+        if (item.value === "metal" && !materialLine) {
+          const metalContext = normalized.match(/(?:metal\s+roof|metal\s+roofing).{0,80}/);
+          if (metalContext && /payment|cancellation|policy|order material|siding/i.test(metalContext[0])) {
+            score -= 60;
+          }
         }
 
         matches.push({
@@ -2034,8 +2051,8 @@ function parseExtractedText(extractedText, options = {}) {
     explicit_total_line: 5,
     final_total_phrase: 4,
     broken_leading_money_repair: 3,
-    ocr_repaired_candidate: 2,
-    generic_money_candidate: 1,
+    ocr_repaired_candidate: 1,
+    generic_money_candidate: 2,
     balance_or_acv: -1,
     subtotal_line: -2,
     deposit_or_deductible: -3,
@@ -2047,7 +2064,11 @@ function parseExtractedText(extractedText, options = {}) {
   const aRank = sourceRank[a.sourceType] ?? 0;
   const bRank = sourceRank[b.sourceType] ?? 0;
 
-  return bRank - aRank || b.score - a.score || b.value - a.value;
+  // If score difference is large (>30), prefer higher score regardless of source rank
+  const scoreDiff = b.score - a.score;
+  if (Math.abs(scoreDiff) > 30) return scoreDiff;
+
+  return bRank - aRank || scoreDiff || b.value - a.value;
 });
 
   const reconstructedTotal = reconstructTotalFromLineItems(normalizedText);
