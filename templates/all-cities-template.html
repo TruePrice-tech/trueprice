@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>All Roof Cost Guides by City, State, and Material (2026) | TruePrice</title>
@@ -9,103 +10,79 @@
     name="description"
     content="Browse TruePrice roof replacement cost guides by city, state, and material across the United States."
   />
-  <link
-    rel="canonical"
-    href="https://trueprice-tech.github.io/trueprice/all-cities.html"
-  />
+  <link rel="canonical" href="https://truepricehq.com/all-cities.html" />
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 1100px;
-      margin: auto;
-      padding: 40px 20px 80px;
-      line-height: 1.6;
-      color: #1f2937;
-    }
+  <meta property="og:title" content="All Roof Cost Guides by City, State, and Material (2026) | TruePrice" />
+  <meta property="og:description" content="Browse TruePrice roof replacement cost guides by city, state, and material across the United States." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/all-cities.html" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.png" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta name="robots" content="index,follow" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="All Roof Cost Guides | TruePrice" />
+  <meta name="twitter:description" content="Browse roof replacement cost guides by city, state, and material." />
 
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      margin-top: 36px;
-      margin-bottom: 12px;
-    }
-
-    p {
-      margin-bottom: 16px;
-    }
-
-    .grid-list {
-      columns: 3;
-      padding-left: 18px;
-    }
-
-    .grid-list li {
-      margin-bottom: 8px;
-      break-inside: avoid;
-    }
-
-    a {
-      color: #2563eb;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .intro-box {
-      background: #f8fafc;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 18px;
-      margin: 22px 0 28px;
-    }
-
-    @media (max-width: 900px) {
-      .grid-list {
-        columns: 2;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .grid-list {
-        columns: 1;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/trueprice.css" />
 </head>
 <body>
-  <h1>Roof Replacement Cost Guides</h1>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/roof-replacement-cost-calculator.html">Calculator</a>
+        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
 
-  <p>
-    Browse roof replacement cost guides across the United States by material, state, and city.
-  </p>
-
-  <div class="intro-box">
-    <p>
-      Use this page to start broad by roofing material or state, then drill down into city specific pricing.
-    </p>
+  <div class="hero">
+    <div class="container">
+      <h1>Roof Replacement Cost Guides</h1>
+      <p>
+        Browse roof replacement cost guides across the United States by material, state, and city.
+      </p>
+    </div>
   </div>
 
-  <h2>Browse by Material</h2>
-  <p>Compare roof cost guides by roofing material type.</p>
-  <ul class="grid-list">
-    {{MATERIAL_LINKS}}
-  </ul>
+  <main class="container" style="padding-top:32px; padding-bottom:32px;">
+    <div class="intro-box">
+      <p>
+        Start broad by roofing material or state, then drill down into city-specific pricing.
+      </p>
+    </div>
 
-  <h2>Browse by State</h2>
-  <p>Explore state level roofing cost guides and city clusters.</p>
-  <ul class="grid-list">
-    {{STATE_LINKS}}
-  </ul>
+    <section class="section">
+      <h2>Browse by Material</h2>
+      <ul class="grid-list">
+        {{MATERIAL_LINKS}}
+      </ul>
+    </section>
 
-  <h2>Browse by City</h2>
-  <p>Find local roof replacement cost guides for available cities.</p>
-  <ul class="grid-list">
-    {{CITY_LINKS}}
-  </ul>
+    <section class="section">
+      <h2>Browse by State</h2>
+      <ul class="grid-list">
+        {{STATE_LINKS}}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Browse by City</h2>
+      <ul class="grid-list">
+        {{CITY_LINKS}}
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        TruePrice helps homeowners analyze roofing quotes,
+        compare contractor bids, and estimate roof replacement costs.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a>
+      </p>
+    </div>
+  </footer>
 </body>
 </html>

@@ -21,145 +21,15 @@
   <meta property="og:url" content="https://truepricehq.com/quote-analysis/index.html" />
   <meta property="og:site_name" content="TruePrice" />
 
+  <link rel="stylesheet" href="/css/trueprice.css" />
+  <link rel="stylesheet" href="/css/analyzer.css" />
+
   <style>
-    :root {
-      --bg: #f7f9fc;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --card: #ffffff;
-      --line: #e5e7eb;
-      --brand: #0f62fe;
-      --brand-dark: #0b4fd1;
-      --brand-soft: #eef4ff;
-      --good-bg: #ecfdf5;
-      --good-line: #a7f3d0;
-      --warn-bg: #fff7ed;
-      --warn-line: #fdba74;
-      --bad-bg: #fef2f2;
-      --bad-line: #fca5a5;
-      --neutral-bg: #f3f4f6;
-      --neutral-line: #d1d5db;
-      --shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-      --radius: 14px;
-      --max: 1100px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    a {
-      color: var(--brand);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .wrap {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 18px;
-      font-size: 0.98rem;
-    }
-
-    .nav a {
+    .metric {
+      font-size: 1.7rem;
       font-weight: 700;
-    }
-
-    .hero {
-      background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-      margin-bottom: 20px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--brand-dark);
-      margin-bottom: 10px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 16px;
-    }
-
-    .panel {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px;
-    }
-
-    .panel h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
-
-    .verdict {
-      display: inline-block;
-      padding: 7px 12px;
-      border-radius: 999px;
-      font-size: 0.92rem;
-      font-weight: 700;
-      margin: 0 8px 12px 0;
-    }
-
-    .verdict.excellent-value,
-    .verdict.fair-price {
-      background: var(--good-bg);
-      border: 1px solid var(--good-line);
-    }
-
-    .verdict.slightly-high,
-    .verdict.unusually-low {
-      background: var(--warn-bg);
-      border: 1px solid var(--warn-line);
-    }
-
-    .verdict.overpriced,
-    .verdict.potential-red-flag {
-      background: var(--bad-bg);
-      border: 1px solid var(--bad-line);
-    }
-
-    .verdict.unknown {
-      background: var(--neutral-bg);
-      border: 1px solid var(--neutral-line);
+      line-height: 1.1;
+      margin-bottom: 4px;
     }
 
     .confidence {
@@ -188,85 +58,6 @@
       border-color: var(--bad-line);
     }
 
-    .metric {
-      font-size: 1.7rem;
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 4px;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .signal-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .signal-box {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 12px;
-    }
-
-    .signal-box h4 {
-      margin: 0 0 8px;
-      font-size: 0.98rem;
-    }
-
-    .good-text {
-      color: #166534;
-      font-weight: 700;
-    }
-
-    .warn-text {
-      color: #b45309;
-      font-weight: 700;
-    }
-
-    .bad-text {
-      color: #b91c1c;
-      font-weight: 700;
-    }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: var(--brand);
-      color: #ffffff;
-      padding: 12px 18px;
-      border-radius: 10px;
-      font-weight: 700;
-      text-decoration: none;
-      border: 1px solid var(--brand);
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background: var(--brand-dark);
-      border-color: var(--brand-dark);
-      text-decoration: none;
-    }
-
-    .btn.secondary {
-      background: #fff;
-      color: var(--brand);
-    }
-
-    .btn.secondary:hover {
-      background: var(--brand-soft);
-    }
-
     ul.compact {
       margin: 0;
       padding-left: 18px;
@@ -283,259 +74,258 @@
       padding: 14px 16px;
     }
 
-    @media (max-width: 640px) {
-      .wrap {
-        padding: 18px;
-      }
-
-      .hero {
-        padding: 20px;
-      }
+    #pdfReportContent {
+      background: transparent;
     }
 
-  
-#pdfReportContent {
-  background: transparent;
-}
+    .pdf-report-header {
+      display: none;
+    }
 
-.pdf-report-header {
-  display: none;
-}
+    .pdf-report-brand {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--brand-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
 
-.pdf-report-brand {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--brand-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 6px;
-}
+    .pdf-report-title {
+      margin: 0 0 6px;
+      font-size: 1.8rem;
+      line-height: 1.2;
+    }
 
-.pdf-report-title {
-  margin: 0 0 6px;
-  font-size: 1.8rem;
-  line-height: 1.2;
-}
+    .pdf-report-meta {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
 
-.pdf-report-meta {
-  margin: 0 0 18px;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
+    .pdf-hide-during-export {
+      display: block;
+    }
 
-.pdf-hide-during-export {
-  display: block;
-}
+    @media print {
+      body {
+        background: #ffffff;
+        color: #111827;
+      }
 
-@media print {
-  body {
-    background: #ffffff;
-    color: #111827;
-  }
+      .analyzer-wrap {
+        max-width: 100%;
+        padding: 0;
+      }
 
-  .wrap {
-    max-width: 100%;
-    padding: 0;
-  }
+      .site-header,
+      .site-footer,
+      .btn-row,
+      #copyShareFeedback {
+        display: none !important;
+      }
 
-  .nav,
-  .btn-row,
-  #copyShareFeedback {
-    display: none !important;
-  }
+      .pdf-report-header {
+        display: block;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #e5e7eb;
+      }
 
-  .pdf-report-header {
-    display: block;
-    margin-bottom: 18px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #e5e7eb;
-  }
+      .analyzer-hero,
+      .analyzer-card,
+      .panel,
+      .signal-box,
+      .notice {
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border-color: #d1d5db;
+      }
 
-  .hero,
-  .card,
-  .panel,
-  .signal-box,
-  .notice {
-    box-shadow: none !important;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    border-color: #d1d5db;
-  }
+      .analyzer-hero {
+        padding: 18px;
+        margin-bottom: 16px;
+      }
 
-  .hero {
-    padding: 18px;
-    margin-bottom: 16px;
-  }
+      .analyzer-card {
+        padding: 16px;
+        margin-bottom: 16px;
+      }
 
-  .card {
-    padding: 16px;
-    margin-bottom: 16px;
-  }
+      .panel,
+      .signal-box {
+        padding: 10px;
+      }
 
-  .panel,
-  .signal-box {
-    padding: 10px;
-  }
+      .metric {
+        font-size: 1.35rem;
+      }
 
-  .metric {
-    font-size: 1.35rem;
-  }
+      h1, h2, h3, h4 {
+        color: #111827;
+      }
 
-  h1, h2, h3, h4 {
-    color: #111827;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-}
-
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <p class="nav">
-      <a href="/">Home</a>
-      <a href="/roofing-quote-analyzer.html">Analyzer</a>
-      <a href="/compare-roofing-quotes.html">Compare Quotes</a>
-      <a href="/roof-replacement-cost-calculator.html">Calculator</a>
-    </p>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/roof-replacement-cost-calculator.html">Calculator</a>
+        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
 
+  <main class="analyzer-wrap">
     <div id="pdfReportContent">
 
-  <section class="pdf-report-header">
-    <div class="pdf-report-brand">TruePrice</div>
-    <h1 class="pdf-report-title">Roof Quote Analysis Report</h1>
-    <p class="pdf-report-meta">
-      Generated on <span id="pdfGeneratedDate"></span>
-    </p>
-  </section>
+      <section class="pdf-report-header">
+        <div class="pdf-report-brand">TruePrice</div>
+        <h1 class="pdf-report-title">Roof Quote Analysis Report</h1>
+        <p class="pdf-report-meta">
+          Generated on <span id="pdfGeneratedDate"></span>
+        </p>
+      </section>
 
-    <section class="hero">
-      <span class="eyebrow">TruePrice Quote Result</span>
-      <h1 id="pageTitle">Roof quote analysis result</h1>
-      <div>
-        <span id="verdictBadge" class="verdict unknown">Unknown</span>
-        <span id="confidenceBadge" class="confidence low">Confidence: Low</span>
-      </div>
-      <p id="heroSummary" class="muted">
-        Review how your quote compares to the expected local range and what to verify next.
-      </p>
-
-    <div class="btn-row pdf-hide-during-export">
-  <a id="rerunAnalyzerLink" class="btn" href="/roofing-quote-analyzer.html">Run another analysis</a>
-  <button id="copyShareLinkBtn" class="btn secondary" type="button" onclick="copyShareLink()">Copy Share Link</button>
-  <button id="downloadPdfBtn" class="btn secondary" type="button" onclick="downloadPdfReport()">Download PDF Report</button>
-  <a class="btn secondary" href="/compare-roofing-quotes.html">Compare roofing quotes</a>
-  <a class="btn secondary" href="/roof-replacement-cost-calculator.html">Estimate roof cost</a>
-    </div>
-
-<div id="copyShareFeedback" class="small muted pdf-hide-during-export" style="margin-top:10px;"></div>
-    </section>
-
-    <section class="grid">
-      <article class="card">
-        <h2>Quote summary</h2>
-        <div class="grid">
-          <div class="panel">
-            <h3>Quoted price</h3>
-            <div id="quotePriceMetric" class="metric">$0</div>
-            <div id="quotePriceSub" class="muted">Entered quote total</div>
-          </div>
-          <div class="panel">
-            <h3>Expected range</h3>
-            <div id="rangeMetric" class="metric">$0 to $0</div>
-            <div id="rangeSub" class="muted">Modeled local range</div>
-          </div>
-          <div class="panel">
-            <h3>Difference vs midpoint</h3>
-            <div id="deltaMetric" class="metric">$0</div>
-            <div id="deltaSub" class="muted">Compared with benchmark midpoint</div>
-          </div>
+      <section class="analyzer-hero">
+        <span class="eyebrow">TruePrice Quote Result</span>
+        <h1 id="pageTitle">Roof quote analysis result</h1>
+        <div>
+          <span id="verdictBadge" class="verdict unknown">Unknown</span>
+          <span id="confidenceBadge" class="confidence low">Confidence: Low</span>
         </div>
-      </article>
+        <p id="heroSummary" class="muted">
+          Review how your quote compares to the expected local range and what to verify next.
+        </p>
 
-      <article class="card">
-        <h2>Project details</h2>
-        <div class="grid">
-          <div class="panel">
-            <h3>Location</h3>
-            <div id="locationText">Unknown</div>
-          </div>
-          <div class="panel">
-            <h3>Material</h3>
-            <div id="materialText">Unknown</div>
-          </div>
-          <div class="panel">
-            <h3>Roof size</h3>
-            <div id="sizeText">Unknown</div>
-          </div>
-          <div class="panel">
-            <h3>Warranty</h3>
-            <div id="warrantyText">Unknown</div>
-          </div>
-          <div class="panel">
-            <h3>Tear off</h3>
-            <div id="tearoffText">Unknown</div>
-          </div>
-          <div class="panel">
-            <h3>Price per sq ft</h3>
-            <div id="ppsfText">Unknown</div>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <section class="card">
-      <h2>What this result means</h2>
-      <div id="explanationBox" class="notice">
-        We compare your quote against an expected pricing band based on the values passed into this result page.
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Scope signal summary</h2>
-      <p class="muted">These are trust signals you can use to review whether the quote appears complete or still needs clarification.</p>
-      <div id="signalGrid" class="signal-grid"></div>
-    </section>
-
-    <section class="grid">
-      <article class="card">
-        <h2>What to verify next</h2>
-        <ul id="verifyList" class="compact">
-          <li>Confirm the quote includes underlayment, flashing, ventilation, and disposal.</li>
-          <li>Check whether permits and decking replacement are included or extra.</li>
-          <li>Compare at least one more contractor quote before signing.</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <h2>Why roofing quotes vary</h2>
-        <ul class="compact">
-          <li>Roof complexity and steep pitch</li>
-          <li>Tear off vs overlay scope</li>
-          <li>Premium shingles or metal systems</li>
-          <li>Decking replacement assumptions</li>
-          <li>Ventilation, flashing, and drip edge scope</li>
-          <li>Warranty quality and workmanship coverage</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <h2>Helpful next steps</h2>
         <div class="btn-row pdf-hide-during-export">
-          <a class="btn secondary" href="/compare-roofing-quotes.html">Compare quotes</a>
-          <a class="btn secondary" href="/what-should-a-roofing-quote-include.html">What should a roofing quote include</a>
-          <a class="btn secondary" href="/how-to-compare-roofing-quotes.html">How to compare roofing quotes</a>
+          <a id="rerunAnalyzerLink" class="btn" href="/roofing-quote-analyzer.html">Run another analysis</a>
+          <button id="copyShareLinkBtn" class="btn secondary" type="button" onclick="copyShareLink()">Copy Share Link</button>
+          <button id="downloadPdfBtn" class="btn secondary" type="button" onclick="downloadPdfReport()">Download PDF Report</button>
+          <a class="btn secondary" href="/compare-roofing-quotes.html">Compare roofing quotes</a>
+          <a class="btn secondary" href="/roof-replacement-cost-calculator.html">Estimate roof cost</a>
         </div>
-      </article>
-    </section>
+
+        <div id="copyShareFeedback" class="small muted pdf-hide-during-export" style="margin-top:10px;"></div>
+      </section>
+
+      <section class="grid">
+        <article class="analyzer-card">
+          <h2>Quote summary</h2>
+          <div class="grid">
+            <div class="panel">
+              <h3>Quoted price</h3>
+              <div id="quotePriceMetric" class="metric">$0</div>
+              <div id="quotePriceSub" class="muted">Entered quote total</div>
+            </div>
+            <div class="panel">
+              <h3>Expected range</h3>
+              <div id="rangeMetric" class="metric">$0 to $0</div>
+              <div id="rangeSub" class="muted">Modeled local range</div>
+            </div>
+            <div class="panel">
+              <h3>Difference vs midpoint</h3>
+              <div id="deltaMetric" class="metric">$0</div>
+              <div id="deltaSub" class="muted">Compared with benchmark midpoint</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="analyzer-card">
+          <h2>Project details</h2>
+          <div class="grid">
+            <div class="panel">
+              <h3>Location</h3>
+              <div id="locationText">Unknown</div>
+            </div>
+            <div class="panel">
+              <h3>Material</h3>
+              <div id="materialText">Unknown</div>
+            </div>
+            <div class="panel">
+              <h3>Roof size</h3>
+              <div id="sizeText">Unknown</div>
+            </div>
+            <div class="panel">
+              <h3>Warranty</h3>
+              <div id="warrantyText">Unknown</div>
+            </div>
+            <div class="panel">
+              <h3>Tear off</h3>
+              <div id="tearoffText">Unknown</div>
+            </div>
+            <div class="panel">
+              <h3>Price per sq ft</h3>
+              <div id="ppsfText">Unknown</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="analyzer-card">
+        <h2>What this result means</h2>
+        <div id="explanationBox" class="notice">
+          We compare your quote against an expected pricing band based on the values passed into this result page.
+        </div>
+      </section>
+
+      <section class="analyzer-card">
+        <h2>Scope signal summary</h2>
+        <p class="muted">These are trust signals you can use to review whether the quote appears complete or still needs clarification.</p>
+        <div id="signalGrid" class="signal-grid"></div>
+      </section>
+
+      <section class="grid">
+        <article class="analyzer-card">
+          <h2>What to verify next</h2>
+          <ul id="verifyList" class="compact">
+            <li>Confirm the quote includes underlayment, flashing, ventilation, and disposal.</li>
+            <li>Check whether permits and decking replacement are included or extra.</li>
+            <li>Compare at least one more contractor quote before signing.</li>
+          </ul>
+        </article>
+
+        <article class="analyzer-card">
+          <h2>Why roofing quotes vary</h2>
+          <ul class="compact">
+            <li>Roof complexity and steep pitch</li>
+            <li>Tear off vs overlay scope</li>
+            <li>Premium shingles or metal systems</li>
+            <li>Decking replacement assumptions</li>
+            <li>Ventilation, flashing, and drip edge scope</li>
+            <li>Warranty quality and workmanship coverage</li>
+          </ul>
+        </article>
+
+        <article class="analyzer-card">
+          <h2>Helpful next steps</h2>
+          <div class="btn-row pdf-hide-during-export">
+            <a class="btn secondary" href="/compare-roofing-quotes.html">Compare quotes</a>
+            <a class="btn secondary" href="/what-should-a-roofing-quote-include.html">What should a roofing quote include</a>
+            <a class="btn secondary" href="/how-to-compare-roofing-quotes.html">How to compare roofing quotes</a>
+          </div>
+        </article>
+      </section>
     </div>
   </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze roofing quotes, compare contractor bids, and estimate roof replacement costs.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <script>
     function escapeHtml(text) {
       return String(text || "")
@@ -587,9 +377,9 @@
     }
 
     function signalHtml(status) {
-      if (status === "Included") return '<span class="good-text">✓ Included</span>';
-      if (status === "Excluded or not included") return '<span class="bad-text">✗ Excluded or not included</span>';
-      return '<span class="warn-text">⚠ Unclear</span>';
+      if (status === "Included") return '<span class="good-text">&#10003; Included</span>';
+      if (status === "Excluded or not included") return '<span class="bad-text">&#10007; Excluded or not included</span>';
+      return '<span class="warn-text">&#9888; Unclear</span>';
     }
 
     function buildSignalBox(label, status) {
@@ -661,179 +451,179 @@
       return items.slice(0, 6);
     }
 
-async function copyShareLink() {
-  const feedback = document.getElementById("copyShareFeedback");
-  const url = window.location.href;
+    async function copyShareLink() {
+      const feedback = document.getElementById("copyShareFeedback");
+      const url = window.location.href;
 
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(url);
-    } else {
-      const tempInput = document.createElement("input");
-      tempInput.value = url;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      tempInput.setSelectionRange(0, 99999);
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(url);
+        } else {
+          const tempInput = document.createElement("input");
+          tempInput.value = url;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          tempInput.setSelectionRange(0, 99999);
+          document.execCommand("copy");
+          document.body.removeChild(tempInput);
+        }
+
+        feedback.textContent = "Share link copied. You can now paste it anywhere.";
+      } catch (error) {
+        feedback.textContent = "Unable to copy automatically. Copy the URL from your browser bar.";
+      }
     }
 
-    feedback.textContent = "Share link copied. You can now paste it anywhere.";
-  } catch (error) {
-    feedback.textContent = "Unable to copy automatically. Copy the URL from your browser bar.";
-  }
-}
+    function downloadPdfReport() {
+      const feedback = document.getElementById("copyShareFeedback");
+      const element = document.getElementById("pdfReportContent");
+      const exportHiddenEls = document.querySelectorAll(".pdf-hide-during-export");
 
-function downloadPdfReport() {
-  const feedback = document.getElementById("copyShareFeedback");
-  const element = document.getElementById("pdfReportContent");
-  const exportHiddenEls = document.querySelectorAll(".pdf-hide-during-export");
+      if (!element || typeof html2pdf === "undefined") {
+        feedback.textContent = "PDF generator not available. Use browser print and choose Save as PDF.";
+        return;
+      }
 
-  if (!element || typeof html2pdf === "undefined") {
-    feedback.textContent = "PDF generator not available. Use browser print and choose Save as PDF.";
-    return;
-  }
+      feedback.textContent = "Generating PDF report...";
 
-  feedback.textContent = "Generating PDF report...";
-
-  exportHiddenEls.forEach(el => {
-    el.dataset.originalDisplay = el.style.display || "";
-    el.style.display = "none";
-  });
-
-  const city = getParam("city", "quote");
-  const state = getParam("state", "result");
-  const material = getParam("material", "roof");
-
-  const filename = `trueprice-${city}-${state}-${material}-quote-report.pdf`
-    .toLowerCase()
-    .replace(/[^a-z0-9.-]+/g, "-");
-
-  const options = {
-    margin: 0.4,
-    filename,
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-    jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-    pagebreak: { mode: ["avoid-all", "css", "legacy"] }
-  };
-
-  html2pdf()
-    .set(options)
-    .from(element)
-    .save()
-    .then(() => {
-      feedback.textContent = "PDF report downloaded.";
-    })
-    .catch(() => {
-      feedback.textContent = "Could not generate PDF automatically. Use browser print and choose Save as PDF.";
-    })
-    .finally(() => {
       exportHiddenEls.forEach(el => {
-        el.style.display = el.dataset.originalDisplay;
-        delete el.dataset.originalDisplay;
+        el.dataset.originalDisplay = el.style.display || "";
+        el.style.display = "none";
       });
-    });
-}
 
-function renderPage() {
-  const city = getParam("city", "");
-  const state = getParam("state", "");
-  const size = Number(getParam("size", "0"));
-  const material = getParam("material", "architectural");
-  const price = Number(getParam("price", "0"));
-  const low = Number(getParam("low", "0"));
-  const mid = Number(getParam("mid", "0"));
-  const high = Number(getParam("high", "0"));
-  const verdict = getParam("verdict", "Unknown");
-  const ppsf = Number(getParam("ppsf", size > 0 ? price / size : 0));
-  const confidence = getParam("confidence", "Low");
-  const tearoff = parseBoolLike(getParam("tearoff", ""));
-  const warranty = getParam("warranty", "");
-  const underlayment = parseBoolLike(getParam("underlayment", ""));
-  const flashing = parseBoolLike(getParam("flashing", ""));
-  const ventilation = parseBoolLike(getParam("ventilation", ""));
-  const decking = parseBoolLike(getParam("decking", ""));
-  const permit = parseBoolLike(getParam("permit", ""));
-  const disposal = parseBoolLike(getParam("disposal", ""));
+      const city = getParam("city", "quote");
+      const state = getParam("state", "result");
+      const material = getParam("material", "roof");
 
-  const locationLabel = city && state ? `${city}, ${state}` : "your area";
-  const title = `${slugToLabel(material)} quote result for ${locationLabel}`;
+      const filename = `trueprice-${city}-${state}-${material}-quote-report.pdf`
+        .toLowerCase()
+        .replace(/[^a-z0-9.-]+/g, "-");
 
-const generatedDate = new Date().toLocaleDateString(undefined, {
-  year: "numeric",
-  month: "long",
-  day: "numeric"
-});
+      const options = {
+        margin: 0.4,
+        filename,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        pagebreak: { mode: ["avoid-all", "css", "legacy"] }
+      };
 
-const pdfDateEl = document.getElementById("pdfGeneratedDate");
-if (pdfDateEl) {
-  pdfDateEl.textContent = generatedDate;
-}
+      html2pdf()
+        .set(options)
+        .from(element)
+        .save()
+        .then(() => {
+          feedback.textContent = "PDF report downloaded.";
+        })
+        .catch(() => {
+          feedback.textContent = "Could not generate PDF automatically. Use browser print and choose Save as PDF.";
+        })
+        .finally(() => {
+          exportHiddenEls.forEach(el => {
+            el.style.display = el.dataset.originalDisplay;
+            delete el.dataset.originalDisplay;
+          });
+        });
+    }
 
-  document.title = `${title} | TruePrice`;
-  document.getElementById("pageTitle").textContent = title;
+    function renderPage() {
+      const city = getParam("city", "");
+      const state = getParam("state", "");
+      const size = Number(getParam("size", "0"));
+      const material = getParam("material", "architectural");
+      const price = Number(getParam("price", "0"));
+      const low = Number(getParam("low", "0"));
+      const mid = Number(getParam("mid", "0"));
+      const high = Number(getParam("high", "0"));
+      const verdict = getParam("verdict", "Unknown");
+      const ppsf = Number(getParam("ppsf", size > 0 ? price / size : 0));
+      const confidence = getParam("confidence", "Low");
+      const tearoff = parseBoolLike(getParam("tearoff", ""));
+      const warranty = getParam("warranty", "");
+      const underlayment = parseBoolLike(getParam("underlayment", ""));
+      const flashing = parseBoolLike(getParam("flashing", ""));
+      const ventilation = parseBoolLike(getParam("ventilation", ""));
+      const decking = parseBoolLike(getParam("decking", ""));
+      const permit = parseBoolLike(getParam("permit", ""));
+      const disposal = parseBoolLike(getParam("disposal", ""));
 
-  const verdictBadge = document.getElementById("verdictBadge");
-  verdictBadge.textContent = verdict;
-  verdictBadge.className = `verdict ${verdictClass(verdict)}`;
+      const locationLabel = city && state ? `${city}, ${state}` : "your area";
+      const title = `${slugToLabel(material)} quote result for ${locationLabel}`;
 
-  const confidenceBadge = document.getElementById("confidenceBadge");
-  confidenceBadge.textContent = `Confidence: ${confidence}`;
-  confidenceBadge.className = `confidence ${confidenceClass(confidence)}`;
+      const generatedDate = new Date().toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
 
-  document.getElementById("heroSummary").textContent =
-    `This result compares your ${formatCurrency(price)} quote against an expected range of ${formatCurrency(low)} to ${formatCurrency(high)} for ${locationLabel}.`;
+      const pdfDateEl = document.getElementById("pdfGeneratedDate");
+      if (pdfDateEl) {
+        pdfDateEl.textContent = generatedDate;
+      }
 
-  const delta = price - mid;
-  const deltaText = `${delta >= 0 ? "+" : "-"}${formatCurrency(Math.abs(delta))}`;
+      document.title = `${title} | TruePrice`;
+      document.getElementById("pageTitle").textContent = title;
 
-  document.getElementById("quotePriceMetric").textContent = formatCurrency(price);
-  document.getElementById("rangeMetric").textContent = `${formatCurrency(low)} to ${formatCurrency(high)}`;
-  document.getElementById("deltaMetric").textContent = deltaText;
-  document.getElementById("deltaSub").textContent =
-    mid > 0 ? `${delta >= 0 ? "Above" : "Below"} midpoint of ${formatCurrency(mid)}` : "Compared with benchmark midpoint";
+      const verdictBadge = document.getElementById("verdictBadge");
+      verdictBadge.textContent = verdict;
+      verdictBadge.className = `verdict ${verdictClass(verdict)}`;
 
-  document.getElementById("locationText").textContent = locationLabel;
-  document.getElementById("materialText").textContent = slugToLabel(material);
-  document.getElementById("sizeText").textContent = size ? `${formatNumber(size)} sq ft` : "Unknown";
-  document.getElementById("warrantyText").textContent = warranty ? `${warranty} years` : "Not provided";
-  document.getElementById("tearoffText").textContent = tearoff;
-  document.getElementById("ppsfText").textContent = ppsf ? `${formatCurrency(ppsf)} / sq ft` : "Unknown";
+      const confidenceBadge = document.getElementById("confidenceBadge");
+      confidenceBadge.textContent = `Confidence: ${confidence}`;
+      confidenceBadge.className = `confidence ${confidenceClass(confidence)}`;
 
-  document.getElementById("explanationBox").textContent =
-    getExplanation(verdict, price, low, mid, high, material, size, city, state);
+      document.getElementById("heroSummary").textContent =
+        `This result compares your ${formatCurrency(price)} quote against an expected range of ${formatCurrency(low)} to ${formatCurrency(high)} for ${locationLabel}.`;
 
-  const signals = {
-    "Tear off": tearoff,
-    "Underlayment": underlayment,
-    "Flashing": flashing,
-    "Ventilation": ventilation,
-    "Decking": decking,
-    "Permit": permit,
-    "Disposal": disposal
-  };
+      const delta = price - mid;
+      const deltaText = `${delta >= 0 ? "+" : "-"}${formatCurrency(Math.abs(delta))}`;
 
-  document.getElementById("signalGrid").innerHTML = Object.entries(signals)
-    .map(([label, status]) => buildSignalBox(label, status))
-    .join("");
+      document.getElementById("quotePriceMetric").textContent = formatCurrency(price);
+      document.getElementById("rangeMetric").textContent = `${formatCurrency(low)} to ${formatCurrency(high)}`;
+      document.getElementById("deltaMetric").textContent = deltaText;
+      document.getElementById("deltaSub").textContent =
+        mid > 0 ? `${delta >= 0 ? "Above" : "Below"} midpoint of ${formatCurrency(mid)}` : "Compared with benchmark midpoint";
 
-  const verifyItems = buildVerifyItems(signals, verdict);
-  document.getElementById("verifyList").innerHTML = verifyItems
-    .map(item => `<li>${escapeHtml(item)}</li>`)
-    .join("");
+      document.getElementById("locationText").textContent = locationLabel;
+      document.getElementById("materialText").textContent = slugToLabel(material);
+      document.getElementById("sizeText").textContent = size ? `${formatNumber(size)} sq ft` : "Unknown";
+      document.getElementById("warrantyText").textContent = warranty ? `${warranty} years` : "Not provided";
+      document.getElementById("tearoffText").textContent = tearoff;
+      document.getElementById("ppsfText").textContent = ppsf ? `${formatCurrency(ppsf)} / sq ft` : "Unknown";
 
-  const analyzerParams = new URLSearchParams();
-  if (city) analyzerParams.set("city", city);
-  if (state) analyzerParams.set("state", state);
-  if (size) analyzerParams.set("size", size);
-  if (material) analyzerParams.set("material", material);
-  if (price) analyzerParams.set("price", price);
-  document.getElementById("rerunAnalyzerLink").href =
-    `/roofing-quote-analyzer.html${analyzerParams.toString() ? "?" + analyzerParams.toString() : ""}`;
-}
+      document.getElementById("explanationBox").textContent =
+        getExplanation(verdict, price, low, mid, high, material, size, city, state);
 
-renderPage();
+      const signals = {
+        "Tear off": tearoff,
+        "Underlayment": underlayment,
+        "Flashing": flashing,
+        "Ventilation": ventilation,
+        "Decking": decking,
+        "Permit": permit,
+        "Disposal": disposal
+      };
+
+      document.getElementById("signalGrid").innerHTML = Object.entries(signals)
+        .map(([label, status]) => buildSignalBox(label, status))
+        .join("");
+
+      const verifyItems = buildVerifyItems(signals, verdict);
+      document.getElementById("verifyList").innerHTML = verifyItems
+        .map(item => `<li>${escapeHtml(item)}</li>`)
+        .join("");
+
+      const analyzerParams = new URLSearchParams();
+      if (city) analyzerParams.set("city", city);
+      if (state) analyzerParams.set("state", state);
+      if (size) analyzerParams.set("size", size);
+      if (material) analyzerParams.set("material", material);
+      if (price) analyzerParams.set("price", price);
+      document.getElementById("rerunAnalyzerLink").href =
+        `/roofing-quote-analyzer.html${analyzerParams.toString() ? "?" + analyzerParams.toString() : ""}`;
+    }
+
+    renderPage();
   </script>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Roof Replacement Cost by Roof Pitch (4/12, 6/12, 8/12, 10/12) | TruePrice</title>
@@ -11,7 +12,7 @@
   />
   <link
     rel="canonical"
-    href="https://trueprice-tech.github.io/trueprice/roof-replacement-cost-by-roof-pitch.html"
+    href="https://truepricehq.com/roof-replacement-cost-by-roof-pitch.html"
   />
 
   <meta property="og:title" content="Roof Replacement Cost by Roof Pitch (4/12, 6/12, 8/12, 10/12) | TruePrice" />
@@ -20,7 +21,7 @@
     content="See how roof pitch changes roof replacement cost, roof area, labor difficulty, and total roofing price."
   />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://trueprice-tech.github.io/trueprice/roof-replacement-cost-by-roof-pitch.html" />
+  <meta property="og:url" content="https://truepricehq.com/roof-replacement-cost-by-roof-pitch.html" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Roof Replacement Cost by Roof Pitch (4/12, 6/12, 8/12, 10/12) | TruePrice" />
@@ -29,194 +30,45 @@
     content="Compare roof replacement cost by pitch and see why steep roofs cost more to replace."
   />
 
+  <link rel="stylesheet" href="/css/trueprice.css" />
   <style>
-    :root {
-      --text: #1f2937;
-      --muted: #6b7280;
-      --bg: #ffffff;
-      --soft: #f8fafc;
-      --line: #e5e7eb;
-      --brand: #0f172a;
-      --accent: #2563eb;
-      --accent-soft: #eff6ff;
-      --success: #065f46;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.65;
-    }
-
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    .breadcrumbs {
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-
-    .breadcrumbs a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .hero {
-      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 28px;
-    }
-
-    h1, h2, h3 {
-      color: var(--brand);
-      line-height: 1.2;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      margin: 0 0 14px;
-    }
-
-    h2 {
-      font-size: 1.6rem;
-      margin-top: 40px;
-      margin-bottom: 14px;
-    }
-
-    h3 {
-      font-size: 1.15rem;
-      margin-top: 22px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      margin: 0 0 16px;
-    }
-
-    a {
-      color: var(--accent);
-    }
-
     .quick-answer {
-      background: var(--accent-soft);
-      border: 1px solid #bfdbfe;
-      border-radius: 14px;
+      background: var(--brand-light);
+      border: 1px solid var(--brand-border);
+      border-radius: var(--radius);
       padding: 18px;
       margin-top: 18px;
     }
-
+    .note {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin: 22px 0;
+      background: var(--bg);
+    }
+    .link-box {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: var(--bg);
+      margin: 22px 0;
+    }
+    .link-box ul { margin-bottom: 0; }
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
       margin: 20px 0;
     }
-
-    .card {
-      background: var(--soft);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 18px;
-    }
-
-    .card h3 {
-      margin-top: 0;
-    }
-
+    .card h3 { margin-top: 0; }
     .table-wrap {
       overflow-x: auto;
       margin: 20px 0;
     }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 700px;
-      background: #fff;
-      border: 1px solid var(--line);
-    }
-
-    th, td {
-      border: 1px solid var(--line);
-      padding: 12px 14px;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: #f8fafc;
-      color: var(--brand);
-    }
-
-    ul {
-      padding-left: 22px;
-      margin: 0 0 18px;
-    }
-
-    .note,
-    .cta,
-    .link-box {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 18px;
-      background: #fff;
-      margin: 22px 0;
-    }
-
-    .cta {
-      background: #f8fafc;
-    }
-
-    .link-box ul {
-      margin-bottom: 0;
-    }
-
-    .faq-item {
-      border-top: 1px solid var(--line);
-      padding: 18px 0;
-    }
-
-    .faq-item:last-child {
-      border-bottom: 1px solid var(--line);
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
+    .muted { color: var(--text-muted); }
     .highlight {
-      color: var(--success);
+      color: var(--green);
       font-weight: 700;
-    }
-
-    @media (max-width: 640px) {
-      .container {
-        padding: 16px;
-      }
-
-      h1 {
-        font-size: 1.85rem;
-      }
-
-      h2 {
-        font-size: 1.4rem;
-      }
-
-      .hero {
-        padding: 22px;
-      }
     }
   </style>
 
@@ -236,7 +88,7 @@
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://trueprice-tech.github.io/trueprice/roof-replacement-cost-by-roof-pitch.html"
+      "@id": "https://truepricehq.com/roof-replacement-cost-by-roof-pitch.html"
     }
   }
   </script>
@@ -283,14 +135,25 @@
   </script>
 </head>
 <body>
-  <div class="container">
-    <div class="breadcrumbs">
-      <a href="index.html">Home</a> /
-      <a href="roof-replacement-cost-by-house-size.html">Roof Cost by House Size</a> /
-      Roof Replacement Cost by Roof Pitch
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/roof-replacement-cost-calculator.html">Calculator</a>
+        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+      </nav>
     </div>
+  </header>
 
-    <section class="hero">
+  <div class="hero">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a> /
+        <a href="roof-replacement-cost-by-house-size.html">Roof Cost by House Size</a> /
+        Roof Replacement Cost by Roof Pitch
+      </div>
+
       <h1>Roof Replacement Cost by Roof Pitch</h1>
       <p>
         Roof pitch is one of the most overlooked drivers of roofing cost. Two homes with the same square footage can have very different roof replacement prices if one roof is steeper, harder to walk, or has more actual roof surface area.
@@ -298,8 +161,10 @@
       <div class="quick-answer">
         <strong>Quick answer:</strong> lower-slope roofs such as 4/12 usually cost less to replace than steeper roofs such as 8/12 or 10/12. As pitch increases, roofers often need more labor time, more safety equipment, and more materials because the real roof area is larger than the home's footprint.
       </div>
-    </section>
+    </div>
+  </div>
 
+  <main class="container" style="padding-top:32px; padding-bottom:32px;">
     <h2>What Is Roof Pitch?</h2>
     <p>
       Roof pitch describes how much a roof rises vertically for every 12 inches of horizontal run. For example, a 6/12 roof rises 6 inches for every 12 inches of horizontal distance.
@@ -350,7 +215,7 @@
     </p>
 
     <div class="table-wrap">
-      <table>
+      <table class="price-table">
         <thead>
           <tr>
             <th>Roof Pitch</th>
@@ -397,7 +262,7 @@
     </p>
 
     <div class="table-wrap">
-      <table>
+      <table class="price-table">
         <thead>
           <tr>
             <th>House Footprint</th>
@@ -441,7 +306,7 @@
     </p>
 
     <div class="table-wrap">
-      <table>
+      <table class="price-table">
         <thead>
           <tr>
             <th>House Size</th>
@@ -513,7 +378,7 @@
       On the other hand, some quotes simply include wider margins, unnecessary upgrades, or inconsistent measurement assumptions. That is why quote comparison matters.
     </p>
 
-    <div class="cta">
+    <div class="cta-box">
       <h3>Use TruePrice Tools</h3>
       <ul>
         <li><a href="roofing-quote-analyzer.html">Analyze a roofing quote</a></li>
@@ -524,37 +389,53 @@
 
     <h2>Frequently Asked Questions</h2>
 
-    <div class="faq-item">
-      <h3>Does a steeper roof cost more to replace?</h3>
-      <p>
-        Yes. Steeper roofs usually cost more because they require more labor time, more safety precautions, and often more roofing material due to increased surface area.
-      </p>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Does a steeper roof cost more to replace?</summary>
+        <div class="faq-answer">
+          <p>
+            Yes. Steeper roofs usually cost more because they require more labor time, more safety precautions, and often more roofing material due to increased surface area.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>What is considered a steep roof pitch?</summary>
+        <div class="faq-answer">
+          <p>
+            Many contractors consider 7/12 and above to be steep, although price adjustments may start earlier depending on walkability, roof height, and layout.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How does roof pitch affect roof replacement cost?</summary>
+        <div class="faq-answer">
+          <p>
+            Roof pitch affects both material quantity and labor difficulty. A steeper roof is usually larger in actual area than a flatter roof with the same footprint, and it is also harder to work on.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Does a 2000 sq ft house always need a 2000 sq ft roof replacement?</summary>
+        <div class="faq-answer">
+          <p>
+            No. The roof may be larger than the home's footprint because of pitch, overhangs, dormers, and roof design complexity.
+          </p>
+        </div>
+      </details>
     </div>
 
-    <div class="faq-item">
-      <h3>What is considered a steep roof pitch?</h3>
-      <p>
-        Many contractors consider 7/12 and above to be steep, although price adjustments may start earlier depending on walkability, roof height, and layout.
-      </p>
-    </div>
-
-    <div class="faq-item">
-      <h3>How does roof pitch affect roof replacement cost?</h3>
-      <p>
-        Roof pitch affects both material quantity and labor difficulty. A steeper roof is usually larger in actual area than a flatter roof with the same footprint, and it is also harder to work on.
-      </p>
-    </div>
-
-    <div class="faq-item">
-      <h3>Does a 2000 sq ft house always need a 2000 sq ft roof replacement?</h3>
-      <p>
-        No. The roof may be larger than the home's footprint because of pitch, overhangs, dormers, and roof design complexity.
-      </p>
-    </div>
-
-    <p class="muted" style="margin-top: 26px;">
+    <p class="footer-note">
       TruePrice helps homeowners understand whether a roofing quote is fair by breaking down real cost drivers like roof size, material, complexity, and pitch.
     </p>
-  </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze roofing quotes, compare contractor bids, and estimate roof replacement costs.</p>
+    </div>
+  </footer>
 </body>
 </html>
