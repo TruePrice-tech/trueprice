@@ -4008,35 +4008,89 @@ function buildComparisonWinnerHtml(summary) {
         const signals = parsed.signals || {};
         const premiumSignals = Array.isArray(parsed.premiumSignals) ? parsed.premiumSignals : [];
 
-        const scopeItems = [
-          { key: "tearOff", label: "Tear off" },
-          { key: "underlayment", label: "Underlayment" },
-          { key: "dripEdge", label: "Drip edge" },
-          { key: "flashing", label: "Flashing" },
-          { key: "iceShield", label: "Ice barrier" },
-          { key: "ventilation", label: "Ventilation" },
-          { key: "ridgeVent", label: "Ridge vent" },
-          { key: "starterStrip", label: "Starter strip" },
-          { key: "ridgeCap", label: "Ridge cap" },
-          { key: "decking", label: "Decking" }
+        // Weighted scope items grouped by importance
+        const tiers = [
+          {
+            label: "Critical",
+            color: "#991b1b",
+            items: [
+              { key: "tearOff", label: "Tear off", weight: 20, why: "Without tear off, problems hide under the new roof" },
+              { key: "underlayment", label: "Underlayment", weight: 18, why: "The waterproofing layer — no underlayment means leaks" },
+              { key: "flashing", label: "Flashing", weight: 18, why: "#1 cause of roof leaks at walls, pipes, and valleys" }
+            ]
+          },
+          {
+            label: "Important",
+            color: "#92400e",
+            items: [
+              { key: "iceShield", label: "Ice & water shield", weight: 12, why: "Required by code in most areas for valleys and penetrations" },
+              { key: "dripEdge", label: "Drip edge", weight: 10, why: "Required by code, prevents fascia rot and water intrusion" },
+              { key: "ventilation", label: "Ventilation", weight: 10, why: "Poor ventilation cuts shingle lifespan 20-30%" },
+              { key: "ridgeVent", label: "Ridge vent", weight: 8, why: "Primary ventilation system for most roofs" }
+            ]
+          },
+          {
+            label: "Standard",
+            color: "#374151",
+            items: [
+              { key: "starterStrip", label: "Starter strip", weight: 4, why: "Affects wind resistance at roof edges" },
+              { key: "ridgeCap", label: "Ridge cap", weight: 4, why: "Seals and finishes the ridge line" },
+              { key: "decking", label: "Decking", weight: 4, why: "Repair allowance — not always needed" }
+            ]
+          }
         ];
 
-        let included = 0;
-        let missing = 0;
-        let unclear = 0;
+        let totalWeight = 0;
+        let earnedWeight = 0;
+        let criticalMissing = [];
 
-        const itemsHtml = scopeItems.map(item => {
+        function renderItem(item) {
           const signal = signals[item.key];
           const status = signal?.status || "unclear";
-          if (status === "included") { included++; return `<div class="scope-item scope-item--included"><span class="scope-item-icon">&#10003;</span>${escapeHtml(item.label)}</div>`; }
-          if (status === "excluded") { missing++; return `<div class="scope-item scope-item--missing"><span class="scope-item-icon">&#10007;</span>${escapeHtml(item.label)}</div>`; }
-          unclear++;
+          totalWeight += item.weight;
+
+          if (status === "included") {
+            earnedWeight += item.weight;
+            return `<div class="scope-item scope-item--included"><span class="scope-item-icon">&#10003;</span>${escapeHtml(item.label)}</div>`;
+          }
+          if (status === "excluded") {
+            if (item.weight >= 15) criticalMissing.push(item);
+            return `<div class="scope-item scope-item--missing"><span class="scope-item-icon">&#10007;</span>${escapeHtml(item.label)}</div>`;
+          }
+          // unclear
+          if (item.weight >= 15) criticalMissing.push(item);
           return `<div class="scope-item scope-item--unclear"><span class="scope-item-icon">?</span>${escapeHtml(item.label)}</div>`;
+        }
+
+        const tiersHtml = tiers.map(tier => {
+          const itemsHtml = tier.items.map(renderItem).join("");
+          return `
+            <div style="margin-bottom:16px;">
+              <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:${tier.color}; margin-bottom:8px;">${tier.label}</div>
+              <div class="scope-grid">${itemsHtml}</div>
+            </div>
+          `;
         }).join("");
 
-        const total = scopeItems.length;
-        const scorePct = Math.round((included / total) * 100);
-        const badgeClass = scorePct >= 70 ? "scope-score-badge--good" : scorePct >= 40 ? "scope-score-badge--warn" : "scope-score-badge--bad";
+        const scorePct = totalWeight > 0 ? Math.round((earnedWeight / totalWeight) * 100) : 0;
+        const badgeClass = scorePct >= 75 ? "scope-score-badge--good" : scorePct >= 45 ? "scope-score-badge--warn" : "scope-score-badge--bad";
+        const scoreLabel = scorePct >= 75 ? "Strong" : scorePct >= 45 ? "Gaps found" : "Weak";
+
+        let warningHtml = "";
+        if (criticalMissing.length > 0) {
+          warningHtml = `
+            <div style="margin-top:14px; padding:12px 16px; background:var(--bad-bg, #fef2f2); border:1px solid var(--bad-line, #fecaca); border-radius:8px;">
+              <div style="font-size:14px; font-weight:700; color:#991b1b; margin-bottom:6px;">
+                ${criticalMissing.length === 1 ? "1 critical item" : criticalMissing.length + " critical items"} not confirmed
+              </div>
+              ${criticalMissing.map(item => `
+                <div style="font-size:13px; color:#374151; margin-bottom:4px;">
+                  <strong>${escapeHtml(item.label)}</strong> &mdash; ${escapeHtml(item.why)}
+                </div>
+              `).join("")}
+            </div>
+          `;
+        }
 
         const premiumHtml = premiumSignals.length > 0
           ? `<div class="scope-premium">Premium signals: ${premiumSignals.map(s => escapeHtml(s)).join(", ")}</div>`
@@ -4046,12 +4100,10 @@ function buildComparisonWinnerHtml(summary) {
           <div class="scope-scorecard">
             <div class="scope-header">
               <h3>Scope Check</h3>
-              <span class="scope-score-badge ${badgeClass}">${included} of ${total} confirmed</span>
+              <span class="scope-score-badge ${badgeClass}">${scoreLabel} (${scorePct}%)</span>
             </div>
-            <div class="scope-grid">
-              ${itemsHtml}
-            </div>
-            ${missing + unclear > 0 ? `<div style="margin-top:12px; font-size:13px; color:var(--muted);">${missing + unclear} item${missing + unclear > 1 ? "s" : ""} not confirmed &mdash; ask your contractor about these before signing.</div>` : ""}
+            ${tiersHtml}
+            ${warningHtml}
             ${premiumHtml}
           </div>
         `;
