@@ -4285,6 +4285,20 @@ function buildComparisonWinnerHtml(summary) {
         window.open("mailto:?subject=" + subject + "&body=" + body, "_self");
       };
 
+      window.emailReport = function emailReport() {
+        const a = window.__latestAnalysis || {};
+        const report = typeof buildShareableReportData === "function" ? buildShareableReportData() : null;
+        const reportText = report && typeof buildShareableReportText === "function" ? buildShareableReportText(report) : "";
+        if (!reportText) return;
+
+        const verdict = a.verdict || "Analysis";
+        const price = a.quotePrice ? "$" + Number(a.quotePrice).toLocaleString() : "";
+        const subject = encodeURIComponent("Roof Quote Analysis" + (price ? " (" + price + ")" : "") + " - TruePrice");
+        const body = encodeURIComponent(reportText);
+
+        window.open("mailto:?subject=" + subject + "&body=" + body, "_self");
+      };
+
       window.copyBeforeYouSignChecklist = function copyBeforeYouSignChecklist() {
         const scopeItems = [
           { key: "tearOff", label: "Tear off" },
@@ -7356,7 +7370,8 @@ function buildComparisonWinnerHtml(summary) {
           </div>
 
           <div class="action-buttons report-actions" style="margin-top:20px; justify-content:center;">
-            <button class="btn" onclick="copyShareableReportText()">Copy as text</button>
+            <button class="btn" onclick="emailReport()">Email this report</button>
+            <button class="btn secondary" onclick="copyShareableReportText()">Copy as text</button>
             <button class="btn secondary" onclick="window.print()">Print / Save PDF</button>
             <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
           </div>
