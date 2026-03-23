@@ -9,7 +9,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/austin-tx-roof-cost.html)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/roofing-quote-analyzer.html)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/quote-analysis/index.html)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(node -e \"const fs = require\\(''fs''\\); const code = fs.readFileSync\\(''js/analyzer-ui.js'', ''utf8''\\); try { new Function\\(code\\); console.log\\(''JS syntax OK''\\); } catch\\(e\\) { console.error\\(''SYNTAX ERROR:'', e.message\\); }\")"
     ]
   }
 }

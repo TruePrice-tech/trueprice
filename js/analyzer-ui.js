@@ -3793,6 +3793,306 @@ function buildComparisonWinnerHtml(summary) {
         `;
 }
 
+      // ============================================================
+      // 1% UX — Modular Result Renderers
+      // ============================================================
+
+      function getVerdictCardClass(verdict) {
+        const v = String(verdict || "").toLowerCase();
+        if (v.includes("fair")) return "verdict-card--fair";
+        if (v.includes("overpriced") || v.includes("possibly overpriced") || v.includes("may be overpriced")) return "verdict-card--overpriced";
+        if (v.includes("higher") || v.includes("high")) return "verdict-card--high";
+        if (v.includes("scope risk")) return "verdict-card--risk";
+        if (v.includes("low")) return "verdict-card--low";
+        return "verdict-card--unknown";
+      }
+
+      function getVerdictHeadline(verdict) {
+        const v = String(verdict || "").toLowerCase();
+        if (v.includes("fair")) return "This quote looks fair";
+        if (v.includes("overpriced")) return "This quote looks overpriced";
+        if (v.includes("higher")) return "This quote looks high";
+        if (v.includes("scope risk")) return "This quote has scope risk";
+        if (v.includes("low")) return "This quote looks unusually low";
+        return verdict || "Analysis complete";
+      }
+
+      function renderVerdictCard(a) {
+        if (!a) return "";
+        const meta = a?.meta || {};
+        const pricingMeta = meta?.pricing || {};
+        const confidenceMeta = meta?.confidence || {};
+        const roofMeta = meta?.roofSize || {};
+
+        const confidenceLabel = confidenceMeta?.overallTier || a?.confidenceLabel || "Low";
+        const deltaFromMid = pricingMeta?.deltaFromMid ?? (a.quotePrice - a.mid);
+        const deltaAbs = Math.abs(deltaFromMid);
+        const city = a?.city || journeyState?.propertyPreview?.city || "";
+        const state = a?.stateCode || journeyState?.propertyPreview?.state || "";
+        const location = city && state ? `${city}, ${state}` : city || "your area";
+
+        const deltaText = isFinite(deltaAbs) && deltaAbs > 0
+          ? `${safeFormatCurrency(deltaAbs)} ${deltaFromMid > 0 ? "above" : "below"} expected for ${escapeHtml(location)}`
+          : "";
+
+        const roofSizeValue = roofMeta?.value ?? a?.roofSize ?? null;
+        const roofSizeSource = roofMeta?.source || a?.roofSizeEstimateSource || "";
+
+        return `
+          <div class="verdict-card ${getVerdictCardClass(a.verdict)}">
+            <div style="display:inline-block; padding:4px 12px; border-radius:999px; background:rgba(255,255,255,0.7); border:1px solid rgba(0,0,0,0.06); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); margin-bottom:12px;">
+              Confidence: ${escapeHtml(confidenceLabel)}
+            </div>
+
+            <div class="verdict-headline">${getVerdictHeadline(a.verdict)}</div>
+
+            ${deltaText ? `<div class="verdict-delta">${escapeHtml(deltaText)}</div>` : ""}
+
+            <div class="verdict-range">
+              <div class="verdict-range-item">
+                <span class="verdict-range-label">Your quote</span>
+                <span class="verdict-range-value verdict-range-value--quote">${safeFormatCurrency(a.quotePrice)}</span>
+              </div>
+              <div class="verdict-range-item">
+                <span class="verdict-range-label">Expected low</span>
+                <span class="verdict-range-value">${safeFormatCurrency(a.low)}</span>
+              </div>
+              <div class="verdict-range-item">
+                <span class="verdict-range-label">Midpoint</span>
+                <span class="verdict-range-value">${safeFormatCurrency(a.mid)}</span>
+              </div>
+              <div class="verdict-range-item">
+                <span class="verdict-range-label">Expected high</span>
+                <span class="verdict-range-value">${safeFormatCurrency(a.high)}</span>
+              </div>
+            </div>
+
+            <div class="verdict-meta">
+              ${roofSizeValue ? `Roof size: ${formatRoofSizeForDisplay(roofSizeValue, roofSizeSource, roofMeta?.confidence || "Low")}` : ""}
+              ${a.material ? ` &middot; ${escapeHtml(typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : a.material)}` : ""}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderActionCard(a) {
+        if (!a) return "";
+        const recommendation = a?.recommendation || {};
+        const action = String(recommendation.action || "").toUpperCase();
+        const questions = buildContractorQuestions(a);
+
+        let mode = "review";
+        let eyebrow = "Recommended action";
+        let title = "";
+        let body = "";
+        let questionsHtml = "";
+        let buttonsHtml = "";
+
+        if (action === "NEGOTIATE") {
+          mode = "negotiate";
+          title = "Push back on this price";
+          body = questions.length > 0
+            ? `Your quote is above expected. Send these ${questions.length} questions to your contractor:`
+            : "Your quote is above expected. Request a line-by-line breakdown.";
+        } else if (action === "PROCEED") {
+          mode = "proceed";
+          title = "This quote looks reasonable";
+          body = "Before you sign, confirm these items in writing:";
+        } else if (action === "REVIEW") {
+          mode = "review";
+          title = "Verify before deciding";
+          body = "Key inputs need confirmation before trusting this result:";
+        } else if (action === "AVOID") {
+          mode = "avoid";
+          title = "Get another quote before signing";
+          const flagCount = Array.isArray(a.riskFlags) ? a.riskFlags.filter(f => f.severity === "high").length : 0;
+          body = flagCount > 0
+            ? `This quote has ${flagCount} high-severity risk flag${flagCount > 1 ? "s" : ""}. We recommend getting at least one competing bid.`
+            : "This quote raises concerns. Get a competing bid before committing.";
+        }
+
+        if (questions.length > 0 && (action === "NEGOTIATE" || action === "REVIEW" || action === "AVOID")) {
+          questionsHtml = `
+            <ol class="action-questions">
+              ${questions.slice(0, 4).map((q, i) => `<li><strong>Q${i + 1}</strong>${escapeHtml(q)}</li>`).join("")}
+            </ol>
+          `;
+          buttonsHtml = `
+            <div class="action-buttons">
+              <button class="btn" onclick="copyContractorQuestions()">Copy these questions</button>
+              <button class="btn secondary" onclick="showCompareScreen()">Upload another quote</button>
+            </div>
+          `;
+        } else if (action === "PROCEED") {
+          const checkItems = [];
+          const parsed = latestParsed || {};
+          const signals = parsed.signals || {};
+          if (!signals.tearOff || signals.tearOff.status !== "included") checkItems.push("Confirm tear-off is included");
+          if (!signals.flashing || signals.flashing.status !== "included") checkItems.push("Confirm flashing replacement is included");
+          if (!signals.ventilation || signals.ventilation.status !== "included") checkItems.push("Confirm ventilation work is included");
+          if (!parsed.warrantyYears) checkItems.push("Get warranty terms in writing");
+          if (checkItems.length === 0) checkItems.push("Confirm scope and warranty in writing");
+
+          questionsHtml = `
+            <ol class="action-questions">
+              ${checkItems.map((item, i) => `<li><strong>${i + 1}</strong>${escapeHtml(item)}</li>`).join("")}
+            </ol>
+          `;
+          buttonsHtml = `
+            <div class="action-buttons">
+              <button class="btn" onclick="showShareScreen()">Share this result</button>
+              <button class="btn secondary" onclick="showCompareScreen()">Compare another quote</button>
+            </div>
+          `;
+        } else {
+          buttonsHtml = `
+            <div class="action-buttons">
+              <button class="btn" onclick="showCompareScreen()">Upload another quote</button>
+              <button class="btn secondary" onclick="showShareScreen()">Share this result</button>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="action-card action-card--${mode}">
+            <div class="action-eyebrow">${escapeHtml(eyebrow)}</div>
+            <div class="action-title">${escapeHtml(title)}</div>
+            <div class="action-body">${escapeHtml(body)}</div>
+            ${questionsHtml}
+            ${buttonsHtml}
+          </div>
+        `;
+      }
+
+      function renderRiskFlagsModule(a) {
+        if (!a) return "";
+        const flags = Array.isArray(a.riskFlags) ? a.riskFlags : [];
+
+        if (flags.length === 0 || (flags.length === 1 && flags[0].key === "no_major_risks")) {
+          return `
+            <div class="risk-flags-module">
+              <div class="risk-flag risk-flag--none">
+                <div class="risk-flag-title">No major risks detected</div>
+                <div class="risk-flag-impact">Quote appears consistent with expected pricing and scope.</div>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="risk-flags-module">
+            <h3 style="margin:0 0 12px; font-size:16px;">Risk Flags</h3>
+            ${flags.filter(f => f.key !== "no_major_risks").map(flag => `
+              <div class="risk-flag risk-flag--${flag.severity || "low"}">
+                <div class="risk-flag-title">
+                  ${escapeHtml(flag.title)}
+                  <span class="risk-flag-severity">${escapeHtml(String(flag.severity || "").toUpperCase())}</span>
+                </div>
+                <div class="risk-flag-impact">${escapeHtml(flag.impact || "")}</div>
+                ${flag.action ? `<div class="risk-flag-action">${escapeHtml(flag.action)}</div>` : ""}
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderScopeScorecard(a) {
+        const parsed = latestParsed || {};
+        const signals = parsed.signals || {};
+        const premiumSignals = Array.isArray(parsed.premiumSignals) ? parsed.premiumSignals : [];
+
+        const scopeItems = [
+          { key: "tearOff", label: "Tear off" },
+          { key: "underlayment", label: "Underlayment" },
+          { key: "dripEdge", label: "Drip edge" },
+          { key: "flashing", label: "Flashing" },
+          { key: "iceShield", label: "Ice barrier" },
+          { key: "ventilation", label: "Ventilation" },
+          { key: "ridgeVent", label: "Ridge vent" },
+          { key: "starterStrip", label: "Starter strip" },
+          { key: "ridgeCap", label: "Ridge cap" },
+          { key: "decking", label: "Decking" }
+        ];
+
+        let included = 0;
+        let missing = 0;
+        let unclear = 0;
+
+        const itemsHtml = scopeItems.map(item => {
+          const signal = signals[item.key];
+          const status = signal?.status || "unclear";
+          if (status === "included") { included++; return `<div class="scope-item scope-item--included"><span class="scope-item-icon">&#10003;</span>${escapeHtml(item.label)}</div>`; }
+          if (status === "excluded") { missing++; return `<div class="scope-item scope-item--missing"><span class="scope-item-icon">&#10007;</span>${escapeHtml(item.label)}</div>`; }
+          unclear++;
+          return `<div class="scope-item scope-item--unclear"><span class="scope-item-icon">?</span>${escapeHtml(item.label)}</div>`;
+        }).join("");
+
+        const total = scopeItems.length;
+        const scorePct = Math.round((included / total) * 100);
+        const badgeClass = scorePct >= 70 ? "scope-score-badge--good" : scorePct >= 40 ? "scope-score-badge--warn" : "scope-score-badge--bad";
+
+        const premiumHtml = premiumSignals.length > 0
+          ? `<div class="scope-premium">Premium signals: ${premiumSignals.map(s => escapeHtml(s)).join(", ")}</div>`
+          : "";
+
+        return `
+          <div class="scope-scorecard">
+            <div class="scope-header">
+              <h3>Scope Check</h3>
+              <span class="scope-score-badge ${badgeClass}">${included} of ${total} confirmed</span>
+            </div>
+            <div class="scope-grid">
+              ${itemsHtml}
+            </div>
+            ${missing + unclear > 0 ? `<div style="margin-top:12px; font-size:13px; color:var(--muted);">${missing + unclear} item${missing + unclear > 1 ? "s" : ""} not confirmed &mdash; ask your contractor about these before signing.</div>` : ""}
+            ${premiumHtml}
+          </div>
+        `;
+      }
+
+      function renderMarketContext(a) {
+        if (!a) return "";
+        const city = a?.city || "";
+        const state = a?.stateCode || "";
+        const location = city && state ? `${escapeHtml(city)}, ${escapeHtml(state)}` : "your area";
+        const roofMeta = a?.meta?.roofSize || {};
+        const roofSizeValue = roofMeta?.value ?? a?.roofSize ?? null;
+        const roofSizeSource = roofMeta?.source || a?.roofSizeEstimateSource || "";
+        const ppsf = a.roofSize > 0 ? (a.quotePrice / a.roofSize).toFixed(2) : null;
+
+        return `
+          <div class="market-panel">
+            <h3>Market Context — ${location}</h3>
+            <table class="market-table">
+              <tr><td>Your quote</td><td>${safeFormatCurrency(a.quotePrice)}${ppsf ? ` ($${ppsf}/sqft)` : ""}</td></tr>
+              <tr><td>Expected midpoint</td><td>${safeFormatCurrency(a.mid)}</td></tr>
+              <tr><td>Expected range</td><td>${safeFormatCurrency(a.low)} &ndash; ${safeFormatCurrency(a.high)}</td></tr>
+              <tr><td>Material</td><td>${escapeHtml(typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : a.material || "Unknown")}</td></tr>
+              <tr><td>Roof size</td><td>${roofSizeValue ? formatRoofSizeForDisplay(roofSizeValue, roofSizeSource, roofMeta?.confidence || "Low") : "Unknown"}</td></tr>
+              ${a.warrantyYears ? `<tr><td>Warranty</td><td>${escapeHtml(String(a.warrantyYears))} years</td></tr>` : ""}
+              ${roofSizeSource ? `<tr><td>Size source</td><td>${escapeHtml(roofSizeSource.replaceAll("_", " "))}</td></tr>` : ""}
+            </table>
+          </div>
+        `;
+      }
+
+      function renderShareModule(a) {
+        return `
+          <div class="share-module">
+            <div style="font-size:16px; font-weight:600; margin-bottom:12px;">Save or share this result</div>
+            <div class="action-buttons">
+              <button class="btn secondary" onclick="copyShareableReportText()">Copy result</button>
+              <button class="btn secondary" onclick="viewShareableResult()">View full report</button>
+              <a class="btn secondary" href="/roofing-quote-analyzer.html" style="text-decoration:none;">Start over</a>
+            </div>
+          </div>
+        `;
+      }
+
+      // ============================================================
+      // End 1% UX modules
+      // ============================================================
+
       function renderMainAnalysisResult(a) {
         if (!a) return "";
         const meta = a?.meta || {};
@@ -6592,45 +6892,36 @@ function buildComparisonWinnerHtml(summary) {
     };
 
     window.renderAddressStep = function renderAddressStep() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const prefillCity = urlParams.get("city") || "";
+      const prefillState = urlParams.get("state") || "";
+      const localContext = prefillCity && prefillState
+        ? `<div style="margin:0 0 18px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; font-size:14px; color:#166534; font-weight:500;">Showing local pricing for ${escapeHtml(prefillCity)}, ${escapeHtml(prefillState)}</div>`
+        : "";
+
       return `
         <div class="journey-start">
           <div class="journey-start-card" style="max-width:720px; margin:48px auto; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
 
-            <div class="eyebrow" style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#2563eb; margin:0 0 10px;">
-              TruePrice
-            </div>
+            ${localContext}
 
-            <h1 style="margin:0 0 10px; font-size:40px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">
-              Most homeowners overpay $3K–$7K for a new roof.
+            <h1 style="margin:0 0 10px; font-size:38px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">
+              Is your roofing quote fair?
             </h1>
 
-            <p class="muted" style="margin:0 0 18px; font-size:16px;">
-              Upload your quote and we’ll tell you if it’s fair, high, or risky. 30 seconds. No signup.
+            <p class="muted" style="margin:0 0 24px; font-size:16px;">
+              Upload your quote. Get your answer in 30 seconds. Free, private, no signup.
             </p>
 
-            <!-- VALUE PILLS -->
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin:0 0 22px;">
-              <div style="padding:8px 12px; border-radius:999px; background:#e0e7ff; font-size:13px;">
-                Avg overpay $3K–$7K
-              </div>
-              <div style="padding:8px 12px; border-radius:999px; background:#ede9fe; font-size:13px;">
-                Catch risky quotes
-              </div>
-              <div style="padding:8px 12px; border-radius:999px; background:#dcfce7; font-size:13px;">
-                Get negotiation leverage
-              </div>
-            </div>
-
             <!-- PRIMARY: UPLOAD -->
-            <div style="border:1px solid #e5e7eb; border-radius:18px; padding:22px; text-align:center; margin:0 0 24px;">
-              <div style="font-size:28px; margin-bottom:8px;">⬆️</div>
+            <div style="border:2px solid #bfdbfe; border-radius:18px; padding:28px; text-align:center; margin:0 0 24px; background:#f8fbff;">
 
-              <div style="font-size:20px; font-weight:700; margin-bottom:6px;">
+              <div style="font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a;">
                 Upload your roofing quote
               </div>
 
-              <div class="small muted" style="margin-bottom:14px;">
-                PDF or image. Instant analysis.
+              <div class="small muted" style="margin-bottom:16px;">
+                PDF, screenshot, or phone photo
               </div>
 
               <input
@@ -6644,13 +6935,13 @@ function buildComparisonWinnerHtml(summary) {
                 type="button"
                 class="btn"
                 id="uploadQuoteBtn"
-                style="font-size:16px; padding:14px 20px;"
+                style="font-size:16px; padding:14px 28px;"
               >
-                Upload quote →
+                Upload quote
               </button>
 
-              <div class="small muted" style="margin-top:10px;">
-                Private • No spam • No signup
+              <div class="small muted" style="margin-top:12px; font-size:12px;">
+                Private &bull; No spam &bull; No signup
               </div>
             </div>
 
@@ -6667,11 +6958,11 @@ function buildComparisonWinnerHtml(summary) {
                 </div>
 
                 <div>
-                  <input id="journeyCity" type="text" placeholder="City" />
+                  <input id="journeyCity" type="text" placeholder="City" value="${escapeHtml(prefillCity)}" />
                 </div>
 
                 <div>
-                  <input id="journeyState" type="text" maxlength="2" placeholder="State" />
+                  <input id="journeyState" type="text" maxlength="2" placeholder="State" value="${escapeHtml(prefillState)}" />
                 </div>
 
                 <div>
@@ -6921,26 +7212,67 @@ function buildComparisonWinnerHtml(summary) {
       if (!root) return;
 
       root.innerHTML = `
-        <div class="wrap" style="max-width:720px; margin:80px auto; text-align:center;">
-          
-          <div style="font-size:34px; font-weight:800; margin-bottom:12px;">
-            Analyzing your quote…
+        <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+
+          <div class="progress-phase" id="analysisPhaseLabel">
+            Reading your document...
           </div>
 
-          <p class="muted" style="margin-bottom:24px;">
-            Extracting price, roof size, and risk signals
-          </p>
+          <div class="progress-sub" id="analysisPhaseDetail">
+            Extracting price, material, and scope details
+          </div>
 
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
-            <div id="analysisProgressBar" style="width:30%; height:100%; background:#2563eb; transition:width .4s;"></div>
+            <div id="analysisProgressBar" style="width:10%; height:100%; background:var(--brand); transition:width .4s;"></div>
           </div>
 
-          <div class="small muted">
-            This takes ~5–10 seconds
+          <div class="small muted" style="margin-bottom:24px;">
+            This takes ~5-10 seconds
           </div>
+
+          <div class="extraction-preview" id="extractionPreview"></div>
 
         </div>
       `;
+
+      // Animate progress phases
+      const phases = [
+        { pct: 20, label: "Extracting price, material, and scope...", detail: "Scanning document for key pricing signals", delay: 1500 },
+        { pct: 45, label: "Looking up your property...", detail: "Estimating roof size from address data", delay: 3500 },
+        { pct: 65, label: "Comparing against local pricing...", detail: "Matching to city-level benchmarks", delay: 5000 },
+        { pct: 85, label: "Checking for risks and missing items...", detail: "Reviewing scope signals and risk flags", delay: 7000 },
+        { pct: 95, label: "Generating your decision...", detail: "Assembling your personalized result", delay: 8500 }
+      ];
+
+      phases.forEach(phase => {
+        setTimeout(() => {
+          const bar = document.getElementById("analysisProgressBar");
+          const label = document.getElementById("analysisPhaseLabel");
+          const detail = document.getElementById("analysisPhaseDetail");
+          if (bar) bar.style.width = phase.pct + "%";
+          if (label) label.textContent = phase.label;
+          if (detail) detail.textContent = phase.detail;
+
+          // Show extraction previews as data becomes available
+          const preview = document.getElementById("extractionPreview");
+          if (preview && latestParsed) {
+            let items = [];
+            if (latestParsed.price) items.push({ label: "Price", value: "$" + Number(latestParsed.price).toLocaleString() });
+            if (latestParsed.materialLabel) items.push({ label: "Material", value: latestParsed.materialLabel });
+            if (latestParsed.roofSize) items.push({ label: "Roof size", value: latestParsed.roofSize + " sq ft" });
+            if (latestParsed.city) items.push({ label: "Location", value: latestParsed.city + (latestParsed.stateCode ? ", " + latestParsed.stateCode : "") });
+
+            if (items.length > 0) {
+              preview.innerHTML = items.map(item =>
+                `<div class="extraction-item">
+                  <span class="extraction-item-label">${escapeHtml(item.label)}</span>
+                  <span class="extraction-item-value">${escapeHtml(item.value)}</span>
+                </div>`
+              ).join("");
+            }
+          }
+        }, phase.delay);
+      });
     }
 
     window.setJourneyStep = function setJourneyStep(step) {
@@ -7021,12 +7353,17 @@ function buildComparisonWinnerHtml(summary) {
       window.renderResultStep = function renderResultStep() {
         const a = window.__latestAnalysis;
         if (!a) {
-          return `<div class="wrap"><p>No analysis yet.</p></div>`;
+          return `<div style="max-width:800px; margin:40px auto; text-align:center; padding:24px;"><p>No analysis yet.</p></div>`;
         }
 
         return `
-          <div class="wrap" style="max-width:900px; margin:40px auto;">
-            ${renderMainAnalysisResult(a)}
+          <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+            ${renderVerdictCard(a)}
+            ${renderActionCard(a)}
+            ${renderRiskFlagsModule(a)}
+            ${renderScopeScorecard(a)}
+            ${renderMarketContext(a)}
+            ${renderShareModule(a)}
           </div>
         `;
       };
