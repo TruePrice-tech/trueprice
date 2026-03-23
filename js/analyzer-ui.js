@@ -7951,6 +7951,44 @@ function buildComparisonWinnerHtml(summary) {
       const root = document.getElementById("appRoot");
       if (!root) return;
 
+      // If no quote was uploaded (address-only flow), show upload prompt instead of analyzing
+      const hasQuoteData = latestParsed && (latestParsed.price || latestParsed.finalBestPrice || latestParsed.totalLinePrice);
+      if (!hasQuoteData) {
+        const preview = journeyState.propertyPreview || {};
+        const addr = [preview.street, preview.city, preview.state, preview.zip].filter(Boolean).join(", ");
+        root.innerHTML = `
+          <div style="max-width:720px; margin:60px auto; padding:0 24px;">
+            <div style="padding:28px; background:#fff; border:1px solid #e2e8f0; border-radius:18px; box-shadow:0 4px 16px rgba(15,23,42,0.06); text-align:center;">
+              ${addr ? `<div style="font-size:13px; color:var(--muted); margin-bottom:12px; padding:8px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">${repairDisplayText(escapeHtml(addr))}</div>` : ""}
+              <h2 style="margin:12px 0 8px; font-size:28px; letter-spacing:-0.02em;">Now upload your quote</h2>
+              <p style="color:var(--muted); margin:0 0 20px;">We saved your address. Upload your contractor's estimate and we'll compare it against local pricing.</p>
+              <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
+              <button type="button" class="btn" id="uploadQuoteBtn" style="font-size:16px; padding:14px 28px;" onclick="document.getElementById('quoteFile').click()">Upload quote</button>
+              <div style="margin-top:14px; font-size:13px; color:var(--muted);">PDF, screenshot, or phone photo</div>
+            </div>
+          </div>
+        `;
+        // Bind file input change
+        const input = document.getElementById("quoteFile");
+        if (input) {
+          input.addEventListener("change", async function() {
+            const file = input.files?.[0];
+            if (!file) return;
+            if (typeof loadVendorLibs === "function") await loadVendorLibs();
+            root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;"><div class="progress-phase">Reading your quote...</div><div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;"><div style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div></div></div>';
+            try {
+              const parsedBundle = await parseUploadedComparisonFile(file);
+              latestParsed = parsedBundle?.parsed || parsedBundle || {};
+              // Now run the full analysis with address + parsed quote
+              confirmProperty();
+            } catch (err) {
+              root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:24px;"><p>Could not read the quote. Please try again.</p><button class="btn secondary" onclick="setJourneyStep(\'address\')">Back</button></div>';
+            }
+          });
+        }
+        return;
+      }
+
       // Build extraction preview items
       let previewHtml = "";
       if (latestParsed) {
