@@ -851,7 +851,7 @@ function detectMaterial(text) {
 
         // Penalize metal when shingle signals dominate the document
         if (item.value === "metal" && hasShingleSignals) {
-          score -= 40;
+          score -= 80;
         }
 
         // Penalize metal matches found only in boilerplate/payment terms
@@ -1370,7 +1370,9 @@ const SCOPE_DEFINITIONS = {
       /\bdrip edge\b/g,
       /\bdripedge\b/g,
       /\bedge metal\b/g,
-      /\bmetal edge\b/g
+      /\bmetal edge\b/g,
+      /\bdrip metal\b/g,
+      /\baluminum drip\b/g
     ],
     negative: [
       /\bdrip edge not included\b/g,
