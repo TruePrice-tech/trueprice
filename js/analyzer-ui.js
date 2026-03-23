@@ -4076,7 +4076,9 @@ function buildComparisonWinnerHtml(summary) {
             items: [
               { key: "starterStrip", label: "Starter strip", weight: 4, why: "Affects wind resistance at roof edges" },
               { key: "ridgeCap", label: "Ridge cap", weight: 4, why: "Seals and finishes the ridge line" },
-              { key: "decking", label: "Decking", weight: 4, why: "Repair allowance — not always needed" }
+              { key: "decking", label: "Decking", weight: 4, why: "Repair allowance — not always needed" },
+              { key: "disposal", label: "Disposal", weight: 3, why: "Debris removal and cleanup" },
+              { key: "permit", label: "Permit", weight: 2, why: "Building permit — required by code" }
             ]
           }
         ];
@@ -4168,7 +4170,9 @@ function buildComparisonWinnerHtml(summary) {
           { key: "ridgeVent", label: "Ridge vent", why: "Primary roof ventilation" },
           { key: "starterStrip", label: "Starter strip", why: "Wind resistance at edges" },
           { key: "ridgeCap", label: "Ridge cap", why: "Seals the ridge line" },
-          { key: "decking", label: "Decking", why: "Repair allowance if needed" }
+          { key: "decking", label: "Decking", why: "Repair allowance if needed" },
+          { key: "disposal", label: "Disposal", why: "Debris removal and cleanup" },
+          { key: "permit", label: "Permit", why: "Building permit" }
         ];
 
         // Initialize review state from OCR signals (only once)
@@ -4310,7 +4314,9 @@ function buildComparisonWinnerHtml(summary) {
           { key: "ridgeVent", label: "Ridge vent" },
           { key: "starterStrip", label: "Starter strip" },
           { key: "ridgeCap", label: "Ridge cap" },
-          { key: "decking", label: "Decking" }
+          { key: "decking", label: "Decking" },
+          { key: "disposal", label: "Disposal" },
+          { key: "permit", label: "Permit" },
         ];
 
         const missing = scopeItems.filter(i => !scopeReviewState[i.key]);
@@ -7211,7 +7217,7 @@ function buildComparisonWinnerHtml(summary) {
     function buildQuoteSummary(parsed, label) {
       if (!parsed) return null;
       const signals = parsed.signals || {};
-      const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking"];
+      const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking","disposal","permit"];
       const confirmed = scopeKeys.filter(k => getScopeStatus(label, k, signals) === "included").length;
       const price = Number(parsed.finalBestPrice || parsed.totalLinePrice || parsed.price || 0);
       return {
@@ -7240,7 +7246,9 @@ function buildComparisonWinnerHtml(summary) {
         { key: "ridgeVent", label: "Ridge vent" },
         { key: "starterStrip", label: "Starter" },
         { key: "ridgeCap", label: "Ridge cap" },
-        { key: "decking", label: "Decking" }
+        { key: "decking", label: "Decking" },
+          { key: "disposal", label: "Disposal" },
+          { key: "permit", label: "Permit" },
       ];
 
       // Find winner: best value = strong scope + low price + good warranty
@@ -7382,7 +7390,7 @@ function buildComparisonWinnerHtml(summary) {
       if (q1) { q1.price = a.quotePrice || q1.price; }
 
       // Build quote 1 summary display
-      const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking"];
+      const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking","disposal","permit"];
       const q1Confirmed = scopeKeys.filter(k => (parsed.signals || {})[k]?.status === "included").length;
 
       function renderUploadCard(num, state) {
@@ -7555,7 +7563,9 @@ function buildComparisonWinnerHtml(summary) {
         { key: "ridgeVent", label: "Ridge vent" },
         { key: "starterStrip", label: "Starter strip" },
         { key: "ridgeCap", label: "Ridge cap" },
-        { key: "decking", label: "Decking" }
+        { key: "decking", label: "Decking" },
+          { key: "disposal", label: "Disposal" },
+          { key: "permit", label: "Permit" },
       ];
 
       const foundItems = scopeItems.filter(i => scopeReviewState[i.key] || signals[i.key]?.status === "included");

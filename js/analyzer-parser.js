@@ -1534,6 +1534,45 @@ const SCOPE_DEFINITIONS = {
       /\bdecking at additional cost\b/g,
       /\bdecking if needed\b/g
     ]
+  },
+
+  disposal: {
+    label: "Disposal",
+    positive: [
+      /\bdisposal\b/g,
+      /\bdebris removal\b/g,
+      /\bdebris disposal\b/g,
+      /\bhaul away\b/g,
+      /\bhaul off\b/g,
+      /\bdumpster\b/g,
+      /\bcleanup\b/g,
+      /\bclean up\b/g,
+      /\bmagnetic sweep\b/g,
+      /\bdispose\b/g
+    ],
+    negative: [
+      /\bdisposal not included\b/g,
+      /\bdisposal extra\b/g
+    ]
+  },
+
+  permit: {
+    label: "Permit",
+    positive: [
+      /\bpermit\b/g,
+      /\bbuilding permit\b/g,
+      /\bcounty permit\b/g,
+      /\bcity permit\b/g,
+      /\bpermit included\b/g,
+      /\bpull permit\b/g,
+      /\bbuy a permit\b/g
+    ],
+    negative: [
+      /\bpermit not included\b/g,
+      /\bpermit extra\b/g,
+      /\bpermit by owner\b/g,
+      /\bhomeowner.*permit\b/g
+    ]
   }
 };
 
