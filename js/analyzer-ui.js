@@ -5927,6 +5927,136 @@ function buildComparisonWinnerHtml(summary) {
       bindComparisonWinnerActions(comparisonSummary);
     }
 
+    function renderComparisonResultScreen(summary, sortedQuotes, spread, spreadPct) {
+      const root = document.getElementById("appRoot");
+      if (!root) return;
+
+      const w = summary.winnerQuote || {};
+      const wb = w.comparisonBreakdown || {};
+      const softened = summary.shouldSoftenWinner;
+      const mid = latestAnalysis?.mid || 0;
+
+      const winnerBg = softened ? "#fff7ed" : "#f0fdf4";
+      const winnerBorder = softened ? "#fdba74" : "#86efac";
+      const winnerColor = softened ? "#9a3412" : "#166534";
+      const winnerTitle = softened
+        ? `${escapeHtml(summary.winner)} is in front, but needs verification`
+        : `${escapeHtml(summary.winner)} is the best value`;
+
+      // Build reasons list
+      const reasons = (wb.reasons || []).slice(0, 3);
+      const warnings = (wb.warnings || []).slice(0, 2);
+
+      // Build runner-up section
+      let runnerUpHtml = "";
+      if (summary.runnerUp) {
+        const rb = summary.runnerUp.comparisonBreakdown || {};
+        const rReasons = (rb.reasons || []).slice(0, 2);
+        runnerUpHtml = `
+          <div style="padding:16px; border:1px solid #e2e8f0; border-radius:12px; margin:0 0 16px;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px;">
+              <div>
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted, #6b7280);">Runner-up</div>
+                <div style="font-size:18px; font-weight:700; margin-top:4px;">${escapeHtml(summary.runnerUp.contractor || summary.runnerUp.label)}</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:20px; font-weight:700;">${safeFormatCurrency(summary.runnerUp.total)}</div>
+                <div style="font-size:13px; color:var(--muted, #6b7280);">Score: ${summary.runnerUp.comparisonScore || 0}/100</div>
+              </div>
+            </div>
+            ${rReasons.length > 0 ? `<ul style="margin:10px 0 0; padding-left:18px; font-size:14px; color:#374151;">${rReasons.map(r => `<li>${escapeHtml(r)}</li>`).join("")}</ul>` : ""}
+          </div>
+        `;
+      }
+
+      // Build other losers
+      let losersHtml = "";
+      const losers = (summary.losers || []).filter(l => l.name !== summary.runnerUp?.contractor && l.name !== summary.runnerUp?.label);
+      if (losers.length > 0) {
+        losersHtml = losers.map(l => `
+          <div style="padding:12px 16px; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <span style="font-weight:600;">${escapeHtml(l.name)}</span>
+              <span style="font-size:13px; color:var(--muted, #6b7280); margin-left:8px;">${l.score}/100</span>
+            </div>
+            ${l.reasons?.[0] ? `<span style="font-size:13px; color:var(--muted, #6b7280);">${escapeHtml(l.reasons[0])}</span>` : ""}
+          </div>
+        `).join("");
+      }
+
+      root.innerHTML = `
+        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+
+          <div style="padding:28px; background:${winnerBg}; border:2px solid ${winnerBorder}; border-radius:16px; margin:0 0 16px; text-align:center;">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:${winnerColor}; margin:0 0 8px;">
+              ${softened ? "Current leader" : "Comparison winner"}
+            </div>
+            <div style="font-size:32px; font-weight:800; line-height:1.1; margin:0 0 12px; color:#111827;">
+              ${winnerTitle}
+            </div>
+            <div style="display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin:0 0 16px;">
+              <div>
+                <div style="font-size:28px; font-weight:700;">${safeFormatCurrency(w.total)}</div>
+                <div style="font-size:12px; color:var(--muted, #6b7280);">Quoted price</div>
+              </div>
+              <div>
+                <div style="font-size:28px; font-weight:700;">${w.comparisonScore || 0}<span style="font-size:16px; font-weight:400; color:var(--muted, #6b7280);">/100</span></div>
+                <div style="font-size:12px; color:var(--muted, #6b7280);">Score</div>
+              </div>
+            </div>
+
+            ${warnings.length > 0 ? `
+              <div style="padding:12px 16px; background:#fff7ed; border:1px solid #fdba74; border-radius:10px; margin:0 0 16px; text-align:left; font-size:14px; color:#9a3412;">
+                ${warnings.map(w => `<div>${escapeHtml(w)}</div>`).join("")}
+              </div>
+            ` : ""}
+
+            ${reasons.length > 0 ? `
+              <div style="text-align:left; margin:0 0 4px;">
+                <div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:${winnerColor}; margin:0 0 8px;">Why this quote won</div>
+                <ul style="margin:0; padding-left:18px; font-size:14px; color:#374151;">
+                  ${reasons.map(r => `<li style="margin-bottom:4px;">${escapeHtml(r)}</li>`).join("")}
+                </ul>
+              </div>
+            ` : ""}
+
+            ${mid > 0 ? `<div style="margin-top:12px; font-size:13px; color:var(--muted, #6b7280);">Expected midpoint for this market: ${safeFormatCurrency(mid)}</div>` : ""}
+          </div>
+
+          ${runnerUpHtml}
+          ${losersHtml}
+
+          <div style="padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:0 0 16px;">
+            <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:14px; color:#374151;">
+              <div>Spread: <strong>${safeFormatCurrency(spread)}</strong> (${Number(spreadPct).toFixed(0)}%)</div>
+              <div>Quotes compared: <strong>${sortedQuotes.length}</strong></div>
+            </div>
+          </div>
+
+          <div class="action-buttons" style="margin:20px 0;">
+            <button class="btn" onclick="copyComparisonWinnerSummary()">Copy winner summary</button>
+            <button class="btn secondary" onclick="showCompareScreen()">Edit quotes</button>
+            <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
+          </div>
+        </div>
+      `;
+    }
+
+    window.copyComparisonWinnerSummary = function copyComparisonWinnerSummary() {
+      const summary = latestAnalysis?.comparisonSummary;
+      if (!summary) return;
+      const text = typeof buildComparisonWinnerText === "function" ? buildComparisonWinnerText(summary) : "";
+      if (text && navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert("Winner summary copied to clipboard.");
+        }).catch(() => {
+          prompt("Copy this text:", text);
+        });
+      } else if (text) {
+        prompt("Copy this text:", text);
+      }
+    };
+
     function compareQuotes() {
       track("compare_quotes_started", {
         hasPrimaryAnalysis: !!latestAnalysis
@@ -6043,16 +6173,22 @@ function buildComparisonWinnerHtml(summary) {
         latestAnalysis.comparisonSummary = comparisonSummary;
       }
 
-      renderComparisonResults({
-        output,
-        sortedQuotes,
-        comparisonSummary,
-        winningLabel,
-        lowest,
-        highest,
-        spread,
-        spreadPct
-      });
+      // Render winner-first result screen into #appRoot
+      renderComparisonResultScreen(comparisonSummary, sortedQuotes, spread, spreadPct);
+
+      // Also try legacy render for backward compat
+      if (output) {
+        renderComparisonResults({
+          output,
+          sortedQuotes,
+          comparisonSummary,
+          winningLabel,
+          lowest,
+          highest,
+          spread,
+          spreadPct
+        });
+      }
     }
 
     function resetAnalyzer() {
@@ -6802,27 +6938,51 @@ function buildComparisonWinnerHtml(summary) {
       const root = document.getElementById("appRoot");
       if (!root) return;
 
+      const a = latestAnalysis || {};
+      const parsed = latestParsed || {};
+      const contractor1 = (typeof inferContractorNameFromParsed === "function" ? inferContractorNameFromParsed(parsed) : "") || "Your quote";
+      const price1 = a.quotePrice ? safeFormatCurrency(a.quotePrice) : "Not set";
+      const material1 = (typeof getMaterialLabel === "function" && a.material) ? getMaterialLabel(a.material) : (a.material || "Unknown");
+
       root.innerHTML = `
         <div style="max-width:800px; margin:40px auto; padding:0 24px;">
-          <h2 style="margin:0 0 16px; font-size:24px;">Compare quotes</h2>
-          <p style="color:var(--muted, #6b7280);">Upload additional quotes to compare against your analyzed quote.</p>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0;">
-            <div>
-              <label style="display:block; font-weight:600; margin-bottom:6px;">Quote 2</label>
-              <input id="secondQuoteFile" type="file" accept=".pdf,image/*" style="width:100%;">
-              <input id="secondContractorName" type="text" placeholder="Contractor name" style="width:100%; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
-              <input id="secondQuotePrice" type="number" placeholder="Quote price" style="width:100%; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
-            </div>
-            <div>
-              <label style="display:block; font-weight:600; margin-bottom:6px;">Quote 3</label>
-              <input id="thirdQuoteFile" type="file" accept=".pdf,image/*" style="width:100%;">
-              <input id="thirdContractorName" type="text" placeholder="Contractor name" style="width:100%; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
-              <input id="thirdQuotePrice" type="number" placeholder="Quote price" style="width:100%; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
+          <h2 style="margin:0 0 8px; font-size:28px;">Compare your quotes</h2>
+          <p style="color:var(--muted, #6b7280); margin:0 0 24px;">Add competing bids below. We'll score each quote and pick a winner.</p>
+
+          <div style="padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:0 0 24px;">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted, #6b7280); margin:0 0 6px;">Your analyzed quote</div>
+            <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:baseline;">
+              <div style="font-size:22px; font-weight:700;">${escapeHtml(price1)}</div>
+              <div style="font-size:14px; color:var(--muted, #6b7280);">${escapeHtml(contractor1)}</div>
+              <div style="font-size:14px; color:var(--muted, #6b7280);">${escapeHtml(material1)}</div>
             </div>
           </div>
-          <div id="comparisonOutput" style="margin-top:16px;"></div>
-          <div class="action-buttons" style="margin-top:20px;">
-            <button class="btn" onclick="compareQuotes()">Compare quotes</button>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:0 0 24px;">
+            <div style="padding:20px; border:1px solid #e2e8f0; border-radius:12px;">
+              <div style="font-size:14px; font-weight:700; margin:0 0 12px;">Quote 2</div>
+              <input id="secondContractorName" type="text" placeholder="Contractor name" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; margin:0 0 8px;">
+              <input id="secondQuotePrice" type="number" placeholder="Total price (e.g. 14500)" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px;">
+              <div style="margin-top:10px;">
+                <input id="secondQuoteFile" type="file" accept=".pdf,image/*" style="font-size:13px;">
+                <small id="secondQuoteUploadStatus" style="display:block; margin-top:4px; color:var(--muted, #6b7280); font-size:12px;"></small>
+              </div>
+            </div>
+            <div style="padding:20px; border:1px solid #e2e8f0; border-radius:12px;">
+              <div style="font-size:14px; font-weight:700; margin:0 0 12px;">Quote 3 <span style="font-weight:400; color:var(--muted, #6b7280);">(optional)</span></div>
+              <input id="thirdContractorName" type="text" placeholder="Contractor name" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; margin:0 0 8px;">
+              <input id="thirdQuotePrice" type="number" placeholder="Total price (e.g. 16200)" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px;">
+              <div style="margin-top:10px;">
+                <input id="thirdQuoteFile" type="file" accept=".pdf,image/*" style="font-size:13px;">
+                <small id="thirdQuoteUploadStatus" style="display:block; margin-top:4px; color:var(--muted, #6b7280); font-size:12px;"></small>
+              </div>
+            </div>
+          </div>
+
+          <div id="comparisonOutput" style="margin-bottom:16px;"></div>
+
+          <div class="action-buttons">
+            <button class="btn" onclick="compareQuotes()">Compare and pick winner</button>
             <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
           </div>
         </div>
