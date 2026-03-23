@@ -173,15 +173,37 @@ async function extractTextFromPdfNative(file) {
     fullText += "\n" + pageText;
   }
 
-  // Apply common text repairs before returning
+  // Aggressive text repair for pdfjs split-character extraction
+  // pdfjs often splits words at ligature/kerning boundaries: "Ar chitectur al" "Roo fi ng"
+
+  // Step 1: Specific roofing term repairs FIRST (before generic collapse)
   fullText = fullText
-    .replace(/\broo\s*f?\s*ng\b/gi, "roofing")
-    .replace(/\bashi?ng\b/gi, "ashing")
-    .replace(/\b[ffi]+ashing\b/gi, "flashing")
-    .replace(/\bventila\s*tion\b/gi, "ventilation")
-    .replace(/\bunder\s*lay\s*ment\b/gi, "underlayment")
-    .replace(/\barchitec\s*tural\b/gi, "architectural")
-    .replace(/\bsyn\s*thetic\b/gi, "synthetic");
+    .replace(/Roo\s*fi\s*ng/gi, "Roofing")
+    .replace(/Ar\s*chitectur\s*al/gi, "Architectural")
+    .replace(/under\s*la\s*y\s*ment/gi, "underlayment")
+    .replace(/Underla\s*yment/gi, "Underlayment")
+    .replace(/v\s*entila\s*tion/gi, "ventilation")
+    .replace(/syn\s*thetic/gi, "synthetic")
+    .replace(/Cer\s*tain\s*T\s*eed/gi, "CertainTeed")
+    .replace(/Ice and W\s*ater/gi, "Ice and Water")
+    .replace(/ice and w\s*ater/gi, "ice and water")
+    .replace(/ridge\s+v\s*ent/gi, "ridge vent")
+    .replace(/Ridge\s+v\s*ent/gi, "Ridge vent")
+    .replace(/fl\s*ashing/gi, "flashing")
+    .replace(/v\s*alle\s*ys/gi, "valleys")
+    .replace(/penetr\s*ations/gi, "penetrations")
+    .replace(/warr\s*anty/gi, "warranty")
+    .replace(/T\s*O\s*T\s*AL/g, "TOTAL")
+    .replace(/drip\s+metal/gi, "drip edge")
+    .replace(/Drip\s+metal/gi, "Drip edge");
+
+  // Step 2: Rejoin ligature fragments: "fi ng" -> "fing", "fl ow" -> "flow"
+  fullText = fullText.replace(/\bfi ([a-z])/g, 'fi$1');
+  fullText = fullText.replace(/\bfl ([a-z])/g, 'fl$1');
+  fullText = fullText.replace(/\bff ([a-z])/g, 'ff$1');
+
+  // Step 3: Rejoin single uppercase+lowercase splits: "W ork" -> "Work", "F ax" -> "Fax"
+  fullText = fullText.replace(/\b([A-Z]) ([a-z]{2,})/g, '$1$2');
 
   console.log("PDF_NATIVE_TEXT_EXTRACT:", fullText.substring(0, 500));
 
