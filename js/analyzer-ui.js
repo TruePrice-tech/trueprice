@@ -6890,15 +6890,12 @@ function buildComparisonWinnerHtml(summary) {
                   setJourneyStep("confirm");
                 } else {
                   journeyState.propertyConfirmed = true;
-                  setJourneyStep("analyze");
-                  setTimeout(() => {
-                    if (typeof analyzeQuote === "function") analyzeQuote();
-                  }, 100);
+                  confirmProperty();
                 }
               } catch (err) {
                 console.error("Upload parse error:", err);
                 journeyState.propertyConfirmed = true;
-                setJourneyStep("analyze");
+                confirmProperty();
               }
             });
           }
@@ -7330,7 +7327,8 @@ function buildComparisonWinnerHtml(summary) {
 
     window.continueWithoutPropertyMatch = function continueWithoutPropertyMatch() {
       journeyState.propertyConfirmed = true;
-      setJourneyStep("analyze");
+      // Use same overlay pattern as confirmProperty
+      confirmProperty();
     };
 
     window.handleAddressSubmit = function handleAddressSubmit() {
@@ -7385,14 +7383,38 @@ function buildComparisonWinnerHtml(summary) {
     window.confirmProperty = function confirmProperty() {
       journeyState.propertyConfirmed = true;
 
+      // Mount the analyze step (creates form elements analyzeQuote needs)
       setJourneyStep("analyze");
 
-      // Trigger analysis AFTER step switch
+      // Overlay the form with analyzing state so user sees progress, not the clutter
       setTimeout(() => {
-        if (typeof analyzeQuote === "function") {
-          analyzeQuote();
+        const root = document.getElementById("appRoot");
+        if (root) {
+          const overlay = document.createElement("div");
+          overlay.id = "analyzingOverlay";
+          overlay.style.cssText = "position:absolute; top:0; left:0; right:0; bottom:0; background:#fff; z-index:10;";
+          overlay.innerHTML = `
+            <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+              <div class="progress-phase" id="analysisPhaseLabel">Analyzing your quote...</div>
+              <div class="progress-sub" id="analysisPhaseDetail">Comparing against local pricing data</div>
+              <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
+                <div id="analysisProgressBar" style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div>
+              </div>
+              <div class="small muted">This takes ~5-10 seconds</div>
+              <div class="extraction-preview" id="extractionPreview"></div>
+            </div>
+          `;
+          root.style.position = "relative";
+          root.appendChild(overlay);
         }
-      }, 0);
+
+        // Run analysis (form elements exist underneath the overlay)
+        setTimeout(() => {
+          if (typeof analyzeQuote === "function") {
+            analyzeQuote();
+          }
+        }, 100);
+      }, 100);
     };
 
       window.renderResultStep = function renderResultStep() {
