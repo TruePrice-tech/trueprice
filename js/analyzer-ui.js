@@ -7196,60 +7196,292 @@ function buildComparisonWinnerHtml(summary) {
       `;
     }
 
+    // Compare state — stores parsed data for quotes 2 and 3
+    const compareState = { q2: null, q3: null };
+
+    function buildQuoteSummary(parsed, label) {
+      if (!parsed) return null;
+      const signals = parsed.signals || {};
+      const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking"];
+      const confirmed = scopeKeys.filter(k => signals[k]?.status === "included").length;
+      const price = Number(parsed.finalBestPrice || parsed.totalLinePrice || parsed.price || 0);
+      return {
+        label,
+        contractor: repairDisplayText(parsed.contractor && parsed.contractor !== "Not detected" ? parsed.contractor : label),
+        price,
+        material: parsed.materialLabel || parsed.material || "Unknown",
+        warranty: parsed.warranty || "",
+        warrantyYears: parsed.warrantyYears || "",
+        roofSize: Number(parsed.roofSize || 0),
+        scopeConfirmed: confirmed,
+        scopeTotal: scopeKeys.length,
+        signals,
+        parsed
+      };
+    }
+
+    function renderCompareGrid(quotes) {
+      const scopeItems = [
+        { key: "tearOff", label: "Tear off" },
+        { key: "underlayment", label: "Underlayment" },
+        { key: "flashing", label: "Flashing" },
+        { key: "iceShield", label: "Ice & water" },
+        { key: "dripEdge", label: "Drip edge" },
+        { key: "ventilation", label: "Ventilation" },
+        { key: "ridgeVent", label: "Ridge vent" },
+        { key: "starterStrip", label: "Starter" },
+        { key: "ridgeCap", label: "Ridge cap" },
+        { key: "decking", label: "Decking" }
+      ];
+
+      // Find winner by scope score + price proximity to midpoint
+      const mid = latestAnalysis?.mid || 0;
+      let bestIdx = 0;
+      let bestScore = -1;
+      quotes.forEach((q, i) => {
+        const scopeScore = q.scopeConfirmed * 10;
+        const priceDist = mid > 0 ? Math.abs(q.price - mid) / mid : 0;
+        const priceScore = Math.max(0, 100 - priceDist * 200);
+        const warrantyScore = q.warrantyYears ? Math.min(Number(q.warrantyYears), 50) : 0;
+        q.totalScore = Math.round(scopeScore * 0.5 + priceScore * 0.35 + warrantyScore * 0.15);
+        if (q.totalScore > bestScore) { bestScore = q.totalScore; bestIdx = i; }
+      });
+
+      const cols = quotes.length;
+      const colW = Math.floor(100 / (cols + 1));
+      const hdr = (label) => `<div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); padding:8px 0;">${label}</div>`;
+      const cell = (val, isWinner) => `<div style="padding:8px 12px; font-size:14px; ${isWinner ? "background:#ecfdf5;" : ""}">${val}</div>`;
+      const check = (status) => status === "included" ? '<span style="color:#16a34a; font-weight:700;">&#10003;</span>' : '<span style="color:#d97706;">?</span>';
+
+      let rows = "";
+
+      // Contractor row
+      rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
+      rows += hdr("Contractor");
+      quotes.forEach((q, i) => rows += cell(`<strong>${escapeHtml(q.contractor)}</strong>${i === bestIdx ? ' <span style="background:#16a34a; color:#fff; font-size:10px; padding:2px 6px; border-radius:999px; font-weight:700;">BEST</span>' : ''}`, i === bestIdx));
+      rows += "</div>";
+
+      // Price row
+      rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
+      rows += hdr("Price");
+      quotes.forEach((q, i) => rows += cell(`<strong>${safeFormatCurrency(q.price)}</strong>`, i === bestIdx));
+      rows += "</div>";
+
+      // $/sqft row
+      rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
+      rows += hdr("$/sq ft");
+      quotes.forEach((q, i) => rows += cell(q.roofSize > 0 ? "$" + (q.price / q.roofSize).toFixed(2) : "—", i === bestIdx));
+      rows += "</div>";
+
+      // Material row
+      rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
+      rows += hdr("Material");
+      quotes.forEach((q, i) => rows += cell(escapeHtml(q.material), i === bestIdx));
+      rows += "</div>";
+
+      // Warranty row
+      rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
+      rows += hdr("Warranty");
+      quotes.forEach((q, i) => rows += cell(q.warrantyYears ? q.warrantyYears + " yr" : "?", i === bestIdx));
+      rows += "</div>";
+
+      // Scope score row
+      rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
+      rows += hdr("Scope");
+      quotes.forEach((q, i) => {
+        const pct = Math.round((q.scopeConfirmed / q.scopeTotal) * 100);
+        const color = pct >= 70 ? "#16a34a" : pct >= 40 ? "#d97706" : "#dc2626";
+        rows += cell(`<strong style="color:${color};">${q.scopeConfirmed}/${q.scopeTotal}</strong>`, i === bestIdx);
+      });
+      rows += "</div>";
+
+      // Individual scope items
+      scopeItems.forEach(item => {
+        rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f8fafc;">`;
+        rows += `<div style="font-size:12px; color:var(--muted); padding:4px 0;">${item.label}</div>`;
+        quotes.forEach((q, i) => rows += `<div style="padding:4px 12px; ${i === bestIdx ? "background:#ecfdf5;" : ""}">${check(q.signals[item.key]?.status)}</div>`);
+        rows += "</div>";
+      });
+
+      // Overall score row
+      rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-top:2px solid #e2e8f0; margin-top:4px;">`;
+      rows += hdr("Score");
+      quotes.forEach((q, i) => rows += cell(`<strong style="font-size:18px;">${q.totalScore}</strong><span style="font-size:12px; color:var(--muted);">/100</span>`, i === bestIdx));
+      rows += "</div>";
+
+      // Winner declaration
+      const winner = quotes[bestIdx];
+      const reasons = [];
+      if (winner.scopeConfirmed >= 7) reasons.push("Most complete scope (" + winner.scopeConfirmed + " of " + winner.scopeTotal + " items)");
+      else if (winner.scopeConfirmed === Math.max(...quotes.map(q => q.scopeConfirmed))) reasons.push("Best scope coverage among all quotes");
+      if (mid > 0) {
+        const dist = Math.abs(winner.price - mid);
+        const isClosest = quotes.every(q => Math.abs(q.price - mid) >= dist - 1);
+        if (isClosest) reasons.push("Price closest to market midpoint (" + safeFormatCurrency(mid) + ")");
+      }
+      if (winner.warrantyYears && Number(winner.warrantyYears) >= 10) reasons.push("Strong warranty (" + winner.warrantyYears + " years)");
+      if (reasons.length === 0) reasons.push("Best overall value based on price, scope, and warranty");
+
+      // Check for low-bid warnings
+      const cheapest = [...quotes].sort((a, b) => a.price - b.price)[0];
+      let cheapWarning = "";
+      if (cheapest !== winner && cheapest.scopeConfirmed < 5) {
+        cheapWarning = `<div style="margin-top:12px; padding:10px 14px; background:#fffbeb; border:1px solid #fde68a; border-radius:8px; font-size:13px; color:#92400e;">${escapeHtml(cheapest.contractor)} (${safeFormatCurrency(cheapest.price)}) is cheapest but only confirms ${cheapest.scopeConfirmed} scope items — likely incomplete.</div>`;
+      }
+
+      const winnerCard = `
+        <div style="margin-top:20px; padding:20px; background:#ecfdf5; border:2px solid #a7f3d0; border-radius:14px;">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#166534; margin-bottom:6px;">Winner</div>
+          <div style="font-size:24px; font-weight:800; margin-bottom:8px;">${escapeHtml(winner.contractor)} is the best value</div>
+          <div style="font-size:20px; font-weight:700; margin-bottom:12px;">${safeFormatCurrency(winner.price)} <span style="font-size:14px; color:var(--muted);">Score: ${winner.totalScore}/100</span></div>
+          <ul style="margin:0 0 8px; padding-left:18px; font-size:14px; color:#374151;">
+            ${reasons.map(r => `<li style="margin-bottom:4px;">${escapeHtml(r)}</li>`).join("")}
+          </ul>
+          ${cheapWarning}
+        </div>
+      `;
+
+      return `<div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#fff;">${rows}</div>${winnerCard}`;
+    }
+
     window.showCompareScreen = function showCompareScreen() {
       const root = document.getElementById("appRoot");
       if (!root) return;
 
       const a = latestAnalysis || {};
       const parsed = latestParsed || {};
-      const contractor1 = repairDisplayText((typeof inferContractorNameFromParsed === "function" ? inferContractorNameFromParsed(parsed) : "") || "Your quote");
-      const price1 = a.quotePrice ? safeFormatCurrency(a.quotePrice) : "Not set";
-      const material1 = (typeof getMaterialLabel === "function" && a.material) ? getMaterialLabel(a.material) : (a.material || "Unknown");
+      const q1 = buildQuoteSummary(parsed, "Quote 1");
+      if (q1) { q1.price = a.quotePrice || q1.price; }
+
+      // Build quote 1 summary display
+      const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking"];
+      const q1Confirmed = scopeKeys.filter(k => (parsed.signals || {})[k]?.status === "included").length;
+
+      function renderUploadCard(num, state) {
+        const p = state;
+        if (p) {
+          const contractor = repairDisplayText(p.contractor && p.contractor !== "Not detected" ? p.contractor : "Quote " + num);
+          const price = Number(p.finalBestPrice || p.totalLinePrice || p.price || 0);
+          const confirmed = scopeKeys.filter(k => (p.signals || {})[k]?.status === "included").length;
+          return `
+            <div style="padding:16px; border:1px solid #a7f3d0; border-radius:12px; background:#ecfdf5;">
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#166534; margin-bottom:4px;">Quote ${num} — Parsed</div>
+              <div style="font-size:20px; font-weight:700;">${safeFormatCurrency(price)}</div>
+              <div style="font-size:13px; color:#374151; margin-top:4px;">${escapeHtml(contractor)}</div>
+              <div style="font-size:12px; color:var(--muted); margin-top:2px;">${confirmed}/${scopeKeys.length} scope items</div>
+              <button class="btn secondary" style="margin-top:8px; font-size:12px; padding:6px 12px;" onclick="clearCompareQuote(${num})">Remove</button>
+            </div>`;
+        }
+        return `
+          <div style="padding:20px; border:2px dashed #e2e8f0; border-radius:12px; text-align:center;">
+            <div style="font-size:14px; font-weight:700; margin-bottom:8px;">Quote ${num}${num === 3 ? " (optional)" : ""}</div>
+            <div style="font-size:13px; color:var(--muted); margin-bottom:12px;">Upload a PDF or image of the competing quote</div>
+            <input id="compareFile${num}" type="file" accept=".pdf,image/*" style="display:none;">
+            <button class="btn secondary" onclick="document.getElementById('compareFile${num}').click()">Upload quote</button>
+            <div id="compareStatus${num}" style="font-size:12px; color:var(--muted); margin-top:8px;"></div>
+            <div style="margin-top:10px; font-size:12px; color:var(--muted);">or enter manually:</div>
+            <input id="comparePrice${num}" type="number" placeholder="Total price" style="width:60%; padding:8px; border:1px solid #e2e8f0; border-radius:6px; font-size:13px; margin-top:6px;">
+          </div>`;
+      }
 
       root.innerHTML = `
-        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+        <div style="max-width:900px; margin:40px auto; padding:0 24px;">
           <h2 style="margin:0 0 8px; font-size:28px;">Compare your quotes</h2>
-          <p style="color:var(--muted, #6b7280); margin:0 0 24px;">Add competing bids below. We'll score each quote and pick a winner.</p>
+          <p style="color:var(--muted); margin:0 0 24px;">Upload competing bids. We'll parse each one and compare scope, price, and warranty side by side.</p>
 
-          <div style="padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:0 0 24px;">
-            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted, #6b7280); margin:0 0 6px;">Your analyzed quote</div>
-            <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:baseline;">
-              <div style="font-size:22px; font-weight:700;">${escapeHtml(price1)}</div>
-              <div style="font-size:14px; color:var(--muted, #6b7280);">${escapeHtml(contractor1)}</div>
-              <div style="font-size:14px; color:var(--muted, #6b7280);">${escapeHtml(material1)}</div>
+          <div style="display:grid; grid-template-columns:repeat(${compareState.q3 || true ? 3 : 2}, 1fr); gap:12px; margin-bottom:24px;">
+            <div style="padding:16px; border:1px solid #e2e8f0; border-radius:12px; background:#f8fafc;">
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Your quote</div>
+              <div style="font-size:20px; font-weight:700;">${safeFormatCurrency(a.quotePrice || 0)}</div>
+              <div style="font-size:13px; color:#374151; margin-top:4px;">${escapeHtml(repairDisplayText(q1?.contractor || "Your quote"))}</div>
+              <div style="font-size:12px; color:var(--muted); margin-top:2px;">${q1Confirmed}/${scopeKeys.length} scope items</div>
             </div>
+            ${renderUploadCard(2, compareState.q2)}
+            ${renderUploadCard(3, compareState.q3)}
           </div>
 
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:0 0 24px;">
-            <div style="padding:20px; border:1px solid #e2e8f0; border-radius:12px;">
-              <div style="font-size:14px; font-weight:700; margin:0 0 12px;">Quote 2</div>
-              <input id="secondContractorName" type="text" placeholder="Contractor name" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; margin:0 0 8px;">
-              <input id="secondQuotePrice" type="number" placeholder="Total price (e.g. 14500)" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px;">
-              <div style="margin-top:10px;">
-                <input id="secondQuoteFile" type="file" accept=".pdf,image/*" style="font-size:13px;">
-                <small id="secondQuoteUploadStatus" style="display:block; margin-top:4px; color:var(--muted, #6b7280); font-size:12px;"></small>
-              </div>
-            </div>
-            <div style="padding:20px; border:1px solid #e2e8f0; border-radius:12px;">
-              <div style="font-size:14px; font-weight:700; margin:0 0 12px;">Quote 3 <span style="font-weight:400; color:var(--muted, #6b7280);">(optional)</span></div>
-              <input id="thirdContractorName" type="text" placeholder="Contractor name" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; margin:0 0 8px;">
-              <input id="thirdQuotePrice" type="number" placeholder="Total price (e.g. 16200)" style="width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px;">
-              <div style="margin-top:10px;">
-                <input id="thirdQuoteFile" type="file" accept=".pdf,image/*" style="font-size:13px;">
-                <small id="thirdQuoteUploadStatus" style="display:block; margin-top:4px; color:var(--muted, #6b7280); font-size:12px;"></small>
-              </div>
-            </div>
-          </div>
+          <div id="compareGridOutput"></div>
 
-          <div id="comparisonOutput" style="margin-bottom:16px;"></div>
-
-          <div class="action-buttons">
-            <button class="btn" onclick="compareQuotes()">Compare and pick winner</button>
+          <div class="action-buttons" style="margin-top:20px;">
+            <button class="btn" id="runCompareBtn" onclick="runFullComparison()">Compare and pick winner</button>
             <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
           </div>
         </div>
       `;
+
+      // Bind file uploads
+      [2, 3].forEach(num => {
+        const fileInput = document.getElementById("compareFile" + num);
+        if (fileInput) {
+          fileInput.addEventListener("change", async function() {
+            const file = fileInput.files?.[0];
+            if (!file) return;
+            const status = document.getElementById("compareStatus" + num);
+            if (status) status.textContent = "Parsing...";
+            if (typeof loadVendorLibs === "function") await loadVendorLibs();
+            try {
+              const bundle = await parseUploadedComparisonFile(file);
+              const p = bundle?.parsed || bundle || {};
+              compareState["q" + num] = p;
+              if (num === 2) secondParsed = p;
+              if (num === 3) thirdParsed = p;
+              showCompareScreen(); // Re-render with parsed data
+            } catch (e) {
+              if (status) status.textContent = "Could not read this file. Try another.";
+            }
+          });
+        }
+      });
     }
+
+    window.clearCompareQuote = function clearCompareQuote(num) {
+      compareState["q" + num] = null;
+      if (num === 2) secondParsed = null;
+      if (num === 3) thirdParsed = null;
+      showCompareScreen();
+    };
+
+    window.runFullComparison = function runFullComparison() {
+      const a = latestAnalysis || {};
+      const parsed = latestParsed || {};
+
+      const quotes = [];
+
+      // Quote 1 (primary)
+      const q1 = buildQuoteSummary(parsed, "Quote 1");
+      if (q1) { q1.price = a.quotePrice || q1.price; quotes.push(q1); }
+
+      // Quote 2
+      if (compareState.q2) {
+        const q2 = buildQuoteSummary(compareState.q2, "Quote 2");
+        if (q2 && q2.price > 0) quotes.push(q2);
+      } else {
+        const manualPrice = Number(document.getElementById("comparePrice2")?.value || 0);
+        if (manualPrice > 0) {
+          quotes.push({ label: "Quote 2", contractor: "Quote 2", price: manualPrice, material: "Unknown", warranty: "", warrantyYears: "", roofSize: 0, scopeConfirmed: 0, scopeTotal: 10, signals: {}, totalScore: 0 });
+        }
+      }
+
+      // Quote 3
+      if (compareState.q3) {
+        const q3 = buildQuoteSummary(compareState.q3, "Quote 3");
+        if (q3 && q3.price > 0) quotes.push(q3);
+      } else {
+        const manualPrice = Number(document.getElementById("comparePrice3")?.value || 0);
+        if (manualPrice > 0) {
+          quotes.push({ label: "Quote 3", contractor: "Quote 3", price: manualPrice, material: "Unknown", warranty: "", warrantyYears: "", roofSize: 0, scopeConfirmed: 0, scopeTotal: 10, signals: {}, totalScore: 0 });
+        }
+      }
+
+      if (quotes.length < 2) {
+        const output = document.getElementById("compareGridOutput");
+        if (output) output.innerHTML = '<div style="padding:16px; color:#b91c1c; text-align:center;">Upload or enter at least one competing quote to compare.</div>';
+        return;
+      }
+
+      const output = document.getElementById("compareGridOutput");
+      if (output) output.innerHTML = renderCompareGrid(quotes);
+    };
 
     window.showShareScreen = function showShareScreen() {
       const root = document.getElementById("appRoot");
