@@ -1293,6 +1293,29 @@ details.card summary::-webkit-details-marker {
   .report-actions {
     display: none !important;
   }
+
+  .site-header,
+  .site-footer,
+  .action-buttons,
+  .btn,
+  .btn-outline,
+  [onclick] {
+    display: none !important;
+  }
+
+  .verdict-card,
+  .scope-scorecard,
+  .market-panel,
+  .share-module {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #d1d5db !important;
+  }
+
+  body {
+    background: white !important;
+  }
 }
 
 /* --- Responsive --- */
@@ -1350,5 +1373,11 @@ details.card summary::-webkit-details-marker {
 
   .market-table td:first-child {
     width: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .report-stat-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }

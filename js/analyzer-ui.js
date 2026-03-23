@@ -4356,9 +4356,11 @@ function buildComparisonWinnerHtml(summary) {
       }
 
       function renderShareModule(a) {
+        const analysisCount = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10);
         return `
           <div class="share-module">
             <div style="font-size:16px; font-weight:600; margin-bottom:12px;">Save or share this result</div>
+            <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">${analysisCount > 0 ? 'You have analyzed ' + analysisCount + ' quote' + (analysisCount > 1 ? 's' : '') + ' with TruePrice' : ''}</div>
             <div class="action-buttons">
               <button class="btn secondary" onclick="copyShareableReportText()">Copy result</button>
               <button class="btn secondary" onclick="showShareScreen()">View full report</button>
@@ -7377,7 +7379,7 @@ function buildComparisonWinnerHtml(summary) {
       `;
 
       const hint = `<div style="font-size:12px; color:var(--muted); text-align:center; margin-top:8px;">Tap any ✓ or ? to correct scope items. Winner recalculates automatically.</div>`;
-      return `<div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#fff;">${rows}</div>${hint}${winnerCard}`;
+      return `<div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; overflow-x:auto; background:#fff;">${rows}</div>${hint}${winnerCard}`;
     }
 
     window.showCompareScreen = function showCompareScreen() {
@@ -7453,7 +7455,7 @@ function buildComparisonWinnerHtml(summary) {
             const file = fileInput.files?.[0];
             if (!file) return;
             const status = document.getElementById("compareStatus" + num);
-            if (status) status.textContent = "Parsing...";
+            if (status) status.innerHTML = '<span style="color:var(--brand);">Parsing<span class="parsing-dots">...</span></span>';
             if (typeof loadVendorLibs === "function") await loadVendorLibs();
             try {
               const bundle = await parseUploadedComparisonFile(file);
@@ -7483,6 +7485,15 @@ function buildComparisonWinnerHtml(summary) {
       }
       // Re-render the comparison grid
       runFullComparison();
+      // Flash the winner card briefly
+      setTimeout(function() {
+        var winnerCard = document.querySelector('[style*="border:2px solid #a7f3d0"]');
+        if (winnerCard) {
+          winnerCard.style.transition = 'box-shadow 0.3s';
+          winnerCard.style.boxShadow = '0 0 0 4px rgba(16,185,129,0.3)';
+          setTimeout(function() { winnerCard.style.boxShadow = ''; }, 800);
+        }
+      }, 100);
     };
 
     window.clearCompareQuote = function clearCompareQuote(num) {
@@ -8218,6 +8229,9 @@ function buildComparisonWinnerHtml(summary) {
       console.log("journeyState.step is now:", journeyState.step);
       renderApp();
       console.log("renderApp finished");
+      if (step === "result") {
+        setTimeout(function() { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 50);
+      }
     };
 
     window.continueWithoutPropertyMatch = function continueWithoutPropertyMatch() {
@@ -8351,6 +8365,11 @@ function buildComparisonWinnerHtml(summary) {
           </div>
           <div class="small muted">This takes ~5-10 seconds</div>
           <div class="extraction-preview" id="extractionPreview">${previewHtml}</div>
+          <div style="max-width:640px; margin:24px auto 0; opacity:0.3;">
+            <div style="height:120px; background:#e2e8f0; border-radius:14px; margin-bottom:12px;"></div>
+            <div style="height:80px; background:#e2e8f0; border-radius:14px; margin-bottom:12px;"></div>
+            <div style="height:60px; background:#e2e8f0; border-radius:14px;"></div>
+          </div>
         </div>
         <!-- Hidden form elements for analyzeQuote() to read from -->
         <div style="position:absolute; left:-9999px; top:-9999px;">
@@ -8387,6 +8406,7 @@ function buildComparisonWinnerHtml(summary) {
         if (!a) {
           return `<div style="max-width:800px; margin:40px auto; text-align:center; padding:24px;"><p>No analysis yet.</p></div>`;
         }
+        try { var c = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10); if (!window.__lastCountedAnalysis || window.__lastCountedAnalysis !== a) { localStorage.setItem('tp_analysis_count', String(c + 1)); window.__lastCountedAnalysis = a; } } catch(e) {}
 
         return `
           <div style="max-width:800px; margin:40px auto; padding:0 24px;">
@@ -8394,6 +8414,9 @@ function buildComparisonWinnerHtml(summary) {
             ${renderBeforeYouSign(a)}
             ${renderMarketContext(a)}
             ${renderShareModule(a)}
+            <div style="text-align:center; margin-top:20px;">
+              <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
+            </div>
           </div>
         `;
       };
