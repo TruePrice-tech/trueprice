@@ -2707,7 +2707,14 @@ function getDecisionDeltaStrength(absDelta) {
 function buildDecisionDeltaText(decisionDelta) {
   if (!decisionDelta) return "";
 
-  const amt = safeFormatCurrency(decisionDelta.absDelta);
+  const absDelta = Number(decisionDelta.absDelta) || 0;
+
+  // Suppress meaningless small deltas
+  if (absDelta < 100) {
+    return "This quote is in line with expected pricing";
+  }
+
+  const amt = safeFormatCurrency(absDelta);
 
   if (decisionDelta.position === "above_range") {
     return `You may be overpaying by ~${amt}`;
@@ -3831,7 +3838,7 @@ function buildComparisonWinnerHtml(summary) {
         const state = a?.stateCode || journeyState?.propertyPreview?.state || "";
         const location = city && state ? `${city}, ${state}` : city || "your area";
 
-        const deltaText = isFinite(deltaAbs) && deltaAbs > 0
+        const deltaText = isFinite(deltaAbs) && deltaAbs >= 100
           ? `${safeFormatCurrency(deltaAbs)} ${deltaFromMid > 0 ? "above" : "below"} expected for ${escapeHtml(location)}`
           : "";
 
@@ -4082,7 +4089,7 @@ function buildComparisonWinnerHtml(summary) {
             <div style="font-size:16px; font-weight:600; margin-bottom:12px;">Save or share this result</div>
             <div class="action-buttons">
               <button class="btn secondary" onclick="copyShareableReportText()">Copy result</button>
-              <button class="btn secondary" onclick="viewShareableResult()">View full report</button>
+              <button class="btn secondary" onclick="showShareScreen()">View full report</button>
               <a class="btn secondary" href="/roofing-quote-analyzer.html" style="text-decoration:none;">Start over</a>
             </div>
           </div>
@@ -6762,52 +6769,82 @@ function buildComparisonWinnerHtml(summary) {
     };
 
     window.showNegotiateScreen = function showNegotiateScreen() {
-      const output = document.getElementById("analysisOutput");
-      if (!output) return;
+      const root = document.getElementById("appRoot");
+      if (!root) return;
 
       const questions = typeof buildContractorQuestions === "function"
         ? buildContractorQuestions(latestAnalysis)
         : [];
 
-      output.innerHTML = `
-        <div class="panel">
-          <h3>Ask your contractor this:</h3>
-          <ul class="mini-list">
-            ${questions.map(q => `<li>${q}</li>`).join("")}
-          </ul>
-          <button class="btn" onclick="copyContractorQuestions()">Copy questions</button>
-          <button class="btn secondary" onclick="renderApp()">← Back</button>
+      const a = latestAnalysis || {};
+      const verdictSummary = `${safeFormatCurrency(a.quotePrice)} | ${a.verdict || "Unknown"} | ${a.city || ""}${a.stateCode ? ", " + a.stateCode : ""}`;
+
+      root.innerHTML = `
+        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+          <div style="font-size:13px; color:var(--muted, #6b7280); margin-bottom:16px; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
+            ${escapeHtml(verdictSummary)}
+          </div>
+          <h2 style="margin:0 0 16px; font-size:24px;">Questions for your contractor</h2>
+          ${questions.length > 0 ? `
+            <ol class="action-questions">
+              ${questions.map((q, i) => `<li><strong>Q${i + 1}</strong>${escapeHtml(q)}</li>`).join("")}
+            </ol>
+          ` : "<p>No specific questions generated for this analysis.</p>"}
+          <div class="action-buttons" style="margin-top:20px;">
+            <button class="btn" onclick="copyContractorQuestions()">Copy questions</button>
+            <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
+          </div>
         </div>
       `;
     }
 
     window.showCompareScreen = function showCompareScreen() {
-      const output = document.getElementById("analysisOutput");
-      if (!output) return;
+      const root = document.getElementById("appRoot");
+      if (!root) return;
 
-      output.innerHTML = `
-        <div class="panel">
-          <h3>Compare quotes</h3>
-          <p class="small muted">Add another quote below.</p>
-          <div id="comparisonOutput"></div>
-          <button class="btn" onclick="compareQuotes()">Run comparison</button>
-          <button class="btn secondary" onclick="renderApp()">← Back</button>
+      root.innerHTML = `
+        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+          <h2 style="margin:0 0 16px; font-size:24px;">Compare quotes</h2>
+          <p style="color:var(--muted, #6b7280);">Upload additional quotes to compare against your analyzed quote.</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0;">
+            <div>
+              <label style="display:block; font-weight:600; margin-bottom:6px;">Quote 2</label>
+              <input id="secondQuoteFile" type="file" accept=".pdf,image/*" style="width:100%;">
+              <input id="secondContractorName" type="text" placeholder="Contractor name" style="width:100%; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
+              <input id="secondQuotePrice" type="number" placeholder="Quote price" style="width:100%; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
+            </div>
+            <div>
+              <label style="display:block; font-weight:600; margin-bottom:6px;">Quote 3</label>
+              <input id="thirdQuoteFile" type="file" accept=".pdf,image/*" style="width:100%;">
+              <input id="thirdContractorName" type="text" placeholder="Contractor name" style="width:100%; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
+              <input id="thirdQuotePrice" type="number" placeholder="Quote price" style="width:100%; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
+            </div>
+          </div>
+          <div id="comparisonOutput" style="margin-top:16px;"></div>
+          <div class="action-buttons" style="margin-top:20px;">
+            <button class="btn" onclick="compareQuotes()">Compare quotes</button>
+            <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
+          </div>
         </div>
       `;
     }
 
     window.showShareScreen = function showShareScreen() {
-      const output = document.getElementById("analysisOutput");
-      if (!output) return;
+      const root = document.getElementById("appRoot");
+      if (!root) return;
 
-      const report = buildShareableReportData();
+      const report = typeof buildShareableReportData === "function" ? buildShareableReportData() : null;
+      const reportText = report && typeof buildShareableReportText === "function" ? buildShareableReportText(report) : "No report data available.";
 
-      output.innerHTML = `
-        <div class="panel">
-          <h3>Share your result</h3>
-          <pre style="white-space:pre-wrap;">${buildShareableReportText(report)}</pre>
-          <button class="btn" onclick="copyShareableReportText()">Copy</button>
-          <button class="btn secondary" onclick="renderApp()">← Back</button>
+      root.innerHTML = `
+        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+          <h2 style="margin:0 0 16px; font-size:24px;">Your quote analysis report</h2>
+          <div style="padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; white-space:pre-wrap; font-size:14px; line-height:1.6; font-family:inherit;">${escapeHtml(reportText)}</div>
+          <div id="shareScreenCopyStatus" style="margin-top:10px; font-size:14px; color:var(--muted, #6b7280);"></div>
+          <div class="action-buttons" style="margin-top:20px;">
+            <button class="btn" onclick="copyShareableReportText()">Copy report</button>
+            <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
+          </div>
         </div>
       `;
     }
