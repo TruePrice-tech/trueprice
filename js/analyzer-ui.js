@@ -3853,12 +3853,11 @@ function buildComparisonWinnerHtml(summary) {
         let deltaText = "";
         if (isFinite(deltaAbs) && deltaAbs >= 100) {
           const direction = deltaFromMid > 0 ? "above" : "below";
-          const details = [];
-          if (roofSizeValue) details.push(Number(roofSizeValue).toLocaleString() + " sq ft");
-          if (materialLabel) details.push(materialLabel);
-          if (location && location !== "your area") details.push(location);
-          const suffix = details.length > 0 ? " for a " + details.join(" ") + " roof" : "";
-          deltaText = `${safeFormatCurrency(deltaAbs)} ${direction} expected${suffix}`;
+          const sizePart = roofSizeValue ? Number(roofSizeValue).toLocaleString() + " sq ft roof" : "";
+          const matPart = materialLabel ? "using " + materialLabel + " shingles" : "";
+          const locPart = location && location !== "your area" ? "in " + location : "";
+          const suffix = [sizePart, matPart, locPart].filter(Boolean).join(" ");
+          deltaText = "This quote is " + safeFormatCurrency(deltaAbs) + " " + direction + " expected" + (suffix ? " for a " + suffix : "");
         }
 
         return `
