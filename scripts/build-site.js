@@ -1065,6 +1065,8 @@ function generateSitemap(cityRows, pricingModel) {
     `${SITE_BASE_URL}/architectural-shingle-roof-cost.html`,
     `${SITE_BASE_URL}/metal-roof-replacement-cost.html`,
     `${SITE_BASE_URL}/standing-seam-metal-roof-cost.html`,
+    `${SITE_BASE_URL}/roofing-quote-template.html`,
+    `${SITE_BASE_URL}/privacy.html`,
     ...stateUrls,
     ...materialUrls,
     ...materialCityUrls,

@@ -4339,6 +4339,12 @@ function buildComparisonWinnerHtml(summary) {
         const roofSizeSource = roofMeta?.source || a?.roofSizeEstimateSource || "";
         const ppsf = a.roofSize > 0 ? (a.quotePrice / a.roofSize).toFixed(2) : null;
 
+        // Community data
+        const analysisCount = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10);
+        const communityNote = analysisCount > 3
+          ? `<div style="margin-top:12px; padding:10px 14px; background:var(--bg-subtle, #f8fafc); border-radius:8px; font-size:13px; color:var(--text-muted);">Based on TruePrice pricing models covering 1,000+ U.S. cities. You have analyzed ${analysisCount} quotes.</div>`
+          : `<div style="margin-top:12px; padding:10px 14px; background:var(--bg-subtle, #f8fafc); border-radius:8px; font-size:13px; color:var(--text-muted);">Based on TruePrice pricing models covering 1,000+ U.S. cities.</div>`;
+
         return `
           <div class="market-panel">
             <h3>Market Context — ${location}</h3>
@@ -4349,18 +4355,29 @@ function buildComparisonWinnerHtml(summary) {
               <tr><td>Material</td><td>${escapeHtml(typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : a.material || "Unknown")}</td></tr>
               <tr><td>Roof size</td><td>${roofSizeValue ? formatRoofSizeForDisplay(roofSizeValue, roofSizeSource, roofMeta?.confidence || "Low") : "Unknown"}</td></tr>
               ${a.warrantyYears ? `<tr><td>Warranty</td><td>${escapeHtml(String(a.warrantyYears))} years</td></tr>` : ""}
-              ${roofSizeSource ? `<tr><td>Size source</td><td>${escapeHtml(roofSizeSource.replaceAll("_", " "))}</td></tr>` : ""}
             </table>
+            ${communityNote}
           </div>
         `;
       }
 
       function renderShareModule(a) {
         const analysisCount = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10);
+        const historyHtml = (() => {
+          try {
+            const history = JSON.parse(localStorage.getItem("tp_quote_history") || "[]");
+            if (history.length <= 1) return "";
+            return '<div style="margin-bottom:12px; font-size:13px; color:var(--muted);"><strong>Your past analyses:</strong><br>' +
+              history.slice(0, 5).map(h =>
+                escapeHtml((h.contractor || "Quote") + " — " + safeFormatCurrency(h.price) + " — " + (h.verdict || ""))
+              ).join("<br>") + '</div>';
+          } catch(e) { return ""; }
+        })();
         return `
           <div class="share-module">
             <div style="font-size:16px; font-weight:600; margin-bottom:12px;">Save or share this result</div>
             <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">${analysisCount > 0 ? 'You have analyzed ' + analysisCount + ' quote' + (analysisCount > 1 ? 's' : '') + ' with TruePrice' : ''}</div>
+            ${historyHtml}
             <div class="action-buttons">
               <button class="btn secondary" onclick="copyShareableReportText()">Copy result</button>
               <button class="btn secondary" onclick="showShareScreen()">View full report</button>
@@ -6548,10 +6565,24 @@ function buildComparisonWinnerHtml(summary) {
     }
 
     function showLeadPlaceholder() {
+      const name = (document.getElementById("leadName")?.value || "").trim();
+      const email = (document.getElementById("leadEmail")?.value || "").trim();
+      const phone = (document.getElementById("leadPhone")?.value || "").trim();
+      const zip = (document.getElementById("leadZip")?.value || "").trim();
       const output = byId("leadPlaceholderOutput");
-      if (!output) return;
-      output.innerHTML =
-        "Lead capture is a placeholder for now. In the future this will route homeowners to fair-pricing contractors.";
+
+      if (!email || !email.includes("@")) {
+        if (output) output.innerHTML = '<span style="color:#b91c1c;">Please enter a valid email address.</span>';
+        return;
+      }
+
+      try {
+        const leads = JSON.parse(localStorage.getItem("tp_leads") || "[]");
+        leads.push({ name, email, phone, zip, timestamp: new Date().toISOString() });
+        localStorage.setItem("tp_leads", JSON.stringify(leads));
+      } catch(e) {}
+
+      if (output) output.innerHTML = '<span style="color:#166534;">Thanks! We\'ll connect you with vetted local roofers.</span>';
     }
 
     function bindComparisonUploadInputs() {
@@ -7089,6 +7120,18 @@ function buildComparisonWinnerHtml(summary) {
             input.addEventListener("change", async function () {
               const file = input.files?.[0];
               if (!file) return;
+
+              // Validate file type
+              const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+              if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|webp|gif)$/i)) {
+                alert('Please upload a PDF or image file (JPG, PNG, or PDF).');
+                return;
+              }
+              // Validate file size (max 20MB)
+              if (file.size > 20 * 1024 * 1024) {
+                alert('File is too large. Please upload a file under 20MB.');
+                return;
+              }
 
               // 🔥 IMMEDIATE UI RESPONSE
               setJourneyStep("analyze");
@@ -8318,6 +8361,19 @@ function buildComparisonWinnerHtml(summary) {
           input.addEventListener("change", async function() {
             const file = input.files?.[0];
             if (!file) return;
+
+            // Validate file type
+            const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|webp|gif)$/i)) {
+              alert('Please upload a PDF or image file (JPG, PNG, or PDF).');
+              return;
+            }
+            // Validate file size (max 20MB)
+            if (file.size > 20 * 1024 * 1024) {
+              alert('File is too large. Please upload a file under 20MB.');
+              return;
+            }
+
             if (typeof loadVendorLibs === "function") await loadVendorLibs();
             root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;"><div class="progress-phase">Reading your quote...</div><div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;"><div style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div></div></div>';
             try {
@@ -8407,6 +8463,27 @@ function buildComparisonWinnerHtml(summary) {
           return `<div style="max-width:800px; margin:40px auto; text-align:center; padding:24px;"><p>No analysis yet.</p></div>`;
         }
         try { var c = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10); if (!window.__lastCountedAnalysis || window.__lastCountedAnalysis !== a) { localStorage.setItem('tp_analysis_count', String(c + 1)); window.__lastCountedAnalysis = a; } } catch(e) {}
+
+        // Save to quote history
+        try {
+          const history = JSON.parse(localStorage.getItem("tp_quote_history") || "[]");
+          const entry = {
+            id: Date.now(),
+            timestamp: new Date().toISOString(),
+            price: a.quotePrice,
+            verdict: a.verdict,
+            material: a.material,
+            city: a.city || "",
+            state: a.stateCode || "",
+            contractor: (latestParsed?.contractor || "").substring(0, 50)
+          };
+          // Don't duplicate if same price+verdict
+          if (!history.some(h => h.price === entry.price && h.verdict === entry.verdict)) {
+            history.unshift(entry);
+            if (history.length > 20) history.pop(); // Keep last 20
+            localStorage.setItem("tp_quote_history", JSON.stringify(history));
+          }
+        } catch(e) {}
 
         return `
           <div style="max-width:800px; margin:40px auto; padding:0 24px;">

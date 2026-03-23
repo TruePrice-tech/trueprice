@@ -439,8 +439,12 @@ function updateLivePreview() {
         <p><strong>Estimated range:</strong> ${formatCurrency(lowEstimate)} to ${formatCurrency(highEstimate)}</p>
         <p><strong>Midpoint estimate:</strong> ${formatCurrency(midEstimate)}</p>
         <p><strong>Estimated price per square foot:</strong> $${pricePerSqFtLow.toFixed(2)} to $${pricePerSqFtHigh.toFixed(2)}</p>
-        <p><strong>Directional benchmark:</strong> $${pricePerSqFtMid.toFixed(2)} per sq ft</p>
         <p class="muted">This estimate does not include unknown deck replacement, unusual flashing scope, permit anomalies, or major repair surprises.</p>
+        <div style="margin-top:16px; padding:16px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px;">
+          <strong>Got a contractor quote?</strong>
+          <p style="margin:6px 0 10px; font-size:14px;">Upload it to see how it compares to this estimate — we'll check price, scope, and missing items.</p>
+          <a href="/roofing-quote-analyzer.html" class="btn" style="text-decoration:none;">Analyze your quote</a>
+        </div>
       `;
     }
     </script>
