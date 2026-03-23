@@ -3819,8 +3819,8 @@ function buildComparisonWinnerHtml(summary) {
         if (v.includes("fair")) return "This quote looks fair";
         if (v.includes("overpriced")) return "This quote looks overpriced";
         if (v.includes("higher")) return "This quote looks high";
-        if (v.includes("scope risk")) return "This quote has scope risk";
-        if (v.includes("low")) return "This quote looks unusually low";
+        if (v.includes("scope risk")) return "This quote may be missing items";
+        if (v.includes("low")) return "This price seems low — check what's included";
         return verdict || "Analysis complete";
       }
 
