@@ -4124,12 +4124,14 @@ function buildComparisonWinnerHtml(summary) {
         `;
       }
 
+      // Scope review state — tracks user corrections
+      const scopeReviewState = {};
+
       function renderBeforeYouSign(a) {
         if (!a) return "";
         const parsed = latestParsed || {};
         const signals = parsed.signals || {};
 
-        // All scope items with labels and why they matter
         const scopeItems = [
           { key: "tearOff", label: "Tear off", why: "Removes old roof to inspect decking" },
           { key: "underlayment", label: "Underlayment", why: "Waterproofing layer under shingles" },
@@ -4143,96 +4145,139 @@ function buildComparisonWinnerHtml(summary) {
           { key: "decking", label: "Decking", why: "Repair allowance if needed" }
         ];
 
-        const found = [];
-        const askAbout = [];
-
+        // Initialize review state from OCR signals (only once)
         scopeItems.forEach(item => {
-          const status = signals[item.key]?.status;
-          if (status === "included") {
-            found.push(item);
-          } else {
-            askAbout.push(item);
+          if (!(item.key in scopeReviewState)) {
+            scopeReviewState[item.key] = signals[item.key]?.status === "included";
           }
         });
 
-        // Found items as compact green pills
-        const foundHtml = found.length > 0
-          ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;">
-              ${found.map(item => `<span style="display:inline-flex; align-items:center; gap:4px; padding:5px 10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:999px; font-size:13px; color:#166534; font-weight:500;">&#10003; ${escapeHtml(item.label)}</span>`).join("")}
-            </div>`
+        const confirmed = scopeItems.filter(i => scopeReviewState[i.key]);
+        const unconfirmed = scopeItems.filter(i => !scopeReviewState[i.key]);
+
+        // Confirmed items as green pills
+        const confirmedHtml = confirmed.length > 0
+          ? confirmed.map(item =>
+              `<button onclick="toggleScopeItem('${item.key}')" style="display:inline-flex; align-items:center; gap:4px; padding:6px 12px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:999px; font-size:13px; color:#166534; font-weight:500; cursor:pointer; transition:all 0.15s;" title="Click to mark as not included">&#10003; ${escapeHtml(item.label)}</button>`
+            ).join(" ")
           : "";
 
-        // Ask about items as a clean list
-        const askHtml = askAbout.length > 0
-          ? `<div style="margin-bottom:14px;">
-              <div style="font-size:14px; font-weight:700; color:#92400e; margin-bottom:8px;">Ask your contractor about:</div>
-              ${askAbout.map(item => `
-                <div style="display:flex; align-items:baseline; gap:8px; padding:6px 0; border-bottom:1px solid rgba(0,0,0,0.04);">
-                  <span style="color:#d97706; font-weight:700; font-size:14px;">?</span>
-                  <span style="font-size:14px; font-weight:500;">${escapeHtml(item.label)}</span>
-                  <span style="font-size:12px; color:var(--muted);">${escapeHtml(item.why)}</span>
-                </div>
-              `).join("")}
-            </div>`
+        // Unconfirmed items as amber toggles
+        const unconfirmedHtml = unconfirmed.length > 0
+          ? unconfirmed.map(item =>
+              `<button onclick="toggleScopeItem('${item.key}')" style="display:inline-flex; align-items:center; gap:4px; padding:6px 12px; background:#fffbeb; border:1px solid #fde68a; border-radius:999px; font-size:13px; color:#92400e; font-weight:500; cursor:pointer; transition:all 0.15s;" title="Click if this IS in your quote">? ${escapeHtml(item.label)}</button>`
+            ).join(" ")
           : "";
 
-        // Context line tied to verdict
+        // Context line
         let contextLine = "";
         const pricingMeta = a?.meta?.pricing || {};
         const deltaFromMid = pricingMeta?.deltaFromMid ?? (a.quotePrice - a.mid);
-        if (deltaFromMid < -500 && askAbout.length > 0) {
-          contextLine = `<div style="font-size:13px; color:#92400e; margin-bottom:14px; padding:8px 12px; background:rgba(217,119,6,0.06); border-radius:6px;">Your quote is below expected pricing. Low quotes often exclude items listed above.</div>`;
-        } else if (deltaFromMid > 500 && askAbout.length > 0) {
-          contextLine = `<div style="font-size:13px; color:#1e40af; margin-bottom:14px; padding:8px 12px; background:rgba(30,64,175,0.06); border-radius:6px;">Ask if these items explain the higher price, or request a line-by-line breakdown.</div>`;
+        if (deltaFromMid < -500 && unconfirmed.length > 0) {
+          contextLine = `<div style="font-size:13px; color:#92400e; padding:8px 12px; background:rgba(217,119,6,0.06); border-radius:6px; margin-top:14px;">Your quote is below expected. Low bids often exclude items above.</div>`;
         }
 
-        const allGood = askAbout.length === 0;
-        const borderColor = allGood ? "#a7f3d0" : askAbout.length <= 3 ? "#fde68a" : "#fecaca";
+        // Email button with count
+        const contractorName = parsed.contractor && parsed.contractor !== "Not detected" ? parsed.contractor : "contractor";
+        const emailCount = unconfirmed.length;
 
         return `
-          <div style="padding:24px; border:1px solid ${borderColor}; border-radius:14px; margin-bottom:16px; background:#fff;">
-            <div style="font-size:18px; font-weight:700; margin-bottom:14px;">What we found in your quote</div>
-            ${foundHtml}
-            ${askHtml}
+          <div id="scopeReviewCard" style="padding:24px; border:1px solid ${unconfirmed.length === 0 ? "#a7f3d0" : unconfirmed.length <= 3 ? "#fde68a" : "#fecaca"}; border-radius:14px; margin-bottom:16px; background:#fff;">
+            <div style="font-size:18px; font-weight:700; margin-bottom:6px;">What we found in your quote</div>
+            <div style="font-size:13px; color:var(--muted); margin-bottom:14px;">Tap any item to correct it</div>
+
+            ${confirmedHtml ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;">${confirmedHtml}</div>` : ""}
+
+            ${unconfirmedHtml ? `
+              <div style="font-size:13px; font-weight:600; color:#92400e; margin-bottom:8px;">Not found — tap if included in your quote:</div>
+              <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:4px;">${unconfirmedHtml}</div>
+            ` : `
+              <div style="padding:10px; text-align:center; color:#166534; font-weight:600; background:#ecfdf5; border-radius:8px; margin-top:8px;">All items confirmed. Quote looks complete.</div>
+            `}
+
             ${contextLine}
-            ${allGood ? `<div style="padding:10px; text-align:center; color:#166534; font-weight:600; background:#ecfdf5; border-radius:8px;">All scope items confirmed. This quote looks complete.</div>` : ""}
-            <div class="action-buttons" style="margin-top:14px;">
-              <button class="btn" onclick="copyBeforeYouSignChecklist()">Copy questions</button>
+
+            <div class="action-buttons" style="margin-top:16px;">
+              ${emailCount > 0
+                ? `<button class="btn" id="emailContractorBtn" onclick="emailContractorQuestions()">Email ${escapeHtml(contractorName)} about ${emailCount} item${emailCount !== 1 ? "s" : ""}</button>`
+                : `<button class="btn" onclick="showShareScreen()">Share this result</button>`
+              }
               <button class="btn secondary" onclick="showCompareScreen()">Upload another quote</button>
             </div>
           </div>
         `;
       }
 
-      window.copyBeforeYouSignChecklist = function copyBeforeYouSignChecklist() {
+      window.toggleScopeItem = function toggleScopeItem(key) {
+        scopeReviewState[key] = !scopeReviewState[key];
+        // Re-render the scope card
         const a = window.__latestAnalysis;
-        const parsed = latestParsed || {};
-        const signals = parsed.signals || {};
-        const items = [];
+        if (!a) return;
+        const card = document.getElementById("scopeReviewCard");
+        if (card) {
+          const temp = document.createElement("div");
+          temp.innerHTML = renderBeforeYouSign(a);
+          const newCard = temp.firstElementChild;
+          if (newCard) card.replaceWith(newCard);
+        }
+      };
 
-        const scope = [
-          { key: "tearOff", label: "Confirm tear off is included" },
-          { key: "underlayment", label: "Confirm underlayment is included" },
-          { key: "flashing", label: "Confirm flashing is included" },
-          { key: "iceShield", label: "Confirm ice & water shield is included" },
-          { key: "dripEdge", label: "Confirm drip edge is included" },
-          { key: "ventilation", label: "Confirm ventilation is included" },
-          { key: "ridgeVent", label: "Confirm ridge vent is included" }
+      window.emailContractorQuestions = function emailContractorQuestions() {
+        const a = window.__latestAnalysis || {};
+        const parsed = latestParsed || {};
+        const contractorName = parsed.contractor && parsed.contractor !== "Not detected" ? parsed.contractor : "your team";
+        const quotePrice = a.quotePrice ? safeFormatCurrency(a.quotePrice) : "my estimate";
+
+        const scopeItems = [
+          { key: "tearOff", label: "Tear off (removal of existing roof)" },
+          { key: "underlayment", label: "Underlayment (waterproofing layer)" },
+          { key: "flashing", label: "Flashing replacement (walls, pipes, valleys)" },
+          { key: "iceShield", label: "Ice and water shield" },
+          { key: "dripEdge", label: "Drip edge" },
+          { key: "ventilation", label: "Ventilation" },
+          { key: "ridgeVent", label: "Ridge vent" },
+          { key: "starterStrip", label: "Starter strip" },
+          { key: "ridgeCap", label: "Ridge cap" },
+          { key: "decking", label: "Decking repair allowance" }
         ];
 
-        scope.forEach(item => {
-          if (signals[item.key]?.status !== "included") {
-            items.push(item.label);
-          }
-        });
+        const missing = scopeItems.filter(i => !scopeReviewState[i.key]);
+        if (missing.length === 0) return;
 
-        if (!parsed.warrantyYears) items.push("Get warranty terms in writing");
-        items.push("Get at least one more quote to compare");
+        const itemList = missing.map(i => "- " + i.label).join("\n");
 
-        const text = "Before you sign checklist:\\n" + items.map((t, i) => `${i + 1}. ${t}`).join("\\n");
+        const subject = encodeURIComponent("Questions about my roofing estimate (" + (a.quotePrice ? "$" + Number(a.quotePrice).toLocaleString() : "") + ")");
+        const body = encodeURIComponent(
+          "Hi " + contractorName + ",\n\n" +
+          "Before I move forward with the " + quotePrice + " estimate, can you confirm whether the following items are included?\n\n" +
+          itemList + "\n\n" +
+          "If any of these are not included, can you let me know what the additional cost would be?\n\n" +
+          "Also, can you provide the warranty terms in writing?\n\n" +
+          "Thank you"
+        );
+
+        window.open("mailto:?subject=" + subject + "&body=" + body, "_self");
+      };
+
+      window.copyBeforeYouSignChecklist = function copyBeforeYouSignChecklist() {
+        const scopeItems = [
+          { key: "tearOff", label: "Tear off" },
+          { key: "underlayment", label: "Underlayment" },
+          { key: "flashing", label: "Flashing" },
+          { key: "iceShield", label: "Ice & water shield" },
+          { key: "dripEdge", label: "Drip edge" },
+          { key: "ventilation", label: "Ventilation" },
+          { key: "ridgeVent", label: "Ridge vent" },
+          { key: "starterStrip", label: "Starter strip" },
+          { key: "ridgeCap", label: "Ridge cap" },
+          { key: "decking", label: "Decking" }
+        ];
+
+        const missing = scopeItems.filter(i => !scopeReviewState[i.key]);
+        const text = "Items to confirm with contractor:\n" + missing.map((t, i) => (i + 1) + ". " + t.label).join("\n");
 
         if (navigator.clipboard) {
-          navigator.clipboard.writeText(text).then(() => alert("Checklist copied.")).catch(() => prompt("Copy:", text));
+          navigator.clipboard.writeText(text).then(() => alert("Copied.")).catch(() => prompt("Copy:", text));
         } else {
           prompt("Copy:", text);
         }
