@@ -7386,8 +7386,13 @@ function buildComparisonWinnerHtml(summary) {
       // Mount the analyze step (creates form elements analyzeQuote needs)
       setJourneyStep("analyze");
 
-      // Overlay the form with analyzing state so user sees progress, not the clutter
+      // Copy parsed data into form fields so analyzeQuote can read them
       setTimeout(() => {
+        if (latestParsed && typeof copyParsedToForm === "function") {
+          copyParsedToForm();
+        }
+
+        // Overlay the form with analyzing state so user sees progress, not the clutter
         const root = document.getElementById("appRoot");
         if (root) {
           const overlay = document.createElement("div");
@@ -7406,15 +7411,35 @@ function buildComparisonWinnerHtml(summary) {
           `;
           root.style.position = "relative";
           root.appendChild(overlay);
+
+          // Show extraction preview
+          const preview = document.getElementById("extractionPreview");
+          if (preview && latestParsed) {
+            let items = [];
+            if (latestParsed.price) items.push({ label: "Price", value: "$" + Number(latestParsed.price).toLocaleString() });
+            if (latestParsed.materialLabel) items.push({ label: "Material", value: latestParsed.materialLabel });
+            if (latestParsed.roofSize) items.push({ label: "Roof size", value: latestParsed.roofSize + " sq ft" });
+            const loc = latestParsed.city || journeyState?.propertyPreview?.city || "";
+            const st = latestParsed.stateCode || journeyState?.propertyPreview?.state || "";
+            if (loc) items.push({ label: "Location", value: loc + (st ? ", " + st : "") });
+            if (items.length > 0) {
+              preview.innerHTML = items.map(item =>
+                `<div class="extraction-item">
+                  <span class="extraction-item-label">${escapeHtml(item.label)}</span>
+                  <span class="extraction-item-value">${escapeHtml(item.value)}</span>
+                </div>`
+              ).join("");
+            }
+          }
         }
 
-        // Run analysis (form elements exist underneath the overlay)
+        // Run analysis (form elements exist underneath with parsed data filled in)
         setTimeout(() => {
           if (typeof analyzeQuote === "function") {
             analyzeQuote();
           }
-        }, 100);
-      }, 100);
+        }, 150);
+      }, 150);
     };
 
       window.renderResultStep = function renderResultStep() {
