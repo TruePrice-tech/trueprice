@@ -1,4 +1,30 @@
   console.log("TRUEPRICE SCRIPT VERSION: 1.1 - conflict signals added");
+
+  // Repair pdfjs split-character artifacts in any display text
+  function repairDisplayText(text) {
+    let t = String(text || "");
+    // Specific roofing terms
+    t = t.replace(/Roo\s*fi\s*ng/gi, "Roofing");
+    t = t.replace(/Cr\s*osb\s*y/gi, "Crosby");
+    t = t.replace(/Ar\s*chitectur\s*al/gi, "Architectural");
+    t = t.replace(/under\s*la\s*y\s*ment/gi, "Underlayment");
+    t = t.replace(/Cer\s*tain\s*T\s*eed/gi, "CertainTeed");
+    t = t.replace(/fl\s*ashing/gi, "flashing");
+    t = t.replace(/v\s*entila\s*tion/gi, "ventilation");
+    // Ligature fragments
+    t = t.replace(/\bfi ([a-z])/g, 'fi$1');
+    t = t.replace(/\bfl ([a-z])/g, 'fl$1');
+    t = t.replace(/\bff ([a-z])/g, 'ff$1');
+    // Single-letter splits: "E v ans" -> "Evans"
+    for (let i = 0; i < 5; i++) {
+      t = t.replace(/ ([a-z]) ([a-z])/g, ' $1$2');
+      t = t.replace(/\b([A-Z]) ([a-z])/g, '$1$2');
+    }
+    // Clean up extra spaces
+    t = t.replace(/\s{2,}/g, ' ').trim();
+    return t;
+  }
+
   ;(function () {
     let journeyState = {
       step: "address",
@@ -4178,7 +4204,7 @@ function buildComparisonWinnerHtml(summary) {
         }
 
         // Email button with count
-        const contractorName = parsed.contractor && parsed.contractor !== "Not detected" ? parsed.contractor : "contractor";
+        const contractorName = parsed.contractor && parsed.contractor !== "Not detected" ? repairDisplayText(parsed.contractor) : "contractor";
         const emailCount = unconfirmed.length;
 
         return `
@@ -4225,7 +4251,7 @@ function buildComparisonWinnerHtml(summary) {
       window.emailContractorQuestions = function emailContractorQuestions() {
         const a = window.__latestAnalysis || {};
         const parsed = latestParsed || {};
-        const contractorName = parsed.contractor && parsed.contractor !== "Not detected" ? parsed.contractor : "your team";
+        const contractorName = parsed.contractor && parsed.contractor !== "Not detected" ? repairDisplayText(parsed.contractor) : "your team";
         const quotePrice = a.quotePrice ? safeFormatCurrency(a.quotePrice) : "my estimate";
 
         const scopeItems = [
@@ -7162,7 +7188,7 @@ function buildComparisonWinnerHtml(summary) {
 
       const a = latestAnalysis || {};
       const parsed = latestParsed || {};
-      const contractor1 = (typeof inferContractorNameFromParsed === "function" ? inferContractorNameFromParsed(parsed) : "") || "Your quote";
+      const contractor1 = repairDisplayText((typeof inferContractorNameFromParsed === "function" ? inferContractorNameFromParsed(parsed) : "") || "Your quote");
       const price1 = a.quotePrice ? safeFormatCurrency(a.quotePrice) : "Not set";
       const material1 = (typeof getMaterialLabel === "function" && a.material) ? getMaterialLabel(a.material) : (a.material || "Unknown");
 
@@ -7219,7 +7245,7 @@ function buildComparisonWinnerHtml(summary) {
       const parsed = latestParsed || {};
       const signals = parsed.signals || {};
 
-      const contractor = parsed.contractor && parsed.contractor !== "Not detected" ? parsed.contractor : "";
+      const contractor = parsed.contractor && parsed.contractor !== "Not detected" ? repairDisplayText(parsed.contractor) : "";
       const city = a.city || "";
       const state = a.stateCode || "";
       const location = city && state ? city + ", " + state : city || "your area";
