@@ -6859,6 +6859,51 @@ function buildComparisonWinnerHtml(summary) {
 
       if (journeyState.step === "address") {
         root.innerHTML = renderAddressStep();
+
+        // Bind upload button on the address step
+        setTimeout(() => {
+          const btn = document.getElementById("uploadQuoteBtn");
+          const input = document.getElementById("quoteFile");
+          if (btn && input && !btn.dataset.bound) {
+            btn.dataset.bound = "true";
+            btn.addEventListener("click", () => input.click());
+            input.addEventListener("change", async function () {
+              const file = input.files?.[0];
+              if (!file) return;
+
+              renderAnalyzingState();
+
+              try {
+                const parsedBundle = await parseUploadedComparisonFile(file);
+                const parsed = parsedBundle?.parsed || parsedBundle || {};
+                latestParsed = parsed;
+
+                if (shouldPromoteAddress(latestParsed)) {
+                  journeyState.propertyPreview = {
+                    street: latestParsed.address?.street || "",
+                    apt: "",
+                    city: latestParsed.city || latestParsed.address?.city || "",
+                    state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
+                    zip: latestParsed.address?.zip || ""
+                  };
+                  journeyState.propertyConfirmed = false;
+                  setJourneyStep("confirm");
+                } else {
+                  journeyState.propertyConfirmed = true;
+                  setJourneyStep("analyze");
+                  setTimeout(() => {
+                    if (typeof analyzeQuote === "function") analyzeQuote();
+                  }, 100);
+                }
+              } catch (err) {
+                console.error("Upload parse error:", err);
+                journeyState.propertyConfirmed = true;
+                setJourneyStep("analyze");
+              }
+            });
+          }
+        }, 0);
+
         return;
       }
 
