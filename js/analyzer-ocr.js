@@ -149,11 +149,43 @@ async function extractTextFromPdfNative(file) {
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    const pageText = content.items.map(item => ("str" in item ? item.str : "")).join(" ");
+
+    // Use y-coordinates to preserve line structure instead of joining with spaces
+    let lastY = null;
+    let pageText = "";
+
+    for (const item of content.items) {
+      if (!("str" in item) || !item.str) continue;
+
+      const y = item.transform ? Math.round(item.transform[5]) : null;
+
+      if (lastY !== null && y !== null && Math.abs(y - lastY) > 3) {
+        // Y-coordinate changed significantly — new line
+        pageText += "\n";
+      } else if (pageText.length > 0 && !pageText.endsWith("\n") && !pageText.endsWith(" ")) {
+        pageText += " ";
+      }
+
+      pageText += item.str;
+      lastY = y;
+    }
+
     fullText += "\n" + pageText;
   }
 
-  return normalizeWhitespace(fullText);
+  // Apply common text repairs before returning
+  fullText = fullText
+    .replace(/\broo\s*f?\s*ng\b/gi, "roofing")
+    .replace(/\bashi?ng\b/gi, "ashing")
+    .replace(/\b[ffi]+ashing\b/gi, "flashing")
+    .replace(/\bventila\s*tion\b/gi, "ventilation")
+    .replace(/\bunder\s*lay\s*ment\b/gi, "underlayment")
+    .replace(/\barchitec\s*tural\b/gi, "architectural")
+    .replace(/\bsyn\s*thetic\b/gi, "synthetic");
+
+  console.log("PDF_NATIVE_TEXT_EXTRACT:", fullText.substring(0, 500));
+
+  return fullText.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
 }
 
 function normalizeOcrWhitespace(text) {
