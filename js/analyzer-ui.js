@@ -7215,16 +7215,123 @@ function buildComparisonWinnerHtml(summary) {
       const root = document.getElementById("appRoot");
       if (!root) return;
 
-      const report = typeof buildShareableReportData === "function" ? buildShareableReportData() : null;
-      const reportText = report && typeof buildShareableReportText === "function" ? buildShareableReportText(report) : "No report data available.";
+      const a = window.__latestAnalysis || {};
+      const parsed = latestParsed || {};
+      const signals = parsed.signals || {};
+
+      const contractor = parsed.contractor && parsed.contractor !== "Not detected" ? parsed.contractor : "";
+      const city = a.city || "";
+      const state = a.stateCode || "";
+      const location = city && state ? city + ", " + state : city || "your area";
+      const materialLabel = a.material && typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : a.material || "Unknown";
+      const roofMeta = a?.meta?.roofSize || {};
+      const roofSize = roofMeta?.value ?? a?.roofSize ?? null;
+      const ppsf = roofSize > 0 ? (a.quotePrice / roofSize).toFixed(2) : null;
+      const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+      // Scope items
+      const scopeItems = [
+        { key: "tearOff", label: "Tear off" },
+        { key: "underlayment", label: "Underlayment" },
+        { key: "flashing", label: "Flashing" },
+        { key: "iceShield", label: "Ice & water shield" },
+        { key: "dripEdge", label: "Drip edge" },
+        { key: "ventilation", label: "Ventilation" },
+        { key: "ridgeVent", label: "Ridge vent" },
+        { key: "starterStrip", label: "Starter strip" },
+        { key: "ridgeCap", label: "Ridge cap" },
+        { key: "decking", label: "Decking" }
+      ];
+
+      const foundItems = scopeItems.filter(i => scopeReviewState[i.key] || signals[i.key]?.status === "included");
+      const missingItems = scopeItems.filter(i => !scopeReviewState[i.key] && signals[i.key]?.status !== "included");
+
+      const scopeHtml = `
+        <div class="report-scope-grid">
+          ${foundItems.map(i => `<span class="report-scope-item report-scope-item--found">&#10003; ${escapeHtml(i.label)}</span>`).join("")}
+          ${missingItems.map(i => `<span class="report-scope-item report-scope-item--missing">? ${escapeHtml(i.label)}</span>`).join("")}
+        </div>
+      `;
+
+      // Delta
+      const deltaFromMid = a.quotePrice - a.mid;
+      const deltaAbs = Math.abs(deltaFromMid);
+      const deltaDir = deltaFromMid > 0 ? "above" : "below";
 
       root.innerHTML = `
-        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
-          <h2 style="margin:0 0 16px; font-size:24px;">Your quote analysis report</h2>
-          <div style="padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; white-space:pre-wrap; font-size:14px; line-height:1.6; font-family:inherit;">${escapeHtml(reportText)}</div>
-          <div id="shareScreenCopyStatus" style="margin-top:10px; font-size:14px; color:var(--muted, #6b7280);"></div>
-          <div class="action-buttons" style="margin-top:20px;">
-            <button class="btn" onclick="copyShareableReportText()">Copy report</button>
+        <div class="report-container">
+          <div class="report-card">
+            <div class="report-header">
+              <div class="tp-logo--report">TruePrice</div>
+              <div class="report-header-meta">
+                Quote Analysis Report<br>${escapeHtml(date)}
+              </div>
+            </div>
+
+            <div class="report-body">
+
+              <div class="report-section">
+                <div class="report-section-title">Verdict</div>
+                <div class="report-verdict">${escapeHtml(getVerdictHeadline(a.verdict))}</div>
+                ${deltaAbs >= 100 ? `<div class="report-delta">${safeFormatCurrency(deltaAbs)} ${deltaDir} expected midpoint</div>` : ""}
+              </div>
+
+              <div class="report-section">
+                <div class="report-section-title">Quote Details</div>
+                <div class="report-stat-grid">
+                  <div class="report-stat">
+                    <div class="report-stat-label">Quote Price</div>
+                    <div class="report-stat-value">${safeFormatCurrency(a.quotePrice)}</div>
+                  </div>
+                  <div class="report-stat">
+                    <div class="report-stat-label">Expected Range</div>
+                    <div class="report-stat-value">${safeFormatCurrency(a.low)} &ndash; ${safeFormatCurrency(a.high)}</div>
+                  </div>
+                  <div class="report-stat">
+                    <div class="report-stat-label">Material</div>
+                    <div class="report-stat-value">${escapeHtml(materialLabel)}</div>
+                  </div>
+                  <div class="report-stat">
+                    <div class="report-stat-label">Roof Size</div>
+                    <div class="report-stat-value">${roofSize ? Number(roofSize).toLocaleString() + " sq ft" : "Unknown"}</div>
+                  </div>
+                  ${ppsf ? `<div class="report-stat"><div class="report-stat-label">Price / Sq Ft</div><div class="report-stat-value">$${ppsf}</div></div>` : ""}
+                  ${a.warrantyYears ? `<div class="report-stat"><div class="report-stat-label">Warranty</div><div class="report-stat-value">${escapeHtml(String(a.warrantyYears))} years</div></div>` : ""}
+                </div>
+              </div>
+
+              ${contractor ? `
+                <div class="report-section">
+                  <div class="report-section-title">Contractor</div>
+                  <div style="font-size:16px; font-weight:600;">${escapeHtml(contractor)}</div>
+                  ${location !== "your area" ? `<div style="font-size:14px; color:var(--muted);">${escapeHtml(location)}</div>` : ""}
+                </div>
+              ` : ""}
+
+              <div class="report-section">
+                <div class="report-section-title">Scope Items</div>
+                ${scopeHtml}
+                ${missingItems.length > 0 ? `<div style="margin-top:10px; font-size:13px; color:#92400e;">${missingItems.length} item${missingItems.length > 1 ? "s" : ""} not confirmed in quote</div>` : `<div style="margin-top:10px; font-size:13px; color:#166534;">All scope items confirmed</div>`}
+              </div>
+
+              <div class="report-section">
+                <div class="report-section-title">Market Context</div>
+                <div style="font-size:14px; color:var(--text); line-height:1.6;">
+                  ${location !== "your area" ? `Based on pricing data for ${escapeHtml(location)}. ` : ""}Expected midpoint for this roof: ${safeFormatCurrency(a.mid)}.
+                  ${deltaAbs >= 100 ? ` This quote is ${safeFormatCurrency(deltaAbs)} ${deltaDir} the midpoint.` : " This quote is in line with expected pricing."}
+                </div>
+              </div>
+
+            </div>
+
+            <div class="report-footer">
+              Generated by TruePrice &bull; truepricehq.com &bull; ${escapeHtml(date)}
+            </div>
+          </div>
+
+          <div class="action-buttons report-actions" style="margin-top:20px; justify-content:center;">
+            <button class="btn" onclick="copyShareableReportText()">Copy as text</button>
+            <button class="btn secondary" onclick="window.print()">Print / Save PDF</button>
             <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
           </div>
         </div>
