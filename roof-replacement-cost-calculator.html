@@ -33,87 +33,10 @@
     content="Estimate roof replacement cost by size, material, tear off, and complexity."
   />
 
+  <link rel="stylesheet" href="/css/trueprice.css" />
   <style>
-    :root {
-      --bg: #f7f9fc;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --card: #ffffff;
-      --line: #e5e7eb;
-      --brand: #0f62fe;
-      --brand-dark: #0b4fd1;
-      --brand-soft: #eef4ff;
-      --max: 980px;
-    }
-
-    
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    a {
-      color: var(--brand);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .wrap {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    .nav {
-      margin-bottom: 16px;
-      font-size: 0.98rem;
-    }
-
-    .nav a {
-      margin-right: 14px;
-      color: var(--brand);
-      font-weight: 600;
-    }
-
-    h1 {
-      font-size: 2.25rem;
-      line-height: 1.15;
-      margin: 0 0 12px;
-    }
-
-    h2 {
-      font-size: 1.7rem;
-      line-height: 1.2;
-      margin-top: 0;
-      margin-bottom: 14px;
-    }
-
     .muted {
-      color: var(--muted);
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
+      color: var(--text-muted);
     }
 
     label {
@@ -134,32 +57,14 @@
       color: var(--text);
     }
 
-    .btn {
-      margin-top: 16px;
-      padding: 12px 18px;
-      border: 0;
-      border-radius: 10px;
-      background: var(--brand);
-      color: #ffffff;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-block;
-      text-decoration: none;
-    }
-
     .btn.secondary {
-    background: #fff;
-    color: var(--brand);
-    border: 1px solid var(--brand);
+      background: #fff;
+      color: var(--brand);
+      border: 1px solid var(--brand);
     }
 
     .btn.secondary:hover {
-    background: var(--brand-soft);
-    }
-
-    .btn:hover {
-      background: var(--brand-dark);
-      text-decoration: none;
+      background: var(--brand-light);
     }
 
     .btn-row {
@@ -170,8 +75,8 @@
     }
 
     .helper-box {
-      background: var(--brand-soft);
-      border: 1px solid #cfe0ff;
+      background: var(--brand-light);
+      border: 1px solid var(--brand-border);
       border-radius: 12px;
       padding: 14px 16px;
       margin-top: 14px;
@@ -185,10 +90,6 @@
       margin-bottom: 0;
     }
 
-    ul {
-      padding-left: 20px;
-    }
-
     .link-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -200,14 +101,14 @@
 
     .link-list li {
       background: #fff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 12px 14px;
     }
 
     .faq details {
       background: #ffffff;
-      border: 1px solid var(--line);
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 14px 16px;
       margin-bottom: 12px;
@@ -222,29 +123,21 @@
       margin-top: 12px;
       margin-bottom: 0;
     }
-
-    @media (max-width: 640px) {
-      .wrap {
-        padding: 18px;
-      }
-
-      h1 {
-        font-size: 1.9rem;
-      }
-
-      h2 {
-        font-size: 1.4rem;
-      }
-    }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <p class="nav">
-      <a href="index.html">Home</a>
-      <a href="roofing-quote-analyzer.html">Quote Analyzer</a>
-      <a href="compare-roofing-quotes.html">Compare Quotes</a>
-    </p>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/roof-replacement-cost-calculator.html">Calculator</a>
+        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 24px; padding-bottom: 24px;">
 
     <h1>Roof Replacement Cost Calculator</h1>
     <p class="muted">
@@ -452,6 +345,12 @@
       </details>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze roofing quotes, compare contractor bids, and estimate roof replacement costs.</p>
+    </div>
+  </footer>
 
   <script>
     function formatCurrency(value) {

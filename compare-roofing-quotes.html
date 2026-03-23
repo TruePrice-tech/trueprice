@@ -7,56 +7,11 @@
   <meta name="description" content="Compare roofing quotes side by side by price, materials, warranty, and scope so you can choose the right contractor with confidence." />
   <link rel="canonical" href="https://trueprice-tech.github.io/trueprice/compare-roofing-quotes.html" />
   <meta name="robots" content="index,follow" />
+
+  <link rel="stylesheet" href="/css/trueprice.css" />
   <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      margin: 0;
-      background: #f7f9fc;
-      color: #1f2937;
-      line-height: 1.6;
-    }
-
-    .wrap {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    .nav {
-      margin-bottom: 16px;
-    }
-
-    .nav a {
-      margin-right: 14px;
-      color: #0f62fe;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .nav a:hover {
-      text-decoration: underline;
-    }
-
-    h1, h2, h3 {
-      line-height: 1.2;
-    }
-
     .muted {
-      color: #6b7280;
-    }
-
-    .card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
+      color: var(--text-muted);
     }
 
     label {
@@ -74,22 +29,10 @@
       box-sizing: border-box;
     }
 
-    .btn {
-      display: inline-block;
-      background: #0f62fe;
-      color: #ffffff;
-      padding: 12px 18px;
-      border-radius: 10px;
-      font-weight: 700;
-      text-decoration: none;
-      border: 0;
-      cursor: pointer;
-      margin-top: 16px;
-    }
-
-    .btn:hover {
-      text-decoration: none;
-      opacity: 0.95;
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
     }
 
     table {
@@ -100,42 +43,44 @@
     }
 
     th, td {
-      border: 1px solid #e5e7eb;
+      border: 1px solid var(--border);
       padding: 12px;
       text-align: left;
       vertical-align: top;
     }
 
     th {
-      background: #f3f4f6;
+      background: var(--bg-subtle);
     }
 
     .highlight-good {
-      background: #ecfdf3;
+      background: var(--green-bg);
     }
 
     .highlight-warn {
-      background: #fff7ed;
+      background: var(--amber-bg);
     }
 
     .output-note {
       margin-top: 12px;
-      color: #6b7280;
+      color: var(--text-muted);
       font-size: 0.95rem;
-    }
-
-    ul {
-      padding-left: 20px;
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <p class="nav">
-      <a href="/">Home</a>
-      <a href="/roofing-quote-analyzer.html">Quote Analyzer</a>
-      <a href="/roof-replacement-cost-calculator.html">Calculator</a>
-    </p>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/roof-replacement-cost-calculator.html">Calculator</a>
+        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 24px; padding-bottom: 24px;">
 
     <h1>Compare Roofing Quotes</h1>
     <p class="muted">
@@ -148,7 +93,7 @@
         Enter the key details from each quote below. The tool will compare total price, price per square foot, materials, and warranty side by side.
       </p>
 
-      <div class="grid">
+      <div class="compare-grid">
         <div>
           <h3>Quote A</h3>
           <label for="contractorA">Contractor</label>
@@ -253,6 +198,12 @@
       </ul>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze roofing quotes, compare contractor bids, and estimate roof replacement costs.</p>
+    </div>
+  </footer>
 
   <script>
     function getQuoteData(letter) {
