@@ -63,10 +63,7 @@ async function preprocessImageForOcr(imageSource, mode = "soft") {
   });
 }
 
-if (window.pdfjsLib) {
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
-}
+// pdfjs worker is now initialized by loadVendorLibs() in the HTML
 
 async function runOcrOnImageSource(imageSource, progressCallback, options = {}) {
   const result = await Tesseract.recognize(imageSource, "eng", {
@@ -602,6 +599,11 @@ return {
 
   async function parseUploadedComparisonFile(file) {
     if (!file) return null;
+
+    // Lazy-load vendor libs (pdfjs, tesseract, html2canvas) on first upload
+    if (typeof loadVendorLibs === "function") {
+      await loadVendorLibs();
+    }
 
     const extractionResult = await extractTextFromUploadedFile(file);
     const rawText = extractionResult && extractionResult.text ? extractionResult.text : "";

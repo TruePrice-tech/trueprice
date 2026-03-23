@@ -2,10 +2,9 @@
    TruePrice — Analyzer Page Styles
    ============================================================ */
 
+/* Inherits all base variables from trueprice.css :root
+   Only analyzer-specific additions here */
 :root {
-  --brand: #1d4ed8;
-  --brand-dark: #1e40af;
-  --brand-soft: #eff6ff;
   --upload-bg: #f8fbff;
   --upload-border: #bfdbfe;
   --upload-hover: #eff6ff;
@@ -18,13 +17,6 @@
   --bad-line: #fecaca;
   --neutral-bg: #f3f4f6;
   --neutral-line: #d1d5db;
-  --text: #111827;
-  --muted: #6b7280;
-  --card: #ffffff;
-  --line: #e2e8f0;
-  --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.08);
-  --radius: 12px;
 }
 
 html {
