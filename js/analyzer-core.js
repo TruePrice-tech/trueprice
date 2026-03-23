@@ -88,7 +88,7 @@ const MATERIAL_PATTERNS = [
     value: "architectural",
     label: "Architectural shingles",
     score: 94,
-    patterns: [/\barchitectural\b/, /\bdimensional\b/, /\blaminate shingles?\b/, /\bhdz\b/, /\btimberline\b/, /\bcertainteed\b/, /\blandmark\b/]
+    patterns: [/\barchitectural\b/, /\bdimensional\b/, /\blaminate shingles?\b/, /\bhdz\b/, /\btimberline\b/, /\bcertainteed\w*\b/, /\blandmark\b/, /\bduration\b/, /\bowens\s*corning\b/]
   },
   {
     value: "tile",
@@ -109,6 +109,8 @@ const MATERIAL_PATTERNS = [
     patterns: [/\bmetal\s+(?:roof|roofing|panel|system)\b/]
   }
 ];
+
+if (typeof window !== "undefined") window.MATERIAL_PATTERNS = MATERIAL_PATTERNS;
 
 function formatCurrency(value) {
   const num = Number(value);

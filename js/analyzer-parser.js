@@ -837,8 +837,11 @@ function detectMaterial(text) {
   const materialLineMatch = repairedSource.match(materialLineRegex);
   const materialLine = materialLineMatch ? materialLineMatch[1].toLowerCase() : "";
 
-  // Check if shingle-related terms dominate the document
-  const hasShingleSignals = /\bshingles?\b|\barchitectural\b|\b3[- ]tab\b|\basphalt\b|\bcertainteed\b|\bgaf\b|\btimberline\b|\bowens corning\b/i.test(normalized);
+  // Check if metal is the actual primary install material
+  const metalIsPrimary = /\binstall\b[^.]*\bmetal\b|\bmetal\s+panel|\bstanding\s+seam\b|\bmetal\s+roof\s+install/i.test(normalized);
+
+  // Check if shingle-related terms are present
+  const hasShingleSignals = /\bshingles?\b|\barchitectural\b|\b3[- ]tab\b|\basphalt\b|\bcertainteed\w*\b|\bgaf\b|\btimberline\b|\bowens\s*corning\b/i.test(normalized);
 
   MATERIAL_PATTERNS.forEach(item => {
     item.patterns.forEach(pattern => {
@@ -849,13 +852,13 @@ function detectMaterial(text) {
           score += 80;
         }
 
-        // Penalize metal when shingle signals dominate the document
-        if (item.value === "metal" && hasShingleSignals) {
+        // Only penalize metal when shingle signals exist AND metal isn't the primary install
+        if (item.value === "metal" && hasShingleSignals && !metalIsPrimary) {
           score -= 80;
         }
 
-        // Penalize metal matches found only in boilerplate/payment terms
-        if (item.value === "metal" && !materialLine) {
+        // Penalize metal in boilerplate only when metal isn't the primary install
+        if (item.value === "metal" && !materialLine && !metalIsPrimary) {
           const metalContext = normalized.match(/(?:metal\s+roof|metal\s+roofing).{0,80}/);
           if (metalContext && /payment|cancellation|policy|order material|siding/i.test(metalContext[0])) {
             score -= 60;
@@ -870,6 +873,19 @@ function detectMaterial(text) {
       }
     });
   });
+
+  // If both shingle and metal matched, filter out incidental metal
+  const hasArchMatch = matches.some(m => m.value === "architectural" || m.value === "asphalt");
+  const hasMetalMatch = matches.some(m => m.value === "metal");
+
+  if (hasArchMatch && hasMetalMatch && !metalIsPrimary) {
+    // Metal is incidental (drip metal, boilerplate) — remove it
+    const filtered = matches.filter(m => m.value !== "metal");
+    if (filtered.length > 0) {
+      matches.length = 0;
+      filtered.forEach(m => matches.push(m));
+    }
+  }
 
   if (!matches.length) {
     const fuzzyMaterialLine = materialLine || normalized;
@@ -1332,10 +1348,12 @@ const SCOPE_DEFINITIONS = {
     positive: [
       /\btear\s*off\b/g,
       /\bremove existing roof\b/g,
-      /\bremove existing shingles\b/g,
+      /\bremove existing\b.*\bshingles\b/g,
       /\broof removal\b/g,
       /\bcomplete removal\b/g,
-      /\bstrip existing roof\b/g
+      /\bstrip existing roof\b/g,
+      /\bremove\b.*\basphalt\b/g,
+      /\bremove\b.*\broof\b/g
     ],
     negative: [
       /\bno tear[\s-]?off\b/g,
@@ -1389,7 +1407,9 @@ const SCOPE_DEFINITIONS = {
       /\bfelt\b/g,
       /\bfelt paper\b/g,
       /\broofing felt\b/g,
-      /\bsynthetic felt\b/g
+      /\bsynthetic felt\b/g,
+      /\binstall\s+(?:synthetic\s+)?underlayment\b/g,
+      /\bunderlayment\s*\(/g
     ],
     negative: [
       /\bunderlayment not included\b/g,
@@ -1405,7 +1425,10 @@ const SCOPE_DEFINITIONS = {
       /\bice water shield\b/g,
       /\bice shield\b/g,
       /\bleak barrier\b/g,
-      /\bwater shield\b/g
+      /\bwater shield\b/g,
+      /\bice\s+(?:and|&)\s+water\s+shield\b/g,
+      /\binstall\s+ice\s+and\s+water\b/g,
+      /\bself[- ]adhesive.*membrane\b/g
     ],
     negative: [
       /\bice and water not included\b/g,
@@ -1424,7 +1447,9 @@ const SCOPE_DEFINITIONS = {
       /\bstatic vent\b/g,
       /\bturtle vent\b/g,
       /\bpower vent\b/g,
-      /\bsoffit vent\b/g
+      /\bsoffit vent\b/g,
+      /\battic\s+(?:space\s+)?ventilation\b/g,
+      /\bair\s*flow\b/g
     ],
     negative: [
       /\bventilation not included\b/g,
@@ -1437,7 +1462,10 @@ const SCOPE_DEFINITIONS = {
     label: "Ridge vent",
     positive: [
       /\bridge vent\b/g,
-      /\bridgevent\b/g
+      /\bridgevent\b/g,
+      /\bcontinuous ridge vent\b/g,
+      /\bridge venting\b/g,
+      /\bcontinuous\s+ridge\s+vent\b/g
     ],
     negative: [
       /\bridge vent not included\b/g,
@@ -1497,14 +1525,23 @@ const SCOPE_DEFINITIONS = {
 function normalizeScopeText(text) {
   return String(text || "")
     .toLowerCase()
+    // OCR artifact repairs
+    .replace(/\broo\s*f?\s*ng\b/g, "roofing")
+    .replace(/\bashi?ng\b/g, "ashing")
+    .replace(/\b[ffi]+ashing\b/g, "flashing")
+    .replace(/\bventila\s*tion\b/g, "ventilation")
+    .replace(/\bunder\s*lay\s*ment\b/g, "underlayment")
+    .replace(/\barchitec\s*tural\b/g, "architectural")
+    .replace(/\bsyn\s*thetic\b/g, "synthetic")
     .replace(/[–—]/g, "-")
-    .replace(/\bridge[\s-]*vent\b/g, "ridge vent")
-    .replace(/\bdrip[\s-]*edge\b/g, "drip edge")
+    .replace(/\bridge[\s-]*vent(?:ing)?\b/g, "ridge vent")
+    .replace(/\bcontinuous\s+ridge\s+vent\b/g, "ridge vent")
+    .replace(/\bdrip[\s-]*(?:edge|metal)\b/g, "drip edge")
+    .replace(/\baluminum\s+drip\b/g, "drip edge")
     .replace(/\bice\s*(?:&|and)\s*water\b/g, "ice and water")
     .replace(/\bstarter[\s-]*strip\b/g, "starter strip")
     .replace(/\bridge[\s-]*cap\b/g, "ridge cap")
-    .replace(/\bunder layment\b/g, "underlayment")
-    .replace(/\bdeck ing\b/g, "decking")
+    .replace(/\bdeck\s*ing\b/g, "decking")
     .replace(/[|]/g, " ")
     .replace(/[ \t]+/g, " ")
     .replace(/\n[ \t]+/g, "\n")
@@ -1512,11 +1549,11 @@ function normalizeScopeText(text) {
 }
 
 function hasNearbyNegation(text, index) {
-  const start = Math.max(0, index - 60);
-  const end = Math.min(text.length, index + 60);
+  const start = Math.max(0, index - 40);
+  const end = Math.min(text.length, index + 40);
   const windowText = text.slice(start, end);
 
-  return /\b(not included|excluded|exclude|by owner|owner to provide|reuse existing|at additional cost|extra charge|optional|allowance only|if needed)\b/.test(windowText);
+  return /\b(not included|excluded|exclude|by owner|owner to provide|reuse existing|at additional cost|extra charge|optional|allowance only)\b/.test(windowText);
 }
 
 function evaluateScopeSignal(text, definition) {
