@@ -202,8 +202,15 @@ async function extractTextFromPdfNative(file) {
   fullText = fullText.replace(/\bfl ([a-z])/g, 'fl$1');
   fullText = fullText.replace(/\bff ([a-z])/g, 'ff$1');
 
-  // Step 3: Rejoin single uppercase+lowercase splits: "W ork" -> "Work", "F ax" -> "Fax"
-  fullText = fullText.replace(/\b([A-Z]) ([a-z]{2,})/g, '$1$2');
+  // Step 3: Collapse single-letter + space fragments aggressively
+  // "E v ans" -> "Evans", "Gr o v et own" -> "Grovetown"
+  // Run multiple passes: each pass joins a single-char fragment to its neighbor
+  for (let i = 0; i < 5; i++) {
+    // Join single lowercase letter to next word: "v ans" -> "vans"
+    fullText = fullText.replace(/ ([a-z]) ([a-z])/g, ' $1$2');
+    // Join single uppercase letter to next lowercase: "E vans" -> "Evans"
+    fullText = fullText.replace(/\b([A-Z]) ([a-z])/g, '$1$2');
+  }
 
   console.log("PDF_NATIVE_TEXT_EXTRACT:", fullText.substring(0, 500));
 

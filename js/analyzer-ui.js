@@ -3842,6 +3842,8 @@ function buildComparisonWinnerHtml(summary) {
         const roofSizeSource = roofMeta?.source || a?.roofSizeEstimateSource || "";
         const materialLabel = a.material && typeof getMaterialLabel === "function"
           ? getMaterialLabel(a.material).toLowerCase()
+              .replace(/\s*shingles?$/i, "")
+              .replace(/\s*roofing$/i, "")
           : "";
         const contractorName = latestParsed?.contractor && latestParsed.contractor !== "Not detected"
           ? latestParsed.contractor
