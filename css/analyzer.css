@@ -765,6 +765,8 @@ details.card summary::-webkit-details-marker {
 
 .verdict-range-value--quote {
   color: var(--brand);
+  font-size: 26px;
+  font-weight: 800;
 }
 
 .verdict-meta {
