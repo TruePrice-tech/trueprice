@@ -88,7 +88,7 @@ const MATERIAL_PATTERNS = [
     value: "architectural",
     label: "Architectural shingles",
     score: 94,
-    patterns: [/\barchitectural\b/, /\bdimensional\b/, /\blaminate shingles?\b/, /\bhdz\b/, /\btimberline\b/]
+    patterns: [/\barchitectural\b/, /\bdimensional\b/, /\blaminate shingles?\b/, /\bhdz\b/, /\btimberline\b/, /\bcertainteed\b/, /\blandmark\b/]
   },
   {
     value: "tile",
@@ -106,7 +106,7 @@ const MATERIAL_PATTERNS = [
     value: "metal",
     label: "Metal roofing",
     score: 80,
-    patterns: [/\bmetal\b/]
+    patterns: [/\bmetal\s+(?:roof|roofing|panel|system)\b/]
   }
 ];
 

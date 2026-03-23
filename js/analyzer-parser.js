@@ -57,6 +57,9 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
     score += 140;
   } else if (/subtotal/.test(ctx)) {
     score -= 20;
+  } else if (/\btotal\b/.test(ctx) && value >= 3000 && value <= 100000) {
+    // Standalone "TOTAL" near a plausible roof price — strong signal
+    score += 120;
   } else if (/total|price|cost|amount|proposal|contract|investment/.test(ctx)) {
     score += 25;
   }
@@ -80,6 +83,10 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
   if (/\b(account|claim number|policy number)\b/.test(ctx)) score -= 40;
   if (/license|lic #|license #|proposal number|estimate number|invoice number|reference number|check number/.test(ctx)) score -= 160;
   if (/license|lic #|license #|proposal number|estimate number|invoice number|reference number|check number/.test(line)) score -= 220;
+
+  // DocuSign envelope IDs, UUIDs, and hex strings should never be prices
+  if (/envelope\s*id|docusign|[0-9a-f]{8}-[0-9a-f]{4}/i.test(ctx)) score -= 300;
+  if (/envelope\s*id|docusign|[0-9a-f]{8}-[0-9a-f]{4}/i.test(line)) score -= 300;
 
   if (nonTotalMoneyRegex.test(ctx)) score -= 70;
   if (nonTotalMoneyRegex.test(line)) score -= 90;
@@ -324,7 +331,7 @@ function extractPriceCandidates(text) {
     }
 
     const strongTotalLineRegex =
-      /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|total estimated cost|totol estimated cost|total due|estimated cost|total cost|final total|amount due/;
+      /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|total estimated cost|totol estimated cost|total due|estimated cost|total cost|final total|amount due|\btotal\b/;
 
     const candidateIndexInLine = start - lineStart;
     const totalPhraseIndexInLine = lineText.search(strongTotalLineRegex);
