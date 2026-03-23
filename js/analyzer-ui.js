@@ -7196,14 +7196,23 @@ function buildComparisonWinnerHtml(summary) {
       `;
     }
 
-    // Compare state — stores parsed data for quotes 2 and 3
-    const compareState = { q2: null, q3: null };
+    // Compare state — stores parsed data and scope overrides for quotes 2 and 3
+    const compareState = { q2: null, q3: null, scopeOverrides: {} };
+
+    function getScopeStatus(label, key, signals) {
+      // Check overrides first, then OCR signals
+      const overrideKey = label + "|" + key;
+      if (overrideKey in compareState.scopeOverrides) {
+        return compareState.scopeOverrides[overrideKey] ? "included" : "unclear";
+      }
+      return signals[key]?.status || "unclear";
+    }
 
     function buildQuoteSummary(parsed, label) {
       if (!parsed) return null;
       const signals = parsed.signals || {};
       const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking"];
-      const confirmed = scopeKeys.filter(k => signals[k]?.status === "included").length;
+      const confirmed = scopeKeys.filter(k => getScopeStatus(label, k, signals) === "included").length;
       const price = Number(parsed.finalBestPrice || parsed.totalLinePrice || parsed.price || 0);
       return {
         label,
@@ -7251,7 +7260,10 @@ function buildComparisonWinnerHtml(summary) {
       const colW = Math.floor(100 / (cols + 1));
       const hdr = (label) => `<div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); padding:8px 0;">${label}</div>`;
       const cell = (val, isWinner) => `<div style="padding:8px 12px; font-size:14px; ${isWinner ? "background:#ecfdf5;" : ""}">${val}</div>`;
-      const check = (status) => status === "included" ? '<span style="color:#16a34a; font-weight:700;">&#10003;</span>' : '<span style="color:#d97706;">?</span>';
+      const check = (status, quoteLabel, scopeKey) => {
+        const isIncluded = status === "included";
+        return `<span onclick="toggleCompareScope('${quoteLabel}','${scopeKey}')" style="cursor:pointer; display:inline-block; padding:2px 6px; border-radius:4px; transition:all 0.1s; ${isIncluded ? "color:#16a34a; font-weight:700; background:#ecfdf5;" : "color:#d97706; background:#fffbeb;"}" title="Click to toggle">${isIncluded ? "&#10003;" : "?"}</span>`;
+      };
 
       let rows = "";
 
@@ -7285,21 +7297,27 @@ function buildComparisonWinnerHtml(summary) {
       quotes.forEach((q, i) => rows += cell(q.warrantyYears ? q.warrantyYears + " yr" : "?", i === bestIdx));
       rows += "</div>";
 
-      // Scope score row
+      // Scope score row (recalculated with overrides)
       rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
       rows += hdr("Scope");
       quotes.forEach((q, i) => {
-        const pct = Math.round((q.scopeConfirmed / q.scopeTotal) * 100);
+        // Recalculate with overrides
+        const liveConfirmed = scopeItems.filter(si => getScopeStatus(q.label, si.key, q.signals) === "included").length;
+        q.scopeConfirmed = liveConfirmed;
+        const pct = Math.round((liveConfirmed / q.scopeTotal) * 100);
         const color = pct >= 70 ? "#16a34a" : pct >= 40 ? "#d97706" : "#dc2626";
-        rows += cell(`<strong style="color:${color};">${q.scopeConfirmed}/${q.scopeTotal}</strong>`, i === bestIdx);
+        rows += cell(`<strong style="color:${color};">${liveConfirmed}/${q.scopeTotal}</strong>`, i === bestIdx);
       });
       rows += "</div>";
 
-      // Individual scope items
+      // Individual scope items (clickable to toggle)
       scopeItems.forEach(item => {
         rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f8fafc;">`;
         rows += `<div style="font-size:12px; color:var(--muted); padding:4px 0;">${item.label}</div>`;
-        quotes.forEach((q, i) => rows += `<div style="padding:4px 12px; ${i === bestIdx ? "background:#ecfdf5;" : ""}">${check(q.signals[item.key]?.status)}</div>`);
+        quotes.forEach((q, i) => {
+          const status = getScopeStatus(q.label, item.key, q.signals);
+          rows += `<div style="padding:4px 12px; ${i === bestIdx ? "background:#ecfdf5;" : ""}">${check(status, q.label, item.key)}</div>`;
+        });
         rows += "</div>";
       });
 
@@ -7341,7 +7359,8 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
 
-      return `<div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#fff;">${rows}</div>${winnerCard}`;
+      const hint = `<div style="font-size:12px; color:var(--muted); text-align:center; margin-top:8px;">Tap any ✓ or ? to correct scope items. Winner recalculates automatically.</div>`;
+      return `<div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#fff;">${rows}</div>${hint}${winnerCard}`;
     }
 
     window.showCompareScreen = function showCompareScreen() {
@@ -7433,6 +7452,21 @@ function buildComparisonWinnerHtml(summary) {
         }
       });
     }
+
+    window.toggleCompareScope = function toggleCompareScope(quoteLabel, scopeKey) {
+      const overrideKey = quoteLabel + "|" + scopeKey;
+      const current = compareState.scopeOverrides[overrideKey];
+      if (current === undefined) {
+        // First toggle: flip from OCR detection
+        // Need to figure out what OCR detected — check if it was included
+        // If unclear, set to included; if included, set to unclear
+        compareState.scopeOverrides[overrideKey] = true; // Default: mark as included
+      } else {
+        compareState.scopeOverrides[overrideKey] = !current;
+      }
+      // Re-render the comparison grid
+      runFullComparison();
+    };
 
     window.clearCompareQuote = function clearCompareQuote(num) {
       compareState["q" + num] = null;
