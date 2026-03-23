@@ -4124,6 +4124,146 @@ function buildComparisonWinnerHtml(summary) {
         `;
       }
 
+      function renderBeforeYouSign(a) {
+        if (!a) return "";
+        const parsed = latestParsed || {};
+        const signals = parsed.signals || {};
+        const recommendation = a?.recommendation || {};
+        const action = String(recommendation.action || "").toUpperCase();
+        const riskFlags = Array.isArray(a.riskFlags) ? a.riskFlags.filter(f => f.key !== "no_major_risks") : [];
+
+        // Build checklist items from critical scope gaps + risk flags + verdict-specific advice
+        const items = [];
+
+        // Critical scope items not confirmed
+        const criticalScope = [
+          { key: "tearOff", label: "Confirm tear off is included", why: "Without tear off, problems hide under the new roof" },
+          { key: "underlayment", label: "Confirm underlayment is included", why: "The waterproofing layer — no underlayment means leaks" },
+          { key: "flashing", label: "Confirm flashing is included", why: "#1 cause of roof leaks" }
+        ];
+
+        const importantScope = [
+          { key: "iceShield", label: "Confirm ice & water shield is included", why: "Required by code in most areas" },
+          { key: "dripEdge", label: "Confirm drip edge is included", why: "Prevents fascia rot" },
+          { key: "ventilation", label: "Confirm ventilation is included", why: "Poor ventilation cuts shingle lifespan 20-30%" },
+          { key: "ridgeVent", label: "Confirm ridge vent is included", why: "Primary ventilation system" }
+        ];
+
+        criticalScope.forEach(item => {
+          const status = signals[item.key]?.status;
+          if (status !== "included") {
+            items.push({ text: item.label, why: item.why, critical: true });
+          }
+        });
+
+        importantScope.forEach(item => {
+          const status = signals[item.key]?.status;
+          if (status !== "included") {
+            items.push({ text: item.label, why: item.why, critical: false });
+          }
+        });
+
+        // Add risk flag actions
+        riskFlags.forEach(flag => {
+          if (flag.action && flag.severity === "high") {
+            items.push({ text: flag.action, why: flag.title, critical: true });
+          }
+        });
+
+        // Verdict-specific advice
+        if (action === "NEGOTIATE") {
+          items.push({ text: "Request a line-by-line price breakdown", why: "Quote appears above expected", critical: false });
+        }
+        if (action === "NEGOTIATE" || action === "REVIEW") {
+          items.push({ text: "Get at least one more quote to compare", why: "Strengthens your negotiating position", critical: false });
+        }
+        if (!parsed.warrantyYears) {
+          items.push({ text: "Get warranty terms in writing", why: "Not confirmed in quote", critical: false });
+        }
+
+        // Deduplicate and cap at 6
+        const seen = new Set();
+        const uniqueItems = items.filter(item => {
+          const key = item.text.toLowerCase();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        }).slice(0, 6);
+
+        // Count confirmed scope items for the header
+        const allScope = ["tearOff", "underlayment", "flashing", "iceShield", "dripEdge", "ventilation", "ridgeVent", "starterStrip", "ridgeCap", "decking"];
+        const confirmed = allScope.filter(k => signals[k]?.status === "included").length;
+
+        const hasCritical = uniqueItems.some(i => i.critical);
+        const borderColor = hasCritical ? "var(--bad-line, #fecaca)" : uniqueItems.length > 0 ? "var(--warn-line, #fde68a)" : "var(--good-line, #a7f3d0)";
+        const bgColor = hasCritical ? "var(--bad-bg, #fef2f2)" : uniqueItems.length > 0 ? "var(--warn-bg, #fffbeb)" : "var(--good-bg, #ecfdf5)";
+        const headerColor = hasCritical ? "#991b1b" : uniqueItems.length > 0 ? "#92400e" : "#166534";
+
+        const headerText = uniqueItems.length === 0
+          ? "Ready to sign"
+          : `Before you sign (${confirmed} of ${allScope.length} scope items confirmed)`;
+
+        const itemsHtml = uniqueItems.length > 0
+          ? uniqueItems.map(item => `
+              <div style="display:flex; gap:10px; padding:10px 12px; border-radius:8px; margin-bottom:6px; background:${item.critical ? "rgba(239,68,68,0.06)" : "rgba(0,0,0,0.02)"};">
+                <span style="flex-shrink:0; width:20px; height:20px; border:2px solid ${item.critical ? "#ef4444" : "#d1d5db"}; border-radius:4px; margin-top:1px;"></span>
+                <div>
+                  <div style="font-size:14px; font-weight:600; color:var(--text);">${escapeHtml(item.text)}</div>
+                  <div style="font-size:12px; color:var(--muted); margin-top:2px;">${escapeHtml(item.why)}</div>
+                </div>
+              </div>
+            `).join("")
+          : `<div style="padding:12px; text-align:center; color:#166534; font-weight:600;">All critical scope items confirmed. Quote looks complete.</div>`;
+
+        // Build copy text
+        const copyText = uniqueItems.map((item, i) => `${i + 1}. ${item.text}`).join("\\n");
+
+        return `
+          <div style="padding:24px; border:2px solid ${borderColor}; border-radius:14px; margin-bottom:16px; background:${bgColor};">
+            <div style="font-size:18px; font-weight:700; color:${headerColor}; margin-bottom:14px;">${escapeHtml(headerText)}</div>
+            ${itemsHtml}
+            <div class="action-buttons" style="margin-top:14px;">
+              <button class="btn" onclick="copyBeforeYouSignChecklist()">Copy checklist</button>
+              <button class="btn secondary" onclick="showCompareScreen()">Upload another quote</button>
+            </div>
+          </div>
+        `;
+      }
+
+      window.copyBeforeYouSignChecklist = function copyBeforeYouSignChecklist() {
+        const a = window.__latestAnalysis;
+        const parsed = latestParsed || {};
+        const signals = parsed.signals || {};
+        const items = [];
+
+        const scope = [
+          { key: "tearOff", label: "Confirm tear off is included" },
+          { key: "underlayment", label: "Confirm underlayment is included" },
+          { key: "flashing", label: "Confirm flashing is included" },
+          { key: "iceShield", label: "Confirm ice & water shield is included" },
+          { key: "dripEdge", label: "Confirm drip edge is included" },
+          { key: "ventilation", label: "Confirm ventilation is included" },
+          { key: "ridgeVent", label: "Confirm ridge vent is included" }
+        ];
+
+        scope.forEach(item => {
+          if (signals[item.key]?.status !== "included") {
+            items.push(item.label);
+          }
+        });
+
+        if (!parsed.warrantyYears) items.push("Get warranty terms in writing");
+        items.push("Get at least one more quote to compare");
+
+        const text = "Before you sign checklist:\\n" + items.map((t, i) => `${i + 1}. ${t}`).join("\\n");
+
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => alert("Checklist copied.")).catch(() => prompt("Copy:", text));
+        } else {
+          prompt("Copy:", text);
+        }
+      };
+
       function renderMarketContext(a) {
         if (!a) return "";
         const city = a?.city || "";
@@ -7716,9 +7856,7 @@ function buildComparisonWinnerHtml(summary) {
         return `
           <div style="max-width:800px; margin:40px auto; padding:0 24px;">
             ${renderVerdictCard(a)}
-            ${renderActionCard(a)}
-            ${renderRiskFlagsModule(a)}
-            ${renderScopeScorecard(a)}
+            ${renderBeforeYouSign(a)}
             ${renderMarketContext(a)}
             ${renderShareModule(a)}
           </div>
