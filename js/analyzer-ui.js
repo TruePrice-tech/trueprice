@@ -7580,6 +7580,10 @@ function buildComparisonWinnerHtml(summary) {
     window.confirmProperty = function confirmProperty() {
       journeyState.propertyConfirmed = true;
 
+      // Hide appRoot before mounting analyze step to prevent flash
+      const rootBefore = document.getElementById("appRoot");
+      if (rootBefore) rootBefore.style.visibility = "hidden";
+
       // Mount the analyze step (creates form elements analyzeQuote needs)
       setJourneyStep("analyze");
 
@@ -7592,6 +7596,7 @@ function buildComparisonWinnerHtml(summary) {
         // Overlay the form with analyzing state so user sees progress, not the clutter
         const root = document.getElementById("appRoot");
         if (root) {
+          root.style.visibility = "visible";
           const overlay = document.createElement("div");
           overlay.id = "analyzingOverlay";
           overlay.style.cssText = "position:absolute; top:0; left:0; right:0; bottom:0; background:#fff; z-index:10;";
