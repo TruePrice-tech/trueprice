@@ -1,6 +1,7 @@
 import json
 import os
 import math
+import threading
 import requests
 from datetime import datetime
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -9,7 +10,8 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN", "")
-print("MAPBOX TOKEN LOADED:", bool(MAPBOX_TOKEN))
+QUOTES_LOCK = threading.Lock()
+VALID_MATERIALS = {"asphalt", "architectural", "metal", "tile"}
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(ROOT_DIR, "data")
@@ -214,11 +216,9 @@ def geocode_address(address):
             "placeType": place_type,
             "fullPlaceName": feature.get("place_name")
         }
-        print("GEOCODE RESULT:", result)
         return result
 
     except Exception as e:
-        print("GEOCODE ERROR:", repr(e))
         return None
 
 
@@ -313,7 +313,6 @@ def fetch_osm_footprint(lat, lon):
         }
 
     except Exception as e:
-        print("OSM FOOTPRINT ERROR:", repr(e))
         return None
 
 
@@ -486,8 +485,18 @@ class TruePriceHandler(SimpleHTTPRequestHandler):
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
         self.wfile.write(body)
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
 
     def do_POST(self):
         parsed = urlparse(self.path)
@@ -516,9 +525,7 @@ class TruePriceHandler(SimpleHTTPRequestHandler):
 
             try:
                 provider_record = lookup_property_signals_from_provider(data)
-                print("PROPERTY PROVIDER RESULT:", provider_record)
             except Exception as e:
-                print("PROPERTY SIGNAL PROVIDER ERROR:", repr(e))
                 provider_record = None
 
             if provider_record:
@@ -566,18 +573,33 @@ class TruePriceHandler(SimpleHTTPRequestHandler):
             self._send_json({"error": "Invalid quote payload"}, status=400)
             return
 
-        quotes = read_quotes()
-        quotes.append({
-            "city": city,
-            "stateCode": state_code,
-            "material": material,
-            "roofSize": roof_size,
-            "roofSizeBucket": get_roof_size_bucket(roof_size),
-            "quotePrice": quote_price,
-            "pricePerSqFt": price_per_sq_ft,
-            "timestamp": datetime.utcnow().isoformat() + "Z"
-        })
-        write_quotes(quotes)
+        # Input validation
+        if material not in VALID_MATERIALS:
+            self._send_json({"error": "Invalid material type"}, status=400)
+            return
+        if not (100 <= roof_size <= 50000):
+            self._send_json({"error": "Roof size out of range"}, status=400)
+            return
+        if not (100 <= quote_price <= 500000):
+            self._send_json({"error": "Quote price out of range"}, status=400)
+            return
+        if len(city) > 100 or len(state_code) > 5:
+            self._send_json({"error": "Invalid location data"}, status=400)
+            return
+
+        with QUOTES_LOCK:
+            quotes = read_quotes()
+            quotes.append({
+                "city": city,
+                "stateCode": state_code,
+                "material": material,
+                "roofSize": roof_size,
+                "roofSizeBucket": get_roof_size_bucket(roof_size),
+                "quotePrice": quote_price,
+                "pricePerSqFt": price_per_sq_ft,
+                "timestamp": datetime.utcnow().isoformat() + "Z"
+            })
+            write_quotes(quotes)
 
         self._send_json({"ok": True})
 
