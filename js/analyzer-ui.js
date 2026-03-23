@@ -6840,7 +6840,7 @@ function buildComparisonWinnerHtml(summary) {
                   renderInlineAnalyzingState(65, "Identifying key details…");
                 }, 200);
 
-                // 🔥 ADDRESS ROUTING
+                // ADDRESS ROUTING — save address but skip confirm screen
                 if (shouldPromoteAddress(latestParsed)) {
                   journeyState.propertyPreview = {
                     street: latestParsed.address?.street || "",
@@ -6849,10 +6849,6 @@ function buildComparisonWinnerHtml(summary) {
                     state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
                     zip: latestParsed.address?.zip || ""
                   };
-
-                  journeyState.propertyConfirmed = false;
-                  setJourneyStep("confirm");
-                  return;
                 }
 
                 // 🔥 ENSURE FORM EXISTS BEFORE POPULATING
@@ -7083,12 +7079,10 @@ function buildComparisonWinnerHtml(summary) {
                     state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
                     zip: latestParsed.address?.zip || ""
                   };
-                  journeyState.propertyConfirmed = false;
-                  setJourneyStep("confirm");
-                } else {
-                  journeyState.propertyConfirmed = true;
-                  confirmProperty();
                 }
+                // Skip confirm screen — go straight to analysis
+                journeyState.propertyConfirmed = true;
+                confirmProperty();
               } catch (err) {
                 console.error("Upload parse error:", err);
                 journeyState.propertyConfirmed = true;
