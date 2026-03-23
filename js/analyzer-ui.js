@@ -4128,102 +4128,76 @@ function buildComparisonWinnerHtml(summary) {
         if (!a) return "";
         const parsed = latestParsed || {};
         const signals = parsed.signals || {};
-        const recommendation = a?.recommendation || {};
-        const action = String(recommendation.action || "").toUpperCase();
-        const riskFlags = Array.isArray(a.riskFlags) ? a.riskFlags.filter(f => f.key !== "no_major_risks") : [];
 
-        // Build checklist items from critical scope gaps + risk flags + verdict-specific advice
-        const items = [];
-
-        // Critical scope items not confirmed
-        const criticalScope = [
-          { key: "tearOff", label: "Confirm tear off is included", why: "Without tear off, problems hide under the new roof" },
-          { key: "underlayment", label: "Confirm underlayment is included", why: "The waterproofing layer — no underlayment means leaks" },
-          { key: "flashing", label: "Confirm flashing is included", why: "#1 cause of roof leaks" }
+        // All scope items with labels and why they matter
+        const scopeItems = [
+          { key: "tearOff", label: "Tear off", why: "Removes old roof to inspect decking" },
+          { key: "underlayment", label: "Underlayment", why: "Waterproofing layer under shingles" },
+          { key: "flashing", label: "Flashing", why: "#1 source of roof leaks" },
+          { key: "iceShield", label: "Ice & water shield", why: "Code-required in valleys" },
+          { key: "dripEdge", label: "Drip edge", why: "Protects fascia from water" },
+          { key: "ventilation", label: "Ventilation", why: "Extends shingle lifespan" },
+          { key: "ridgeVent", label: "Ridge vent", why: "Primary roof ventilation" },
+          { key: "starterStrip", label: "Starter strip", why: "Wind resistance at edges" },
+          { key: "ridgeCap", label: "Ridge cap", why: "Seals the ridge line" },
+          { key: "decking", label: "Decking", why: "Repair allowance if needed" }
         ];
 
-        const importantScope = [
-          { key: "iceShield", label: "Confirm ice & water shield is included", why: "Required by code in most areas" },
-          { key: "dripEdge", label: "Confirm drip edge is included", why: "Prevents fascia rot" },
-          { key: "ventilation", label: "Confirm ventilation is included", why: "Poor ventilation cuts shingle lifespan 20-30%" },
-          { key: "ridgeVent", label: "Confirm ridge vent is included", why: "Primary ventilation system" }
-        ];
+        const found = [];
+        const askAbout = [];
 
-        criticalScope.forEach(item => {
+        scopeItems.forEach(item => {
           const status = signals[item.key]?.status;
-          if (status !== "included") {
-            items.push({ text: item.label, why: item.why, critical: true });
+          if (status === "included") {
+            found.push(item);
+          } else {
+            askAbout.push(item);
           }
         });
 
-        importantScope.forEach(item => {
-          const status = signals[item.key]?.status;
-          if (status !== "included") {
-            items.push({ text: item.label, why: item.why, critical: false });
-          }
-        });
+        // Found items as compact green pills
+        const foundHtml = found.length > 0
+          ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;">
+              ${found.map(item => `<span style="display:inline-flex; align-items:center; gap:4px; padding:5px 10px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:999px; font-size:13px; color:#166534; font-weight:500;">&#10003; ${escapeHtml(item.label)}</span>`).join("")}
+            </div>`
+          : "";
 
-        // Add risk flag actions
-        riskFlags.forEach(flag => {
-          if (flag.action && flag.severity === "high") {
-            items.push({ text: flag.action, why: flag.title, critical: true });
-          }
-        });
-
-        // Verdict-specific advice
-        if (action === "NEGOTIATE") {
-          items.push({ text: "Request a line-by-line price breakdown", why: "Quote appears above expected", critical: false });
-        }
-        if (action === "NEGOTIATE" || action === "REVIEW") {
-          items.push({ text: "Get at least one more quote to compare", why: "Strengthens your negotiating position", critical: false });
-        }
-        if (!parsed.warrantyYears) {
-          items.push({ text: "Get warranty terms in writing", why: "Not confirmed in quote", critical: false });
-        }
-
-        // Deduplicate and cap at 6
-        const seen = new Set();
-        const uniqueItems = items.filter(item => {
-          const key = item.text.toLowerCase();
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        }).slice(0, 6);
-
-        // Count confirmed scope items for the header
-        const allScope = ["tearOff", "underlayment", "flashing", "iceShield", "dripEdge", "ventilation", "ridgeVent", "starterStrip", "ridgeCap", "decking"];
-        const confirmed = allScope.filter(k => signals[k]?.status === "included").length;
-
-        const hasCritical = uniqueItems.some(i => i.critical);
-        const borderColor = hasCritical ? "var(--bad-line, #fecaca)" : uniqueItems.length > 0 ? "var(--warn-line, #fde68a)" : "var(--good-line, #a7f3d0)";
-        const bgColor = hasCritical ? "var(--bad-bg, #fef2f2)" : uniqueItems.length > 0 ? "var(--warn-bg, #fffbeb)" : "var(--good-bg, #ecfdf5)";
-        const headerColor = hasCritical ? "#991b1b" : uniqueItems.length > 0 ? "#92400e" : "#166534";
-
-        const headerText = uniqueItems.length === 0
-          ? "Ready to sign"
-          : `Before you sign (${confirmed} of ${allScope.length} scope items confirmed)`;
-
-        const itemsHtml = uniqueItems.length > 0
-          ? uniqueItems.map(item => `
-              <div style="display:flex; gap:10px; padding:10px 12px; border-radius:8px; margin-bottom:6px; background:${item.critical ? "rgba(239,68,68,0.06)" : "rgba(0,0,0,0.02)"};">
-                <span style="flex-shrink:0; width:20px; height:20px; border:2px solid ${item.critical ? "#ef4444" : "#d1d5db"}; border-radius:4px; margin-top:1px;"></span>
-                <div>
-                  <div style="font-size:14px; font-weight:600; color:var(--text);">${escapeHtml(item.text)}</div>
-                  <div style="font-size:12px; color:var(--muted); margin-top:2px;">${escapeHtml(item.why)}</div>
+        // Ask about items as a clean list
+        const askHtml = askAbout.length > 0
+          ? `<div style="margin-bottom:14px;">
+              <div style="font-size:14px; font-weight:700; color:#92400e; margin-bottom:8px;">Ask your contractor about:</div>
+              ${askAbout.map(item => `
+                <div style="display:flex; align-items:baseline; gap:8px; padding:6px 0; border-bottom:1px solid rgba(0,0,0,0.04);">
+                  <span style="color:#d97706; font-weight:700; font-size:14px;">?</span>
+                  <span style="font-size:14px; font-weight:500;">${escapeHtml(item.label)}</span>
+                  <span style="font-size:12px; color:var(--muted);">${escapeHtml(item.why)}</span>
                 </div>
-              </div>
-            `).join("")
-          : `<div style="padding:12px; text-align:center; color:#166534; font-weight:600;">All critical scope items confirmed. Quote looks complete.</div>`;
+              `).join("")}
+            </div>`
+          : "";
 
-        // Build copy text
-        const copyText = uniqueItems.map((item, i) => `${i + 1}. ${item.text}`).join("\\n");
+        // Context line tied to verdict
+        let contextLine = "";
+        const pricingMeta = a?.meta?.pricing || {};
+        const deltaFromMid = pricingMeta?.deltaFromMid ?? (a.quotePrice - a.mid);
+        if (deltaFromMid < -500 && askAbout.length > 0) {
+          contextLine = `<div style="font-size:13px; color:#92400e; margin-bottom:14px; padding:8px 12px; background:rgba(217,119,6,0.06); border-radius:6px;">Your quote is below expected pricing. Low quotes often exclude items listed above.</div>`;
+        } else if (deltaFromMid > 500 && askAbout.length > 0) {
+          contextLine = `<div style="font-size:13px; color:#1e40af; margin-bottom:14px; padding:8px 12px; background:rgba(30,64,175,0.06); border-radius:6px;">Ask if these items explain the higher price, or request a line-by-line breakdown.</div>`;
+        }
+
+        const allGood = askAbout.length === 0;
+        const borderColor = allGood ? "#a7f3d0" : askAbout.length <= 3 ? "#fde68a" : "#fecaca";
 
         return `
-          <div style="padding:24px; border:2px solid ${borderColor}; border-radius:14px; margin-bottom:16px; background:${bgColor};">
-            <div style="font-size:18px; font-weight:700; color:${headerColor}; margin-bottom:14px;">${escapeHtml(headerText)}</div>
-            ${itemsHtml}
+          <div style="padding:24px; border:1px solid ${borderColor}; border-radius:14px; margin-bottom:16px; background:#fff;">
+            <div style="font-size:18px; font-weight:700; margin-bottom:14px;">What we found in your quote</div>
+            ${foundHtml}
+            ${askHtml}
+            ${contextLine}
+            ${allGood ? `<div style="padding:10px; text-align:center; color:#166534; font-weight:600; background:#ecfdf5; border-radius:8px;">All scope items confirmed. This quote looks complete.</div>` : ""}
             <div class="action-buttons" style="margin-top:14px;">
-              <button class="btn" onclick="copyBeforeYouSignChecklist()">Copy checklist</button>
+              <button class="btn" onclick="copyBeforeYouSignChecklist()">Copy questions</button>
               <button class="btn secondary" onclick="showCompareScreen()">Upload another quote</button>
             </div>
           </div>
