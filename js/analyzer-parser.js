@@ -1478,7 +1478,9 @@ const SCOPE_DEFINITIONS = {
       /\bridgevent\b/g,
       /\bcontinuous ridge vent\b/g,
       /\bridge venting\b/g,
-      /\bcontinuous\s+ridge\s+vent\b/g
+      /\bcontinuous\s+ridge\s+vent\b/g,
+      /\bridge ventilation\b/g,
+      /\bridge\s+ventilation\s+system\b/g
     ],
     negative: [
       /\bridge vent not included\b/g,

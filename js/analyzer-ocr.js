@@ -14,10 +14,11 @@ async function preprocessImageForOcr(imageSource, mode = "soft") {
     img.onload = () => {
       const canvas = document.createElement("canvas");
 
-      const maxDimension = 1800;
+      // Higher target DPI for better OCR accuracy (especially phone photos)
+      const maxDimension = 2400;
       const longestSide = Math.max(img.width, img.height);
       const upscaleRatio = longestSide < maxDimension ? maxDimension / longestSide : 1;
-      const scale = Math.max(1.35, Math.min(2.0, upscaleRatio));
+      const scale = Math.max(1.5, Math.min(2.5, upscaleRatio));
 
       canvas.width = Math.round(img.width * scale);
       canvas.height = Math.round(img.height * scale);
@@ -28,30 +29,64 @@ async function preprocessImageForOcr(imageSource, mode = "soft") {
         return;
       }
 
+      // Use better image smoothing for upscaled images
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
+      const width = canvas.width;
+      const height = canvas.height;
 
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-
-        let gray = 0.299 * r + 0.587 * g + 0.114 * b;
-
-        if (mode === "soft") {
-          gray = (gray - 128) * 1.22 + 128;
-        } else if (mode === "strong") {
-          gray = (gray - 128) * 1.5 + 128;
-          gray = gray > 185 ? 255 : gray < 95 ? 0 : gray;
+      if (mode === "soft") {
+        // Gentle contrast enhancement — good for clean documents
+        for (let i = 0; i < data.length; i += 4) {
+          let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+          gray = (gray - 128) * 1.3 + 128;
+          gray = Math.max(0, Math.min(255, gray));
+          data[i] = gray; data[i + 1] = gray; data[i + 2] = gray;
         }
-
-        gray = Math.max(0, Math.min(255, gray));
-
-        data[i] = gray;
-        data[i + 1] = gray;
-        data[i + 2] = gray;
+      } else if (mode === "strong") {
+        // Strong binarization — good for blurry/dark images
+        for (let i = 0; i < data.length; i += 4) {
+          let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+          gray = (gray - 128) * 1.6 + 128;
+          gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
+          gray = Math.max(0, Math.min(255, gray));
+          data[i] = gray; data[i + 1] = gray; data[i + 2] = gray;
+        }
+      } else if (mode === "adaptive") {
+        // Adaptive thresholding — best for uneven lighting (phone photos)
+        // First pass: convert to grayscale
+        const grayArr = new Uint8Array(width * height);
+        for (let i = 0; i < data.length; i += 4) {
+          grayArr[i / 4] = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
+        }
+        // Second pass: local mean thresholding (block size ~31px)
+        const blockSize = 31;
+        const halfBlock = Math.floor(blockSize / 2);
+        const offset = 12;
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            let sum = 0, count = 0;
+            const y0 = Math.max(0, y - halfBlock);
+            const y1 = Math.min(height - 1, y + halfBlock);
+            const x0 = Math.max(0, x - halfBlock);
+            const x1 = Math.min(width - 1, x + halfBlock);
+            // Sample every 3rd pixel for speed
+            for (let sy = y0; sy <= y1; sy += 3) {
+              for (let sx = x0; sx <= x1; sx += 3) {
+                sum += grayArr[sy * width + sx];
+                count++;
+              }
+            }
+            const localMean = sum / count;
+            const idx = (y * width + x) * 4;
+            const val = grayArr[y * width + x] > localMean - offset ? 255 : 0;
+            data[idx] = val; data[idx + 1] = val; data[idx + 2] = val;
+          }
+        }
       }
 
       ctx.putImageData(imageData, 0, 0);
@@ -73,7 +108,10 @@ async function runOcrOnImageSource(imageSource, progressCallback, options = {}) 
       }
     },
     tessedit_pageseg_mode: options.psm || 6,
-    preserve_interword_spaces: "1"
+    preserve_interword_spaces: "1",
+    tessedit_char_whitelist: "",
+    tessjs_create_hocr: "0",
+    tessjs_create_tsv: "0"
   });
 
   return (result && result.data && result.data.text ? result.data.text : "").trim();
@@ -147,24 +185,45 @@ async function extractTextFromPdfNative(file) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
 
-    // Use y-coordinates to preserve line structure instead of joining with spaces
+    // Smart text reconstruction using x/y coordinates
+    // Detects line breaks (y changes) and kerning splits (x gap < threshold)
     let lastY = null;
+    let lastX = null;
+    let lastWidth = null;
     let pageText = "";
 
     for (const item of content.items) {
       if (!("str" in item) || !item.str) continue;
 
-      const y = item.transform ? Math.round(item.transform[5]) : null;
+      const x = item.transform ? item.transform[4] : null;
+      const y = item.transform ? item.transform[5] : null;
+      const fontSize = item.transform ? Math.abs(item.transform[0]) : 12;
+      const itemWidth = item.width || (item.str.length * fontSize * 0.5);
 
-      if (lastY !== null && y !== null && Math.abs(y - lastY) > 3) {
-        // Y-coordinate changed significantly — new line
+      if (lastY !== null && y !== null && Math.abs(y - lastY) > fontSize * 0.4) {
+        // Y changed more than 40% of font size — new line
         pageText += "\n";
+      } else if (lastX !== null && x !== null && lastWidth !== null) {
+        // Same line — check x gap to decide space vs. kerning join
+        const gap = x - (lastX + lastWidth);
+        const spaceThreshold = fontSize * 0.25;
+
+        if (gap > spaceThreshold) {
+          // Real word gap — add space
+          if (!pageText.endsWith(" ") && !pageText.endsWith("\n")) {
+            pageText += " ";
+          }
+        }
+        // else: kerning split — join without space (this fixes "Ar chitectur al")
       } else if (pageText.length > 0 && !pageText.endsWith("\n") && !pageText.endsWith(" ")) {
+        // Fallback when no position data
         pageText += " ";
       }
 
       pageText += item.str;
       lastY = y;
+      lastX = x;
+      lastWidth = itemWidth;
     }
 
     fullText += "\n" + pageText;
@@ -440,9 +499,11 @@ async function extractTextFromPdfWithOcrFallback(file) {
 
     const softPageImage = await preprocessImageForOcr(pageImage, "soft");
     const strongPageImage = await preprocessImageForOcr(pageImage, "strong");
+    const adaptivePageImage = await preprocessImageForOcr(pageImage, "adaptive");
 
     const originalRegions = await createImageRegionsForOcr(pageImage);
     const softRegions = await createImageRegionsForOcr(softPageImage);
+    const adaptiveRegions = await createImageRegionsForOcr(adaptivePageImage);
     const totalPages = Math.max(pageImages.length, 1);
 const pageStartPercent = 45 + Math.round((35 * i) / totalPages);
 const pageEndPercent = 45 + Math.round((35 * (i + 1)) / totalPages);
@@ -451,6 +512,7 @@ const ocrResult = await runBestOcrFromVariants(
     { label: `page ${i + 1} original`, src: pageImage, psm: 6 },
     { label: `page ${i + 1} enhanced`, src: softPageImage, psm: 6 },
     { label: `page ${i + 1} high contrast`, src: strongPageImage, psm: 6 },
+    { label: `page ${i + 1} adaptive`, src: adaptivePageImage, psm: 6 },
     ...originalRegions.map(region => ({
       label: `page ${i + 1} original ${region.label}`,
       src: region.src,
@@ -458,6 +520,11 @@ const ocrResult = await runBestOcrFromVariants(
     })),
     ...softRegions.map(region => ({
       label: `page ${i + 1} enhanced ${region.label}`,
+      src: region.src,
+      psm: region.psm || 6
+    })),
+    ...adaptiveRegions.map(region => ({
+      label: `page ${i + 1} adaptive ${region.label}`,
       src: region.src,
       psm: region.psm || 6
     }))
