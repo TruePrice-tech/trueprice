@@ -14,6 +14,9 @@
     },
     "api/contractor-signup.js": {
       "maxDuration": 10
+    },
+    "api/analytics.js": {
+      "maxDuration": 5
     }
   },
   "headers": [

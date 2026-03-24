@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Analytics | TruePrice</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/css/trueprice.css" />
+  <style>
+    .dash-wrap { max-width: 960px; margin: 32px auto; padding: 0 24px; }
+    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .dash-header h1 { font-size: 28px; margin: 0; }
+    .dash-range { display: flex; gap: 6px; }
+    .dash-range button { padding: 6px 14px; border: 1px solid var(--border); border-radius: 8px; background: #fff; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; color: var(--text-secondary); }
+    .dash-range button.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .dash-stat { padding: 20px; background: #fff; border: 1px solid var(--border); border-radius: 14px; }
+    .dash-stat-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); }
+    .dash-stat-value { font-size: 32px; font-weight: 800; color: var(--text); margin-top: 4px; }
+    .dash-panel { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+    .dash-panel h3 { font-size: 16px; margin: 0 0 14px; }
+    .dash-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .dash-table th { text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .dash-table td { padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+    .dash-table td:last-child { text-align: right; font-weight: 600; }
+    .dash-bar { height: 6px; background: var(--brand-light); border-radius: 3px; margin-top: 4px; }
+    .dash-bar-fill { height: 100%; background: var(--brand); border-radius: 3px; }
+    .dash-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .dash-login { max-width: 400px; margin: 120px auto; text-align: center; }
+    .dash-login input { padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; width: 200px; font-family: inherit; margin-right: 8px; }
+    .dash-empty { text-align: center; padding: 40px; color: var(--text-muted); }
+    .dash-chart { height: 120px; display: flex; align-items: flex-end; gap: 2px; margin-top: 12px; }
+    .dash-chart-bar { flex: 1; background: var(--brand-light); border-radius: 3px 3px 0 0; min-height: 2px; position: relative; }
+    .dash-chart-bar:hover { background: var(--brand); }
+    @media (max-width: 700px) { .dash-grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav><a href="/">Home</a></nav>
+    </div>
+  </header>
+
+  <div class="dash-wrap">
+    <div id="loginScreen" class="dash-login">
+      <h2>Analytics Dashboard</h2>
+      <p style="color:var(--text-secondary); margin-bottom:20px;">Enter admin key to view analytics.</p>
+      <input type="password" id="adminKey" placeholder="Admin key" />
+      <button class="btn" onclick="loadDashboard()">View</button>
+    </div>
+
+    <div id="dashboard" style="display:none;">
+      <div class="dash-header">
+        <h1>Analytics</h1>
+        <div class="dash-range">
+          <button onclick="setRange('1h')">1h</button>
+          <button onclick="setRange('24h')" class="active">24h</button>
+          <button onclick="setRange('7d')">7d</button>
+          <button onclick="setRange('30d')">30d</button>
+        </div>
+      </div>
+
+      <div class="dash-stats" id="statsRow"></div>
+
+      <div class="dash-panel">
+        <h3>Traffic over time</h3>
+        <div class="dash-chart" id="hourlyChart"></div>
+      </div>
+
+      <div class="dash-panel">
+        <h3>Top Pages</h3>
+        <table class="dash-table" id="topPagesTable"></table>
+      </div>
+
+      <div class="dash-grid-2">
+        <div class="dash-panel">
+          <h3>Referrers</h3>
+          <table class="dash-table" id="referrersTable"></table>
+        </div>
+        <div class="dash-panel">
+          <h3>Devices &amp; Browsers</h3>
+          <div id="deviceStats"></div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:16px; font-size:13px; color:var(--text-muted);">
+        Data resets on each Vercel deploy. Showing in-memory data only.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var currentRange = "24h";
+    var adminKey = "";
+
+    function loadDashboard() {
+      adminKey = document.getElementById("adminKey").value.trim();
+      if (!adminKey) return;
+      document.getElementById("loginScreen").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+      fetchData();
+    }
+
+    function setRange(r) {
+      currentRange = r;
+      document.querySelectorAll(".dash-range button").forEach(function(b) {
+        b.classList.toggle("active", b.textContent === r);
+      });
+      fetchData();
+    }
+
+    async function fetchData() {
+      try {
+        var res = await fetch("/api/analytics?key=" + encodeURIComponent(adminKey) + "&range=" + currentRange);
+        var data = await res.json();
+        if (data.error) { alert(data.error); return; }
+        render(data);
+      } catch(e) {
+        alert("Failed to load analytics");
+      }
+    }
+
+    function render(d) {
+      // Stats row
+      document.getElementById("statsRow").innerHTML =
+        stat("Page Views", d.totalViews) +
+        stat("Unique Visitors", d.uniqueVisitors) +
+        stat("Direct Traffic", d.directTraffic) +
+        stat("Events Stored", d.totalStored);
+
+      // Top pages
+      var maxCount = d.topPages.length ? d.topPages[0].count : 1;
+      document.getElementById("topPagesTable").innerHTML =
+        "<tr><th>Page</th><th>Views</th></tr>" +
+        d.topPages.map(function(p) {
+          var pct = Math.round(p.count / maxCount * 100);
+          return "<tr><td>" + esc(p.path) + '<div class="dash-bar"><div class="dash-bar-fill" style="width:' + pct + '%"></div></div></td><td>' + p.count + "</td></tr>";
+        }).join("");
+
+      // Referrers
+      document.getElementById("referrersTable").innerHTML =
+        "<tr><th>Source</th><th>Visits</th></tr>" +
+        (d.topReferrers.length ? d.topReferrers.map(function(r) {
+          return "<tr><td>" + esc(r.source) + "</td><td>" + r.count + "</td></tr>";
+        }).join("") : "<tr><td colspan=2 style='color:var(--text-muted)'>No external referrers yet</td></tr>");
+
+      // Devices
+      var total = d.totalViews || 1;
+      var devHtml = "<div style='margin-bottom:12px;'>";
+      ["desktop","mobile","tablet"].forEach(function(dev) {
+        var c = d.devices[dev] || 0;
+        var pct = Math.round(c / total * 100);
+        devHtml += "<div style='display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px;'><span>" + dev.charAt(0).toUpperCase() + dev.slice(1) + "</span><span style='font-weight:600;'>" + pct + "%</span></div>";
+      });
+      devHtml += "</div><div>";
+      ["chrome","safari","firefox","edge","other"].forEach(function(b) {
+        var c = d.browsers[b] || 0;
+        var pct = Math.round(c / total * 100);
+        if (c > 0) devHtml += "<div style='display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px;'><span>" + b.charAt(0).toUpperCase() + b.slice(1) + "</span><span style='font-weight:600;'>" + pct + "%</span></div>";
+      });
+      devHtml += "</div>";
+      document.getElementById("deviceStats").innerHTML = devHtml;
+
+      // Hourly chart
+      var hours = Object.entries(d.hourly || {}).sort(function(a,b){ return a[0].localeCompare(b[0]); });
+      var maxH = Math.max.apply(null, hours.map(function(h){ return h[1]; }).concat([1]));
+      document.getElementById("hourlyChart").innerHTML = hours.length ?
+        hours.map(function(h) {
+          var pct = Math.round(h[1] / maxH * 100);
+          return '<div class="dash-chart-bar" style="height:' + Math.max(pct, 2) + '%" title="' + h[0] + ': ' + h[1] + ' views"></div>';
+        }).join("") :
+        '<div class="dash-empty">No data yet for this time range</div>';
+    }
+
+    function stat(label, value) {
+      return '<div class="dash-stat"><div class="dash-stat-label">' + label + '</div><div class="dash-stat-value">' + (value || 0) + '</div></div>';
+    }
+
+    function esc(t) {
+      var d = document.createElement("div");
+      d.appendChild(document.createTextNode(t || ""));
+      return d.innerHTML;
+    }
+
+    // Auto-login if key in URL hash
+    if (window.location.hash.length > 1) {
+      document.getElementById("adminKey").value = window.location.hash.substring(1);
+      loadDashboard();
+    }
+  </script>
+</body>
+</html>
