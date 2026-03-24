@@ -1,0 +1,52 @@
+{
+  "basePricePerSqft": {
+    "standard_1coat": {
+      "label": "Standard (1 Coat)",
+      "low": 2.00,
+      "high": 4.00,
+      "mid": 3.00
+    },
+    "premium_2coat": {
+      "label": "Premium (2 Coats, Sherwin-Williams)",
+      "low": 3.00,
+      "high": 6.00,
+      "mid": 4.50
+    },
+    "cabinet_painting": {
+      "label": "Cabinet Painting",
+      "flatLow": 3000,
+      "flatHigh": 7000,
+      "flatMid": 5000
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 50,
+  "homeSizes": [
+    { "label": "1,000", "sqft": 1000 },
+    { "label": "1,500", "sqft": 1500 },
+    { "label": "2,000", "sqft": 2000 },
+    { "label": "2,500", "sqft": 2500 },
+    { "label": "3,000", "sqft": 3000 }
+  ],
+  "scopeItems": [
+    { "key": "powerWash", "label": "Power washing", "weight": 8 },
+    { "key": "scraping", "label": "Scraping and sanding", "weight": 10 },
+    { "key": "priming", "label": "Priming", "weight": 10 },
+    { "key": "caulking", "label": "Caulking", "weight": 8 },
+    { "key": "masking", "label": "Masking and protection", "weight": 6 },
+    { "key": "trimPainting", "label": "Trim painting", "weight": 12 },
+    { "key": "cleanup", "label": "Cleanup", "weight": 4 },
+    { "key": "warranty", "label": "Warranty", "weight": 8 },
+    { "key": "paintQuality", "label": "Paint quality/brand", "weight": 14 },
+    { "key": "coats", "label": "Number of coats", "weight": 12 },
+    { "key": "colorSamples", "label": "Color samples", "weight": 4 }
+  ]
+}

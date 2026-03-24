@@ -1,0 +1,56 @@
+{
+  "basePriceByType": {
+    "pier_installation": {
+      "label": "Pier Installation (per pier)",
+      "basePrice": 1500,
+      "unit": "per pier"
+    },
+    "slabjacking": {
+      "label": "Slabjacking/Mudjacking",
+      "basePrice": 1000
+    },
+    "wall_stabilization": {
+      "label": "Wall Stabilization (carbon fiber/steel)",
+      "basePrice": 8000
+    },
+    "drainage_correction": {
+      "label": "Drainage Correction",
+      "basePrice": 4000
+    },
+    "crack_repair": {
+      "label": "Crack Repair (per crack)",
+      "basePrice": 525,
+      "unit": "per crack"
+    }
+  },
+  "projectSizes": [
+    { "label": "Minor (1-3 cracks)", "multiplier": 0.6 },
+    { "label": "Moderate (4-8 piers)", "multiplier": 1.0 },
+    { "label": "Major (8-12 piers + drainage)", "multiplier": 1.8 },
+    { "label": "Extensive (full perimeter)", "multiplier": 2.8 }
+  ],
+  "typicalPierCount": { "low": 8, "high": 12 },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 100,
+  "scopeItems": [
+    { "key": "inspection", "label": "Inspection and engineering report", "weight": 10 },
+    { "key": "piers", "label": "Piers (steel push or helical)", "weight": 25 },
+    { "key": "brackets", "label": "Brackets and hardware", "weight": 8 },
+    { "key": "excavation", "label": "Excavation", "weight": 10 },
+    { "key": "waterproofing", "label": "Waterproofing and sealing", "weight": 8 },
+    { "key": "drainage", "label": "Drainage system", "weight": 8 },
+    { "key": "backfill", "label": "Backfill and compaction", "weight": 6 },
+    { "key": "monitoring", "label": "Post-repair monitoring", "weight": 4 },
+    { "key": "warranty", "label": "Warranty (transferable)", "weight": 8 },
+    { "key": "permits", "label": "Permits and inspections", "weight": 5 },
+    { "key": "landscaping", "label": "Landscaping repair", "weight": 6 }
+  ]
+}

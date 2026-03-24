@@ -1,0 +1,59 @@
+{
+  "basePriceByTier": {
+    "minor": {
+      "label": "Minor Remodel (Cosmetic)",
+      "low": 15000,
+      "high": 30000,
+      "base": 22500
+    },
+    "midrange": {
+      "label": "Mid-Range Remodel",
+      "low": 30000,
+      "high": 60000,
+      "base": 45000
+    },
+    "major": {
+      "label": "Major/Upscale Remodel",
+      "low": 60000,
+      "high": 120000,
+      "base": 90000
+    },
+    "cabinet_refacing": {
+      "label": "Cabinet Refacing",
+      "low": 5000,
+      "high": 12000,
+      "base": 8500
+    }
+  },
+  "kitchenSizes": [
+    { "label": "Small (< 100 sq ft)", "multiplier": 0.75 },
+    { "label": "Average (100-150 sq ft)", "multiplier": 1.0 },
+    { "label": "Large (150-200 sq ft)", "multiplier": 1.30 },
+    { "label": "Expansive (200+ sq ft)", "multiplier": 1.65 }
+  ],
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 500,
+  "scopeItems": [
+    { "key": "demo", "label": "Demolition and removal", "weight": 6 },
+    { "key": "cabinets", "label": "Cabinets (stock, semi-custom, or custom)", "weight": 20 },
+    { "key": "countertops", "label": "Countertops (granite, quartz, laminate)", "weight": 12 },
+    { "key": "flooring", "label": "Flooring", "weight": 8 },
+    { "key": "backsplash", "label": "Backsplash tile", "weight": 5 },
+    { "key": "plumbing", "label": "Plumbing (sink, faucet, disposal)", "weight": 8 },
+    { "key": "electrical", "label": "Electrical (outlets, lighting circuits)", "weight": 8 },
+    { "key": "appliances", "label": "Appliances", "weight": 12 },
+    { "key": "lighting", "label": "Lighting (recessed, under-cabinet, pendants)", "weight": 5 },
+    { "key": "painting", "label": "Painting and trim", "weight": 4 },
+    { "key": "permits", "label": "Permits", "weight": 4 },
+    { "key": "design", "label": "Design and planning", "weight": 5 },
+    { "key": "warranty", "label": "Warranty on workmanship", "weight": 3 }
+  ]
+}

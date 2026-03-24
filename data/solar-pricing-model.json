@@ -1,0 +1,50 @@
+{
+  "pricePerWatt": {
+    "standard": { "label": "Standard Panels", "low": 2.50, "high": 3.50, "base": 3.00 },
+    "premium": { "label": "Premium Panels (SunPower, LG)", "low": 3.00, "high": 4.50, "base": 3.75 }
+  },
+  "systemSizes": [
+    { "label": "5 kW", "kw": 5, "monthlyBill": "$100" },
+    { "label": "8 kW", "kw": 8, "monthlyBill": "$150" },
+    { "label": "10 kW", "kw": 10, "monthlyBill": "$200" },
+    { "label": "12 kW", "kw": 12, "monthlyBill": "$250" },
+    { "label": "15 kW", "kw": 15, "monthlyBill": "$300" }
+  ],
+  "battery": {
+    "label": "Battery Storage (Tesla Powerwall)",
+    "low": 12000,
+    "high": 16000,
+    "base": 14000
+  },
+  "federalTaxCredit": 0.30,
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 100,
+  "scopeItems": [
+    { "key": "design", "label": "Design and engineering", "weight": 8 },
+    { "key": "permits", "label": "Permits and inspections", "weight": 6 },
+    { "key": "panels", "label": "Solar panels", "weight": 25 },
+    { "key": "inverter", "label": "Inverter (string or micro)", "weight": 12 },
+    { "key": "racking", "label": "Racking and mounting", "weight": 8 },
+    { "key": "wiring", "label": "Electrical wiring and conduit", "weight": 8 },
+    { "key": "monitoring", "label": "Monitoring system", "weight": 4 },
+    { "key": "interconnection", "label": "Utility interconnection", "weight": 5 },
+    { "key": "roofAssessment", "label": "Roof assessment and reinforcement", "weight": 6 },
+    { "key": "warrantyPanel", "label": "Panel warranty (25 yr)", "weight": 6 },
+    { "key": "warrantyInverter", "label": "Inverter warranty (10-25 yr)", "weight": 5 },
+    { "key": "warrantyWorkmanship", "label": "Workmanship warranty", "weight": 4 },
+    { "key": "battery", "label": "Battery storage (optional)", "weight": 0 }
+  ],
+  "brands": {
+    "premium": ["SunPower", "LG", "Panasonic", "REC"],
+    "mid": ["Q Cells", "Canadian Solar", "Silfab", "Jinko"],
+    "value": ["Trina", "LONGi", "JA Solar"]
+  }
+}

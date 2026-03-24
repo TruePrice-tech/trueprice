@@ -1,0 +1,63 @@
+{
+  "basePriceByType": {
+    "blown_in": {
+      "label": "Blown-In (Attic)",
+      "lowPerSqft": 1.50,
+      "highPerSqft": 3.50
+    },
+    "spray_foam_open": {
+      "label": "Spray Foam (Open Cell)",
+      "lowPerSqft": 1.00,
+      "highPerSqft": 2.00
+    },
+    "spray_foam_closed": {
+      "label": "Spray Foam (Closed Cell)",
+      "lowPerSqft": 2.00,
+      "highPerSqft": 3.50
+    },
+    "batts": {
+      "label": "Batts (Fiberglass)",
+      "lowPerSqft": 0.80,
+      "highPerSqft": 1.50
+    },
+    "rigid_foam": {
+      "label": "Rigid Foam Board",
+      "lowPerSqft": 1.50,
+      "highPerSqft": 3.00
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 50,
+  "homeSizes": [
+    { "label": "800", "sqft": 800 },
+    { "label": "1000", "sqft": 1000 },
+    { "label": "1500", "sqft": 1500 },
+    { "label": "2000", "sqft": 2000 },
+    { "label": "2500", "sqft": 2500 }
+  ],
+  "scopeItems": [
+    { "key": "airSealing", "label": "Air sealing", "weight": 12 },
+    { "key": "vaporBarrier", "label": "Vapor barrier", "weight": 8 },
+    { "key": "ventBaffles", "label": "Ventilation baffles", "weight": 8 },
+    { "key": "oldRemoval", "label": "Removal of old insulation", "weight": 10 },
+    { "key": "accessCreation", "label": "Access creation", "weight": 6 },
+    { "key": "energyAudit", "label": "Energy audit", "weight": 8 },
+    { "key": "permits", "label": "Permits", "weight": 4 },
+    { "key": "cleanup", "label": "Cleanup and disposal", "weight": 8 },
+    { "key": "warranty", "label": "Warranty", "weight": 10 },
+    { "key": "rValueCert", "label": "R-value certification", "weight": 6 }
+  ],
+  "brands": {
+    "premium": ["Icynene", "Demilec", "BASF"],
+    "mid": ["Owens Corning", "Johns Manville", "CertainTeed"],
+    "value": ["Knauf", "Guardian", "GreenFiber"]
+  }
+}

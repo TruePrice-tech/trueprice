@@ -1,0 +1,65 @@
+{
+  "basePriceByType": {
+    "vinyl": {
+      "label": "Vinyl Siding",
+      "lowPerSqft": 4,
+      "highPerSqft": 8
+    },
+    "fiber_cement": {
+      "label": "Fiber Cement (Hardie)",
+      "lowPerSqft": 8,
+      "highPerSqft": 14
+    },
+    "wood": {
+      "label": "Wood Siding",
+      "lowPerSqft": 7,
+      "highPerSqft": 12
+    },
+    "engineered_wood": {
+      "label": "Engineered Wood (LP SmartSide)",
+      "lowPerSqft": 6,
+      "highPerSqft": 10
+    },
+    "stone_veneer": {
+      "label": "Stone Veneer",
+      "lowPerSqft": 15,
+      "highPerSqft": 30
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 50,
+  "homeSizes": [
+    { "label": "1000", "sqft": 1000 },
+    { "label": "1500", "sqft": 1500 },
+    { "label": "2000", "sqft": 2000 },
+    { "label": "2500", "sqft": 2500 },
+    { "label": "3000", "sqft": 3000 }
+  ],
+  "scopeItems": [
+    { "key": "removal", "label": "Old siding removal", "weight": 8 },
+    { "key": "houseWrap", "label": "House wrap / weather barrier", "weight": 10 },
+    { "key": "flashing", "label": "Flashing", "weight": 6 },
+    { "key": "trimFascia", "label": "Trim and fascia", "weight": 10 },
+    { "key": "soffit", "label": "Soffit", "weight": 8 },
+    { "key": "caulking", "label": "Caulking and sealant", "weight": 6 },
+    { "key": "painting", "label": "Painting (if applicable)", "weight": 8 },
+    { "key": "disposal", "label": "Disposal and cleanup", "weight": 6 },
+    { "key": "permits", "label": "Permits", "weight": 4 },
+    { "key": "warranty", "label": "Warranty (product + labor)", "weight": 10 },
+    { "key": "cornerPosts", "label": "Corner posts", "weight": 6 },
+    { "key": "jChannel", "label": "J-channel and accessories", "weight": 6 }
+  ],
+  "brands": {
+    "premium": ["James Hardie", "Boral", "Cedar (real wood)"],
+    "mid": ["LP SmartSide", "Alside", "Ply Gem", "CertainTeed"],
+    "value": ["Vinyl (generic)", "Georgia-Pacific", "Royal Building Products"]
+  }
+}

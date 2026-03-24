@@ -1,0 +1,72 @@
+{
+  "basePriceByService": {
+    "panel_upgrade": {
+      "label": "Panel Upgrade (100A to 200A)",
+      "low": 1800,
+      "high": 3500
+    },
+    "whole_house_rewire": {
+      "label": "Whole House Rewire",
+      "low": 8000,
+      "high": 15000
+    },
+    "ev_charger": {
+      "label": "EV Charger Installation",
+      "low": 800,
+      "high": 2500
+    },
+    "generator": {
+      "label": "Generator Installation",
+      "low": 3500,
+      "high": 12000
+    },
+    "circuit_addition": {
+      "label": "Circuit Addition (per circuit)",
+      "low": 200,
+      "high": 500
+    },
+    "outlet_switch": {
+      "label": "Outlet/Switch Replacement",
+      "low": 150,
+      "high": 300
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 50,
+  "homeSizes": [
+    { "label": "1000", "circuits": 4 },
+    { "label": "1500", "circuits": 6 },
+    { "label": "2000", "circuits": 8 },
+    { "label": "2500", "circuits": 10 },
+    { "label": "3000", "circuits": 12 },
+    { "label": "3500", "circuits": 14 },
+    { "label": "4000", "circuits": 16 }
+  ],
+  "scopeItems": [
+    { "key": "permits", "label": "Permits and inspections", "weight": 8 },
+    { "key": "panel", "label": "Electrical panel", "weight": 18 },
+    { "key": "breakers", "label": "Circuit breakers", "weight": 10 },
+    { "key": "wiring", "label": "Wiring (Romex/conduit)", "weight": 16 },
+    { "key": "grounding", "label": "Grounding system", "weight": 6 },
+    { "key": "conduit", "label": "Conduit and raceway", "weight": 6 },
+    { "key": "trenching", "label": "Trenching (if needed)", "weight": 4 },
+    { "key": "testing", "label": "Testing and commissioning", "weight": 8 },
+    { "key": "cleanup", "label": "Cleanup and disposal", "weight": 4 },
+    { "key": "warranty", "label": "Warranty (parts + labor)", "weight": 8 },
+    { "key": "codeCompliance", "label": "Code compliance review", "weight": 6 },
+    { "key": "meterUpgrade", "label": "Meter upgrade/coordination", "weight": 6 }
+  ],
+  "brands": {
+    "premium": ["Generac", "Kohler", "Siemens", "Eaton"],
+    "mid": ["Square D", "GE", "Leviton", "Lutron"],
+    "value": ["Murray", "Homeline", "Cutler-Hammer"]
+  }
+}

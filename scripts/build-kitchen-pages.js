@@ -1,0 +1,113 @@
+const fs = require("fs");
+const path = require("path");
+
+const ROOT = path.resolve(__dirname, "..");
+const INPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
+const PRICING_MODEL_PATH = path.join(ROOT, "data", "kitchen-pricing-model.json");
+const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
+const TEMPLATE_PATH = path.join(ROOT, "templates", "kitchen-city-page-template.html");
+const SITEMAP_PATH = path.join(ROOT, "sitemap-kitchen.xml");
+
+const SITE_BASE_URL = "https://truepricehq.com";
+
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function parseCsv(csvText) {
+  const lines = csvText.trim().split(/\r?\n/);
+  if (!lines.length) return [];
+  const headers = lines[0].split(",").map(h => h.trim());
+  return lines.slice(1).filter(line => line.trim()).map(line => {
+    const values = line.split(",").map(v => v.trim());
+    const row = {};
+    headers.forEach((header, i) => { row[header] = values[i] || ""; });
+    return row;
+  });
+}
+
+function slugifyCity(city) {
+  return city.toLowerCase().replace(/[^\w\s]/g, "").trim().replace(/\s+/g, "-");
+}
+
+function formatCurrency(value) {
+  return "$" + Math.round(value).toLocaleString();
+}
+
+function buildFilename(city, stateCode) {
+  return `${slugifyCity(city)}-${stateCode.toLowerCase()}-kitchen-remodel-cost.html`;
+}
+
+function main() {
+  const pricingModel = readJson(PRICING_MODEL_PATH);
+  const stateRegions = readJson(STATE_REGIONS_PATH);
+  const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
+  const csvText = fs.readFileSync(INPUT_CSV, "utf8");
+  const cities = parseCsv(csvText);
+
+  const sitemapUrls = [];
+  let generated = 0;
+
+  cities.forEach(city => {
+    const cityName = city.city;
+    const stateCode = city.state_code;
+    const stateName = city.state;
+    const region = stateRegions[stateName] || stateRegions[stateCode] || "south";
+    const laborMult = pricingModel.laborMultiplierByRegion[region] || 1.0;
+    const overheadMult = pricingModel.overheadMultiplier || 1.15;
+    const roundTo = pricingModel.roundTo || 500;
+
+    const filename = buildFilename(cityName, stateCode);
+    const cityState = `${cityName}, ${stateCode}`;
+
+    const tiers = pricingModel.basePriceByTier;
+    const minorPrice = Math.round(tiers.minor.base * laborMult * overheadMult / roundTo) * roundTo;
+    const midPrice = Math.round(tiers.midrange.base * laborMult * overheadMult / roundTo) * roundTo;
+    const majorPrice = Math.round(tiers.major.base * laborMult * overheadMult / roundTo) * roundTo;
+    const refacingPrice = Math.round(tiers.cabinet_refacing.base * laborMult * overheadMult / roundTo) * roundTo;
+
+    const avgLow = formatCurrency(minorPrice * 0.85);
+    const avgHigh = formatCurrency(majorPrice * 1.15);
+
+    // Build price rows by kitchen size
+    const priceRows = pricingModel.kitchenSizes.map(size => {
+      const minor = formatCurrency(Math.round(minorPrice * size.multiplier / roundTo) * roundTo);
+      const mid = formatCurrency(Math.round(midPrice * size.multiplier / roundTo) * roundTo);
+      const major = formatCurrency(Math.round(majorPrice * size.multiplier / roundTo) * roundTo);
+      return `<tr><td>${size.label}</td><td>${minor}</td><td>${mid}</td><td>${major}</td></tr>`;
+    }).join("\n");
+
+    let html = template
+      .replaceAll("{{CITY}}", cityName)
+      .replaceAll("{{STATE_CODE}}", stateCode)
+      .replaceAll("{{STATE_NAME}}", stateName)
+      .replaceAll("{{CITY_STATE}}", cityState)
+      .replaceAll("{{SLUG}}", filename)
+      .replaceAll("{{AVG_LOW}}", avgLow)
+      .replaceAll("{{AVG_HIGH}}", avgHigh)
+      .replaceAll("{{RATE_MINOR}}", formatCurrency(minorPrice))
+      .replaceAll("{{RATE_MIDRANGE}}", formatCurrency(midPrice))
+      .replaceAll("{{RATE_MAJOR}}", formatCurrency(majorPrice))
+      .replaceAll("{{RATE_REFACING}}", formatCurrency(refacingPrice))
+      .replaceAll("{{PRICE_ROWS}}", priceRows);
+
+    fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
+    sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);
+    generated++;
+  });
+
+  // Generate sitemap
+  const today = new Date().toISOString().split("T")[0];
+  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${SITE_BASE_URL}/kitchen-remodel-cost.html</loc><lastmod>${today}</lastmod></url>
+${sitemapUrls.map(url => `  <url><loc>${url}</loc><lastmod>${today}</lastmod></url>`).join("\n")}
+</urlset>`;
+
+  fs.writeFileSync(SITEMAP_PATH, sitemapXml, "utf8");
+
+  console.log(`Generated ${generated} kitchen remodel city pages`);
+  console.log(`Generated sitemap-kitchen.xml with ${sitemapUrls.length + 1} URLs`);
+}
+
+main();
