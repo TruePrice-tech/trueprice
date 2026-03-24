@@ -1,0 +1,200 @@
+// TruePrice HVAC Quote Parser
+// Detects system type, SEER rating, tonnage, brand, scope items from HVAC quotes
+
+const HVAC_SYSTEM_PATTERNS = [
+  { value: "heat_pump", label: "Heat Pump", score: 96, patterns: [/\bheat pump\b/i, /\bheat\s*pump\b/i, /\bair source heat pump\b/i, /\bground source\b/i] },
+  { value: "mini_split", label: "Ductless Mini-Split", score: 94, patterns: [/\bmini[\s-]*split\b/i, /\bductless\b/i, /\bmulti[\s-]*zone\b/i] },
+  { value: "central_ac", label: "Central Air Conditioning", score: 90, patterns: [/\bcentral a\/?c\b/i, /\bcentral air\b/i, /\bair condition/i, /\bcondenser\b/i, /\bsplit system\b/i] },
+  { value: "furnace", label: "Gas Furnace", score: 88, patterns: [/\bfurnace\b/i, /\bgas furnace\b/i, /\bforced air\b/i] },
+  { value: "full_system", label: "Full HVAC System", score: 92, patterns: [/\bhvac system\b/i, /\bcomplete system\b/i, /\bfurnace.*(?:and|&).*(?:ac|air|condenser)/i, /\b(?:ac|air|condenser).*(?:and|&).*furnace/i] }
+];
+
+const HVAC_BRAND_PATTERNS = [
+  { brand: "Carrier", tier: "premium", pattern: /\bcarrier\b/i },
+  { brand: "Trane", tier: "premium", pattern: /\btrane\b/i },
+  { brand: "Lennox", tier: "premium", pattern: /\blennox\b/i },
+  { brand: "Daikin", tier: "premium", pattern: /\bdaikin\b/i },
+  { brand: "Rheem", tier: "mid", pattern: /\brheem\b/i },
+  { brand: "Ruud", tier: "mid", pattern: /\bruud\b/i },
+  { brand: "York", tier: "mid", pattern: /\byork\b/i },
+  { brand: "American Standard", tier: "mid", pattern: /\bamerican standard\b/i },
+  { brand: "Amana", tier: "mid", pattern: /\bamana\b/i },
+  { brand: "Goodman", tier: "value", pattern: /\bgoodman\b/i },
+  { brand: "Payne", tier: "value", pattern: /\bpayne\b/i },
+  { brand: "Heil", tier: "value", pattern: /\bheil\b/i },
+  { brand: "Comfortmaker", tier: "value", pattern: /\bcomfortmaker\b/i }
+];
+
+const HVAC_SCOPE_DEFINITIONS = {
+  equipment: {
+    label: "Equipment",
+    positive: [/\bcondenser\b/g, /\bair handler\b/g, /\bevaporator\b/g, /\bcompressor\b/g, /\boutdoor unit\b/g, /\bindoor unit\b/g, /\bfurnace\b/g],
+    negative: [/\bequipment not included\b/g]
+  },
+  lineSet: {
+    label: "Refrigerant line set",
+    positive: [/\bline set\b/g, /\blineset\b/g, /\brefrigerant line/g, /\bcopper line/g, /\bsuction line/g],
+    negative: [/\bline set not included\b/g, /\breuse existing line/g]
+  },
+  thermostat: {
+    label: "Thermostat",
+    positive: [/\bthermostat\b/g, /\bnest\b/g, /\becobee\b/g, /\bhoneywell\b/g, /\bsmart thermostat/g, /\bprogrammable thermostat/g],
+    negative: [/\bthermostat not included\b/g, /\bhomeowner.*thermostat/g]
+  },
+  ductwork: {
+    label: "Ductwork",
+    positive: [/\bductwork\b/g, /\bduct\s+work\b/g, /\bduct modification/g, /\bduct seal/g, /\breturn air/g, /\bsupply duct/g, /\bflex duct/g],
+    negative: [/\bductwork not included\b/g, /\bno duct/g, /\bductless\b/g]
+  },
+  electrical: {
+    label: "Electrical",
+    positive: [/\belectrical disconnect\b/g, /\bdisconnect\b/g, /\belectrical wir/g, /\bbreaker\b/g, /\bwhip\b/g, /\b220v\b/g, /\b240v\b/g],
+    negative: [/\belectrical not included\b/g, /\belectrician by owner/g]
+  },
+  pad: {
+    label: "Equipment pad",
+    positive: [/\bconcrete pad\b/g, /\bcomposite pad\b/g, /\bequipment pad\b/g, /\bcondenser pad/g],
+    negative: [/\bpad not included\b/g, /\bexisting pad/g]
+  },
+  drainLine: {
+    label: "Drain line",
+    positive: [/\bdrain line\b/g, /\bcondensate\b/g, /\bcondensate pump/g, /\bcondensate drain/g, /\bp-trap\b/g],
+    negative: [/\bdrain not included\b/g]
+  },
+  filterRack: {
+    label: "Filter rack",
+    positive: [/\bfilter rack\b/g, /\bfilter\b/g, /\breturn filter/g, /\bmedia filter/g],
+    negative: [/\bfilter not included\b/g]
+  },
+  permit: {
+    label: "Permit",
+    positive: [/\bpermit\b/g, /\bbuilding permit\b/g, /\binspection\b/g],
+    negative: [/\bpermit not included\b/g, /\bpermit by owner/g]
+  },
+  disposal: {
+    label: "Old equipment removal",
+    positive: [/\bremov(?:e|al)\b.*(?:old|existing)/g, /\bdisposal\b/g, /\bhaul away\b/g, /\brecycle\b/g, /\brefrigerant recovery/g],
+    negative: [/\bdisposal not included\b/g]
+  },
+  warranty: {
+    label: "Warranty",
+    positive: [/\bwarranty\b/g, /\bguarantee\b/g, /\byear.*parts/g, /\byear.*labor/g, /\bmanufacturer.*warranty/g],
+    negative: []
+  },
+  loadCalc: {
+    label: "Load calculation",
+    positive: [/\bmanual j\b/g, /\bload calc/g, /\bheat load/g, /\bcooling load/g, /\bload calculation/g, /\bproperly sized/g],
+    negative: []
+  }
+};
+
+function detectHvacSystemType(text) {
+  const normalized = String(text || "").toLowerCase();
+  const matches = [];
+
+  HVAC_SYSTEM_PATTERNS.forEach(function(item) {
+    item.patterns.forEach(function(pattern) {
+      if (pattern.test(normalized)) {
+        matches.push({ value: item.value, label: item.label, score: item.score });
+      }
+    });
+  });
+
+  if (matches.length === 0) return { value: "central_ac", label: "Central Air Conditioning" };
+
+  // Check for full system (AC + furnace mentioned together)
+  const hasAC = /\b(?:ac|air condition|condenser|cool)\b/i.test(normalized);
+  const hasFurnace = /\bfurnace\b/i.test(normalized);
+  if (hasAC && hasFurnace) {
+    return { value: "full_system", label: "Full HVAC System" };
+  }
+
+  matches.sort(function(a, b) { return b.score - a.score; });
+  return { value: matches[0].value, label: matches[0].label };
+}
+
+function detectSeerRating(text) {
+  const normalized = String(text || "");
+  const seerMatch = normalized.match(/\b(\d{2}(?:\.\d)?)\s*(?:SEER|seer)\b/);
+  if (seerMatch) return Number(seerMatch[1]);
+
+  const seer2Match = normalized.match(/\b(\d{2}(?:\.\d)?)\s*(?:SEER2|seer2)\b/);
+  if (seer2Match) return Number(seer2Match[1]);
+
+  return null;
+}
+
+function detectTonnage(text) {
+  const normalized = String(text || "");
+
+  // "3 ton" or "3-ton" or "3.0 ton"
+  const tonMatch = normalized.match(/\b(\d(?:\.\d)?)\s*[\s-]*ton\b/i);
+  if (tonMatch) return Number(tonMatch[1]);
+
+  // BTU to tons: 12000 BTU = 1 ton
+  const btuMatch = normalized.match(/\b(\d{2,3}),?000\s*(?:BTU|btu)\b/);
+  if (btuMatch) return Math.round(Number(btuMatch[1]) * 1000 / 12000 * 10) / 10;
+
+  return null;
+}
+
+function detectAfueRating(text) {
+  const normalized = String(text || "");
+  const afueMatch = normalized.match(/\b(\d{2,3}(?:\.\d)?)\s*%?\s*(?:AFUE|afue)\b/);
+  if (afueMatch) return Number(afueMatch[1]);
+  return null;
+}
+
+function detectHvacBrand(text) {
+  const normalized = String(text || "");
+  for (var i = 0; i < HVAC_BRAND_PATTERNS.length; i++) {
+    if (HVAC_BRAND_PATTERNS[i].pattern.test(normalized)) {
+      return { brand: HVAC_BRAND_PATTERNS[i].brand, tier: HVAC_BRAND_PATTERNS[i].tier };
+    }
+  }
+  return null;
+}
+
+function detectHvacScopeSignals(text) {
+  const normalized = String(text || "").toLowerCase();
+  const results = {};
+
+  Object.keys(HVAC_SCOPE_DEFINITIONS).forEach(function(key) {
+    var def = HVAC_SCOPE_DEFINITIONS[key];
+    var found = false;
+    var excluded = false;
+
+    def.negative.forEach(function(pattern) {
+      pattern.lastIndex = 0;
+      if (pattern.test(normalized)) excluded = true;
+    });
+
+    if (!excluded) {
+      def.positive.forEach(function(pattern) {
+        pattern.lastIndex = 0;
+        if (pattern.test(normalized)) found = true;
+      });
+    }
+
+    results[key] = {
+      label: def.label,
+      status: excluded ? "excluded" : found ? "included" : "unclear"
+    };
+  });
+
+  return results;
+}
+
+// Export for use in analyzer
+if (typeof window !== "undefined") {
+  window.detectHvacSystemType = detectHvacSystemType;
+  window.detectSeerRating = detectSeerRating;
+  window.detectTonnage = detectTonnage;
+  window.detectAfueRating = detectAfueRating;
+  window.detectHvacBrand = detectHvacBrand;
+  window.detectHvacScopeSignals = detectHvacScopeSignals;
+  window.HVAC_SYSTEM_PATTERNS = HVAC_SYSTEM_PATTERNS;
+  window.HVAC_BRAND_PATTERNS = HVAC_BRAND_PATTERNS;
+}
+
+console.log("HVAC PARSER LOADED");

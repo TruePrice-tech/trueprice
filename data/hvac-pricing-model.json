@@ -1,0 +1,87 @@
+{
+  "basePriceBySystem": {
+    "central_ac": {
+      "label": "Central Air Conditioning",
+      "pricePerTon": {
+        "14_seer": 2800,
+        "16_seer": 3400,
+        "18_seer": 4200,
+        "20_seer": 5200
+      }
+    },
+    "heat_pump": {
+      "label": "Heat Pump",
+      "pricePerTon": {
+        "14_seer": 3200,
+        "16_seer": 3900,
+        "18_seer": 4800,
+        "20_seer": 6000
+      }
+    },
+    "furnace": {
+      "label": "Gas Furnace",
+      "priceByEfficiency": {
+        "80_afue": 3200,
+        "90_afue": 4000,
+        "95_afue": 4800,
+        "98_afue": 5800
+      }
+    },
+    "mini_split": {
+      "label": "Ductless Mini-Split",
+      "pricePerZone": {
+        "single_zone": 3500,
+        "two_zone": 5800,
+        "three_zone": 8200,
+        "four_zone": 10500
+      }
+    },
+    "full_system": {
+      "label": "Full HVAC System (AC + Furnace)",
+      "pricePerTon": {
+        "14_seer_80_afue": 5500,
+        "16_seer_90_afue": 7200,
+        "18_seer_95_afue": 9500,
+        "20_seer_98_afue": 12000
+      }
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 50,
+  "homeSizes": [
+    { "label": "1000", "tons": 1.5 },
+    { "label": "1500", "tons": 2.0 },
+    { "label": "2000", "tons": 2.5 },
+    { "label": "2500", "tons": 3.0 },
+    { "label": "3000", "tons": 3.5 },
+    { "label": "3500", "tons": 4.0 },
+    { "label": "4000", "tons": 5.0 }
+  ],
+  "scopeItems": [
+    { "key": "equipment", "label": "Equipment (condenser + air handler)", "weight": 20 },
+    { "key": "lineSet", "label": "Refrigerant line set", "weight": 12 },
+    { "key": "thermostat", "label": "Thermostat", "weight": 8 },
+    { "key": "ductwork", "label": "Ductwork modification", "weight": 10 },
+    { "key": "electrical", "label": "Electrical disconnect/wiring", "weight": 10 },
+    { "key": "pad", "label": "Concrete/composite pad", "weight": 4 },
+    { "key": "drainLine", "label": "Drain line / condensate pump", "weight": 6 },
+    { "key": "filterRack", "label": "Filter rack / return", "weight": 4 },
+    { "key": "permit", "label": "Permits and inspections", "weight": 6 },
+    { "key": "disposal", "label": "Old equipment removal", "weight": 4 },
+    { "key": "warranty", "label": "Warranty (equipment + labor)", "weight": 10 },
+    { "key": "loadCalc", "label": "Manual J load calculation", "weight": 8 }
+  ],
+  "brands": {
+    "premium": ["Carrier", "Trane", "Lennox", "Daikin"],
+    "mid": ["Rheem", "Ruud", "York", "American Standard", "Amana"],
+    "value": ["Goodman", "Payne", "Heil", "Comfortmaker"]
+  }
+}
