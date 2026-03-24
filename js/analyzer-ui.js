@@ -8959,11 +8959,12 @@ function buildComparisonWinnerHtml(summary) {
 
       const fmtPrice = (n) => "$" + Number(n).toLocaleString();
       const cityState = [r.city, r.stateCode].filter(Boolean).join(", ");
+      const isMultiStory = r.propertyType === "two_story" || r.propertyType === "townhome";
       const sourceNote = r.footprintSource === "osm_footprint"
-        ? "Based on satellite building footprint data"
+        ? "Measured from satellite footprint" + (isMultiStory ? ". Roof covers the footprint, not total living area." : "")
         : r.footprintSource === "user_home_size"
-          ? "Based on your entered home size"
-          : "Based on regional average (footprint not detected)";
+          ? "Based on your entered home size" + (isMultiStory ? " (adjusted for " + (r.propertyType === "two_story" ? "2" : "multi") + "-story layout)" : "")
+          : "Regional average (footprint not detected)";
 
       const confidenceLevel = r.footprintSource === "osm_footprint" ? "Medium-High"
         : r.footprintSource === "user_home_size" ? "Medium-High" : "Low";
