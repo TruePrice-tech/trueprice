@@ -676,17 +676,75 @@ return {
     const rawText = extractionResult && extractionResult.text ? extractionResult.text : "";
     const normalizedText = normalizeWhitespace(rawText);
     const parsed = parseExtractedText(normalizedText || "", {
-  extractionMethod: extractionResult ? extractionResult.method : "ocr_cache"
-});
+      extractionMethod: extractionResult ? extractionResult.method : "ocr_cache"
+    });
+
+    // Try Claude AI enhancement (non-blocking — falls back to regex if fails)
+    try {
+      const images = extractionResult && Array.isArray(extractionResult.images) ? extractionResult.images : [];
+      const aiResult = await callClaudeParseQuote(normalizedText, images);
+      if (aiResult && aiResult.success && aiResult.data) {
+        const ai = aiResult.data;
+        // AI overrides regex when AI has a value and regex doesn't (or regex has low confidence)
+        if (ai.price && (!parsed.price || parsed.confidenceScore < 60)) {
+          parsed.price = String(ai.price);
+          parsed.finalBestPrice = String(ai.price);
+        }
+        if (ai.material && ai.material !== "null") {
+          parsed.material = ai.material;
+          parsed.materialLabel = ai.materialLabel || ai.material;
+        }
+        if (ai.contractor) parsed.contractor = ai.contractor;
+        if (ai.city) parsed.city = ai.city;
+        if (ai.stateCode) parsed.stateCode = ai.stateCode;
+        if (ai.roofSize) parsed.roofSize = String(ai.roofSize);
+        if (ai.warrantyYears) parsed.warrantyYears = String(ai.warrantyYears);
+        if (ai.warranty) parsed.warranty = ai.warranty;
+        // Merge scope items — AI overrides "unclear" with "included" or "excluded"
+        if (ai.scopeItems && parsed.signals) {
+          Object.entries(ai.scopeItems).forEach(function(entry) {
+            var key = entry[0], status = entry[1];
+            if (status === "included" || status === "excluded") {
+              if (!parsed.signals[key] || parsed.signals[key].status === "unclear") {
+                parsed.signals[key] = { label: key, status: status, evidence: "AI detected" };
+              }
+            }
+          });
+        }
+        parsed.aiEnhanced = true;
+        console.log("AI parse enhancement applied:", ai);
+      }
+    } catch (aiErr) {
+      console.warn("AI parse enhancement failed (using regex fallback):", aiErr.message);
+    }
 
     return {
       fileName: file.name || "",
       method: extractionResult ? extractionResult.method : "",
       rawText: rawText || "",
-    normalizedText: normalizedText || "",
-    parsed: parsed || {}
-  };
-}
+      normalizedText: normalizedText || "",
+      parsed: parsed || {}
+    };
+  }
+
+  async function callClaudeParseQuote(text, images) {
+    try {
+      const body = { text: (text || "").substring(0, 8000) };
+      // Include up to 2 page images for vision
+      if (images && images.length > 0) {
+        body.images = images.slice(0, 2);
+      }
+      const res = await fetch("/api/parse-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
 
 async function parseQuote() {
   const fileInput = document.getElementById("quoteFile");
