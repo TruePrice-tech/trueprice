@@ -8667,6 +8667,18 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
 
+            <!-- Season -->
+            <div class="est-section">
+              <div class="est-section-label">When do you plan to start?</div>
+              <div class="est-options est-options-wrap" id="estSeason">
+                ${makeOptionCard("season", "spring", "Spring", "Mar-May")}
+                ${makeOptionCard("season", "summer", "Summer", "Jun-Aug")}
+                ${makeOptionCard("season", "fall", "Fall", "Sep-Nov")}
+                ${makeOptionCard("season", "winter", "Winter", "Dec-Feb")}
+                ${makeOptionCard("season", "unsure", "Not sure", "")}
+              </div>
+            </div>
+
             <!-- Ownership -->
             <div class="est-section">
               <div class="est-section-label">Do you own this property?</div>
@@ -8716,7 +8728,7 @@ function buildComparisonWinnerHtml(summary) {
 
     window.generateNoQuoteEstimate = async function generateNoQuoteEstimate() {
       const answers = journeyState.estimatorAnswers || {};
-      const required = ["propertyType", "material", "workType", "steepness", "complexity"];
+      const required = ["propertyType", "material", "workType", "steepness", "complexity", "season"];
       const missing = required.filter(k => !answers[k]);
 
       if (missing.length > 0) {
@@ -8741,16 +8753,39 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
 
-      // Multipliers
-      const storyMultipliers = { single: 1.0, two_story: 0.6, townhome: 0.5 };
+      // Regional pricing model (matches data/pricing-model.json + data/state-regions.json)
+      const BASE_PRICE_PER_SQUARE = {
+        asphalt: 425, architectural: 525, metal: 900, tile: 1400, cedar: 700, flat: 500
+      };
+      const LABOR_MULT_BY_REGION = {
+        south: 1.00, southeast: 1.03, northeast: 1.15, midwest: 1.06, mountain: 1.08, west: 1.18
+      };
+      const STATE_REGIONS = {
+        AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+        DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+        IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+        MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+        MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+        NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+        PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+        UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+        WY:"mountain",DC:"northeast"
+      };
+      const WASTE_FACTOR = 1.1;
+      const OVERHEAD_MULT = 1.12;
+
+      // Multipliers from user selections
+      const storyMultipliers = { single: 1.0, two_story: 0.55, townhome: 0.45 };
       const pitchFactors = { flat: 1.0, normal: 1.12, steep: 1.25, very_steep: 1.40 };
       const complexityFactors = { normal: 1.0, complex: 1.15, very_complex: 1.30 };
-      const tearOffFactors = { replacement: 1.05, repair: 0.35 };
+      const tearOffFactors = { replacement: 1.0, repair: 0.35 };
+      const seasonFactors = { spring: 1.0, summer: 1.02, fall: 1.0, winter: 0.97, unsure: 1.0 };
 
       const storyMult = storyMultipliers[answers.propertyType] || 1.0;
       const pitchFact = pitchFactors[answers.steepness] || 1.12;
       const complexFact = complexityFactors[answers.complexity] || 1.0;
       const tearOffFact = tearOffFactors[answers.workType] || 1.0;
+      const seasonFact = seasonFactors[answers.season] || 1.0;
 
       // Update progress
       const bar = document.getElementById("estProgressBar");
@@ -8782,51 +8817,66 @@ function buildComparisonWinnerHtml(summary) {
       if (bar) bar.style.width = "65%";
 
       // Calculate roof size
+      // For roof sizing: home sq ft / stories = footprint, then * pitch * complexity
+      // The pricing model uses: home size → roof squares (1 square = 100 sq ft)
+      // 1000 sqft home = 12 squares = 1200 sqft roof, ratio 1.2x
+      // 2000 sqft home = 24 squares = 2400 sqft roof, ratio 1.2x
+      // 3000 sqft home = 36 squares = 3600 sqft roof, ratio 1.2x
+      const ROOF_AREA_RATIO = 1.2; // Accounts for overhangs, pitch, waste
+
       let baseArea;
-      if (footprintSqFt) {
-        // OSM gives actual building footprint (already the roof's 2D projection)
-        baseArea = footprintSqFt;
-      } else if (preview.homeSize && preview.homeSize > 0) {
-        // User entered home size — adjust for stories
-        baseArea = preview.homeSize * storyMult;
+      const homeSize = preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null;
+
+      if (homeSize) {
+        // User provided home size — use it as primary source
+        // For multi-story: footprint = homeSize / stories, but roof covers footprint
+        // However the ROOF_AREA_RATIO already includes pitch expansion
+        const footprint = homeSize * storyMult;
+        baseArea = footprint * ROOF_AREA_RATIO;
         footprintSource = "user_home_size";
+
+        // Cross-check with OSM if available — use larger of the two for safety
+        if (footprintSqFt && footprintSqFt > footprint * 0.8) {
+          const osmRoofSize = footprintSqFt * pitchFact;
+          if (osmRoofSize > baseArea) {
+            baseArea = osmRoofSize;
+            footprintSource = "osm_footprint";
+          }
+        }
+      } else if (footprintSqFt) {
+        // OSM footprint available, no home size entered
+        baseArea = footprintSqFt * pitchFact;
+        footprintSource = "osm_footprint";
       } else {
-        // Regional average fallback
-        baseArea = 1700 * storyMult;
+        // No data — use regional average
+        const avgHome = 1800;
+        baseArea = avgHome * storyMult * ROOF_AREA_RATIO;
         footprintSource = "regional_average";
       }
 
-      const estimatedRoofSize = Math.round(baseArea * pitchFact * complexFact);
+      // Apply complexity on top (dormers, valleys add area)
+      const estimatedRoofSize = Math.round(baseArea * complexFact);
 
-      // Calculate cost using pricing model
+      // Calculate cost using regional pricing model
       const city = preview.city || "";
-      const stateCode = preview.state || "";
+      const stateCode = (preview.state || "").toUpperCase();
       const material = answers.material;
+      const region = STATE_REGIONS[stateCode] || "south";
+      const laborMult = LABOR_MULT_BY_REGION[region] || 1.0;
 
-      let benchmarkPerSqFt = typeof getMaterialBenchmarkPerSqFt === "function"
-        ? getMaterialBenchmarkPerSqFt(material)
-        : 6.35;
+      // Price per square (100 sq ft) from base model
+      const basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
+      const roofSquares = estimatedRoofSize / 100;
 
-      // Try city-specific pricing
-      let localDataUsed = false;
-      if (typeof findCityPricing === "function") {
-        const cityPricing = findCityPricing(city, stateCode);
-        if (cityPricing && typeof getNearestSizeLabel === "function") {
-          const sizeLabel = getNearestSizeLabel(cityPricing, estimatedRoofSize);
-          const bucket = cityPricing.sizes?.[sizeLabel];
-          const matKey = material === "cedar" || material === "flat" ? "architectural" : material;
-          if (bucket?.[matKey]?.mid) {
-            const sizeNum = parseInt(String(sizeLabel).replace(/[^\d]/g, ""), 10) || estimatedRoofSize;
-            benchmarkPerSqFt = bucket[matKey].mid / sizeNum;
-            localDataUsed = true;
-          }
-        }
-      }
+      // Total = squares × base price × waste × overhead × labor region × tearoff × season
+      const totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT
+        * laborMult * tearOffFact * seasonFact;
 
-      const adjustedBenchmark = benchmarkPerSqFt * tearOffFact;
-      const mid = Math.round(adjustedBenchmark * estimatedRoofSize);
-      const low = Math.round(mid * 0.85);
-      const high = Math.round(mid * 1.18);
+      const mid = Math.round(totalCost / 50) * 50; // round to nearest $50
+      const low = Math.round(mid * 0.85 / 50) * 50;
+      const high = Math.round(mid * 1.18 / 50) * 50;
+      const benchmarkPerSqFt = Math.round((mid / estimatedRoofSize) * 100) / 100;
+      const localDataUsed = true; // Always using regional data now
 
       if (bar) bar.style.width = "90%";
 
@@ -8842,16 +8892,19 @@ function buildComparisonWinnerHtml(summary) {
         materialLabel,
         low, mid, high,
         city, stateCode,
+        region,
         localDataUsed,
         propertyType: answers.propertyType,
         workType: answers.workType,
         steepness: answers.steepness,
         complexity: answers.complexity,
+        season: answers.season,
         isOwner: answers.ownership === "yes",
         pitchFactor: pitchFact,
         complexityFactor: complexFact,
         tearOffFactor: tearOffFact,
-        benchmarkPerSqFt: Math.round(adjustedBenchmark * 100) / 100
+        seasonFactor: seasonFact,
+        benchmarkPerSqFt
       };
 
       setTimeout(() => setJourneyStep("estimator_result"), 400);
@@ -8870,10 +8923,13 @@ function buildComparisonWinnerHtml(summary) {
           : "Based on regional average (footprint not detected)";
 
       const confidenceLevel = r.footprintSource === "osm_footprint" ? "Medium-High"
-        : r.footprintSource === "user_home_size" ? "Medium" : "Low";
+        : r.footprintSource === "user_home_size" ? "Medium-High" : "Low";
 
       const confidenceColor = r.footprintSource === "osm_footprint" ? "#16a34a"
-        : r.footprintSource === "user_home_size" ? "#ca8a04" : "#dc2626";
+        : r.footprintSource === "user_home_size" ? "#16a34a" : "#dc2626";
+
+      const regionLabel = (r.region || "").charAt(0).toUpperCase() + (r.region || "").slice(1);
+      const seasonNote = r.season === "summer" ? " (includes 2% peak-season surcharge)" : "";
 
       const workLabel = r.workType === "repair" ? "Roof Repair" : "Roof Replacement";
 
@@ -8891,7 +8947,7 @@ function buildComparisonWinnerHtml(summary) {
             </h2>
 
             <div style="font-size:16px; color:#475569; margin:0 0 20px;">
-              Midpoint: <strong>${fmtPrice(r.mid)}</strong> for ${r.materialLabel} ${workLabel.toLowerCase()}${cityState ? " in " + escapeHtml(cityState) : ""}
+              Midpoint: <strong>${fmtPrice(r.mid)}</strong> for ${r.materialLabel} ${workLabel.toLowerCase()}${cityState ? " in " + escapeHtml(cityState) : ""}${seasonNote}
             </div>
 
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
@@ -8911,7 +8967,7 @@ function buildComparisonWinnerHtml(summary) {
               <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
                 <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Confidence</div>
                 <div style="font-size:20px; font-weight:700; color:${confidenceColor};">${confidenceLevel}</div>
-                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${r.localDataUsed ? "Local pricing used" : "National benchmarks"}</div>
+                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${regionLabel} regional pricing</div>
               </div>
             </div>
           </div>
