@@ -6,279 +6,58 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>TruePrice | Check If Your Roofing Quote Is Fair</title>
-  <meta
-    name="description"
-    content="Analyze roofing quotes, estimate roof replacement costs, compare contractor bids, and explore roofing price guides by city, material, and house size with TruePrice."
-  />
+  <title>TruePrice | Check If Your Contractor Quote Is Fair</title>
+  <meta name="description" content="Analyze contractor quotes for roofing, HVAC, plumbing, electrical, and 11 more home services. Compare prices, check scope, and get a verdict before you sign." />
   <link rel="canonical" href="https://truepricehq.com/" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="TruePrice | Check If Your Roofing Quote Is Fair" />
-  <meta
-    property="og:description"
-    content="Check if your roofing quote is fair. Compare contractor bids, estimate roof replacement cost, and explore guides by city, material, and pitch."
-  />
+  <meta property="og:title" content="TruePrice | Check If Your Contractor Quote Is Fair" />
+  <meta property="og:description" content="Upload your contractor estimate for an instant review of price, scope, and missing items across 15 home services." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/" />
   <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="TruePrice | Check If Your Roofing Quote Is Fair" />
-  <meta
-    name="twitter:description"
-    content="Analyze roofing quotes, compare bids, and estimate roof replacement cost with TruePrice."
-  />
+  <meta name="twitter:title" content="TruePrice | Check If Your Contractor Quote Is Fair" />
+  <meta name="twitter:description" content="Analyze contractor quotes across 15 home services. Free, instant, no signup." />
 
   <link rel="stylesheet" href="/css/trueprice.css" />
 
   <style>
-    /* Homepage-specific overrides */
-    .hp-hero {
-      background: linear-gradient(180deg, var(--bg-subtle) 0%, var(--bg) 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 56px 0 48px;
-    }
-
-    .hp-hero h1 {
-      font-size: 44px;
-      max-width: 640px;
-    }
-
-    .hp-hero p.hp-sub {
-      font-size: 18px;
-      color: var(--text-secondary);
-      max-width: 600px;
-      margin-bottom: 28px;
-    }
-
-    .hp-cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .hp-trust {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .hp-trust span {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .hp-section {
-      padding: 48px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hp-section:last-of-type {
-      border-bottom: none;
-    }
-
-    .hp-section h2 {
-      margin-top: 0;
-      font-size: 28px;
-    }
-
-    .hp-section-intro {
-      color: var(--text-secondary);
-      max-width: 720px;
-    }
-
-    .hp-tool-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .hp-tool-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-
-    .hp-tool-card:hover {
-      border-color: var(--border-hover);
-      box-shadow: var(--shadow);
-    }
-
-    .hp-tool-card h3 {
-      margin-bottom: 8px;
-    }
-
-    .hp-tool-card p {
-      color: var(--text-secondary);
-      font-size: 15px;
-      margin-bottom: 14px;
-    }
-
-    .hp-tool-card a.hp-card-link {
-      font-weight: 600;
-      font-size: 15px;
-    }
-
-    .hp-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .hp-step {
-      text-align: center;
-      padding: 24px 16px;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-
-    .hp-step-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--brand);
-      color: #fff;
-      font-weight: 700;
-      font-size: 15px;
-      margin-bottom: 12px;
-    }
-
-    .hp-step h3 {
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
-
-    .hp-step p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin: 0;
-    }
-
-    .hp-link-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .hp-link-grid a {
-      display: block;
-      padding: 14px 16px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      font-size: 15px;
-      color: var(--brand);
-      text-decoration: none;
-      transition: border-color 0.15s, background 0.15s;
-    }
-
-    .hp-link-grid a:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-subtle);
-    }
-
-    .hp-city-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .hp-city-grid a {
-      display: block;
-      padding: 12px 14px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--brand);
-      text-decoration: none;
-      transition: border-color 0.15s;
-    }
-
-    .hp-city-grid a:hover {
-      border-color: var(--border-hover);
-    }
-
-    .hp-inline-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .hp-inline-links a {
-      padding: 10px 16px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-      font-size: 14px;
-      text-decoration: none;
-      transition: border-color 0.15s;
-    }
-
-    .hp-inline-links a:hover {
-      border-color: var(--border-hover);
-    }
-
-    .hp-bottom-sections {
-      margin-top: 48px;
-    }
-
-    .hp-bottom-sections section {
-      margin-bottom: 48px;
-    }
-
-    .hp-bottom-sections h2 {
-      margin-top: 0;
-      font-size: 22px;
-    }
-
-    .hp-bottom-sections ul {
-      columns: 2;
-      padding-left: 18px;
-    }
-
-    .hp-bottom-sections ul li {
-      margin-bottom: 6px;
-      break-inside: avoid;
-    }
-
-    @media (max-width: 700px) {
-      .hp-hero {
-        padding: 36px 0 32px;
-      }
-
-      .hp-hero h1 {
-        font-size: 32px;
-      }
-
-      .hp-section h2 {
-        font-size: 24px;
-      }
-
-      .hp-bottom-sections ul {
-        columns: 1;
-      }
-    }
+    .hp-hero { background: linear-gradient(180deg, var(--bg-subtle) 0%, var(--bg) 100%); border-bottom: 1px solid var(--border); padding: 56px 0 48px; }
+    .hp-hero h1 { font-size: 44px; max-width: 640px; }
+    .hp-hero p.hp-sub { font-size: 18px; color: var(--text-secondary); max-width: 600px; margin-bottom: 28px; }
+    .hp-cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+    .hp-trust { display: flex; flex-wrap: wrap; gap: 24px; font-size: 14px; color: var(--text-muted); }
+    .hp-section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .hp-section:last-of-type { border-bottom: none; }
+    .hp-section h2 { margin-top: 0; font-size: 28px; }
+    .hp-section-intro { color: var(--text-secondary); max-width: 720px; }
+    .hp-tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 24px; }
+    .hp-tool-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: border-color 0.15s, box-shadow 0.15s; }
+    .hp-tool-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow); }
+    .hp-tool-card p { color: var(--text-secondary); font-size: 15px; margin-bottom: 14px; }
+    .hp-tool-card a.hp-card-link { font-weight: 600; font-size: 15px; }
+    .hp-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px; }
+    .hp-step { text-align: center; padding: 24px 16px; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius); }
+    .hp-step-num { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--brand); color: #fff; font-weight: 700; font-size: 15px; margin-bottom: 12px; }
+    .hp-step h3 { font-size: 16px; margin-bottom: 6px; }
+    .hp-step p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+    .hp-link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 18px; }
+    .hp-link-grid a { display: block; padding: 14px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); font-weight: 600; font-size: 15px; color: var(--brand); text-decoration: none; transition: border-color 0.15s, background 0.15s; }
+    .hp-link-grid a:hover { border-color: var(--border-hover); background: var(--bg-subtle); }
+    @media (max-width: 700px) { .hp-hero { padding: 36px 0 32px; } .hp-hero h1 { font-size: 32px; } .hp-section h2 { font-size: 24px; } }
   </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SFK69RP6H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-3SFK69RP6H");
+  </script>
 
   <script type="application/ld+json">
   {
@@ -286,7 +65,7 @@
     "@type": "WebSite",
     "name": "TruePrice",
     "url": "https://truepricehq.com/",
-    "description": "TruePrice helps homeowners analyze roofing quotes, compare contractor bids, and estimate roof replacement costs."
+    "description": "TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs across 15 home services."
   }
   </script>
 
@@ -306,39 +85,31 @@
     "mainEntity":[
       {
         "@type":"Question",
-        "name":"What is a fair price for a new roof?",
+        "name":"How does TruePrice work?",
         "acceptedAnswer":{
           "@type":"Answer",
-          "text":"A fair roofing price depends on roof size, material, tear off, local labor costs, complexity, flashing work, ventilation, and warranty coverage. A useful benchmark combines price per square foot with a review of what is actually included in the quote."
+          "text":"Upload a contractor quote (PDF or image) and TruePrice extracts the price, materials, and scope items. It compares against local pricing benchmarks and tells you if the quote is fair, high, or missing items."
         }
       },
       {
         "@type":"Question",
-        "name":"Why do roofing quotes vary so much?",
+        "name":"What services does TruePrice cover?",
         "acceptedAnswer":{
           "@type":"Answer",
-          "text":"Roofing quotes often vary because contractors include different materials, underlayment, flashing, disposal, decking assumptions, labor assumptions, and warranty terms. Some bids also omit items that later show up as change orders."
+          "text":"TruePrice covers 15 home services: roofing, HVAC, plumbing, electrical, windows, siding, insulation, painting, fencing, concrete, landscaping, garage doors, solar, foundation repair, and kitchen remodeling."
         }
       },
       {
         "@type":"Question",
-        "name":"How does TruePrice improve over time?",
+        "name":"Is TruePrice free?",
         "acceptedAnswer":{
           "@type":"Answer",
-          "text":"TruePrice gets stronger over time by structuring real quote data, improving local pricing benchmarks, expanding city and guide pages, and using better roofing inputs such as house size, roof complexity, and future address based roof size estimation."
+          "text":"Yes. The quote analyzer, cost calculator, and all pricing guides are free to use with no signup required."
         }
       }
     ]
   }
   </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3SFK69RP6H"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag("js", new Date());
-  gtag("config", "G-3SFK69RP6H");
-</script>
 </head>
 <body>
   <header class="site-header">
@@ -354,13 +125,13 @@
 
   <section class="hp-hero">
     <div class="container">
-      <h1>Check if your roofing quote is fair</h1>
+      <h1>Check if your contractor quote is fair</h1>
       <p class="hp-sub">
-        Upload your contractor estimate for an instant review of price, scope, and missing items &mdash; roofing, HVAC, plumbing, electrical, and more.
+        Upload your estimate for an instant review of price, scope, and missing items &mdash; roofing, HVAC, plumbing, electrical, and more.
       </p>
       <div class="hp-cta-row">
         <a class="btn" href="/roofing-quote-analyzer.html">Analyze your quote</a>
-        <a class="btn-outline" href="/roof-replacement-cost-calculator.html">Estimate roof cost</a>
+        <a class="btn-outline" href="/roof-replacement-cost-calculator.html">Estimate cost</a>
       </div>
       <div class="hp-trust">
         <span>No signup required</span>
@@ -373,27 +144,25 @@
 
   <main class="container">
 
-    <section class="hp-section">
-      <h2>Tools</h2>
-      <p class="hp-section-intro">
-        Whether you already have a quote or you're just starting to research, pick the tool that fits where you are.
-      </p>
-      <div class="hp-tool-grid">
-        <div class="hp-tool-card">
-          <h3>Quote Analyzer</h3>
-          <p>Upload a quote PDF or image. We extract price, material, scope items, and compare against local benchmarks.</p>
-          <a class="hp-card-link" href="/roofing-quote-analyzer.html">Analyze a quote &rarr;</a>
-        </div>
-        <div class="hp-tool-card">
-          <h3>Cost Calculator</h3>
-          <p>Estimate your replacement cost by roof size, material type, complexity, and tear-off scope.</p>
-          <a class="hp-card-link" href="/roof-replacement-cost-calculator.html">Estimate cost &rarr;</a>
-        </div>
-        <div class="hp-tool-card">
-          <h3>Quote Comparison</h3>
-          <p>Compare multiple contractor bids side by side &mdash; price, materials, warranty, and missing scope items.</p>
-          <a class="hp-card-link" href="/compare-roofing-quotes.html">Compare quotes &rarr;</a>
-        </div>
+    <section class="hp-section" id="services">
+      <h2>Browse by Service</h2>
+      <p class="hp-section-intro">Compare contractor pricing across 15 home services in 700+ cities.</p>
+      <div class="hp-link-grid">
+        <a href="/">Roofing</a>
+        <a href="/hvac-cost.html">HVAC</a>
+        <a href="/plumbing-cost.html">Plumbing</a>
+        <a href="/electrical-cost.html">Electrical</a>
+        <a href="/window-replacement-cost.html">Windows</a>
+        <a href="/siding-cost.html">Siding</a>
+        <a href="/insulation-cost.html">Insulation</a>
+        <a href="/painting-cost.html">Painting</a>
+        <a href="/fence-cost.html">Fencing</a>
+        <a href="/concrete-cost.html">Concrete</a>
+        <a href="/landscaping-cost.html">Landscaping</a>
+        <a href="/garage-door-cost.html">Garage Doors</a>
+        <a href="/solar-cost.html">Solar</a>
+        <a href="/foundation-repair-cost.html">Foundation Repair</a>
+        <a href="/kitchen-remodel-cost.html">Kitchen Remodel</a>
       </div>
     </section>
 
@@ -418,116 +187,25 @@
       </div>
     </section>
 
-    <section class="hp-section" id="popular-guides">
-      <h2>Guides</h2>
-      <p class="hp-section-intro">
-        Deep-dive pricing guides for the most common roofing questions.
-      </p>
-      <div class="hp-link-grid">
-        <a href="/roof-replacement-cost-per-square-foot.html">Cost Per Square Foot</a>
-        <a href="/roof-replacement-cost-by-house-size.html">Cost by House Size</a>
-        <a href="/roof-replacement-cost-by-roof-pitch.html">Cost by Roof Pitch</a>
-        <a href="/how-to-compare-roofing-quotes.html">How to Compare Quotes</a>
-        <a href="/what-should-a-roofing-quote-include.html">What a Quote Should Include</a>
-        <a href="/architectural-shingle-roof-cost.html">Architectural Shingle Cost</a>
-        <a href="/metal-roof-replacement-cost.html">Metal Roof Cost</a>
-        <a href="/standing-seam-metal-roof-cost.html">Standing Seam Metal Cost</a>
-        <a href="/roof-replacement-vs-roof-repair.html">Replacement vs Repair</a>
-      </div>
-    </section>
-
-    <section class="hp-section" id="house-size-guides">
-      <h2>Cost by House Size</h2>
-      <p class="hp-section-intro">
-        House size is the most common starting point for estimating a roof replacement.
-      </p>
-      <div class="hp-inline-links">
-        <a href="/roof-replacement-cost-1500-sq-ft.html">1,500 sq ft</a>
-        <a href="/roof-replacement-cost-2000-sq-ft.html">2,000 sq ft</a>
-        <a href="/roof-replacement-cost-2500-sq-ft.html">2,500 sq ft</a>
-        <a href="/roof-replacement-cost-3000-sq-ft.html">3,000 sq ft</a>
-      </div>
-    </section>
-
-    <section class="hp-section" id="services">
-      <h2>Browse by Service</h2>
-      <p class="hp-section-intro">Compare contractor pricing across 15 home services in 700+ cities.</p>
-      <div class="hp-link-grid">
-        <a href="/">Roofing</a>
-        <a href="/hvac-cost.html">HVAC</a>
-        <a href="/plumbing-cost.html">Plumbing</a>
-        <a href="/electrical-cost.html">Electrical</a>
-        <a href="/window-replacement-cost.html">Windows</a>
-        <a href="/siding-cost.html">Siding</a>
-        <a href="/insulation-cost.html">Insulation</a>
-        <a href="/painting-cost.html">Painting</a>
-        <a href="/fence-cost.html">Fencing</a>
-        <a href="/concrete-cost.html">Concrete</a>
-        <a href="/landscaping-cost.html">Landscaping</a>
-        <a href="/garage-door-cost.html">Garage Doors</a>
-        <a href="/solar-cost.html">Solar</a>
-        <a href="/foundation-repair-cost.html">Foundation Repair</a>
-        <a href="/kitchen-remodel-cost.html">Kitchen Remodel</a>
-      </div>
-    </section>
-
-    <section class="hp-section" id="city-guides">
-      <h2>City Pricing Guides</h2>
-      <p class="hp-section-intro">
-        Local pricing benchmarks for major U.S. cities. Each guide includes material comparisons and cost ranges by house size.
-      </p>
-      <div class="hp-city-grid">
-        <!-- CITY_GUIDES_START -->
-        <a href="/atlanta-ga-roof-cost.html">Atlanta, GA</a>
-        <a href="/austin-tx-roof-cost.html">Austin, TX</a>
-        <a href="/boston-ma-roof-cost.html">Boston, MA</a>
-        <a href="/chattanooga-tn-roof-cost.html">Chattanooga, TN</a>
-        <a href="/chicago-il-roof-cost.html">Chicago, IL</a>
-        <a href="/cleveland-oh-roof-cost.html">Cleveland, OH</a>
-        <a href="/columbus-oh-roof-cost.html">Columbus, OH</a>
-        <a href="/dallas-tx-roof-cost.html">Dallas, TX</a>
-        <a href="/denver-co-roof-cost.html">Denver, CO</a>
-        <a href="/houston-tx-roof-cost.html">Houston, TX</a>
-        <a href="/indianapolis-in-roof-cost.html">Indianapolis, IN</a>
-        <a href="/jacksonville-fl-roof-cost.html">Jacksonville, FL</a>
-        <a href="/kansas-city-mo-roof-cost.html">Kansas City, MO</a>
-        <a href="/las-vegas-nv-roof-cost.html">Las Vegas, NV</a>
-        <a href="/los-angeles-ca-roof-cost.html">Los Angeles, CA</a>
-        <a href="/miami-fl-roof-cost.html">Miami, FL</a>
-        <a href="/nashville-tn-roof-cost.html">Nashville, TN</a>
-        <a href="/newark-nj-roof-cost.html">Newark, NJ</a>
-        <a href="/orlando-fl-roof-cost.html">Orlando, FL</a>
-        <a href="/philadelphia-pa-roof-cost.html">Philadelphia, PA</a>
-        <a href="/pittsburgh-pa-roof-cost.html">Pittsburgh, PA</a>
-        <a href="/raleigh-nc-roof-cost.html">Raleigh, NC</a>
-        <a href="/san-francisco-ca-roof-cost.html">San Francisco, CA</a>
-        <a href="/wilmington-nc-roof-cost.html">Wilmington, NC</a>
-        <!-- CITY_GUIDES_END -->
-      </div>
-      <p style="margin-top:16px;">
-        <a href="/all-cities.html">Browse all 1,000+ cities &rarr;</a>
-      </p>
-    </section>
-
     <section class="hp-section" id="faq">
       <h2>Frequently Asked Questions</h2>
       <div class="faq-list">
         <details class="faq-item">
-          <summary>What is a fair price for a new roof?</summary>
+          <summary>How does TruePrice work?</summary>
           <div class="faq-answer">
-            <p>A fair roofing price depends on roof size, material, tear off, local labor costs, complexity, flashing work, ventilation, and warranty coverage. A useful benchmark is price per square foot combined with a review of what is actually included.</p>
+            <p>Upload a contractor quote (PDF or image) and TruePrice extracts the price, materials, and scope items. It compares against local pricing benchmarks and tells you if the quote is fair, high, or missing items.</p>
           </div>
         </details>
         <details class="faq-item">
-          <summary>Why do roofing quotes vary so much?</summary>
+          <summary>What services does TruePrice cover?</summary>
           <div class="faq-answer">
-            <p>Quotes often vary because contractors include different materials, underlayment, flashing, disposal, decking assumptions, labor assumptions, and warranty terms. Some bids also omit items that appear later as change orders.</p>
+            <p>TruePrice covers 15 home services: roofing, HVAC, plumbing, electrical, windows, siding, insulation, painting, fencing, concrete, landscaping, garage doors, solar, foundation repair, and kitchen remodeling.</p>
           </div>
         </details>
         <details class="faq-item">
-          <summary>How does TruePrice improve over time?</summary>
+          <summary>Is TruePrice free?</summary>
           <div class="faq-answer">
-            <p>TruePrice improves by structuring quote data, strengthening local benchmarks, expanding city pages from shared data, and restoring features like address-based roof size estimation that improve calculator accuracy.</p>
+            <p>Yes. The quote analyzer, cost calculator, and all pricing guides are free to use with no signup required.</p>
           </div>
         </details>
       </div>
@@ -535,113 +213,9 @@
 
   </main>
 
-  <div class="hp-bottom-sections container">
-    <!-- CITY_LINKS_START -->
-<section class="city-links-section">
-  <h2>Roof Cost Guides by City</h2>
-  <ul>
-    <li><a href="/new-york-ny-roof-cost.html">New York, NY</a></li>
-<li><a href="/los-angeles-ca-roof-cost.html">Los Angeles, CA</a></li>
-<li><a href="/chicago-il-roof-cost.html">Chicago, IL</a></li>
-<li><a href="/houston-tx-roof-cost.html">Houston, TX</a></li>
-<li><a href="/philadelphia-pa-roof-cost.html">Philadelphia, PA</a></li>
-<li><a href="/phoenix-az-roof-cost.html">Phoenix, AZ</a></li>
-<li><a href="/san-antonio-tx-roof-cost.html">San Antonio, TX</a></li>
-<li><a href="/san-diego-ca-roof-cost.html">San Diego, CA</a></li>
-<li><a href="/dallas-tx-roof-cost.html">Dallas, TX</a></li>
-<li><a href="/san-jose-ca-roof-cost.html">San Jose, CA</a></li>
-<li><a href="/austin-tx-roof-cost.html">Austin, TX</a></li>
-<li><a href="/indianapolis-in-roof-cost.html">Indianapolis, IN</a></li>
-<li><a href="/jacksonville-fl-roof-cost.html">Jacksonville, FL</a></li>
-<li><a href="/san-francisco-ca-roof-cost.html">San Francisco, CA</a></li>
-<li><a href="/columbus-oh-roof-cost.html">Columbus, OH</a></li>
-<li><a href="/charlotte-nc-roof-cost.html">Charlotte, NC</a></li>
-<li><a href="/fort-worth-tx-roof-cost.html">Fort Worth, TX</a></li>
-<li><a href="/detroit-mi-roof-cost.html">Detroit, MI</a></li>
-<li><a href="/el-paso-tx-roof-cost.html">El Paso, TX</a></li>
-<li><a href="/memphis-tn-roof-cost.html">Memphis, TN</a></li>
-<li><a href="/seattle-wa-roof-cost.html">Seattle, WA</a></li>
-<li><a href="/denver-co-roof-cost.html">Denver, CO</a></li>
-<li><a href="/boston-ma-roof-cost.html">Boston, MA</a></li>
-<li><a href="/nashville-tn-roof-cost.html">Nashville, TN</a></li>
-  </ul>
-</section>
-<!-- CITY_LINKS_END -->
-
-    <!-- STATE_LINKS_START -->
-<section class="state-links-section">
-  <h2>Roof Cost Guides by State</h2>
-  <ul>
-    <li><a href="/california-roof-cost.html">California</a></li>
-<li><a href="/texas-roof-cost.html">Texas</a></li>
-<li><a href="/new-york-roof-cost.html">New York</a></li>
-<li><a href="/florida-roof-cost.html">Florida</a></li>
-<li><a href="/illinois-roof-cost.html">Illinois</a></li>
-<li><a href="/arizona-roof-cost.html">Arizona</a></li>
-<li><a href="/ohio-roof-cost.html">Ohio</a></li>
-<li><a href="/north-carolina-roof-cost.html">North Carolina</a></li>
-<li><a href="/colorado-roof-cost.html">Colorado</a></li>
-<li><a href="/massachusetts-roof-cost.html">Massachusetts</a></li>
-<li><a href="/michigan-roof-cost.html">Michigan</a></li>
-<li><a href="/washington-roof-cost.html">Washington</a></li>
-<li><a href="/pennsylvania-roof-cost.html">Pennsylvania</a></li>
-<li><a href="/tennessee-roof-cost.html">Tennessee</a></li>
-<li><a href="/indiana-roof-cost.html">Indiana</a></li>
-<li><a href="/virginia-roof-cost.html">Virginia</a></li>
-<li><a href="/minnesota-roof-cost.html">Minnesota</a></li>
-<li><a href="/georgia-roof-cost.html">Georgia</a></li>
-<li><a href="/wisconsin-roof-cost.html">Wisconsin</a></li>
-<li><a href="/new-jersey-roof-cost.html">New Jersey</a></li>
-<li><a href="/missouri-roof-cost.html">Missouri</a></li>
-<li><a href="/oregon-roof-cost.html">Oregon</a></li>
-<li><a href="/oklahoma-roof-cost.html">Oklahoma</a></li>
-<li><a href="/nevada-roof-cost.html">Nevada</a></li>
-<li><a href="/utah-roof-cost.html">Utah</a></li>
-<li><a href="/kansas-roof-cost.html">Kansas</a></li>
-<li><a href="/alabama-roof-cost.html">Alabama</a></li>
-<li><a href="/connecticut-roof-cost.html">Connecticut</a></li>
-<li><a href="/louisiana-roof-cost.html">Louisiana</a></li>
-<li><a href="/kentucky-roof-cost.html">Kentucky</a></li>
-<li><a href="/iowa-roof-cost.html">Iowa</a></li>
-<li><a href="/maryland-roof-cost.html">Maryland</a></li>
-<li><a href="/new-mexico-roof-cost.html">New Mexico</a></li>
-<li><a href="/south-carolina-roof-cost.html">South Carolina</a></li>
-<li><a href="/nebraska-roof-cost.html">Nebraska</a></li>
-<li><a href="/arkansas-roof-cost.html">Arkansas</a></li>
-<li><a href="/idaho-roof-cost.html">Idaho</a></li>
-<li><a href="/rhode-island-roof-cost.html">Rhode Island</a></li>
-<li><a href="/mississippi-roof-cost.html">Mississippi</a></li>
-<li><a href="/hawaii-roof-cost.html">Hawaii</a></li>
-<li><a href="/alaska-roof-cost.html">Alaska</a></li>
-<li><a href="/north-dakota-roof-cost.html">North Dakota</a></li>
-<li><a href="/montana-roof-cost.html">Montana</a></li>
-<li><a href="/new-hampshire-roof-cost.html">New Hampshire</a></li>
-<li><a href="/south-dakota-roof-cost.html">South Dakota</a></li>
-<li><a href="/wyoming-roof-cost.html">Wyoming</a></li>
-<li><a href="/delaware-roof-cost.html">Delaware</a></li>
-<li><a href="/west-virginia-roof-cost.html">West Virginia</a></li>
-<li><a href="/maine-roof-cost.html">Maine</a></li>
-<li><a href="/vermont-roof-cost.html">Vermont</a></li>
-  </ul>
-</section>
-<!-- STATE_LINKS_END -->
-
-    <!-- MATERIAL_LINKS_START -->
-<section class="material-links-section">
-  <h2>Roof Cost Guides by Material</h2>
-  <ul>
-    <li><a href="/asphalt-roof-cost.html">Asphalt Shingle Roof Cost</a></li>
-<li><a href="/architectural-roof-cost.html">Architectural Shingle Roof Cost</a></li>
-<li><a href="/metal-roof-cost.html">Metal Roof Cost</a></li>
-<li><a href="/tile-roof-cost.html">Tile Roof Cost</a></li>
-  </ul>
-</section>
-<!-- MATERIAL_LINKS_END -->
-  </div>
-
   <footer class="site-footer">
     <div class="container">
-      <p>TruePrice helps homeowners analyze roofing quotes, compare contractor bids, and estimate roof replacement costs.</p>
+      <p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
     </div>
   </footer>
 </body>
