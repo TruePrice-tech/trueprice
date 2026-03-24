@@ -1332,24 +1332,55 @@ function detectLocation(text) {
     }
   }
 
-  for (const line of lines) {
+  // Collect ALL city/state matches with context scoring
+  const allCandidates = [];
+
+  for (let li = 0; li < lines.length; li++) {
+    const line = lines[li];
     const match = line.match(lineCityStateRegex);
     if (match) {
-      const city = match[1];
-      const stateCode = match[2];
-      const result = buildResult(city, stateCode);
-      if (result) return result;
+      const result = buildResult(match[1], match[2]);
+      if (result) {
+        // Score: prefer customer/property address over contractor/company address
+        let score = 0;
+        const prevLines = lines.slice(Math.max(0, li - 3), li + 1).join(" ").toLowerCase();
+        const nextLines = lines.slice(li, Math.min(lines.length, li + 2)).join(" ").toLowerCase();
+        const context = prevLines + " " + nextLines;
+
+        // Customer address signals (high priority)
+        if (/\b(customer|property|job|project|homeowner|prepared for|estimate for|proposal for)\b/.test(context)) score += 50;
+        // Street address nearby (likely a property)
+        if (/\b\d+\s+[a-z]+\s+(st|street|rd|road|ave|avenue|dr|drive|ln|lane|blvd|ct|court|way|cir)\b/i.test(context)) score += 20;
+        // Position bonus: addresses further down in the document are more likely the customer
+        score += li;
+
+        // Contractor/company signals (penalize)
+        if (/\b(contractor|company|office|phone|fax|email|license|llc|inc|corp)\b/.test(context)) score -= 30;
+        // If the same line has a phone/fax number, it's likely company info
+        if (/\(\d{3}\)\s*\d{3}[-.]\d{4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b/.test(line)) score -= 15;
+
+        allCandidates.push({ ...result, score, lineIndex: li });
+      }
     }
   }
 
-  const matches = [...compact.matchAll(cityStateZipRegex)];
+  // Also check all matches in compact text
+  const compactMatches = [...compact.matchAll(cityStateZipRegex)];
+  for (const match of compactMatches) {
+    const result = buildResult(match[1], match[2]);
+    if (result) {
+      const idx = match.index || 0;
+      const context = compact.substring(Math.max(0, idx - 200), idx + 200).toLowerCase();
+      let score = 0;
+      if (/\b(customer|property|job|project|homeowner|prepared for|estimate for)\b/.test(context)) score += 50;
+      if (/\b(contractor|company|office|phone|fax|license|llc|inc)\b/.test(context)) score -= 30;
+      allCandidates.push({ ...result, score, lineIndex: -1 });
+    }
+  }
 
-  for (let i = matches.length - 1; i >= 0; i--) {
-    const match = matches[i];
-    const city = match[1];
-    const stateCode = match[2];
-    const result = buildResult(city, stateCode);
-    if (result) return result;
+  if (allCandidates.length > 0) {
+    allCandidates.sort(function(a, b) { return b.score - a.score; });
+    return { city: allCandidates[0].city, stateCode: allCandidates[0].stateCode };
   }
 
   return { city: "", stateCode: "" };
