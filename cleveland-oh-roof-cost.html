@@ -80,7 +80,7 @@
 <a class="logo" href="/">TruePrice</a>
 <nav>
 <a href="/all-cities.html">Cities</a>
-<a href="/roof-replacement-cost-calculator.html">Calculator</a>
+<a href="/find-contractors.html">Contractors</a>
 <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
 </nav>
 </div>
@@ -176,6 +176,7 @@ Upload your contractor estimate and get an instant breakdown of price, scope, an
 <div class="local-card-icon">&#129521;</div>
 <h3>Best materials for Cleveland</h3>
 <p>Heavy-duty architectural shingles rated for cold climates and high snow loads are essential in Cleveland, with proper ice and water shield underlayment at eaves</p>
+<p class="affiliate-link" style="margin:8px 0 0; display:none;" data-material="architectural"></p>
 </div>
 <div class="local-card">
 <div class="local-card-icon">&#128197;</div>
@@ -318,5 +319,19 @@ TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate
 </div>
 </footer>
 
+<script src="/js/affiliate-links.js?v=1"></script>
+<script>
+// Activate affiliate links if enabled
+(function() {
+  var aff = window.AFFILIATE_LINKS;
+  if (!aff || !aff.enabled) return;
+  document.querySelectorAll('.affiliate-link[data-material]').forEach(function(el) {
+    var key = el.dataset.material;
+    var type = (key === 'impact_resistant' || key === 'underlayment' || key === 'ice_barrier' || key === 'ridge_vent') ? 'accessory' : 'material';
+    var link = aff.link(key, type);
+    if (link) { el.innerHTML = link; el.style.display = 'block'; }
+  });
+})();
+</script>
 </body>
 </html>
