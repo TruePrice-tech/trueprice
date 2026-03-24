@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Plumbing Quote Analyzer | TruePrice</title>
+  <meta
+    name="description"
+    content="Upload your plumbing quote to see if the price is fair. Covers water heaters, repipes, sewer lines, drain cleaning, bathroom plumbing, and gas lines."
+  />
+  <link rel="canonical" href="https://truepricehq.com/plumbing-quote-analyzer.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Plumbing Quote Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Upload your plumbing quote to see if the price is fair. Covers water heaters, repipes, sewer lines, drain cleaning, bathroom plumbing, and gas lines."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/plumbing-quote-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Plumbing Quote Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Upload your plumbing quote to see if the price is fair. Covers water heaters, repipes, sewer lines, drain cleaning, bathroom plumbing, and gas lines."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.css" />
+  <link rel="stylesheet" href="/css/analyzer.css" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-8V134JH3TR");
+</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div id="appRoot"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze plumbing quotes, compare contractor bids, and estimate plumbing service costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.js?v=2"></script>
+  <script src="/js/plumbing-parser.js"></script>
+  <script src="/js/analyzer-parser.js"></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  ;(function() {
+    "use strict";
+
+    // =========================================================================
+    // PLUMBING PRICING MODEL (from data/plumbing-pricing-model.json)
+    // =========================================================================
+    var PLUMBING_PRICING = {
+      basePriceByService: {
+        water_heater: {
+          label: "Water Heater Replacement",
+          priceByType: {
+            tank_40_gas: 1800,
+            tank_50_gas: 2200,
+            tank_40_electric: 1500,
+            tank_50_electric: 1800,
+            tankless_gas: 4200,
+            tankless_electric: 3200,
+            hybrid_heat_pump: 3800
+          }
+        },
+        repipe: {
+          label: "Whole House Repipe",
+          priceByMaterial: {
+            copper: 8500,
+            pex: 5500,
+            cpvc: 4800
+          }
+        },
+        sewer_line: {
+          label: "Sewer Line Replacement",
+          priceByMethod: {
+            traditional_dig: 5500,
+            trenchless: 7500,
+            pipe_lining: 6500
+          }
+        },
+        drain_cleaning: {
+          label: "Drain Cleaning",
+          priceByType: {
+            simple_clog: 200,
+            main_line: 450,
+            hydro_jet: 650,
+            camera_inspection: 350
+          }
+        },
+        bathroom_rough_in: {
+          label: "Bathroom Plumbing Rough-In",
+          priceByScope: {
+            half_bath: 2800,
+            full_bath: 4500,
+            master_bath: 6200
+          }
+        },
+        gas_line: {
+          label: "Gas Line Installation",
+          priceByLength: {
+            short_under_20ft: 800,
+            medium_20_50ft: 1500,
+            long_over_50ft: 2500
+          }
+        }
+      },
+      laborMultiplierByRegion: {
+        south: 1.00,
+        southeast: 1.05,
+        northeast: 1.20,
+        midwest: 1.08,
+        mountain: 1.12,
+        west: 1.25
+      },
+      overheadMultiplier: 1.15,
+      roundTo: 25,
+      scopeItems: [
+        { key: "permits", label: "Permits and inspections", weight: 8 },
+        { key: "shutoff", label: "Shut-off valves", weight: 6 },
+        { key: "cleanup", label: "Cleanup and debris removal", weight: 4 },
+        { key: "drywall", label: "Drywall repair / patching", weight: 10 },
+        { key: "testing", label: "Pressure testing", weight: 8 },
+        { key: "warranty", label: "Warranty (parts + labor)", weight: 10 },
+        { key: "disposal", label: "Old equipment disposal", weight: 4 },
+        { key: "codeCompliance", label: "Code compliance upgrades", weight: 8 },
+        { key: "expansion_tank", label: "Expansion tank", weight: 6 },
+        { key: "supply_lines", label: "New supply lines", weight: 8 },
+        { key: "drain_pan", label: "Drain pan", weight: 4 },
+        { key: "venting", label: "Venting / flue work", weight: 8 }
+      ],
+      brands: {
+        premium: ["Rinnai", "Navien", "Noritz", "Kohler"],
+        mid: ["Rheem", "A.O. Smith", "Bradford White", "State"],
+        value: ["Whirlpool", "GE", "Kenmore", "Reliance"]
+      }
+    };
+
+    var STATE_REGIONS = {
+      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+      WY:"mountain",DC:"northeast"
+    };
+
+    // Sub-type options keyed by service type
+    var SUBTYPE_OPTIONS = {
+      water_heater: [
+        { value: "tank_40_gas", label: "Tank 40 gal (gas)" },
+        { value: "tank_50_gas", label: "Tank 50 gal (gas)" },
+        { value: "tank_40_electric", label: "Tank 40 gal (electric)" },
+        { value: "tank_50_electric", label: "Tank 50 gal (electric)" },
+        { value: "tankless_gas", label: "Tankless (gas)" },
+        { value: "tankless_electric", label: "Tankless (electric)" },
+        { value: "hybrid_heat_pump", label: "Hybrid / Heat pump" }
+      ],
+      repipe: [
+        { value: "copper", label: "Copper" },
+        { value: "pex", label: "PEX" },
+        { value: "cpvc", label: "CPVC" }
+      ],
+      sewer_line: [
+        { value: "traditional_dig", label: "Traditional dig" },
+        { value: "trenchless", label: "Trenchless" },
+        { value: "pipe_lining", label: "Pipe lining (CIPP)" }
+      ],
+      drain_cleaning: [
+        { value: "simple_clog", label: "Simple clog / snake" },
+        { value: "main_line", label: "Main line clearing" },
+        { value: "hydro_jet", label: "Hydro jetting" },
+        { value: "camera_inspection", label: "Camera inspection" }
+      ],
+      bathroom_rough_in: [
+        { value: "half_bath", label: "Half bath (toilet + sink)" },
+        { value: "full_bath", label: "Full bath (tub/shower + toilet + sink)" },
+        { value: "master_bath", label: "Master bath (dual vanity + shower + tub)" }
+      ],
+      gas_line: [
+        { value: "short_under_20ft", label: "Short run (under 20 ft)" },
+        { value: "medium_20_50ft", label: "Medium run (20-50 ft)" },
+        { value: "long_over_50ft", label: "Long run (over 50 ft)" }
+      ]
+    };
+
+    var SERVICE_TYPE_OPTIONS = [
+      { value: "water_heater", label: "Water Heater" },
+      { value: "repipe", label: "Whole House Repipe" },
+      { value: "sewer_line", label: "Sewer Line" },
+      { value: "drain_cleaning", label: "Drain Cleaning" },
+      { value: "bathroom_rough_in", label: "Bathroom Plumbing" },
+      { value: "gas_line", label: "Gas Line" }
+    ];
+
+    var URGENCY_OPTIONS = [
+      { value: "asap", label: "ASAP", sub: "Emergency or urgent" },
+      { value: "this_season", label: "This season", sub: "Within a few weeks" },
+      { value: "planning", label: "Planning ahead", sub: "No rush" }
+    ];
+
+    // =========================================================================
+    // STATE
+    // =========================================================================
+    var journeyState = {
+      step: "address",
+      city: "",
+      stateCode: "",
+      estimatorAnswers: {}
+    };
+
+    // =========================================================================
+    // HELPERS
+    // =========================================================================
+    function escapeHtml(text) {
+      var div = document.createElement("div");
+      div.appendChild(document.createTextNode(String(text || "")));
+      return div.innerHTML;
+    }
+
+    function fmtPrice(n) {
+      return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 });
+    }
+
+    function roundTo(value, step) {
+      return Math.round(value / step) * step;
+    }
+
+    function makeOptionCard(group, value, label, sublabel) {
+      return '<button type="button" class="est-option" data-group="' + group + '" data-value="' + value + '">'
+        + '<span class="est-option-label">' + label + '</span>'
+        + (sublabel ? '<span class="est-option-sub">' + sublabel + '</span>' : '')
+        + '</button>';
+    }
+
+    function setUploadStatus(message, type, percent) {
+      var el = document.getElementById("uploadStatus");
+      if (!el) return;
+      var progressHtml = "";
+      if (typeof percent === "number") {
+        progressHtml = '<div class="upload-progress"><div class="upload-progress-bar" style="width:' + percent + '%"></div></div>';
+      }
+      el.className = "upload-status " + (type || "info");
+      el.innerHTML = '<div>' + message + '</div>' + progressHtml;
+    }
+
+    // =========================================================================
+    // PRICING CALCULATION
+    // =========================================================================
+    function getBasePrice(serviceType, subType) {
+      var svc = PLUMBING_PRICING.basePriceByService[serviceType];
+      if (!svc) return 2000;
+      var priceMap = svc.priceByType || svc.priceByMaterial || svc.priceByMethod || svc.priceByScope || svc.priceByLength || {};
+      return priceMap[subType] || Object.values(priceMap)[0] || 2000;
+    }
+
+    function calculatePlumbingCost(serviceType, subType, stateCode, urgency) {
+      var base = getBasePrice(serviceType, subType);
+      var region = STATE_REGIONS[(stateCode || "").toUpperCase()] || "south";
+      var laborMult = PLUMBING_PRICING.laborMultiplierByRegion[region] || 1.0;
+      var overheadMult = PLUMBING_PRICING.overheadMultiplier;
+
+      var urgencyMult = 1.0;
+      if (urgency === "asap") urgencyMult = 1.08;
+      else if (urgency === "this_season") urgencyMult = 1.02;
+
+      var total = base * laborMult * overheadMult * urgencyMult;
+      var mid = roundTo(total, 25);
+      var low = roundTo(mid * 0.85, 25);
+      var high = roundTo(mid * 1.20, 25);
+
+      return { low: low, mid: mid, high: high, base: base, region: region, laborMult: laborMult };
+    }
+
+    function getVerdict(quotePrice, low, mid, high) {
+      if (quotePrice <= 0 || !isFinite(quotePrice)) return { verdict: "Unknown", className: "unknown" };
+      var ratio = quotePrice / mid;
+      if (ratio <= 0.70) return { verdict: "Unusually Low", className: "unusually-low" };
+      if (ratio <= 0.82) return { verdict: "Possible Scope Risk", className: "potential-red-flag" };
+      if (ratio <= 0.92) return { verdict: "Excellent Value", className: "excellent-value" };
+      if (ratio <= 1.15) return { verdict: "Fair Price", className: "fair-price" };
+      if (ratio <= 1.35) return { verdict: "Higher Than Expected", className: "slightly-high" };
+      return { verdict: "Overpriced", className: "overpriced" };
+    }
+
+    function getServiceLabel(serviceType) {
+      var svc = PLUMBING_PRICING.basePriceByService[serviceType];
+      return svc ? svc.label : "Plumbing Service";
+    }
+
+    function getSubTypeLabel(serviceType, subType) {
+      var opts = SUBTYPE_OPTIONS[serviceType] || [];
+      for (var i = 0; i < opts.length; i++) {
+        if (opts[i].value === subType) return opts[i].label;
+      }
+      return subType || "";
+    }
+
+    // =========================================================================
+    // RENDER: ADDRESS STEP
+    // =========================================================================
+    function renderAddressStep() {
+      return '<div class="journey-start">'
+        + '<div class="journey-start-card" style="max-width:720px; margin:48px auto; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">'
+
+        + '<h1 style="margin:0 0 10px; font-size:38px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">'
+        + 'Is your plumbing quote fair?'
+        + '</h1>'
+
+        + '<p class="muted" style="margin:0 0 24px; font-size:16px;">'
+        + 'Upload your quote. Get your answer in 30 seconds. Free, private, no signup.'
+        + '</p>'
+
+        // Upload section
+        + '<div style="border:2px solid #bfdbfe; border-radius:18px; padding:28px; text-align:center; margin:0 0 24px; background:#f8fbff;">'
+        + '<div style="font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a;">Upload your plumbing quote</div>'
+        + '<div class="small muted" style="margin-bottom:16px;">PDF, screenshot, or phone photo</div>'
+        + '<input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />'
+        + '<button type="button" class="btn" id="uploadQuoteBtn" style="font-size:16px; padding:14px 28px;">Upload quote</button>'
+        + '<div id="uploadStatus" style="margin-top:12px;"></div>'
+        + '<div class="small muted" style="margin-top:12px; font-size:12px;">Private &bull; No spam &bull; No signup</div>'
+        + '</div>'
+
+        // Address / estimator
+        + '<div style="border-top:1px solid #e5e7eb; padding-top:18px;">'
+        + '<p class="small muted" style="margin:0 0 12px;">No quote handy? Enter your location and we\'ll estimate the cost:</p>'
+        + '<div class="journey-address-grid">'
+        + '<div><input id="journeyCity" type="text" placeholder="City" /></div>'
+        + '<div><input id="journeyState" type="text" maxlength="2" placeholder="State (e.g. TX)" /></div>'
+        + '</div>'
+        + '<button class="btn secondary" style="margin-top:12px;" id="goEstimatorBtn">Get an estimate without a quote &rarr;</button>'
+        + '<div id="journeyAddressError" class="small" style="margin-top:10px; color:#b91c1c;"></div>'
+        + '</div>'
+
+        + '</div>'
+        + '</div>';
+    }
+
+    // =========================================================================
+    // RENDER: ESTIMATOR STEP
+    // =========================================================================
+    function renderEstimatorStep() {
+      var cityState = [journeyState.city, journeyState.stateCode].filter(Boolean).join(", ");
+
+      var html = '<div style="max-width:720px; margin:48px auto; padding:0 24px;">'
+        + '<div style="padding:30px; background:#fff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">';
+
+      if (cityState) {
+        html += '<div style="font-size:13px; color:var(--muted); margin-bottom:16px; padding:8px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">' + escapeHtml(cityState) + '</div>';
+      }
+
+      html += '<h1 style="margin:0 0 6px; font-size:32px; line-height:1.08; letter-spacing:-0.03em; color:#0f172a;">'
+        + 'What would your plumbing job actually cost?'
+        + '</h1>'
+        + '<p class="muted" style="margin:0 0 28px; font-size:15px;">'
+        + 'Answer a few questions and we\'ll build a custom estimate using regional labor rates and your specific situation.'
+        + '</p>';
+
+      // Service type
+      html += '<div class="est-section">'
+        + '<div class="est-section-label">What type of plumbing work do you need?</div>'
+        + '<div class="est-options est-options-wrap" id="estServiceType">';
+      SERVICE_TYPE_OPTIONS.forEach(function(opt) {
+        html += makeOptionCard("serviceType", opt.value, opt.label, "");
+      });
+      html += '</div></div>';
+
+      // Sub-type (dynamic)
+      html += '<div class="est-section" id="subTypeSection" style="display:none;">'
+        + '<div class="est-section-label" id="subTypeLabel">Details</div>'
+        + '<div class="est-options est-options-wrap" id="estSubType"></div>'
+        + '</div>';
+
+      // Urgency
+      html += '<div class="est-section">'
+        + '<div class="est-section-label">How soon do you need this done?</div>'
+        + '<div class="est-options" id="estUrgency">';
+      URGENCY_OPTIONS.forEach(function(opt) {
+        html += makeOptionCard("urgency", opt.value, opt.label, opt.sub);
+      });
+      html += '</div></div>';
+
+      // Error + submit
+      html += '<div id="estError" style="display:none; margin-top:16px; padding:10px 14px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; font-size:14px; color:#b91c1c;"></div>';
+
+      html += '<button class="btn" id="estSubmitBtn" style="margin-top:24px; font-size:16px; padding:14px 28px; width:100%;">'
+        + 'Build my estimate'
+        + '</button>';
+
+      html += '<div style="text-align:center; margin-top:14px;">'
+        + '<span class="small muted">Already have a quote? </span>'
+        + '<a href="#" id="backToUploadLink" class="small" style="color:var(--brand);">Upload it for a detailed analysis</a>'
+        + '</div>';
+
+      html += '</div></div>';
+      return html;
+    }
+
+    // =========================================================================
+    // RENDER: ESTIMATOR RESULT
+    // =========================================================================
+    function renderEstimatorResult() {
+      var r = window.__plumbingEstimatorResult;
+      if (!r) return '<div style="max-width:800px; margin:40px auto; text-align:center;"><p>No estimate available.</p></div>';
+
+      var cityState = [r.city, r.stateCode].filter(Boolean).join(", ");
+      var regionLabel = (r.region || "").charAt(0).toUpperCase() + (r.region || "").slice(1);
+      var urgencyNote = r.urgency === "asap" ? " (includes 8% urgency premium)" : r.urgency === "this_season" ? " (includes 2% seasonal factor)" : "";
+
+      // Scope items relevant to service type
+      var scopeHtml = getScopeChecklistForService(r.serviceType);
+
+      return '<div style="max-width:800px; margin:40px auto; padding:0 24px;">'
+
+        // Main estimate card
+        + '<div style="padding:32px; background:#fff; border:2px solid #2563eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.08); margin-bottom:20px;">'
+        + '<div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#2563eb; margin:0 0 8px;">Your Estimated Cost</div>'
+        + '<h2 style="margin:0 0 4px; font-size:42px; line-height:1; letter-spacing:-0.03em; color:#0f172a;">'
+        + fmtPrice(r.low) + ' &ndash; ' + fmtPrice(r.high)
+        + '</h2>'
+        + '<div style="font-size:16px; color:#475569; margin:0 0 20px;">'
+        + 'Midpoint: <strong>' + fmtPrice(r.mid) + '</strong> for ' + escapeHtml(r.serviceLabel)
+        + (r.subTypeLabel ? ' (' + escapeHtml(r.subTypeLabel) + ')' : '')
+        + (cityState ? ' in ' + escapeHtml(cityState) : '')
+        + urgencyNote
+        + '</div>'
+
+        + '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">'
+        + '<div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">'
+        + '<div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Service</div>'
+        + '<div style="font-size:18px; font-weight:700; color:#0f172a;">' + escapeHtml(r.serviceLabel) + '</div>'
+        + '</div>'
+        + '<div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">'
+        + '<div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Type</div>'
+        + '<div style="font-size:18px; font-weight:700; color:#0f172a;">' + escapeHtml(r.subTypeLabel) + '</div>'
+        + '</div>'
+        + '<div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">'
+        + '<div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Region</div>'
+        + '<div style="font-size:18px; font-weight:700; color:#0f172a;">' + escapeHtml(regionLabel) + '</div>'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+
+        // Scope items
+        + scopeHtml
+
+        // Email capture
+        + '<div style="padding:20px 24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">'
+        + '<div style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">Save your estimate</div>'
+        + '<div style="font-size:14px; color:#475569; margin-bottom:14px;">Email yourself a summary to reference when talking to plumbers.</div>'
+        + '<a href="mailto:?subject=' + encodeURIComponent("My Plumbing Cost Estimate" + (cityState ? " - " + cityState : ""))
+        + '&body=' + encodeURIComponent(
+            "Estimated plumbing cost: " + fmtPrice(r.low) + " - " + fmtPrice(r.high)
+            + "\nMidpoint: " + fmtPrice(r.mid)
+            + "\nService: " + r.serviceLabel + " (" + r.subTypeLabel + ")"
+            + (cityState ? "\nLocation: " + cityState : "")
+            + "\n\nGet your own estimate: https://truepricehq.com/plumbing-quote-analyzer.html"
+          )
+        + '" class="btn-outline" style="text-decoration:none; display:inline-block; font-size:14px; padding:10px 20px;">'
+        + 'Email me this estimate'
+        + '</a>'
+        + '</div>'
+
+        // CTAs
+        + '<div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">'
+        + '<button class="btn" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px;" id="uploadFromEstimatorBtn">'
+        + 'Upload a quote to compare'
+        + '</button>'
+        + '<a class="btn-outline" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px; text-align:center; text-decoration:none;" href="/find-contractors.html?service=plumbing' + (journeyState.stateCode ? '&state=' + encodeURIComponent(journeyState.stateCode) : '') + '">'
+        + 'Find plumbing contractors' + (journeyState.city ? ' in ' + escapeHtml(journeyState.city) : '')
+        + '</a>'
+        + '</div>'
+
+        + '<div style="text-align:center; margin-top:10px;">'
+        + '<a href="/plumbing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start over</a>'
+        + '</div>'
+        + '</div>';
+    }
+
+    // =========================================================================
+    // RENDER: QUOTE ANALYSIS RESULT
+    // =========================================================================
+    function renderQuoteResult() {
+      var r = window.__plumbingAnalysisResult;
+      if (!r) return '<div style="max-width:800px; margin:40px auto; text-align:center;"><p>No analysis yet.</p></div>';
+
+      var cityState = [r.city, r.stateCode].filter(Boolean).join(", ");
+      var verdictInfo = getVerdict(r.quotePrice, r.low, r.mid, r.high);
+
+      // Verdict colors
+      var verdictColors = {
+        "fair-price": { bg: "#f0fdf4", border: "#86efac", text: "#166534" },
+        "excellent-value": { bg: "#f0fdf4", border: "#4ade80", text: "#166534" },
+        "slightly-high": { bg: "#fffbeb", border: "#fde68a", text: "#92400e" },
+        "overpriced": { bg: "#fef2f2", border: "#fca5a5", text: "#991b1b" },
+        "unusually-low": { bg: "#eff6ff", border: "#93c5fd", text: "#1e40af" },
+        "potential-red-flag": { bg: "#eff6ff", border: "#93c5fd", text: "#1e40af" },
+        "unknown": { bg: "#f8fafc", border: "#e2e8f0", text: "#475569" }
+      };
+      var vc = verdictColors[verdictInfo.className] || verdictColors["unknown"];
+
+      var html = '<div style="max-width:800px; margin:40px auto; padding:0 24px;">';
+
+      // Verdict card
+      html += '<div style="padding:32px; background:' + vc.bg + '; border:2px solid ' + vc.border + '; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.08); margin-bottom:20px;">'
+        + '<div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:' + vc.text + '; margin:0 0 8px;">Quote Analysis</div>'
+        + '<h2 style="margin:0 0 4px; font-size:36px; line-height:1.1; letter-spacing:-0.03em; color:' + vc.text + ';">'
+        + escapeHtml(verdictInfo.verdict)
+        + '</h2>'
+        + '<div style="font-size:16px; color:#475569; margin:0 0 20px;">'
+        + 'Your quote: <strong>' + fmtPrice(r.quotePrice) + '</strong>'
+        + ' &bull; Fair range: ' + fmtPrice(r.low) + ' &ndash; ' + fmtPrice(r.high)
+        + (cityState ? ' in ' + escapeHtml(cityState) : '')
+        + '</div>';
+
+      // Details grid
+      html += '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">'
+        + '<div style="padding:14px; background:rgba(255,255,255,0.7); border:1px solid rgba(0,0,0,0.06); border-radius:14px;">'
+        + '<div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Service detected</div>'
+        + '<div style="font-size:16px; font-weight:700; color:#0f172a;">' + escapeHtml(r.serviceLabel) + '</div>'
+        + '</div>';
+
+      if (r.subTypeLabel) {
+        html += '<div style="padding:14px; background:rgba(255,255,255,0.7); border:1px solid rgba(0,0,0,0.06); border-radius:14px;">'
+          + '<div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Type</div>'
+          + '<div style="font-size:16px; font-weight:700; color:#0f172a;">' + escapeHtml(r.subTypeLabel) + '</div>'
+          + '</div>';
+      }
+
+      if (r.brand) {
+        html += '<div style="padding:14px; background:rgba(255,255,255,0.7); border:1px solid rgba(0,0,0,0.06); border-radius:14px;">'
+          + '<div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Brand</div>'
+          + '<div style="font-size:16px; font-weight:700; color:#0f172a;">' + escapeHtml(r.brand) + ' <span style="font-size:12px; color:#64748b;">(' + escapeHtml(r.brandTier) + ')</span></div>'
+          + '</div>';
+      }
+
+      html += '<div style="padding:14px; background:rgba(255,255,255,0.7); border:1px solid rgba(0,0,0,0.06); border-radius:14px;">'
+        + '<div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Fair midpoint</div>'
+        + '<div style="font-size:16px; font-weight:700; color:#0f172a;">' + fmtPrice(r.mid) + '</div>'
+        + '</div>';
+
+      html += '</div></div>';
+
+      // Scope checklist from quote
+      if (r.scopeSignals) {
+        html += '<div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">'
+          + '<h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">Scope review &mdash; what\'s in (and missing from) your quote</h3>'
+          + '<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">';
+
+        var scopeKeys = Object.keys(r.scopeSignals);
+        for (var i = 0; i < scopeKeys.length; i++) {
+          var key = scopeKeys[i];
+          var item = r.scopeSignals[key];
+          var icon = "&#10003;";
+          var color = "#16a34a";
+          if (item.status === "excluded") { icon = "&#10007;"; color = "#dc2626"; }
+          else if (item.status === "unclear") { icon = "?"; color = "#d97706"; }
+
+          html += '<div style="font-size:14px; padding:6px 0; color:#475569;">'
+            + '<span style="color:' + color + '; font-weight:700; margin-right:6px;">' + icon + '</span>'
+            + escapeHtml(item.label)
+            + '<span style="font-size:11px; color:#94a3b8; margin-left:6px;">'
+            + (item.status === "included" ? "Found" : item.status === "excluded" ? "Excluded" : "Not mentioned")
+            + '</span>'
+            + '</div>';
+        }
+
+        html += '</div></div>';
+      }
+
+      // Email
+      html += '<div style="padding:20px 24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">'
+        + '<div style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">Save this report</div>'
+        + '<div style="font-size:14px; color:#475569; margin-bottom:14px;">Email yourself the analysis to reference later.</div>'
+        + '<a href="mailto:?subject=' + encodeURIComponent("Plumbing Quote Analysis" + (cityState ? " - " + cityState : ""))
+        + '&body=' + encodeURIComponent(
+            "Verdict: " + verdictInfo.verdict
+            + "\nYour quote: " + fmtPrice(r.quotePrice)
+            + "\nFair range: " + fmtPrice(r.low) + " - " + fmtPrice(r.high)
+            + "\nService: " + r.serviceLabel
+            + (r.brand ? "\nBrand: " + r.brand : "")
+            + (cityState ? "\nLocation: " + cityState : "")
+            + "\n\nAnalyze your own quote: https://truepricehq.com/plumbing-quote-analyzer.html"
+          )
+        + '" class="btn-outline" style="text-decoration:none; display:inline-block; font-size:14px; padding:10px 20px;">'
+        + 'Email me this report'
+        + '</a>'
+        + '</div>';
+
+      // CTAs
+      html += '<div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">'
+        + '<a class="btn-outline" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px; text-align:center; text-decoration:none;" href="/find-contractors.html?service=plumbing' + (r.stateCode ? '&state=' + encodeURIComponent(r.stateCode) : '') + '">'
+        + 'Find plumbing contractors' + (r.city ? ' in ' + escapeHtml(r.city) : '')
+        + '</a>'
+        + '</div>'
+        + '<div style="text-align:center; margin-top:10px;">'
+        + '<a href="/plumbing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start over</a>'
+        + '</div>';
+
+      html += '</div>';
+      return html;
+    }
+
+    // =========================================================================
+    // SCOPE CHECKLIST (for estimator, based on service type)
+    // =========================================================================
+    function getScopeChecklistForService(serviceType) {
+      var relevantScopes = {
+        water_heater: ["permits", "shutoff", "disposal", "warranty", "expansion_tank", "supply_lines", "drain_pan", "venting", "codeCompliance", "cleanup"],
+        repipe: ["permits", "shutoff", "drywall", "testing", "warranty", "cleanup", "codeCompliance"],
+        sewer_line: ["permits", "testing", "drywall", "cleanup", "warranty", "codeCompliance"],
+        drain_cleaning: ["warranty", "cleanup"],
+        bathroom_rough_in: ["permits", "shutoff", "drywall", "testing", "supply_lines", "venting", "warranty", "cleanup", "codeCompliance"],
+        gas_line: ["permits", "testing", "warranty", "codeCompliance", "cleanup"]
+      };
+
+      var keys = relevantScopes[serviceType] || Object.keys(PLUMBING_PRICING.scopeItems.reduce(function(m, s) { m[s.key] = s; return m; }, {}));
+      var scopeMap = {};
+      PLUMBING_PRICING.scopeItems.forEach(function(s) { scopeMap[s.key] = s; });
+
+      var html = '<div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">'
+        + '<h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">What a typical ' + escapeHtml(getServiceLabel(serviceType).toLowerCase()) + ' should include</h3>'
+        + '<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">';
+
+      for (var i = 0; i < keys.length; i++) {
+        var item = scopeMap[keys[i]];
+        if (item) {
+          html += '<div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; ' + escapeHtml(item.label) + '</div>';
+        }
+      }
+
+      html += '</div></div>';
+      return html;
+    }
+
+    // =========================================================================
+    // NAVIGATION
+    // =========================================================================
+    function setStep(step) {
+      journeyState.step = step;
+      render();
+    }
+
+    function render() {
+      var root = document.getElementById("appRoot");
+      if (!root) return;
+
+      switch (journeyState.step) {
+        case "address":
+          root.innerHTML = renderAddressStep();
+          bindAddressEvents();
+          break;
+        case "estimator":
+          root.innerHTML = renderEstimatorStep();
+          bindEstimatorEvents();
+          break;
+        case "estimator_result":
+          root.innerHTML = renderEstimatorResult();
+          bindEstimatorResultEvents();
+          break;
+        case "quote_result":
+          root.innerHTML = renderQuoteResult();
+          break;
+        default:
+          root.innerHTML = renderAddressStep();
+          bindAddressEvents();
+      }
+    }
+
+    // =========================================================================
+    // EVENT BINDING: ADDRESS STEP
+    // =========================================================================
+    function bindAddressEvents() {
+      setTimeout(function() {
+        var uploadBtn = document.getElementById("uploadQuoteBtn");
+        var fileInput = document.getElementById("quoteFile");
+        var goEstimatorBtn = document.getElementById("goEstimatorBtn");
+
+        if (uploadBtn && fileInput) {
+          uploadBtn.addEventListener("click", function() {
+            fileInput.click();
+          });
+          fileInput.addEventListener("change", function() {
+            if (fileInput.files && fileInput.files.length > 0) {
+              handleQuoteUpload(fileInput.files[0]);
+            }
+          });
+        }
+
+        if (goEstimatorBtn) {
+          goEstimatorBtn.addEventListener("click", function() {
+            var city = (document.getElementById("journeyCity") || {}).value || "";
+            var state = (document.getElementById("journeyState") || {}).value || "";
+            journeyState.city = city.trim();
+            journeyState.stateCode = state.trim().toUpperCase();
+            setStep("estimator");
+          });
+        }
+      }, 0);
+    }
+
+    // =========================================================================
+    // EVENT BINDING: ESTIMATOR STEP
+    // =========================================================================
+    function bindEstimatorEvents() {
+      setTimeout(function() {
+        // Option card clicks
+        document.querySelectorAll(".est-option").forEach(function(btn) {
+          btn.addEventListener("click", function() {
+            var group = this.dataset.group;
+            var value = this.dataset.value;
+            // Deselect siblings
+            this.parentElement.querySelectorAll(".est-option").forEach(function(b) { b.classList.remove("est-selected"); });
+            this.classList.add("est-selected");
+            journeyState.estimatorAnswers[group] = value;
+
+            // Dynamic sub-type rendering
+            if (group === "serviceType") {
+              renderSubTypeOptions(value);
+            }
+          });
+        });
+
+        // Submit
+        var submitBtn = document.getElementById("estSubmitBtn");
+        if (submitBtn) {
+          submitBtn.addEventListener("click", function() { generateEstimate(); });
+        }
+
+        // Back to upload
+        var backLink = document.getElementById("backToUploadLink");
+        if (backLink) {
+          backLink.addEventListener("click", function(e) {
+            e.preventDefault();
+            setStep("address");
+          });
+        }
+      }, 0);
+    }
+
+    function renderSubTypeOptions(serviceType) {
+      var section = document.getElementById("subTypeSection");
+      var container = document.getElementById("estSubType");
+      var labelEl = document.getElementById("subTypeLabel");
+      if (!section || !container) return;
+
+      var options = SUBTYPE_OPTIONS[serviceType];
+      if (!options || options.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      var labels = {
+        water_heater: "What type of water heater?",
+        repipe: "What pipe material?",
+        sewer_line: "What repair method?",
+        drain_cleaning: "What kind of drain issue?",
+        bathroom_rough_in: "What size bathroom?",
+        gas_line: "How long is the gas line run?"
+      };
+
+      if (labelEl) labelEl.textContent = labels[serviceType] || "Details";
+
+      var html = "";
+      options.forEach(function(opt) {
+        html += makeOptionCard("subType", opt.value, opt.label, "");
+      });
+      container.innerHTML = html;
+      section.style.display = "block";
+
+      // Clear previous subType selection
+      delete journeyState.estimatorAnswers.subType;
+
+      // Bind new option cards
+      container.querySelectorAll(".est-option").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          var group = this.dataset.group;
+          var value = this.dataset.value;
+          this.parentElement.querySelectorAll(".est-option").forEach(function(b) { b.classList.remove("est-selected"); });
+          this.classList.add("est-selected");
+          journeyState.estimatorAnswers[group] = value;
+        });
+      });
+    }
+
+    // =========================================================================
+    // ESTIMATOR CALCULATION
+    // =========================================================================
+    function generateEstimate() {
+      var answers = journeyState.estimatorAnswers;
+      var missing = [];
+      if (!answers.serviceType) missing.push("service type");
+      if (!answers.subType) missing.push("service details");
+      if (!answers.urgency) missing.push("timeline");
+
+      if (missing.length > 0) {
+        var errEl = document.getElementById("estError");
+        if (errEl) {
+          errEl.style.display = "block";
+          errEl.textContent = "Please select: " + missing.join(", ");
+        }
+        return;
+      }
+
+      var cost = calculatePlumbingCost(answers.serviceType, answers.subType, journeyState.stateCode, answers.urgency);
+
+      window.__plumbingEstimatorResult = {
+        serviceType: answers.serviceType,
+        serviceLabel: getServiceLabel(answers.serviceType),
+        subType: answers.subType,
+        subTypeLabel: getSubTypeLabel(answers.serviceType, answers.subType),
+        urgency: answers.urgency,
+        low: cost.low,
+        mid: cost.mid,
+        high: cost.high,
+        region: cost.region,
+        city: journeyState.city,
+        stateCode: journeyState.stateCode
+      };
+
+      setStep("estimator_result");
+    }
+
+    // =========================================================================
+    // EVENT BINDING: ESTIMATOR RESULT
+    // =========================================================================
+    function bindEstimatorResultEvents() {
+      setTimeout(function() {
+        var uploadBtn = document.getElementById("uploadFromEstimatorBtn");
+        if (uploadBtn) {
+          uploadBtn.addEventListener("click", function() {
+            showUploadFromEstimator();
+          });
+        }
+      }, 0);
+    }
+
+    function showUploadFromEstimator() {
+      var root = document.getElementById("appRoot");
+      if (!root) return;
+
+      var estRef = window.__plumbingEstimatorResult;
+      var priceRef = estRef ? fmtPrice(estRef.mid) + " estimate" : "local pricing data";
+
+      root.innerHTML = '<div style="max-width:720px; margin:60px auto; padding:0 24px;">'
+        + '<div style="padding:28px; background:#fff; border:1px solid #e2e8f0; border-radius:18px; box-shadow:0 4px 16px rgba(15,23,42,0.06); text-align:center;">'
+        + '<h2 style="margin:0 0 8px; font-size:28px; letter-spacing:-0.02em;">Upload your plumbing quote</h2>'
+        + '<p style="color:var(--muted); margin:0 0 20px;">We\'ll compare it against your ' + escapeHtml(priceRef) + '.</p>'
+        + '<input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />'
+        + '<button type="button" class="btn" style="font-size:16px; padding:14px 28px;" id="uploadBridgeBtn">Upload quote</button>'
+        + '<div id="uploadStatus" style="margin-top:12px;"></div>'
+        + '<div style="margin-top:14px; font-size:13px; color:var(--muted);">PDF, screenshot, or phone photo</div>'
+        + '</div></div>';
+
+      setTimeout(function() {
+        var btn = document.getElementById("uploadBridgeBtn");
+        var input = document.getElementById("quoteFile");
+        if (btn && input) {
+          btn.addEventListener("click", function() { input.click(); });
+          input.addEventListener("change", function() {
+            if (input.files && input.files.length > 0) {
+              handleQuoteUpload(input.files[0]);
+            }
+          });
+        }
+      }, 0);
+    }
+
+    // =========================================================================
+    // QUOTE UPLOAD HANDLER
+    // =========================================================================
+    function handleQuoteUpload(file) {
+      if (!file) return;
+
+      setUploadStatus("Loading document processing libraries...", "info", 10);
+
+      window.loadVendorLibs().then(function() {
+        setUploadStatus("Processing your quote...", "info", 30);
+
+        var isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+
+        if (isPdf) {
+          extractTextFromPdf(file);
+        } else {
+          extractTextFromImage(file);
+        }
+      }).catch(function(err) {
+        console.error("Failed to load vendor libs:", err);
+        setUploadStatus("Failed to load processing libraries. Please refresh and try again.", "error");
+      });
+    }
+
+    function extractTextFromPdf(file) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var typedArray = new Uint8Array(e.target.result);
+        setUploadStatus("Reading PDF...", "info", 50);
+
+        pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
+          var allText = "";
+          var numPages = pdf.numPages;
+          var pagesProcessed = 0;
+
+          function processPage(pageNum) {
+            if (pageNum > numPages) {
+              setUploadStatus("Analyzing quote...", "info", 85);
+              analyzeExtractedText(allText, "pdf");
+              return;
+            }
+            pdf.getPage(pageNum).then(function(page) {
+              page.getTextContent().then(function(content) {
+                var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+                allText += pageText + "\n";
+                pagesProcessed++;
+                var pct = 50 + Math.round((pagesProcessed / numPages) * 30);
+                setUploadStatus("Reading page " + pagesProcessed + " of " + numPages + "...", "info", pct);
+                processPage(pageNum + 1);
+              });
+            });
+          }
+
+          processPage(1);
+        }).catch(function(err) {
+          console.error("PDF parsing failed:", err);
+          setUploadStatus("Could not read PDF. Try uploading a screenshot instead.", "error");
+        });
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function extractTextFromImage(file) {
+      setUploadStatus("Running OCR on your image...", "info", 40);
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        if (typeof Tesseract === "undefined") {
+          setUploadStatus("OCR library not loaded. Please refresh and try again.", "error");
+          return;
+        }
+
+        Tesseract.recognize(e.target.result, "eng", {
+          logger: function(m) {
+            if (m.status === "recognizing text" && typeof m.progress === "number") {
+              var pct = 40 + Math.round(m.progress * 45);
+              setUploadStatus("Reading text from image... " + Math.round(m.progress * 100) + "%", "info", pct);
+            }
+          }
+        }).then(function(result) {
+          setUploadStatus("Analyzing quote...", "info", 90);
+          analyzeExtractedText(result.data.text || "", "ocr");
+        }).catch(function(err) {
+          console.error("OCR failed:", err);
+          setUploadStatus("Could not read the image. Try a clearer photo or PDF.", "error");
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // =========================================================================
+    // QUOTE TEXT ANALYSIS
+    // =========================================================================
+    function analyzeExtractedText(rawText, method) {
+      console.log("Plumbing analyzer: extracted " + rawText.length + " chars via " + method);
+
+      // 1. Detect service type
+      var serviceDetect = { value: "water_heater", label: "Water Heater Replacement" };
+      if (typeof detectPlumbingServiceType === "function") {
+        serviceDetect = detectPlumbingServiceType(rawText);
+      }
+
+      // 2. Detect sub-type based on service
+      var subType = null;
+      var subTypeLabel = "";
+      if (serviceDetect.value === "water_heater" && typeof detectWaterHeaterType === "function") {
+        subType = detectWaterHeaterType(rawText);
+        subTypeLabel = getSubTypeLabel("water_heater", subType);
+      } else if (serviceDetect.value === "repipe" && typeof detectPipeMaterial === "function") {
+        var material = detectPipeMaterial(rawText);
+        subType = material || "pex";
+        subTypeLabel = getSubTypeLabel("repipe", subType);
+      } else if (serviceDetect.value === "sewer_line") {
+        if (/trenchless|pipe burst/i.test(rawText)) subType = "trenchless";
+        else if (/pipe lin/i.test(rawText) || /cipp/i.test(rawText)) subType = "pipe_lining";
+        else subType = "traditional_dig";
+        subTypeLabel = getSubTypeLabel("sewer_line", subType);
+      } else if (serviceDetect.value === "drain_cleaning") {
+        if (/hydro.?jet/i.test(rawText)) subType = "hydro_jet";
+        else if (/camera/i.test(rawText)) subType = "camera_inspection";
+        else if (/main.?line/i.test(rawText)) subType = "main_line";
+        else subType = "simple_clog";
+        subTypeLabel = getSubTypeLabel("drain_cleaning", subType);
+      } else if (serviceDetect.value === "bathroom_rough_in") {
+        if (/master/i.test(rawText)) subType = "master_bath";
+        else if (/full bath|tub|shower/i.test(rawText)) subType = "full_bath";
+        else subType = "half_bath";
+        subTypeLabel = getSubTypeLabel("bathroom_rough_in", subType);
+      } else if (serviceDetect.value === "gas_line") {
+        if (/over 50|long run|50\+/i.test(rawText)) subType = "long_over_50ft";
+        else if (/20.*50|medium/i.test(rawText)) subType = "medium_20_50ft";
+        else subType = "short_under_20ft";
+        subTypeLabel = getSubTypeLabel("gas_line", subType);
+      }
+
+      // 3. Detect brand
+      var brandInfo = null;
+      if (typeof detectPlumbingBrand === "function") {
+        brandInfo = detectPlumbingBrand(rawText);
+      }
+
+      // 4. Extract price using analyzer-parser.js
+      var quotePrice = 0;
+      if (typeof extractPriceFromText === "function") {
+        quotePrice = extractPriceFromText(rawText);
+      } else {
+        // Fallback: simple price extraction
+        quotePrice = extractPriceFallback(rawText);
+      }
+
+      // 5. Detect scope signals
+      var scopeSignals = null;
+      if (typeof detectPlumbingScopeSignals === "function") {
+        scopeSignals = detectPlumbingScopeSignals(rawText);
+      }
+
+      // 6. Calculate fair range
+      var stateCode = journeyState.stateCode || "";
+      var city = journeyState.city || "";
+      var cost = calculatePlumbingCost(serviceDetect.value, subType, stateCode, "this_season");
+
+      // Brand premium adjustment
+      if (brandInfo && brandInfo.tier === "premium") {
+        cost.low = roundTo(cost.low * 1.10, 25);
+        cost.mid = roundTo(cost.mid * 1.10, 25);
+        cost.high = roundTo(cost.high * 1.10, 25);
+      } else if (brandInfo && brandInfo.tier === "value") {
+        cost.low = roundTo(cost.low * 0.92, 25);
+        cost.mid = roundTo(cost.mid * 0.92, 25);
+        cost.high = roundTo(cost.high * 0.92, 25);
+      }
+
+      window.__plumbingAnalysisResult = {
+        quotePrice: quotePrice,
+        serviceType: serviceDetect.value,
+        serviceLabel: serviceDetect.label,
+        subType: subType,
+        subTypeLabel: subTypeLabel,
+        brand: brandInfo ? brandInfo.brand : null,
+        brandTier: brandInfo ? brandInfo.tier : null,
+        scopeSignals: scopeSignals,
+        low: cost.low,
+        mid: cost.mid,
+        high: cost.high,
+        region: cost.region,
+        city: city,
+        stateCode: stateCode,
+        rawText: rawText,
+        extractionMethod: method
+      };
+
+      if (quotePrice > 0) {
+        setStep("quote_result");
+      } else {
+        // No price found - show result with note
+        setUploadStatus("", "info");
+        window.__plumbingAnalysisResult.quotePrice = 0;
+        showNoPriceFound();
+      }
+    }
+
+    // Fallback price extraction if analyzer-parser.js extractPriceFromText isn't available
+    function extractPriceFallback(text) {
+      // Use the scoring functions from analyzer-parser.js if available
+      if (typeof scoreMoneyCandidate === "function" && typeof classifyMoneyLine === "function") {
+        return extractWithScoring(text);
+      }
+
+      // Simple fallback
+      var candidates = [];
+      var lines = text.split(/\n/);
+      var moneyPattern = /\$\s?([\d,]+(?:\.\d{2})?)/g;
+
+      for (var i = 0; i < lines.length; i++) {
+        var match;
+        moneyPattern.lastIndex = 0;
+        while ((match = moneyPattern.exec(lines[i])) !== null) {
+          var val = parseFloat(match[1].replace(/,/g, ""));
+          if (val >= 50 && val <= 200000) {
+            var lineLC = lines[i].toLowerCase();
+            var score = 50;
+            if (/total|amount due|contract price|estimate|project cost/.test(lineLC)) score += 100;
+            if (/deposit|down payment|tax|per |unit/.test(lineLC)) score -= 50;
+            candidates.push({ value: val, score: score, line: lines[i] });
+          }
+        }
+      }
+
+      if (candidates.length === 0) return 0;
+      candidates.sort(function(a, b) { return b.score - a.score; });
+      return candidates[0].value;
+    }
+
+    function extractWithScoring(text) {
+      var candidates = [];
+      var lines = text.split(/\n/);
+      var moneyPattern = /\$\s?([\d,]+(?:\.\d{2})?)/g;
+
+      for (var i = 0; i < lines.length; i++) {
+        var match;
+        moneyPattern.lastIndex = 0;
+        var contextStart = Math.max(0, i - 2);
+        var contextEnd = Math.min(lines.length - 1, i + 2);
+        var contextLines = [];
+        for (var c = contextStart; c <= contextEnd; c++) contextLines.push(lines[c]);
+        var contextText = contextLines.join(" ");
+
+        while ((match = moneyPattern.exec(lines[i])) !== null) {
+          var val = parseFloat(match[1].replace(/,/g, ""));
+          if (val >= 50 && val <= 200000) {
+            var score = scoreMoneyCandidate(val, contextText, lines[i]);
+            candidates.push({ value: val, score: score, line: lines[i] });
+          }
+        }
+      }
+
+      if (candidates.length === 0) return 0;
+      candidates.sort(function(a, b) { return b.score - a.score; });
+      return candidates[0].value;
+    }
+
+    function showNoPriceFound() {
+      var root = document.getElementById("appRoot");
+      if (!root) return;
+
+      var r = window.__plumbingAnalysisResult || {};
+
+      root.innerHTML = '<div style="max-width:720px; margin:60px auto; padding:0 24px;">'
+        + '<div style="padding:28px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 4px 16px rgba(15,23,42,0.06);">'
+        + '<h2 style="margin:0 0 8px; font-size:28px; letter-spacing:-0.02em; color:#0f172a;">We couldn\'t find a price in your quote</h2>'
+        + '<p style="color:#475569; margin:0 0 16px; font-size:15px;">We detected <strong>' + escapeHtml(r.serviceLabel || "a plumbing service") + '</strong>, but couldn\'t extract a total price. This sometimes happens with scanned images.</p>'
+
+        + '<div style="margin:0 0 20px; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px;">'
+        + '<div style="font-size:14px; font-weight:600; color:#0f172a; margin-bottom:4px;">Enter your quote price manually:</div>'
+        + '<div style="display:flex; gap:10px; align-items:center;">'
+        + '<span style="font-size:20px; color:#64748b;">$</span>'
+        + '<input type="number" id="manualPrice" placeholder="e.g. 3500" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:180px; font-family:inherit;" />'
+        + '<button class="btn" id="manualPriceBtn" style="font-size:14px; padding:12px 20px;">Analyze</button>'
+        + '</div>'
+        + '</div>'
+
+        + '<div style="text-align:center;">'
+        + '<a href="/plumbing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start over</a>'
+        + '</div>'
+        + '</div></div>';
+
+      setTimeout(function() {
+        var btn = document.getElementById("manualPriceBtn");
+        if (btn) {
+          btn.addEventListener("click", function() {
+            var val = parseFloat((document.getElementById("manualPrice") || {}).value || "0");
+            if (val > 0) {
+              window.__plumbingAnalysisResult.quotePrice = val;
+              setStep("quote_result");
+            }
+          });
+        }
+      }, 0);
+    }
+
+    // =========================================================================
+    // INIT
+    // =========================================================================
+    function init() {
+      // Check URL params for prefill
+      var params = new URLSearchParams(window.location.search);
+      if (params.get("city")) journeyState.city = params.get("city");
+      if (params.get("state")) journeyState.stateCode = params.get("state").toUpperCase();
+
+      render();
+    }
+
+    // Run on DOM ready
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+</body>
+</html>
