@@ -4383,6 +4383,40 @@ function buildComparisonWinnerHtml(summary) {
         `;
       }
 
+      function renderEmailCapture(a) {
+        if (!a) return "";
+        const price = a.quotePrice ? "$" + Number(a.quotePrice).toLocaleString() : null;
+        const verdict = a.verdict || "";
+        const material = typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : (a.material || "roofing");
+        const city = a.city || "";
+        const state = a.stateCode || "";
+        const location = [city, state].filter(Boolean).join(", ");
+
+        // Build plain-text summary for email
+        const summaryLines = [];
+        if (price) summaryLines.push("Quote: " + price);
+        if (verdict) summaryLines.push("Verdict: " + verdict);
+        if (a.roofSize) summaryLines.push("Roof size: " + Number(a.roofSize).toLocaleString() + " sq ft");
+        summaryLines.push("Material: " + material);
+        if (location) summaryLines.push("Location: " + location);
+        if (a.low && a.high) summaryLines.push("Expected range: $" + Number(a.low).toLocaleString() + " - $" + Number(a.high).toLocaleString());
+        summaryLines.push("");
+        summaryLines.push("Full analysis: https://truepricehq.com/roofing-quote-analyzer.html");
+
+        const subject = encodeURIComponent("My TruePrice " + (verdict || "Quote") + " Report" + (location ? " - " + location : ""));
+        const body = encodeURIComponent(summaryLines.join("\n"));
+
+        return `
+          <div style="padding:20px 24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:16px;">
+            <div style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">Save your results</div>
+            <div style="font-size:14px; color:#475569; margin-bottom:14px;">Email yourself a summary to reference later or share with your spouse.</div>
+            <a href="mailto:?subject=${subject}&body=${body}" class="btn-outline" style="text-decoration:none; display:inline-block; font-size:14px; padding:10px 20px;">
+              Email me this report
+            </a>
+          </div>
+        `;
+      }
+
       function renderShareModule(a) {
         const analysisCount = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10);
         const historyHtml = (() => {
@@ -8023,11 +8057,51 @@ function buildComparisonWinnerHtml(summary) {
         ? `<div style="margin:0 0 18px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; font-size:14px; color:#166534; font-weight:500;">Showing local pricing for ${escapeHtml(prefillCity)}, ${escapeHtml(prefillState)}</div>`
         : "";
 
+      // Build returning-user welcome section
+      let returningUserHtml = "";
+      try {
+        const qHistory = JSON.parse(localStorage.getItem("tp_quote_history") || "[]");
+        if (qHistory.length > 0) {
+          const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+          const fmtDate = function(iso) { const d = new Date(iso); return months[d.getMonth()] + " " + d.getDate(); };
+          const fmtPrice = function(p) { return "$" + Number(p).toLocaleString("en-US", { maximumFractionDigits: 0 }); };
+          const fmtVerdict = function(v) { return v === "fair" ? " &mdash; it was fair" : v === "high" ? " &mdash; it was high" : v === "low" ? " &mdash; it was low" : ""; };
+          const latest = qHistory[0];
+          returningUserHtml += '<div style="margin-bottom:20px; padding:16px 20px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:14px;">'
+            + '<div style="font-size:14px; font-weight:600; color:#166534; margin-bottom:8px;">Welcome back</div>'
+            + '<div style="font-size:14px; color:#475569;">You last analyzed a <strong>' + fmtPrice(latest.price) + '</strong> ' + escapeHtml(latest.material || "roofing") + ' quote' + fmtVerdict(latest.verdict) + ' on ' + fmtDate(latest.timestamp) + '. Upload another to compare.</div>'
+            + '</div>';
+          if (qHistory.length >= 2) {
+            const items = qHistory.slice(0, 5);
+            let rows = "";
+            for (var qi = 0; qi < items.length; qi++) {
+              const h = items[qi];
+              const verdictColor = h.verdict === "fair" ? "#166534" : h.verdict === "high" ? "#b91c1c" : h.verdict === "low" ? "#1d4ed8" : "#475569";
+              const verdictLabel = h.verdict ? h.verdict.charAt(0).toUpperCase() + h.verdict.slice(1) : "\u2014";
+              const loc = [h.city, h.state].filter(Boolean).join(", ");
+              rows += '<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0;' + (qi < items.length - 1 ? ' border-bottom:1px solid #e5e7eb;' : '') + '">'
+                + '<span style="font-size:13px; color:#475569;">' + fmtDate(h.timestamp) + '</span>'
+                + '<span style="font-size:13px; font-weight:600; color:#0f172a;">' + fmtPrice(h.price) + '</span>'
+                + '<span style="font-size:13px; color:#475569;">' + escapeHtml(h.material || "\u2014") + '</span>'
+                + '<span style="font-size:12px; font-weight:600; color:' + verdictColor + ';">' + escapeHtml(verdictLabel) + '</span>'
+                + (loc ? '<span style="font-size:12px; color:#94a3b8;">' + escapeHtml(loc) + '</span>' : '')
+                + '</div>';
+            }
+            returningUserHtml += '<details style="margin-bottom:20px;">'
+              + '<summary style="cursor:pointer; font-size:13px; font-weight:600; color:#2563eb; margin-bottom:8px;">Your quote history (' + qHistory.length + ')</summary>'
+              + '<div style="padding:8px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">' + rows + '</div>'
+              + '</details>';
+          }
+        }
+      } catch(e) {}
+
       return `
         <div class="journey-start">
           <div class="journey-start-card" style="max-width:720px; margin:48px auto; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
 
             ${localContext}
+
+            ${returningUserHtml}
 
             <h1 style="margin:0 0 10px; font-size:38px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">
               Is your roofing quote fair?
@@ -8592,6 +8666,7 @@ function buildComparisonWinnerHtml(summary) {
             ${renderMarketContext(a)}
             ${renderCommunityStats(a)}
             ${renderCommunityContribution(a)}
+            ${renderEmailCapture(a)}
             ${renderShareModule(a)}
             <div style="text-align:center; margin:20px 0 10px;">
               <a class="btn-outline" href="/find-contractors.html${a.stateCode ? '?state=' + encodeURIComponent(a.stateCode) + '&service=roof' : ''}" style="text-decoration:none;">
@@ -9087,6 +9162,15 @@ function buildComparisonWinnerHtml(summary) {
                 </div>
               </div>
             </div>
+          </div>
+
+          <!-- Email capture -->
+          <div style="padding:20px 24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">
+            <div style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">Save your estimate</div>
+            <div style="font-size:14px; color:#475569; margin-bottom:14px;">Email yourself a summary to reference when talking to contractors.</div>
+            <a href="mailto:?subject=${encodeURIComponent("My Roof Cost Estimate" + (cityState ? " - " + cityState : ""))}&body=${encodeURIComponent("Estimated roof cost: " + fmtPrice(r.low) + " - " + fmtPrice(r.high) + "\nMidpoint: " + fmtPrice(r.mid) + "\nRoof size: " + Number(r.estimatedRoofSize).toLocaleString() + " sq ft\nMaterial: " + r.materialLabel + (cityState ? "\nLocation: " + cityState : "") + "\n\nGet your own estimate: https://truepricehq.com/roofing-quote-analyzer.html")}" class="btn-outline" style="text-decoration:none; display:inline-block; font-size:14px; padding:10px 20px;">
+              Email me this estimate
+            </a>
           </div>
 
           <!-- CTAs -->
