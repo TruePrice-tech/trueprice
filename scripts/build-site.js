@@ -454,6 +454,126 @@ function buildExtraFaqItems(cityPricing) {
   return items.join("\n");
 }
 
+// Neighboring states lookup for cross-state city linking
+const NEIGHBORING_STATES = {
+  AL: ["FL", "GA", "MS", "TN"],
+  AK: ["WA"],
+  AZ: ["CA", "CO", "NM", "NV", "UT"],
+  AR: ["LA", "MO", "MS", "OK", "TN", "TX"],
+  CA: ["AZ", "NV", "OR"],
+  CO: ["AZ", "KS", "NE", "NM", "OK", "UT", "WY"],
+  CT: ["MA", "NY", "RI"],
+  DE: ["MD", "NJ", "PA"],
+  FL: ["AL", "GA"],
+  GA: ["AL", "FL", "NC", "SC", "TN"],
+  HI: ["CA"],
+  ID: ["MT", "NV", "OR", "UT", "WA", "WY"],
+  IL: ["IN", "IA", "KY", "MO", "WI"],
+  IN: ["IL", "KY", "MI", "OH"],
+  IA: ["IL", "MN", "MO", "NE", "SD", "WI"],
+  KS: ["CO", "MO", "NE", "OK"],
+  KY: ["IL", "IN", "MO", "OH", "TN", "VA", "WV"],
+  LA: ["AR", "MS", "TX"],
+  ME: ["NH"],
+  MD: ["DE", "PA", "VA", "WV", "DC"],
+  MA: ["CT", "NH", "NY", "RI", "VT"],
+  MI: ["IN", "OH", "WI"],
+  MN: ["IA", "ND", "SD", "WI"],
+  MS: ["AL", "AR", "LA", "TN"],
+  MO: ["AR", "IL", "IA", "KS", "KY", "NE", "OK", "TN"],
+  MT: ["ID", "ND", "SD", "WY"],
+  NE: ["CO", "IA", "KS", "MO", "SD", "WY"],
+  NV: ["AZ", "CA", "ID", "OR", "UT"],
+  NH: ["MA", "ME", "VT"],
+  NJ: ["DE", "NY", "PA"],
+  NM: ["AZ", "CO", "OK", "TX", "UT"],
+  NY: ["CT", "MA", "NJ", "PA", "VT"],
+  NC: ["GA", "SC", "TN", "VA"],
+  ND: ["MN", "MT", "SD"],
+  OH: ["IN", "KY", "MI", "PA", "WV"],
+  OK: ["AR", "CO", "KS", "MO", "NM", "TX"],
+  OR: ["CA", "ID", "NV", "WA"],
+  PA: ["DE", "MD", "NJ", "NY", "OH", "WV"],
+  RI: ["CT", "MA"],
+  SC: ["GA", "NC"],
+  SD: ["IA", "MN", "MT", "ND", "NE", "WY"],
+  TN: ["AL", "AR", "GA", "KY", "MO", "MS", "NC", "VA"],
+  TX: ["AR", "LA", "NM", "OK"],
+  UT: ["AZ", "CO", "ID", "NV", "NM", "WY"],
+  VT: ["MA", "NH", "NY"],
+  VA: ["KY", "MD", "NC", "TN", "WV", "DC"],
+  WA: ["ID", "OR"],
+  WV: ["KY", "MD", "OH", "PA", "VA"],
+  WI: ["IA", "IL", "MI", "MN"],
+  WY: ["CO", "ID", "MT", "NE", "SD", "UT"],
+  DC: ["MD", "VA"]
+};
+
+// Top 10 most-searched cities nationally for popular footer links
+const POPULAR_CITIES = [
+  { city: "New York", state_code: "NY" },
+  { city: "Los Angeles", state_code: "CA" },
+  { city: "Houston", state_code: "TX" },
+  { city: "Phoenix", state_code: "AZ" },
+  { city: "Chicago", state_code: "IL" },
+  { city: "Dallas", state_code: "TX" },
+  { city: "San Antonio", state_code: "TX" },
+  { city: "Jacksonville", state_code: "FL" },
+  { city: "Denver", state_code: "CO" },
+  { city: "Atlanta", state_code: "GA" }
+];
+
+function buildCrossStateCities(cityPricing, allCityRows) {
+  const neighbors = NEIGHBORING_STATES[cityPricing.state_code] || [];
+  if (!neighbors.length) return "";
+
+  const neighborCities = allCityRows
+    .filter((c) => neighbors.includes(c.state_code))
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
+    .slice(0, 5);
+
+  if (!neighborCities.length) return "";
+
+  return neighborCities
+    .map((c) => {
+      const filename = buildCityPageFilename(c.city, c.state_code);
+      return `<li><a href="/${filename}">${c.city}, ${c.state_code}</a></li>`;
+    })
+    .join("\n");
+}
+
+function buildMaterialCityLinksSection(cityPricing) {
+  const city = cityPricing.city;
+  const stateCode = cityPricing.state_code;
+
+  const materials = [
+    { key: "architectural", label: "Architectural Shingle" },
+    { key: "asphalt", label: "Asphalt Shingle" },
+    { key: "metal", label: "Metal" },
+    { key: "tile", label: "Tile" }
+  ];
+
+  return materials
+    .map(({ key, label }) => {
+      const filename = buildMaterialCityPageFilename(key, city, stateCode);
+      return `<a href="/${filename}" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">${label}</a>`;
+    })
+    .join("\n");
+}
+
+function buildPopularCityLinks(cityPricing) {
+  return POPULAR_CITIES
+    .filter(
+      (c) =>
+        !(c.city === cityPricing.city && c.state_code === cityPricing.state_code)
+    )
+    .map((c) => {
+      const filename = buildCityPageFilename(c.city, c.state_code);
+      return `<a href="/${filename}" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">${c.city}, ${c.state_code}</a>`;
+    })
+    .join("\n");
+}
+
 function generateCityPageHtml(cityPricing, allCityRows) {
   let template = loadTemplate();
 
@@ -513,6 +633,11 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildLocalContextSection(cityPricing));
   template = template.replaceAll("{{EXTRA_COST_FACTORS}}", buildExtraCostFactors(cityPricing));
   template = template.replaceAll("{{EXTRA_FAQ_ITEMS}}", buildExtraFaqItems(cityPricing));
+
+  // Cross-linking sections for SEO crawl depth
+  template = template.replaceAll("{{CROSS_STATE_CITIES}}", buildCrossStateCities(cityPricing, allCityRows));
+  template = template.replaceAll("{{MATERIAL_CITY_LINKS}}", buildMaterialCityLinksSection(cityPricing));
+  template = template.replaceAll("{{POPULAR_CITY_LINKS}}", buildPopularCityLinks(cityPricing));
 
   if (template.includes("{{NEARBY_CITIES_SECTION}}")) {
     template = template.replace("{{NEARBY_CITIES_SECTION}}", nearbyCitiesSection);

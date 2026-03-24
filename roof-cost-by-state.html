@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <title>Average Roof Replacement Cost by State (2026) | TruePrice</title>
+  <meta name="description" content="Compare average roof replacement costs across all 50 states and DC for 2026. Sortable table with asphalt, architectural, metal, and tile prices for a 2,000 sq ft home." />
+  <link rel="canonical" href="https://truepricehq.com/roof-cost-by-state.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Average Roof Replacement Cost by State (2026)" />
+  <meta property="og:description" content="Compare roof replacement costs across all 50 US states. See which states are cheapest and most expensive for asphalt, architectural, metal, and tile roofs." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://truepricehq.com/roof-cost-by-state.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Average Roof Replacement Cost by State (2026)" />
+  <meta name="twitter:description" content="Compare roof replacement costs across all 50 US states. See which states are cheapest and most expensive." />
+
+  <link rel="stylesheet" href="/css/trueprice.css" />
+
+  <style>
+    .sc-hero {
+      background: linear-gradient(180deg, #0f172a 0%, #1e3a5f 100%);
+      padding: 64px 0 48px;
+      color: #fff;
+    }
+    .sc-hero h1 {
+      font-size: 42px;
+      max-width: 760px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .sc-hero p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.75);
+      max-width: 620px;
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    .sc-highlights {
+      padding: 40px 0 0;
+    }
+    .sc-highlights h2 {
+      font-size: 22px;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    .sc-hl-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .sc-hl-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .sc-hl-card h3 {
+      font-size: 16px;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sc-hl-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sc-hl-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .sc-hl-list li:last-child {
+      border-bottom: none;
+    }
+    .sc-hl-list .hl-state {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .sc-hl-list .hl-price {
+      font-weight: 700;
+    }
+    .hl-price-green { color: var(--green); }
+    .hl-price-red { color: var(--red); }
+
+    .sc-table-section {
+      padding: 32px 0 0;
+    }
+    .sc-table-section h2 {
+      margin-top: 0;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .sc-table-intro {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+    .sc-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .sc-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 820px;
+    }
+    .sc-table th,
+    .sc-table td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .sc-table thead th {
+      background: var(--bg-subtle);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      user-select: none;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    .sc-table thead th:hover {
+      color: var(--brand);
+    }
+    .sc-table thead th .sort-arrow {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 10px;
+      opacity: 0.4;
+    }
+    .sc-table thead th.sort-asc .sort-arrow,
+    .sc-table thead th.sort-desc .sort-arrow {
+      opacity: 1;
+      color: var(--brand);
+    }
+    .sc-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .sc-table tbody tr:hover {
+      background: var(--bg-subtle);
+    }
+    .sc-table td {
+      font-size: 14px;
+    }
+    .sc-table td a {
+      font-weight: 600;
+    }
+    .sc-table .col-region {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .cost-index {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .ci-low {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-border);
+    }
+    .ci-avg {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid var(--amber-border);
+    }
+    .ci-high {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid var(--red-border);
+    }
+
+    .sc-method {
+      padding: 40px 0 0;
+    }
+    .sc-method h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+    .sc-method p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      max-width: 700px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 700px) {
+      .sc-hero { padding: 40px 0 32px; }
+      .sc-hero h1 { font-size: 28px; }
+      .sc-hl-row { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Average Roof Replacement Cost by State (2026)",
+    "description": "Comparison of average roof replacement costs across all 50 US states and the District of Columbia for 2026, covering asphalt, architectural, metal, and tile roofing materials for a typical 2,000 sq ft home.",
+    "url": "https://truepricehq.com/roof-cost-by-state.html",
+    "creator": {
+      "@type": "Organization",
+      "name": "TruePrice",
+      "url": "https://truepricehq.com/"
+    },
+    "temporalCoverage": "2026",
+    "variableMeasured": [
+      {
+        "@type": "PropertyValue",
+        "name": "Asphalt Roof Cost",
+        "unitText": "USD"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Architectural Roof Cost",
+        "unitText": "USD"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Metal Roof Cost",
+        "unitText": "USD"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Tile Roof Cost",
+        "unitText": "USD"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header" style="background:transparent; border-bottom:none; position:absolute; width:100%; z-index:10;">
+    <div class="container">
+      <a class="logo" href="/" style="color:#fff;">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html" style="color:rgba(255,255,255,0.7);">Cities</a>
+        <a href="/find-contractors.html" style="color:rgba(255,255,255,0.7);">Contractors</a>
+        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="sc-hero">
+    <div class="container" style="padding-top:32px;">
+      <h1>Average Roof Replacement Cost by State (2026)</h1>
+      <p>Compare roofing prices across all 50 states and DC. Costs are calculated for a typical 2,000 sq ft home using regional labor rates, material prices, and standard overhead.</p>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- Cheapest & Most Expensive Highlights -->
+    <section class="sc-highlights">
+      <h2>Cheapest &amp; Most Expensive States for Roofing</h2>
+      <div class="sc-hl-row">
+        <div class="sc-hl-card">
+          <h3><span style="font-size:20px;">&#9989;</span> 5 Cheapest States</h3>
+          <ul class="sc-hl-list" id="cheapest-list"></ul>
+        </div>
+        <div class="sc-hl-card">
+          <h3><span style="font-size:20px;">&#128680;</span> 5 Most Expensive States</h3>
+          <ul class="sc-hl-list" id="expensive-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sortable Table -->
+    <section class="sc-table-section">
+      <h2>All States: Roof Replacement Cost Comparison</h2>
+      <p class="sc-table-intro">Click any column header to sort. Prices reflect a 2,000 sq ft home (24 roofing squares) with standard waste and overhead. Cost index is relative to the national average.</p>
+      <div class="sc-table-wrap">
+        <table class="sc-table" id="state-table">
+          <thead>
+            <tr>
+              <th data-col="state" data-type="string">State <span class="sort-arrow">&#9650;</span></th>
+              <th data-col="region" data-type="string">Region <span class="sort-arrow">&#9650;</span></th>
+              <th data-col="asphalt" data-type="number">Asphalt <span class="sort-arrow">&#9650;</span></th>
+              <th data-col="architectural" data-type="number">Architectural <span class="sort-arrow">&#9650;</span></th>
+              <th data-col="metal" data-type="number">Metal <span class="sort-arrow">&#9650;</span></th>
+              <th data-col="tile" data-type="number">Tile <span class="sort-arrow">&#9650;</span></th>
+              <th data-col="index" data-type="number">Cost Index <span class="sort-arrow">&#9650;</span></th>
+            </tr>
+          </thead>
+          <tbody id="state-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Methodology -->
+    <section class="sc-method">
+      <h2>How We Calculate These Prices</h2>
+      <p>Prices are based on TruePrice's pricing model: <strong>24 roofing squares</strong> (for a 2,000 sq ft home) multiplied by the base material cost per square, a <strong>1.1x waste factor</strong>, a <strong>1.12x overhead multiplier</strong>, and a <strong>regional labor multiplier</strong> that ranges from 1.00x (South) to 1.18x (West). All prices are rounded to the nearest $50. The cost index compares each state's average across all four materials to the national average.</p>
+      <p>These figures represent typical contractor pricing for a complete tear-off and replacement including materials, labor, disposal, and permits. Actual costs vary based on roof complexity, pitch, accessibility, and local market conditions.</p>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-box" style="margin-top:40px;">
+      <h2>Got a roofing quote? Check if it's fair.</h2>
+      <p>Upload your contractor quote and get a verdict in 30 seconds &mdash; free, no signup required.</p>
+      <a class="btn" href="/roofing-quote-analyzer.html">Analyze your quote</a>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    // --- Pricing model ---
+    var basePrices = { asphalt: 425, architectural: 525, metal: 900, tile: 1400 };
+    var laborMult = { south: 1.00, southeast: 1.03, northeast: 1.15, midwest: 1.06, mountain: 1.08, west: 1.18 };
+    var waste = 1.1;
+    var overhead = 1.12;
+    var squares = 24;
+    var roundTo = 50;
+
+    // --- State data ---
+    var stateRegions = {
+      "Alabama":"southeast","Alaska":"west","Arizona":"west","Arkansas":"south",
+      "California":"west","Colorado":"mountain","Connecticut":"northeast","Delaware":"northeast",
+      "Florida":"southeast","Georgia":"southeast","Hawaii":"west","Idaho":"mountain",
+      "Illinois":"midwest","Indiana":"midwest","Iowa":"midwest","Kansas":"midwest",
+      "Kentucky":"southeast","Louisiana":"south","Maine":"northeast","Maryland":"northeast",
+      "Massachusetts":"northeast","Michigan":"midwest","Minnesota":"midwest","Mississippi":"south",
+      "Missouri":"midwest","Montana":"mountain","Nebraska":"midwest","Nevada":"west",
+      "New Hampshire":"northeast","New Jersey":"northeast","New Mexico":"mountain","New York":"northeast",
+      "North Carolina":"southeast","North Dakota":"midwest","Ohio":"midwest","Oklahoma":"south",
+      "Oregon":"west","Pennsylvania":"northeast","Rhode Island":"northeast","South Carolina":"southeast",
+      "South Dakota":"midwest","Tennessee":"southeast","Texas":"south","Utah":"mountain",
+      "Vermont":"northeast","Virginia":"southeast","Washington":"west","West Virginia":"southeast",
+      "Wisconsin":"midwest","Wyoming":"mountain","District of Columbia":"northeast"
+    };
+
+    function calcPrice(material, region) {
+      var raw = squares * basePrices[material] * waste * overhead * laborMult[region];
+      return Math.round(raw / roundTo) * roundTo;
+    }
+
+    function slugify(name) {
+      return name.toLowerCase().replace(/\s+/g, '-');
+    }
+
+    function fmt(n) {
+      return '$' + n.toLocaleString('en-US');
+    }
+
+    function regionLabel(r) {
+      return r.charAt(0).toUpperCase() + r.slice(1);
+    }
+
+    // --- Build data ---
+    var rows = [];
+    var materials = ['asphalt','architectural','metal','tile'];
+    for (var state in stateRegions) {
+      var region = stateRegions[state];
+      var prices = {};
+      var total = 0;
+      for (var i = 0; i < materials.length; i++) {
+        prices[materials[i]] = calcPrice(materials[i], region);
+        total += prices[materials[i]];
+      }
+      var avg = total / 4;
+      rows.push({
+        state: state,
+        region: region,
+        slug: slugify(state) + '-roof-cost.html',
+        asphalt: prices.asphalt,
+        architectural: prices.architectural,
+        metal: prices.metal,
+        tile: prices.tile,
+        avg: avg
+      });
+    }
+
+    // National average (mean of all state averages)
+    var natSum = 0;
+    for (var j = 0; j < rows.length; j++) natSum += rows[j].avg;
+    var natAvg = natSum / rows.length;
+
+    for (var k = 0; k < rows.length; k++) {
+      rows[k].index = Math.round((rows[k].avg / natAvg) * 100) / 100;
+    }
+
+    // --- Populate highlights ---
+    var sorted = rows.slice().sort(function(a,b) { return a.avg - b.avg; });
+    var cheapest = sorted.slice(0, 5);
+    var expensive = sorted.slice(-5).reverse();
+
+    var cheapHtml = '';
+    for (var c = 0; c < cheapest.length; c++) {
+      cheapHtml += '<li><a class="hl-state" href="/' + cheapest[c].slug + '">' + cheapest[c].state + '</a><span class="hl-price hl-price-green">' + fmt(cheapest[c].architectural) + '</span></li>';
+    }
+    document.getElementById('cheapest-list').innerHTML = cheapHtml;
+
+    var expHtml = '';
+    for (var e = 0; e < expensive.length; e++) {
+      expHtml += '<li><a class="hl-state" href="/' + expensive[e].slug + '">' + expensive[e].state + '</a><span class="hl-price hl-price-red">' + fmt(expensive[e].architectural) + '</span></li>';
+    }
+    document.getElementById('expensive-list').innerHTML = expHtml;
+
+    // --- Populate table ---
+    function indexClass(idx) {
+      if (idx < 0.99) return 'ci-low';
+      if (idx > 1.01) return 'ci-high';
+      return 'ci-avg';
+    }
+
+    function renderTable(data) {
+      var html = '';
+      for (var r = 0; r < data.length; r++) {
+        var d = data[r];
+        html += '<tr>' +
+          '<td><a href="/' + d.slug + '">' + d.state + '</a></td>' +
+          '<td class="col-region">' + regionLabel(d.region) + '</td>' +
+          '<td>' + fmt(d.asphalt) + '</td>' +
+          '<td>' + fmt(d.architectural) + '</td>' +
+          '<td>' + fmt(d.metal) + '</td>' +
+          '<td>' + fmt(d.tile) + '</td>' +
+          '<td><span class="cost-index ' + indexClass(d.index) + '">' + d.index.toFixed(2) + 'x</span></td>' +
+          '</tr>';
+      }
+      document.getElementById('state-tbody').innerHTML = html;
+    }
+
+    // Initial sort by state name
+    rows.sort(function(a,b) { return a.state.localeCompare(b.state); });
+    renderTable(rows);
+
+    // --- Sortable columns ---
+    var currentSort = { col: 'state', dir: 'asc' };
+
+    var headers = document.querySelectorAll('#state-table thead th');
+    for (var h = 0; h < headers.length; h++) {
+      headers[h].addEventListener('click', (function(th) {
+        return function() {
+          var col = th.getAttribute('data-col');
+          var type = th.getAttribute('data-type');
+
+          // Toggle direction
+          var dir = 'asc';
+          if (currentSort.col === col && currentSort.dir === 'asc') {
+            dir = 'desc';
+          }
+          currentSort = { col: col, dir: dir };
+
+          // Update header classes
+          for (var x = 0; x < headers.length; x++) {
+            headers[x].classList.remove('sort-asc', 'sort-desc');
+          }
+          th.classList.add(dir === 'asc' ? 'sort-asc' : 'sort-desc');
+
+          // Sort rows
+          rows.sort(function(a, b) {
+            var va = a[col], vb = b[col];
+            if (type === 'string') {
+              var cmp = String(va).localeCompare(String(vb));
+              return dir === 'asc' ? cmp : -cmp;
+            } else {
+              return dir === 'asc' ? va - vb : vb - va;
+            }
+          });
+
+          // Update sort arrow
+          var arrow = th.querySelector('.sort-arrow');
+          if (arrow) {
+            arrow.innerHTML = dir === 'asc' ? '&#9650;' : '&#9660;';
+          }
+
+          renderTable(rows);
+        };
+      })(headers[h]));
+    }
+
+    // Set initial sort indicator
+    headers[0].classList.add('sort-asc');
+  })();
+  </script>
+</body>
+</html>
