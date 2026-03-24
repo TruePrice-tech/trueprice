@@ -7278,6 +7278,8 @@ function buildComparisonWinnerHtml(summary) {
               const file = input.files?.[0];
               if (!file) return;
 
+              if (typeof tpTrack === "function") tpTrack("quote_uploaded", { type: file.type, size: Math.round(file.size/1024) + "kb" });
+
               // Validate file type
               const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'];
               if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|webp|gif)$/i)) {
@@ -8044,6 +8046,7 @@ function buildComparisonWinnerHtml(summary) {
 
       if (journeyState.step === "result") {
       console.log("renderApp entering RESULT branch");
+      if (typeof tpTrack === "function") { var _a = window.__latestAnalysis; tpTrack("analysis_completed", { verdict: _a?.verdict || "", price: String(_a?.quotePrice || ""), material: _a?.material || "", city: _a?.city || "" }); }
       root.innerHTML = renderResultStep();
       return;
     }
@@ -9025,6 +9028,7 @@ function buildComparisonWinnerHtml(summary) {
         benchmarkPerSqFt
       };
 
+      if (typeof tpTrack === "function") tpTrack("estimate_completed", { material: material, city: city, state: stateCode, mid: String(mid) });
       setTimeout(() => setJourneyStep("estimator_result"), 400);
     };
 

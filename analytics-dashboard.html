@@ -86,6 +86,17 @@
         </div>
       </div>
 
+      <div class="dash-grid-2">
+        <div class="dash-panel">
+          <h3>Event Summary</h3>
+          <table class="dash-table" id="eventsTable"></table>
+        </div>
+        <div class="dash-panel">
+          <h3>Recent Activity</h3>
+          <div id="recentEvents" style="max-height:300px; overflow-y:auto;"></div>
+        </div>
+      </div>
+
       <div style="text-align:center; margin-top:16px; font-size:13px; color:var(--text-muted);">
         Data resets on each Vercel deploy. Showing in-memory data only.
       </div>
@@ -129,7 +140,7 @@
         stat("Page Views", d.totalViews) +
         stat("Unique Visitors", d.uniqueVisitors) +
         stat("Direct Traffic", d.directTraffic) +
-        stat("Events Stored", d.totalStored);
+        stat("Events", d.totalEvents || 0);
 
       // Top pages
       var maxCount = d.topPages.length ? d.topPages[0].count : 1;
@@ -146,6 +157,24 @@
         (d.topReferrers.length ? d.topReferrers.map(function(r) {
           return "<tr><td>" + esc(r.source) + "</td><td>" + r.count + "</td></tr>";
         }).join("") : "<tr><td colspan=2 style='color:var(--text-muted)'>No external referrers yet</td></tr>");
+
+      // Events
+      document.getElementById("eventsTable").innerHTML =
+        "<tr><th>Event</th><th>Count</th></tr>" +
+        ((d.topEvents || []).length ? (d.topEvents || []).map(function(e) {
+          return "<tr><td>" + esc(e.event) + "</td><td>" + e.count + "</td></tr>";
+        }).join("") : "<tr><td colspan=2 style='color:var(--text-muted)'>No events yet</td></tr>");
+
+      var recentHtml = (d.recentEvents || []).map(function(e) {
+        var time = e.time.substring(11, 16);
+        var metaStr = Object.entries(e.meta || {}).map(function(kv) { return kv[0] + ": " + kv[1]; }).join(", ");
+        return "<div style='padding:6px 0; border-bottom:1px solid #f1f5f9; font-size:13px;'>" +
+          "<span style='color:var(--text-muted); margin-right:8px;'>" + time + "</span>" +
+          "<strong>" + esc(e.event) + "</strong>" +
+          (metaStr ? " <span style='color:var(--text-muted);'>(" + esc(metaStr) + ")</span>" : "") +
+          "</div>";
+      }).join("");
+      document.getElementById("recentEvents").innerHTML = recentHtml || "<div style='color:var(--text-muted); padding:12px 0;'>No events yet</div>";
 
       // Devices
       var total = d.totalViews || 1;
