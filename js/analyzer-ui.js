@@ -168,19 +168,29 @@
 
       const normalizedSource = String(source || "").toLowerCase();
       const normalizedConfidence = String(confidence || "").toLowerCase();
+      const rounded = Math.round(num / 50) * 50;
 
-      if (normalizedSource === "address_estimated") {
-        const rounded = Math.round(num / 50) * 50;
-
+      if (normalizedSource === "address_estimated" || normalizedSource === "osm_footprint") {
         if (normalizedConfidence === "high") {
-          return `${safeFormatNumber(rounded)} sq ft`;
+          return `${safeFormatNumber(rounded)} sq ft (from property data)`;
         }
-
-        return `about ${safeFormatNumber(rounded)} sq ft`;
+        return `~${safeFormatNumber(rounded)} sq ft (estimated from property)`;
       }
 
       if (normalizedSource === "living_area_fallback") {
-        return `about ${safeFormatNumber(Math.round(num))} sq ft`;
+        return `~${safeFormatNumber(Math.round(num))} sq ft (home size + 30%)`;
+      }
+
+      if (normalizedSource === "parsed_quote") {
+        return `${safeFormatNumber(Math.round(num))} sq ft (from quote)`;
+      }
+
+      if (normalizedSource === "user_input") {
+        return `${safeFormatNumber(Math.round(num))} sq ft`;
+      }
+
+      if (normalizedSource === "price_based_estimate") {
+        return `~${safeFormatNumber(Math.round(num))} sq ft (estimated from price)`;
       }
 
       if (normalizedSource === "price_based_estimate") {
