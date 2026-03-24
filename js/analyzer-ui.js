@@ -4388,6 +4388,107 @@ function buildComparisonWinnerHtml(summary) {
       }
 
       // ============================================================
+      // Community Data Flywheel
+      // ============================================================
+
+      function renderCommunityContribution(a) {
+        if (!a || !a.quotePrice) return "";
+
+        // Check if already contributed this analysis
+        const contributed = localStorage.getItem("tp_contributed_" + Math.round(a.quotePrice));
+        if (contributed) {
+          return `
+            <div style="padding:16px; background:var(--bg-subtle, #f8fafc); border:1px solid var(--border, #e2e8f0); border-radius:12px; margin-bottom:16px; text-align:center;">
+              <div style="font-size:13px; color:#166534;">&#10003; You contributed this quote to improve local pricing data. Thank you.</div>
+            </div>
+          `;
+        }
+
+        return `
+          <div id="communityContributeCard" style="padding:20px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; margin-bottom:16px;">
+            <div style="font-size:16px; font-weight:700; margin-bottom:6px;">Help improve pricing in your area</div>
+            <div style="font-size:14px; color:var(--text-secondary, #4b5563); margin-bottom:14px;">
+              Allow TruePrice to use your quote data anonymously to improve pricing accuracy for homeowners in your city. No personal information is shared &mdash; only price, material, and scope data.
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn" onclick="submitCommunityQuote()" style="font-size:14px; padding:10px 18px;">Yes, contribute my data</button>
+              <button class="btn secondary" onclick="dismissCommunityContribute()" style="font-size:14px; padding:10px 18px;">No thanks</button>
+            </div>
+          </div>
+        `;
+      }
+
+      window.submitCommunityQuote = function submitCommunityQuote() {
+        const a = window.__latestAnalysis;
+        if (!a || !a.quotePrice) return;
+
+        const parsed = latestParsed || {};
+        const signals = parsed.signals || {};
+        const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking","disposal","permit"];
+        const scopeConfirmed = scopeKeys.filter(function(k) {
+          return scopeReviewState[k] || (signals[k] && signals[k].status === "included");
+        }).length;
+
+        const payload = {
+          price: a.quotePrice,
+          material: a.material || "",
+          city: a.city || "",
+          stateCode: a.stateCode || "",
+          roofSize: a.roofSize || 0,
+          serviceType: "roofing",
+          scopeConfirmed: scopeConfirmed,
+          scopeTotal: scopeKeys.length,
+          verdict: a.verdict || ""
+        };
+
+        fetch("/api/community-quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }).then(function(res) {
+          if (res.ok) {
+            localStorage.setItem("tp_contributed_" + Math.round(a.quotePrice), "true");
+            var card = document.getElementById("communityContributeCard");
+            if (card) {
+              card.innerHTML = '<div style="text-align:center; padding:8px; color:#166534; font-weight:600;">&#10003; Thank you! Your data helps homeowners in ' + escapeHtml(a.city || "your area") + ' get better pricing benchmarks.</div>';
+              card.style.background = "#ecfdf5";
+              card.style.borderColor = "#a7f3d0";
+            }
+          }
+        }).catch(function() {});
+      };
+
+      window.dismissCommunityContribute = function dismissCommunityContribute() {
+        var card = document.getElementById("communityContributeCard");
+        if (card) card.style.display = "none";
+      };
+
+      function renderCommunityStats(a) {
+        if (!a || !a.city || !a.stateCode) return "";
+
+        // Show async — fetch community data and update DOM
+        setTimeout(function() {
+          fetch("/api/community-quote?city=" + encodeURIComponent(a.city) + "&state=" + encodeURIComponent(a.stateCode) + "&service=roofing")
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+              if (data.count >= 3) {
+                var el = document.getElementById("communityStatsDisplay");
+                if (el) {
+                  el.innerHTML = '<div style="padding:12px 16px; background:var(--bg-subtle, #f8fafc); border:1px solid var(--border, #e2e8f0); border-radius:8px; font-size:13px; color:var(--text-secondary, #4b5563);">' +
+                    'Based on <strong>' + data.count + ' quotes analyzed</strong> in ' + escapeHtml(a.city) + ', ' + escapeHtml(a.stateCode) + ': ' +
+                    'typical range ' + safeFormatCurrency(data.low) + ' &ndash; ' + safeFormatCurrency(data.high) +
+                    (data.avgScope ? ' &bull; avg scope: ' + data.avgScope + '/12 items' : '') +
+                    '</div>';
+                }
+              }
+            })
+            .catch(function() {});
+        }, 500);
+
+        return '<div id="communityStatsDisplay"></div>';
+      }
+
+      // ============================================================
       // End 1% UX modules
       // ============================================================
 
@@ -8490,6 +8591,8 @@ function buildComparisonWinnerHtml(summary) {
             ${renderVerdictCard(a)}
             ${renderBeforeYouSign(a)}
             ${renderMarketContext(a)}
+            ${renderCommunityStats(a)}
+            ${renderCommunityContribution(a)}
             ${renderShareModule(a)}
             <div style="text-align:center; margin-top:20px;">
               <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
