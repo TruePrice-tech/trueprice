@@ -1,0 +1,65 @@
+{
+  "basePricePerLinearFoot": {
+    "wood_privacy": {
+      "label": "Wood Privacy (6ft)",
+      "low": 25,
+      "high": 50,
+      "mid": 37.50
+    },
+    "vinyl_privacy": {
+      "label": "Vinyl Privacy",
+      "low": 30,
+      "high": 60,
+      "mid": 45.00
+    },
+    "chain_link": {
+      "label": "Chain Link (4ft)",
+      "low": 15,
+      "high": 25,
+      "mid": 20.00
+    },
+    "aluminum": {
+      "label": "Aluminum (4ft)",
+      "low": 30,
+      "high": 55,
+      "mid": 42.50
+    },
+    "wrought_iron": {
+      "label": "Wrought Iron",
+      "low": 40,
+      "high": 75,
+      "mid": 57.50
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 50,
+  "yardSizes": [
+    { "label": "100", "linearFeet": 100 },
+    { "label": "150", "linearFeet": 150 },
+    { "label": "200", "linearFeet": 200 },
+    { "label": "250", "linearFeet": 250 },
+    { "label": "300", "linearFeet": 300 }
+  ],
+  "scopeItems": [
+    { "key": "postHoles", "label": "Post holes", "weight": 10 },
+    { "key": "concreteFootings", "label": "Concrete footings", "weight": 10 },
+    { "key": "posts", "label": "Posts", "weight": 12 },
+    { "key": "rails", "label": "Rails", "weight": 8 },
+    { "key": "picketsPanels", "label": "Pickets/panels", "weight": 14 },
+    { "key": "gate", "label": "Gate", "weight": 8 },
+    { "key": "hardware", "label": "Hardware", "weight": 4 },
+    { "key": "removalOldFence", "label": "Removal of old fence", "weight": 6 },
+    { "key": "permits", "label": "Permits", "weight": 4 },
+    { "key": "grading", "label": "Grading", "weight": 6 },
+    { "key": "stainingSealing", "label": "Staining/sealing", "weight": 8 },
+    { "key": "warranty", "label": "Warranty", "weight": 6 }
+  ]
+}

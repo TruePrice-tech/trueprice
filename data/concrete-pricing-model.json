@@ -1,0 +1,66 @@
+{
+  "basePricePerSqft": {
+    "standard_driveway": {
+      "label": "Standard Driveway (Plain Concrete)",
+      "low": 8,
+      "high": 15,
+      "mid": 11.50
+    },
+    "stamped_concrete": {
+      "label": "Stamped Concrete",
+      "low": 12,
+      "high": 20,
+      "mid": 16.00
+    },
+    "concrete_patio": {
+      "label": "Concrete Patio",
+      "low": 8,
+      "high": 16,
+      "mid": 12.00
+    },
+    "sidewalk": {
+      "label": "Sidewalk",
+      "low": 8,
+      "high": 14,
+      "mid": 11.00
+    },
+    "asphalt_driveway": {
+      "label": "Asphalt Driveway",
+      "low": 5,
+      "high": 10,
+      "mid": 7.50
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 50,
+  "projectSizes": [
+    { "label": "200", "sqft": 200 },
+    { "label": "400", "sqft": 400 },
+    { "label": "600", "sqft": 600 },
+    { "label": "800", "sqft": 800 },
+    { "label": "1,000", "sqft": 1000 }
+  ],
+  "scopeItems": [
+    { "key": "demolition", "label": "Demolition/removal", "weight": 8 },
+    { "key": "grading", "label": "Grading", "weight": 8 },
+    { "key": "basePrep", "label": "Base preparation", "weight": 10 },
+    { "key": "forms", "label": "Forms", "weight": 8 },
+    { "key": "rebarMesh", "label": "Rebar/mesh", "weight": 10 },
+    { "key": "concretePour", "label": "Concrete pour", "weight": 16 },
+    { "key": "finishing", "label": "Finishing", "weight": 10 },
+    { "key": "sealing", "label": "Sealing", "weight": 6 },
+    { "key": "expansionJoints", "label": "Expansion joints", "weight": 6 },
+    { "key": "permits", "label": "Permits", "weight": 4 },
+    { "key": "cleanup", "label": "Cleanup", "weight": 4 },
+    { "key": "warranty", "label": "Warranty", "weight": 6 },
+    { "key": "cureTime", "label": "Cure time", "weight": 4 }
+  ]
+}

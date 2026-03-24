@@ -1,0 +1,60 @@
+{
+  "basePriceByType": {
+    "single_car": {
+      "label": "Single Car (8x7)",
+      "basePrice": 1150
+    },
+    "double_car": {
+      "label": "Double Car (16x7)",
+      "basePrice": 1850
+    },
+    "custom_carriage": {
+      "label": "Custom/Carriage",
+      "basePrice": 3500
+    },
+    "opener_only": {
+      "label": "Opener Only",
+      "basePrice": 450
+    },
+    "spring_replacement": {
+      "label": "Spring Replacement",
+      "basePrice": 300
+    }
+  },
+  "materialUpgrades": {
+    "steel_basic": { "label": "Basic Steel (non-insulated)", "multiplier": 1.0 },
+    "steel_insulated": { "label": "Insulated Steel", "multiplier": 1.15 },
+    "wood": { "label": "Wood", "multiplier": 1.45 },
+    "aluminum": { "label": "Aluminum", "multiplier": 1.20 },
+    "fiberglass": { "label": "Fiberglass", "multiplier": 1.30 },
+    "composite": { "label": "Composite/Faux Wood", "multiplier": 1.55 }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 25,
+  "scopeItems": [
+    { "key": "oldDoorRemoval", "label": "Old door removal and disposal", "weight": 8 },
+    { "key": "tracks", "label": "Tracks and hardware", "weight": 12 },
+    { "key": "springs", "label": "Torsion/extension springs", "weight": 10 },
+    { "key": "opener", "label": "Garage door opener", "weight": 15 },
+    { "key": "remotes", "label": "Remotes and wall button", "weight": 4 },
+    { "key": "weatherstripping", "label": "Weatherstripping and seals", "weight": 6 },
+    { "key": "insulation", "label": "Insulation", "weight": 8 },
+    { "key": "safetySensors", "label": "Safety sensors and auto-reverse", "weight": 6 },
+    { "key": "keypad", "label": "Wireless keypad", "weight": 4 },
+    { "key": "warranty", "label": "Warranty (parts + labor)", "weight": 10 },
+    { "key": "permits", "label": "Permits and inspections", "weight": 5 }
+  ],
+  "brands": {
+    "premium": ["Clopay", "Amarr", "Wayne Dalton"],
+    "mid": ["Raynor", "CHI Overhead", "Haas"],
+    "value": ["Ideal", "Northwest", "Holmes"]
+  }
+}

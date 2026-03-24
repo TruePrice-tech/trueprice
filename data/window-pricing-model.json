@@ -1,0 +1,64 @@
+{
+  "basePriceByType": {
+    "vinyl": {
+      "label": "Vinyl Windows",
+      "lowPerUnit": 400,
+      "highPerUnit": 800
+    },
+    "wood": {
+      "label": "Wood Windows",
+      "lowPerUnit": 800,
+      "highPerUnit": 1200
+    },
+    "fiberglass": {
+      "label": "Fiberglass Windows",
+      "lowPerUnit": 700,
+      "highPerUnit": 1100
+    },
+    "entry_door": {
+      "label": "Entry Door",
+      "lowPerUnit": 1500,
+      "highPerUnit": 4000
+    },
+    "sliding_glass_door": {
+      "label": "Sliding Glass Door",
+      "lowPerUnit": 1200,
+      "highPerUnit": 3500
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 50,
+  "homeSizes": [
+    { "label": "10 windows", "windows": 10 },
+    { "label": "15 windows", "windows": 15 },
+    { "label": "20 windows", "windows": 20 },
+    { "label": "25 windows", "windows": 25 }
+  ],
+  "scopeItems": [
+    { "key": "removal", "label": "Old window removal", "weight": 8 },
+    { "key": "installation", "label": "Window installation", "weight": 18 },
+    { "key": "flashing", "label": "Flashing", "weight": 8 },
+    { "key": "caulking", "label": "Caulking and sealant", "weight": 6 },
+    { "key": "interiorTrim", "label": "Interior trim", "weight": 10 },
+    { "key": "exteriorTrim", "label": "Exterior trim", "weight": 10 },
+    { "key": "screen", "label": "Screens", "weight": 4 },
+    { "key": "hardware", "label": "Hardware (locks/handles)", "weight": 4 },
+    { "key": "disposal", "label": "Disposal and cleanup", "weight": 6 },
+    { "key": "warranty", "label": "Warranty (product + labor)", "weight": 10 },
+    { "key": "foamInsulation", "label": "Foam insulation around frame", "weight": 8 },
+    { "key": "lowEGlass", "label": "Low-E glass coating", "weight": 8 }
+  ],
+  "brands": {
+    "premium": ["Andersen", "Marvin", "Pella"],
+    "mid": ["Milgard", "Jeld-Wen", "Simonton", "Harvey"],
+    "value": ["Ply Gem", "Alside", "Window World", "Sunrise"]
+  }
+}
