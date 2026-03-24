@@ -8581,7 +8581,12 @@ function buildComparisonWinnerHtml(summary) {
             ${renderCommunityStats(a)}
             ${renderCommunityContribution(a)}
             ${renderShareModule(a)}
-            <div style="text-align:center; margin-top:20px;">
+            <div style="text-align:center; margin:20px 0 10px;">
+              <a class="btn-outline" href="/find-contractors.html${a.stateCode ? '?state=' + encodeURIComponent(a.stateCode) + '&service=roof' : ''}" style="text-decoration:none;">
+                Find contractors${a.city ? ' in ' + escapeHtml(a.city) : ''}
+              </a>
+            </div>
+            <div style="text-align:center; margin-top:10px;">
               <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
             </div>
           </div>
@@ -9053,6 +9058,9 @@ function buildComparisonWinnerHtml(summary) {
             <button class="btn" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px;" onclick="startQuoteUploadFromEstimator()">
               Upload a quote to compare
             </button>
+            <a class="btn-outline" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px; text-align:center; text-decoration:none;" href="/find-contractors.html${r.stateCode ? '?state=' + encodeURIComponent(r.stateCode) + '&service=roof' : ''}">
+              Find contractors${r.city ? ' in ' + escapeHtml(r.city) : ''}
+            </a>
           </div>
 
           <div style="text-align:center; margin-top:10px;">
