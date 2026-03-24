@@ -72,12 +72,19 @@
     .hp-step p { font-size: 14px; color: var(--text-secondary); margin: 0; }
     .hp-step .hp-step-example { margin-top: 10px; padding: 10px; background: var(--bg-subtle); border-radius: 6px; font-size: 13px; color: var(--text-muted); }
 
+    .hp-why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+    .hp-why-card { padding: 24px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); }
+    .hp-why-card h3 { font-size: 16px; margin: 8px 0 6px; }
+    .hp-why-card p { font-size: 14px; color: var(--text-secondary); margin: 0; line-height: 1.6; }
+    .hp-why-icon { font-size: 24px; }
+
     @media (max-width: 700px) {
       .hp-hero { padding: 40px 0 36px; }
       .hp-hero h1 { font-size: 32px; }
       .hp-section h2 { font-size: 24px; }
       .hp-demo-card { padding: 20px; }
       .hp-proof { gap: 20px; }
+      .hp-why-grid { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -218,6 +225,33 @@
         <a href="/garage-door-cost.html">Garage Doors</a>
         <a href="/foundation-repair-cost.html">Foundation</a>
         <a href="/kitchen-remodel-cost.html">Kitchen</a>
+      </div>
+    </section>
+
+    <!-- WHY TRUEPRICE: Value prop cards -->
+    <section class="hp-section">
+      <h2>Why homeowners use TruePrice</h2>
+      <div class="hp-why-grid">
+        <div class="hp-why-card">
+          <div class="hp-why-icon">&#128269;</div>
+          <h3>Spot hidden costs</h3>
+          <p>Our AI scans for missing scope items that other tools ignore &mdash; flashing, ventilation, disposal, permits. These are the line items that turn into surprise change orders.</p>
+        </div>
+        <div class="hp-why-card">
+          <div class="hp-why-icon">&#128200;</div>
+          <h3>Regional pricing, not guesswork</h3>
+          <p>Costs vary wildly by region. A roof in Charlotte costs 15% less than the same roof in Boston. TruePrice adjusts for your area automatically.</p>
+        </div>
+        <div class="hp-why-card">
+          <div class="hp-why-icon">&#128274;</div>
+          <h3>Private by default</h3>
+          <p>No account. No email. No phone number. Your quote never leaves your browser unless you choose to share it. We don't sell leads.</p>
+        </div>
+        <div class="hp-why-card">
+          <div class="hp-why-icon">&#9889;</div>
+          <h3>30-second verdict</h3>
+          <p>Upload a PDF or photo. AI reads it, extracts the price, checks the scope, and compares against local benchmarks. Done before your coffee gets cold.</p>
+        </div>
       </div>
     </section>
 

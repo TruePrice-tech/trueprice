@@ -8608,74 +8608,86 @@ function buildComparisonWinnerHtml(summary) {
             ${addr ? `<div style="font-size:13px; color:var(--muted); margin-bottom:16px; padding:8px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">${escapeHtml(addr)}</div>` : ""}
 
             <h1 style="margin:0 0 6px; font-size:32px; line-height:1.08; letter-spacing:-0.03em; color:#0f172a;">
-              Estimate your roof cost
+              What would your roof actually cost?
             </h1>
             <p class="muted" style="margin:0 0 28px; font-size:15px;">
-              Answer a few questions and we'll estimate your replacement cost using local pricing data.
+              We'll build a custom estimate using satellite data, regional labor rates, and your specific situation. Takes 30 seconds.
             </p>
+
+            <!-- What's happening -->
+            <div class="est-section">
+              <div class="est-section-label">What's going on with your roof?</div>
+              <div class="est-options" id="estWorkType">
+                ${makeOptionCard("workType", "replacement", "Time for a new one", "Aging, worn, or damaged beyond repair")}
+                ${makeOptionCard("workType", "repair", "Just needs a fix", "Leak, missing shingles, or storm damage")}
+                ${makeOptionCard("workType", "proactive", "Getting ahead of it", "No problems yet, planning ahead")}
+              </div>
+            </div>
+
+            <!-- How urgent -->
+            <div class="est-section">
+              <div class="est-section-label">How soon do you need this done?</div>
+              <div class="est-options est-options-wrap" id="estSeason">
+                ${makeOptionCard("season", "asap", "ASAP", "Active leak or damage")}
+                ${makeOptionCard("season", "summer", "This summer", "Peak season (+2%)")}
+                ${makeOptionCard("season", "fall", "This fall", "Best availability")}
+                ${makeOptionCard("season", "winter", "This winter", "Off-season savings")}
+                ${makeOptionCard("season", "spring", "Next spring", "Planning ahead")}
+                ${makeOptionCard("season", "unsure", "Just exploring", "No timeline yet")}
+              </div>
+            </div>
 
             <!-- Property type -->
             <div class="est-section">
-              <div class="est-section-label">Property type</div>
+              <div class="est-section-label">Describe your home</div>
               <div class="est-options" id="estPropertyType">
-                ${makeOptionCard("propertyType", "single", "Single story", "")}
-                ${makeOptionCard("propertyType", "two_story", "Two story", "")}
-                ${makeOptionCard("propertyType", "townhome", "Townhome / Condo", "")}
+                ${makeOptionCard("propertyType", "single", "Single story", "Ranch, bungalow")}
+                ${makeOptionCard("propertyType", "two_story", "Two story", "Colonial, traditional")}
+                ${makeOptionCard("propertyType", "townhome", "Townhome / Condo", "Shared walls")}
               </div>
             </div>
 
-            <!-- Material -->
+            <!-- Material — framed as preference, not knowledge -->
             <div class="est-section">
-              <div class="est-section-label">Roofing material</div>
+              <div class="est-section-label">What look do you want?</div>
               <div class="est-options est-options-wrap" id="estMaterial">
-                ${makeOptionCard("material", "asphalt", "Asphalt", "$5-7/sqft")}
-                ${makeOptionCard("material", "architectural", "Architectural", "$6-9/sqft")}
-                ${makeOptionCard("material", "metal", "Metal", "$9-14/sqft")}
-                ${makeOptionCard("material", "tile", "Tile", "$12-18/sqft")}
-                ${makeOptionCard("material", "cedar", "Cedar shake", "$8-12/sqft")}
-                ${makeOptionCard("material", "flat", "Flat / TPO", "$5-8/sqft")}
+                ${makeOptionCard("material", "architectural", "Dimensional shingles", "Most popular, 30yr life")}
+                ${makeOptionCard("material", "asphalt", "3-tab shingles", "Budget-friendly, 20yr")}
+                ${makeOptionCard("material", "metal", "Standing seam metal", "Premium, 50yr+")}
+                ${makeOptionCard("material", "tile", "Tile or slate", "Luxury, 75yr+")}
+                ${makeOptionCard("material", "cedar", "Cedar shake", "Natural look, 30yr")}
+                ${makeOptionCard("material", "flat", "Flat / membrane", "Low-slope roofs")}
               </div>
             </div>
 
-            <!-- Work type -->
+            <!-- Roof shape — visual, not jargon -->
             <div class="est-section">
-              <div class="est-section-label">What do you need?</div>
-              <div class="est-options" id="estWorkType">
-                ${makeOptionCard("workType", "replacement", "Full replacement", "")}
-                ${makeOptionCard("workType", "repair", "Repair only", "")}
-              </div>
-            </div>
-
-            <!-- Steepness -->
-            <div class="est-section">
-              <div class="est-section-label">Roof steepness</div>
+              <div class="est-section-label">Can you see the roof from the street?</div>
               <div class="est-options" id="estSteepness">
-                ${makeOptionCard("steepness", "flat", "Flat", "")}
-                ${makeOptionCard("steepness", "normal", "Normal", "")}
-                ${makeOptionCard("steepness", "steep", "Steep", "")}
-                ${makeOptionCard("steepness", "very_steep", "Very steep", "")}
+                ${makeOptionCard("steepness", "flat", "Barely visible", "Flat or very low pitch")}
+                ${makeOptionCard("steepness", "normal", "Visible at an angle", "Standard pitch")}
+                ${makeOptionCard("steepness", "steep", "Dominant feature", "Steep, hard to walk on")}
+                ${makeOptionCard("steepness", "very_steep", "Very steep", "Like a storybook house")}
               </div>
             </div>
 
-            <!-- Complexity -->
+            <!-- Complexity — relatable descriptions -->
             <div class="est-section">
-              <div class="est-section-label">Roof complexity</div>
+              <div class="est-section-label">How would you describe the shape?</div>
               <div class="est-options" id="estComplexity">
-                ${makeOptionCard("complexity", "normal", "Normal", "Simple shape")}
-                ${makeOptionCard("complexity", "complex", "Complex", "Dormers, valleys")}
-                ${makeOptionCard("complexity", "very_complex", "Very complex", "Many cuts, angles")}
+                ${makeOptionCard("complexity", "normal", "Simple", "One or two flat planes")}
+                ${makeOptionCard("complexity", "complex", "Some detail", "Dormers, a valley, or hip roof")}
+                ${makeOptionCard("complexity", "very_complex", "Lots going on", "Multiple angles, skylights, chimneys")}
               </div>
             </div>
 
-            <!-- Season -->
+            <!-- Insurance — unique question -->
             <div class="est-section">
-              <div class="est-section-label">When do you plan to start?</div>
-              <div class="est-options est-options-wrap" id="estSeason">
-                ${makeOptionCard("season", "spring", "Spring", "Mar-May")}
-                ${makeOptionCard("season", "summer", "Summer", "Jun-Aug")}
-                ${makeOptionCard("season", "fall", "Fall", "Sep-Nov")}
-                ${makeOptionCard("season", "winter", "Winter", "Dec-Feb")}
-                ${makeOptionCard("season", "unsure", "Not sure", "")}
+              <div class="est-section-label">Is this an insurance claim?</div>
+              <div class="est-options" id="estInsurance">
+                ${makeOptionCard("insurance", "no", "No", "Paying out of pocket")}
+                ${makeOptionCard("insurance", "yes", "Yes", "Storm or damage claim")}
+                ${makeOptionCard("insurance", "maybe", "Not sure yet", "Adjuster hasn't been out")}
               </div>
             </div>
 
@@ -8691,12 +8703,12 @@ function buildComparisonWinnerHtml(summary) {
             <div id="estError" style="display:none; margin-top:16px; padding:10px 14px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; font-size:14px; color:#b91c1c;"></div>
 
             <button class="btn" id="estSubmitBtn" style="margin-top:24px; font-size:16px; padding:14px 28px; width:100%;">
-              Get my estimate
+              Build my estimate
             </button>
 
             <div style="text-align:center; margin-top:14px;">
-              <span class="small muted">Have a quote? </span>
-              <a href="#" onclick="setJourneyStep('address'); return false;" class="small" style="color:var(--brand);">Upload it instead</a>
+              <span class="small muted">Already have a quote? </span>
+              <a href="#" onclick="setJourneyStep('address'); return false;" class="small" style="color:var(--brand);">Upload it for a detailed analysis</a>
             </div>
           </div>
         </div>
@@ -8728,7 +8740,7 @@ function buildComparisonWinnerHtml(summary) {
 
     window.generateNoQuoteEstimate = async function generateNoQuoteEstimate() {
       const answers = journeyState.estimatorAnswers || {};
-      const required = ["propertyType", "material", "workType", "steepness", "complexity", "season"];
+      const required = ["propertyType", "material", "workType", "steepness", "complexity", "season", "insurance"];
       const missing = required.filter(k => !answers[k]);
 
       if (missing.length > 0) {
@@ -8778,8 +8790,8 @@ function buildComparisonWinnerHtml(summary) {
       const storyMultipliers = { single: 1.0, two_story: 0.55, townhome: 0.45 };
       const pitchFactors = { flat: 1.0, normal: 1.12, steep: 1.25, very_steep: 1.40 };
       const complexityFactors = { normal: 1.0, complex: 1.15, very_complex: 1.30 };
-      const tearOffFactors = { replacement: 1.0, repair: 0.35 };
-      const seasonFactors = { spring: 1.0, summer: 1.02, fall: 1.0, winter: 0.97, unsure: 1.0 };
+      const tearOffFactors = { replacement: 1.0, repair: 0.35, proactive: 1.0 };
+      const seasonFactors = { asap: 1.04, spring: 1.0, summer: 1.02, fall: 1.0, winter: 0.97, unsure: 1.0 };
 
       const storyMult = storyMultipliers[answers.propertyType] || 1.0;
       const pitchFact = pitchFactors[answers.steepness] || 1.12;
@@ -8899,6 +8911,7 @@ function buildComparisonWinnerHtml(summary) {
         steepness: answers.steepness,
         complexity: answers.complexity,
         season: answers.season,
+        insurance: answers.insurance,
         isOwner: answers.ownership === "yes",
         pitchFactor: pitchFact,
         complexityFactor: complexFact,
@@ -8929,7 +8942,9 @@ function buildComparisonWinnerHtml(summary) {
         : r.footprintSource === "user_home_size" ? "#16a34a" : "#dc2626";
 
       const regionLabel = (r.region || "").charAt(0).toUpperCase() + (r.region || "").slice(1);
-      const seasonNote = r.season === "summer" ? " (includes 2% peak-season surcharge)" : "";
+      const seasonNote = r.season === "summer" ? " (includes 2% peak-season surcharge)"
+        : r.season === "asap" ? " (includes 4% urgency premium)"
+        : r.season === "winter" ? " (includes 3% off-season discount)" : "";
 
       const workLabel = r.workType === "repair" ? "Roof Repair" : "Roof Replacement";
 
@@ -8993,6 +9008,17 @@ function buildComparisonWinnerHtml(summary) {
               `}
             </div>
           </div>
+
+          ${r.insurance === "yes" || r.insurance === "maybe" ? `
+          <!-- Insurance tip -->
+          <div style="padding:20px 24px; background:#fffbeb; border:1px solid #fde68a; border-radius:18px; margin-bottom:20px;">
+            <div style="font-size:15px; font-weight:700; color:#92400e; margin-bottom:6px;">Insurance claim tip</div>
+            <p style="font-size:14px; color:#78350f; margin:0; line-height:1.6;">
+              ${r.insurance === "yes"
+                ? "Get your own estimate before the adjuster visits. Insurance payouts are often based on their estimate, not yours. Having a contractor quote gives you leverage if the initial payout is low."
+                : "If you suspect storm damage, document everything with photos before calling your insurer. Most policies have a 1-year filing window. A contractor inspection (usually free) can confirm whether the damage is claimable."}
+            </p>
+          </div>` : ""}
 
           <!-- Next steps -->
           <div style="padding:24px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:18px; margin-bottom:20px;">
