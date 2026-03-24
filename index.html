@@ -39,12 +39,6 @@
     .hp-proof strong { color: #fff; font-size: 20px; display: block; margin-bottom: 2px; }
 
     .hp-demo { padding: 56px 0; background: var(--bg-subtle); border-bottom: 1px solid var(--border); }
-    .hp-demo-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-    .hp-demo-text h2 { font-size: 28px; margin: 0 0 12px; }
-    .hp-demo-text p { font-size: 16px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 20px; }
-    .hp-demo-analyzers { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-    .hp-demo-analyzers a { padding: 8px 16px; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--brand); text-decoration: none; transition: border-color .15s, background .15s; }
-    .hp-demo-analyzers a:hover { border-color: var(--brand); background: var(--brand-light); }
     .hp-demo-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--shadow-lg); }
     .hp-demo-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 12px; }
     .hp-demo-verdict { font-size: 24px; font-weight: 800; margin-bottom: 8px; color: #166534; }
@@ -91,7 +85,6 @@
       .hp-hero { padding: 40px 0 36px; }
       .hp-hero h1 { font-size: 32px; }
       .hp-section h2 { font-size: 24px; }
-      .hp-demo-layout { grid-template-columns: 1fr; gap: 24px; }
       .hp-demo-card { padding: 20px; }
       .hp-proof { gap: 20px; }
       .hp-why-grid { grid-template-columns: 1fr; }
@@ -134,7 +127,7 @@
     <div class="container" style="padding-top:32px;">
       <h1>Stop overpaying for home projects</h1>
       <p class="hp-sub">
-        Upload any contractor quote &mdash; roofing, HVAC, plumbing, or 12 more services &mdash; and see if the price is fair in 30 seconds.
+        Upload any contractor quote and see if the price is fair in 30 seconds. Works for roofing, HVAC, plumbing, and 12 more services.
       </p>
       <div class="hp-cta-row">
         <a class="btn" href="/roofing-quote-analyzer.html">Analyze your quote</a>
@@ -148,48 +141,40 @@
     </div>
   </section>
 
-  <!-- DEMO: Visual proof + analyzer links -->
+  <!-- DEMO: Visual proof of what the product does -->
   <section class="hp-demo">
     <div class="container">
-      <div class="hp-demo-layout">
-        <div class="hp-demo-text">
-          <h2>See exactly what you're paying for</h2>
-          <p>Upload a contractor quote and TruePrice breaks it down: price vs local benchmarks, scope completeness, and items to verify before signing.</p>
-          <p style="font-size:14px; color:var(--text-muted); margin:0 0 16px;">Works for roofing, HVAC, plumbing, and 12 more services.</p>
-          <div class="hp-demo-analyzers">
-            <a href="/roofing-quote-analyzer.html">Roofing</a>
-            <a href="/hvac-quote-analyzer.html">HVAC</a>
-            <a href="/plumbing-quote-analyzer.html">Plumbing</a>
+      <div class="hp-demo-card" style="max-width:860px; margin:0 auto; padding:36px;">
+        <div class="hp-demo-eyebrow">Example Analysis Result</div>
+        <div class="hp-demo-verdict" style="font-size:28px;">This quote looks fair</div>
+        <div class="hp-demo-delta" style="font-size:16px;">$14,500 quote is within expected range for a 2,200 sq ft architectural roof in Dallas, TX</div>
+        <div class="hp-demo-stats" style="gap:32px;">
+          <div class="hp-demo-stat">
+            <span class="hp-demo-stat-label">Your quote</span>
+            <span class="hp-demo-stat-value" style="color:var(--brand); font-size:22px;">$14,500</span>
+          </div>
+          <div class="hp-demo-stat">
+            <span class="hp-demo-stat-label">Expected range</span>
+            <span class="hp-demo-stat-value" style="font-size:22px;">$12,800 &ndash; $16,100</span>
+          </div>
+          <div class="hp-demo-stat">
+            <span class="hp-demo-stat-label">Scope</span>
+            <span class="hp-demo-stat-value" style="color:#166534; font-size:22px;">10/12 confirmed</span>
           </div>
         </div>
-        <div class="hp-demo-card">
-          <div class="hp-demo-eyebrow">Example Analysis</div>
-          <div class="hp-demo-verdict">This quote looks fair</div>
-          <div class="hp-demo-delta">$14,500 is within range for a 2,200 sq ft architectural roof in Dallas, TX</div>
-          <div class="hp-demo-stats">
-            <div class="hp-demo-stat">
-              <span class="hp-demo-stat-label">Your quote</span>
-              <span class="hp-demo-stat-value" style="color:var(--brand);">$14,500</span>
-            </div>
-            <div class="hp-demo-stat">
-              <span class="hp-demo-stat-label">Expected</span>
-              <span class="hp-demo-stat-value">$12,800 &ndash; $16,100</span>
-            </div>
-            <div class="hp-demo-stat">
-              <span class="hp-demo-stat-label">Scope</span>
-              <span class="hp-demo-stat-value" style="color:#166534;">10/12</span>
-            </div>
-          </div>
-          <div class="hp-demo-scope">
-            <span class="hp-demo-pill hp-demo-pill--green">&#10003; Tear off</span>
-            <span class="hp-demo-pill hp-demo-pill--green">&#10003; Underlayment</span>
-            <span class="hp-demo-pill hp-demo-pill--green">&#10003; Flashing</span>
-            <span class="hp-demo-pill hp-demo-pill--green">&#10003; Ventilation</span>
-            <span class="hp-demo-pill hp-demo-pill--green">&#10003; Disposal</span>
-            <span class="hp-demo-pill hp-demo-pill--green">&#10003; Permit</span>
-            <span class="hp-demo-pill hp-demo-pill--amber">? Starter strip</span>
-            <span class="hp-demo-pill hp-demo-pill--amber">? Ridge cap</span>
-          </div>
+        <div class="hp-demo-scope">
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Tear off</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Underlayment</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Flashing</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Ice barrier</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Drip edge</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Ventilation</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Ridge vent</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Disposal</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Permit</span>
+          <span class="hp-demo-pill hp-demo-pill--green">&#10003; Decking</span>
+          <span class="hp-demo-pill hp-demo-pill--amber">? Starter strip</span>
+          <span class="hp-demo-pill hp-demo-pill--amber">? Ridge cap</span>
         </div>
       </div>
     </div>
