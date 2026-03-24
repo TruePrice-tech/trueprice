@@ -2,6 +2,9 @@
   "functions": {
     "api/parse-quote.js": {
       "maxDuration": 30
+    },
+    "api/geocode-suggest.js": {
+      "maxDuration": 10
     }
   },
   "headers": [
