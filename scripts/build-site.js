@@ -367,6 +367,7 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{STATE_PAGE_FILENAME}}", buildStatePageFilename(cityPricing.state));
   template = template.replaceAll("{{CITY_STATE}}", cityState);
   template = template.replaceAll("{{SLUG}}", filename);
+  template = template.replaceAll("{{SLUG_LC}}", `${slugifyCity(cityPricing.city)}-${cityPricing.state_code.toLowerCase()}`);
   template = template.replaceAll("{{CANONICAL_URL}}", canonicalUrl);
   template = template.replaceAll("{{AVG_LOW}}", citySummary.low);
   template = template.replaceAll("{{AVG_HIGH}}", citySummary.high);
