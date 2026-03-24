@@ -32,7 +32,8 @@
       propertyConfirmed: false,
       propertyLookupAttempted: false,
       propertyLookupFailed: false,
-      propertyLookupMessage: ""
+      propertyLookupMessage: "",
+      estimatorAnswers: null
     };
     let latestParsed = null;
     let latestSmartQuote = null;
@@ -7973,6 +7974,17 @@ function buildComparisonWinnerHtml(summary) {
         return;
       }
 
+      if (journeyState.step === "estimator") {
+        root.innerHTML = renderEstimatorStep();
+        bindEstimatorEvents();
+        return;
+      }
+
+      if (journeyState.step === "estimator_result") {
+        root.innerHTML = renderEstimatorResultStep();
+        return;
+      }
+
       if (journeyState.step === "analyze") {
         root.innerHTML = renderAnalyzeStep();
 
@@ -8388,7 +8400,7 @@ function buildComparisonWinnerHtml(summary) {
       console.log("journeyState.step is now:", journeyState.step);
       renderApp();
       console.log("renderApp finished");
-      if (step === "result") {
+      if (step === "result" || step === "estimator_result") {
         setTimeout(function() { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 50);
       }
     };
@@ -8457,54 +8469,11 @@ function buildComparisonWinnerHtml(summary) {
       const root = document.getElementById("appRoot");
       if (!root) return;
 
-      // If no quote was uploaded (address-only flow), show upload prompt instead of analyzing
+      // If no quote was uploaded (address-only flow), redirect to guided estimator
       const hasQuoteData = latestParsed && (latestParsed.price || latestParsed.finalBestPrice || latestParsed.totalLinePrice);
       if (!hasQuoteData) {
-        const preview = journeyState.propertyPreview || {};
-        const addr = [preview.street, preview.city, preview.state, preview.zip].filter(Boolean).join(", ");
-        root.innerHTML = `
-          <div style="max-width:720px; margin:60px auto; padding:0 24px;">
-            <div style="padding:28px; background:#fff; border:1px solid #e2e8f0; border-radius:18px; box-shadow:0 4px 16px rgba(15,23,42,0.06); text-align:center;">
-              ${addr ? `<div style="font-size:13px; color:var(--muted); margin-bottom:12px; padding:8px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">${repairDisplayText(escapeHtml(addr))}</div>` : ""}
-              <h2 style="margin:12px 0 8px; font-size:28px; letter-spacing:-0.02em;">Now upload your quote</h2>
-              <p style="color:var(--muted); margin:0 0 20px;">We saved your address. Upload your contractor's estimate and we'll compare it against local pricing.</p>
-              <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
-              <button type="button" class="btn" id="uploadQuoteBtn" style="font-size:16px; padding:14px 28px;" onclick="document.getElementById('quoteFile').click()">Upload quote</button>
-              <div style="margin-top:14px; font-size:13px; color:var(--muted);">PDF, screenshot, or phone photo</div>
-            </div>
-          </div>
-        `;
-        // Bind file input change
-        const input = document.getElementById("quoteFile");
-        if (input) {
-          input.addEventListener("change", async function() {
-            const file = input.files?.[0];
-            if (!file) return;
-
-            // Validate file type
-            const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-            if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|webp|gif)$/i)) {
-              alert('Please upload a PDF or image file (JPG, PNG, or PDF).');
-              return;
-            }
-            // Validate file size (max 20MB)
-            if (file.size > 20 * 1024 * 1024) {
-              alert('File is too large. Please upload a file under 20MB.');
-              return;
-            }
-
-            if (typeof loadVendorLibs === "function") await loadVendorLibs();
-            root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;"><div class="progress-phase">Reading your quote...</div><div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;"><div style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div></div></div>';
-            try {
-              const parsedBundle = await parseUploadedComparisonFile(file);
-              latestParsed = parsedBundle?.parsed || parsedBundle || {};
-              // Now run the full analysis with address + parsed quote
-              confirmProperty();
-            } catch (err) {
-              root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:24px;"><p>Could not read the quote. Please try again.</p><button class="btn secondary" onclick="setJourneyStep(\'address\')">Back</button></div>';
-            }
-          });
-        }
+        journeyState.estimatorAnswers = {};
+        setJourneyStep("estimator");
         return;
       }
 
@@ -8618,6 +8587,445 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       };
+
+    // ── Guided Estimator (no-quote flow) ──────────────────────────────
+
+    function makeOptionCard(group, value, label, sublabel) {
+      return `<button type="button" class="est-option" data-group="${group}" data-value="${value}">
+        <span class="est-option-label">${label}</span>
+        ${sublabel ? `<span class="est-option-sub">${sublabel}</span>` : ""}
+      </button>`;
+    }
+
+    window.renderEstimatorStep = function renderEstimatorStep() {
+      const preview = journeyState.propertyPreview || {};
+      const addr = [preview.street, preview.city, preview.state].filter(Boolean).join(", ");
+
+      return `
+        <div style="max-width:720px; margin:48px auto; padding:0 24px;">
+          <div style="padding:30px; background:#fff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
+
+            ${addr ? `<div style="font-size:13px; color:var(--muted); margin-bottom:16px; padding:8px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">${escapeHtml(addr)}</div>` : ""}
+
+            <h1 style="margin:0 0 6px; font-size:32px; line-height:1.08; letter-spacing:-0.03em; color:#0f172a;">
+              Estimate your roof cost
+            </h1>
+            <p class="muted" style="margin:0 0 28px; font-size:15px;">
+              Answer a few questions and we'll estimate your replacement cost using local pricing data.
+            </p>
+
+            <!-- Property type -->
+            <div class="est-section">
+              <div class="est-section-label">Property type</div>
+              <div class="est-options" id="estPropertyType">
+                ${makeOptionCard("propertyType", "single", "Single story", "")}
+                ${makeOptionCard("propertyType", "two_story", "Two story", "")}
+                ${makeOptionCard("propertyType", "townhome", "Townhome / Condo", "")}
+              </div>
+            </div>
+
+            <!-- Material -->
+            <div class="est-section">
+              <div class="est-section-label">Roofing material</div>
+              <div class="est-options est-options-wrap" id="estMaterial">
+                ${makeOptionCard("material", "asphalt", "Asphalt", "$5-7/sqft")}
+                ${makeOptionCard("material", "architectural", "Architectural", "$6-9/sqft")}
+                ${makeOptionCard("material", "metal", "Metal", "$9-14/sqft")}
+                ${makeOptionCard("material", "tile", "Tile", "$12-18/sqft")}
+                ${makeOptionCard("material", "cedar", "Cedar shake", "$8-12/sqft")}
+                ${makeOptionCard("material", "flat", "Flat / TPO", "$5-8/sqft")}
+              </div>
+            </div>
+
+            <!-- Work type -->
+            <div class="est-section">
+              <div class="est-section-label">What do you need?</div>
+              <div class="est-options" id="estWorkType">
+                ${makeOptionCard("workType", "replacement", "Full replacement", "")}
+                ${makeOptionCard("workType", "repair", "Repair only", "")}
+              </div>
+            </div>
+
+            <!-- Steepness -->
+            <div class="est-section">
+              <div class="est-section-label">Roof steepness</div>
+              <div class="est-options" id="estSteepness">
+                ${makeOptionCard("steepness", "flat", "Flat", "")}
+                ${makeOptionCard("steepness", "normal", "Normal", "")}
+                ${makeOptionCard("steepness", "steep", "Steep", "")}
+                ${makeOptionCard("steepness", "very_steep", "Very steep", "")}
+              </div>
+            </div>
+
+            <!-- Complexity -->
+            <div class="est-section">
+              <div class="est-section-label">Roof complexity</div>
+              <div class="est-options" id="estComplexity">
+                ${makeOptionCard("complexity", "normal", "Normal", "Simple shape")}
+                ${makeOptionCard("complexity", "complex", "Complex", "Dormers, valleys")}
+                ${makeOptionCard("complexity", "very_complex", "Very complex", "Many cuts, angles")}
+              </div>
+            </div>
+
+            <!-- Ownership -->
+            <div class="est-section">
+              <div class="est-section-label">Do you own this property?</div>
+              <div class="est-options" id="estOwnership">
+                ${makeOptionCard("ownership", "yes", "Yes, I own it", "")}
+                ${makeOptionCard("ownership", "no", "No", "")}
+              </div>
+            </div>
+
+            <div id="estError" style="display:none; margin-top:16px; padding:10px 14px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; font-size:14px; color:#b91c1c;"></div>
+
+            <button class="btn" id="estSubmitBtn" style="margin-top:24px; font-size:16px; padding:14px 28px; width:100%;">
+              Get my estimate
+            </button>
+
+            <div style="text-align:center; margin-top:14px;">
+              <span class="small muted">Have a quote? </span>
+              <a href="#" onclick="setJourneyStep('address'); return false;" class="small" style="color:var(--brand);">Upload it instead</a>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    window.bindEstimatorEvents = function bindEstimatorEvents() {
+      setTimeout(() => {
+        // Option card selection
+        document.querySelectorAll(".est-option").forEach(btn => {
+          btn.addEventListener("click", function() {
+            const group = this.dataset.group;
+            const value = this.dataset.value;
+            // Deselect siblings
+            this.parentElement.querySelectorAll(".est-option").forEach(b => b.classList.remove("est-selected"));
+            this.classList.add("est-selected");
+            if (!journeyState.estimatorAnswers) journeyState.estimatorAnswers = {};
+            journeyState.estimatorAnswers[group] = value;
+          });
+        });
+
+        // Submit
+        const submitBtn = document.getElementById("estSubmitBtn");
+        if (submitBtn) {
+          submitBtn.addEventListener("click", () => generateNoQuoteEstimate());
+        }
+      }, 0);
+    };
+
+    window.generateNoQuoteEstimate = async function generateNoQuoteEstimate() {
+      const answers = journeyState.estimatorAnswers || {};
+      const required = ["propertyType", "material", "workType", "steepness", "complexity"];
+      const missing = required.filter(k => !answers[k]);
+
+      if (missing.length > 0) {
+        const errEl = document.getElementById("estError");
+        if (errEl) {
+          errEl.style.display = "block";
+          errEl.textContent = "Please answer all questions before continuing.";
+        }
+        return;
+      }
+
+      // Show loading
+      const root = document.getElementById("appRoot");
+      if (!root) return;
+      root.innerHTML = `
+        <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+          <div class="progress-phase">Estimating your roof cost...</div>
+          <div class="progress-sub">Looking up property data and local pricing</div>
+          <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;">
+            <div id="estProgressBar" style="width:20%; height:100%; background:var(--brand, #1d4ed8); transition:width .6s;"></div>
+          </div>
+        </div>
+      `;
+
+      // Multipliers
+      const storyMultipliers = { single: 1.0, two_story: 0.6, townhome: 0.5 };
+      const pitchFactors = { flat: 1.0, normal: 1.12, steep: 1.25, very_steep: 1.40 };
+      const complexityFactors = { normal: 1.0, complex: 1.15, very_complex: 1.30 };
+      const tearOffFactors = { replacement: 1.05, repair: 0.35 };
+
+      const storyMult = storyMultipliers[answers.propertyType] || 1.0;
+      const pitchFact = pitchFactors[answers.steepness] || 1.12;
+      const complexFact = complexityFactors[answers.complexity] || 1.0;
+      const tearOffFact = tearOffFactors[answers.workType] || 1.0;
+
+      // Update progress
+      const bar = document.getElementById("estProgressBar");
+      if (bar) bar.style.width = "40%";
+
+      // Lookup property signals (OSM footprint)
+      const preview = journeyState.propertyPreview || {};
+      let footprintSqFt = null;
+      let footprintSource = "regional_average";
+
+      try {
+        if (typeof lookupPropertyRoofSignals === "function") {
+          const signals = await lookupPropertyRoofSignals({
+            street: preview.street || "",
+            city: preview.city || "",
+            stateCode: preview.state || "",
+            zip: preview.zip || "",
+            fullAddress: [preview.street, preview.city, preview.state, preview.zip].filter(Boolean).join(", ")
+          });
+          if (signals?.footprintSqFt && signals.footprintSqFt > 400) {
+            footprintSqFt = signals.footprintSqFt;
+            footprintSource = "osm_footprint";
+          }
+        }
+      } catch (e) {
+        console.warn("Property signals lookup failed:", e);
+      }
+
+      if (bar) bar.style.width = "65%";
+
+      // Calculate roof size
+      let baseArea;
+      if (footprintSqFt) {
+        // OSM gives actual building footprint (already the roof's 2D projection)
+        baseArea = footprintSqFt;
+      } else if (preview.homeSize && preview.homeSize > 0) {
+        // User entered home size — adjust for stories
+        baseArea = preview.homeSize * storyMult;
+        footprintSource = "user_home_size";
+      } else {
+        // Regional average fallback
+        baseArea = 1700 * storyMult;
+        footprintSource = "regional_average";
+      }
+
+      const estimatedRoofSize = Math.round(baseArea * pitchFact * complexFact);
+
+      // Calculate cost using pricing model
+      const city = preview.city || "";
+      const stateCode = preview.state || "";
+      const material = answers.material;
+
+      let benchmarkPerSqFt = typeof getMaterialBenchmarkPerSqFt === "function"
+        ? getMaterialBenchmarkPerSqFt(material)
+        : 6.35;
+
+      // Try city-specific pricing
+      let localDataUsed = false;
+      if (typeof findCityPricing === "function") {
+        const cityPricing = findCityPricing(city, stateCode);
+        if (cityPricing && typeof getNearestSizeLabel === "function") {
+          const sizeLabel = getNearestSizeLabel(cityPricing, estimatedRoofSize);
+          const bucket = cityPricing.sizes?.[sizeLabel];
+          const matKey = material === "cedar" || material === "flat" ? "architectural" : material;
+          if (bucket?.[matKey]?.mid) {
+            const sizeNum = parseInt(String(sizeLabel).replace(/[^\d]/g, ""), 10) || estimatedRoofSize;
+            benchmarkPerSqFt = bucket[matKey].mid / sizeNum;
+            localDataUsed = true;
+          }
+        }
+      }
+
+      const adjustedBenchmark = benchmarkPerSqFt * tearOffFact;
+      const mid = Math.round(adjustedBenchmark * estimatedRoofSize);
+      const low = Math.round(mid * 0.85);
+      const high = Math.round(mid * 1.18);
+
+      if (bar) bar.style.width = "90%";
+
+      // Store result
+      const materialLabel = typeof getMaterialLabel === "function"
+        ? getMaterialLabel(material)
+        : material;
+
+      window.__latestEstimatorResult = {
+        estimatedRoofSize,
+        footprintSource,
+        material,
+        materialLabel,
+        low, mid, high,
+        city, stateCode,
+        localDataUsed,
+        propertyType: answers.propertyType,
+        workType: answers.workType,
+        steepness: answers.steepness,
+        complexity: answers.complexity,
+        isOwner: answers.ownership === "yes",
+        pitchFactor: pitchFact,
+        complexityFactor: complexFact,
+        tearOffFactor: tearOffFact,
+        benchmarkPerSqFt: Math.round(adjustedBenchmark * 100) / 100
+      };
+
+      setTimeout(() => setJourneyStep("estimator_result"), 400);
+    };
+
+    window.renderEstimatorResultStep = function renderEstimatorResultStep() {
+      const r = window.__latestEstimatorResult;
+      if (!r) return `<div style="max-width:800px; margin:40px auto; text-align:center;"><p>No estimate available.</p></div>`;
+
+      const fmtPrice = (n) => "$" + Number(n).toLocaleString();
+      const cityState = [r.city, r.stateCode].filter(Boolean).join(", ");
+      const sourceNote = r.footprintSource === "osm_footprint"
+        ? "Based on satellite building footprint data"
+        : r.footprintSource === "user_home_size"
+          ? "Based on your entered home size"
+          : "Based on regional average (footprint not detected)";
+
+      const confidenceLevel = r.footprintSource === "osm_footprint" ? "Medium-High"
+        : r.footprintSource === "user_home_size" ? "Medium" : "Low";
+
+      const confidenceColor = r.footprintSource === "osm_footprint" ? "#16a34a"
+        : r.footprintSource === "user_home_size" ? "#ca8a04" : "#dc2626";
+
+      const workLabel = r.workType === "repair" ? "Roof Repair" : "Roof Replacement";
+
+      return `
+        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+
+          <!-- Main estimate card -->
+          <div style="padding:32px; background:#fff; border:2px solid #2563eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.08); margin-bottom:20px;">
+            <div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#2563eb; margin:0 0 8px;">
+              Your Estimated Cost
+            </div>
+
+            <h2 style="margin:0 0 4px; font-size:42px; line-height:1; letter-spacing:-0.03em; color:#0f172a;">
+              ${fmtPrice(r.low)} &ndash; ${fmtPrice(r.high)}
+            </h2>
+
+            <div style="font-size:16px; color:#475569; margin:0 0 20px;">
+              Midpoint: <strong>${fmtPrice(r.mid)}</strong> for ${r.materialLabel} ${workLabel.toLowerCase()}${cityState ? " in " + escapeHtml(cityState) : ""}
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
+              <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Roof size</div>
+                <div style="font-size:20px; font-weight:700; color:#0f172a;">${Number(r.estimatedRoofSize).toLocaleString()} sq ft</div>
+                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${sourceNote}</div>
+              </div>
+              <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Material</div>
+                <div style="font-size:20px; font-weight:700; color:#0f172a;">${escapeHtml(r.materialLabel)}</div>
+              </div>
+              <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Cost per sq ft</div>
+                <div style="font-size:20px; font-weight:700; color:#0f172a;">$${r.benchmarkPerSqFt.toFixed(2)}</div>
+              </div>
+              <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Confidence</div>
+                <div style="font-size:20px; font-weight:700; color:${confidenceColor};">${confidenceLevel}</div>
+                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${r.localDataUsed ? "Local pricing used" : "National benchmarks"}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- What's included -->
+          <div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">
+            <h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">What a typical ${workLabel.toLowerCase()} includes</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              ${r.workType === "replacement" ? `
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Tear-off &amp; disposal</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; New ${escapeHtml(r.materialLabel)}</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Underlayment</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Flashing</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Ridge caps</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Ventilation</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Cleanup</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Permit (if required)</div>
+              ` : `
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Leak repair</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Damaged area patching</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Flashing repair</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Cleanup</div>
+              `}
+            </div>
+          </div>
+
+          <!-- Next steps -->
+          <div style="padding:24px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:18px; margin-bottom:20px;">
+            <h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">Next steps</h3>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; gap:14px; align-items:flex-start;">
+                <div style="flex-shrink:0; width:28px; height:28px; background:#2563eb; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">1</div>
+                <div>
+                  <div style="font-weight:600; color:#0f172a;">Get 2-3 quotes from local contractors</div>
+                  <div style="font-size:13px; color:#475569;">Compare bids to see who offers the best value — not just the lowest price.</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:14px; align-items:flex-start;">
+                <div style="flex-shrink:0; width:28px; height:28px; background:#2563eb; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">2</div>
+                <div>
+                  <div style="font-weight:600; color:#0f172a;">Upload your quote for a detailed analysis</div>
+                  <div style="font-size:13px; color:#475569;">We'll check the price, scope, and flag anything missing.</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:14px; align-items:flex-start;">
+                <div style="flex-shrink:0; width:28px; height:28px; background:#2563eb; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">3</div>
+                <div>
+                  <div style="font-weight:600; color:#0f172a;">Sign with confidence</div>
+                  <div style="font-size:13px; color:#475569;">Know exactly what you're paying for before you commit.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+            <button class="btn" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px;" onclick="startQuoteUploadFromEstimator()">
+              Upload a quote to compare
+            </button>
+          </div>
+
+          <div style="text-align:center; margin-top:10px;">
+            <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start over</a>
+          </div>
+        </div>
+      `;
+    };
+
+    // Bridge: from estimator result → quote upload flow
+    window.startQuoteUploadFromEstimator = function startQuoteUploadFromEstimator() {
+      const root = document.getElementById("appRoot");
+      if (!root) return;
+
+      root.innerHTML = `
+        <div style="max-width:720px; margin:60px auto; padding:0 24px;">
+          <div style="padding:28px; background:#fff; border:1px solid #e2e8f0; border-radius:18px; box-shadow:0 4px 16px rgba(15,23,42,0.06); text-align:center;">
+            <h2 style="margin:0 0 8px; font-size:28px; letter-spacing:-0.02em;">Upload your contractor quote</h2>
+            <p style="color:var(--muted); margin:0 0 20px;">We'll compare it against your ${window.__latestEstimatorResult ? "$" + Number(window.__latestEstimatorResult.mid).toLocaleString() + " estimate" : "local pricing data"}.</p>
+            <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
+            <button type="button" class="btn" style="font-size:16px; padding:14px 28px;" onclick="document.getElementById('quoteFile').click()">Upload quote</button>
+            <div style="margin-top:14px; font-size:13px; color:var(--muted);">PDF, screenshot, or phone photo</div>
+          </div>
+        </div>
+      `;
+
+      const input = document.getElementById("quoteFile");
+      if (input) {
+        input.addEventListener("change", async function() {
+          const file = input.files?.[0];
+          if (!file) return;
+          const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+          if (!validTypes.includes(file.type) && !file.name.match(/\\.(pdf|jpg|jpeg|png|webp|gif)$/i)) {
+            alert('Please upload a PDF or image file.');
+            return;
+          }
+          if (file.size > 20 * 1024 * 1024) {
+            alert('File is too large. Please upload a file under 20MB.');
+            return;
+          }
+          if (typeof loadVendorLibs === "function") await loadVendorLibs();
+          root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;"><div class="progress-phase">Reading your quote...</div><div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;"><div style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div></div></div>';
+          try {
+            const parsedBundle = await parseUploadedComparisonFile(file);
+            latestParsed = parsedBundle?.parsed || parsedBundle || {};
+            journeyState.propertyConfirmed = true;
+            confirmProperty();
+          } catch (err) {
+            root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:24px;"><p>Could not read the quote. Please try again.</p><button class="btn secondary" onclick="setJourneyStep(\'address\')">Back</button></div>';
+          }
+        });
+      }
+    };
+
+    // ── End Guided Estimator ────────────────────────────────────────────
 
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () {

@@ -206,7 +206,9 @@ function getMaterialBenchmarkPerSqFt(material) {
     architectural: 6.35,
     asphalt: 5.10,
     metal: 10.50,
-    tile: 13.75
+    tile: 13.75,
+    cedar: 8.50,
+    flat: 6.00
   };
   return benchmarks[material] || 6.35;
 }
@@ -220,7 +222,9 @@ function getMaterialLabel(material) {
     architectural: "architectural shingles",
     asphalt: "asphalt shingles",
     metal: "metal roofing",
-    tile: "tile roofing"
+    tile: "tile roofing",
+    cedar: "cedar shake",
+    flat: "flat / TPO roofing"
   };
   return materialLabelMap[material] || "roofing";
 }
