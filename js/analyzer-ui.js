@@ -3861,6 +3861,17 @@ function buildComparisonWinnerHtml(summary) {
         return verdict || "Analysis complete";
       }
 
+      function renderAffiliateLink(a) {
+        const aff = window.AFFILIATE_LINKS;
+        if (!aff || !aff.enabled) return "";
+        const material = a?.material || "";
+        const link = aff.link(material, "material");
+        if (!link) return "";
+        return `<div style="padding:14px 20px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:14px; margin-bottom:16px; font-size:14px;">
+          <span style="color:#475569;">Comparing material options? </span>${link}
+        </div>`;
+      }
+
       function renderVerdictCard(a) {
         if (!a) return "";
         const meta = a?.meta || {};
@@ -8576,6 +8587,7 @@ function buildComparisonWinnerHtml(summary) {
         return `
           <div style="max-width:800px; margin:40px auto; padding:0 24px;">
             ${renderVerdictCard(a)}
+            ${renderAffiliateLink(a)}
             ${renderBeforeYouSign(a)}
             ${renderMarketContext(a)}
             ${renderCommunityStats(a)}
@@ -8991,6 +9003,16 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
           </div>
+
+          <!-- Affiliate: material shopping link -->
+          ${(function() {
+            const aff = window.AFFILIATE_LINKS;
+            if (!aff || !aff.enabled) return "";
+            const link = aff.link(r.material, "material");
+            if (!link) return "";
+            return '<div style="padding:16px 20px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:14px; margin-bottom:20px; font-size:14px;">'
+              + '<span style="color:#475569;">Planning to buy materials yourself? </span>' + link + '</div>';
+          })()}
 
           <!-- What's included -->
           <div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">

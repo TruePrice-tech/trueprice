@@ -362,6 +362,7 @@ function buildLocalContextSection(cityPricing) {
 <div class="local-card-icon">&#129521;</div>
 <h3>Best materials for ${cityPricing.city}</h3>
 <p>${ctx.materialTip}</p>
+<p class="affiliate-link" style="margin:8px 0 0; display:none;" data-material="${ctx.hailRisk === 'high' ? 'impact_resistant' : 'architectural'}"></p>
 </div>`);
   }
 
