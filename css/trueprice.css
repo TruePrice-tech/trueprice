@@ -753,4 +753,36 @@ h3 {
   .card {
     padding: 18px;
   }
+
+  .local-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Local context cards (city pages) */
+.local-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+.local-card {
+  padding: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.local-card-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.local-card h3 {
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+.local-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
 }

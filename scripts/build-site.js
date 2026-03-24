@@ -6,6 +6,7 @@ const ROOT = path.resolve(__dirname, "..");
 const INPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
 const PRICING_MODEL_PATH = path.join(ROOT, "data", "pricing-model.json");
 const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
+const CITY_CONTEXT_PATH = path.join(ROOT, "data", "city-context.json");
 
 const OUTPUT_PRICING_JSON = path.join(ROOT, "data", "city-house-size-pricing.json");
 
@@ -328,6 +329,130 @@ function summarizeCityPerSqFt(cityPricing) {
   };
 }
 
+// Load city context data for unique per-city content
+let _cityContextData = null;
+function getCityContext(city, stateCode) {
+  if (!_cityContextData) {
+    try {
+      _cityContextData = readJson(CITY_CONTEXT_PATH);
+    } catch (e) {
+      console.warn("city-context.json not found, using defaults");
+      _cityContextData = {};
+    }
+  }
+  return _cityContextData[`${city}|${stateCode}`] || null;
+}
+
+function buildLocalContextSection(cityPricing) {
+  const ctx = getCityContext(cityPricing.city, cityPricing.state_code);
+  if (!ctx) return "";
+
+  const cards = [];
+
+  if (ctx.weatherNote) {
+    cards.push(`<div class="local-card">
+<div class="local-card-icon">&#9729;&#65039;</div>
+<h3>Weather &amp; climate</h3>
+<p>${ctx.weatherNote}</p>
+</div>`);
+  }
+
+  if (ctx.materialTip) {
+    cards.push(`<div class="local-card">
+<div class="local-card-icon">&#129521;</div>
+<h3>Best materials for ${cityPricing.city}</h3>
+<p>${ctx.materialTip}</p>
+</div>`);
+  }
+
+  if (ctx.localInsight) {
+    cards.push(`<div class="local-card">
+<div class="local-card-icon">&#128197;</div>
+<h3>Local market</h3>
+<p>${ctx.localInsight}</p>
+</div>`);
+  }
+
+  if (ctx.permitNote) {
+    cards.push(`<div class="local-card">
+<div class="local-card-icon">&#128220;</div>
+<h3>Permits</h3>
+<p>${ctx.permitNote}</p>
+</div>`);
+  }
+
+  if (!cards.length) return "";
+
+  return `
+<section class="section">
+<h2>Roofing in ${cityPricing.city}: what locals should know</h2>
+<div class="local-grid">
+${cards.join("\n")}
+</div>
+</section>`;
+}
+
+function buildExtraCostFactors(cityPricing) {
+  const ctx = getCityContext(cityPricing.city, cityPricing.state_code);
+  if (!ctx) return "";
+
+  const factors = [];
+  if (ctx.hailRisk === "high") factors.push("<li>Hail damage frequency (impact-resistant materials recommended)</li>");
+  if (ctx.hurricaneZone) factors.push("<li>Hurricane-zone wind uplift requirements</li>");
+  if (ctx.snowLoad === "high") factors.push("<li>Snow load reinforcement and ice dam prevention</li>");
+  if (ctx.avgHomeAge && ctx.avgHomeAge >= 40) factors.push("<li>Older housing stock often needs additional decking work</li>");
+  if (ctx.hoaPrevalence === "high") factors.push("<li>HOA material and color restrictions in many neighborhoods</li>");
+  if (ctx.growthRate === "high") factors.push("<li>High demand for contractors in this fast-growing market</li>");
+
+  return factors.join("\n");
+}
+
+function buildExtraFaqItems(cityPricing) {
+  const ctx = getCityContext(cityPricing.city, cityPricing.state_code);
+  if (!ctx) return "";
+
+  const items = [];
+  const city = cityPricing.city;
+
+  if (ctx.hailRisk === "high") {
+    items.push(`<details class="faq-item">
+<summary>Does hail damage affect roofing costs in ${city}?</summary>
+<div class="faq-answer">
+<p>Yes. ${city} is in a high hail-risk area. After major storms, contractor demand spikes and wait times can stretch to weeks. Consider impact-resistant (Class 4) shingles, which may also qualify for insurance discounts.</p>
+</div>
+</details>`);
+  }
+
+  if (ctx.hurricaneZone) {
+    items.push(`<details class="faq-item">
+<summary>Are there special roofing requirements in ${city} for hurricanes?</summary>
+<div class="faq-answer">
+<p>Yes. ${city} is in a hurricane-prone area and local building codes typically require enhanced wind uplift ratings and specific fastening patterns. Your contractor should be familiar with local wind-zone requirements.</p>
+</div>
+</details>`);
+  }
+
+  if (ctx.snowLoad === "high") {
+    items.push(`<details class="faq-item">
+<summary>Do I need to worry about snow load on my roof in ${city}?</summary>
+<div class="faq-answer">
+<p>${city} gets significant snowfall, and roofs must be designed to handle the weight. Ice dams are also a concern. Proper ventilation, ice and water shield along eaves, and adequate insulation help prevent costly damage.</p>
+</div>
+</details>`);
+  }
+
+  if (ctx.avgHomeAge && ctx.avgHomeAge >= 35) {
+    items.push(`<details class="faq-item">
+<summary>My home in ${city} is older. Does that affect the cost?</summary>
+<div class="faq-answer">
+<p>Often yes. Homes in ${city} average around ${ctx.avgHomeAge} years old. Older roofs may need additional decking repair, updated ventilation, or code-required upgrades that add to the base replacement cost.</p>
+</div>
+</details>`);
+  }
+
+  return items.join("\n");
+}
+
 function generateCityPageHtml(cityPricing, allCityRows) {
   let template = loadTemplate();
 
@@ -382,6 +507,11 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{CITY_RATE_METAL}}", cityRates.metal);
   template = template.replaceAll("{{CITY_RATE_TILE}}", cityRates.tile);
   template = template.replaceAll("{{SAME_STATE_CITY_LINKS}}", sameStateCityLinks);
+
+  // Unique per-city content from city-context.json
+  template = template.replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildLocalContextSection(cityPricing));
+  template = template.replaceAll("{{EXTRA_COST_FACTORS}}", buildExtraCostFactors(cityPricing));
+  template = template.replaceAll("{{EXTRA_FAQ_ITEMS}}", buildExtraFaqItems(cityPricing));
 
   if (template.includes("{{NEARBY_CITIES_SECTION}}")) {
     template = template.replace("{{NEARBY_CITIES_SECTION}}", nearbyCitiesSection);
