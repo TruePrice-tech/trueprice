@@ -8060,10 +8060,15 @@ function buildComparisonWinnerHtml(summary) {
                 <div>
                   <input id="journeyZipCode" type="text" placeholder="ZIP code" />
                 </div>
+
+                <div class="journey-address-full">
+                  <input id="journeyHomeSize" type="number" placeholder="Home size (sq ft) — helps estimate roof size" style="font-size:13px;" />
+                  <div style="font-size:11px; color:var(--muted, #6b7280); margin-top:4px;">Optional. We'll estimate roof size as home size + 30%.</div>
+                </div>
               </div>
 
               <button class="btn secondary" style="margin-top:12px;" onclick="handleAddressSubmit()">
-                Check my property →
+                Check my property &rarr;
               </button>
 
               <div id="journeyAddressError" class="small" style="margin-top:10px; color:#b91c1c;"></div>
@@ -8406,12 +8411,15 @@ function buildComparisonWinnerHtml(summary) {
         errorEl.textContent = "";
       }
 
+      const homeSize = Number(document.getElementById("journeyHomeSize")?.value || 0);
+
       journeyState.propertyPreview = {
         street,
         apt,
         city,
         state,
-        zip
+        zip,
+        homeSize: homeSize > 0 ? homeSize : null
       };
 
       journeyState.propertyLookupAttempted = true;
@@ -8534,7 +8542,7 @@ function buildComparisonWinnerHtml(summary) {
           <input id="stateCode" value="${escapeHtml(preview.state || p.stateCode || p.address?.stateCode || "")}">
           <input id="streetAddress" value="${escapeHtml(preview.street || p.address?.street || "")}">
           <input id="zipCode" value="${escapeHtml(preview.zip || p.address?.zip || "")}">
-          <input id="roofSize" value="${escapeHtml(String(p.roofSize || ""))}">
+          <input id="roofSize" value="${escapeHtml(String(p.roofSize || (preview.homeSize ? Math.round(preview.homeSize * 1.3) : "") ))}">
           <input id="quotePrice" value="${escapeHtml(String(p.finalBestPrice || p.totalLinePrice || p.price || ""))}">
           <select id="materialType"><option value="${escapeHtml(p.material || "architectural")}" selected></option></select>
           <select id="complexityFactor"><option value="1.00" selected></option></select>

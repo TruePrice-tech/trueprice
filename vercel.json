@@ -5,6 +5,12 @@
     },
     "api/geocode-suggest.js": {
       "maxDuration": 10
+    },
+    "api/property-signals.js": {
+      "maxDuration": 15
+    },
+    "api/community-quote.js": {
+      "maxDuration": 10
     }
   },
   "headers": [
