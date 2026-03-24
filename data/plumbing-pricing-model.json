@@ -1,0 +1,95 @@
+{
+  "basePriceByService": {
+    "water_heater": {
+      "label": "Water Heater Replacement",
+      "priceByType": {
+        "tank_40_gas": 1800,
+        "tank_50_gas": 2200,
+        "tank_40_electric": 1500,
+        "tank_50_electric": 1800,
+        "tankless_gas": 4200,
+        "tankless_electric": 3200,
+        "hybrid_heat_pump": 3800
+      }
+    },
+    "repipe": {
+      "label": "Whole House Repipe",
+      "priceByMaterial": {
+        "copper": 8500,
+        "pex": 5500,
+        "cpvc": 4800
+      }
+    },
+    "sewer_line": {
+      "label": "Sewer Line Replacement",
+      "priceByMethod": {
+        "traditional_dig": 5500,
+        "trenchless": 7500,
+        "pipe_lining": 6500
+      }
+    },
+    "drain_cleaning": {
+      "label": "Drain Cleaning",
+      "priceByType": {
+        "simple_clog": 200,
+        "main_line": 450,
+        "hydro_jet": 650,
+        "camera_inspection": 350
+      }
+    },
+    "bathroom_rough_in": {
+      "label": "Bathroom Plumbing Rough-In",
+      "priceByScope": {
+        "half_bath": 2800,
+        "full_bath": 4500,
+        "master_bath": 6200
+      }
+    },
+    "gas_line": {
+      "label": "Gas Line Installation",
+      "priceByLength": {
+        "short_under_20ft": 800,
+        "medium_20_50ft": 1500,
+        "long_over_50ft": 2500
+      }
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.05,
+    "northeast": 1.20,
+    "midwest": 1.08,
+    "mountain": 1.12,
+    "west": 1.25
+  },
+  "overheadMultiplier": 1.15,
+  "roundTo": 25,
+  "homeSizes": [
+    { "label": "1000", "bathrooms": 1, "fixtures": 6 },
+    { "label": "1500", "bathrooms": 1.5, "fixtures": 8 },
+    { "label": "2000", "bathrooms": 2, "fixtures": 10 },
+    { "label": "2500", "bathrooms": 2.5, "fixtures": 12 },
+    { "label": "3000", "bathrooms": 3, "fixtures": 14 },
+    { "label": "3500", "bathrooms": 3.5, "fixtures": 16 },
+    { "label": "4000", "bathrooms": 4, "fixtures": 18 }
+  ],
+  "scopeItems": [
+    { "key": "permits", "label": "Permits and inspections", "weight": 8 },
+    { "key": "shutoff", "label": "Shut-off valves", "weight": 6 },
+    { "key": "cleanup", "label": "Cleanup and debris removal", "weight": 4 },
+    { "key": "drywall", "label": "Drywall repair / patching", "weight": 10 },
+    { "key": "testing", "label": "Pressure testing", "weight": 8 },
+    { "key": "warranty", "label": "Warranty (parts + labor)", "weight": 10 },
+    { "key": "disposal", "label": "Old equipment disposal", "weight": 4 },
+    { "key": "codeCompliance", "label": "Code compliance upgrades", "weight": 8 },
+    { "key": "expansion_tank", "label": "Expansion tank", "weight": 6 },
+    { "key": "supply_lines", "label": "New supply lines", "weight": 8 },
+    { "key": "drain_pan", "label": "Drain pan", "weight": 4 },
+    { "key": "venting", "label": "Venting / flue work", "weight": 8 }
+  ],
+  "brands": {
+    "premium": ["Rinnai", "Navien", "Noritz", "Kohler"],
+    "mid": ["Rheem", "A.O. Smith", "Bradford White", "State"],
+    "value": ["Whirlpool", "GE", "Kenmore", "Reliance"]
+  }
+}
