@@ -8708,6 +8708,16 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
 
+            <!-- Home size -->
+            <div class="est-section">
+              <div class="est-section-label">How big is your home? (optional but improves accuracy)</div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <input type="number" id="estHomeSize" placeholder="e.g. 2400" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
+                <span style="font-size:14px; color:#64748b;">sq ft</span>
+              </div>
+              <div style="font-size:12px; color:#94a3b8; margin-top:4px;">Check your listing, tax records, or Zillow. This overrides satellite estimates.</div>
+            </div>
+
             <!-- Ownership -->
             <div class="est-section">
               <div class="est-section-label">Do you own this property?</div>
@@ -8854,7 +8864,10 @@ function buildComparisonWinnerHtml(summary) {
       const ROOF_AREA_RATIO = 1.2; // Accounts for overhangs, pitch, waste
 
       let baseArea;
-      const homeSize = preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null;
+      // Check estimator home size input first, then address step home size
+      const estHomeSizeVal = Number(document.getElementById("estHomeSize")?.value || 0);
+      const homeSize = estHomeSizeVal > 0 ? estHomeSizeVal
+        : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
 
       if (homeSize) {
         // User provided home size — use it as primary source
