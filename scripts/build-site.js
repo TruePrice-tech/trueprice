@@ -948,11 +948,22 @@ function summarizeMaterialPricing(material, cityPricingArray) {
 }
 
 function generateMaterialCityLinks(material, cityPricingArray) {
-  return cityPricingArray
-    .slice()
-    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
-    .slice(0, 48)
-    .map((cityPricing) => {
+  // Group by state, pick top 5 by population per state, sort states alphabetically
+  const byState = {};
+  cityPricingArray.forEach((cp) => {
+    if (!byState[cp.state]) byState[cp.state] = [];
+    byState[cp.state].push(cp);
+  });
+
+  const states = Object.keys(byState).sort();
+  const cards = [];
+
+  for (const state of states) {
+    const topCities = byState[state]
+      .sort((a, b) => Number(b.population || 0) - Number(a.population || 0))
+      .slice(0, 5);
+
+    for (const cityPricing of topCities) {
       const filename = buildCityPageFilename(
         cityPricing.city,
         cityPricing.state_code
@@ -970,14 +981,16 @@ function generateMaterialCityLinks(material, cityPricingArray) {
           ? `${formatCurrency(min)} to ${formatCurrency(max)}`
           : "See local pricing";
 
-      return `
+      cards.push(`
 <div class="city-link-card">
   <a href="/${filename}">${cityPricing.city}, ${cityPricing.state_code}</a>
   <p>${formatMaterialName(material)} roof pricing: ${rangeText}</p>
 </div>
-`.trim();
-    })
-    .join("\n");
+`.trim());
+    }
+  }
+
+  return cards.join("\n");
 }
 
 function generateRelatedMaterialLinks(currentMaterial, pricingModel) {
