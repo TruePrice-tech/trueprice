@@ -3,9 +3,44 @@
 
 const pageViews = [];
 const events = [];
+const crawls = [];
 const MAX_VIEWS = 50000;
 const MAX_EVENTS = 10000;
+const MAX_CRAWLS = 5000;
 const ADMIN_KEY = "tp_admin_2026";
+
+const BOT_PATTERNS = [
+  { name: "Googlebot", pattern: /googlebot/i },
+  { name: "Google-InspectionTool", pattern: /google-inspectiontool/i },
+  { name: "Bingbot", pattern: /bingbot/i },
+  { name: "Slurp (Yahoo)", pattern: /slurp/i },
+  { name: "DuckDuckBot", pattern: /duckduckbot/i },
+  { name: "Baiduspider", pattern: /baiduspider/i },
+  { name: "YandexBot", pattern: /yandexbot/i },
+  { name: "Sogou", pattern: /sogou/i },
+  { name: "facebookexternalhit", pattern: /facebookexternalhit/i },
+  { name: "Twitterbot", pattern: /twitterbot/i },
+  { name: "LinkedInBot", pattern: /linkedinbot/i },
+  { name: "WhatsApp", pattern: /whatsapp/i },
+  { name: "Slackbot", pattern: /slackbot/i },
+  { name: "Discordbot", pattern: /discordbot/i },
+  { name: "AhrefsBot", pattern: /ahrefsbot/i },
+  { name: "SemrushBot", pattern: /semrushbot/i },
+  { name: "MJ12bot", pattern: /mj12bot/i },
+  { name: "PetalBot", pattern: /petalbot/i },
+  { name: "Applebot", pattern: /applebot/i },
+  { name: "GPTBot", pattern: /gptbot/i },
+  { name: "ClaudeBot", pattern: /claudebot|claude-web/i },
+  { name: "Other Bot", pattern: /bot|crawler|spider|scraper/i }
+];
+
+function detectBot(ua) {
+  if (!ua) return null;
+  for (const bp of BOT_PATTERNS) {
+    if (bp.pattern.test(ua)) return bp.name;
+  }
+  return null;
+}
 
 function getClientIP(req) {
   return req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
@@ -94,8 +129,31 @@ export default async function handler(req, res) {
     }
   }
 
-  // GET: Dashboard data
+  // GET: Tracking pixel (for bot detection) or dashboard data
   if (req.method === "GET") {
+    // Pixel mode: returns 1x1 transparent GIF and logs the crawl
+    if (req.query.pixel === "1") {
+      const ua = req.headers["user-agent"] || "";
+      const botName = detectBot(ua);
+      const path = String(req.query.p || "/").substring(0, 200);
+
+      if (botName) {
+        crawls.push({
+          bot: botName,
+          path,
+          ua: ua.substring(0, 200),
+          ts: Date.now()
+        });
+        if (crawls.length > MAX_CRAWLS) crawls.splice(0, crawls.length - MAX_CRAWLS);
+      }
+
+      // Return 1x1 transparent GIF
+      const gif = Buffer.from("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", "base64");
+      res.setHeader("Content-Type", "image/gif");
+      res.setHeader("Cache-Control", "no-store");
+      return res.status(200).send(gif);
+    }
+
     const key = req.query.key || "";
     if (key !== ADMIN_KEY) {
       return res.status(403).json({ error: "Unauthorized" });
@@ -159,6 +217,20 @@ export default async function handler(req, res) {
       time: new Date(ev.ts).toISOString()
     }));
 
+    // Crawl stats
+    const filteredCrawls = crawls.filter(c => c.ts >= cutoff);
+    const botCounts = {};
+    filteredCrawls.forEach(c => { botCounts[c.bot] = (botCounts[c.bot] || 0) + 1; });
+    const topBots = Object.entries(botCounts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([bot, count]) => ({ bot, count }));
+
+    const recentCrawls = filteredCrawls.slice(-30).reverse().map(c => ({
+      bot: c.bot,
+      path: c.path,
+      time: new Date(c.ts).toISOString()
+    }));
+
     return res.status(200).json({
       range,
       totalViews,
@@ -172,7 +244,10 @@ export default async function handler(req, res) {
       hourly,
       totalEvents: filteredEvents.length,
       topEvents,
-      recentEvents
+      recentEvents,
+      totalCrawls: filteredCrawls.length,
+      topBots,
+      recentCrawls
     });
   }
 

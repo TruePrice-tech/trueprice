@@ -97,6 +97,17 @@
         </div>
       </div>
 
+      <div class="dash-grid-2">
+        <div class="dash-panel">
+          <h3>Search Engine Crawlers</h3>
+          <table class="dash-table" id="botsTable"></table>
+        </div>
+        <div class="dash-panel">
+          <h3>Recent Crawls</h3>
+          <div id="recentCrawls" style="max-height:300px; overflow-y:auto;"></div>
+        </div>
+      </div>
+
       <div style="text-align:center; margin-top:16px; font-size:13px; color:var(--text-muted);">
         Data resets on each Vercel deploy. Showing in-memory data only.
       </div>
@@ -139,8 +150,8 @@
       document.getElementById("statsRow").innerHTML =
         stat("Page Views", d.totalViews) +
         stat("Unique Visitors", d.uniqueVisitors) +
-        stat("Direct Traffic", d.directTraffic) +
-        stat("Events", d.totalEvents || 0);
+        stat("Events", d.totalEvents || 0) +
+        stat("Bot Crawls", d.totalCrawls || 0);
 
       // Top pages
       var maxCount = d.topPages.length ? d.topPages[0].count : 1;
@@ -175,6 +186,23 @@
           "</div>";
       }).join("");
       document.getElementById("recentEvents").innerHTML = recentHtml || "<div style='color:var(--text-muted); padding:12px 0;'>No events yet</div>";
+
+      // Bots
+      document.getElementById("botsTable").innerHTML =
+        "<tr><th>Bot</th><th>Crawls</th></tr>" +
+        ((d.topBots || []).length ? (d.topBots || []).map(function(b) {
+          return "<tr><td>" + esc(b.bot) + "</td><td>" + b.count + "</td></tr>";
+        }).join("") : "<tr><td colspan=2 style='color:var(--text-muted)'>No crawls detected yet</td></tr>");
+
+      var crawlHtml = (d.recentCrawls || []).map(function(c) {
+        var time = c.time.substring(11, 16);
+        return "<div style='padding:6px 0; border-bottom:1px solid #f1f5f9; font-size:13px;'>" +
+          "<span style='color:var(--text-muted); margin-right:8px;'>" + time + "</span>" +
+          "<strong>" + esc(c.bot) + "</strong> " +
+          "<span style='color:var(--text-muted);'>" + esc(c.path) + "</span>" +
+          "</div>";
+      }).join("");
+      document.getElementById("recentCrawls").innerHTML = crawlHtml || "<div style='color:var(--text-muted); padding:12px 0;'>No crawls detected yet</div>";
 
       // Devices
       var total = d.totalViews || 1;
