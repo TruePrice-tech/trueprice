@@ -735,11 +735,23 @@ h3 {
   }
 
   .site-header .container {
-    flex-direction: column;
-    gap: 8px;
-    height: auto;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    flex-direction: row;
+    height: 48px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .site-header nav a.nav-cta {
+    display: none;
+  }
+
+  .site-header nav a {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+
+  .site-header nav {
+    gap: 1px;
   }
 
   .hero-meta {
