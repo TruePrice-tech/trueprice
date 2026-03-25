@@ -50,6 +50,11 @@
     .dir-empty { text-align: center; padding: 48px 24px; color: var(--text-secondary); }
     .dir-empty h3 { color: var(--text); }
     .dir-count { font-size: 14px; color: var(--text-muted); margin-top: 16px; }
+    .contractor-card.unclaimed { border-color: #d1d5db; background: #f9fafb; }
+    .contractor-card.unclaimed h3 { color: #6b7280; }
+    .claim-notice { font-size: 13px; color: #6b7280; margin-bottom: 10px; line-height: 1.5; }
+    .claim-btn { display: inline-block; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; background: #f59e0b; color: #fff; }
+    .claim-btn:hover { background: #d97706; }
   </style>
 </head>
 <body>
@@ -188,6 +193,19 @@
           if (c.licenseNumber) meta.push("License: " + escapeHtml(c.licenseNumber));
           if (c.states.length) meta.push("Serves: " + c.states.join(", "));
 
+          if (c.claimed === false) {
+            // Unclaimed listing card
+            const claimUrl = "/contractor-signup.html?claim=" + encodeURIComponent(c.companyName);
+            return `<div class="contractor-card unclaimed">
+              <h3>${escapeHtml(c.companyName)}</h3>
+              <div class="contractor-services">${pills}</div>
+              ${meta.length ? `<div class="contractor-meta">${meta.join(" &bull; ")}</div>` : ""}
+              <div class="claim-notice">This is an unclaimed listing. Are you the owner?</div>
+              <div class="contractor-actions"><a class="claim-btn" href="${claimUrl}">Claim this listing</a></div>
+            </div>`;
+          }
+
+          // Claimed listing card
           const actions = [];
           if (c.phone) actions.push(`<a class="cta-phone" href="tel:${escapeHtml(c.phone.replace(/\D/g, ''))}">${escapeHtml(c.phone)}</a>`);
           if (c.website) actions.push(`<a class="cta-web" href="${escapeHtml(c.website)}" target="_blank" rel="noopener">Website</a>`);

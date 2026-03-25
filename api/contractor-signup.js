@@ -1,8 +1,42 @@
 // Contractor directory endpoint — self-signup and search
 // In-memory storage (replace with Vercel KV for persistence)
 
+const fs = require("fs");
+const path = require("path");
+
 const contractors = [];
 const rateLimits = {};
+
+// Load seed contractors on first init
+let seedLoaded = false;
+function loadSeedData() {
+  if (seedLoaded) return;
+  seedLoaded = true;
+  try {
+    const seedPath = path.join(__dirname, "..", "data", "seed-contractors.json");
+    const raw = fs.readFileSync(seedPath, "utf-8");
+    const seedData = JSON.parse(raw);
+    seedData.forEach((entry, i) => {
+      contractors.push({
+        id: "seed_" + i,
+        companyName: entry.companyName,
+        contactName: "",
+        email: entry.email || "",
+        phone: entry.phone || "",
+        website: entry.website || "",
+        services: entry.services,
+        states: entry.states,
+        cities: entry.cities || [],
+        licenseNumber: entry.licenseNumber || "",
+        yearsInBusiness: entry.yearsInBusiness || 0,
+        claimed: false,
+        submittedAt: new Date("2025-01-01").toISOString()
+      });
+    });
+  } catch (e) {
+    // Seed file not found or invalid — continue without seed data
+  }
+}
 
 const VALID_SERVICES = new Set([
   "roof", "hvac", "plumbing", "electrical", "window", "siding",
@@ -39,6 +73,7 @@ function isDuplicate(companyName, email) {
 }
 
 export default async function handler(req, res) {
+  loadSeedData();
   const allowedOrigin = "https://truepricehq.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -107,6 +142,13 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, duplicate: true, message: "This business is already listed." });
       }
 
+      // If claiming a seed listing, remove the old unclaimed entry
+      const claimName = companyName.toLowerCase();
+      const seedIdx = contractors.findIndex(c => !c.claimed && c.companyName.toLowerCase() === claimName);
+      if (seedIdx !== -1) {
+        contractors.splice(seedIdx, 1);
+      }
+
       const entry = {
         id: "ctr_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8),
         companyName,
@@ -119,6 +161,7 @@ export default async function handler(req, res) {
         cities,
         licenseNumber,
         yearsInBusiness,
+        claimed: true,
         submittedAt: new Date().toISOString()
       };
 
@@ -153,20 +196,32 @@ export default async function handler(req, res) {
       filtered = filtered.filter(c => c.services.includes(service));
     }
 
+    // Sort: claimed listings first, then by submission date
+    filtered.sort((a, b) => {
+      if (a.claimed && !b.claimed) return -1;
+      if (!a.claimed && b.claimed) return 1;
+      return 0;
+    });
+
     // Return public fields only (no email, no IP)
-    const publicList = filtered.slice(0, 50).map(c => ({
-      id: c.id,
-      companyName: c.companyName,
-      phone: c.phone,
-      website: c.website,
-      services: c.services,
-      serviceLabels: c.services.map(s => SERVICE_LABELS[s] || s),
-      states: c.states,
-      cities: c.cities,
-      licenseNumber: c.licenseNumber || null,
-      yearsInBusiness: c.yearsInBusiness || null,
-      submittedAt: c.submittedAt
-    }));
+    // For unclaimed listings, omit phone/website/licenseNumber
+    const publicList = filtered.slice(0, 50).map(c => {
+      const isClaimed = c.claimed !== false;
+      return {
+        id: c.id,
+        companyName: c.companyName,
+        phone: isClaimed ? c.phone : "",
+        website: isClaimed ? c.website : "",
+        services: c.services,
+        serviceLabels: c.services.map(s => SERVICE_LABELS[s] || s),
+        states: c.states,
+        cities: c.cities,
+        licenseNumber: isClaimed ? (c.licenseNumber || null) : null,
+        yearsInBusiness: c.yearsInBusiness || null,
+        claimed: isClaimed,
+        submittedAt: c.submittedAt
+      };
+    });
 
     return res.status(200).json({ contractors: publicList, count: publicList.length });
   }
