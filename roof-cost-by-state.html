@@ -208,10 +208,13 @@
       line-height: 1.7;
     }
 
+    .sc-scroll-hint { display: none; font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 8px; }
     @media (max-width: 700px) {
       .sc-hero { padding: 40px 0 32px; }
       .sc-hero h1 { font-size: 28px; }
       .sc-hl-row { grid-template-columns: 1fr; }
+      .sc-scroll-hint { display: block; }
+      .sc-table th, .sc-table td { padding: 8px 10px; font-size: 13px; }
     }
   </style>
 
@@ -302,6 +305,7 @@
     <section class="sc-table-section">
       <h2>All States: Roof Replacement Cost Comparison</h2>
       <p class="sc-table-intro">Click any column header to sort. Prices reflect a 2,000 sq ft home (24 roofing squares) with standard waste and overhead. Cost index is relative to the national average.</p>
+      <div class="sc-scroll-hint">Swipe to see all columns &rarr;</div>
       <div class="sc-table-wrap">
         <table class="sc-table" id="state-table">
           <thead>

@@ -170,7 +170,10 @@
       const emptyEl = document.getElementById("dirEmpty");
       const countEl = document.getElementById("dirCount");
 
-      resultsEl.innerHTML = "<p style='text-align:center; padding:24px; color:var(--text-muted);'>Searching...</p>";
+      resultsEl.innerHTML = '<div class="contractor-grid">' +
+        [1,2,3].map(function() {
+          return '<div class="contractor-card" style="opacity:0.5;"><div style="height:20px;width:60%;background:#e2e8f0;border-radius:6px;margin-bottom:12px;"></div><div style="display:flex;gap:5px;margin-bottom:12px;"><div style="height:24px;width:60px;background:#e2e8f0;border-radius:999px;"></div><div style="height:24px;width:50px;background:#e2e8f0;border-radius:999px;"></div></div><div style="height:14px;width:80%;background:#e2e8f0;border-radius:4px;"></div></div>';
+        }).join("") + '</div>';
       emptyEl.style.display = "none";
       countEl.textContent = "";
 
