@@ -209,12 +209,79 @@
     }
 
     .sc-scroll-hint { display: none; font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 8px; }
+
+    /* --- Interactive Map --- */
+    .sc-map-section { padding: 32px 0 0; }
+    .sc-map-section h2 { margin-top: 0; font-size: 22px; margin-bottom: 4px; }
+    .sc-map-intro { color: var(--text-secondary); font-size: 15px; margin-bottom: 16px; max-width: 700px; }
+    .sc-map-wrap {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 16px 16px;
+      position: relative;
+    }
+    #us-map-svg { width: 100%; height: auto; display: block; }
+    #us-map-svg path {
+      stroke: #fff;
+      stroke-width: 1.2;
+      cursor: pointer;
+      transition: opacity 0.15s, stroke-width 0.15s;
+    }
+    #us-map-svg path:hover {
+      opacity: 0.8;
+      stroke-width: 2.4;
+      stroke: #1e293b;
+    }
+    .map-tooltip {
+      position: absolute;
+      background: #1e293b;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 20;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    .map-tooltip.visible { opacity: 1; }
+    .map-tooltip strong { font-size: 14px; }
+    .map-legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .map-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .map-legend-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    .sc-table-section .map-highlight-row td {
+      background: #fef9c3 !important;
+      transition: background 0.6s;
+    }
+
     @media (max-width: 700px) {
       .sc-hero { padding: 40px 0 32px; }
       .sc-hero h1 { font-size: 28px; }
       .sc-hl-row { grid-template-columns: 1fr; }
       .sc-scroll-hint { display: block; }
       .sc-table th, .sc-table td { padding: 8px 10px; font-size: 13px; }
+      .map-legend { gap: 12px; font-size: 12px; }
     }
   </style>
 
@@ -298,6 +365,74 @@
           <h3><span style="font-size:20px;">&#128680;</span> 5 Most Expensive States</h3>
           <ul class="sc-hl-list" id="expensive-list"></ul>
         </div>
+      </div>
+    </section>
+
+    <!-- Interactive US Map -->
+    <section class="sc-map-section">
+      <h2>Roof Cost by State &mdash; Interactive Map</h2>
+      <p class="sc-map-intro">Hover over any state to see pricing details. Click a state to jump to its row in the table below.</p>
+      <div class="sc-map-wrap">
+        <div class="map-tooltip" id="map-tooltip"></div>
+        <svg id="us-map-svg" viewBox="0 0 960 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <path data-state="AL" d="M628,430 L628,470 L625,490 L633,500 L627,505 L635,510 L610,510 L610,430 Z"/>
+          <path data-state="AK" d="M161,485 L183,485 L183,510 L199,510 L199,530 L183,530 L175,540 L161,540 L145,530 L145,510 L153,500 Z"/>
+          <path data-state="AZ" d="M135,410 L195,410 L205,420 L205,490 L175,490 L140,490 L130,470 L125,440 Z"/>
+          <path data-state="AR" d="M555,420 L608,420 L608,470 L555,470 Z"/>
+          <path data-state="CA" d="M46,285 L90,245 L105,260 L115,295 L125,340 L130,395 L120,420 L95,445 L67,440 L50,405 L38,360 L36,315 Z"/>
+          <path data-state="CO" d="M245,310 L340,310 L340,375 L245,375 Z"/>
+          <path data-state="CT" d="M852,195 L880,185 L885,205 L860,212 Z"/>
+          <path data-state="DE" d="M820,290 L835,285 L840,305 L825,310 Z"/>
+          <path data-state="FL" d="M640,510 L695,490 L710,495 L725,520 L720,555 L700,580 L680,575 L660,555 L640,530 Z"/>
+          <path data-state="GA" d="M640,430 L695,430 L695,490 L640,510 L635,510 L628,505 L633,500 L627,505 L625,490 L628,470 L628,430 Z"/>
+          <path data-state="HI" d="M260,535 L280,530 L290,540 L285,555 L265,555 L255,545 Z"/>
+          <path data-state="ID" d="M155,160 L195,155 L210,175 L215,225 L205,270 L175,280 L155,255 L148,210 Z"/>
+          <path data-state="IL" d="M545,250 L580,250 L585,280 L580,340 L570,370 L555,385 L540,370 L535,310 Z"/>
+          <path data-state="IN" d="M585,260 L620,258 L625,340 L620,375 L585,380 L580,340 L585,280 Z"/>
+          <path data-state="IA" d="M465,240 L545,240 L545,300 L465,300 Z"/>
+          <path data-state="KS" d="M360,340 L460,340 L460,400 L360,400 Z"/>
+          <path data-state="KY" d="M590,370 L680,355 L700,370 L680,390 L590,400 Z"/>
+          <path data-state="LA" d="M545,475 L595,475 L605,510 L590,530 L565,530 L550,510 L545,490 Z"/>
+          <path data-state="ME" d="M878,95 L900,90 L910,120 L905,160 L888,165 L878,140 Z"/>
+          <path data-state="MD" d="M755,285 L820,275 L830,290 L820,310 L790,315 L760,305 Z"/>
+          <path data-state="MA" d="M858,178 L895,170 L900,185 L880,190 L855,195 Z"/>
+          <path data-state="MI" d="M580,155 L620,140 L650,150 L660,185 L650,230 L620,250 L585,252 L575,220 L580,180 Z"/>
+          <path data-state="MN" d="M445,115 L505,115 L510,125 L510,220 L465,225 L445,220 L440,165 Z"/>
+          <path data-state="MS" d="M575,430 L610,430 L610,510 L575,510 L565,490 Z"/>
+          <path data-state="MO" d="M480,330 L555,330 L560,390 L555,420 L505,420 L475,400 Z"/>
+          <path data-state="MT" d="M200,110 L320,105 L325,175 L200,180 Z"/>
+          <path data-state="NE" d="M345,270 L460,270 L462,330 L360,335 L340,310 Z"/>
+          <path data-state="NV" d="M115,230 L160,225 L175,280 L155,345 L125,395 L105,350 L105,270 Z"/>
+          <path data-state="NH" d="M870,115 L885,110 L888,165 L873,175 L868,145 Z"/>
+          <path data-state="NJ" d="M830,235 L845,228 L848,265 L835,285 L820,275 Z"/>
+          <path data-state="NM" d="M195,410 L270,405 L275,490 L195,490 Z"/>
+          <path data-state="NY" d="M760,145 L845,135 L858,170 L850,215 L830,230 L790,240 L760,220 L750,180 Z"/>
+          <path data-state="NC" d="M660,370 L765,350 L790,365 L755,390 L695,405 L660,400 Z"/>
+          <path data-state="ND" d="M360,115 L445,115 L445,180 L360,180 Z"/>
+          <path data-state="OH" d="M630,250 L690,240 L700,280 L695,330 L680,355 L630,345 L625,290 Z"/>
+          <path data-state="OK" d="M340,390 L455,385 L460,420 L555,420 L555,430 L370,440 L340,430 Z"/>
+          <path data-state="OR" d="M50,150 L140,140 L155,160 L150,210 L125,225 L85,240 L45,230 L38,190 Z"/>
+          <path data-state="PA" d="M720,225 L800,215 L820,235 L830,265 L790,275 L720,280 Z"/>
+          <path data-state="RI" d="M878,195 L890,192 L892,208 L880,210 Z"/>
+          <path data-state="SC" d="M665,405 L725,395 L735,425 L700,440 L665,435 Z"/>
+          <path data-state="SD" d="M360,185 L445,185 L448,245 L360,250 Z"/>
+          <path data-state="TN" d="M575,385 L680,375 L695,390 L695,415 L575,430 Z"/>
+          <path data-state="TX" d="M300,430 L370,440 L555,430 L555,475 L545,510 L530,545 L480,570 L430,575 L390,555 L340,530 L300,500 L285,470 Z"/>
+          <path data-state="UT" d="M175,280 L245,275 L250,370 L195,410 L155,345 Z"/>
+          <path data-state="VT" d="M855,115 L870,112 L873,170 L858,175 Z"/>
+          <path data-state="VA" d="M690,320 L780,300 L800,325 L775,360 L695,370 L680,355 Z"/>
+          <path data-state="WA" d="M65,68 L150,60 L160,90 L155,150 L50,150 L42,120 L50,85 Z"/>
+          <path data-state="WV" d="M700,290 L740,275 L755,300 L750,335 L730,350 L700,340 Z"/>
+          <path data-state="WI" d="M500,135 L555,130 L565,160 L565,230 L545,245 L510,245 L505,220 L500,160 Z"/>
+          <path data-state="WY" d="M220,195 L320,190 L325,270 L245,275 L220,260 Z"/>
+          <path data-state="DC" d="M790,310 L800,307 L802,318 L792,320 Z"/>
+        </svg>
+      </div>
+      <div class="map-legend">
+        <div class="map-legend-item"><span class="map-legend-swatch" style="background:#22c55e;"></span> Below Average (&lt;0.97)</div>
+        <div class="map-legend-item"><span class="map-legend-swatch" style="background:#eab308;"></span> Average (0.97&ndash;1.03)</div>
+        <div class="map-legend-item"><span class="map-legend-swatch" style="background:#f97316;"></span> Above Average (1.03&ndash;1.10)</div>
+        <div class="map-legend-item"><span class="map-legend-swatch" style="background:#ef4444;"></span> High Cost (&gt;1.10)</div>
       </div>
     </section>
 

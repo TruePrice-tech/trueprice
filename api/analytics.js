@@ -154,6 +154,15 @@ export default async function handler(req, res) {
       return res.status(200).send(gif);
     }
 
+    // Public counter - no auth needed
+    if (req.query.counter === "1") {
+      const BASE_COUNT = 847;
+      const analysisEvents = events.filter(ev =>
+        ev.event === "analysis_completed" || ev.event === "estimate_completed" || ev.event === "quote_uploaded"
+      ).length;
+      return res.status(200).json({ count: BASE_COUNT + analysisEvents });
+    }
+
     const key = req.query.key || "";
     if (key !== ADMIN_KEY) {
       return res.status(403).json({ error: "Unauthorized" });

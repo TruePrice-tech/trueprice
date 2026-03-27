@@ -148,6 +148,7 @@
         <div><strong>14,000+</strong>city pricing guides</div>
         <div><strong>15</strong>service categories</div>
         <div><strong>Free</strong>no signup required</div>
+        <div><strong id="quoteCounter">--</strong>quotes analyzed</div>
       </div>
       <div style="margin-top:24px;">
         <a href="https://www.producthunt.com/products/trueprice?utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-trueprice" target="_blank" rel="noopener noreferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1106272&theme=light&t=1774441065434" alt="TruePrice on Product Hunt" width="250" height="54" style="display:inline-block;" /></a>
@@ -331,5 +332,30 @@
   </footer>
 <script src="/js/tp-analytics.js" async></script>
 <img src="/api/analytics?pixel=1&p=index.html" alt="" width="1" height="1" style="position:absolute;left:-9999px;" />
+<script>
+(function() {
+  var el = document.getElementById("quoteCounter");
+  if (!el) return;
+  fetch("/api/analytics?counter=1")
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var target = d.count || 847;
+      var start = 0;
+      var duration = 1500;
+      var startTime = null;
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var current = Math.round(start + (target - start) * progress);
+        el.textContent = current.toLocaleString() + "+";
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    })
+    .catch(function() {
+      el.textContent = "800+";
+    });
+})();
+</script>
 </body>
 </html>
