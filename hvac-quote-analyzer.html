@@ -163,7 +163,13 @@
   </header>
 
   <main class="analyzer-wrap">
-    <div class="hvac-app" id="hvacApp"></div>
+    <div class="hvac-app" id="hvacApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">
