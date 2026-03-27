@@ -7133,6 +7133,7 @@ function buildComparisonWinnerHtml(summary) {
         fileInput.addEventListener("change", async function () {
           const file = fileInput.files?.[0];
           if (!file) return;
+          window.__uploadedQuoteFile = file;
 
           console.log("UPLOAD TRIGGERED"); // 🔥 sanity check
 
@@ -7292,6 +7293,7 @@ function buildComparisonWinnerHtml(summary) {
             input.addEventListener("change", async function () {
               const file = input.files?.[0];
               if (!file) return;
+              window.__uploadedQuoteFile = file;
 
               if (typeof tpTrack === "function") tpTrack("quote_uploaded", { type: file.type, size: Math.round(file.size/1024) + "kb" });
 
@@ -7950,6 +7952,7 @@ function buildComparisonWinnerHtml(summary) {
             input.addEventListener("change", async function () {
               const file = input.files?.[0];
               if (!file) return;
+              window.__uploadedQuoteFile = file;
 
               renderAnalyzingState();
 
@@ -7975,6 +7978,58 @@ function buildComparisonWinnerHtml(summary) {
                 journeyState.propertyConfirmed = true;
                 confirmProperty();
               }
+            });
+          }
+
+          // Sample result link binding
+          const sampleLink = document.getElementById("showSampleResult");
+          if (sampleLink) {
+            sampleLink.addEventListener("click", function(e) {
+              e.preventDefault();
+              window.__latestAnalysis = {
+                _isSample: true,
+                quotePrice: 14500,
+                material: "architectural",
+                roofSize: 2200,
+                city: "Dallas",
+                stateCode: "TX",
+                verdict: "fair",
+                low: 12800,
+                mid: 14450,
+                high: 16100,
+                confidenceScore: 72,
+                confidenceLabel: "Medium",
+                warrantyYears: 30,
+                roofSizeEstimateSource: "sample",
+                recommendation: { action: "PROCEED" },
+                riskFlags: [],
+                conflictSignals: [],
+                meta: {
+                  pricing: { deltaFromMid: 50 },
+                  confidence: { overallTier: "Medium" },
+                  roofSize: { value: 2200, source: "sample", confidence: "Medium" }
+                }
+              };
+              latestParsed = {
+                contractor: "Sample Roofing Co.",
+                signals: {
+                  tearOff: { status: "included" },
+                  underlayment: { status: "included" },
+                  flashing: { status: "included" },
+                  ventilation: { status: "included" },
+                  dripEdge: { status: "included" },
+                  disposal: { status: "included" },
+                  permit: { status: "included" },
+                  decking: { status: "included" },
+                  ridgeVent: { status: "included" },
+                  starterStrip: { status: "unclear" },
+                  ridgeCap: { status: "unclear" }
+                }
+              };
+              // Reset scope review state for the sample
+              Object.keys(scopeReviewState).forEach(function(k) { delete scopeReviewState[k]; });
+              journeyState.step = "result";
+              renderApp();
             });
           }
 
@@ -8070,6 +8125,17 @@ function buildComparisonWinnerHtml(summary) {
       console.log("renderApp entering RESULT branch");
       if (typeof tpTrack === "function") { var _a = window.__latestAnalysis; tpTrack("analysis_completed", { verdict: _a?.verdict || "", price: String(_a?.quotePrice || ""), material: _a?.material || "", city: _a?.city || "" }); }
       root.innerHTML = renderResultStep();
+
+      // Bind side-by-side button if present
+      setTimeout(function() {
+        var sbsBtn = document.getElementById("toggleSideBySide");
+        if (sbsBtn) {
+          sbsBtn.addEventListener("click", function() {
+            window.toggleSideBySide();
+          });
+        }
+      }, 0);
+
       return;
     }
     };
@@ -8165,6 +8231,10 @@ function buildComparisonWinnerHtml(summary) {
 
               <div class="small muted" style="margin-top:12px; font-size:12px;">
                 Private &bull; No spam &bull; No signup
+              </div>
+
+              <div style="margin-top:12px; text-align:center;">
+                <a href="#" id="showSampleResult" style="font-size:13px; color:var(--brand);">No quote yet? See what a result looks like</a>
               </div>
             </div>
 
@@ -8660,10 +8730,10 @@ function buildComparisonWinnerHtml(summary) {
         if (!a) {
           return `<div style="max-width:800px; margin:40px auto; text-align:center; padding:24px;"><p>No analysis yet.</p></div>`;
         }
-        try { var c = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10); if (!window.__lastCountedAnalysis || window.__lastCountedAnalysis !== a) { localStorage.setItem('tp_analysis_count', String(c + 1)); window.__lastCountedAnalysis = a; } } catch(e) {}
+        if (!a._isSample) { try { var c = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10); if (!window.__lastCountedAnalysis || window.__lastCountedAnalysis !== a) { localStorage.setItem('tp_analysis_count', String(c + 1)); window.__lastCountedAnalysis = a; } } catch(e) {} }
 
-        // Save to quote history
-        try {
+        // Save to quote history (skip for sample results)
+        if (!a._isSample) try {
           const history = JSON.parse(localStorage.getItem("tp_quote_history") || "[]");
           const entry = {
             id: Date.now(),
@@ -8683,9 +8753,19 @@ function buildComparisonWinnerHtml(summary) {
           }
         } catch(e) {}
 
+        const sampleBanner = a._isSample
+          ? `<div style="padding:12px 20px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:12px; margin-bottom:16px; font-size:14px; color:#1e40af; text-align:center;">This is a sample result. <a href="/roofing-quote-analyzer.html" style="font-weight:600;">Upload your quote</a> to see your actual analysis.</div>`
+          : "";
+
+        const sideBySideBtn = (!a._isSample && window.__uploadedQuoteFile)
+          ? `<div style="text-align:center; margin:16px 0;"><button id="toggleSideBySide" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:10px 20px; font-size:14px; font-weight:600; color:#2563eb; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">View quote side-by-side</button></div>`
+          : "";
+
         return `
-          <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+          <div id="resultContainer" style="max-width:800px; margin:40px auto; padding:0 24px;">
+            ${sampleBanner}
             ${renderVerdictCard(a)}
+            ${sideBySideBtn}
             ${renderAffiliateLink(a)}
             ${renderBeforeYouSign(a)}
             ${renderMarketContext(a)}
@@ -8704,6 +8784,119 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       };
+
+    // ── Side-by-side quote + result view ──────────────────────────────
+
+    async function renderPdfPreview(file, container) {
+      try {
+        var arrayBuffer = await file.arrayBuffer();
+        var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        var page = await pdf.getPage(1);
+        var viewport = page.getViewport({ scale: 1.0 });
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        var containerWidth = container.clientWidth || 400;
+        var scale = containerWidth / viewport.width;
+        var scaledViewport = page.getViewport({ scale: scale });
+        canvas.width = scaledViewport.width;
+        canvas.height = scaledViewport.height;
+        canvas.style.width = "100%";
+        await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
+        container.appendChild(canvas);
+      } catch (e) {
+        container.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">Could not render PDF preview.</div>';
+      }
+    }
+
+    window.toggleSideBySide = function toggleSideBySide() {
+      var existing = document.getElementById("sideBySideWrapper");
+      if (existing) {
+        // Close side-by-side: restore normal view
+        var resultContainer = document.getElementById("resultContainer");
+        if (resultContainer && existing.contains(resultContainer)) {
+          existing.parentNode.insertBefore(resultContainer, existing);
+          resultContainer.style.maxWidth = "800px";
+          resultContainer.style.margin = "40px auto";
+        }
+        existing.remove();
+        return;
+      }
+
+      var file = window.__uploadedQuoteFile;
+      if (!file) return;
+
+      var resultContainer = document.getElementById("resultContainer");
+      if (!resultContainer) return;
+
+      // Create wrapper
+      var wrapper = document.createElement("div");
+      wrapper.id = "sideBySideWrapper";
+      wrapper.style.cssText = "display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:1400px; margin:40px auto; padding:0 24px;";
+
+      // Responsive: stack on narrow screens
+      if (window.innerWidth < 900) {
+        wrapper.style.gridTemplateColumns = "1fr";
+      }
+
+      // Left panel: quote preview
+      var leftPanel = document.createElement("div");
+      leftPanel.style.cssText = "background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:20px; overflow:auto; max-height:90vh;";
+      leftPanel.innerHTML = '<div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#64748b; margin-bottom:12px;">Your uploaded quote</div>';
+
+      var previewArea = document.createElement("div");
+      previewArea.id = "quotePreviewArea";
+
+      if (file.type && file.type.startsWith("image/")) {
+        var img = document.createElement("img");
+        img.style.cssText = "width:100%; border-radius:8px;";
+        img.src = URL.createObjectURL(file);
+        img.alt = "Uploaded quote";
+        previewArea.appendChild(img);
+      } else if (file.type === "application/pdf" || (file.name && file.name.toLowerCase().endsWith(".pdf"))) {
+        if (typeof pdfjsLib !== "undefined") {
+          previewArea.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">Loading PDF preview...</div>';
+          renderPdfPreview(file, previewArea).then(function() {
+            // Remove loading text if canvas was added
+            var loading = previewArea.querySelector("div");
+            if (previewArea.querySelector("canvas") && loading) loading.remove();
+          });
+        } else {
+          previewArea.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">PDF preview not available. <a href="' + URL.createObjectURL(file) + '" target="_blank" style="color:#2563eb;">Open PDF</a></div>';
+        }
+      } else {
+        previewArea.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">Preview not available for this file type.</div>';
+      }
+
+      leftPanel.appendChild(previewArea);
+
+      // Close button
+      var closeBtn = document.createElement("button");
+      closeBtn.type = "button";
+      closeBtn.textContent = "Close side-by-side";
+      closeBtn.style.cssText = "margin-top:16px; width:100%; padding:10px; font-size:13px; font-weight:600; color:#64748b; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer;";
+      closeBtn.addEventListener("click", function() { window.toggleSideBySide(); });
+      leftPanel.appendChild(closeBtn);
+
+      // Right panel: existing result
+      resultContainer.style.maxWidth = "none";
+      resultContainer.style.margin = "0";
+      resultContainer.style.padding = "0";
+
+      // Insert into DOM
+      resultContainer.parentNode.insertBefore(wrapper, resultContainer);
+      wrapper.appendChild(leftPanel);
+      wrapper.appendChild(resultContainer);
+
+      // Handle resize
+      var resizeHandler = function() {
+        if (!document.getElementById("sideBySideWrapper")) {
+          window.removeEventListener("resize", resizeHandler);
+          return;
+        }
+        wrapper.style.gridTemplateColumns = window.innerWidth < 900 ? "1fr" : "1fr 1fr";
+      };
+      window.addEventListener("resize", resizeHandler);
+    };
 
     // ── Guided Estimator (no-quote flow) ──────────────────────────────
 
