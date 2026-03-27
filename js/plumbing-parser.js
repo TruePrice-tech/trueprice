@@ -27,62 +27,62 @@ const PLUMBING_BRAND_PATTERNS = [
 const PLUMBING_SCOPE_DEFINITIONS = {
   permits: {
     label: "Permits",
-    positive: [/\bpermit\b/g, /\binspection\b/g, /\bcode compliance\b/g],
+    positive: [/\bpermit\b/g, /\binspection\b/g, /\bcode compliance\b/g, /\bcity inspect/g, /\bcounty inspect/g, /\bbuilding dept/g],
     negative: [/\bpermit not included\b/g, /\bpermit by owner/g]
   },
   shutoff: {
     label: "Shut-off valves",
-    positive: [/\bshut[\s-]*off\b/g, /\bball valve\b/g, /\bgate valve\b/g, /\bisolation valve/g],
+    positive: [/\bshut[\s-]*off\b/g, /\bball valve\b/g, /\bgate valve\b/g, /\bisolation valve/g, /\bvalve\b/g, /\bmain valve/g, /\bwater shut/g],
     negative: []
   },
   cleanup: {
     label: "Cleanup",
-    positive: [/\bcleanup\b/g, /\bclean up\b/g, /\bdebris remov/g, /\bhaul away/g],
+    positive: [/\bcleanup\b/g, /\bclean up\b/g, /\bdebris remov/g, /\bhaul away/g, /\bdispose/g, /\bremove old/g, /\bremove exist/g, /\bremoval of old/g],
     negative: [/\bcleanup not included\b/g]
   },
   drywall: {
     label: "Drywall repair",
-    positive: [/\bdrywall\b/g, /\bwall repair\b/g, /\bpatch\b/g, /\bwall patch/g, /\baccess panel/g],
+    positive: [/\bdrywall\b/g, /\bwall repair\b/g, /\bpatch\b/g, /\bwall patch/g, /\baccess panel/g, /\bwall opening/g, /\brepair wall/g, /\bsheet\s*rock/g, /\bplaster/g],
     negative: [/\bdrywall not included\b/g, /\bdrywall by owner/g, /\bno drywall/g]
   },
   testing: {
     label: "Pressure testing",
-    positive: [/\bpressure test/g, /\bleak test/g, /\bhydrostatic test/g],
+    positive: [/\bpressure test/g, /\bleak test/g, /\bhydrostatic test/g, /\btest.*leak/g, /\bpressure check/g, /\bwater test/g],
     negative: []
   },
   warranty: {
     label: "Warranty",
-    positive: [/\bwarranty\b/g, /\bguarantee\b/g, /\byear.*parts/g, /\byear.*labor/g],
+    positive: [/\bwarranty\b/g, /\bguarantee\b/g, /\byear.*parts/g, /\byear.*labor/g, /\b\d+\s*year\b/g, /\bmanufacturer.*warrant/g, /\blimited warranty/g],
     negative: []
   },
   disposal: {
     label: "Old equipment disposal",
-    positive: [/\bdisposal\b/g, /\bremov(?:e|al).*old/g, /\bhaul away/g, /\brecycle/g],
+    positive: [/\bdisposal\b/g, /\bremov(?:e|al).*old/g, /\bhaul away/g, /\brecycle/g, /\bold unit/g, /\bdispose\b/g, /\bremove and dispose/g, /\bexisting.*remov/g, /\bdemolition/g, /\bdemo\b/g],
     negative: [/\bdisposal not included\b/g]
   },
   codeCompliance: {
     label: "Code compliance",
-    positive: [/\bcode\b/g, /\bup to code/g, /\bcode compliance/g, /\bcode upgrade/g],
+    positive: [/\bcode\b/g, /\bup to code/g, /\bcode compliance/g, /\bcode upgrade/g, /\bbringing.*code/g, /\bmeet.*code/g, /\bcurrent code/g],
     negative: []
   },
   expansion_tank: {
     label: "Expansion tank",
-    positive: [/\bexpansion tank\b/g, /\bthermal expansion/g],
+    positive: [/\bexpansion tank\b/g, /\bthermal expansion/g, /\bpressure relief/g, /\brelief valve/g, /\bt&p valve/g, /\btemperature.*pressure.*valve/g],
     negative: [/\bexpansion tank not included\b/g]
   },
   supply_lines: {
     label: "Supply lines",
-    positive: [/\bsupply line/g, /\bflex line/g, /\bconnector/g, /\bwater line/g],
+    positive: [/\bsupply line/g, /\bflex line/g, /\bconnector/g, /\bwater line/g, /\bfeed line/g, /\binlet/g, /\boutlet/g, /\bhose\b/g, /\bbraided/g, /\bstainless.*line/g],
     negative: []
   },
   drain_pan: {
     label: "Drain pan",
-    positive: [/\bdrain pan\b/g, /\boverflow pan/g, /\bcatch pan/g],
+    positive: [/\bdrain pan\b/g, /\boverflow pan/g, /\bcatch pan/g, /\bdrip pan/g, /\bsafety pan/g],
     negative: []
   },
   venting: {
     label: "Venting",
-    positive: [/\bvent\b/g, /\bflue\b/g, /\bexhaust\b/g, /\bpower vent/g, /\bdirect vent/g, /\bvent pipe/g],
+    positive: [/\bvent\b/g, /\bflue\b/g, /\bexhaust\b/g, /\bpower vent/g, /\bdirect vent/g, /\bvent pipe/g, /\bvent kit/g, /\bconcentric vent/g, /\bstainless.*vent/g, /\bpvc vent/g],
     negative: [/\bvent not included\b/g]
   }
 };
