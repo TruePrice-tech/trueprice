@@ -651,6 +651,11 @@
         setProgress(70, "Analyzing solar quote...");
         state.extractedText = text;
 
+        // Fallback if no text extracted
+        if (!text || text.trim().length < 20) {
+          throw new Error("Could not extract text from file");
+        }
+
         // Use analyzer-parser.js for price extraction
         var parsed = null;
         if (typeof parseExtractedText === "function") {
@@ -741,11 +746,36 @@
 
       } catch (err) {
         console.error("Solar analysis error:", err);
-        setProgress(100, "Error analyzing quote. Please try again.");
-        setTimeout(function() {
-          state.step = "address";
+        appRoot.innerHTML = '\
+          <div class="solar-hero"><h1>We couldn\'t read that file</h1></div>\
+          <div class="solar-card" style="text-align:center;">\
+            <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
+            <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
+            <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
+              <span style="font-size:20px;font-weight:700;">$</span>\
+              <input type="number" id="manualPrice" placeholder="e.g. 28000" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+            </div>\
+            <button class="solar-btn solar-btn-primary" id="manualPriceBtn">Analyze this price</button>\
+            <div style="margin-top:14px;"><button class="solar-btn solar-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
+          </div>';
+        document.getElementById("manualPriceBtn").addEventListener("click", function() {
+          var price = parseFloat(document.getElementById("manualPrice").value);
+          if (!price || price < 1000) { alert("Please enter a valid price."); return; }
+          var region = getRegionFromState(state.address.stateCode);
+          var benchmark = calcBenchmark("mid", "microinverter", "none", 8, region, "good");
+          var ratio = price / benchmark;
+          var afterItc = Math.round(price * 0.7);
+          state.result = {
+            source: "manual", quotePrice: price, afterItc: afterItc, benchmark: benchmark,
+            ratio: ratio, verdict: verdictFromRatio(ratio), perWatt: Math.round(price / 8000 * 100) / 100,
+            systemKw: 8, panelTier: "mid", inverterType: "microinverter", battery: "none",
+            panelInfo: null, inverterInfo: null, batteryInfo: null, brand: null,
+            scopeSignals: {}, region: region, location: null, parsed: null,
+            paybackYears: Math.round(afterItc / (8 * 1400 * 0.13))
+          };
+          state.step = "result";
           render();
-        }, 2000);
+        });
       }
     }
 
