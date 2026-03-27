@@ -86,6 +86,11 @@
         </div>
       </div>
 
+      <div class="dash-panel">
+        <h3>Conversion Funnel</h3>
+        <div id="funnelChart"></div>
+      </div>
+
       <div class="dash-grid-2">
         <div class="dash-panel">
           <h3>Event Summary</h3>
@@ -186,6 +191,27 @@
           "</div>";
       }).join("");
       document.getElementById("recentEvents").innerHTML = recentHtml || "<div style='color:var(--text-muted); padding:12px 0;'>No events yet</div>";
+
+      // Funnel
+      var funnelEl = document.getElementById("funnelChart");
+      var funnelData = d.funnel || [];
+      var maxFunnel = Math.max.apply(null, funnelData.map(function(f) { return f.count; }).concat([1]));
+      if (funnelData.some(function(f) { return f.count > 0; })) {
+        funnelEl.innerHTML = funnelData.map(function(f) {
+          var pct = Math.round(f.count / maxFunnel * 100);
+          var convRate = maxFunnel > 0 && f.count > 0 ? Math.round(f.count / funnelData[0].count * 100) : 0;
+          return '<div style="margin-bottom:10px;">'
+            + '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px;">'
+            + '<span style="font-weight:600;text-transform:capitalize;">' + esc(f.step) + '</span>'
+            + '<span style="color:var(--text-muted);">' + f.count + (funnelData[0].count > 0 && f !== funnelData[0] ? ' (' + convRate + '%)' : '') + '</span>'
+            + '</div>'
+            + '<div style="height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden;">'
+            + '<div style="height:100%;width:' + pct + '%;background:var(--brand);border-radius:4px;transition:width 0.4s;"></div>'
+            + '</div></div>';
+        }).join("");
+      } else {
+        funnelEl.innerHTML = '<div style="color:var(--text-muted);padding:12px 0;">No funnel data yet. Use the analyzer to generate events.</div>';
+      }
 
       // Bots
       document.getElementById("botsTable").innerHTML =

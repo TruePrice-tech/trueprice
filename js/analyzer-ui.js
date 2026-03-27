@@ -8577,6 +8577,18 @@ function buildComparisonWinnerHtml(summary) {
     window.setJourneyStep = function setJourneyStep(step) {
       console.log("setJourneyStep called with:", step);
       journeyState.step = step;
+      // Funnel tracking
+      if (typeof tpTrack === "function") {
+        var funnelMap = {
+          address: "funnel_visit_analyzer",
+          confirm: "funnel_confirm_address",
+          analyze: "funnel_upload_quote",
+          estimator: "funnel_start_estimator",
+          estimator_result: "funnel_estimator_complete",
+          result: "funnel_analysis_complete"
+        };
+        if (funnelMap[step]) tpTrack(funnelMap[step], { service: "roofing" });
+      }
       console.log("journeyState.step is now:", journeyState.step);
       renderApp();
       console.log("renderApp finished");

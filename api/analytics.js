@@ -226,6 +226,20 @@ export default async function handler(req, res) {
       time: new Date(ev.ts).toISOString()
     }));
 
+    // Conversion funnel
+    const funnelSteps = [
+      "funnel_visit_analyzer",
+      "funnel_confirm_address",
+      "funnel_upload_quote",
+      "funnel_start_estimator",
+      "funnel_analysis_complete",
+      "funnel_estimator_complete"
+    ];
+    const funnel = funnelSteps.map(step => ({
+      step: step.replace("funnel_", "").replace(/_/g, " "),
+      count: filteredEvents.filter(ev => ev.event === step).length
+    }));
+
     // Crawl stats
     const filteredCrawls = crawls.filter(c => c.ts >= cutoff);
     const botCounts = {};
@@ -254,6 +268,7 @@ export default async function handler(req, res) {
       totalEvents: filteredEvents.length,
       topEvents,
       recentEvents,
+      funnel,
       totalCrawls: filteredCrawls.length,
       topBots,
       recentCrawls
