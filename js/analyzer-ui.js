@@ -1,5 +1,20 @@
   console.log("TRUEPRICE SCRIPT VERSION: 1.1 - conflict signals added");
 
+  // Count-up animation for price elements
+  function animateCount(el, target, prefix, duration) {
+    if (!el) return;
+    var start = 0;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var current = Math.round(start + (target - start) * progress);
+      el.textContent = prefix + current.toLocaleString();
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   // Repair pdfjs split-character artifacts in any display text
   function repairDisplayText(text) {
     let t = String(text || "");
@@ -8029,6 +8044,13 @@ function buildComparisonWinnerHtml(summary) {
 
       if (journeyState.step === "estimator_result") {
         root.innerHTML = renderEstimatorResultStep();
+        setTimeout(function() {
+          document.querySelectorAll('.animate-count').forEach(function(el) {
+            var target = parseInt(el.dataset.target);
+            var prefix = el.dataset.prefix || '';
+            animateCount(el, target, prefix, 800);
+          });
+        }, 50);
         return;
       }
 
@@ -9068,7 +9090,7 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <h2 style="margin:0 0 4px; font-size:42px; line-height:1; letter-spacing:-0.03em; color:#0f172a;">
-              ${fmtPrice(r.low)} &ndash; ${fmtPrice(r.high)}
+              <span class="animate-count" data-target="${r.low}" data-prefix="$">$0</span> &ndash; <span class="animate-count" data-target="${r.high}" data-prefix="$">$0</span>
             </h2>
 
             <div style="font-size:16px; color:#475569; margin:0 0 20px;">
@@ -9093,6 +9115,17 @@ function buildComparisonWinnerHtml(summary) {
                 <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Confidence</div>
                 <div style="font-size:20px; font-weight:700; color:${confidenceColor};">${confidenceLevel}</div>
                 <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${regionLabel} regional pricing</div>
+              </div>
+            </div>
+
+            <div style="margin-top:16px; padding:0 4px;">
+              <div style="position:relative; height:8px; background:linear-gradient(90deg, #22c55e 0%, #eab308 50%, #ef4444 100%); border-radius:4px;">
+                <div style="position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:20px; height:20px; background:#0f172a; border:3px solid #fff; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,0.2);"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:12px; color:#94a3b8;">
+                <span>${fmtPrice(r.low)}</span>
+                <span>Midpoint: ${fmtPrice(r.mid)}</span>
+                <span>${fmtPrice(r.high)}</span>
               </div>
             </div>
           </div>

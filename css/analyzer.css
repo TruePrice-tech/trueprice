@@ -984,8 +984,8 @@ details.card summary::-webkit-details-marker {
 }
 
 .scope-item--unclear {
-  background: var(--neutral-bg);
-  color: #374151;
+  background: var(--warn-bg);
+  color: #92400e;
 }
 
 .scope-item-icon {
