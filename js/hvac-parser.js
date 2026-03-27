@@ -28,57 +28,57 @@ const HVAC_BRAND_PATTERNS = [
 const HVAC_SCOPE_DEFINITIONS = {
   equipment: {
     label: "Equipment",
-    positive: [/\bcondenser\b/g, /\bair handler\b/g, /\bevaporator\b/g, /\bcompressor\b/g, /\boutdoor unit\b/g, /\bindoor unit\b/g, /\bfurnace\b/g],
+    positive: [/\bcondenser\b/g, /\bair handler\b/g, /\bevaporator\b/g, /\bcompressor\b/g, /\boutdoor unit\b/g, /\bindoor unit\b/g, /\bfurnace\b/g, /\bheat pump\b/g, /\ba\/c\b/g, /\bac install/g, /\bcoil\b/g, /\bair.?handler/g, /\bdaikin\b/g, /\bcarrier\b/g, /\btrane\b/g, /\blennox\b/g, /\brheem\b/g, /\bgoodman\b/g],
     negative: [/\bequipment not included\b/g]
   },
   lineSet: {
     label: "Refrigerant line set",
-    positive: [/\bline set\b/g, /\blineset\b/g, /\brefrigerant line/g, /\bcopper line/g, /\bsuction line/g],
+    positive: [/\bline set\b/g, /\blineset\b/g, /\brefrigerant line/g, /\bcopper line/g, /\bsuction line/g, /\bflush copper/g, /\bcop(?:per)?\s*line/g],
     negative: [/\bline set not included\b/g, /\breuse existing line/g]
   },
   thermostat: {
     label: "Thermostat",
-    positive: [/\bthermostat\b/g, /\bnest\b/g, /\becobee\b/g, /\bhoneywell\b/g, /\bsmart thermostat/g, /\bprogrammable thermostat/g],
+    positive: [/\bthermostat\b/g, /\bnest\b/g, /\becobee\b/g, /\bhoneywell\b/g, /\bsmart thermostat/g, /\bprogrammable thermostat/g, /\bdaikin one\b/g],
     negative: [/\bthermostat not included\b/g, /\bhomeowner.*thermostat/g]
   },
   ductwork: {
     label: "Ductwork",
-    positive: [/\bductwork\b/g, /\bduct\s+work\b/g, /\bduct modification/g, /\bduct seal/g, /\breturn air/g, /\bsupply duct/g, /\bflex duct/g],
+    positive: [/\bductwork\b/g, /\bduct\s*work\b/g, /\bduct modification/g, /\bduct seal/g, /\breturn air/g, /\bsupply duct/g, /\bflex duct/g, /\bplenum\b/g],
     negative: [/\bductwork not included\b/g, /\bno duct/g, /\bductless\b/g]
   },
   electrical: {
     label: "Electrical",
-    positive: [/\belectrical disconnect\b/g, /\bdisconnect\b/g, /\belectrical wir/g, /\bbreaker\b/g, /\bwhip\b/g, /\b220v\b/g, /\b240v\b/g],
+    positive: [/\belectrical disconnect\b/g, /\bdisconnect\b/g, /\belectrical wir/g, /\bbreaker\b/g, /\bwhip\b/g, /\b220v\b/g, /\b240v\b/g, /\b115v\b/g, /\belectrical connect/g, /\bsafety switch/g, /\belec\b/g, /\bconvert.*(?:115|220|240)/g, /\bsurge protect/g],
     negative: [/\belectrical not included\b/g, /\belectrician by owner/g]
   },
   pad: {
     label: "Equipment pad",
-    positive: [/\bconcrete pad\b/g, /\bcomposite pad\b/g, /\bequipment pad\b/g, /\bcondenser pad/g],
+    positive: [/\bconcrete pad\b/g, /\bcomposite pad\b/g, /\bequipment pad\b/g, /\bcondenser pad/g, /\bhurricane pad/g, /\bpad\/anchor/g, /\banchors?\b/g, /\bplywood deck/g],
     negative: [/\bpad not included\b/g, /\bexisting pad/g]
   },
   drainLine: {
     label: "Drain line",
-    positive: [/\bdrain line\b/g, /\bcondensate\b/g, /\bcondensate pump/g, /\bcondensate drain/g, /\bp-trap\b/g],
+    positive: [/\bdrain line\b/g, /\bcondensate\b/g, /\bcondensate pump/g, /\bcondensate drain/g, /\bp-trap\b/g, /\bdrain pan/g],
     negative: [/\bdrain not included\b/g]
   },
   filterRack: {
     label: "Filter rack",
-    positive: [/\bfilter rack\b/g, /\bfilter\b/g, /\breturn filter/g, /\bmedia filter/g],
+    positive: [/\bfilter rack\b/g, /\bfilter\b/g, /\breturn filter/g, /\bmedia filter/g, /\bair cleaner/g, /\bfilter drier/g],
     negative: [/\bfilter not included\b/g]
   },
   permit: {
     label: "Permit",
-    positive: [/\bpermit\b/g, /\bbuilding permit\b/g, /\binspection\b/g],
+    positive: [/\bpermit\b/g, /\bbuilding permit\b/g, /\binspection\b/g, /\bcode complian/g],
     negative: [/\bpermit not included\b/g, /\bpermit by owner/g]
   },
   disposal: {
     label: "Old equipment removal",
-    positive: [/\bremov(?:e|al)\b.*(?:old|existing)/g, /\bdisposal\b/g, /\bhaul away\b/g, /\brecycle\b/g, /\brefrigerant recovery/g],
+    positive: [/\bremov(?:e|al)\b.*(?:old|existing)/g, /\bdisposal\b/g, /\bhaul away\b/g, /\brecycle\b/g, /\brefrigerant recovery/g, /\bold unit\b/g, /\bdispose\b/g, /\bremove and dispose/g, /\bunit replacement/g, /\breplacement.*old/g],
     negative: [/\bdisposal not included\b/g]
   },
   warranty: {
     label: "Warranty",
-    positive: [/\bwarranty\b/g, /\bguarantee\b/g, /\byear.*parts/g, /\byear.*labor/g, /\bmanufacturer.*warranty/g],
+    positive: [/\bwarranty\b/g, /\bguarantee\b/g, /\byear.*parts/g, /\byear.*labor/g, /\bmanufacturer.*warranty/g, /\b\d+\s*year\b/g, /\bgarrantee\b/g, /\bwarranty excluding/g],
     negative: []
   },
   loadCalc: {
