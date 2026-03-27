@@ -1108,7 +1108,17 @@
           var statusLabel = status === "included" ? "Included" : status === "excluded" ? "Not included" : "Not mentioned";
           scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
         });
-        scopeHtml += '</ul></div>';
+        scopeHtml += '</ul>';
+        var solarScopeCosts = { panels: [0,0], inverter: [500,2000], racking: [300,800], wiring: [200,600], panelUpgrade: [500,2000], permits: [200,800], interconnection: [100,500], netMetering: [0,200], monitoring: [100,400], roofWork: [200,1000], battery: [8000,15000], warranty: [0,0] };
+        var solarMissing = SOLAR_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        if (solarMissing.length > 0) {
+          var mLow = 0, mHigh = 0;
+          solarMissing.forEach(function(item) { var c = solarScopeCosts[item.key]; if (c) { mLow += c[0]; mHigh += c[1]; } });
+          if (mLow > 0) {
+            scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;"><strong>' + solarMissing.length + ' missing item' + (solarMissing.length !== 1 ? 's' : '') + '</strong> could add <strong>$' + mLow.toLocaleString() + ' to $' + mHigh.toLocaleString() + '</strong> in change orders if not included.</div>';
+          }
+        }
+        scopeHtml += '</div>';
       }
 
       // Estimator scope info

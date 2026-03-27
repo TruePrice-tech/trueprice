@@ -988,7 +988,17 @@
           var statusLabel = status === "included" ? "Included" : status === "excluded" ? "Not included" : "Not mentioned";
           scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
         });
-        scopeHtml += '</ul></div>';
+        scopeHtml += '</ul>';
+        var plumbScopeCosts = { permits: [100,400], shutoff: [50,200], cleanup: [75,250], drywall: [200,800], testing: [100,300], warranty: [0,0], disposal: [75,300], codeCompliance: [100,500], expansion_tank: [75,250], supply_lines: [50,200], drain_pan: [50,150], venting: [100,400] };
+        var missingItems = PLUMBING_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        if (missingItems.length > 0) {
+          var mLow = 0, mHigh = 0;
+          missingItems.forEach(function(item) { var c = plumbScopeCosts[item.key]; if (c) { mLow += c[0]; mHigh += c[1]; } });
+          if (mLow > 0) {
+            scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;"><strong>' + missingItems.length + ' missing item' + (missingItems.length !== 1 ? 's' : '') + '</strong> could add <strong>$' + mLow.toLocaleString() + ' to $' + mHigh.toLocaleString() + '</strong> in change orders if not included.</div>';
+          }
+        }
+        scopeHtml += '</div>';
       }
 
       // Estimator scope info

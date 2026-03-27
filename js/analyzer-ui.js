@@ -4198,18 +4198,18 @@ function buildComparisonWinnerHtml(summary) {
         const signals = parsed.signals || {};
 
         const scopeItems = [
-          { key: "tearOff", label: "Tear off", why: "Removes old roof to inspect decking" },
-          { key: "underlayment", label: "Underlayment", why: "Waterproofing layer under shingles" },
-          { key: "flashing", label: "Flashing", why: "#1 source of roof leaks" },
-          { key: "iceShield", label: "Ice & water shield", why: "Code-required in valleys" },
-          { key: "dripEdge", label: "Drip edge", why: "Protects fascia from water" },
-          { key: "ventilation", label: "Ventilation", why: "Extends shingle lifespan" },
-          { key: "ridgeVent", label: "Ridge vent", why: "Primary roof ventilation" },
-          { key: "starterStrip", label: "Starter strip", why: "Wind resistance at edges" },
-          { key: "ridgeCap", label: "Ridge cap", why: "Seals the ridge line" },
-          { key: "decking", label: "Decking", why: "Repair allowance if needed" },
-          { key: "disposal", label: "Disposal", why: "Debris removal and cleanup" },
-          { key: "permit", label: "Permit", why: "Building permit" }
+          { key: "tearOff", label: "Tear off", why: "Removes old roof to inspect decking", costLow: 300, costHigh: 800 },
+          { key: "underlayment", label: "Underlayment", why: "Waterproofing layer under shingles", costLow: 200, costHigh: 600 },
+          { key: "flashing", label: "Flashing", why: "#1 source of roof leaks", costLow: 200, costHigh: 600 },
+          { key: "iceShield", label: "Ice & water shield", why: "Code-required in valleys", costLow: 150, costHigh: 500 },
+          { key: "dripEdge", label: "Drip edge", why: "Protects fascia from water", costLow: 100, costHigh: 300 },
+          { key: "ventilation", label: "Ventilation", why: "Extends shingle lifespan", costLow: 150, costHigh: 450 },
+          { key: "ridgeVent", label: "Ridge vent", why: "Primary roof ventilation", costLow: 150, costHigh: 450 },
+          { key: "starterStrip", label: "Starter strip", why: "Wind resistance at edges", costLow: 75, costHigh: 200 },
+          { key: "ridgeCap", label: "Ridge cap", why: "Seals the ridge line", costLow: 100, costHigh: 350 },
+          { key: "decking", label: "Decking", why: "Repair allowance if needed", costLow: 200, costHigh: 1000 },
+          { key: "disposal", label: "Disposal", why: "Debris removal and cleanup", costLow: 150, costHigh: 500 },
+          { key: "permit", label: "Permit", why: "Building permit", costLow: 100, costHigh: 400 }
         ];
 
         // Initialize review state from OCR signals (only once)
@@ -4235,6 +4235,18 @@ function buildComparisonWinnerHtml(summary) {
               `<button onclick="toggleScopeItem('${item.key}')" style="display:inline-flex; align-items:center; gap:4px; padding:6px 12px; background:#fffbeb; border:1px solid #fde68a; border-radius:999px; font-size:13px; color:#92400e; font-weight:500; cursor:pointer; transition:all 0.15s;" title="Click if this IS in your quote">? ${escapeHtml(item.label)}</button>`
             ).join(" ")
           : "";
+
+        // Missing cost estimate
+        let missingCostHtml = "";
+        if (unconfirmed.length > 0) {
+          const missingLow = unconfirmed.reduce((s, i) => s + (i.costLow || 0), 0);
+          const missingHigh = unconfirmed.reduce((s, i) => s + (i.costHigh || 0), 0);
+          if (missingLow > 0) {
+            missingCostHtml = `<div style="font-size:14px; padding:10px 14px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; margin-top:12px; color:#991b1b;">
+              <strong>${unconfirmed.length} missing item${unconfirmed.length !== 1 ? "s" : ""}</strong> could add <strong>$${missingLow.toLocaleString()} to $${missingHigh.toLocaleString()}</strong> in change orders if not included.
+            </div>`;
+          }
+        }
 
         // Context line
         let contextLine = "";
@@ -4262,6 +4274,7 @@ function buildComparisonWinnerHtml(summary) {
               <div style="padding:10px; text-align:center; color:#166534; font-weight:600; background:#ecfdf5; border-radius:8px; margin-top:8px;">All items confirmed. Quote looks complete.</div>
             `}
 
+            ${missingCostHtml}
             ${contextLine}
 
             <div class="action-buttons" style="margin-top:16px;">
