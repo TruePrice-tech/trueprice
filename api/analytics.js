@@ -66,6 +66,14 @@ function hashIP(ip) {
   return ip.split(".").map((o, i) => i < 2 ? o : "x").join(".");
 }
 
+function getGeo(req) {
+  return {
+    city: req.headers["x-vercel-ip-city"] ? decodeURIComponent(req.headers["x-vercel-ip-city"]) : null,
+    region: req.headers["x-vercel-ip-country-region"] || null,
+    country: req.headers["x-vercel-ip-country"] || null
+  };
+}
+
 export default async function handler(req, res) {
   const allowedOrigin = "https://truepricehq.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
@@ -110,6 +118,7 @@ export default async function handler(req, res) {
         let refHost = "direct";
         try { if (referrer) refHost = new URL(referrer).hostname; } catch(e) {}
 
+        const geo = getGeo(req);
         pageViews.push({
           path,
           referrer: refHost,
@@ -117,6 +126,9 @@ export default async function handler(req, res) {
           device,
           browser,
           ipHash,
+          city: geo.city,
+          region: geo.region,
+          country: geo.country,
           ts: Date.now()
         });
 
@@ -226,6 +238,23 @@ export default async function handler(req, res) {
       time: new Date(ev.ts).toISOString()
     }));
 
+    // Geo stats
+    const cityCounts = {};
+    const regionCounts = {};
+    filtered.forEach(pv => {
+      if (pv.city && pv.region) {
+        const loc = pv.city + ", " + pv.region;
+        cityCounts[loc] = (cityCounts[loc] || 0) + 1;
+      }
+      if (pv.region) regionCounts[pv.region] = (regionCounts[pv.region] || 0) + 1;
+    });
+    const topCities = Object.entries(cityCounts)
+      .sort((a, b) => b[1] - a[1]).slice(0, 15)
+      .map(([city, count]) => ({ city, count }));
+    const topRegions = Object.entries(regionCounts)
+      .sort((a, b) => b[1] - a[1]).slice(0, 10)
+      .map(([region, count]) => ({ region, count }));
+
     // Conversion funnel
     const funnelSteps = [
       "funnel_visit_analyzer",
@@ -269,6 +298,8 @@ export default async function handler(req, res) {
       topEvents,
       recentEvents,
       funnel,
+      topCities,
+      topRegions,
       totalCrawls: filteredCrawls.length,
       topBots,
       recentCrawls

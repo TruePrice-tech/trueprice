@@ -86,6 +86,17 @@
         </div>
       </div>
 
+      <div class="dash-grid-2">
+        <div class="dash-panel">
+          <h3>Visitor Locations</h3>
+          <table class="dash-table" id="geoTable"></table>
+        </div>
+        <div class="dash-panel">
+          <h3>Top States</h3>
+          <table class="dash-table" id="regionTable"></table>
+        </div>
+      </div>
+
       <div class="dash-panel">
         <h3>Conversion Funnel</h3>
         <div id="funnelChart"></div>
@@ -191,6 +202,19 @@
           "</div>";
       }).join("");
       document.getElementById("recentEvents").innerHTML = recentHtml || "<div style='color:var(--text-muted); padding:12px 0;'>No events yet</div>";
+
+      // Geo
+      document.getElementById("geoTable").innerHTML =
+        "<tr><th>City</th><th>Visits</th></tr>" +
+        ((d.topCities || []).length ? (d.topCities || []).map(function(g) {
+          return "<tr><td>" + esc(g.city) + "</td><td>" + g.count + "</td></tr>";
+        }).join("") : "<tr><td colspan=2 style='color:var(--text-muted)'>No location data yet</td></tr>");
+
+      document.getElementById("regionTable").innerHTML =
+        "<tr><th>State</th><th>Visits</th></tr>" +
+        ((d.topRegions || []).length ? (d.topRegions || []).map(function(g) {
+          return "<tr><td>" + esc(g.region) + "</td><td>" + g.count + "</td></tr>";
+        }).join("") : "<tr><td colspan=2 style='color:var(--text-muted)'>No location data yet</td></tr>");
 
       // Funnel
       var funnelEl = document.getElementById("funnelChart");
