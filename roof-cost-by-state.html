@@ -339,7 +339,7 @@
       <nav>
         <a href="/all-cities.html" style="color:rgba(255,255,255,0.7);">Cities</a>
         <a href="/find-contractors.html" style="color:rgba(255,255,255,0.7);">Contractors</a>
-        <a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+        <a class="nav-cta" href="/analyze-quote.html">Analyze Quote</a>
       </nav>
     </div>
   </header>
@@ -375,57 +375,61 @@
       <div class="sc-map-wrap">
         <div class="map-tooltip" id="map-tooltip"></div>
         <svg id="us-map-svg" viewBox="0 0 960 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-          <path data-state="AL" d="M628,430 L628,470 L625,490 L633,500 L627,505 L635,510 L610,510 L610,430 Z"/>
-          <path data-state="AK" d="M161,485 L183,485 L183,510 L199,510 L199,530 L183,530 L175,540 L161,540 L145,530 L145,510 L153,500 Z"/>
-          <path data-state="AZ" d="M135,410 L195,410 L205,420 L205,490 L175,490 L140,490 L130,470 L125,440 Z"/>
-          <path data-state="AR" d="M555,420 L608,420 L608,470 L555,470 Z"/>
-          <path data-state="CA" d="M46,285 L90,245 L105,260 L115,295 L125,340 L130,395 L120,420 L95,445 L67,440 L50,405 L38,360 L36,315 Z"/>
-          <path data-state="CO" d="M245,310 L340,310 L340,375 L245,375 Z"/>
-          <path data-state="CT" d="M852,195 L880,185 L885,205 L860,212 Z"/>
-          <path data-state="DE" d="M820,290 L835,285 L840,305 L825,310 Z"/>
-          <path data-state="FL" d="M640,510 L695,490 L710,495 L725,520 L720,555 L700,580 L680,575 L660,555 L640,530 Z"/>
-          <path data-state="GA" d="M640,430 L695,430 L695,490 L640,510 L635,510 L628,505 L633,500 L627,505 L625,490 L628,470 L628,430 Z"/>
-          <path data-state="HI" d="M260,535 L280,530 L290,540 L285,555 L265,555 L255,545 Z"/>
-          <path data-state="ID" d="M155,160 L195,155 L210,175 L215,225 L205,270 L175,280 L155,255 L148,210 Z"/>
-          <path data-state="IL" d="M545,250 L580,250 L585,280 L580,340 L570,370 L555,385 L540,370 L535,310 Z"/>
-          <path data-state="IN" d="M585,260 L620,258 L625,340 L620,375 L585,380 L580,340 L585,280 Z"/>
-          <path data-state="IA" d="M465,240 L545,240 L545,300 L465,300 Z"/>
-          <path data-state="KS" d="M360,340 L460,340 L460,400 L360,400 Z"/>
-          <path data-state="KY" d="M590,370 L680,355 L700,370 L680,390 L590,400 Z"/>
-          <path data-state="LA" d="M545,475 L595,475 L605,510 L590,530 L565,530 L550,510 L545,490 Z"/>
-          <path data-state="ME" d="M878,95 L900,90 L910,120 L905,160 L888,165 L878,140 Z"/>
-          <path data-state="MD" d="M755,285 L820,275 L830,290 L820,310 L790,315 L760,305 Z"/>
-          <path data-state="MA" d="M858,178 L895,170 L900,185 L880,190 L855,195 Z"/>
-          <path data-state="MI" d="M580,155 L620,140 L650,150 L660,185 L650,230 L620,250 L585,252 L575,220 L580,180 Z"/>
-          <path data-state="MN" d="M445,115 L505,115 L510,125 L510,220 L465,225 L445,220 L440,165 Z"/>
-          <path data-state="MS" d="M575,430 L610,430 L610,510 L575,510 L565,490 Z"/>
-          <path data-state="MO" d="M480,330 L555,330 L560,390 L555,420 L505,420 L475,400 Z"/>
-          <path data-state="MT" d="M200,110 L320,105 L325,175 L200,180 Z"/>
-          <path data-state="NE" d="M345,270 L460,270 L462,330 L360,335 L340,310 Z"/>
-          <path data-state="NV" d="M115,230 L160,225 L175,280 L155,345 L125,395 L105,350 L105,270 Z"/>
-          <path data-state="NH" d="M870,115 L885,110 L888,165 L873,175 L868,145 Z"/>
-          <path data-state="NJ" d="M830,235 L845,228 L848,265 L835,285 L820,275 Z"/>
-          <path data-state="NM" d="M195,410 L270,405 L275,490 L195,490 Z"/>
-          <path data-state="NY" d="M760,145 L845,135 L858,170 L850,215 L830,230 L790,240 L760,220 L750,180 Z"/>
-          <path data-state="NC" d="M660,370 L765,350 L790,365 L755,390 L695,405 L660,400 Z"/>
-          <path data-state="ND" d="M360,115 L445,115 L445,180 L360,180 Z"/>
-          <path data-state="OH" d="M630,250 L690,240 L700,280 L695,330 L680,355 L630,345 L625,290 Z"/>
-          <path data-state="OK" d="M340,390 L455,385 L460,420 L555,420 L555,430 L370,440 L340,430 Z"/>
-          <path data-state="OR" d="M50,150 L140,140 L155,160 L150,210 L125,225 L85,240 L45,230 L38,190 Z"/>
-          <path data-state="PA" d="M720,225 L800,215 L820,235 L830,265 L790,275 L720,280 Z"/>
-          <path data-state="RI" d="M878,195 L890,192 L892,208 L880,210 Z"/>
-          <path data-state="SC" d="M665,405 L725,395 L735,425 L700,440 L665,435 Z"/>
-          <path data-state="SD" d="M360,185 L445,185 L448,245 L360,250 Z"/>
-          <path data-state="TN" d="M575,385 L680,375 L695,390 L695,415 L575,430 Z"/>
-          <path data-state="TX" d="M300,430 L370,440 L555,430 L555,475 L545,510 L530,545 L480,570 L430,575 L390,555 L340,530 L300,500 L285,470 Z"/>
-          <path data-state="UT" d="M175,280 L245,275 L250,370 L195,410 L155,345 Z"/>
-          <path data-state="VT" d="M855,115 L870,112 L873,170 L858,175 Z"/>
-          <path data-state="VA" d="M690,320 L780,300 L800,325 L775,360 L695,370 L680,355 Z"/>
-          <path data-state="WA" d="M65,68 L150,60 L160,90 L155,150 L50,150 L42,120 L50,85 Z"/>
-          <path data-state="WV" d="M700,290 L740,275 L755,300 L750,335 L730,350 L700,340 Z"/>
-          <path data-state="WI" d="M500,135 L555,130 L565,160 L565,230 L545,245 L510,245 L505,220 L500,160 Z"/>
-          <path data-state="WY" d="M220,195 L320,190 L325,270 L245,275 L220,260 Z"/>
-          <path data-state="DC" d="M790,310 L800,307 L802,318 L792,320 Z"/>
+          <!-- Continental US states -->
+          <path data-state="WA" d="M108,50 L118,48 L130,42 L160,40 L175,46 L185,55 L182,65 L178,90 L172,102 L168,108 L155,112 L118,115 L108,112 L100,100 L95,85 L92,72 L95,58 Z"/>
+          <path data-state="OR" d="M60,118 L108,112 L118,115 L155,112 L168,108 L172,120 L170,140 L162,160 L148,172 L130,176 L105,178 L78,175 L62,168 L52,150 L50,135 Z"/>
+          <path data-state="CA" d="M52,150 L62,168 L78,175 L86,190 L90,210 L98,240 L108,272 L112,300 L116,330 L112,360 L100,390 L88,410 L72,418 L58,410 L50,392 L42,365 L36,330 L34,290 L38,250 L42,220 L46,190 L48,170 Z"/>
+          <path data-state="NV" d="M108,172 L130,176 L148,172 L142,200 L135,230 L128,268 L120,300 L112,330 L108,272 L98,240 L90,210 L95,190 Z"/>
+          <path data-state="ID" d="M162,100 L178,90 L195,88 L210,95 L218,110 L212,125 L215,150 L210,175 L200,195 L188,210 L175,215 L162,210 L155,190 L148,172 L162,160 L170,140 L172,120 Z"/>
+          <path data-state="UT" d="M148,172 L175,215 L188,210 L200,210 L210,212 L218,268 L210,300 L195,310 L170,310 L150,305 L128,268 L135,230 L142,200 Z"/>
+          <path data-state="AZ" d="M128,268 L150,305 L170,310 L175,340 L178,380 L172,410 L155,440 L130,445 L112,438 L100,420 L100,390 L112,360 L112,330 L120,300 Z"/>
+          <path data-state="MT" d="M195,88 L210,95 L260,82 L310,78 L335,80 L340,95 L338,120 L332,145 L322,155 L300,160 L265,162 L230,158 L218,150 L212,125 L218,110 Z"/>
+          <path data-state="WY" d="M218,150 L230,158 L265,162 L300,160 L322,155 L320,180 L318,210 L310,235 L288,238 L255,240 L228,238 L210,235 L210,212 L200,210 L188,210 L200,195 L210,175 L215,150 Z"/>
+          <path data-state="CO" d="M228,238 L255,240 L288,238 L310,235 L340,232 L348,240 L352,272 L348,300 L340,310 L305,312 L268,310 L235,308 L218,268 L210,300 L210,268 Z"/>
+          <path data-state="NM" d="M170,310 L195,310 L210,300 L218,268 L235,308 L268,310 L270,340 L272,380 L268,410 L258,440 L230,445 L195,448 L178,440 L172,410 L178,380 L175,340 Z"/>
+          <path data-state="ND" d="M370,88 L420,85 L455,84 L480,86 L485,100 L485,140 L478,155 L445,158 L405,158 L375,155 L368,140 L365,115 Z"/>
+          <path data-state="SD" d="M368,155 L375,155 L405,158 L445,158 L478,155 L480,172 L478,200 L472,222 L445,225 L408,225 L378,222 L365,215 L362,190 Z"/>
+          <path data-state="NE" d="M362,222 L378,222 L408,225 L445,225 L472,222 L478,235 L488,260 L485,280 L475,292 L448,295 L408,298 L375,295 L358,288 L348,272 L348,248 L352,232 Z"/>
+          <path data-state="KS" d="M358,295 L375,295 L408,298 L448,295 L475,292 L480,310 L482,340 L478,358 L448,362 L408,362 L375,360 L355,355 L350,335 L350,315 Z"/>
+          <path data-state="OK" d="M345,360 L375,360 L408,362 L448,362 L478,358 L485,372 L492,388 L545,385 L548,400 L548,415 L510,418 L475,418 L438,420 L400,420 L365,418 L355,412 L350,395 L345,378 Z"/>
+          <path data-state="TX" d="M310,418 L365,418 L400,420 L438,420 L475,418 L510,418 L548,415 L555,435 L558,458 L555,480 L548,500 L535,520 L518,535 L495,548 L470,555 L445,558 L420,555 L395,545 L368,530 L345,510 L328,488 L315,465 L308,445 Z"/>
+          <path data-state="MN" d="M455,84 L480,86 L518,88 L535,92 L538,110 L542,140 L540,168 L535,195 L528,215 L500,218 L472,215 L455,210 L448,190 L445,158 L455,140 Z"/>
+          <path data-state="IA" d="M472,215 L500,218 L528,215 L545,218 L555,232 L558,255 L555,275 L548,292 L520,295 L488,295 L472,292 L465,275 L462,252 L465,235 Z"/>
+          <path data-state="MO" d="M488,295 L520,295 L548,292 L565,298 L575,315 L578,340 L575,365 L568,385 L545,385 L492,388 L485,372 L480,355 L478,335 L480,310 Z"/>
+          <path data-state="AR" d="M545,385 L568,385 L575,395 L588,395 L598,398 L600,420 L598,445 L592,465 L570,468 L548,465 L540,448 L538,430 L540,410 L548,400 Z"/>
+          <path data-state="LA" d="M548,465 L570,468 L592,465 L600,478 L612,490 L618,508 L610,522 L595,530 L575,528 L558,520 L548,508 L542,490 L545,478 Z"/>
+          <path data-state="WI" d="M535,92 L555,95 L572,100 L585,108 L590,125 L592,150 L588,178 L582,200 L570,212 L555,218 L540,215 L528,215 L535,195 L540,168 L542,140 L538,110 Z"/>
+          <path data-state="IL" d="M555,218 L570,212 L582,218 L590,235 L595,260 L592,290 L585,315 L578,340 L575,365 L565,378 L555,370 L548,350 L548,320 L548,292 L555,275 L558,255 L555,232 Z"/>
+          <path data-state="MI" d="M585,108 L602,100 L618,98 L635,105 L645,118 L648,140 L645,165 L638,188 L628,205 L615,215 L600,218 L590,210 L588,190 L590,168 L590,150 L592,130 L590,125 Z"/>
+          <path data-state="IN" d="M595,260 L615,255 L628,260 L635,280 L635,310 L632,335 L625,355 L615,368 L600,372 L588,365 L578,340 L585,315 L592,290 Z"/>
+          <path data-state="OH" d="M628,225 L648,218 L670,215 L688,220 L700,235 L705,260 L702,288 L695,310 L685,328 L670,340 L652,345 L638,340 L625,330 L625,310 L628,280 L630,255 Z"/>
+          <path data-state="KY" d="M600,340 L625,330 L652,345 L670,340 L688,345 L702,338 L715,340 L718,355 L710,370 L695,378 L670,382 L640,385 L615,388 L598,398 L588,395 L575,395 L578,370 L585,355 L595,345 Z"/>
+          <path data-state="TN" d="M598,388 L615,388 L640,385 L670,382 L695,378 L718,380 L730,385 L735,398 L728,410 L710,418 L682,420 L648,418 L618,415 L600,420 L598,410 Z"/>
+          <path data-state="MS" d="M592,418 L612,418 L618,415 L628,420 L632,440 L630,465 L625,488 L618,508 L612,490 L600,478 L592,465 L598,445 L600,420 Z"/>
+          <path data-state="AL" d="M628,420 L648,418 L665,418 L672,425 L675,448 L672,475 L668,498 L658,510 L640,515 L625,510 L618,508 L625,488 L630,465 L632,440 Z"/>
+          <path data-state="GA" d="M665,418 L682,420 L698,418 L712,422 L718,440 L720,468 L715,495 L705,512 L688,520 L668,518 L658,510 L668,498 L672,475 L675,448 L672,425 Z"/>
+          <path data-state="FL" d="M668,518 L688,520 L705,512 L718,508 L732,510 L748,518 L755,535 L750,558 L738,575 L718,585 L698,580 L682,568 L672,548 L665,530 Z"/>
+          <path data-state="SC" d="M698,418 L712,400 L730,385 L748,388 L758,398 L755,415 L742,430 L725,438 L712,438 L708,430 L712,422 Z"/>
+          <path data-state="NC" d="M695,378 L710,370 L718,355 L740,350 L762,345 L785,340 L802,345 L810,355 L805,370 L792,382 L770,390 L748,388 L730,385 L718,380 Z"/>
+          <path data-state="VA" d="M702,310 L715,305 L735,298 L758,292 L778,288 L798,292 L808,302 L810,318 L805,332 L795,340 L778,345 L758,345 L740,350 L718,355 L715,340 L702,338 L695,328 Z"/>
+          <path data-state="WV" d="M702,288 L715,282 L728,278 L740,282 L748,295 L745,312 L738,325 L728,335 L715,340 L702,338 L695,328 L695,310 Z"/>
+          <path data-state="PA" d="M738,210 L760,205 L785,200 L810,198 L828,202 L835,215 L832,232 L825,248 L810,258 L790,262 L768,265 L748,268 L738,260 L735,240 L735,225 Z"/>
+          <path data-state="NY" d="M770,130 L792,125 L815,122 L838,128 L852,138 L858,155 L852,172 L842,185 L828,195 L810,198 L785,200 L760,205 L748,200 L742,185 L745,165 L752,148 Z"/>
+          <path data-state="NJ" d="M828,232 L838,228 L845,240 L848,258 L845,275 L838,288 L828,292 L820,280 L818,262 L822,245 Z"/>
+          <path data-state="DE" d="M825,275 L835,272 L840,285 L838,300 L830,308 L822,300 L820,288 Z"/>
+          <path data-state="MD" d="M768,282 L790,275 L810,270 L822,272 L825,285 L822,300 L810,312 L795,318 L778,318 L762,312 L755,300 L758,288 Z"/>
+          <path data-state="CT" d="M850,185 L865,180 L872,190 L870,205 L860,212 L848,210 L845,198 Z"/>
+          <path data-state="RI" d="M872,190 L882,188 L885,200 L880,210 L872,208 L870,200 Z"/>
+          <path data-state="MA" d="M842,172 L858,168 L878,165 L892,168 L898,178 L888,188 L872,190 L858,188 L848,185 Z"/>
+          <path data-state="VT" d="M848,128 L858,125 L865,135 L868,152 L865,168 L855,172 L848,165 L845,148 Z"/>
+          <path data-state="NH" d="M865,108 L875,105 L882,118 L885,138 L882,158 L875,168 L868,162 L865,142 L862,125 Z"/>
+          <path data-state="ME" d="M878,72 L895,68 L908,78 L915,98 L912,125 L905,148 L895,162 L882,165 L875,148 L878,125 L880,100 Z"/>
+          <!-- Alaska (inset, bottom-left) -->
+          <path data-state="AK" d="M80,478 L110,470 L135,472 L155,480 L168,492 L170,508 L162,522 L148,530 L128,532 L108,528 L92,518 L78,505 L75,490 Z"/>
+          <!-- Hawaii (inset, bottom-center-left) -->
+          <path data-state="HI" d="M230,510 L245,505 L262,508 L275,518 L278,530 L270,540 L255,545 L240,542 L228,532 L225,520 Z"/>
+          <!-- DC (small circle marker) -->
+          <path data-state="DC" d="M798,308 C798,304 802,300 806,300 C810,300 814,304 814,308 C814,312 810,316 806,316 C802,316 798,312 798,308 Z"/>
         </svg>
       </div>
       <div class="map-legend">
@@ -650,6 +654,101 @@
 
     // Set initial sort indicator
     headers[0].classList.add('sort-asc');
+
+    // --- Interactive Map ---
+    var stateNameToAbbr = {
+      "Alabama":"AL","Alaska":"AK","Arizona":"AZ","Arkansas":"AR","California":"CA",
+      "Colorado":"CO","Connecticut":"CT","Delaware":"DE","Florida":"FL","Georgia":"GA",
+      "Hawaii":"HI","Idaho":"ID","Illinois":"IL","Indiana":"IN","Iowa":"IA","Kansas":"KS",
+      "Kentucky":"KY","Louisiana":"LA","Maine":"ME","Maryland":"MD","Massachusetts":"MA",
+      "Michigan":"MI","Minnesota":"MN","Mississippi":"MS","Missouri":"MO","Montana":"MT",
+      "Nebraska":"NE","Nevada":"NV","New Hampshire":"NH","New Jersey":"NJ","New Mexico":"NM",
+      "New York":"NY","North Carolina":"NC","North Dakota":"ND","Ohio":"OH","Oklahoma":"OK",
+      "Oregon":"OR","Pennsylvania":"PA","Rhode Island":"RI","South Carolina":"SC",
+      "South Dakota":"SD","Tennessee":"TN","Texas":"TX","Utah":"UT","Vermont":"VT",
+      "Virginia":"VA","Washington":"WA","West Virginia":"WV","Wisconsin":"WI","Wyoming":"WY",
+      "District of Columbia":"DC"
+    };
+
+    // Build lookup: abbreviation -> row data
+    var abbrToRow = {};
+    for (var m = 0; m < rows.length; m++) {
+      var abbr = stateNameToAbbr[rows[m].state];
+      if (abbr) abbrToRow[abbr] = rows[m];
+    }
+
+    function mapColor(idx) {
+      if (idx < 0.97) return '#22c55e';
+      if (idx <= 1.03) return '#eab308';
+      if (idx <= 1.10) return '#f97316';
+      return '#ef4444';
+    }
+
+    // Color all state paths
+    var statePaths = document.querySelectorAll('#us-map-svg path[data-state]');
+    for (var sp = 0; sp < statePaths.length; sp++) {
+      var pathEl = statePaths[sp];
+      var code = pathEl.getAttribute('data-state');
+      var rowData = abbrToRow[code];
+      if (rowData) {
+        pathEl.style.fill = mapColor(rowData.index);
+      } else {
+        pathEl.style.fill = '#94a3b8';
+      }
+    }
+
+    // Tooltip
+    var tooltip = document.getElementById('map-tooltip');
+    var mapWrap = document.querySelector('.sc-map-wrap');
+
+    function showTooltip(evt, stateCode) {
+      var rd = abbrToRow[stateCode];
+      if (!rd) return;
+      tooltip.innerHTML = '<strong>' + rd.state + '</strong><br>' +
+        'Cost Index: ' + rd.index.toFixed(2) + 'x<br>' +
+        'Architectural: ' + fmt(rd.architectural);
+      tooltip.classList.add('visible');
+
+      var rect = mapWrap.getBoundingClientRect();
+      var x = evt.clientX - rect.left + 16;
+      var y = evt.clientY - rect.top - 10;
+
+      // Keep tooltip within container
+      if (x + 180 > rect.width) x = x - 200;
+      if (y < 0) y = 10;
+
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    }
+
+    function hideTooltip() {
+      tooltip.classList.remove('visible');
+    }
+
+    for (var tp = 0; tp < statePaths.length; tp++) {
+      (function(pathEl) {
+        var code = pathEl.getAttribute('data-state');
+        pathEl.addEventListener('mousemove', function(e) { showTooltip(e, code); });
+        pathEl.addEventListener('mouseleave', hideTooltip);
+        pathEl.addEventListener('click', function() {
+          // Find matching row in table
+          var rd = abbrToRow[code];
+          if (!rd) return;
+          var tbodyRows = document.querySelectorAll('#state-tbody tr');
+          for (var tr = 0; tr < tbodyRows.length; tr++) {
+            var link = tbodyRows[tr].querySelector('td a');
+            if (link && link.textContent === rd.state) {
+              tbodyRows[tr].scrollIntoView({ behavior: 'smooth', block: 'center' });
+              tbodyRows[tr].classList.add('map-highlight-row');
+              setTimeout(function(row) {
+                return function() { row.classList.remove('map-highlight-row'); };
+              }(tbodyRows[tr]), 2000);
+              break;
+            }
+          }
+        });
+      })(statePaths[tp]);
+    }
   })();
   </script>
 <script src="/js/tp-analytics.js" async></script>
