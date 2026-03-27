@@ -374,6 +374,7 @@
         + '<div style="border-top:1px solid #e5e7eb; padding-top:18px;">'
         + '<p class="small muted" style="margin:0 0 12px;">No quote handy? Enter your location and we\'ll estimate the cost:</p>'
         + '<div class="journey-address-grid">'
+        + '<div class="journey-address-full" style="position:relative;"><input id="journeyStreet" type="text" placeholder="Start typing your address..." autocomplete="off" /><div id="plumbingSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div></div>'
         + '<div><input id="journeyCity" type="text" placeholder="City" /></div>'
         + '<div><input id="journeyState" type="text" maxlength="2" placeholder="State (e.g. TX)" /></div>'
         + '</div>'
@@ -735,6 +736,46 @@
             }
           });
         }
+
+        // Address autocomplete
+        (function() {
+          var ai = document.getElementById("journeyStreet");
+          var sb = document.getElementById("plumbingSuggestions");
+          if (!ai || !sb) return;
+          var t = null;
+          ai.addEventListener("input", function() {
+            clearTimeout(t);
+            var q = ai.value.trim();
+            if (q.length < 4) { sb.style.display = "none"; return; }
+            t = setTimeout(function() {
+              fetch("/api/geocode-suggest?q=" + encodeURIComponent(q))
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                  if (!d.suggestions || !d.suggestions.length) { sb.style.display = "none"; return; }
+                  sb.innerHTML = d.suggestions.map(function(s, i) {
+                    return '<div data-idx="' + i + '" style="padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' + s.label + '</div>';
+                  }).join("");
+                  sb.style.display = "block";
+                  sb.querySelectorAll("[data-idx]").forEach(function(el) {
+                    el.addEventListener("click", function() {
+                      var s = d.suggestions[parseInt(el.dataset.idx)];
+                      if (!s) return;
+                      ai.value = s.street || s.label.split(",")[0] || "";
+                      var c = document.getElementById("journeyCity");
+                      var st = document.getElementById("journeyState");
+                      if (c) c.value = s.city || "";
+                      if (st) st.value = s.state || "";
+                      sb.style.display = "none";
+                    });
+                  });
+                })
+                .catch(function() { sb.style.display = "none"; });
+            }, 300);
+          });
+          document.addEventListener("click", function(e) {
+            if (!ai.contains(e.target) && !sb.contains(e.target)) sb.style.display = "none";
+          });
+        })();
 
         if (goEstimatorBtn) {
           goEstimatorBtn.addEventListener("click", function() {

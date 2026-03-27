@@ -404,7 +404,10 @@
           </div>\
           <div class="hvac-divider">or enter your address for an estimate</div>\
           <div class="hvac-address-form">\
-            <input type="text" id="addrStreet" placeholder="Street address" />\
+            <div style="position:relative">\
+              <input type="text" id="addrStreet" placeholder="Start typing your address..." autocomplete="off" />\
+              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
+            </div>\
             <div class="hvac-row">\
               <input type="text" id="addrCity" placeholder="City" />\
               <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
@@ -429,6 +432,49 @@
       fileInput.addEventListener("change", function() {
         if (fileInput.files.length) handleFile(fileInput.files[0]);
       });
+
+      // Address autocomplete
+      (function() {
+        var addrInput = document.getElementById("addrStreet");
+        var sugBox = document.getElementById("addrSuggestions");
+        if (!addrInput || !sugBox) return;
+        var timer = null;
+        addrInput.addEventListener("input", function() {
+          clearTimeout(timer);
+          var q = addrInput.value.trim();
+          if (q.length < 4) { sugBox.style.display = "none"; return; }
+          timer = setTimeout(function() {
+            fetch("/api/geocode-suggest?q=" + encodeURIComponent(q))
+              .then(function(r) { return r.json(); })
+              .then(function(data) {
+                if (!data.suggestions || !data.suggestions.length) { sugBox.style.display = "none"; return; }
+                sugBox.innerHTML = data.suggestions.map(function(s, i) {
+                  return '<div data-idx="' + i + '" style="padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' + s.label + '</div>';
+                }).join("");
+                sugBox.style.display = "block";
+                sugBox.querySelectorAll("[data-idx]").forEach(function(el) {
+                  el.addEventListener("click", function() {
+                    var idx = parseInt(el.dataset.idx);
+                    var s = data.suggestions[idx];
+                    if (!s) return;
+                    addrInput.value = s.street || s.label.split(",")[0] || "";
+                    var c = document.getElementById("addrCity");
+                    var st = document.getElementById("addrState");
+                    var z = document.getElementById("addrZip");
+                    if (c) c.value = s.city || "";
+                    if (st) st.value = s.state || "";
+                    if (z) z.value = s.zip || "";
+                    sugBox.style.display = "none";
+                  });
+                });
+              })
+              .catch(function() { sugBox.style.display = "none"; });
+          }, 300);
+        });
+        document.addEventListener("click", function(e) {
+          if (!addrInput.contains(e.target) && !sugBox.contains(e.target)) sugBox.style.display = "none";
+        });
+      })();
 
       document.getElementById("btnEstimate").addEventListener("click", function() {
         state.address.street = document.getElementById("addrStreet").value.trim();
