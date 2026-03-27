@@ -562,8 +562,24 @@
 
         // Use analyzer-parser.js for price extraction
         var parsed = null;
-        if (typeof parseExtractedText === "function") {
-          parsed = parseExtractedText(text);
+        try {
+          if (typeof parseExtractedText === "function") {
+            parsed = parseExtractedText(text);
+          }
+        } catch (parseErr) {
+          console.warn("Parser error, falling back to regex:", parseErr);
+        }
+
+        // Fallback price extraction if parser fails or returns nothing
+        if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
+          var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
+          var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v >= 1500 && v <= 80000; });
+          if (prices.length) {
+            prices.sort(function(a, b) { return b - a; });
+            parsed = parsed || {};
+            parsed.finalPrice = prices[0];
+            parsed.priceCandidates = prices.map(function(v) { return { value: v, score: 50 }; });
+          }
         }
 
         // Use HVAC parser for system-specific detection
@@ -635,11 +651,37 @@
 
       } catch (err) {
         console.error("HVAC analysis error:", err);
-        setProgress(100, "Error analyzing quote. Please try again.");
-        setTimeout(function() {
-          state.step = "address";
+        appRoot.innerHTML = '\
+          <div class="hvac-hero"><h1>We couldn\'t read that file</h1></div>\
+          <div class="hvac-card" style="text-align:center;">\
+            <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
+            <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
+            <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
+              <span style="font-size:20px;font-weight:700;">$</span>\
+              <input type="number" id="manualPrice" placeholder="e.g. 18200" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+            </div>\
+            <button class="hvac-btn hvac-btn-primary" id="manualPriceBtn">Analyze this price</button>\
+            <div style="margin-top:14px;"><button class="hvac-btn hvac-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
+          </div>';
+        document.getElementById("manualPriceBtn").addEventListener("click", function() {
+          var price = parseFloat(document.getElementById("manualPrice").value);
+          if (!price || price < 500) { alert("Please enter a valid price."); return; }
+          var region = getRegionFromState(state.address.stateCode);
+          var benchmark = calcBenchmark("central_ac", 16, 3, region, "good");
+          var ratio = price / benchmark;
+          state.result = {
+            source: "manual",
+            quotePrice: price,
+            benchmark: benchmark,
+            ratio: ratio,
+            verdict: verdictFromRatio(ratio),
+            systemType: { value: "central_ac", label: "Central Air Conditioning" },
+            seer: null, afue: null, tonnage: null, brand: null, brandNote: "",
+            scopeSignals: {}, region: region, location: null, parsed: null
+          };
+          state.step = "result";
           render();
-        }, 2000);
+        });
       }
     }
 
