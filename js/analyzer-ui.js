@@ -8815,6 +8815,13 @@ function buildComparisonWinnerHtml(summary) {
                 Find contractors${a.city ? ' in ' + escapeHtml(a.city) : ''}
               </a>
             </div>
+            <div id="feedbackWidget" style="padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:16px 0; text-align:center;">
+              <div style="font-size:15px; font-weight:600; margin-bottom:8px;">Was this helpful?</div>
+              <div style="display:flex; gap:10px; justify-content:center;">
+                <button onclick="submitFeedback('yes')" style="padding:8px 24px; border:1px solid #a7f3d0; background:#ecfdf5; border-radius:8px; font-size:14px; font-weight:600; color:#166534; cursor:pointer; font-family:inherit;">Yes</button>
+                <button onclick="submitFeedback('no')" style="padding:8px 24px; border:1px solid #fecaca; background:#fef2f2; border-radius:8px; font-size:14px; font-weight:600; color:#991b1b; cursor:pointer; font-family:inherit;">No</button>
+              </div>
+            </div>
             <div style="text-align:center; margin-top:10px;">
               <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
             </div>
@@ -8844,6 +8851,36 @@ function buildComparisonWinnerHtml(summary) {
         container.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">Could not render PDF preview.</div>';
       }
     }
+
+    window.submitFeedback = function submitFeedback(rating) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/api/analytics", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify({ type: "feedback", rating: rating, path: window.location.pathname }));
+
+      var widget = document.getElementById("feedbackWidget");
+      if (widget) {
+        if (rating === "no") {
+          widget.innerHTML = '<div style="font-size:14px; color:#475569; margin-bottom:8px;">Thanks. What could be better?</div>'
+            + '<input type="text" id="feedbackText" placeholder="Optional feedback..." style="width:100%; max-width:300px; padding:8px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; font-family:inherit;" />'
+            + '<div style="margin-top:8px;"><button onclick="submitFeedbackComment()" style="padding:6px 16px; background:var(--brand); color:#fff; border:none; border-radius:6px; font-size:13px; cursor:pointer; font-family:inherit;">Send</button></div>';
+        } else {
+          widget.innerHTML = '<div style="font-size:14px; color:#166534;">Thanks for the feedback!</div>';
+        }
+      }
+    };
+
+    window.submitFeedbackComment = function submitFeedbackComment() {
+      var text = (document.getElementById("feedbackText") || {}).value || "";
+      if (text.trim()) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/analytics", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({ type: "feedback", rating: "no", comment: text.trim(), path: window.location.pathname }));
+      }
+      var widget = document.getElementById("feedbackWidget");
+      if (widget) widget.innerHTML = '<div style="font-size:14px; color:#166534;">Thanks. We\'ll work on it.</div>';
+    };
 
     window.toggleSideBySide = function toggleSideBySide() {
       var existing = document.getElementById("sideBySideWrapper");

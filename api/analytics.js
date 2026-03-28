@@ -79,6 +79,19 @@ export default async function handler(req, res) {
       const ipHash = hashIP(getClientIP(req));
       const type = String(data.type || "pageview");
 
+      if (type === "feedback") {
+        const rating = String(data.rating || "").substring(0, 10);
+        const comment = String(data.comment || "").substring(0, 500).trim();
+        const page = String(data.path || "/").substring(0, 200);
+        const geo = getGeo(req);
+        await redis.lpush("tp:feedback", JSON.stringify({
+          rating, comment, page, device, city: geo.city, region: geo.region,
+          ipHash, ts: Date.now()
+        }));
+        await redis.ltrim("tp:feedback", 0, 1000);
+        return res.status(200).json({ ok: true });
+      }
+
       if (type === "event") {
         const event = String(data.event || "").substring(0, 50).trim();
         if (!event) return res.status(200).json({ ok: true });
@@ -163,6 +176,7 @@ export default async function handler(req, res) {
         : now - day;
 
       // Fetch from Redis
+      const rawFeedback = await redis.lrange("tp:feedback", 0, 100);
       const rawViews = await redis.lrange("tp:pageviews", 0, MAX_ENTRIES - 1);
       const rawEvents = await redis.lrange("tp:events", 0, MAX_ENTRIES - 1);
       const rawCrawls = await redis.lrange("tp:crawls", 0, 5000);
@@ -254,13 +268,24 @@ export default async function handler(req, res) {
         bot: c.bot, path: c.path, time: new Date(c.ts).toISOString()
       }));
 
+      // Feedback
+      const allFeedback = rawFeedback.map(r => typeof r === "string" ? JSON.parse(r) : r);
+      const recentFeedback = allFeedback.slice(0, 50).map(f => ({
+        rating: f.rating, comment: f.comment, page: f.page,
+        city: f.city, region: f.region, device: f.device,
+        time: new Date(f.ts).toISOString()
+      }));
+      const feedbackYes = allFeedback.filter(f => f.rating === "yes").length;
+      const feedbackNo = allFeedback.filter(f => f.rating === "no").length;
+
       return res.status(200).json({
         range, totalViews, uniqueVisitors, totalStored: allViews.length,
         topPages, topReferrers, directTraffic: directCount,
         devices, browsers, hourly,
         totalEvents: filteredEvents.length, topEvents, recentEvents,
         funnel, topCities, topRegions,
-        totalCrawls: filteredCrawls.length, topBots, recentCrawls
+        totalCrawls: filteredCrawls.length, topBots, recentCrawls,
+        feedbackYes, feedbackNo, totalFeedback: allFeedback.length, recentFeedback
       });
     } catch (e) {
       console.error("Analytics GET error:", e);
