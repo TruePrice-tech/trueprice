@@ -7,11 +7,28 @@ const PRICING_MODEL_PATH = path.join(ROOT, "data", "hvac-pricing-model.json");
 const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "hvac-city-page-template.html");
 const SITEMAP_PATH = path.join(ROOT, "sitemap-hvac.xml");
+const CONTEXT_PATH = path.join(ROOT, "data", "hvac-city-context.json");
 
 const SITE_BASE_URL = "https://truepricehq.com";
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+let _hvacContext = null;
+function buildHvacLocalContext(city, stateCode) {
+  if (!_hvacContext) {
+    try { _hvacContext = readJson(CONTEXT_PATH); } catch(e) { _hvacContext = {}; }
+  }
+  const ctx = _hvacContext[`${city}|${stateCode}`];
+  if (!ctx) return "";
+  const cards = [];
+  if (ctx.climateNote) cards.push(`<div class="local-card"><div class="local-card-icon">&#127777;</div><h3>Climate and your HVAC</h3><p>${ctx.climateNote}</p></div>`);
+  if (ctx.systemTip) cards.push(`<div class="local-card"><div class="local-card-icon">&#9881;</div><h3>System recommendation</h3><p>${ctx.systemTip}</p></div>`);
+  if (ctx.seasonNote) cards.push(`<div class="local-card"><div class="local-card-icon">&#128197;</div><h3>Best time to buy</h3><p>${ctx.seasonNote}</p></div>`);
+  if (ctx.localInsight) cards.push(`<div class="local-card"><div class="local-card-icon">&#128161;</div><h3>Local tip</h3><p>${ctx.localInsight}</p></div>`);
+  if (!cards.length) return "";
+  return `<section class="section"><h2>HVAC in ${city}: what locals should know</h2><div class="local-grid">${cards.join("\n")}</div></section>`;
 }
 
 function parseCsv(csvText) {
@@ -101,7 +118,8 @@ function main() {
       .replaceAll("{{RATE_HEAT_PUMP}}", formatCurrency(hpAvg))
       .replaceAll("{{RATE_FURNACE}}", formatCurrency(furnaceAvg))
       .replaceAll("{{RATE_FULL_SYSTEM}}", formatCurrency(fullAvg))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildHvacLocalContext(cityName, stateCode));
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

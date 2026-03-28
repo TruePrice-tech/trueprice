@@ -79,6 +79,21 @@ export default async function handler(req, res) {
       const ipHash = hashIP(getClientIP(req));
       const type = String(data.type || "pageview");
 
+      if (type === "email_signup") {
+        const email = String(data.email || "").trim().toLowerCase().substring(0, 254);
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRe.test(email)) {
+          return res.status(400).json({ ok: false, error: "Invalid email address" });
+        }
+        const geo = getGeo(req);
+        await redis.lpush("tp:subscribers", JSON.stringify({
+          email, device, city: geo.city, region: geo.region,
+          ipHash, ts: Date.now()
+        }));
+        await redis.ltrim("tp:subscribers", 0, 5000);
+        return res.status(200).json({ ok: true });
+      }
+
       if (type === "feedback") {
         const rating = String(data.rating || "").substring(0, 10);
         const comment = String(data.comment || "").substring(0, 500).trim();

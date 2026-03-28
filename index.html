@@ -260,6 +260,17 @@
       </div>
     </section>
 
+    <!-- EMAIL SIGNUP -->
+    <section class="hp-section" style="text-align:center; border-bottom:none; padding-bottom:0;">
+      <h2>Stay in the loop</h2>
+      <p style="color:var(--text-secondary); max-width:480px; margin:0 auto 20px;">Get notified when we add new tools and guides. No spam, unsubscribe anytime.</p>
+      <form id="emailSignup" style="display:flex; gap:8px; max-width:420px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
+        <input type="email" id="signupEmail" placeholder="your@email.com" required style="flex:1; min-width:200px; padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-size:15px; font-family:inherit;" />
+        <button type="submit" class="btn" style="padding:12px 24px;">Subscribe</button>
+      </form>
+      <div id="signupStatus" style="margin-top:10px; font-size:14px;"></div>
+    </section>
+
     <!-- DEMO: Example result -->
     <section class="hp-section">
       <h2>What you'll see</h2>
@@ -357,6 +368,45 @@
     .catch(function() {
       el.textContent = "800+";
     });
+})();
+</script>
+<script>
+(function() {
+  var form = document.getElementById("emailSignup");
+  if (!form) return;
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    var email = document.getElementById("signupEmail").value.trim();
+    var status = document.getElementById("signupStatus");
+    var btn = form.querySelector("button");
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+    status.textContent = "";
+    fetch("/api/analytics", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "email_signup", email: email })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.ok) {
+        status.style.color = "#166534";
+        status.textContent = "Thanks! You\u2019re on the list.";
+        form.reset();
+      } else {
+        status.style.color = "#b91c1c";
+        status.textContent = d.error || "Something went wrong. Try again.";
+      }
+      btn.disabled = false;
+      btn.textContent = "Subscribe";
+    })
+    .catch(function() {
+      status.style.color = "#b91c1c";
+      status.textContent = "Something went wrong. Try again.";
+      btn.disabled = false;
+      btn.textContent = "Subscribe";
+    });
+  });
 })();
 </script>
 </body>

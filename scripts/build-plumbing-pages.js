@@ -7,9 +7,26 @@ const PRICING_MODEL_PATH = path.join(ROOT, "data", "plumbing-pricing-model.json"
 const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "plumbing-city-page-template.html");
 const SITEMAP_PATH = path.join(ROOT, "sitemap-plumbing.xml");
+const CONTEXT_PATH = path.join(ROOT, "data", "plumbing-city-context.json");
 const SITE_BASE_URL = "https://truepricehq.com";
 
 function readJson(p) { return JSON.parse(fs.readFileSync(p, "utf8")); }
+
+let _plumbContext = null;
+function buildPlumbingLocalContext(city, stateCode) {
+  if (!_plumbContext) {
+    try { _plumbContext = readJson(CONTEXT_PATH); } catch(e) { _plumbContext = {}; }
+  }
+  const ctx = _plumbContext[`${city}|${stateCode}`];
+  if (!ctx) return "";
+  const cards = [];
+  if (ctx.waterNote) cards.push(`<div class="local-card"><div class="local-card-icon">&#128167;</div><h3>Water quality</h3><p>${ctx.waterNote}</p></div>`);
+  if (ctx.freezeRisk) cards.push(`<div class="local-card"><div class="local-card-icon">&#10052;</div><h3>Freeze risk</h3><p>${ctx.freezeRisk}</p></div>`);
+  if (ctx.materialTip) cards.push(`<div class="local-card"><div class="local-card-icon">&#128295;</div><h3>Material recommendation</h3><p>${ctx.materialTip}</p></div>`);
+  if (ctx.localInsight) cards.push(`<div class="local-card"><div class="local-card-icon">&#128161;</div><h3>Local tip</h3><p>${ctx.localInsight}</p></div>`);
+  if (!cards.length) return "";
+  return `<section class="section"><h2>Plumbing in ${city}: what locals should know</h2><div class="local-grid">${cards.join("\n")}</div></section>`;
+}
 
 function parseCsv(csvText) {
   const lines = csvText.trim().split(/\r?\n/);
@@ -77,7 +94,8 @@ function main() {
       .replaceAll("{{RATE_REPIPE}}", formatCurrency(repipePrice))
       .replaceAll("{{RATE_SEWER}}", formatCurrency(sewerPrice))
       .replaceAll("{{RATE_DRAIN}}", formatCurrency(drainPrice))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildPlumbingLocalContext(name, sc));
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);
