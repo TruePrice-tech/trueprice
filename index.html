@@ -7,6 +7,9 @@
   <script>(function(i,m,p,a,c,t){c.ire_o=p;c[p]=c[p]||function(){(c[p].a=c[p].a||[]).push(arguments)};t=a.createElement(m);var z=a.getElementsByTagName(m)[0];t.async=1;t.src=i;z.parentNode.insertBefore(t,z)})('https://utt.impactcdn.com/P-A7114939-7ba1-4d9a-916e-fc0398d073e51.js','script','impactStat',document,window);impactStat('transformLinks');impactStat('trackImpression');</script>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="dns-prefetch" href="https://utt.impactcdn.com" />
+  <link rel="dns-prefetch" href="https://api.producthunt.com" />
 
   <title>TruePrice | Stop Overpaying for Home Projects</title>
   <meta name="description" content="Upload a roofing, HVAC, plumbing, or solar quote and see if the price is fair in 30 seconds. Plus pricing guides for 15 home services. Free, no signup." />
@@ -25,7 +28,7 @@
   <meta name="twitter:description" content="Upload any contractor quote. See if the price is fair in 30 seconds." />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
 
-  <link rel="stylesheet" href="/css/trueprice.css" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
 
   <style>
     .hp-hero { background: linear-gradient(180deg, #0f172a 0%, #1e3a5f 100%); padding: 64px 0 56px; color: #fff; }
@@ -118,6 +121,9 @@
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does TruePrice work?","acceptedAnswer":{"@type":"Answer","text":"Upload a contractor quote (PDF or image) and TruePrice extracts the price, materials, and scope items. It compares against local pricing benchmarks and tells you if the quote is fair, high, or missing items."}},{"@type":"Question","name":"What services does TruePrice cover?","acceptedAnswer":{"@type":"Answer","text":"TruePrice covers 15 home services: roofing, HVAC, plumbing, electrical, windows, siding, insulation, painting, fencing, concrete, landscaping, garage doors, solar, foundation repair, and kitchen remodeling."}},{"@type":"Question","name":"Is TruePrice free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The quote analyzer, cost calculator, and all pricing guides are free with no signup required."}}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"}]}
   </script>
 </head>
 <body>
@@ -213,22 +219,22 @@
       <h2>Why homeowners use TruePrice</h2>
       <div class="hp-why-grid">
         <div class="hp-why-card">
-          <div class="hp-why-icon">&#128269;</div>
+          <div class="hp-why-icon" aria-hidden="true">&#128269;</div>
           <h3>Spot hidden costs</h3>
           <p>Missing items like flashing, ventilation, and disposal are the things that turn into surprise change orders. We catch them before you sign.</p>
         </div>
         <div class="hp-why-card">
-          <div class="hp-why-icon">&#128200;</div>
+          <div class="hp-why-icon" aria-hidden="true">&#128200;</div>
           <h3>Regional pricing, not guesswork</h3>
           <p>A roof in Charlotte costs 15% less than the same roof in Boston. We adjust for your area automatically so you're comparing apples to apples.</p>
         </div>
         <div class="hp-why-card">
-          <div class="hp-why-icon">&#128274;</div>
+          <div class="hp-why-icon" aria-hidden="true">&#128274;</div>
           <h3>Private by default</h3>
           <p>No account. No email. No phone number. Your quote stays in your browser. We don't sell leads. Ever.</p>
         </div>
         <div class="hp-why-card">
-          <div class="hp-why-icon">&#9889;</div>
+          <div class="hp-why-icon" aria-hidden="true">&#9889;</div>
           <h3>30-second verdict</h3>
           <p>Upload a PDF or photo, and we'll read it, pull out the price and scope, and tell you if it's fair. Done before your coffee gets cold.</p>
         </div>
@@ -265,10 +271,11 @@
       <h2>Stay in the loop</h2>
       <p style="color:var(--text-secondary); max-width:480px; margin:0 auto 20px;">Get notified when we add new tools and guides. No spam, unsubscribe anytime.</p>
       <form id="emailSignup" style="display:flex; gap:8px; max-width:420px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
-        <input type="email" id="signupEmail" placeholder="your@email.com" required style="flex:1; min-width:200px; padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-size:15px; font-family:inherit;" />
+        <label for="signupEmail" class="sr-only">Email address</label>
+        <input type="email" id="signupEmail" placeholder="your@email.com" required aria-label="Email address" style="flex:1; min-width:200px; padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-size:15px; font-family:inherit;" />
         <button type="submit" class="btn" style="padding:12px 24px;">Subscribe</button>
       </form>
-      <div id="signupStatus" style="margin-top:10px; font-size:14px;"></div>
+      <div id="signupStatus" role="status" aria-live="polite" style="margin-top:10px; font-size:14px;"></div>
     </section>
 
     <!-- DEMO: Example result -->
@@ -343,7 +350,7 @@
       </p>
     </div>
   </footer>
-<script src="/js/tp-analytics.js" async></script>
+<script src="/js/tp-analytics.min.js" async></script>
 <img src="/api/analytics?pixel=1&p=index.html" alt="" width="1" height="1" style="position:absolute;left:-9999px;" />
 <script>
 (function() {
