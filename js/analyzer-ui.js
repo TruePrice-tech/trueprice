@@ -3872,8 +3872,18 @@ function buildComparisonWinnerHtml(summary) {
         if (v.includes("overpriced")) return "This quote looks overpriced";
         if (v.includes("higher")) return "This quote looks high";
         if (v.includes("scope risk")) return "This quote may be missing items";
-        if (v.includes("low")) return "This price seems low — check what's included";
+        if (v.includes("low")) return "This price seems low";
         return verdict || "Analysis complete";
+      }
+
+      function getVerdictSubtitle(verdict) {
+        const v = String(verdict || "").toLowerCase();
+        if (v.includes("fair")) return "Looks good. This is in line with what other homeowners in your area are paying.";
+        if (v.includes("overpriced")) return "This is significantly above market. Get at least two more quotes before signing.";
+        if (v.includes("higher")) return "Not a dealbreaker, but worth getting a second quote to compare.";
+        if (v.includes("scope risk")) return "The price might be fine, but check what's actually included.";
+        if (v.includes("low")) return "Be careful. Low bids sometimes mean missing scope items or cut corners.";
+        return "";
       }
 
       function renderAffiliateLink(a) {
@@ -3930,6 +3940,7 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div class="verdict-headline">${getVerdictHeadline(a.verdict)}</div>
+            ${getVerdictSubtitle(a.verdict) ? `<div style="font-size:15px; color:#475569; margin:4px 0 8px; line-height:1.4;">${getVerdictSubtitle(a.verdict)}</div>` : ""}
 
             ${deltaText ? `<div class="verdict-delta">${escapeHtml(deltaText)}</div>` : ""}
 
@@ -4651,6 +4662,7 @@ function buildComparisonWinnerHtml(summary) {
                     ? "This quote looks unusually low"
                     : a.verdict}
                         </div>
+            ${getVerdictSubtitle(a.verdict) ? `<div style="font-size:16px; color:#475569; margin:0 0 10px; line-height:1.4;">${getVerdictSubtitle(a.verdict)}</div>` : ""}
 
             <div style="margin:0 0 10px;">
               <span class="pill" style="
@@ -8504,7 +8516,7 @@ function buildComparisonWinnerHtml(summary) {
       `;
     };
 
-    function renderInlineAnalyzingState(percent = 30, message = "Analyzing your quote…") {
+    function renderInlineAnalyzingState(percent = 30, message = "Reading the fine print so you don\u2019t have to\u2026") {
       const el = document.getElementById("inlineAnalyzingState");
       if (!el) return;
 
@@ -8551,9 +8563,9 @@ function buildComparisonWinnerHtml(summary) {
       const phases = [
         { pct: 20, label: "Extracting price, material, and scope...", detail: "Scanning document for key pricing signals", delay: 1500 },
         { pct: 45, label: "Looking up your property...", detail: "Estimating roof size from address data", delay: 3500 },
-        { pct: 65, label: "Comparing against local pricing...", detail: "Matching to city-level benchmarks", delay: 5000 },
+        { pct: 65, label: "Checking what your neighbors paid...", detail: "Matching to city-level benchmarks", delay: 5000 },
         { pct: 85, label: "Checking for risks and missing items...", detail: "Reviewing scope signals and risk flags", delay: 7000 },
-        { pct: 95, label: "Generating your decision...", detail: "Assembling your personalized result", delay: 8500 }
+        { pct: 95, label: "Almost there...", detail: "Assembling your personalized result", delay: 8500 }
       ];
 
       phases.forEach(phase => {
@@ -8707,8 +8719,8 @@ function buildComparisonWinnerHtml(summary) {
       const p = latestParsed || {};
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
-          <div class="progress-phase" id="analysisPhaseLabel">Analyzing your quote...</div>
-          <div class="progress-sub" id="analysisPhaseDetail">Comparing against local pricing data</div>
+          <div class="progress-phase" id="analysisPhaseLabel">Reading the fine print so you don't have to...</div>
+          <div class="progress-sub" id="analysisPhaseDetail">Checking what your neighbors paid</div>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
             <div id="analysisProgressBar" style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div>
           </div>
@@ -9102,8 +9114,8 @@ function buildComparisonWinnerHtml(summary) {
       if (!root) return;
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
-          <div class="progress-phase">Estimating your roof cost...</div>
-          <div class="progress-sub">Looking up property data and local pricing</div>
+          <div class="progress-phase">Crunching the numbers for your area...</div>
+          <div class="progress-sub">Checking satellite data and local rates</div>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;">
             <div id="estProgressBar" style="width:20%; height:100%; background:var(--brand, #1d4ed8); transition:width .6s;"></div>
           </div>
@@ -9346,6 +9358,15 @@ function buildComparisonWinnerHtml(summary) {
                 <span>${fmtPrice(r.high)}</span>
               </div>
             </div>
+          </div>
+
+          <!-- Encouraging context nudge -->
+          <div style="padding:12px 20px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; margin-bottom:20px; font-size:14px; color:#475569;">
+            ${r.footprintSource === "osm_footprint"
+              ? "We measured your roof from satellite data for a more accurate estimate."
+              : (r.region === "west" || r.region === "northeast")
+                ? "Labor costs run higher in your area. This estimate accounts for that."
+                : "This estimate is based on regional pricing data for your area."}
           </div>
 
           <!-- Affiliate: material shopping link -->
