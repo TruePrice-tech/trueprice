@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Embeddable Pricing Widget | TruePrice</title>
+  <meta name="description" content="Embed local home service pricing data on your site. One line of code, no signup, free. Covers 15 services across 739 cities." />
+  <link rel="canonical" href="https://truepricehq.com/widget.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Embeddable Pricing Widget | TruePrice" />
+  <meta property="og:description" content="A free, lightweight widget that shows local home service costs. One line of code. No signup." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/widget.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Embeddable Pricing Widget | TruePrice" />
+  <meta name="twitter:description" content="A free, lightweight widget that shows local home service costs. One line of code. No signup." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+  <style>
+    .widget-hero { background: linear-gradient(180deg, #0f172a 0%, #1e3a5f 100%); padding: 64px 0 56px; color: #fff; }
+    .widget-hero h1 { font-size: 40px; max-width: 700px; color: #fff; margin-bottom: 16px; }
+    .widget-hero p { font-size: 18px; color: rgba(255,255,255,0.8); max-width: 580px; line-height: 1.6; }
+
+    .widget-section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .widget-section:last-of-type { border-bottom: none; }
+    .widget-section h2 { margin-top: 0; font-size: 28px; }
+
+    .widget-controls { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .widget-controls label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+    .widget-controls select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: #fff; min-width: 160px; }
+
+    .widget-demo-area { display: flex; justify-content: center; padding: 32px; background: var(--bg-subtle, #f8fafc); border-radius: 12px; border: 1px solid var(--border); min-height: 280px; }
+
+    .widget-code-block { position: relative; background: #0f172a; color: #e2e8f0; padding: 20px; border-radius: 10px; font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, monospace; font-size: 13px; line-height: 1.6; overflow-x: auto; white-space: pre-wrap; word-break: break-all; }
+    .widget-copy-btn { position: absolute; top: 12px; right: 12px; padding: 6px 14px; background: #1d4ed8; color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .widget-copy-btn:hover { background: #1e40af; }
+
+    .widget-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+    .widget-feature { padding: 20px; background: #fff; border: 1px solid var(--border); border-radius: 12px; }
+    .widget-feature h3 { font-size: 16px; margin: 0 0 6px; }
+    .widget-feature p { font-size: 14px; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+    .widget-users-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 20px; }
+    .widget-user { padding: 16px 20px; background: #fff; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; font-weight: 500; color: var(--text); }
+
+    .widget-services-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    .widget-services-table th { text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+    .widget-services-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .widget-services-table code { background: var(--bg-subtle, #f1f5f9); padding: 2px 8px; border-radius: 4px; font-size: 13px; }
+
+    @media (max-width: 640px) {
+      .widget-hero h1 { font-size: 28px; }
+      .widget-controls select { min-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a class="nav-cta" href="/analyze-quote.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="widget-hero">
+    <div class="container">
+      <h1>Embed TruePrice Pricing Data on Your Site</h1>
+      <p>A free, lightweight widget that shows local home service costs. One line of code. No signup.</p>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- Live Demo -->
+    <section class="widget-section" id="demo">
+      <h2>Live Demo</h2>
+      <p style="color:var(--text-secondary); margin-bottom:20px;">Choose a city, service, and theme to preview the widget. The embed code updates automatically.</p>
+
+      <div class="widget-controls">
+        <label>City
+          <select id="widget-city">
+            <option value="Dallas">Dallas</option>
+            <option value="Houston">Houston</option>
+            <option value="Austin">Austin</option>
+            <option value="San Antonio">San Antonio</option>
+            <option value="Phoenix">Phoenix</option>
+            <option value="Los Angeles">Los Angeles</option>
+            <option value="Chicago">Chicago</option>
+            <option value="Miami">Miami</option>
+            <option value="Atlanta">Atlanta</option>
+            <option value="Denver">Denver</option>
+            <option value="Seattle">Seattle</option>
+            <option value="New York">New York</option>
+            <option value="Boston">Boston</option>
+            <option value="Charlotte">Charlotte</option>
+            <option value="Nashville">Nashville</option>
+            <option value="Portland">Portland</option>
+            <option value="Las Vegas">Las Vegas</option>
+            <option value="Minneapolis">Minneapolis</option>
+            <option value="Detroit">Detroit</option>
+            <option value="Tampa">Tampa</option>
+          </select>
+        </label>
+        <label>State
+          <select id="widget-state">
+            <option value="AL">AL</option>
+            <option value="AK">AK</option>
+            <option value="AZ">AZ</option>
+            <option value="AR">AR</option>
+            <option value="CA">CA</option>
+            <option value="CO">CO</option>
+            <option value="CT">CT</option>
+            <option value="DE">DE</option>
+            <option value="FL">FL</option>
+            <option value="GA">GA</option>
+            <option value="HI">HI</option>
+            <option value="ID">ID</option>
+            <option value="IL">IL</option>
+            <option value="IN">IN</option>
+            <option value="IA">IA</option>
+            <option value="KS">KS</option>
+            <option value="KY">KY</option>
+            <option value="LA">LA</option>
+            <option value="ME">ME</option>
+            <option value="MD">MD</option>
+            <option value="MA">MA</option>
+            <option value="MI">MI</option>
+            <option value="MN">MN</option>
+            <option value="MS">MS</option>
+            <option value="MO">MO</option>
+            <option value="MT">MT</option>
+            <option value="NE">NE</option>
+            <option value="NV">NV</option>
+            <option value="NH">NH</option>
+            <option value="NJ">NJ</option>
+            <option value="NM">NM</option>
+            <option value="NY">NY</option>
+            <option value="NC">NC</option>
+            <option value="ND">ND</option>
+            <option value="OH">OH</option>
+            <option value="OK">OK</option>
+            <option value="OR">OR</option>
+            <option value="PA">PA</option>
+            <option value="RI">RI</option>
+            <option value="SC">SC</option>
+            <option value="SD">SD</option>
+            <option value="TN">TN</option>
+            <option value="TX" selected>TX</option>
+            <option value="UT">UT</option>
+            <option value="VT">VT</option>
+            <option value="VA">VA</option>
+            <option value="WA">WA</option>
+            <option value="WV">WV</option>
+            <option value="WI">WI</option>
+            <option value="WY">WY</option>
+          </select>
+        </label>
+        <label>Service
+          <select id="widget-service">
+            <option value="roofing" selected>Roofing</option>
+            <option value="hvac">HVAC</option>
+            <option value="plumbing">Plumbing</option>
+            <option value="solar">Solar</option>
+            <option value="painting">Painting</option>
+            <option value="electrical">Electrical</option>
+            <option value="landscaping">Landscaping</option>
+            <option value="kitchen-remodel">Kitchen Remodel</option>
+            <option value="window-replacement">Window Replacement</option>
+            <option value="fencing">Fencing</option>
+            <option value="garage-door">Garage Door</option>
+            <option value="insulation">Insulation</option>
+            <option value="concrete">Concrete</option>
+            <option value="bathroom-remodel">Bathroom Remodel</option>
+            <option value="flooring">Flooring</option>
+          </select>
+        </label>
+        <label>Theme
+          <select id="widget-theme">
+            <option value="light" selected>Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="widget-demo-area" id="widget-demo-area">
+        <!-- Widget renders here -->
+      </div>
+    </section>
+
+    <!-- Embed Code -->
+    <section class="widget-section" id="embed-code">
+      <h2>Embed Code</h2>
+      <p style="color:var(--text-secondary); margin-bottom:16px;">Copy this snippet and paste it into your HTML where you want the widget to appear.</p>
+      <div class="widget-code-block" id="widget-code-display">
+        <button class="widget-copy-btn" id="widget-copy-btn">Copy to Clipboard</button>
+        <code id="widget-code-text"></code>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="widget-section">
+      <h2>Features</h2>
+      <div class="widget-features-grid">
+        <div class="widget-feature">
+          <h3>Covers 15 home services</h3>
+          <p>Roofing, HVAC, plumbing, solar, painting, electrical, landscaping, kitchen and bathroom remodels, and more.</p>
+        </div>
+        <div class="widget-feature">
+          <h3>739 cities with local pricing</h3>
+          <p>Real cost data localized to your audience's city. Not national averages.</p>
+        </div>
+        <div class="widget-feature">
+          <h3>Updates automatically</h3>
+          <p>Pricing data is fetched live from TruePrice. Your widget always shows current numbers.</p>
+        </div>
+        <div class="widget-feature">
+          <h3>Light and dark themes</h3>
+          <p>Set data-theme="light" or data-theme="dark" to match your site's design.</p>
+        </div>
+        <div class="widget-feature">
+          <h3>Zero dependencies, under 10KB</h3>
+          <p>Pure vanilla JavaScript. No frameworks, no external stylesheets, no bloat.</p>
+        </div>
+        <div class="widget-feature">
+          <h3>Style-isolated with Shadow DOM</h3>
+          <p>Widget styles never leak into your page. Your CSS never breaks the widget.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Who Should Use This -->
+    <section class="widget-section">
+      <h2>Who Should Use This</h2>
+      <div class="widget-users-grid">
+        <div class="widget-user">Real estate bloggers</div>
+        <div class="widget-user">Home improvement sites</div>
+        <div class="widget-user">Local news outlets</div>
+        <div class="widget-user">Contractor directories</div>
+        <div class="widget-user">Real estate agent websites</div>
+      </div>
+    </section>
+
+    <!-- Supported Services -->
+    <section class="widget-section">
+      <h2>Supported Services</h2>
+      <p style="color:var(--text-secondary); margin-bottom:4px;">Use these values in the <code style="background:var(--bg-subtle,#f1f5f9); padding:2px 6px; border-radius:4px; font-size:13px;">data-service</code> attribute.</p>
+      <table class="widget-services-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>data-service value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Roofing</td><td><code>roofing</code></td></tr>
+          <tr><td>HVAC</td><td><code>hvac</code></td></tr>
+          <tr><td>Plumbing</td><td><code>plumbing</code></td></tr>
+          <tr><td>Solar</td><td><code>solar</code></td></tr>
+          <tr><td>Painting</td><td><code>painting</code></td></tr>
+          <tr><td>Electrical</td><td><code>electrical</code></td></tr>
+          <tr><td>Landscaping</td><td><code>landscaping</code></td></tr>
+          <tr><td>Kitchen Remodel</td><td><code>kitchen-remodel</code></td></tr>
+          <tr><td>Window Replacement</td><td><code>window-replacement</code></td></tr>
+          <tr><td>Fencing</td><td><code>fencing</code></td></tr>
+          <tr><td>Garage Door</td><td><code>garage-door</code></td></tr>
+          <tr><td>Insulation</td><td><code>insulation</code></td></tr>
+          <tr><td>Concrete</td><td><code>concrete</code></td></tr>
+          <tr><td>Bathroom Remodel</td><td><code>bathroom-remodel</code></td></tr>
+          <tr><td>Flooring</td><td><code>flooring</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="/find-contractors.html" style="color:inherit;">Find Contractors</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var citySelect = document.getElementById('widget-city');
+      var stateSelect = document.getElementById('widget-state');
+      var serviceSelect = document.getElementById('widget-service');
+      var themeSelect = document.getElementById('widget-theme');
+      var demoArea = document.getElementById('widget-demo-area');
+      var codeText = document.getElementById('widget-code-text');
+      var copyBtn = document.getElementById('widget-copy-btn');
+
+      // Map cities to their default states
+      var cityStateMap = {
+        'Dallas': 'TX', 'Houston': 'TX', 'Austin': 'TX', 'San Antonio': 'TX',
+        'Phoenix': 'AZ', 'Los Angeles': 'CA', 'Chicago': 'IL', 'Miami': 'FL',
+        'Atlanta': 'GA', 'Denver': 'CO', 'Seattle': 'WA', 'New York': 'NY',
+        'Boston': 'MA', 'Charlotte': 'NC', 'Nashville': 'TN', 'Portland': 'OR',
+        'Las Vegas': 'NV', 'Minneapolis': 'MN', 'Detroit': 'MI', 'Tampa': 'FL'
+      };
+
+      // When city changes, auto-select the matching state
+      citySelect.addEventListener('change', function() {
+        var defaultState = cityStateMap[citySelect.value];
+        if (defaultState) {
+          stateSelect.value = defaultState;
+        }
+        updateWidget();
+      });
+
+      stateSelect.addEventListener('change', updateWidget);
+      serviceSelect.addEventListener('change', updateWidget);
+      themeSelect.addEventListener('change', updateWidget);
+
+      function getEmbedCode() {
+        return '<script src="https://truepricehq.com/widget/tp-widget.js" data-city="' +
+          citySelect.value + '" data-state="' + stateSelect.value +
+          '" data-service="' + serviceSelect.value +
+          '" data-theme="' + themeSelect.value + '" async><\/script>';
+      }
+
+      function updateCodeDisplay() {
+        codeText.textContent = getEmbedCode();
+      }
+
+      function updateWidget() {
+        updateCodeDisplay();
+
+        // Update demo area background for dark theme
+        if (themeSelect.value === 'dark') {
+          demoArea.style.background = '#0f172a';
+        } else {
+          demoArea.style.background = '';
+        }
+
+        // Remove existing widget
+        demoArea.innerHTML = '';
+
+        // Create new script element
+        var s = document.createElement('script');
+        s.src = '/widget/tp-widget.js';
+        s.setAttribute('data-city', citySelect.value);
+        s.setAttribute('data-state', stateSelect.value);
+        s.setAttribute('data-service', serviceSelect.value);
+        s.setAttribute('data-theme', themeSelect.value);
+        s.async = true;
+        demoArea.appendChild(s);
+      }
+
+      copyBtn.addEventListener('click', function() {
+        navigator.clipboard.writeText(getEmbedCode()).then(function() {
+          copyBtn.textContent = 'Copied!';
+          setTimeout(function() { copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
+        });
+      });
+
+      // Initial render
+      updateWidget();
+    })();
+  </script>
+  <script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
