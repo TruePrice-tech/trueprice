@@ -69,8 +69,11 @@ function main() {
     // Typical project: 8-12 piers
     const typicalLow = pierPrice * 8;
     const typicalHigh = pierPrice * 12 + wallPrice;
+    const avgLowRaw = String(crackPrice);
+    const avgHighRaw = String(typicalHigh);
     const avgLow = formatCurrency(crackPrice);
     const avgHigh = formatCurrency(typicalHigh);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows by project size
     const moderateBase = pierPrice * 10; // 10 piers as baseline
@@ -91,7 +94,10 @@ function main() {
       .replaceAll("{{RATE_SLABJACKING}}", formatCurrency(slabjackPrice))
       .replaceAll("{{RATE_WALL}}", formatCurrency(wallPrice))
       .replaceAll("{{RATE_CRACK}}", formatCurrency(crackPrice))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

@@ -72,8 +72,13 @@ function main() {
 
     // Average based on 200 LF yard
     const avgLF = 200;
-    const avgLow = formatCurrency(Math.round(chainMid * avgLF * laborMult * overheadMult / 50) * 50);
-    const avgHigh = formatCurrency(Math.round(ironMid * avgLF * laborMult * overheadMult / 50) * 50);
+    const avgLowVal = Math.round(chainMid * avgLF * laborMult * overheadMult / 50) * 50;
+    const avgHighVal = Math.round(ironMid * avgLF * laborMult * overheadMult / 50) * 50;
+    const avgLowRaw = String(avgLowVal);
+    const avgHighRaw = String(avgHighVal);
+    const avgLow = formatCurrency(avgLowVal);
+    const avgHigh = formatCurrency(avgHighVal);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows
     const priceRows = pricingModel.yardSizes.map(size => {
@@ -96,7 +101,10 @@ function main() {
       .replaceAll("{{RATE_VINYL}}", formatCurrency(vinylRate))
       .replaceAll("{{RATE_CHAINLINK}}", formatCurrency(chainRate))
       .replaceAll("{{RATE_WROUGHTIRON}}", formatCurrency(ironRate))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

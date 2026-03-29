@@ -69,8 +69,13 @@ function main() {
 
     // Average based on 2000 sqft home
     const avgSqft = 2000;
-    const avgLow = formatCurrency(Math.round(standardMid * 0.85 * avgSqft * laborMult * overheadMult / 50) * 50);
-    const avgHigh = formatCurrency(Math.round(premiumMid * 1.15 * avgSqft * laborMult * overheadMult / 50) * 50);
+    const avgLowVal = Math.round(standardMid * 0.85 * avgSqft * laborMult * overheadMult / 50) * 50;
+    const avgHighVal = Math.round(premiumMid * 1.15 * avgSqft * laborMult * overheadMult / 50) * 50;
+    const avgLowRaw = String(avgLowVal);
+    const avgHighRaw = String(avgHighVal);
+    const avgLow = formatCurrency(avgLowVal);
+    const avgHigh = formatCurrency(avgHighVal);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows
     const priceRows = pricingModel.homeSizes.map(size => {
@@ -91,7 +96,10 @@ function main() {
       .replaceAll("{{RATE_STANDARD}}", formatCurrency(standardRate))
       .replaceAll("{{RATE_PREMIUM}}", formatCurrency(premiumRate))
       .replaceAll("{{RATE_CABINET}}", formatCurrency(cabinetAvg))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

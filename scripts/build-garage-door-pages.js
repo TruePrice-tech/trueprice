@@ -66,8 +66,11 @@ function main() {
     const customPrice = Math.round(base.custom_carriage.basePrice * laborMult * overheadMult / roundTo) * roundTo;
     const openerPrice = Math.round(base.opener_only.basePrice * laborMult * overheadMult / roundTo) * roundTo;
 
+    const avgLowRaw = String(Math.round(singlePrice * 0.85));
+    const avgHighRaw = String(Math.round(customPrice * 1.15));
     const avgLow = formatCurrency(singlePrice * 0.85);
     const avgHigh = formatCurrency(customPrice * 1.15);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows by material
     const materials = pricingModel.materialUpgrades;
@@ -90,7 +93,10 @@ function main() {
       .replaceAll("{{RATE_DOUBLE}}", formatCurrency(doublePrice))
       .replaceAll("{{RATE_CUSTOM}}", formatCurrency(customPrice))
       .replaceAll("{{RATE_OPENER}}", formatCurrency(openerPrice))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

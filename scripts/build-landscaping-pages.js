@@ -73,8 +73,13 @@ function main() {
 
     // Average based on 400 sqft paver patio
     const avgSqft = 400;
-    const avgLow = formatCurrency(Math.round(paverMid * 0.67 * avgSqft * laborMult * overheadMult / 50) * 50);
-    const avgHigh = formatCurrency(Math.round(paverMid * 1.33 * avgSqft * laborMult * overheadMult / 50) * 50);
+    const avgLowVal = Math.round(paverMid * 0.67 * avgSqft * laborMult * overheadMult / 50) * 50;
+    const avgHighVal = Math.round(paverMid * 1.33 * avgSqft * laborMult * overheadMult / 50) * 50;
+    const avgLowRaw = String(avgLowVal);
+    const avgHighRaw = String(avgHighVal);
+    const avgLow = formatCurrency(avgLowVal);
+    const avgHigh = formatCurrency(avgHighVal);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Ranges for flat-rate services
     const designLow = formatCurrency(Math.round(pricingModel.basePricing.landscape_design_install.low * laborMult * overheadMult / 50) * 50);
@@ -108,7 +113,10 @@ function main() {
       .replaceAll("{{RANGE_DESIGN}}", `${designLow} - ${designHigh}`)
       .replaceAll("{{RANGE_DRAIN}}", `${drainLow} - ${drainHigh}`)
       .replaceAll("{{RANGE_GRADING}}", `${gradingLow} - ${gradingHigh}`)
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

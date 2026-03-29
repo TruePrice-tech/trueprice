@@ -71,8 +71,13 @@ function main() {
 
     // Average based on 600 sqft project
     const avgSqft = 600;
-    const avgLow = formatCurrency(Math.round(asphaltMid * avgSqft * laborMult * overheadMult / 50) * 50);
-    const avgHigh = formatCurrency(Math.round(stampedMid * avgSqft * laborMult * overheadMult / 50) * 50);
+    const avgLowVal = Math.round(asphaltMid * avgSqft * laborMult * overheadMult / 50) * 50;
+    const avgHighVal = Math.round(stampedMid * avgSqft * laborMult * overheadMult / 50) * 50;
+    const avgLowRaw = String(avgLowVal);
+    const avgHighRaw = String(avgHighVal);
+    const avgLow = formatCurrency(avgLowVal);
+    const avgHigh = formatCurrency(avgHighVal);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows
     const priceRows = pricingModel.projectSizes.map(size => {
@@ -95,7 +100,10 @@ function main() {
       .replaceAll("{{RATE_STAMPED}}", formatCurrency(stampedRate))
       .replaceAll("{{RATE_PATIO}}", formatCurrency(patioRate))
       .replaceAll("{{RATE_ASPHALT}}", formatCurrency(asphaltRate))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

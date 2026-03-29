@@ -68,8 +68,13 @@ function main() {
     const sewerPrice = Math.round(pm.basePriceByService.sewer_line.priceByMethod.traditional_dig * lm * om / round) * round;
     const drainPrice = Math.round(pm.basePriceByService.drain_cleaning.priceByType.main_line * lm * om / round) * round;
 
-    const avgLow = formatCurrency(drainPrice);
-    const avgHigh = formatCurrency(Math.round(pm.basePriceByService.repipe.priceByMaterial.copper * lm * om / round) * round);
+    const avgLowVal = drainPrice;
+    const avgHighVal = Math.round(pm.basePriceByService.repipe.priceByMaterial.copper * lm * om / round) * round;
+    const avgLowRaw = String(avgLowVal);
+    const avgHighRaw = String(avgHighVal);
+    const avgLow = formatCurrency(avgLowVal);
+    const avgHigh = formatCurrency(avgHighVal);
+    const slugLC = slugify(name) + "-" + sc.toLowerCase();
 
     const priceRows = [
       ["Water Heater (50 gal tank)", formatCurrency(whPrice * 0.85) + " &ndash; " + formatCurrency(whPrice * 1.15)],
@@ -95,7 +100,10 @@ function main() {
       .replaceAll("{{RATE_SEWER}}", formatCurrency(sewerPrice))
       .replaceAll("{{RATE_DRAIN}}", formatCurrency(drainPrice))
       .replaceAll("{{PRICE_ROWS}}", priceRows)
-      .replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildPlumbingLocalContext(name, sc));
+      .replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildPlumbingLocalContext(name, sc))
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

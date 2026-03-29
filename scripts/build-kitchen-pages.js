@@ -66,8 +66,11 @@ function main() {
     const majorPrice = Math.round(tiers.major.base * laborMult * overheadMult / roundTo) * roundTo;
     const refacingPrice = Math.round(tiers.cabinet_refacing.base * laborMult * overheadMult / roundTo) * roundTo;
 
+    const avgLowRaw = String(Math.round(minorPrice * 0.85));
+    const avgHighRaw = String(Math.round(majorPrice * 1.15));
     const avgLow = formatCurrency(minorPrice * 0.85);
     const avgHigh = formatCurrency(majorPrice * 1.15);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows by kitchen size
     const priceRows = pricingModel.kitchenSizes.map(size => {
@@ -89,7 +92,10 @@ function main() {
       .replaceAll("{{RATE_MIDRANGE}}", formatCurrency(midPrice))
       .replaceAll("{{RATE_MAJOR}}", formatCurrency(majorPrice))
       .replaceAll("{{RATE_REFACING}}", formatCurrency(refacingPrice))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

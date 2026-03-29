@@ -73,8 +73,13 @@ function main() {
     const entryDoorMid = formatCurrency(Math.round(((types.entry_door.lowPerUnit + types.entry_door.highPerUnit) / 2) * mult / 50) * 50);
 
     // Avg range based on 15 vinyl windows (low) to 15 wood windows (high)
-    const avgLow = formatCurrency(Math.round(types.vinyl.lowPerUnit * 15 * mult / 50) * 50);
-    const avgHigh = formatCurrency(Math.round(types.wood.highPerUnit * 15 * mult / 50) * 50);
+    const avgLowVal = Math.round(types.vinyl.lowPerUnit * 15 * mult / 50) * 50;
+    const avgHighVal = Math.round(types.wood.highPerUnit * 15 * mult / 50) * 50;
+    const avgLowRaw = String(avgLowVal);
+    const avgHighRaw = String(avgHighVal);
+    const avgLow = formatCurrency(avgLowVal);
+    const avgHigh = formatCurrency(avgHighVal);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows by home size (number of windows)
     const priceRows = pricingModel.homeSizes.map(size => {
@@ -98,7 +103,10 @@ function main() {
       .replaceAll("{{RATE_WOOD}}", woodMid)
       .replaceAll("{{RATE_FIBERGLASS}}", fiberglassMid)
       .replaceAll("{{RATE_ENTRY_DOOR}}", entryDoorMid)
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

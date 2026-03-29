@@ -72,8 +72,13 @@ function main() {
     const evMid = formatCurrency(Math.round(((services.ev_charger.low + services.ev_charger.high) / 2) * mult / 50) * 50);
     const genMid = formatCurrency(Math.round(((services.generator.low + services.generator.high) / 2) * mult / 50) * 50);
 
-    const avgLow = formatCurrency(Math.round(services.panel_upgrade.low * mult / 50) * 50);
-    const avgHigh = formatCurrency(Math.round(services.whole_house_rewire.high * mult / 50) * 50);
+    const avgLowVal = Math.round(services.panel_upgrade.low * mult / 50) * 50;
+    const avgHighVal = Math.round(services.whole_house_rewire.high * mult / 50) * 50;
+    const avgLowRaw = String(avgLowVal);
+    const avgHighRaw = String(avgHighVal);
+    const avgLow = formatCurrency(avgLowVal);
+    const avgHigh = formatCurrency(avgHighVal);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows for each service
     const priceRows = Object.values(services).map(svc => {
@@ -95,7 +100,10 @@ function main() {
       .replaceAll("{{RATE_REWIRE}}", rewireMid)
       .replaceAll("{{RATE_EV}}", evMid)
       .replaceAll("{{RATE_GENERATOR}}", genMid)
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

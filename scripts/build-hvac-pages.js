@@ -93,8 +93,11 @@ function main() {
     const furnaceAvg = Math.round(furnaceBase * laborMult * overheadMult / 50) * 50;
     const fullAvg = Math.round(fullBase * avgTons * laborMult * overheadMult / 50) * 50;
 
+    const avgLowRaw = String(Math.round(acAvg * 0.85));
+    const avgHighRaw = String(Math.round(fullAvg * 1.15));
     const avgLow = formatCurrency(acAvg * 0.85);
     const avgHigh = formatCurrency(fullAvg * 1.15);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows
     const priceRows = pricingModel.homeSizes.map(size => {
@@ -119,7 +122,10 @@ function main() {
       .replaceAll("{{RATE_FURNACE}}", formatCurrency(furnaceAvg))
       .replaceAll("{{RATE_FULL_SYSTEM}}", formatCurrency(fullAvg))
       .replaceAll("{{PRICE_ROWS}}", priceRows)
-      .replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildHvacLocalContext(cityName, stateCode));
+      .replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildHvacLocalContext(cityName, stateCode))
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

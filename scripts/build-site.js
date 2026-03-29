@@ -303,7 +303,9 @@ function summarizeCityPricing(cityPricing) {
 
   return {
     low: Math.min(...allValues).toLocaleString(),
-    high: Math.max(...allValues).toLocaleString()
+    high: Math.max(...allValues).toLocaleString(),
+    lowRaw: String(Math.round(Math.min(...allValues))),
+    highRaw: String(Math.round(Math.max(...allValues)))
   };
 }
 
@@ -617,6 +619,8 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{CANONICAL_URL}}", canonicalUrl);
   template = template.replaceAll("{{AVG_LOW}}", citySummary.low);
   template = template.replaceAll("{{AVG_HIGH}}", citySummary.high);
+  template = template.replaceAll("{{AVG_LOW_RAW}}", citySummary.lowRaw);
+  template = template.replaceAll("{{AVG_HIGH_RAW}}", citySummary.highRaw);
   template = template.replaceAll("{{PRICE_SQFT_LOW}}", cityPerSqFt.low);
   template = template.replaceAll("{{PRICE_SQFT_HIGH}}", cityPerSqFt.high);
   template = template.replaceAll("{{PRICE_ROWS}}", priceRows);

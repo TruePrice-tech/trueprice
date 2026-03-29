@@ -73,8 +73,13 @@ function main() {
     const engineeredMid = "$" + ((((types.engineered_wood.lowPerSqft + types.engineered_wood.highPerSqft) / 2) * mult).toFixed(2));
 
     // Avg range based on 1500 sqft vinyl (low) to 1500 sqft fiber cement (high)
-    const avgLow = formatCurrency(Math.round(types.vinyl.lowPerSqft * 1500 * mult / 50) * 50);
-    const avgHigh = formatCurrency(Math.round(types.fiber_cement.highPerSqft * 1500 * mult / 50) * 50);
+    const avgLowVal = Math.round(types.vinyl.lowPerSqft * 1500 * mult / 50) * 50;
+    const avgHighVal = Math.round(types.fiber_cement.highPerSqft * 1500 * mult / 50) * 50;
+    const avgLowRaw = String(avgLowVal);
+    const avgHighRaw = String(avgHighVal);
+    const avgLow = formatCurrency(avgLowVal);
+    const avgHigh = formatCurrency(avgHighVal);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     // Build price rows by home size
     const priceRows = pricingModel.homeSizes.map(size => {
@@ -98,7 +103,10 @@ function main() {
       .replaceAll("{{RATE_FIBER_CEMENT}}", fiberCementMid)
       .replaceAll("{{RATE_WOOD}}", woodMid)
       .replaceAll("{{RATE_ENGINEERED}}", engineeredMid)
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

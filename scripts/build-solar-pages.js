@@ -71,8 +71,11 @@ function main() {
     const std8 = calc(8, stdBase);
     const std10 = calc(10, stdBase);
 
+    const avgLowRaw = String(Math.round(std5 * 0.85));
+    const avgHighRaw = String(Math.round(calc(15, premBase) * 1.10));
     const avgLow = formatCurrency(std5 * 0.85);
     const avgHigh = formatCurrency(calc(15, premBase) * 1.10);
+    const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
     const batteryPrice = Math.round(pricingModel.battery.base * laborMult * overheadMult / roundTo) * roundTo;
 
@@ -96,7 +99,10 @@ function main() {
       .replaceAll("{{RATE_8KW}}", formatCurrency(std8))
       .replaceAll("{{RATE_10KW}}", formatCurrency(std10))
       .replaceAll("{{RATE_BATTERY}}", formatCurrency(batteryPrice))
-      .replaceAll("{{PRICE_ROWS}}", priceRows);
+      .replaceAll("{{PRICE_ROWS}}", priceRows)
+      .replaceAll("{{SLUG_LC}}", slugLC)
+      .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);
