@@ -1,6 +1,31 @@
 const fs = require('fs');
 const path = require('path');
 
+// Inflation and seasonal adjustments
+let _adjustments = null;
+function getAdjustments() {
+  if (!_adjustments) {
+    try { _adjustments = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'pricing-adjustments.json'), 'utf-8')); }
+    catch(e) { _adjustments = { inflationBaseline: { year: 2025, annualRate: 0.03 }, seasonalMultipliers: {} }; }
+  }
+  return _adjustments;
+}
+
+function getInflationMultiplier() {
+  const adj = getAdjustments();
+  const now = new Date();
+  const yearsElapsed = now.getFullYear() - adj.inflationBaseline.year + (now.getMonth() / 12);
+  return Math.pow(1 + adj.inflationBaseline.annualRate, Math.max(0, yearsElapsed));
+}
+
+function getSeasonalMultiplier(service) {
+  const adj = getAdjustments();
+  const month = String(new Date().getMonth() + 1);
+  const serviceSeasonal = adj.seasonalMultipliers[service];
+  if (!serviceSeasonal) return 1.0;
+  return serviceSeasonal[month] || 1.0;
+}
+
 const SERVICE_CONFIG = {
   roofing:       { file: 'pricing-model.json', label: 'Roof Replacement', urlSlug: 'roof', refSize: '2,000 sq ft home' },
   hvac:          { file: 'hvac-pricing-model.json', label: 'HVAC Replacement', urlSlug: 'hvac', refSize: '2,000 sq ft home' },
@@ -401,6 +426,19 @@ module.exports = async (req, res) => {
     const computeFn = COMPUTE_MAP[service];
     const result = computeFn(model, laborMult);
 
+    // Apply inflation and seasonal adjustments
+    const inflationMult = getInflationMultiplier();
+    const seasonalMult = getSeasonalMultiplier(service);
+    const timeMult = inflationMult * seasonalMult;
+
+    const adjustedMaterials = result.materials.map(m => ({
+      label: m.label,
+      low: smartRound(m.low * timeMult),
+      high: smartRound(m.high * timeMult),
+    }));
+    const adjustedLow = smartRound(result.overallLow * timeMult);
+    const adjustedHigh = smartRound(result.overallHigh * timeMult);
+
     const cityPageUrl = `https://truepricehq.com/${slugify(city)}-${stateUpper.toLowerCase()}-${config.urlSlug}-cost.html`;
 
     return res.status(200).json({
@@ -408,9 +446,9 @@ module.exports = async (req, res) => {
       state: stateUpper,
       service,
       serviceLabel: config.label,
-      materials: result.materials,
-      overallLow: result.overallLow,
-      overallHigh: result.overallHigh,
+      materials: adjustedMaterials,
+      overallLow: adjustedLow,
+      overallHigh: adjustedHigh,
       referenceSize: config.refSize,
       cityPageUrl,
       updated: new Date().toISOString().split('T')[0],

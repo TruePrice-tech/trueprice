@@ -52,6 +52,22 @@
     };
     let latestParsed = null;
     let latestSmartQuote = null;
+
+    // City-level cost multiplier cache
+    window.__cityMultCache = window.__cityMultCache || {};
+    function prefetchCityMultiplier(city, stateCode) {
+      if (!city || !stateCode) return;
+      var key = city + "|" + stateCode;
+      if (window.__cityMultCache[key]) return;
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode))
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d && d.multiplier) {
+            window.__cityMultCache[key] = d.multiplier;
+          }
+        })
+        .catch(function() {});
+    }
     let latestAnalysis = null;
 
     window.__tpDebug = window.__tpDebug || {};
@@ -4746,6 +4762,15 @@ function buildComparisonWinnerHtml(summary) {
               <a href="#" onclick="showShareScreen(); return false;" class="muted">Share this result</a>
             </div>
 
+            <div id="estimateFeedback" style="margin:24px 0 0; padding:16px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:10px; text-align:center;">
+              <div style="font-size:14px; color:var(--text-secondary,#475569); margin-bottom:10px;">Was this estimate close to your actual quote?</div>
+              <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                <button onclick="submitEstimateFeedback('accurate')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">Yes, accurate</button>
+                <button onclick="submitEstimateFeedback('high')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">My quote was higher</button>
+                <button onclick="submitEstimateFeedback('low')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">My quote was lower</button>
+              </div>
+            </div>
+
           </div>
         `;
       }
@@ -4878,6 +4903,7 @@ function buildComparisonWinnerHtml(summary) {
             state: parsedAddress.state,
             zip: parsedAddress.zip
           };
+          prefetchCityMultiplier(parsedAddress.city, parsedAddress.state);
 
           if (hasStrongAddress) {
             // Skip address step → go straight to confirm
@@ -7789,6 +7815,29 @@ function buildComparisonWinnerHtml(summary) {
       if (output) output.innerHTML = renderCompareGrid(quotes);
     };
 
+    window.submitEstimateFeedback = function submitEstimateFeedback(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      track("estimate_feedback", {
+        response: response,
+        verdict: latestAnalysis?.verdict || "",
+        confidence: latestAnalysis?.analysisConfidenceLabel || "",
+        city: latestAnalysis?.city || journeyState?.propertyPreview?.city || "",
+        state: latestAnalysis?.stateCode || journeyState?.propertyPreview?.stateCode || ""
+      });
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "event",
+          event: "estimate_feedback",
+          meta: { response: response, verdict: latestAnalysis?.verdict || "" },
+          path: window.location.pathname
+        })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
     window.showShareScreen = function showShareScreen() {
       const root = document.getElementById("appRoot");
       if (!root) return;
@@ -9180,6 +9229,19 @@ function buildComparisonWinnerHtml(summary) {
       const WASTE_FACTOR = 1.1;
       const OVERHEAD_MULT = 1.12;
 
+      // Inflation adjustment: 3% annual from 2025 baseline
+      const INFLATION_BASE_YEAR = 2025;
+      const INFLATION_RATE = 0.03;
+      const now = new Date();
+      const yearsElapsed = now.getFullYear() - INFLATION_BASE_YEAR + (now.getMonth() / 12);
+      const INFLATION_MULT = Math.pow(1 + INFLATION_RATE, Math.max(0, yearsElapsed));
+
+      // Seasonal adjustment for roofing by month (1-indexed)
+      const SEASONAL_MULT_BY_MONTH = {
+        1:0.92, 2:0.93, 3:0.96, 4:0.99, 5:1.04, 6:1.08, 7:1.10, 8:1.10, 9:1.06, 10:1.00, 11:0.94, 12:0.90
+      };
+      const CURRENT_SEASONAL_MULT = SEASONAL_MULT_BY_MONTH[now.getMonth() + 1] || 1.0;
+
       // Multipliers from user selections
       const storyMultipliers = { single: 1.0, two_story: 0.55, townhome: 0.45 };
       const pitchFactors = { flat: 1.0, normal: 1.12, steep: 1.25, very_steep: 1.40 };
@@ -9271,15 +9333,20 @@ function buildComparisonWinnerHtml(summary) {
       const stateCode = (preview.state || "").toUpperCase();
       const material = answers.material;
       const region = STATE_REGIONS[stateCode] || "south";
-      const laborMult = LABOR_MULT_BY_REGION[region] || 1.0;
+      let laborMult = LABOR_MULT_BY_REGION[region] || 1.0;
+
+      // Try city-level multiplier from RPP data (cached per session)
+      if (city && stateCode && window.__cityMultCache && window.__cityMultCache[city + "|" + stateCode]) {
+        laborMult = window.__cityMultCache[city + "|" + stateCode];
+      }
 
       // Price per square (100 sq ft) from base model
       const basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
       const roofSquares = estimatedRoofSize / 100;
 
-      // Total = squares × base price × waste × overhead × labor region × tearoff × season
+      // Total = squares × base price × waste × overhead × labor × tearoff × worktype × inflation × seasonal
       const totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT
-        * laborMult * tearOffFact * seasonFact;
+        * laborMult * tearOffFact * seasonFact * INFLATION_MULT * CURRENT_SEASONAL_MULT;
 
       const mid = Math.round(totalCost / 50) * 50; // round to nearest $50
       const low = Math.round(mid * 0.85 / 50) * 50;
