@@ -7218,6 +7218,7 @@ function buildComparisonWinnerHtml(summary) {
                 state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
                 zip: latestParsed.address?.zip || ""
               };
+              prefetchCityMultiplier(journeyState.propertyPreview.city, journeyState.propertyPreview.state);
 
               journeyState.propertyConfirmed = false;
               setJourneyStep("confirm");
@@ -7286,6 +7287,7 @@ function buildComparisonWinnerHtml(summary) {
                       state: addr.stateCode || "",
                       zip: addr.zip || ""
                     };
+                    prefetchCityMultiplier(addr.city, addr.stateCode);
 
                     journeyState.propertyConfirmed = true;
                   }
@@ -7393,6 +7395,7 @@ function buildComparisonWinnerHtml(summary) {
                     state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
                     zip: latestParsed.address?.zip || ""
                   };
+                  prefetchCityMultiplier(journeyState.propertyPreview.city, journeyState.propertyPreview.state);
                 }
 
                 // 🔥 ENSURE FORM EXISTS BEFORE POPULATING
@@ -8043,6 +8046,7 @@ function buildComparisonWinnerHtml(summary) {
                     state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
                     zip: latestParsed.address?.zip || ""
                   };
+                  prefetchCityMultiplier(journeyState.propertyPreview.city, journeyState.propertyPreview.state);
                 }
                 // Skip confirm screen — go straight to analysis
                 journeyState.propertyConfirmed = true;
@@ -8709,6 +8713,7 @@ function buildComparisonWinnerHtml(summary) {
         zip,
         homeSize: homeSize > 0 ? homeSize : null
       };
+      prefetchCityMultiplier(city, state);
 
       journeyState.propertyLookupAttempted = true;
       journeyState.propertyLookupFailed = false;
@@ -9401,11 +9406,13 @@ function buildComparisonWinnerHtml(summary) {
           ? "Based on your entered home size" + (isMultiStory ? " (adjusted for " + (r.propertyType === "two_story" ? "2" : "multi") + "-story layout)" : "")
           : "Regional average (footprint not detected)";
 
-      const confidenceLevel = r.footprintSource === "osm_footprint" ? "Medium-High"
-        : r.footprintSource === "user_home_size" ? "Medium-High" : "Low";
+      const hasCityMult = r.city && window.__cityMultCache && window.__cityMultCache[r.city + "|" + r.stateCode];
+      const confidenceLevel = (r.footprintSource === "osm_footprint" && hasCityMult) ? "High"
+        : (r.footprintSource === "osm_footprint" || r.footprintSource === "user_home_size") ? "Medium-High"
+        : hasCityMult ? "Medium" : "Low";
 
-      const confidenceColor = r.footprintSource === "osm_footprint" ? "#16a34a"
-        : r.footprintSource === "user_home_size" ? "#16a34a" : "#dc2626";
+      const confidenceColor = confidenceLevel === "High" ? "#166534"
+        : (confidenceLevel === "Medium-High" || confidenceLevel === "Medium") ? "#16a34a" : "#dc2626";
 
       const regionLabel = (r.region || "").charAt(0).toUpperCase() + (r.region || "").slice(1);
       const seasonNote = r.season === "summer" ? " (includes 2% peak-season surcharge)"
@@ -9448,7 +9455,7 @@ function buildComparisonWinnerHtml(summary) {
               <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
                 <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Confidence</div>
                 <div style="font-size:20px; font-weight:700; color:${confidenceColor};">${confidenceLevel}</div>
-                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${regionLabel} regional pricing</div>
+                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${r.city ? r.city + " local pricing" : regionLabel + " regional pricing"}</div>
               </div>
             </div>
 
@@ -9468,9 +9475,9 @@ function buildComparisonWinnerHtml(summary) {
           <div style="padding:12px 20px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; margin-bottom:20px; font-size:14px; color:#475569;">
             ${r.footprintSource === "osm_footprint"
               ? "We measured your roof from satellite data for a more accurate estimate."
-              : (r.region === "west" || r.region === "northeast")
-                ? "Labor costs run higher in your area. This estimate accounts for that."
-                : "This estimate is based on regional pricing data for your area."}
+              : r.city
+                ? "This estimate uses local pricing data for " + escapeHtml(r.city) + ", adjusted for current market conditions."
+                : "This estimate is based on pricing data for your area."}
           </div>
 
           <!-- Affiliate: material shopping link -->
