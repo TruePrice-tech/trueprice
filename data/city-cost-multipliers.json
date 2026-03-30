@@ -1,0 +1,3697 @@
+{
+  "Auburn|AL": {
+    "multiplier": 0.879,
+    "rpp": 87.9,
+    "source": "msa_direct"
+  },
+  "Birmingham|AL": {
+    "multiplier": 0.916,
+    "rpp": 91.6,
+    "source": "msa_direct"
+  },
+  "Decatur|AL": {
+    "multiplier": 0.872,
+    "rpp": 87.2,
+    "source": "msa_direct"
+  },
+  "Dothan|AL": {
+    "multiplier": 0.838,
+    "rpp": 83.8,
+    "source": "msa_direct"
+  },
+  "Florence|AL": {
+    "multiplier": 0.848,
+    "rpp": 84.8,
+    "source": "msa_direct"
+  },
+  "Hoover|AL": {
+    "multiplier": 0.884,
+    "rpp": 88.4,
+    "source": "state_avg"
+  },
+  "Huntsville|AL": {
+    "multiplier": 0.931,
+    "rpp": 93.1,
+    "source": "msa_direct"
+  },
+  "Madison|AL": {
+    "multiplier": 0.884,
+    "rpp": 88.4,
+    "source": "state_avg"
+  },
+  "Mobile|AL": {
+    "multiplier": 0.881,
+    "rpp": 88.1,
+    "source": "msa_direct"
+  },
+  "Montgomery|AL": {
+    "multiplier": 0.897,
+    "rpp": 89.7,
+    "source": "msa_direct"
+  },
+  "Phenix City|AL": {
+    "multiplier": 0.884,
+    "rpp": 88.4,
+    "source": "state_avg"
+  },
+  "Tuscaloosa|AL": {
+    "multiplier": 0.877,
+    "rpp": 87.7,
+    "source": "msa_direct"
+  },
+  "Anchorage|AK": {
+    "multiplier": 1.054,
+    "rpp": 105.4,
+    "source": "msa_direct"
+  },
+  "Apache Junction|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Avondale|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Buckeye|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Bullhead City|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Casa Grande|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Chandler|AZ": {
+    "multiplier": 1.033,
+    "rpp": 103.3,
+    "source": "msa_direct"
+  },
+  "Flagstaff|AZ": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "msa_direct"
+  },
+  "Gilbert|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Glendale|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Goodyear|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Lake Havasu City|AZ": {
+    "multiplier": 0.941,
+    "rpp": 94.1,
+    "source": "msa_fuzzy"
+  },
+  "Marana|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Maricopa|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Mesa|AZ": {
+    "multiplier": 1.033,
+    "rpp": 103.3,
+    "source": "msa_direct"
+  },
+  "Oro Valley|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Peoria|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Phoenix|AZ": {
+    "multiplier": 1.033,
+    "rpp": 103.3,
+    "source": "msa_direct"
+  },
+  "Prescott|AZ": {
+    "multiplier": 0.983,
+    "rpp": 98.3,
+    "source": "msa_direct"
+  },
+  "Prescott Valley|AZ": {
+    "multiplier": 0.983,
+    "rpp": 98.3,
+    "source": "msa_direct"
+  },
+  "Scottsdale|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Sierra Vista|AZ": {
+    "multiplier": 0.892,
+    "rpp": 89.2,
+    "source": "msa_direct"
+  },
+  "Surprise|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Tempe|AZ": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "state_avg"
+  },
+  "Tucson|AZ": {
+    "multiplier": 0.969,
+    "rpp": 96.9,
+    "source": "msa_direct"
+  },
+  "Yuma|AZ": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Bentonville|AR": {
+    "multiplier": 0.878,
+    "rpp": 87.8,
+    "source": "state_avg"
+  },
+  "Conway|AR": {
+    "multiplier": 0.894,
+    "rpp": 89.4,
+    "source": "msa_direct"
+  },
+  "Fayetteville|AR": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "msa_direct"
+  },
+  "Fort Smith|AR": {
+    "multiplier": 0.859,
+    "rpp": 85.9,
+    "source": "msa_direct"
+  },
+  "Jonesboro|AR": {
+    "multiplier": 0.859,
+    "rpp": 85.9,
+    "source": "msa_direct"
+  },
+  "Little Rock|AR": {
+    "multiplier": 0.894,
+    "rpp": 89.4,
+    "source": "msa_direct"
+  },
+  "North Little Rock|AR": {
+    "multiplier": 0.894,
+    "rpp": 89.4,
+    "source": "msa_direct"
+  },
+  "Pine Bluff|AR": {
+    "multiplier": 0.878,
+    "rpp": 87.8,
+    "source": "state_avg"
+  },
+  "Rogers|AR": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "msa_direct"
+  },
+  "Springdale|AR": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "msa_direct"
+  },
+  "Anaheim|CA": {
+    "multiplier": 1.136,
+    "rpp": 113.6,
+    "source": "msa_direct"
+  },
+  "Bakersfield|CA": {
+    "multiplier": 1.009,
+    "rpp": 100.9,
+    "source": "msa_direct"
+  },
+  "Chula Vista|CA": {
+    "multiplier": 1.119,
+    "rpp": 111.9,
+    "source": "msa_direct"
+  },
+  "Corona|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Elk Grove|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Escondido|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Fontana|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Fremont|CA": {
+    "multiplier": 1.156,
+    "rpp": 115.6,
+    "source": "msa_direct"
+  },
+  "Fresno|CA": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "msa_direct"
+  },
+  "Garden Grove|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Glendale|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Hayward|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Huntington Beach|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Irvine|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Lancaster|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Long Beach|CA": {
+    "multiplier": 1.136,
+    "rpp": 113.6,
+    "source": "msa_direct"
+  },
+  "Los Angeles|CA": {
+    "multiplier": 1.136,
+    "rpp": 113.6,
+    "source": "msa_direct"
+  },
+  "Modesto|CA": {
+    "multiplier": 1.041,
+    "rpp": 104.1,
+    "source": "msa_direct"
+  },
+  "Moreno Valley|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Oakland|CA": {
+    "multiplier": 1.156,
+    "rpp": 115.6,
+    "source": "msa_direct"
+  },
+  "Oceanside|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Ontario|CA": {
+    "multiplier": 1.064,
+    "rpp": 106.4,
+    "source": "msa_direct"
+  },
+  "Orange|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Oxnard|CA": {
+    "multiplier": 1.105,
+    "rpp": 110.5,
+    "source": "msa_direct"
+  },
+  "Palmdale|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Pomona|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Rancho Cucamonga|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Riverside|CA": {
+    "multiplier": 1.064,
+    "rpp": 106.4,
+    "source": "msa_direct"
+  },
+  "Sacramento|CA": {
+    "multiplier": 1.067,
+    "rpp": 106.7,
+    "source": "msa_direct"
+  },
+  "Salinas|CA": {
+    "multiplier": 1.09,
+    "rpp": 109,
+    "source": "msa_direct"
+  },
+  "San Bernardino|CA": {
+    "multiplier": 1.064,
+    "rpp": 106.4,
+    "source": "msa_direct"
+  },
+  "San Diego|CA": {
+    "multiplier": 1.119,
+    "rpp": 111.9,
+    "source": "msa_direct"
+  },
+  "San Francisco|CA": {
+    "multiplier": 1.156,
+    "rpp": 115.6,
+    "source": "msa_direct"
+  },
+  "San Jose|CA": {
+    "multiplier": 1.104,
+    "rpp": 110.4,
+    "source": "msa_direct"
+  },
+  "Santa Ana|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Santa Clarita|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Santa Rosa|CA": {
+    "multiplier": 1.078,
+    "rpp": 107.8,
+    "source": "msa_direct"
+  },
+  "Stockton|CA": {
+    "multiplier": 1.051,
+    "rpp": 105.1,
+    "source": "msa_direct"
+  },
+  "Sunnyvale|CA": {
+    "multiplier": 1.104,
+    "rpp": 110.4,
+    "source": "msa_direct"
+  },
+  "Torrance|CA": {
+    "multiplier": 1.061,
+    "rpp": 106.1,
+    "source": "state_avg"
+  },
+  "Arvada|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Aurora|CO": {
+    "multiplier": 1.058,
+    "rpp": 105.8,
+    "source": "msa_direct"
+  },
+  "Boulder|CO": {
+    "multiplier": 1.052,
+    "rpp": 105.2,
+    "source": "msa_direct"
+  },
+  "Broomfield|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Castle Rock|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Centennial|CO": {
+    "multiplier": 1.058,
+    "rpp": 105.8,
+    "source": "msa_direct"
+  },
+  "Colorado Springs|CO": {
+    "multiplier": 1.007,
+    "rpp": 100.7,
+    "source": "msa_direct"
+  },
+  "Commerce City|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Denver|CO": {
+    "multiplier": 1.058,
+    "rpp": 105.8,
+    "source": "msa_direct"
+  },
+  "Fort Collins|CO": {
+    "multiplier": 1.011,
+    "rpp": 101.1,
+    "source": "msa_direct"
+  },
+  "Grand Junction|CO": {
+    "multiplier": 0.955,
+    "rpp": 95.5,
+    "source": "msa_direct"
+  },
+  "Greeley|CO": {
+    "multiplier": 1.002,
+    "rpp": 100.2,
+    "source": "msa_direct"
+  },
+  "Lakewood|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Littleton|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Longmont|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Loveland|CO": {
+    "multiplier": 1.011,
+    "rpp": 101.1,
+    "source": "msa_direct"
+  },
+  "Northglenn|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Parker|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Pueblo|CO": {
+    "multiplier": 0.918,
+    "rpp": 91.8,
+    "source": "msa_direct"
+  },
+  "Thornton|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Westminster|CO": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "state_avg"
+  },
+  "Bridgeport|CT": {
+    "multiplier": 1.069,
+    "rpp": 106.9,
+    "source": "msa_direct"
+  },
+  "Bristol|CT": {
+    "multiplier": 1.029,
+    "rpp": 102.9,
+    "source": "state_avg"
+  },
+  "Danbury|CT": {
+    "multiplier": 1.069,
+    "rpp": 106.9,
+    "source": "msa_direct"
+  },
+  "Hartford|CT": {
+    "multiplier": 1.027,
+    "rpp": 102.7,
+    "source": "msa_direct"
+  },
+  "Meriden|CT": {
+    "multiplier": 1.029,
+    "rpp": 102.9,
+    "source": "state_avg"
+  },
+  "Middletown|CT": {
+    "multiplier": 1.029,
+    "rpp": 102.9,
+    "source": "state_avg"
+  },
+  "Milford|CT": {
+    "multiplier": 1.029,
+    "rpp": 102.9,
+    "source": "state_avg"
+  },
+  "New Britain|CT": {
+    "multiplier": 1.029,
+    "rpp": 102.9,
+    "source": "state_avg"
+  },
+  "New Haven|CT": {
+    "multiplier": 1.046,
+    "rpp": 104.6,
+    "source": "msa_direct"
+  },
+  "Norwalk|CT": {
+    "multiplier": 1.029,
+    "rpp": 102.9,
+    "source": "state_avg"
+  },
+  "Norwich|CT": {
+    "multiplier": 1.004,
+    "rpp": 100.4,
+    "source": "msa_direct"
+  },
+  "Shelton|CT": {
+    "multiplier": 0.998,
+    "rpp": 99.8,
+    "source": "msa_direct"
+  },
+  "Stamford|CT": {
+    "multiplier": 1.069,
+    "rpp": 106.9,
+    "source": "msa_direct"
+  },
+  "Waterbury|CT": {
+    "multiplier": 0.998,
+    "rpp": 99.8,
+    "source": "msa_direct"
+  },
+  "West Haven|CT": {
+    "multiplier": 1.029,
+    "rpp": 102.9,
+    "source": "state_avg"
+  },
+  "Dover|DE": {
+    "multiplier": 0.975,
+    "rpp": 97.5,
+    "source": "msa_direct"
+  },
+  "Wilmington|DE": {
+    "multiplier": 1.026,
+    "rpp": 102.6,
+    "source": "msa_direct"
+  },
+  "Boca Raton|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Boynton Beach|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Cape Coral|FL": {
+    "multiplier": 1.023,
+    "rpp": 102.3,
+    "source": "msa_direct"
+  },
+  "Clearwater|FL": {
+    "multiplier": 1.009,
+    "rpp": 100.9,
+    "source": "msa_direct"
+  },
+  "Coral Springs|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Davie|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Daytona Beach|FL": {
+    "multiplier": 0.994,
+    "rpp": 99.4,
+    "source": "msa_direct"
+  },
+  "Deerfield Beach|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Delray Beach|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Deltona|FL": {
+    "multiplier": 0.994,
+    "rpp": 99.4,
+    "source": "msa_direct"
+  },
+  "Fort Lauderdale|FL": {
+    "multiplier": 1.142,
+    "rpp": 114.2,
+    "source": "msa_direct"
+  },
+  "Fort Myers|FL": {
+    "multiplier": 1.023,
+    "rpp": 102.3,
+    "source": "msa_direct"
+  },
+  "Gainesville|FL": {
+    "multiplier": 0.967,
+    "rpp": 96.7,
+    "source": "msa_direct"
+  },
+  "Hialeah|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Hollywood|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Homestead|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Jacksonville|FL": {
+    "multiplier": 0.995,
+    "rpp": 99.5,
+    "source": "msa_direct"
+  },
+  "Kissimmee|FL": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "msa_direct"
+  },
+  "Lakeland|FL": {
+    "multiplier": 0.971,
+    "rpp": 97.1,
+    "source": "msa_direct"
+  },
+  "Largo|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Lauderhill|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Melbourne|FL": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "msa_direct"
+  },
+  "Miami|FL": {
+    "multiplier": 1.142,
+    "rpp": 114.2,
+    "source": "msa_direct"
+  },
+  "Miami Beach|FL": {
+    "multiplier": 1.142,
+    "rpp": 114.2,
+    "source": "msa_fuzzy"
+  },
+  "Miami Gardens|FL": {
+    "multiplier": 1.142,
+    "rpp": 114.2,
+    "source": "msa_fuzzy"
+  },
+  "Miramar|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Orlando|FL": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "msa_direct"
+  },
+  "Palm Bay|FL": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "msa_direct"
+  },
+  "Palm Coast|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Pembroke Pines|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Plantation|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Pompano Beach|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Port St. Lucie|FL": {
+    "multiplier": 1.002,
+    "rpp": 100.2,
+    "source": "msa_direct"
+  },
+  "St. Petersburg|FL": {
+    "multiplier": 1.009,
+    "rpp": 100.9,
+    "source": "msa_direct"
+  },
+  "Sunrise|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Tallahassee|FL": {
+    "multiplier": 0.939,
+    "rpp": 93.9,
+    "source": "msa_direct"
+  },
+  "Tamarac|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Tampa|FL": {
+    "multiplier": 1.009,
+    "rpp": 100.9,
+    "source": "msa_direct"
+  },
+  "West Palm Beach|FL": {
+    "multiplier": 1.142,
+    "rpp": 114.2,
+    "source": "msa_direct"
+  },
+  "Weston|FL": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "state_avg"
+  },
+  "Albany|GA": {
+    "multiplier": 0.877,
+    "rpp": 87.7,
+    "source": "msa_direct"
+  },
+  "Alpharetta|GA": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "state_avg"
+  },
+  "Athens-Clarke County|GA": {
+    "multiplier": 0.933,
+    "rpp": 93.3,
+    "source": "msa_fuzzy"
+  },
+  "Atlanta|GA": {
+    "multiplier": 1.001,
+    "rpp": 100.1,
+    "source": "msa_direct"
+  },
+  "Augusta-Richmond County|GA": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "msa_fuzzy"
+  },
+  "Brookhaven|GA": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "state_avg"
+  },
+  "Columbus|GA": {
+    "multiplier": 0.893,
+    "rpp": 89.3,
+    "source": "msa_direct"
+  },
+  "Dunwoody|GA": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "state_avg"
+  },
+  "Johns Creek|GA": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "state_avg"
+  },
+  "Macon|GA": {
+    "multiplier": 0.885,
+    "rpp": 88.5,
+    "source": "msa_direct"
+  },
+  "Marietta|GA": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "state_avg"
+  },
+  "Peachtree Corners|GA": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "state_avg"
+  },
+  "Roswell|GA": {
+    "multiplier": 1.001,
+    "rpp": 100.1,
+    "source": "msa_direct"
+  },
+  "Sandy Springs|GA": {
+    "multiplier": 1.001,
+    "rpp": 100.1,
+    "source": "msa_direct"
+  },
+  "Savannah|GA": {
+    "multiplier": 0.952,
+    "rpp": 95.2,
+    "source": "msa_direct"
+  },
+  "Smyrna|GA": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "state_avg"
+  },
+  "Valdosta|GA": {
+    "multiplier": 0.883,
+    "rpp": 88.3,
+    "source": "msa_direct"
+  },
+  "Warner Robins|GA": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "msa_direct"
+  },
+  "Honolulu|HI": {
+    "multiplier": 1.11,
+    "rpp": 111,
+    "source": "msa_fuzzy"
+  },
+  "Boise City|ID": {
+    "multiplier": 0.984,
+    "rpp": 98.4,
+    "source": "msa_fuzzy"
+  },
+  "Caldwell|ID": {
+    "multiplier": 0.942,
+    "rpp": 94.2,
+    "source": "state_avg"
+  },
+  "Coeur d'Alene|ID": {
+    "multiplier": 0.983,
+    "rpp": 98.3,
+    "source": "msa_direct"
+  },
+  "Idaho Falls|ID": {
+    "multiplier": 0.944,
+    "rpp": 94.4,
+    "source": "msa_direct"
+  },
+  "Meridian|ID": {
+    "multiplier": 0.942,
+    "rpp": 94.2,
+    "source": "state_avg"
+  },
+  "Nampa|ID": {
+    "multiplier": 0.942,
+    "rpp": 94.2,
+    "source": "state_avg"
+  },
+  "Pocatello|ID": {
+    "multiplier": 0.889,
+    "rpp": 88.9,
+    "source": "msa_direct"
+  },
+  "Twin Falls|ID": {
+    "multiplier": 0.921,
+    "rpp": 92.1,
+    "source": "msa_direct"
+  },
+  "Arlington Heights|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Aurora|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Bartlett|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Belleville|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Berwyn|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Bloomington|IL": {
+    "multiplier": 0.935,
+    "rpp": 93.5,
+    "source": "msa_direct"
+  },
+  "Bolingbrook|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Buffalo Grove|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Champaign|IL": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Chicago|IL": {
+    "multiplier": 1.036,
+    "rpp": 103.6,
+    "source": "msa_direct"
+  },
+  "Cicero|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Decatur|IL": {
+    "multiplier": 0.884,
+    "rpp": 88.4,
+    "source": "msa_direct"
+  },
+  "DeKalb|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Des Plaines|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Downers Grove|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Elgin|IL": {
+    "multiplier": 1.036,
+    "rpp": 103.6,
+    "source": "msa_direct"
+  },
+  "Elmhurst|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Evanston|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Glenview|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Hoffman Estates|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Joliet|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Lombard|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Moline|IL": {
+    "multiplier": 0.891,
+    "rpp": 89.1,
+    "source": "msa_direct"
+  },
+  "Mount Prospect|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Naperville|IL": {
+    "multiplier": 1.036,
+    "rpp": 103.6,
+    "source": "msa_direct"
+  },
+  "Normal|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Oak Lawn|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Oak Park|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Orland Park|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Palatine|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Peoria|IL": {
+    "multiplier": 0.912,
+    "rpp": 91.2,
+    "source": "msa_direct"
+  },
+  "Plainfield|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Rockford|IL": {
+    "multiplier": 0.922,
+    "rpp": 92.2,
+    "source": "msa_direct"
+  },
+  "Schaumburg|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Skokie|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Springfield|IL": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Tinley Park|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Urbana|IL": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Waukegan|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Wheaton|IL": {
+    "multiplier": 0.923,
+    "rpp": 92.3,
+    "source": "state_avg"
+  },
+  "Anderson|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "state_avg"
+  },
+  "Bloomington|IN": {
+    "multiplier": 0.951,
+    "rpp": 95.1,
+    "source": "msa_direct"
+  },
+  "Carmel|IN": {
+    "multiplier": 0.957,
+    "rpp": 95.7,
+    "source": "msa_direct"
+  },
+  "Columbus|IN": {
+    "multiplier": 0.93,
+    "rpp": 93,
+    "source": "msa_direct"
+  },
+  "Elkhart|IN": {
+    "multiplier": 0.903,
+    "rpp": 90.3,
+    "source": "msa_direct"
+  },
+  "Evansville|IN": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "msa_direct"
+  },
+  "Fishers|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "state_avg"
+  },
+  "Fort Wayne|IN": {
+    "multiplier": 0.926,
+    "rpp": 92.6,
+    "source": "msa_direct"
+  },
+  "Gary|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "state_avg"
+  },
+  "Greenwood|IN": {
+    "multiplier": 0.957,
+    "rpp": 95.7,
+    "source": "msa_direct"
+  },
+  "Hammond|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "state_avg"
+  },
+  "Indianapolis|IN": {
+    "multiplier": 0.957,
+    "rpp": 95.7,
+    "source": "msa_direct"
+  },
+  "Jeffersonville|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "state_avg"
+  },
+  "Kokomo|IN": {
+    "multiplier": 0.896,
+    "rpp": 89.6,
+    "source": "msa_direct"
+  },
+  "Lafayette|IN": {
+    "multiplier": 0.934,
+    "rpp": 93.4,
+    "source": "msa_direct"
+  },
+  "Lawrence|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "state_avg"
+  },
+  "Mishawaka|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "msa_direct"
+  },
+  "Muncie|IN": {
+    "multiplier": 0.881,
+    "rpp": 88.1,
+    "source": "msa_direct"
+  },
+  "Noblesville|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "state_avg"
+  },
+  "South Bend|IN": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "msa_direct"
+  },
+  "Terre Haute|IN": {
+    "multiplier": 0.878,
+    "rpp": 87.8,
+    "source": "msa_direct"
+  },
+  "Ames|IA": {
+    "multiplier": 0.888,
+    "rpp": 88.8,
+    "source": "msa_direct"
+  },
+  "Ankeny|IA": {
+    "multiplier": 0.892,
+    "rpp": 89.2,
+    "source": "state_avg"
+  },
+  "Cedar Falls|IA": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "msa_direct"
+  },
+  "Cedar Rapids|IA": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "msa_direct"
+  },
+  "Council Bluffs|IA": {
+    "multiplier": 0.892,
+    "rpp": 89.2,
+    "source": "state_avg"
+  },
+  "Davenport|IA": {
+    "multiplier": 0.891,
+    "rpp": 89.1,
+    "source": "msa_direct"
+  },
+  "Des Moines|IA": {
+    "multiplier": 0.917,
+    "rpp": 91.7,
+    "source": "msa_direct"
+  },
+  "Dubuque|IA": {
+    "multiplier": 0.873,
+    "rpp": 87.3,
+    "source": "msa_direct"
+  },
+  "Iowa City|IA": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "msa_fuzzy"
+  },
+  "Sioux City|IA": {
+    "multiplier": 0.865,
+    "rpp": 86.5,
+    "source": "msa_fuzzy"
+  },
+  "Urbandale|IA": {
+    "multiplier": 0.892,
+    "rpp": 89.2,
+    "source": "state_avg"
+  },
+  "Waterloo|IA": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "msa_direct"
+  },
+  "West Des Moines|IA": {
+    "multiplier": 0.917,
+    "rpp": 91.7,
+    "source": "msa_direct"
+  },
+  "Hutchinson|KS": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Kansas City|KS": {
+    "multiplier": 0.925,
+    "rpp": 92.5,
+    "source": "msa_fuzzy"
+  },
+  "Lawrence|KS": {
+    "multiplier": 0.902,
+    "rpp": 90.2,
+    "source": "msa_direct"
+  },
+  "Lenexa|KS": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Manhattan|KS": {
+    "multiplier": 0.902,
+    "rpp": 90.2,
+    "source": "msa_direct"
+  },
+  "Olathe|KS": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Overland Park|KS": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Salina|KS": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Shawnee|KS": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Topeka|KS": {
+    "multiplier": 0.888,
+    "rpp": 88.8,
+    "source": "msa_direct"
+  },
+  "Wichita|KS": {
+    "multiplier": 0.889,
+    "rpp": 88.9,
+    "source": "msa_direct"
+  },
+  "Bowling Green|KY": {
+    "multiplier": 0.902,
+    "rpp": 90.2,
+    "source": "msa_direct"
+  },
+  "Covington|KY": {
+    "multiplier": 0.907,
+    "rpp": 90.7,
+    "source": "state_avg"
+  },
+  "Lexington-Fayette|KY": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "msa_fuzzy"
+  },
+  "Louisville|KY": {
+    "multiplier": 0.931,
+    "rpp": 93.1,
+    "source": "msa_direct"
+  },
+  "Owensboro|KY": {
+    "multiplier": 0.886,
+    "rpp": 88.6,
+    "source": "msa_direct"
+  },
+  "Alexandria|LA": {
+    "multiplier": 0.857,
+    "rpp": 85.7,
+    "source": "msa_direct"
+  },
+  "Baton Rouge|LA": {
+    "multiplier": 0.908,
+    "rpp": 90.8,
+    "source": "msa_direct"
+  },
+  "Bossier City|LA": {
+    "multiplier": 0.848,
+    "rpp": 84.8,
+    "source": "msa_fuzzy"
+  },
+  "Kenner|LA": {
+    "multiplier": 0.873,
+    "rpp": 87.3,
+    "source": "state_avg"
+  },
+  "Lafayette|LA": {
+    "multiplier": 0.872,
+    "rpp": 87.2,
+    "source": "msa_direct"
+  },
+  "Lake Charles|LA": {
+    "multiplier": 0.859,
+    "rpp": 85.9,
+    "source": "msa_direct"
+  },
+  "Monroe|LA": {
+    "multiplier": 0.836,
+    "rpp": 83.6,
+    "source": "msa_direct"
+  },
+  "New Orleans|LA": {
+    "multiplier": 0.926,
+    "rpp": 92.6,
+    "source": "msa_direct"
+  },
+  "Shreveport|LA": {
+    "multiplier": 0.848,
+    "rpp": 84.8,
+    "source": "msa_direct"
+  },
+  "Portland|ME": {
+    "multiplier": 1.019,
+    "rpp": 101.9,
+    "source": "msa_direct"
+  },
+  "Annapolis|MD": {
+    "multiplier": 1.011,
+    "rpp": 101.1,
+    "source": "state_avg"
+  },
+  "Baltimore|MD": {
+    "multiplier": 1.045,
+    "rpp": 104.5,
+    "source": "msa_direct"
+  },
+  "Bowie|MD": {
+    "multiplier": 1.011,
+    "rpp": 101.1,
+    "source": "state_avg"
+  },
+  "Frederick|MD": {
+    "multiplier": 1.011,
+    "rpp": 101.1,
+    "source": "state_avg"
+  },
+  "Gaithersburg|MD": {
+    "multiplier": 1.011,
+    "rpp": 101.1,
+    "source": "state_avg"
+  },
+  "Hagerstown|MD": {
+    "multiplier": 0.942,
+    "rpp": 94.2,
+    "source": "msa_direct"
+  },
+  "Rockville|MD": {
+    "multiplier": 1.011,
+    "rpp": 101.1,
+    "source": "state_avg"
+  },
+  "Attleboro|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Barnstable Town|MA": {
+    "multiplier": 0.984,
+    "rpp": 98.4,
+    "source": "msa_fuzzy"
+  },
+  "Beverly|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Boston|MA": {
+    "multiplier": 1.083,
+    "rpp": 108.3,
+    "source": "msa_direct"
+  },
+  "Brockton|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Cambridge|MA": {
+    "multiplier": 1.083,
+    "rpp": 108.3,
+    "source": "msa_direct"
+  },
+  "Chelsea|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Chicopee|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Everett|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Fall River|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Fitchburg|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Haverhill|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Holyoke|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Lawrence|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Leominster|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Lowell|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Lynn|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Malden|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Marlborough|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Medford|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Methuen|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "New Bedford|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Newton|MA": {
+    "multiplier": 1.083,
+    "rpp": 108.3,
+    "source": "msa_direct"
+  },
+  "Peabody|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Pittsfield|MA": {
+    "multiplier": 0.951,
+    "rpp": 95.1,
+    "source": "msa_direct"
+  },
+  "Quincy|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Revere|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Salem|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Somerville|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Springfield|MA": {
+    "multiplier": 0.961,
+    "rpp": 96.1,
+    "source": "msa_direct"
+  },
+  "Taunton|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Waltham|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Westfield|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Weymouth Town|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Woburn|MA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "state_avg"
+  },
+  "Worcester|MA": {
+    "multiplier": 1.025,
+    "rpp": 102.5,
+    "source": "msa_direct"
+  },
+  "Ann Arbor|MI": {
+    "multiplier": 1.009,
+    "rpp": 100.9,
+    "source": "msa_direct"
+  },
+  "Battle Creek|MI": {
+    "multiplier": 0.905,
+    "rpp": 90.5,
+    "source": "msa_direct"
+  },
+  "Dearborn|MI": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "msa_direct"
+  },
+  "Dearborn Heights|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Detroit|MI": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "msa_direct"
+  },
+  "East Lansing|MI": {
+    "multiplier": 0.95,
+    "rpp": 95,
+    "source": "msa_direct"
+  },
+  "Farmington Hills|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Flint|MI": {
+    "multiplier": 0.93,
+    "rpp": 93,
+    "source": "msa_direct"
+  },
+  "Grand Rapids|MI": {
+    "multiplier": 0.955,
+    "rpp": 95.5,
+    "source": "msa_direct"
+  },
+  "Kalamazoo|MI": {
+    "multiplier": 0.948,
+    "rpp": 94.8,
+    "source": "msa_direct"
+  },
+  "Kentwood|MI": {
+    "multiplier": 0.955,
+    "rpp": 95.5,
+    "source": "msa_direct"
+  },
+  "Lansing|MI": {
+    "multiplier": 0.95,
+    "rpp": 95,
+    "source": "msa_direct"
+  },
+  "Lincoln Park|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Livonia|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Midland|MI": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "msa_direct"
+  },
+  "Muskegon|MI": {
+    "multiplier": 0.925,
+    "rpp": 92.5,
+    "source": "msa_direct"
+  },
+  "Novi|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Pontiac|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Portage|MI": {
+    "multiplier": 0.948,
+    "rpp": 94.8,
+    "source": "msa_direct"
+  },
+  "Rochester Hills|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Roseville|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Royal Oak|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Saginaw|MI": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "msa_direct"
+  },
+  "Southfield|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "St. Clair Shores|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Sterling Heights|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Taylor|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Troy|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Warren|MI": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "msa_direct"
+  },
+  "Westland|MI": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "state_avg"
+  },
+  "Wyoming|MI": {
+    "multiplier": 0.955,
+    "rpp": 95.5,
+    "source": "msa_direct"
+  },
+  "Apple Valley|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Blaine|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Bloomington|MN": {
+    "multiplier": 1.048,
+    "rpp": 104.8,
+    "source": "msa_direct"
+  },
+  "Brooklyn Park|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Burnsville|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Coon Rapids|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Duluth|MN": {
+    "multiplier": 0.888,
+    "rpp": 88.8,
+    "source": "msa_direct"
+  },
+  "Eagan|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Eden Prairie|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Edina|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Lakeville|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Mankato|MN": {
+    "multiplier": 0.91,
+    "rpp": 91,
+    "source": "msa_direct"
+  },
+  "Maple Grove|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Maplewood|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Minneapolis|MN": {
+    "multiplier": 1.048,
+    "rpp": 104.8,
+    "source": "msa_direct"
+  },
+  "Minnetonka|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Moorhead|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Plymouth|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Rochester|MN": {
+    "multiplier": 0.908,
+    "rpp": 90.8,
+    "source": "msa_direct"
+  },
+  "Shakopee|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "St. Cloud|MN": {
+    "multiplier": 0.876,
+    "rpp": 87.6,
+    "source": "msa_direct"
+  },
+  "St. Louis Park|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "St. Paul|MN": {
+    "multiplier": 1.048,
+    "rpp": 104.8,
+    "source": "msa_direct"
+  },
+  "Woodbury|MN": {
+    "multiplier": 0.914,
+    "rpp": 91.4,
+    "source": "state_avg"
+  },
+  "Biloxi|MS": {
+    "multiplier": 0.9,
+    "rpp": 90,
+    "source": "msa_direct"
+  },
+  "Gulfport|MS": {
+    "multiplier": 0.9,
+    "rpp": 90,
+    "source": "msa_direct"
+  },
+  "Hattiesburg|MS": {
+    "multiplier": 0.876,
+    "rpp": 87.6,
+    "source": "msa_direct"
+  },
+  "Jackson|MS": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "msa_direct"
+  },
+  "Meridian|MS": {
+    "multiplier": 0.897,
+    "rpp": 89.7,
+    "source": "state_avg"
+  },
+  "Southaven|MS": {
+    "multiplier": 0.897,
+    "rpp": 89.7,
+    "source": "state_avg"
+  },
+  "Blue Springs|MO": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Cape Girardeau|MO": {
+    "multiplier": 0.861,
+    "rpp": 86.1,
+    "source": "msa_direct"
+  },
+  "Chesterfield|MO": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Columbia|MO": {
+    "multiplier": 0.894,
+    "rpp": 89.4,
+    "source": "msa_direct"
+  },
+  "Florissant|MO": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Independence|MO": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Jefferson City|MO": {
+    "multiplier": 0.88,
+    "rpp": 88,
+    "source": "msa_fuzzy"
+  },
+  "Joplin|MO": {
+    "multiplier": 0.857,
+    "rpp": 85.7,
+    "source": "msa_direct"
+  },
+  "Kansas City|MO": {
+    "multiplier": 0.925,
+    "rpp": 92.5,
+    "source": "msa_fuzzy"
+  },
+  "Lee's Summit|MO": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "O'Fallon|MO": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Springfield|MO": {
+    "multiplier": 0.886,
+    "rpp": 88.6,
+    "source": "msa_direct"
+  },
+  "St. Charles|MO": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "St. Joseph|MO": {
+    "multiplier": 0.864,
+    "rpp": 86.4,
+    "source": "msa_direct"
+  },
+  "St. Louis|MO": {
+    "multiplier": 0.951,
+    "rpp": 95.1,
+    "source": "msa_direct"
+  },
+  "St. Peters|MO": {
+    "multiplier": 0.89,
+    "rpp": 89,
+    "source": "state_avg"
+  },
+  "Billings|MT": {
+    "multiplier": 0.935,
+    "rpp": 93.5,
+    "source": "msa_direct"
+  },
+  "Bozeman|MT": {
+    "multiplier": 1.025,
+    "rpp": 102.5,
+    "source": "msa_direct"
+  },
+  "Great Falls|MT": {
+    "multiplier": 0.968,
+    "rpp": 96.8,
+    "source": "msa_direct"
+  },
+  "Missoula|MT": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "msa_direct"
+  },
+  "Bellevue|NE": {
+    "multiplier": 0.892,
+    "rpp": 89.2,
+    "source": "state_avg"
+  },
+  "Grand Island|NE": {
+    "multiplier": 0.867,
+    "rpp": 86.7,
+    "source": "msa_direct"
+  },
+  "Lincoln|NE": {
+    "multiplier": 0.916,
+    "rpp": 91.6,
+    "source": "msa_direct"
+  },
+  "Omaha|NE": {
+    "multiplier": 0.919,
+    "rpp": 91.9,
+    "source": "msa_direct"
+  },
+  "Carson City|NV": {
+    "multiplier": 0.981,
+    "rpp": 98.1,
+    "source": "msa_fuzzy"
+  },
+  "Henderson|NV": {
+    "multiplier": 1.002,
+    "rpp": 100.2,
+    "source": "msa_direct"
+  },
+  "Las Vegas|NV": {
+    "multiplier": 1.002,
+    "rpp": 100.2,
+    "source": "msa_direct"
+  },
+  "North Las Vegas|NV": {
+    "multiplier": 1.002,
+    "rpp": 100.2,
+    "source": "msa_direct"
+  },
+  "Reno|NV": {
+    "multiplier": 1.01,
+    "rpp": 101,
+    "source": "msa_direct"
+  },
+  "Sparks|NV": {
+    "multiplier": 0.998,
+    "rpp": 99.8,
+    "source": "state_avg"
+  },
+  "Concord|NH": {
+    "multiplier": 1.07,
+    "rpp": 107,
+    "source": "state_avg"
+  },
+  "Manchester|NH": {
+    "multiplier": 1.057,
+    "rpp": 105.7,
+    "source": "msa_direct"
+  },
+  "Nashua|NH": {
+    "multiplier": 1.057,
+    "rpp": 105.7,
+    "source": "msa_direct"
+  },
+  "Atlantic City|NJ": {
+    "multiplier": 0.989,
+    "rpp": 98.9,
+    "source": "msa_fuzzy"
+  },
+  "Bayonne|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Camden|NJ": {
+    "multiplier": 1.026,
+    "rpp": 102.6,
+    "source": "msa_direct"
+  },
+  "Clifton|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "East Orange|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Elizabeth|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Hackensack|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Hoboken|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Jersey City|NJ": {
+    "multiplier": 1.126,
+    "rpp": 112.6,
+    "source": "msa_fuzzy"
+  },
+  "Kearny|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Linden|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "New Brunswick|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Newark|NJ": {
+    "multiplier": 1.126,
+    "rpp": 112.6,
+    "source": "msa_direct"
+  },
+  "Passaic|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Paterson|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Perth Amboy|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Plainfield|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Sayreville|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Trenton|NJ": {
+    "multiplier": 1.032,
+    "rpp": 103.2,
+    "source": "msa_direct"
+  },
+  "Union City|NJ": {
+    "multiplier": 1.022,
+    "rpp": 102.2,
+    "source": "state_avg"
+  },
+  "Vineland|NJ": {
+    "multiplier": 0.96,
+    "rpp": 96,
+    "source": "msa_direct"
+  },
+  "West New York|NJ": {
+    "multiplier": 1.126,
+    "rpp": 112.6,
+    "source": "msa_fuzzy"
+  },
+  "Albuquerque|NM": {
+    "multiplier": 0.955,
+    "rpp": 95.5,
+    "source": "msa_direct"
+  },
+  "Clovis|NM": {
+    "multiplier": 0.931,
+    "rpp": 93.1,
+    "source": "state_avg"
+  },
+  "Farmington|NM": {
+    "multiplier": 0.877,
+    "rpp": 87.7,
+    "source": "msa_direct"
+  },
+  "Las Cruces|NM": {
+    "multiplier": 0.902,
+    "rpp": 90.2,
+    "source": "msa_direct"
+  },
+  "Rio Rancho|NM": {
+    "multiplier": 0.931,
+    "rpp": 93.1,
+    "source": "state_avg"
+  },
+  "Roswell|NM": {
+    "multiplier": 0.931,
+    "rpp": 93.1,
+    "source": "state_avg"
+  },
+  "Santa Fe|NM": {
+    "multiplier": 0.988,
+    "rpp": 98.8,
+    "source": "msa_direct"
+  },
+  "Albany|NY": {
+    "multiplier": 0.996,
+    "rpp": 99.6,
+    "source": "msa_direct"
+  },
+  "Binghamton|NY": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "msa_direct"
+  },
+  "Buffalo|NY": {
+    "multiplier": 0.958,
+    "rpp": 95.8,
+    "source": "msa_direct"
+  },
+  "Freeport|NY": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "state_avg"
+  },
+  "Hempstead|NY": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "state_avg"
+  },
+  "Mount Vernon|NY": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "state_avg"
+  },
+  "New Rochelle|NY": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "state_avg"
+  },
+  "New York|NY": {
+    "multiplier": 1.126,
+    "rpp": 112.6,
+    "source": "msa_direct"
+  },
+  "Niagara Falls|NY": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "state_avg"
+  },
+  "Rochester|NY": {
+    "multiplier": 0.97,
+    "rpp": 97,
+    "source": "msa_direct"
+  },
+  "Schenectady|NY": {
+    "multiplier": 0.996,
+    "rpp": 99.6,
+    "source": "msa_direct"
+  },
+  "Syracuse|NY": {
+    "multiplier": 0.957,
+    "rpp": 95.7,
+    "source": "msa_direct"
+  },
+  "Troy|NY": {
+    "multiplier": 0.996,
+    "rpp": 99.6,
+    "source": "msa_direct"
+  },
+  "Utica|NY": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Valley Stream|NY": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "state_avg"
+  },
+  "White Plains|NY": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "state_avg"
+  },
+  "Yonkers|NY": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "state_avg"
+  },
+  "Apex|NC": {
+    "multiplier": 0.93,
+    "rpp": 93,
+    "source": "state_avg"
+  },
+  "Asheville|NC": {
+    "multiplier": 0.965,
+    "rpp": 96.5,
+    "source": "msa_direct"
+  },
+  "Burlington|NC": {
+    "multiplier": 0.932,
+    "rpp": 93.2,
+    "source": "msa_direct"
+  },
+  "Cary|NC": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "msa_direct"
+  },
+  "Chapel Hill|NC": {
+    "multiplier": 0.976,
+    "rpp": 97.6,
+    "source": "msa_direct"
+  },
+  "Charlotte|NC": {
+    "multiplier": 0.973,
+    "rpp": 97.3,
+    "source": "msa_direct"
+  },
+  "Concord|NC": {
+    "multiplier": 0.973,
+    "rpp": 97.3,
+    "source": "msa_direct"
+  },
+  "Durham|NC": {
+    "multiplier": 0.976,
+    "rpp": 97.6,
+    "source": "msa_direct"
+  },
+  "Fayetteville|NC": {
+    "multiplier": 0.92,
+    "rpp": 92,
+    "source": "msa_direct"
+  },
+  "Gastonia|NC": {
+    "multiplier": 0.973,
+    "rpp": 97.3,
+    "source": "msa_direct"
+  },
+  "Greensboro|NC": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "msa_direct"
+  },
+  "Greenville|NC": {
+    "multiplier": 0.884,
+    "rpp": 88.4,
+    "source": "msa_direct"
+  },
+  "Hickory|NC": {
+    "multiplier": 0.885,
+    "rpp": 88.5,
+    "source": "msa_direct"
+  },
+  "High Point|NC": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "msa_direct"
+  },
+  "Huntersville|NC": {
+    "multiplier": 0.93,
+    "rpp": 93,
+    "source": "state_avg"
+  },
+  "Jacksonville|NC": {
+    "multiplier": 0.921,
+    "rpp": 92.1,
+    "source": "msa_direct"
+  },
+  "Kannapolis|NC": {
+    "multiplier": 0.93,
+    "rpp": 93,
+    "source": "state_avg"
+  },
+  "Raleigh|NC": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "msa_direct"
+  },
+  "Rocky Mount|NC": {
+    "multiplier": 0.88,
+    "rpp": 88,
+    "source": "msa_direct"
+  },
+  "Wilmington|NC": {
+    "multiplier": 0.964,
+    "rpp": 96.4,
+    "source": "msa_direct"
+  },
+  "Wilson|NC": {
+    "multiplier": 0.93,
+    "rpp": 93,
+    "source": "state_avg"
+  },
+  "Winston-Salem|NC": {
+    "multiplier": 0.92,
+    "rpp": 92,
+    "source": "msa_fuzzy"
+  },
+  "Bismarck|ND": {
+    "multiplier": 0.91,
+    "rpp": 91,
+    "source": "msa_direct"
+  },
+  "Fargo|ND": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "msa_direct"
+  },
+  "Grand Forks|ND": {
+    "multiplier": 0.867,
+    "rpp": 86.7,
+    "source": "msa_direct"
+  },
+  "Minot|ND": {
+    "multiplier": 0.87,
+    "rpp": 87,
+    "source": "msa_direct"
+  },
+  "Akron|OH": {
+    "multiplier": 0.934,
+    "rpp": 93.4,
+    "source": "msa_direct"
+  },
+  "Beavercreek|OH": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Canton|OH": {
+    "multiplier": 0.894,
+    "rpp": 89.4,
+    "source": "msa_direct"
+  },
+  "Cincinnati|OH": {
+    "multiplier": 0.954,
+    "rpp": 95.4,
+    "source": "msa_direct"
+  },
+  "Cleveland|OH": {
+    "multiplier": 0.939,
+    "rpp": 93.9,
+    "source": "msa_direct"
+  },
+  "Cleveland Heights|OH": {
+    "multiplier": 0.939,
+    "rpp": 93.9,
+    "source": "msa_fuzzy"
+  },
+  "Columbus|OH": {
+    "multiplier": 0.955,
+    "rpp": 95.5,
+    "source": "msa_direct"
+  },
+  "Cuyahoga Falls|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Dayton|OH": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Dublin|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Elyria|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Euclid|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Fairfield|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Findlay|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Grove City|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Hamilton|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Huber Heights|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Kettering|OH": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Lakewood|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Lancaster|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Lima|OH": {
+    "multiplier": 0.897,
+    "rpp": 89.7,
+    "source": "msa_direct"
+  },
+  "Lorain|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Mansfield|OH": {
+    "multiplier": 0.889,
+    "rpp": 88.9,
+    "source": "msa_direct"
+  },
+  "Mentor|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Middletown|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Newark|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Parma|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Springfield|OH": {
+    "multiplier": 0.905,
+    "rpp": 90.5,
+    "source": "msa_direct"
+  },
+  "Strongsville|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Toledo|OH": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "msa_direct"
+  },
+  "Warren|OH": {
+    "multiplier": 0.874,
+    "rpp": 87.4,
+    "source": "msa_direct"
+  },
+  "Westerville|OH": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "state_avg"
+  },
+  "Youngstown|OH": {
+    "multiplier": 0.874,
+    "rpp": 87.4,
+    "source": "msa_direct"
+  },
+  "Broken Arrow|OK": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "state_avg"
+  },
+  "Edmond|OK": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "state_avg"
+  },
+  "Enid|OK": {
+    "multiplier": 0.843,
+    "rpp": 84.3,
+    "source": "msa_direct"
+  },
+  "Lawton|OK": {
+    "multiplier": 0.859,
+    "rpp": 85.9,
+    "source": "msa_direct"
+  },
+  "Midwest City|OK": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "state_avg"
+  },
+  "Moore|OK": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "state_avg"
+  },
+  "Muskogee|OK": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "state_avg"
+  },
+  "Norman|OK": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "state_avg"
+  },
+  "Oklahoma City|OK": {
+    "multiplier": 0.904,
+    "rpp": 90.4,
+    "source": "msa_fuzzy"
+  },
+  "Stillwater|OK": {
+    "multiplier": 0.871,
+    "rpp": 87.1,
+    "source": "state_avg"
+  },
+  "Tulsa|OK": {
+    "multiplier": 0.892,
+    "rpp": 89.2,
+    "source": "msa_direct"
+  },
+  "Albany|OR": {
+    "multiplier": 1.021,
+    "rpp": 102.1,
+    "source": "msa_direct"
+  },
+  "Beaverton|OR": {
+    "multiplier": 1.024,
+    "rpp": 102.4,
+    "source": "state_avg"
+  },
+  "Bend|OR": {
+    "multiplier": 1.036,
+    "rpp": 103.6,
+    "source": "msa_direct"
+  },
+  "Corvallis|OR": {
+    "multiplier": 1.04,
+    "rpp": 104,
+    "source": "msa_direct"
+  },
+  "Eugene|OR": {
+    "multiplier": 1.016,
+    "rpp": 101.6,
+    "source": "msa_direct"
+  },
+  "Gresham|OR": {
+    "multiplier": 1.024,
+    "rpp": 102.4,
+    "source": "state_avg"
+  },
+  "Hillsboro|OR": {
+    "multiplier": 1.054,
+    "rpp": 105.4,
+    "source": "msa_direct"
+  },
+  "Keizer|OR": {
+    "multiplier": 1.024,
+    "rpp": 102.4,
+    "source": "state_avg"
+  },
+  "Lake Oswego|OR": {
+    "multiplier": 1.024,
+    "rpp": 102.4,
+    "source": "state_avg"
+  },
+  "Medford|OR": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "msa_direct"
+  },
+  "Portland|OR": {
+    "multiplier": 1.054,
+    "rpp": 105.4,
+    "source": "msa_direct"
+  },
+  "Salem|OR": {
+    "multiplier": 1.036,
+    "rpp": 103.6,
+    "source": "msa_direct"
+  },
+  "Springfield|OR": {
+    "multiplier": 1.016,
+    "rpp": 101.6,
+    "source": "msa_direct"
+  },
+  "Tigard|OR": {
+    "multiplier": 1.024,
+    "rpp": 102.4,
+    "source": "state_avg"
+  },
+  "Allentown|PA": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "msa_direct"
+  },
+  "Altoona|PA": {
+    "multiplier": 0.895,
+    "rpp": 89.5,
+    "source": "msa_direct"
+  },
+  "Bethlehem|PA": {
+    "multiplier": 1,
+    "rpp": 100,
+    "source": "msa_direct"
+  },
+  "Erie|PA": {
+    "multiplier": 0.91,
+    "rpp": 91,
+    "source": "msa_direct"
+  },
+  "Harrisburg|PA": {
+    "multiplier": 0.987,
+    "rpp": 98.7,
+    "source": "msa_direct"
+  },
+  "Lancaster|PA": {
+    "multiplier": 0.983,
+    "rpp": 98.3,
+    "source": "msa_direct"
+  },
+  "Philadelphia|PA": {
+    "multiplier": 1.026,
+    "rpp": 102.6,
+    "source": "msa_direct"
+  },
+  "Pittsburgh|PA": {
+    "multiplier": 0.947,
+    "rpp": 94.7,
+    "source": "msa_direct"
+  },
+  "Reading|PA": {
+    "multiplier": 0.971,
+    "rpp": 97.1,
+    "source": "msa_direct"
+  },
+  "Scranton|PA": {
+    "multiplier": 0.936,
+    "rpp": 93.6,
+    "source": "msa_direct"
+  },
+  "State College|PA": {
+    "multiplier": 0.968,
+    "rpp": 96.8,
+    "source": "msa_direct"
+  },
+  "Wilkes-Barre|PA": {
+    "multiplier": 0.936,
+    "rpp": 93.6,
+    "source": "msa_fuzzy"
+  },
+  "York|PA": {
+    "multiplier": 0.96,
+    "rpp": 96,
+    "source": "msa_direct"
+  },
+  "Cranston|RI": {
+    "multiplier": 1.018,
+    "rpp": 101.8,
+    "source": "state_avg"
+  },
+  "East Providence|RI": {
+    "multiplier": 1.018,
+    "rpp": 101.8,
+    "source": "msa_fuzzy"
+  },
+  "Pawtucket|RI": {
+    "multiplier": 1.018,
+    "rpp": 101.8,
+    "source": "state_avg"
+  },
+  "Providence|RI": {
+    "multiplier": 1.018,
+    "rpp": 101.8,
+    "source": "msa_direct"
+  },
+  "Warwick|RI": {
+    "multiplier": 1.018,
+    "rpp": 101.8,
+    "source": "msa_direct"
+  },
+  "Woonsocket|RI": {
+    "multiplier": 1.018,
+    "rpp": 101.8,
+    "source": "state_avg"
+  },
+  "Charleston|SC": {
+    "multiplier": 1.01,
+    "rpp": 101,
+    "source": "msa_direct"
+  },
+  "Columbia|SC": {
+    "multiplier": 0.937,
+    "rpp": 93.7,
+    "source": "msa_direct"
+  },
+  "Florence|SC": {
+    "multiplier": 0.868,
+    "rpp": 86.8,
+    "source": "msa_direct"
+  },
+  "Goose Creek|SC": {
+    "multiplier": 0.935,
+    "rpp": 93.5,
+    "source": "state_avg"
+  },
+  "Greenville|SC": {
+    "multiplier": 0.933,
+    "rpp": 93.3,
+    "source": "msa_direct"
+  },
+  "Hilton Head Island|SC": {
+    "multiplier": 0.98,
+    "rpp": 98,
+    "source": "msa_direct"
+  },
+  "Mount Pleasant|SC": {
+    "multiplier": 0.935,
+    "rpp": 93.5,
+    "source": "state_avg"
+  },
+  "North Charleston|SC": {
+    "multiplier": 1.01,
+    "rpp": 101,
+    "source": "msa_direct"
+  },
+  "Rock Hill|SC": {
+    "multiplier": 0.935,
+    "rpp": 93.5,
+    "source": "state_avg"
+  },
+  "Spartanburg|SC": {
+    "multiplier": 0.911,
+    "rpp": 91.1,
+    "source": "msa_direct"
+  },
+  "Summerville|SC": {
+    "multiplier": 0.935,
+    "rpp": 93.5,
+    "source": "state_avg"
+  },
+  "Sumter|SC": {
+    "multiplier": 0.88,
+    "rpp": 88,
+    "source": "msa_direct"
+  },
+  "Rapid City|SD": {
+    "multiplier": 0.892,
+    "rpp": 89.2,
+    "source": "msa_fuzzy"
+  },
+  "Sioux Falls|SD": {
+    "multiplier": 0.906,
+    "rpp": 90.6,
+    "source": "msa_direct"
+  },
+  "Bartlett|TN": {
+    "multiplier": 0.898,
+    "rpp": 89.8,
+    "source": "state_avg"
+  },
+  "Brentwood|TN": {
+    "multiplier": 0.898,
+    "rpp": 89.8,
+    "source": "state_avg"
+  },
+  "Chattanooga|TN": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "msa_direct"
+  },
+  "Clarksville|TN": {
+    "multiplier": 0.909,
+    "rpp": 90.9,
+    "source": "msa_direct"
+  },
+  "Cleveland|TN": {
+    "multiplier": 0.881,
+    "rpp": 88.1,
+    "source": "msa_direct"
+  },
+  "Collierville|TN": {
+    "multiplier": 0.898,
+    "rpp": 89.8,
+    "source": "state_avg"
+  },
+  "Franklin|TN": {
+    "multiplier": 0.963,
+    "rpp": 96.3,
+    "source": "msa_direct"
+  },
+  "Germantown|TN": {
+    "multiplier": 0.898,
+    "rpp": 89.8,
+    "source": "state_avg"
+  },
+  "Hendersonville|TN": {
+    "multiplier": 0.898,
+    "rpp": 89.8,
+    "source": "state_avg"
+  },
+  "Jackson|TN": {
+    "multiplier": 0.855,
+    "rpp": 85.5,
+    "source": "msa_direct"
+  },
+  "Johnson City|TN": {
+    "multiplier": 0.879,
+    "rpp": 87.9,
+    "source": "msa_fuzzy"
+  },
+  "Kingsport|TN": {
+    "multiplier": 0.864,
+    "rpp": 86.4,
+    "source": "msa_direct"
+  },
+  "Knoxville|TN": {
+    "multiplier": 0.926,
+    "rpp": 92.6,
+    "source": "msa_direct"
+  },
+  "Memphis|TN": {
+    "multiplier": 0.922,
+    "rpp": 92.2,
+    "source": "msa_direct"
+  },
+  "Murfreesboro|TN": {
+    "multiplier": 0.963,
+    "rpp": 96.3,
+    "source": "msa_direct"
+  },
+  "Nashville|TN": {
+    "multiplier": 0.963,
+    "rpp": 96.3,
+    "source": "msa_direct"
+  },
+  "Smyrna|TN": {
+    "multiplier": 0.898,
+    "rpp": 89.8,
+    "source": "state_avg"
+  },
+  "Abilene|TX": {
+    "multiplier": 0.904,
+    "rpp": 90.4,
+    "source": "msa_direct"
+  },
+  "Allen|TX": {
+    "multiplier": 0.859,
+    "rpp": 85.9,
+    "source": "msa_fuzzy"
+  },
+  "Amarillo|TX": {
+    "multiplier": 0.918,
+    "rpp": 91.8,
+    "source": "msa_direct"
+  },
+  "Arlington|TX": {
+    "multiplier": 1.031,
+    "rpp": 103.1,
+    "source": "msa_direct"
+  },
+  "Austin|TX": {
+    "multiplier": 0.981,
+    "rpp": 98.1,
+    "source": "msa_direct"
+  },
+  "Beaumont|TX": {
+    "multiplier": 0.9,
+    "rpp": 90,
+    "source": "msa_direct"
+  },
+  "Brownsville|TX": {
+    "multiplier": 0.86,
+    "rpp": 86,
+    "source": "msa_direct"
+  },
+  "Carrollton|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "College Station|TX": {
+    "multiplier": 0.91,
+    "rpp": 91,
+    "source": "msa_direct"
+  },
+  "Corpus Christi|TX": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Dallas|TX": {
+    "multiplier": 1.031,
+    "rpp": 103.1,
+    "source": "msa_direct"
+  },
+  "Denton|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "El Paso|TX": {
+    "multiplier": 0.899,
+    "rpp": 89.9,
+    "source": "msa_direct"
+  },
+  "Fort Worth|TX": {
+    "multiplier": 1.031,
+    "rpp": 103.1,
+    "source": "msa_direct"
+  },
+  "Frisco|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Garland|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Grand Prairie|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Houston|TX": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "msa_direct"
+  },
+  "Irving|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Killeen|TX": {
+    "multiplier": 0.911,
+    "rpp": 91.1,
+    "source": "msa_direct"
+  },
+  "Laredo|TX": {
+    "multiplier": 0.87,
+    "rpp": 87,
+    "source": "msa_direct"
+  },
+  "League City|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Lewisville|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Lubbock|TX": {
+    "multiplier": 0.913,
+    "rpp": 91.3,
+    "source": "msa_direct"
+  },
+  "McAllen|TX": {
+    "multiplier": 0.859,
+    "rpp": 85.9,
+    "source": "msa_direct"
+  },
+  "McKinney|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Mesquite|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Midland|TX": {
+    "multiplier": 0.958,
+    "rpp": 95.8,
+    "source": "msa_direct"
+  },
+  "Odessa|TX": {
+    "multiplier": 0.939,
+    "rpp": 93.9,
+    "source": "msa_direct"
+  },
+  "Pasadena|TX": {
+    "multiplier": 0.986,
+    "rpp": 98.6,
+    "source": "msa_direct"
+  },
+  "Pearland|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Plano|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Richardson|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Round Rock|TX": {
+    "multiplier": 0.981,
+    "rpp": 98.1,
+    "source": "msa_direct"
+  },
+  "San Angelo|TX": {
+    "multiplier": 0.925,
+    "rpp": 92.5,
+    "source": "msa_direct"
+  },
+  "San Antonio|TX": {
+    "multiplier": 0.947,
+    "rpp": 94.7,
+    "source": "msa_direct"
+  },
+  "Sugar Land|TX": {
+    "multiplier": 0.915,
+    "rpp": 91.5,
+    "source": "state_avg"
+  },
+  "Tyler|TX": {
+    "multiplier": 0.922,
+    "rpp": 92.2,
+    "source": "msa_direct"
+  },
+  "Waco|TX": {
+    "multiplier": 0.926,
+    "rpp": 92.6,
+    "source": "msa_direct"
+  },
+  "Wichita Falls|TX": {
+    "multiplier": 0.895,
+    "rpp": 89.5,
+    "source": "msa_direct"
+  },
+  "Bountiful|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "Draper|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "Layton|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "Lehi|UT": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "msa_direct"
+  },
+  "Logan|UT": {
+    "multiplier": 0.959,
+    "rpp": 95.9,
+    "source": "msa_direct"
+  },
+  "Murray|UT": {
+    "multiplier": 1.009,
+    "rpp": 100.9,
+    "source": "msa_direct"
+  },
+  "Ogden|UT": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "msa_direct"
+  },
+  "Orem|UT": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "msa_direct"
+  },
+  "Provo|UT": {
+    "multiplier": 0.982,
+    "rpp": 98.2,
+    "source": "msa_direct"
+  },
+  "Riverton|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "Roy|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "Salt Lake City|UT": {
+    "multiplier": 1.009,
+    "rpp": 100.9,
+    "source": "msa_fuzzy"
+  },
+  "Sandy|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "South Jordan|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "Spanish Fork|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "St. George|UT": {
+    "multiplier": 0.973,
+    "rpp": 97.3,
+    "source": "msa_direct"
+  },
+  "Taylorsville|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "West Jordan|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "West Valley City|UT": {
+    "multiplier": 0.985,
+    "rpp": 98.5,
+    "source": "state_avg"
+  },
+  "Burlington|VT": {
+    "multiplier": 1.009,
+    "rpp": 100.9,
+    "source": "msa_direct"
+  },
+  "Alexandria|VA": {
+    "multiplier": 1.089,
+    "rpp": 108.9,
+    "source": "msa_direct"
+  },
+  "Blacksburg|VA": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Charlottesville|VA": {
+    "multiplier": 0.991,
+    "rpp": 99.1,
+    "source": "msa_direct"
+  },
+  "Chesapeake|VA": {
+    "multiplier": 0.979,
+    "rpp": 97.9,
+    "source": "msa_direct"
+  },
+  "Danville|VA": {
+    "multiplier": 0.953,
+    "rpp": 95.3,
+    "source": "state_avg"
+  },
+  "Hampton|VA": {
+    "multiplier": 0.953,
+    "rpp": 95.3,
+    "source": "state_avg"
+  },
+  "Harrisonburg|VA": {
+    "multiplier": 0.949,
+    "rpp": 94.9,
+    "source": "msa_direct"
+  },
+  "Leesburg|VA": {
+    "multiplier": 0.953,
+    "rpp": 95.3,
+    "source": "state_avg"
+  },
+  "Lynchburg|VA": {
+    "multiplier": 0.894,
+    "rpp": 89.4,
+    "source": "msa_direct"
+  },
+  "Manassas|VA": {
+    "multiplier": 0.953,
+    "rpp": 95.3,
+    "source": "state_avg"
+  },
+  "Newport News|VA": {
+    "multiplier": 0.953,
+    "rpp": 95.3,
+    "source": "state_avg"
+  },
+  "Norfolk|VA": {
+    "multiplier": 0.979,
+    "rpp": 97.9,
+    "source": "msa_direct"
+  },
+  "Portsmouth|VA": {
+    "multiplier": 0.953,
+    "rpp": 95.3,
+    "source": "state_avg"
+  },
+  "Richmond|VA": {
+    "multiplier": 0.979,
+    "rpp": 97.9,
+    "source": "msa_direct"
+  },
+  "Roanoke|VA": {
+    "multiplier": 0.936,
+    "rpp": 93.6,
+    "source": "msa_direct"
+  },
+  "Suffolk|VA": {
+    "multiplier": 0.953,
+    "rpp": 95.3,
+    "source": "state_avg"
+  },
+  "Virginia Beach|VA": {
+    "multiplier": 0.979,
+    "rpp": 97.9,
+    "source": "msa_direct"
+  },
+  "Auburn|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Bellevue|WA": {
+    "multiplier": 1.111,
+    "rpp": 111.1,
+    "source": "msa_direct"
+  },
+  "Bellingham|WA": {
+    "multiplier": 1.033,
+    "rpp": 103.3,
+    "source": "msa_direct"
+  },
+  "Bremerton|WA": {
+    "multiplier": 1.056,
+    "rpp": 105.6,
+    "source": "msa_direct"
+  },
+  "Burien|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Edmonds|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Everett|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Federal Way|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Kennewick|WA": {
+    "multiplier": 1.001,
+    "rpp": 100.1,
+    "source": "msa_direct"
+  },
+  "Kent|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Kirkland|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Lacey|WA": {
+    "multiplier": 1.037,
+    "rpp": 103.7,
+    "source": "msa_direct"
+  },
+  "Lakewood|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Marysville|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Olympia|WA": {
+    "multiplier": 1.037,
+    "rpp": 103.7,
+    "source": "msa_direct"
+  },
+  "Pasco|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Puyallup|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Redmond|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Renton|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Richland|WA": {
+    "multiplier": 1.001,
+    "rpp": 100.1,
+    "source": "msa_direct"
+  },
+  "Sammamish|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Seattle|WA": {
+    "multiplier": 1.111,
+    "rpp": 111.1,
+    "source": "msa_direct"
+  },
+  "Shoreline|WA": {
+    "multiplier": 1.014,
+    "rpp": 101.4,
+    "source": "state_avg"
+  },
+  "Spokane|WA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "msa_direct"
+  },
+  "Spokane Valley|WA": {
+    "multiplier": 1.003,
+    "rpp": 100.3,
+    "source": "msa_direct"
+  },
+  "Tacoma|WA": {
+    "multiplier": 1.111,
+    "rpp": 111.1,
+    "source": "msa_direct"
+  },
+  "Vancouver|WA": {
+    "multiplier": 1.054,
+    "rpp": 105.4,
+    "source": "msa_direct"
+  },
+  "Yakima|WA": {
+    "multiplier": 0.955,
+    "rpp": 95.5,
+    "source": "msa_direct"
+  },
+  "Charleston|WV": {
+    "multiplier": 0.887,
+    "rpp": 88.7,
+    "source": "msa_direct"
+  },
+  "Huntington|WV": {
+    "multiplier": 0.884,
+    "rpp": 88.4,
+    "source": "msa_direct"
+  },
+  "Appleton|WI": {
+    "multiplier": 0.924,
+    "rpp": 92.4,
+    "source": "msa_direct"
+  },
+  "Beloit|WI": {
+    "multiplier": 0.937,
+    "rpp": 93.7,
+    "source": "msa_direct"
+  },
+  "Brookfield|WI": {
+    "multiplier": 0.947,
+    "rpp": 94.7,
+    "source": "state_avg"
+  },
+  "Eau Claire|WI": {
+    "multiplier": 0.928,
+    "rpp": 92.8,
+    "source": "msa_direct"
+  },
+  "Fond du Lac|WI": {
+    "multiplier": 0.916,
+    "rpp": 91.6,
+    "source": "msa_direct"
+  },
+  "Green Bay|WI": {
+    "multiplier": 0.931,
+    "rpp": 93.1,
+    "source": "msa_direct"
+  },
+  "Greenfield|WI": {
+    "multiplier": 0.947,
+    "rpp": 94.7,
+    "source": "state_avg"
+  },
+  "Janesville|WI": {
+    "multiplier": 0.937,
+    "rpp": 93.7,
+    "source": "msa_direct"
+  },
+  "Kenosha|WI": {
+    "multiplier": 1.011,
+    "rpp": 101.1,
+    "source": "msa_direct"
+  },
+  "La Crosse|WI": {
+    "multiplier": 0.918,
+    "rpp": 91.8,
+    "source": "msa_direct"
+  },
+  "Madison|WI": {
+    "multiplier": 0.973,
+    "rpp": 97.3,
+    "source": "msa_direct"
+  },
+  "Milwaukee|WI": {
+    "multiplier": 0.969,
+    "rpp": 96.9,
+    "source": "msa_direct"
+  },
+  "New Berlin|WI": {
+    "multiplier": 0.947,
+    "rpp": 94.7,
+    "source": "state_avg"
+  },
+  "Oshkosh|WI": {
+    "multiplier": 0.929,
+    "rpp": 92.9,
+    "source": "msa_direct"
+  },
+  "Racine|WI": {
+    "multiplier": 0.96,
+    "rpp": 96,
+    "source": "msa_direct"
+  },
+  "Sheboygan|WI": {
+    "multiplier": 0.94,
+    "rpp": 94,
+    "source": "msa_direct"
+  },
+  "Waukesha|WI": {
+    "multiplier": 0.969,
+    "rpp": 96.9,
+    "source": "msa_direct"
+  },
+  "Wausau|WI": {
+    "multiplier": 0.927,
+    "rpp": 92.7,
+    "source": "msa_direct"
+  },
+  "Wauwatosa|WI": {
+    "multiplier": 0.947,
+    "rpp": 94.7,
+    "source": "state_avg"
+  },
+  "West Allis|WI": {
+    "multiplier": 0.947,
+    "rpp": 94.7,
+    "source": "state_avg"
+  },
+  "Casper|WY": {
+    "multiplier": 0.938,
+    "rpp": 93.8,
+    "source": "msa_direct"
+  },
+  "Cheyenne|WY": {
+    "multiplier": 0.965,
+    "rpp": 96.5,
+    "source": "msa_direct"
+  }
+}

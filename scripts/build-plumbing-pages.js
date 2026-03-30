@@ -8,6 +8,7 @@ const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "plumbing-city-page-template.html");
 const SITEMAP_PATH = path.join(ROOT, "sitemap-plumbing.xml");
 const CONTEXT_PATH = path.join(ROOT, "data", "plumbing-city-context.json");
+const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
 const SITE_BASE_URL = "https://truepricehq.com";
 
 function readJson(p) { return JSON.parse(fs.readFileSync(p, "utf8")); }
@@ -45,6 +46,8 @@ function formatCurrency(v) { return "$" + Math.round(v).toLocaleString(); }
 function main() {
   const pm = readJson(PRICING_MODEL_PATH);
   const sr = readJson(STATE_REGIONS_PATH);
+  let cityMultipliers = {};
+  try { cityMultipliers = readJson(CITY_MULTIPLIERS_PATH); } catch (e) { console.warn("city-cost-multipliers.json not found, using region fallback"); }
   const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
   const cities = parseCsv(fs.readFileSync(INPUT_CSV, "utf8"));
 
@@ -56,7 +59,9 @@ function main() {
     const sc = city.state_code;
     const state = city.state;
     const region = sr[state] || sr[sc] || "south";
-    const lm = pm.laborMultiplierByRegion[region] || 1.0;
+    const cityKey = name + "|" + sc;
+    const cityMult = cityMultipliers[cityKey] ? cityMultipliers[cityKey].multiplier : null;
+    const lm = cityMult || (pm.laborMultiplierByRegion[region] || 1.0);
     const om = pm.overheadMultiplier;
     const round = pm.roundTo;
 

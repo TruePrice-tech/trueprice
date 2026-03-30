@@ -38,6 +38,14 @@ function loadJson(filename) {
   return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 }
 
+let _cityMultipliers = null;
+function getCityMultipliers() {
+  if (!_cityMultipliers) {
+    try { _cityMultipliers = loadJson('city-cost-multipliers.json'); } catch (e) { _cityMultipliers = {}; }
+  }
+  return _cityMultipliers;
+}
+
 function getRegion(state) {
   const regions = loadJson('state-regions.json');
   return regions[state.toUpperCase()] || 'south';
@@ -386,7 +394,10 @@ module.exports = async (req, res) => {
   try {
     const region = getRegion(stateUpper);
     const model = loadJson(config.file);
-    const laborMult = (model.laborMultiplierByRegion || {})[region] || 1.0;
+    const cityKey = city + "|" + stateUpper;
+    const cityMultipliers = getCityMultipliers();
+    const cityMult = cityMultipliers[cityKey] ? cityMultipliers[cityKey].multiplier : null;
+    const laborMult = cityMult || ((model.laborMultiplierByRegion || {})[region] || 1.0);
     const computeFn = COMPUTE_MAP[service];
     const result = computeFn(model, laborMult);
 

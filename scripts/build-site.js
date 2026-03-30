@@ -7,6 +7,7 @@ const INPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
 const PRICING_MODEL_PATH = path.join(ROOT, "data", "pricing-model.json");
 const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
 const CITY_CONTEXT_PATH = path.join(ROOT, "data", "city-context.json");
+const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
 
 const OUTPUT_PRICING_JSON = path.join(ROOT, "data", "city-house-size-pricing.json");
 
@@ -123,9 +124,11 @@ function groupCitiesByState(cityRows) {
   return grouped;
 }
 
-function calculatePriceTable(cityRow, pricingModel, stateRegions) {
+function calculatePriceTable(cityRow, pricingModel, stateRegions, cityMultipliers) {
   const region = stateRegions[cityRow.state_code] || "south";
-  const laborMultiplier = pricingModel.laborMultiplierByRegion[region] || 1;
+  const cityKey = cityRow.city + "|" + cityRow.state_code;
+  const cityMult = cityMultipliers[cityKey] ? cityMultipliers[cityKey].multiplier : null;
+  const laborMultiplier = cityMult || (pricingModel.laborMultiplierByRegion[region] || 1);
 
   const result = {
     city: cityRow.city,
@@ -795,10 +798,12 @@ function summarizeStatePricing(stateCities, cityPricingArray) {
   };
 }
 
-function summarizeStateSquareRange(stateCities, pricingModel, stateRegions) {
+function summarizeStateSquareRange(stateCities, pricingModel, stateRegions, cityMultipliers) {
   const regionValues = stateCities.map((city) => {
     const region = stateRegions[city.state_code] || "south";
-    const laborMultiplier = pricingModel.laborMultiplierByRegion[region] || 1;
+    const cityKey = city.city + "|" + city.state_code;
+    const cityMult = cityMultipliers[cityKey] ? cityMultipliers[cityKey].multiplier : null;
+    const laborMultiplier = cityMult || (pricingModel.laborMultiplierByRegion[region] || 1);
 
     const materialValues = Object.values(pricingModel.basePricePerSquare).map(
       (basePrice) => basePrice * laborMultiplier * pricingModel.overheadMultiplier
@@ -853,7 +858,8 @@ function generateStatePageHtml(
   groupedStates,
   cityPricingArray,
   pricingModel,
-  stateRegions
+  stateRegions,
+  cityMultipliers
 ) {
   let template = loadStateTemplate();
 
@@ -864,7 +870,8 @@ function generateStatePageHtml(
   const avgSquareRange = summarizeStateSquareRange(
     stateCities,
     pricingModel,
-    stateRegions
+    stateRegions,
+    cityMultipliers
   );
   const cityLinks = generateStateCityLinks(stateCities);
   const relatedStateLinks = generateRelatedStateLinks(stateName, groupedStates);
@@ -905,7 +912,8 @@ function generateStatePages(
   cityRows,
   cityPricingArray,
   pricingModel,
-  stateRegions
+  stateRegions,
+  cityMultipliers
 ) {
   if (!fs.existsSync(STATE_TEMPLATE_PATH)) {
     console.log("State page template missing. Skipping state page generation.");
@@ -921,7 +929,8 @@ function generateStatePages(
       groupedStates,
       cityPricingArray,
       pricingModel,
-      stateRegions
+      stateRegions,
+      cityMultipliers
     );
 
     const filePath = path.join(ROOT, filename);
@@ -1414,6 +1423,8 @@ function main() {
 
   const pricingModel = readJson(PRICING_MODEL_PATH);
   const stateRegions = readJson(STATE_REGIONS_PATH);
+  let cityMultipliers = {};
+  try { cityMultipliers = readJson(CITY_MULTIPLIERS_PATH); } catch (e) { console.warn("city-cost-multipliers.json not found, using region fallback"); }
 
   const csvText = fs.readFileSync(INPUT_CSV, "utf8");
   const cityRows = parseCsv(csvText);
@@ -1427,7 +1438,7 @@ function main() {
   });
 
   const cityPricingArray = dedupedCityRows.map((cityRow) =>
-    calculatePriceTable(cityRow, pricingModel, stateRegions)
+    calculatePriceTable(cityRow, pricingModel, stateRegions, cityMultipliers)
   );
 
   fs.writeFileSync(
@@ -1453,7 +1464,8 @@ function main() {
     dedupedCityRows,
     cityPricingArray,
     pricingModel,
-    stateRegions
+    stateRegions,
+    cityMultipliers
   );
   generateMaterialPages(cityPricingArray, pricingModel);
   generateMaterialCityPages(cityPricingArray, pricingModel);

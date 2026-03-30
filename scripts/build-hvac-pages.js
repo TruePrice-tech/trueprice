@@ -8,6 +8,7 @@ const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "hvac-city-page-template.html");
 const SITEMAP_PATH = path.join(ROOT, "sitemap-hvac.xml");
 const CONTEXT_PATH = path.join(ROOT, "data", "hvac-city-context.json");
+const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
 
 const SITE_BASE_URL = "https://truepricehq.com";
 
@@ -62,6 +63,8 @@ function buildHvacPageFilename(city, stateCode) {
 function main() {
   const pricingModel = readJson(PRICING_MODEL_PATH);
   const stateRegions = readJson(STATE_REGIONS_PATH);
+  let cityMultipliers = {};
+  try { cityMultipliers = readJson(CITY_MULTIPLIERS_PATH); } catch (e) { console.warn("city-cost-multipliers.json not found, using region fallback"); }
   const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
   const csvText = fs.readFileSync(INPUT_CSV, "utf8");
   const cities = parseCsv(csvText);
@@ -74,7 +77,9 @@ function main() {
     const stateCode = city.state_code;
     const stateName = city.state;
     const region = stateRegions[stateName] || stateRegions[stateCode] || "south";
-    const laborMult = pricingModel.laborMultiplierByRegion[region] || 1.0;
+    const cityKey = cityName + "|" + stateCode;
+    const cityMult = cityMultipliers[cityKey] ? cityMultipliers[cityKey].multiplier : null;
+    const laborMult = cityMult || (pricingModel.laborMultiplierByRegion[region] || 1.0);
     const overheadMult = pricingModel.overheadMultiplier || 1.15;
 
     const filename = buildHvacPageFilename(cityName, stateCode);
