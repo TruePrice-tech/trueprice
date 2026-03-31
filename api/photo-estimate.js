@@ -11,12 +11,30 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: "API key not configured" });
 
   try {
-    const { image, service } = req.body;
+    const body = req.body;
+    console.log("[photo-estimate] Request received. Body type:", typeof body, "Has image:", !!(body && body.image), "Service:", body?.service);
 
-    if (!image) return res.status(400).json({ error: "No image provided" });
+    if (!body || typeof body !== "object") {
+      console.log("[photo-estimate] Body is not an object. Raw body length:", JSON.stringify(req.body || "").length);
+      return res.status(400).json({ error: "Invalid request body" });
+    }
+
+    const { image, service } = body;
+
+    if (!image) {
+      console.log("[photo-estimate] No image in body. Keys:", Object.keys(body));
+      return res.status(400).json({ error: "No image provided" });
+    }
+
+    console.log("[photo-estimate] Image length:", image.length, "First 50 chars:", image.substring(0, 50));
 
     const match = image.match(/^data:(image\/[^;]+);base64,(.+)$/);
-    if (!match) return res.status(400).json({ error: "Invalid image format" });
+    if (!match) {
+      console.log("[photo-estimate] Image format doesn't match base64 data URL pattern");
+      return res.status(400).json({ error: "Invalid image format" });
+    }
+
+    console.log("[photo-estimate] Image parsed. Media type:", match[1], "Base64 length:", match[2].length);
 
     const serviceType = service || "roofing";
 
@@ -86,6 +104,8 @@ Return ONLY the JSON object`
       },
       { type: "text", text: prompt }
     ];
+
+    console.log("[photo-estimate] Sending to Claude API. Service:", serviceType, "Payload size:", JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 1024, messages: [{ role: "user", content }] }).length);
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
