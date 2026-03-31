@@ -3,3 +3,10 @@
 .env*
 .env.development.local
 .env.local
+
+# BLS/BEA raw data (large files, not needed for deployment)
+data/bls/oesm24ma.zip
+data/bls/oesm24/
+data/bls/MARPP.zip
+data/bls/marpp/
+data/bls/oe.data.0.Current
