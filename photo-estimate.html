@@ -205,8 +205,9 @@
 
       app.innerHTML =
         '<div class="pe-hero">' +
-          '<h1>Snap a photo. Get a price.</h1>' +
-          '<p>Take a photo of your house and get an instant cost estimate powered by AI.</p>' +
+          '<img src="/images/trudy.jpg" alt="Trudy" width="64" height="64" style="border-radius:50%; margin-bottom:12px;" />' +
+          '<h1>Snap a photo. Trudy does the rest.</h1>' +
+          '<p>Take a photo of your house and Trudy will give you an instant cost estimate.</p>' +
         '</div>' +
 
         '<div class="pe-service-select">' +
@@ -286,22 +287,21 @@
     function renderAnalyzing() {
       app.innerHTML =
         '<div class="pe-hero">' +
-          '<h1>Analyzing your photo...</h1>' +
+          '<img src="/images/trudy.jpg" alt="Trudy" width="72" height="72" style="border-radius:50%; margin-bottom:12px;" />' +
+          '<h1>Trudy is analyzing your photo...</h1>' +
         '</div>' +
         '<div class="pe-result-card" style="text-align:center; padding:3rem;">' +
-          '<div style="width:48px; height:48px; border:4px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:pespin 0.8s linear infinite; margin:0 auto 16px;"></div>' +
           '<div class="pe-progress">' +
             '<div class="pe-progress-bar"><div class="pe-progress-fill" id="peProgress" style="width:10%;"></div></div>' +
-            '<div class="pe-progress-text" id="peStatus">Sending photo to AI...</div>' +
+            '<div class="pe-progress-text" id="peStatus">Trudy is looking at your photo...</div>' +
           '</div>' +
-        '</div>' +
-        '<style>@keyframes pespin{to{transform:rotate(360deg)}}</style>';
+        '</div>';
 
       // Animate progress
       var phases = [
-        { pct: 30, text: "AI is examining your photo...", delay: 1500 },
-        { pct: 60, text: "Detecting roof material and size...", delay: 3000 },
-        { pct: 80, text: "Calculating local pricing...", delay: 5000 }
+        { pct: 30, text: "Trudy is examining the roof...", delay: 1500 },
+        { pct: 60, text: "Trudy is detecting material and size...", delay: 3000 },
+        { pct: 80, text: "Trudy is calculating local pricing...", delay: 5000 }
       ];
       phases.forEach(function(p) {
         setTimeout(function() {

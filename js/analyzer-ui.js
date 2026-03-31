@@ -4765,7 +4765,8 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div id="estimateFeedback" style="margin:24px 0 0; padding:16px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:10px; text-align:center;">
-              <div style="font-size:14px; color:var(--text-secondary,#475569); margin-bottom:10px;">Was this estimate close to your actual quote?</div>
+              <img src="/images/trudy.jpg" alt="Trudy" width="32" height="32" style="border-radius:50%; margin-bottom:8px;" />
+              <div style="font-size:14px; color:var(--text-secondary,#475569); margin-bottom:10px;">Trudy wants to know: was this estimate close to your actual quote?</div>
               <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
                 <button onclick="submitEstimateFeedback('accurate')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">Yes, accurate</button>
                 <button onclick="submitEstimateFeedback('high')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">My quote was higher</button>
@@ -8357,7 +8358,8 @@ function buildComparisonWinnerHtml(summary) {
               </button>
 
               <div style="margin-top:12px; font-size:12px; color:#94a3b8;">
-                Your quote stays private. Processed in your browser, never stored or shared.
+                <img src="/images/trudy.jpg" alt="Trudy" width="20" height="20" style="border-radius:50%; vertical-align:middle; margin-right:4px;" />
+                Your quote stays private. Trudy processes it in your browser, never stored or shared.
               </div>
 
               <div class="small muted" style="margin-top:12px; font-size:12px;">
@@ -8644,8 +8646,10 @@ function buildComparisonWinnerHtml(summary) {
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
 
+          <img src="/images/trudy.jpg" alt="Trudy" width="72" height="72" style="border-radius:50%; margin-bottom:16px;" />
+
           <div class="progress-phase" id="analysisPhaseLabel">
-            Reading your document...
+            Trudy is reading your document...
           </div>
 
           <div class="progress-sub" id="analysisPhaseDetail">
@@ -8667,11 +8671,11 @@ function buildComparisonWinnerHtml(summary) {
 
       // Animate progress phases
       const phases = [
-        { pct: 20, label: "Extracting price, material, and scope...", detail: "Scanning document for key pricing signals", delay: 1500 },
-        { pct: 45, label: "Looking up your property...", detail: "Estimating roof size from address data", delay: 3500 },
-        { pct: 65, label: "Checking what your neighbors paid...", detail: "Matching to city-level benchmarks", delay: 5000 },
-        { pct: 85, label: "Checking for risks and missing items...", detail: "Reviewing scope signals and risk flags", delay: 7000 },
-        { pct: 95, label: "Almost there...", detail: "Assembling your personalized result", delay: 8500 }
+        { pct: 20, label: "Trudy is extracting price, material, and scope...", detail: "Scanning document for key pricing signals", delay: 1500 },
+        { pct: 45, label: "Trudy is looking up your property...", detail: "Estimating roof size from address data", delay: 3500 },
+        { pct: 65, label: "Trudy is checking what your neighbors paid...", detail: "Matching to city-level benchmarks", delay: 5000 },
+        { pct: 85, label: "Trudy is checking for risks and missing items...", detail: "Reviewing scope signals and risk flags", delay: 7000 },
+        { pct: 95, label: "Trudy is almost done...", detail: "Assembling your personalized result", delay: 8500 }
       ];
 
       phases.forEach(phase => {
@@ -8826,7 +8830,8 @@ function buildComparisonWinnerHtml(summary) {
       const p = latestParsed || {};
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
-          <div class="progress-phase" id="analysisPhaseLabel">Reading the fine print so you don't have to...</div>
+          <img src="/images/trudy.jpg" alt="Trudy" width="72" height="72" style="border-radius:50%; margin-bottom:16px;" />
+          <div class="progress-phase" id="analysisPhaseLabel">Trudy is reading the fine print so you don't have to...</div>
           <div class="progress-sub" id="analysisPhaseDetail">Checking what your neighbors paid</div>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
             <div id="analysisProgressBar" style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div>
