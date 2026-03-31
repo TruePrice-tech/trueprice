@@ -434,7 +434,7 @@ TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate
     btn.disabled = true; btn.textContent = 'Sending...';
     fetch('/api/analytics', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type:'email_signup', email:email, source:'city_page'}) })
       .then(function(r){return r.json()})
-      .then(function(d){ status.style.color='#166534'; status.textContent='Thanks! Check your inbox.'; form.reset(); localStorage.setItem('tp_subscribed','1'); })
+      .then(function(d){ status.style.color='#166534'; status.textContent='Thanks! We'll keep you posted.'; form.reset(); localStorage.setItem('tp_subscribed','1'); })
       .catch(function(){ status.style.color='#b91c1c'; status.textContent='Something went wrong. Try again.'; });
     btn.disabled = false; btn.textContent = 'Send guides';
   });
