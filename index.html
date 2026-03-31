@@ -85,6 +85,8 @@
 
     @media (max-width: 700px) {
       .hp-hero { padding: 40px 0 36px; }
+      .hp-hero .container { flex-direction: column !important; }
+      .hp-trudy-hero { display: none !important; }
       .hp-hero h1 { font-size: 28px; }
       .hp-hero p.hp-sub { font-size: 16px; }
       .hp-hero .btn, .hp-hero .btn-outline { font-size: 15px; padding: 12px 20px; width: 100%; text-align: center; }
@@ -142,25 +144,30 @@
 
   <!-- HERO: Urgency + CTAs -->
   <section class="hp-hero">
-    <div class="container" style="padding-top:32px;">
-      <p style="font-size:14px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin:0 0 10px;">Know before you sign.</p>
-      <h1>Stop overpaying for home projects</h1>
-      <p class="hp-sub">
-        Upload a roofing, HVAC, plumbing, or solar quote and see if the price is fair in 30 seconds. Plus pricing guides for 15 home services.
-      </p>
-      <div class="hp-cta-row">
-        <a class="btn" href="/photo-estimate.html">Snap a photo, get a price</a>
-        <a class="btn" href="/analyze-quote.html" style="background:#fff; color:#1d4ed8;">Analyze your quote</a>
-        <a class="btn-outline" href="#services">Browse pricing guides</a>
+    <div class="container" style="padding-top:32px; display:flex; align-items:center; gap:40px;">
+      <div style="flex:1; min-width:0;">
+        <p style="font-size:14px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin:0 0 10px;">Know before you sign.</p>
+        <h1>Stop overpaying for home projects</h1>
+        <p class="hp-sub">
+          Upload a roofing, HVAC, plumbing, or solar quote and see if the price is fair in 30 seconds. Plus pricing guides for 15 home services.
+        </p>
+        <div class="hp-cta-row">
+          <a class="btn" href="/photo-estimate.html">Snap a photo, get a price</a>
+          <a class="btn" href="/analyze-quote.html" style="background:#fff; color:#1d4ed8;">Analyze your quote</a>
+          <a class="btn-outline" href="#services">Browse pricing guides</a>
+        </div>
+        <div class="hp-proof">
+          <div><strong>14,000+</strong>city pricing guides</div>
+          <div><strong>15</strong>service categories</div>
+          <div><strong>Free</strong>no signup required</div>
+          <div><strong id="quoteCounter">--</strong>quotes analyzed</div>
+        </div>
+        <div style="margin-top:24px;">
+          <a href="https://www.producthunt.com/products/trueprice?utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-trueprice" target="_blank" rel="noopener noreferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1106272&theme=light&t=1774441065434" alt="TruePrice on Product Hunt" width="250" height="54" style="display:inline-block;" /></a>
+        </div>
       </div>
-      <div class="hp-proof">
-        <div><strong>14,000+</strong>city pricing guides</div>
-        <div><strong>15</strong>service categories</div>
-        <div><strong>Free</strong>no signup required</div>
-        <div><strong id="quoteCounter">--</strong>quotes analyzed</div>
-      </div>
-      <div style="margin-top:24px;">
-        <a href="https://www.producthunt.com/products/trueprice?utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-trueprice" target="_blank" rel="noopener noreferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1106272&theme=light&t=1774441065434" alt="TruePrice on Product Hunt" width="250" height="54" style="display:inline-block;" /></a>
+      <div class="hp-trudy-hero" style="flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+        <img src="/images/trudy-thumbsup.png" alt="Trudy the TruePrice mascot" width="280" style="max-width:280px; filter:drop-shadow(0 8px 24px rgba(0,0,0,0.3));" />
       </div>
     </div>
   </section>
@@ -289,7 +296,7 @@
 
     <!-- EMAIL SIGNUP -->
     <section class="hp-section" style="text-align:center; border-bottom:none; padding-bottom:0;">
-      <img src="/images/trudy-thumbsup.png" alt="Trudy the TruePrice fennec fox" width="64" height="64" style="; margin-bottom:12px;" />
+      <img src="/images/trudy-thumbsup.png" alt="Trudy the TruePrice fennec fox" width="100" style="margin-bottom:12px;" />
       <h2>Ask Trudy to keep you posted</h2>
       <p style="color:var(--text-secondary); max-width:480px; margin:0 auto 20px;">Get notified when we add new tools and guides. No spam, unsubscribe anytime.</p>
       <form id="emailSignup" style="display:flex; gap:8px; max-width:420px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
