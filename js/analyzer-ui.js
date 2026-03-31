@@ -4758,8 +4758,10 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div style="display:flex; gap:16px; flex-wrap:wrap; font-size:14px;">
-              <a href="#" onclick="showDetailsScreen(); return false;" class="muted">See how we analyzed this</a>
+              <a href="#" onclick="saveAnalysisAsPdf(); return false;" class="muted">Save as PDF</a>
               <a href="#" onclick="showShareScreen(); return false;" class="muted">Share this result</a>
+              <a href="#" onclick="showDetailsScreen(); return false;" class="muted">See how we analyzed this</a>
+              <a href="/methodology.html" class="muted" target="_blank">Our methodology</a>
             </div>
 
             <div id="estimateFeedback" style="margin:24px 0 0; padding:16px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:10px; text-align:center;">
@@ -5645,6 +5647,18 @@ function buildComparisonWinnerHtml(summary) {
           roofSize: latestAnalysis?.roofSize || null,
           material: latestAnalysis?.material || ""
         });
+
+        // Save analysis state for resume on return visit
+        try {
+          localStorage.setItem("tp_last_analysis", JSON.stringify({
+            verdict: latestAnalysis?.verdict || "",
+            price: latestAnalysis?.quotePrice || null,
+            city: latestAnalysis?.city || "",
+            state: latestAnalysis?.stateCode || "",
+            material: latestAnalysis?.material || "",
+            timestamp: Date.now()
+          }));
+        } catch(e) {}
 
         }
 
@@ -7818,6 +7832,25 @@ function buildComparisonWinnerHtml(summary) {
       if (output) output.innerHTML = renderCompareGrid(quotes);
     };
 
+    window.saveAnalysisAsPdf = function saveAnalysisAsPdf() {
+      var resultEl = document.getElementById("analysisOutput") || document.querySelector(".estimator-result");
+      if (!resultEl) return;
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(function() { doCapture(); });
+      } else {
+        doCapture();
+      }
+      function doCapture() {
+        html2canvas(resultEl, { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+          track("analysis_saved_pdf", {});
+        });
+      }
+    };
+
     window.submitEstimateFeedback = function submitEstimateFeedback(response) {
       var fb = document.getElementById("estimateFeedback");
       if (!fb) return;
@@ -8226,6 +8259,20 @@ function buildComparisonWinnerHtml(summary) {
         ? `<div style="margin:0 0 18px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; font-size:14px; color:#166534; font-weight:500;">Showing local pricing for ${escapeHtml(prefillCity)}, ${escapeHtml(prefillState)}</div>`
         : "";
 
+      // Check for previous analysis to show resume prompt
+      let resumeHtml = "";
+      try {
+        const lastAnalysis = JSON.parse(localStorage.getItem("tp_last_analysis") || "null");
+        if (lastAnalysis && lastAnalysis.timestamp && (Date.now() - lastAnalysis.timestamp) < 7 * 24 * 60 * 60 * 1000) {
+          const fmtPrice = function(p) { return "$" + Number(p).toLocaleString("en-US", { maximumFractionDigits: 0 }); };
+          const cityLabel = lastAnalysis.city ? " in " + escapeHtml(lastAnalysis.city) : "";
+          resumeHtml = '<div style="margin-bottom:20px; padding:16px 20px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:14px;">'
+            + '<div style="font-size:14px; font-weight:600; color:#1d4ed8; margin-bottom:6px;">Previous analysis found</div>'
+            + '<div style="font-size:14px; color:#475569;">Your last quote' + cityLabel + (lastAnalysis.price ? ' for ' + fmtPrice(lastAnalysis.price) : '') + ' was <strong>' + escapeHtml(lastAnalysis.verdict || 'analyzed') + '</strong>. Upload a new quote to compare.</div>'
+            + '</div>';
+        }
+      } catch(e) {}
+
       // Build returning-user welcome section
       let returningUserHtml = "";
       try {
@@ -8270,6 +8317,7 @@ function buildComparisonWinnerHtml(summary) {
 
             ${localContext}
 
+            ${resumeHtml}
             ${returningUserHtml}
 
             <h1 style="margin:0 0 10px; font-size:38px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">
@@ -8288,13 +8336,14 @@ function buildComparisonWinnerHtml(summary) {
               </div>
 
               <div class="small muted" style="margin-bottom:16px;">
-                PDF, screenshot, or phone photo
+                ${/Mobi|Android|iPhone/i.test(navigator.userAgent) ? "Tap to photograph or select your quote" : "PDF, screenshot, or phone photo"}
               </div>
 
               <input
                 id="quoteFile"
                 type="file"
                 accept=".pdf,image/*"
+                ${/Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'capture="environment"' : ''}
                 style="display:none;"
               />
 
@@ -8304,8 +8353,12 @@ function buildComparisonWinnerHtml(summary) {
                 id="uploadQuoteBtn"
                 style="font-size:16px; padding:14px 28px;"
               >
-                Upload quote
+                ${/Mobi|Android|iPhone/i.test(navigator.userAgent) ? "Take photo or choose file" : "Upload quote"}
               </button>
+
+              <div style="margin-top:12px; font-size:12px; color:#94a3b8;">
+                Your quote stays private. Processed in your browser, never stored or shared.
+              </div>
 
               <div class="small muted" style="margin-top:12px; font-size:12px;">
                 Private &bull; No spam &bull; No signup

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How We Calculate Estimates | TruePrice</title>
+  <meta name="description" content="TruePrice combines BLS wage data, BEA cost-of-living indices, and industry pricing models to generate city-specific home service estimates across 739 U.S. cities." />
+  <link rel="canonical" href="https://truepricehq.com/methodology.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="How We Calculate Estimates | TruePrice" />
+  <meta property="og:description" content="Our pricing methodology: BLS wages, BEA cost-of-living data, and industry models across 739 cities." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/methodology.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How We Calculate Estimates | TruePrice" />
+  <meta name="twitter:description" content="Our pricing methodology: BLS wages, BEA cost-of-living data, and industry models across 739 cities." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a class="nav-cta" href="/analyze-quote.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:720px; padding-top:48px; padding-bottom:48px;">
+    <h1 style="font-size:36px; margin-bottom:16px;">How we calculate estimates</h1>
+
+    <p style="font-size:18px; color:var(--text-secondary); line-height:1.7; margin-bottom:32px;">
+      Every TruePrice estimate is built from federal labor data, regional cost-of-living indices, and industry pricing models. No guessing, no national averages passed off as local numbers.
+    </p>
+
+    <!-- Data Sources -->
+    <h2 style="font-size:24px; margin-bottom:12px;">Data sources</h2>
+
+    <p style="line-height:1.8; margin-bottom:12px;">
+      We pull from two primary federal datasets, updated annually:
+    </p>
+
+    <p style="line-height:1.8; margin-bottom:8px;">
+      <strong>BLS Occupational Employment &amp; Wage Statistics (OEWS)</strong><br />
+      The Bureau of Labor Statistics publishes trade-specific wage data for roofers, HVAC mechanics, plumbers, electricians, and other skilled trades across 393 metropolitan statistical areas. This is the most granular public source of what contractors actually earn by trade and by city.
+    </p>
+
+    <p style="line-height:1.8; margin-bottom:8px;">
+      <strong>BEA Regional Price Parities (RPP)</strong><br />
+      The Bureau of Economic Analysis publishes cost-of-living indices for 387 metro areas. These capture how much more (or less) materials, equipment, and overhead cost in a given city compared to the national average.
+    </p>
+
+    <p style="line-height:1.8; margin-bottom:24px;">
+      <strong>Industry base pricing models</strong><br />
+      We maintain base pricing models for 15 home services, calibrated against published contractor pricing guides, manufacturer MSRP data, and real quotes submitted by homeowners.
+    </p>
+
+    <!-- How Estimates Are Calculated -->
+    <h2 style="font-size:24px; margin-bottom:12px;">How estimates are calculated</h2>
+
+    <p style="line-height:1.8; margin-bottom:12px;">
+      Each estimate starts with a national base price for the service, then adjusts it using a city-specific cost multiplier. That multiplier is a blend of two factors:
+    </p>
+
+    <ul style="line-height:1.8; margin-bottom:12px; padding-left:24px;">
+      <li><strong>55% labor costs</strong> -- driven by BLS trade wages for the specific trade (roofing estimates use roofer wages, HVAC estimates use HVAC mechanic wages, and so on)</li>
+      <li><strong>45% materials and overhead</strong> -- driven by BEA Regional Price Parities for the city</li>
+    </ul>
+
+    <p style="line-height:1.8; margin-bottom:12px;">
+      This produces 739 city-specific cost multipliers. A roof replacement in San Francisco gets a very different multiplier than one in Little Rock because both labor rates and material costs differ significantly.
+    </p>
+
+    <p style="line-height:1.8; margin-bottom:12px;">
+      On top of the location adjustment, we apply two time-based corrections:
+    </p>
+
+    <ul style="line-height:1.8; margin-bottom:24px; padding-left:24px;">
+      <li><strong>Annual inflation adjustment</strong> -- 3% per year from our 2025 baseline, compounded. This keeps estimates current as costs rise.</li>
+      <li><strong>Seasonal demand adjustment</strong> -- monthly modifiers per service type. Roofing and exterior work peak in summer. HVAC repair demand spikes in extreme heat and cold. These shifts affect real-world pricing and our estimates reflect that.</li>
+    </ul>
+
+    <!-- What Affects Accuracy -->
+    <h2 style="font-size:24px; margin-bottom:12px;">What affects accuracy</h2>
+
+    <p style="line-height:1.8; margin-bottom:12px;">
+      No estimate is a guarantee. Here is what moves the needle most:
+    </p>
+
+    <ul style="line-height:1.8; margin-bottom:12px; padding-left:24px;">
+      <li><strong>Project size and scope</strong> -- This is the single biggest variable. A 1,200 sq ft roof costs roughly half what a 2,400 sq ft roof costs. The more we know about your specific project, the better the estimate.</li>
+      <li><strong>Satellite roof measurement</strong> -- When available, we use satellite imagery to measure your actual roof footprint. This eliminates the guesswork of "how big is my roof?" and significantly tightens the estimate range.</li>
+      <li><strong>City-level vs. regional data</strong> -- For cities with direct BLS and BEA coverage, estimates are strongest. For smaller cities, we fall back to state or regional averages, which are less precise.</li>
+      <li><strong>Contractor variation</strong> -- Individual contractors typically price 15-25% above or below the market average for the same job. Our estimates target the market midpoint, but any single quote you receive may fall within that range.</li>
+    </ul>
+
+    <p style="line-height:1.8; margin-bottom:24px;">
+      We always show an estimated range, not a single number, to account for these variables.
+    </p>
+
+    <!-- Confidence Levels -->
+    <h2 style="font-size:24px; margin-bottom:12px;">Confidence levels explained</h2>
+
+    <p style="line-height:1.8; margin-bottom:12px;">
+      Every estimate comes with a confidence level so you know how much weight to give it:
+    </p>
+
+    <ul style="line-height:1.8; margin-bottom:24px; padding-left:24px;">
+      <li><strong>High</strong> -- Satellite roof measurement plus direct metro-area wage data from BLS. This is our tightest estimate range.</li>
+      <li><strong>Medium-High</strong> -- User-entered project size combined with city-level pricing data. Solid estimate, slightly wider range than satellite-measured.</li>
+      <li><strong>Medium</strong> -- City-level data available but no precise project sizing. Good for ballpark planning.</li>
+      <li><strong>Low</strong> -- Regional or state-level averages only. Useful for initial research but should be validated with local quotes.</li>
+    </ul>
+
+    <!-- How We Improve -->
+    <h2 style="font-size:24px; margin-bottom:12px;">How we improve</h2>
+
+    <p style="line-height:1.8; margin-bottom:12px;">
+      Our models get better over time through three channels:
+    </p>
+
+    <ul style="line-height:1.8; margin-bottom:12px; padding-left:24px;">
+      <li><strong>User feedback</strong> -- After you get an estimate, we ask "Was this close to what you were quoted?" That feedback directly calibrates our pricing models for your city and service type.</li>
+      <li><strong>Community quote submissions</strong> -- Homeowners who share their actual contractor quotes help us ground-truth our predictions against real-world pricing.</li>
+      <li><strong>Annual data refresh</strong> -- BLS and BEA publish updated wage and cost-of-living data each year. We incorporate the latest releases as they become available.</li>
+    </ul>
+
+    <p style="line-height:1.8; margin-bottom:32px;">
+      Have questions about our data or methodology? Reach out at <a href="mailto:hello@truepricehq.com">hello@truepricehq.com</a>.
+    </p>
+
+    <div class="cta-box">
+      <h2>See it in action</h2>
+      <p>Upload a contractor quote and compare it against local pricing data.</p>
+      <a class="btn" href="/analyze-quote.html">Analyze your quote</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="/find-contractors.html" style="color:inherit;">Find Contractors</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a> |
+        <a href="/widget.html" style="color:inherit;">Free Widget</a>
+      </p>
+    </div>
+  </footer>
+  <script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>

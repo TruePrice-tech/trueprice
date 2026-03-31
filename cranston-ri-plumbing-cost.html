@@ -109,9 +109,23 @@
 <main class="container" style="padding-top:32px; padding-bottom:32px;">
 
 <div class="cta-box">
-<h2>Got a plumbing quote? Check if it's fair.</h2>
-<p>Upload your estimate for an instant price and scope review.</p>
-<a class="btn" href="/plumbing-quote-analyzer.html">Analyze your quote</a>
+<h2>Get a free cost estimate for Cranston</h2>
+<p>Upload your contractor estimate for an instant breakdown of price, scope, and missing items.</p>
+<div style="display:flex; gap:10px; flex-wrap:wrap;">
+<a class="btn" href="/plumbing-quote-analyzer.html">Get free estimate</a>
+<a class="btn-outline" href="/plumbing-quote-analyzer.html">Analyze a quote</a>
+</div>
+</div>
+
+<div class="cta-box" style="background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); text-align:center;">
+<h3 style="margin-top:0;">Get free pricing guides</h3>
+<p style="font-size:14px; color:var(--text-secondary);">Local pricing data for Cranston and 700+ other cities. No spam, unsubscribe anytime.</p>
+<form class="city-email-form" style="display:flex; gap:8px; max-width:400px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
+<label for="cityEmail" class="sr-only">Email address</label>
+<input type="email" id="cityEmail" placeholder="your@email.com" required aria-label="Email address" style="flex:1; min-width:200px; padding:10px 14px; border:1px solid var(--border); border-radius:10px; font-size:14px; font-family:inherit;" />
+<button type="submit" class="btn" style="padding:10px 20px; font-size:14px;">Send guides</button>
+</form>
+<div class="city-email-status" role="status" aria-live="polite" style="margin-top:8px; font-size:13px;"></div>
 </div>
 
 <section class="section">
@@ -193,8 +207,27 @@
 
 <footer class="site-footer">
 <div class="container">
-<p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate replacement costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/widget.html" style="color:inherit;">Free Widget</a></p>
+<p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate replacement costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/widget.html" style="color:inherit;">Free Widget</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p>
 </div>
 </footer>
+<script>
+(function() {
+  var form = document.querySelector('.city-email-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('cityEmail').value.trim();
+    var status = document.querySelector('.city-email-status');
+    var btn = form.querySelector('button');
+    btn.disabled = true; btn.textContent = 'Sending...';
+    fetch('/api/analytics', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type:'email_signup', email:email, source:'city_page'}) })
+      .then(function(r){return r.json()})
+      .then(function(d){ status.style.color='#166534'; status.textContent='Thanks! Check your inbox.'; form.reset(); localStorage.setItem('tp_subscribed','1'); })
+      .catch(function(){ status.style.color='#b91c1c'; status.textContent='Something went wrong. Try again.'; });
+    btn.disabled = false; btn.textContent = 'Send guides';
+  });
+})();
+</script>
+<script src="/js/exit-intent.min.js" defer></script>
 </body>
 </html>
