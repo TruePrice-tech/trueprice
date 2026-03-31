@@ -386,6 +386,31 @@
       return { label: "Overpriced", css: "high", emoji: "" };
     }
 
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "hvac", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("hvacApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-hvac-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
     // ── Render functions ──
     function render() {
       switch (state.step) {
@@ -411,6 +436,7 @@
             <p class="hint">PDF or photo of your quote &mdash; we\'ll analyze it instantly</p>\
             <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
           </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
           <div class="hvac-divider">or enter your address for an estimate</div>\
           <div class="hvac-address-form">\
             <div style="position:relative">\
@@ -1050,6 +1076,42 @@
         contextHtml = '<div class="hvac-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
+      // Next Steps tips
+      var tipsHtml = '<div class="hvac-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Ask for a Manual J load calculation to verify proper system sizing</li>';
+      tipsHtml += '<li>Confirm warranty covers both parts AND labor (many only cover parts)</li>';
+      tipsHtml += '<li>Ask if the quote includes a new thermostat and if it\'s smart/programmable</li>';
+      tipsHtml += '<li>Check if permits and inspections are included in the price</li>';
+      if (r.verdict.css === "high") {
+        tipsHtml += '<li>Get 2-3 additional quotes from local contractors, not just national chains</li>';
+        tipsHtml += '<li>Ask about rebates: many utilities offer $300-1,500 for high-efficiency upgrades</li>';
+      }
+      if (r.verdict.css === "low") {
+        tipsHtml += '<li>Verify the brand and model are specified, not just "equivalent"</li>';
+        tipsHtml += '<li>Confirm labor warranty duration (industry standard is 1-2 years minimum)</li>';
+      }
+      tipsHtml += '</ul></div>';
+
+      // Rebate/savings tips
+      var rebateHtml = '<div class="hvac-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
+      rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      rebateHtml += '<li>Federal tax credit: up to $2,000 for qualifying heat pumps (25C credit)</li>';
+      rebateHtml += '<li>Utility rebates: check with your local utility for efficiency upgrade incentives</li>';
+      rebateHtml += '<li>Off-season scheduling: HVAC installs in spring or fall can be 5-10% cheaper</li>';
+      rebateHtml += '</ul></div>';
+
+      // Feedback prompt
+      var feedbackHtml = '\
+<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
+  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this estimate close to your actual quote?</div>\
+  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, accurate</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
       // Email report
       var emailSubject = encodeURIComponent("My HVAC Quote Analysis from TruePrice");
       var emailBody = encodeURIComponent(
@@ -1080,11 +1142,16 @@
         </div>\
         ' + scopeHtml + '\
         ' + contextHtml + '\
+        ' + tipsHtml + '\
+        ' + rebateHtml + '\
         <div class="hvac-actions">\
           <a class="hvac-btn hvac-btn-primary hvac-btn-full" href="/find-contractors.html?service=hvac">Find HVAC Contractors</a>\
           <a class="hvac-btn hvac-btn-secondary hvac-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
+          <button class="hvac-btn hvac-btn-secondary hvac-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
+          <a class="hvac-btn hvac-btn-secondary hvac-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
           <button class="hvac-btn hvac-btn-secondary hvac-btn-full" id="btnStartOver">Start Over</button>\
-        </div>';
+        </div>\
+        ' + feedbackHtml;
 
       document.getElementById("btnStartOver").addEventListener("click", function() {
         state = {

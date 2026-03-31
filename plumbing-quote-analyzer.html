@@ -421,6 +421,31 @@
       return { label: "Overpriced", css: "high", emoji: "" };
     }
 
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "plumbing", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("plumbApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-plumbing-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
     // ── Render functions ──
     function render() {
       switch (state.step) {
@@ -446,6 +471,7 @@
             <p class="hint">PDF or photo of your quote &mdash; we\'ll analyze it instantly</p>\
             <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
           </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
           <div class="plumb-divider">or enter your address for an estimate</div>\
           <div class="plumb-address-form">\
             <div style="position:relative">\
@@ -1081,6 +1107,42 @@
         contextHtml = '<div class="plumb-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
+      // Next Steps tips
+      var tipsHtml = '<div class="plumb-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Verify the quote specifies material type (PEX, copper, PVC) for any pipe work</li>';
+      tipsHtml += '<li>Ask if the price includes drywall repair for any wall/floor access</li>';
+      tipsHtml += '<li>Confirm permit costs and inspection requirements are included</li>';
+      tipsHtml += '<li>Check warranty duration on parts AND labor</li>';
+      if (r.verdict.css === "high") {
+        tipsHtml += '<li>Get 2-3 additional quotes - plumbing prices vary widely by contractor</li>';
+        tipsHtml += '<li>Ask if the work can be done without opening walls (trenchless, etc.)</li>';
+      }
+      if (r.verdict.css === "low") {
+        tipsHtml += '<li>Verify all cleanup and disposal is included</li>';
+        tipsHtml += '<li>Ask about the contractor\'s license and insurance</li>';
+      }
+      tipsHtml += '</ul></div>';
+
+      // Rebate/savings tips
+      var rebateHtml = '<div class="plumb-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
+      rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      rebateHtml += '<li>Bundle multiple plumbing jobs together for volume discounts</li>';
+      rebateHtml += '<li>Ask about PEX instead of copper for repipes (30-40% cheaper, faster install)</li>';
+      rebateHtml += '<li>Schedule non-emergency work during weekdays for standard rates</li>';
+      rebateHtml += '</ul></div>';
+
+      // Feedback prompt
+      var feedbackHtml = '\
+<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
+  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this estimate close to your actual quote?</div>\
+  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, accurate</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
       // Email report
       var emailSubject = encodeURIComponent("My Plumbing Quote Analysis from TruePrice");
       var emailBody = encodeURIComponent(
@@ -1110,11 +1172,16 @@
         </div>\
         ' + scopeHtml + '\
         ' + contextHtml + '\
+        ' + tipsHtml + '\
+        ' + rebateHtml + '\
         <div class="plumb-actions">\
           <a class="plumb-btn plumb-btn-primary plumb-btn-full" href="/find-contractors.html?service=plumbing">Find Plumbing Contractors</a>\
           <a class="plumb-btn plumb-btn-secondary plumb-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
+          <button class="plumb-btn plumb-btn-secondary plumb-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
+          <a class="plumb-btn plumb-btn-secondary plumb-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
           <button class="plumb-btn plumb-btn-secondary plumb-btn-full" id="btnStartOver">Start Over</button>\
-        </div>';
+        </div>\
+        ' + feedbackHtml;
 
       document.getElementById("btnStartOver").addEventListener("click", function() {
         state = {
