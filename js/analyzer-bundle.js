@@ -1811,13 +1811,6 @@ function detectWarranty(text) {
   }
 }
   if (isWarrantyDebugEnabled()) {
-    console.log("WARRANTY DEBUG INPUT");
-    console.log(text);
-    console.log("WARRANTY DEBUG NORMALIZED");
-    console.log(normalized);
-    console.log("WARRANTY DEBUG LINES");
-    console.log(lines);
-    console.log("WARRANTY DEBUG CANDIDATES");
     console.table(
       candidates.map(c => ({
         label: c.label,
@@ -1831,8 +1824,6 @@ function detectWarranty(text) {
   }
   if (!candidates.length) {
     if (isWarrantyDebugEnabled()) {
-      console.log("WARRANTY DEBUG RESULT");
-      console.log({ label: "Not detected", years: "" });
     }
     return { label: "Not detected", years: "" };
   }
@@ -1846,10 +1837,6 @@ function detectWarranty(text) {
     years: candidates[0].years
   };
   if (isWarrantyDebugEnabled()) {
-    console.log("WARRANTY DEBUG WINNER");
-    console.log(candidates[0]);
-    console.log("WARRANTY DEBUG RESULT");
-    console.log(winner);
   }
   return winner;
 }
@@ -2948,9 +2935,6 @@ function parseExtractedText(extractedText, options = {}) {
     .trim();
   normalizedText = normalizeWhitespacePreserveLines(normalizedText);
   normalizedText = normalizeOcrMoneySpacing(normalizedText);
-  console.log("PARSER NORMALIZED TEXT START");
-  console.log(normalizedText);
-  console.log("PARSER NORMALIZED TEXT END");
   const quoteStructure = detectQuoteStructure(normalizedText);
   const totalLinePrice = detectTotalLinePrice(normalizedText);
   const explicitTextTotal = detectExplicitTotalFromFullText(normalizedText);
@@ -3153,30 +3137,8 @@ function parseExtractedText(extractedText, options = {}) {
     parsed.confidenceScore - (priceSanity.confidencePenalty || 0)
   );
   parsed.confidenceLabel = getConfidenceLabelFromScore(parsed.confidenceScore);
-  console.log("PARSER DEBUG");
-  console.log({
-    totalLinePrice,
-    priceCandidates,
-    materialResult,
-    roofSizeResult,
-    locationResult,
-    warrantyResult,
-    priceSanity,
-    priceSanityFallbackUsed,
-    priceSanityOriginalBestPrice,
-    priceSanityOriginalStatus,
-    priceSanityFallbackCandidate,
-    signals,
-    includedSignals,
-    missingSignals,
-    premiumSignals,
-    parsed
-  });
-  console.log("TOP PRICE CANDIDATES", priceCandidates);
-  console.log("FINAL BEST PRICE", finalBestPrice);
   return parsed;
 }
-console.log("ANALYZER PARSER LOADED");
 window.__TP_PARSER_TESTS__ = function () {
   const cases = [
     {
@@ -3232,7 +3194,6 @@ window.__TP_PARSER_TESTS__ = function () {
         Number(parsed.roofSize || 0) === Number(testCase.expect.roofSize)
     };
   });
-  console.log("PARSER VERSION: v21")
   console.table(results);
   return results;
 };
@@ -3487,7 +3448,6 @@ async function extractTextFromPdfNative(file) {
     fullText = fullText.replace(/ ([a-z]) ([a-z])/g, ' $1$2');
     fullText = fullText.replace(/\b([A-Z]) ([a-z])/g, '$1$2');
   }
-  console.log("PDF_NATIVE_TEXT_EXTRACT:", fullText.substring(0, 500));
   return fullText.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
 }
 function normalizeOcrWhitespace(text) {
@@ -3855,9 +3815,6 @@ async function parseQuote() {
   }
     const extractionResult = await extractTextFromUploadedFile(file);
     const parsedText = normalizeWhitespace(extractionResult.text || "");
-    console.log("OCR TEXT START");
-    console.log(parsedText);
-    console.log("OCR TEXT END");
     if (!parsedText) {
       throw new Error("We could not read usable text from that file.");
     }
@@ -3870,10 +3827,6 @@ async function parseQuote() {
   }
 }
 window.parseUploadedComparisonFile = parseUploadedComparisonFile;
-console.log("OCR GLOBALS READY", {
-  parseUploadedComparisonFileType: typeof window.parseUploadedComparisonFile
-});
-  console.log("TRUEPRICE SCRIPT VERSION: 1.1 - conflict signals added");
   function repairDisplayText(text) {
     let t = String(text || "");
     t = t.replace(/Roo\s*fi\s*ng/gi, "Roofing");
@@ -3973,7 +3926,6 @@ console.log("OCR GLOBALS READY", {
         const existing = getTrackingEvents();
         existing.push(payload);
         localStorage.setItem(TP_TRACKING_KEY, JSON.stringify(existing));
-        console.log("TP_TRACK", payload);
         return payload;
       } catch (err) {
         console.warn("Tracking failed", err);
@@ -7924,11 +7876,8 @@ function buildComparisonWinnerHtml(summary) {
       };
     }
     async function analyzeQuote() {
-        console.log("ANALYZE QUOTE STARTED");
         const analyzingEl = document.getElementById("inlineAnalyzingState");
         if (analyzingEl) analyzingEl.innerHTML = "";
-        console.log("analyzeQuote entered successfully");
-        console.log("current journey step at analyzeQuote start:", journeyState.step)
         track("analysis_started");
         const city = (byId("cityName")?.value || "").trim();
         const stateCode = (byId("stateCode")?.value || "").trim().toUpperCase();
@@ -7984,12 +7933,7 @@ function buildComparisonWinnerHtml(summary) {
           userEnteredRoofSize && userEnteredRoofSize > 0
             ? userEnteredRoofSize
             : (roofSizeEstimate?.roofSize || 0);
-        console.log("CHECK INPUTS:", { effectiveRoofSize, quotePrice });
         if (!effectiveRoofSize || !quotePrice) {
-          console.log("analyzeQuote blocked: missing effectiveRoofSize or quotePrice", {
-            effectiveRoofSize,
-            quotePrice
-          });
           const parsed = latestParsed || {};
           const missingFieldIds = getMissingManualFields(parsed);
           const manualEntryPromptHtml = buildManualEntryPromptHtml(parsed);
@@ -8356,11 +8300,7 @@ function buildComparisonWinnerHtml(summary) {
         confidenceScore: latestAnalysis.confidenceScore
       });
         window.__latestAnalysis = latestAnalysis;
-        console.log("about to switch to result screen");
         setJourneyStep("result");
-        console.log("after setJourneyStep, current step should be result");
-        console.log("SET window.__latestAnalysis EARLY:", window.__latestAnalysis);
-        console.log("REACHED FINAL ANALYSIS BLOCK");
         const session = getTrackingSession();
         session.analysesRun = (session.analysesRun || 0) + 1;
         saveTrackingSession(session);
@@ -9663,15 +9603,12 @@ function buildComparisonWinnerHtml(summary) {
         const scanBtn = document.getElementById("scanQuoteBtn");
         const uploadBtn = document.getElementById("uploadQuoteBtn");
       if (uploadBtn && fileInput && !uploadBtn.dataset.bound) {
-          console.log("BINDING UPLOAD BTN", uploadBtn);  
           uploadBtn.addEventListener("click", () => {
-          console.log("UPLOAD BUTTON CLICKED");  
           fileInput.click();
         });
         fileInput.addEventListener("change", async function () {
           const file = fileInput.files?.[0];
           if (!file) return;
-          console.log("UPLOAD TRIGGERED"); 
           setJourneyStep("analyze");
           setTimeout(() => {
             setSmartUploadStatus("upload", 10);
@@ -10314,7 +10251,6 @@ function buildComparisonWinnerHtml(summary) {
     window.renderApp = function renderApp() {
       const root = document.getElementById("appRoot");
       if (!root) return;
-      console.log("renderApp running, current journey step:", journeyState.step);
       if (journeyState.step === "address") {
         root.innerHTML = renderAddressStep();
         setTimeout(() => {
@@ -10411,7 +10347,6 @@ function buildComparisonWinnerHtml(summary) {
         return;
       }
       if (journeyState.step === "result") {
-      console.log("renderApp entering RESULT branch");
       root.innerHTML = renderResultStep();
       return;
     }
@@ -10735,11 +10670,8 @@ function buildComparisonWinnerHtml(summary) {
       });
     }
     window.setJourneyStep = function setJourneyStep(step) {
-      console.log("setJourneyStep called with:", step);
       journeyState.step = step;
-      console.log("journeyState.step is now:", journeyState.step);
       renderApp();
-      console.log("renderApp finished");
       if (step === "result") {
         setTimeout(function() { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 50);
       }

@@ -268,7 +268,6 @@ async function extractTextFromPdfNative(file) {
     fullText = fullText.replace(/\b([A-Z]) ([a-z])/g, '$1$2');
   }
 
-  console.log("PDF_NATIVE_TEXT_EXTRACT:", fullText.substring(0, 500));
 
   return fullText.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
 }
@@ -712,7 +711,6 @@ return {
           });
         }
         parsed.aiEnhanced = true;
-        console.log("AI parse enhancement applied:", ai);
       }
     } catch (aiErr) {
       console.warn("AI parse enhancement failed (using regex fallback):", aiErr.message);
@@ -770,9 +768,6 @@ async function parseQuote() {
     const extractionResult = await extractTextFromUploadedFile(file);
     const parsedText = normalizeWhitespace(extractionResult.text || "");
 
-    console.log("OCR TEXT START");
-    console.log(parsedText);
-    console.log("OCR TEXT END");
 
     if (!parsedText) {
       throw new Error("We could not read usable text from that file.");
@@ -788,6 +783,3 @@ async function parseQuote() {
 }
 
 window.parseUploadedComparisonFile = parseUploadedComparisonFile;
-console.log("OCR GLOBALS READY", {
-  parseUploadedComparisonFileType: typeof window.parseUploadedComparisonFile
-});

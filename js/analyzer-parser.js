@@ -765,16 +765,9 @@ function detectWarranty(text) {
 }
 
   if (isWarrantyDebugEnabled()) {
-    console.log("WARRANTY DEBUG INPUT");
-    console.log(text);
 
-    console.log("WARRANTY DEBUG NORMALIZED");
-    console.log(normalized);
 
-    console.log("WARRANTY DEBUG LINES");
-    console.log(lines);
 
-    console.log("WARRANTY DEBUG CANDIDATES");
     console.table(
       candidates.map(c => ({
         label: c.label,
@@ -789,8 +782,6 @@ function detectWarranty(text) {
 
   if (!candidates.length) {
     if (isWarrantyDebugEnabled()) {
-      console.log("WARRANTY DEBUG RESULT");
-      console.log({ label: "Not detected", years: "" });
     }
     return { label: "Not detected", years: "" };
   }
@@ -807,11 +798,7 @@ function detectWarranty(text) {
   };
 
   if (isWarrantyDebugEnabled()) {
-    console.log("WARRANTY DEBUG WINNER");
-    console.log(candidates[0]);
 
-    console.log("WARRANTY DEBUG RESULT");
-    console.log(winner);
   }
 
   return winner;
@@ -2160,9 +2147,6 @@ function parseExtractedText(extractedText, options = {}) {
   normalizedText = normalizeWhitespacePreserveLines(normalizedText);
   normalizedText = normalizeOcrMoneySpacing(normalizedText);
 
-  console.log("PARSER NORMALIZED TEXT START");
-  console.log(normalizedText);
-  console.log("PARSER NORMALIZED TEXT END");
 
   const quoteStructure = detectQuoteStructure(normalizedText);
   const totalLinePrice = detectTotalLinePrice(normalizedText);
@@ -2392,33 +2376,10 @@ function parseExtractedText(extractedText, options = {}) {
   );
   parsed.confidenceLabel = getConfidenceLabelFromScore(parsed.confidenceScore);
 
-  console.log("PARSER DEBUG");
-  console.log({
-    totalLinePrice,
-    priceCandidates,
-    materialResult,
-    roofSizeResult,
-    locationResult,
-    warrantyResult,
-    priceSanity,
-    priceSanityFallbackUsed,
-    priceSanityOriginalBestPrice,
-    priceSanityOriginalStatus,
-    priceSanityFallbackCandidate,
-    signals,
-    includedSignals,
-    missingSignals,
-    premiumSignals,
-    parsed
-  });
-
-  console.log("TOP PRICE CANDIDATES", priceCandidates);
-  console.log("FINAL BEST PRICE", finalBestPrice);
 
   return parsed;
 }
 
-console.log("ANALYZER PARSER LOADED");
 
 window.__TP_PARSER_TESTS__ = function () {
   const cases = [
@@ -2477,7 +2438,6 @@ window.__TP_PARSER_TESTS__ = function () {
     };
   });
 
-  console.log("PARSER VERSION: v21")
   console.table(results);
   return results;
 };

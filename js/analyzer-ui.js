@@ -1,4 +1,3 @@
-  console.log("TRUEPRICE SCRIPT VERSION: 1.1 - conflict signals added");
 
   // Count-up animation for price elements
   function animateCount(el, target, prefix, duration) {
@@ -151,7 +150,6 @@
         existing.push(payload);
         localStorage.setItem(TP_TRACKING_KEY, JSON.stringify(existing));
 
-        console.log("TP_TRACK", payload);
         return payload;
       } catch (err) {
         console.warn("Tracking failed", err);
@@ -5131,12 +5129,9 @@ function buildComparisonWinnerHtml(summary) {
     }
 
     async function analyzeQuote() {
-        console.log("ANALYZE QUOTE STARTED");
 
         const analyzingEl = document.getElementById("inlineAnalyzingState");
         if (analyzingEl) analyzingEl.innerHTML = "";
-        console.log("analyzeQuote entered successfully");
-        console.log("current journey step at analyzeQuote start:", journeyState.step)
         track("analysis_started");
 
         const city = (byId("cityName")?.value || "").trim();
@@ -5199,12 +5194,7 @@ function buildComparisonWinnerHtml(summary) {
             ? userEnteredRoofSize
             : (roofSizeEstimate?.roofSize || 0);
 
-        console.log("CHECK INPUTS:", { effectiveRoofSize, quotePrice });
         if (!effectiveRoofSize || !quotePrice) {
-          console.log("analyzeQuote blocked: missing effectiveRoofSize or quotePrice", {
-            effectiveRoofSize,
-            quotePrice
-          });
 
           const parsed = latestParsed || {};
           const missingFieldIds = getMissingManualFields(parsed);
@@ -5627,11 +5617,7 @@ function buildComparisonWinnerHtml(summary) {
       });
 
         window.__latestAnalysis = latestAnalysis;
-        console.log("about to switch to result screen");
         setJourneyStep("result");
-        console.log("after setJourneyStep, current step should be result");
-        console.log("SET window.__latestAnalysis EARLY:", window.__latestAnalysis);
-        console.log("REACHED FINAL ANALYSIS BLOCK");
 
         const session = getTrackingSession();
         session.analysesRun = (session.analysesRun || 0) + 1;
@@ -7190,9 +7176,7 @@ function buildComparisonWinnerHtml(summary) {
         const uploadBtn = document.getElementById("uploadQuoteBtn");
 
       if (uploadBtn && fileInput && !uploadBtn.dataset.bound) {
-          console.log("BINDING UPLOAD BTN", uploadBtn);  // ✅ INSERT HERE
           uploadBtn.addEventListener("click", () => {
-          console.log("UPLOAD BUTTON CLICKED");  // ✅ INSERT HERE
           fileInput.click();
         });
 
@@ -7201,7 +7185,6 @@ function buildComparisonWinnerHtml(summary) {
           if (!file) return;
           window.__uploadedQuoteFile = file;
 
-          console.log("UPLOAD TRIGGERED"); // 🔥 sanity check
 
           // Immediate UI
           setJourneyStep("analyze");
@@ -8047,7 +8030,6 @@ function buildComparisonWinnerHtml(summary) {
     window.renderApp = function renderApp() {
       const root = document.getElementById("appRoot");
       if (!root) return;
-      console.log("renderApp running, current journey step:", journeyState.step);
 
 
       if (journeyState.step === "address") {
@@ -8234,7 +8216,6 @@ function buildComparisonWinnerHtml(summary) {
       }
 
       if (journeyState.step === "result") {
-      console.log("renderApp entering RESULT branch");
       if (typeof tpTrack === "function") { var _a = window.__latestAnalysis; tpTrack("analysis_completed", { verdict: _a?.verdict || "", price: String(_a?.quotePrice || ""), material: _a?.material || "", city: _a?.city || "" }); }
       root.innerHTML = renderResultStep();
 
@@ -8710,7 +8691,6 @@ function buildComparisonWinnerHtml(summary) {
     }
 
     window.setJourneyStep = function setJourneyStep(step) {
-      console.log("setJourneyStep called with:", step);
       journeyState.step = step;
       // Funnel tracking
       if (typeof tpTrack === "function") {
@@ -8724,9 +8704,7 @@ function buildComparisonWinnerHtml(summary) {
         };
         if (funnelMap[step]) tpTrack(funnelMap[step], { service: "roofing" });
       }
-      console.log("journeyState.step is now:", journeyState.step);
       renderApp();
-      console.log("renderApp finished");
       if (step === "result" || step === "estimator_result") {
         setTimeout(function() { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 50);
       }
