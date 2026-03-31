@@ -246,27 +246,44 @@
       input.addEventListener("change", function() {
         var file = input.files && input.files[0];
         if (!file) return;
-        // Resize image to max 1200px to stay under Vercel's body limit
-        var img = new Image();
-        img.onload = function() {
-          var maxDim = 1200;
-          var w = img.width;
-          var h = img.height;
-          if (w > maxDim || h > maxDim) {
-            if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
-            else { w = Math.round(w * maxDim / h); h = maxDim; }
-          }
-          var canvas = document.createElement("canvas");
-          canvas.width = w;
-          canvas.height = h;
-          var ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, w, h);
-          var resized = canvas.toDataURL("image/jpeg", 0.8);
-          state.imageData = resized;
-          state.imagePreview = resized;
-          render();
+        // Read file as data URL first, then resize via canvas
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var dataUrl = e.target.result;
+          var img = new Image();
+          img.onload = function() {
+            try {
+              var maxDim = 1024;
+              var w = img.width;
+              var h = img.height;
+              if (w > maxDim || h > maxDim) {
+                if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+                else { w = Math.round(w * maxDim / h); h = maxDim; }
+              }
+              var canvas = document.createElement("canvas");
+              canvas.width = w;
+              canvas.height = h;
+              var ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, w, h);
+              var resized = canvas.toDataURL("image/jpeg", 0.85);
+              state.imageData = resized;
+              state.imagePreview = resized;
+            } catch(err) {
+              // Fallback: use original if canvas fails
+              state.imageData = dataUrl;
+              state.imagePreview = dataUrl;
+            }
+            render();
+          };
+          img.onerror = function() {
+            // Fallback: use raw data URL if image decode fails
+            state.imageData = dataUrl;
+            state.imagePreview = dataUrl;
+            render();
+          };
+          img.src = dataUrl;
         };
-        img.src = URL.createObjectURL(file);
+        reader.readAsDataURL(file);
       });
 
       // Service select

@@ -36,6 +36,19 @@ export default async function handler(req, res) {
 
     console.log("[photo-estimate] Image parsed. Media type:", match[1], "Base64 length:", match[2].length);
 
+    // Validate base64 - must be substantial (at least 1KB decoded)
+    if (match[2].length < 1000) {
+      console.log("[photo-estimate] Base64 data too small, likely corrupt");
+      return res.status(400).json({ error: "Image too small or corrupt. Please try a different photo." });
+    }
+
+    // Ensure media type is supported by Claude
+    const supportedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    if (!supportedTypes.includes(match[1])) {
+      console.log("[photo-estimate] Unsupported media type:", match[1]);
+      return res.status(400).json({ error: "Unsupported image format. Please use JPEG, PNG, or WebP." });
+    }
+
     const serviceType = service || "roofing";
 
     const prompts = {
