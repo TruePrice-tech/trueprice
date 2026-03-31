@@ -250,6 +250,8 @@
         var reader = new FileReader();
         reader.onload = function(e) {
           var dataUrl = e.target.result;
+          // Save original base64 for EXIF extraction (canvas strips it)
+          state.originalBase64 = dataUrl;
           var img = new Image();
           img.onload = function() {
             try {
@@ -269,14 +271,12 @@
               state.imageData = resized;
               state.imagePreview = resized;
             } catch(err) {
-              // Fallback: use original if canvas fails
               state.imageData = dataUrl;
               state.imagePreview = dataUrl;
             }
             render();
           };
           img.onerror = function() {
-            // Fallback: use raw data URL if image decode fails
             state.imageData = dataUrl;
             state.imagePreview = dataUrl;
             render();
@@ -360,10 +360,17 @@
       var parts = state.imageData.match(/^data:(image\/[^;]+);base64,(.+)$/);
       if (!parts) { alert("Could not process image. Try a different photo."); state.step = "capture"; render(); return; }
 
+      // Extract original EXIF base64 for GPS (canvas-resized version loses EXIF)
+      var exifBase64 = null;
+      if (state.originalBase64) {
+        var origParts = state.originalBase64.match(/^data:image\/jpeg;base64,(.+)$/);
+        if (origParts) exifBase64 = origParts[1].substring(0, 65536); // First 64KB has EXIF headers
+      }
+
       fetch("/api/photo-estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ base64: parts[2], mediaType: parts[1], service: state.service })
+        body: JSON.stringify({ base64: parts[2], mediaType: parts[1], service: state.service, exifData: exifBase64, city: state.city || null, state: state.stateCode || null })
       })
       .then(function(r) {
         if (!r.ok) throw new Error("Server returned " + r.status + ". Your API balance may be depleted or the image may be too large.");
@@ -406,10 +413,9 @@
       // Calculate estimate from AI-detected properties
       var material = r.material || "architectural";
       var stories = r.stories || 1;
-      var rawRoofSqFt = r.estimatedRoofSqFt || r.estimatedFootprintSqFt || 2000;
-      // AI often estimates total building area, not roof footprint
-      // For multi-story homes, roof covers only the top floor footprint
-      var roofSqFt = stories >= 2 ? Math.round(rawRoofSqFt / stories * 1.1) : rawRoofSqFt;
+      // AI prompt asks for ground floor footprint * pitch = roof area
+      // Use estimatedRoofSqFt directly (already accounts for stories and pitch)
+      var roofSqFt = r.estimatedRoofSqFt || r.estimatedFootprintSqFt || 2000;
       var roofSquares = roofSqFt / 100;
 
       var basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;

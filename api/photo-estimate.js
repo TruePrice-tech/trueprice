@@ -55,10 +55,13 @@ export default async function handler(req, res) {
     let detectedCity = body.city || null;
     let detectedState = body.state || null;
 
-    if (!detectedCity && mediaType === "image/jpeg") {
+    if (!detectedCity) {
       try {
-        const imgBuffer = Buffer.from(base64Data, "base64");
-        const gps = extractExifGps(imgBuffer);
+        // Use exifData (original image headers) if available, otherwise try the resized image
+        const exifSource = body.exifData || (mediaType === "image/jpeg" ? base64Data : null);
+        if (!exifSource) console.log("[photo-estimate] No JPEG data for EXIF extraction");
+        const imgBuffer = exifSource ? Buffer.from(exifSource, "base64") : null;
+        const gps = imgBuffer ? extractExifGps(imgBuffer) : null;
         if (gps) {
           console.log("[photo-estimate] EXIF GPS found:", gps.lat, gps.lng);
           const location = await reverseGeocode(gps.lat, gps.lng);
