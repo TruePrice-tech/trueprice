@@ -308,6 +308,28 @@
       return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
     }
 
+    // City-level multiplier + inflation + seasonal
+    var cityMultCache = {};
+    function fetchCityMult(city, stateCode) {
+      if (!city || !stateCode) return;
+      var key = city + "|" + stateCode;
+      if (cityMultCache[key]) return;
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode))
+        .then(function(r) { return r.json(); })
+        .then(function(d) { if (d && d.multiplier) cityMultCache[key] = d.multiplier; })
+        .catch(function() {});
+    }
+    function getCityMult(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityMultCache[key] || null;
+    }
+    // Inflation: 3% annual from 2025
+    var _now = new Date();
+    var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
+    // Seasonal: HVAC peaks in summer
+    var SEASONAL_MULTS = { 1:0.94, 2:0.94, 3:0.96, 4:0.98, 5:1.04, 6:1.10, 7:1.12, 8:1.10, 9:1.04, 10:0.97, 11:0.93, 12:0.92 };
+    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
+
     function tonsFromSqFt(sqft) {
       var sizes = HVAC_PRICING.homeSizes;
       var n = Number(sqft) || 2000;
@@ -366,10 +388,11 @@
         basePrice = basePrice * tons;
       }
 
-      var regionMult = HVAC_PRICING.laborMultiplierByRegion[region] || 1.0;
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var regionMult = cityMult || (HVAC_PRICING.laborMultiplierByRegion[region] || 1.0);
       var overheadMult = HVAC_PRICING.overheadMultiplier;
 
-      var total = basePrice * regionMult * overheadMult;
+      var total = basePrice * regionMult * overheadMult * INFLATION_MULT * SEASONAL_MULT;
 
       // ductwork condition adjustment
       if (ductworkCond === "repair") total *= 1.12;
@@ -526,6 +549,7 @@
           state.address.stateCode = lookup || "TX";
         }
 
+        fetchCityMult(state.address.city, state.address.stateCode);
         state.step = "estimator";
         render();
       });
@@ -625,6 +649,7 @@
           state.address.stateCode = location.stateCode;
           if (location.city) state.address.city = location.city;
         }
+        fetchCityMult(state.address.city, state.address.stateCode);
 
         // Determine price
         var quotePrice = 0;
@@ -1012,7 +1037,8 @@
       if (r.brandNote) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Brand</div><div class="value">' + r.brandNote + '</div></div>';
       }
-      detailsHtml += '<div class="hvac-detail"><div class="label">Region</div><div class="value">' + capitalize(r.region) + '</div></div>';
+      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="hvac-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
 
       if (r.homeSqFt) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Home Size</div><div class="value">' + Number(r.homeSqFt).toLocaleString() + ' sq ft</div></div>';
