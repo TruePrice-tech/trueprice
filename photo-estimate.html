@@ -397,7 +397,11 @@
 
       // Calculate estimate from AI-detected properties
       var material = r.material || "architectural";
-      var roofSqFt = r.estimatedRoofSqFt || r.estimatedFootprintSqFt || 2000;
+      var stories = r.stories || 1;
+      var rawRoofSqFt = r.estimatedRoofSqFt || r.estimatedFootprintSqFt || 2000;
+      // AI often estimates total building area, not roof footprint
+      // For multi-story homes, roof covers only the top floor footprint
+      var roofSqFt = stories >= 2 ? Math.round(rawRoofSqFt / stories * 1.1) : rawRoofSqFt;
       var roofSquares = roofSqFt / 100;
 
       var basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;

@@ -72,8 +72,9 @@ export default async function handler(req, res) {
 }
 
 Rules:
-- estimatedFootprintSqFt: Estimate the building footprint from visible dimensions. Average US home is 1,800-2,400 sq ft.
-- estimatedRoofSqFt: Footprint * pitch factor (flat=1.0, low=1.05, normal=1.12, steep=1.25)
+- stories: Count rows of windows to determine stories. Two rows of windows = 2 stories. One row = 1 story.
+- estimatedFootprintSqFt: Estimate the GROUND FLOOR footprint only (not total living area). For a 2-story home, this is roughly half the total living area. A typical 3,200 sqft 2-story home has a ~1,600-1,800 sqft footprint. Use cars, doors, and windows for scale.
+- estimatedRoofSqFt: Ground floor footprint * pitch factor (flat=1.0, low=1.05, normal=1.12, steep=1.25). Add area for garage if attached.
 - complexity: "simple" = basic rectangle/L-shape, "moderate" = some dormers or valleys, "complex" = many angles
 - Only include conditionNotes for issues you can actually see
 - Return ONLY the JSON object`,
