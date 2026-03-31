@@ -50,7 +50,7 @@
           '">Get Free Guides</button>' +
         "</form>" +
         '<div id="tp-exit-success" style="display:none;padding:8px 0 0;">' +
-          '<p style="margin:0;font-size:16px;font-weight:600;color:#1d4ed8;">You\'re in! Check your inbox.</p>' +
+          '<p style="margin:0;font-size:16px;font-weight:600;color:#1d4ed8;">Thanks! We\'ll keep you posted.</p>' +
         "</div>" +
         '<a id="tp-exit-dismiss" href="#" style="' +
           "display:inline-block;margin-top:14px;font-size:13px;color:#64748b;" +

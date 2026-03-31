@@ -44,7 +44,7 @@
     .then(function(d) {
       if (d.ok) {
         status.style.color = "#166534";
-        status.textContent = "Thanks! You\u2019re on the list.";
+        status.textContent = "Thanks! We'll keep you posted.";
         form.reset();
       } else {
         status.style.color = "#b91c1c";
