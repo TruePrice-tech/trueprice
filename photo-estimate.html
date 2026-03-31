@@ -372,6 +372,14 @@
       .then(function(d) {
         if (d.error) throw new Error(d.error);
         state.result = d.data;
+        // Use server-detected location if user didn't enter one
+        if (d.location && !state.city) {
+          state.city = d.location.city;
+          state.stateCode = d.location.state;
+        }
+        if (d.cityMultiplier) {
+          state.cityMult = d.cityMultiplier;
+        }
         state.step = "result";
         render();
       })
