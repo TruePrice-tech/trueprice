@@ -23,6 +23,9 @@
     },
     "api/city-multiplier.js": {
       "maxDuration": 5
+    },
+    "api/photo-estimate.js": {
+      "maxDuration": 30
     }
   },
   "headers": [

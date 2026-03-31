@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Photo Estimate - Snap a Photo, Get a Price | TruePrice</title>
+  <meta name="description" content="Take a photo of your house and get an instant roofing, HVAC, or home service cost estimate. No forms, no signup. Just point and shoot." />
+  <link rel="canonical" href="https://truepricehq.com/photo-estimate.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Photo Estimate | TruePrice" />
+  <meta property="og:description" content="Snap a photo of your house. Get an instant cost estimate. No forms, no signup." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/photo-estimate.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Photo Estimate | TruePrice" />
+  <meta name="twitter:description" content="Snap a photo of your house. Get an instant cost estimate." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+
+  <style>
+    .pe-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+
+    .pe-hero { text-align: center; margin-bottom: 2rem; }
+    .pe-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .pe-hero p { color: #64748b; font-size: 1.1rem; max-width: 480px; margin: 0 auto; }
+
+    .pe-capture-zone {
+      border: 2px dashed #cbd5e1; border-radius: 16px; padding: 3rem 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc; position: relative; overflow: hidden;
+    }
+    .pe-capture-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .pe-capture-zone.has-image { border-style: solid; border-color: #3b82f6; padding: 0; }
+    .pe-capture-zone img { max-width: 100%; border-radius: 14px; display: block; }
+
+    .pe-camera-icon { font-size: 48px; margin-bottom: 12px; }
+
+    .pe-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.85rem 1.75rem; border-radius: 10px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+      font-family: inherit;
+    }
+    .pe-btn-primary { background: #1d4ed8; color: #fff; }
+    .pe-btn-primary:hover { background: #1e40af; }
+    .pe-btn-primary:disabled { background: #93c5fd; cursor: not-allowed; }
+    .pe-btn-secondary { background: #f1f5f9; color: #334155; }
+    .pe-btn-secondary:hover { background: #e2e8f0; }
+    .pe-btn-full { width: 100%; }
+
+    .pe-service-select { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 1.5rem 0; }
+    .pe-service-option {
+      padding: 8px 16px; border: 2px solid #e2e8f0; border-radius: 8px;
+      background: #fff; cursor: pointer; font-size: 14px; color: #334155;
+      transition: all 0.15s; font-family: inherit;
+    }
+    .pe-service-option:hover { border-color: #93c5fd; background: #eff6ff; }
+    .pe-service-option.selected { border-color: #1d4ed8; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+
+    .pe-location { display: flex; gap: 8px; margin: 1rem 0; }
+    .pe-location input {
+      padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 10px;
+      font-size: 14px; font-family: inherit; flex: 1;
+    }
+    .pe-location input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+    .pe-progress { margin: 1.5rem 0; text-align: center; }
+    .pe-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+    .pe-progress-fill { height: 100%; background: #1d4ed8; border-radius: 3px; transition: width 0.4s; }
+    .pe-progress-text { font-size: 14px; color: #64748b; }
+
+    .pe-result-card {
+      background: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid #e2e8f0; padding: 2rem; margin-bottom: 1.5rem;
+    }
+
+    .pe-verdict { text-align: center; margin-bottom: 1.5rem; }
+    .pe-verdict-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: #1d4ed8; margin-bottom: 4px; }
+    .pe-verdict-price { font-size: 2.5rem; font-weight: 800; color: #0f172a; }
+    .pe-verdict-range { font-size: 15px; color: #64748b; margin-top: 4px; }
+
+    .pe-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1.5rem 0; }
+    .pe-detail { background: #f8fafc; border-radius: 10px; padding: 12px 14px; }
+    .pe-detail-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: #64748b; font-weight: 600; }
+    .pe-detail-value { font-size: 16px; font-weight: 600; color: #0f172a; margin-top: 2px; }
+
+    .pe-condition { padding: 14px; border-radius: 10px; margin: 1rem 0; font-size: 14px; }
+    .pe-condition-good { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+    .pe-condition-fair { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+    .pe-condition-poor { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+
+    .pe-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 1.5rem; }
+
+    .pe-privacy { font-size: 12px; color: #94a3b8; text-align: center; margin-top: 12px; }
+
+    @media (max-width: 600px) {
+      .pe-hero h1 { font-size: 1.5rem; }
+      .pe-details { grid-template-columns: 1fr; }
+      .pe-location { flex-direction: column; }
+      .pe-verdict-price { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a class="nav-cta" href="/analyze-quote.html">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="pe-app" id="peApp"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="/methodology.html" style="color:inherit;">Methodology</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a> |
+        <a href="/widget.html" style="color:inherit;">Free Widget</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/tp-analytics.min.js" async></script>
+  <script>
+  (function() {
+    "use strict";
+
+    var STATE_REGIONS = {
+      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+      WY:"mountain",DC:"northeast"
+    };
+
+    var BASE_PRICE_PER_SQUARE = {
+      asphalt: 425, architectural: 525, metal: 900, tile: 1400, cedar: 700, flat: 500, unknown: 525
+    };
+    var WASTE_FACTOR = 1.1;
+    var OVERHEAD_MULT = 1.12;
+    var LABOR_MULT_BY_REGION = { south: 1.00, southeast: 1.03, northeast: 1.15, midwest: 1.06, mountain: 1.08, west: 1.18 };
+
+    // Inflation + seasonal
+    var now = new Date();
+    var INFLATION_MULT = Math.pow(1.03, Math.max(0, now.getFullYear() - 2025 + now.getMonth() / 12));
+    var SEASONAL_MULTS = { 1:0.92, 2:0.93, 3:0.96, 4:0.99, 5:1.04, 6:1.08, 7:1.10, 8:1.10, 9:1.06, 10:1.00, 11:0.94, 12:0.90 };
+    var SEASONAL_MULT = SEASONAL_MULTS[now.getMonth() + 1] || 1.0;
+
+    var app = document.getElementById("peApp");
+    var state = {
+      step: "capture",
+      service: "roofing",
+      imageData: null,
+      imagePreview: null,
+      city: "",
+      stateCode: "",
+      result: null,
+      cityMult: null
+    };
+
+    function fmt(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+    function roundTo(n, r) { return Math.round(n / r) * r; }
+    function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+
+    function render() {
+      if (state.step === "capture") renderCapture();
+      else if (state.step === "analyzing") renderAnalyzing();
+      else if (state.step === "result") renderResult();
+    }
+
+    function renderCapture() {
+      var isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+      var hasImage = !!state.imagePreview;
+
+      app.innerHTML =
+        '<div class="pe-hero">' +
+          '<h1>Snap a photo. Get a price.</h1>' +
+          '<p>Take a photo of your house and get an instant cost estimate powered by AI.</p>' +
+        '</div>' +
+
+        '<div class="pe-service-select">' +
+          '<button class="pe-service-option' + (state.service === "roofing" ? " selected" : "") + '" data-svc="roofing">Roofing</button>' +
+          '<button class="pe-service-option' + (state.service === "hvac" ? " selected" : "") + '" data-svc="hvac">HVAC</button>' +
+          '<button class="pe-service-option' + (state.service === "general" ? " selected" : "") + '" data-svc="general">Other</button>' +
+        '</div>' +
+
+        '<div class="pe-capture-zone' + (hasImage ? " has-image" : "") + '" id="captureZone">' +
+          (hasImage
+            ? '<img src="' + state.imagePreview + '" alt="Your photo" />'
+            : '<div class="pe-camera-icon">&#128247;</div>' +
+              '<p style="font-size:16px; font-weight:600; color:#1e293b; margin:0 0 4px;">' + (isMobile ? "Tap to take a photo" : "Click to upload a photo") + '</p>' +
+              '<p style="font-size:14px; color:#94a3b8; margin:0;">Photo of your house, roof, HVAC unit, or project area</p>'
+          ) +
+        '</div>' +
+        '<input type="file" id="photoInput" accept="image/*"' + (isMobile ? ' capture="environment"' : '') + ' style="display:none;" />' +
+
+        (hasImage
+          ? '<div class="pe-location">' +
+              '<input type="text" id="peCity" placeholder="City" value="' + esc(state.city) + '" />' +
+              '<input type="text" id="peState" placeholder="State (e.g. TX)" maxlength="2" value="' + esc(state.stateCode) + '" style="max-width:80px;" />' +
+            '</div>' +
+            '<button class="pe-btn pe-btn-primary pe-btn-full" id="analyzeBtn">Get instant estimate</button>' +
+            '<button class="pe-btn pe-btn-secondary pe-btn-full" id="retakeBtn" style="margin-top:8px;">Take a different photo</button>'
+          : ''
+        ) +
+
+        '<div class="pe-privacy">Your photo is analyzed by AI and never stored. <a href="/privacy.html" style="color:inherit;">Privacy policy</a></div>';
+
+      // Bind events
+      var zone = document.getElementById("captureZone");
+      var input = document.getElementById("photoInput");
+
+      zone.addEventListener("click", function() { input.click(); });
+      input.addEventListener("change", function() {
+        var file = input.files && input.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          state.imageData = e.target.result;
+          state.imagePreview = e.target.result;
+          render();
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Service select
+      document.querySelectorAll(".pe-service-option").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          state.service = btn.dataset.svc;
+          render();
+        });
+      });
+
+      // Analyze button
+      var analyzeBtn = document.getElementById("analyzeBtn");
+      if (analyzeBtn) {
+        analyzeBtn.addEventListener("click", function() {
+          state.city = (document.getElementById("peCity").value || "").trim();
+          state.stateCode = (document.getElementById("peState").value || "").trim().toUpperCase();
+          startAnalysis();
+        });
+      }
+
+      // Retake
+      var retakeBtn = document.getElementById("retakeBtn");
+      if (retakeBtn) {
+        retakeBtn.addEventListener("click", function() {
+          state.imageData = null;
+          state.imagePreview = null;
+          render();
+        });
+      }
+    }
+
+    function renderAnalyzing() {
+      app.innerHTML =
+        '<div class="pe-hero">' +
+          '<h1>Analyzing your photo...</h1>' +
+        '</div>' +
+        '<div class="pe-result-card" style="text-align:center; padding:3rem;">' +
+          '<div style="width:48px; height:48px; border:4px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:pespin 0.8s linear infinite; margin:0 auto 16px;"></div>' +
+          '<div class="pe-progress">' +
+            '<div class="pe-progress-bar"><div class="pe-progress-fill" id="peProgress" style="width:10%;"></div></div>' +
+            '<div class="pe-progress-text" id="peStatus">Sending photo to AI...</div>' +
+          '</div>' +
+        '</div>' +
+        '<style>@keyframes pespin{to{transform:rotate(360deg)}}</style>';
+
+      // Animate progress
+      var phases = [
+        { pct: 30, text: "AI is examining your photo...", delay: 1500 },
+        { pct: 60, text: "Detecting roof material and size...", delay: 3000 },
+        { pct: 80, text: "Calculating local pricing...", delay: 5000 }
+      ];
+      phases.forEach(function(p) {
+        setTimeout(function() {
+          var bar = document.getElementById("peProgress");
+          var status = document.getElementById("peStatus");
+          if (bar) bar.style.width = p.pct + "%";
+          if (status) status.textContent = p.text;
+        }, p.delay);
+      });
+    }
+
+    function startAnalysis() {
+      state.step = "analyzing";
+      render();
+
+      // Fetch city multiplier
+      if (state.city && state.stateCode) {
+        fetch("/api/city-multiplier?city=" + encodeURIComponent(state.city) + "&state=" + encodeURIComponent(state.stateCode))
+          .then(function(r) { return r.json(); })
+          .then(function(d) { if (d && d.multiplier) state.cityMult = d.multiplier; })
+          .catch(function() {});
+      }
+
+      fetch("/api/photo-estimate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: state.imageData, service: state.service })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.error) throw new Error(d.error);
+        state.result = d.data;
+        state.step = "result";
+        render();
+      })
+      .catch(function(err) {
+        app.innerHTML =
+          '<div class="pe-hero"><h1>Analysis unavailable</h1></div>' +
+          '<div class="pe-result-card" style="text-align:center;">' +
+            '<p style="color:#64748b; margin-bottom:16px;">We couldn\'t analyze this photo. This can happen if the image is unclear or the AI service is temporarily unavailable.</p>' +
+            '<p style="color:#64748b; margin-bottom:24px;">Error: ' + esc(err.message || "Unknown error") + '</p>' +
+            '<button class="pe-btn pe-btn-primary" id="retryBtn">Try again</button>' +
+            ' <a class="pe-btn pe-btn-secondary" href="/roofing-quote-analyzer.html">Use guided estimator instead</a>' +
+          '</div>';
+        document.getElementById("retryBtn").addEventListener("click", function() {
+          state.step = "capture";
+          render();
+        });
+      });
+    }
+
+    function renderResult() {
+      var r = state.result;
+      if (!r) { state.step = "capture"; render(); return; }
+
+      // Calculate estimate from AI-detected properties
+      var material = r.material || "architectural";
+      var roofSqFt = r.estimatedRoofSqFt || r.estimatedFootprintSqFt || 2000;
+      var roofSquares = roofSqFt / 100;
+
+      var basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
+      var region = STATE_REGIONS[state.stateCode] || "south";
+      var laborMult = state.cityMult || LABOR_MULT_BY_REGION[region] || 1.0;
+
+      var complexityMult = r.complexity === "complex" ? 1.20 : r.complexity === "moderate" ? 1.10 : 1.0;
+      var conditionMult = r.condition === "poor" ? 1.10 : 1.0; // poor condition = more prep work
+
+      var totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT * laborMult * complexityMult * conditionMult * INFLATION_MULT * SEASONAL_MULT;
+      var mid = roundTo(totalCost, 100);
+      var low = roundTo(mid * 0.82, 100);
+      var high = roundTo(mid * 1.22, 100);
+      var perSqFt = (mid / roofSqFt).toFixed(2);
+
+      var locationLabel = state.city ? esc(state.city) + ", " + esc(state.stateCode) : "your area";
+      var pricingSource = state.cityMult ? (esc(state.city) + " local pricing") : "regional pricing";
+
+      var materialLabels = {
+        asphalt: "Asphalt Shingles", architectural: "Architectural Shingles",
+        metal: "Metal Roofing", tile: "Tile Roofing", flat: "Flat / TPO",
+        cedar: "Cedar Shake", unknown: "Standard Shingles"
+      };
+      var materialLabel = materialLabels[material] || material;
+
+      var conditionClass = r.condition === "good" ? "pe-condition-good" : r.condition === "poor" ? "pe-condition-poor" : "pe-condition-fair";
+      var conditionLabel = r.condition === "good" ? "Good condition" : r.condition === "poor" ? "Needs attention" : r.condition === "fair" ? "Normal wear" : "Condition unknown";
+
+      var conditionNotesHtml = "";
+      if (r.conditionNotes && r.conditionNotes.length > 0) {
+        conditionNotesHtml = r.conditionNotes.map(function(n) { return esc(n); }).join(", ");
+      }
+
+      var html =
+        '<div class="pe-hero">' +
+          '<h1>Your Photo Estimate</h1>' +
+        '</div>' +
+
+        '<div class="pe-result-card">' +
+          '<div style="margin-bottom:1.5rem;">' +
+            '<img src="' + state.imagePreview + '" alt="Your photo" style="width:100%; border-radius:12px; max-height:300px; object-fit:cover;" />' +
+          '</div>' +
+
+          '<div class="pe-verdict">' +
+            '<div class="pe-verdict-label">Estimated Roof Replacement Cost</div>' +
+            '<div class="pe-verdict-price">' + fmt(low) + ' &ndash; ' + fmt(high) + '</div>' +
+            '<div class="pe-verdict-range">Midpoint: ' + fmt(mid) + ' for ' + esc(materialLabel) + ' in ' + locationLabel + '</div>' +
+          '</div>' +
+
+          '<div class="pe-details">' +
+            '<div class="pe-detail">' +
+              '<div class="pe-detail-label">Roof Size</div>' +
+              '<div class="pe-detail-value">' + Math.round(roofSqFt).toLocaleString() + ' sq ft</div>' +
+            '</div>' +
+            '<div class="pe-detail">' +
+              '<div class="pe-detail-label">Material</div>' +
+              '<div class="pe-detail-value">' + esc(materialLabel) + '</div>' +
+            '</div>' +
+            '<div class="pe-detail">' +
+              '<div class="pe-detail-label">Cost per Sq Ft</div>' +
+              '<div class="pe-detail-value">$' + perSqFt + '</div>' +
+            '</div>' +
+            '<div class="pe-detail">' +
+              '<div class="pe-detail-label">Complexity</div>' +
+              '<div class="pe-detail-value">' + esc((r.complexity || "simple").charAt(0).toUpperCase() + (r.complexity || "simple").slice(1)) + '</div>' +
+            '</div>' +
+            '<div class="pe-detail">' +
+              '<div class="pe-detail-label">Stories</div>' +
+              '<div class="pe-detail-value">' + (r.stories || 1) + '-story</div>' +
+            '</div>' +
+            '<div class="pe-detail">' +
+              '<div class="pe-detail-label">Pricing</div>' +
+              '<div class="pe-detail-value">' + pricingSource + '</div>' +
+            '</div>' +
+          '</div>' +
+
+          '<div class="pe-condition ' + conditionClass + '">' +
+            '<strong>' + conditionLabel + '</strong>' +
+            (conditionNotesHtml ? ' &mdash; ' + conditionNotesHtml : '') +
+          '</div>' +
+
+          (r.additionalNotes ? '<p style="font-size:14px; color:#64748b; margin-top:12px;">' + esc(r.additionalNotes) + '</p>' : '') +
+
+          '<div style="margin-top:16px; padding:12px 16px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; font-size:13px; color:#1e40af;">' +
+            'This is an AI-powered estimate based on a single photo. For a more precise estimate, use our <a href="/roofing-quote-analyzer.html" style="color:#1d4ed8; font-weight:600;">guided estimator</a> or upload a contractor quote.' +
+          '</div>' +
+        '</div>' +
+
+        '<div id="estimateFeedback" style="padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; text-align:center; margin-bottom:1rem;">' +
+          '<div style="font-size:14px; color:#475569; margin-bottom:10px;">How does this compare to quotes you\'ve received?</div>' +
+          '<div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">' +
+            '<button class="pe-btn pe-btn-secondary" onclick="submitPhotoFeedback(\'accurate\')" style="font-size:13px; padding:8px 16px;">Looks right</button>' +
+            '<button class="pe-btn pe-btn-secondary" onclick="submitPhotoFeedback(\'high\')" style="font-size:13px; padding:8px 16px;">Seems high</button>' +
+            '<button class="pe-btn pe-btn-secondary" onclick="submitPhotoFeedback(\'low\')" style="font-size:13px; padding:8px 16px;">Seems low</button>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="pe-actions">' +
+          '<a class="pe-btn pe-btn-primary pe-btn-full" href="/roofing-quote-analyzer.html' + (state.city ? '?city=' + encodeURIComponent(state.city) + '&state=' + encodeURIComponent(state.stateCode) : '') + '">Get a detailed estimate</a>' +
+          '<a class="pe-btn pe-btn-secondary pe-btn-full" href="/find-contractors.html?service=roofing">Find contractors in ' + locationLabel + '</a>' +
+          '<button class="pe-btn pe-btn-secondary pe-btn-full" id="newPhotoBtn">Estimate another property</button>' +
+        '</div>';
+
+      app.innerHTML = html;
+
+      document.getElementById("newPhotoBtn").addEventListener("click", function() {
+        state.imageData = null;
+        state.imagePreview = null;
+        state.result = null;
+        state.step = "capture";
+        render();
+      });
+
+      // Track
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "photo_estimate_completed", meta: { material: material, roofSqFt: String(Math.round(roofSqFt)), mid: String(mid), city: state.city || "" }, path: "/photo-estimate.html" })
+      }).catch(function() {});
+    }
+
+    window.submitPhotoFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "photo_estimate_feedback", meta: { response: response, material: state.result ? state.result.material : "" }, path: "/photo-estimate.html" })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks! This helps us improve photo estimates.</div>';
+    };
+
+    render();
+  })();
+  </script>
+</body>
+</html>
