@@ -25,7 +25,8 @@
       "maxDuration": 5
     },
     "api/photo-estimate.js": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "memory": 1024
     }
   },
   "headers": [
