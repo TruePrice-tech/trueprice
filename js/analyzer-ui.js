@@ -8343,6 +8343,10 @@ function buildComparisonWinnerHtml(summary) {
                 Your quote stays private. Trudy processes it in your browser, never stored or shared.
               </div>
 
+              <div style="margin-top:14px; font-size:13px;">
+                <a href="/photo-estimate.html" style="color:#1d4ed8; text-decoration:none; font-weight:500;">No quote yet? Snap a photo of your house for an instant estimate &rarr;</a>
+              </div>
+
               <div class="small muted" style="margin-top:12px; font-size:12px;">
                 Private &bull; No spam &bull; No signup
               </div>
