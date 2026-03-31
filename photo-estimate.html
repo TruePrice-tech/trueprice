@@ -356,10 +356,14 @@
           .catch(function() {});
       }
 
+      // Strip the data URL prefix, send only the base64 + metadata
+      var parts = state.imageData.match(/^data:(image\/[^;]+);base64,(.+)$/);
+      if (!parts) { alert("Could not process image. Try a different photo."); state.step = "capture"; render(); return; }
+
       fetch("/api/photo-estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: state.imageData, service: state.service })
+        body: JSON.stringify({ base64: parts[2], mediaType: parts[1], service: state.service })
       })
       .then(function(r) {
         if (!r.ok) throw new Error("Server returned " + r.status + ". Your API balance may be depleted or the image may be too large.");
