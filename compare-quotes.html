@@ -224,7 +224,7 @@
   </footer>
 
   <script src="/js/tp-analytics.min.js" async></script>
-  <script src="/js/analyzer-parser.min.js"></script>
+  <script src="/js/analyzer-bundle.min.js"></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
   <script>
@@ -249,12 +249,7 @@
     if (typeof window.setSmartUploadStatus === "undefined") window.setSmartUploadStatus = function() {};
     if (typeof window.renderAnalyzingState === "undefined") window.renderAnalyzingState = function() {};
     if (typeof window.renderInlineAnalyzingState === "undefined") window.renderInlineAnalyzingState = function() {};
-    // Functions defined in analyzer-bundle.js that analyzer-ocr.js depends on
-    // Must be on window/global scope since analyzer-ocr.js calls them directly
-    function normalizeWhitespace(text) {
-      return String(text || "").replace(/\s+/g, " ").replace(/[|]+/g, " ").trim();
-    }
-    function analyzeParsedText(text) { return text; }
+    // analyzer-bundle.min.js provides all parsing functions needed by analyzer-ocr.js
   </script>
   <script src="/js/analyzer-ocr.js"></script>
 
