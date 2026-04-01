@@ -8075,6 +8075,52 @@ function buildComparisonWinnerHtml(summary) {
             });
           }
 
+          // Upload drop zone binding (for ?mode=upload)
+          const dropZone = document.getElementById("uploadDropZone");
+          if (dropZone) {
+            const dzInput = dropZone.querySelector("#quoteFile") || document.getElementById("quoteFile");
+            if (dzInput) {
+              dropZone.addEventListener("click", () => dzInput.click());
+              dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.style.borderColor = "#1d4ed8"; dropZone.style.background = "#eff6ff"; });
+              dropZone.addEventListener("dragleave", () => { dropZone.style.borderColor = "#bfdbfe"; dropZone.style.background = "#f8fbff"; });
+              dropZone.addEventListener("drop", (e) => {
+                e.preventDefault();
+                dropZone.style.borderColor = "#bfdbfe"; dropZone.style.background = "#f8fbff";
+                const file = e.dataTransfer?.files?.[0];
+                if (file) { const dt = new DataTransfer(); dt.items.add(file); dzInput.files = dt.files; dzInput.dispatchEvent(new Event("change")); }
+              });
+              if (!dzInput.dataset.bound) {
+                dzInput.dataset.bound = "true";
+                dzInput.addEventListener("change", async function () {
+                  const file = dzInput.files?.[0];
+                  if (!file) return;
+                  window.__uploadedQuoteFile = file;
+                  renderAnalyzingState();
+                  try {
+                    const parsedBundle = await parseUploadedComparisonFile(file);
+                    const parsed = parsedBundle?.parsed || parsedBundle || {};
+                    latestParsed = parsed;
+                    if (shouldPromoteAddress(latestParsed)) {
+                      journeyState.propertyPreview = {
+                        street: latestParsed.address?.street || "",
+                        apt: "",
+                        city: latestParsed.city || latestParsed.address?.city || "",
+                        state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
+                        zip: latestParsed.address?.zip || ""
+                      };
+                      prefetchCityMultiplier(journeyState.propertyPreview.city, journeyState.propertyPreview.state);
+                    }
+                    journeyState.propertyConfirmed = true;
+                    confirmProperty();
+                  } catch (err) {
+                    journeyState.propertyConfirmed = true;
+                    confirmProperty();
+                  }
+                });
+              }
+            }
+          }
+
           // Sample result link binding
           const sampleLink = document.getElementById("showSampleResult");
           if (sampleLink) {
@@ -8238,6 +8284,8 @@ function buildComparisonWinnerHtml(summary) {
       const prefillCity = urlParams.get("city") || "";
       const prefillState = urlParams.get("state") || "";
       const isEstimatorMode = urlParams.get("mode") === "estimator";
+      const isUploadMode = urlParams.get("mode") === "upload";
+      const isMobileDevice = /Mobi|Android|iPhone/i.test(navigator.userAgent);
       const localContext = prefillCity && prefillState
         ? `<div style="margin:0 0 18px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; font-size:14px; color:#166534; font-weight:500;">Showing local pricing for ${escapeHtml(prefillCity)}, ${escapeHtml(prefillState)}</div>`
         : "";
@@ -8304,13 +8352,35 @@ function buildComparisonWinnerHtml(summary) {
             ${resumeHtml}
             ${returningUserHtml}
 
-            ${isEstimatorMode ? '' : `
+            ${(isEstimatorMode || isUploadMode) ? '' : `
             <h1 style="margin:0 0 10px; font-size:38px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">
               Is your roofing quote fair?
             </h1>
             `}
 
-            ${isEstimatorMode ? '' : `
+            ${isUploadMode ? `
+            <div style="text-align:center; margin-bottom:20px;">
+              <img src="/images/trudy-peeking.png" alt="Trudy" width="100" style="margin-bottom:8px;" />
+              <h2 style="margin:0 0 6px; font-size:22px;">Upload your roofing quote</h2>
+              <p style="margin:0; font-size:14px; color:#64748b;">Trudy will check the price, scope, and flag anything missing.</p>
+            </div>
+
+            <div style="border:2px dashed #bfdbfe; border-radius:18px; padding:3rem 1.5rem; text-align:center; background:#f8fbff; cursor:pointer; transition:border-color 0.2s, background 0.2s;" id="uploadDropZone">
+              <div style="font-size:48px; margin-bottom:12px;">&#128196;</div>
+              <p style="font-size:17px; font-weight:600; color:#1e293b; margin:0 0 4px;">${isMobileDevice ? "Tap to photograph your quote" : "Drop your quote here or click to upload"}</p>
+              <p style="font-size:14px; color:#94a3b8; margin:0;">${isMobileDevice ? "Take a photo of the paper quote" : "PDF, screenshot, or photo of your contractor's estimate"}</p>
+              <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
+            </div>
+
+            <div style="text-align:center; margin-top:12px; font-size:12px; color:#94a3b8;">
+              Your quote stays private. Processed in your browser, never stored or shared.
+            </div>
+
+            <div style="text-align:center; margin-top:12px;">
+              <a href="/analyze-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a>
+            </div>
+
+            ` : isEstimatorMode ? '' : `
             <p class="muted" style="margin:0 0 24px; font-size:16px;">
               Upload your quote. Get your answer in 30 seconds. Free, private, no signup.
             </p>
