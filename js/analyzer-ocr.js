@@ -655,7 +655,8 @@ const finalText = normalizeOcrWhitespace(
 
 return {
   text: finalText,
-  method: "image_ocr"
+  method: "image_ocr",
+  images: [imageDataUrl] // Include original image for Claude Vision
 };
 
   }
