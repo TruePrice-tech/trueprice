@@ -284,64 +284,40 @@
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
       try {
+        // parseUploadedComparisonFile handles everything:
+        // 1. Text extraction (pdfjs for PDF, tesseract for images)
+        // 2. Regex parsing for price, contractor, material, scope
+        // 3. Claude AI enhancement (automatically called, merges scope items)
         if (typeof loadVendorLibs === "function") await loadVendorLibs();
 
-        // Step 1: Try local parsing first (free, fast)
-        var p = {};
-        var extractedText = "";
-        try {
-          var bundle = await parseUploadedComparisonFile(file);
-          var localParsed = (bundle && bundle.parsed) ? bundle.parsed : (bundle || {});
-          extractedText = localParsed._rawText || bundle?.text || "";
-          p = {
-            price: localParsed.finalPrice || localParsed.price || 0,
-            contractor: localParsed.contractor || "",
-            material: localParsed.materialLabel || localParsed.material || "",
-            warrantyYears: localParsed.warrantyYears || 0,
-            roofSize: localParsed.roofSize || 0,
-            scopeItems: localParsed.scopeItems || {}
-          };
-        } catch(e) {
-          // Local parsing failed entirely
+        var bundle = await parseUploadedComparisonFile(file);
+        var localParsed = (bundle && bundle.parsed) ? bundle.parsed : (bundle || {});
+
+        // Build scope items from parsed.signals (where the parser stores them)
+        var scopeItems = {};
+        if (localParsed.signals) {
+          Object.keys(localParsed.signals).forEach(function(key) {
+            var sig = localParsed.signals[key];
+            if (sig && sig.status) scopeItems[key] = sig.status;
+          });
+        }
+        // Also merge from scopeItems if present (from AI)
+        if (localParsed.scopeItems) {
+          Object.keys(localParsed.scopeItems).forEach(function(key) {
+            if (!scopeItems[key] || scopeItems[key] === "unclear") {
+              scopeItems[key] = localParsed.scopeItems[key];
+            }
+          });
         }
 
-        // Step 2: If local parser missed key fields, fall back to Claude AI
-        var localPrice = (typeof p.price === "string") ? parseFloat(p.price.replace(/[^0-9.]/g, "")) : (p.price || 0);
-        var scopeConfirmed = p.scopeItems ? Object.values(p.scopeItems).filter(function(v) { return v === "included"; }).length : 0;
-        var needsAi = !localPrice || !p.contractor || scopeConfirmed < 3;
-        if (needsAi) {
-          try {
-            var aiBody = {};
-            if (extractedText && extractedText.length >= 50) {
-              aiBody.text = extractedText.substring(0, 8000);
-            } else {
-              var dataUrl = await readFileAsDataUrl(file);
-              if (dataUrl) aiBody.images = [dataUrl];
-            }
-            if (aiBody.text || aiBody.images) {
-              var aiRes = await fetch("/api/parse-quote", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(aiBody)
-              });
-              if (aiRes.ok) {
-                var aiData = await aiRes.json();
-                if (aiData.success && aiData.data) {
-                  var ai = aiData.data;
-                  // Merge AI results - AI fills gaps, doesn't override local
-                  if (!localPrice && ai.price) p.price = ai.price;
-                  if (!p.contractor && ai.contractor) p.contractor = ai.contractor;
-                  if (!p.material && (ai.materialLabel || ai.material)) p.material = ai.materialLabel || ai.material;
-                  if (!p.warrantyYears && ai.warrantyYears) p.warrantyYears = ai.warrantyYears;
-                  if (!p.roofSize && ai.roofSize) p.roofSize = ai.roofSize;
-                  if ((!p.scopeItems || !Object.keys(p.scopeItems).length) && ai.scopeItems) p.scopeItems = ai.scopeItems;
-                }
-              }
-            }
-          } catch(e) {
-            // AI fallback failed too - use whatever local parser found
-          }
-        }
+        var p = {
+          price: localParsed.finalPrice || localParsed.finalBestPrice || localParsed.price || 0,
+          contractor: localParsed.contractor || "",
+          material: localParsed.materialLabel || localParsed.material || "",
+          warrantyYears: localParsed.warrantyYears || 0,
+          roofSize: localParsed.roofSize || 0,
+          scopeItems: scopeItems
+        };
 
         var price = p.price || 0;
         var contractor = p.contractor || "Contractor " + (idx + 1);
