@@ -305,9 +305,11 @@
           // Local parsing failed entirely
         }
 
-        // Step 2: If local parser didn't find price or contractor, fall back to Claude AI
+        // Step 2: If local parser missed key fields, fall back to Claude AI
         var localPrice = (typeof p.price === "string") ? parseFloat(p.price.replace(/[^0-9.]/g, "")) : (p.price || 0);
-        if (!localPrice || !p.contractor) {
+        var scopeConfirmed = p.scopeItems ? Object.values(p.scopeItems).filter(function(v) { return v === "included"; }).length : 0;
+        var needsAi = !localPrice || !p.contractor || scopeConfirmed < 3;
+        if (needsAi) {
           try {
             var aiBody = {};
             if (extractedText && extractedText.length >= 50) {
