@@ -28,7 +28,7 @@
     gtag("config", "G-8V134JH3TR");
   </script>
   <style>
-    .funnel-wrap { max-width: 780px; margin: 40px auto; padding: 0 24px; }
+    .funnel-wrap { max-width: 820px; margin: 40px auto; padding: 0 24px; }
     .funnel-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-lg); }
     .funnel-card h1 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.02em; text-align: center; }
     .funnel-card .funnel-sub { color: var(--text-secondary); margin: 0 0 28px; font-size: 16px; text-align: center; }
@@ -44,12 +44,13 @@
     .service-tile .tile-icon { font-size: 36px; }
     .service-tile .tile-label { font-size: 16px; font-weight: 700; color: var(--text); }
 
-    .action-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+    .action-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; align-items: stretch; }
     @media (max-width: 600px) { .action-cards { grid-template-columns: 1fr; } }
     .action-card {
       display: flex; flex-direction: column; align-items: center; gap: 10px;
-      padding: 30px 20px; border: 2px solid var(--border); border-radius: 16px;
+      padding: 28px 18px; border: 2px solid var(--border); border-radius: 16px;
       text-decoration: none; color: var(--text); transition: all 0.15s; text-align: center; cursor: pointer;
+      min-height: 0;
     }
     .action-card:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-2px); text-decoration: none; }
     .action-card-green { background: #f0fdf4; border-color: #bbf7d0; }
@@ -224,12 +225,14 @@
 
         if (svc === "roofing") {
           // Roofing: 3 equal cards in a row
-          cards += '<a class="action-card action-card-green" href="/photo-estimate.html?service=roofing">' +
-            '<span class="card-icon" style="font-size:44px;">&#128247;</span>' +
-            '<span class="card-title">Photo of Your House</span>' +
-            '<span class="card-desc">AI scans your roof to estimate size, material, and cost</span>' +
-            '<span style="font-size:12px; color:#16a34a; margin-top:6px;">or <a href="/roofing-quote-analyzer.html?mode=estimator" style="color:#1d4ed8; text-decoration:underline;" onclick="event.stopPropagation();">enter address manually</a></span>' +
-          '</a>';
+          cards += '<div class="action-card action-card-green" style="cursor:default;">' +
+            '<a href="/photo-estimate.html?service=roofing" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; color:inherit; flex:1;">' +
+              '<span class="card-icon" style="font-size:44px;">&#128247;</span>' +
+              '<span class="card-title">Photo of Your House</span>' +
+              '<span class="card-desc">AI scans your roof to estimate size, material, and cost</span>' +
+            '</a>' +
+            '<a href="/roofing-quote-analyzer.html?mode=estimator" style="font-size:11px; color:#64748b; margin-top:auto; padding-top:8px; text-decoration:none; border-top:1px solid #e2e8f0; width:100%; text-align:center;">or enter address manually</a>' +
+          '</div>';
 
           cards += '<a class="action-card action-card-blue" href="' + analyzer + '">' +
             '<span class="card-icon" style="font-size:44px;">&#128196;</span>' +
