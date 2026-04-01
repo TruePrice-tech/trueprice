@@ -143,65 +143,45 @@
   </header>
 
   <!-- HERO: Urgency + CTAs -->
-  <section class="hp-hero" style="position:relative; overflow:visible; z-index:1; padding-bottom:56px;">
-    <div class="container" style="padding-top:32px; display:flex; align-items:center; gap:48px;">
-      <div style="flex:1; min-width:0;">
-        <h1 style="max-width:520px;">How much will your next home project cost?</h1>
-        <p class="hp-sub">
-          Snap a photo or upload a quote. Our AI calculates local pricing for roofing, HVAC, solar, and 12 more services. Free, no signup.
-        </p>
-        <div style="margin-bottom:24px;">
-          <a class="btn" href="/analyze-quote.html" style="font-size:18px; padding:16px 36px;">Get started</a>
-        </div>
-        <div style="font-size:14px;">
-          <a href="#services" style="color:rgba(255,255,255,0.6); text-decoration:none;">Or browse 14,000+ pricing guides &rarr;</a>
-        </div>
-      </div>
-      <div class="hp-trudy-hero" style="flex-shrink:0;">
-        <img src="/images/roof-scan.png" alt="AI scanning a house roof to estimate cost" width="340" style="display:block; filter:drop-shadow(0 8px 24px rgba(0,0,0,0.3));" />
-      </div>
-    </div>
-  </section>
-
-  <main class="container" style="padding-top:0;">
-
-    <!-- SERVICES: Featured 6 + compact rest -->
-    <section class="hp-section" id="services" style="padding-top:40px;">
-      <h2>Browse by Service</h2>
-      <p class="hp-section-intro">Compare contractor pricing across 15 home services in 700+ cities.</p>
-      <div class="hp-featured-grid">
-        <a class="hp-featured-card" href="/all-cities.html" style="border-top: 3px solid #1d4ed8;">
+  <section class="hp-hero" style="padding-bottom:48px;">
+    <div class="container" style="padding-top:32px; text-align:center;">
+      <h1 style="max-width:620px; margin:0 auto 12px;">How much will your next home project cost?</h1>
+      <p class="hp-sub" style="max-width:480px; margin:0 auto 32px;">
+        Pick your project. Get an instant estimate or check a contractor quote. Free, no signup.
+      </p>
+      <div class="hp-featured-grid" style="max-width:640px; margin:0 auto;">
+        <a class="hp-featured-card" href="/analyze-quote.html#roofing" style="border-top: 3px solid #1d4ed8;">
           <div class="hp-featured-icon">&#127968;</div>
           <div class="hp-featured-label">Roofing</div>
           <div class="hp-featured-price">$8K &ndash; $25K</div>
         </a>
-        <a class="hp-featured-card" href="/hvac-cost.html" style="border-top: 3px solid #ea580c;">
+        <a class="hp-featured-card" href="/analyze-quote.html#hvac" style="border-top: 3px solid #ea580c;">
           <div class="hp-featured-icon">&#10052;&#65039;</div>
           <div class="hp-featured-label">HVAC</div>
           <div class="hp-featured-price">$5K &ndash; $15K</div>
         </a>
-        <a class="hp-featured-card" href="/plumbing-cost.html" style="border-top: 3px solid #0d9488;">
+        <a class="hp-featured-card" href="/analyze-quote.html#plumbing" style="border-top: 3px solid #0d9488;">
           <div class="hp-featured-icon">&#128688;</div>
           <div class="hp-featured-label">Plumbing</div>
           <div class="hp-featured-price">$200 &ndash; $12K</div>
         </a>
-        <a class="hp-featured-card" href="/electrical-cost.html" style="border-top: 3px solid #eab308;">
+        <a class="hp-featured-card" href="/analyze-quote.html#electrical" style="border-top: 3px solid #eab308;">
           <div class="hp-featured-icon">&#9889;</div>
           <div class="hp-featured-label">Electrical</div>
           <div class="hp-featured-price">$200 &ndash; $15K</div>
         </a>
-        <a class="hp-featured-card" href="/window-replacement-cost.html" style="border-top: 3px solid #7c3aed;">
-          <div class="hp-featured-icon">&#129704;</div>
-          <div class="hp-featured-label">Windows</div>
-          <div class="hp-featured-price">$5K &ndash; $20K</div>
-        </a>
-        <a class="hp-featured-card" href="/solar-cost.html" style="border-top: 3px solid #f59e0b;">
+        <a class="hp-featured-card" href="/analyze-quote.html#solar" style="border-top: 3px solid #f59e0b;">
           <div class="hp-featured-icon">&#9728;&#65039;</div>
           <div class="hp-featured-label">Solar</div>
           <div class="hp-featured-price">$12K &ndash; $35K</div>
         </a>
+        <a class="hp-featured-card" href="/analyze-quote.html#windows" style="border-top: 3px solid #7c3aed;">
+          <div class="hp-featured-icon">&#129704;</div>
+          <div class="hp-featured-label">Windows</div>
+          <div class="hp-featured-price">$5K &ndash; $20K</div>
+        </a>
       </div>
-      <div class="hp-more-grid">
+      <div class="hp-more-grid" style="max-width:640px; margin:16px auto 0;">
         <a href="/siding-cost.html">Siding</a>
         <a href="/insulation-cost.html">Insulation</a>
         <a href="/painting-cost.html">Painting</a>
@@ -212,7 +192,10 @@
         <a href="/foundation-repair-cost.html">Foundation</a>
         <a href="/kitchen-remodel-cost.html">Kitchen</a>
       </div>
-    </section>
+    </div>
+  </section>
+
+  <main class="container" style="padding-top:0;" id="services">
 
     <!-- WHY TRUEPRICE: Value prop cards -->
     <section class="hp-section">

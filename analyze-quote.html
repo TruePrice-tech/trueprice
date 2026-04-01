@@ -237,6 +237,13 @@
       step2.classList.remove("visible");
       step1.style.display = "block";
     });
+
+    // Auto-select service from URL hash (e.g. #roofing)
+    var hash = window.location.hash.replace("#", "");
+    if (hash) {
+      var tile = document.querySelector('.service-tile[data-svc="' + hash + '"]');
+      if (tile) tile.click();
+    }
   })();
   </script>
 </body>
