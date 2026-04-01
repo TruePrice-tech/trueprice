@@ -749,8 +749,35 @@ return {
       extractionMethod: extractionResult ? extractionResult.method : "ocr_cache"
     });
 
+    // Log parse results for debugging (visible in browser console)
+    console.log("[PARSE] Method:", extractionResult ? extractionResult.method : "none");
+    console.log("[PARSE] Text length:", normalizedText.length);
+    console.log("[PARSE] Price found:", parsed.price || parsed.finalPrice || "NONE");
+    console.log("[PARSE] Contractor:", parsed.contractor || "NONE");
+    console.log("[PARSE] Material:", parsed.material || parsed.materialLabel || "NONE");
+    console.log("[PARSE] Signals:", parsed.signals ? Object.keys(parsed.signals).filter(k => parsed.signals[k]?.status === "included").join(", ") : "NONE");
+    console.log("[PARSE] Scope detected:", typeof detectScopeItems === "function" ? detectScopeItems(normalizedText).filter(i => i.detected).map(i => i.key).join(", ") : "N/A");
+
+    // TEST MODE: Set window._SKIP_CLAUDE_AI = true in console to test without AI
+    const skipAi = (typeof window !== "undefined" && window._SKIP_CLAUDE_AI) || false;
+
     // Try Claude AI enhancement (non-blocking — falls back to regex if fails)
-    try {
+    if (skipAi) {
+      console.log("[PARSE] *** CLAUDE AI SKIPPED (test mode) ***");
+      // Still run scope detection from analyzer-scope.js
+      if (typeof detectScopeItems === "function") {
+        const scopeDetected = detectScopeItems(normalizedText);
+        if (!parsed.signals) parsed.signals = {};
+        scopeDetected.forEach(function(item) {
+          if (item.detected) {
+            var nk = item.key;
+            parsed.signals[nk] = { label: item.label, status: "included", evidence: "regex" };
+          }
+        });
+      }
+    }
+
+    if (!skipAi) try {
       const images = extractionResult && Array.isArray(extractionResult.images) ? extractionResult.images : [];
       const aiResult = await callClaudeParseQuote(normalizedText, images);
       if (aiResult && aiResult.success && aiResult.data) {
