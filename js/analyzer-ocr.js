@@ -700,7 +700,8 @@ return {
         if (ai.warrantyYears) parsed.warrantyYears = String(ai.warrantyYears);
         if (ai.warranty) parsed.warranty = ai.warranty;
         // Merge scope items — AI overrides "unclear" with "included" or "excluded"
-        if (ai.scopeItems && parsed.signals) {
+        if (!parsed.signals) parsed.signals = {};
+        if (ai.scopeItems) {
           Object.entries(ai.scopeItems).forEach(function(entry) {
             var key = entry[0], status = entry[1];
             if (status === "included" || status === "excluded") {
@@ -710,6 +711,8 @@ return {
             }
           });
         }
+        // Also store scopeItems directly for compare page access
+        if (ai.scopeItems) parsed.scopeItems = ai.scopeItems;
         parsed.aiEnhanced = true;
       }
     } catch (aiErr) {
