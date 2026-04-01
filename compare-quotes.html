@@ -356,12 +356,32 @@
 
         slot.classList.remove("uploading");
         slot.classList.add("uploaded");
+        slot.onclick = null; // Don't open file picker on uploaded slots
+
+        var nameIsDefault = contractor === "Contractor " + (idx + 1);
         slot.innerHTML =
           '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
           '<span class="slot-check">&#10003;</span>' +
-          '<span class="slot-contractor">' + escHtml(contractor) + '</span>' +
-          (price > 0 ? '<span class="slot-price">$' + price.toLocaleString() + '</span>' : '<span class="slot-hint">Price not detected - click to edit</span>') +
+          '<input type="text" class="slot-edit-name" value="' + escHtml(contractor) + '" data-idx="' + idx + '" placeholder="Contractor name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid ' + (nameIsDefault ? '#fde68a' : '#e2e8f0') + '; border-radius:6px; padding:4px 8px; width:90%; background:' + (nameIsDefault ? '#fffbeb' : '#fff') + ';" />' +
+          '<input type="text" class="slot-edit-price" value="' + (price > 0 ? '$' + price.toLocaleString() : '') + '" data-idx="' + idx + '" placeholder="Enter price (e.g. $12,500)" style="font-size:16px; font-weight:700; text-align:center; color:#1d4ed8; border:1px solid ' + (price > 0 ? '#e2e8f0' : '#fde68a') + '; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:' + (price > 0 ? '#fff' : '#fffbeb') + ';" />' +
           '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+        // Bind edit handlers
+        slot.querySelector(".slot-edit-name").addEventListener("change", function() {
+          quotes[idx].contractor = this.value.trim() || "Contractor " + (idx + 1);
+          this.style.borderColor = "#e2e8f0";
+          this.style.background = "#fff";
+        });
+        slot.querySelector(".slot-edit-price").addEventListener("change", function() {
+          var val = parseFloat(this.value.replace(/[^0-9.]/g, "")) || 0;
+          quotes[idx].price = val;
+          if (val > 0) {
+            this.value = "$" + val.toLocaleString();
+            this.style.borderColor = "#e2e8f0";
+            this.style.background = "#fff";
+          }
+          updateCompareBtn();
+        });
 
         updateCompareBtn();
       } catch (err) {
