@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Roofing Quotes Side by Side | TruePrice</title>
+  <meta name="description" content="Upload up to 3 roofing quotes and compare them side by side. See which contractor offers the best value based on price, scope, and warranty." />
+  <link rel="canonical" href="https://truepricehq.com/compare-quotes.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Compare Roofing Quotes | TruePrice" />
+  <meta property="og:description" content="Upload up to 3 roofing quotes and compare them side by side for the best value." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/compare-quotes.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Compare Roofing Quotes | TruePrice" />
+  <meta name="twitter:description" content="Upload up to 3 roofing quotes and compare them side by side." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+  <style>
+    .cq-wrap { max-width: 960px; margin: 40px auto; padding: 0 24px; }
+    .cq-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-lg); }
+    .cq-card h1 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.02em; text-align: center; }
+    .cq-sub { color: var(--text-secondary); margin: 0 0 28px; font-size: 16px; text-align: center; }
+
+    .cq-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+    .cq-slot {
+      border: 2px dashed #cbd5e1; border-radius: 16px; padding: 32px 16px;
+      text-align: center; cursor: pointer; transition: all 0.2s;
+      background: #f8fafc; position: relative; min-height: 180px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    }
+    .cq-slot:hover { border-color: #3b82f6; background: #eff6ff; }
+    .cq-slot.uploaded { border-style: solid; border-color: #22c55e; background: #f0fdf4; cursor: default; }
+    .cq-slot.uploading { border-color: #3b82f6; background: #eff6ff; }
+    .cq-slot .slot-icon { font-size: 40px; }
+    .cq-slot .slot-label { font-size: 15px; font-weight: 700; color: var(--text); }
+    .cq-slot .slot-hint { font-size: 12px; color: #94a3b8; }
+    .cq-slot .slot-check { color: #22c55e; font-size: 28px; margin-bottom: 4px; }
+    .cq-slot .slot-contractor { font-size: 14px; font-weight: 700; color: #1e293b; }
+    .cq-slot .slot-price { font-size: 16px; font-weight: 800; color: #16a34a; }
+    .cq-slot .slot-remove {
+      position: absolute; top: 8px; right: 10px; background: none; border: none;
+      color: #94a3b8; font-size: 18px; cursor: pointer; line-height: 1; padding: 4px;
+    }
+    .cq-slot .slot-remove:hover { color: #ef4444; }
+    .cq-slot .slot-error { color: #ef4444; font-size: 13px; }
+    .cq-slot input[type="file"] { display: none; }
+
+    .cq-compare-btn {
+      display: block; width: 100%; padding: 16px; border: none; border-radius: 12px;
+      font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+      font-family: inherit; background: #1d4ed8; color: #fff;
+    }
+    .cq-compare-btn:hover { background: #1e40af; }
+    .cq-compare-btn:disabled { background: #93c5fd; cursor: not-allowed; }
+
+    .cq-parsing-dots::after {
+      content: '';
+      animation: cqDots 1.2s steps(4, end) infinite;
+    }
+    @keyframes cqDots {
+      0% { content: ''; }
+      25% { content: '.'; }
+      50% { content: '..'; }
+      75% { content: '...'; }
+    }
+
+    /* Results */
+    .cq-results { display: none; }
+    .cq-results.visible { display: block; }
+
+    .cq-winner-banner {
+      display: flex; align-items: center; gap: 16px; padding: 20px 24px;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 2px solid #86efac;
+      border-radius: 16px; margin-bottom: 28px;
+    }
+    .cq-winner-banner img { width: 64px; flex-shrink: 0; }
+    .cq-winner-title { font-size: 20px; font-weight: 800; color: #15803d; margin: 0 0 4px; }
+    .cq-winner-sub { font-size: 14px; color: #166534; margin: 0; }
+
+    .cq-table-wrap { overflow-x: auto; margin-bottom: 28px; }
+    .cq-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .cq-table th, .cq-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    .cq-table th { background: #f8fafc; font-weight: 700; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+    .cq-table td { color: #1e293b; }
+    .cq-table tr:last-child td { border-bottom: none; }
+    .cq-table .row-label { font-weight: 600; color: #64748b; background: #f8fafc; white-space: nowrap; width: 160px; }
+    .cq-table .highlight { background: #f0fdf4; font-weight: 700; }
+    .cq-table .scope-section td { padding-top: 6px; padding-bottom: 6px; }
+
+    .cq-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .cq-badge-green { background: #dcfce7; color: #15803d; }
+
+    .cq-scope-check { color: #22c55e; font-weight: 700; }
+    .cq-scope-missing { color: #f59e0b; }
+    .cq-scope-no { color: #ef4444; }
+
+    .cq-score-bar-wrap { display: flex; align-items: center; gap: 10px; }
+    .cq-score-bar {
+      flex: 1; height: 12px; background: #e5e7eb; border-radius: 6px; overflow: hidden;
+    }
+    .cq-score-bar-fill {
+      height: 100%; border-radius: 6px; transition: width 0.6s ease;
+    }
+    .cq-score-label { font-weight: 800; font-size: 16px; min-width: 36px; }
+
+    .cq-cta-section {
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+      padding-top: 24px; border-top: 1px solid #e5e7eb;
+    }
+    .cq-cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;
+      text-decoration: none; cursor: pointer; transition: all 0.15s; border: 2px solid transparent;
+      font-family: inherit;
+    }
+    .cq-cta-primary { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+    .cq-cta-primary:hover { background: #1e40af; }
+    .cq-cta-secondary { background: #f1f5f9; color: #334155; border-color: #e2e8f0; }
+    .cq-cta-secondary:hover { background: #e2e8f0; }
+    .cq-cta-outline { background: #fff; color: #64748b; border-color: #e2e8f0; }
+    .cq-cta-outline:hover { border-color: #94a3b8; color: #334155; }
+
+    .cq-back { font-size: 14px; color: var(--text-muted); cursor: pointer; margin-bottom: 16px; display: inline-block; background: none; border: none; font-family: inherit; padding: 0; }
+    .cq-back:hover { color: var(--text); }
+
+    @media (max-width: 700px) {
+      .cq-slots { grid-template-columns: 1fr; }
+      .cq-card { padding: 24px 16px; }
+      .cq-card h1 { font-size: 22px; }
+      .cq-winner-banner { flex-direction: column; text-align: center; }
+      .cq-table { font-size: 13px; }
+      .cq-table th, .cq-table td { padding: 8px 10px; }
+      .cq-table .row-label { width: 120px; }
+      .cq-cta-section { flex-direction: column; }
+      .cq-cta-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="cq-wrap">
+      <div class="cq-card">
+
+        <!-- STEP 1: Upload Quotes -->
+        <div id="uploadStep">
+          <div style="text-align:center; margin-bottom:16px;">
+            <img src="/images/trudy-thinking.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
+          </div>
+          <h1>Compare your roofing quotes</h1>
+          <p class="cq-sub">Upload 2 or 3 contractor quotes and we'll show you which one is the best deal.</p>
+
+          <div class="cq-slots">
+            <div class="cq-slot" id="slot0" onclick="document.getElementById('file0').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 1</span>
+              <span class="slot-hint">PDF, photo, or screenshot</span>
+              <input type="file" id="file0" accept=".pdf,image/*" onchange="handleUpload(0, this)" />
+            </div>
+            <div class="cq-slot" id="slot1" onclick="document.getElementById('file1').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 2</span>
+              <span class="slot-hint">PDF, photo, or screenshot</span>
+              <input type="file" id="file1" accept=".pdf,image/*" onchange="handleUpload(1, this)" />
+            </div>
+            <div class="cq-slot" id="slot2" onclick="document.getElementById('file2').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 3</span>
+              <span class="slot-hint">Optional</span>
+              <input type="file" id="file2" accept=".pdf,image/*" onchange="handleUpload(2, this)" />
+            </div>
+          </div>
+
+          <button class="cq-compare-btn" id="compareBtn" disabled onclick="showResults()">Upload at least 2 quotes to compare</button>
+        </div>
+
+        <!-- STEP 2: Results -->
+        <div id="resultsStep" class="cq-results">
+          <button class="cq-back" onclick="goBack()">&larr; Upload different quotes</button>
+          <div id="resultsContent"></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="/methodology.html" style="color:inherit;">Methodology</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a> |
+        <a href="/widget.html" style="color:inherit;">Free Widget</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/tp-analytics.min.js" async></script>
+  <script src="/js/analyzer-parser.min.js"></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+  <script src="/js/analyzer-ocr.js"></script>
+
+  <script>
+  (function() {
+    var quotes = [null, null, null]; // parsed data per slot
+    var uploadCount = 0;
+
+    var SCOPE_ITEMS = [
+      { key: "tearOff", label: "Tear-off" },
+      { key: "underlayment", label: "Underlayment" },
+      { key: "flashing", label: "Flashing" },
+      { key: "iceShield", label: "Ice & water shield" },
+      { key: "dripEdge", label: "Drip edge" },
+      { key: "ventilation", label: "Ventilation" },
+      { key: "ridgeVent", label: "Ridge vent" },
+      { key: "starterStrip", label: "Starter strip" },
+      { key: "ridgeCap", label: "Ridge cap" },
+      { key: "decking", label: "Decking repair" },
+      { key: "disposal", label: "Disposal/cleanup" },
+      { key: "permit", label: "Permit" }
+    ];
+
+    window.handleUpload = async function(idx, input) {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      if (file.size > 20 * 1024 * 1024) {
+        alert("File is too large. Please upload a file under 20MB.");
+        input.value = "";
+        return;
+      }
+
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.add("uploading");
+      slot.classList.remove("uploaded");
+      slot.onclick = null;
+      slot.innerHTML =
+        '<span class="slot-icon" style="font-size:28px;">&#9203;</span>' +
+        '<span class="slot-label">Parsing quote<span class="cq-parsing-dots"></span></span>' +
+        '<span class="slot-hint">This may take a moment</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+      try {
+        if (typeof loadVendorLibs === "function") await loadVendorLibs();
+        var bundle = await parseUploadedComparisonFile(file);
+        var p = (bundle && bundle.parsed) ? bundle.parsed : (bundle || {});
+
+        var price = p.finalPrice || p.price || 0;
+        var contractor = p.contractor || "Contractor " + (idx + 1);
+        if (typeof price === "string") price = parseFloat(price.replace(/[^0-9.]/g, "")) || 0;
+
+        quotes[idx] = {
+          contractor: contractor,
+          price: price,
+          material: p.materialLabel || p.material || "Not specified",
+          warrantyYears: p.warrantyYears || 0,
+          roofSize: p.roofSize || 0,
+          scopeItems: p.scopeItems || {}
+        };
+
+        slot.classList.remove("uploading");
+        slot.classList.add("uploaded");
+        slot.innerHTML =
+          '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
+          '<span class="slot-check">&#10003;</span>' +
+          '<span class="slot-contractor">' + escHtml(contractor) + '</span>' +
+          (price > 0 ? '<span class="slot-price">$' + price.toLocaleString() + '</span>' : '<span class="slot-hint">Price not detected</span>') +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+        updateCompareBtn();
+      } catch (err) {
+        slot.classList.remove("uploading");
+        slot.innerHTML =
+          '<span class="slot-icon">&#128196;</span>' +
+          '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+          '<span class="slot-error">Could not parse. Try another file.</span>' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+        slot.onclick = function() { document.getElementById("file" + idx).click(); };
+        quotes[idx] = null;
+        updateCompareBtn();
+      }
+    };
+
+    window.removeQuote = function(idx) {
+      quotes[idx] = null;
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.remove("uploaded", "uploading");
+      slot.innerHTML =
+        '<span class="slot-icon">&#128196;</span>' +
+        '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+        '<span class="slot-hint">' + (idx === 2 ? "Optional" : "PDF, photo, or screenshot") + '</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+      slot.onclick = function() { document.getElementById("file" + idx).click(); };
+      updateCompareBtn();
+    };
+
+    function updateCompareBtn() {
+      var count = quotes.filter(function(q) { return q !== null; }).length;
+      var btn = document.getElementById("compareBtn");
+      if (count >= 2) {
+        btn.disabled = false;
+        btn.textContent = "Compare " + count + " quotes";
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Upload at least 2 quotes to compare";
+      }
+    }
+
+    function scoreQuote(q, allQuotes) {
+      // Scope score: confirmed items / 12 * 45
+      var confirmed = 0;
+      SCOPE_ITEMS.forEach(function(item) {
+        var val = (q.scopeItems && q.scopeItems[item.key]) || "";
+        if (val === "included") confirmed++;
+      });
+      var scopeScore = (confirmed / 12) * 45;
+
+      // Price score: lower is better
+      var prices = allQuotes.map(function(aq) { return aq.price; }).filter(function(p) { return p > 0; });
+      var maxPrice = Math.max.apply(null, prices.length ? prices : [1]);
+      var priceScore = q.price > 0 ? ((1 - q.price / maxPrice) * 100) * 0.35 : 0;
+
+      // Warranty score
+      var warrantyScore = Math.min(q.warrantyYears || 0, 50) * 0.20;
+
+      var total = Math.round(Math.max(0, Math.min(100, scopeScore + priceScore + warrantyScore)));
+      return { total: total, scopeCount: confirmed, scopeScore: scopeScore, priceScore: priceScore, warrantyScore: warrantyScore };
+    }
+
+    window.showResults = function() {
+      var active = [];
+      quotes.forEach(function(q, i) { if (q) active.push({ idx: i, data: q }); });
+      if (active.length < 2) return;
+
+      // Score each
+      var allData = active.map(function(a) { return a.data; });
+      active.forEach(function(a) {
+        a.score = scoreQuote(a.data, allData);
+      });
+
+      // Find winner
+      var winner = active[0];
+      active.forEach(function(a) {
+        if (a.score.total > winner.score.total) winner = a;
+      });
+
+      // Build results HTML
+      var html = "";
+
+      // Winner banner
+      html += '<div class="cq-winner-banner">';
+      html += '<img src="/images/trudy-thumbsup.png" alt="Trudy recommends" />';
+      html += '<div>';
+      html += '<p class="cq-winner-title">Trudy recommends: ' + escHtml(winner.data.contractor) + '</p>';
+      html += '<p class="cq-winner-sub">Best overall value based on price, scope, and warranty</p>';
+      html += '</div></div>';
+
+      // Find best price
+      var prices = active.map(function(a) { return a.data.price; }).filter(function(p) { return p > 0; });
+      var bestPrice = prices.length ? Math.min.apply(null, prices) : 0;
+
+      // Comparison table
+      html += '<div class="cq-table-wrap"><table class="cq-table">';
+
+      // Header
+      html += '<thead><tr><th></th>';
+      active.forEach(function(a) {
+        html += '<th>' + escHtml(a.data.contractor);
+        if (a === winner) html += ' <span class="cq-badge cq-badge-green">BEST VALUE</span>';
+        html += '</th>';
+      });
+      html += '</tr></thead><tbody>';
+
+      // Total price
+      html += '<tr><td class="row-label">Total Price</td>';
+      active.forEach(function(a) {
+        var cls = (a.data.price > 0 && a.data.price === bestPrice) ? ' class="highlight"' : '';
+        html += '<td' + cls + '>' + (a.data.price > 0 ? '$' + a.data.price.toLocaleString() : 'N/A') + '</td>';
+      });
+      html += '</tr>';
+
+      // Price per sq ft
+      html += '<tr><td class="row-label">Price / sq ft</td>';
+      active.forEach(function(a) {
+        if (a.data.price > 0 && a.data.roofSize > 0) {
+          html += '<td>$' + (a.data.price / a.data.roofSize).toFixed(2) + '</td>';
+        } else {
+          html += '<td>N/A</td>';
+        }
+      });
+      html += '</tr>';
+
+      // Material
+      html += '<tr><td class="row-label">Material</td>';
+      active.forEach(function(a) { html += '<td>' + escHtml(a.data.material) + '</td>'; });
+      html += '</tr>';
+
+      // Warranty
+      html += '<tr><td class="row-label">Warranty</td>';
+      active.forEach(function(a) {
+        html += '<td>' + (a.data.warrantyYears > 0 ? a.data.warrantyYears + ' years' : 'Not specified') + '</td>';
+      });
+      html += '</tr>';
+
+      // Scope score
+      html += '<tr><td class="row-label">Scope Score</td>';
+      active.forEach(function(a) {
+        var count = a.score.scopeCount;
+        var color = count >= 9 ? '#16a34a' : count >= 6 ? '#d97706' : '#ef4444';
+        html += '<td><span style="color:' + color + '; font-weight:700;">' + count + '/12</span> items confirmed</td>';
+      });
+      html += '</tr>';
+
+      // Scope items
+      SCOPE_ITEMS.forEach(function(item) {
+        html += '<tr class="scope-section"><td class="row-label" style="padding-left:28px; font-weight:400;">' + item.label + '</td>';
+        active.forEach(function(a) {
+          var val = (a.data.scopeItems && a.data.scopeItems[item.key]) || "unclear";
+          if (val === "included") {
+            html += '<td><span class="cq-scope-check">&#10003; Included</span></td>';
+          } else if (val === "excluded") {
+            html += '<td><span class="cq-scope-no">&#10007; Excluded</span></td>';
+          } else {
+            html += '<td><span class="cq-scope-missing">? Unclear</span></td>';
+          }
+        });
+        html += '</tr>';
+      });
+
+      // Overall score
+      html += '<tr><td class="row-label" style="font-weight:800;">Overall Score</td>';
+      active.forEach(function(a) {
+        var color = a === winner ? '#22c55e' : '#3b82f6';
+        html += '<td><div class="cq-score-bar-wrap">' +
+          '<div class="cq-score-bar"><div class="cq-score-bar-fill" style="width:' + a.score.total + '%; background:' + color + ';"></div></div>' +
+          '<span class="cq-score-label" style="color:' + color + ';">' + a.score.total + '</span>' +
+          '</div></td>';
+      });
+      html += '</tr>';
+
+      html += '</tbody></table></div>';
+
+      // CTAs
+      var emailSubject = encodeURIComponent("My Roofing Quote Comparison - TruePrice");
+      var emailBody = encodeURIComponent(buildEmailSummary(active, winner));
+      html += '<div class="cq-cta-section">';
+      html += '<a class="cq-cta-btn cq-cta-primary" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">&#9993; Email this comparison</a>';
+      html += '<a class="cq-cta-btn cq-cta-secondary" href="/find-contractors.html">&#128269; Get more quotes from local contractors</a>';
+      html += '<button class="cq-cta-btn cq-cta-outline" onclick="startOver()">&#8634; Start over</button>';
+      html += '</div>';
+
+      document.getElementById("resultsContent").innerHTML = html;
+      document.getElementById("uploadStep").style.display = "none";
+      document.getElementById("resultsStep").classList.add("visible");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    function buildEmailSummary(active, winner) {
+      var lines = [];
+      lines.push("ROOFING QUOTE COMPARISON");
+      lines.push("Generated by TruePrice (truepricehq.com)");
+      lines.push("");
+      lines.push("RECOMMENDED: " + winner.data.contractor + " (Score: " + winner.score.total + "/100)");
+      lines.push("");
+      active.forEach(function(a) {
+        lines.push("--- " + a.data.contractor + " ---");
+        lines.push("Price: " + (a.data.price > 0 ? "$" + a.data.price.toLocaleString() : "N/A"));
+        lines.push("Material: " + a.data.material);
+        lines.push("Warranty: " + (a.data.warrantyYears > 0 ? a.data.warrantyYears + " years" : "N/A"));
+        lines.push("Scope: " + a.score.scopeCount + "/12 items confirmed");
+        lines.push("Overall Score: " + a.score.total + "/100");
+        lines.push("");
+      });
+      lines.push("Compare more quotes at https://truepricehq.com/compare-quotes.html");
+      return lines.join("\n");
+    }
+
+    window.goBack = function() {
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("uploadStep").style.display = "block";
+    };
+
+    window.startOver = function() {
+      quotes = [null, null, null];
+      [0, 1, 2].forEach(function(i) { window.removeQuote(i); });
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("uploadStep").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    function escHtml(str) {
+      var d = document.createElement("div");
+      d.textContent = str || "";
+      return d.innerHTML;
+    }
+  })();
+  </script>
+</body>
+</html>
