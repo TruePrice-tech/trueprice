@@ -28,26 +28,26 @@
     gtag("config", "G-8V134JH3TR");
   </script>
   <style>
-    .funnel-wrap { max-width: 700px; margin: 48px auto; padding: 0 24px; }
-    .funnel-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 36px; box-shadow: var(--shadow-lg); }
-    .funnel-card h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.02em; text-align: center; }
-    .funnel-card .funnel-sub { color: var(--text-secondary); margin: 0 0 28px; font-size: 15px; text-align: center; }
+    .funnel-wrap { max-width: 780px; margin: 40px auto; padding: 0 24px; }
+    .funnel-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-lg); }
+    .funnel-card h1 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.02em; text-align: center; }
+    .funnel-card .funnel-sub { color: var(--text-secondary); margin: 0 0 28px; font-size: 16px; text-align: center; }
 
     .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .service-tile {
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      padding: 18px 10px; background: var(--bg-subtle); border: 2px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 24px 14px; background: var(--bg-subtle); border: 2px solid var(--border);
       border-radius: 14px; cursor: pointer; transition: all 0.15s; text-align: center;
     }
     .service-tile:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-2px); }
     .service-tile.selected { border-color: var(--brand); background: #eff6ff; box-shadow: 0 0 0 3px rgba(29,78,216,0.15); }
-    .service-tile .tile-icon { font-size: 28px; }
-    .service-tile .tile-label { font-size: 14px; font-weight: 700; color: var(--text); }
+    .service-tile .tile-icon { font-size: 36px; }
+    .service-tile .tile-label { font-size: 16px; font-weight: 700; color: var(--text); }
 
-    .action-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+    .action-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
     .action-card {
       display: flex; flex-direction: column; align-items: center; gap: 10px;
-      padding: 28px 18px; border: 2px solid var(--border); border-radius: 16px;
+      padding: 30px 20px; border: 2px solid var(--border); border-radius: 16px;
       text-decoration: none; color: var(--text); transition: all 0.15s; text-align: center; cursor: pointer;
     }
     .action-card:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-2px); text-decoration: none; }
@@ -147,7 +147,10 @@
 
         <!-- STEP 2: Photo or Quote -->
         <div id="step2" class="funnel-step2">
-          <span class="funnel-back" id="backBtn">&larr; Change service</span>
+          <div style="position:relative; display:inline-block;">
+            <span class="funnel-back" id="backBtn">&larr; Change service</span>
+            <img src="/images/trudy-peeking.png" alt="Trudy" width="60" style="position:absolute; top:-30px; right:-70px;" />
+          </div>
           <h1 id="step2Title">How would you like to get started?</h1>
           <p class="funnel-sub" id="step2Sub"></p>
           <div class="action-cards" id="actionCards"></div>
@@ -211,34 +214,35 @@
         // Show step 2
         step1.style.display = "none";
         step2.classList.add("visible");
-        step2Sub.textContent = "Choose how you'd like to estimate your " + label.toLowerCase() + " project.";
+
+        if (svc === "roofing") {
+          step2Title.textContent = "What's a fair price to replace your roof?";
+          step2Sub.textContent = "Choose how you'd like to find out.";
+        } else {
+          step2Sub.textContent = "Choose how you'd like to estimate your " + label.toLowerCase() + " project.";
+        }
 
         var cards = "";
 
         if (svc === "roofing") {
-          // Roofing gets 4 options
-          cards += '<a class="action-card action-card-green" href="/photo-estimate.html?service=roofing">' +
-            '<img src="/images/roof-scan.png" alt="Photo of house" width="80" />' +
-            '<span class="card-title">Photo of Your House</span>' +
-            '<span class="card-desc">AI scans your roof to estimate size, material, and cost</span>' +
+          // Roofing gets 3 options, with Enter Address as a link on photo card
+          cards += '<a class="action-card action-card-green" href="/photo-estimate.html?service=roofing" style="grid-column:span 2;">' +
+            '<img src="/images/roof-scan.png" alt="AI scanning a house roof" width="100" />' +
+            '<span class="card-title" style="font-size:18px;">Photo of Your House</span>' +
+            '<span class="card-desc">Snap a photo and our AI estimates your roof size, material, and cost</span>' +
+            '<span style="font-size:13px; color:#1d4ed8; margin-top:4px;">or <a href="/roofing-quote-analyzer.html?mode=estimator" style="color:#1d4ed8; text-decoration:underline;" onclick="event.stopPropagation();">enter your address manually</a></span>' +
           '</a>';
 
           cards += '<a class="action-card action-card-blue" href="' + analyzer + '">' +
-            '<span class="card-icon">&#128196;</span>' +
+            '<span class="card-icon" style="font-size:44px;">&#128196;</span>' +
             '<span class="card-title">Upload a Quote</span>' +
-            '<span class="card-desc">Take a photo of a contractor quote to check the price</span>' +
+            '<span class="card-desc">Photo a contractor quote to check the price</span>' +
           '</a>';
 
           cards += '<a class="action-card action-card-purple" href="' + analyzer + '?mode=compare">' +
-            '<span class="card-icon">&#128202;</span>' +
+            '<span class="card-icon" style="font-size:44px;">&#128202;</span>' +
             '<span class="card-title">Compare Quotes</span>' +
-            '<span class="card-desc">Upload multiple contractor quotes to compare side by side</span>' +
-          '</a>';
-
-          cards += '<a class="action-card action-card-amber" href="' + analyzer + '?mode=estimator">' +
-            '<span class="card-icon">&#128205;</span>' +
-            '<span class="card-title">Enter Address</span>' +
-            '<span class="card-desc">Enter your address and roof details for a guided estimate</span>' +
+            '<span class="card-desc">Upload multiple quotes to compare side by side</span>' +
           '</a>';
 
         } else {
