@@ -204,29 +204,34 @@
     /* ── STEP 1: CAPTURE ── */
     function renderCapture() {
       var isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+      var photoLabels = {
+        roofing: { title: "Take a photo of your house", desc: "We'll estimate your roof size, material, and replacement cost", addressLink: "/roofing-quote-analyzer.html?mode=estimator" },
+        hvac: { title: "Take a photo of your AC unit", desc: "We'll estimate system type, size, and replacement cost", addressLink: null },
+        general: { title: "Take a photo of your home", desc: "We'll identify the project and estimate cost", addressLink: null }
+      };
+      var labels = photoLabels[state.service] || photoLabels.general;
 
       app.innerHTML =
-        '<div class="pe-hero">' +
-          '<div class="pe-camera-icon">&#128247;</div>' +
-          '<h1>Point. Shoot. Price.</h1>' +
-          '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="120" style="margin:12px 0;" />' +
+        '<div style="text-align:center; margin-bottom:24px;">' +
+          '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="100" style="margin-bottom:8px;" />' +
+          '<h1 style="font-size:24px; margin:0 0 6px; color:#0f172a;">' + labels.title + '</h1>' +
+          '<p style="font-size:15px; color:#64748b; margin:0;">' + labels.desc + '</p>' +
         '</div>' +
 
-        '<div class="pe-service-select">' +
-          '<button class="pe-service-option' + (state.service === "roofing" ? " selected" : "") + '" data-svc="roofing">Roofing</button>' +
-          '<button class="pe-service-option' + (state.service === "hvac" ? " selected" : "") + '" data-svc="hvac">HVAC</button>' +
-          '<button class="pe-service-option' + (state.service === "general" ? " selected" : "") + '" data-svc="general">Other</button>' +
-        '</div>' +
-
-        '<div class="pe-capture-zone" id="captureZone">' +
-          '<div class="pe-camera-icon">&#128247;</div>' +
-          '<p style="font-size:16px; font-weight:600; color:#1e293b; margin:0 0 4px;">' + (isMobile ? "Tap to take a photo" : "Click to upload a photo") + '</p>' +
-          '<p style="font-size:14px; color:#94a3b8; margin:0;">Photo of your house, roof, HVAC unit, or project area</p>' +
+        '<div class="pe-capture-zone" id="captureZone" style="padding:3rem 1.5rem;">' +
+          '<img src="/images/roof-scan.png" alt="" width="120" style="margin-bottom:12px; opacity:0.8;" />' +
+          '<p style="font-size:17px; font-weight:600; color:#1e293b; margin:0 0 4px;">' + (isMobile ? "Tap to take a photo" : "Click to upload a photo") + '</p>' +
+          '<p style="font-size:14px; color:#94a3b8; margin:0;">' + (isMobile ? "Camera or photo library" : "JPG or PNG from your phone or computer") + '</p>' +
         '</div>' +
         '<input type="file" id="photoInput" accept="image/*" style="display:none;" />' +
 
-        '<div class="pe-privacy">Your photo is analyzed by AI and never stored. <a href="/privacy.html" style="color:inherit;">Privacy policy</a></div>' +
-        '<div style="text-align:center; margin-top:8px;"><a href="/analyze-quote.html" style="font-size:13px; color:#64748b;">Already have a contractor quote? Upload it here</a></div>';
+        '<div style="text-align:center; margin-top:16px; font-size:12px; color:#94a3b8;">Your photo is analyzed by AI and never stored.</div>' +
+
+        (labels.addressLink
+          ? '<div style="text-align:center; margin-top:10px;"><a href="' + labels.addressLink + '" style="font-size:13px; color:#64748b; text-decoration:none;">or enter your address manually &rarr;</a></div>'
+          : '') +
+
+        '<div style="text-align:center; margin-top:10px;"><a href="/analyze-quote.html" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>';
 
       // Bind events
       var zone = document.getElementById("captureZone");
@@ -272,14 +277,6 @@
           img.src = dataUrl;
         };
         reader.readAsDataURL(file);
-      });
-
-      // Service select
-      document.querySelectorAll(".pe-service-option").forEach(function(btn) {
-        btn.addEventListener("click", function() {
-          state.service = btn.dataset.svc;
-          render();
-        });
       });
     }
 
