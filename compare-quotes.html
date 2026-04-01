@@ -311,19 +311,37 @@
         console.log("[compare] Parse result:", JSON.stringify(bundle ? Object.keys(bundle) : "null"));
         var localParsed = (bundle && bundle.parsed) ? bundle.parsed : (bundle || {});
 
+        // Map alternate key names to the canonical camelCase keys
+        var keyMap = {
+          tear_off: "tearOff", ice_barrier: "iceShield", drip_edge: "dripEdge",
+          ridge_vent: "ridgeVent", starter: "starterStrip", ridge_cap: "ridgeCap",
+          deck_repair: "decking", valley_metal: "valleyMetal"
+        };
+        function normalizeKey(k) { return keyMap[k] || k; }
+
         // Build scope items from parsed.signals (where the parser stores them)
         var scopeItems = {};
         if (localParsed.signals) {
           Object.keys(localParsed.signals).forEach(function(key) {
             var sig = localParsed.signals[key];
-            if (sig && sig.status) scopeItems[key] = sig.status;
+            if (sig && sig.status) scopeItems[normalizeKey(key)] = sig.status;
+          });
+        }
+        // Also check detectScopeItems results if available
+        if (localParsed.scopeDetected && Array.isArray(localParsed.scopeDetected)) {
+          localParsed.scopeDetected.forEach(function(item) {
+            var nk = normalizeKey(item.key);
+            if (item.detected && (!scopeItems[nk] || scopeItems[nk] === "unclear")) {
+              scopeItems[nk] = "included";
+            }
           });
         }
         // Also merge from scopeItems if present (from AI)
         if (localParsed.scopeItems) {
           Object.keys(localParsed.scopeItems).forEach(function(key) {
-            if (!scopeItems[key] || scopeItems[key] === "unclear") {
-              scopeItems[key] = localParsed.scopeItems[key];
+            var nk = normalizeKey(key);
+            if (!scopeItems[nk] || scopeItems[nk] === "unclear") {
+              scopeItems[nk] = localParsed.scopeItems[key];
             }
           });
         }
