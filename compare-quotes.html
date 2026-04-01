@@ -285,10 +285,66 @@
 
       try {
         if (typeof loadVendorLibs === "function") await loadVendorLibs();
-        var bundle = await parseUploadedComparisonFile(file);
-        var p = (bundle && bundle.parsed) ? bundle.parsed : (bundle || {});
 
-        var price = p.finalPrice || p.price || 0;
+        // Step 1: Extract text and images from the file
+        var extractedText = "";
+        var extractedImages = [];
+
+        try {
+          var bundle = await parseUploadedComparisonFile(file);
+          var localParsed = (bundle && bundle.parsed) ? bundle.parsed : (bundle || {});
+          extractedText = localParsed._rawText || bundle?.text || "";
+          // If local parser found a price, use it as a starting point
+          if (localParsed.finalPrice || localParsed.price) {
+            extractedText = extractedText || JSON.stringify(localParsed);
+          }
+        } catch(e) {
+          // Local parsing failed, try to read file directly
+        }
+
+        // If no text extracted, read file as base64 image for Claude Vision
+        if (!extractedText || extractedText.length < 50) {
+          var dataUrl = await readFileAsDataUrl(file);
+          if (dataUrl) extractedImages.push(dataUrl);
+        }
+
+        // Step 2: Send to Claude AI for proper parsing
+        var p = {};
+        try {
+          var aiBody = {};
+          if (extractedText && extractedText.length >= 50) {
+            aiBody.text = extractedText.substring(0, 8000);
+          }
+          if (extractedImages.length > 0) {
+            aiBody.images = extractedImages;
+          }
+          if (aiBody.text || aiBody.images) {
+            var aiRes = await fetch("/api/parse-quote", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(aiBody)
+            });
+            if (aiRes.ok) {
+              var aiData = await aiRes.json();
+              if (aiData.success && aiData.data) {
+                p = aiData.data;
+              }
+            }
+          }
+        } catch(e) {
+          // AI parsing failed, fall back to local
+        }
+
+        // Fall back to local parsed data if AI didn't find anything
+        if (!p.price && !p.contractor) {
+          try {
+            var bundle2 = await parseUploadedComparisonFile(file);
+            var lp = (bundle2 && bundle2.parsed) ? bundle2.parsed : (bundle2 || {});
+            p = { price: lp.finalPrice || lp.price, contractor: lp.contractor, material: lp.materialLabel || lp.material, warrantyYears: lp.warrantyYears, roofSize: lp.roofSize, scopeItems: lp.scopeItems };
+          } catch(e) {}
+        }
+
+        var price = p.price || 0;
         var contractor = p.contractor || "Contractor " + (idx + 1);
         if (typeof price === "string") price = parseFloat(price.replace(/[^0-9.]/g, "")) || 0;
 
@@ -307,7 +363,7 @@
           '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
           '<span class="slot-check">&#10003;</span>' +
           '<span class="slot-contractor">' + escHtml(contractor) + '</span>' +
-          (price > 0 ? '<span class="slot-price">$' + price.toLocaleString() + '</span>' : '<span class="slot-hint">Price not detected</span>') +
+          (price > 0 ? '<span class="slot-price">$' + price.toLocaleString() + '</span>' : '<span class="slot-hint">Price not detected - click to edit</span>') +
           '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
         updateCompareBtn();
@@ -535,6 +591,15 @@
       var d = document.createElement("div");
       d.textContent = str || "";
       return d.innerHTML;
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise(function(resolve) {
+        var reader = new FileReader();
+        reader.onload = function(e) { resolve(e.target.result); };
+        reader.onerror = function() { resolve(null); };
+        reader.readAsDataURL(file);
+      });
     }
   })();
   </script>
