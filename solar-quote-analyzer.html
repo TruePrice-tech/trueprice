@@ -494,11 +494,19 @@
           <p>Upload your quote or get an instant estimate for your solar panel system.</p>\
         </div>\
         <div class="solar-card">\
-          <div class="solar-upload-zone" id="uploadZone">\
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>\
-            <p><strong>Upload your solar quote</strong></p>\
-            <p class="hint">PDF or photo of your quote &mdash; we\'ll analyze it instantly</p>\
-            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          <style>.tp-dual-opts{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:600px){.tp-dual-opts{grid-template-columns:1fr}}</style>\
+          <div class="tp-dual-opts">\
+            <div class="solar-upload-zone" id="uploadZone" style="margin:0;">\
+              <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
+              <p><strong>Analyze a Quote</strong></p>\
+              <p class="hint">Upload a solar quote to check the price</p>\
+              <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+            </div>\
+            <a href="/photo-estimate.html" style="border:2px solid #bbf7d0; border-radius:12px; padding:2rem 1.5rem; text-align:center; background:#f0fdf4; text-decoration:none; display:flex; flex-direction:column; align-items:center; justify-content:center;">\
+              <div style="font-size:36px; margin-bottom:8px;">&#128247;</div>\
+              <p style="margin:0.25rem 0;"><strong style="color:#0f172a;">Photo of Your Roof</strong></p>\
+              <p style="font-size:0.85rem; color:#94a3b8; margin:0.25rem 0;">Snap a photo for a quick solar estimate</p>\
+            </a>\
           </div>\
           <div class="solar-divider">or enter your address for an estimate</div>\
           <div class="solar-address-form">\
