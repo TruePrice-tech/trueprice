@@ -292,13 +292,22 @@
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
       try {
-        // parseUploadedComparisonFile handles everything:
-        // 1. Text extraction (pdfjs for PDF, tesseract for images)
-        // 2. Regex parsing for price, contractor, material, scope
-        // 3. Claude AI enhancement (automatically called, merges scope items)
-        if (typeof loadVendorLibs === "function") await loadVendorLibs();
+        // Check all required functions exist
+        if (typeof parseUploadedComparisonFile !== "function") {
+          throw new Error("parseUploadedComparisonFile not loaded. Check analyzer-ocr.js");
+        }
+        if (typeof loadVendorLibs !== "function") {
+          throw new Error("loadVendorLibs not defined");
+        }
+        if (typeof parseExtractedText !== "function") {
+          throw new Error("parseExtractedText not loaded. Check analyzer-parser.min.js");
+        }
 
+        await loadVendorLibs();
+
+        console.log("[compare] Starting parse for file:", file.name, file.type, file.size);
         var bundle = await parseUploadedComparisonFile(file);
+        console.log("[compare] Parse result:", JSON.stringify(bundle ? Object.keys(bundle) : "null"));
         var localParsed = (bundle && bundle.parsed) ? bundle.parsed : (bundle || {});
 
         // Build scope items from parsed.signals (where the parser stores them)
@@ -371,6 +380,8 @@
 
         updateCompareBtn();
       } catch (err) {
+        console.error("[compare-quotes] Parse error:", err, err.stack);
+        alert("Parse error: " + (err.message || err) + "\n\nStack: " + (err.stack || "none"));
         slot.classList.remove("uploading");
         slot.innerHTML =
           '<span class="slot-icon">&#128196;</span>' +
