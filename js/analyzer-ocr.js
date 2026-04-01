@@ -1,3 +1,28 @@
+async function detectDarkBackground(imageDataUrl) {
+  return new Promise(function(resolve) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement("canvas");
+      var size = 100; // Sample at small size for speed
+      canvas.width = size;
+      canvas.height = size;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, size, size);
+      var data = ctx.getImageData(0, 0, size, size).data;
+      var darkPixels = 0;
+      var totalPixels = size * size;
+      for (var i = 0; i < data.length; i += 4) {
+        var brightness = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+        if (brightness < 80) darkPixels++;
+      }
+      // If more than 40% of pixels are dark, it's a dark background
+      resolve(darkPixels / totalPixels > 0.4);
+    };
+    img.onerror = function() { resolve(false); };
+    img.src = imageDataUrl;
+  });
+}
+
 async function fileToImageDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -53,6 +78,20 @@ async function preprocessImageForOcr(imageSource, mode = "soft") {
           let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
           gray = (gray - 128) * 1.6 + 128;
           gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
+          gray = Math.max(0, Math.min(255, gray));
+          data[i] = gray; data[i + 1] = gray; data[i + 2] = gray;
+        }
+      } else if (mode === "inverted") {
+        // Invert colors then binarize — for white text on dark backgrounds
+        for (let i = 0; i < data.length; i += 4) {
+          data[i] = 255 - data[i];
+          data[i + 1] = 255 - data[i + 1];
+          data[i + 2] = 255 - data[i + 2];
+        }
+        // Then apply soft contrast
+        for (let i = 0; i < data.length; i += 4) {
+          let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+          gray = (gray - 128) * 1.3 + 128;
           gray = Math.max(0, Math.min(255, gray));
           data[i] = gray; data[i + 1] = gray; data[i + 2] = gray;
         }
@@ -580,8 +619,12 @@ async function extractTextFromUploadedFile(file) {
   }
 
     const imageDataUrl = await fileToImageDataUrl(file);
+
+    // Auto-detect dark background and add inverted variant
+    const isDarkBg = await detectDarkBackground(imageDataUrl);
     const softImageDataUrl = await preprocessImageForOcr(imageDataUrl, "soft");
     const strongImageDataUrl = await preprocessImageForOcr(imageDataUrl, "strong");
+    const invertedImageDataUrl = isDarkBg ? await preprocessImageForOcr(imageDataUrl, "inverted") : null;
     const originalRegions = await createImageRegionsForOcr(imageDataUrl);
 const softRegions = await createImageRegionsForOcr(softImageDataUrl);
 
@@ -597,6 +640,7 @@ const fastOcrResult = await runBestOcrFromVariants(
   [
     { label: "original image", src: imageDataUrl, psm: 6 },
     { label: "enhanced image", src: softImageDataUrl, psm: 6 },
+    ...(invertedImageDataUrl ? [{ label: "inverted image", src: invertedImageDataUrl, psm: 6 }] : []),
     ...fastOriginalRegions.map(region => ({
       label: `original ${region.label}`,
       src: region.src,
