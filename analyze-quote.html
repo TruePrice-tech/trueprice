@@ -5,19 +5,19 @@
   <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
   <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Analyze Your Quote | TruePrice</title>
-  <meta name="description" content="Upload any contractor quote and see if the price is fair in 30 seconds. Works for roofing, HVAC, plumbing, and solar." />
+  <title>Get Started | TruePrice</title>
+  <meta name="description" content="Get an instant estimate for roofing, HVAC, plumbing, solar, and 11 more home services. Snap a photo or upload a contractor quote." />
   <link rel="canonical" href="https://truepricehq.com/analyze-quote.html" />
   <meta name="robots" content="index,follow" />
-  <meta property="og:title" content="Analyze Your Quote | TruePrice" />
-  <meta property="og:description" content="Upload any contractor quote and see if the price is fair in 30 seconds." />
+  <meta property="og:title" content="Get Started | TruePrice" />
+  <meta property="og:description" content="Get an instant estimate for any home service. Snap a photo or upload a contractor quote." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/analyze-quote.html" />
   <meta property="og:site_name" content="TruePrice" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Analyze Your Quote | TruePrice" />
-  <meta name="twitter:description" content="Upload any contractor quote and see if the price is fair in 30 seconds." />
+  <meta name="twitter:title" content="Get Started | TruePrice" />
+  <meta name="twitter:description" content="Get an instant estimate for any home service." />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
@@ -28,20 +28,48 @@
     gtag("config", "G-8V134JH3TR");
   </script>
   <style>
-    .picker-wrap { max-width: 640px; margin: 60px auto; padding: 0 24px; }
-    .picker-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 36px; box-shadow: var(--shadow-lg); text-align: center; }
-    .picker-card h1 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.02em; }
-    .picker-card p { color: var(--text-secondary); margin: 0 0 28px; font-size: 16px; }
-    .picker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .picker-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 16px; background: var(--bg-subtle); border: 2px solid var(--border); border-radius: 14px; text-decoration: none; color: var(--text); transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; cursor: pointer; }
-    .picker-btn:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-2px); text-decoration: none; }
-    .picker-btn .picker-icon { font-size: 36px; }
-    .picker-btn .picker-label { font-size: 16px; font-weight: 700; }
-    .picker-btn .picker-desc { font-size: 13px; color: var(--text-muted); }
+    .funnel-wrap { max-width: 600px; margin: 48px auto; padding: 0 24px; }
+    .funnel-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 36px; box-shadow: var(--shadow-lg); }
+    .funnel-card h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.02em; text-align: center; }
+    .funnel-card .funnel-sub { color: var(--text-secondary); margin: 0 0 28px; font-size: 15px; text-align: center; }
+
+    .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .service-tile {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      padding: 18px 10px; background: var(--bg-subtle); border: 2px solid var(--border);
+      border-radius: 14px; cursor: pointer; transition: all 0.15s; text-align: center;
+    }
+    .service-tile:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-2px); }
+    .service-tile.selected { border-color: var(--brand); background: #eff6ff; box-shadow: 0 0 0 3px rgba(29,78,216,0.15); }
+    .service-tile .tile-icon { font-size: 28px; }
+    .service-tile .tile-label { font-size: 14px; font-weight: 700; color: var(--text); }
+
+    .action-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+    .action-card {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 24px 16px; border: 2px solid var(--border); border-radius: 16px;
+      text-decoration: none; color: var(--text); transition: all 0.15s; text-align: center; cursor: pointer;
+    }
+    .action-card:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-2px); text-decoration: none; }
+    .action-card-photo { background: #f0fdf4; border-color: #bbf7d0; }
+    .action-card-photo:hover { border-color: #16a34a; }
+    .action-card-quote { background: #f8fbff; border-color: #bfdbfe; }
+    .action-card-quote:hover { border-color: #1d4ed8; }
+    .action-card .card-icon { font-size: 36px; }
+    .action-card .card-title { font-size: 16px; font-weight: 700; }
+    .action-card .card-desc { font-size: 13px; color: var(--text-muted); }
+
+    .funnel-step2 { display: none; }
+    .funnel-step2.visible { display: block; }
+
+    .funnel-back { font-size: 14px; color: var(--text-muted); cursor: pointer; margin-bottom: 16px; display: inline-block; }
+    .funnel-back:hover { color: var(--text); }
+
     @media (max-width: 500px) {
-      .picker-grid { grid-template-columns: 1fr; }
-      .picker-card { padding: 24px; }
-      .picker-card h1 { font-size: 24px; }
+      .service-grid { grid-template-columns: repeat(2, 1fr); }
+      .action-cards { grid-template-columns: 1fr; }
+      .funnel-card { padding: 24px; }
+      .funnel-card h1 { font-size: 24px; }
     }
   </style>
 </head>
@@ -53,53 +81,70 @@
         <a href="/all-cities.html">Cities</a>
         <a href="/find-contractors.html">Contractors</a>
         <a href="/photo-estimate.html">Photo Estimate</a>
-        <a class="nav-cta" href="/analyze-quote.html">Analyze Quote</a>
+        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <div class="picker-wrap">
-      <div class="picker-card">
-        <!-- Hero: Photo estimate -->
-        <div style="margin-bottom:28px;">
-          <h1>Get an Instant Estimate</h1>
-          <p style="margin-bottom:20px;">Snap a photo of your house and get a price in seconds. No forms, no signup.</p>
-          <a href="/photo-estimate.html" style="display:flex; align-items:center; gap:16px; padding:24px; background:#f0fdf4; border:2px solid #bbf7d0; border-radius:18px; text-decoration:none; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;">
-            <span style="font-size:48px; flex-shrink:0;">&#128247;</span>
-            <span style="text-align:left;">
-              <span style="display:block; font-size:18px; font-weight:700; color:#0f172a; margin-bottom:4px;">Photo Estimate</span>
-              <span style="display:block; font-size:14px; color:#475569;">Point, shoot, and Trudy gives you a price</span>
-            </span>
-          </a>
-        </div>
+    <div class="funnel-wrap">
+      <div class="funnel-card">
 
-        <!-- Secondary: Quote analyzers -->
-        <div style="border-top:1px solid #e2e8f0; padding-top:24px;">
-          <p style="font-size:15px; color:#64748b; margin:0 0 14px;">Already have a contractor quote? Pick your service:</p>
-          <div class="picker-grid">
-            <a class="picker-btn" href="/roofing-quote-analyzer.html">
-              <span class="picker-icon">&#127968;</span>
-              <span class="picker-label">Roofing</span>
-              <span class="picker-desc">Shingles, metal, tile, flat</span>
-            </a>
-            <a class="picker-btn" href="/hvac-quote-analyzer.html">
-              <span class="picker-icon">&#10052;&#65039;</span>
-              <span class="picker-label">HVAC</span>
-              <span class="picker-desc">AC, heat pump, furnace</span>
-            </a>
-            <a class="picker-btn" href="/plumbing-quote-analyzer.html">
-              <span class="picker-icon">&#128688;</span>
-              <span class="picker-label">Plumbing</span>
-              <span class="picker-desc">Water heater, repipe, sewer</span>
-            </a>
-            <a class="picker-btn" href="/solar-quote-analyzer.html">
-              <span class="picker-icon">&#9728;&#65039;</span>
-              <span class="picker-label">Solar</span>
-              <span class="picker-desc">Panels, inverters, battery</span>
-            </a>
+        <!-- STEP 1: Pick service -->
+        <div id="step1">
+          <div style="text-align:center; margin-bottom:16px;">
+            <img src="/images/trudy-thinking.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
+          </div>
+          <h1>What are you working on?</h1>
+          <p class="funnel-sub">Pick your home project and we'll help you figure out the cost.</p>
+          <div class="service-grid">
+            <div class="service-tile" data-svc="roofing" data-photo="1" data-analyzer="/roofing-quote-analyzer.html">
+              <span class="tile-icon">&#127968;</span>
+              <span class="tile-label">Roofing</span>
+            </div>
+            <div class="service-tile" data-svc="hvac" data-photo="1" data-analyzer="/hvac-quote-analyzer.html">
+              <span class="tile-icon">&#10052;&#65039;</span>
+              <span class="tile-label">HVAC</span>
+            </div>
+            <div class="service-tile" data-svc="plumbing" data-photo="0" data-analyzer="/plumbing-quote-analyzer.html">
+              <span class="tile-icon">&#128688;</span>
+              <span class="tile-label">Plumbing</span>
+            </div>
+            <div class="service-tile" data-svc="electrical" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#9889;</span>
+              <span class="tile-label">Electrical</span>
+            </div>
+            <div class="service-tile" data-svc="solar" data-photo="1" data-analyzer="/solar-quote-analyzer.html">
+              <span class="tile-icon">&#9728;&#65039;</span>
+              <span class="tile-label">Solar</span>
+            </div>
+            <div class="service-tile" data-svc="windows" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#129704;</span>
+              <span class="tile-label">Windows</span>
+            </div>
+            <div class="service-tile" data-svc="siding" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#127960;</span>
+              <span class="tile-label">Siding</span>
+            </div>
+            <div class="service-tile" data-svc="painting" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#127912;</span>
+              <span class="tile-label">Painting</span>
+            </div>
+            <div class="service-tile" data-svc="other" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#128736;</span>
+              <span class="tile-label">Other</span>
+            </div>
           </div>
         </div>
+
+        <!-- STEP 2: Photo or Quote -->
+        <div id="step2" class="funnel-step2">
+          <span class="funnel-back" id="backBtn">&larr; Change service</span>
+          <h1 id="step2Title">How would you like to get started?</h1>
+          <p class="funnel-sub" id="step2Sub"></p>
+          <div class="action-cards" id="actionCards"></div>
+        </div>
+
       </div>
     </div>
   </main>
@@ -108,11 +153,91 @@
     <div class="container">
       <p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs.
         <a href="/privacy.html" style="color:inherit;">Privacy</a> |
-        <a href="/find-contractors.html" style="color:inherit;">Find Contractors</a> |
-        <a href="/contractor-signup.html" style="color:inherit;">List Your Business</a>
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="/methodology.html" style="color:inherit;">Methodology</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a> |
+        <a href="/widget.html" style="color:inherit;">Free Widget</a>
       </p>
     </div>
   </footer>
   <script src="/js/tp-analytics.min.js" async></script>
+  <script>
+  (function() {
+    var step1 = document.getElementById("step1");
+    var step2 = document.getElementById("step2");
+    var step2Title = document.getElementById("step2Title");
+    var step2Sub = document.getElementById("step2Sub");
+    var actionCards = document.getElementById("actionCards");
+    var backBtn = document.getElementById("backBtn");
+
+    var serviceLabels = {
+      roofing: "Roofing", hvac: "HVAC", plumbing: "Plumbing", electrical: "Electrical",
+      solar: "Solar", windows: "Windows", siding: "Siding", painting: "Painting", other: "Home Project"
+    };
+
+    var photoDescs = {
+      roofing: "Snap a photo of your house and our AI estimates your roof replacement cost",
+      hvac: "Snap a photo of your AC unit and our AI estimates replacement cost",
+      solar: "Snap a photo of your roof and our AI estimates solar installation cost"
+    };
+
+    document.querySelectorAll(".service-tile").forEach(function(tile) {
+      tile.addEventListener("click", function() {
+        var svc = tile.dataset.svc;
+        var hasPhoto = tile.dataset.photo === "1";
+        var analyzer = tile.dataset.analyzer;
+        var label = serviceLabels[svc] || svc;
+
+        // If no photo and no dedicated analyzer, go to pricing guide
+        if (!hasPhoto && !analyzer) {
+          window.location.href = "/" + svc + "-cost.html";
+          return;
+        }
+
+        // If no photo but has analyzer, go directly to analyzer
+        if (!hasPhoto && analyzer) {
+          window.location.href = analyzer;
+          return;
+        }
+
+        // Show step 2 with photo + quote options
+        step1.style.display = "none";
+        step2.classList.add("visible");
+        step2Sub.textContent = "Choose how you'd like to estimate your " + label.toLowerCase() + " project.";
+
+        var cards = "";
+
+        // Photo card (always shown if hasPhoto)
+        cards += '<a class="action-card action-card-photo" href="/photo-estimate.html?service=' + svc + '">' +
+          '<span class="card-icon">&#128247;</span>' +
+          '<span class="card-title">Take a Photo</span>' +
+          '<span class="card-desc">' + (photoDescs[svc] || "Snap a photo for an instant AI estimate") + '</span>' +
+        '</a>';
+
+        // Quote card
+        if (analyzer) {
+          cards += '<a class="action-card action-card-quote" href="' + analyzer + '">' +
+            '<span class="card-icon">&#128196;</span>' +
+            '<span class="card-title">Upload a Quote</span>' +
+            '<span class="card-desc">Have a contractor quote? Upload it to check the price</span>' +
+          '</a>';
+        } else {
+          cards += '<a class="action-card action-card-quote" href="/' + svc + '-cost.html">' +
+            '<span class="card-icon">&#128200;</span>' +
+            '<span class="card-title">Browse Pricing</span>' +
+            '<span class="card-desc">See average ' + label.toLowerCase() + ' costs in your area</span>' +
+          '</a>';
+        }
+
+        actionCards.innerHTML = cards;
+      });
+    });
+
+    backBtn.addEventListener("click", function() {
+      step2.classList.remove("visible");
+      step1.style.display = "block";
+    });
+  })();
+  </script>
 </body>
 </html>
