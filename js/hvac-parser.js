@@ -197,4 +197,3 @@ if (typeof window !== "undefined") {
   window.HVAC_BRAND_PATTERNS = HVAC_BRAND_PATTERNS;
 }
 
-console.log("HVAC PARSER LOADED");

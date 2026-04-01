@@ -173,4 +173,3 @@ if (typeof window !== "undefined") {
   window.detectPlumbingScopeSignals = detectPlumbingScopeSignals;
 }
 
-console.log("PLUMBING PARSER LOADED");
