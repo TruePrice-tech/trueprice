@@ -61,33 +61,44 @@
   <main>
     <div class="picker-wrap">
       <div class="picker-card">
-        <h1>What type of quote do you have?</h1>
-        <p>Pick your service and we'll analyze your quote against local benchmarks.</p>
-        <div class="picker-grid">
-          <a class="picker-btn" href="/roofing-quote-analyzer.html">
-            <span class="picker-icon">&#127968;</span>
-            <span class="picker-label">Roofing</span>
-            <span class="picker-desc">Shingles, metal, tile, flat</span>
-          </a>
-          <a class="picker-btn" href="/hvac-quote-analyzer.html">
-            <span class="picker-icon">&#10052;&#65039;</span>
-            <span class="picker-label">HVAC</span>
-            <span class="picker-desc">AC, heat pump, furnace</span>
-          </a>
-          <a class="picker-btn" href="/plumbing-quote-analyzer.html">
-            <span class="picker-icon">&#128688;</span>
-            <span class="picker-label">Plumbing</span>
-            <span class="picker-desc">Water heater, repipe, sewer</span>
-          </a>
-          <a class="picker-btn" href="/solar-quote-analyzer.html">
-            <span class="picker-icon">&#9728;&#65039;</span>
-            <span class="picker-label">Solar</span>
-            <span class="picker-desc">Panels, inverters, battery</span>
+        <!-- Hero: Photo estimate -->
+        <div style="margin-bottom:28px;">
+          <h1>Get an Instant Estimate</h1>
+          <p style="margin-bottom:20px;">Snap a photo of your house and get a price in seconds. No forms, no signup.</p>
+          <a href="/photo-estimate.html" style="display:flex; align-items:center; gap:16px; padding:24px; background:#f0fdf4; border:2px solid #bbf7d0; border-radius:18px; text-decoration:none; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;">
+            <span style="font-size:48px; flex-shrink:0;">&#128247;</span>
+            <span style="text-align:left;">
+              <span style="display:block; font-size:18px; font-weight:700; color:#0f172a; margin-bottom:4px;">Photo Estimate</span>
+              <span style="display:block; font-size:14px; color:#475569;">Point, shoot, and Trudy gives you a price</span>
+            </span>
           </a>
         </div>
-        <div style="text-align:center; margin-top:20px; padding-top:20px; border-top:1px solid #e2e8f0;">
-          <p style="font-size:15px; color:#64748b; margin:0 0 8px;">No quote yet?</p>
-          <a href="/photo-estimate.html" style="font-size:15px; font-weight:600; color:#1d4ed8; text-decoration:none;">Snap a photo of your house for an instant estimate &#8594;</a>
+
+        <!-- Secondary: Quote analyzers -->
+        <div style="border-top:1px solid #e2e8f0; padding-top:24px;">
+          <p style="font-size:15px; color:#64748b; margin:0 0 14px;">Already have a contractor quote? Pick your service:</p>
+          <div class="picker-grid">
+            <a class="picker-btn" href="/roofing-quote-analyzer.html">
+              <span class="picker-icon">&#127968;</span>
+              <span class="picker-label">Roofing</span>
+              <span class="picker-desc">Shingles, metal, tile, flat</span>
+            </a>
+            <a class="picker-btn" href="/hvac-quote-analyzer.html">
+              <span class="picker-icon">&#10052;&#65039;</span>
+              <span class="picker-label">HVAC</span>
+              <span class="picker-desc">AC, heat pump, furnace</span>
+            </a>
+            <a class="picker-btn" href="/plumbing-quote-analyzer.html">
+              <span class="picker-icon">&#128688;</span>
+              <span class="picker-label">Plumbing</span>
+              <span class="picker-desc">Water heater, repipe, sewer</span>
+            </a>
+            <a class="picker-btn" href="/solar-quote-analyzer.html">
+              <span class="picker-icon">&#9728;&#65039;</span>
+              <span class="picker-label">Solar</span>
+              <span class="picker-desc">Panels, inverters, battery</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

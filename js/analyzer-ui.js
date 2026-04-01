@@ -8294,7 +8294,7 @@ function buildComparisonWinnerHtml(summary) {
       } catch(e) {}
 
       return `
-        <style>.tp-dual-options{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:600px){.tp-dual-options{grid-template-columns:1fr}}</style>
+        <style></style>
         <div class="journey-start">
           <div class="journey-start-card" style="max-width:720px; margin:48px auto; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
 
@@ -8311,27 +8311,28 @@ function buildComparisonWinnerHtml(summary) {
               Upload your quote. Get your answer in 30 seconds. Free, private, no signup.
             </p>
 
-            <!-- TWO OPTIONS: Upload quote OR Photo of house -->
-            <div class="tp-dual-options" style="margin:0 0 24px;">
+            <!-- TWO OPTIONS: Photo of house (primary) OR Upload quote (secondary) -->
+            <div style="margin:0 0 24px;">
 
-              <div style="border:2px solid #bfdbfe; border-radius:18px; padding:24px; text-align:center; background:#f8fbff;">
-                <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>
-                <div style="font-size:17px; font-weight:700; margin-bottom:6px; color:#0f172a;">Analyze a Quote</div>
-                <div class="small muted" style="margin-bottom:14px; font-size:13px;">Upload a contractor quote to check the price</div>
-                <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
-                <button type="button" class="btn" id="uploadQuoteBtn" style="font-size:15px; padding:12px 24px; width:100%;">
-                  Upload quote
-                </button>
-              </div>
-
-              <a href="/photo-estimate.html" style="border:2px solid #bbf7d0; border-radius:18px; padding:24px; text-align:center; background:#f0fdf4; text-decoration:none; display:block;">
-                <div style="font-size:36px; margin-bottom:8px;">&#128247;</div>
-                <div style="font-size:17px; font-weight:700; margin-bottom:6px; color:#0f172a;">Photo of Your House</div>
-                <div class="small muted" style="margin-bottom:14px; font-size:13px;">Snap a photo for an instant roof estimate</div>
-                <div class="btn" style="font-size:15px; padding:12px 24px; width:100%; box-sizing:border-box; background:#16a34a;">
+              <a href="/photo-estimate.html" style="border:2px solid #bbf7d0; border-radius:18px; padding:28px; text-align:center; background:#f0fdf4; text-decoration:none; display:block; margin-bottom:12px;">
+                <div style="font-size:42px; margin-bottom:8px;">&#128247;</div>
+                <div style="font-size:19px; font-weight:700; margin-bottom:6px; color:#0f172a;">Snap a Photo of Your House</div>
+                <div class="small muted" style="margin-bottom:14px; font-size:14px;">Point, shoot, and get an instant roof estimate</div>
+                <div class="btn" style="font-size:16px; padding:14px 28px; width:100%; box-sizing:border-box; background:#16a34a;">
                   Take photo
                 </div>
               </a>
+
+              <div style="border:1px solid #e2e8f0; border-radius:14px; padding:16px 20px; text-align:center; background:#f8fafc; display:flex; align-items:center; gap:14px;">
+                <div style="font-size:28px; flex-shrink:0;">&#128196;</div>
+                <div style="flex:1; text-align:left;">
+                  <div style="font-size:14px; color:#475569;">Already have a quote?</div>
+                  <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
+                  <button type="button" class="btn" id="uploadQuoteBtn" style="font-size:14px; padding:8px 18px; margin-top:6px;">
+                    Upload it here
+                  </button>
+                </div>
+              </div>
 
             </div>
 
