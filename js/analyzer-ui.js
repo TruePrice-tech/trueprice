@@ -8373,33 +8373,39 @@ function buildComparisonWinnerHtml(summary) {
 
               <div class="journey-address-grid">
                 <div class="journey-address-full" style="position:relative;">
-                  <input id="journeyStreetAddress" type="text" placeholder="Start typing your address..." autocomplete="off" />
+                  <input id="journeyStreetAddress" type="text" placeholder="Street address" autocomplete="off" style="font-size:15px; padding:12px 14px;" />
                   <div id="addressSuggestions" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:50; background:#fff; border:1px solid #e2e8f0; border-top:none; border-radius:0 0 10px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;"></div>
                 </div>
 
                 <div>
-                  <input id="journeyCity" type="text" placeholder="City" value="${escapeHtml(prefillCity)}" />
+                  <input id="journeyCity" type="text" placeholder="City" value="${escapeHtml(prefillCity)}" style="font-size:15px; padding:12px 14px;" />
                 </div>
 
                 <div>
-                  <input id="journeyState" type="text" maxlength="2" placeholder="State" value="${escapeHtml(prefillState)}" />
+                  <input id="journeyState" type="text" maxlength="2" placeholder="State" value="${escapeHtml(prefillState)}" style="font-size:15px; padding:12px 14px;" />
                 </div>
 
                 <div>
-                  <input id="journeyZipCode" type="text" placeholder="ZIP code" />
+                  <input id="journeyZipCode" type="text" placeholder="ZIP" style="font-size:15px; padding:12px 14px;" />
                 </div>
 
-                <div class="journey-address-full">
-                  <input id="journeyHomeSize" type="number" placeholder="Home size (sq ft) — helps estimate roof size" style="font-size:13px;" />
-                  <div style="font-size:11px; color:var(--muted, #6b7280); margin-top:4px;">Optional. We'll estimate roof size as home size + 30%.</div>
-                </div>
+                <input id="journeyHomeSize" type="hidden" value="" />
               </div>
 
-              <button class="btn secondary" style="margin-top:12px;" onclick="handleAddressSubmit()">
-                Check my property &rarr;
+              <button class="btn" style="margin-top:16px; width:100%; padding:14px; font-size:16px;" onclick="handleAddressSubmit()">
+                Get my estimate &rarr;
               </button>
 
               <div id="journeyAddressError" class="small" style="margin-top:10px; color:#b91c1c;"></div>
+
+              ${isEstimatorMode ? `
+              <div style="text-align:center; margin-top:16px;">
+                <a href="/photo-estimate.html?service=roofing" style="font-size:13px; color:#64748b; text-decoration:none;">Prefer to take a photo instead? &rarr;</a>
+              </div>
+              <div style="text-align:center; margin-top:8px;">
+                <a href="/analyze-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a>
+              </div>
+              ` : ''}
             </div>
 
           </div>
