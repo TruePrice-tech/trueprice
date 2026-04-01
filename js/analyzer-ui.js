@@ -8237,6 +8237,7 @@ function buildComparisonWinnerHtml(summary) {
       const urlParams = new URLSearchParams(window.location.search);
       const prefillCity = urlParams.get("city") || "";
       const prefillState = urlParams.get("state") || "";
+      const isEstimatorMode = urlParams.get("mode") === "estimator";
       const localContext = prefillCity && prefillState
         ? `<div style="margin:0 0 18px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; font-size:14px; color:#166534; font-weight:500;">Showing local pricing for ${escapeHtml(prefillCity)}, ${escapeHtml(prefillState)}</div>`
         : "";
@@ -8303,10 +8304,13 @@ function buildComparisonWinnerHtml(summary) {
             ${resumeHtml}
             ${returningUserHtml}
 
+            ${isEstimatorMode ? '' : `
             <h1 style="margin:0 0 10px; font-size:38px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">
               Is your roofing quote fair?
             </h1>
+            `}
 
+            ${isEstimatorMode ? '' : `
             <p class="muted" style="margin:0 0 24px; font-size:16px;">
               Upload your quote. Get your answer in 30 seconds. Free, private, no signup.
             </p>
@@ -8356,6 +8360,16 @@ function buildComparisonWinnerHtml(summary) {
               <p class="small muted" style="margin:0 0 12px;">
                 No quote handy? Enter your address instead:
               </p>
+            `}
+
+            ${isEstimatorMode ? `
+            <div style="text-align:center; margin-bottom:20px;">
+              <img src="/images/trudy-working.png" alt="Trudy" width="100" style="margin-bottom:8px;" />
+              <h2 style="margin:0 0 6px; font-size:22px;">Enter your address</h2>
+              <p style="margin:0; font-size:14px; color:#64748b;">We'll look up your property and estimate your roof size from satellite data.</p>
+            </div>
+            <div>
+            ` : ''}
 
               <div class="journey-address-grid">
                 <div class="journey-address-full" style="position:relative;">
