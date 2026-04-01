@@ -8277,12 +8277,12 @@ function buildComparisonWinnerHtml(summary) {
               const verdictColor = h.verdict === "fair" ? "#166534" : h.verdict === "high" ? "#b91c1c" : h.verdict === "low" ? "#1d4ed8" : "#475569";
               const verdictLabel = h.verdict ? h.verdict.charAt(0).toUpperCase() + h.verdict.slice(1) : "\u2014";
               const loc = [h.city, h.state].filter(Boolean).join(", ");
-              rows += '<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0;' + (qi < items.length - 1 ? ' border-bottom:1px solid #e5e7eb;' : '') + '">'
+              rows += '<div style="display:grid; grid-template-columns:70px 80px 100px 1fr auto; gap:8px; align-items:center; padding:6px 0;' + (qi < items.length - 1 ? ' border-bottom:1px solid #e5e7eb;' : '') + '">'
                 + '<span style="font-size:13px; color:#475569;">' + fmtDate(h.timestamp) + '</span>'
-                + '<span style="font-size:13px; font-weight:600; color:#0f172a;">' + fmtPrice(h.price) + '</span>'
-                + '<span style="font-size:13px; color:#475569;">' + escapeHtml(h.material || "\u2014") + '</span>'
+                + '<span style="font-size:13px; font-weight:600; color:#0f172a; text-align:right;">' + fmtPrice(h.price) + '</span>'
+                + '<span style="font-size:13px; color:#475569; text-align:center;">' + escapeHtml(h.material || "\u2014") + '</span>'
                 + '<span style="font-size:12px; font-weight:600; color:' + verdictColor + ';">' + escapeHtml(verdictLabel) + '</span>'
-                + (loc ? '<span style="font-size:12px; color:#94a3b8;">' + escapeHtml(loc) + '</span>' : '')
+                + '<span style="font-size:12px; color:#94a3b8; text-align:right;">' + escapeHtml(loc || "") + '</span>'
                 + '</div>';
             }
             returningUserHtml += '<details style="margin-bottom:20px;">'
