@@ -344,6 +344,14 @@
         if (d.cityMultiplier) {
           state.cityMult = d.cityMultiplier;
         }
+        // Use OSM satellite footprint for roof size if available (same source as guided estimator)
+        if (d.buildingFootprint && d.buildingFootprint.footprintSqFt) {
+          var stories = state.result.stories || 1;
+          var pitchFactor = state.result.pitch === "steep" ? 1.25 : state.result.pitch === "low" ? 1.05 : state.result.pitch === "flat" ? 1.0 : 1.12;
+          state.result.estimatedFootprintSqFt = d.buildingFootprint.footprintSqFt;
+          state.result.estimatedRoofSqFt = Math.round(d.buildingFootprint.footprintSqFt * pitchFactor);
+          state.result.roofSizeSource = "satellite";
+        }
         state.step = "confirm";
         render();
       })
@@ -420,7 +428,9 @@
           '</div>' +
 
           '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Roof Size</div>' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Roof Size' +
+              (r.roofSizeSource === "satellite" ? ' <span style="font-size:11px; color:#16a34a; font-weight:400;">(measured from satellite)</span>' : ' <span style="font-size:11px; color:#94a3b8; font-weight:400;">(AI estimate)</span>') +
+            '</div>' +
             '<div style="display:flex; align-items:center; gap:8px;">' +
               '<input type="number" id="confirmRoofSqFt" value="' + (r.estimatedRoofSqFt || 2000) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
               '<span style="font-size:14px; color:#64748b;">sq ft</span>' +

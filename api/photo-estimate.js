@@ -54,15 +54,19 @@ export default async function handler(req, res) {
     // Extract GPS from EXIF data if present (JPEG only)
     let detectedCity = body.city || null;
     let detectedState = body.state || null;
+    let detectedLat = null;
+    let detectedLng = null;
+    let buildingFootprint = null;
 
     if (!detectedCity) {
       try {
-        // Use exifData (original image headers) if available, otherwise try the resized image
         const exifSource = body.exifData || (mediaType === "image/jpeg" ? base64Data : null);
         if (!exifSource) console.log("[photo-estimate] No JPEG data for EXIF extraction");
         const imgBuffer = exifSource ? Buffer.from(exifSource, "base64") : null;
         const gps = imgBuffer ? extractExifGps(imgBuffer) : null;
         if (gps) {
+          detectedLat = gps.lat;
+          detectedLng = gps.lng;
           console.log("[photo-estimate] EXIF GPS found:", gps.lat, gps.lng);
           const location = await reverseGeocode(gps.lat, gps.lng);
           if (location) {
@@ -75,6 +79,20 @@ export default async function handler(req, res) {
         }
       } catch (e) {
         console.log("[photo-estimate] EXIF extraction failed:", e.message);
+      }
+    }
+
+    // Query OSM for building footprint if we have GPS coordinates
+    if (detectedLat && detectedLng) {
+      try {
+        buildingFootprint = await getOsmFootprint(detectedLat, detectedLng);
+        if (buildingFootprint) {
+          console.log("[photo-estimate] OSM footprint found:", buildingFootprint.footprintSqFt, "sq ft");
+        } else {
+          console.log("[photo-estimate] No OSM footprint found at GPS location");
+        }
+      } catch (e) {
+        console.log("[photo-estimate] OSM lookup failed:", e.message);
       }
     }
 
@@ -200,7 +218,8 @@ Return ONLY the JSON object`
       service: serviceType,
       data: parsed,
       location: detectedCity ? { city: detectedCity, state: detectedState } : null,
-      cityMultiplier: cityMultiplier
+      cityMultiplier: cityMultiplier,
+      buildingFootprint: buildingFootprint
     });
 
   } catch (error) {
@@ -295,6 +314,67 @@ function parseExifGps(data) {
     }
   } catch (e) {}
   return null;
+}
+
+async function getOsmFootprint(lat, lng) {
+  try {
+    const radius = 60;
+    const overpassQuery = `[out:json][timeout:10];way["building"](around:${radius},${lat},${lng});out body;>;out skel qt;`;
+    const overpassRes = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "data=" + encodeURIComponent(overpassQuery)
+    });
+    if (!overpassRes.ok) return null;
+    const overpassData = await overpassRes.json();
+    const elements = overpassData.elements || [];
+
+    const nodes = {};
+    elements.forEach(el => { if (el.type === "node") nodes[el.id] = { lat: el.lat, lon: el.lon }; });
+
+    const buildings = [];
+    elements.forEach(el => {
+      if (el.type === "way" && el.nodes) {
+        const coords = el.nodes.map(nid => nodes[nid]).filter(Boolean);
+        if (coords.length >= 3) {
+          const area = polygonAreaSqFt(coords);
+          if (area >= 400 && area <= 20000) {
+            const centroid = { lat: coords.reduce((s,c) => s + c.lat, 0) / coords.length, lon: coords.reduce((s,c) => s + c.lon, 0) / coords.length };
+            const dist = haversineMeters(lat, lng, centroid.lat, centroid.lon);
+            buildings.push({ area, distance: dist });
+          }
+        }
+      }
+    });
+
+    if (buildings.length === 0) return null;
+
+    const best = buildings.sort((a, b) => a.distance - b.distance)[0];
+    return { footprintSqFt: Math.round(best.area), distanceMeters: Math.round(best.distance), source: "osm_footprint" };
+  } catch (e) {
+    return null;
+  }
+}
+
+function haversineMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+function polygonAreaSqFt(coords) {
+  if (coords.length < 3) return 0;
+  const avgLat = coords.reduce((s, c) => s + c.lat, 0) / coords.length;
+  const latM = 111320;
+  const lonM = 111320 * Math.cos(avgLat * Math.PI / 180);
+  let area = 0;
+  for (let i = 0; i < coords.length; i++) {
+    const j = (i + 1) % coords.length;
+    area += coords[i].lon * lonM * coords[j].lat * latM - coords[j].lon * lonM * coords[i].lat * latM;
+  }
+  return Math.round(Math.abs(area) / 2 * 10.764);
 }
 
 async function reverseGeocode(lat, lng) {
