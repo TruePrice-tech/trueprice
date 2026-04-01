@@ -249,6 +249,12 @@
     if (typeof window.setSmartUploadStatus === "undefined") window.setSmartUploadStatus = function() {};
     if (typeof window.renderAnalyzingState === "undefined") window.renderAnalyzingState = function() {};
     if (typeof window.renderInlineAnalyzingState === "undefined") window.renderInlineAnalyzingState = function() {};
+    // Functions defined in analyzer-bundle.js that analyzer-ocr.js depends on
+    // Must be on window/global scope since analyzer-ocr.js calls them directly
+    function normalizeWhitespace(text) {
+      return String(text || "").replace(/\s+/g, " ").replace(/[|]+/g, " ").trim();
+    }
+    function analyzeParsedText(text) { return text; }
   </script>
   <script src="/js/analyzer-ocr.js"></script>
 
