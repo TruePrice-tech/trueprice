@@ -223,24 +223,24 @@
         var cards = "";
 
         if (svc === "roofing") {
-          // Roofing gets 3 options, with Enter Address as a link on photo card
+          // Roofing: 3 equal cards in a row
           cards += '<a class="action-card action-card-green" href="/photo-estimate.html?service=roofing">' +
-            '<img src="/images/roof-scan.png" alt="AI scanning a house roof" width="80" />' +
+            '<span class="card-icon" style="font-size:44px;">&#128247;</span>' +
             '<span class="card-title">Photo of Your House</span>' +
-            '<span class="card-desc">Snap a photo and AI estimates your roof size, material, and cost</span>' +
-            '<span style="font-size:12px; color:#1d4ed8; margin-top:4px;">or <a href="/roofing-quote-analyzer.html?mode=estimator" style="color:#1d4ed8; text-decoration:underline;" onclick="event.stopPropagation();">enter address manually</a></span>' +
+            '<span class="card-desc">AI scans your roof to estimate size, material, and cost</span>' +
+            '<span style="font-size:12px; color:#16a34a; margin-top:6px;">or <a href="/roofing-quote-analyzer.html?mode=estimator" style="color:#1d4ed8; text-decoration:underline;" onclick="event.stopPropagation();">enter address manually</a></span>' +
           '</a>';
 
           cards += '<a class="action-card action-card-blue" href="' + analyzer + '">' +
             '<span class="card-icon" style="font-size:44px;">&#128196;</span>' +
             '<span class="card-title">Upload a Quote</span>' +
-            '<span class="card-desc">Photo a contractor quote to check the price</span>' +
+            '<span class="card-desc">Take a photo of a contractor quote to check the price</span>' +
           '</a>';
 
           cards += '<a class="action-card action-card-purple" href="' + analyzer + '?mode=compare">' +
             '<span class="card-icon" style="font-size:44px;">&#128202;</span>' +
             '<span class="card-title">Compare Quotes</span>' +
-            '<span class="card-desc">Upload multiple quotes to compare side by side</span>' +
+            '<span class="card-desc">Upload multiple contractor quotes to compare side by side</span>' +
           '</a>';
 
         } else {
