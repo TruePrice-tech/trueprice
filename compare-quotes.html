@@ -242,6 +242,13 @@
       });
     };
   </script>
+  <script>
+    // Stub functions required by analyzer-ocr.js when used outside the main analyzer
+    if (typeof window.setUploadStatus === "undefined") window.setUploadStatus = function() {};
+    if (typeof window.setSmartUploadStatus === "undefined") window.setSmartUploadStatus = function() {};
+    if (typeof window.renderAnalyzingState === "undefined") window.renderAnalyzingState = function() {};
+    if (typeof window.renderInlineAnalyzingState === "undefined") window.renderInlineAnalyzingState = function() {};
+  </script>
   <script src="/js/analyzer-ocr.js"></script>
 
   <script>
