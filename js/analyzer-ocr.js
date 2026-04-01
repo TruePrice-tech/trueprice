@@ -620,6 +620,32 @@ async function extractTextFromUploadedFile(file) {
 
     const imageDataUrl = await fileToImageDataUrl(file);
 
+    // Try Google Cloud Vision API first (95%+ accuracy, $0.0015/call)
+    try {
+      const base64Data = imageDataUrl.split(",")[1];
+      if (base64Data) {
+        const visionRes = await fetch("/api/ocr-vision", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ base64: base64Data })
+        });
+        if (visionRes.ok) {
+          const visionData = await visionRes.json();
+          if (visionData.success && visionData.text && visionData.text.length > 50) {
+            console.log("[OCR] Google Vision extracted " + visionData.text.length + " chars");
+            return {
+              text: visionData.text,
+              method: "google_vision",
+              images: [imageDataUrl]
+            };
+          }
+        }
+      }
+    } catch (visionErr) {
+      console.warn("[OCR] Google Vision failed, falling back to Tesseract:", visionErr.message);
+    }
+
+    // Fallback: Tesseract.js with preprocessing
     // Auto-detect dark background and add inverted variant
     const isDarkBg = await detectDarkBackground(imageDataUrl);
     const softImageDataUrl = await preprocessImageForOcr(imageDataUrl, "soft");
