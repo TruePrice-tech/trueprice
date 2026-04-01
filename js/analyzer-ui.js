@@ -8281,6 +8281,13 @@ function buildComparisonWinnerHtml(summary) {
 
     window.renderAddressStep = function renderAddressStep() {
       const urlParams = new URLSearchParams(window.location.search);
+
+      // Redirect compare mode to standalone compare page
+      if (urlParams.get("mode") === "compare") {
+        window.location.href = "/compare-quotes.html";
+        return "";
+      }
+
       const prefillCity = urlParams.get("city") || "";
       const prefillState = urlParams.get("state") || "";
       const isEstimatorMode = urlParams.get("mode") === "estimator";
