@@ -513,6 +513,7 @@
       html += '<div class="cq-winner-banner">';
       html += '<img src="/images/trudy-thumbsup.png" alt="Trudy recommends" />';
       html += '<div>';
+      html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">TruePrice Verdict</p>';
       html += '<p class="cq-winner-title">Trudy recommends: ' + escHtml(winner.data.contractor) + '</p>';
       html += '<p class="cq-winner-sub">Best overall value based on price, scope, and warranty</p>';
       html += '</div></div>';
@@ -610,6 +611,10 @@
       html += '<a class="cq-cta-btn cq-cta-secondary" href="/find-contractors.html">&#128269; Get more quotes from local contractors</a>';
       html += '<button class="cq-cta-btn cq-cta-outline" onclick="startOver()">&#8634; Start over</button>';
       html += '</div>';
+      html += '<div style="text-align:center; margin-top:24px; padding-top:16px; border-top:1px solid #e2e8f0;">';
+      html += '<a href="/" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;">';
+      html += '<img src="/images/trudy-peeking.png" alt="" width="28" /> Powered by <strong style="color:#1e3a5f;">TruePrice</strong>';
+      html += '</a></div>';
 
       document.getElementById("resultsContent").innerHTML = html;
       document.getElementById("uploadStep").style.display = "none";

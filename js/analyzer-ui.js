@@ -3947,13 +3947,21 @@ function buildComparisonWinnerHtml(summary) {
           deltaText = "This quote is " + safeFormatCurrency(deltaAbs) + " " + direction + " expected" + (suffix ? " for a " + suffix : "");
         }
 
+        var trudyVerdictImg = (a.verdict === "fair" || a.verdict === "low") ? "/images/trudy-thumbsup.png" : "/images/trudy-worried.png";
+        var trudyVerdictAlt = (a.verdict === "fair" || a.verdict === "low") ? "Trudy gives a thumbs up" : "Trudy looks concerned";
+
         return `
           <div class="verdict-card ${getVerdictCardClass(a.verdict)}">
+            <div style="display:flex; align-items:center; gap:16px; margin-bottom:8px;">
+              <img src="${trudyVerdictImg}" alt="${trudyVerdictAlt}" width="64" style="flex-shrink:0;" />
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">TruePrice Verdict</div>
+                <div class="verdict-headline" style="margin:0;">${getVerdictHeadline(a.verdict)}</div>
+              </div>
+            </div>
             <div style="display:inline-block; padding:4px 12px; border-radius:999px; background:rgba(255,255,255,0.7); border:1px solid rgba(0,0,0,0.06); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); margin-bottom:12px;">
               Confidence: ${escapeHtml(confidenceLabel)}
             </div>
-
-            <div class="verdict-headline">${getVerdictHeadline(a.verdict)}</div>
             ${getVerdictSubtitle(a.verdict) ? `<div style="font-size:15px; color:#475569; margin:4px 0 8px; line-height:1.4;">${getVerdictSubtitle(a.verdict)}</div>` : ""}
 
             ${deltaText ? `<div class="verdict-delta">${escapeHtml(deltaText)}</div>` : ""}
@@ -9049,6 +9057,12 @@ function buildComparisonWinnerHtml(summary) {
             </div>
             <div style="text-align:center; margin-top:10px;">
               <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
+            </div>
+            <div style="text-align:center; margin-top:20px; padding-top:16px; border-top:1px solid #e2e8f0;">
+              <a href="/" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;">
+                <img src="/images/trudy-peeking.png" alt="" width="28" style="vertical-align:middle;" />
+                Powered by <strong style="color:#1e3a5f;">TruePrice</strong>
+              </a>
             </div>
           </div>
         `;
