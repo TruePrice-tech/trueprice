@@ -39,10 +39,10 @@
     "full_system": {
       "label": "Full HVAC System (AC + Furnace)",
       "pricePerTon": {
-        "14_seer_80_afue": 5500,
-        "16_seer_90_afue": 7200,
-        "18_seer_95_afue": 9500,
-        "20_seer_98_afue": 12000
+        "14_seer_80_afue": 3200,
+        "16_seer_90_afue": 4000,
+        "18_seer_95_afue": 5200,
+        "20_seer_98_afue": 6500
       }
     }
   },
@@ -54,7 +54,7 @@
     "mountain": 1.10,
     "west": 1.22
   },
-  "overheadMultiplier": 1.15,
+  "overheadMultiplier": 1.0,
   "roundTo": 50,
   "homeSizes": [
     { "label": "1000", "tons": 1.5 },
