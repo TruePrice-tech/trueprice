@@ -178,9 +178,11 @@
     var SEASONAL_MULT = SEASONAL_MULTS[now.getMonth() + 1] || 1.0;
 
     var app = document.getElementById("peApp");
+    var urlService = new URLSearchParams(window.location.search).get("service") || "roofing";
+    if (!["roofing", "hvac", "solar"].includes(urlService)) urlService = "roofing";
     var state = {
       step: "capture",
-      service: "roofing",
+      service: urlService,
       imageData: null,
       imagePreview: null,
       city: "",
@@ -206,7 +208,8 @@
       var isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
       var photoLabels = {
         roofing: { title: "Take a photo of your house", desc: "We'll estimate your roof size, material, and replacement cost", addressLink: "/roofing-quote-analyzer.html?mode=estimator" },
-        hvac: { title: "Take a photo of your AC unit", desc: "We'll estimate system type, size, and replacement cost", addressLink: null },
+        hvac: { title: "Take a photo of your AC unit", desc: "We'll detect the brand, system type, and estimate replacement cost", addressLink: null },
+        solar: { title: "Take a photo of your house", desc: "We'll assess your roof for solar potential and estimate installation cost", addressLink: null },
         general: { title: "Take a photo of your home", desc: "We'll identify the project and estimate cost", addressLink: null }
       };
       var labels = photoLabels[state.service] || photoLabels.general;
@@ -300,11 +303,24 @@
           '</div>' +
         '</div>';
 
-      var phases = [
-        { pct: 30, text: "Trudy is examining the roof...", delay: 1500 },
-        { pct: 60, text: "Trudy is detecting material and size...", delay: 3000 },
-        { pct: 80, text: "Trudy is calculating local pricing...", delay: 5000 }
-      ];
+      var phasesByService = {
+        roofing: [
+          { pct: 30, text: "Trudy is examining the roof...", delay: 1500 },
+          { pct: 60, text: "Trudy is detecting material and size...", delay: 3000 },
+          { pct: 80, text: "Trudy is calculating local pricing...", delay: 5000 }
+        ],
+        hvac: [
+          { pct: 30, text: "Trudy is examining your AC unit...", delay: 1500 },
+          { pct: 60, text: "Trudy is detecting brand and system type...", delay: 3000 },
+          { pct: 80, text: "Trudy is calculating replacement cost...", delay: 5000 }
+        ],
+        solar: [
+          { pct: 30, text: "Trudy is examining your roof...", delay: 1500 },
+          { pct: 60, text: "Trudy is assessing solar potential...", delay: 3000 },
+          { pct: 80, text: "Trudy is calculating installation cost...", delay: 5000 }
+        ]
+      };
+      var phases = phasesByService[state.service] || phasesByService.roofing;
       phases.forEach(function(p) {
         setTimeout(function() {
           var bar = document.getElementById("peProgress");
@@ -390,6 +406,7 @@
     function renderConfirm() {
       var r = state.result;
       if (!r) { state.step = "capture"; render(); return; }
+      var svc = state.service;
 
       var html =
         '<div style="text-align:center; margin-bottom:20px;">' +
@@ -409,8 +426,116 @@
           '<h2 style="margin:0; font-size:22px; color:#0f172a;">Trudy detected these details</h2>' +
         '</div>' +
 
-        '<div class="pe-result-card">' +
+        '<div class="pe-result-card">';
 
+      if (svc === "hvac") {
+        var detectedSystem = r.systemType || "central_ac";
+        var detectedBrand = r.brand || "";
+        var brandTier = "mid";
+        var premiumBrands = ["Carrier","Trane","Lennox","Daikin"];
+        var valueBrands = ["Goodman","Payne","Heil","Comfortmaker"];
+        if (detectedBrand) {
+          if (premiumBrands.some(function(b) { return detectedBrand.toLowerCase().indexOf(b.toLowerCase()) >= 0; })) brandTier = "premium";
+          else if (valueBrands.some(function(b) { return detectedBrand.toLowerCase().indexOf(b.toLowerCase()) >= 0; })) brandTier = "value";
+        }
+        html +=
+          (detectedBrand ? '<div style="margin-bottom:16px; padding:10px 14px; background:#f0fdf4; border:1px solid #a7f3d0; border-radius:10px; font-size:14px; color:#166534;">Detected brand: <strong>' + esc(detectedBrand) + '</strong></div>' : '') +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">System Type</div>' +
+            buildOptionGroup("systemType", [
+              {value:"central_ac",label:"Central AC"},{value:"heat_pump",label:"Heat Pump"},
+              {value:"furnace",label:"Furnace"},{value:"mini_split",label:"Mini-Split"},{value:"full_system",label:"Full System"}
+            ], detectedSystem) +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">System Size (Tonnage)</div>' +
+            buildOptionGroup("tonnage", [
+              {value:"1.5",label:"1.5 ton"},{value:"2",label:"2 ton"},{value:"2.5",label:"2.5 ton"},
+              {value:"3",label:"3 ton"},{value:"3.5",label:"3.5 ton"},{value:"4",label:"4 ton"},{value:"5",label:"5 ton"}
+            ], String(r.estimatedTonnage || 3)) +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Efficiency</div>' +
+            buildOptionGroup("efficiency", [
+              {value:"14_seer",label:"14 SEER"},{value:"16_seer",label:"16 SEER"},
+              {value:"18_seer",label:"18 SEER"},{value:"20_seer",label:"20 SEER"}
+            ], "16_seer") +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Brand Tier</div>' +
+            buildOptionGroup("brandTier", [
+              {value:"premium",label:"Premium"},{value:"mid",label:"Mid-Range"},{value:"value",label:"Value"}
+            ], brandTier) +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Condition</div>' +
+            buildOptionGroup("condition", [
+              {value:"good",label:"Good"},{value:"fair",label:"Fair"},{value:"poor",label:"Poor"}
+            ], r.condition || "fair") +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Home Size (helps verify tonnage)</div>' +
+            '<div style="display:flex; align-items:center; gap:8px;">' +
+              '<input type="number" id="confirmHomeSqFt" value="2000" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
+              '<span style="font-size:14px; color:#64748b;">sq ft</span>' +
+            '</div>' +
+          '</div>';
+
+      } else if (svc === "solar") {
+        html +=
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Panel Tier</div>' +
+            buildOptionGroup("panelTier", [
+              {value:"standard",label:"Standard Panels"},{value:"premium",label:"Premium (SunPower, LG)"}
+            ], "standard") +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">System Size</div>' +
+            buildOptionGroup("systemSize", [
+              {value:"5",label:"5 kW"},{value:"8",label:"8 kW"},{value:"10",label:"10 kW"},
+              {value:"12",label:"12 kW"},{value:"15",label:"15 kW"}
+            ], "8") +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Battery Storage</div>' +
+            buildOptionGroup("battery", [
+              {value:"no",label:"No Battery"},{value:"yes",label:"Add Battery ($12K-$16K)"}
+            ], "no") +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Roof Condition</div>' +
+            buildOptionGroup("condition", [
+              {value:"good",label:"Good"},{value:"fair",label:"Fair"},{value:"poor",label:"Poor"}
+            ], r.roofCondition || r.condition || "good") +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Shade Level</div>' +
+            buildOptionGroup("shadeLevel", [
+              {value:"minimal",label:"Minimal"},{value:"moderate",label:"Moderate"},{value:"heavy",label:"Heavy"}
+            ], r.shadeLevel || "minimal") +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Usable Roof Area</div>' +
+            '<div style="display:flex; align-items:center; gap:8px;">' +
+              '<input type="number" id="confirmRoofSqFt" value="' + (r.estimatedUsableRoofSqFt || r.estimatedRoofSqFt || 1200) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
+              '<span style="font-size:14px; color:#64748b;">sq ft</span>' +
+            '</div>' +
+          '</div>';
+
+      } else {
+        // Roofing (default)
+        html +=
           '<div style="margin-bottom:16px;">' +
             '<div class="pe-detail-label" style="margin-bottom:6px;">Stories</div>' +
             buildOptionGroup("stories", [{value:"1",label:"1"},{value:"2",label:"2"},{value:"3",label:"3"}], String(r.stories || 1)) +
@@ -453,8 +578,11 @@
               '<input type="number" id="confirmRoofSqFt" value="' + (r.estimatedRoofSqFt || 2000) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
               '<span style="font-size:14px; color:#64748b;">sq ft</span>' +
             '</div>' +
-          '</div>' +
+          '</div>';
+      }
 
+      // City/State (all services)
+      html +=
           '<div style="margin-bottom:16px;">' +
             '<div class="pe-detail-label" style="margin-bottom:6px;">City, State</div>' +
             '<div style="display:flex; gap:8px;">' +
@@ -521,16 +649,29 @@
         var cityVal = (document.getElementById("confirmCity").value || "").trim();
         var stateVal = (document.getElementById("confirmState").value || "").trim().toUpperCase();
 
-        state.confirmed = {
-          stories: Number(getSelected("stories")) || 1,
-          material: getSelected("material") || "architectural",
-          complexity: getSelected("complexity") || "simple",
-          condition: getSelected("condition") || "fair",
-          workType: getSelected("workType") || "new_roof",
-          roofSqFt: Number(document.getElementById("confirmRoofSqFt").value) || 2000,
-          city: cityVal,
-          stateCode: stateVal
-        };
+        var confirmed = { city: cityVal, stateCode: stateVal, condition: getSelected("condition") || "fair" };
+
+        if (svc === "hvac") {
+          confirmed.systemType = getSelected("systemType") || "central_ac";
+          confirmed.tonnage = Number(getSelected("tonnage")) || 3;
+          confirmed.efficiency = getSelected("efficiency") || "16_seer";
+          confirmed.brandTier = getSelected("brandTier") || "mid";
+          confirmed.homeSqFt = Number((document.getElementById("confirmHomeSqFt") || {}).value) || 2000;
+        } else if (svc === "solar") {
+          confirmed.panelTier = getSelected("panelTier") || "standard";
+          confirmed.systemSizeKW = Number(getSelected("systemSize")) || 8;
+          confirmed.battery = getSelected("battery") === "yes";
+          confirmed.shadeLevel = getSelected("shadeLevel") || "minimal";
+          confirmed.roofSqFt = Number((document.getElementById("confirmRoofSqFt") || {}).value) || 1200;
+        } else {
+          confirmed.stories = Number(getSelected("stories")) || 1;
+          confirmed.material = getSelected("material") || "architectural";
+          confirmed.complexity = getSelected("complexity") || "simple";
+          confirmed.workType = getSelected("workType") || "new_roof";
+          confirmed.roofSqFt = Number((document.getElementById("confirmRoofSqFt") || {}).value) || 2000;
+        }
+
+        state.confirmed = confirmed;
 
         state.city = cityVal;
         state.stateCode = stateVal;
@@ -557,46 +698,145 @@
       var r = state.result;
       var c = state.confirmed;
       if (!r || !c) { state.step = "capture"; render(); return; }
+      var svc = state.service;
 
-      var material = c.material || "architectural";
-      var stories = c.stories || 1;
-      var roofSqFt = c.roofSqFt || 2000;
-      var roofSquares = roofSqFt / 100;
-
-      var basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
       var region = STATE_REGIONS[c.stateCode] || "south";
       var laborMult = state.cityMult || LABOR_MULT_BY_REGION[region] || 1.0;
-
-      var complexityMult = c.complexity === "complex" ? 1.20 : c.complexity === "moderate" ? 1.10 : 1.0;
-      var conditionMult = c.condition === "poor" ? 1.10 : 1.0;
-      var workTypeMults = { new_roof: 1.0, reroof: 0.65, overlay: 0.55, tile_reinstall: 0.42, repair: 0.35 };
-      var workTypeMult = workTypeMults[c.workType] || 1.0;
-
-      var totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT * laborMult * complexityMult * conditionMult * workTypeMult * INFLATION_MULT * SEASONAL_MULT;
-      var mid = roundTo(totalCost, 100);
-      // Use city-specific range if available (wider for small cities)
       var rangeLow = state.cityRange ? state.cityRange.low : 0.82;
       var rangeHigh = state.cityRange ? state.cityRange.high : 1.22;
-      var low = roundTo(mid * rangeLow, 100);
-      var high = roundTo(mid * rangeHigh, 100);
-      var perSqFt = (mid / roofSqFt).toFixed(2);
-
       var locationLabel = c.city ? esc(c.city) + ", " + esc(c.stateCode) : "your area";
       var pricingSource = state.cityMult ? (esc(c.city) + " local pricing") : "regional pricing";
 
-      var materialLabels = {
-        asphalt: "Asphalt Shingles", architectural: "Architectural Shingles",
-        metal: "Metal Roofing", tile: "Tile Roofing", flat: "Flat / TPO",
-        cedar: "Cedar Shake", unknown: "Standard Shingles"
-      };
-      var materialLabel = materialLabels[material] || material;
-
+      var mid, low, high, verdictLabel, verdictDesc, detailsHtml, ctaHtml, disclaimerHtml;
       var conditionClass = c.condition === "good" ? "pe-condition-good" : c.condition === "poor" ? "pe-condition-poor" : "pe-condition-fair";
       var conditionLabel = c.condition === "good" ? "Good condition" : c.condition === "poor" ? "Needs attention" : c.condition === "fair" ? "Normal wear" : "Condition unknown";
+      var conditionNotesHtml = (r.conditionNotes && r.conditionNotes.length > 0) ? r.conditionNotes.map(function(n) { return esc(n); }).join(", ") : "";
 
-      var conditionNotesHtml = "";
-      if (r.conditionNotes && r.conditionNotes.length > 0) {
-        conditionNotesHtml = r.conditionNotes.map(function(n) { return esc(n); }).join(", ");
+      if (svc === "hvac") {
+        var hvacPrices = {
+          central_ac: { "14_seer": 2800, "16_seer": 3400, "18_seer": 4200, "20_seer": 5200 },
+          heat_pump: { "14_seer": 3200, "16_seer": 3900, "18_seer": 4800, "20_seer": 6000 },
+          mini_split: { "14_seer": 3500, "16_seer": 5800, "18_seer": 8200, "20_seer": 10500 },
+          full_system: { "14_seer": 3200, "16_seer": 4000, "18_seer": 5200, "20_seer": 6500 }
+        };
+        var furnacePrices = { "14_seer": 3200, "16_seer": 4000, "18_seer": 4800, "20_seer": 5800 };
+
+        var systemType = c.systemType || "central_ac";
+        var tonnage = c.tonnage || 3;
+        var efficiency = c.efficiency || "16_seer";
+        var brandMult = c.brandTier === "premium" ? 1.12 : c.brandTier === "value" ? 0.90 : 1.0;
+
+        var basePricePerTon;
+        if (systemType === "furnace") {
+          basePricePerTon = furnacePrices[efficiency] || 4000;
+        } else if (systemType === "mini_split") {
+          // Mini splits price by zone count, approximate from tonnage
+          var zones = tonnage <= 1.5 ? 1 : tonnage <= 2.5 ? 2 : tonnage <= 3.5 ? 3 : 4;
+          var miniPrices = { 1: 3500, 2: 5800, 3: 8200, 4: 10500 };
+          basePricePerTon = (miniPrices[zones] || 5800) / tonnage;
+        } else {
+          basePricePerTon = (hvacPrices[systemType] || hvacPrices.central_ac)[efficiency] || 3400;
+        }
+
+        var totalCost = basePricePerTon * tonnage * laborMult * brandMult * INFLATION_MULT * SEASONAL_MULT;
+        mid = roundTo(totalCost, 50);
+        low = roundTo(mid * rangeLow, 50);
+        high = roundTo(mid * rangeHigh, 50);
+
+        var systemLabels = { central_ac: "Central AC", heat_pump: "Heat Pump", furnace: "Gas Furnace", mini_split: "Mini-Split", full_system: "Full HVAC System" };
+        var effLabels = { "14_seer": "14 SEER", "16_seer": "16 SEER", "18_seer": "18 SEER", "20_seer": "20 SEER" };
+
+        verdictLabel = "Estimated HVAC Replacement Cost";
+        verdictDesc = "for a " + tonnage + "-ton " + (systemLabels[systemType] || systemType) + " in " + locationLabel;
+
+        detailsHtml =
+          '<div class="pe-detail"><div class="pe-detail-label">System Type</div><div class="pe-detail-value">' + esc(systemLabels[systemType] || systemType) + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Tonnage</div><div class="pe-detail-value">' + tonnage + ' ton</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Efficiency</div><div class="pe-detail-value">' + esc(effLabels[efficiency] || efficiency) + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Brand Tier</div><div class="pe-detail-value">' + esc((c.brandTier || "mid").charAt(0).toUpperCase() + (c.brandTier || "mid").slice(1)) + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Home Size</div><div class="pe-detail-value">' + (c.homeSqFt || 2000).toLocaleString() + ' sq ft</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Pricing</div><div class="pe-detail-value">' + pricingSource + '</div></div>';
+
+        var hvacAnalyzerUrl = "/hvac-quote-analyzer.html" + (c.city ? "?city=" + encodeURIComponent(c.city) + "&state=" + encodeURIComponent(c.stateCode) : "");
+        ctaHtml =
+          '<a class="pe-btn pe-btn-primary pe-btn-full" href="' + hvacAnalyzerUrl + '">Get a detailed estimate</a>' +
+          '<a class="pe-btn pe-btn-secondary pe-btn-full" href="/find-contractors.html?service=hvac">Find HVAC contractors in ' + locationLabel + '</a>';
+        disclaimerHtml = 'This is an AI-powered estimate based on a single photo. For a more precise estimate, <a href="' + hvacAnalyzerUrl + '" style="color:#1d4ed8; font-weight:600;">upload an HVAC quote</a>.';
+
+      } else if (svc === "solar") {
+        var systemSizeKW = c.systemSizeKW || 8;
+        var pricePerWatt = c.panelTier === "premium" ? 3.75 : 3.00;
+        var systemWatts = systemSizeKW * 1000;
+        var shadeMult = c.shadeLevel === "heavy" ? 0.85 : c.shadeLevel === "moderate" ? 0.95 : 1.0;
+
+        var solarCost = systemWatts * pricePerWatt * laborMult * INFLATION_MULT;
+        var batteryCost = c.battery ? 14000 : 0;
+        var grossCost = solarCost + batteryCost;
+        var taxCredit = Math.round(grossCost * 0.30);
+        var netCost = grossCost - taxCredit;
+
+        mid = roundTo(netCost, 100);
+        low = roundTo(roundTo(grossCost * rangeLow, 100) - taxCredit, 100);
+        high = roundTo(roundTo(grossCost * rangeHigh, 100) - taxCredit, 100);
+        var grossMid = roundTo(grossCost, 100);
+
+        var monthlyOffset = { 5: "$100", 8: "$150", 10: "$200", 12: "$250", 15: "$300" };
+
+        verdictLabel = "Estimated Solar Installation Cost";
+        verdictDesc = "for a " + systemSizeKW + " kW system in " + locationLabel + " (after 30% federal tax credit)";
+
+        detailsHtml =
+          '<div class="pe-detail"><div class="pe-detail-label">System Size</div><div class="pe-detail-value">' + systemSizeKW + ' kW</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Panel Tier</div><div class="pe-detail-value">' + (c.panelTier === "premium" ? "Premium" : "Standard") + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Gross Cost</div><div class="pe-detail-value">' + fmt(grossMid) + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Federal Tax Credit (30%)</div><div class="pe-detail-value" style="color:#16a34a;">-' + fmt(taxCredit) + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Monthly Bill Offset</div><div class="pe-detail-value">~' + (monthlyOffset[systemSizeKW] || "$150") + '/mo</div></div>' +
+          (c.battery ? '<div class="pe-detail"><div class="pe-detail-label">Battery Storage</div><div class="pe-detail-value">Included ($12K-$16K)</div></div>' : '') +
+          '<div class="pe-detail"><div class="pe-detail-label">Pricing</div><div class="pe-detail-value">' + pricingSource + '</div></div>';
+
+        var solarAnalyzerUrl = "/solar-quote-analyzer.html" + (c.city ? "?city=" + encodeURIComponent(c.city) + "&state=" + encodeURIComponent(c.stateCode) : "");
+        ctaHtml =
+          '<a class="pe-btn pe-btn-primary pe-btn-full" href="' + solarAnalyzerUrl + '">Get a detailed estimate</a>' +
+          '<a class="pe-btn pe-btn-secondary pe-btn-full" href="/find-contractors.html?service=solar">Find solar installers in ' + locationLabel + '</a>';
+        disclaimerHtml = 'This is an AI-powered estimate based on a single photo. For a more precise estimate, <a href="' + solarAnalyzerUrl + '" style="color:#1d4ed8; font-weight:600;">upload a solar quote</a>.';
+
+      } else {
+        // Roofing (default)
+        var material = c.material || "architectural";
+        var stories = c.stories || 1;
+        var roofSqFt = c.roofSqFt || 2000;
+        var roofSquares = roofSqFt / 100;
+
+        var basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
+        var complexityMult = c.complexity === "complex" ? 1.20 : c.complexity === "moderate" ? 1.10 : 1.0;
+        var conditionMult = c.condition === "poor" ? 1.10 : 1.0;
+        var workTypeMults = { new_roof: 1.0, reroof: 0.65, overlay: 0.55, tile_reinstall: 0.42, repair: 0.35 };
+        var workTypeMult = workTypeMults[c.workType] || 1.0;
+
+        var totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT * laborMult * complexityMult * conditionMult * workTypeMult * INFLATION_MULT * SEASONAL_MULT;
+        mid = roundTo(totalCost, 100);
+        low = roundTo(mid * rangeLow, 100);
+        high = roundTo(mid * rangeHigh, 100);
+        var perSqFt = (mid / roofSqFt).toFixed(2);
+
+        var materialLabels = { asphalt: "Asphalt Shingles", architectural: "Architectural Shingles", metal: "Metal Roofing", tile: "Tile Roofing", flat: "Flat / TPO", cedar: "Cedar Shake", unknown: "Standard Shingles" };
+        var materialLabel = materialLabels[material] || material;
+
+        verdictLabel = "Estimated Roof Replacement Cost";
+        verdictDesc = fmt(mid) + " for " + esc(materialLabel) + " in " + locationLabel;
+
+        detailsHtml =
+          '<div class="pe-detail"><div class="pe-detail-label">Roof Size</div><div class="pe-detail-value">' + Math.round(roofSqFt).toLocaleString() + ' sq ft</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Material</div><div class="pe-detail-value">' + esc(materialLabel) + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Cost per Sq Ft</div><div class="pe-detail-value">$' + perSqFt + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Complexity</div><div class="pe-detail-value">' + esc(c.complexity.charAt(0).toUpperCase() + c.complexity.slice(1)) + '</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Stories</div><div class="pe-detail-value">' + stories + '-story</div></div>' +
+          '<div class="pe-detail"><div class="pe-detail-label">Pricing</div><div class="pe-detail-value">' + pricingSource + '</div></div>';
+
+        ctaHtml =
+          '<a class="pe-btn pe-btn-primary pe-btn-full" href="/roofing-quote-analyzer.html' + (c.city ? '?city=' + encodeURIComponent(c.city) + '&state=' + encodeURIComponent(c.stateCode) : '') + '">Get a detailed estimate</a>' +
+          '<a class="pe-btn pe-btn-secondary pe-btn-full" href="/find-contractors.html?service=roofing">Find contractors in ' + locationLabel + '</a>';
+        disclaimerHtml = 'This is an AI-powered estimate based on a single photo. For a more precise estimate, use our <a href="/roofing-quote-analyzer.html" style="color:#1d4ed8; font-weight:600;">guided estimator</a> or upload a contractor quote.';
       }
 
       var html =
@@ -610,37 +850,12 @@
           '</div>' +
 
           '<div class="pe-verdict">' +
-            '<div class="pe-verdict-label">Estimated Roof Replacement Cost</div>' +
+            '<div class="pe-verdict-label">' + verdictLabel + '</div>' +
             '<div class="pe-verdict-price">' + fmt(low) + ' &ndash; ' + fmt(high) + '</div>' +
-            '<div class="pe-verdict-range">Midpoint: ' + fmt(mid) + ' for ' + esc(materialLabel) + ' in ' + locationLabel + '</div>' +
+            '<div class="pe-verdict-range">' + (svc === "roofing" ? "Midpoint: " + verdictDesc : verdictDesc) + '</div>' +
           '</div>' +
 
-          '<div class="pe-details">' +
-            '<div class="pe-detail">' +
-              '<div class="pe-detail-label">Roof Size</div>' +
-              '<div class="pe-detail-value">' + Math.round(roofSqFt).toLocaleString() + ' sq ft</div>' +
-            '</div>' +
-            '<div class="pe-detail">' +
-              '<div class="pe-detail-label">Material</div>' +
-              '<div class="pe-detail-value">' + esc(materialLabel) + '</div>' +
-            '</div>' +
-            '<div class="pe-detail">' +
-              '<div class="pe-detail-label">Cost per Sq Ft</div>' +
-              '<div class="pe-detail-value">$' + perSqFt + '</div>' +
-            '</div>' +
-            '<div class="pe-detail">' +
-              '<div class="pe-detail-label">Complexity</div>' +
-              '<div class="pe-detail-value">' + esc(c.complexity.charAt(0).toUpperCase() + c.complexity.slice(1)) + '</div>' +
-            '</div>' +
-            '<div class="pe-detail">' +
-              '<div class="pe-detail-label">Stories</div>' +
-              '<div class="pe-detail-value">' + stories + '-story</div>' +
-            '</div>' +
-            '<div class="pe-detail">' +
-              '<div class="pe-detail-label">Pricing</div>' +
-              '<div class="pe-detail-value">' + pricingSource + '</div>' +
-            '</div>' +
-          '</div>' +
+          '<div class="pe-details">' + detailsHtml + '</div>' +
 
           '<div class="pe-condition ' + conditionClass + '">' +
             '<strong>' + conditionLabel + '</strong>' +
@@ -650,7 +865,7 @@
           (r.additionalNotes ? '<p style="font-size:14px; color:#64748b; margin-top:12px;">' + esc(r.additionalNotes) + '</p>' : '') +
 
           '<div style="margin-top:16px; padding:12px 16px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; font-size:13px; color:#1e40af;">' +
-            'This is an AI-powered estimate based on a single photo. For a more precise estimate, use our <a href="/roofing-quote-analyzer.html" style="color:#1d4ed8; font-weight:600;">guided estimator</a> or upload a contractor quote.' +
+            disclaimerHtml +
           '</div>' +
         '</div>' +
 
@@ -664,8 +879,7 @@
         '</div>' +
 
         '<div class="pe-actions">' +
-          '<a class="pe-btn pe-btn-primary pe-btn-full" href="/roofing-quote-analyzer.html' + (c.city ? '?city=' + encodeURIComponent(c.city) + '&state=' + encodeURIComponent(c.stateCode) : '') + '">Get a detailed estimate</a>' +
-          '<a class="pe-btn pe-btn-secondary pe-btn-full" href="/find-contractors.html?service=roofing">Find contractors in ' + locationLabel + '</a>' +
+          ctaHtml +
           '<button class="pe-btn pe-btn-secondary pe-btn-full" id="newPhotoBtn">Estimate another property</button>' +
         '</div>';
 

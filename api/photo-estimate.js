@@ -150,6 +150,30 @@ Rules:
 
 Return ONLY the JSON object`,
 
+      solar: `Analyze this photo of a house/building exterior for solar panel installation potential. Return ONLY valid JSON:
+
+{
+  "roofOrientation": "south" | "east-west" | "north" | "mixed" | "unknown",
+  "estimatedUsableRoofSqFt": <number - south/west-facing roof area suitable for panels>,
+  "shadeLevel": "minimal" | "moderate" | "heavy" | "unknown",
+  "shadeNotes": ["trees", "neighboring buildings", "chimney shadow", "dormers"],
+  "existingPanels": true | false,
+  "existingPanelCount": <number or null>,
+  "roofMaterial": "architectural" | "asphalt" | "metal" | "tile" | "flat" | "unknown",
+  "roofCondition": "good" | "fair" | "poor" | "unknown",
+  "stories": 1 | 2 | 3,
+  "estimatedFootprintSqFt": <number estimate of building footprint>,
+  "complexity": "simple" | "moderate" | "complex",
+  "additionalNotes": <any relevant observations about solar potential>
+}
+
+Rules:
+- estimatedUsableRoofSqFt: Estimate south and west-facing roof area suitable for panels. Subtract chimneys, vents, skylights. Typically 50-70% of total roof area.
+- shadeLevel: "minimal" = full sun most of day, "moderate" = some tree shade, "heavy" = significant obstructions
+- stories: Count rows of windows. Two rows = 2 stories.
+- estimatedFootprintSqFt: Ground floor footprint only (not total living area).
+- Return ONLY the JSON object`,
+
       general: `Analyze this photo of a home exterior. Identify what home service might be needed. Return ONLY valid JSON:
 
 {
