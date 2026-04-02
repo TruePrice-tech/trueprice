@@ -12,14 +12,14 @@
   <meta name="robots" content="index,follow" />
 
   <meta property="og:title" content="Photo Estimate | TruePrice" />
-  <meta property="og:description" content="Snap a photo of your house. Get an instant cost estimate. No forms, no signup." />
+  <meta property="og:description" content="Snap a photo of your house or AC unit. Get an instant roofing, HVAC, or solar cost estimate. No forms, no signup." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/photo-estimate.html" />
   <meta property="og:site_name" content="TruePrice" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Photo Estimate | TruePrice" />
-  <meta name="twitter:description" content="Snap a photo of your house. Get an instant cost estimate." />
+  <meta name="twitter:description" content="Snap a photo of your house or AC unit. Get an instant roofing, HVAC, or solar cost estimate." />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
 
   <link rel="stylesheet" href="/css/trueprice.min.css" />
@@ -214,12 +214,20 @@
       };
       var labels = photoLabels[state.service] || photoLabels.general;
 
+      var serviceSelector =
+        '<div style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;">' +
+          '<button type="button" class="pe-service-option' + (state.service === "roofing" ? " selected" : "") + '" onclick="switchService(\'roofing\')">Roofing</button>' +
+          '<button type="button" class="pe-service-option' + (state.service === "hvac" ? " selected" : "") + '" onclick="switchService(\'hvac\')">HVAC</button>' +
+          '<button type="button" class="pe-service-option' + (state.service === "solar" ? " selected" : "") + '" onclick="switchService(\'solar\')">Solar</button>' +
+        '</div>';
+
       app.innerHTML =
         '<div style="text-align:center; margin-bottom:28px;">' +
           '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="100" style="margin-bottom:10px;" />' +
           '<h1 style="font-size:26px; margin:0 0 8px; color:#0f172a;">' + labels.title + '</h1>' +
           '<p style="font-size:15px; color:#64748b; margin:0; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">' + labels.desc + '</p>' +
         '</div>' +
+        serviceSelector +
 
         '<div class="pe-capture-zone" id="captureZone" style="padding:3rem 1.5rem; transition:border-color 0.2s, background 0.2s, transform 0.15s;" onmouseover="this.style.borderColor=\'#3b82f6\';this.style.background=\'#eff6ff\';this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.borderColor=\'#cbd5e1\';this.style.background=\'#f8fafc\';this.style.transform=\'none\'">' +
           '<div style="font-size:48px; margin-bottom:12px;">&#128247;</div>' +
@@ -233,7 +241,7 @@
           ? '<div style="text-align:center; margin-top:16px;"><a href="' + labels.addressLink + '" style="font-size:14px; color:#64748b; text-decoration:none; padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">or enter your address manually &rarr;</a></div>'
           : '') +
 
-        '<div style="text-align:center; margin-top:12px;"><a href="/analyze-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>';
+        '<div style="text-align:center; margin-top:12px;"><a href="/analyze-quote.html#' + esc(state.service) + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>';
 
       // Bind events
       var zone = document.getElementById("captureZone");
@@ -901,6 +909,16 @@
         body: JSON.stringify({ type: "event", event: "photo_estimate_completed", meta: { material: material, roofSqFt: String(Math.round(roofSqFt)), mid: String(mid), city: c.city || "" }, path: "/photo-estimate.html" })
       }).catch(function() {});
     }
+
+    window.switchService = function(svc) {
+      state.service = svc;
+      state.imageData = null;
+      state.imagePreview = null;
+      state.result = null;
+      state.confirmed = null;
+      state.step = "capture";
+      render();
+    };
 
     window.submitPhotoFeedback = function(response) {
       var fb = document.getElementById("estimateFeedback");
