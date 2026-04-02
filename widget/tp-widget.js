@@ -129,8 +129,9 @@
 
     var html = [];
     html.push('<div class="tp-header">');
-    html.push('<div class="tp-logo">TP</div>');
+    html.push('<img src="https://truepricehq.com/images/trudy-peeking.png" alt="Trudy" width="32" height="32" style="flex-shrink:0;" />');
     html.push('<div>');
+    html.push('<div class="tp-logo">TruePrice</div>');
     html.push('<div class="tp-title">' + esc(label) + ' Cost</div>');
     html.push('<div class="tp-subtitle">in ' + esc(displayCity) + ', ' + esc(displayState) + '</div>');
     html.push('</div></div>');
@@ -155,7 +156,7 @@
 
     html.push('<div class="tp-footer">');
     html.push('<a class="tp-cta" href="' + esc(cityUrl) + '" target="_blank" rel="noopener">View full pricing in ' + esc(displayCity) + ' &rarr;</a>');
-    html.push('<a class="tp-powered" href="https://truepricehq.com" target="_blank" rel="noopener">powered by TruePrice</a>');
+    html.push('<a class="tp-powered" href="https://truepricehq.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;"><img src="https://truepricehq.com/images/trudy-peeking.png" alt="" width="16" height="16" /> powered by TruePrice</a>');
     html.push('</div>');
 
     card.innerHTML = html.join('');
