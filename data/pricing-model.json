@@ -1,9 +1,21 @@
 {
   "basePricePerSquare": {
-    "asphalt": 425,
+    "asphalt": 525,
     "architectural": 525,
-    "metal": 900,
-    "tile": 1400
+    "metal": 1150,
+    "tile": 1200,
+    "cedar": 900,
+    "flat": 550,
+    "slate": 1450,
+    "concrete": 775
+  },
+  "metalRegionalMultiplier": {
+    "south": 1.0,
+    "southeast": 1.15,
+    "northeast": 1.10,
+    "midwest": 1.05,
+    "mountain": 1.0,
+    "west": 1.0
   },
   "workTypeMultiplier": {
     "new_roof": 1.0,
@@ -30,8 +42,8 @@
     "mountain": 1.08,
     "west": 1.18
   },
-  "wasteFactor": 1.1,
-  "overheadMultiplier": 1.12,
+  "wasteFactor": 1.0,
+  "overheadMultiplier": 1.0,
   "roundTo": 50,
   "houseSizes": [
     { "label": "1000", "roofSquares": 12 },

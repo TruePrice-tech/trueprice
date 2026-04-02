@@ -5247,16 +5247,20 @@ function buildComparisonWinnerHtml(summary) {
         }
 
         const benchmarkMap = {
-          architectural: 5.10,
-          asphalt: 4.60,
+          architectural: 5.25,
+          asphalt: 5.25,
           metal: 10.50,
-          tile: 13.75
+          tile: 10.00,
+          cedar: 8.25,
+          slate: 13.25,
+          concrete: 7.15,
+          flat: 5.50
         };
 
         let benchmarkPerSqFt =
           typeof getMaterialBenchmarkPerSqFt === "function"
             ? getMaterialBenchmarkPerSqFt(material)
-            : benchmarkMap[material] || 5.10;
+            : benchmarkMap[material] || 5.25;
 
         let localDataUsed = false;
         let sizeLabelUsed = "";
@@ -9373,7 +9377,7 @@ function buildComparisonWinnerHtml(summary) {
 
       // Regional pricing model (matches data/pricing-model.json + data/state-regions.json)
       const BASE_PRICE_PER_SQUARE = {
-        asphalt: 425, architectural: 525, metal: 900, tile: 1400, cedar: 700, flat: 500
+        asphalt: 525, architectural: 525, metal: 1150, tile: 1200, cedar: 900, flat: 550, slate: 1450, concrete: 775
       };
       const LABOR_MULT_BY_REGION = {
         south: 1.00, southeast: 1.03, northeast: 1.15, midwest: 1.06, mountain: 1.08, west: 1.18
@@ -9389,8 +9393,8 @@ function buildComparisonWinnerHtml(summary) {
         UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
         WY:"mountain",DC:"northeast"
       };
-      const WASTE_FACTOR = 1.1;
-      const OVERHEAD_MULT = 1.12;
+      const WASTE_FACTOR = 1.0;
+      const OVERHEAD_MULT = 1.0;
 
       // Inflation adjustment: 3% annual from 2025 baseline
       const INFLATION_BASE_YEAR = 2025;
