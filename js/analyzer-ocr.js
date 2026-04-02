@@ -642,92 +642,15 @@ async function extractTextFromUploadedFile(file) {
         }
       }
     } catch (visionErr) {
-      console.warn("[OCR] Google Vision failed, falling back to Tesseract:", visionErr.message);
+      console.warn("[OCR] Cloud OCR failed:", visionErr.message);
     }
 
-    // Fallback: Tesseract.js with preprocessing
-    // Auto-detect dark background and add inverted variant
-    const isDarkBg = await detectDarkBackground(imageDataUrl);
-    const softImageDataUrl = await preprocessImageForOcr(imageDataUrl, "soft");
-    const strongImageDataUrl = await preprocessImageForOcr(imageDataUrl, "strong");
-    const invertedImageDataUrl = isDarkBg ? await preprocessImageForOcr(imageDataUrl, "inverted") : null;
-    const originalRegions = await createImageRegionsForOcr(imageDataUrl);
-const softRegions = await createImageRegionsForOcr(softImageDataUrl);
-
-const fastOriginalRegions = originalRegions.filter(region =>
-  region.label === "middle body" || region.label === "bottom total area"
-);
-
-const fastSoftRegions = softRegions.filter(region =>
-  region.label === "middle body" || region.label === "bottom total area"
-);
-
-const fastOcrResult = await runBestOcrFromVariants(
-  [
-    { label: "original image", src: imageDataUrl, psm: 6 },
-    { label: "enhanced image", src: softImageDataUrl, psm: 6 },
-    ...(invertedImageDataUrl ? [{ label: "inverted image", src: invertedImageDataUrl, psm: 6 }] : []),
-    ...fastOriginalRegions.map(region => ({
-      label: `original ${region.label}`,
-      src: region.src,
-      psm: region.psm || 6
-    })),
-    ...fastSoftRegions.map(region => ({
-      label: `enhanced ${region.label}`,
-      src: region.src,
-      psm: region.psm || 6
-    }))
-  ],
-  "Identifying key details from your quote",
-  { startPercent: 35, endPercent: 68 }
-);
-
-const fastBestText = normalizeOcrWhitespace(
-  fastOcrResult.best.text || fastOcrResult.mergedText || ""
-);
-
-if (shouldAcceptFastOcrText(fastBestText)) {
-  return {
-    text: fastBestText,
-    method: "image_ocr"
-  };
-} 
-
-const rescueOcrResult = await runBestOcrFromVariants(
-  [
-    { label: "high contrast image", src: strongImageDataUrl, psm: 6 },
-    ...originalRegions
-      .filter(region => region.label !== "middle body" && region.label !== "bottom total area")
-      .map(region => ({
-        label: `original ${region.label}`,
-        src: region.src,
-        psm: region.psm || 6
-      })),
-    ...softRegions
-      .filter(region => region.label !== "middle body" && region.label !== "bottom total area")
-      .map(region => ({
-        label: `enhanced ${region.label}`,
-        src: region.src,
-        psm: region.psm || 6
-      }))
-  ],
-  "Identifying key details from your quote",
-  { startPercent: 68, endPercent: 78 }
-);
-
-const finalText = normalizeOcrWhitespace(
-  rescueOcrResult.best.text ||
-  fastBestText ||
-  rescueOcrResult.mergedText ||
-  fastOcrResult.mergedText ||
-  ""
-);
-
-return {
-  text: finalText,
-  method: "image_ocr",
-  images: [imageDataUrl] // Include original image for Claude Vision
-};
+    // Cloud OCR failed - return empty with original image for AI fallback
+    return {
+      text: "",
+      method: "ocr_failed",
+      images: [imageDataUrl]
+    };
 
   }
 
