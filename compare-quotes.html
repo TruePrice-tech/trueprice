@@ -272,6 +272,9 @@
       { key: "permit", label: "Permit" }
     ];
 
+    // Track uploaded file signatures to detect duplicates
+    var uploadedFiles = [null, null, null];
+
     window.handleUpload = async function(idx, input) {
       var file = input.files && input.files[0];
       if (!file) return;
@@ -280,6 +283,17 @@
         input.value = "";
         return;
       }
+
+      // Check for exact same file (same name + size)
+      var fileSig = file.name + "|" + file.size;
+      for (var d = 0; d < 3; d++) {
+        if (d !== idx && uploadedFiles[d] === fileSig) {
+          alert("This file has already been uploaded in Quote " + (d + 1) + ". Please upload a different quote.");
+          input.value = "";
+          return;
+        }
+      }
+      uploadedFiles[idx] = fileSig;
 
       var slot = document.getElementById("slot" + idx);
       slot.classList.add("uploading");
@@ -367,6 +381,21 @@
           scopeItems: p.scopeItems || {}
         };
 
+        // Check for similar quotes (same contractor or price within 5%)
+        var duplicateWarning = "";
+        for (var s = 0; s < 3; s++) {
+          if (s === idx || !quotes[s]) continue;
+          var sameContractor = quotes[s].contractor && contractor && quotes[s].contractor.toLowerCase() === contractor.toLowerCase();
+          var similarPrice = price > 0 && quotes[s].price > 0 && Math.abs(price - quotes[s].price) / Math.max(price, quotes[s].price) < 0.05;
+          if (sameContractor && similarPrice) {
+            duplicateWarning = "This looks similar to Quote " + (s + 1) + ". Upload a different contractor's quote for a meaningful comparison.";
+            break;
+          } else if (sameContractor) {
+            duplicateWarning = "Same contractor as Quote " + (s + 1) + ". For best results, compare quotes from different contractors.";
+            break;
+          }
+        }
+
         slot.classList.remove("uploading");
         slot.classList.add("uploaded");
         slot.onclick = null; // Don't open file picker on uploaded slots
@@ -377,7 +406,8 @@
           '<span class="slot-check">&#10003;</span>' +
           '<input type="text" class="slot-edit-name" value="' + escHtml(contractor) + '" data-idx="' + idx + '" placeholder="Contractor name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid ' + (nameIsDefault ? '#fde68a' : '#e2e8f0') + '; border-radius:6px; padding:4px 8px; width:90%; background:' + (nameIsDefault ? '#fffbeb' : '#fff') + ';" />' +
           '<input type="text" class="slot-edit-price" value="' + (price > 0 ? '$' + price.toLocaleString() : '') + '" data-idx="' + idx + '" placeholder="Enter price (e.g. $12,500)" style="font-size:16px; font-weight:700; text-align:center; color:#1d4ed8; border:1px solid ' + (price > 0 ? '#e2e8f0' : '#fde68a') + '; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:' + (price > 0 ? '#fff' : '#fffbeb') + ';" />' +
-          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />' +
+          (duplicateWarning ? '<div style="margin-top:8px; padding:6px 10px; background:#fffbeb; border:1px solid #fde68a; border-radius:6px; font-size:11px; color:#92400e;">' + escHtml(duplicateWarning) + '</div>' : '');
 
         // Bind edit handlers
         slot.querySelector(".slot-edit-name").addEventListener("change", function() {
@@ -414,6 +444,7 @@
 
     window.removeQuote = function(idx) {
       quotes[idx] = null;
+      uploadedFiles[idx] = null;
       var slot = document.getElementById("slot" + idx);
       slot.classList.remove("uploaded", "uploading");
       slot.innerHTML =
