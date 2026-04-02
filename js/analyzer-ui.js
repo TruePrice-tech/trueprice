@@ -9107,10 +9107,26 @@ function buildComparisonWinnerHtml(summary) {
 
       if (file.type && file.type.startsWith("image/")) {
         var img = document.createElement("img");
-        img.style.cssText = "width:100%; border-radius:8px;";
+        img.style.cssText = "width:100%; border-radius:8px; cursor:zoom-in;";
         img.src = URL.createObjectURL(file);
-        img.alt = "Uploaded quote";
+        img.alt = "Uploaded quote - click to zoom";
+        img.title = "Click to zoom";
+        img.addEventListener("click", function() {
+          var overlay = document.createElement("div");
+          overlay.style.cssText = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); z-index:9999; display:flex; align-items:center; justify-content:center; cursor:zoom-out; padding:20px; box-sizing:border-box;";
+          var zoomImg = document.createElement("img");
+          zoomImg.src = img.src;
+          zoomImg.style.cssText = "max-width:95vw; max-height:95vh; object-fit:contain; border-radius:8px; box-shadow:0 8px 32px rgba(0,0,0,0.5);";
+          overlay.appendChild(zoomImg);
+          var closeHint = document.createElement("div");
+          closeHint.style.cssText = "position:absolute; top:16px; right:24px; color:#fff; font-size:14px; opacity:0.7;";
+          closeHint.textContent = "Click anywhere to close";
+          overlay.appendChild(closeHint);
+          overlay.addEventListener("click", function() { overlay.remove(); });
+          document.body.appendChild(overlay);
+        });
         previewArea.appendChild(img);
+        previewArea.insertAdjacentHTML("beforeend", '<div style="text-align:center; margin-top:8px; font-size:12px; color:#94a3b8;">Click image to zoom</div>');
       } else if (file.type === "application/pdf" || (file.name && file.name.toLowerCase().endsWith(".pdf"))) {
         if (typeof pdfjsLib !== "undefined") {
           previewArea.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">Loading PDF preview...</div>';
