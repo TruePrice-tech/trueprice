@@ -9377,7 +9377,7 @@ function buildComparisonWinnerHtml(summary) {
 
       // Regional pricing model (matches data/pricing-model.json + data/state-regions.json)
       const BASE_PRICE_PER_SQUARE = {
-        asphalt: 525, architectural: 525, metal: 1150, tile: 1200, cedar: 900, flat: 550, slate: 1450, concrete: 775
+        asphalt: 425, architectural: 525, metal: 1150, tile: 1200, cedar: 900, flat: 550, slate: 2800, concrete: 775
       };
       const LABOR_MULT_BY_REGION = {
         south: 1.00, southeast: 1.03, northeast: 1.15, midwest: 1.06, mountain: 1.08, west: 1.18
