@@ -30,6 +30,9 @@
     },
     "api/ocr-vision.js": {
       "maxDuration": 15
+    },
+    "api/satellite-view.js": {
+      "maxDuration": 10
     }
   },
   "headers": [
