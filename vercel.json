@@ -33,6 +33,9 @@
     },
     "api/satellite-view.js": {
       "maxDuration": 10
+    },
+    "api/calibration.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

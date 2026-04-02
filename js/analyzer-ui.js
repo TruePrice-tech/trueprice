@@ -5662,6 +5662,30 @@ function buildComparisonWinnerHtml(summary) {
           }));
         } catch(e) {}
 
+        // Submit to calibration engine (non-blocking)
+        try {
+          if (latestAnalysis?.quotePrice && latestAnalysis?.quotePrice > 0) {
+            fetch("/api/calibration", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                price: latestAnalysis.quotePrice,
+                contractor: latestAnalysis.contractor || latestParsed?.contractor || "",
+                city: latestAnalysis.city || "",
+                stateCode: latestAnalysis.stateCode || "",
+                material: latestAnalysis.material || "",
+                roofSize: latestAnalysis.roofSize || 0,
+                warrantyYears: latestAnalysis.warrantyYears || 0,
+                scopeItems: latestAnalysis.signals || {},
+                source: "upload",
+                hasDocument: !!window.__uploadedQuoteFile,
+                modelEstimate: latestAnalysis.mid || 0,
+                service: "roofing"
+              })
+            }).catch(function() {});
+          }
+        } catch(e) {}
+
         }
 
         window.handleAnalyzeClick = function handleAnalyzeClick() {

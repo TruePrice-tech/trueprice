@@ -431,13 +431,31 @@ module.exports = async (req, res) => {
     const seasonalMult = getSeasonalMultiplier(service);
     const timeMult = inflationMult * seasonalMult;
 
+    // Check for calibration data from real quotes
+    let calibrationFactor = 1.0;
+    try {
+      const { Redis } = await import("@upstash/redis");
+      const redis = Redis.fromEnv();
+      const calKey = `cal:${city.toLowerCase()}:${stateUpper}:${service}`;
+      const calData = await redis.get(calKey);
+      if (calData && calData.quotes >= 1 && calData.avgPrice > 0 && result.overallLow > 0) {
+        const modelMid = (result.overallLow + result.overallHigh) / 2;
+        const realAvg = calData.avgPrice;
+        // Blend: weight calibration based on number of quotes (more quotes = more influence)
+        const calWeight = Math.min(calData.quotes / 5, 1.0) * 0.3; // max 30% influence
+        calibrationFactor = 1.0 + (realAvg / modelMid - 1.0) * calWeight;
+        calibrationFactor = Math.max(0.7, Math.min(1.3, calibrationFactor)); // cap at ±30%
+      }
+    } catch(e) { /* calibration unavailable, use model only */ }
+
+    const totalMult = timeMult * calibrationFactor;
     const adjustedMaterials = result.materials.map(m => ({
       label: m.label,
-      low: smartRound(m.low * timeMult),
-      high: smartRound(m.high * timeMult),
+      low: smartRound(m.low * totalMult),
+      high: smartRound(m.high * totalMult),
     }));
-    const adjustedLow = smartRound(result.overallLow * timeMult);
-    const adjustedHigh = smartRound(result.overallHigh * timeMult);
+    const adjustedLow = smartRound(result.overallLow * totalMult);
+    const adjustedHigh = smartRound(result.overallHigh * totalMult);
 
     const cityPageUrl = `https://truepricehq.com/${slugify(city)}-${stateUpper.toLowerCase()}-${config.urlSlug}-cost.html`;
 

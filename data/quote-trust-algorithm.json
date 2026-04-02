@@ -1,0 +1,82 @@
+{
+  "description": "Quote Trust Score Algorithm - determines how much influence a submitted quote has on pricing calibration",
+  "maxScore": 100,
+  "minimumTrustToInfluence": 40,
+  "factors": [
+    {
+      "name": "has_price",
+      "points": 10,
+      "description": "Quote includes a specific total price (not a range)"
+    },
+    {
+      "name": "has_contractor",
+      "points": 8,
+      "description": "Contractor/company name was extracted or provided"
+    },
+    {
+      "name": "has_address",
+      "points": 10,
+      "description": "Property address or city/state was provided"
+    },
+    {
+      "name": "has_scope_items",
+      "points": 10,
+      "description": "At least 3 scope items were detected in the quote"
+    },
+    {
+      "name": "has_material",
+      "points": 5,
+      "description": "Roofing material type was identified"
+    },
+    {
+      "name": "has_roof_size",
+      "points": 8,
+      "description": "Roof size in squares or sqft was detected"
+    },
+    {
+      "name": "price_in_range",
+      "points": 15,
+      "description": "Price is within 0.5x to 2.0x of model estimate (not an obvious outlier)"
+    },
+    {
+      "name": "uploaded_document",
+      "points": 10,
+      "description": "User uploaded an actual PDF/image (not just typed in numbers)"
+    },
+    {
+      "name": "unique_session",
+      "points": 8,
+      "description": "IP/session hasn't submitted more than 3 quotes in 24 hours"
+    },
+    {
+      "name": "has_warranty",
+      "points": 5,
+      "description": "Warranty information was detected"
+    },
+    {
+      "name": "consistent_math",
+      "points": 6,
+      "description": "Line items add up to within 10% of total (if line items detected)"
+    },
+    {
+      "name": "realistic_per_sqft",
+      "points": 5,
+      "description": "Price per sqft falls within $2-$35 range (not absurd)"
+    }
+  ],
+  "influenceWeights": {
+    "trust_90_plus": 1.0,
+    "trust_70_89": 0.7,
+    "trust_50_69": 0.4,
+    "trust_40_49": 0.2,
+    "trust_below_40": 0.0
+  },
+  "minimumQuotesForCalibration": 1,
+  "minimumQuotesForFullWeight": 5,
+  "outlierThresholds": {
+    "reject_below": 0.3,
+    "reject_above": 3.0,
+    "flag_below": 0.5,
+    "flag_above": 2.0
+  }
+}
