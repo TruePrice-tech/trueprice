@@ -14,49 +14,73 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  const apiKey = process.env.GOOGLE_VISION_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: "Vision API key not configured" });
-
   try {
     const { base64, mediaType } = req.body;
-
     if (!base64) return res.status(400).json({ error: "No image data" });
 
-    // Call Google Cloud Vision API for text detection
-    const response = await fetch(
-      `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          requests: [{
-            image: { content: base64 },
-            features: [
-              { type: "DOCUMENT_TEXT_DETECTION", maxResults: 1 }
-            ]
-          }]
-        })
+    // Try Google Cloud Vision first (best accuracy)
+    const googleKey = process.env.GOOGLE_VISION_API_KEY;
+    if (googleKey) {
+      try {
+        const gRes = await fetch(
+          `https://vision.googleapis.com/v1/images:annotate?key=${googleKey}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              requests: [{
+                image: { content: base64 },
+                features: [{ type: "DOCUMENT_TEXT_DETECTION", maxResults: 1 }]
+              }]
+            })
+          }
+        );
+        if (gRes.ok) {
+          const gData = await gRes.json();
+          const text = gData.responses?.[0]?.fullTextAnnotation?.text || "";
+          if (text.length > 30) {
+            console.log("[ocr-vision] Google Vision:", text.length, "chars");
+            return res.status(200).json({ success: true, text, confidence: "high", source: "google_vision" });
+          }
+        }
+      } catch (e) {
+        console.warn("[ocr-vision] Google Vision failed:", e.message);
       }
-    );
-
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error("[ocr-vision] Google Vision API error:", response.status, errText);
-      return res.status(502).json({ error: "OCR failed", status: response.status });
     }
 
-    const data = await response.json();
-    const annotation = data.responses?.[0]?.fullTextAnnotation;
-    const text = annotation?.text || "";
+    // Fallback: OCR.space (free, 80-85% accuracy)
+    const ocrSpaceKey = process.env.OCR_SPACE_API_KEY || "K84200508188957";
+    try {
+      const mimeType = mediaType || "image/png";
+      const formBody = new URLSearchParams();
+      formBody.append("base64Image", `data:${mimeType};base64,${base64}`);
+      formBody.append("language", "eng");
+      formBody.append("isOverlayRequired", "false");
+      formBody.append("OCREngine", "2"); // Engine 2 is better for documents
+      formBody.append("isTable", "true"); // Better table detection
+      formBody.append("scale", "true"); // Upscale for better accuracy
 
-    console.log("[ocr-vision] Extracted text length:", text.length);
+      const oRes = await fetch("https://api.ocr.space/parse/image", {
+        method: "POST",
+        headers: { "apikey": ocrSpaceKey },
+        body: formBody
+      });
 
-    return res.status(200).json({
-      success: true,
-      text: text,
-      confidence: annotation ? "high" : "none",
-      source: "google_vision"
-    });
+      if (oRes.ok) {
+        const oData = await oRes.json();
+        if (!oData.IsErroredOnProcessing && oData.ParsedResults && oData.ParsedResults.length > 0) {
+          const text = oData.ParsedResults.map(r => r.ParsedText || "").join("\n");
+          if (text.length > 30) {
+            console.log("[ocr-vision] OCR.space:", text.length, "chars");
+            return res.status(200).json({ success: true, text, confidence: "medium", source: "ocr_space" });
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[ocr-vision] OCR.space failed:", e.message);
+    }
+
+    return res.status(200).json({ success: false, text: "", confidence: "none", source: "none" });
 
   } catch (error) {
     console.error("[ocr-vision] Error:", error.message);
