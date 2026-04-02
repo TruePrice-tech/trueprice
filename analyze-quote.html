@@ -138,9 +138,33 @@
               <span class="tile-icon">&#127912;</span>
               <span class="tile-label">Painting</span>
             </div>
-            <div class="service-tile" data-svc="other" data-photo="0" data-analyzer="">
-              <span class="tile-icon">&#128736;</span>
-              <span class="tile-label">Other</span>
+            <div class="service-tile" data-svc="fencing" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#127988;</span>
+              <span class="tile-label">Fencing</span>
+            </div>
+            <div class="service-tile" data-svc="concrete" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#128679;</span>
+              <span class="tile-label">Concrete</span>
+            </div>
+            <div class="service-tile" data-svc="landscaping" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#127793;</span>
+              <span class="tile-label">Landscaping</span>
+            </div>
+            <div class="service-tile" data-svc="garage-doors" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#128694;</span>
+              <span class="tile-label">Garage Doors</span>
+            </div>
+            <div class="service-tile" data-svc="foundation" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#127959;</span>
+              <span class="tile-label">Foundation</span>
+            </div>
+            <div class="service-tile" data-svc="kitchen" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#127859;</span>
+              <span class="tile-label">Kitchen</span>
+            </div>
+            <div class="service-tile" data-svc="insulation" data-photo="0" data-analyzer="">
+              <span class="tile-icon">&#129535;</span>
+              <span class="tile-label">Insulation</span>
             </div>
           </div>
         </div>
@@ -200,8 +224,9 @@
         var label = serviceLabels[svc] || svc;
 
         // If no photo and no dedicated analyzer, go to pricing guide
+        var costPageOverrides = { windows: "window-replacement-cost.html", foundation: "foundation-repair-cost.html", kitchen: "kitchen-remodel-cost.html", fencing: "fence-cost.html", "garage-doors": "garage-door-cost.html" };
         if (!hasPhoto && !analyzer) {
-          window.location.href = "/" + svc + "-cost.html";
+          window.location.href = "/" + (costPageOverrides[svc] || svc + "-cost.html");
           return;
         }
 
