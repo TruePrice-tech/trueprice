@@ -6074,9 +6074,21 @@ function buildComparisonWinnerHtml(summary) {
         );
       }
 
+      var textRedFlags = detectRedFlags(latestExtractedText);
+      if (textRedFlags.length) {
+        sections.push(
+          "",
+          "Fine print & red flags:",
+          ...textRedFlags.map(function(f) {
+            var sev = f.severity === "high" ? "[!]" : f.severity === "medium" ? "[*]" : "[-]";
+            return sev + " " + f.label + " - " + f.detail;
+          })
+        );
+      }
+
       sections.push(
         "",
-        getBrandFooterText()
+        "Powered by TruePrice (truepricehq.com)"
       );
 
       return sections.join("\n");
@@ -6228,11 +6240,16 @@ function buildComparisonWinnerHtml(summary) {
           `
         : "";
 
+        const shareRedFlagsHtml = renderRedFlags(latestExtractedText);
+
                 output.innerHTML = `
             <div class="panel" style="margin-top:8px; border-width:2px;">
-              <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#334155;">
-                TruePrice decision report
-              </p>
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                <img src="/images/trudy-clipboard.png" alt="Trudy" width="40" />
+                <div>
+                  <div style="font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brand, #1e3a5f);">TruePrice Decision Report</div>
+                </div>
+              </div>
 
               <div style="margin:0 0 10px; font-size:32px; line-height:1.05; font-weight:800;">
                 ${recommendationAction}
@@ -6381,9 +6398,13 @@ function buildComparisonWinnerHtml(summary) {
 
           ${comparisonHtml}
 
-          <p class="small muted" style="margin:16px 0 0;">
-            ${getBrandFooterText()}
-          </p>
+          ${shareRedFlagsHtml}
+
+          <div style="text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid #e2e8f0;">
+            <a href="https://truepricehq.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;" target="_blank" rel="noopener">
+              <img src="/images/trudy-peeking.png" alt="" width="24" /> Powered by <strong style="color:#1e3a5f;">TruePrice</strong>
+            </a>
+          </div>
         </div>
       `;
     }
