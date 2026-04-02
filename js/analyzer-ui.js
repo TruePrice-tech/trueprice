@@ -4222,6 +4222,61 @@ function buildComparisonWinnerHtml(summary) {
         `;
       }
 
+      // Red flag detection from quote text
+      function detectRedFlags(text) {
+        var flags = [];
+        if (!text) return flags;
+        text = text.toLowerCase();
+
+        if (/100%\s*(due|deposit|upfront|before|prior|at signing)/i.test(text) || /full\s*payment\s*(due|before|prior|upfront|at signing)/i.test(text)) {
+          flags.push({ severity: "high", label: "100% payment upfront", detail: "Paying in full before work starts removes your leverage if something goes wrong. Industry standard is 10-30% deposit." });
+        } else if (/50%\s*(deposit|down|due|at signing)/i.test(text) || /half\s*(down|due|deposit)/i.test(text)) {
+          flags.push({ severity: "medium", label: "50% deposit required", detail: "A 50% deposit is on the high side. 10-30% is more typical. Ensure the balance is due after completion." });
+        }
+        if (/permit.{0,20}(homeowner|owner|customer|client|your)\s*(responsib|expense|cost|obtain)/i.test(text) || /homeowner.{0,15}(responsible|obtain).{0,15}permit/i.test(text)) {
+          flags.push({ severity: "medium", label: "Permits are your responsibility", detail: "Most reputable contractors pull permits themselves. Verify local requirements and factor in the cost." });
+        }
+        if (/1\.5%\s*(per|\/)\s*month|18%\s*(per|\/)\s*(year|annum|annual)/i.test(text) || /late\s*(fee|charge|penalty).{0,30}(1\.5|2)%/i.test(text)) {
+          flags.push({ severity: "medium", label: "High late payment penalty", detail: "Late fees above 12% APR are aggressive. Clarify payment schedule and grace period before signing." });
+        }
+        if (/(credit card|cc|card)\s*(surcharge|fee|charge).{0,15}\d+%/i.test(text) || /\d+%\s*(credit card|cc|card)\s*(surcharge|fee)/i.test(text)) {
+          flags.push({ severity: "low", label: "Credit card surcharge", detail: "Some contractors add 2-4% for credit card payments. Ask about check or ACH to avoid the fee." });
+        }
+        if (text.length > 100 && !/start\s*date|completion|timeline|schedule|begin\s*work|commence/i.test(text)) {
+          flags.push({ severity: "low", label: "No timeline mentioned", detail: "The quote doesn't mention a start date or completion timeline. Get this in writing before signing." });
+        }
+        if (/sub\s*contract|subcontract|third.party|outside\s*crew/i.test(text)) {
+          flags.push({ severity: "low", label: "May use subcontractors", detail: "Not necessarily bad, but ask who will be on-site and whether the warranty covers subcontractor work." });
+        }
+        if (/not\s*(responsible|liable)\s*(for|if)|disclaim|waive.{0,10}(liab|claim|damage)|as[\s-]is/i.test(text)) {
+          flags.push({ severity: "medium", label: "Liability disclaimer detected", detail: "The contractor may be limiting their liability. Read the fine print carefully." });
+        }
+        if (/same[\s-]*day|sign\s*today|today\s*only|expires?\s*today|limited[\s-]*time/i.test(text)) {
+          flags.push({ severity: "medium", label: "Same-day signing pressure", detail: "Discounts that expire today are a pressure tactic. A reputable contractor will honor their price for at least a week." });
+        }
+        return flags;
+      }
+
+      function renderRedFlags(rawText) {
+        var flags = detectRedFlags(rawText);
+        if (flags.length === 0) return "";
+        var html = '<div style="margin:20px 0; padding:20px 24px; background:#fef2f2; border:1px solid #fecaca; border-radius:16px;">';
+        html += '<div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">';
+        html += '<img src="/images/trudy-worried.png" alt="" width="36" />';
+        html += '<div style="font-size:16px; font-weight:800; color:#991b1b;">Fine print & red flags</div>';
+        html += '</div>';
+        flags.forEach(function(f) {
+          var icon = f.severity === "high" ? "&#9888;" : f.severity === "medium" ? "&#9679;" : "&#8226;";
+          var color = f.severity === "high" ? "#dc2626" : f.severity === "medium" ? "#d97706" : "#6b7280";
+          html += '<div style="margin-bottom:8px;">';
+          html += '<div style="font-size:14px; font-weight:700; color:' + color + ';">' + icon + ' ' + escapeHtml(f.label) + '</div>';
+          html += '<div style="font-size:13px; color:#475569; line-height:1.5; margin-top:2px; padding-left:18px;">' + escapeHtml(f.detail) + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+        return html;
+      }
+
       // Scope review state — tracks user corrections
       const scopeReviewState = {};
 
@@ -9038,6 +9093,7 @@ function buildComparisonWinnerHtml(summary) {
             ${sideBySideBtn}
             ${renderAffiliateLink(a)}
             ${renderBeforeYouSign(a)}
+            ${renderRedFlags(latestExtractedText)}
             ${renderMarketContext(a)}
             ${renderCommunityStats(a)}
             ${renderCommunityContribution(a)}
