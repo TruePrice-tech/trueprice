@@ -503,7 +503,7 @@
         if (cityVal && stateVal) {
           fetch("/api/city-multiplier?city=" + encodeURIComponent(cityVal) + "&state=" + encodeURIComponent(stateVal))
             .then(function(r) { return r.json(); })
-            .then(function(d) { if (d && d.multiplier) state.cityMult = d.multiplier; })
+            .then(function(d) { if (d && d.multiplier) { state.cityMult = d.multiplier; state.cityRange = { low: d.rangeLow || 0.82, high: d.rangeHigh || 1.22 }; } })
             .catch(function() {})
             .then(function() {
               state.step = "result";
@@ -538,8 +538,11 @@
 
       var totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT * laborMult * complexityMult * conditionMult * workTypeMult * INFLATION_MULT * SEASONAL_MULT;
       var mid = roundTo(totalCost, 100);
-      var low = roundTo(mid * 0.82, 100);
-      var high = roundTo(mid * 1.22, 100);
+      // Use city-specific range if available (wider for small cities)
+      var rangeLow = state.cityRange ? state.cityRange.low : 0.82;
+      var rangeHigh = state.cityRange ? state.cityRange.high : 1.22;
+      var low = roundTo(mid * rangeLow, 100);
+      var high = roundTo(mid * rangeHigh, 100);
       var perSqFt = (mid / roofSqFt).toFixed(2);
 
       var locationLabel = c.city ? esc(c.city) + ", " + esc(c.stateCode) : "your area";

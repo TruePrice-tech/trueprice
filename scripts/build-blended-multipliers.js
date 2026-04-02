@@ -776,8 +776,16 @@ function main() {
       materialsSource = "state_avg";
     }
 
-    // Blend: 55% labor + 45% materials
-    const blendedMult = Math.round((laborMult * LABOR_WEIGHT + materialsMult * MATERIALS_WEIGHT) * 1000) / 1000;
+    // Population-based adjustment: smaller cities have lower contractor prices
+    const pop = Number(city.population) || 50000;
+    const popAdj = pop < 25000 ? 0.88 : pop < 75000 ? 0.94 : pop < 200000 ? 1.0 : 1.0;
+
+    // Confidence range: wider for smaller markets (more price variance)
+    const rangeLow = pop < 50000 ? 0.75 : pop < 100000 ? 0.80 : 0.85;
+    const rangeHigh = pop < 50000 ? 1.30 : pop < 100000 ? 1.25 : 1.18;
+
+    // Blend: 55% labor + 45% materials, then apply population adjustment
+    const blendedMult = Math.round((laborMult * LABOR_WEIGHT + materialsMult * MATERIALS_WEIGHT) * popAdj * 1000) / 1000;
 
     // Per-service multipliers using trade-specific wages
     const serviceMultipliers = {};
@@ -822,6 +830,10 @@ function main() {
       multiplier: blendedMult,
       laborMult: Math.round(laborMult * 1000) / 1000,
       materialsMult: Math.round(materialsMult * 1000) / 1000,
+      popAdj: popAdj,
+      population: pop,
+      rangeLow: rangeLow,
+      rangeHigh: rangeHigh,
       serviceMultipliers: Object.keys(serviceMultipliers).length > 0 ? serviceMultipliers : undefined,
       source: sourceLabel
     };
