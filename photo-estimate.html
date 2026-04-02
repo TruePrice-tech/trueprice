@@ -212,32 +212,38 @@
       var labels = photoLabels[state.service] || photoLabels.general;
 
       app.innerHTML =
-        '<div style="text-align:center; margin-bottom:24px;">' +
-          '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="100" style="margin-bottom:8px;" />' +
-          '<h1 style="font-size:24px; margin:0 0 6px; color:#0f172a;">' + labels.title + '</h1>' +
-          '<p style="font-size:15px; color:#64748b; margin:0;">' + labels.desc + '</p>' +
+        '<div style="text-align:center; margin-bottom:28px;">' +
+          '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="100" style="margin-bottom:10px;" />' +
+          '<h1 style="font-size:26px; margin:0 0 8px; color:#0f172a;">' + labels.title + '</h1>' +
+          '<p style="font-size:15px; color:#64748b; margin:0; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">' + labels.desc + '</p>' +
         '</div>' +
 
-        '<div class="pe-capture-zone" id="captureZone" style="padding:3rem 1.5rem;">' +
-          '<img src="/images/roof-scan.png" alt="" width="120" style="margin-bottom:12px; opacity:0.8;" />' +
-          '<p style="font-size:17px; font-weight:600; color:#1e293b; margin:0 0 4px;">' + (isMobile ? "Tap to take a photo" : "Click to upload a photo") + '</p>' +
-          '<p style="font-size:14px; color:#94a3b8; margin:0;">' + (isMobile ? "Camera or photo library" : "JPG or PNG from your phone or computer") + '</p>' +
+        '<div class="pe-capture-zone" id="captureZone" style="padding:3rem 1.5rem; transition:border-color 0.2s, background 0.2s, transform 0.15s;" onmouseover="this.style.borderColor=\'#3b82f6\';this.style.background=\'#eff6ff\';this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.borderColor=\'#cbd5e1\';this.style.background=\'#f8fafc\';this.style.transform=\'none\'">' +
+          '<div style="font-size:48px; margin-bottom:12px;">&#128247;</div>' +
+          '<p style="font-size:18px; font-weight:600; color:#1e293b; margin:0 0 6px;">' + (isMobile ? "Tap to take a photo" : "Click to upload a photo") + '</p>' +
+          '<p style="font-size:14px; color:#94a3b8; margin:0 0 12px;">' + (isMobile ? "Camera or photo library" : "Drag and drop or click to browse") + '</p>' +
+          '<div style="font-size:11px; color:#94a3b8; padding-top:12px; border-top:1px solid #e2e8f0;">Your photo is analyzed by AI and never stored</div>' +
         '</div>' +
         '<input type="file" id="photoInput" accept="image/*" style="display:none;" />' +
 
-        '<div style="text-align:center; margin-top:16px; font-size:12px; color:#94a3b8;">Your photo is analyzed by AI and never stored.</div>' +
-
         (labels.addressLink
-          ? '<div style="text-align:center; margin-top:10px;"><a href="' + labels.addressLink + '" style="font-size:13px; color:#64748b; text-decoration:none;">or enter your address manually &rarr;</a></div>'
+          ? '<div style="text-align:center; margin-top:16px;"><a href="' + labels.addressLink + '" style="font-size:14px; color:#64748b; text-decoration:none; padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">or enter your address manually &rarr;</a></div>'
           : '') +
 
-        '<div style="text-align:center; margin-top:10px;"><a href="/analyze-quote.html" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>';
+        '<div style="text-align:center; margin-top:12px;"><a href="/analyze-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>';
 
       // Bind events
       var zone = document.getElementById("captureZone");
       var input = document.getElementById("photoInput");
 
       zone.addEventListener("click", function() { input.click(); });
+      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#1d4ed8"; zone.style.background = "#dbeafe"; });
+      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc"; });
+      zone.addEventListener("drop", function(e) {
+        e.preventDefault(); zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc";
+        var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) { var dt = new DataTransfer(); dt.items.add(file); input.files = dt.files; input.dispatchEvent(new Event("change")); }
+      });
       input.addEventListener("change", function() {
         var file = input.files && input.files[0];
         if (!file) return;
