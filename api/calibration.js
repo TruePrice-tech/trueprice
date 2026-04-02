@@ -134,15 +134,21 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing quote data" });
     }
 
+    // Admin mode: bypass rate limiting, set high trust for verified seed data
+    const adminKey = process.env.CAL_ADMIN_KEY;
+    const isAdmin = adminKey && body.adminKey === adminKey;
+
     const ip = req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "unknown";
 
-    // Rate limit: max 3 submissions per IP per 24 hours
-    const rateLimitKey = `cal_rate:${ip}`;
-    const submissions = await redis.get(rateLimitKey) || 0;
-    const tooMany = submissions >= 3;
-
-    if (tooMany) {
-      return res.status(429).json({ error: "Too many submissions. Try again tomorrow." });
+    if (!isAdmin) {
+      // Rate limit: max 3 submissions per IP per 24 hours
+      const rateLimitKey = `cal_rate:${ip}`;
+      const submissions = await redis.get(rateLimitKey) || 0;
+      if (submissions >= 3) {
+        return res.status(429).json({ error: "Too many submissions. Try again tomorrow." });
+      }
+      // Update rate limit
+      await redis.set(rateLimitKey, submissions + 1, { ex: 24 * 60 * 60 });
     }
 
     // Build quote object
@@ -155,18 +161,28 @@ export default async function handler(req, res) {
       roofSize: Number(body.roofSize) || 0,
       warrantyYears: Number(body.warrantyYears) || 0,
       scopeItems: body.scopeItems || {},
-      source: body.source || "manual",
+      source: isAdmin ? "verified_seed" : (body.source || "manual"),
       hasDocument: !!body.hasDocument,
       lineItemTotal: Number(body.lineItemTotal) || 0,
-      _tooManySubmissions: tooMany,
+      _tooManySubmissions: false,
       timestamp: Date.now(),
-      ip: ip.split(",")[0].trim()
+      ip: isAdmin ? "admin" : ip.split(",")[0].trim(),
+      notes: body.notes || ""
     };
 
-    // Compute trust score
-    const modelEstimate = Number(body.modelEstimate) || 0;
-    const { score, reasons } = computeTrustScore(quote, modelEstimate);
-    const weight = getInfluenceWeight(score);
+    // Compute trust score (admin seeds get 90 trust, full weight)
+    let score, reasons, weight;
+    if (isAdmin) {
+      score = 90;
+      reasons = ["admin_verified_seed"];
+      weight = 1.0;
+    } else {
+      const modelEstimate = Number(body.modelEstimate) || 0;
+      const result = computeTrustScore(quote, modelEstimate);
+      score = result.score;
+      reasons = result.reasons;
+      weight = getInfluenceWeight(score);
+    }
 
     quote.trustScore = score;
     quote.trustReasons = reasons;
@@ -191,15 +207,13 @@ export default async function handler(req, res) {
       await redis.set(calKey, JSON.stringify(existing));
     }
 
-    // Update rate limit
-    await redis.set(rateLimitKey, submissions + 1, { ex: 24 * 60 * 60 });
-
     return res.status(200).json({
       ok: true,
       trustScore: score,
       trustReasons: reasons,
       influenceWeight: weight,
-      accepted: weight > 0
+      accepted: weight > 0,
+      source: quote.source
     });
   }
 
