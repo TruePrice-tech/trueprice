@@ -5,6 +5,23 @@
     "metal": 900,
     "tile": 1400
   },
+  "workTypeMultiplier": {
+    "new_roof": 1.0,
+    "reroof": 0.65,
+    "overlay": 0.55,
+    "tile_reinstall": 0.42,
+    "repair": 0.35
+  },
+  "brandTierMultiplier": {
+    "standard": 1.0,
+    "premium": 1.12,
+    "ultra_premium": 1.30
+  },
+  "scopeComplexityMultiplier": {
+    "basic": 0.90,
+    "standard": 1.0,
+    "comprehensive": 1.15
+  },
   "laborMultiplierByRegion": {
     "south": 1.00,
     "southeast": 1.03,

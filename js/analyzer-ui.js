@@ -5290,7 +5290,18 @@ function buildComparisonWinnerHtml(summary) {
           }
         }
 
-        const adjustedBenchmark = benchmarkPerSqFt * complexityFactor * tearOffFactor;
+        // Detect brand tier from parsed quote text
+        const parsedText = String(latestParsed?._normalizedText || latestParsed?.contractor || "").toLowerCase();
+        const premiumBrands = ["gaf", "hdz", "timberline", "owens corning", "duration", "certainteed", "landmark", "iko", "atlas"];
+        const ultraPremiumBrands = ["davinci", "boral", "decra", "tilcor", "standing seam"];
+        const brandTierMult = ultraPremiumBrands.some(b => parsedText.includes(b)) ? 1.30
+          : premiumBrands.some(b => parsedText.includes(b)) ? 1.12 : 1.0;
+
+        // Detect scope complexity from parsed signals
+        const signalCount = latestAnalysis?.signals ? Object.values(latestAnalysis.signals).filter(s => s?.status === "included").length : 0;
+        const scopeComplexMult = signalCount >= 8 ? 1.15 : signalCount >= 5 ? 1.05 : 1.0;
+
+        const adjustedBenchmark = benchmarkPerSqFt * complexityFactor * tearOffFactor * brandTierMult * scopeComplexMult;
         const mid = adjustedBenchmark * effectiveRoofSize;
         const low = mid * 0.9;
         const high = mid * 1.12;
@@ -9496,9 +9507,16 @@ function buildComparisonWinnerHtml(summary) {
       const basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
       const roofSquares = estimatedRoofSize / 100;
 
-      // Total = squares × base price × waste × overhead × labor × tearoff × worktype × inflation × seasonal
+      // Brand tier: detect from material selection (basic materials = standard, premium shingles = premium)
+      const premiumMaterials = ["metal", "tile", "cedar"];
+      const brandMult = premiumMaterials.includes(material) ? 1.12 : 1.0;
+
+      // Scope complexity: insurance jobs tend to be comprehensive
+      const scopeMult = answers.insurance === "yes" ? 1.15 : 1.0;
+
+      // Total = squares × base price × waste × overhead × labor × tearoff × brand × scope × inflation × seasonal
       const totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT
-        * laborMult * tearOffFact * seasonFact * INFLATION_MULT * CURRENT_SEASONAL_MULT;
+        * laborMult * tearOffFact * brandMult * scopeMult * seasonFact * INFLATION_MULT * CURRENT_SEASONAL_MULT;
 
       const mid = Math.round(totalCost / 50) * 50; // round to nearest $50
       const low = Math.round(mid * 0.85 / 50) * 50;

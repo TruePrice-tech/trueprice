@@ -425,6 +425,13 @@
           '</div>' +
 
           '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Work Type</div>' +
+            buildOptionGroup("workType", [
+              {value:"new_roof",label:"Full replacement"},{value:"reroof",label:"Re-roof / overlay"},{value:"repair",label:"Repair only"}
+            ], "new_roof") +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
             '<div class="pe-detail-label" style="margin-bottom:6px;">Roof Size' +
               (r.roofSizeSource === "satellite" ? ' <span style="font-size:11px; color:#16a34a; font-weight:400;">(measured from satellite)</span>' : ' <span style="font-size:11px; color:#94a3b8; font-weight:400;">(AI estimate)</span>') +
             '</div>' +
@@ -483,6 +490,7 @@
           material: getSelected("material") || "architectural",
           complexity: getSelected("complexity") || "simple",
           condition: getSelected("condition") || "fair",
+          workType: getSelected("workType") || "new_roof",
           roofSqFt: Number(document.getElementById("confirmRoofSqFt").value) || 2000,
           city: cityVal,
           stateCode: stateVal
@@ -525,8 +533,10 @@
 
       var complexityMult = c.complexity === "complex" ? 1.20 : c.complexity === "moderate" ? 1.10 : 1.0;
       var conditionMult = c.condition === "poor" ? 1.10 : 1.0;
+      var workTypeMults = { new_roof: 1.0, reroof: 0.65, overlay: 0.55, tile_reinstall: 0.42, repair: 0.35 };
+      var workTypeMult = workTypeMults[c.workType] || 1.0;
 
-      var totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT * laborMult * complexityMult * conditionMult * INFLATION_MULT * SEASONAL_MULT;
+      var totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT * laborMult * complexityMult * conditionMult * workTypeMult * INFLATION_MULT * SEASONAL_MULT;
       var mid = roundTo(totalCost, 100);
       var low = roundTo(mid * 0.82, 100);
       var high = roundTo(mid * 1.22, 100);
