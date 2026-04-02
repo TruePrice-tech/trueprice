@@ -469,24 +469,107 @@
     }
 
     function scoreQuote(q, allQuotes) {
-      // Scope score: confirmed items / 12 * 45
+      // Scope completeness: 40 pts max (most important -- missing items = change orders)
       var confirmed = 0;
+      var missing = [];
       SCOPE_ITEMS.forEach(function(item) {
         var val = (q.scopeItems && q.scopeItems[item.key]) || "";
-        if (val === "included") confirmed++;
+        if (val === "included") { confirmed++; }
+        else { missing.push(item.label); }
       });
-      var scopeScore = (confirmed / 12) * 45;
+      var scopeScore = (confirmed / 12) * 40;
 
-      // Price score: lower is better
-      var prices = allQuotes.map(function(aq) { return aq.price; }).filter(function(p) { return p > 0; });
-      var maxPrice = Math.max.apply(null, prices.length ? prices : [1]);
-      var priceScore = q.price > 0 ? ((1 - q.price / maxPrice) * 100) * 0.35 : 0;
+      // Price competitiveness: 30 pts max
+      // Normalize by roof size if available, otherwise use raw price
+      var prices = allQuotes.map(function(aq) {
+        if (aq.price > 0 && aq.roofSize > 0) return aq.price / aq.roofSize;
+        return aq.price > 0 ? aq.price : null;
+      }).filter(function(p) { return p !== null; });
 
-      // Warranty score
-      var warrantyScore = Math.min(q.warrantyYears || 0, 50) * 0.20;
+      var priceScore = 0;
+      if (q.price > 0 && prices.length >= 2) {
+        var qNorm = (q.roofSize > 0) ? q.price / q.roofSize : q.price;
+        var avgPrice = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
+        // Score based on distance from average: at average = 20pts, cheapest = 30pts, most expensive = 10pts
+        // But penalize suspiciously low (below 60% of average)
+        var ratio = qNorm / avgPrice;
+        if (ratio < 0.6) {
+          // Suspiciously low -- could mean missing scope
+          priceScore = 10;
+        } else if (ratio <= 1.0) {
+          // Below or at average: 20-30 pts
+          priceScore = 20 + (1 - ratio) * 25;
+        } else {
+          // Above average: 10-20 pts
+          priceScore = Math.max(5, 20 - (ratio - 1) * 20);
+        }
+      } else if (q.price > 0) {
+        priceScore = 15; // Only one valid price, neutral score
+      }
 
-      var total = Math.round(Math.max(0, Math.min(100, scopeScore + priceScore + warrantyScore)));
-      return { total: total, scopeCount: confirmed, scopeScore: scopeScore, priceScore: priceScore, warrantyScore: warrantyScore };
+      // Warranty: 15 pts max
+      var warrantyScore = 0;
+      if (q.warrantyYears > 0) {
+        warrantyScore = Math.min(q.warrantyYears / 30, 1) * 15;
+      }
+
+      // Transparency: 15 pts max (did the quote clearly state things?)
+      var transparencyScore = 0;
+      if (q.contractor && q.contractor.length > 2) transparencyScore += 3;
+      if (q.material && q.material !== "unknown") transparencyScore += 3;
+      if (q.roofSize > 0) transparencyScore += 3;
+      if (q.warrantyYears > 0) transparencyScore += 3;
+      if (confirmed >= 6) transparencyScore += 3;
+
+      var total = Math.round(Math.max(0, Math.min(100, scopeScore + priceScore + warrantyScore + transparencyScore)));
+      return {
+        total: total, scopeCount: confirmed, missingItems: missing,
+        scopeScore: Math.round(scopeScore), priceScore: Math.round(priceScore),
+        warrantyScore: Math.round(warrantyScore), transparencyScore: Math.round(transparencyScore)
+      };
+    }
+
+    function buildQuestions(active, bestValue) {
+      var questions = [];
+      active.forEach(function(a) {
+        var qs = [];
+        var name = a.data.contractor || ("Quote " + (a.idx + 1));
+        // Missing scope items
+        if (a.score.missingItems.length > 0 && a.score.missingItems.length <= 6) {
+          qs.push("Can you confirm whether " + a.score.missingItems.join(", ") + " " + (a.score.missingItems.length === 1 ? "is" : "are") + " included in the price?");
+        } else if (a.score.missingItems.length > 6) {
+          qs.push("Your quote only confirms " + a.score.scopeCount + " of 12 standard scope items. Can you provide an itemized breakdown?");
+        }
+        // No warranty
+        if (!a.data.warrantyYears || a.data.warrantyYears <= 0) {
+          qs.push("What warranty do you offer on labor and materials?");
+        }
+        // Highest price
+        var maxPrice = 0;
+        active.forEach(function(b) { if (b.data.price > maxPrice) maxPrice = b.data.price; });
+        if (a.data.price === maxPrice && active.length > 1) {
+          var diff = a.data.price - bestValue.data.price;
+          if (diff > 0 && bestValue !== a) {
+            qs.push("Your quote is $" + diff.toLocaleString() + " higher than the best value option. What additional value does your bid include?");
+          }
+        }
+        // Suspiciously low
+        if (a.data.price > 0 && active.length > 1) {
+          var allPrices = active.map(function(b) { return b.data.price; }).filter(function(p) { return p > 0; });
+          var avg = allPrices.reduce(function(s, p) { return s + p; }, 0) / allPrices.length;
+          if (a.data.price < avg * 0.6) {
+            qs.push("Your price is significantly below the other quotes. Does this include all materials, labor, disposal, and permit fees?");
+          }
+        }
+        // No material specified
+        if (!a.data.material || a.data.material === "unknown") {
+          qs.push("What material/brand will you be using?");
+        }
+        if (qs.length > 0) {
+          questions.push({ contractor: name, items: qs, idx: a.idx });
+        }
+      });
+      return questions;
     }
 
     window.showResults = function() {
@@ -500,22 +583,31 @@
         a.score = scoreQuote(a.data, allData);
       });
 
-      // Find winner
-      var winner = active[0];
+      // Find best value (highest score)
+      var bestValue = active[0];
       active.forEach(function(a) {
-        if (a.score.total > winner.score.total) winner = a;
+        if (a.score.total > bestValue.score.total) bestValue = a;
       });
+
+      // Check if scores are close (within 5 points = essentially tied)
+      var scoreSpread = bestValue.score.total - Math.min.apply(null, active.map(function(a) { return a.score.total; }));
+      var isTight = scoreSpread <= 5;
 
       // Build results HTML
       var html = "";
 
-      // Winner banner
+      // Best value banner (not "winner" -- signals value, not a declaration)
       html += '<div class="cq-winner-banner">';
-      html += '<img src="/images/trudy-thumbsup.png" alt="Trudy recommends" />';
+      html += '<img src="/images/trudy-thumbsup.png" alt="Trudy" />';
       html += '<div>';
-      html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">TruePrice Verdict</p>';
-      html += '<p class="cq-winner-title">Trudy recommends: ' + escHtml(winner.data.contractor) + '</p>';
-      html += '<p class="cq-winner-sub">Best overall value based on price, scope, and warranty</p>';
+      html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">TruePrice Analysis</p>';
+      if (isTight) {
+        html += '<p class="cq-winner-title">These quotes are closely matched</p>';
+        html += '<p class="cq-winner-sub">Scores are within 5 points. Review the details and questions below to decide.</p>';
+      } else {
+        html += '<p class="cq-winner-title">' + escHtml(bestValue.data.contractor) + ' shows the best overall value</p>';
+        html += '<p class="cq-winner-sub">Based on price, scope completeness, warranty, and transparency. See questions to ask each contractor below.</p>';
+      }
       html += '</div></div>';
 
       // Find best price
@@ -529,7 +621,7 @@
       html += '<thead><tr><th></th>';
       active.forEach(function(a) {
         html += '<th>' + escHtml(a.data.contractor);
-        if (a === winner) html += ' <span class="cq-badge cq-badge-green">BEST VALUE</span>';
+        if (a === bestValue && !isTight) html += ' <span class="cq-badge cq-badge-green">BEST VALUE</span>';
         html += '</th>';
       });
       html += '</tr></thead><tbody>';
@@ -590,10 +682,24 @@
         html += '</tr>';
       });
 
+      // Score breakdown
+      html += '<tr><td class="row-label">Scope (40)</td>';
+      active.forEach(function(a) { html += '<td>' + a.score.scopeScore + '</td>'; });
+      html += '</tr>';
+      html += '<tr><td class="row-label">Price (30)</td>';
+      active.forEach(function(a) { html += '<td>' + a.score.priceScore + '</td>'; });
+      html += '</tr>';
+      html += '<tr><td class="row-label">Warranty (15)</td>';
+      active.forEach(function(a) { html += '<td>' + a.score.warrantyScore + '</td>'; });
+      html += '</tr>';
+      html += '<tr><td class="row-label">Transparency (15)</td>';
+      active.forEach(function(a) { html += '<td>' + a.score.transparencyScore + '</td>'; });
+      html += '</tr>';
+
       // Overall score
-      html += '<tr><td class="row-label" style="font-weight:800;">Overall Score</td>';
+      html += '<tr><td class="row-label" style="font-weight:800;">Value Score</td>';
       active.forEach(function(a) {
-        var color = a === winner ? '#22c55e' : '#3b82f6';
+        var color = a === bestValue && !isTight ? '#22c55e' : '#3b82f6';
         html += '<td><div class="cq-score-bar-wrap">' +
           '<div class="cq-score-bar"><div class="cq-score-bar-fill" style="width:' + a.score.total + '%; background:' + color + ';"></div></div>' +
           '<span class="cq-score-label" style="color:' + color + ';">' + a.score.total + '</span>' +
@@ -603,9 +709,31 @@
 
       html += '</tbody></table></div>';
 
+      // Questions to ask each contractor
+      var questions = buildQuestions(active, bestValue);
+      if (questions.length > 0) {
+        html += '<div style="margin-top:28px;">';
+        html += '<div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">';
+        html += '<img src="/images/trudy-clipboard.png" alt="Trudy with clipboard" width="48" />';
+        html += '<div>';
+        html += '<h3 style="margin:0; font-size:18px;">Questions to ask before you sign</h3>';
+        html += '<p style="margin:2px 0 0; font-size:14px; color:#64748b;">Based on what we found in each quote</p>';
+        html += '</div></div>';
+        questions.forEach(function(cq) {
+          html += '<div style="padding:16px 20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin-bottom:12px;">';
+          html += '<div style="font-size:15px; font-weight:700; margin-bottom:8px;">Ask ' + escHtml(cq.contractor) + ':</div>';
+          html += '<ul style="margin:0; padding-left:20px; list-style:disc;">';
+          cq.items.forEach(function(q) {
+            html += '<li style="font-size:14px; color:#334155; margin-bottom:6px; line-height:1.5;">' + escHtml(q) + '</li>';
+          });
+          html += '</ul></div>';
+        });
+        html += '</div>';
+      }
+
       // CTAs
       var emailSubject = encodeURIComponent("My Roofing Quote Comparison - TruePrice");
-      var emailBody = encodeURIComponent(buildEmailSummary(active, winner));
+      var emailBody = encodeURIComponent(buildEmailSummary(active, bestValue, questions));
       html += '<div class="cq-cta-section">';
       html += '<a class="cq-cta-btn cq-cta-primary" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">&#9993; Email this comparison</a>';
       html += '<a class="cq-cta-btn cq-cta-secondary" href="/find-contractors.html">&#128269; Get more quotes from local contractors</a>';
@@ -622,12 +750,12 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    function buildEmailSummary(active, winner) {
+    function buildEmailSummary(active, bestValue, questions) {
       var lines = [];
       lines.push("ROOFING QUOTE COMPARISON");
       lines.push("Generated by TruePrice (truepricehq.com)");
       lines.push("");
-      lines.push("RECOMMENDED: " + winner.data.contractor + " (Score: " + winner.score.total + "/100)");
+      lines.push("BEST VALUE: " + bestValue.data.contractor + " (Value Score: " + bestValue.score.total + "/100)");
       lines.push("");
       active.forEach(function(a) {
         lines.push("--- " + a.data.contractor + " ---");
@@ -635,9 +763,18 @@
         lines.push("Material: " + a.data.material);
         lines.push("Warranty: " + (a.data.warrantyYears > 0 ? a.data.warrantyYears + " years" : "N/A"));
         lines.push("Scope: " + a.score.scopeCount + "/12 items confirmed");
-        lines.push("Overall Score: " + a.score.total + "/100");
+        lines.push("Value Score: " + a.score.total + "/100");
         lines.push("");
       });
+      if (questions && questions.length > 0) {
+        lines.push("QUESTIONS TO ASK:");
+        lines.push("");
+        questions.forEach(function(cq) {
+          lines.push("Ask " + cq.contractor + ":");
+          cq.items.forEach(function(q) { lines.push("  - " + q); });
+          lines.push("");
+        });
+      }
       lines.push("Compare more quotes at https://truepricehq.com/compare-quotes.html");
       return lines.join("\n");
     }
