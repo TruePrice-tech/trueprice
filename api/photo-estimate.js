@@ -297,6 +297,38 @@ Return ONLY the JSON object`
       }
     }
 
+    // Reverse-geocode top nearby buildings to get addresses for user selection
+    let nearbyAddresses = [];
+    if (allBuildings && allBuildings.length > 1 && detectedLat && detectedLng) {
+      try {
+        const top5 = allBuildings.slice(0, 5);
+        const addressPromises = top5.map(async (b) => {
+          const loc = await reverseGeocode(b.lat, b.lng);
+          return {
+            address: loc ? loc.address : null,
+            city: loc ? loc.city : null,
+            state: loc ? loc.state : null,
+            zip: loc ? loc.zip : null,
+            lat: b.lat,
+            lng: b.lng,
+            footprintSqFt: b.footprintSqFt,
+            distanceMeters: b.distanceMeters
+          };
+        });
+        nearbyAddresses = (await Promise.all(addressPromises)).filter(a => a.address);
+        // Deduplicate by address
+        const seen = new Set();
+        nearbyAddresses = nearbyAddresses.filter(a => {
+          if (seen.has(a.address)) return false;
+          seen.add(a.address);
+          return true;
+        });
+        console.log("[photo-estimate] Nearby addresses:", nearbyAddresses.length);
+      } catch (e) {
+        console.log("[photo-estimate] Nearby address lookup failed:", e.message);
+      }
+    }
+
     return res.status(200).json({
       success: true,
       source: "claude-haiku-vision",
@@ -305,7 +337,7 @@ Return ONLY the JSON object`
       location: detectedCity ? { city: detectedCity, state: detectedState, address: detectedAddress, zip: detectedZip, lat: detectedLat, lng: detectedLng } : null,
       cityMultiplier: cityMultiplier,
       buildingFootprint: buildingFootprint,
-      nearbyBuildings: allBuildings ? allBuildings.length : 0
+      nearbyAddresses: nearbyAddresses
     });
 
   } catch (error) {
@@ -445,7 +477,7 @@ async function getOsmFootprint(lat, lng, options) {
           if (area >= 400 && area <= 20000) {
             const centroid = { lat: coords.reduce((s,c) => s + c.lat, 0) / coords.length, lon: coords.reduce((s,c) => s + c.lon, 0) / coords.length };
             const dist = haversineMeters(lat, lng, centroid.lat, centroid.lon);
-            buildings.push({ footprintSqFt: Math.round(area), distanceMeters: Math.round(dist), source: "osm_footprint" });
+            buildings.push({ footprintSqFt: Math.round(area), distanceMeters: Math.round(dist), lat: centroid.lat, lng: centroid.lon, source: "osm_footprint" });
           }
         }
       }

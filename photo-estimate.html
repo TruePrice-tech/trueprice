@@ -484,6 +484,9 @@
         if (d.cityMultiplier) {
           state.cityMult = d.cityMultiplier;
         }
+        if (d.nearbyAddresses) {
+          state.nearbyAddresses = d.nearbyAddresses;
+        }
         // Use OSM satellite footprint for roof size if available and within sane range
         if (d.buildingFootprint && d.buildingFootprint.footprintSqFt) {
           var fp = d.buildingFootprint.footprintSqFt;
@@ -1325,13 +1328,24 @@
           '</div>' +
 
           ((svc === "roofing" || svc === "solar") && c.roofSqFt ?
-            '<div style="margin:12px 0; padding:12px 14px; background:#f0fdf4; border:1px solid #a7f3d0; border-radius:10px; font-size:14px;">' +
+            '<div id="addressVerifyBlock" style="margin:12px 0; padding:12px 14px; background:#f0fdf4; border:1px solid #a7f3d0; border-radius:10px; font-size:14px;">' +
               (state.address ?
                 '<div style="font-weight:600; color:#0f172a; margin-bottom:4px;">' + esc(state.address) + '</div>' :
                 (c.city ? '<div style="font-weight:600; color:#0f172a; margin-bottom:4px;">' + esc(c.city) + ', ' + esc(c.stateCode) + '</div>' : '')) +
               '<div style="display:flex; justify-content:space-between; align-items:center;">' +
                 '<span style="color:#475569;">Roof size: <strong>' + Math.round(c.roofSqFt).toLocaleString() + ' sq ft</strong></span>' +
                 '<a href="#" id="notMyAddressLink" style="font-size:13px; color:#1d4ed8; white-space:nowrap;">Not your address?</a>' +
+              '</div>' +
+              '<div id="nearbyAddressPicker" style="display:none; margin-top:10px; border-top:1px solid #a7f3d0; padding-top:10px;">' +
+                '<div style="font-size:13px; color:#475569; margin-bottom:8px;">Select your address:</div>' +
+                (state.nearbyAddresses && state.nearbyAddresses.length > 0 ?
+                  state.nearbyAddresses.map(function(a, i) {
+                    return '<button class="nearby-addr-btn" data-idx="' + i + '" style="display:block; width:100%; text-align:left; padding:10px 12px; margin-bottom:4px; background:#fff; border:1px solid #e2e8f0; border-radius:8px; font-size:13px; cursor:pointer; font-family:inherit;">' +
+                      '<div style="font-weight:600; color:#0f172a;">' + esc(a.address) + '</div>' +
+                      '<div style="color:#64748b; font-size:12px;">' + a.footprintSqFt.toLocaleString() + ' sq ft roof</div>' +
+                    '</button>';
+                  }).join('') : '') +
+                '<button id="enterManualAddress" style="display:block; width:100%; text-align:left; padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:13px; cursor:pointer; color:#1d4ed8; font-family:inherit;">Enter a different address</button>' +
               '</div>' +
             '</div>' : '') +
 
@@ -1379,7 +1393,47 @@
       if (notMyAddress) {
         notMyAddress.addEventListener("click", function(e) {
           e.preventDefault();
-          // Clear GPS-based data so confirm step shows address fields
+          var picker = document.getElementById("nearbyAddressPicker");
+          if (picker) {
+            picker.style.display = picker.style.display === "none" ? "block" : "none";
+          }
+        });
+      }
+
+      // Nearby address buttons
+      document.querySelectorAll(".nearby-addr-btn").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          var idx = Number(btn.dataset.idx);
+          var addr = state.nearbyAddresses[idx];
+          if (!addr) return;
+          // Update state with selected address
+          state.address = addr.address;
+          state.lat = addr.lat;
+          state.lng = addr.lng;
+          if (addr.city) state.city = addr.city;
+          if (addr.state) state.stateCode = addr.state;
+          if (addr.zip) state.zip = addr.zip;
+          // Update roof size from this building
+          var pitch = state.result.pitch || "normal";
+          var pitchFactor = pitch === "steep" ? 1.25 : pitch === "low" ? 1.05 : pitch === "flat" ? 1.0 : 1.12;
+          var newRoofSqFt = Math.round(addr.footprintSqFt * pitchFactor);
+          state.result.estimatedRoofSqFt = newRoofSqFt;
+          state.result.estimatedFootprintSqFt = addr.footprintSqFt;
+          state.result.roofSizeSource = "satellite";
+          // Re-confirm with new data
+          state.confirmed.roofSqFt = newRoofSqFt;
+          state.confirmed.city = state.city;
+          state.confirmed.stateCode = state.stateCode;
+          state.confirmed.address = state.address;
+          // Re-render result with updated data
+          state.step = "result";
+          render();
+        });
+      });
+
+      var manualAddr = document.getElementById("enterManualAddress");
+      if (manualAddr) {
+        manualAddr.addEventListener("click", function() {
           state.lat = null;
           state.lng = null;
           state.confirmed = null;
