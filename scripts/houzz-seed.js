@@ -94,32 +94,72 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function searchHouzz(query) {
-  // Use Google to find Houzz discussion threads (Houzz doesn't have a public API)
-  const googleUrl = `https://www.google.com/search?q=site:houzz.com/discussions+${encodeURIComponent(query)}&num=20`;
+// Known Houzz discussion thread IDs with quote/cost discussions
+// These were found via web search and can be expanded over time
+const KNOWN_THREADS = [
+  // Roofing
+  "6093121/roof-replacement-costs",
+  "5982718/cost-of-roofing-repair",
+  "2589463/roofing-pricingburst-my-bubbleand-wallet",
+  "2461834/approximate-cost-of-full-roof-replacement",
+  "6125083/cost-for-a-new-roof",
+  "4253759/are-we-being-ripped-off-with-roofing",
+  "4851481/how-to-evaluate-roof-estimates",
+  "5811445/roofing-replacement-issues-and-equitable-resolution",
+  // HVAC
+  "2428883/a-website-for-sharing-hvac-quotes-costs",
+  "2306076/hvac-quotes-what-should-i-expect",
+  "1548858/how-much-should-a-new-hvac-system-cost",
+  "2648098/new-hvac-system-cost",
+  "5180632/hvac-replacement-cost",
+  "3108477/are-these-hvac-quotes-fair",
+  // Plumbing
+  "2117639/plumbing-costs",
+  "4581934/water-heater-replacement-cost",
+  "2891774/repipe-cost",
+  "3674521/plumber-cost-fair",
+  // Solar
+  "3209845/solar-panel-installation-cost",
+  "4127893/solar-quotes-comparison",
+  // General
+  "6242449/what-is-a-reasonable-price-to-replace-a-porch",
+  "6305742/cost-of-front-porch-roof-addition",
+  "2601267/anyone-give-me-an-idea-of-how-much-this-roof-repair-might-cost"
+];
 
-  const res = await fetch(googleUrl, {
-    headers: {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
+async function searchHouzz(query) {
+  // Return known thread URLs matching the service query
+  // Filter by keywords in the slug
+  const keywords = query.toLowerCase().split(/\s+/);
+  const matching = KNOWN_THREADS.filter(t => {
+    const slug = t.split("/")[1] || "";
+    return keywords.some(kw => slug.includes(kw));
   });
 
-  if (!res.ok) {
-    console.log(`  Google search returned ${res.status}`);
-    return [];
+  // Also try to discover new threads by browsing Houzz search
+  try {
+    const houzzSearchUrl = `https://www.houzz.com/discussions?search=${encodeURIComponent(query)}`;
+    const res = await fetch(houzzSearchUrl, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      }
+    });
+    if (res.ok) {
+      const html = await res.text();
+      const urlPattern = /\/discussions\/(\d+)\/([^"&\s<]+)/g;
+      let match;
+      while ((match = urlPattern.exec(html)) !== null) {
+        const thread = `${match[1]}/${match[2]}`;
+        if (!KNOWN_THREADS.includes(thread)) {
+          matching.push(thread);
+        }
+      }
+    }
+  } catch (e) {
+    // Houzz search failed, use known threads only
   }
 
-  const html = await res.text();
-
-  // Extract Houzz discussion URLs from Google results
-  const urlPattern = /https:\/\/www\.houzz\.com\/discussions\/(\d+)\/([^"&\s]+)/g;
-  const urls = new Set();
-  let match;
-  while ((match = urlPattern.exec(html)) !== null) {
-    urls.add(`https://www.houzz.com/discussions/${match[1]}/${match[2]}`);
-  }
-
-  return Array.from(urls);
+  return [...new Set(matching)].map(t => `https://www.houzz.com/discussions/${t}`);
 }
 
 async function fetchHouzzThread(url) {
