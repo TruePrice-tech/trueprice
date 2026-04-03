@@ -5,19 +5,19 @@
   <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
   <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Compare Roofing Quotes Side by Side | TruePrice</title>
-  <meta name="description" content="Upload up to 3 roofing quotes and compare them side by side. See which contractor offers the best value based on price, scope, and warranty." />
+  <title>Compare Contractor Quotes Side by Side | TruePrice</title>
+  <meta name="description" content="Upload up to 3 contractor quotes and compare them side by side. See which offers the best value based on price, scope, and warranty. Works for all 16 home services." />
   <link rel="canonical" href="https://truepricehq.com/compare-quotes.html" />
   <meta name="robots" content="index,follow" />
-  <meta property="og:title" content="Compare Roofing Quotes | TruePrice" />
-  <meta property="og:description" content="Upload up to 3 roofing quotes and compare them side by side for the best value." />
+  <meta property="og:title" content="Compare Contractor Quotes | TruePrice" />
+  <meta property="og:description" content="Upload up to 3 contractor quotes and compare them side by side for the best value." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/compare-quotes.html" />
   <meta property="og:site_name" content="TruePrice" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Compare Roofing Quotes | TruePrice" />
-  <meta name="twitter:description" content="Upload up to 3 roofing quotes and compare them side by side." />
+  <meta name="twitter:title" content="Compare Contractor Quotes | TruePrice" />
+  <meta name="twitter:description" content="Upload up to 3 contractor quotes and compare them side by side." />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
@@ -258,20 +258,49 @@
     var quotes = [null, null, null]; // parsed data per slot
     var uploadCount = 0;
 
-    var SCOPE_ITEMS = [
-      { key: "tearOff", label: "Tear-off" },
-      { key: "underlayment", label: "Underlayment" },
-      { key: "flashing", label: "Flashing" },
-      { key: "iceShield", label: "Ice & water shield" },
-      { key: "dripEdge", label: "Drip edge" },
-      { key: "ventilation", label: "Ventilation" },
-      { key: "ridgeVent", label: "Ridge vent" },
-      { key: "starterStrip", label: "Starter strip" },
-      { key: "ridgeCap", label: "Ridge cap" },
-      { key: "decking", label: "Decking repair" },
-      { key: "disposal", label: "Disposal/cleanup" },
-      { key: "permit", label: "Permit" }
-    ];
+    var SCOPE_BY_SERVICE = {
+      roofing: [
+        { key: "tearOff", label: "Tear-off" }, { key: "underlayment", label: "Underlayment" },
+        { key: "flashing", label: "Flashing" }, { key: "iceShield", label: "Ice & water shield" },
+        { key: "dripEdge", label: "Drip edge" }, { key: "ventilation", label: "Ventilation" },
+        { key: "ridgeVent", label: "Ridge vent" }, { key: "starterStrip", label: "Starter strip" },
+        { key: "ridgeCap", label: "Ridge cap" }, { key: "decking", label: "Decking repair" },
+        { key: "disposal", label: "Disposal/cleanup" }, { key: "permit", label: "Permit" }
+      ],
+      hvac: [
+        { key: "equipment", label: "Equipment" }, { key: "lineSet", label: "Line set" },
+        { key: "thermostat", label: "Thermostat" }, { key: "ductwork", label: "Ductwork" },
+        { key: "electrical", label: "Electrical" }, { key: "pad", label: "Pad" },
+        { key: "drainLine", label: "Drain line" }, { key: "filterRack", label: "Filter rack" },
+        { key: "permit", label: "Permit" }, { key: "disposal", label: "Disposal" },
+        { key: "warranty", label: "Warranty" }, { key: "loadCalc", label: "Load calc" }
+      ],
+      plumbing: [
+        { key: "materials", label: "Materials" }, { key: "labor", label: "Labor" },
+        { key: "permit", label: "Permit" }, { key: "inspection", label: "Inspection" },
+        { key: "cleanup", label: "Cleanup" }, { key: "warranty", label: "Warranty" }
+      ],
+      electrical: [
+        { key: "permits", label: "Permits" }, { key: "panel", label: "Panel" },
+        { key: "breakers", label: "Breakers" }, { key: "wiring", label: "Wiring" },
+        { key: "grounding", label: "Grounding" }, { key: "testing", label: "Testing" },
+        { key: "cleanup", label: "Cleanup" }, { key: "warranty", label: "Warranty" }
+      ],
+      solar: [
+        { key: "panels", label: "Panels" }, { key: "inverter", label: "Inverter" },
+        { key: "racking", label: "Racking" }, { key: "wiring", label: "Wiring" },
+        { key: "permits", label: "Permits" }, { key: "monitoring", label: "Monitoring" },
+        { key: "interconnection", label: "Utility interconnection" }, { key: "warranty", label: "Warranty" }
+      ],
+      general: [
+        { key: "materials", label: "Materials" }, { key: "labor", label: "Labor" },
+        { key: "permit", label: "Permit" }, { key: "cleanup", label: "Cleanup" },
+        { key: "disposal", label: "Disposal" }, { key: "warranty", label: "Warranty" }
+      ]
+    };
+
+    var compareService = new URLSearchParams(window.location.search).get("service") || "roofing";
+    var SCOPE_ITEMS = SCOPE_BY_SERVICE[compareService] || SCOPE_BY_SERVICE.general;
 
     // Track uploaded file signatures to detect duplicates
     var uploadedFiles = [null, null, null];
@@ -864,7 +893,7 @@
               warrantyYears: a.data.warrantyYears || 0,
               scopeItems: a.data.scopeItems || {},
               source: "compare_upload",
-              service: "roofing"
+              service: compareService
             })
           }).catch(function() {});
         }
