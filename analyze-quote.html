@@ -167,6 +167,10 @@
               <span class="tile-icon"><img src="/images/trudy-insulation.png" alt="Insulation" /></span>
               <span class="tile-label">Insulation</span>
             </div>
+            <div class="service-tile" data-svc="gutters" data-photo="0" data-analyzer="/gutters-quote-analyzer.html">
+              <span class="tile-icon"><img src="/images/trudy-gutters.png" alt="Gutters" /></span>
+              <span class="tile-label">Gutters</span>
+            </div>
           </div>
         </div>
 
@@ -208,7 +212,10 @@
 
     var serviceLabels = {
       roofing: "Roofing", hvac: "HVAC", plumbing: "Plumbing", electrical: "Electrical",
-      solar: "Solar", windows: "Windows", siding: "Siding", painting: "Painting", other: "Home Project"
+      solar: "Solar", windows: "Windows", siding: "Siding", painting: "Painting",
+      fencing: "Fencing", concrete: "Concrete", landscaping: "Landscaping",
+      "garage-doors": "Garage Doors", foundation: "Foundation", kitchen: "Kitchen",
+      insulation: "Insulation", gutters: "Gutters", other: "Home Project"
     };
 
     var photoDescs = {
@@ -225,7 +232,7 @@
         var label = serviceLabels[svc] || svc;
 
         // If no photo and no dedicated analyzer, go to pricing guide
-        var costPageOverrides = { windows: "window-replacement-cost.html", foundation: "foundation-repair-cost.html", kitchen: "kitchen-remodel-cost.html", fencing: "fence-cost.html", "garage-doors": "garage-door-cost.html" };
+        var costPageOverrides = { windows: "window-replacement-cost.html", foundation: "foundation-repair-cost.html", kitchen: "kitchen-remodel-cost.html", fencing: "fence-cost.html", "garage-doors": "garage-door-cost.html", gutters: "all-cities.html" };
         if (!hasPhoto && !analyzer) {
           window.location.href = "/" + (costPageOverrides[svc] || svc + "-cost.html");
           return;
