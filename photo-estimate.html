@@ -273,6 +273,35 @@
       };
       var labels = photoLabels[state.service] || photoLabels.general;
 
+      var photoTips = {
+        roofing: [
+          { icon: "&#128207;", tip: "Stand 20-30 feet back from the house" },
+          { icon: "&#127775;", tip: "Face the house so the full roof is visible" },
+          { icon: "&#127795;", tip: "Avoid trees blocking the roofline" },
+          { icon: "&#128161;", tip: "Good lighting helps detect material" }
+        ],
+        hvac: [
+          { icon: "&#128207;", tip: "Get close enough to read the label" },
+          { icon: "&#127775;", tip: "Include the full unit in the frame" },
+          { icon: "&#128161;", tip: "Good lighting helps detect brand/model" },
+          { icon: "&#9888;&#65039;", tip: "Photograph the outdoor condenser unit" }
+        ],
+        solar: [
+          { icon: "&#128207;", tip: "Stand back to show the full roofline" },
+          { icon: "&#127775;", tip: "Include south-facing side if possible" },
+          { icon: "&#127795;", tip: "Show any nearby trees that could shade panels" },
+          { icon: "&#128161;", tip: "Daytime photo for best results" }
+        ]
+      };
+      var tips = photoTips[state.service] || photoTips.roofing;
+      var tipsHtml = '<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:20px; max-width:400px; margin-left:auto; margin-right:auto;">';
+      tips.forEach(function(t) {
+        tipsHtml += '<div style="display:flex; align-items:center; gap:8px; font-size:13px; color:#64748b; background:#f8fafc; padding:8px 10px; border-radius:8px; border:1px solid #f1f5f9;">' +
+          '<span style="font-size:16px; flex-shrink:0;">' + t.icon + '</span>' +
+          '<span>' + t.tip + '</span></div>';
+      });
+      tipsHtml += '</div>';
+
       var serviceSelector =
         '<div style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;">' +
           '<button type="button" class="pe-service-option' + (state.service === "roofing" ? " selected" : "") + '" onclick="switchService(\'roofing\')">Roofing</button>' +
@@ -287,6 +316,7 @@
           '<p style="font-size:15px; color:#64748b; margin:0; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">' + labels.desc + '</p>' +
         '</div>' +
         serviceSelector +
+        tipsHtml +
 
         '<div class="pe-capture-zone" id="captureZone" style="padding:3rem 1.5rem; transition:border-color 0.2s, background 0.2s, transform 0.15s;" onmouseover="this.style.borderColor=\'#3b82f6\';this.style.background=\'#eff6ff\';this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.borderColor=\'#cbd5e1\';this.style.background=\'#f8fafc\';this.style.transform=\'none\'">' +
           '<div style="font-size:48px; margin-bottom:12px;">&#128247;</div>' +
@@ -301,6 +331,26 @@
           : '') +
 
         '<div style="text-align:center; margin-top:12px;"><a href="/analyze-quote.html#' + esc(state.service) + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>';
+
+      // Show past estimates if any
+      var savedEstimates = [];
+      try { savedEstimates = JSON.parse(localStorage.getItem("tp_photo_estimates") || "[]"); } catch(e) {}
+      if (savedEstimates.length > 0) {
+        var pastHtml = '<div style="margin-top:24px; padding-top:20px; border-top:1px solid #e2e8f0;">' +
+          '<div style="font-size:14px; font-weight:600; color:#475569; margin-bottom:10px; text-align:center;">Your past estimates</div>';
+        savedEstimates.slice(0, 5).forEach(function(est) {
+          var date = new Date(est.timestamp);
+          var dateStr = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+          var svcLabel = est.service === "hvac" ? "HVAC" : est.service === "solar" ? "Solar" : "Roofing";
+          var loc = est.city ? est.city + ", " + est.stateCode : "";
+          pastHtml += '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:#f8fafc; border:1px solid #f1f5f9; border-radius:8px; margin-bottom:6px; font-size:13px;">' +
+            '<div><strong>' + svcLabel + '</strong>' + (loc ? ' &middot; ' + esc(loc) : '') + '<br><span style="color:#94a3b8;">' + dateStr + '</span></div>' +
+            '<div style="font-weight:600; color:#0f172a;">$' + Math.round(est.low).toLocaleString() + ' - $' + Math.round(est.high).toLocaleString() + '</div>' +
+          '</div>';
+        });
+        pastHtml += '</div>';
+        app.innerHTML += pastHtml;
+      }
 
       // Bind events
       var zone = document.getElementById("captureZone");
@@ -509,12 +559,12 @@
         html +=
           '<div style="background:#fef2f2; border:1px solid #fca5a5; border-radius:10px; padding:14px 16px; margin-bottom:16px; font-size:14px; color:#991b1b; text-align:center; line-height:1.5;">' +
             '<strong>Photo quality issue.</strong> We couldn\'t clearly see the ' + qualitySubject + '. Trees, distance, or lighting may be blocking the view.' +
-            '<br><a href="#" id="retakeFromWarning" style="color:#1d4ed8; font-weight:600;">Retake photo</a> for better results, or review the details below manually.' +
+            '<br><a href="#" id="retakeFromWarning" style="color:#1d4ed8; font-weight:600;">Retake photo</a> or <a href="#" id="addSecondPhoto" style="color:#1d4ed8; font-weight:600;">add a second angle</a> for better results.' +
           '</div>';
       } else if (lowConfidence) {
         html +=
           '<div style="background:#fef3c7; border:1px solid #f59e0b; border-radius:10px; padding:12px 16px; margin-bottom:16px; font-size:14px; color:#92400e; text-align:center; line-height:1.5;">' +
-            '<strong>Low confidence on some details.</strong> Please verify the selections below. Trees or distance may have limited visibility.' +
+            '<strong>Low confidence on some details.</strong> <a href="#" id="addSecondPhoto" style="color:#1d4ed8; font-weight:600;">Add a second photo</a> from a different angle, or verify the selections below.' +
           '</div>';
       }
 
@@ -765,6 +815,82 @@
           state.confirmed = null;
           state.step = "capture";
           render();
+        });
+      }
+
+      // Add second photo for better analysis
+      var addPhotoLink = document.getElementById("addSecondPhoto");
+      if (addPhotoLink) {
+        addPhotoLink.addEventListener("click", function(e) {
+          e.preventDefault();
+          // Create hidden file input for second photo
+          var input2 = document.createElement("input");
+          input2.type = "file";
+          input2.accept = "image/*";
+          input2.style.display = "none";
+          document.body.appendChild(input2);
+          input2.addEventListener("change", function() {
+            var file = input2.files && input2.files[0];
+            if (!file) { input2.remove(); return; }
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+              var img = new Image();
+              img.onload = function() {
+                var maxDim = 1024;
+                var w = img.width, h = img.height;
+                if (w > maxDim || h > maxDim) {
+                  if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+                  else { w = Math.round(w * maxDim / h); h = maxDim; }
+                }
+                var canvas = document.createElement("canvas");
+                canvas.width = w; canvas.height = h;
+                canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+                var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+                // Re-analyze with second photo
+                var parts = dataUrl.match(/^data:(image\/[^;]+);base64,(.+)$/);
+                if (!parts) { input2.remove(); return; }
+                // Show analyzing state
+                addPhotoLink.textContent = "Analyzing second photo...";
+                addPhotoLink.style.pointerEvents = "none";
+                fetch("/api/photo-estimate", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ base64: parts[2], mediaType: parts[1], service: state.service, city: state.city, state: state.stateCode })
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                  if (d.data) {
+                    // Merge: prefer higher-confidence values from second photo
+                    var r2 = d.data;
+                    var r1 = state.result;
+                    if (r2.materialConfidence === "high" || r1.materialConfidence !== "high") {
+                      if (r2.material && r2.material !== "unknown") r1.material = r2.material;
+                      if (r2.materialConfidence) r1.materialConfidence = r2.materialConfidence;
+                    }
+                    if (r2.condition && r2.condition !== "unknown" && r1.condition === "unknown") r1.condition = r2.condition;
+                    if (r2.roofStyle && r2.roofStyle !== "unknown" && (r1.roofStyle === "unknown" || r1.roofStyle === "mixed")) r1.roofStyle = r2.roofStyle;
+                    if (r2.pitch && r2.pitch !== "unknown" && (!r1.pitch || r1.pitch === "unknown")) r1.pitch = r2.pitch;
+                    if (r2.systemType && r2.systemType !== "unknown" && r1.systemType === "unknown") r1.systemType = r2.systemType;
+                    if (r2.brand && !r1.brand) r1.brand = r2.brand;
+                    if (r2.roofOrientation && r2.roofOrientation !== "unknown") r1.roofOrientation = r2.roofOrientation;
+                    if (r2.shadeLevel && r2.shadeLevel !== "unknown") r1.shadeLevel = r2.shadeLevel;
+                    if (r2.conditionNotes && r2.conditionNotes.length > 0) {
+                      r1.conditionNotes = (r1.conditionNotes || []).concat(r2.conditionNotes);
+                      // Deduplicate
+                      r1.conditionNotes = r1.conditionNotes.filter(function(v, i, a) { return a.indexOf(v) === i; });
+                    }
+                    state.result = r1;
+                  }
+                  input2.remove();
+                  render(); // Re-render confirm with improved data
+                })
+                .catch(function() { input2.remove(); render(); });
+              };
+              img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+          input2.click();
         });
       }
 
@@ -1183,6 +1309,27 @@
           path: "/photo-estimate.html"
         })
       }).catch(function() {});
+
+      // Save estimate to localStorage for revisiting
+      try {
+        var savedEstimates = JSON.parse(localStorage.getItem("tp_photo_estimates") || "[]");
+        savedEstimates.unshift({
+          service: state.service,
+          low: low,
+          mid: mid,
+          high: high,
+          city: c.city || "",
+          stateCode: c.stateCode || "",
+          address: c.address || "",
+          material: c.material || c.systemType || c.panelTier || "",
+          roofSqFt: c.roofSqFt || 0,
+          condition: c.condition || "",
+          timestamp: Date.now()
+        });
+        // Keep last 10 estimates
+        if (savedEstimates.length > 10) savedEstimates = savedEstimates.slice(0, 10);
+        localStorage.setItem("tp_photo_estimates", JSON.stringify(savedEstimates));
+      } catch (e) {}
     }
 
     window.switchService = function(svc) {

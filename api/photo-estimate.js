@@ -6,6 +6,25 @@ export const config = {
   }
 };
 
+// In-memory rate limiter: 20 requests per IP per hour
+const rateLimitMap = new Map();
+const RATE_LIMIT_MAX = 20;
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  let timestamps = rateLimitMap.get(ip) || [];
+  // Remove entries older than the window
+  timestamps = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
+  if (timestamps.length >= RATE_LIMIT_MAX) {
+    rateLimitMap.set(ip, timestamps);
+    return false;
+  }
+  timestamps.push(now);
+  rateLimitMap.set(ip, timestamps);
+  return true;
+}
+
 export default async function handler(req, res) {
   const allowedOrigin = "https://truepricehq.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
@@ -14,6 +33,12 @@ export default async function handler(req, res) {
 
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+
+  // Rate limit by IP
+  const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
+  if (!checkRateLimit(clientIp)) {
+    return res.status(429).json({ error: "Rate limit exceeded. Maximum 20 requests per hour. Please try again later." });
+  }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "API key not configured" });
@@ -359,13 +384,29 @@ async function getOsmFootprint(lat, lng) {
   try {
     const radius = 60;
     const overpassQuery = `[out:json][timeout:10];way["building"](around:${radius},${lat},${lng});out body;>;out skel qt;`;
-    const overpassRes = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: "data=" + encodeURIComponent(overpassQuery)
-    });
-    if (!overpassRes.ok) return null;
-    const overpassData = await overpassRes.json();
+
+    let overpassData = null;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      if (attempt > 0) await new Promise(r => setTimeout(r, 2000));
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+        const overpassRes = await fetch("https://overpass-api.de/api/interpreter", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "data=" + encodeURIComponent(overpassQuery),
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+        if (!overpassRes.ok) { continue; }
+        overpassData = await overpassRes.json();
+        break;
+      } catch (fetchErr) {
+        console.log(`[photo-estimate] OSM attempt ${attempt + 1} failed:`, fetchErr.message);
+        if (attempt === 1) return null;
+      }
+    }
+    if (!overpassData) return null;
     const elements = overpassData.elements || [];
 
     const nodes = {};

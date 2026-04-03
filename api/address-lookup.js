@@ -46,13 +46,29 @@ async function getOsmFootprint(lat, lng) {
   try {
     const radius = 40;
     const overpassQuery = `[out:json][timeout:10];way["building"](around:${radius},${lat},${lng});out body;>;out skel qt;`;
-    const overpassRes = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: "data=" + encodeURIComponent(overpassQuery)
-    });
-    if (!overpassRes.ok) return null;
-    const overpassData = await overpassRes.json();
+
+    let overpassData = null;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      if (attempt > 0) await new Promise(r => setTimeout(r, 2000));
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+        const overpassRes = await fetch("https://overpass-api.de/api/interpreter", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "data=" + encodeURIComponent(overpassQuery),
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+        if (!overpassRes.ok) { continue; }
+        overpassData = await overpassRes.json();
+        break;
+      } catch (fetchErr) {
+        console.log(`[address-lookup] OSM attempt ${attempt + 1} failed:`, fetchErr.message);
+        if (attempt === 1) return null;
+      }
+    }
+    if (!overpassData) return null;
     const elements = overpassData.elements || [];
 
     const nodes = {};
