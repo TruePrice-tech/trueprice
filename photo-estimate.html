@@ -188,6 +188,10 @@
       imagePreview: null,
       city: "",
       stateCode: "",
+      address: "",
+      zip: "",
+      lat: null,
+      lng: null,
       result: null,
       cityMult: null,
       confirmed: null
@@ -368,6 +372,10 @@
         if (d.location) {
           state.city = d.location.city || "";
           state.stateCode = d.location.state || "";
+          state.address = d.location.address || "";
+          state.zip = d.location.zip || "";
+          state.lat = d.location.lat || null;
+          state.lng = d.location.lng || null;
         }
         if (d.cityMultiplier) {
           state.cityMult = d.cityMultiplier;
@@ -581,7 +589,7 @@
 
           '<div style="margin-bottom:16px;">' +
             '<div class="pe-detail-label" style="margin-bottom:6px;">Roof Size' +
-              (r.roofSizeSource === "satellite" ? ' <span style="font-size:11px; color:#16a34a; font-weight:400;">(measured from satellite)</span>' : ' <span style="font-size:11px; color:#94a3b8; font-weight:400;">(AI estimate)</span>') +
+              (r.roofSizeSource === "satellite" ? ' <span style="font-size:11px; color:#16a34a; font-weight:400;">(measured from building data)</span>' : ' <span style="font-size:11px; color:#d97706; font-weight:400;">(verify address above for auto-measurement)</span>') +
             '</div>' +
             '<div style="display:flex; align-items:center; gap:8px;">' +
               '<input type="number" id="confirmRoofSqFt" value="' + (r.estimatedRoofSqFt || 2000) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
@@ -590,13 +598,21 @@
           '</div>';
       }
 
-      // City/State (all services)
+      // Address verification (temporary - until Google satellite + dot placement is live)
       html +=
           '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">City, State</div>' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Property Address' +
+              (state.address ? ' <span style="font-size:11px; color:#16a34a; font-weight:400;">(detected from photo)</span>' : ' <span style="font-size:11px; color:#94a3b8; font-weight:400;">(enter for accurate roof size)</span>') +
+            '</div>' +
+            '<input type="text" id="confirmAddress" placeholder="123 Main St" value="' + esc(state.address) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:100%; box-sizing:border-box;" />' +
+          '</div>' +
+
+          '<div style="margin-bottom:16px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">City, State, Zip</div>' +
             '<div style="display:flex; gap:8px;">' +
               '<input type="text" id="confirmCity" placeholder="City" value="' + esc(state.city) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
               '<input type="text" id="confirmState" placeholder="ST" maxlength="2" value="' + esc(state.stateCode) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:70px;" />' +
+              '<input type="text" id="confirmZip" placeholder="Zip" maxlength="5" value="' + esc(state.zip) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:90px;" />' +
             '</div>' +
           '</div>' +
 
@@ -651,14 +667,20 @@
 
       // Confirm button
       document.getElementById("confirmBtn").addEventListener("click", function() {
+        var btn = document.getElementById("confirmBtn");
+        btn.disabled = true;
+        btn.textContent = "Calculating...";
+
         function getSelected(group) {
           var el = document.querySelector('[data-group="' + group + '"].selected');
           return el ? el.dataset.val : "";
         }
+        var addressVal = (document.getElementById("confirmAddress").value || "").trim();
         var cityVal = (document.getElementById("confirmCity").value || "").trim();
         var stateVal = (document.getElementById("confirmState").value || "").trim().toUpperCase();
+        var zipVal = (document.getElementById("confirmZip").value || "").trim();
 
-        var confirmed = { city: cityVal, stateCode: stateVal, condition: getSelected("condition") || "fair" };
+        var confirmed = { city: cityVal, stateCode: stateVal, address: addressVal, zip: zipVal, condition: getSelected("condition") || "fair" };
 
         if (svc === "hvac") {
           confirmed.systemType = getSelected("systemType") || "central_ac";
@@ -681,23 +703,59 @@
         }
 
         state.confirmed = confirmed;
-
         state.city = cityVal;
         state.stateCode = stateVal;
+        state.address = addressVal;
+        state.zip = zipVal;
 
-        // Fetch city multiplier if city/state provided, then go to result
-        if (cityVal && stateVal) {
-          fetch("/api/city-multiplier?city=" + encodeURIComponent(cityVal) + "&state=" + encodeURIComponent(stateVal))
+        // If user provided/changed address, re-geocode to get accurate lat/lng and re-query OSM footprint
+        var addressChanged = addressVal && addressVal !== state.address;
+        var hasAddress = addressVal && cityVal && stateVal;
+        var needsFootprint = (svc === "roofing" || svc === "solar") && hasAddress;
+
+        function finishConfirm() {
+          // Fetch city multiplier then go to result
+          if (cityVal && stateVal) {
+            fetch("/api/city-multiplier?city=" + encodeURIComponent(cityVal) + "&state=" + encodeURIComponent(stateVal))
+              .then(function(r) { return r.json(); })
+              .then(function(d) { if (d && d.multiplier) { state.cityMult = d.multiplier; state.cityRange = { low: d.rangeLow || 0.82, high: d.rangeHigh || 1.22 }; } })
+              .catch(function() {})
+              .then(function() {
+                state.step = "result";
+                render();
+              });
+          } else {
+            state.step = "result";
+            render();
+          }
+        }
+
+        // Re-lookup building footprint from address if address provided and we need it
+        if (needsFootprint) {
+          var lookupAddress = addressVal + ", " + cityVal + ", " + stateVal + (zipVal ? " " + zipVal : "");
+          fetch("/api/address-lookup?address=" + encodeURIComponent(lookupAddress))
             .then(function(r) { return r.json(); })
-            .then(function(d) { if (d && d.multiplier) { state.cityMult = d.multiplier; state.cityRange = { low: d.rangeLow || 0.82, high: d.rangeHigh || 1.22 }; } })
+            .then(function(d) {
+              if (d.lat && d.lng) {
+                state.lat = d.lat;
+                state.lng = d.lng;
+              }
+              if (d.footprint && d.footprint.footprintSqFt) {
+                var pitch = state.result.pitch || "normal";
+                var pitchFactor = pitch === "steep" ? 1.25 : pitch === "low" ? 1.05 : pitch === "flat" ? 1.0 : 1.12;
+                var newRoofSqFt = Math.round(d.footprint.footprintSqFt * pitchFactor);
+                state.result.estimatedFootprintSqFt = d.footprint.footprintSqFt;
+                state.result.estimatedRoofSqFt = newRoofSqFt;
+                state.result.roofSizeSource = "satellite";
+                // Update the confirmed roof size
+                confirmed.roofSqFt = newRoofSqFt;
+                state.confirmed = confirmed;
+              }
+            })
             .catch(function() {})
-            .then(function() {
-              state.step = "result";
-              render();
-            });
+            .then(finishConfirm);
         } else {
-          state.step = "result";
-          render();
+          finishConfirm();
         }
       });
     }

@@ -125,8 +125,6 @@ export default async function handler(req, res) {
   "complexity": "simple" | "moderate" | "complex",
   "complexityFactors": ["dormers", "valleys", "multiple sections", "skylights", "chimney"],
   "pitch": "flat" | "low" | "normal" | "steep",
-  "estimatedFootprintSqFt": <number estimate of building footprint>,
-  "estimatedRoofSqFt": <number estimate of total roof area including pitch>,
   "condition": "good" | "fair" | "poor" | "unknown",
   "conditionNotes": ["visible aging", "moss/algae", "missing shingles", "sagging", "storm damage"],
   "additionalNotes": <any relevant observations about the roof>
@@ -134,10 +132,9 @@ export default async function handler(req, res) {
 
 Rules:
 - stories: Count rows of windows to determine stories. Two rows of windows = 2 stories. One row = 1 story.
-- estimatedFootprintSqFt: Estimate the GROUND FLOOR footprint only (not total living area). For a 2-story home, this is roughly half the total living area. A typical 3,200 sqft 2-story home has a ~1,600-1,800 sqft footprint. Use cars, doors, and windows for scale.
-- estimatedRoofSqFt: Ground floor footprint * pitch factor (flat=1.0, low=1.05, normal=1.12, steep=1.25). Add area for garage if attached.
 - complexity: "simple" = basic rectangle/L-shape, "moderate" = some dormers or valleys, "complex" = many angles
 - Only include conditionNotes for issues you can actually see
+- Do NOT estimate square footage or footprint size. Roof size is measured separately.
 - Return ONLY the JSON object`,
 
       hvac: `Analyze this photo of an HVAC system or equipment. Return ONLY valid JSON:
