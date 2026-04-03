@@ -5753,6 +5753,32 @@ function buildComparisonWinnerHtml(summary) {
                 service: "roofing"
               })
             }).catch(function() {});
+
+            // Submit to contractor scoring (non-blocking)
+            var ctrName = latestAnalysis.contractor || latestParsed?.contractor || "";
+            if (ctrName && ctrName !== "Not detected" && ctrName.length > 2) {
+              var scopeSignals = latestAnalysis.signals || {};
+              var scopeCount = Object.values(scopeSignals).filter(function(s) { return s && s.status === "included"; }).length;
+              var redFlagCount = typeof detectRedFlags === "function" ? detectRedFlags(latestExtractedText).length : 0;
+              var priceRatio = (latestAnalysis.mid && latestAnalysis.mid > 0) ? latestAnalysis.quotePrice / latestAnalysis.mid : 0;
+
+              fetch("/api/contractor-score", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  action: "quote",
+                  contractor: ctrName,
+                  city: latestAnalysis.city || "",
+                  stateCode: latestAnalysis.stateCode || "",
+                  scopeCount: scopeCount,
+                  warrantyYears: latestAnalysis.warrantyYears || 0,
+                  redFlagCount: redFlagCount,
+                  priceRatio: priceRatio,
+                  material: latestAnalysis.material || "",
+                  roofSize: latestAnalysis.roofSize || 0
+                })
+              }).catch(function() {});
+            }
           }
         } catch(e) {}
 
@@ -9139,6 +9165,55 @@ function buildComparisonWinnerHtml(summary) {
                 <button onclick="submitFeedback('no')" style="padding:8px 24px; border:1px solid #fecaca; background:#fef2f2; border-radius:8px; font-size:14px; font-weight:600; color:#991b1b; cursor:pointer; font-family:inherit;">No</button>
               </div>
             </div>
+            ${(a.contractor && a.contractor !== "Not detected" && a.contractor.length > 2) ? `
+            <div id="contractorReviewSection" style="padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:16px 0;">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                <img src="/images/trudy-clipboard.png" alt="" width="32" />
+                <div>
+                  <div style="font-size:15px; font-weight:700;">Already hired ${escapeHtml(a.contractor)}?</div>
+                  <div style="font-size:13px; color:#64748b;">Help other homeowners by sharing your experience</div>
+                </div>
+              </div>
+              <button onclick="showContractorReview()" id="showReviewBtn" style="padding:8px 20px; border:1px solid #e2e8f0; background:#fff; border-radius:8px; font-size:14px; font-weight:600; color:var(--brand); cursor:pointer; font-family:inherit;">Leave a review</button>
+              <div id="contractorReviewForm" style="display:none; margin-top:12px;">
+                <div style="margin-bottom:10px;">
+                  <label style="font-size:13px; font-weight:600; display:block; margin-bottom:4px;">Overall rating</label>
+                  <div style="display:flex; gap:4px;" id="starRating">
+                    <button onclick="setStars(1)" class="star-btn" data-val="1" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                    <button onclick="setStars(2)" class="star-btn" data-val="2" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                    <button onclick="setStars(3)" class="star-btn" data-val="3" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                    <button onclick="setStars(4)" class="star-btn" data-val="4" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                    <button onclick="setStars(5)" class="star-btn" data-val="5" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                  </div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                  <label style="font-size:13px; padding:6px 12px; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                    <input type="checkbox" id="reviewHonored" /> Honored quoted price
+                  </label>
+                  <label style="font-size:13px; padding:6px 12px; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                    <input type="checkbox" id="reviewOnTime" /> Showed up on time
+                  </label>
+                  <label style="font-size:13px; padding:6px 12px; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                    <input type="checkbox" id="reviewRecommend" /> Would recommend
+                  </label>
+                </div>
+                <div style="margin-bottom:10px;">
+                  <label style="font-size:13px; font-weight:600; display:block; margin-bottom:4px;">Quality of work (1-5)</label>
+                  <select id="reviewQuality" style="padding:6px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; font-family:inherit;">
+                    <option value="5">5 - Excellent</option>
+                    <option value="4" selected>4 - Good</option>
+                    <option value="3">3 - Average</option>
+                    <option value="2">2 - Below average</option>
+                    <option value="1">1 - Poor</option>
+                  </select>
+                </div>
+                <div style="margin-bottom:10px;">
+                  <textarea id="reviewComment" placeholder="Optional comments..." rows="2" style="width:100%; padding:8px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; font-family:inherit; resize:vertical;"></textarea>
+                </div>
+                <button onclick="submitContractorReview()" style="padding:8px 20px; background:var(--brand); color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit;">Submit review</button>
+              </div>
+            </div>
+            ` : ""}
             <div style="text-align:center; margin-top:10px;">
               <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
             </div>
@@ -9228,6 +9303,42 @@ function buildComparisonWinnerHtml(summary) {
           })
         }).catch(function() {});
       }
+    };
+
+    var _reviewStars = 0;
+    window.showContractorReview = function() {
+      var form = document.getElementById("contractorReviewForm");
+      var btn = document.getElementById("showReviewBtn");
+      if (form) form.style.display = "block";
+      if (btn) btn.style.display = "none";
+    };
+    window.setStars = function(n) {
+      _reviewStars = n;
+      document.querySelectorAll(".star-btn").forEach(function(b) {
+        b.style.color = Number(b.dataset.val) <= n ? "#f59e0b" : "#cbd5e1";
+      });
+    };
+    window.submitContractorReview = function() {
+      var a = window.__latestAnalysis || {};
+      if (!a.contractor || _reviewStars < 1) return;
+      fetch("/api/contractor-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "review",
+          contractor: a.contractor,
+          city: a.city || "",
+          stateCode: a.stateCode || "",
+          rating: _reviewStars,
+          honoredPrice: document.getElementById("reviewHonored")?.checked || false,
+          onTime: document.getElementById("reviewOnTime")?.checked || false,
+          qualityRating: Number((document.getElementById("reviewQuality") || {}).value) || 4,
+          wouldRecommend: document.getElementById("reviewRecommend")?.checked || false,
+          comment: (document.getElementById("reviewComment") || {}).value || ""
+        })
+      }).catch(function() {});
+      var section = document.getElementById("contractorReviewSection");
+      if (section) section.innerHTML = '<div style="text-align:center; font-size:14px; color:#166534; padding:8px 0;">Thanks! Your review helps other homeowners.</div>';
     };
 
     window.submitFeedbackComment = function submitFeedbackComment() {

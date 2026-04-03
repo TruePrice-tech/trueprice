@@ -36,6 +36,9 @@
     },
     "api/calibration.js": {
       "maxDuration": 10
+    },
+    "api/contractor-score.js": {
+      "maxDuration": 10
     }
   },
   "headers": [

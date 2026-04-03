@@ -1,0 +1,72 @@
+{
+  "description": "Contractor scorecard algorithm - scores contractors based on quote data and user feedback",
+  "maxScore": 100,
+  "categories": {
+    "priceFairness": {
+      "weight": 25,
+      "description": "How their pricing compares to market average for the city",
+      "scoring": {
+        "within_10_pct": 25,
+        "within_20_pct": 20,
+        "within_30_pct": 15,
+        "over_30_pct": 5
+      }
+    },
+    "scopeCompleteness": {
+      "weight": 25,
+      "description": "Average scope items included across their quotes",
+      "scoring": {
+        "10_plus_of_12": 25,
+        "8_to_9_of_12": 20,
+        "6_to_7_of_12": 15,
+        "under_6_of_12": 5
+      }
+    },
+    "transparency": {
+      "weight": 15,
+      "description": "How clear and detailed their quotes are",
+      "factors": ["itemized_pricing", "material_specified", "warranty_stated", "timeline_included", "no_red_flags"]
+    },
+    "warranty": {
+      "weight": 10,
+      "description": "Warranty coverage offered",
+      "scoring": {
+        "10_plus_years": 10,
+        "5_to_9_years": 7,
+        "1_to_4_years": 4,
+        "none_stated": 0
+      }
+    },
+    "redFlags": {
+      "weight": 10,
+      "description": "Penalty for concerning contract terms",
+      "scoring": {
+        "no_flags": 10,
+        "1_low_flag": 8,
+        "1_medium_flag": 5,
+        "any_high_flag": 0
+      }
+    },
+    "userRating": {
+      "weight": 15,
+      "description": "Average user feedback rating (when available)",
+      "scoring": {
+        "4_5_plus_stars": 15,
+        "4_0_to_4_4": 12,
+        "3_0_to_3_9": 8,
+        "under_3_0": 3,
+        "no_reviews": null
+      },
+      "note": "When no user reviews exist, weight is redistributed to other categories"
+    }
+  },
+  "minimumQuotesForScore": 1,
+  "minimumReviewsForUserRating": 1,
+  "scoreLabels": {
+    "90_100": "Excellent",
+    "75_89": "Very Good",
+    "60_74": "Good",
+    "45_59": "Fair",
+    "below_45": "Needs Improvement"
+  }
+}
