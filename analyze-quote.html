@@ -176,9 +176,11 @@
 
         <!-- STEP 2: Photo or Quote -->
         <div id="step2" class="funnel-step2">
+          <div style="text-align:center; margin-bottom:8px;">
+            <img id="step2Trudy" src="/images/trudy-peeking.png" alt="Trudy" width="120" />
+          </div>
           <div style="position:relative; display:inline-block;">
             <span class="funnel-back" id="backBtn">&larr; Change service</span>
-            <img src="/images/trudy-peeking.png" alt="Trudy" width="60" style="position:absolute; top:-30px; right:-70px;" />
           </div>
           <h1 id="step2Title">How would you like to get started?</h1>
           <p class="funnel-sub" id="step2Sub"></p>
@@ -247,6 +249,17 @@
         // Show step 2
         step1.style.display = "none";
         step2.classList.add("visible");
+
+        // Set service-specific Trudy
+        var trudyMap = {
+          roofing: "roofing", hvac: "hvac", plumbing: "plumbing", electrical: "electrical",
+          solar: "solar", windows: "windows", siding: "siding", painting: "painting",
+          fencing: "fencing", concrete: "concrete", landscaping: "landscaping",
+          "garage-doors": "garage", foundation: "foundation", kitchen: "kitchen",
+          insulation: "insulation", gutters: "gutters"
+        };
+        var step2TrudyImg = document.getElementById("step2Trudy");
+        if (step2TrudyImg) step2TrudyImg.src = "/images/trudy-" + (trudyMap[svc] || "peeking") + ".png";
 
         if (svc === "roofing") {
           step2Title.textContent = "What's a fair price to replace your roof?";
