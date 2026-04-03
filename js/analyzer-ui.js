@@ -4378,6 +4378,13 @@ function buildComparisonWinnerHtml(summary) {
 
       window.toggleScopeItem = function toggleScopeItem(key) {
         scopeReviewState[key] = !scopeReviewState[key];
+        // Track scope correction for model improvement
+        track("scope_item_corrected", {
+          key: key,
+          newValue: scopeReviewState[key] ? "included" : "not_included",
+          contractor: (latestParsed && latestParsed.contractor) || "",
+          city: (latestParsed && latestParsed.address && latestParsed.address.city) || ""
+        });
         // Re-render the scope card
         const a = window.__latestAnalysis;
         if (!a) return;
@@ -9169,10 +9176,27 @@ function buildComparisonWinnerHtml(summary) {
     }
 
     window.submitFeedback = function submitFeedback(rating) {
+      var a = window.__latestAnalysis || {};
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "/api/analytics", true);
       xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(JSON.stringify({ type: "feedback", rating: rating, path: window.location.pathname }));
+      xhr.send(JSON.stringify({
+        type: "feedback",
+        rating: rating,
+        path: window.location.pathname,
+        meta: {
+          verdict: a.verdict || "",
+          quotePrice: String(a.quotePrice || 0),
+          mid: String(a.mid || 0),
+          low: String(a.low || 0),
+          high: String(a.high || 0),
+          contractor: a.contractor || "",
+          city: a.city || "",
+          stateCode: a.stateCode || "",
+          material: a.material || "",
+          roofSize: String(a.roofSize || 0)
+        }
+      }));
 
       var widget = document.getElementById("feedbackWidget");
       if (widget) {

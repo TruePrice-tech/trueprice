@@ -902,11 +902,50 @@
         render();
       });
 
-      // Track
+      // Track with full data including AI vs user corrections
+      var r = state.result || {};
       fetch("/api/analytics", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "event", event: "photo_estimate_completed", meta: { material: material, roofSqFt: String(Math.round(roofSqFt)), mid: String(mid), city: c.city || "" }, path: "/photo-estimate.html" })
+        body: JSON.stringify({
+          type: "event",
+          event: "photo_estimate_completed",
+          meta: {
+            service: state.service,
+            mid: String(mid),
+            low: String(low),
+            high: String(high),
+            city: c.city || "",
+            stateCode: c.stateCode || "",
+            cityMult: String(state.cityMult || 0),
+            // AI original values
+            aiMaterial: r.material || r.systemType || "",
+            aiRoofSqFt: String(r.estimatedRoofSqFt || r.estimatedUsableRoofSqFt || 0),
+            aiStories: String(r.stories || 0),
+            aiCondition: r.condition || r.roofCondition || "",
+            aiComplexity: r.complexity || "",
+            aiBrand: r.brand || "",
+            aiTonnage: String(r.estimatedTonnage || 0),
+            aiShadeLevel: r.shadeLevel || "",
+            // User confirmed values
+            userMaterial: c.material || c.systemType || c.panelTier || "",
+            userRoofSqFt: String(c.roofSqFt || 0),
+            userStories: String(c.stories || 0),
+            userCondition: c.condition || "",
+            userComplexity: c.complexity || "",
+            userTonnage: String(c.tonnage || 0),
+            userWorkType: c.workType || "",
+            userEfficiency: c.efficiency || "",
+            userBrandTier: c.brandTier || "",
+            userSystemSizeKW: String(c.systemSizeKW || 0),
+            userBattery: String(c.battery || false),
+            // Source data
+            roofSizeSource: r.roofSizeSource || "ai_estimate",
+            hasExifGps: String(!!(state.city && state.stateCode)),
+            buildingFootprintSqFt: String(r.buildingFootprintSqFt || 0)
+          },
+          path: "/photo-estimate.html"
+        })
       }).catch(function() {});
     }
 
@@ -923,10 +962,32 @@
     window.submitPhotoFeedback = function(response) {
       var fb = document.getElementById("estimateFeedback");
       if (!fb) return;
+      var c = state.confirmed || {};
+      var r = state.result || {};
       fetch("/api/analytics", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "event", event: "photo_estimate_feedback", meta: { response: response, material: state.confirmed ? state.confirmed.material : "" }, path: "/photo-estimate.html" })
+        body: JSON.stringify({
+          type: "event",
+          event: "photo_estimate_feedback",
+          meta: {
+            response: response,
+            service: state.service,
+            material: c.material || c.systemType || c.panelTier || "",
+            city: c.city || "",
+            stateCode: c.stateCode || "",
+            roofSqFt: String(c.roofSqFt || 0),
+            tonnage: String(c.tonnage || 0),
+            systemSizeKW: String(c.systemSizeKW || 0),
+            aiMaterial: r.material || r.systemType || "",
+            aiRoofSqFt: String(r.estimatedRoofSqFt || r.estimatedUsableRoofSqFt || 0),
+            aiBrand: r.brand || "",
+            aiCondition: r.condition || "",
+            userCorrectedRoofSqFt: String(c.roofSqFt !== (r.estimatedRoofSqFt || r.estimatedUsableRoofSqFt) ? c.roofSqFt || 0 : 0),
+            userCorrectedMaterial: c.material !== r.material ? (c.material || "") : ""
+          },
+          path: "/photo-estimate.html"
+        })
       }).catch(function() {});
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks! This helps us improve photo estimates.</div>';
     };

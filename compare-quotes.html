@@ -845,6 +845,28 @@
       document.getElementById("uploadStep").style.display = "none";
       document.getElementById("resultsStep").classList.add("visible");
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Auto-submit compare quotes to calibration
+      active.forEach(function(a) {
+        if (a.data.price > 0) {
+          fetch("/api/calibration", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              price: a.data.price,
+              contractor: a.data.contractor || "",
+              city: a.data.city || "",
+              stateCode: a.data.stateCode || "",
+              material: a.data.material || "",
+              roofSize: a.data.roofSize || 0,
+              warrantyYears: a.data.warrantyYears || 0,
+              scopeItems: a.data.scopeItems || {},
+              source: "compare_upload",
+              service: "roofing"
+            })
+          }).catch(function() {});
+        }
+      });
     };
 
     function buildEmailSummary(active, bestValue, questions, allFlags) {
