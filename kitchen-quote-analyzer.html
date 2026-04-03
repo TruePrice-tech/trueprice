@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <title>Kitchen Remodel Quote Analyzer - Is Your Kitchen Quote Fair? | TruePrice</title>
+  <meta
+    name="description"
+    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+  />
+  <link rel="canonical" href="https://truepricehq.com/kitchen-quote-analyzer.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Kitchen Remodel Quote Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/kitchen-quote-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Kitchen Remodel Quote Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+
+  <style>
+    .kit-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .kit-hero { text-align: center; margin-bottom: 2rem; }
+    .kit-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .kit-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .kit-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+
+    .kit-upload-zone {
+      border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc;
+    }
+    .kit-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .kit-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
+    .kit-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .kit-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+
+    .kit-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
+    .kit-divider::before, .kit-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
+
+    .kit-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .kit-address-form input {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 100%; box-sizing: border-box;
+    }
+    .kit-address-form input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+    .kit-row { display: flex; gap: 0.75rem; }
+    .kit-row > * { flex: 1; }
+
+    .kit-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .kit-btn-primary { background: #2563eb; color: #fff; }
+    .kit-btn-primary:hover { background: #1d4ed8; }
+    .kit-btn-secondary { background: #f1f5f9; color: #334155; }
+    .kit-btn-secondary:hover { background: #e2e8f0; }
+    .kit-btn-full { width: 100%; }
+
+    .kit-progress { margin: 1.5rem 0; }
+    .kit-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .kit-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .kit-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+
+    /* Estimator steps */
+    .kit-step { margin-bottom: 1.5rem; }
+    .kit-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
+    .kit-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .kit-option {
+      padding: 0.6rem 1.2rem; border: 2px solid #e2e8f0; border-radius: 8px;
+      background: #fff; cursor: pointer; font-size: 0.95rem; color: #334155;
+      transition: all 0.15s;
+    }
+    .kit-option:hover { border-color: #93c5fd; background: #eff6ff; }
+    .kit-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+
+    /* Verdict card */
+    .kit-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .kit-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .kit-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
+    .kit-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    .kit-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .kit-verdict.fair .verdict-label { color: #16a34a; }
+    .kit-verdict.high .verdict-label { color: #dc2626; }
+    .kit-verdict.low .verdict-label { color: #ca8a04; }
+    .kit-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .kit-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+
+    /* Scope checklist */
+    .kit-scope { list-style: none; padding: 0; margin: 0; }
+    .kit-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .kit-scope li:last-child { border-bottom: none; }
+    .scope-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .scope-included { background: #dcfce7; color: #16a34a; }
+    .scope-missing { background: #fee2e2; color: #dc2626; }
+    .scope-unclear { background: #f1f5f9; color: #94a3b8; }
+
+    /* Details grid */
+    .kit-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .kit-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .kit-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .kit-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+
+    .kit-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .kit-actions a, .kit-actions button { text-align: center; }
+
+    .kit-hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .kit-hero h1 { font-size: 1.5rem; }
+      .kit-row { flex-direction: column; }
+      .kit-details { grid-template-columns: 1fr; }
+      .kit-options { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html#kitchen">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="kit-app" id="kitApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze kitchen remodel quotes, compare contractor bids, and estimate renovation costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/analyzer-parser.min.js"></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ── Kitchen Pricing Model ──
+    var KIT_PRICING = {
+      basePriceByTier: {
+        minor:            { label: "Minor Remodel (Cosmetic)",  low: 15000, high: 30000,  base: 22500 },
+        midrange:         { label: "Mid-Range Remodel",         low: 30000, high: 60000,  base: 45000 },
+        major:            { label: "Major/Upscale Remodel",     low: 60000, high: 120000, base: 90000 },
+        cabinet_refacing: { label: "Cabinet Refacing",          low: 5000,  high: 12000,  base: 8500  }
+      },
+      kitchenSizes: [
+        { label: "Small (< 100 sq ft)",      multiplier: 0.75 },
+        { label: "Average (100-150 sq ft)",   multiplier: 1.0  },
+        { label: "Large (150-200 sq ft)",     multiplier: 1.30 },
+        { label: "Expansive (200+ sq ft)",    multiplier: 1.65 }
+      ],
+      countertopMaterials: [
+        { key: "laminate", label: "Laminate",  multiplier: 0.85 },
+        { key: "granite",  label: "Granite",   multiplier: 1.0  },
+        { key: "quartz",   label: "Quartz",    multiplier: 1.10 },
+        { key: "marble",   label: "Marble",    multiplier: 1.25 }
+      ],
+      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
+      roundTo: 50,
+      scopeItems: [
+        { key: "demo",         label: "Demolition and removal",       weight: 8  },
+        { key: "cabinets",     label: "Cabinets (supply and install)", weight: 20 },
+        { key: "countertops",  label: "Countertops",                   weight: 14 },
+        { key: "flooring",     label: "Flooring",                      weight: 8  },
+        { key: "backsplash",   label: "Backsplash",                    weight: 6  },
+        { key: "plumbing",     label: "Plumbing (sink, faucet, lines)", weight: 8  },
+        { key: "electrical",   label: "Electrical (outlets, wiring)",  weight: 8  },
+        { key: "appliances",   label: "Appliances",                    weight: 12 },
+        { key: "lighting",     label: "Lighting (under-cabinet, recessed)", weight: 5 },
+        { key: "painting",     label: "Painting and trim",            weight: 4  },
+        { key: "permits",      label: "Permits and inspections",      weight: 3  },
+        { key: "design",       label: "Design and planning",          weight: 5  },
+        { key: "warranty",     label: "Warranty (labor and materials)", weight: 5  }
+      ]
+    };
+
+    var STATE_REGIONS = {
+      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+      WY:"mountain",DC:"northeast"
+    };
+
+    var US_STATES = {
+      "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
+      "colorado":"CO","connecticut":"CT","delaware":"DE","florida":"FL","georgia":"GA",
+      "hawaii":"HI","idaho":"ID","illinois":"IL","indiana":"IN","iowa":"IA","kansas":"KS",
+      "kentucky":"KY","louisiana":"LA","maine":"ME","maryland":"MD","massachusetts":"MA",
+      "michigan":"MI","minnesota":"MN","mississippi":"MS","missouri":"MO","montana":"MT",
+      "nebraska":"NE","nevada":"NV","new hampshire":"NH","new jersey":"NJ","new mexico":"NM",
+      "new york":"NY","north carolina":"NC","north dakota":"ND","ohio":"OH","oklahoma":"OK",
+      "oregon":"OR","pennsylvania":"PA","rhode island":"RI","south carolina":"SC",
+      "south dakota":"SD","tennessee":"TN","texas":"TX","utah":"UT","vermont":"VT",
+      "virginia":"VA","washington":"WA","west virginia":"WV","wisconsin":"WI","wyoming":"WY",
+      "district of columbia":"DC"
+    };
+
+    // ── State ──
+    var appRoot = document.getElementById("kitApp");
+    var state = {
+      step: "address",        // address | uploading | estimator | result
+      address: { street: "", city: "", stateCode: "", zip: "" },
+      uploadedFile: null,
+      extractedText: "",
+      // estimator answers
+      est: { tier: null, kitchenSize: null, countertop: null },
+      // result
+      result: null
+    };
+
+    // ── Helpers ──
+    function $(sel, el) { return (el || document).querySelector(sel); }
+    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+    function roundTo50(n) { return Math.round(n / 50) * 50; }
+
+    function getRegionFromState(sc) {
+      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+    }
+
+    // City-level multiplier
+    var cityMultCache = {};
+    function fetchCityMult(city, stateCode) {
+      if (!city || !stateCode) return;
+      var key = city + "|" + stateCode;
+      if (cityMultCache[key]) return;
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode))
+        .then(function(r) { return r.json(); })
+        .then(function(d) { if (d && d.multiplier) cityMultCache[key] = d.multiplier; })
+        .catch(function() {});
+    }
+    function getCityMult(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityMultCache[key] || null;
+    }
+
+    // Inflation: 3% annual from 2025
+    var _now = new Date();
+    var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
+    // Seasonal: kitchen remodels peak in spring/summer
+    var SEASONAL_MULTS = { 1:0.94, 2:0.95, 3:0.98, 4:1.02, 5:1.06, 6:1.08, 7:1.08, 8:1.06, 9:1.02, 10:0.98, 11:0.94, 12:0.92 };
+    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
+
+    function calcBenchmark(tier, sizeIdx, countertopKey) {
+      var tierData = KIT_PRICING.basePriceByTier[tier];
+      if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
+      var base = tierData.base;
+
+      var sizeMult = 1.0;
+      if (sizeIdx !== null && sizeIdx !== undefined && KIT_PRICING.kitchenSizes[sizeIdx]) {
+        sizeMult = KIT_PRICING.kitchenSizes[sizeIdx].multiplier;
+      }
+
+      var countertopMult = 1.0;
+      if (countertopKey) {
+        var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === countertopKey; });
+        if (mat) countertopMult = mat.multiplier;
+      }
+
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var region = getRegionFromState(state.address.stateCode);
+      var laborMult = cityMult || (KIT_PRICING.laborMultiplierByRegion[region] || 1.0);
+
+      var total = base * sizeMult * countertopMult * laborMult * INFLATION_MULT * SEASONAL_MULT;
+
+      return roundTo50(total);
+    }
+
+    function verdictFromRatio(ratio) {
+      if (ratio < 0.78) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (ratio <= 0.90) return { label: "Below Average", css: "low", emoji: "" };
+      if (ratio <= 1.12) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (ratio <= 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "kitchen", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("kitApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-kitchen-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
+    // ── Render functions ──
+    function render() {
+      switch (state.step) {
+        case "address": renderAddress(); break;
+        case "uploading": renderUploading(); break;
+        case "estimator": renderEstimator(); break;
+        case "result": renderResult(); break;
+      }
+    }
+
+    // ── Address / Upload Step ──
+    function renderAddress() {
+      appRoot.innerHTML = '\
+        <div class="kit-hero">\
+          <img src="/images/trudy-kitchen.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>Is your kitchen remodel quote fair?</h1>\
+          <p>Upload your quote or get an instant estimate for your kitchen renovation.</p>\
+        </div>\
+        <div class="kit-card">\
+          <div class="kit-upload-zone" id="uploadZone">\
+            <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
+            <p><strong>Analyze a Quote</strong></p>\
+            <p class="hint">Upload a contractor quote (PDF or image) to check the price</p>\
+            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
+          <div class="kit-divider">or enter your address for an estimate</div>\
+          <div class="kit-address-form">\
+            <div style="position:relative">\
+              <input type="text" id="addrStreet" placeholder="Start typing your address..." autocomplete="off" />\
+              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
+            </div>\
+            <div class="kit-row">\
+              <input type="text" id="addrCity" placeholder="City" />\
+              <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
+            </div>\
+            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
+            <button class="kit-btn kit-btn-primary kit-btn-full" id="btnEstimate">Get Kitchen Estimate</button>\
+          </div>\
+        </div>';
+
+      // Events
+      var zone = document.getElementById("uploadZone");
+      var fileInput = document.getElementById("fileInput");
+
+      zone.addEventListener("click", function() { fileInput.click(); });
+      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; });
+      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; });
+      zone.addEventListener("drop", function(e) {
+        e.preventDefault();
+        zone.style.borderColor = "#cbd5e1";
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener("change", function() {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+      });
+
+      // Address autocomplete
+      (function() {
+        var addrInput = document.getElementById("addrStreet");
+        var sugBox = document.getElementById("addrSuggestions");
+        if (!addrInput || !sugBox) return;
+        var timer = null;
+        addrInput.addEventListener("input", function() {
+          clearTimeout(timer);
+          var q = addrInput.value.trim();
+          if (q.length < 4) { sugBox.style.display = "none"; return; }
+          timer = setTimeout(function() {
+            fetch("/api/geocode-suggest?q=" + encodeURIComponent(q))
+              .then(function(r) { return r.json(); })
+              .then(function(data) {
+                if (!data.suggestions || !data.suggestions.length) { sugBox.style.display = "none"; return; }
+                sugBox.innerHTML = data.suggestions.map(function(s, i) {
+                  return '<div data-idx="' + i + '" style="padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' + s.label + '</div>';
+                }).join("");
+                sugBox.style.display = "block";
+                sugBox.querySelectorAll("[data-idx]").forEach(function(el) {
+                  el.addEventListener("click", function() {
+                    var idx = parseInt(el.dataset.idx);
+                    var s = data.suggestions[idx];
+                    if (!s) return;
+                    addrInput.value = s.street || s.label.split(",")[0] || "";
+                    var c = document.getElementById("addrCity");
+                    var st = document.getElementById("addrState");
+                    var z = document.getElementById("addrZip");
+                    if (c) c.value = s.city || "";
+                    if (st) st.value = s.state || "";
+                    if (z) z.value = s.zip || "";
+                    sugBox.style.display = "none";
+                  });
+                });
+              })
+              .catch(function() { sugBox.style.display = "none"; });
+          }, 300);
+        });
+        document.addEventListener("click", function(e) {
+          if (!addrInput.contains(e.target) && !sugBox.contains(e.target)) sugBox.style.display = "none";
+        });
+      })();
+
+      document.getElementById("btnEstimate").addEventListener("click", function() {
+        state.address.street = document.getElementById("addrStreet").value.trim();
+        state.address.city = document.getElementById("addrCity").value.trim();
+        var rawState = document.getElementById("addrState").value.trim();
+        state.address.zip = document.getElementById("addrZip").value.trim();
+
+        // Normalize state
+        var upper = rawState.toUpperCase();
+        if (STATE_REGIONS[upper]) {
+          state.address.stateCode = upper;
+        } else {
+          var lookup = US_STATES[rawState.toLowerCase()];
+          state.address.stateCode = lookup || "TX";
+        }
+
+        fetchCityMult(state.address.city, state.address.stateCode);
+        state.step = "estimator";
+        render();
+      });
+    }
+
+    // ── Upload / Processing ──
+    function handleFile(file) {
+      state.uploadedFile = file;
+      // capture address before leaving
+      var streetEl = document.getElementById("addrStreet");
+      var cityEl = document.getElementById("addrCity");
+      var stateEl = document.getElementById("addrState");
+      var zipEl = document.getElementById("addrZip");
+      if (streetEl) state.address.street = streetEl.value.trim();
+      if (cityEl) state.address.city = cityEl.value.trim();
+      if (stateEl) {
+        var raw = stateEl.value.trim().toUpperCase();
+        state.address.stateCode = STATE_REGIONS[raw] ? raw : (US_STATES[stateEl.value.trim().toLowerCase()] || "");
+      }
+      if (zipEl) state.address.zip = zipEl.value.trim();
+
+      state.step = "uploading";
+      render();
+      processFile(file);
+    }
+
+    function renderUploading() {
+      appRoot.innerHTML = '\
+        <div class="kit-hero">\
+          <h1>Analyzing your kitchen remodel quote...</h1>\
+        </div>\
+        <div class="kit-card">\
+          <div class="kit-progress">\
+            <div class="kit-progress-bar"><div class="kit-progress-fill" id="progFill" style="width:10%"></div></div>\
+            <p class="kit-progress-text" id="progText">Loading document...</p>\
+          </div>\
+        </div>';
+    }
+
+    function setProgress(pct, msg) {
+      var fill = document.getElementById("progFill");
+      var txt = document.getElementById("progText");
+      if (fill) fill.style.width = pct + "%";
+      if (txt) txt.textContent = msg;
+    }
+
+    async function processFile(file) {
+      try {
+        setProgress(15, "Loading parsing libraries...");
+        await window.loadVendorLibs();
+
+        var text = "";
+        if (file.type === "application/pdf") {
+          setProgress(30, "Extracting text from PDF...");
+          text = await extractPdfText(file);
+        } else {
+          setProgress(30, "Running OCR on image...");
+          text = await extractImageText(file);
+        }
+
+        setProgress(70, "Analyzing kitchen remodel quote...");
+        state.extractedText = text;
+
+        // Use analyzer-parser.js for price extraction
+        var parsed = null;
+        try {
+          if (typeof parseExtractedText === "function") {
+            parsed = parseExtractedText(text);
+          }
+        } catch (parseErr) {
+          console.warn("Parser error, falling back to regex:", parseErr);
+        }
+
+        // Fallback price extraction if parser fails or returns nothing
+        if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
+          var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
+          var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v >= 3000 && v <= 250000; });
+          if (prices.length) {
+            prices.sort(function(a, b) { return b - a; });
+            parsed = parsed || {};
+            parsed.finalPrice = prices[0];
+            parsed.priceCandidates = prices.map(function(v) { return { value: v, score: 50 }; });
+          }
+        }
+
+        // Detect kitchen-specific signals from text
+        var scopeSignals = detectKitchenScopeSignals(text);
+        var detectedTier = detectKitchenTier(text, parsed ? parsed.finalPrice : 0);
+        var detectedCountertop = detectCountertopMaterial(text);
+
+        // Location detection from parser
+        var location = (parsed && parsed.location) ? parsed.location : null;
+        if (location && location.stateCode && !state.address.stateCode) {
+          state.address.stateCode = location.stateCode;
+          if (location.city) state.address.city = location.city;
+        }
+        fetchCityMult(state.address.city, state.address.stateCode);
+
+        // Determine price
+        var quotePrice = 0;
+        if (parsed && parsed.finalPrice && parsed.finalPrice > 500) {
+          quotePrice = parsed.finalPrice;
+        } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
+          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 3000 && c.value <= 250000; });
+          candidates.sort(function(a, b) { return b.score - a.score; });
+          if (candidates.length) quotePrice = candidates[0].value;
+        }
+
+        setProgress(85, "Calculating verdict...");
+
+        // Default to midrange, average size, granite if not detected
+        var tier = detectedTier || "midrange";
+        var sizeIdx = 1; // average
+        var countertopKey = detectedCountertop || "granite";
+
+        var benchmark = calcBenchmark(tier, sizeIdx, countertopKey);
+
+        var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
+        var verdict = verdictFromRatio(ratio);
+
+        setProgress(100, "Done!");
+
+        var tierData = KIT_PRICING.basePriceByTier[tier];
+
+        state.result = {
+          source: "upload",
+          quotePrice: quotePrice,
+          benchmark: benchmark,
+          ratio: ratio,
+          verdict: verdict,
+          tier: tier,
+          tierLabel: tierData ? tierData.label : "Mid-Range Remodel",
+          sizeIdx: sizeIdx,
+          countertopKey: countertopKey,
+          scopeSignals: scopeSignals,
+          region: getRegionFromState(state.address.stateCode),
+          location: location,
+          parsed: parsed
+        };
+
+        state.step = "result";
+        setTimeout(render, 400);
+
+      } catch (err) {
+        console.error("Kitchen analysis error:", err);
+        appRoot.innerHTML = '\
+          <div class="kit-hero"><h1>We couldn\'t read that file</h1></div>\
+          <div class="kit-card" style="text-align:center;">\
+            <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
+            <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
+            <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
+              <span style="font-size:20px;font-weight:700;">$</span>\
+              <input type="number" id="manualPrice" placeholder="e.g. 45000" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+            </div>\
+            <button class="kit-btn kit-btn-primary" id="manualPriceBtn">Analyze this price</button>\
+            <div style="margin-top:14px;"><button class="kit-btn kit-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
+          </div>';
+        document.getElementById("manualPriceBtn").addEventListener("click", function() {
+          var price = parseFloat(document.getElementById("manualPrice").value);
+          if (!price || price < 1000) { alert("Please enter a valid price."); return; }
+          var benchmark = calcBenchmark("midrange", 1, "granite");
+          var ratio = price / benchmark;
+          state.result = {
+            source: "manual",
+            quotePrice: price,
+            benchmark: benchmark,
+            ratio: ratio,
+            verdict: verdictFromRatio(ratio),
+            tier: "midrange",
+            tierLabel: "Mid-Range Remodel",
+            sizeIdx: 1,
+            countertopKey: "granite",
+            scopeSignals: {},
+            region: getRegionFromState(state.address.stateCode),
+            location: null,
+            parsed: null
+          };
+          state.step = "result";
+          render();
+        });
+      }
+    }
+
+    // ── Kitchen-specific text detection ──
+    function detectKitchenTier(text, price) {
+      var t = (text || "").toLowerCase();
+      if (/\b(cabinet\s*refac|reface|refacing)\b/.test(t)) return "cabinet_refacing";
+      if (/\b(custom|luxury|upscale|high[\s-]?end|premium|wolf|sub[\s-]?zero|thermador|viking)\b/.test(t)) return "major";
+      if (/\b(cosmetic|paint|hardware|minor|refresh)\b/.test(t) && !/\b(gut|full|major)\b/.test(t)) return "minor";
+      // price-based fallback
+      if (price) {
+        if (price < 15000) return "cabinet_refacing";
+        if (price < 32000) return "minor";
+        if (price < 65000) return "midrange";
+        return "major";
+      }
+      return null;
+    }
+
+    function detectCountertopMaterial(text) {
+      var t = (text || "").toLowerCase();
+      if (/\bmarble\b/.test(t)) return "marble";
+      if (/\bquartz\b/.test(t)) return "quartz";
+      if (/\bgranite\b/.test(t)) return "granite";
+      if (/\b(laminate|formica)\b/.test(t)) return "laminate";
+      return null;
+    }
+
+    function detectKitchenScopeSignals(text) {
+      var t = (text || "").toLowerCase();
+      var signals = {};
+      var patterns = {
+        demo:        [/\b(demo|demolition|tear[\s-]?out|removal|gut|strip)\b/],
+        cabinets:    [/\b(cabinet|cabinetry|cupboard)\b/],
+        countertops: [/\b(counter\s*top|granite|quartz|marble|laminate|butcher\s*block|surface)\b/],
+        flooring:    [/\b(floor|tile|hardwood|vinyl|lvp|lvt|linoleum)\b/],
+        backsplash:  [/\b(backsplash|back\s*splash|tile\s*splash)\b/],
+        plumbing:    [/\b(plumb|sink|faucet|drain|disposal|dishwasher\s*line|water\s*line)\b/],
+        electrical:  [/\b(electri|wiring|outlet|gfci|circuit|panel)\b/],
+        appliances:  [/\b(appliance|refrigerator|fridge|dishwasher|range|oven|stove|microwave|hood|vent)\b/],
+        lighting:    [/\b(light|lighting|under[\s-]?cabinet|recessed|pendant|fixture)\b/],
+        painting:    [/\b(paint|primer|finish|trim|wall\s*prep)\b/],
+        permits:     [/\b(permit|inspection|code\s*compliance)\b/],
+        design:      [/\b(design|plan|layout|render|3d|blueprint|architect)\b/],
+        warranty:    [/\b(warrant|guarantee|coverage)\b/]
+      };
+      for (var key in patterns) {
+        var found = false;
+        for (var i = 0; i < patterns[key].length; i++) {
+          if (patterns[key][i].test(t)) { found = true; break; }
+        }
+        signals[key] = { status: found ? "included" : "unclear" };
+      }
+      return signals;
+    }
+
+    async function extractPdfText(file) {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var allText = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        var page = await pdf.getPage(i);
+        var content = await page.getTextContent();
+        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+        allText.push(pageText);
+      }
+      return allText.join("\n");
+    }
+
+    async function preprocessImage(file, mode) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement("canvas");
+            var scale = Math.max(1.5, Math.min(2.5, 2400 / Math.max(img.width, img.height)));
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            var ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            if (mode === "strong") {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.6 + 128;
+                gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            } else {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.3 + 128;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+          };
+          img.onerror = reject;
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extractImageText(file) {
+      var softImage = await preprocessImage(file, "soft");
+      var worker = await Tesseract.createWorker("eng");
+      var result = await worker.recognize(softImage);
+      var text = (result.data.text || "").trim();
+
+      if (text.length < 50) {
+        var strongImage = await preprocessImage(file, "strong");
+        var result2 = await worker.recognize(strongImage);
+        var text2 = (result2.data.text || "").trim();
+        if (text2.length > text.length) text = text2;
+      }
+
+      await worker.terminate();
+      return text;
+    }
+
+    // ── Estimator Flow ──
+    function renderEstimator() {
+      var est = state.est;
+      var stepNum = getEstimatorStep();
+
+      appRoot.innerHTML = '\
+        <div class="kit-hero">\
+          <h1>Kitchen Remodel Estimator</h1>\
+          <p>' + (state.address.city ? state.address.city + ", " + state.address.stateCode : "Get a quick estimate") + '</p>\
+        </div>\
+        <div class="kit-card" id="estCard"></div>';
+
+      var card = document.getElementById("estCard");
+
+      if (stepNum === 1) {
+        card.innerHTML = '\
+          <div class="kit-step">\
+            <h3>What level of kitchen remodel are you planning?</h3>\
+            <div class="kit-options" id="optTier">\
+              <div class="kit-option' + (est.tier === "minor" ? " selected" : "") + '" data-val="minor">Minor (Cosmetic)</div>\
+              <div class="kit-option' + (est.tier === "midrange" ? " selected" : "") + '" data-val="midrange">Mid-Range</div>\
+              <div class="kit-option' + (est.tier === "major" ? " selected" : "") + '" data-val="major">Major / Upscale</div>\
+              <div class="kit-option' + (est.tier === "cabinet_refacing" ? " selected" : "") + '" data-val="cabinet_refacing">Cabinet Refacing</div>\
+            </div>\
+          </div>';
+        bindOptions("optTier", "tier");
+      } else if (stepNum === 2) {
+        card.innerHTML = '\
+          <div class="kit-step">\
+            <h3>How large is your kitchen?</h3>\
+            <div class="kit-options" id="optSize">';
+        KIT_PRICING.kitchenSizes.forEach(function(sz, i) {
+          card.querySelector("#optSize").insertAdjacentHTML("beforeend",
+            '<div class="kit-option' + (est.kitchenSize === String(i) ? " selected" : "") + '" data-val="' + i + '">' + sz.label + '</div>'
+          );
+        });
+        card.innerHTML += '</div></div>';
+        // Re-render to ensure options are in DOM
+        var sizeHtml = '<div class="kit-step"><h3>How large is your kitchen?</h3><div class="kit-options" id="optSize">';
+        KIT_PRICING.kitchenSizes.forEach(function(sz, i) {
+          sizeHtml += '<div class="kit-option' + (est.kitchenSize === String(i) ? " selected" : "") + '" data-val="' + i + '">' + sz.label + '</div>';
+        });
+        sizeHtml += '</div></div>';
+        card.innerHTML = sizeHtml;
+        bindOptions("optSize", "kitchenSize");
+      } else if (stepNum === 3) {
+        var matHtml = '<div class="kit-step"><h3>What countertop material?</h3><div class="kit-options" id="optCounter">';
+        KIT_PRICING.countertopMaterials.forEach(function(mat) {
+          matHtml += '<div class="kit-option' + (est.countertop === mat.key ? " selected" : "") + '" data-val="' + mat.key + '">' + mat.label + '</div>';
+        });
+        matHtml += '</div></div>';
+        card.innerHTML = matHtml;
+        bindOptions("optCounter", "countertop");
+      }
+
+      // Show progress dots
+      var dots = '';
+      for (var d = 1; d <= 3; d++) {
+        dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px;background:' + (d <= stepNum ? "#2563eb" : "#e2e8f0") + ';"></span>';
+      }
+      card.insertAdjacentHTML("afterbegin", '<div style="text-align:center;margin-bottom:1rem;">' + dots + '</div>');
+
+      // Back button (except step 1)
+      if (stepNum > 1) {
+        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="kit-btn kit-btn-secondary" id="estBack">Back</button></div>');
+        document.getElementById("estBack").addEventListener("click", function() {
+          if (stepNum === 3) est.countertop = null;
+          else if (stepNum === 2) est.kitchenSize = null;
+          render();
+        });
+      }
+    }
+
+    function getEstimatorStep() {
+      var e = state.est;
+      if (!e.tier) return 1;
+      if (e.kitchenSize === null || e.kitchenSize === undefined) return 2;
+      if (!e.countertop) return 3;
+      return 4; // all done
+    }
+
+    function bindOptions(containerId, field) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      container.addEventListener("click", function(e) {
+        var opt = e.target.closest(".kit-option");
+        if (!opt) return;
+        state.est[field] = opt.getAttribute("data-val");
+
+        // Check if estimator is complete
+        if (getEstimatorStep() > 3) {
+          calculateEstimate();
+        } else {
+          render();
+        }
+      });
+    }
+
+    function calculateEstimate() {
+      var est = state.est;
+      var sizeIdx = parseInt(est.kitchenSize, 10);
+
+      var benchmark = calcBenchmark(est.tier, sizeIdx, est.countertop);
+
+      var tierData = KIT_PRICING.basePriceByTier[est.tier];
+      var low = roundTo50(benchmark * 0.88);
+      var high = roundTo50(benchmark * 1.15);
+
+      state.result = {
+        source: "estimator",
+        quotePrice: benchmark,
+        benchmark: benchmark,
+        low: low,
+        high: high,
+        ratio: 1.0,
+        verdict: { label: "Estimated Cost", css: "fair", emoji: "" },
+        tier: est.tier,
+        tierLabel: tierData ? tierData.label : est.tier,
+        sizeIdx: sizeIdx,
+        sizeLabel: KIT_PRICING.kitchenSizes[sizeIdx] ? KIT_PRICING.kitchenSizes[sizeIdx].label : "",
+        countertopKey: est.countertop,
+        countertopLabel: (KIT_PRICING.countertopMaterials.find(function(m) { return m.key === est.countertop; }) || {}).label || est.countertop,
+        scopeSignals: {},
+        region: getRegionFromState(state.address.stateCode),
+        location: null,
+        parsed: null
+      };
+
+      state.step = "result";
+      render();
+    }
+
+    // ── Result Step ──
+    function renderResult() {
+      var r = state.result;
+      if (!r) { state.step = "address"; render(); return; }
+
+      var isUpload = r.source === "upload" || r.source === "manual";
+      var verdictCss = r.verdict.css;
+      var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
+      var rangeText = "";
+
+      if (isUpload && r.source !== "manual") {
+        rangeText = "Market benchmark: " + fmt(r.benchmark);
+        if (r.quotePrice > 0) {
+          var pct = Math.round((r.ratio - 1) * 100);
+          var dir = pct > 0 ? "above" : "below";
+          rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+        }
+      } else if (r.source === "manual") {
+        rangeText = "Market benchmark: " + fmt(r.benchmark);
+        var pct = Math.round((r.ratio - 1) * 100);
+        var dir = pct > 0 ? "above" : "below";
+        rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+      } else {
+        rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
+      }
+
+      // Build details
+      var detailsHtml = '<div class="kit-details">';
+      detailsHtml += '<div class="kit-detail"><div class="label">Remodel Tier</div><div class="value">' + r.tierLabel + '</div></div>';
+
+      if (r.sizeLabel) {
+        detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + r.sizeLabel + '</div></div>';
+      } else if (r.sizeIdx !== null && r.sizeIdx !== undefined && KIT_PRICING.kitchenSizes[r.sizeIdx]) {
+        detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + KIT_PRICING.kitchenSizes[r.sizeIdx].label + '</div></div>';
+      }
+
+      if (r.countertopLabel) {
+        detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + r.countertopLabel + '</div></div>';
+      } else if (r.countertopKey) {
+        var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === r.countertopKey; });
+        if (mat) detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + mat.label + '</div></div>';
+      }
+
+      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="kit-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      detailsHtml += '</div>';
+
+      // Scope checklist (upload only)
+      var scopeHtml = "";
+      if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+        scopeHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="kit-scope">';
+        KIT_PRICING.scopeItems.forEach(function(item) {
+          var sig = r.scopeSignals[item.key];
+          var status = sig ? sig.status : "unclear";
+          var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
+          var iconChar = status === "included" ? "&#10003;" : status === "excluded" ? "&#10007;" : "?";
+          var statusLabel = status === "included" ? "Included" : status === "excluded" ? "Not included" : "Not mentioned";
+          scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
+        });
+        scopeHtml += '</ul>';
+        // Missing cost estimate
+        var kitScopeCosts = { demo: [500,2000], cabinets: [3000,15000], countertops: [1500,8000], flooring: [1000,5000], backsplash: [500,2500], plumbing: [800,4000], electrical: [500,3000], appliances: [2000,12000], lighting: [300,2000], painting: [300,1500], permits: [200,800], design: [500,3000], warranty: [0,0] };
+        var missingItems = KIT_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        if (missingItems.length > 0) {
+          var mLow = 0, mHigh = 0;
+          missingItems.forEach(function(item) { var c = kitScopeCosts[item.key]; if (c) { mLow += c[0]; mHigh += c[1]; } });
+          if (mLow > 0) {
+            scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;"><strong>' + missingItems.length + ' missing item' + (missingItems.length !== 1 ? 's' : '') + '</strong> could add <strong>$' + mLow.toLocaleString() + ' to $' + mHigh.toLocaleString() + '</strong> in change orders if not included.</div>';
+          }
+        }
+        scopeHtml += '</div>';
+      }
+
+      // Estimator scope info
+      if (!isUpload) {
+        scopeHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="kit-scope">';
+        var typicalItems = ["demo", "cabinets", "countertops", "flooring", "backsplash", "plumbing", "electrical", "painting", "permits", "warranty"];
+        typicalItems.forEach(function(key) {
+          var item = KIT_PRICING.scopeItems.find(function(s) { return s.key === key; });
+          if (item) {
+            scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
+          }
+        });
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Appliances, structural changes, or custom cabinetry may add cost.</p></div>';
+      }
+
+      // Market context
+      var contextHtml = '';
+      if (isUpload && r.quotePrice > 0) {
+        var tip = "";
+        if (r.verdict.css === "high") {
+          tip = "This quote is higher than typical market rates for a " + r.tierLabel.toLowerCase() + ". Consider getting 2-3 additional quotes to compare.";
+        } else if (r.verdict.css === "low") {
+          tip = "This quote is lower than expected. Verify the scope includes all necessary items like permits, appliances, and quality materials.";
+        } else {
+          tip = "This quote appears to be within the typical market range for a " + r.tierLabel.toLowerCase() + " in your area.";
+        }
+        contextHtml = '<div class="kit-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
+      }
+
+      // Next Steps tips
+      var tipsHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Ask for a detailed, itemized breakdown of materials and labor</li>';
+      tipsHtml += '<li>Confirm what\'s included: cabinets, countertops, flooring, appliances, and plumbing</li>';
+      tipsHtml += '<li>Ask about the timeline and whether the kitchen will be fully unusable during work</li>';
+      tipsHtml += '<li>Verify permits are included and the contractor handles inspections</li>';
+      if (r.verdict.css === "high") {
+        tipsHtml += '<li>Get 2-3 additional quotes from local contractors for comparison</li>';
+        tipsHtml += '<li>Ask if you can save by keeping the existing layout (no plumbing/electrical moves)</li>';
+      }
+      if (r.verdict.css === "low") {
+        tipsHtml += '<li>Verify cabinet and countertop brands/grades are specified, not just "builder grade"</li>';
+        tipsHtml += '<li>Confirm labor warranty duration (industry standard is 1-2 years minimum)</li>';
+      }
+      tipsHtml += '</ul></div>';
+
+      // Savings tips
+      var savingsHtml = '<div class="kit-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
+      savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      savingsHtml += '<li>Keep the existing layout to avoid moving plumbing and electrical (saves $3,000-8,000)</li>';
+      savingsHtml += '<li>Consider cabinet refacing instead of full replacement (saves 30-50%)</li>';
+      savingsHtml += '<li>Schedule in fall or winter when contractors are less busy (5-10% savings)</li>';
+      savingsHtml += '<li>Choose quartz over marble for a similar look at lower cost and maintenance</li>';
+      savingsHtml += '</ul></div>';
+
+      // Feedback prompt
+      var feedbackHtml = '\
+<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
+  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this estimate close to your actual quote?</div>\
+  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, accurate</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
+      // Email report
+      var emailSubject = encodeURIComponent("My Kitchen Remodel Quote Analysis from TruePrice");
+      var emailBody = encodeURIComponent(
+        "Kitchen Remodel Quote Analysis\n" +
+        "Remodel Tier: " + r.tierLabel + "\n" +
+        (r.countertopLabel ? "Countertop: " + r.countertopLabel + "\n" : "") +
+        (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
+        "Benchmark: " + fmt(r.benchmark) + "\n" +
+        "Verdict: " + r.verdict.label + "\n" +
+        "Region: " + capitalize(r.region) + "\n\n" +
+        "Analyzed by TruePrice - https://truepricehq.com/kitchen-quote-analyzer.html"
+      );
+
+      appRoot.innerHTML = '\
+        <div class="kit-hero">\
+          <h1>' + (isUpload ? "Kitchen Remodel Quote Analysis" : "Your Kitchen Remodel Estimate") + '</h1>\
+        </div>\
+        <div class="kit-verdict ' + verdictCss + '">\
+          <div class="verdict-label">' + r.verdict.label + '</div>\
+          <div class="verdict-price">' + priceDisplay + '</div>\
+          <div class="verdict-range">' + rangeText + '</div>\
+        </div>\
+        <div class="kit-card">\
+          <h3 style="margin-bottom:0.75rem;">Project Details</h3>\
+          ' + detailsHtml + '\
+        </div>\
+        ' + scopeHtml + '\
+        ' + contextHtml + '\
+        ' + tipsHtml + '\
+        ' + savingsHtml + '\
+        <div class="kit-actions">\
+          <a class="kit-btn kit-btn-primary kit-btn-full" href="/find-contractors.html?service=kitchen">Find Kitchen Contractors</a>\
+          <a class="kit-btn kit-btn-secondary kit-btn-full" href="/kitchen-remodel-cost.html">Kitchen Remodel Cost Guide</a>\
+          <a class="kit-btn kit-btn-secondary kit-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
+          <button class="kit-btn kit-btn-secondary kit-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
+          <a class="kit-btn kit-btn-secondary kit-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
+          <button class="kit-btn kit-btn-secondary kit-btn-full" id="btnStartOver">Start Over</button>\
+        </div>\
+        ' + feedbackHtml;
+
+      document.getElementById("btnStartOver").addEventListener("click", function() {
+        state = {
+          step: "address",
+          address: { street: "", city: "", stateCode: "", zip: "" },
+          uploadedFile: null,
+          extractedText: "",
+          est: { tier: null, kitchenSize: null, countertop: null },
+          result: null
+        };
+        render();
+      });
+    }
+
+    function capitalize(s) {
+      return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+    }
+
+    // ── Init ──
+    render();
+
+  })();
+  </script>
+<script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
