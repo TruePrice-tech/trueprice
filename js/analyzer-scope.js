@@ -6,7 +6,7 @@ function detectScopeItems(text) {
     { key: "underlayment", label: "Underlayment", costLow: 200, costHigh: 600, patterns: [/underlayment/, /felt paper/, /synthetic underlayment/, /ice.*water.*shield/, /weather\s*lock/, /deck\s*armor/, /deck\s*defense/, /tiger\s*paw/, /roof\s*deck\s*protect/] },
     { key: "drip_edge", label: "Drip edge", costLow: 100, costHigh: 300, patterns: [/drip edge/, /drip\s*edge/, /edge\s*metal/, /eave\s*metal/] },
     { key: "flashing", label: "Flashing replacement", costLow: 200, costHigh: 600, patterns: [/flashing/, /flash\s*ing/, /step flash/, /counter flash/, /wall flash/, /chimney flash/, /pipe flash/, /roof flash/, /damaged flash/, /repair.*flash/, /flash.*repair/, /new flash/, /fl\s*ash/] },
-    { key: "ice_barrier", label: "Ice and water barrier", costLow: 150, costHigh: 500, patterns: [/ice.?water/, /ice barrier/, /ice shield/, /weather\s*lock/, /storm\s*guard/, /leak\s*barrier/] },
+    { key: "ice_barrier", label: "Ice and water barrier", costLow: 150, costHigh: 500, patterns: [/ice.*water/, /ice barrier/, /ice shield/, /weather\s*lock/, /storm\s*guard/, /leak\s*barrier/] },
     { key: "ridge_vent", label: "Ridge ventilation", costLow: 150, costHigh: 450, patterns: [/ridge vent/, /ridge ventilation/, /ventilation/, /vent(?:s|ing|ilation)?\b/, /exhaust vent/, /attic vent/, /roof vent/, /additional ventilation/, /install.*vent/, /vent\s*il/, /v\s*e\s*n\s*t/, /turbine/, /soffit vent/] },
     { key: "starter", label: "Starter shingles", costLow: 75, costHigh: 200, patterns: [/starter shingle/, /starter strip/, /starter course/, /eave starter/] },
     { key: "ridge_cap", label: "Ridge cap shingles", costLow: 100, costHigh: 350, patterns: [/ridge cap/, /hip.*cap/, /cap shingle/] },
