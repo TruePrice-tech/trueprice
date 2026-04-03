@@ -9217,6 +9217,9 @@ function buildComparisonWinnerHtml(summary) {
             <div style="text-align:center; margin-top:10px;">
               <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
             </div>
+            <div style="text-align:center; margin-top:8px;">
+              <a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:13px; color:#94a3b8; text-decoration:none;">Have a suggestion? Email hello@truepricehq.com</a>
+            </div>
             <div style="text-align:center; margin-top:20px; padding-top:16px; border-top:1px solid #e2e8f0;">
               <a href="/" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;">
                 <img src="/images/trudy-peeking.png" alt="" width="28" style="vertical-align:middle;" />
