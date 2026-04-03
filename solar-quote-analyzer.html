@@ -1241,7 +1241,7 @@
           <h1>' + (isUpload ? "Solar Quote Analysis" : "Your Solar Estimate") + '</h1>\
         </div>\
         <div class="solar-verdict ' + verdictCss + '">\
-          <div class="verdict-label">' + r.verdict.label + '</div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-solar.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Solar Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
           ' + (perWattStr ? '<div style="font-size:0.9rem;color:#64748b;margin-top:0.25rem;">(' + perWattStr + ' before tax credit)</div>' : '') + '\
