@@ -1325,11 +1325,14 @@
           '</div>' +
 
           ((svc === "roofing" || svc === "solar") && c.roofSqFt ?
-            '<div style="margin:12px 0; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; display:flex; justify-content:space-between; align-items:center; font-size:14px;">' +
-              '<span><strong>' + Math.round(c.roofSqFt).toLocaleString() + ' sq ft</strong> roof ' +
-                (state.result.roofSizeSource === "satellite" ? '<span style="color:#16a34a;">(from building data near you)</span>' : '<span style="color:#94a3b8;">(estimated)</span>') +
-              '</span>' +
-              '<a href="#" id="notMyRoofLink" style="font-size:13px; color:#1d4ed8; white-space:nowrap;">Not your roof?</a>' +
+            '<div style="margin:12px 0; padding:12px 14px; background:#f0fdf4; border:1px solid #a7f3d0; border-radius:10px; font-size:14px;">' +
+              (state.address ?
+                '<div style="font-weight:600; color:#0f172a; margin-bottom:4px;">' + esc(state.address) + '</div>' :
+                (c.city ? '<div style="font-weight:600; color:#0f172a; margin-bottom:4px;">' + esc(c.city) + ', ' + esc(c.stateCode) + '</div>' : '')) +
+              '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+                '<span style="color:#475569;">Roof size: <strong>' + Math.round(c.roofSqFt).toLocaleString() + ' sq ft</strong></span>' +
+                '<a href="#" id="notMyAddressLink" style="font-size:13px; color:#1d4ed8; white-space:nowrap;">Not your address?</a>' +
+              '</div>' +
             '</div>' : '') +
 
           '<div class="pe-details">' + detailsHtml + '</div>' +
@@ -1372,10 +1375,13 @@
         render();
       });
 
-      var notMyRoof = document.getElementById("notMyRoofLink");
-      if (notMyRoof) {
-        notMyRoof.addEventListener("click", function(e) {
+      var notMyAddress = document.getElementById("notMyAddressLink");
+      if (notMyAddress) {
+        notMyAddress.addEventListener("click", function(e) {
           e.preventDefault();
+          // Clear GPS-based data so confirm step shows address fields
+          state.lat = null;
+          state.lng = null;
           state.confirmed = null;
           state.step = "confirm";
           render();
