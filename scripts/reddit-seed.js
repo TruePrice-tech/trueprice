@@ -27,7 +27,17 @@ const SUBREDDITS = [
   { name: "hvacadvice", service: "hvac" },
   { name: "plumbing", service: "plumbing" },
   { name: "solar", service: "solar" },
-  { name: "HomeImprovement", service: "auto" }
+  { name: "HomeImprovement", service: "auto" },
+  { name: "electricians", service: "electrical" },
+  { name: "askanelectrician", service: "electrical" },
+  { name: "landscaping", service: "landscaping" },
+  { name: "Carpentry", service: "auto" },
+  { name: "Concrete", service: "concrete" },
+  { name: "Fencing", service: "fencing" },
+  { name: "painting", service: "painting" },
+  { name: "GarageDoorService", service: "garage-doors" },
+  { name: "KitchenRemodel", service: "kitchen" },
+  { name: "homeowners", service: "auto" }
 ];
 
 const SEARCH_TERMS = ["quote", "quoted", "estimate", "bid", "price", "cost", "paid"];
