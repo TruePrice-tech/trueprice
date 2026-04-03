@@ -207,9 +207,9 @@
     function renderCapture() {
       var isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
       var photoLabels = {
-        roofing: { title: "Take a photo of your house", desc: "We'll estimate your roof size, material, and replacement cost", addressLink: "/roofing-quote-analyzer.html?mode=estimator" },
-        hvac: { title: "Take a photo of your AC unit", desc: "We'll detect the brand, system type, and estimate replacement cost", addressLink: null },
-        solar: { title: "Take a photo of your house", desc: "We'll assess your roof for solar potential and estimate installation cost", addressLink: null },
+        roofing: { title: "Take a photo of your house", desc: "We'll estimate your roof size, material, and replacement price", addressLink: "/roofing-quote-analyzer.html?mode=estimator" },
+        hvac: { title: "Take a photo of your AC unit", desc: "We'll detect the brand, system type, and estimate replacement price", addressLink: null },
+        solar: { title: "Take a photo of your house", desc: "We'll assess your roof for solar potential and estimate installation price", addressLink: null },
         general: { title: "Take a photo of your home", desc: "We'll identify the project and estimate cost", addressLink: null }
       };
       var labels = photoLabels[state.service] || photoLabels.general;
@@ -223,7 +223,7 @@
 
       app.innerHTML =
         '<div style="text-align:center; margin-bottom:28px;">' +
-          '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="100" style="margin-bottom:10px;" />' +
+          '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="200" style="margin-bottom:10px;" />' +
           '<h1 style="font-size:26px; margin:0 0 8px; color:#0f172a;">' + labels.title + '</h1>' +
           '<p style="font-size:15px; color:#64748b; margin:0; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">' + labels.desc + '</p>' +
         '</div>' +
@@ -301,7 +301,7 @@
     function renderAnalyzing() {
       app.innerHTML =
         '<div class="pe-hero">' +
-          '<img src="/images/trudy-working.png" alt="Trudy" width="140" style="margin-bottom:12px;" />' +
+          '<img src="/images/trudy-working.png" alt="Trudy" width="200" style="margin-bottom:12px;" />' +
           '<h1>Trudy is analyzing your photo...</h1>' +
         '</div>' +
         '<div class="pe-result-card" style="text-align:center; padding:3rem;">' +
@@ -430,7 +430,7 @@
         '</div>' +
 
         '<div style="text-align:center; margin-bottom:20px;">' +
-          '<img src="/images/trudy-thinking.png" alt="Trudy" width="80" style="margin-bottom:8px;" />' +
+          '<img src="/images/trudy-thinking.png" alt="Trudy" width="160" style="margin-bottom:8px;" />' +
           '<h2 style="margin:0; font-size:22px; color:#0f172a;">Trudy detected these details</h2>' +
         '</div>' +
 
