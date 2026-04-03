@@ -753,7 +753,7 @@ h3 {
 }
 
 @media (max-width: 700px) {
-  h1 {
+  h1, .hp-hero-sub-headline {
     font-size: 28px;
   }
 
