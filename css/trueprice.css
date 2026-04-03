@@ -757,6 +757,10 @@ h3 {
     font-size: 28px;
   }
 
+  .hp-featured-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
   h2 {
     font-size: 20px;
   }
