@@ -752,15 +752,18 @@ h3 {
   }
 }
 
+.hp-featured-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 @media (max-width: 700px) {
   h1, .hp-hero-sub-headline {
     font-size: 28px;
   }
 
   .hp-featured-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-    overflow: hidden;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   .hp-featured-card {
