@@ -761,6 +761,40 @@ h3 {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
+  .hp-demo-card {
+    padding: 18px !important;
+  }
+
+  .hp-demo-stats {
+    gap: 16px !important;
+  }
+
+  .hp-demo-stat-value {
+    font-size: 16px !important;
+  }
+
+  .hp-demo-verdict {
+    font-size: 22px !important;
+  }
+
+  .hp-testimonials {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hp-proof-row {
+    gap: 16px !important;
+    flex-wrap: wrap;
+  }
+
+  #emailSignup input {
+    min-width: unset !important;
+    flex: 1 1 100% !important;
+  }
+
+  #emailSignup button {
+    flex: 1 1 100% !important;
+  }
+
   h2 {
     font-size: 20px;
   }
