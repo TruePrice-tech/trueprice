@@ -170,12 +170,35 @@ export default async function handler(req, res) {
       notes: body.notes || ""
     };
 
-    // Compute trust score (admin seeds get 90 trust, full weight)
+    // Compute trust score
     let score, reasons, weight;
+    const source = quote.source;
     if (isAdmin) {
       score = 90;
       reasons = ["admin_verified_seed"];
       weight = 1.0;
+    } else if (source === "user_confirmed_helpful") {
+      // User clicked "Yes helpful" on a quote analysis - confirmed real quote
+      score = 55;
+      reasons = ["user_confirmed_analysis"];
+      weight = 0.4;
+    } else if (source === "photo_feedback_accurate") {
+      // User said photo estimate "looks right" - confirms model pricing
+      score = 45;
+      reasons = ["photo_feedback_confirms_model"];
+      weight = 0.2;
+    } else if (source === "photo_feedback_high" || source === "photo_feedback_low") {
+      // User said estimate seems high/low - directional nudge
+      score = 40;
+      reasons = ["photo_feedback_directional"];
+      weight = 0.15;
+    } else if (source === "compare_upload") {
+      // Quote uploaded via compare tool - real quote, no document flag
+      const modelEstimate = Number(body.modelEstimate) || 0;
+      const result = computeTrustScore(quote, modelEstimate);
+      score = result.score;
+      reasons = result.reasons;
+      weight = getInfluenceWeight(score);
     } else {
       const modelEstimate = Number(body.modelEstimate) || 0;
       const result = computeTrustScore(quote, modelEstimate);

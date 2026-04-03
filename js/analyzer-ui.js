@@ -9208,6 +9208,26 @@ function buildComparisonWinnerHtml(summary) {
           widget.innerHTML = '<div style="font-size:14px; color:#166534;">Thanks for the feedback!</div>';
         }
       }
+
+      // Feed confirmed analysis into calibration flywheel
+      if (rating === "yes" && a.quotePrice > 0 && a.city && a.stateCode) {
+        fetch("/api/calibration", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            price: a.quotePrice,
+            contractor: a.contractor || "",
+            city: a.city,
+            stateCode: a.stateCode,
+            material: a.material || "",
+            roofSize: a.roofSize || 0,
+            warrantyYears: a.warrantyYears || 0,
+            source: "user_confirmed_helpful",
+            service: "roofing",
+            modelEstimate: a.mid || 0
+          })
+        }).catch(function() {});
+      }
     };
 
     window.submitFeedbackComment = function submitFeedbackComment() {

@@ -847,6 +847,9 @@
         disclaimerHtml = 'This is an AI-powered estimate based on a single photo. For a more precise estimate, use our <a href="/roofing-quote-analyzer.html" style="color:#1d4ed8; font-weight:600;">guided estimator</a> or upload a contractor quote.';
       }
 
+      // Store estimate for feedback flywheel
+      state.lastEstimate = { mid: mid, low: low, high: high };
+
       var html =
         '<div class="pe-hero">' +
           '<h1>Your Photo Estimate</h1>' +
@@ -990,6 +993,30 @@
         })
       }).catch(function() {});
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks! This helps us improve photo estimates.</div>';
+
+      // Feed into calibration flywheel
+      if (c.city && c.stateCode && state.lastEstimate && state.lastEstimate.mid > 0) {
+        var feedbackPrice = state.lastEstimate.mid;
+        if (response === "high") feedbackPrice = Math.round(state.lastEstimate.mid * 0.85);
+        else if (response === "low") feedbackPrice = Math.round(state.lastEstimate.mid * 1.15);
+
+        fetch("/api/calibration", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            price: feedbackPrice,
+            contractor: "photo_estimate_feedback",
+            city: c.city,
+            stateCode: c.stateCode,
+            material: c.material || c.systemType || c.panelTier || "",
+            roofSize: c.roofSqFt || 0,
+            warrantyYears: 0,
+            source: "photo_feedback_" + response,
+            service: state.service || "roofing",
+            modelEstimate: state.lastEstimate.mid
+          })
+        }).catch(function() {});
+      }
     };
 
     render();
