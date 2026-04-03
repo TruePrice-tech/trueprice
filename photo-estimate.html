@@ -494,7 +494,87 @@
             state.result.roofSizeSource = "satellite";
           }
         }
-        state.step = "confirm";
+
+        // Auto-confirm: skip confirm step when we have high confidence on everything
+        var r = state.result;
+        var svc = state.service;
+        var canAutoConfirm = false;
+
+        if (svc === "roofing") {
+          var hasGoodMaterial = r.material && r.material !== "unknown" && r.materialConfidence !== "low";
+          var hasGoodCondition = r.condition && r.condition !== "unknown";
+          var hasRoofSize = r.roofSizeSource === "satellite" && r.estimatedRoofSqFt >= 500 && r.estimatedRoofSqFt <= 15000;
+          var hasLocation = state.city && state.stateCode;
+          canAutoConfirm = hasGoodMaterial && hasGoodCondition && hasRoofSize && hasLocation;
+          if (canAutoConfirm) {
+            state.confirmed = {
+              city: state.city, stateCode: state.stateCode, address: state.address, zip: state.zip,
+              stories: r.stories || 1,
+              material: r.material,
+              complexity: r.complexity || "simple",
+              condition: r.condition,
+              workType: "new_roof",
+              roofSqFt: r.estimatedRoofSqFt
+            };
+          }
+        } else if (svc === "hvac") {
+          var hasSystem = r.systemType && r.systemType !== "unknown";
+          var hasCondition = r.condition && r.condition !== "unknown";
+          var hasLocation = state.city && state.stateCode;
+          canAutoConfirm = hasSystem && hasCondition && hasLocation;
+          if (canAutoConfirm) {
+            var brandTier = "mid";
+            var premiumBrands = ["Carrier","Trane","Lennox","Daikin"];
+            var valueBrands = ["Goodman","Payne","Heil","Comfortmaker"];
+            if (r.brand) {
+              if (premiumBrands.some(function(b) { return r.brand.toLowerCase().indexOf(b.toLowerCase()) >= 0; })) brandTier = "premium";
+              else if (valueBrands.some(function(b) { return r.brand.toLowerCase().indexOf(b.toLowerCase()) >= 0; })) brandTier = "value";
+            }
+            state.confirmed = {
+              city: state.city, stateCode: state.stateCode, address: state.address, zip: state.zip,
+              systemType: r.systemType,
+              tonnage: r.estimatedTonnage || 3,
+              efficiency: "16_seer",
+              brandTier: brandTier,
+              condition: r.condition,
+              homeSqFt: 2000
+            };
+          }
+        } else if (svc === "solar") {
+          var hasOrientation = r.roofOrientation && r.roofOrientation !== "unknown";
+          var hasShade = r.shadeLevel && r.shadeLevel !== "unknown";
+          var hasLocation = state.city && state.stateCode;
+          canAutoConfirm = hasOrientation && hasShade && hasLocation;
+          if (canAutoConfirm) {
+            state.confirmed = {
+              city: state.city, stateCode: state.stateCode, address: state.address, zip: state.zip,
+              panelTier: "standard",
+              systemSizeKW: 8,
+              battery: false,
+              shadeLevel: r.shadeLevel,
+              condition: r.roofCondition || r.condition || "good",
+              roofSqFt: r.estimatedUsableRoofSqFt || r.estimatedRoofSqFt || 1200
+            };
+          }
+        }
+
+        if (canAutoConfirm && state.cityMult) {
+          // Skip confirm, go straight to result
+          state.step = "result";
+        } else if (canAutoConfirm && state.city && state.stateCode) {
+          // Have auto-confirm but need city multiplier first
+          fetch("/api/city-multiplier?city=" + encodeURIComponent(state.city) + "&state=" + encodeURIComponent(state.stateCode))
+            .then(function(r) { return r.json(); })
+            .then(function(d) { if (d && d.multiplier) { state.cityMult = d.multiplier; state.cityRange = { low: d.rangeLow || 0.82, high: d.rangeHigh || 1.22 }; } })
+            .catch(function() {})
+            .then(function() {
+              state.step = "result";
+              render();
+            });
+          return; // Don't render yet, wait for city multiplier
+        } else {
+          state.step = "confirm";
+        }
         render();
       })
       .catch(function(err) {
@@ -1269,6 +1349,7 @@
 
         '<div class="pe-actions">' +
           ctaHtml +
+          '<button class="pe-btn pe-btn-secondary pe-btn-full" id="adjustDetailsBtn">Adjust details</button>' +
           '<button class="pe-btn pe-btn-secondary pe-btn-full" id="newPhotoBtn">Estimate another property</button>' +
         '</div>' +
         '<div style="text-align:center; margin-top:12px;">' +
@@ -1276,6 +1357,12 @@
         '</div>';
 
       app.innerHTML = html;
+
+      document.getElementById("adjustDetailsBtn").addEventListener("click", function() {
+        state.confirmed = null;
+        state.step = "confirm";
+        render();
+      });
 
       document.getElementById("newPhotoBtn").addEventListener("click", function() {
         state.imageData = null;
