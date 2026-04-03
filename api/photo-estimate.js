@@ -80,6 +80,20 @@ export default async function handler(req, res) {
           }
         } else {
           console.log("[photo-estimate] No EXIF GPS data in image");
+          // Fallback: use browser geolocation if provided
+          if (body.browserLat && body.browserLng) {
+            detectedLat = body.browserLat;
+            detectedLng = body.browserLng;
+            console.log("[photo-estimate] Using browser geolocation fallback:", detectedLat, detectedLng);
+            const location = await reverseGeocode(detectedLat, detectedLng);
+            if (location) {
+              detectedCity = location.city;
+              detectedState = location.state;
+              detectedAddress = location.address || null;
+              detectedZip = location.zip || null;
+              console.log("[photo-estimate] Browser geo reverse geocoded:", detectedCity, detectedState);
+            }
+          }
         }
       } catch (e) {
         console.log("[photo-estimate] EXIF extraction failed:", e.message);
