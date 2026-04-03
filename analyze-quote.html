@@ -232,7 +232,7 @@
         var label = serviceLabels[svc] || svc;
 
         // If no photo and no dedicated analyzer, go to pricing guide
-        var costPageOverrides = { windows: "window-replacement-cost.html", foundation: "foundation-repair-cost.html", kitchen: "kitchen-remodel-cost.html", fencing: "fence-cost.html", "garage-doors": "garage-door-cost.html", gutters: "all-cities.html" };
+        var costPageOverrides = { windows: "window-replacement-cost.html", foundation: "foundation-repair-cost.html", kitchen: "kitchen-remodel-cost.html", fencing: "fence-cost.html", "garage-doors": "garage-door-cost.html", gutters: "gutters-cost.html" };
         if (!hasPhoto && !analyzer) {
           window.location.href = "/" + (costPageOverrides[svc] || svc + "-cost.html");
           return;
