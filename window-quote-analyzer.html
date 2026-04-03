@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <title>Window Quote Analyzer - Is Your Window Quote Fair? | TruePrice</title>
+  <meta
+    name="description"
+    content="Upload your window replacement quote to instantly see if the price is fair. Analyzes vinyl, wood, and fiberglass window quotes against local market data."
+  />
+  <link rel="canonical" href="https://truepricehq.com/window-quote-analyzer.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Window Quote Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Upload your window replacement quote to instantly see if the price is fair. Analyzes vinyl, wood, and fiberglass window quotes against local market data."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/window-quote-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Window Quote Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Upload your window replacement quote to instantly see if the price is fair. Analyzes vinyl, wood, and fiberglass window quotes against local market data."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+
+  <style>
+    .win-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .win-hero { text-align: center; margin-bottom: 2rem; }
+    .win-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .win-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .win-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+
+    .win-upload-zone {
+      border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc;
+    }
+    .win-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .win-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
+    .win-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .win-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+
+    .win-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
+    .win-divider::before, .win-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
+
+    .win-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .win-address-form input {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 100%; box-sizing: border-box;
+    }
+    .win-address-form input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+    .win-row { display: flex; gap: 0.75rem; }
+    .win-row > * { flex: 1; }
+
+    .win-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .win-btn-primary { background: #2563eb; color: #fff; }
+    .win-btn-primary:hover { background: #1d4ed8; }
+    .win-btn-secondary { background: #f1f5f9; color: #334155; }
+    .win-btn-secondary:hover { background: #e2e8f0; }
+    .win-btn-full { width: 100%; }
+
+    .win-progress { margin: 1.5rem 0; }
+    .win-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .win-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .win-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+
+    /* Estimator steps */
+    .win-step { margin-bottom: 1.5rem; }
+    .win-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
+    .win-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .win-option {
+      padding: 0.6rem 1.2rem; border: 2px solid #e2e8f0; border-radius: 8px;
+      background: #fff; cursor: pointer; font-size: 0.95rem; color: #334155;
+      transition: all 0.15s;
+    }
+    .win-option:hover { border-color: #93c5fd; background: #eff6ff; }
+    .win-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+
+    .win-count-input {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 200px;
+    }
+
+    /* Verdict card */
+    .win-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .win-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .win-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
+    .win-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    .win-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .win-verdict.fair .verdict-label { color: #16a34a; }
+    .win-verdict.high .verdict-label { color: #dc2626; }
+    .win-verdict.low .verdict-label { color: #ca8a04; }
+    .win-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .win-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+
+    /* Scope checklist */
+    .win-scope { list-style: none; padding: 0; margin: 0; }
+    .win-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .win-scope li:last-child { border-bottom: none; }
+    .scope-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .scope-included { background: #dcfce7; color: #16a34a; }
+    .scope-missing { background: #fee2e2; color: #dc2626; }
+    .scope-unclear { background: #f1f5f9; color: #94a3b8; }
+
+    /* Details grid */
+    .win-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .win-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .win-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .win-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+
+    .win-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .win-actions a, .win-actions button { text-align: center; }
+
+    .win-hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .win-hero h1 { font-size: 1.5rem; }
+      .win-row { flex-direction: column; }
+      .win-details { grid-template-columns: 1fr; }
+      .win-options { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html#windows">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="win-app" id="winApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze window replacement quotes, compare contractor bids, and estimate window installation costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/analyzer-parser.min.js"></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ── Window Pricing Model ──
+    var WIN_PRICING = {
+      basePriceByType: {
+        vinyl: { label: "Vinyl Windows", lowPerUnit: 400, highPerUnit: 800 },
+        wood: { label: "Wood Windows", lowPerUnit: 800, highPerUnit: 1200 },
+        fiberglass: { label: "Fiberglass Windows", lowPerUnit: 700, highPerUnit: 1100 },
+        entry_door: { label: "Entry Door", lowPerUnit: 1500, highPerUnit: 4000 },
+        sliding_glass_door: { label: "Sliding Glass Door", lowPerUnit: 1200, highPerUnit: 3500 }
+      },
+      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
+      roundTo: 50,
+      scopeItems: [
+        { key: "removal", label: "Old window/door removal", weight: 8 },
+        { key: "installation", label: "Window installation", weight: 20 },
+        { key: "flashing", label: "Flashing", weight: 10 },
+        { key: "caulking", label: "Caulking and sealing", weight: 8 },
+        { key: "interiorTrim", label: "Interior trim", weight: 10 },
+        { key: "exteriorTrim", label: "Exterior trim / capping", weight: 10 },
+        { key: "screen", label: "Screens included", weight: 6 },
+        { key: "hardware", label: "Hardware / locks", weight: 4 },
+        { key: "disposal", label: "Old window disposal", weight: 4 },
+        { key: "warranty", label: "Warranty (product + labor)", weight: 10 },
+        { key: "foamInsulation", label: "Foam insulation around frame", weight: 6 },
+        { key: "lowEGlass", label: "Low-E glass / energy package", weight: 8 }
+      ],
+      sizeMultipliers: { standard: 1.0, large: 1.3, bay_bow: 1.8 },
+      ageMultipliers: { pre_1970: 1.15, "1970_1999": 1.05, "2000_plus": 1.0 },
+      windowCountMidpoints: { "1-5": 3, "6-10": 8, "11-15": 13, "16-20": 18, "20+": 24 },
+      brands: {
+        premium: ["Andersen", "Marvin", "Pella Architect", "Kolbe", "Loewen"],
+        mid: ["Pella", "Milgard", "Renewal by Andersen", "Harvey", "Jeld-Wen"],
+        value: ["Simonton", "Alside", "Ply Gem", "Champion", "Sunrise"]
+      }
+    };
+
+    var STATE_REGIONS = {
+      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+      WY:"mountain",DC:"northeast"
+    };
+
+    var US_STATES = {
+      "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
+      "colorado":"CO","connecticut":"CT","delaware":"DE","florida":"FL","georgia":"GA",
+      "hawaii":"HI","idaho":"ID","illinois":"IL","indiana":"IN","iowa":"IA","kansas":"KS",
+      "kentucky":"KY","louisiana":"LA","maine":"ME","maryland":"MD","massachusetts":"MA",
+      "michigan":"MI","minnesota":"MN","mississippi":"MS","missouri":"MO","montana":"MT",
+      "nebraska":"NE","nevada":"NV","new hampshire":"NH","new jersey":"NJ","new mexico":"NM",
+      "new york":"NY","north carolina":"NC","north dakota":"ND","ohio":"OH","oklahoma":"OK",
+      "oregon":"OR","pennsylvania":"PA","rhode island":"RI","south carolina":"SC",
+      "south dakota":"SD","tennessee":"TN","texas":"TX","utah":"UT","vermont":"VT",
+      "virginia":"VA","washington":"WA","west virginia":"WV","wisconsin":"WI","wyoming":"WY",
+      "district of columbia":"DC"
+    };
+
+    // ── State ──
+    var appRoot = document.getElementById("winApp");
+    var state = {
+      step: "address",        // address | uploading | estimator | result
+      address: { street: "", city: "", stateCode: "", zip: "" },
+      uploadedFile: null,
+      extractedText: "",
+      // estimator answers
+      est: { windowType: null, windowCount: null, windowSize: null, homeAge: null },
+      // result
+      result: null
+    };
+
+    // ── Helpers ──
+    function $(sel, el) { return (el || document).querySelector(sel); }
+    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+    function roundTo50(n) { return Math.round(n / 50) * 50; }
+
+    function getRegionFromState(sc) {
+      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+    }
+
+    // City-level multiplier + inflation + seasonal
+    var cityMultCache = {};
+    function fetchCityMult(city, stateCode) {
+      if (!city || !stateCode) return;
+      var key = city + "|" + stateCode;
+      if (cityMultCache[key]) return;
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode))
+        .then(function(r) { return r.json(); })
+        .then(function(d) { if (d && d.multiplier) cityMultCache[key] = d.multiplier; })
+        .catch(function() {});
+    }
+    function getCityMult(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityMultCache[key] || null;
+    }
+    // Inflation: 3% annual from 2025
+    var _now = new Date();
+    var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
+    // Seasonal: window replacements peak in spring/summer
+    var SEASONAL_MULTS = { 1:0.93, 2:0.93, 3:0.96, 4:1.02, 5:1.06, 6:1.10, 7:1.10, 8:1.08, 9:1.04, 10:0.98, 11:0.94, 12:0.92 };
+    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
+
+    function calcBenchmark(windowType, windowCount, sizeMult, ageMult, region) {
+      var wt = WIN_PRICING.basePriceByType[windowType];
+      if (!wt) wt = WIN_PRICING.basePriceByType.vinyl;
+
+      var midPerUnit = (wt.lowPerUnit + wt.highPerUnit) / 2;
+
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var laborMult = cityMult || (WIN_PRICING.laborMultiplierByRegion[region] || 1.0);
+
+      var totalCost = midPerUnit * windowCount * laborMult * sizeMult * ageMult * INFLATION_MULT * SEASONAL_MULT;
+
+      return roundTo50(totalCost);
+    }
+
+    function calcBenchmarkRange(benchmark) {
+      return {
+        low: roundTo50(benchmark * 0.82),
+        high: roundTo50(benchmark * 1.22)
+      };
+    }
+
+    function verdictFromRatio(ratio) {
+      if (ratio < 0.78) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (ratio <= 0.90) return { label: "Below Average", css: "low", emoji: "" };
+      if (ratio <= 1.12) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (ratio <= 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    // ── Window-specific detection functions ──
+    function detectWindowType(text) {
+      var t = text.toLowerCase();
+      if (/entry\s*door/i.test(t)) return { value: "entry_door", label: "Entry Door" };
+      if (/sliding\s*(glass)?\s*door/i.test(t)) return { value: "sliding_glass_door", label: "Sliding Glass Door" };
+      if (/fiberglass/i.test(t)) return { value: "fiberglass", label: "Fiberglass Windows" };
+      if (/\bwood\b/i.test(t) || /marvin/i.test(t)) return { value: "wood", label: "Wood Windows" };
+      if (/vinyl/i.test(t) || /simonton/i.test(t) || /alside/i.test(t) || /ply\s*gem/i.test(t)) return { value: "vinyl", label: "Vinyl Windows" };
+      // Brand detection as fallback
+      if (/andersen/i.test(t) || /pella/i.test(t)) return { value: "fiberglass", label: "Fiberglass Windows" };
+      return { value: "vinyl", label: "Vinyl Windows" };
+    }
+
+    function detectWindowCount(text) {
+      var t = text.toLowerCase();
+      // Look for explicit count patterns
+      var patterns = [
+        /(\d+)\s*(?:windows?|units?|openings?)/i,
+        /(?:qty|quantity|count)[:\s]*(\d+)/i,
+        /(?:replace|install)\s+(\d+)/i
+      ];
+      for (var i = 0; i < patterns.length; i++) {
+        var match = t.match(patterns[i]);
+        if (match) {
+          var count = parseInt(match[1]);
+          if (count >= 1 && count <= 50) return count;
+        }
+      }
+      // Count line items that look like individual windows
+      var lineItems = t.match(/(?:window|dh|casement|slider|picture|awning|single\s*hung|double\s*hung)/gi);
+      if (lineItems && lineItems.length >= 2 && lineItems.length <= 50) return lineItems.length;
+      return null;
+    }
+
+    function detectWindowSize(text) {
+      var t = text.toLowerCase();
+      if (/bay|bow/i.test(t)) return "bay_bow";
+      if (/picture|large|oversiz|floor.to.ceiling|panoram/i.test(t)) return "large";
+      return "standard";
+    }
+
+    function detectBrand(text) {
+      var t = text.toLowerCase();
+      var allBrands = WIN_PRICING.brands;
+      for (var tier in allBrands) {
+        for (var i = 0; i < allBrands[tier].length; i++) {
+          if (t.indexOf(allBrands[tier][i].toLowerCase()) !== -1) {
+            return { brand: allBrands[tier][i], tier: tier };
+          }
+        }
+      }
+      return null;
+    }
+
+    function detectWindowScopeSignals(text) {
+      var t = text.toLowerCase();
+      var signals = {};
+      var checks = {
+        removal: /remov|tear.?out|demo|strip|take.?out/i,
+        installation: /install|set|mount|fit/i,
+        flashing: /flash/i,
+        caulking: /caulk|seal/i,
+        interiorTrim: /interior\s*trim|casing|jamb\s*extension/i,
+        exteriorTrim: /exterior\s*trim|cap|aluminum\s*cap|j.?channel|brick\s*mold/i,
+        screen: /screen/i,
+        hardware: /hardware|lock|latch|handle/i,
+        disposal: /dispos|haul|dump|debris|clean.?up/i,
+        warranty: /warrant|guarantee/i,
+        foamInsulation: /foam|insul|spray\s*foam|great\s*stuff/i,
+        lowEGlass: /low.?e|argon|energy\s*star|double.?pane|triple.?pane|insulated\s*glass/i
+      };
+      for (var key in checks) {
+        if (checks[key].test(t)) {
+          signals[key] = { status: "included" };
+        }
+      }
+      return signals;
+    }
+
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "windows", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("winApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-window-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
+    // ── Render functions ──
+    function render() {
+      switch (state.step) {
+        case "address": renderAddress(); break;
+        case "uploading": renderUploading(); break;
+        case "estimator": renderEstimator(); break;
+        case "result": renderResult(); break;
+      }
+    }
+
+    // ── Address / Upload Step ──
+    function renderAddress() {
+      appRoot.innerHTML = '\
+        <div class="win-hero">\
+          <div style="font-size:56px; margin-bottom:12px;">&#127968;</div>\
+          <h1>Is your window quote fair?</h1>\
+          <p>Upload your quote or get an instant estimate for your window replacement project.</p>\
+        </div>\
+        <div class="win-card">\
+          <style>.tp-dual-opts{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:600px){.tp-dual-opts{grid-template-columns:1fr}}</style>\
+          <div class="tp-dual-opts">\
+            <div class="win-upload-zone" id="uploadZone" style="margin:0;">\
+              <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
+              <p><strong>Analyze a Quote</strong></p>\
+              <p class="hint">Upload a contractor quote to check the price</p>\
+              <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+            </div>\
+            <a href="/photo-estimate.html?service=windows" style="border:2px solid #bbf7d0; border-radius:12px; padding:2rem 1.5rem; text-align:center; background:#f0fdf4; text-decoration:none; display:flex; flex-direction:column; align-items:center; justify-content:center;">\
+              <div style="font-size:36px; margin-bottom:8px;">&#128247;</div>\
+              <p style="margin:0.25rem 0;"><strong style="color:#0f172a;">Photo of Your Windows</strong></p>\
+              <p style="font-size:0.85rem; color:#94a3b8; margin:0.25rem 0;">Snap a photo of your windows for an estimate</p>\
+            </a>\
+          </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
+          <div class="win-divider">or enter your address for an estimate</div>\
+          <div class="win-address-form">\
+            <div style="position:relative">\
+              <input type="text" id="addrStreet" placeholder="Start typing your address..." autocomplete="off" />\
+              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
+            </div>\
+            <div class="win-row">\
+              <input type="text" id="addrCity" placeholder="City" />\
+              <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
+            </div>\
+            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
+            <button class="win-btn win-btn-primary win-btn-full" id="btnEstimate">Get Window Estimate</button>\
+          </div>\
+        </div>';
+
+      // Events
+      var zone = document.getElementById("uploadZone");
+      var fileInput = document.getElementById("fileInput");
+
+      zone.addEventListener("click", function() { fileInput.click(); });
+      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; });
+      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; });
+      zone.addEventListener("drop", function(e) {
+        e.preventDefault();
+        zone.style.borderColor = "#cbd5e1";
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener("change", function() {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+      });
+
+      // Address autocomplete
+      (function() {
+        var addrInput = document.getElementById("addrStreet");
+        var sugBox = document.getElementById("addrSuggestions");
+        if (!addrInput || !sugBox) return;
+        var timer = null;
+        addrInput.addEventListener("input", function() {
+          clearTimeout(timer);
+          var q = addrInput.value.trim();
+          if (q.length < 4) { sugBox.style.display = "none"; return; }
+          timer = setTimeout(function() {
+            fetch("/api/geocode-suggest?q=" + encodeURIComponent(q))
+              .then(function(r) { return r.json(); })
+              .then(function(data) {
+                if (!data.suggestions || !data.suggestions.length) { sugBox.style.display = "none"; return; }
+                sugBox.innerHTML = data.suggestions.map(function(s, i) {
+                  return '<div data-idx="' + i + '" style="padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' + s.label + '</div>';
+                }).join("");
+                sugBox.style.display = "block";
+                sugBox.querySelectorAll("[data-idx]").forEach(function(el) {
+                  el.addEventListener("click", function() {
+                    var idx = parseInt(el.dataset.idx);
+                    var s = data.suggestions[idx];
+                    if (!s) return;
+                    addrInput.value = s.street || s.label.split(",")[0] || "";
+                    var c = document.getElementById("addrCity");
+                    var st = document.getElementById("addrState");
+                    var z = document.getElementById("addrZip");
+                    if (c) c.value = s.city || "";
+                    if (st) st.value = s.state || "";
+                    if (z) z.value = s.zip || "";
+                    sugBox.style.display = "none";
+                  });
+                });
+              })
+              .catch(function() { sugBox.style.display = "none"; });
+          }, 300);
+        });
+        document.addEventListener("click", function(e) {
+          if (!addrInput.contains(e.target) && !sugBox.contains(e.target)) sugBox.style.display = "none";
+        });
+      })();
+
+      document.getElementById("btnEstimate").addEventListener("click", function() {
+        state.address.street = document.getElementById("addrStreet").value.trim();
+        state.address.city = document.getElementById("addrCity").value.trim();
+        var rawState = document.getElementById("addrState").value.trim();
+        state.address.zip = document.getElementById("addrZip").value.trim();
+
+        // Normalize state
+        var upper = rawState.toUpperCase();
+        if (STATE_REGIONS[upper]) {
+          state.address.stateCode = upper;
+        } else {
+          var lookup = US_STATES[rawState.toLowerCase()];
+          state.address.stateCode = lookup || "TX";
+        }
+
+        fetchCityMult(state.address.city, state.address.stateCode);
+        state.step = "estimator";
+        render();
+      });
+    }
+
+    // ── Upload / Processing ──
+    function handleFile(file) {
+      state.uploadedFile = file;
+      // capture address before leaving
+      var streetEl = document.getElementById("addrStreet");
+      var cityEl = document.getElementById("addrCity");
+      var stateEl = document.getElementById("addrState");
+      var zipEl = document.getElementById("addrZip");
+      if (streetEl) state.address.street = streetEl.value.trim();
+      if (cityEl) state.address.city = cityEl.value.trim();
+      if (stateEl) {
+        var raw = stateEl.value.trim().toUpperCase();
+        state.address.stateCode = STATE_REGIONS[raw] ? raw : (US_STATES[stateEl.value.trim().toLowerCase()] || "");
+      }
+      if (zipEl) state.address.zip = zipEl.value.trim();
+
+      state.step = "uploading";
+      render();
+      processFile(file);
+    }
+
+    function renderUploading() {
+      appRoot.innerHTML = '\
+        <div class="win-hero">\
+          <h1>Analyzing your window quote...</h1>\
+        </div>\
+        <div class="win-card">\
+          <div class="win-progress">\
+            <div class="win-progress-bar"><div class="win-progress-fill" id="progFill" style="width:10%"></div></div>\
+            <p class="win-progress-text" id="progText">Loading document...</p>\
+          </div>\
+        </div>';
+    }
+
+    function setProgress(pct, msg) {
+      var fill = document.getElementById("progFill");
+      var txt = document.getElementById("progText");
+      if (fill) fill.style.width = pct + "%";
+      if (txt) txt.textContent = msg;
+    }
+
+    async function processFile(file) {
+      try {
+        setProgress(15, "Loading parsing libraries...");
+        await window.loadVendorLibs();
+
+        var text = "";
+        if (file.type === "application/pdf") {
+          setProgress(30, "Extracting text from PDF...");
+          text = await extractPdfText(file);
+        } else {
+          setProgress(30, "Running OCR on image...");
+          text = await extractImageText(file);
+        }
+
+        setProgress(70, "Analyzing window quote...");
+        state.extractedText = text;
+
+        // Use analyzer-parser.js for price extraction
+        var parsed = null;
+        try {
+          if (typeof parseExtractedText === "function") {
+            parsed = parseExtractedText(text);
+          }
+        } catch (parseErr) {
+          console.warn("Parser error, falling back to regex:", parseErr);
+        }
+
+        // Fallback price extraction if parser fails or returns nothing
+        if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
+          var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
+          var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v >= 500 && v <= 200000; });
+          if (prices.length) {
+            prices.sort(function(a, b) { return b - a; });
+            parsed = parsed || {};
+            parsed.finalPrice = prices[0];
+            parsed.priceCandidates = prices.map(function(v) { return { value: v, score: 50 }; });
+          }
+        }
+
+        // Window-specific detection
+        var windowType = detectWindowType(text);
+        var windowCount = detectWindowCount(text);
+        var windowSize = detectWindowSize(text);
+        var brand = detectBrand(text);
+        var scopeSignals = detectWindowScopeSignals(text);
+
+        // Location detection from parser
+        var location = (parsed && parsed.location) ? parsed.location : null;
+        if (location && location.stateCode && !state.address.stateCode) {
+          state.address.stateCode = location.stateCode;
+          if (location.city) state.address.city = location.city;
+        }
+        fetchCityMult(state.address.city, state.address.stateCode);
+
+        // Determine price
+        var quotePrice = 0;
+        if (parsed && parsed.finalPrice && parsed.finalPrice > 300) {
+          quotePrice = parsed.finalPrice;
+        } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
+          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 500 && c.value <= 200000; });
+          candidates.sort(function(a, b) { return b.score - a.score; });
+          if (candidates.length) quotePrice = candidates[0].value;
+        }
+
+        setProgress(85, "Calculating verdict...");
+
+        var effectiveCount = windowCount || 10;
+        var sizeMult = WIN_PRICING.sizeMultipliers[windowSize] || 1.0;
+        var ageMult = 1.0; // unknown from quote, assume standard
+        var region = getRegionFromState(state.address.stateCode);
+
+        var benchmark = calcBenchmark(windowType.value, effectiveCount, sizeMult, ageMult, region);
+
+        var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
+        var verdict = verdictFromRatio(ratio);
+
+        // Per-window cost
+        var perWindowCost = (quotePrice > 0 && effectiveCount > 0) ? Math.round(quotePrice / effectiveCount) : null;
+
+        // Brand note
+        var brandNote = "";
+        if (brand) {
+          brandNote = brand.brand + " (" + brand.tier + " tier)";
+        }
+
+        setProgress(100, "Done!");
+
+        state.result = {
+          source: "upload",
+          quotePrice: quotePrice,
+          benchmark: benchmark,
+          ratio: ratio,
+          verdict: verdict,
+          windowType: windowType,
+          windowCount: effectiveCount,
+          windowCountDetected: windowCount !== null,
+          windowSize: windowSize,
+          brand: brand,
+          brandNote: brandNote,
+          perWindowCost: perWindowCost,
+          scopeSignals: scopeSignals,
+          region: region,
+          location: location,
+          parsed: parsed
+        };
+
+        state.step = "result";
+        setTimeout(render, 400);
+
+      } catch (err) {
+        console.error("Window analysis error:", err);
+        appRoot.innerHTML = '\
+          <div class="win-hero"><h1>We couldn\'t read that file</h1></div>\
+          <div class="win-card" style="text-align:center;">\
+            <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
+            <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
+            <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
+              <span style="font-size:20px;font-weight:700;">$</span>\
+              <input type="number" id="manualPrice" placeholder="e.g. 12000" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+            </div>\
+            <button class="win-btn win-btn-primary" id="manualPriceBtn">Analyze this price</button>\
+            <div style="margin-top:14px;"><button class="win-btn win-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
+          </div>';
+        document.getElementById("manualPriceBtn").addEventListener("click", function() {
+          var price = parseFloat(document.getElementById("manualPrice").value);
+          if (!price || price < 300) { alert("Please enter a valid price."); return; }
+          var region = getRegionFromState(state.address.stateCode);
+          var benchmark = calcBenchmark("vinyl", 10, 1.0, 1.0, region);
+          var ratio = price / benchmark;
+          state.result = {
+            source: "manual",
+            quotePrice: price,
+            benchmark: benchmark,
+            ratio: ratio,
+            verdict: verdictFromRatio(ratio),
+            windowType: { value: "vinyl", label: "Vinyl Windows" },
+            windowCount: 10, windowCountDetected: false,
+            windowSize: "standard", brand: null, brandNote: "",
+            perWindowCost: Math.round(price / 10),
+            scopeSignals: {}, region: region, location: null, parsed: null
+          };
+          state.step = "result";
+          render();
+        });
+      }
+    }
+
+    async function extractPdfText(file) {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var allText = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        var page = await pdf.getPage(i);
+        var content = await page.getTextContent();
+        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+        allText.push(pageText);
+      }
+      return allText.join("\n");
+    }
+
+    async function preprocessImage(file, mode) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement("canvas");
+            var scale = Math.max(1.5, Math.min(2.5, 2400 / Math.max(img.width, img.height)));
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            var ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            if (mode === "strong") {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.6 + 128;
+                gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            } else {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.3 + 128;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+          };
+          img.onerror = reject;
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extractImageText(file) {
+      // Multi-pass: try soft preprocessing first, then strong if result is poor
+      var softImage = await preprocessImage(file, "soft");
+      var worker = await Tesseract.createWorker("eng");
+      var result = await worker.recognize(softImage);
+      var text = (result.data.text || "").trim();
+
+      // If soft pass got very little text, try strong (better for dark/blurry images)
+      if (text.length < 50) {
+        var strongImage = await preprocessImage(file, "strong");
+        var result2 = await worker.recognize(strongImage);
+        var text2 = (result2.data.text || "").trim();
+        if (text2.length > text.length) text = text2;
+      }
+
+      await worker.terminate();
+      return text;
+    }
+
+    // ── Estimator Flow ──
+    function renderEstimator() {
+      var est = state.est;
+      var stepNum = getEstimatorStep();
+
+      appRoot.innerHTML = '\
+        <div class="win-hero">\
+          <h1>Window Replacement Estimator</h1>\
+          <p>' + (state.address.city ? state.address.city + ", " + state.address.stateCode : "Get a quick estimate") + '</p>\
+        </div>\
+        <div class="win-card" id="estCard"></div>';
+
+      var card = document.getElementById("estCard");
+
+      if (stepNum === 1) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>What type of windows or doors are you replacing?</h3>\
+            <div class="win-options" id="optType">\
+              <div class="win-option' + (est.windowType === "vinyl" ? " selected" : "") + '" data-val="vinyl">Vinyl</div>\
+              <div class="win-option' + (est.windowType === "wood" ? " selected" : "") + '" data-val="wood">Wood</div>\
+              <div class="win-option' + (est.windowType === "fiberglass" ? " selected" : "") + '" data-val="fiberglass">Fiberglass</div>\
+              <div class="win-option' + (est.windowType === "entry_door" ? " selected" : "") + '" data-val="entry_door">Entry Door</div>\
+              <div class="win-option' + (est.windowType === "sliding_glass_door" ? " selected" : "") + '" data-val="sliding_glass_door">Sliding Glass Door</div>\
+            </div>\
+          </div>';
+        bindOptions("optType", "windowType");
+      } else if (stepNum === 2) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>How many windows or doors?</h3>\
+            <div class="win-options" id="optCount">\
+              <div class="win-option' + (est.windowCount === "1-5" ? " selected" : "") + '" data-val="1-5">1 - 5</div>\
+              <div class="win-option' + (est.windowCount === "6-10" ? " selected" : "") + '" data-val="6-10">6 - 10</div>\
+              <div class="win-option' + (est.windowCount === "11-15" ? " selected" : "") + '" data-val="11-15">11 - 15</div>\
+              <div class="win-option' + (est.windowCount === "16-20" ? " selected" : "") + '" data-val="16-20">16 - 20</div>\
+              <div class="win-option' + (est.windowCount === "20+" ? " selected" : "") + '" data-val="20+">20+</div>\
+            </div>\
+          </div>';
+        bindOptions("optCount", "windowCount");
+      } else if (stepNum === 3) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>What size are most of the windows?</h3>\
+            <div class="win-options" id="optSize">\
+              <div class="win-option' + (est.windowSize === "standard" ? " selected" : "") + '" data-val="standard">Standard</div>\
+              <div class="win-option' + (est.windowSize === "large" ? " selected" : "") + '" data-val="large">Large / Picture</div>\
+              <div class="win-option' + (est.windowSize === "bay_bow" ? " selected" : "") + '" data-val="bay_bow">Bay / Bow</div>\
+            </div>\
+          </div>';
+        bindOptions("optSize", "windowSize");
+      } else if (stepNum === 4) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>How old is your home?</h3>\
+            <p style="font-size:0.9rem; color:#64748b; margin-bottom:0.75rem;">Older homes may need frame repair or custom sizing.</p>\
+            <div class="win-options" id="optAge">\
+              <div class="win-option' + (est.homeAge === "pre_1970" ? " selected" : "") + '" data-val="pre_1970">Pre-1970</div>\
+              <div class="win-option' + (est.homeAge === "1970_1999" ? " selected" : "") + '" data-val="1970_1999">1970 - 1999</div>\
+              <div class="win-option' + (est.homeAge === "2000_plus" ? " selected" : "") + '" data-val="2000_plus">2000+</div>\
+            </div>\
+          </div>';
+        bindOptions("optAge", "homeAge");
+      }
+
+      // Show progress dots
+      var dots = '';
+      for (var d = 1; d <= 4; d++) {
+        dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px;background:' + (d <= stepNum ? "#2563eb" : "#e2e8f0") + ';"></span>';
+      }
+      card.insertAdjacentHTML("afterbegin", '<div style="text-align:center;margin-bottom:1rem;">' + dots + '</div>');
+
+      // Back button (except step 1)
+      if (stepNum > 1) {
+        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="win-btn win-btn-secondary" id="estBack">Back</button></div>');
+        document.getElementById("estBack").addEventListener("click", function() {
+          if (stepNum === 4) est.homeAge = null;
+          else if (stepNum === 3) est.windowSize = null;
+          else if (stepNum === 2) est.windowCount = null;
+          render();
+        });
+      }
+    }
+
+    function getEstimatorStep() {
+      var e = state.est;
+      if (!e.windowType) return 1;
+      if (!e.windowCount) return 2;
+      if (!e.windowSize) return 3;
+      if (!e.homeAge) return 4;
+      return 5; // all done
+    }
+
+    function bindOptions(containerId, field) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      container.addEventListener("click", function(e) {
+        var opt = e.target.closest(".win-option");
+        if (!opt) return;
+        state.est[field] = opt.getAttribute("data-val");
+
+        // Check if estimator is complete
+        if (getEstimatorStep() > 4) {
+          calculateEstimate();
+        } else {
+          render();
+        }
+      });
+    }
+
+    function calculateEstimate() {
+      var est = state.est;
+      var region = getRegionFromState(state.address.stateCode);
+      var windowCount = WIN_PRICING.windowCountMidpoints[est.windowCount] || 10;
+      var sizeMult = WIN_PRICING.sizeMultipliers[est.windowSize] || 1.0;
+      var ageMult = WIN_PRICING.ageMultipliers[est.homeAge] || 1.0;
+
+      var benchmark = calcBenchmark(est.windowType, windowCount, sizeMult, ageMult, region);
+      var range = calcBenchmarkRange(benchmark);
+
+      var typeLabel = WIN_PRICING.basePriceByType[est.windowType] ? WIN_PRICING.basePriceByType[est.windowType].label : est.windowType;
+      var perWindowCost = Math.round(benchmark / windowCount);
+
+      state.result = {
+        source: "estimator",
+        quotePrice: benchmark,
+        benchmark: benchmark,
+        low: range.low,
+        high: range.high,
+        ratio: 1.0,
+        verdict: { label: "Estimated Cost", css: "fair", emoji: "" },
+        windowType: { value: est.windowType, label: typeLabel },
+        windowCount: windowCount,
+        windowCountDetected: true,
+        windowSize: est.windowSize,
+        homeAge: est.homeAge,
+        brand: null,
+        brandNote: "",
+        perWindowCost: perWindowCost,
+        scopeSignals: {},
+        region: region,
+        location: null,
+        parsed: null
+      };
+
+      state.step = "result";
+      render();
+    }
+
+    // ── Result Step ──
+    function renderResult() {
+      var r = state.result;
+      if (!r) { state.step = "address"; render(); return; }
+
+      var isUpload = r.source === "upload";
+      var verdictCss = r.verdict.css;
+      var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
+      var rangeText = "";
+
+      if (isUpload) {
+        rangeText = "Market benchmark: " + fmt(r.benchmark);
+        if (r.quotePrice > 0) {
+          var pct = Math.round((r.ratio - 1) * 100);
+          var dir = pct > 0 ? "above" : "below";
+          rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+        }
+      } else {
+        rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
+      }
+
+      // Build details
+      var sizeLabels = { standard: "Standard", large: "Large / Picture", bay_bow: "Bay / Bow" };
+      var ageLabels = { pre_1970: "Pre-1970", "1970_1999": "1970-1999", "2000_plus": "2000+" };
+
+      var detailsHtml = '<div class="win-details">';
+      detailsHtml += '<div class="win-detail"><div class="label">Window Type</div><div class="value">' + r.windowType.label + '</div></div>';
+      detailsHtml += '<div class="win-detail"><div class="label">Count</div><div class="value">' + r.windowCount + (r.windowCountDetected ? '' : ' (estimated)') + '</div></div>';
+
+      if (r.windowSize) {
+        detailsHtml += '<div class="win-detail"><div class="label">Size Category</div><div class="value">' + (sizeLabels[r.windowSize] || r.windowSize) + '</div></div>';
+      }
+      if (r.brandNote) {
+        detailsHtml += '<div class="win-detail"><div class="label">Brand</div><div class="value">' + r.brandNote + '</div></div>';
+      }
+      if (r.perWindowCost) {
+        detailsHtml += '<div class="win-detail"><div class="label">Per Window Cost</div><div class="value">' + fmt(r.perWindowCost) + '</div></div>';
+      }
+      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="win-detail"><div class="label">Pricing Source</div><div class="value">' + pricingLabel + '</div></div>';
+
+      if (r.homeAge) {
+        detailsHtml += '<div class="win-detail"><div class="label">Home Age</div><div class="value">' + (ageLabels[r.homeAge] || r.homeAge) + '</div></div>';
+      }
+      detailsHtml += '</div>';
+
+      // Scope checklist (upload only)
+      var scopeHtml = "";
+      if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+        scopeHtml = '<div class="win-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="win-scope">';
+        WIN_PRICING.scopeItems.forEach(function(item) {
+          var sig = r.scopeSignals[item.key];
+          var status = sig ? sig.status : "unclear";
+          var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
+          var iconChar = status === "included" ? "&#10003;" : status === "excluded" ? "&#10007;" : "?";
+          var statusLabel = status === "included" ? "Included" : status === "excluded" ? "Not included" : "Not mentioned";
+          scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
+        });
+        scopeHtml += '</ul>';
+        // Missing cost estimate
+        var winScopeCosts = { removal: [50,150], installation: [200,500], flashing: [30,100], caulking: [20,60], interiorTrim: [75,200], exteriorTrim: [100,300], screen: [25,75], hardware: [15,50], disposal: [30,100], warranty: [0,0], foamInsulation: [20,60], lowEGlass: [50,150] };
+        var missingItems = WIN_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        if (missingItems.length > 0) {
+          var mLow = 0, mHigh = 0;
+          missingItems.forEach(function(item) { var c = winScopeCosts[item.key]; if (c) { mLow += c[0] * r.windowCount; mHigh += c[1] * r.windowCount; } });
+          if (mLow > 0) {
+            scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;"><strong>' + missingItems.length + ' missing item' + (missingItems.length !== 1 ? 's' : '') + '</strong> could add <strong>$' + mLow.toLocaleString() + ' to $' + mHigh.toLocaleString() + '</strong> in change orders if not included.</div>';
+          }
+        }
+        scopeHtml += '</div>';
+      }
+
+      // Estimator scope info
+      if (!isUpload) {
+        scopeHtml = '<div class="win-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="win-scope">';
+        var typicalItems = ["removal", "installation", "flashing", "caulking", "interiorTrim", "exteriorTrim", "screen", "disposal", "warranty"];
+        typicalItems.forEach(function(key) {
+          var item = WIN_PRICING.scopeItems.find(function(s) { return s.key === key; });
+          if (item) {
+            scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
+          }
+        });
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard replacement installation. Frame repair, structural modifications, or custom sizes may add cost.</p></div>';
+      }
+
+      // Market context
+      var contextHtml = '';
+      if (isUpload && r.quotePrice > 0) {
+        var tip = "";
+        if (r.verdict.css === "high") {
+          tip = "This quote is higher than typical market rates. Consider getting 2-3 additional quotes to compare.";
+        } else if (r.verdict.css === "low") {
+          tip = "This quote is lower than expected. Verify the scope includes all necessary items like flashing, trim, and proper insulation.";
+        } else {
+          tip = "This quote appears to be within the typical market range for your area and window specifications.";
+        }
+        contextHtml = '<div class="win-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
+      }
+
+      // Next Steps tips
+      var tipsHtml = '<div class="win-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Ask if the quote includes interior and exterior trim work</li>';
+      tipsHtml += '<li>Confirm the warranty covers both the product AND the installation labor</li>';
+      tipsHtml += '<li>Ask about the glass package: Low-E coating and argon gas improve energy efficiency</li>';
+      tipsHtml += '<li>Check if flashing and proper waterproofing are included</li>';
+      if (r.verdict.css === "high") {
+        tipsHtml += '<li>Get 2-3 additional quotes from local installers, not just national chains</li>';
+        tipsHtml += '<li>Ask about Energy Star rebates: many utilities offer $25-75 per qualifying window</li>';
+      }
+      if (r.verdict.css === "low") {
+        tipsHtml += '<li>Verify the brand and model are specified, not just "equivalent"</li>';
+        tipsHtml += '<li>Confirm installation includes proper flashing and foam insulation</li>';
+      }
+      tipsHtml += '</ul></div>';
+
+      // Rebate/savings tips
+      var rebateHtml = '<div class="win-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
+      rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      rebateHtml += '<li>Federal tax credit: up to $600 for qualifying Energy Star windows (25C credit)</li>';
+      rebateHtml += '<li>Utility rebates: check with your local utility for window upgrade incentives</li>';
+      rebateHtml += '<li>Off-season scheduling: window installs in late fall or winter can be 5-15% cheaper</li>';
+      rebateHtml += '<li>Whole-home discount: replacing all windows at once often lowers the per-unit cost</li>';
+      rebateHtml += '</ul></div>';
+
+      // Feedback prompt
+      var feedbackHtml = '\
+<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
+  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this estimate close to your actual quote?</div>\
+  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, accurate</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
+      // Email report
+      var emailSubject = encodeURIComponent("My Window Quote Analysis from TruePrice");
+      var emailBody = encodeURIComponent(
+        "Window Quote Analysis\n" +
+        "Type: " + r.windowType.label + "\n" +
+        "Count: " + r.windowCount + "\n" +
+        (r.brandNote ? "Brand: " + r.brandNote + "\n" : "") +
+        (r.perWindowCost ? "Per Window: " + fmt(r.perWindowCost) + "\n" : "") +
+        (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
+        "Benchmark: " + fmt(r.benchmark) + "\n" +
+        "Verdict: " + r.verdict.label + "\n" +
+        "Region: " + capitalize(r.region) + "\n\n" +
+        "Analyzed by TruePrice - https://truepricehq.com/window-quote-analyzer.html"
+      );
+
+      appRoot.innerHTML = '\
+        <div class="win-hero">\
+          <h1>' + (isUpload ? "Window Quote Analysis" : "Your Window Estimate") + '</h1>\
+        </div>\
+        <div class="win-verdict ' + verdictCss + '">\
+          <div class="verdict-label">' + r.verdict.label + '</div>\
+          <div class="verdict-price">' + priceDisplay + '</div>\
+          <div class="verdict-range">' + rangeText + '</div>\
+        </div>\
+        <div class="win-card">\
+          <h3 style="margin-bottom:0.75rem;">Project Details</h3>\
+          ' + detailsHtml + '\
+        </div>\
+        ' + scopeHtml + '\
+        ' + contextHtml + '\
+        ' + tipsHtml + '\
+        ' + rebateHtml + '\
+        <div class="win-actions">\
+          <a class="win-btn win-btn-primary win-btn-full" href="/find-contractors.html?service=windows">Find Window Contractors</a>\
+          <a class="win-btn win-btn-secondary win-btn-full" href="/window-replacement-cost.html">Window Replacement Cost Guide</a>\
+          <a class="win-btn win-btn-secondary win-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
+          <button class="win-btn win-btn-secondary win-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
+          <a class="win-btn win-btn-secondary win-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
+          <button class="win-btn win-btn-secondary win-btn-full" id="btnStartOver">Start Over</button>\
+        </div>\
+        ' + feedbackHtml;
+
+      document.getElementById("btnStartOver").addEventListener("click", function() {
+        state = {
+          step: "address",
+          address: { street: "", city: "", stateCode: "", zip: "" },
+          uploadedFile: null,
+          extractedText: "",
+          est: { windowType: null, windowCount: null, windowSize: null, homeAge: null },
+          result: null
+        };
+        render();
+      });
+    }
+
+    function capitalize(s) {
+      return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+    }
+
+    // ── Init ──
+    render();
+
+  })();
+  </script>
+<script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
