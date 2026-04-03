@@ -3955,7 +3955,7 @@ function buildComparisonWinnerHtml(summary) {
             <div style="display:flex; align-items:center; gap:16px; margin-bottom:8px;">
               <img src="${trudyVerdictImg}" alt="${trudyVerdictAlt}" width="64" style="flex-shrink:0;" />
               <div style="flex:1;">
-                <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">TruePrice Verdict</div>
+                <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">TruePrice Roofing Verdict</div>
                 <div class="verdict-headline" style="margin:0;">${getVerdictHeadline(a.verdict)}</div>
               </div>
             </div>
@@ -6254,7 +6254,7 @@ function buildComparisonWinnerHtml(summary) {
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
                 <img src="/images/trudy-clipboard.png" alt="Trudy" width="40" />
                 <div>
-                  <div style="font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brand, #1e3a5f);">TruePrice Decision Report</div>
+                  <div style="font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brand, #1e3a5f);">TruePrice Roofing Decision Report</div>
                 </div>
               </div>
 
