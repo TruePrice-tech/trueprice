@@ -125,14 +125,16 @@ export default async function handler(req, res) {
       }
     }
 
-    // Query OSM for building footprint if we have GPS coordinates
+    // Query OSM for ALL nearby building footprints if we have GPS coordinates
+    // We'll pick the right one after Claude tells us the photographer's distance
+    let allBuildings = null;
     if (detectedLat && detectedLng) {
       try {
-        buildingFootprint = await getOsmFootprint(detectedLat, detectedLng);
-        if (buildingFootprint) {
-          console.log("[photo-estimate] OSM footprint found:", buildingFootprint.footprintSqFt, "sq ft");
+        allBuildings = await getOsmFootprint(detectedLat, detectedLng, { returnAll: true });
+        if (allBuildings) {
+          console.log("[photo-estimate] OSM found", allBuildings.length, "buildings nearby");
         } else {
-          console.log("[photo-estimate] No OSM footprint found at GPS location");
+          console.log("[photo-estimate] No OSM buildings found at GPS location");
         }
       } catch (e) {
         console.log("[photo-estimate] OSM lookup failed:", e.message);
@@ -166,6 +168,8 @@ export default async function handler(req, res) {
   "pitch": "flat" | "low" | "normal" | "steep",
   "condition": "good" | "fair" | "poor" | "unknown",
   "conditionNotes": ["visible aging", "moss/algae", "missing shingles", "sagging", "storm damage"],
+  "photographerDistance": "at_house" | "near" | "across_street" | "far",
+  "estimatedDistanceFt": <number - estimated distance in feet from photographer to the house>,
   "additionalNotes": <any relevant observations about the roof>
 }
 
@@ -174,6 +178,8 @@ Rules:
 - complexity: "simple" = basic rectangle/L-shape, "moderate" = some dormers or valleys, "complex" = many angles
 - Only include conditionNotes for issues you can actually see
 - Do NOT estimate square footage or footprint size. Roof size is measured separately.
+- photographerDistance: "at_house" = standing at or on the property (close-up, looking up), "near" = next door or adjacent driveway (10-30 ft), "across_street" = across the street or from a distance (30-80 ft), "far" = very far away (80+ ft). Use perspective cues like angle, size of house in frame, and foreground elements.
+- estimatedDistanceFt: Your best estimate of how far the camera is from the house in feet.
 - Return ONLY the JSON object`,
 
       hvac: `Analyze this photo of an HVAC system or equipment. Return ONLY valid JSON:
@@ -202,8 +208,9 @@ Return ONLY the JSON object`,
   "roofMaterial": "architectural" | "asphalt" | "metal" | "tile" | "flat" | "unknown",
   "roofCondition": "good" | "fair" | "poor" | "unknown",
   "stories": 1 | 2 | 3,
-  "estimatedFootprintSqFt": <number estimate of building footprint>,
   "complexity": "simple" | "moderate" | "complex",
+  "photographerDistance": "at_house" | "near" | "across_street" | "far",
+  "estimatedDistanceFt": <number - estimated distance in feet from photographer to the house>,
   "additionalNotes": <any relevant observations about solar potential>
 }
 
@@ -211,7 +218,9 @@ Rules:
 - estimatedUsableRoofSqFt: Estimate south and west-facing roof area suitable for panels. Subtract chimneys, vents, skylights. Typically 50-70% of total roof area.
 - shadeLevel: "minimal" = full sun most of day, "moderate" = some tree shade, "heavy" = significant obstructions
 - stories: Count rows of windows. Two rows = 2 stories.
-- estimatedFootprintSqFt: Ground floor footprint only (not total living area).
+- Do NOT estimate building footprint. Roof size is measured separately.
+- photographerDistance: "at_house" = standing at or on the property, "near" = next door (10-30 ft), "across_street" = across the street (30-80 ft), "far" = very far (80+ ft).
+- estimatedDistanceFt: Your best estimate of how far the camera is from the house in feet.
 - Return ONLY the JSON object`,
 
       general: `Analyze this photo of a home exterior. Identify what home service might be needed. Return ONLY valid JSON:
@@ -276,6 +285,18 @@ Return ONLY the JSON object`
       return res.status(502).json({ error: "Could not parse photo analysis", raw: aiText });
     }
 
+    // Pick the right building using Claude's photographer distance estimate
+    if (allBuildings && allBuildings.length > 0) {
+      buildingFootprint = pickBuildingByDistance(
+        allBuildings,
+        parsed.photographerDistance || "at_house",
+        parsed.estimatedDistanceFt || 0
+      );
+      if (buildingFootprint) {
+        console.log("[photo-estimate] Selected building:", buildingFootprint.footprintSqFt, "sq ft at", buildingFootprint.distanceMeters, "m (photographer:", parsed.photographerDistance, "est:", parsed.estimatedDistanceFt, "ft)");
+      }
+    }
+
     return res.status(200).json({
       success: true,
       source: "claude-haiku-vision",
@@ -283,7 +304,8 @@ Return ONLY the JSON object`
       data: parsed,
       location: detectedCity ? { city: detectedCity, state: detectedState, address: detectedAddress, zip: detectedZip, lat: detectedLat, lng: detectedLng } : null,
       cityMultiplier: cityMultiplier,
-      buildingFootprint: buildingFootprint
+      buildingFootprint: buildingFootprint,
+      nearbyBuildings: allBuildings ? allBuildings.length : 0
     });
 
   } catch (error) {
@@ -380,9 +402,11 @@ function parseExifGps(data) {
   return null;
 }
 
-async function getOsmFootprint(lat, lng) {
+async function getOsmFootprint(lat, lng, options) {
+  const opts = options || {};
+  const returnAll = opts.returnAll || false;
   try {
-    const radius = 60;
+    const radius = returnAll ? 100 : 60;
     const overpassQuery = `[out:json][timeout:10];way["building"](around:${radius},${lat},${lng});out body;>;out skel qt;`;
 
     let overpassData = null;
@@ -421,19 +445,58 @@ async function getOsmFootprint(lat, lng) {
           if (area >= 400 && area <= 20000) {
             const centroid = { lat: coords.reduce((s,c) => s + c.lat, 0) / coords.length, lon: coords.reduce((s,c) => s + c.lon, 0) / coords.length };
             const dist = haversineMeters(lat, lng, centroid.lat, centroid.lon);
-            buildings.push({ area, distance: dist });
+            buildings.push({ footprintSqFt: Math.round(area), distanceMeters: Math.round(dist), source: "osm_footprint" });
           }
         }
       }
     });
 
     if (buildings.length === 0) return null;
+    buildings.sort((a, b) => a.distanceMeters - b.distanceMeters);
 
-    const best = buildings.sort((a, b) => a.distance - b.distance)[0];
-    return { footprintSqFt: Math.round(best.area), distanceMeters: Math.round(best.distance), source: "osm_footprint" };
+    if (returnAll) return buildings;
+    return buildings[0];
   } catch (e) {
     return null;
   }
+}
+
+// Pick the best building based on Claude's photographer distance estimate
+function pickBuildingByDistance(buildings, photographerDistance, estimatedDistanceFt) {
+  if (!buildings || buildings.length === 0) return null;
+  if (buildings.length === 1) return buildings[0];
+
+  const distFt = estimatedDistanceFt || 0;
+  const distMeters = distFt * 0.3048;
+
+  // If photographer is at the house or distance is small, pick closest
+  if (photographerDistance === "at_house" || distFt < 25) {
+    return buildings[0];
+  }
+
+  // Photographer is away from the house -- find the building closest to the estimated distance
+  // The GPS is where they're standing, so the target house is ~distMeters away
+  if (photographerDistance === "near" || photographerDistance === "across_street" || photographerDistance === "far") {
+    // Find building whose distance from GPS is closest to the estimated photographer-to-house distance
+    let best = buildings[0];
+    let bestDiff = Math.abs(buildings[0].distanceMeters - distMeters);
+    for (let i = 1; i < buildings.length; i++) {
+      const diff = Math.abs(buildings[i].distanceMeters - distMeters);
+      if (diff < bestDiff) {
+        best = buildings[i];
+        bestDiff = diff;
+      }
+    }
+    // Safety: only use the distance-matched building if it's a residential size
+    if (best.footprintSqFt >= 500 && best.footprintSqFt <= 10000) {
+      console.log("[photo-estimate] Distance-matched building:", best.footprintSqFt, "sq ft at", best.distanceMeters, "m (estimated", distFt, "ft /", Math.round(distMeters), "m)");
+      return best;
+    }
+    // Fall back to closest
+    return buildings[0];
+  }
+
+  return buildings[0];
 }
 
 function haversineMeters(lat1, lon1, lat2, lon2) {
