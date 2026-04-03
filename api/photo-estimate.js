@@ -56,6 +56,8 @@ export default async function handler(req, res) {
     let detectedState = body.state || null;
     let detectedLat = null;
     let detectedLng = null;
+    let detectedAddress = null;
+    let detectedZip = null;
     let buildingFootprint = null;
 
     if (!detectedCity) {
@@ -72,7 +74,9 @@ export default async function handler(req, res) {
           if (location) {
             detectedCity = location.city;
             detectedState = location.state;
-            console.log("[photo-estimate] Reverse geocoded:", detectedCity, detectedState);
+            detectedAddress = location.address || null;
+            detectedZip = location.zip || null;
+            console.log("[photo-estimate] Reverse geocoded:", detectedCity, detectedState, detectedAddress);
           }
         } else {
           console.log("[photo-estimate] No EXIF GPS data in image");
@@ -241,7 +245,7 @@ Return ONLY the JSON object`
       source: "claude-haiku-vision",
       service: serviceType,
       data: parsed,
-      location: detectedCity ? { city: detectedCity, state: detectedState } : null,
+      location: detectedCity ? { city: detectedCity, state: detectedState, address: detectedAddress, zip: detectedZip, lat: detectedLat, lng: detectedLng } : null,
       cityMultiplier: cityMultiplier,
       buildingFootprint: buildingFootprint
     });
@@ -405,34 +409,40 @@ async function reverseGeocode(lat, lng) {
   const token = process.env.MAPBOX_TOKEN;
   if (!token) return null;
   try {
-    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}&types=place,region&limit=1`;
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}&types=address,place,region&limit=1`;
     const res = await fetch(url);
     if (!res.ok) return null;
     const data = await res.json();
     const features = data.features || [];
 
-    let city = null, state = null;
+    let city = null, state = null, address = null, zip = null;
     for (const f of features) {
+      if (f.place_type?.includes("address")) address = f.place_name;
       if (f.place_type?.includes("place")) city = f.text;
       if (f.place_type?.includes("region")) {
-        // Extract 2-letter state code from short_code (e.g. "US-SC")
         state = f.properties?.short_code?.replace("US-", "").toUpperCase() || null;
       }
     }
-    // If city found but not state, check context
-    if (!state && features[0]?.context) {
+    // Extract from context if not found at top level
+    if (features[0]?.context) {
       for (const ctx of features[0].context) {
+        if (!state && ctx.id?.startsWith("region")) {
+          state = ctx.short_code?.replace("US-", "").toUpperCase() || null;
+        }
+        if (!city && ctx.id?.startsWith("place")) city = ctx.text;
+        if (!zip && ctx.id?.startsWith("postcode")) zip = ctx.text;
+      }
+    }
+    // If address feature returned, extract city/state from its context
+    if (!city && features[0]?.place_type?.includes("address") && features[0]?.context) {
+      for (const ctx of features[0].context) {
+        if (ctx.id?.startsWith("place")) city = ctx.text;
         if (ctx.id?.startsWith("region")) {
           state = ctx.short_code?.replace("US-", "").toUpperCase() || null;
         }
       }
     }
-    if (!city && features[0]?.context) {
-      for (const ctx of features[0].context) {
-        if (ctx.id?.startsWith("place")) city = ctx.text;
-      }
-    }
-    return city && state ? { city, state } : null;
+    return city && state ? { city, state, address, zip, lat, lng } : null;
   } catch (e) {
     return null;
   }
