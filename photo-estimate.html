@@ -434,13 +434,15 @@
         if (d.cityMultiplier) {
           state.cityMult = d.cityMultiplier;
         }
-        // Use OSM satellite footprint for roof size if available (same source as guided estimator)
+        // Use OSM satellite footprint for roof size if available and within sane range
         if (d.buildingFootprint && d.buildingFootprint.footprintSqFt) {
-          var stories = state.result.stories || 1;
-          var pitchFactor = state.result.pitch === "steep" ? 1.25 : state.result.pitch === "low" ? 1.05 : state.result.pitch === "flat" ? 1.0 : 1.12;
-          state.result.estimatedFootprintSqFt = d.buildingFootprint.footprintSqFt;
-          state.result.estimatedRoofSqFt = Math.round(d.buildingFootprint.footprintSqFt * pitchFactor);
-          state.result.roofSizeSource = "satellite";
+          var fp = d.buildingFootprint.footprintSqFt;
+          if (fp >= 500 && fp <= 10000) {
+            var pitchFactor = state.result.pitch === "steep" ? 1.25 : state.result.pitch === "low" ? 1.05 : state.result.pitch === "flat" ? 1.0 : 1.12;
+            state.result.estimatedFootprintSqFt = fp;
+            state.result.estimatedRoofSqFt = Math.round(fp * pitchFactor);
+            state.result.roofSizeSource = "satellite";
+          }
         }
         state.step = "confirm";
         render();
@@ -795,6 +797,26 @@
           confirmed.roofSqFt = Number((document.getElementById("confirmRoofSqFt") || {}).value) || 2000;
         }
 
+        // Validate roof size if applicable
+        var roofInput = document.getElementById("confirmRoofSqFt");
+        if (roofInput && (svc === "roofing" || svc === "solar")) {
+          var roofVal = Number(roofInput.value);
+          if (roofVal < 500) {
+            btn.disabled = false;
+            btn.textContent = "Looks good - get my estimate";
+            roofInput.style.borderColor = "#ef4444";
+            alert("Roof size seems too small. Most homes are 800-5,000 sq ft. Please check and correct.");
+            return;
+          }
+          if (roofVal > 15000) {
+            btn.disabled = false;
+            btn.textContent = "Looks good - get my estimate";
+            roofInput.style.borderColor = "#ef4444";
+            alert("Roof size seems too large. Most homes are 800-5,000 sq ft. Please check and correct.");
+            return;
+          }
+        }
+
         state.confirmed = confirmed;
         state.city = cityVal;
         state.stateCode = stateVal;
@@ -834,15 +856,20 @@
                 state.lng = d.lng;
               }
               if (d.footprint && d.footprint.footprintSqFt) {
-                var pitch = state.result.pitch || "normal";
-                var pitchFactor = pitch === "steep" ? 1.25 : pitch === "low" ? 1.05 : pitch === "flat" ? 1.0 : 1.12;
-                var newRoofSqFt = Math.round(d.footprint.footprintSqFt * pitchFactor);
-                state.result.estimatedFootprintSqFt = d.footprint.footprintSqFt;
-                state.result.estimatedRoofSqFt = newRoofSqFt;
-                state.result.roofSizeSource = "satellite";
-                // Update the confirmed roof size
-                confirmed.roofSqFt = newRoofSqFt;
-                state.confirmed = confirmed;
+                var footprint = d.footprint.footprintSqFt;
+                // Sanity check: residential footprint should be 500-10,000 sq ft
+                if (footprint >= 500 && footprint <= 10000) {
+                  var pitch = state.result.pitch || "normal";
+                  var pitchFactor = pitch === "steep" ? 1.25 : pitch === "low" ? 1.05 : pitch === "flat" ? 1.0 : 1.12;
+                  var newRoofSqFt = Math.round(footprint * pitchFactor);
+                  state.result.estimatedFootprintSqFt = footprint;
+                  state.result.estimatedRoofSqFt = newRoofSqFt;
+                  state.result.roofSizeSource = "satellite";
+                  confirmed.roofSqFt = newRoofSqFt;
+                  state.confirmed = confirmed;
+                } else {
+                  console.log("[photo-estimate] OSM footprint out of range:", footprint, "sq ft - ignoring");
+                }
               }
             })
             .catch(function() {})
