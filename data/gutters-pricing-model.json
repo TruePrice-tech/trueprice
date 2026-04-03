@@ -1,0 +1,75 @@
+{
+  "basePricePerLinearFoot": {
+    "aluminum_seamless": {
+      "label": "Aluminum Seamless (5\")",
+      "low": 6,
+      "high": 12,
+      "mid": 9
+    },
+    "aluminum_6inch": {
+      "label": "Aluminum Seamless (6\")",
+      "low": 8,
+      "high": 15,
+      "mid": 11.50
+    },
+    "vinyl": {
+      "label": "Vinyl Gutters",
+      "low": 4,
+      "high": 8,
+      "mid": 6
+    },
+    "copper": {
+      "label": "Copper Gutters",
+      "low": 25,
+      "high": 50,
+      "mid": 37.50
+    },
+    "steel": {
+      "label": "Steel Gutters",
+      "low": 8,
+      "high": 14,
+      "mid": 11
+    },
+    "gutter_guards": {
+      "label": "Gutter Guards (add-on)",
+      "low": 7,
+      "high": 20,
+      "mid": 13.50
+    }
+  },
+  "laborMultiplierByRegion": {
+    "south": 1.00,
+    "southeast": 1.03,
+    "northeast": 1.18,
+    "midwest": 1.06,
+    "mountain": 1.10,
+    "west": 1.22
+  },
+  "overheadMultiplier": 1.0,
+  "roundTo": 25,
+  "homeSizes": [
+    { "label": "100 LF (small home)", "linearFeet": 100 },
+    { "label": "150 LF (average home)", "linearFeet": 150 },
+    { "label": "200 LF (large home)", "linearFeet": 200 },
+    { "label": "250 LF (very large)", "linearFeet": 250 }
+  ],
+  "scopeItems": [
+    { "key": "removal", "label": "Old gutter removal", "weight": 8 },
+    { "key": "gutters", "label": "Gutter installation", "weight": 20 },
+    { "key": "downspouts", "label": "Downspouts", "weight": 12 },
+    { "key": "hangers", "label": "Hidden hangers/brackets", "weight": 8 },
+    { "key": "endCaps", "label": "End caps and corners", "weight": 4 },
+    { "key": "outlets", "label": "Outlets and connectors", "weight": 4 },
+    { "key": "splashBlocks", "label": "Splash blocks/extensions", "weight": 4 },
+    { "key": "fasciaRepair", "label": "Fascia board repair", "weight": 8 },
+    { "key": "gutterGuards", "label": "Gutter guards/leaf protection", "weight": 10 },
+    { "key": "cleanup", "label": "Cleanup and disposal", "weight": 4 },
+    { "key": "warranty", "label": "Warranty (product + labor)", "weight": 10 },
+    { "key": "sealant", "label": "Sealant at joints", "weight": 4 }
+  ],
+  "brands": {
+    "premium": ["LeafGuard", "Leaf Filter", "Gutter Helmet"],
+    "mid": ["Amerimax", "Spectra", "Senox"],
+    "value": ["Vinyl (generic)", "Home Depot stock"]
+  }
+}
