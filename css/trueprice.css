@@ -759,6 +759,12 @@ h3 {
 
   .hp-featured-grid {
     grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    overflow: hidden;
+  }
+
+  .hp-featured-card {
+    padding: 16px 8px !important;
   }
 
   .hp-demo-card {
