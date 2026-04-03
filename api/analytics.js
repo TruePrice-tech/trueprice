@@ -21,8 +21,46 @@ const BOT_PATTERNS = [
   { name: "Applebot", pattern: /applebot/i },
   { name: "GPTBot", pattern: /gptbot/i },
   { name: "ClaudeBot", pattern: /claudebot|claude-web/i },
+  { name: "Headless Chrome", pattern: /headlesschrome/i },
+  { name: "PhantomJS", pattern: /phantomjs/i },
+  { name: "Puppeteer", pattern: /puppeteer/i },
+  { name: "Playwright", pattern: /playwright/i },
+  { name: "Selenium", pattern: /selenium/i },
+  { name: "Python Requests", pattern: /python-requests|python-urllib|aiohttp/i },
+  { name: "Go HTTP", pattern: /go-http-client/i },
+  { name: "Java HTTP", pattern: /java\/|apache-httpclient/i },
+  { name: "curl", pattern: /^curl\//i },
+  { name: "wget", pattern: /^wget\//i },
+  { name: "Node Fetch", pattern: /node-fetch|undici/i },
+  { name: "Axios", pattern: /^axios\//i },
+  { name: "MJ12bot", pattern: /mj12bot/i },
+  { name: "DotBot", pattern: /dotbot/i },
+  { name: "BLEXBot", pattern: /blexbot/i },
+  { name: "PetalBot", pattern: /petalbot/i },
+  { name: "DataForSeoBot", pattern: /dataforseobot/i },
+  { name: "Bytespider", pattern: /bytespider/i },
+  { name: "CCBot", pattern: /ccbot/i },
+  { name: "Sogou", pattern: /sogou/i },
+  { name: "ZoominfoBot", pattern: /zoominfobot/i },
+  { name: "Screaming Frog", pattern: /screaming frog/i },
+  { name: "UptimeRobot", pattern: /uptimerobot/i },
+  { name: "Pingdom", pattern: /pingdom/i },
+  { name: "StatusCake", pattern: /statuscake/i },
   { name: "Other Bot", pattern: /bot|crawler|spider|scraper/i }
 ];
+
+// Known data center cities (Vercel geo headers) - traffic from these is likely automated
+const DATA_CENTER_CITIES = new Set([
+  "ashburn", "boardman", "council bluffs", "san jose", "santa clara",
+  "the dalles", "dublin", "frankfurt", "mumbai", "singapore",
+  "sao paulo", "sydney", "tokyo", "seoul", "montreal",
+  "north virginia", "oregon", "ohio", "provo", "phoenix"
+]);
+
+function isDataCenterCity(city) {
+  if (!city) return false;
+  return DATA_CENTER_CITIES.has(city.toLowerCase());
+}
 
 function detectBot(ua) {
   if (!ua) return null;
@@ -121,17 +159,30 @@ export default async function handler(req, res) {
         }));
         await redis.ltrim("tp:events", 0, MAX_ENTRIES - 1);
       } else {
+        const ua = req.headers["user-agent"] || "";
+        const botName = detectBot(ua);
         const path = String(data.path || "/").substring(0, 200).trim();
-        const referrer = String(data.referrer || "").substring(0, 500).trim();
-        let refHost = "direct";
-        try { if (referrer) refHost = new URL(referrer).hostname; } catch(e) {}
         const geo = getGeo(req);
-        await redis.lpush("tp:pageviews", JSON.stringify({
-          path, referrer: refHost, title: String(data.title || "").substring(0, 200).trim(),
-          device, browser, ipHash, city: geo.city, region: geo.region, country: geo.country,
-          ts: Date.now()
-        }));
-        await redis.ltrim("tp:pageviews", 0, MAX_ENTRIES - 1);
+        const dcCity = isDataCenterCity(geo.city);
+
+        if (botName || dcCity) {
+          // Route to crawls instead of pageviews
+          await redis.lpush("tp:crawls", JSON.stringify({
+            bot: botName || ("DC:" + (geo.city || "unknown")),
+            path, ts: Date.now()
+          })).catch(() => {});
+          await redis.ltrim("tp:crawls", 0, 5000).catch(() => {});
+        } else {
+          const referrer = String(data.referrer || "").substring(0, 500).trim();
+          let refHost = "direct";
+          try { if (referrer) refHost = new URL(referrer).hostname; } catch(e) {}
+          await redis.lpush("tp:pageviews", JSON.stringify({
+            path, referrer: refHost, title: String(data.title || "").substring(0, 200).trim(),
+            device, browser, ipHash, city: geo.city, region: geo.region, country: geo.country,
+            ts: Date.now()
+          }));
+          await redis.ltrim("tp:pageviews", 0, MAX_ENTRIES - 1);
+        }
       }
       return res.status(200).json({ ok: true });
     } catch (e) {
