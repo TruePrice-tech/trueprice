@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <title>Concrete Quote Analyzer - Is Your Concrete Quote Fair? | TruePrice</title>
+  <meta
+    name="description"
+    content="Upload your concrete quote to instantly see if the price is fair. Analyzes driveways, patios, sidewalks, and stamped concrete quotes against local market data."
+  />
+  <link rel="canonical" href="https://truepricehq.com/concrete-quote-analyzer.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Concrete Quote Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Upload your concrete quote to instantly see if the price is fair. Analyzes driveways, patios, sidewalks, and stamped concrete quotes against local market data."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/concrete-quote-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Concrete Quote Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Upload your concrete quote to instantly see if the price is fair. Analyzes driveways, patios, sidewalks, and stamped concrete quotes against local market data."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+
+  <style>
+    .conc-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .conc-hero { text-align: center; margin-bottom: 2rem; }
+    .conc-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .conc-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .conc-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+
+    .conc-upload-zone {
+      border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc;
+    }
+    .conc-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .conc-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
+    .conc-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .conc-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+
+    .conc-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
+    .conc-divider::before, .conc-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
+
+    .conc-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .conc-address-form input {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 100%; box-sizing: border-box;
+    }
+    .conc-address-form input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+    .conc-row { display: flex; gap: 0.75rem; }
+    .conc-row > * { flex: 1; }
+
+    .conc-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .conc-btn-primary { background: #2563eb; color: #fff; }
+    .conc-btn-primary:hover { background: #1d4ed8; }
+    .conc-btn-secondary { background: #f1f5f9; color: #334155; }
+    .conc-btn-secondary:hover { background: #e2e8f0; }
+    .conc-btn-full { width: 100%; }
+
+    .conc-progress { margin: 1.5rem 0; }
+    .conc-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .conc-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .conc-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+
+    /* Estimator steps */
+    .conc-step { margin-bottom: 1.5rem; }
+    .conc-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
+    .conc-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .conc-option {
+      padding: 0.6rem 1.2rem; border: 2px solid #e2e8f0; border-radius: 8px;
+      background: #fff; cursor: pointer; font-size: 0.95rem; color: #334155;
+      transition: all 0.15s;
+    }
+    .conc-option:hover { border-color: #93c5fd; background: #eff6ff; }
+    .conc-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+
+    .conc-sqft-input {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 200px;
+    }
+
+    /* Verdict card */
+    .conc-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .conc-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .conc-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
+    .conc-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    .conc-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .conc-verdict.fair .verdict-label { color: #16a34a; }
+    .conc-verdict.high .verdict-label { color: #dc2626; }
+    .conc-verdict.low .verdict-label { color: #ca8a04; }
+    .conc-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .conc-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+
+    /* Scope checklist */
+    .conc-scope { list-style: none; padding: 0; margin: 0; }
+    .conc-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .conc-scope li:last-child { border-bottom: none; }
+    .scope-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .scope-included { background: #dcfce7; color: #16a34a; }
+    .scope-missing { background: #fee2e2; color: #dc2626; }
+    .scope-unclear { background: #f1f5f9; color: #94a3b8; }
+
+    /* Details grid */
+    .conc-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .conc-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .conc-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .conc-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+
+    .conc-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .conc-actions a, .conc-actions button { text-align: center; }
+
+    .conc-hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .conc-hero h1 { font-size: 1.5rem; }
+      .conc-row { flex-direction: column; }
+      .conc-details { grid-template-columns: 1fr; }
+      .conc-options { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html#concrete">Analyze Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="conc-app" id="concApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze concrete quotes, compare contractor bids, and estimate driveway, patio, and sidewalk costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/analyzer-parser.min.js"></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ── Concrete Pricing Model ──
+    var CONC_PRICING = {
+      basePricePerSqft: {
+        standard_driveway: { label: "Standard Driveway", low: 8, high: 15, mid: 11.50 },
+        stamped_concrete: { label: "Stamped Concrete", low: 12, high: 20, mid: 16.00 },
+        concrete_patio: { label: "Concrete Patio", low: 8, high: 16, mid: 12.00 },
+        sidewalk: { label: "Sidewalk", low: 8, high: 14, mid: 11.00 },
+        asphalt_driveway: { label: "Asphalt Driveway", low: 5, high: 10, mid: 7.50 }
+      },
+      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
+      scopeItems: [
+        { key: "demolition", label: "Demolition of existing surface", weight: 12 },
+        { key: "grading", label: "Grading and leveling", weight: 10 },
+        { key: "basePrep", label: "Base preparation (gravel/compaction)", weight: 10 },
+        { key: "forms", label: "Formwork", weight: 8 },
+        { key: "rebarMesh", label: "Rebar or wire mesh reinforcement", weight: 10 },
+        { key: "concretePour", label: "Concrete pour and placement", weight: 15 },
+        { key: "finishing", label: "Finishing (broom, smooth, or stamped)", weight: 10 },
+        { key: "sealing", label: "Sealing / curing compound", weight: 6 },
+        { key: "expansionJoints", label: "Expansion joints", weight: 5 },
+        { key: "permits", label: "Permits and inspections", weight: 4 },
+        { key: "cleanup", label: "Site cleanup", weight: 3 },
+        { key: "warranty", label: "Warranty", weight: 5 },
+        { key: "cureTime", label: "Cure time / restrictions noted", weight: 2 }
+      ]
+    };
+
+    var STATE_REGIONS = {
+      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+      WY:"mountain",DC:"northeast"
+    };
+
+    var US_STATES = {
+      "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
+      "colorado":"CO","connecticut":"CT","delaware":"DE","florida":"FL","georgia":"GA",
+      "hawaii":"HI","idaho":"ID","illinois":"IL","indiana":"IN","iowa":"IA","kansas":"KS",
+      "kentucky":"KY","louisiana":"LA","maine":"ME","maryland":"MD","massachusetts":"MA",
+      "michigan":"MI","minnesota":"MN","mississippi":"MS","missouri":"MO","montana":"MT",
+      "nebraska":"NE","nevada":"NV","new hampshire":"NH","new jersey":"NJ","new mexico":"NM",
+      "new york":"NY","north carolina":"NC","north dakota":"ND","ohio":"OH","oklahoma":"OK",
+      "oregon":"OR","pennsylvania":"PA","rhode island":"RI","south carolina":"SC",
+      "south dakota":"SD","tennessee":"TN","texas":"TX","utah":"UT","vermont":"VT",
+      "virginia":"VA","washington":"WA","west virginia":"WV","wisconsin":"WI","wyoming":"WY",
+      "district of columbia":"DC"
+    };
+
+    // ── State ──
+    var appRoot = document.getElementById("concApp");
+    var state = {
+      step: "address",        // address | uploading | estimator | result
+      address: { street: "", city: "", stateCode: "", zip: "" },
+      uploadedFile: null,
+      extractedText: "",
+      // estimator answers
+      est: { projectType: null, projectSize: null, thickness: null, demolition: null },
+      // result
+      result: null
+    };
+
+    // ── Helpers ──
+    function $(sel, el) { return (el || document).querySelector(sel); }
+    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+    function roundTo50(n) { return Math.round(n / 50) * 50; }
+
+    function getRegionFromState(sc) {
+      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+    }
+
+    // City-level multiplier
+    var cityMultCache = {};
+    function fetchCityMult(city, stateCode) {
+      if (!city || !stateCode) return;
+      var key = city + "|" + stateCode;
+      if (cityMultCache[key]) return;
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode))
+        .then(function(r) { return r.json(); })
+        .then(function(d) { if (d && d.multiplier) cityMultCache[key] = d.multiplier; })
+        .catch(function() {});
+    }
+    function getCityMult(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityMultCache[key] || null;
+    }
+
+    // Inflation: 3% annual from 2025
+    var _now = new Date();
+    var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
+    // Seasonal: concrete peaks in summer
+    var SEASONAL_MULTS = { 1:0.92, 2:0.93, 3:0.96, 4:1.00, 5:1.06, 6:1.10, 7:1.12, 8:1.10, 9:1.04, 10:0.98, 11:0.94, 12:0.90 };
+    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
+
+    function sqftFromSize(sizeLabel) {
+      var map = { "200": 200, "400": 400, "600": 600, "800": 800, "1000": 1000 };
+      return map[sizeLabel] || 400;
+    }
+
+    function calcBenchmark(projectType, sqft, thicknessMult, demoMult) {
+      var proj = CONC_PRICING.basePricePerSqft[projectType];
+      if (!proj) proj = CONC_PRICING.basePricePerSqft.standard_driveway;
+
+      var midPerSqft = proj.mid;
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var region = getRegionFromState(state.address.stateCode);
+      var laborMult = cityMult || (CONC_PRICING.laborMultiplierByRegion[region] || 1.0);
+
+      var total = midPerSqft * sqft * laborMult * thicknessMult * demoMult * INFLATION_MULT * SEASONAL_MULT;
+      return roundTo50(total);
+    }
+
+    function verdictFromRatio(ratio) {
+      if (ratio < 0.78) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (ratio <= 0.90) return { label: "Below Average", css: "low", emoji: "" };
+      if (ratio <= 1.12) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (ratio <= 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    // ── Quote parsing helpers ──
+    function detectConcreteType(text) {
+      var t = text.toLowerCase();
+      if (/stamp(ed)?[\s-]*concrete/i.test(t) || /decorative[\s-]*concrete/i.test(t)) return { value: "stamped_concrete", label: "Stamped Concrete" };
+      if (/asphalt/i.test(t)) return { value: "asphalt_driveway", label: "Asphalt Driveway" };
+      if (/patio/i.test(t)) return { value: "concrete_patio", label: "Concrete Patio" };
+      if (/sidewalk/i.test(t) || /walkway/i.test(t)) return { value: "sidewalk", label: "Sidewalk" };
+      if (/driveway/i.test(t)) return { value: "standard_driveway", label: "Standard Driveway" };
+      return { value: "standard_driveway", label: "Standard Driveway" };
+    }
+
+    function detectArea(text) {
+      // Match patterns like "600 sq ft", "600 sqft", "600 square feet", "20x30", "20' x 30'"
+      var sqftMatch = text.match(/(\d[\d,]*)\s*(?:sq\.?\s*ft|sqft|square\s*feet)/i);
+      if (sqftMatch) return parseFloat(sqftMatch[1].replace(/,/g, ""));
+
+      var dimMatch = text.match(/(\d+)['\s]*x\s*(\d+)/i);
+      if (dimMatch) return parseInt(dimMatch[1]) * parseInt(dimMatch[2]);
+
+      return null;
+    }
+
+    function detectThickness(text) {
+      var match = text.match(/(\d+)\s*(?:inch|in\.?|")\s*(?:thick|concrete|slab|depth)/i);
+      if (match) {
+        var inches = parseInt(match[1]);
+        if (inches >= 6) return { value: 6, label: '6 inch (heavy duty)' };
+        return { value: 4, label: '4 inch (standard)' };
+      }
+      // Also check for "6 in" or "6"" standalone near concrete context
+      var match2 = text.match(/(?:thickness|depth|thick)\s*(?:of|:)?\s*(\d+)/i);
+      if (match2) {
+        var inches2 = parseInt(match2[1]);
+        if (inches2 >= 6) return { value: 6, label: '6 inch (heavy duty)' };
+        return { value: 4, label: '4 inch (standard)' };
+      }
+      return null;
+    }
+
+    function detectConcreteScope(text) {
+      var t = text.toLowerCase();
+      var signals = {};
+      var checks = {
+        demolition: [/demoli|tear[\s-]*out|remov(e|al)\s*(of\s*)?(existing|old|current)/],
+        grading: [/grad(e|ing)|level(ing)?|slope/],
+        basePrep: [/base\s*prep|gravel|compact(ion|ed)|sub[\s-]*base|crushed\s*stone/],
+        forms: [/form(s|work)?|framing/],
+        rebarMesh: [/rebar|reinforc|wire\s*mesh|steel\s*mesh|#\d\s*bar/],
+        concretePour: [/pour|concrete\s*(?:work|install|place)|ready[\s-]*mix|yard(s)?\s*(?:of\s*)?concrete/],
+        finishing: [/finish(ing)?|broom|smooth|stamp(ed)?|texture|trowel/],
+        sealing: [/seal(ant|er|ing)?|cur(e|ing)\s*compound|protect(ant|ive)/],
+        expansionJoints: [/expansion\s*joint|control\s*joint|saw[\s-]*cut|joint/],
+        permits: [/permit|inspection|code\s*compliance/],
+        cleanup: [/clean[\s-]*up|haul[\s-]*away|debris\s*removal|disposal/],
+        warranty: [/warrant|guarant/],
+        cureTime: [/cure\s*time|curing|dry(ing)?\s*time|\d+\s*day(s)?\s*(before|until|cure)/]
+      };
+
+      Object.keys(checks).forEach(function(key) {
+        var found = checks[key].some(function(rx) { return rx.test(t); });
+        signals[key] = { status: found ? "included" : "unclear" };
+      });
+
+      return signals;
+    }
+
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "concrete", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("concApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-concrete-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
+    // ── Render functions ──
+    function render() {
+      switch (state.step) {
+        case "address": renderAddress(); break;
+        case "uploading": renderUploading(); break;
+        case "estimator": renderEstimator(); break;
+        case "result": renderResult(); break;
+      }
+    }
+
+    // ── Address / Upload Step ──
+    function renderAddress() {
+      appRoot.innerHTML = '\
+        <div class="conc-hero">\
+          <img src="/images/trudy-concrete.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>Is your concrete quote fair?</h1>\
+          <p>Upload your quote or get an instant estimate for your concrete project.</p>\
+        </div>\
+        <div class="conc-card">\
+          <div class="conc-upload-zone" id="uploadZone">\
+            <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
+            <p><strong>Analyze a Quote</strong></p>\
+            <p class="hint">Upload a contractor quote (PDF or image) to check the price</p>\
+            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
+          <div class="conc-divider">or enter your address for an estimate</div>\
+          <div class="conc-address-form">\
+            <div style="position:relative">\
+              <input type="text" id="addrStreet" placeholder="Start typing your address..." autocomplete="off" />\
+              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
+            </div>\
+            <div class="conc-row">\
+              <input type="text" id="addrCity" placeholder="City" />\
+              <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
+            </div>\
+            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
+            <button class="conc-btn conc-btn-primary conc-btn-full" id="btnEstimate">Get Concrete Estimate</button>\
+          </div>\
+        </div>';
+
+      // Events
+      var zone = document.getElementById("uploadZone");
+      var fileInput = document.getElementById("fileInput");
+
+      zone.addEventListener("click", function() { fileInput.click(); });
+      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; });
+      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; });
+      zone.addEventListener("drop", function(e) {
+        e.preventDefault();
+        zone.style.borderColor = "#cbd5e1";
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener("change", function() {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+      });
+
+      // Address autocomplete
+      (function() {
+        var addrInput = document.getElementById("addrStreet");
+        var sugBox = document.getElementById("addrSuggestions");
+        if (!addrInput || !sugBox) return;
+        var timer = null;
+        addrInput.addEventListener("input", function() {
+          clearTimeout(timer);
+          var q = addrInput.value.trim();
+          if (q.length < 4) { sugBox.style.display = "none"; return; }
+          timer = setTimeout(function() {
+            fetch("/api/geocode-suggest?q=" + encodeURIComponent(q))
+              .then(function(r) { return r.json(); })
+              .then(function(data) {
+                if (!data.suggestions || !data.suggestions.length) { sugBox.style.display = "none"; return; }
+                sugBox.innerHTML = data.suggestions.map(function(s, i) {
+                  return '<div data-idx="' + i + '" style="padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' + s.label + '</div>';
+                }).join("");
+                sugBox.style.display = "block";
+                sugBox.querySelectorAll("[data-idx]").forEach(function(el) {
+                  el.addEventListener("click", function() {
+                    var idx = parseInt(el.dataset.idx);
+                    var s = data.suggestions[idx];
+                    if (!s) return;
+                    addrInput.value = s.street || s.label.split(",")[0] || "";
+                    var c = document.getElementById("addrCity");
+                    var st = document.getElementById("addrState");
+                    var z = document.getElementById("addrZip");
+                    if (c) c.value = s.city || "";
+                    if (st) st.value = s.state || "";
+                    if (z) z.value = s.zip || "";
+                    sugBox.style.display = "none";
+                  });
+                });
+              })
+              .catch(function() { sugBox.style.display = "none"; });
+          }, 300);
+        });
+        document.addEventListener("click", function(e) {
+          if (!addrInput.contains(e.target) && !sugBox.contains(e.target)) sugBox.style.display = "none";
+        });
+      })();
+
+      document.getElementById("btnEstimate").addEventListener("click", function() {
+        state.address.street = document.getElementById("addrStreet").value.trim();
+        state.address.city = document.getElementById("addrCity").value.trim();
+        var rawState = document.getElementById("addrState").value.trim();
+        state.address.zip = document.getElementById("addrZip").value.trim();
+
+        // Normalize state
+        var upper = rawState.toUpperCase();
+        if (STATE_REGIONS[upper]) {
+          state.address.stateCode = upper;
+        } else {
+          var lookup = US_STATES[rawState.toLowerCase()];
+          state.address.stateCode = lookup || "TX";
+        }
+
+        fetchCityMult(state.address.city, state.address.stateCode);
+        state.step = "estimator";
+        render();
+      });
+    }
+
+    // ── Upload / Processing ──
+    function handleFile(file) {
+      state.uploadedFile = file;
+      // capture address before leaving
+      var streetEl = document.getElementById("addrStreet");
+      var cityEl = document.getElementById("addrCity");
+      var stateEl = document.getElementById("addrState");
+      var zipEl = document.getElementById("addrZip");
+      if (streetEl) state.address.street = streetEl.value.trim();
+      if (cityEl) state.address.city = cityEl.value.trim();
+      if (stateEl) {
+        var raw = stateEl.value.trim().toUpperCase();
+        state.address.stateCode = STATE_REGIONS[raw] ? raw : (US_STATES[stateEl.value.trim().toLowerCase()] || "");
+      }
+      if (zipEl) state.address.zip = zipEl.value.trim();
+
+      state.step = "uploading";
+      render();
+      processFile(file);
+    }
+
+    function renderUploading() {
+      appRoot.innerHTML = '\
+        <div class="conc-hero">\
+          <h1>Analyzing your concrete quote...</h1>\
+        </div>\
+        <div class="conc-card">\
+          <div class="conc-progress">\
+            <div class="conc-progress-bar"><div class="conc-progress-fill" id="progFill" style="width:10%"></div></div>\
+            <p class="conc-progress-text" id="progText">Loading document...</p>\
+          </div>\
+        </div>';
+    }
+
+    function setProgress(pct, msg) {
+      var fill = document.getElementById("progFill");
+      var txt = document.getElementById("progText");
+      if (fill) fill.style.width = pct + "%";
+      if (txt) txt.textContent = msg;
+    }
+
+    async function processFile(file) {
+      try {
+        setProgress(15, "Loading parsing libraries...");
+        await window.loadVendorLibs();
+
+        var text = "";
+        if (file.type === "application/pdf") {
+          setProgress(30, "Extracting text from PDF...");
+          text = await extractPdfText(file);
+        } else {
+          setProgress(30, "Running OCR on image...");
+          text = await extractImageText(file);
+        }
+
+        setProgress(70, "Analyzing concrete quote...");
+        state.extractedText = text;
+
+        // Use analyzer-parser.js for price extraction
+        var parsed = null;
+        try {
+          if (typeof parseExtractedText === "function") {
+            parsed = parseExtractedText(text);
+          }
+        } catch (parseErr) {
+          console.warn("Parser error, falling back to regex:", parseErr);
+        }
+
+        // Fallback price extraction if parser fails or returns nothing
+        if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
+          var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
+          var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v >= 500 && v <= 100000; });
+          if (prices.length) {
+            prices.sort(function(a, b) { return b - a; });
+            parsed = parsed || {};
+            parsed.finalPrice = prices[0];
+            parsed.priceCandidates = prices.map(function(v) { return { value: v, score: 50 }; });
+          }
+        }
+
+        // Concrete-specific detection
+        var concreteType = detectConcreteType(text);
+        var area = detectArea(text);
+        var thickness = detectThickness(text);
+        var scopeSignals = detectConcreteScope(text);
+
+        // Location detection from parser
+        var location = (parsed && parsed.location) ? parsed.location : null;
+        if (location && location.stateCode && !state.address.stateCode) {
+          state.address.stateCode = location.stateCode;
+          if (location.city) state.address.city = location.city;
+        }
+        fetchCityMult(state.address.city, state.address.stateCode);
+
+        // Determine price
+        var quotePrice = 0;
+        if (parsed && parsed.finalPrice && parsed.finalPrice > 300) {
+          quotePrice = parsed.finalPrice;
+        } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
+          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 500 && c.value <= 100000; });
+          candidates.sort(function(a, b) { return b.score - a.score; });
+          if (candidates.length) quotePrice = candidates[0].value;
+        }
+
+        setProgress(85, "Calculating verdict...");
+
+        var effectiveArea = area || 400;
+        var thicknessMult = (thickness && thickness.value >= 6) ? 1.30 : 1.0;
+        // Check if demolition is mentioned for demo multiplier
+        var demoMult = (scopeSignals.demolition && scopeSignals.demolition.status === "included") ? 1.15 : 1.0;
+
+        var benchmark = calcBenchmark(concreteType.value, effectiveArea, thicknessMult, demoMult);
+
+        var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
+        var verdict = verdictFromRatio(ratio);
+
+        // Per sqft cost
+        var perSqft = quotePrice > 0 && effectiveArea > 0 ? (quotePrice / effectiveArea) : null;
+
+        setProgress(100, "Done!");
+
+        state.result = {
+          source: "upload",
+          quotePrice: quotePrice,
+          benchmark: benchmark,
+          ratio: ratio,
+          verdict: verdict,
+          concreteType: concreteType,
+          area: area,
+          thickness: thickness,
+          demolition: (scopeSignals.demolition && scopeSignals.demolition.status === "included") ? "Yes" : "Not mentioned",
+          perSqft: perSqft,
+          scopeSignals: scopeSignals,
+          region: getRegionFromState(state.address.stateCode),
+          location: location,
+          parsed: parsed
+        };
+
+        state.step = "result";
+        setTimeout(render, 400);
+
+      } catch (err) {
+        console.error("Concrete analysis error:", err);
+        appRoot.innerHTML = '\
+          <div class="conc-hero"><h1>We couldn\'t read that file</h1></div>\
+          <div class="conc-card" style="text-align:center;">\
+            <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
+            <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
+            <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
+              <span style="font-size:20px;font-weight:700;">$</span>\
+              <input type="number" id="manualPrice" placeholder="e.g. 5400" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+            </div>\
+            <button class="conc-btn conc-btn-primary" id="manualPriceBtn">Analyze this price</button>\
+            <div style="margin-top:14px;"><button class="conc-btn conc-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
+          </div>';
+        document.getElementById("manualPriceBtn").addEventListener("click", function() {
+          var price = parseFloat(document.getElementById("manualPrice").value);
+          if (!price || price < 200) { alert("Please enter a valid price."); return; }
+          var benchmark = calcBenchmark("standard_driveway", 400, 1.0, 1.0);
+          var ratio = price / benchmark;
+          state.result = {
+            source: "manual",
+            quotePrice: price,
+            benchmark: benchmark,
+            ratio: ratio,
+            verdict: verdictFromRatio(ratio),
+            concreteType: { value: "standard_driveway", label: "Standard Driveway" },
+            area: null, thickness: null, demolition: "Unknown", perSqft: null,
+            scopeSignals: {}, region: getRegionFromState(state.address.stateCode), location: null, parsed: null
+          };
+          state.step = "result";
+          render();
+        });
+      }
+    }
+
+    async function extractPdfText(file) {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var allText = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        var page = await pdf.getPage(i);
+        var content = await page.getTextContent();
+        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+        allText.push(pageText);
+      }
+      return allText.join("\n");
+    }
+
+    async function preprocessImage(file, mode) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement("canvas");
+            var scale = Math.max(1.5, Math.min(2.5, 2400 / Math.max(img.width, img.height)));
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            var ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            if (mode === "strong") {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.6 + 128;
+                gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            } else {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.3 + 128;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+          };
+          img.onerror = reject;
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extractImageText(file) {
+      var softImage = await preprocessImage(file, "soft");
+      var worker = await Tesseract.createWorker("eng");
+      var result = await worker.recognize(softImage);
+      var text = (result.data.text || "").trim();
+
+      if (text.length < 50) {
+        var strongImage = await preprocessImage(file, "strong");
+        var result2 = await worker.recognize(strongImage);
+        var text2 = (result2.data.text || "").trim();
+        if (text2.length > text.length) text = text2;
+      }
+
+      await worker.terminate();
+      return text;
+    }
+
+    // ── Estimator Flow ──
+    function renderEstimator() {
+      var est = state.est;
+      var stepNum = getEstimatorStep();
+
+      appRoot.innerHTML = '\
+        <div class="conc-hero">\
+          <h1>Concrete Cost Estimator</h1>\
+          <p>' + (state.address.city ? state.address.city + ", " + state.address.stateCode : "Get a quick estimate") + '</p>\
+        </div>\
+        <div class="conc-card" id="estCard"></div>';
+
+      var card = document.getElementById("estCard");
+
+      if (stepNum === 1) {
+        card.innerHTML = '\
+          <div class="conc-step">\
+            <h3>What type of concrete project?</h3>\
+            <div class="conc-options" id="optProject">\
+              <div class="conc-option' + (est.projectType === "standard_driveway" ? " selected" : "") + '" data-val="standard_driveway">Standard Driveway</div>\
+              <div class="conc-option' + (est.projectType === "stamped_concrete" ? " selected" : "") + '" data-val="stamped_concrete">Stamped Concrete</div>\
+              <div class="conc-option' + (est.projectType === "concrete_patio" ? " selected" : "") + '" data-val="concrete_patio">Patio</div>\
+              <div class="conc-option' + (est.projectType === "sidewalk" ? " selected" : "") + '" data-val="sidewalk">Sidewalk</div>\
+              <div class="conc-option' + (est.projectType === "asphalt_driveway" ? " selected" : "") + '" data-val="asphalt_driveway">Asphalt Driveway</div>\
+            </div>\
+          </div>';
+        bindOptions("optProject", "projectType");
+      } else if (stepNum === 2) {
+        card.innerHTML = '\
+          <div class="conc-step">\
+            <h3>How large is the project?</h3>\
+            <div class="conc-options" id="optSize">\
+              <div class="conc-option' + (est.projectSize === "200" ? " selected" : "") + '" data-val="200">200 sq ft</div>\
+              <div class="conc-option' + (est.projectSize === "400" ? " selected" : "") + '" data-val="400">400 sq ft</div>\
+              <div class="conc-option' + (est.projectSize === "600" ? " selected" : "") + '" data-val="600">600 sq ft</div>\
+              <div class="conc-option' + (est.projectSize === "800" ? " selected" : "") + '" data-val="800">800 sq ft</div>\
+              <div class="conc-option' + (est.projectSize === "1000" ? " selected" : "") + '" data-val="1000">1000+ sq ft</div>\
+            </div>\
+          </div>';
+        bindOptions("optSize", "projectSize");
+      } else if (stepNum === 3) {
+        card.innerHTML = '\
+          <div class="conc-step">\
+            <h3>What thickness?</h3>\
+            <div class="conc-options" id="optThick">\
+              <div class="conc-option' + (est.thickness === "4" ? " selected" : "") + '" data-val="4">4 inch (standard)</div>\
+              <div class="conc-option' + (est.thickness === "6" ? " selected" : "") + '" data-val="6">6 inch (heavy duty)</div>\
+            </div>\
+          </div>';
+        bindOptions("optThick", "thickness");
+      } else if (stepNum === 4) {
+        card.innerHTML = '\
+          <div class="conc-step">\
+            <h3>Does the project include demolition of existing surface?</h3>\
+            <div class="conc-options" id="optDemo">\
+              <div class="conc-option' + (est.demolition === "yes" ? " selected" : "") + '" data-val="yes">Yes</div>\
+              <div class="conc-option' + (est.demolition === "no" ? " selected" : "") + '" data-val="no">No</div>\
+            </div>\
+          </div>';
+        bindOptions("optDemo", "demolition");
+      }
+
+      // Show progress dots
+      var dots = '';
+      for (var d = 1; d <= 4; d++) {
+        dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px;background:' + (d <= stepNum ? "#2563eb" : "#e2e8f0") + ';"></span>';
+      }
+      card.insertAdjacentHTML("afterbegin", '<div style="text-align:center;margin-bottom:1rem;">' + dots + '</div>');
+
+      // Back button (except step 1)
+      if (stepNum > 1) {
+        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="conc-btn conc-btn-secondary" id="estBack">Back</button></div>');
+        document.getElementById("estBack").addEventListener("click", function() {
+          if (stepNum === 4) est.demolition = null;
+          else if (stepNum === 3) est.thickness = null;
+          else if (stepNum === 2) est.projectSize = null;
+          render();
+        });
+      }
+    }
+
+    function getEstimatorStep() {
+      var e = state.est;
+      if (!e.projectType) return 1;
+      if (!e.projectSize) return 2;
+      if (!e.thickness) return 3;
+      if (!e.demolition) return 4;
+      return 5; // all done
+    }
+
+    function bindOptions(containerId, field) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      container.addEventListener("click", function(e) {
+        var opt = e.target.closest(".conc-option");
+        if (!opt) return;
+        state.est[field] = opt.getAttribute("data-val");
+
+        if (getEstimatorStep() > 4) {
+          calculateEstimate();
+        } else {
+          render();
+        }
+      });
+    }
+
+    function calculateEstimate() {
+      var est = state.est;
+      var sqft = sqftFromSize(est.projectSize);
+      var thicknessMult = est.thickness === "6" ? 1.30 : 1.0;
+      var demoMult = est.demolition === "yes" ? 1.15 : 1.0;
+
+      var benchmark = calcBenchmark(est.projectType, sqft, thicknessMult, demoMult);
+
+      var low = roundTo50(benchmark * 0.88);
+      var high = roundTo50(benchmark * 1.15);
+
+      var proj = CONC_PRICING.basePricePerSqft[est.projectType];
+      var projLabel = proj ? proj.label : est.projectType;
+      var perSqft = benchmark / sqft;
+
+      state.result = {
+        source: "estimator",
+        quotePrice: benchmark,
+        benchmark: benchmark,
+        low: low,
+        high: high,
+        ratio: 1.0,
+        verdict: { label: "Estimated Cost", css: "fair", emoji: "" },
+        concreteType: { value: est.projectType, label: projLabel },
+        area: sqft,
+        thickness: { value: Number(est.thickness), label: est.thickness === "6" ? "6 inch (heavy duty)" : "4 inch (standard)" },
+        demolition: est.demolition === "yes" ? "Yes" : "No",
+        perSqft: perSqft,
+        scopeSignals: {},
+        region: getRegionFromState(state.address.stateCode),
+        location: null,
+        parsed: null
+      };
+
+      state.step = "result";
+      render();
+    }
+
+    // ── Result Step ──
+    function renderResult() {
+      var r = state.result;
+      if (!r) { state.step = "address"; render(); return; }
+
+      var isUpload = r.source === "upload";
+      var verdictCss = r.verdict.css;
+      var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
+      var rangeText = "";
+
+      if (isUpload) {
+        rangeText = "Market benchmark: " + fmt(r.benchmark);
+        if (r.quotePrice > 0) {
+          var pct = Math.round((r.ratio - 1) * 100);
+          var dir = pct > 0 ? "above" : "below";
+          rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+        }
+      } else {
+        rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
+      }
+
+      // Build details
+      var detailsHtml = '<div class="conc-details">';
+      detailsHtml += '<div class="conc-detail"><div class="label">Project Type</div><div class="value">' + r.concreteType.label + '</div></div>';
+
+      if (r.area) {
+        detailsHtml += '<div class="conc-detail"><div class="label">Area</div><div class="value">' + Number(r.area).toLocaleString() + ' sq ft</div></div>';
+      }
+      if (r.thickness) {
+        detailsHtml += '<div class="conc-detail"><div class="label">Thickness</div><div class="value">' + r.thickness.label + '</div></div>';
+      }
+      detailsHtml += '<div class="conc-detail"><div class="label">Demolition</div><div class="value">' + r.demolition + '</div></div>';
+
+      if (r.perSqft) {
+        detailsHtml += '<div class="conc-detail"><div class="label">Per Sq Ft Cost</div><div class="value">$' + r.perSqft.toFixed(2) + '</div></div>';
+      }
+
+      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="conc-detail"><div class="label">Pricing Source</div><div class="value">' + pricingLabel + '</div></div>';
+      detailsHtml += '</div>';
+
+      // Scope checklist (upload only)
+      var scopeHtml = "";
+      if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+        scopeHtml = '<div class="conc-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="conc-scope">';
+        CONC_PRICING.scopeItems.forEach(function(item) {
+          var sig = r.scopeSignals[item.key];
+          var status = sig ? sig.status : "unclear";
+          var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
+          var iconChar = status === "included" ? "&#10003;" : status === "excluded" ? "&#10007;" : "?";
+          var statusLabel = status === "included" ? "Included" : status === "excluded" ? "Not included" : "Not mentioned";
+          scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
+        });
+        scopeHtml += '</ul>';
+        // Missing cost estimate
+        var concScopeCosts = { demolition: [2,5], grading: [1,3], basePrep: [1,3], forms: [1,2], rebarMesh: [0.50,1.50], concretePour: [3,6], finishing: [1,4], sealing: [0.50,2], expansionJoints: [0.25,1], permits: [100,500], cleanup: [0.25,1], warranty: [0,0], cureTime: [0,0] };
+        var missingItems = CONC_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        if (missingItems.length > 0) {
+          var mLow = 0, mHigh = 0;
+          var effectiveArea = r.area || 400;
+          missingItems.forEach(function(item) {
+            var c = concScopeCosts[item.key];
+            if (c) {
+              // permits are flat, others are per sqft
+              if (item.key === "permits" || item.key === "warranty" || item.key === "cureTime") { mLow += c[0]; mHigh += c[1]; }
+              else { mLow += c[0] * effectiveArea; mHigh += c[1] * effectiveArea; }
+            }
+          });
+          if (mLow > 0) {
+            scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;"><strong>' + missingItems.length + ' missing item' + (missingItems.length !== 1 ? 's' : '') + '</strong> could add <strong>$' + Math.round(mLow).toLocaleString() + ' to $' + Math.round(mHigh).toLocaleString() + '</strong> in change orders if not included.</div>';
+          }
+        }
+        scopeHtml += '</div>';
+      }
+
+      // Estimator scope info
+      if (!isUpload) {
+        scopeHtml = '<div class="conc-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="conc-scope">';
+        var typicalItems = ["grading", "basePrep", "forms", "rebarMesh", "concretePour", "finishing", "sealing", "expansionJoints", "cleanup"];
+        typicalItems.forEach(function(key) {
+          var item = CONC_PRICING.scopeItems.find(function(s) { return s.key === key; });
+          if (item) {
+            scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
+          }
+        });
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Demolition, permits, drainage work, or decorative finishes may add cost.</p></div>';
+      }
+
+      // Market context
+      var contextHtml = '';
+      if (isUpload && r.quotePrice > 0) {
+        var tip = "";
+        if (r.verdict.css === "high") {
+          tip = "This quote is higher than typical market rates. Consider getting 2-3 additional quotes to compare.";
+        } else if (r.verdict.css === "low") {
+          tip = "This quote is lower than expected. Verify the scope includes base preparation, reinforcement, and proper finishing. Check that the concrete mix meets local code requirements.";
+        } else {
+          tip = "This quote appears to be within the typical market range for your area and project specifications.";
+        }
+        contextHtml = '<div class="conc-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
+      }
+
+      // Next Steps tips
+      var tipsHtml = '<div class="conc-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Confirm the concrete mix strength (typically 3,000-4,000 PSI for residential)</li>';
+      tipsHtml += '<li>Ask about rebar or wire mesh reinforcement -- it prevents cracking</li>';
+      tipsHtml += '<li>Verify the quote includes proper base preparation (gravel and compaction)</li>';
+      tipsHtml += '<li>Check if sealing is included -- it extends the life of your concrete by years</li>';
+      if (r.verdict.css === "high") {
+        tipsHtml += '<li>Get 2-3 additional quotes from local contractors for comparison</li>';
+        tipsHtml += '<li>Ask if scheduling for fall or winter could reduce the price</li>';
+      }
+      if (r.verdict.css === "low") {
+        tipsHtml += '<li>Verify the thickness meets code (4" minimum for walkways, 6" for driveways with heavy vehicles)</li>';
+        tipsHtml += '<li>Confirm the contractor is licensed and insured</li>';
+      }
+      tipsHtml += '</ul></div>';
+
+      // Savings tips
+      var savingsHtml = '<div class="conc-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
+      savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      savingsHtml += '<li>Schedule in late fall or winter when contractors are less busy (5-15% savings)</li>';
+      savingsHtml += '<li>Bundle multiple concrete projects (driveway + patio) for a volume discount</li>';
+      savingsHtml += '<li>Choose broom finish over stamped to save $4-8 per sq ft</li>';
+      savingsHtml += '</ul></div>';
+
+      // Feedback prompt
+      var feedbackHtml = '\
+<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
+  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this estimate close to your actual quote?</div>\
+  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, accurate</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
+      // Email report
+      var emailSubject = encodeURIComponent("My Concrete Quote Analysis from TruePrice");
+      var emailBody = encodeURIComponent(
+        "Concrete Quote Analysis\n" +
+        "Project: " + r.concreteType.label + "\n" +
+        (r.area ? "Area: " + r.area + " sq ft\n" : "") +
+        (r.thickness ? "Thickness: " + r.thickness.label + "\n" : "") +
+        "Demolition: " + r.demolition + "\n" +
+        (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
+        "Benchmark: " + fmt(r.benchmark) + "\n" +
+        "Verdict: " + r.verdict.label + "\n" +
+        "Region: " + capitalize(r.region) + "\n\n" +
+        "Analyzed by TruePrice - https://truepricehq.com/concrete-quote-analyzer.html"
+      );
+
+      appRoot.innerHTML = '\
+        <div class="conc-hero">\
+          <h1>' + (isUpload ? "Concrete Quote Analysis" : "Your Concrete Estimate") + '</h1>\
+        </div>\
+        <div class="conc-verdict ' + verdictCss + '">\
+          <div class="verdict-label">' + r.verdict.label + '</div>\
+          <div class="verdict-price">' + priceDisplay + '</div>\
+          <div class="verdict-range">' + rangeText + '</div>\
+        </div>\
+        <div class="conc-card">\
+          <h3 style="margin-bottom:0.75rem;">Project Details</h3>\
+          ' + detailsHtml + '\
+        </div>\
+        ' + scopeHtml + '\
+        ' + contextHtml + '\
+        ' + tipsHtml + '\
+        ' + savingsHtml + '\
+        <div class="conc-actions">\
+          <a class="conc-btn conc-btn-primary conc-btn-full" href="/find-contractors.html?service=concrete">Find Concrete Contractors</a>\
+          <a class="conc-btn conc-btn-secondary conc-btn-full" href="/concrete-cost.html">Concrete Cost Guide</a>\
+          <a class="conc-btn conc-btn-secondary conc-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
+          <button class="conc-btn conc-btn-secondary conc-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
+          <a class="conc-btn conc-btn-secondary conc-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
+          <button class="conc-btn conc-btn-secondary conc-btn-full" id="btnStartOver">Start Over</button>\
+        </div>\
+        ' + feedbackHtml;
+
+      document.getElementById("btnStartOver").addEventListener("click", function() {
+        state = {
+          step: "address",
+          address: { street: "", city: "", stateCode: "", zip: "" },
+          uploadedFile: null,
+          extractedText: "",
+          est: { projectType: null, projectSize: null, thickness: null, demolition: null },
+          result: null
+        };
+        render();
+      });
+    }
+
+    function capitalize(s) {
+      return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+    }
+
+    // ── Init ──
+    render();
+
+  })();
+  </script>
+<script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
