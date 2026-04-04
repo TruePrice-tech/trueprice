@@ -299,17 +299,27 @@ async function testBatchImages() {
 
   for (const img of images) {
     const imgPath = path.join(imgDir, img);
-    const base64 = fs.readFileSync(imgPath).toString("base64");
-    const mediaType = img.endsWith(".png") ? "image/png" : "image/jpeg";
+    // Resize large images to stay under API limit
+    var imgBuffer = fs.readFileSync(imgPath);
+    if (imgBuffer.length > 2 * 1024 * 1024) {
+      try {
+        const sharp = require("sharp");
+        imgBuffer = await sharp(imgBuffer).resize(1024, 1024, { fit: "inside" }).jpeg({ quality: 80 }).toBuffer();
+        console.log(`    (resized from ${Math.round(fs.statSync(imgPath).size/1024)}KB to ${Math.round(imgBuffer.length/1024)}KB)`);
+      } catch(e) { console.log(`    (resize failed, using original)`); }
+    }
+    const base64 = imgBuffer.toString("base64");
+    const mediaType = "image/jpeg";
 
-    // Pick relevant scenarios based on image name
+    // Pick relevant scenarios based on image name (case-insensitive)
+    var imgLower = img.toLowerCase();
     var imgScenarios;
-    if (img.includes("hvac")) {
+    if (imgLower.includes("hvac")) {
       imgScenarios = scenarios.filter(s => s.service === "hvac");
-    } else if (img.includes("solar")) {
+    } else if (imgLower.includes("solar")) {
       imgScenarios = scenarios.filter(s => s.service === "solar");
     } else {
-      imgScenarios = scenarios.filter(s => s.service === "roofing").slice(0, 1); // Just first roofing scenario for house images
+      imgScenarios = scenarios.filter(s => s.service === "roofing").slice(0, 1);
     }
 
     for (const sc of imgScenarios) {

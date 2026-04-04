@@ -180,6 +180,8 @@ Rules:
 - complexity: "simple" = basic rectangle/L-shape, "moderate" = some dormers or valleys, "complex" = many angles
 - Only include conditionNotes for issues you can actually see
 - Do NOT estimate square footage or footprint size. Roof size is measured separately.
+- material: Most US residential homes use asphalt or architectural shingles. "flat" means a flat/TPO/rubber membrane roof, which is rare on houses. If you see any visible shingle texture, tabs, or dimensional pattern, it is NOT flat. Dark gray dimensional shingles = "architectural". 3-tab uniform shingles = "asphalt". Only use "flat" for genuinely flat commercial-style roofs.
+- pitch: If the roof has any visible slope from the photo, it is NOT "flat". Most houses are "normal" or "steep". Only use "flat" for roofs with no visible slope.
 - photographerDistance: "at_house" = standing at or on the property (close-up, looking up), "near" = next door or adjacent driveway (10-30 ft), "across_street" = across the street or from a distance (30-80 ft), "far" = very far away (80+ ft). Use perspective cues like angle, size of house in frame, and foreground elements.
 - estimatedDistanceFt: Your best estimate of how far the camera is from the house in feet.
 - photoQuality: "good" = roof clearly visible, "too_dark" = nighttime or very low light, "too_blurry" = out of focus, "too_far" = house is tiny in frame, "no_house" = no house/building visible, "obstructed" = trees/objects blocking most of the roof. Be honest about quality.
