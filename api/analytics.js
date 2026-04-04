@@ -1,4 +1,8 @@
 // Analytics endpoint with Upstash Redis persistence
+// NOTE: The "url.parse() behavior is not standardized" deprecation warning in
+// Vercel logs comes from @upstash/redis internals, not from this file. Our code
+// already uses the WHATWG URL API (new URL()). The warning will resolve when
+// Upstash updates their package. No action needed here.
 import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();

@@ -216,8 +216,8 @@ export default async function handler(req, res) {
     const quoteKey = `cal_quote:${quote.city.toLowerCase()}:${quote.stateCode}:${service}:${Date.now()}`;
     await redis.set(quoteKey, JSON.stringify(quote), { ex: 365 * 24 * 60 * 60 }); // 1 year TTL
 
-    // Update the city calibration aggregate
-    if (weight > 0 && quote.city && quote.stateCode) {
+    // Update the city calibration aggregate (score >= 40 filters low-trust outliers)
+    if (weight > 0 && score >= 40 && quote.city && quote.stateCode) {
       const calKey = `cal:${quote.city.toLowerCase()}:${quote.stateCode}:${service}`;
       const existing = await redis.get(calKey) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
 
