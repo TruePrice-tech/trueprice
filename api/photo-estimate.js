@@ -1,3 +1,7 @@
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
+
 export const config = {
   api: {
     bodyParser: {
@@ -6,23 +10,19 @@ export const config = {
   }
 };
 
-// In-memory rate limiter: 20 requests per IP per hour
-const rateLimitMap = new Map();
 const RATE_LIMIT_MAX = 20;
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const RATE_LIMIT_WINDOW_SEC = 3600; // 1 hour
 
-function checkRateLimit(ip) {
-  const now = Date.now();
-  let timestamps = rateLimitMap.get(ip) || [];
-  // Remove entries older than the window
-  timestamps = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-  if (timestamps.length >= RATE_LIMIT_MAX) {
-    rateLimitMap.set(ip, timestamps);
-    return false;
+async function checkRateLimit(ip) {
+  try {
+    const key = `pe_rate:${ip}`;
+    const count = await redis.incr(key);
+    if (count === 1) await redis.expire(key, RATE_LIMIT_WINDOW_SEC);
+    return count <= RATE_LIMIT_MAX;
+  } catch (e) {
+    console.log("[photo-estimate] Redis rate limit error, allowing request:", e.message);
+    return true; // fail open if Redis is down
   }
-  timestamps.push(now);
-  rateLimitMap.set(ip, timestamps);
-  return true;
 }
 
 export default async function handler(req, res) {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
   // Rate limit by IP
   const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
-  if (!checkRateLimit(clientIp)) {
+  if (!(await checkRateLimit(clientIp))) {
     return res.status(429).json({ error: "Rate limit exceeded. Maximum 20 requests per hour. Please try again later." });
   }
 
