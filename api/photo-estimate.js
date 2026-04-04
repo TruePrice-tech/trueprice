@@ -87,8 +87,9 @@ export default async function handler(req, res) {
 
     if (!detectedCity) {
       try {
-        const exifSource = body.exifData || (mediaType === "image/jpeg" ? base64Data : null);
-        if (!exifSource) console.log("[photo-estimate] No JPEG data for EXIF extraction");
+        // Try EXIF from any image format (iPhone may send HEIC converted to JPEG by browser)
+        const exifSource = body.exifData || base64Data;
+        if (!exifSource) console.log("[photo-estimate] No image data for EXIF extraction");
         const imgBuffer = exifSource ? Buffer.from(exifSource, "base64") : null;
         const gps = imgBuffer ? extractExifGps(imgBuffer) : null;
         if (gps) {

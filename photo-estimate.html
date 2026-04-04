@@ -212,11 +212,27 @@
           if (banner) banner.remove();
         },
         function(err) {
-          state.locationStatus = err.code === 1 ? "denied" : "unavailable";
-          // Show banner on capture step
-          if (state.step === "capture") showLocationBanner();
+          // Only show banner on explicit denial (code 1), not timeout (code 3) or unavailable (code 2)
+          if (err.code === 1) {
+            state.locationStatus = "denied";
+            if (state.step === "capture") showLocationBanner();
+          } else {
+            state.locationStatus = "pending";
+            // Retry silently with longer timeout
+            navigator.geolocation.getCurrentPosition(
+              function(pos) {
+                state.browserLat = pos.coords.latitude;
+                state.browserLng = pos.coords.longitude;
+                state.locationStatus = "granted";
+                var banner = document.getElementById("locationBanner");
+                if (banner) banner.remove();
+              },
+              function() { state.locationStatus = "unavailable"; },
+              { timeout: 30000, maximumAge: 600000, enableHighAccuracy: false }
+            );
+          }
         },
-        { timeout: 5000, maximumAge: 300000 }
+        { timeout: 10000, maximumAge: 600000, enableHighAccuracy: true }
       );
     } else {
       state.locationStatus = "unavailable";
@@ -455,10 +471,11 @@
       var parts = state.imageData.match(/^data:(image\/[^;]+);base64,(.+)$/);
       if (!parts) { alert("Could not process image. Try a different photo."); state.step = "capture"; render(); return; }
 
+      // Extract EXIF data from original image (any format -- iPhone may send HEIC/HEIF)
       var exifBase64 = null;
       if (state.originalBase64) {
-        var origParts = state.originalBase64.match(/^data:image\/jpeg;base64,(.+)$/);
-        if (origParts) exifBase64 = origParts[1].substring(0, 65536);
+        var origParts = state.originalBase64.match(/^data:image\/[^;]+;base64,(.+)$/);
+        if (origParts) exifBase64 = origParts[1].substring(0, 131072); // 128KB for EXIF headers
       }
 
       fetch("/api/photo-estimate", {
