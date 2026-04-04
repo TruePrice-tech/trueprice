@@ -29,6 +29,11 @@
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
 
   <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TruePrice" />
+  <link rel="apple-touch-icon" href="/images/trudy.png" />
 
   <style>
     /* Entrance animations */
@@ -428,6 +433,7 @@
 <script src="/js/tp-analytics.min.js" async></script>
 <img src="/api/analytics?pixel=1&p=index.html" alt="" width="1" height="1" style="position:absolute;left:-9999px;" />
 <script src="/js/homepage.min.js" defer></script>
+<script>if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js").catch(function(){});</script>
 <script>
 // Live counter
 fetch("/api/analytics?counter=1").then(r=>r.json()).then(d=>{

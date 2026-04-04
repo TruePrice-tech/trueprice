@@ -1,12 +1,15 @@
 {
-  "name": "TruePrice - Roofing Quote Analyzer",
+  "name": "TruePrice",
   "short_name": "TruePrice",
-  "description": "Check if your roofing quote is fair",
-  "start_url": "/roofing-quote-analyzer.html",
+  "description": "Don't sign until Trudy checks it. Free contractor quote analysis for 16 home services.",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#0f172a",
   "theme_color": "#1d4ed8",
+  "orientation": "portrait",
+  "categories": ["utilities", "finance"],
   "icons": [
-    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "/images/trudy.png", "sizes": "272x316", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon-trudy.svg", "sizes": "any", "type": "image/svg+xml" }
   ]
 }
