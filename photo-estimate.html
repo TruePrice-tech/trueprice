@@ -478,16 +478,55 @@
         if (origParts) exifBase64 = origParts[1].substring(0, 131072); // 128KB for EXIF headers
       }
 
-      fetch("/api/photo-estimate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ base64: parts[2], mediaType: parts[1], service: state.service, exifData: exifBase64, city: null, state: null, browserLat: state.browserLat, browserLng: state.browserLng })
-      })
-      .then(function(r) {
-        if (!r.ok) throw new Error("Server returned " + r.status + ". Your API balance may be depleted or the image may be too large.");
-        return r.json();
-      })
-      .then(function(d) {
+      function sendToApi() {
+        fetch("/api/photo-estimate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ base64: parts[2], mediaType: parts[1], service: state.service, exifData: exifBase64, city: null, state: null, browserLat: state.browserLat, browserLng: state.browserLng })
+        })
+        .then(function(r) {
+          if (!r.ok) throw new Error("Server returned " + r.status + ". Your API balance may be depleted or the image may be too large.");
+          return r.json();
+        })
+        .then(handleApiResponse)
+        .catch(handleApiError);
+      }
+
+      // If browser geolocation is still pending, wait up to 8 seconds for it before sending
+      if (state.locationStatus === "pending" && !state.browserLat) {
+        var geoWaitTimeout = setTimeout(function() {
+          console.log("[photo-estimate] Geolocation wait timed out, sending without GPS");
+          sendToApi();
+        }, 8000);
+        // Also request geolocation again in case it wasn't triggered
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function(pos) {
+              clearTimeout(geoWaitTimeout);
+              state.browserLat = pos.coords.latitude;
+              state.browserLng = pos.coords.longitude;
+              state.locationStatus = "granted";
+              var banner = document.getElementById("locationBanner");
+              if (banner) banner.remove();
+              sendToApi();
+            },
+            function() {
+              clearTimeout(geoWaitTimeout);
+              sendToApi();
+            },
+            { timeout: 7000, maximumAge: 600000, enableHighAccuracy: false }
+          );
+        } else {
+          clearTimeout(geoWaitTimeout);
+          sendToApi();
+        }
+        return;
+      }
+
+      sendToApi();
+      return;
+
+      function handleApiResponse(d) {
         if (d.error) throw new Error(d.error);
         state.result = d.data;
         if (d.location) {
@@ -579,10 +618,9 @@
         }
 
         if (canAutoConfirm && state.cityMult) {
-          // Skip confirm, go straight to result
           state.step = "result";
+          render();
         } else if (canAutoConfirm && state.city && state.stateCode) {
-          // Have auto-confirm but need city multiplier first
           fetch("/api/city-multiplier?city=" + encodeURIComponent(state.city) + "&state=" + encodeURIComponent(state.stateCode))
             .then(function(r) { return r.json(); })
             .then(function(d) { if (d && d.multiplier) { state.cityMult = d.multiplier; state.cityRange = { low: d.rangeLow || 0.82, high: d.rangeHigh || 1.22 }; } })
@@ -591,13 +629,13 @@
               state.step = "result";
               render();
             });
-          return; // Don't render yet, wait for city multiplier
         } else {
           state.step = "confirm";
+          render();
         }
-        render();
-      })
-      .catch(function(err) {
+      }
+
+      function handleApiError(err) {
         app.innerHTML =
           '<div class="pe-hero"><h1>Analysis unavailable</h1></div>' +
           '<div class="pe-result-card" style="text-align:center;">' +
@@ -610,7 +648,7 @@
           state.step = "capture";
           render();
         });
-      });
+      }
     }
 
     /* ── STEP 3: CONFIRM ── */
