@@ -1159,11 +1159,13 @@
           confirmed.workType = getSelected("workType") || "new_roof";
           var roofInput = document.getElementById("confirmRoofSqFt");
           var roofVal = Number((roofInput || {}).value) || 0;
-          if (!roofVal && (svc === "roofing" || svc === "solar")) {
+          var addressProvided = (document.getElementById("confirmAddress") || {}).value && (document.getElementById("confirmAddress").value || "").trim();
+          // Only require manual roof size if no address provided (address lookup will find it)
+          if (!roofVal && !addressProvided && (svc === "roofing" || svc === "solar")) {
             btn.disabled = false;
             btn.textContent = "Looks good - get my estimate";
             if (roofInput) roofInput.style.borderColor = "#ef4444";
-            alert("Please enter your roof size in sq ft. Check your home listing or property records if unsure.");
+            alert("Please enter your roof size or street address so we can look it up.");
             return;
           }
           confirmed.roofSqFt = roofVal;
@@ -1190,14 +1192,14 @@
         }
 
         state.confirmed = confirmed;
+
+        // If user provided/changed address, re-geocode to get accurate lat/lng and re-query OSM footprint
+        var hasAddress = addressVal && cityVal && stateVal;
+
         state.city = cityVal;
         state.stateCode = stateVal;
         state.address = addressVal;
         state.zip = zipVal;
-
-        // If user provided/changed address, re-geocode to get accurate lat/lng and re-query OSM footprint
-        var addressChanged = addressVal && addressVal !== state.address;
-        var hasAddress = addressVal && cityVal && stateVal;
         var needsFootprint = (svc === "roofing" || svc === "solar") && hasAddress;
 
         function finishConfirm() {
@@ -1363,14 +1365,8 @@
         // Roofing (default)
         var material = c.material || "architectural";
         var stories = c.stories || 1;
-        var roofSqFt = c.roofSqFt || 0;
-        if (!roofSqFt) {
-          // No roof size available - go back to confirm
-          state.confirmed = null;
-          state.step = "confirm";
-          render();
-          return;
-        }
+        var roofSqFt = c.roofSqFt || state.result.estimatedRoofSqFt || 2000;
+        c.roofSqFt = roofSqFt; // Ensure it's set for calculations
         var roofSquares = roofSqFt / 100;
 
         var basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
