@@ -303,10 +303,34 @@
     function roundTo(n, r) { return Math.round(n / r) * r; }
     function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 
+    function trackStep(step, extra) {
+      var meta = {
+        step: step,
+        service: state.service,
+        hasGps: String(!!(state.lat && state.lng)),
+        hasBrowserGeo: String(!!(state.browserLat && state.browserLng)),
+        locationStatus: state.locationStatus || "",
+        city: state.city || "",
+        state: state.stateCode || "",
+        address: state.address ? "yes" : "no",
+        roofSqFt: String((state.confirmed && state.confirmed.roofSqFt) || (state.result && state.result.estimatedRoofSqFt) || 0),
+        roofSource: (state.result && state.result.roofSizeSource) || "none",
+        nearbyCount: String((state.nearbyAddresses && state.nearbyAddresses.length) || 0),
+        autoConfirmed: String(!!(state.confirmed && state.step === "result" && !state._wentToConfirm))
+      };
+      if (extra) { for (var k in extra) meta[k] = String(extra[k]); }
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "pe_step_" + step, meta: meta, path: "/photo-estimate.html" })
+      }).catch(function() {});
+    }
+
     function render() {
+      trackStep(state.step);
       if (state.step === "capture") renderCapture();
       else if (state.step === "analyzing") renderAnalyzing();
-      else if (state.step === "confirm") renderConfirm();
+      else if (state.step === "confirm") { state._wentToConfirm = true; renderConfirm(); }
       else if (state.step === "result") renderResult();
     }
 
