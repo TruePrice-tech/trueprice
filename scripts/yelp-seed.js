@@ -102,13 +102,32 @@ async function searchYelp(term, location, yelpKey) {
 }
 
 async function getYelpReviews(businessId, yelpKey) {
-  const url = `${YELP_URL}/businesses/${businessId}/reviews?limit=20&sort_by=newest`;
-  const res = await fetch(url, {
-    headers: { "Authorization": `Bearer ${yelpKey}` }
-  });
-  if (!res.ok) throw new Error(`Yelp Reviews API ${res.status}`);
-  const data = await res.json();
-  return (data.reviews || []).filter(r => r.text && /\$[\d,]+/.test(r.text));
+  // Try standard reviews endpoint first, fall back to review highlights
+  for (const path of [`/businesses/${businessId}/reviews?limit=20&sort_by=newest`, `/businesses/${businessId}/reviews`]) {
+    try {
+      const res = await fetch(`${YELP_URL}${path}`, {
+        headers: { "Authorization": `Bearer ${yelpKey}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return (data.reviews || []).filter(r => r.text && /\$[\d,]+/.test(r.text));
+      }
+    } catch (e) {}
+  }
+  // Try review highlights as fallback
+  try {
+    const res = await fetch(`${YELP_URL}/businesses/${businessId}/review_highlights`, {
+      headers: { "Authorization": `Bearer ${yelpKey}` }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const highlights = data.review_highlights || [];
+      return highlights
+        .filter(h => h.sentence && /\$[\d,]+/.test(h.sentence))
+        .map(h => ({ text: h.sentence, time_created: null }));
+    }
+  } catch (e) {}
+  return [];
 }
 
 async function parseWithHaiku(reviewText, businessName, city, stateCode, service, apiKey) {
