@@ -172,9 +172,9 @@
         <!-- STEP 1: Upload Quotes -->
         <div id="uploadStep">
           <div style="text-align:center; margin-bottom:16px;">
-            <img src="/images/trudy-thinking.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
+            <img id="trudyHero" src="/images/trudy-thinking.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
           </div>
-          <h1>Compare your roofing quotes</h1>
+          <h1 id="compareH1">Compare your quotes</h1>
           <p class="cq-sub">Upload 2 or 3 contractor quotes and we'll show you which one is the best deal.</p>
 
           <div class="cq-slots">
@@ -296,11 +296,111 @@
         { key: "materials", label: "Materials" }, { key: "labor", label: "Labor" },
         { key: "permit", label: "Permit" }, { key: "cleanup", label: "Cleanup" },
         { key: "disposal", label: "Disposal" }, { key: "warranty", label: "Warranty" }
+      ],
+      windows: [
+        { key: "windows", label: "Windows" }, { key: "frames", label: "Frames" },
+        { key: "glass", label: "Glass type" }, { key: "installation", label: "Installation" },
+        { key: "trim", label: "Interior/exterior trim" }, { key: "caulking", label: "Caulking/sealing" },
+        { key: "screens", label: "Screens" }, { key: "disposal", label: "Old window disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      painting: [
+        { key: "prep", label: "Surface prep" }, { key: "primer", label: "Primer" },
+        { key: "paint", label: "Paint (brand/type)" }, { key: "coats", label: "Number of coats" },
+        { key: "trim", label: "Trim/doors" }, { key: "caulking", label: "Caulking" },
+        { key: "powerWash", label: "Power washing" }, { key: "protection", label: "Drop cloths/masking" },
+        { key: "cleanup", label: "Cleanup" }, { key: "warranty", label: "Warranty" }
+      ],
+      siding: [
+        { key: "removal", label: "Old siding removal" }, { key: "material", label: "Siding material" },
+        { key: "insulation", label: "House wrap/insulation" }, { key: "trim", label: "Trim/fascia" },
+        { key: "corners", label: "Corners/J-channel" }, { key: "soffit", label: "Soffit" },
+        { key: "flashing", label: "Flashing" }, { key: "disposal", label: "Disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      concrete: [
+        { key: "excavation", label: "Excavation/grading" }, { key: "formwork", label: "Formwork" },
+        { key: "rebar", label: "Rebar/mesh" }, { key: "concrete", label: "Concrete (PSI/type)" },
+        { key: "finishing", label: "Finishing/stamping" }, { key: "curing", label: "Curing" },
+        { key: "sealing", label: "Sealing" }, { key: "disposal", label: "Disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      fencing: [
+        { key: "posts", label: "Posts" }, { key: "panels", label: "Panels/pickets" },
+        { key: "gates", label: "Gates" }, { key: "hardware", label: "Hardware" },
+        { key: "postHoles", label: "Post holes/concrete" }, { key: "removal", label: "Old fence removal" },
+        { key: "staining", label: "Staining/sealing" }, { key: "disposal", label: "Disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      landscaping: [
+        { key: "design", label: "Design plan" }, { key: "plants", label: "Plants/trees" },
+        { key: "mulch", label: "Mulch/rock" }, { key: "soil", label: "Soil/grading" },
+        { key: "irrigation", label: "Irrigation" }, { key: "lighting", label: "Landscape lighting" },
+        { key: "hardscape", label: "Hardscaping" }, { key: "sod", label: "Sod/seeding" },
+        { key: "cleanup", label: "Cleanup" }, { key: "warranty", label: "Warranty" }
+      ],
+      "garage-doors": [
+        { key: "door", label: "Door" }, { key: "springs", label: "Springs" },
+        { key: "opener", label: "Opener" }, { key: "tracks", label: "Tracks/hardware" },
+        { key: "weatherSeal", label: "Weather seal" }, { key: "insulation", label: "Insulation" },
+        { key: "removal", label: "Old door removal" }, { key: "disposal", label: "Disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      foundation: [
+        { key: "excavation", label: "Excavation" }, { key: "piering", label: "Piering/piling" },
+        { key: "sealant", label: "Crack sealant" }, { key: "drainage", label: "Drainage" },
+        { key: "waterproofing", label: "Waterproofing" }, { key: "grading", label: "Regrading" },
+        { key: "permits", label: "Engineering/permits" }, { key: "backfill", label: "Backfill" },
+        { key: "warranty", label: "Warranty" }
+      ],
+      kitchen: [
+        { key: "cabinets", label: "Cabinets" }, { key: "countertops", label: "Countertops" },
+        { key: "flooring", label: "Flooring" }, { key: "backsplash", label: "Backsplash" },
+        { key: "plumbing", label: "Plumbing" }, { key: "electrical", label: "Electrical" },
+        { key: "appliances", label: "Appliances" }, { key: "demolition", label: "Demolition" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      insulation: [
+        { key: "material", label: "Insulation material" }, { key: "rValue", label: "R-value" },
+        { key: "removal", label: "Old insulation removal" }, { key: "airSeal", label: "Air sealing" },
+        { key: "vaporBarrier", label: "Vapor barrier" }, { key: "ventilation", label: "Ventilation" },
+        { key: "cleanup", label: "Cleanup" }, { key: "disposal", label: "Disposal" },
+        { key: "warranty", label: "Warranty" }
+      ],
+      gutters: [
+        { key: "gutters", label: "Gutters" }, { key: "downspouts", label: "Downspouts" },
+        { key: "guards", label: "Gutter guards" }, { key: "hangers", label: "Hangers/brackets" },
+        { key: "removal", label: "Old gutter removal" }, { key: "fascia", label: "Fascia repair" },
+        { key: "disposal", label: "Disposal" }, { key: "warranty", label: "Warranty" }
       ]
     };
 
     var compareService = new URLSearchParams(window.location.search).get("service") || "roofing";
     var SCOPE_ITEMS = SCOPE_BY_SERVICE[compareService] || SCOPE_BY_SERVICE.general;
+
+    var SERVICE_LABELS = {
+      roofing: "Roofing", hvac: "HVAC", plumbing: "Plumbing", electrical: "Electrical",
+      solar: "Solar", windows: "Window", painting: "Painting", siding: "Siding",
+      concrete: "Concrete", fencing: "Fencing", landscaping: "Landscaping",
+      "garage-doors": "Garage Door", foundation: "Foundation", kitchen: "Kitchen",
+      insulation: "Insulation", gutters: "Gutter"
+    };
+
+    // Dynamic h1 text
+    var serviceLabel = SERVICE_LABELS[compareService] || "Contractor";
+    document.getElementById("compareH1").textContent = "Compare your " + serviceLabel.toLowerCase() + " quotes";
+
+    // Dynamic Trudy image based on service
+    var TRUDY_IMAGE_MAP = {
+      solar: "solar", insulation: "insulation", kitchen: "kitchen", electrical: "electrical",
+      fencing: "fencing", foundation: "foundation", windows: "windows", concrete: "concrete",
+      "garage-doors": "garage", landscaping: "landscaping", hvac: "hvac", painting: "painting",
+      plumbing: "plumbing", siding: "siding", gutters: "gutters", roofing: "roofing"
+    };
+    var trudySlug = TRUDY_IMAGE_MAP[compareService];
+    if (trudySlug) {
+      document.getElementById("trudyHero").src = "/images/trudy-" + trudySlug + ".png";
+    }
 
     // Track uploaded file signatures to detect duplicates
     var uploadedFiles = [null, null, null];
@@ -508,7 +608,7 @@
         if (val === "included") { confirmed++; }
         else { missing.push(item.label); }
       });
-      var scopeScore = (confirmed / 12) * 40;
+      var scopeScore = (confirmed / SCOPE_ITEMS.length) * 40;
 
       // Price competitiveness: 30 pts max
       // Normalize by roof size if available, otherwise use raw price
@@ -550,7 +650,7 @@
       if (q.material && q.material !== "unknown") transparencyScore += 3;
       if (q.roofSize > 0) transparencyScore += 3;
       if (q.warrantyYears > 0) transparencyScore += 3;
-      if (confirmed >= 6) transparencyScore += 3;
+      if (confirmed >= Math.round(SCOPE_ITEMS.length * 0.5)) transparencyScore += 3;
 
       var total = Math.round(Math.max(0, Math.min(100, scopeScore + priceScore + warrantyScore + transparencyScore)));
       return {
@@ -569,7 +669,7 @@
         if (a.score.missingItems.length > 0 && a.score.missingItems.length <= 6) {
           qs.push("Can you confirm whether " + a.score.missingItems.join(", ") + " " + (a.score.missingItems.length === 1 ? "is" : "are") + " included in the price?");
         } else if (a.score.missingItems.length > 6) {
-          qs.push("Your quote only confirms " + a.score.scopeCount + " of 12 standard scope items. Can you provide an itemized breakdown?");
+          qs.push("Your quote only confirms " + a.score.scopeCount + " of " + SCOPE_ITEMS.length + " standard scope items. Can you provide an itemized breakdown?");
         }
         // No warranty
         if (!a.data.warrantyYears || a.data.warrantyYears <= 0) {
@@ -756,8 +856,8 @@
       html += '<tr><td class="row-label">Scope Score</td>';
       active.forEach(function(a) {
         var count = a.score.scopeCount;
-        var color = count >= 9 ? '#16a34a' : count >= 6 ? '#d97706' : '#ef4444';
-        html += '<td><span style="color:' + color + '; font-weight:700;">' + count + '/12</span> items confirmed</td>';
+        var color = count >= Math.round(SCOPE_ITEMS.length * 0.75) ? '#16a34a' : count >= Math.round(SCOPE_ITEMS.length * 0.5) ? '#d97706' : '#ef4444';
+        html += '<td><span style="color:' + color + '; font-weight:700;">' + count + '/' + SCOPE_ITEMS.length + '</span> items confirmed</td>';
       });
       html += '</tr>';
 
@@ -859,16 +959,16 @@
       }
 
       // CTAs
-      var emailSubject = encodeURIComponent("My Roofing Quote Comparison - TruePrice");
+      var emailSubject = encodeURIComponent("My " + serviceLabel + " Quote Comparison - TruePrice");
       var emailBody = encodeURIComponent(buildEmailSummary(active, bestValue, questions, allFlags));
       html += '<div class="cq-cta-section">';
       html += '<a class="cq-cta-btn cq-cta-primary" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">&#9993; Email this comparison</a>';
       html += '<a class="cq-cta-btn cq-cta-secondary" href="/find-contractors.html">&#128269; Get more quotes from local contractors</a>';
       html += '<button class="cq-cta-btn cq-cta-outline" onclick="startOver()">&#8634; Start over</button>';
       html += '</div>';
-      html += '<div style="text-align:center; margin-top:24px; padding-top:16px; border-top:1px solid #e2e8f0;">';
-      html += '<a href="/" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;">';
-      html += '<img src="/images/trudy-peeking.png" alt="" width="28" /> Powered by <strong style="color:#1e3a5f;">TruePrice</strong>';
+      html += '<div style="text-align:center; margin-top:24px; padding:20px 16px; border-top:2px solid #e2e8f0; background:#f8fafc; border-radius:0 0 16px 16px;">';
+      html += '<a href="https://truepricehq.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px; color:#64748b; font-size:14px;">';
+      html += '<img src="/images/trudy-peeking.png" alt="Trudy" width="32" /> Powered by <strong style="color:#1e3a5f;">TruePrice</strong> <span style="color:#94a3b8;">|</span> <span style="color:#3b82f6;">truepricehq.com</span>';
       html += '</a></div>';
       html += '<div style="text-align:center; margin-top:8px;"><a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:13px; color:#94a3b8; text-decoration:none;">Have a suggestion? Email hello@truepricehq.com</a></div>';
 
@@ -912,7 +1012,7 @@
         lines.push("Price: " + (a.data.price > 0 ? "$" + a.data.price.toLocaleString() : "N/A"));
         lines.push("Material: " + a.data.material);
         lines.push("Warranty: " + (a.data.warrantyYears > 0 ? a.data.warrantyYears + " years" : "N/A"));
-        lines.push("Scope: " + a.score.scopeCount + "/12 items confirmed");
+        lines.push("Scope: " + a.score.scopeCount + "/" + SCOPE_ITEMS.length + " items confirmed");
         lines.push("Value Score: " + a.score.total + "/100");
         lines.push("");
       });
