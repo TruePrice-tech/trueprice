@@ -6,7 +6,8 @@
 import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
-const ADMIN_KEY = "tp_admin_2026";
+// TODO: Set ANALYTICS_ADMIN_KEY in Vercel env vars to a strong random value (32+ chars)
+const ADMIN_KEY = process.env.ANALYTICS_ADMIN_KEY || "tp_admin_2026";
 const MAX_ENTRIES = 10000;
 
 const BOT_PATTERNS = [

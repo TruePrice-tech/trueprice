@@ -135,6 +135,7 @@ export default async function handler(req, res) {
     }
 
     // Admin mode: bypass rate limiting, set high trust for verified seed data
+    // TODO: Set CAL_ADMIN_KEY in Vercel env vars to a strong random value (32+ chars)
     const adminKey = process.env.CAL_ADMIN_KEY;
     const isAdmin = adminKey && body.adminKey === adminKey;
 
@@ -149,6 +150,29 @@ export default async function handler(req, res) {
       }
       // Update rate limit
       await redis.set(rateLimitKey, submissions + 1, { ex: 24 * 60 * 60 });
+    }
+
+    // Reject suspicious quotes
+    const submittedPrice = Number(body.price) || 0;
+    if (submittedPrice <= 0) {
+      return res.status(400).json({ error: "Price must be greater than zero" });
+    }
+    if (submittedPrice > 500000) {
+      return res.status(400).json({ error: "Price exceeds realistic maximum for home services" });
+    }
+
+    // Duplicate check: same price + city + service within 5 minutes
+    if (!isAdmin && body.city && body.service) {
+      const dupKey = `cal_dup:${submittedPrice}:${(body.city || "").toLowerCase()}:${body.service || "roofing"}`;
+      try {
+        const existing = await redis.get(dupKey);
+        if (existing) {
+          return res.status(429).json({ error: "Duplicate submission detected. Please wait before resubmitting." });
+        }
+        await redis.set(dupKey, "1", { ex: 300 }); // 5 minute TTL
+      } catch (e) {
+        // If Redis fails on dup check, allow the request through
+      }
     }
 
     // Build quote object

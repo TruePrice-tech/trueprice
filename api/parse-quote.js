@@ -1,3 +1,35 @@
+import { Redis } from "@upstash/redis";
+
+const redis = Redis.fromEnv();
+
+const PQ_RATE_LIMIT_MAX = 10;
+const PQ_RATE_LIMIT_WINDOW_SEC = 3600; // 1 hour
+
+// In-memory fallback rate limiter when Redis is down
+const memoryRateLimit = new Map();
+function checkMemoryRateLimit(ip) {
+  const now = Date.now();
+  const entry = memoryRateLimit.get(ip);
+  if (!entry || now - entry.start > PQ_RATE_LIMIT_WINDOW_SEC * 1000) {
+    memoryRateLimit.set(ip, { count: 1, start: now });
+    return true;
+  }
+  entry.count++;
+  return entry.count <= PQ_RATE_LIMIT_MAX;
+}
+
+async function checkRateLimit(ip) {
+  try {
+    const key = `pq_rate:${ip}`;
+    const count = await redis.incr(key);
+    if (count === 1) await redis.expire(key, PQ_RATE_LIMIT_WINDOW_SEC);
+    return count <= PQ_RATE_LIMIT_MAX;
+  } catch (e) {
+    console.log("[parse-quote] Redis rate limit error, falling back to in-memory:", e.message);
+    return checkMemoryRateLimit(ip);
+  }
+}
+
 export default async function handler(req, res) {
   // CORS
   const allowedOrigin = "https://truepricehq.com";
@@ -11,6 +43,12 @@ export default async function handler(req, res) {
 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  // Rate limit by IP (10 req/hour - this calls Claude API)
+  const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
+  if (!(await checkRateLimit(clientIp))) {
+    return res.status(429).json({ error: "Rate limit exceeded. Maximum 10 requests per hour. Please try again later." });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;

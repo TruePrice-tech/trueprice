@@ -13,6 +13,29 @@ export const config = {
 const RATE_LIMIT_MAX = 20;
 const RATE_LIMIT_WINDOW_SEC = 3600; // 1 hour
 
+// In-memory fallback rate limiter when Redis is down
+const memoryRateLimit = new Map();
+function checkMemoryRateLimit(ip) {
+  const now = Date.now();
+  const entry = memoryRateLimit.get(ip);
+  if (!entry || now - entry.start > RATE_LIMIT_WINDOW_SEC * 1000) {
+    memoryRateLimit.set(ip, { count: 1, start: now });
+    return true;
+  }
+  entry.count++;
+  return entry.count <= RATE_LIMIT_MAX;
+}
+// Periodically clean up stale entries (every 100 checks)
+let memoryCleanupCounter = 0;
+function maybeCleanupMemory() {
+  if (++memoryCleanupCounter < 100) return;
+  memoryCleanupCounter = 0;
+  const now = Date.now();
+  for (const [key, entry] of memoryRateLimit) {
+    if (now - entry.start > RATE_LIMIT_WINDOW_SEC * 1000) memoryRateLimit.delete(key);
+  }
+}
+
 async function checkRateLimit(ip) {
   try {
     const key = `pe_rate:${ip}`;
@@ -20,8 +43,9 @@ async function checkRateLimit(ip) {
     if (count === 1) await redis.expire(key, RATE_LIMIT_WINDOW_SEC);
     return count <= RATE_LIMIT_MAX;
   } catch (e) {
-    console.log("[photo-estimate] Redis rate limit error, allowing request:", e.message);
-    return true; // fail open if Redis is down
+    console.log("[photo-estimate] Redis rate limit error, falling back to in-memory:", e.message);
+    maybeCleanupMemory();
+    return checkMemoryRateLimit(ip);
   }
 }
 
