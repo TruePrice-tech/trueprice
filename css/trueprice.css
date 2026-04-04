@@ -921,3 +921,13 @@ h3 {
   white-space: nowrap;
   border: 0;
 }
+
+/* Trudy bounce animation for parsing/analyzing states */
+@keyframes trudyBounce {
+  0%   { transform: translateY(0px) scale(1); }
+  50%  { transform: translateY(-8px) scale(1.05); }
+  100% { transform: translateY(0px) scale(1); }
+}
+.trudy-bounce {
+  animation: trudyBounce 0.8s ease-in-out infinite;
+}

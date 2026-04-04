@@ -10607,6 +10607,7 @@ function buildComparisonWinnerHtml(summary) {
       if (!el) return;
       el.innerHTML = `
         <div class="panel" style="margin:0 0 14px; text-align:center;">
+          <img src="/images/trudy-working.png" alt="Trudy" width="80" class="trudy-bounce" style="margin-bottom:10px;" />
           <div style="font-size:24px; font-weight:800; margin-bottom:8px;">${message}</div>
           <p class="small muted" style="margin:0 0 14px;">Extracting price, roof size, and risk signals</p>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden;">
@@ -10620,6 +10621,7 @@ function buildComparisonWinnerHtml(summary) {
       if (!root) return;
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+          <img src="/images/trudy-working.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />
           <div class="progress-phase" id="analysisPhaseLabel">
             Reading your document...
           </div>
