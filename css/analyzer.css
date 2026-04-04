@@ -1339,10 +1339,6 @@ details.card summary::-webkit-details-marker {
     grid-template-columns: 1fr;
   }
 
-  .upload-hero-grid {
-    grid-template-columns: 1fr;
-  }
-
   .journey-address-grid {
     grid-template-columns: 1fr;
   }
@@ -1377,6 +1373,10 @@ details.card summary::-webkit-details-marker {
 }
 
 @media (max-width: 700px) {
+  .upload-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
   .report-stat-grid {
     grid-template-columns: 1fr 1fr;
   }
