@@ -250,7 +250,11 @@
         : 'Allow location access when your browser asks';
       banner.innerHTML = '<strong>Location access is needed for accurate roof sizing.</strong>' +
         '<br><span style="font-size:13px;">' + enableTip + '</span>' +
-        '<br><a href="#" id="retryLocationBtn" style="color:#1d4ed8; font-weight:600; text-decoration:none;">I\'ve enabled it - try again</a>';
+        '<br><a href="#" id="retryLocationBtn" style="color:#1d4ed8; font-weight:600; text-decoration:none;">I\'ve enabled it - try again</a>' +
+        '<div style="margin-top:10px; padding-top:10px; border-top:1px solid #f59e0b;">' +
+          '<a href="#" id="skipLocationBtn" style="font-size:14px; color:#92400e; text-decoration:none; font-weight:600;">Take photo anyway</a>' +
+          '<div style="font-size:12px; color:#b45309; margin-top:2px;">You\'ll need to enter your address manually</div>' +
+        '</div>';
       var app = document.getElementById("peApp");
       if (app && app.firstChild) app.insertBefore(banner, app.firstChild);
       var retryBtn = document.getElementById("retryLocationBtn");
@@ -270,6 +274,19 @@
             },
             { timeout: 5000 }
           );
+        });
+      }
+      var skipBtn = document.getElementById("skipLocationBtn");
+      if (skipBtn) {
+        skipBtn.addEventListener("click", function(e) {
+          e.preventDefault();
+          banner.remove();
+          // Scroll to capture zone
+          var zone = document.getElementById("captureZone");
+          if (zone) zone.scrollIntoView({ behavior: "smooth" });
+          // Also trigger file input directly
+          var input = document.getElementById("photoInput");
+          if (input) input.click();
         });
       }
     }
