@@ -257,6 +257,133 @@ async function testPhotoEstimate() {
 }
 
 // ============================================================
+// TEST SUITE 3B: Batch Image Tests (all downloaded test images)
+// ============================================================
+async function testBatchImages() {
+  console.log("\n=== BATCH IMAGE TESTS ===");
+
+  if (!API_KEY) {
+    log("SKIP", "Set ANTHROPIC_API_KEY to run batch image tests");
+    skip++;
+    return;
+  }
+
+  const imgDir = path.join(__dirname, "..", "test-images");
+  if (!fs.existsSync(imgDir)) {
+    log("SKIP", "No test-images/ folder. Run download-test-images.js first");
+    skip++;
+    return;
+  }
+
+  const images = fs.readdirSync(imgDir)
+    .filter(f => f.endsWith(".jpg") || f.endsWith(".png"))
+    .filter(f => fs.statSync(path.join(imgDir, f)).size > 1000);
+
+  if (images.length === 0) {
+    log("SKIP", "No test images found");
+    skip++;
+    return;
+  }
+
+  console.log(`  Found ${images.length} test images\n`);
+
+  // Test scenarios: each image with different services and GPS configs
+  const scenarios = [
+    { service: "roofing", lat: 35.0165, lng: -80.858, label: "Fort Mill GPS" },
+    { service: "roofing", lat: null, lng: null, label: "No GPS" },
+    { service: "hvac", lat: 35.0165, lng: -80.858, label: "Fort Mill GPS" },
+    { service: "solar", lat: 35.0165, lng: -80.858, label: "Fort Mill GPS" }
+  ];
+
+  var results = [];
+
+  for (const img of images) {
+    const imgPath = path.join(imgDir, img);
+    const base64 = fs.readFileSync(imgPath).toString("base64");
+    const mediaType = img.endsWith(".png") ? "image/png" : "image/jpeg";
+
+    // Pick relevant scenarios based on image name
+    var imgScenarios;
+    if (img.includes("hvac")) {
+      imgScenarios = scenarios.filter(s => s.service === "hvac");
+    } else if (img.includes("solar")) {
+      imgScenarios = scenarios.filter(s => s.service === "solar");
+    } else {
+      imgScenarios = scenarios.filter(s => s.service === "roofing").slice(0, 1); // Just first roofing scenario for house images
+    }
+
+    for (const sc of imgScenarios) {
+      var testName = `${img} | ${sc.service} | ${sc.label}`;
+      await test(testName, async () => {
+        var body = { base64: base64, mediaType: mediaType, service: sc.service };
+        if (sc.lat) { body.browserLat = sc.lat; body.browserLng = sc.lng; }
+
+        const { status, data } = await fetchJSON(`${BASE_URL}/api/photo-estimate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        expect(status, 200, "status");
+        expectTruthy(data.success, "should be success");
+        expectTruthy(data.data, "should have data");
+
+        var r = data.data;
+        var result = {
+          image: img,
+          service: sc.service,
+          gps: sc.label,
+          photoQuality: r.photoQuality || "not_returned",
+          city: data.location ? data.location.city : "none",
+          footprint: data.buildingFootprint ? data.buildingFootprint.footprintSqFt : 0,
+          nearby: data.nearbyAddresses ? data.nearbyAddresses.length : 0
+        };
+
+        if (sc.service === "roofing") {
+          result.material = r.material || "unknown";
+          result.confidence = r.materialConfidence || "unknown";
+          result.stories = r.stories || 0;
+          result.pitch = r.pitch || "unknown";
+          result.complexity = r.complexity || "unknown";
+          result.condition = r.condition || "unknown";
+          result.distance = r.photographerDistance || "unknown";
+          result.distanceFt = r.estimatedDistanceFt || 0;
+          console.log(`    -> quality:${r.photoQuality} material:${r.material}(${r.materialConfidence}) stories:${r.stories} pitch:${r.pitch} complexity:${r.complexity} condition:${r.condition}`);
+          console.log(`    -> distance:${r.photographerDistance} ~${r.estimatedDistanceFt}ft | footprint:${result.footprint}sqft | nearby:${result.nearby}`);
+        } else if (sc.service === "hvac") {
+          result.systemType = r.systemType || "unknown";
+          result.brand = r.brand || "none";
+          result.tonnage = r.estimatedTonnage || 0;
+          result.condition = r.condition || "unknown";
+          console.log(`    -> quality:${r.photoQuality} system:${r.systemType} brand:${r.brand || "none"} tonnage:${r.estimatedTonnage || "?"} condition:${r.condition}`);
+        } else if (sc.service === "solar") {
+          result.orientation = r.roofOrientation || "unknown";
+          result.shade = r.shadeLevel || "unknown";
+          result.panels = r.existingPanels || false;
+          console.log(`    -> quality:${r.photoQuality} orientation:${r.roofOrientation} shade:${r.shadeLevel} existingPanels:${r.existingPanels}`);
+        }
+
+        results.push(result);
+      });
+
+      // Rate limit between API calls
+      await new Promise(r => setTimeout(r, 2000));
+    }
+  }
+
+  // Summary table
+  console.log("\n  === SUMMARY ===");
+  console.log("  " + "Image".padEnd(25) + "Service".padEnd(10) + "Quality".padEnd(12) + "Key Finding");
+  console.log("  " + "-".repeat(80));
+  for (var r of results) {
+    var finding = "";
+    if (r.service === "roofing") finding = `${r.material}(${r.confidence}) ${r.stories}story ${r.pitch} ${r.footprint}sqft`;
+    else if (r.service === "hvac") finding = `${r.systemType} ${r.brand} ${r.tonnage}ton`;
+    else if (r.service === "solar") finding = `${r.orientation} shade:${r.shade} panels:${r.panels}`;
+    console.log("  " + r.image.padEnd(25) + r.service.padEnd(10) + r.photoQuality.padEnd(12) + finding);
+  }
+}
+
+// ============================================================
 // TEST SUITE 4: Auto-Confirm Logic (simulated)
 // ============================================================
 async function testAutoConfirmLogic() {
@@ -368,6 +495,7 @@ async function main() {
   await testAddressLookup();
   await testCityMultiplier();
   await testPhotoEstimate();
+  await testBatchImages();
   await testAutoConfirmLogic();
   await testBuildingSelection();
 

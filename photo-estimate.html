@@ -346,63 +346,35 @@
       var labels = photoLabels[state.service] || photoLabels.general;
 
       var photoTips = {
-        roofing: [
-          { icon: "&#128207;", tip: "Stand 20-30 feet back from the house" },
-          { icon: "&#127775;", tip: "Face the house so the full roof is visible" },
-          { icon: "&#127795;", tip: "Avoid trees blocking the roofline" },
-          { icon: "&#128161;", tip: "Good lighting helps detect material" }
-        ],
-        hvac: [
-          { icon: "&#128207;", tip: "Get close enough to read the label" },
-          { icon: "&#127775;", tip: "Include the full unit in the frame" },
-          { icon: "&#128161;", tip: "Good lighting helps detect brand/model" },
-          { icon: "&#9888;&#65039;", tip: "Photograph the outdoor condenser unit" }
-        ],
-        solar: [
-          { icon: "&#128207;", tip: "Stand back to show the full roofline" },
-          { icon: "&#127775;", tip: "Include south-facing side if possible" },
-          { icon: "&#127795;", tip: "Show any nearby trees that could shade panels" },
-          { icon: "&#128161;", tip: "Daytime photo for best results" }
-        ]
+        roofing: "Stand 20-30ft back so the full roof is visible. Daytime works best.",
+        hvac: "Get close enough to read the brand label on your outdoor unit.",
+        solar: "Stand back to show the full roofline and any nearby trees."
       };
-      var tips = photoTips[state.service] || photoTips.roofing;
-      var tipsHtml = '<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:20px; max-width:400px; margin-left:auto; margin-right:auto;">';
-      tips.forEach(function(t) {
-        tipsHtml += '<div style="display:flex; align-items:center; gap:8px; font-size:13px; color:#64748b; background:#f8fafc; padding:8px 10px; border-radius:8px; border:1px solid #f1f5f9;">' +
-          '<span style="font-size:16px; flex-shrink:0;">' + t.icon + '</span>' +
-          '<span>' + t.tip + '</span></div>';
-      });
-      tipsHtml += '</div>';
-
-      var serviceSelector =
-        '<div style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;">' +
-          '<button type="button" class="pe-service-option' + (state.service === "roofing" ? " selected" : "") + '" onclick="switchService(\'roofing\')">Roofing</button>' +
-          '<button type="button" class="pe-service-option' + (state.service === "hvac" ? " selected" : "") + '" onclick="switchService(\'hvac\')">HVAC</button>' +
-          '<button type="button" class="pe-service-option' + (state.service === "solar" ? " selected" : "") + '" onclick="switchService(\'solar\')">Solar</button>' +
-        '</div>';
+      var tipText = photoTips[state.service] || photoTips.roofing;
 
       app.innerHTML =
-        '<div style="text-align:center; margin-bottom:28px;">' +
-          '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="200" style="margin-bottom:10px;" />' +
-          '<h1 style="font-size:26px; margin:0 0 8px; color:#0f172a;">' + labels.title + '</h1>' +
-          '<p style="font-size:15px; color:#64748b; margin:0; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">' + labels.desc + '</p>' +
+        '<div style="text-align:center; margin-bottom:16px;">' +
+          '<img src="/images/trudy-thumbsup.png" alt="Trudy" width="120" style="margin-bottom:8px;" />' +
+          '<h1 style="font-size:24px; margin:0 0 6px; color:#0f172a;">' + labels.title + '</h1>' +
+          '<p style="font-size:14px; color:#94a3b8; margin:0;">' + tipText + '</p>' +
         '</div>' +
-        serviceSelector +
-        tipsHtml +
 
-        '<div class="pe-capture-zone" id="captureZone" style="padding:3rem 1.5rem; transition:border-color 0.2s, background 0.2s, transform 0.15s;" onmouseover="this.style.borderColor=\'#3b82f6\';this.style.background=\'#eff6ff\';this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.borderColor=\'#cbd5e1\';this.style.background=\'#f8fafc\';this.style.transform=\'none\'">' +
-          '<div style="font-size:48px; margin-bottom:12px;">&#128247;</div>' +
-          '<p style="font-size:18px; font-weight:600; color:#1e293b; margin:0 0 6px;">' + (isMobile ? "Tap to take a photo" : "Click to upload a photo") + '</p>' +
-          '<p style="font-size:14px; color:#94a3b8; margin:0 0 12px;">' + (isMobile ? "Camera or photo library" : "Drag and drop or click to browse") + '</p>' +
-          '<div style="font-size:11px; color:#94a3b8; padding-top:12px; border-top:1px solid #e2e8f0;">Your photo is analyzed by AI and never stored</div>' +
+        '<div class="pe-capture-zone" id="captureZone" style="padding:2.5rem 1.5rem; cursor:pointer; transition:border-color 0.2s, background 0.2s;" onmouseover="this.style.borderColor=\'#3b82f6\';this.style.background=\'#eff6ff\'" onmouseout="this.style.borderColor=\'#cbd5e1\';this.style.background=\'#f8fafc\'">' +
+          '<div style="font-size:48px; margin-bottom:8px;">&#128247;</div>' +
+          '<p style="font-size:18px; font-weight:600; color:#1e293b; margin:0 0 4px;">' + (isMobile ? "Tap to open camera" : "Click to upload a photo") + '</p>' +
+          '<p style="font-size:12px; color:#94a3b8; margin:0;">Free, 30 seconds, never stored</p>' +
         '</div>' +
         '<input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none;" />' +
 
-        (labels.addressLink
-          ? '<div style="text-align:center; margin-top:16px;"><a href="' + labels.addressLink + '" style="font-size:14px; color:#64748b; text-decoration:none; padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">or enter your address manually &rarr;</a></div>'
-          : '') +
+        '<div style="display:flex; justify-content:center; gap:16px; margin-top:16px; font-size:13px;">' +
+          (state.service !== "roofing" ? '<a href="?service=roofing" style="color:#64748b; text-decoration:none;">Roofing</a>' : '<strong style="color:#1d4ed8;">Roofing</strong>') +
+          (state.service !== "hvac" ? '<a href="?service=hvac" style="color:#64748b; text-decoration:none;">HVAC</a>' : '<strong style="color:#1d4ed8;">HVAC</strong>') +
+          (state.service !== "solar" ? '<a href="?service=solar" style="color:#64748b; text-decoration:none;">Solar</a>' : '<strong style="color:#1d4ed8;">Solar</strong>') +
+        '</div>' +
 
-        '<div style="text-align:center; margin-top:12px;"><a href="/analyze-quote.html#' + esc(state.service) + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>';
+        (labels.addressLink
+          ? '<div style="text-align:center; margin-top:12px;"><a href="' + labels.addressLink + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">or enter address manually &rarr;</a></div>'
+          : '<div style="text-align:center; margin-top:12px;"><a href="/analyze-quote.html#' + esc(state.service) + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>');
 
       // Show past estimates if any
       var savedEstimates = [];
@@ -480,44 +452,15 @@
 
     /* ── STEP 2: ANALYZING ── */
     function renderAnalyzing() {
+      var svcTrudy = { roofing: "trudy-roofing", hvac: "trudy-hvac", solar: "trudy-solar" };
+      var imgName = svcTrudy[state.service] || "trudy-working";
       app.innerHTML =
-        '<div class="pe-hero">' +
-          '<img src="/images/trudy-working.png" alt="Trudy" width="200" style="margin-bottom:12px;" />' +
-          '<h1>Trudy is analyzing your photo...</h1>' +
+        '<div style="text-align:center; padding:40px 20px;">' +
+          '<img src="/images/' + imgName + '.png" alt="Trudy" width="140" style="margin-bottom:16px; animation:pulse 1.5s ease-in-out infinite;" />' +
+          '<h2 style="font-size:20px; color:#0f172a; margin:0 0 8px;">Analyzing your photo...</h2>' +
+          '<p style="font-size:14px; color:#94a3b8; margin:0;">This takes about 10 seconds</p>' +
         '</div>' +
-        '<div class="pe-result-card" style="text-align:center; padding:3rem;">' +
-          '<div class="pe-progress">' +
-            '<div class="pe-progress-bar"><div class="pe-progress-fill" id="peProgress" style="width:10%;"></div></div>' +
-            '<div class="pe-progress-text" id="peStatus">Trudy is looking at your photo...</div>' +
-          '</div>' +
-        '</div>';
-
-      var phasesByService = {
-        roofing: [
-          { pct: 30, text: "Trudy is examining the roof...", delay: 1500 },
-          { pct: 60, text: "Trudy is detecting material and size...", delay: 3000 },
-          { pct: 80, text: "Trudy is calculating local pricing...", delay: 5000 }
-        ],
-        hvac: [
-          { pct: 30, text: "Trudy is examining your AC unit...", delay: 1500 },
-          { pct: 60, text: "Trudy is detecting brand and system type...", delay: 3000 },
-          { pct: 80, text: "Trudy is calculating replacement cost...", delay: 5000 }
-        ],
-        solar: [
-          { pct: 30, text: "Trudy is examining your roof...", delay: 1500 },
-          { pct: 60, text: "Trudy is assessing solar potential...", delay: 3000 },
-          { pct: 80, text: "Trudy is calculating installation cost...", delay: 5000 }
-        ]
-      };
-      var phases = phasesByService[state.service] || phasesByService.roofing;
-      phases.forEach(function(p) {
-        setTimeout(function() {
-          var bar = document.getElementById("peProgress");
-          var status = document.getElementById("peStatus");
-          if (bar) bar.style.width = p.pct + "%";
-          if (status) status.textContent = p.text;
-        }, p.delay);
-      });
+        '<style>@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.8;transform:scale(0.97)}}</style>';
     }
 
     function startAnalysis() {
@@ -1500,13 +1443,11 @@
           '</div>' +
         '</div>' +
 
-        '<div id="estimateFeedback" style="padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; text-align:center; margin-bottom:1rem;">' +
-          '<div style="font-size:14px; color:#475569; margin-bottom:10px;">How does this compare to quotes you\'ve received?</div>' +
-          '<div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">' +
-            '<button class="pe-btn pe-btn-secondary" onclick="submitPhotoFeedback(\'accurate\')" style="font-size:13px; padding:8px 16px;">Looks right</button>' +
-            '<button class="pe-btn pe-btn-secondary" onclick="submitPhotoFeedback(\'high\')" style="font-size:13px; padding:8px 16px;">Seems high</button>' +
-            '<button class="pe-btn pe-btn-secondary" onclick="submitPhotoFeedback(\'low\')" style="font-size:13px; padding:8px 16px;">Seems low</button>' +
-          '</div>' +
+        '<div id="estimateFeedback" style="display:flex; justify-content:center; gap:12px; margin-bottom:1rem; font-size:13px; color:#94a3b8;">' +
+          '<span>How\'s this estimate?</span>' +
+          '<a href="#" onclick="submitPhotoFeedback(\'accurate\');return false" style="color:#16a34a;">Accurate</a>' +
+          '<a href="#" onclick="submitPhotoFeedback(\'high\');return false" style="color:#d97706;">Too high</a>' +
+          '<a href="#" onclick="submitPhotoFeedback(\'low\');return false" style="color:#d97706;">Too low</a>' +
         '</div>' +
 
         '<div class="pe-actions">' +
