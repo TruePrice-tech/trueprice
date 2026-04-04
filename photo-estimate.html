@@ -210,6 +210,11 @@
           // Remove banner if it exists
           var banner = document.getElementById("locationBanner");
           if (banner) banner.remove();
+          // Auto-open camera after location permission granted
+          if (state.step === "capture") {
+            var input = document.getElementById("photoInput");
+            if (input) input.click();
+          }
         },
         function(err) {
           // Only show banner on explicit denial (code 1), not timeout (code 3) or unavailable (code 2)
@@ -267,6 +272,9 @@
               state.browserLng = pos.coords.longitude;
               state.locationStatus = "granted";
               banner.remove();
+              // Auto-open camera
+              var input = document.getElementById("photoInput");
+              if (input) input.click();
             },
             function() {
               banner.innerHTML = '<strong>Location still unavailable.</strong>' +
@@ -364,7 +372,7 @@
           '<p style="font-size:14px; color:#94a3b8; margin:0 0 12px;">' + (isMobile ? "Camera or photo library" : "Drag and drop or click to browse") + '</p>' +
           '<div style="font-size:11px; color:#94a3b8; padding-top:12px; border-top:1px solid #e2e8f0;">Your photo is analyzed by AI and never stored</div>' +
         '</div>' +
-        '<input type="file" id="photoInput" accept="image/*" style="display:none;" />' +
+        '<input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none;" />' +
 
         (labels.addressLink
           ? '<div style="text-align:center; margin-top:16px;"><a href="' + labels.addressLink + '" style="font-size:14px; color:#64748b; text-decoration:none; padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">or enter your address manually &rarr;</a></div>'
