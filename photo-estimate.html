@@ -1128,27 +1128,9 @@
         render();
       });
 
-      // Load satellite view if we have location
-      if (state.city && state.stateCode) {
-        var satContainer = document.getElementById("satelliteViewContainer");
-        var satMap = document.getElementById("satelliteMapArea");
-        var satSize = document.getElementById("satelliteRoofSize");
-
-        // Try to get satellite image
-        var satAddress = (state.city + ", " + state.stateCode);
-        fetch("/api/satellite-view?address=" + encodeURIComponent(satAddress) + "&zoom=20")
-          .then(function(r) { return r.json(); })
-          .then(function(d) {
-            if (d.available && d.staticMapUrl) {
-              satContainer.style.display = "block";
-              satMap.innerHTML = '<img src="' + d.staticMapUrl + '" alt="Satellite view of your roof" style="width:100%; height:100%; object-fit:cover;" />';
-              if (state.result && state.result.estimatedRoofSqFt) {
-                satSize.textContent = "Estimated roof area: " + Math.round(state.result.estimatedRoofSqFt).toLocaleString() + " sq ft" + (state.result.roofSizeSource === "satellite" ? " (measured from satellite data)" : " (AI estimate)");
-              }
-            }
-          })
-          .catch(function() { /* satellite view not available, no problem */ });
-      }
+      // Satellite view disabled until Google Maps billing is approved
+      // TODO: Re-enable when Google Cloud billing is active
+      // if (state.city && state.stateCode) { ... }
 
       // Confirm button
       document.getElementById("confirmBtn").addEventListener("click", function() {
