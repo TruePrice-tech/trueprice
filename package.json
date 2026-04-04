@@ -4,5 +4,8 @@
   },
   "dependencies": {
     "@upstash/redis": "^1.37.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }
