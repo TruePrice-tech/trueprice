@@ -18,22 +18,22 @@ const CALIBRATION_URL = "https://truepricehq.com/api/calibration";
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 
 const SERVICES = [
-  { slug: "cost-to-install-asphalt-roof", service: "roofing", material: "architectural", unit: "sqft", defaultSize: 2000 },
-  { slug: "cost-to-install-metal-roof", service: "roofing", material: "metal", unit: "sqft", defaultSize: 2000 },
-  { slug: "cost-to-install-tile-roof", service: "roofing", material: "tile", unit: "sqft", defaultSize: 2000 },
-  { slug: "cost-to-install-central-air-conditioning", service: "hvac", material: "central_ac", unit: "unit", defaultSize: 0 },
-  { slug: "cost-to-install-a-heat-pump", service: "hvac", material: "heat_pump", unit: "unit", defaultSize: 0 },
-  { slug: "cost-to-install-a-furnace", service: "hvac", material: "furnace", unit: "unit", defaultSize: 0 },
-  { slug: "cost-to-repair-plumbing", service: "plumbing", material: "", unit: "job", defaultSize: 0 },
-  { slug: "cost-to-install-solar-panels", service: "solar", material: "standard", unit: "kw", defaultSize: 0 },
-  { slug: "cost-to-install-vinyl-siding", service: "siding", material: "vinyl", unit: "sqft", defaultSize: 1500 },
-  { slug: "cost-to-paint-house-exterior", service: "painting", material: "exterior", unit: "sqft", defaultSize: 2000 },
-  { slug: "cost-to-install-wood-fence", service: "fencing", material: "wood", unit: "lf", defaultSize: 150 },
-  { slug: "cost-to-install-vinyl-fence", service: "fencing", material: "vinyl", unit: "lf", defaultSize: 150 },
-  { slug: "cost-to-replace-windows", service: "windows", material: "vinyl", unit: "window", defaultSize: 10 },
-  { slug: "cost-to-pour-concrete-slab", service: "concrete", material: "slab", unit: "sqft", defaultSize: 400 },
-  { slug: "cost-to-install-gutters", service: "gutters", material: "aluminum", unit: "lf", defaultSize: 200 },
-  { slug: "cost-to-install-insulation", service: "insulation", material: "blown", unit: "sqft", defaultSize: 1500 }
+  { slug: "cost_to_install_asphalt_shingle_roof", service: "roofing", material: "architectural", unit: "sqft", defaultSize: 2000 },
+  { slug: "cost_to_install_metal_roof", service: "roofing", material: "metal", unit: "sqft", defaultSize: 2000 },
+  { slug: "cost_to_install_tile_roof", service: "roofing", material: "tile", unit: "sqft", defaultSize: 2000 },
+  { slug: "cost_to_install_central_air_conditioning", service: "hvac", material: "central_ac", unit: "unit", defaultSize: 0 },
+  { slug: "cost_to_install_heat_pump", service: "hvac", material: "heat_pump", unit: "unit", defaultSize: 0 },
+  { slug: "cost_to_install_furnace", service: "hvac", material: "furnace", unit: "unit", defaultSize: 0 },
+  { slug: "cost_to_repair_plumbing", service: "plumbing", material: "", unit: "job", defaultSize: 0 },
+  { slug: "cost_to_install_solar_panels", service: "solar", material: "standard", unit: "kw", defaultSize: 0 },
+  { slug: "cost_to_install_vinyl_siding", service: "siding", material: "vinyl", unit: "sqft", defaultSize: 1500 },
+  { slug: "cost_to_paint_house_exterior", service: "painting", material: "exterior", unit: "sqft", defaultSize: 2000 },
+  { slug: "cost_to_install_wood_fence", service: "fencing", material: "wood", unit: "lf", defaultSize: 150 },
+  { slug: "cost_to_install_vinyl_fence", service: "fencing", material: "vinyl", unit: "lf", defaultSize: 150 },
+  { slug: "cost_to_replace_windows", service: "windows", material: "vinyl", unit: "window", defaultSize: 10 },
+  { slug: "cost_to_pour_concrete_slab", service: "concrete", material: "slab", unit: "sqft", defaultSize: 400 },
+  { slug: "cost_to_install_gutters", service: "gutters", material: "aluminum", unit: "lf", defaultSize: 200 },
+  { slug: "cost_to_install_blown_in_insulation", service: "insulation", material: "blown", unit: "sqft", defaultSize: 1500 }
 ];
 
 // Zip codes for major metros (one per city)
@@ -106,7 +106,7 @@ function sleep(ms) {
 }
 
 async function fetchHomewyse(slug, zip) {
-  const url = `https://www.homewyse.com/${slug}.html?zip=${zip}`;
+  const url = `https://www.homewyse.com/services/${slug}.html?zip=${zip}`;
   const res = await fetch(url, {
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
@@ -232,12 +232,32 @@ async function main() {
         continue;
       }
 
-      const midCost = Math.round((parsed.lowCost + parsed.highCost) / 2);
-      console.log(`    $${parsed.lowCost} - $${parsed.highCost} (mid: $${midCost}) ${parsed.unit || ""}`);
+      // Homewyse returns per-unit costs. Multiply by default project size for total price.
+      let lowTotal = parsed.lowCost;
+      let highTotal = parsed.highCost;
+      const unitStr = (parsed.unit || "").toLowerCase();
+      if (unitStr.includes("per square foot") || unitStr.includes("per sq ft") || unitStr.includes("/sf") || unitStr.includes("/sqft")) {
+        lowTotal = Math.round(parsed.lowCost * svc.defaultSize);
+        highTotal = Math.round(parsed.highCost * svc.defaultSize);
+      } else if (unitStr.includes("per linear foot") || unitStr.includes("/lf")) {
+        lowTotal = Math.round(parsed.lowCost * svc.defaultSize);
+        highTotal = Math.round(parsed.highCost * svc.defaultSize);
+      } else if (unitStr.includes("per window")) {
+        lowTotal = Math.round(parsed.lowCost * svc.defaultSize);
+        highTotal = Math.round(parsed.highCost * svc.defaultSize);
+      }
+      // Skip if total is unrealistically low (likely parsing issue)
+      if (lowTotal < 500) {
+        console.log(`    Skipping: total too low ($${lowTotal})`);
+        continue;
+      }
+
+      const midCost = Math.round((lowTotal + highTotal) / 2);
+      console.log(`    $${parsed.lowCost} - $${parsed.highCost} ${parsed.unit || ""} -> Total: $${lowTotal} - $${highTotal} (mid: $${midCost})`);
 
       if (!dryRun) {
         // Seed low and high as separate data points
-        for (const price of [parsed.lowCost, parsed.highCost]) {
+        for (const price of [lowTotal, highTotal]) {
           try {
             await seedQuote({
               type: "community_quote",
