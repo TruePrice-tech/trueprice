@@ -243,8 +243,14 @@
       var banner = document.createElement("div");
       banner.id = "locationBanner";
       banner.style.cssText = "background:#fef3c7; border:1px solid #f59e0b; border-radius:10px; padding:12px 16px; margin-bottom:16px; font-size:14px; color:#92400e; text-align:center; line-height:1.5;";
-      banner.innerHTML = '<strong>Location services are off.</strong> Enable them for accurate roof sizing from your photo.' +
-        '<br><a href="#" id="retryLocationBtn" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Try enabling now</a>';
+      var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+      var isAndroid = /Android/.test(navigator.userAgent);
+      var enableTip = isIOS ? 'Go to Settings > Privacy > Location Services > Safari Websites > "While Using"'
+        : isAndroid ? 'Go to Settings > Location > App permissions > Browser > Allow'
+        : 'Allow location access when your browser asks';
+      banner.innerHTML = '<strong>Location access is needed for accurate roof sizing.</strong>' +
+        '<br><span style="font-size:13px;">' + enableTip + '</span>' +
+        '<br><a href="#" id="retryLocationBtn" style="color:#1d4ed8; font-weight:600; text-decoration:none;">I\'ve enabled it - try again</a>';
       var app = document.getElementById("peApp");
       if (app && app.firstChild) app.insertBefore(banner, app.firstChild);
       var retryBtn = document.getElementById("retryLocationBtn");
@@ -259,7 +265,8 @@
               banner.remove();
             },
             function() {
-              banner.innerHTML = '<strong>Location still unavailable.</strong> On iPhone: Settings > Privacy > Location Services > Safari. On Android: Settings > Location > App permissions > Browser.';
+              banner.innerHTML = '<strong>Location still unavailable.</strong>' +
+                '<br><span style="font-size:13px;">' + enableTip + ', then reload this page.</span>';
             },
             { timeout: 5000 }
           );
@@ -554,9 +561,38 @@
           }
         }
 
-        // Auto-confirm: skip confirm step when we have high confidence on everything
+        // Check photo quality first - block auto-confirm on bad photos
         var r = state.result;
         var svc = state.service;
+        var photoQuality = r.photoQuality || "good";
+        if (photoQuality !== "good") {
+          var qualityMessages = {
+            too_dark: "This photo is too dark. Try taking a photo during daylight for accurate results.",
+            too_blurry: "This photo is too blurry. Try holding steady and tapping to focus.",
+            too_far: "The house is too far away. Move closer so the roof fills more of the frame.",
+            no_house: "We couldn't find a house in this photo. Make sure the house is clearly visible.",
+            obstructed: "Trees or objects are blocking the roof. Try a different angle."
+          };
+          var msg = qualityMessages[photoQuality] || "Photo quality is too low for accurate analysis.";
+          app.innerHTML =
+            '<div style="text-align:center; padding:40px 20px;">' +
+              '<img src="/images/trudy-worried.png" alt="Trudy" width="160" style="margin-bottom:16px;" />' +
+              '<h2 style="font-size:22px; color:#0f172a; margin:0 0 12px;">' + msg + '</h2>' +
+              '<button class="pe-btn pe-btn-primary" id="retakeBtn" style="margin-top:16px;">Take a new photo</button>' +
+              '<div style="margin-top:12px;"><a href="#" id="continueAnywayLink" style="font-size:13px; color:#64748b;">Continue anyway</a></div>' +
+            '</div>';
+          document.getElementById("retakeBtn").addEventListener("click", function() {
+            state.imageData = null; state.imagePreview = null; state.result = null; state.confirmed = null;
+            state.step = "capture"; render();
+          });
+          document.getElementById("continueAnywayLink").addEventListener("click", function(e) {
+            e.preventDefault();
+            state.step = "confirm"; render();
+          });
+          return;
+        }
+
+        // Auto-confirm: skip confirm step when we have high confidence on everything
         var canAutoConfirm = false;
 
         if (svc === "roofing") {
@@ -873,7 +909,7 @@
               (r.roofSizeSource === "satellite" ? ' <span style="font-size:11px; color:#16a34a; font-weight:400;">(measured from building data)</span>' : ' <span style="font-size:11px; color:#d97706; font-weight:400;">(verify address above for auto-measurement)</span>') +
             '</div>' +
             '<div style="display:flex; align-items:center; gap:8px;">' +
-              '<input type="number" id="confirmRoofSqFt" value="' + (r.estimatedRoofSqFt || 2000) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
+              '<input type="number" id="confirmRoofSqFt" placeholder="Enter roof sq ft" value="' + (r.estimatedRoofSqFt || '') + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
               '<span style="font-size:14px; color:#64748b;">sq ft</span>' +
             '</div>' +
           '</div>';
@@ -1131,7 +1167,16 @@
           confirmed.material = getSelected("material") || "architectural";
           confirmed.complexity = getSelected("complexity") || "simple";
           confirmed.workType = getSelected("workType") || "new_roof";
-          confirmed.roofSqFt = Number((document.getElementById("confirmRoofSqFt") || {}).value) || 2000;
+          var roofInput = document.getElementById("confirmRoofSqFt");
+          var roofVal = Number((roofInput || {}).value) || 0;
+          if (!roofVal && (svc === "roofing" || svc === "solar")) {
+            btn.disabled = false;
+            btn.textContent = "Looks good - get my estimate";
+            if (roofInput) roofInput.style.borderColor = "#ef4444";
+            alert("Please enter your roof size in sq ft. Check your home listing or property records if unsure.");
+            return;
+          }
+          confirmed.roofSqFt = roofVal;
         }
 
         // Validate roof size if applicable
@@ -1328,7 +1373,14 @@
         // Roofing (default)
         var material = c.material || "architectural";
         var stories = c.stories || 1;
-        var roofSqFt = c.roofSqFt || 2000;
+        var roofSqFt = c.roofSqFt || 0;
+        if (!roofSqFt) {
+          // No roof size available - go back to confirm
+          state.confirmed = null;
+          state.step = "confirm";
+          render();
+          return;
+        }
         var roofSquares = roofSqFt / 100;
 
         var basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
@@ -1382,26 +1434,23 @@
             '<div class="pe-verdict-range">' + (svc === "roofing" ? "Midpoint: " + verdictDesc : verdictDesc) + '</div>' +
           '</div>' +
 
-          ((svc === "roofing" || svc === "solar") && c.roofSqFt ?
-            '<div id="addressVerifyBlock" style="margin:12px 0; padding:12px 14px; background:#f0fdf4; border:1px solid #a7f3d0; border-radius:10px; font-size:14px;">' +
+          ((svc === "roofing" || svc === "solar") ?
+            '<div id="addressVerifyBlock" style="margin:12px 0; padding:12px 14px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; font-size:14px;">' +
+              '<div style="font-size:13px; color:#1e40af; margin-bottom:8px; font-weight:600;">This estimate is for:</div>' +
               (state.address ?
                 '<div style="font-weight:600; color:#0f172a; margin-bottom:4px;">' + esc(state.address) + '</div>' :
-                (c.city ? '<div style="font-weight:600; color:#0f172a; margin-bottom:4px;">' + esc(c.city) + ', ' + esc(c.stateCode) + '</div>' : '')) +
-              '<div style="display:flex; justify-content:space-between; align-items:center;">' +
-                '<span style="color:#475569;">Roof size: <strong>' + Math.round(c.roofSqFt).toLocaleString() + ' sq ft</strong></span>' +
-                '<a href="#" id="notMyAddressLink" style="font-size:13px; color:#1d4ed8; white-space:nowrap;">Not your address?</a>' +
-              '</div>' +
-              '<div id="nearbyAddressPicker" style="display:none; margin-top:10px; border-top:1px solid #a7f3d0; padding-top:10px;">' +
-                '<div style="font-size:13px; color:#475569; margin-bottom:8px;">Select your address:</div>' +
-                (state.nearbyAddresses && state.nearbyAddresses.length > 0 ?
-                  state.nearbyAddresses.map(function(a, i) {
-                    return '<button class="nearby-addr-btn" data-idx="' + i + '" style="display:block; width:100%; text-align:left; padding:10px 12px; margin-bottom:4px; background:#fff; border:1px solid #e2e8f0; border-radius:8px; font-size:13px; cursor:pointer; font-family:inherit;">' +
-                      '<div style="font-weight:600; color:#0f172a;">' + esc(a.address) + '</div>' +
-                      '<div style="color:#64748b; font-size:12px;">' + a.footprintSqFt.toLocaleString() + ' sq ft roof</div>' +
-                    '</button>';
-                  }).join('') : '') +
-                '<button id="enterManualAddress" style="display:block; width:100%; text-align:left; padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:13px; cursor:pointer; color:#1d4ed8; font-family:inherit;">Enter a different address</button>' +
-              '</div>' +
+                (c.city ? '<div style="font-weight:600; color:#0f172a; margin-bottom:4px;">' + esc(c.city) + ', ' + esc(c.stateCode) + '</div>' : '<div style="color:#94a3b8; margin-bottom:4px;">Address not detected</div>')) +
+              (c.roofSqFt ? '<div style="color:#475569; margin-bottom:10px;">Roof size: <strong>' + Math.round(c.roofSqFt).toLocaleString() + ' sq ft</strong></div>' : '') +
+              '<div style="font-size:13px; color:#475569; margin-bottom:8px;">Not your address? Select yours below:</div>' +
+              (state.nearbyAddresses && state.nearbyAddresses.length > 0 ?
+                state.nearbyAddresses.map(function(a, i) {
+                  var isSelected = state.address && a.address === state.address;
+                  return '<button class="nearby-addr-btn" data-idx="' + i + '" style="display:block; width:100%; text-align:left; padding:10px 12px; margin-bottom:4px; background:' + (isSelected ? '#f0fdf4' : '#fff') + '; border:1px solid ' + (isSelected ? '#16a34a' : '#e2e8f0') + '; border-radius:8px; font-size:13px; cursor:pointer; font-family:inherit;">' +
+                    '<div style="font-weight:600; color:#0f172a;">' + esc(a.address) + '</div>' +
+                    '<div style="color:#64748b; font-size:12px;">' + a.footprintSqFt.toLocaleString() + ' sq ft roof</div>' +
+                  '</button>';
+                }).join('') : '') +
+              '<button id="enterManualAddress" style="display:block; width:100%; text-align:left; padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:13px; cursor:pointer; color:#1d4ed8; font-family:inherit;">Enter a different address</button>' +
             '</div>' : '') +
 
           '<div class="pe-details">' + detailsHtml + '</div>' +
@@ -1443,17 +1492,6 @@
         state.step = "confirm";
         render();
       });
-
-      var notMyAddress = document.getElementById("notMyAddressLink");
-      if (notMyAddress) {
-        notMyAddress.addEventListener("click", function(e) {
-          e.preventDefault();
-          var picker = document.getElementById("nearbyAddressPicker");
-          if (picker) {
-            picker.style.display = picker.style.display === "none" ? "block" : "none";
-          }
-        });
-      }
 
       // Nearby address buttons
       document.querySelectorAll(".nearby-addr-btn").forEach(function(btn) {

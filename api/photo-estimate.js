@@ -171,6 +171,7 @@ export default async function handler(req, res) {
   "conditionNotes": ["visible aging", "moss/algae", "missing shingles", "sagging", "storm damage"],
   "photographerDistance": "at_house" | "near" | "across_street" | "far",
   "estimatedDistanceFt": <number - estimated distance in feet from photographer to the house>,
+  "photoQuality": "good" | "too_dark" | "too_blurry" | "too_far" | "no_house" | "obstructed",
   "additionalNotes": <any relevant observations about the roof>
 }
 
@@ -181,6 +182,7 @@ Rules:
 - Do NOT estimate square footage or footprint size. Roof size is measured separately.
 - photographerDistance: "at_house" = standing at or on the property (close-up, looking up), "near" = next door or adjacent driveway (10-30 ft), "across_street" = across the street or from a distance (30-80 ft), "far" = very far away (80+ ft). Use perspective cues like angle, size of house in frame, and foreground elements.
 - estimatedDistanceFt: Your best estimate of how far the camera is from the house in feet.
+- photoQuality: "good" = roof clearly visible, "too_dark" = nighttime or very low light, "too_blurry" = out of focus, "too_far" = house is tiny in frame, "no_house" = no house/building visible, "obstructed" = trees/objects blocking most of the roof. Be honest about quality.
 - Return ONLY the JSON object`,
 
       hvac: `Analyze this photo of an HVAC system or equipment. Return ONLY valid JSON:
@@ -212,6 +214,7 @@ Return ONLY the JSON object`,
   "complexity": "simple" | "moderate" | "complex",
   "photographerDistance": "at_house" | "near" | "across_street" | "far",
   "estimatedDistanceFt": <number - estimated distance in feet from photographer to the house>,
+  "photoQuality": "good" | "too_dark" | "too_blurry" | "too_far" | "no_house" | "obstructed",
   "additionalNotes": <any relevant observations about solar potential>
 }
 
@@ -222,6 +225,7 @@ Rules:
 - Do NOT estimate building footprint. Roof size is measured separately.
 - photographerDistance: "at_house" = standing at or on the property, "near" = next door (10-30 ft), "across_street" = across the street (30-80 ft), "far" = very far (80+ ft).
 - estimatedDistanceFt: Your best estimate of how far the camera is from the house in feet.
+- photoQuality: "good" = roof clearly visible, "too_dark" = nighttime or very low light, "too_blurry" = out of focus, "too_far" = house is tiny in frame, "no_house" = no house visible, "obstructed" = trees blocking roof.
 - Return ONLY the JSON object`,
 
       general: `Analyze this photo of a home exterior. Identify what home service might be needed. Return ONLY valid JSON:
