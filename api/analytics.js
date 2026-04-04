@@ -54,8 +54,27 @@ const DATA_CENTER_CITIES = new Set([
   "ashburn", "boardman", "council bluffs", "san jose", "santa clara",
   "the dalles", "dublin", "frankfurt", "mumbai", "singapore",
   "sao paulo", "sydney", "tokyo", "seoul", "montreal",
-  "north virginia", "oregon", "ohio", "provo", "phoenix"
+  "north virginia", "oregon", "ohio", "provo", "phoenix",
+  // Netherlands data centers
+  "naaldwijk", "meppel",
+  // Cloud provider data center towns (not major metros)
+  "hillsboro", "quincy", "lenoir", "lithia springs",
+  "manassas", "sterling", "reston", "herndon", "chantilly"
 ]);
+
+// Track request volume per IP to detect bots from real cities
+const ipHitCounts = new Map();
+const IP_HIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const IP_HIT_BOT_THRESHOLD = 15; // 15+ pageviews/hour = likely bot
+
+function isHighVolumeIp(ipHash) {
+  const now = Date.now();
+  let hits = ipHitCounts.get(ipHash) || [];
+  hits = hits.filter(t => now - t < IP_HIT_WINDOW_MS);
+  hits.push(now);
+  ipHitCounts.set(ipHash, hits);
+  return hits.length >= IP_HIT_BOT_THRESHOLD;
+}
 
 function isDataCenterCity(city) {
   if (!city) return false;
@@ -165,10 +184,12 @@ export default async function handler(req, res) {
         const geo = getGeo(req);
         const dcCity = isDataCenterCity(geo.city);
 
-        if (botName || dcCity) {
+        const highVolume = isHighVolumeIp(ipHash);
+
+        if (botName || dcCity || highVolume) {
           // Route to crawls instead of pageviews
           await redis.lpush("tp:crawls", JSON.stringify({
-            bot: botName || ("DC:" + (geo.city || "unknown")),
+            bot: botName || (dcCity ? "DC:" + (geo.city || "unknown") : "HV:" + ipHash),
             path, ts: Date.now()
           })).catch(() => {});
           await redis.ltrim("tp:crawls", 0, 5000).catch(() => {});
