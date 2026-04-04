@@ -779,6 +779,64 @@
 
         '<div class="pe-result-card">';
 
+      // Location section FIRST - most important when no GPS/roof size
+      var hasGps = state.lat && state.lng;
+      var hasLocation = state.city && state.stateCode;
+
+      if (hasGps && hasLocation) {
+        html +=
+          '<div style="margin-bottom:16px;">' +
+            '<div style="display:flex; align-items:center; gap:8px; font-size:14px; color:#64748b;">' +
+              '<span style="font-size:11px; color:#16a34a;">&#10003;</span>' +
+              '<span>' + esc(state.city) + ', ' + esc(state.stateCode) + (state.zip ? ' ' + esc(state.zip) : '') + '</span>' +
+              '<a href="#" id="editLocationLink" style="font-size:12px; color:#1d4ed8;">edit</a>' +
+            '</div>' +
+            '<div id="editLocationFields" style="display:none; margin-top:8px;">' +
+              '<div style="display:flex; gap:8px; margin-bottom:8px;">' +
+                '<input type="text" id="confirmAddress" placeholder="Street address (optional)" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
+              '</div>' +
+              '<div style="display:flex; gap:8px;">' +
+                '<input type="text" id="confirmCity" placeholder="City" value="' + esc(state.city) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
+                '<input type="text" id="confirmState" placeholder="ST" maxlength="2" value="' + esc(state.stateCode) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:70px;" />' +
+                '<input type="text" id="confirmZip" placeholder="Zip" maxlength="5" value="' + esc(state.zip) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:90px;" />' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      } else if (hasLocation) {
+        var streetOnly = state.address || "";
+        if (streetOnly && state.city) {
+          var cidx = streetOnly.indexOf(state.city);
+          if (cidx > 0) streetOnly = streetOnly.substring(0, cidx).replace(/,\s*$/, "").trim();
+        }
+        html +=
+          '<div style="margin-bottom:16px; padding:12px 14px; background:#fef3c7; border:1px solid #f59e0b; border-radius:10px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Enter your street address for accurate roof sizing</div>' +
+            '<input type="text" id="confirmAddress" placeholder="123 Main St" value="' + esc(streetOnly) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:100%; box-sizing:border-box;" />' +
+            '<div style="display:flex; align-items:center; gap:8px; font-size:14px; color:#64748b; margin-top:8px;">' +
+              '<span>' + esc(state.city) + ', ' + esc(state.stateCode) + (state.zip ? ' ' + esc(state.zip) : '') + '</span>' +
+              '<a href="#" id="editLocationLink" style="font-size:12px; color:#1d4ed8;">edit</a>' +
+            '</div>' +
+            '<div id="editLocationFields" style="display:none; margin-top:8px;">' +
+              '<div style="display:flex; gap:8px;">' +
+                '<input type="text" id="confirmCity" placeholder="City" value="' + esc(state.city) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
+                '<input type="text" id="confirmState" placeholder="ST" maxlength="2" value="' + esc(state.stateCode) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:70px;" />' +
+                '<input type="text" id="confirmZip" placeholder="Zip" maxlength="5" value="' + esc(state.zip) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:90px;" />' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      } else {
+        html +=
+          '<div style="margin-bottom:16px; padding:12px 14px; background:#fef3c7; border:1px solid #f59e0b; border-radius:10px;">' +
+            '<div class="pe-detail-label" style="margin-bottom:6px;">Enter your address for accurate pricing</div>' +
+            '<input type="text" id="confirmAddress" placeholder="123 Main St" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:100%; box-sizing:border-box; margin-bottom:8px;" />' +
+            '<div style="display:flex; gap:8px;">' +
+              '<input type="text" id="confirmCity" placeholder="City" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
+              '<input type="text" id="confirmState" placeholder="ST" maxlength="2" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:70px;" />' +
+              '<input type="text" id="confirmZip" placeholder="Zip" maxlength="5" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:90px;" />' +
+            '</div>' +
+          '</div>';
+      }
+
       if (svc === "hvac") {
         var detectedSystem = r.systemType || "central_ac";
         var detectedBrand = r.brand || "";
@@ -932,73 +990,6 @@
           '</div>';
       }
 
-      // Location section: skip address prompt if we have GPS coordinates
-      var hasGps = state.lat && state.lng;
-      var hasLocation = state.city && state.stateCode;
-
-      if (hasGps && hasLocation) {
-        // GPS available -- no address needed, just show compact location with edit option
-        html +=
-          '<div style="margin-bottom:16px;">' +
-            '<div style="display:flex; align-items:center; gap:8px; font-size:14px; color:#64748b;">' +
-              '<span style="font-size:11px; color:#16a34a;">&#10003;</span>' +
-              '<span>' + esc(state.city) + ', ' + esc(state.stateCode) + (state.zip ? ' ' + esc(state.zip) : '') + '</span>' +
-              '<a href="#" id="editLocationLink" style="font-size:12px; color:#1d4ed8;">edit</a>' +
-            '</div>' +
-            '<div id="editLocationFields" style="display:none; margin-top:8px;">' +
-              '<div style="display:flex; gap:8px; margin-bottom:8px;">' +
-                '<input type="text" id="confirmAddress" placeholder="Street address (optional)" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
-              '</div>' +
-              '<div style="display:flex; gap:8px;">' +
-                '<input type="text" id="confirmCity" placeholder="City" value="' + esc(state.city) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
-                '<input type="text" id="confirmState" placeholder="ST" maxlength="2" value="' + esc(state.stateCode) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:70px;" />' +
-                '<input type="text" id="confirmZip" placeholder="Zip" maxlength="5" value="' + esc(state.zip) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:90px;" />' +
-              '</div>' +
-            '</div>' +
-          '</div>';
-      } else if (hasLocation) {
-        // City/state detected but no GPS -- need street address for footprint lookup
-        var streetOnly = state.address || "";
-        if (streetOnly && state.city) {
-          var cidx = streetOnly.indexOf(state.city);
-          if (cidx > 0) streetOnly = streetOnly.substring(0, cidx).replace(/,\s*$/, "").trim();
-        }
-        html +=
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Street Address' +
-              ' <span style="font-size:11px; color:#d97706; font-weight:400;">(needed for accurate roof size)</span>' +
-            '</div>' +
-            '<input type="text" id="confirmAddress" placeholder="123 Main St" value="' + esc(streetOnly) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:100%; box-sizing:border-box;" />' +
-          '</div>' +
-          '<div style="margin-bottom:16px;">' +
-            '<div style="display:flex; align-items:center; gap:8px; font-size:14px; color:#64748b;">' +
-              '<span>' + esc(state.city) + ', ' + esc(state.stateCode) + (state.zip ? ' ' + esc(state.zip) : '') + '</span>' +
-              '<a href="#" id="editLocationLink" style="font-size:12px; color:#1d4ed8;">edit</a>' +
-            '</div>' +
-            '<div id="editLocationFields" style="display:none; margin-top:8px;">' +
-              '<div style="display:flex; gap:8px;">' +
-                '<input type="text" id="confirmCity" placeholder="City" value="' + esc(state.city) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
-                '<input type="text" id="confirmState" placeholder="ST" maxlength="2" value="' + esc(state.stateCode) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:70px;" />' +
-                '<input type="text" id="confirmZip" placeholder="Zip" maxlength="5" value="' + esc(state.zip) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:90px;" />' +
-              '</div>' +
-            '</div>' +
-          '</div>';
-      } else {
-        // No location at all -- show all fields open
-        html +=
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Street Address</div>' +
-            '<input type="text" id="confirmAddress" placeholder="123 Main St" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:100%; box-sizing:border-box;" />' +
-          '</div>' +
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">City, State, Zip</div>' +
-            '<div style="display:flex; gap:8px;">' +
-              '<input type="text" id="confirmCity" placeholder="City" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; flex:1;" />' +
-              '<input type="text" id="confirmState" placeholder="ST" maxlength="2" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:70px;" />' +
-              '<input type="text" id="confirmZip" placeholder="Zip" maxlength="5" value="" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:90px;" />' +
-            '</div>' +
-          '</div>';
-      }
       html +=
 
         '</div>' +
