@@ -45,11 +45,22 @@
     .dir-count { font-size: 14px; color: var(--text-muted); margin-top: 16px; }
     .contractor-card.unclaimed { border-color: #d1d5db; background: #f9fafb; }
     .contractor-card.unclaimed h3 { color: #6b7280; }
+    .contractor-card.featured { border-color: #fbbf24; background: #fffbeb; box-shadow: 0 0 0 2px rgba(251,191,36,0.2); }
+    .contractor-card.verified { border-color: #34d399; }
     .claim-notice { font-size: 13px; color: #6b7280; margin-bottom: 10px; line-height: 1.5; }
     .claim-btn { display: inline-block; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; background: #0d9488; color: #fff; }
     .claim-btn:hover { background: #0f766e; }
     .google-link { display: inline-block; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; background: #f1f5f9; color: var(--brand, #1d4ed8); }
     .google-link:hover { background: #e2e8f0; }
+    .tier-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; margin-left: 6px; vertical-align: middle; }
+    .tier-badge.featured { background: #fef3c7; color: #92400e; }
+    .tier-badge.verified { background: #d1fae5; color: #065f46; }
+    .score-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-top: 8px; }
+    .score-badge.excellent { background: #d1fae5; color: #065f46; }
+    .score-badge.very-good { background: #dbeafe; color: #1e40af; }
+    .score-badge.good { background: #e0e7ff; color: #3730a3; }
+    .score-badge.fair { background: #fef3c7; color: #92400e; }
+    .score-badge.needs-improvement { background: #fee2e2; color: #991b1b; }
   </style>
 </head>
 <body>
@@ -88,8 +99,11 @@
       </div>
     </section>
 
-    <div class="dir-disclaimer">
+    <div class="dir-disclaimer" id="dirDisclaimer">
       Listings marked "Verified" have met our <a href="/contractor-standards.html" style="color:var(--brand);">contractor standards</a> for licensing, insurance, and reviews. Unverified listings are self-submitted. Always check references before hiring.
+    </div>
+    <div class="dir-disclaimer" id="dirNoRankDisclaimer" style="display:none; background:#fef2f2; border-color:#fecaca;">
+      TruePrice does not rank, score, or recommend medical or legal providers. We analyze bills and flag anomalies, but choosing a provider is a personal decision that should involve your own research and professional advice.
     </div>
 
     <div id="directoryResults"></div>
@@ -157,12 +171,17 @@
       return d.innerHTML;
     }
 
+    const NO_RANK_SERVICES = new Set(["medical", "legal"]);
+
     async function searchContractors() {
       const state = stateSelect.value;
       const service = serviceSelect.value;
+      const isNoRank = NO_RANK_SERVICES.has(service);
       const resultsEl = document.getElementById("directoryResults");
       const emptyEl = document.getElementById("dirEmpty");
       const countEl = document.getElementById("dirCount");
+      document.getElementById("dirDisclaimer").style.display = isNoRank ? "none" : "block";
+      document.getElementById("dirNoRankDisclaimer").style.display = isNoRank ? "block" : "none";
 
       resultsEl.innerHTML = '<div class="contractor-grid">' +
         [1,2,3].map(function() {
@@ -212,10 +231,27 @@
           if (c.phone) actions.push(`<a class="cta-phone" href="tel:${escapeHtml(c.phone.replace(/\D/g, ''))}">${escapeHtml(c.phone)}</a>`);
           if (c.website) actions.push(`<a class="cta-web" href="${escapeHtml(c.website)}" target="_blank" rel="noopener">Website</a>`);
 
-          return `<div class="contractor-card">
-            <h3>${escapeHtml(c.companyName)}</h3>
+          // Tier badge (suppress for medical/legal -- no steering)
+          let tierBadge = "";
+          if (!isNoRank) {
+            if (c.tier === "featured") tierBadge = '<span class="tier-badge featured">Featured</span>';
+            else if (c.tier === "verified") tierBadge = '<span class="tier-badge verified">Verified</span>';
+          }
+
+          // Score badge (only if score exists and not a no-rank service)
+          let scoreBadge = "";
+          if (c.score !== null && c.scoreLabel && !isNoRank) {
+            const scoreCss = c.scoreLabel.toLowerCase().replace(/\s+/g, "-");
+            scoreBadge = `<div class="score-badge ${scoreCss}"><span>${c.score}/100</span> ${escapeHtml(c.scoreLabel)}</div>`;
+          }
+
+          const cardClass = c.tier === "featured" ? "contractor-card featured" : c.tier === "verified" ? "contractor-card verified" : "contractor-card";
+
+          return `<div class="${cardClass}">
+            <h3>${escapeHtml(c.companyName)}${tierBadge}</h3>
             <div class="contractor-services">${pills}</div>
             ${meta.length ? `<div class="contractor-meta">${meta.join(" &bull; ")}</div>` : ""}
+            ${scoreBadge}
             ${actions.length ? `<div class="contractor-actions">${actions.join("")}</div>` : ""}
           </div>`;
         }).join("") + '</div>';

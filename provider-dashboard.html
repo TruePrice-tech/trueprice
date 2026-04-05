@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Provider Dashboard | TruePrice</title>
+  <meta name="description" content="View your TruePrice contractor score, reviews, and tips to improve your ranking. See how homeowners rate your quotes." />
+  <link rel="canonical" href="https://truepricehq.com/provider-dashboard.html" />
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <style>
+    .pd-wrap { max-width: 720px; margin: 0 auto; padding: 32px 16px; }
+    .pd-hero { text-align: center; margin-bottom: 32px; }
+    .pd-hero h1 { font-size: 28px; margin-bottom: 8px; }
+    .pd-hero p { color: var(--text-secondary); }
+    .pd-lookup { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+    .pd-lookup input { padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; flex: 1; min-width: 140px; }
+    .pd-lookup input:focus { outline: none; border-color: var(--brand); }
+    .pd-lookup button { padding: 10px 24px; border: none; border-radius: 10px; background: var(--brand); color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .pd-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 16px; }
+    .pd-score-ring { width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; margin: 0 auto 12px; }
+    .pd-score-ring.excellent { background: #d1fae5; color: #065f46; }
+    .pd-score-ring.very-good { background: #dbeafe; color: #1e40af; }
+    .pd-score-ring.good { background: #e0e7ff; color: #3730a3; }
+    .pd-score-ring.fair { background: #fef3c7; color: #92400e; }
+    .pd-score-ring.needs-improvement { background: #fee2e2; color: #991b1b; }
+    .pd-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .pd-factor { background: #f8fafc; border-radius: 10px; padding: 14px; }
+    .pd-factor .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .pd-factor .value { font-size: 20px; font-weight: 700; color: var(--text); }
+    .pd-factor .max { font-size: 12px; color: var(--text-muted); }
+    .pd-tip { padding: 12px 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; font-size: 14px; color: #065f46; margin-top: 8px; }
+    .pd-tip.warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .pd-review { padding: 14px; border-bottom: 1px solid var(--border); }
+    .pd-review:last-child { border-bottom: none; }
+    .pd-stars { color: #f59e0b; font-size: 16px; }
+    .pd-empty { text-align: center; padding: 40px; color: var(--text-secondary); }
+    @media(max-width:500px) { .pd-breakdown { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/find-contractors.html">Directory</a>
+        <a href="/contractor-standards.html">Standards</a>
+        <a class="nav-cta" href="/contractor-signup.html">List Your Business</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pd-wrap">
+    <div class="pd-hero">
+      <img src="/images/trudy-clipboard.png" alt="Trudy" width="100" style="margin-bottom:8px;" />
+      <h1>Provider Dashboard</h1>
+      <p>Look up your TruePrice score and see how homeowners rate your quotes.</p>
+    </div>
+
+    <div class="pd-card">
+      <div class="pd-lookup">
+        <input type="text" id="pdName" placeholder="Company name" />
+        <input type="text" id="pdCity" placeholder="City (optional)" />
+        <input type="text" id="pdState" placeholder="State" maxlength="2" style="max-width:80px; text-transform:uppercase;" />
+        <button id="pdLookup">Look Up</button>
+      </div>
+      <div id="pdResult"></div>
+    </div>
+
+    <div id="pdDetails" style="display:none;"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze contractor quotes and compare bids.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
+        <a href="/contractor-standards.html" style="color:inherit;">Standards</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    var resultEl = document.getElementById("pdResult");
+    var detailsEl = document.getElementById("pdDetails");
+
+    document.getElementById("pdLookup").addEventListener("click", async function() {
+      var name = document.getElementById("pdName").value.trim();
+      var city = document.getElementById("pdCity").value.trim();
+      var state = document.getElementById("pdState").value.trim().toUpperCase();
+      if (!name) { alert("Enter your company name."); return; }
+
+      resultEl.innerHTML = '<div style="text-align:center;color:#64748b;padding:16px;">Looking up...</div>';
+      detailsEl.style.display = "none";
+
+      try {
+        var qs = "contractor=" + encodeURIComponent(name);
+        if (city) qs += "&city=" + encodeURIComponent(city);
+        if (state) qs += "&state=" + encodeURIComponent(state);
+        var res = await fetch("/api/contractor-score?" + qs);
+        var data = await res.json();
+
+        if (data.blocked) {
+          resultEl.innerHTML = '<div class="pd-empty">' + data.reason + '</div>';
+          return;
+        }
+
+        if (!data.found) {
+          resultEl.innerHTML = '<div class="pd-empty"><h3>No score found</h3><p>Your score builds automatically when homeowners analyze quotes from your company. The more transparent your quotes, the higher your score.</p><p style="margin-top:12px;"><a href="/contractor-standards.html" style="color:var(--brand);">Learn how scoring works</a></p></div>';
+          return;
+        }
+
+        var scoreCss = data.label.toLowerCase().replace(/\s+/g, "-");
+        var stars = function(n) { return "&#9733;".repeat(Math.round(n)) + "&#9734;".repeat(5 - Math.round(n)); };
+
+        resultEl.innerHTML = '\
+          <div style="text-align:center;">\
+            <div class="pd-score-ring ' + scoreCss + '">' + data.score + '</div>\
+            <div style="font-size:18px;font-weight:700;margin-bottom:4px;">' + data.label + '</div>\
+            <div style="font-size:14px;color:#64748b;">' + data.quoteCount + ' quotes analyzed &bull; ' + data.reviewCount + ' reviews</div>\
+          </div>\
+          <div class="pd-breakdown" id="pdBreakdown"></div>';
+
+        // Render breakdown
+        var bd = data.breakdown || {};
+        var factors = [
+          { label: "Price Fairness", value: bd.priceFairness, max: 25 },
+          { label: "Scope Completeness", value: bd.scopeCompleteness, max: 25 },
+          { label: "Transparency", value: bd.transparency, max: 15 },
+          { label: "Warranty", value: bd.warranty, max: 10 },
+          { label: "Red Flags", value: bd.redFlags, max: 10 },
+          { label: "User Rating", value: bd.userRating, max: 15 }
+        ];
+        var breakdownHtml = "";
+        factors.forEach(function(f) {
+          if (f.value === undefined || f.value === null) return;
+          var pct = Math.round((f.value / f.max) * 100);
+          var color = pct >= 80 ? "#16a34a" : pct >= 50 ? "#d97706" : "#dc2626";
+          breakdownHtml += '<div class="pd-factor"><div class="label">' + f.label + '</div><div class="value" style="color:' + color + ';">' + f.value + '<span class="max">/' + f.max + '</span></div><div style="height:4px;background:#e2e8f0;border-radius:2px;margin-top:6px;"><div style="height:100%;width:' + pct + '%;background:' + color + ';border-radius:2px;"></div></div></div>';
+        });
+        document.getElementById("pdBreakdown").innerHTML = breakdownHtml;
+
+        // Improvement tips
+        var tips = [];
+        if (!bd.priceFairness || bd.priceFairness < 20) tips.push("Your quotes are priced outside the typical market range. Compare your pricing to local averages.");
+        if (!bd.scopeCompleteness || bd.scopeCompleteness < 20) tips.push("Include more line items in your quotes: labor, materials, permits, cleanup, warranty terms.");
+        if (!bd.transparency || bd.transparency < 10) tips.push("Specify materials, warranty length, and minimize red flags in your quotes.");
+        if (!bd.warranty || bd.warranty < 5) tips.push("Offer and document longer warranty coverage to boost your score.");
+        if (bd.redFlags !== undefined && bd.redFlags < 7) tips.push("Reduce red flags: include USDOT/license numbers, avoid vague pricing, provide binding estimates.");
+        if (!bd.userRating) tips.push("Encourage satisfied customers to leave reviews to unlock the User Rating category (15 points).");
+
+        if (tips.length > 0) {
+          detailsEl.style.display = "block";
+          detailsEl.innerHTML = '<div class="pd-card"><h3 style="margin-top:0;margin-bottom:12px;">How to Improve Your Score</h3>' +
+            tips.map(function(t) { return '<div class="pd-tip warn">' + t + '</div>'; }).join("") +
+            '</div>';
+        }
+
+      } catch(err) {
+        resultEl.innerHTML = '<div class="pd-empty" style="color:#dc2626;">Could not load score. Please try again.</div>';
+      }
+    });
+
+    // Auto-lookup from URL params
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("name")) {
+      document.getElementById("pdName").value = params.get("name");
+      if (params.get("city")) document.getElementById("pdCity").value = params.get("city");
+      if (params.get("state")) document.getElementById("pdState").value = params.get("state");
+      document.getElementById("pdLookup").click();
+    }
+  })();
+  </script>
+  <script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>

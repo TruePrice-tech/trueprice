@@ -1,8 +1,15 @@
 // Contractor directory endpoint — self-signup and search
 // In-memory storage (replace with Vercel KV for persistence)
 
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { Redis } from "@upstash/redis";
+
+let redis = null;
+try { redis = Redis.fromEnv(); } catch(e) { /* Redis unavailable */ }
+
+// Services excluded from ranking (legal/medical risk)
+const NO_RANK_SERVICES = new Set(["medical", "legal"]);
 
 const contractors = [];
 const rateLimits = {};
@@ -196,17 +203,92 @@ export default async function handler(req, res) {
       filtered = filtered.filter(c => c.services.includes(service));
     }
 
-    // Sort: claimed listings first, then by submission date
+    // Look up tier and score data from Redis for claimed contractors
+    const tierMap = {};
+    const scoreMap = {};
+    if (redis) {
+      try {
+        // Batch lookup tiers from onboard records
+        const claimedEmails = filtered.filter(c => c.claimed && c.email).map(c => c.email);
+        for (const email of claimedEmails.slice(0, 50)) {
+          const rec = await redis.get(`contractor:${email}`);
+          if (rec) {
+            const parsed = typeof rec === "string" ? JSON.parse(rec) : rec;
+            tierMap[email] = parsed.tier || "basic";
+          }
+        }
+        // Batch lookup scores
+        for (const c of filtered.filter(c => c.claimed).slice(0, 50)) {
+          const scoreKey = `ctr:${c.companyName.toLowerCase().replace(/[^a-z0-9]/g, "_")}:${(c.cities?.[0] || "").toLowerCase()}:${(c.states?.[0] || "").toUpperCase()}`;
+          const scoreData = await redis.get(scoreKey);
+          if (scoreData) {
+            const parsed = typeof scoreData === "string" ? JSON.parse(scoreData) : scoreData;
+            if (parsed.quoteCount > 0 || parsed.reviewCount > 0) {
+              scoreMap[c.companyName] = parsed;
+            }
+          }
+        }
+      } catch(e) { /* Redis lookup failed, continue without tier/score data */ }
+    }
+
+    // Compute scores for sorting
+    function computeScore(data) {
+      if (!data || (data.quoteCount === 0 && data.reviewCount === 0)) return null;
+      const hasReviews = data.reviewCount > 0;
+      const boost = hasReviews ? 1.0 : 100 / 85;
+      let score = 0;
+      if (data.quoteCount > 0 && data.avgPriceRatio > 0) {
+        const dev = Math.abs(1 - data.avgPriceRatio);
+        let pf = dev <= 0.10 ? 25 : dev <= 0.20 ? 20 : dev <= 0.30 ? 15 : 5;
+        if (data.avgPriceRatio < 1.0 && dev <= 0.15) pf = 25;
+        score += Math.round(pf * boost);
+      }
+      if (data.quoteCount > 0) {
+        const avgScope = data.totalScopeItems / data.quoteCount;
+        score += Math.round((avgScope >= 10 ? 25 : avgScope >= 8 ? 20 : avgScope >= 6 ? 15 : 5) * boost);
+        let tp = 0;
+        if (data.hasMaterial) tp += 3; if (data.hasWarranty) tp += 3;
+        if (data.avgRedFlags <= 0) tp += 4; else if (data.avgRedFlags <= 1) tp += 2;
+        tp += 5;
+        score += Math.round(Math.min(15, tp) * boost);
+        const avgW = data.totalWarrantyYears / data.quoteCount;
+        score += Math.round((avgW >= 10 ? 10 : avgW >= 5 ? 7 : avgW >= 1 ? 4 : 0) * boost);
+        score += Math.round((data.avgRedFlags === 0 ? 10 : data.avgRedFlags <= 1 ? 7 : data.avgRedFlags <= 2 ? 4 : 0) * boost);
+      }
+      if (hasReviews) {
+        const avg = data.totalRating / data.reviewCount;
+        score += avg >= 4.5 ? 15 : avg >= 4.0 ? 12 : avg >= 3.0 ? 8 : 3;
+      }
+      return Math.max(0, Math.min(100, Math.round(score)));
+    }
+
+    // Tier priority: featured=3, verified=2, basic=1, unclaimed=0
+    const TIER_PRIORITY = { featured: 3, verified: 2, basic: 1 };
+
+    // Sort: featured > verified > basic > unclaimed, then by score, then by years
     filtered.sort((a, b) => {
-      if (a.claimed && !b.claimed) return -1;
-      if (!a.claimed && b.claimed) return 1;
+      const aClaimed = a.claimed !== false;
+      const bClaimed = b.claimed !== false;
+      if (aClaimed && !bClaimed) return -1;
+      if (!aClaimed && bClaimed) return 1;
+      if (aClaimed && bClaimed) {
+        const aTier = TIER_PRIORITY[tierMap[a.email] || "basic"] || 1;
+        const bTier = TIER_PRIORITY[tierMap[b.email] || "basic"] || 1;
+        if (aTier !== bTier) return bTier - aTier;
+        const aScore = scoreMap[a.companyName] ? (computeScore(scoreMap[a.companyName]) || 0) : 0;
+        const bScore = scoreMap[b.companyName] ? (computeScore(scoreMap[b.companyName]) || 0) : 0;
+        if (aScore !== bScore) return bScore - aScore;
+        return (b.yearsInBusiness || 0) - (a.yearsInBusiness || 0);
+      }
       return 0;
     });
 
-    // Return public fields only (no email, no IP)
-    // For unclaimed listings, omit phone/website/licenseNumber
+    // Return public fields with tier, score, badge (no email, no IP)
     const publicList = filtered.slice(0, 50).map(c => {
       const isClaimed = c.claimed !== false;
+      const tier = isClaimed ? (tierMap[c.email] || "basic") : null;
+      const rawScore = scoreMap[c.companyName] ? computeScore(scoreMap[c.companyName]) : null;
+      const scoreLabel = rawScore >= 90 ? "Excellent" : rawScore >= 75 ? "Very Good" : rawScore >= 60 ? "Good" : rawScore >= 45 ? "Fair" : rawScore !== null ? "Needs Improvement" : null;
       return {
         id: c.id,
         companyName: c.companyName,
@@ -219,6 +301,11 @@ export default async function handler(req, res) {
         licenseNumber: isClaimed ? (c.licenseNumber || null) : null,
         yearsInBusiness: c.yearsInBusiness || null,
         claimed: isClaimed,
+        tier: tier,
+        score: rawScore,
+        scoreLabel: scoreLabel,
+        reviewCount: scoreMap[c.companyName]?.reviewCount || 0,
+        quoteCount: scoreMap[c.companyName]?.quoteCount || 0,
         submittedAt: c.submittedAt
       };
     });

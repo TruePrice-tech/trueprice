@@ -93,12 +93,27 @@ function computeContractorScore(data) {
   };
 }
 
+// Services excluded from contractor ranking (legal/regulatory risk)
+// Medical and legal providers must not be ranked, scored, or steered.
+// We only analyze quotes and flag anomalies for those verticals.
+const NO_RANK_SERVICES = new Set(["medical", "legal"]);
+
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "https://truepricehq.com");
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") return res.status(204).end();
+
+  // Block scoring for medical/legal services
+  const service = (req.query?.service || req.body?.service || "").toLowerCase();
+  if (NO_RANK_SERVICES.has(service)) {
+    return res.status(200).json({
+      found: false,
+      blocked: true,
+      reason: "Scoring is not available for " + service + " providers. TruePrice analyzes quotes and flags anomalies but does not rank or recommend providers in this category."
+    });
+  }
 
   // GET: Retrieve contractor score
   if (req.method === "GET") {
