@@ -676,7 +676,7 @@
 
       var hasIssues = r.redFlags.length > 0;
       var verdictCss = hasIssues ? "issues" : "clean";
-      var verdictLabel = hasIssues ? ("Billing Issues Found: " + r.redFlags.length) : "This bill looks correct";
+      var verdictLabel = hasIssues ? ("Potential Issues Found: " + r.redFlags.length) : "No obvious issues detected";
 
       var html = '';
 

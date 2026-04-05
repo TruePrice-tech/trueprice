@@ -861,14 +861,14 @@
       var verdictLabel = "";
       var verdictTitle = "";
       if (r.verdictType === "fair") {
-        verdictLabel = "Rate Looks Fair";
-        verdictTitle = "This rate is within the typical market range";
+        verdictLabel = "Within Typical Range";
+        verdictTitle = "Based on published data, this rate is within the typical range for this practice area and region";
       } else if (r.verdictType === "above") {
-        verdictLabel = "Above Market Rate";
-        verdictTitle = "This rate is higher than typical for your area";
+        verdictLabel = "Higher Than Typical Range";
+        verdictTitle = "Based on published data, this rate is above the typical range for this practice area and region";
       } else {
-        verdictLabel = "Below Typical";
-        verdictTitle = "This rate is lower than the typical market range";
+        verdictLabel = "Below Typical Range";
+        verdictTitle = "Based on published data, this rate is below the typical range for this practice area and region";
       }
 
       var html = '';
@@ -882,6 +882,8 @@
         if (r.practiceArea) html += ' &middot; ' + escHtml(PRACTICE_LABELS[r.practiceArea] || r.practiceArea);
         html += '</div>';
       }
+      html += '<div style="font-size:11px; color:#94a3b8; margin-top:8px;">Based on published bar association fee surveys. Not legal advice. <a href="/terms.html" style="color:#94a3b8;">Terms</a></div>';
+      html += '</div>';
       html += '<div class="lf-summary">';
       if (r.feeType === "hourly" && r.hourlyRate > 0) {
         html += '<div class="lf-summary-item"><div class="label">Hourly Rate</div><div class="value">' + fmtWhole(r.hourlyRate) + '/hr</div></div>';
