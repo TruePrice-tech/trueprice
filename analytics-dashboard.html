@@ -65,6 +65,9 @@
 
       <div class="dash-stats" id="statsRow"></div>
 
+      <h3 style="margin:0 0 8px; font-size:14px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em;">Conversions</h3>
+      <div class="dash-stats" id="conversionRow"></div>
+
       <div class="dash-panel">
         <h3>Traffic over time</h3>
         <div class="dash-chart" id="hourlyChart"></div>
@@ -169,12 +172,37 @@
     }
 
     function render(d) {
+      // Calculate conversion metrics
+      var analyzerViews = 0, photoViews = 0, analysisCompleted = 0, photoCompleted = 0;
+      (d.topPages || []).forEach(function(p) {
+        if (p.path === "/analyze-quote.html" || p.path.indexOf("quote-analyzer") > -1) analyzerViews += p.count;
+        if (p.path === "/photo-estimate.html") photoViews += p.count;
+      });
+      (d.topEvents || []).forEach(function(e) {
+        if (e.event === "analysis_completed" || e.event === "funnel_analysis_complete") analysisCompleted += e.count;
+        if (e.event === "photo_estimate_completed") photoCompleted += e.count;
+      });
+      var analyzerConv = analyzerViews > 0 ? Math.round(analysisCompleted / analyzerViews * 100) : 0;
+      var photoConv = photoViews > 0 ? Math.round(photoCompleted / photoViews * 100) : 0;
+
+      // Calculate bounce rate (pages with only 1 view from a visitor)
+      var totalPages = (d.topPages || []).length;
+      var singleViewPages = (d.topPages || []).filter(function(p) { return p.count === 1; }).length;
+      var bounceRate = totalPages > 0 ? Math.round(singleViewPages / totalPages * 100) : 0;
+
       // Stats row
       document.getElementById("statsRow").innerHTML =
         stat("Page Views", d.totalViews) +
         stat("Unique Visitors", d.uniqueVisitors) +
         stat("Events", d.totalEvents || 0) +
         stat("Bot Crawls", d.totalCrawls || 0);
+
+      // Conversion stats row
+      document.getElementById("conversionRow").innerHTML =
+        statColor("Analyzer Conv.", analyzerConv + "%", analyzerConv > 10 ? "#166534" : "#991b1b") +
+        statColor("Photo Conv.", photoConv + "%", photoConv > 10 ? "#166534" : "#991b1b") +
+        statSub("Analyses", analysisCompleted + " / " + analyzerViews + " views") +
+        statSub("Photo Est.", photoCompleted + " / " + photoViews + " views");
 
       // Top pages
       var maxCount = d.topPages.length ? d.topPages[0].count : 1;
@@ -311,6 +339,12 @@
 
     function stat(label, value) {
       return '<div class="dash-stat"><div class="dash-stat-label">' + label + '</div><div class="dash-stat-value">' + (value || 0) + '</div></div>';
+    }
+    function statColor(label, value, color) {
+      return '<div class="dash-stat"><div class="dash-stat-label">' + label + '</div><div class="dash-stat-value" style="color:' + color + '">' + value + '</div></div>';
+    }
+    function statSub(label, sub) {
+      return '<div class="dash-stat"><div class="dash-stat-label">' + label + '</div><div style="font-size:16px;font-weight:600;color:var(--text);margin-top:4px;">' + sub + '</div></div>';
     }
 
     function esc(t) {
