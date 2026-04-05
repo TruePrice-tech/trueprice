@@ -51,9 +51,14 @@ module.exports = async (req, res) => {
   const multipliers = getMultipliers();
   const entry = multipliers[key];
 
+  const { service } = req.query;
+
   // Direct match
   if (entry) {
-    return res.status(200).json({ multiplier: entry.multiplier, rangeLow: entry.rangeLow || 0.85, rangeHigh: entry.rangeHigh || 1.18, source: entry.source });
+    const coords = getCityCoords();
+    const coord = coords[key] || null;
+    const svcMult = service && entry.serviceMultipliers?.[service] ? entry.serviceMultipliers[service] : null;
+    return res.status(200).json({ multiplier: entry.multiplier, svcMult, rangeLow: entry.rangeLow || 0.85, rangeHigh: entry.rangeHigh || 1.18, lat: coord?.lat, lng: coord?.lng, source: entry.source });
   }
 
   // Not in list - geocode the unknown city, find nearest city in our list by coordinates
@@ -86,10 +91,13 @@ module.exports = async (req, res) => {
             const nearest = multipliers[bestKey];
             const rangeLow = bestDist > 80 ? 0.75 : bestDist > 40 ? 0.78 : nearest.rangeLow || 0.82;
             const rangeHigh = bestDist > 80 ? 1.30 : bestDist > 40 ? 1.25 : nearest.rangeHigh || 1.22;
+            const svcMult = service && nearest.serviceMultipliers?.[service] ? nearest.serviceMultipliers[service] : null;
             return res.status(200).json({
               multiplier: nearest.multiplier,
+              svcMult,
               rangeLow,
               rangeHigh,
+              lat, lng,
               nearestCity: bestKey,
               distanceKm: Math.round(bestDist),
               source: 'nearest_city'

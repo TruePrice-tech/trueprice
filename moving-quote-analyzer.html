@@ -64,7 +64,7 @@
   </script>
 
   <style>
-    .mv-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .mv-app { max-width: 720px; margin: 0 auto; padding: 2rem 1rem; }
     .mv-hero { text-align: center; margin-bottom: 2rem; user-select: none; cursor: default; }
     .mv-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
     .mv-hero p { color: #64748b; font-size: 1.1rem; }
@@ -238,29 +238,48 @@
     };
   </script>
 
+  <style>
+    .mv-compare { margin-top: 1.5rem; }
+    .mv-compare-grid { display: grid; gap: 10px; margin-top: 12px; }
+    .mv-compare-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 10px; align-items: center; font-size: 0.9rem; }
+    .mv-compare-row.header { background: #f8fafc; font-weight: 700; font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .mv-compare-row.highlight { background: #fffbeb; border-color: #fde68a; }
+    .mv-compare-row .method-name { font-weight: 600; color: #1e293b; }
+    .mv-compare-row .method-price { font-weight: 700; color: #1e293b; }
+    .mv-compare-row .method-effort { font-size: 0.8rem; color: #64748b; }
+    .mv-compare-row .method-savings { font-size: 0.8rem; color: #16a34a; font-weight: 600; }
+    .mv-compare-row .method-savings.negative { color: #dc2626; }
+    .mv-seasonal-badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; margin-left: 8px; }
+    .mv-seasonal-badge.peak { background: #fef2f2; color: #dc2626; }
+    .mv-seasonal-badge.shoulder { background: #fffbeb; color: #d97706; }
+    .mv-seasonal-badge.offpeak { background: #f0fdf4; color: #16a34a; }
+    .mv-your-quote-marker { display: inline-block; padding: 2px 8px; background: #d97706; color: #fff; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 6px; }
+    @media(max-width:600px) {
+      .mv-compare-row { grid-template-columns: 1fr 1fr; gap: 4px; }
+      .mv-compare-row.header { display: none; }
+    }
+  </style>
   <script>
   (function() {
     "use strict";
 
-    // ── Moving Pricing Model ──
+    // ── Moving Pricing Model (city-level, 2026) ──
     var MOVING_PRICING = {
-      hourlyRatesByMoveType: {
-        local: { low: 80, mid: 120, high: 180 },
-        longDistance: { low: 2000, mid: 4500, high: 8000 }
-      },
       hourlyRatesByCrewSize: {
-        2: { low: 80, mid: 110, high: 150 },
-        3: { low: 120, mid: 160, high: 210 },
-        4: { low: 160, mid: 210, high: 280 }
+        2: { low: 80, mid: 100, high: 120 },
+        3: { low: 120, mid: 145, high: 170 },
+        4: { low: 160, mid: 190, high: 220 }
       },
-      costPerPoundLongDistance: { low: 0.40, mid: 0.70, high: 1.00 },
+      weightByHomeSize: {
+        studio: 2000, "1br": 3000, "2br": 5500, "3br": 9000, "4br": 12500, "5br+": 16000
+      },
       localByHomeSize: {
-        studio:  { low: 300,  mid: 500,   high: 800 },
-        "1br":   { low: 400,  mid: 700,   high: 1100 },
-        "2br":   { low: 600,  mid: 1000,  high: 1600 },
-        "3br":   { low: 900,  mid: 1500,  high: 2400 },
-        "4br":   { low: 1200, mid: 2200,  high: 3500 },
-        "5br+":  { low: 1800, mid: 3200,  high: 5000 }
+        studio:  { low: 300,  mid: 450,   high: 600 },
+        "1br":   { low: 400,  mid: 600,   high: 800 },
+        "2br":   { low: 600,  mid: 900,   high: 1200 },
+        "3br":   { low: 900,  mid: 1350,  high: 1800 },
+        "4br":   { low: 1200, mid: 1850,  high: 2500 },
+        "5br+":  { low: 1800, mid: 2900,  high: 4000 }
       },
       longDistanceByHomeSize: {
         studio:  { low: 1200, mid: 2200,  high: 3500 },
@@ -270,9 +289,35 @@
         "4br":   { low: 5000, mid: 8500,  high: 13000 },
         "5br+":  { low: 7000, mid: 12000, high: 18000 }
       },
-      regionMultiplier: {
-        south: 0.90, southeast: 0.93, northeast: 1.18,
-        midwest: 0.95, mountain: 1.00, west: 1.22
+      distanceTierMultiplier: {
+        short: 0.85,   // under 250mi
+        mid: 1.0,      // 250-750mi
+        long: 1.15,    // 750-1500mi
+        cross: 1.30    // 1500+mi
+      },
+      seasonalMultiplier: {
+        1: 0.90, 2: 0.90, 3: 0.95, 4: 1.0, 5: 1.15, 6: 1.25,
+        7: 1.25, 8: 1.20, 9: 1.10, 10: 0.95, 11: 0.90, 12: 0.85
+      },
+      // Comparison method pricing (national base, multiplied by city)
+      truckRental: {
+        local: { studio: 40, "1br": 40, "2br": 80, "3br": 120, "4br": 150, "5br+": 180 },
+        perMile: 0.69,
+        gas: { local: 40, longDistance: { perMile: 0.25 } },
+        insurance: 14
+      },
+      container: {
+        local: { studio: 200, "1br": 250, "2br": 400, "3br": 600, "4br": 900, "5br+": 1200 },
+        longDistancePerMile: 0.60,
+        delivery: 150
+      },
+      hybrid: {
+        local: { studio: 200, "1br": 300, "2br": 500, "3br": 800, "4br": 1100, "5br+": 1500 },
+        longDistanceMultiplier: 2.2
+      },
+      freight: {
+        perPound: { low: 0.30, mid: 0.50, high: 0.75 },
+        minimum: 300
       },
       scopeItems: [
         { key: "bindingEstimate", label: "Binding or not-to-exceed estimate provided", weight: 15 },
@@ -288,48 +333,96 @@
       ]
     };
 
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
+    var STATE_NAMES = {
+      AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",
+      CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",
+      IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",
+      ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",
+      MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",
+      NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",
+      OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",
+      TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",
+      WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",DC:"Washington DC"
     };
+    var STATE_CODES = Object.keys(STATE_NAMES);
 
     // ── State ──
     var appRoot = document.getElementById("mvApp");
     var state = {
       step: "upload",
-      stateCode: "",
-      moveType: "local",
+      fromCity: "", fromState: "",
+      toCity: "", toState: "",
       homeSize: "2br",
+      distance: null,
+      moveType: "local",
       uploadedFile: null,
       extractedText: "",
-      result: null
+      result: null,
+      originMult: 1.0,
+      destMult: 1.0,
+      originLat: null, originLng: null,
+      destLat: null, destLng: null
     };
 
     // ── Helpers ──
-    function $(sel, el) { return (el || document).querySelector(sel); }
     function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function fmtCents(n) { return "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+    // Haversine distance in miles
+    function haversineMiles(lat1, lng1, lat2, lng2) {
+      var R = 3959;
+      var dLat = (lat2 - lat1) * Math.PI / 180;
+      var dLng = (lng2 - lng1) * Math.PI / 180;
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng/2) * Math.sin(dLng/2);
+      return 2 * R * Math.asin(Math.sqrt(a));
     }
 
-    function getExpectedRange(moveType, homeSize, region) {
+    // Infer move type from state pair + distance
+    function inferMoveType(fromSt, toSt, dist) {
+      if (fromSt && toSt && fromSt !== toSt) return "longDistance";
+      if (dist && dist > 100) return "longDistance";
+      return "local";
+    }
+
+    function getDistanceTier(miles) {
+      if (!miles || miles < 250) return "short";
+      if (miles < 750) return "mid";
+      if (miles < 1500) return "long";
+      return "cross";
+    }
+
+    function getSeasonalMult() {
+      var m = new Date().getMonth() + 1;
+      return MOVING_PRICING.seasonalMultiplier[m] || 1.0;
+    }
+    function getSeasonLabel() {
+      var m = new Date().getMonth() + 1;
+      var mult = MOVING_PRICING.seasonalMultiplier[m];
+      if (mult >= 1.20) return { label: "Peak season", css: "peak", tip: "June-August are the busiest months. Prices are 20-25% higher. Moving in fall or winter could save you hundreds." };
+      if (mult >= 1.10) return { label: "Shoulder season", css: "shoulder", tip: "May and September are moderately busy. Prices are 10-15% above off-peak rates." };
+      return { label: "Off-peak", css: "offpeak", tip: "Great timing. Demand is lower so rates and availability are better." };
+    }
+
+    function getExpectedRange(moveType, homeSize, cityMult, dist) {
       var table = moveType === "longDistance" ? MOVING_PRICING.longDistanceByHomeSize : MOVING_PRICING.localByHomeSize;
       var base = table[homeSize] || table["2br"];
-      var mult = MOVING_PRICING.regionMultiplier[region] || 1.0;
+      var distTier = moveType === "longDistance" ? (MOVING_PRICING.distanceTierMultiplier[getDistanceTier(dist)] || 1.0) : 1.0;
+      var seasonal = getSeasonalMult();
+      var m = cityMult || 1.0;
       return {
-        low: Math.round(base.low * mult),
-        mid: Math.round(base.mid * mult),
-        high: Math.round(base.high * mult)
+        low: Math.round(base.low * m * distTier * seasonal),
+        mid: Math.round(base.mid * m * distTier * seasonal),
+        high: Math.round(base.high * m * distTier * seasonal)
       };
+    }
+
+    // Weighted city multiplier for interstate: 60% origin, 40% dest
+    function getWeightedMult() {
+      if (state.fromState && state.toState && state.fromState !== state.toState) {
+        return 0.6 * state.originMult + 0.4 * state.destMult;
+      }
+      return state.originMult || 1.0;
     }
 
     function verdictFromRatio(ratio) {
@@ -348,14 +441,75 @@
       return { label: "Market rate", css: "fair" };
     }
 
-    function capitalize(s) {
-      return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
-    }
-
     var homeSizeLabels = {
       studio: "Studio", "1br": "1 Bedroom", "2br": "2 Bedroom", "3br": "3 Bedroom",
       "4br": "4 Bedroom", "5br+": "5+ Bedroom"
     };
+
+    // Fetch city multiplier + coords from API
+    function fetchCityData(city, stateCode) {
+      if (!city || !stateCode) return Promise.resolve({ mult: 1.0 });
+      return fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=moving")
+        .then(function(r) { return r.json(); })
+        .then(function(d) { return { mult: d.svcMult || d.multiplier || 1.0, lat: d.lat, lng: d.lng }; })
+        .catch(function() { return { mult: 1.0 }; });
+    }
+
+    // ── Comparison Methods ──
+    function getComparisonEstimates(moveType, homeSize, cityMult, dist) {
+      var seasonal = getSeasonalMult();
+      var m = cityMult || 1.0;
+      var distTier = moveType === "longDistance" ? (MOVING_PRICING.distanceTierMultiplier[getDistanceTier(dist)] || 1.0) : 1.0;
+      var miles = dist || 30;
+
+      // 1. Full-service movers
+      var fsTable = moveType === "longDistance" ? MOVING_PRICING.longDistanceByHomeSize : MOVING_PRICING.localByHomeSize;
+      var fsBase = fsTable[homeSize] || fsTable["2br"];
+      var fullService = { low: Math.round(fsBase.low * m * distTier * seasonal), high: Math.round(fsBase.high * m * distTier * seasonal) };
+
+      // 2. Portable container (PODS, U-Pack)
+      var containerBase = MOVING_PRICING.container.local[homeSize] || 400;
+      var containerCost;
+      if (moveType === "longDistance") {
+        containerCost = { low: Math.round((containerBase + miles * 0.40 + 150) * m * 0.9), high: Math.round((containerBase * 1.5 + miles * 0.80 + 300) * m * 1.1) };
+      } else {
+        containerCost = { low: Math.round(containerBase * m * 0.9), high: Math.round((containerBase * 1.8 + 150) * m * 1.1) };
+      }
+
+      // 3. Hybrid (you load, they drive)
+      var hybridBase = MOVING_PRICING.hybrid.local[homeSize] || 500;
+      var hybridCost;
+      if (moveType === "longDistance") {
+        hybridCost = { low: Math.round(hybridBase * 1.8 * m * 0.9 + miles * 0.30), high: Math.round(hybridBase * 2.5 * m * 1.1 + miles * 0.50) };
+      } else {
+        hybridCost = { low: Math.round(hybridBase * m * 0.9), high: Math.round(hybridBase * 1.6 * m * 1.1) };
+      }
+
+      // 4. Truck rental (U-Haul, Penske, Budget)
+      var truckBase = MOVING_PRICING.truckRental.local[homeSize] || 80;
+      var truckGas = moveType === "longDistance" ? miles * 0.25 : 40;
+      var truckMileage = moveType === "longDistance" ? miles * 0.69 : 0;
+      var truckInsurance = moveType === "longDistance" ? 14 * Math.ceil(miles / 400) : 14;
+      var truckTotal = truckBase + truckMileage + truckGas + truckInsurance;
+      var truckCost = { low: Math.round(truckTotal * 0.8), high: Math.round(truckTotal * 1.4) };
+
+      // 5. Freight/LTL (boxes only)
+      var weight = MOVING_PRICING.weightByHomeSize[homeSize] || 5500;
+      var freightCost;
+      if (moveType === "longDistance") {
+        freightCost = { low: Math.max(300, Math.round(weight * 0.30 * 0.5)), high: Math.round(weight * 0.75 * 0.7) };
+      } else {
+        freightCost = { low: 200, high: Math.round(weight * 0.20) };
+      }
+
+      return [
+        { method: "Full-Service Movers", low: fullService.low, high: fullService.high, effort: "They do everything", icon: "&#128666;" },
+        { method: "Portable Container", low: containerCost.low, high: containerCost.high, effort: "You pack, they drive", icon: "&#128230;", examples: "PODS, U-Pack, 1-800-PACK-RAT" },
+        { method: "Hybrid Service", low: hybridCost.low, high: hybridCost.high, effort: "You load, they drive", icon: "&#128690;", examples: "ABF U-Pack, old Dominion" },
+        { method: "Truck Rental (DIY)", low: truckCost.low, high: truckCost.high, effort: "Full DIY + helpers", icon: "&#128667;", examples: "U-Haul, Penske, Budget" },
+        { method: "Freight / Ship Boxes", low: freightCost.low, high: freightCost.high, effort: "Boxes only, no furniture", icon: "&#128230;", examples: "Greyhound, Amtrak, UPS" }
+      ];
+    }
 
     // ── Feedback ──
     window.submitFeedback = function(response) {
@@ -395,11 +549,13 @@
 
     // ── Upload Step ──
     function renderUpload() {
+      var seasonInfo = getSeasonLabel();
       appRoot.innerHTML = '\
         <div class="mv-hero">\
           <img src="/images/trudy-moving.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
           <h1>Is your moving quote fair?</h1>\
-          <p>Upload your estimate from any moving company. Trudy checks the rates, fees, and flags anything suspicious.</p>\
+          <p>Upload your estimate or enter details below. Trudy checks rates, fees, and compares every moving method.</p>\
+          <span class="mv-seasonal-badge ' + seasonInfo.css + '">' + seasonInfo.label + '</span>\
         </div>\
         <div class="mv-card">\
           <div class="mv-upload-zone" id="uploadZone">\
@@ -410,7 +566,7 @@
             <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
           </div>\
           <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
-          <div class="mv-divider">or enter your quote total manually</div>\
+          <div class="mv-divider">or enter your quote details manually</div>\
           <div class="mv-manual-form">\
             <div class="mv-row">\
               <div style="position:relative;">\
@@ -419,19 +575,6 @@
                   <span style="font-size:18px;font-weight:700;color:#334155;">$</span>\
                   <input type="number" id="manualTotal" placeholder="e.g. 2400" min="50" max="50000" />\
                 </div>\
-              </div>\
-              <div>\
-                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">State</label>\
-                <input type="text" id="manualState" placeholder="e.g. TX" maxlength="2" style="text-transform:uppercase;" />\
-              </div>\
-            </div>\
-            <div class="mv-row">\
-              <div>\
-                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Move Type</label>\
-                <select id="manualMoveType">\
-                  <option value="local">Local (under 100 miles)</option>\
-                  <option value="longDistance">Long Distance (100+ miles)</option>\
-                </select>\
               </div>\
               <div>\
                 <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Home Size</label>\
@@ -445,6 +588,30 @@
                 </select>\
               </div>\
             </div>\
+            <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:16px;margin:4px 0;">\
+              <div style="font-size:0.9rem;font-weight:600;color:#0369a1;margin-bottom:10px;">Where are you moving?</div>\
+              <div class="mv-row">\
+                <div>\
+                  <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">From City</label>\
+                  <input type="text" id="fromCity" placeholder="e.g. Charlotte" />\
+                </div>\
+                <div>\
+                  <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">From State</label>\
+                  <input type="text" id="fromState" placeholder="e.g. NC" maxlength="2" style="text-transform:uppercase;" />\
+                </div>\
+              </div>\
+              <div class="mv-row" style="margin-top:8px;">\
+                <div>\
+                  <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">To City</label>\
+                  <input type="text" id="toCity" placeholder="e.g. Atlanta" />\
+                </div>\
+                <div>\
+                  <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">To State</label>\
+                  <input type="text" id="toState" placeholder="e.g. GA" maxlength="2" style="text-transform:uppercase;" />\
+                </div>\
+              </div>\
+              <div id="moveTypeInferred" style="margin-top:8px;font-size:0.8rem;color:#0369a1;display:none;"></div>\
+            </div>\
             <div class="mv-row">\
               <div>\
                 <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Hourly Rate (if known)</label>\
@@ -455,7 +622,7 @@
               </div>\
               <div>\
                 <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Distance (miles)</label>\
-                <input type="number" id="manualDistance" placeholder="optional" min="1" max="5000" />\
+                <input type="number" id="manualDistance" placeholder="auto-calculated" min="1" max="5000" />\
               </div>\
             </div>\
             <button class="mv-btn mv-btn-primary mv-btn-full" id="btnManualAnalyze">Analyze This Quote</button>\
@@ -465,46 +632,83 @@
       // File upload events
       var zone = document.getElementById("uploadZone");
       var fileInput = document.getElementById("fileInput");
-
       zone.addEventListener("click", function() { fileInput.click(); });
       zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#d97706"; zone.style.background = "#fffbeb"; });
       zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc"; });
       zone.addEventListener("drop", function(e) {
-        e.preventDefault();
-        zone.style.borderColor = "#cbd5e1";
-        zone.style.background = "#f8fafc";
+        e.preventDefault(); zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc";
         if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
       });
-      fileInput.addEventListener("change", function() {
-        if (fileInput.files.length) handleFile(fileInput.files[0]);
-      });
+      fileInput.addEventListener("change", function() { if (fileInput.files.length) handleFile(fileInput.files[0]); });
 
       // Paste handler
       document.addEventListener("paste", function(e) {
         if (state.step !== "upload") return;
         var items = (e.clipboardData || {}).items || [];
         for (var i = 0; i < items.length; i++) {
-          if (items[i].type.indexOf("image") !== -1) {
-            handleFile(items[i].getAsFile());
-            break;
-          }
+          if (items[i].type.indexOf("image") !== -1) { handleFile(items[i].getAsFile()); break; }
         }
       });
 
+      // Live move type inference when states change
+      function updateMoveInference() {
+        var fs = (document.getElementById("fromState").value || "").trim().toUpperCase();
+        var ts = (document.getElementById("toState").value || "").trim().toUpperCase();
+        var infoEl = document.getElementById("moveTypeInferred");
+        if (fs.length === 2 && ts.length === 2 && STATE_NAMES[fs] && STATE_NAMES[ts]) {
+          if (fs !== ts) {
+            infoEl.innerHTML = "&#128666; Interstate move detected (" + STATE_NAMES[fs] + " to " + STATE_NAMES[ts] + "). USDOT-licensed mover required.";
+            infoEl.style.display = "block";
+          } else {
+            infoEl.innerHTML = "&#127968; In-state move (" + STATE_NAMES[fs] + ")";
+            infoEl.style.display = "block";
+          }
+        } else {
+          infoEl.style.display = "none";
+        }
+      }
+      document.getElementById("fromState").addEventListener("input", updateMoveInference);
+      document.getElementById("toState").addEventListener("input", updateMoveInference);
+
       // Manual entry
-      document.getElementById("btnManualAnalyze").addEventListener("click", function() {
+      document.getElementById("btnManualAnalyze").addEventListener("click", async function() {
         var total = parseFloat(document.getElementById("manualTotal").value);
         if (!total || total < 50) { alert("Please enter a valid quote total."); return; }
 
-        var rawState = (document.getElementById("manualState").value || "").trim().toUpperCase();
-        state.stateCode = STATE_REGIONS[rawState] ? rawState : "TX";
-        state.moveType = document.getElementById("manualMoveType").value || "local";
+        state.fromCity = document.getElementById("fromCity").value.trim();
+        state.fromState = (document.getElementById("fromState").value || "").trim().toUpperCase();
+        state.toCity = document.getElementById("toCity").value.trim();
+        state.toState = (document.getElementById("toState").value || "").trim().toUpperCase();
         state.homeSize = document.getElementById("manualHomeSize").value || "2br";
         var hourlyRate = parseFloat(document.getElementById("manualHourlyRate").value) || null;
-        var distance = parseFloat(document.getElementById("manualDistance").value) || null;
+        var userDist = parseFloat(document.getElementById("manualDistance").value) || null;
 
-        var region = getRegionFromState(state.stateCode);
-        var expected = getExpectedRange(state.moveType, state.homeSize, region);
+        // Validate states
+        if (state.fromState && !STATE_NAMES[state.fromState]) { alert("Invalid origin state code."); return; }
+        if (state.toState && !STATE_NAMES[state.toState]) { alert("Invalid destination state code."); return; }
+
+        // Fetch city multipliers + coordinates
+        var originData = await fetchCityData(state.fromCity || "", state.fromState || "TX");
+        var destData = await fetchCityData(state.toCity || state.fromCity || "", state.toState || state.fromState || "TX");
+        state.originMult = originData.mult;
+        state.destMult = destData.mult;
+        state.originLat = originData.lat; state.originLng = originData.lng;
+        state.destLat = destData.lat; state.destLng = destData.lng;
+
+        // Auto-calculate distance if we have coordinates
+        var calcDist = null;
+        if (state.originLat && state.destLat) {
+          calcDist = Math.round(haversineMiles(state.originLat, state.originLng, state.destLat, state.destLng));
+        }
+        state.distance = userDist || calcDist;
+
+        // Infer move type with validation
+        state.moveType = inferMoveType(state.fromState, state.toState, state.distance);
+        // Validate: if user said local but distance > 100, override
+        if (state.distance && state.distance > 100) state.moveType = "longDistance";
+
+        var cityMult = getWeightedMult();
+        var expected = getExpectedRange(state.moveType, state.homeSize, cityMult, state.distance);
         var ratio = expected.mid > 0 ? total / expected.mid : 1.0;
 
         state.result = {
@@ -519,16 +723,25 @@
           crewSize: null,
           estimatedHours: null,
           weight: null,
-          distance: distance,
+          distance: state.distance,
           moveDate: null,
           moveType: state.moveType,
           homeSize: state.homeSize,
-          region: region,
+          cityMult: cityMult,
+          fromCity: state.fromCity, fromState: state.fromState,
+          toCity: state.toCity, toState: state.toState,
+          isInterstate: state.fromState && state.toState && state.fromState !== state.toState,
           rateFlag: hourlyRate ? rateFlag(hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[2]) : null,
           scopeSignals: {},
           redFlags: [],
+          comparison: getComparisonEstimates(state.moveType, state.homeSize, cityMult, state.distance),
           parsed: null
         };
+
+        // Auto red flags for manual
+        if (state.result.isInterstate) {
+          state.result.redFlags.push("Interstate move: verify your mover has a valid USDOT number at safer.fmcsa.dot.gov");
+        }
 
         state.step = "result";
         render();
@@ -605,9 +818,9 @@
 
         var result = null;
         if (apiResult && apiResult.quoteTotal) {
-          result = buildResultFromAPI(apiResult);
+          result = await buildResultFromAPI(apiResult);
         } else {
-          result = buildResultFromLocal(text);
+          result = await buildResultFromLocal(text);
         }
 
         setProgress(100, "Done!");
@@ -631,59 +844,60 @@
       });
     }
 
-    function buildResultFromAPI(api) {
-      var region = getRegionFromState(api.stateCode || state.stateCode || "TX");
-      if (api.stateCode) state.stateCode = api.stateCode;
+    async function buildResultFromAPI(api) {
+      if (api.stateCode) { state.fromState = api.stateCode; state.toState = api.toStateCode || api.stateCode; }
       var moveType = api.moveType || state.moveType || "local";
       var homeSize = api.homeSize || state.homeSize || "2br";
-      var expected = getExpectedRange(moveType, homeSize, region);
+      var distance = api.distance || state.distance || null;
 
-      var lineItems = (api.lineItems || []).map(function(item) {
-        return {
-          description: item.description || "Service",
-          cost: item.cost || 0
-        };
-      });
+      // Fetch city multipliers
+      var originData = await fetchCityData(api.originCity || state.fromCity || "", state.fromState || "TX");
+      var destData = await fetchCityData(api.destCity || state.toCity || state.fromCity || "", state.toState || state.fromState || "TX");
+      state.originMult = originData.mult; state.destMult = destData.mult;
+      state.originLat = originData.lat; state.originLng = originData.lng;
+      state.destLat = destData.lat; state.destLng = destData.lng;
 
+      if (!distance && state.originLat && state.destLat) {
+        distance = Math.round(haversineMiles(state.originLat, state.originLng, state.destLat, state.destLng));
+      }
+      if (distance && distance > 100) moveType = "longDistance";
+      state.moveType = moveType; state.distance = distance;
+
+      var cityMult = getWeightedMult();
+      var expected = getExpectedRange(moveType, homeSize, cityMult, distance);
+      var lineItems = (api.lineItems || []).map(function(item) { return { description: item.description || "Service", cost: item.cost || 0 }; });
       var quoteTotal = api.quoteTotal || 0;
-      var benchmark = api.benchmark || expected.mid;
-      var ratio = benchmark > 0 ? quoteTotal / benchmark : 1.0;
+      var ratio = expected.mid > 0 ? quoteTotal / expected.mid : 1.0;
+      var isInterstate = state.fromState && state.toState && state.fromState !== state.toState;
+
+      var redFlags = api.redFlags || [];
+      if (isInterstate && !/\b(?:USDOT|DOT\s*#)\b/i.test(state.extractedText || "")) {
+        redFlags.push("Interstate move: verify your mover has a valid USDOT number at safer.fmcsa.dot.gov");
+      }
 
       return {
-        source: "upload",
-        quoteTotal: quoteTotal,
-        benchmark: benchmark,
-        expectedRange: expected,
-        ratio: ratio,
-        verdict: verdictFromRatio(ratio),
-        lineItems: lineItems,
-        hourlyRate: api.hourlyRate || null,
-        crewSize: api.crewSize || null,
-        estimatedHours: api.estimatedHours || null,
-        weight: api.weight || null,
-        distance: api.distance || null,
-        moveDate: api.moveDate || null,
-        moveType: moveType,
-        homeSize: homeSize,
-        region: region,
+        source: "upload", quoteTotal: quoteTotal, benchmark: expected.mid, expectedRange: expected,
+        ratio: ratio, verdict: verdictFromRatio(ratio), lineItems: lineItems,
+        hourlyRate: api.hourlyRate || null, crewSize: api.crewSize || null,
+        estimatedHours: api.estimatedHours || null, weight: api.weight || null,
+        distance: distance, moveDate: api.moveDate || null, moveType: moveType,
+        homeSize: homeSize, cityMult: cityMult,
+        fromCity: state.fromCity, fromState: state.fromState, toCity: state.toCity, toState: state.toState,
+        isInterstate: isInterstate,
         rateFlag: api.hourlyRate ? rateFlag(api.hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[api.crewSize || 2]) : null,
-        scopeSignals: api.scopeSignals || {},
-        redFlags: api.redFlags || [],
+        scopeSignals: api.scopeSignals || {}, redFlags: redFlags,
+        comparison: getComparisonEstimates(moveType, homeSize, cityMult, distance),
         parsed: api
       };
     }
 
-    function buildResultFromLocal(text) {
+    async function buildResultFromLocal(text) {
       var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
       var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v > 0 && v < 100000; });
 
-      // Detect move type
       var moveType = "local";
-      if (/long\s*distance|interstate|cross[\s-]country|out[\s-]of[\s-]state/i.test(text)) {
-        moveType = "longDistance";
-      }
+      if (/long\s*distance|interstate|cross[\s-]country|out[\s-]of[\s-]state/i.test(text)) moveType = "longDistance";
 
-      // Detect home size
       var homeSize = "2br";
       if (/\bstudio\b/i.test(text)) homeSize = "studio";
       else if (/\b1[\s-]?(?:bed(?:room)?|br)\b/i.test(text)) homeSize = "1br";
@@ -692,54 +906,77 @@
       else if (/\b4[\s-]?(?:bed(?:room)?|br)\b/i.test(text)) homeSize = "4br";
       else if (/\b5[\s-]?(?:bed(?:room)?|br)\b|\b[56789][\s-]?(?:bed|room)/i.test(text)) homeSize = "5br+";
 
-      // Detect hourly rate
       var hourlyRate = null;
       var rateMatch = text.match(/\$?\s*(\d{2,3}(?:\.\d{2})?)\s*(?:\/\s*h(?:ou)?r|per\s*h(?:ou)?r|hr)/i);
       if (rateMatch) hourlyRate = parseFloat(rateMatch[1]);
 
-      // Detect crew size
       var crewSize = null;
       var crewMatch = text.match(/(\d)\s*(?:movers?|men|crew|guys|person)/i);
       if (crewMatch) crewSize = parseInt(crewMatch[1]);
 
-      // Detect estimated hours
       var estimatedHours = null;
       var hoursMatch = text.match(/(\d+(?:\.\d+)?)\s*(?:hours?|hrs?)\b/i);
       if (hoursMatch) estimatedHours = parseFloat(hoursMatch[1]);
 
-      // Detect weight
       var weight = null;
       var weightMatch = text.match(/([\d,]+)\s*(?:lbs?|pounds?)/i);
       if (weightMatch) weight = parseFloat(weightMatch[1].replace(/,/g, ""));
 
-      // Detect distance
       var distance = null;
       var distMatch = text.match(/([\d,]+)\s*miles?/i);
       if (distMatch) distance = parseFloat(distMatch[1].replace(/,/g, ""));
       if (distance && distance > 100) moveType = "longDistance";
 
-      // Detect move date
       var moveDate = null;
       var dateMatch = text.match(/(?:move|moving|service)\s*date[:\s]*([A-Za-z]+\s+\d{1,2},?\s*\d{4}|\d{1,2}\/\d{1,2}\/\d{2,4})/i);
       if (dateMatch) moveDate = dateMatch[1];
 
-      // Detect state
-      var stateMatch = text.match(/\b([A-Z]{2})\s+\d{5}\b/);
-      if (stateMatch && STATE_REGIONS[stateMatch[1]]) {
-        state.stateCode = stateMatch[1];
+      // Detect origin/destination states from text
+      var allStates = text.match(/\b([A-Z]{2})\s+\d{5}\b/g) || [];
+      var detectedStates = allStates.map(function(m) { return m.match(/([A-Z]{2})/)[1]; }).filter(function(s) { return STATE_NAMES[s]; });
+      if (detectedStates.length >= 2 && detectedStates[0] !== detectedStates[1]) {
+        state.fromState = detectedStates[0]; state.toState = detectedStates[1];
+        moveType = "longDistance";
+      } else if (detectedStates.length >= 1) {
+        state.fromState = detectedStates[0]; state.toState = detectedStates[0];
       }
 
-      var region = getRegionFromState(state.stateCode);
-      var expected = getExpectedRange(moveType, homeSize, region);
+      // Detect cities near state codes
+      var cityStatePattern = /([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*),?\s*([A-Z]{2})\b/g;
+      var cityMatch;
+      var detectedCities = [];
+      while ((cityMatch = cityStatePattern.exec(text)) !== null) {
+        if (STATE_NAMES[cityMatch[2]]) detectedCities.push({ city: cityMatch[1], state: cityMatch[2] });
+      }
+      if (detectedCities.length >= 2) {
+        state.fromCity = detectedCities[0].city; state.fromState = detectedCities[0].state;
+        state.toCity = detectedCities[1].city; state.toState = detectedCities[1].state;
+        if (state.fromState !== state.toState) moveType = "longDistance";
+      } else if (detectedCities.length === 1) {
+        state.fromCity = detectedCities[0].city; state.fromState = detectedCities[0].state;
+      }
 
-      // Build line items
+      // Fetch city multipliers
+      var originData = await fetchCityData(state.fromCity || "", state.fromState || "TX");
+      var destData = await fetchCityData(state.toCity || state.fromCity || "", state.toState || state.fromState || "TX");
+      state.originMult = originData.mult; state.destMult = destData.mult;
+      state.originLat = originData.lat; state.originLng = originData.lng;
+      state.destLat = destData.lat; state.destLng = destData.lng;
+
+      if (!distance && state.originLat && state.destLat) {
+        distance = Math.round(haversineMiles(state.originLat, state.originLng, state.destLat, state.destLng));
+      }
+      state.distance = distance;
+      state.moveType = moveType;
+
+      var cityMult = getWeightedMult();
+      var expected = getExpectedRange(moveType, homeSize, cityMult, distance);
+
       var lineItems = [];
       var lineItemPattern = /([A-Za-z][A-Za-z\s\/\-&]+?)[\s.]*\$?([\d,]+(?:\.\d{2})?)/g;
-      var match;
-      var seenDescriptions = {};
-      while ((match = lineItemPattern.exec(text)) !== null) {
-        var desc = match[1].trim();
-        var val = parseFloat(match[2].replace(/,/g, ""));
+      var liMatch; var seenDescriptions = {};
+      while ((liMatch = lineItemPattern.exec(text)) !== null) {
+        var desc = liMatch[1].trim(); var val = parseFloat(liMatch[2].replace(/,/g, ""));
         if (desc.length > 3 && desc.length < 80 && val >= 10 && val < 50000 && !seenDescriptions[desc.toLowerCase()]) {
           seenDescriptions[desc.toLowerCase()] = true;
           lineItems.push({ description: desc, cost: val });
@@ -747,16 +984,10 @@
         if (lineItems.length >= 15) break;
       }
 
-      // Get total
       var quoteTotal = 0;
-      if (prices.length) {
-        prices.sort(function(a, b) { return b - a; });
-        quoteTotal = prices[0];
-      } else {
-        quoteTotal = lineItems.reduce(function(sum, item) { return sum + item.cost; }, 0);
-      }
+      if (prices.length) { prices.sort(function(a, b) { return b - a; }); quoteTotal = prices[0]; }
+      else { quoteTotal = lineItems.reduce(function(sum, item) { return sum + item.cost; }, 0); }
 
-      // Build scope signals
       var scopeSignals = {};
       scopeSignals.bindingEstimate = { status: /\bbinding\b|not[\s-]to[\s-]exceed|guaranteed\s*(?:price|rate|cost)/i.test(text) ? "included" : "unclear" };
       scopeSignals.inventoryList = { status: /inventory|item\s*list|contents?\s*list/i.test(text) ? "included" : "unclear" };
@@ -769,46 +1000,28 @@
       scopeSignals.cancellationPolicy = { status: /\b(?:cancel|reschedul|refund)\b/i.test(text) ? "included" : "unclear" };
       scopeSignals.licenseDOT = { status: /\b(?:USDOT|DOT\s*#|MC\s*#|license\s*#|PUC|ICC)\b/i.test(text) ? "included" : "unclear" };
 
-      // Red flags
       var redFlags = [];
-      if (/large\s*deposit|cash\s*only|pay\s*(?:in\s*)?cash/i.test(text)) {
-        redFlags.push("Requests cash payment or large deposit -- a common moving scam red flag.");
-      }
-      if (!/\b(?:USDOT|DOT\s*#|MC\s*#|license)\b/i.test(text)) {
-        redFlags.push("No USDOT or license number found. Licensed movers are required to display this.");
-      }
-      if (/\bnon[\s-]?binding\b/i.test(text) && !/\bnot[\s-]to[\s-]exceed\b/i.test(text)) {
-        redFlags.push("Non-binding estimate means the final price can increase on moving day.");
-      }
-      if (/\bphone\s*estimate\b|\bsight[\s-]unseen\b|\bno\s*(?:survey|walk[\s-]through|inspection)\b/i.test(text)) {
-        redFlags.push("Estimate given without an in-home survey or video walkthrough -- prices may change significantly.");
-      }
-      if (quoteTotal > 0 && expected.mid > 0 && quoteTotal / expected.mid > 1.4) {
-        redFlags.push("Quote is significantly above market average for this move type and home size.");
-      }
+      if (/large\s*deposit|cash\s*only|pay\s*(?:in\s*)?cash/i.test(text)) redFlags.push("Requests cash payment or large deposit -- a common moving scam red flag.");
+      if (!/\b(?:USDOT|DOT\s*#|MC\s*#|license)\b/i.test(text)) redFlags.push("No USDOT or license number found. Licensed movers are required to display this.");
+      if (/\bnon[\s-]?binding\b/i.test(text) && !/\bnot[\s-]to[\s-]exceed\b/i.test(text)) redFlags.push("Non-binding estimate means the final price can increase on moving day.");
+      if (/\bphone\s*estimate\b|\bsight[\s-]unseen\b|\bno\s*(?:survey|walk[\s-]through|inspection)\b/i.test(text)) redFlags.push("Estimate given without an in-home survey or video walkthrough -- prices may change significantly.");
+      var isInterstate = state.fromState && state.toState && state.fromState !== state.toState;
+      if (isInterstate) redFlags.push("Interstate move detected: verify your mover has a valid USDOT number at safer.fmcsa.dot.gov");
+      if (quoteTotal > 0 && expected.mid > 0 && quoteTotal / expected.mid > 1.4) redFlags.push("Quote is significantly above market average for this move type and home size.");
 
       var ratio = expected.mid > 0 ? quoteTotal / expected.mid : 1.0;
 
       return {
-        source: "upload",
-        quoteTotal: quoteTotal,
-        benchmark: expected.mid,
-        expectedRange: expected,
-        ratio: ratio,
-        verdict: verdictFromRatio(ratio),
-        lineItems: lineItems,
-        hourlyRate: hourlyRate,
-        crewSize: crewSize,
-        estimatedHours: estimatedHours,
-        weight: weight,
-        distance: distance,
-        moveDate: moveDate,
-        moveType: moveType,
-        homeSize: homeSize,
-        region: region,
+        source: "upload", quoteTotal: quoteTotal, benchmark: expected.mid, expectedRange: expected,
+        ratio: ratio, verdict: verdictFromRatio(ratio), lineItems: lineItems,
+        hourlyRate: hourlyRate, crewSize: crewSize, estimatedHours: estimatedHours,
+        weight: weight, distance: distance, moveDate: moveDate, moveType: moveType,
+        homeSize: homeSize, cityMult: cityMult,
+        fromCity: state.fromCity, fromState: state.fromState, toCity: state.toCity, toState: state.toState,
+        isInterstate: isInterstate,
         rateFlag: hourlyRate ? rateFlag(hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[crewSize || 2]) : null,
-        scopeSignals: scopeSignals,
-        redFlags: redFlags,
+        scopeSignals: scopeSignals, redFlags: redFlags,
+        comparison: getComparisonEstimates(moveType, homeSize, cityMult, distance),
         parsed: null
       };
     }
@@ -841,27 +1054,28 @@
           <button class="mv-btn mv-btn-primary" id="fallbackBtn">Analyze this price</button>\
           <div style="margin-top:14px;"><button class="mv-btn mv-btn-secondary" id="fallbackRestart">Start over</button></div>\
         </div>';
-      document.getElementById("fallbackBtn").addEventListener("click", function() {
+      document.getElementById("fallbackBtn").addEventListener("click", async function() {
         var price = parseFloat(document.getElementById("fallbackPrice").value);
         if (!price || price < 50) { alert("Please enter a valid price."); return; }
         var rawSt = (document.getElementById("fallbackState").value || "").trim().toUpperCase();
-        state.stateCode = STATE_REGIONS[rawSt] ? rawSt : "TX";
+        state.fromState = STATE_NAMES[rawSt] ? rawSt : "TX";
+        state.toState = state.fromState;
         var moveType = document.getElementById("fallbackMoveType").value || "local";
         var homeSize = document.getElementById("fallbackHomeSize").value || "2br";
-        var region = getRegionFromState(state.stateCode);
-        var expected = getExpectedRange(moveType, homeSize, region);
+        var originData = await fetchCityData("", state.fromState);
+        state.originMult = originData.mult; state.destMult = originData.mult;
+        var cityMult = state.originMult;
+        var expected = getExpectedRange(moveType, homeSize, cityMult, null);
         var ratio = expected.mid > 0 ? price / expected.mid : 1.0;
         state.result = {
-          source: "manual",
-          quoteTotal: price,
-          benchmark: expected.mid,
-          expectedRange: expected,
-          ratio: ratio,
-          verdict: verdictFromRatio(ratio),
-          lineItems: [],
+          source: "manual", quoteTotal: price, benchmark: expected.mid, expectedRange: expected,
+          ratio: ratio, verdict: verdictFromRatio(ratio), lineItems: [],
           hourlyRate: null, crewSize: null, estimatedHours: null, weight: null,
           distance: null, moveDate: null, moveType: moveType, homeSize: homeSize,
-          region: region, rateFlag: null, scopeSignals: {}, redFlags: [], parsed: null
+          cityMult: cityMult, fromState: state.fromState, toState: state.toState,
+          isInterstate: false, rateFlag: null, scopeSignals: {}, redFlags: [],
+          comparison: getComparisonEstimates(moveType, homeSize, cityMult, null),
+          parsed: null
         };
         state.step = "result";
         render();
@@ -971,50 +1185,59 @@
       if (r.quoteTotal > 0 && r.expectedRange) {
         var pct = Math.round((r.ratio - 1) * 100);
         var dir = pct > 0 ? "above" : "below";
+        var areaLabel = r.fromCity && r.fromState ? r.fromCity + ", " + r.fromState : r.fromState ? STATE_NAMES[r.fromState] || r.fromState : "your area";
         if (Math.abs(pct) <= 2) {
-          rangeText = "Right at the market average for " + capitalize(r.region);
+          rangeText = "Right at the market average for " + areaLabel;
         } else {
-          rangeText = Math.abs(pct) + "% " + dir + " average for " + capitalize(r.region);
+          rangeText = Math.abs(pct) + "% " + dir + " average for " + areaLabel;
         }
         rangeText += " (typical range: " + fmt(r.expectedRange.low) + " - " + fmt(r.expectedRange.high) + ")";
       }
 
-      var moveTypeLabels = { local: "Local Move", longDistance: "Long Distance" };
+      var moveTypeLabels = { local: "Local Move", longDistance: "Long Distance / Interstate" };
+      var seasonInfo = getSeasonLabel();
+
+      // ── Route info ──
+      var routeHtml = "";
+      if (r.fromCity || r.fromState) {
+        var from = (r.fromCity ? r.fromCity + ", " : "") + (r.fromState || "");
+        var to = (r.toCity ? r.toCity + ", " : "") + (r.toState || "");
+        if (from && to && from !== to) {
+          routeHtml = '<div style="text-align:center;margin-bottom:16px;font-size:1rem;color:#475569;">' + from + ' &#10132; ' + to;
+          if (r.isInterstate) routeHtml += ' <span style="background:#fef2f2;color:#dc2626;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;">Interstate</span>';
+          routeHtml += '</div>';
+        }
+      }
 
       // ── Move details grid ──
       var detailsHtml = '<div class="mv-details">';
       detailsHtml += '<div class="mv-detail"><div class="label">Move Type</div><div class="value">' + (moveTypeLabels[r.moveType] || r.moveType) + '</div></div>';
       detailsHtml += '<div class="mv-detail"><div class="label">Home Size</div><div class="value">' + (homeSizeLabels[r.homeSize] || r.homeSize) + '</div></div>';
-      detailsHtml += '<div class="mv-detail"><div class="label">Region</div><div class="value">' + capitalize(r.region) + '</div></div>';
 
       if (r.distance) {
         detailsHtml += '<div class="mv-detail"><div class="label">Distance</div><div class="value">' + r.distance.toLocaleString() + ' miles</div></div>';
       }
+      detailsHtml += '<div class="mv-detail"><div class="label">Pricing</div><div class="value">City-level <span class="mv-seasonal-badge ' + seasonInfo.css + '" style="font-size:0.7rem;">' + seasonInfo.label + '</span></div></div>';
+
       if (r.hourlyRate) {
-        var flagHtml = "";
-        if (r.rateFlag) {
-          flagHtml = '<span class="mv-rate-flag ' + r.rateFlag.css + '">' + r.rateFlag.label + '</span>';
-        }
+        var flagHtml = r.rateFlag ? '<span class="mv-rate-flag ' + r.rateFlag.css + '">' + r.rateFlag.label + '</span>' : "";
         detailsHtml += '<div class="mv-detail"><div class="label">Hourly Rate</div><div class="value">$' + r.hourlyRate + '/hr' + flagHtml + '</div></div>';
       }
-      if (r.crewSize) {
-        detailsHtml += '<div class="mv-detail"><div class="label">Crew Size</div><div class="value">' + r.crewSize + ' movers</div></div>';
-      }
-      if (r.estimatedHours) {
-        detailsHtml += '<div class="mv-detail"><div class="label">Estimated Hours</div><div class="value">' + r.estimatedHours + ' hrs</div></div>';
-      }
-      if (r.weight) {
-        detailsHtml += '<div class="mv-detail"><div class="label">Estimated Weight</div><div class="value">' + r.weight.toLocaleString() + ' lbs</div></div>';
-      }
-      if (r.moveDate) {
-        detailsHtml += '<div class="mv-detail"><div class="label">Move Date</div><div class="value">' + r.moveDate + '</div></div>';
-      }
+      if (r.crewSize) detailsHtml += '<div class="mv-detail"><div class="label">Crew Size</div><div class="value">' + r.crewSize + ' movers</div></div>';
+      if (r.estimatedHours) detailsHtml += '<div class="mv-detail"><div class="label">Estimated Hours</div><div class="value">' + r.estimatedHours + ' hrs</div></div>';
+      if (r.weight) detailsHtml += '<div class="mv-detail"><div class="label">Estimated Weight</div><div class="value">' + r.weight.toLocaleString() + ' lbs</div></div>';
+      if (r.moveDate) detailsHtml += '<div class="mv-detail"><div class="label">Move Date</div><div class="value">' + r.moveDate + '</div></div>';
 
-      // Market rate context
       if (r.expectedRange) {
-        detailsHtml += '<div class="mv-detail"><div class="label">Market Range (' + (homeSizeLabels[r.homeSize] || r.homeSize) + ')</div><div class="value">' + fmt(r.expectedRange.low) + ' - ' + fmt(r.expectedRange.high) + '</div></div>';
+        detailsHtml += '<div class="mv-detail"><div class="label">Market Range</div><div class="value">' + fmt(r.expectedRange.low) + ' - ' + fmt(r.expectedRange.high) + '</div></div>';
       }
       detailsHtml += '</div>';
+
+      // ── Seasonal tip ──
+      var seasonalHtml = '';
+      if (seasonInfo.css !== "offpeak") {
+        seasonalHtml = '<div style="margin-top:8px;padding:10px 14px;background:' + (seasonInfo.css === "peak" ? "#fef2f2;border:1px solid #fecaca" : "#fffbeb;border:1px solid #fde68a") + ';border-radius:10px;font-size:0.85rem;color:#475569;">' + seasonInfo.tip + '</div>';
+      }
 
       // ── Line items table ──
       var tableHtml = "";
@@ -1082,16 +1305,52 @@
         redFlagsHtml += '</ul></div>';
       }
 
+      // ── Comparison Matrix ──
+      var comparisonHtml = '';
+      if (r.comparison && r.comparison.length > 0) {
+        comparisonHtml = '<div class="mv-card mv-compare"><h3 style="margin-bottom:4px;">All Your Moving Options</h3>';
+        comparisonHtml += '<p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;">See how your quote compares to every way to move.</p>';
+        comparisonHtml += '<div class="mv-compare-grid">';
+        comparisonHtml += '<div class="mv-compare-row header"><span>Method</span><span>Estimated Cost</span><span>Effort</span><span>vs. Your Quote</span></div>';
+        r.comparison.forEach(function(c) {
+          var mid = Math.round((c.low + c.high) / 2);
+          var isYourMethod = c.method === "Full-Service Movers";
+          var diff = r.quoteTotal - mid;
+          var savingsText = "";
+          if (r.quoteTotal > 0) {
+            if (Math.abs(diff) < 100) { savingsText = "Similar"; }
+            else if (diff > 0) { savingsText = "Save " + fmt(diff); }
+            else { savingsText = fmt(Math.abs(diff)) + " more"; }
+          }
+          var savingsClass = diff > 100 ? "method-savings" : diff < -100 ? "method-savings negative" : "method-savings";
+          comparisonHtml += '<div class="mv-compare-row' + (isYourMethod ? ' highlight' : '') + '">';
+          comparisonHtml += '<span class="method-name">' + c.icon + ' ' + c.method + (isYourMethod ? '<span class="mv-your-quote-marker">YOUR QUOTE</span>' : '') + '</span>';
+          comparisonHtml += '<span class="method-price">' + fmt(c.low) + ' - ' + fmt(c.high) + '</span>';
+          comparisonHtml += '<span class="method-effort">' + c.effort + '</span>';
+          comparisonHtml += '<span class="' + savingsClass + '">' + savingsText + '</span>';
+          comparisonHtml += '</div>';
+          if (c.examples) {
+            comparisonHtml += '<div style="font-size:0.75rem;color:#94a3b8;margin-top:-6px;padding-left:14px;margin-bottom:4px;">' + c.examples + '</div>';
+          }
+        });
+        comparisonHtml += '</div></div>';
+      }
+
       // ── Market context ──
+      var locationLabel = "";
+      if (r.fromCity && r.fromState) locationLabel = r.fromCity + ", " + r.fromState;
+      else if (r.fromState) locationLabel = STATE_NAMES[r.fromState] || r.fromState;
+      else locationLabel = "your area";
+
       var contextHtml = '';
       if (r.quoteTotal > 0) {
         var tip = "";
         if (r.verdict.css === "high") {
-          tip = "This quote is higher than typical market rates for a " + (homeSizeLabels[r.homeSize] || r.homeSize) + " " + (moveTypeLabels[r.moveType] || "move") + " in the " + capitalize(r.region) + " region. Getting 3-5 competing quotes is standard practice and could save you hundreds.";
+          tip = "This quote is higher than typical market rates for a " + (homeSizeLabels[r.homeSize] || r.homeSize) + " move in " + locationLabel + ". Getting 3-5 competing quotes is standard practice and could save you hundreds.";
         } else if (r.verdict.css === "low") {
           tip = "This quote is lower than expected. While it could be a good deal, extremely low quotes from movers can sometimes indicate hidden fees, bait-and-switch pricing, or unlicensed operators. Verify the company is licensed and ask for a binding estimate.";
         } else {
-          tip = "This quote appears to be within the typical market range for a " + (homeSizeLabels[r.homeSize] || r.homeSize) + " " + (moveTypeLabels[r.moveType] || "move") + " in the " + capitalize(r.region) + " region.";
+          tip = "This quote appears to be within the typical market range for a " + (homeSizeLabels[r.homeSize] || r.homeSize) + " move in " + locationLabel + ".";
         }
         contextHtml = '<div class="mv-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p>';
         if (r.hourlyRate && r.rateFlag) {
@@ -1166,6 +1425,7 @@
           <h1>' + (isUpload ? "Moving Quote Analysis" : "Quote Analysis") + '</h1>\
           <p style="font-size:0.9rem;color:#64748b;">Don\'t sign until Trudy checks it</p>\
         </div>\
+        ' + routeHtml + '\
         <div class="mv-verdict ' + verdictCss + '">\
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-moving.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Moving Verdict</div></div>\
           <div class="verdict-label">' + r.verdict.label + '</div>\
@@ -1175,7 +1435,9 @@
         <div class="mv-card">\
           <h3 style="margin-bottom:0.75rem;">Move Details</h3>\
           ' + detailsHtml + '\
+          ' + seasonalHtml + '\
         </div>\
+        ' + comparisonHtml + '\
         ' + tableHtml + '\
         ' + redFlagsHtml + '\
         ' + scopeHtml + '\
@@ -1191,13 +1453,11 @@
 
       document.getElementById("btnStartOver").addEventListener("click", function() {
         state = {
-          step: "upload",
-          stateCode: "",
-          moveType: "local",
-          homeSize: "2br",
-          uploadedFile: null,
-          extractedText: "",
-          result: null
+          step: "upload", fromCity: "", fromState: "", toCity: "", toState: "",
+          homeSize: "2br", distance: null, moveType: "local",
+          uploadedFile: null, extractedText: "", result: null,
+          originMult: 1.0, destMult: 1.0,
+          originLat: null, originLng: null, destLat: null, destLng: null
         };
         render();
       });
