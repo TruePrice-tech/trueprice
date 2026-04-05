@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <title>Legal Fee Analyzer - Is Your Attorney's Rate Fair? | TruePrice</title>
+  <meta
+    name="description"
+    content="Upload your retainer agreement or legal invoice to check if the fees are fair. Compares hourly rates by practice area and region. Flags red flags in fee agreements. Free."
+  />
+  <link rel="canonical" href="https://truepricehq.com/legal-fee-analyzer.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Legal Fee Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Upload your retainer agreement or legal invoice to check if the fees are fair. Compares hourly rates by practice area and region. Flags red flags in fee agreements."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/legal-fee-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Legal Fee Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Upload your retainer agreement or legal invoice to check if the fees are fair. Compares hourly rates by practice area and region. Flags red flags in fee agreements."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TruePrice Legal Fee Analyzer",
+    "url": "https://truepricehq.com/legal-fee-analyzer.html",
+    "description": "Free AI-powered legal fee analysis. Upload a retainer agreement, fee agreement, or attorney invoice to check if the rates and terms are fair.",
+    "applicationCategory": "UtilityApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "Web",
+    "provider": {
+      "@type": "Organization",
+      "name": "TruePrice",
+      "url": "https://truepricehq.com"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Legal Fee Analyzer"}]}
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+
+  <style>
+    .lf-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .lf-hero { text-align: center; margin-bottom: 2rem; }
+    .lf-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .lf-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .lf-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+
+    .lf-upload-zone {
+      border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc;
+    }
+    .lf-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .lf-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
+    .lf-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .lf-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+
+    .lf-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .lf-btn-primary { background: #2563eb; color: #fff; }
+    .lf-btn-primary:hover { background: #1d4ed8; }
+    .lf-btn-secondary { background: #f1f5f9; color: #334155; }
+    .lf-btn-secondary:hover { background: #e2e8f0; }
+    .lf-btn-full { width: 100%; }
+
+    .lf-progress { margin: 1.5rem 0; }
+    .lf-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .lf-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .lf-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+
+    /* Verdict card */
+    .lf-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .lf-verdict.lf-fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .lf-verdict.lf-above { background: #fef2f2; border: 2px solid #fca5a5; }
+    .lf-verdict.lf-below { background: #fefce8; border: 2px solid #fde68a; }
+    .lf-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .lf-verdict.lf-fair .verdict-label { color: #16a34a; }
+    .lf-verdict.lf-above .verdict-label { color: #dc2626; }
+    .lf-verdict.lf-below .verdict-label { color: #ca8a04; }
+    .lf-verdict .verdict-title { font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-bottom: 0.5rem; }
+
+    /* Summary grid */
+    .lf-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-top: 1rem; }
+    .lf-summary-item { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; text-align: center; }
+    .lf-summary-item .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .lf-summary-item .value { font-size: 1.2rem; font-weight: 700; color: #1e293b; }
+
+    /* Rate comparison */
+    .lf-rate-bar-wrap { margin: 1rem 0; }
+    .lf-rate-bar { position: relative; height: 32px; background: #e2e8f0; border-radius: 8px; overflow: visible; }
+    .lf-rate-range { position: absolute; top: 0; height: 100%; background: #dcfce7; border-radius: 8px; }
+    .lf-rate-marker { position: absolute; top: -6px; width: 4px; height: 44px; background: #1e293b; border-radius: 2px; transform: translateX(-50%); }
+    .lf-rate-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: #64748b; margin-top: 6px; }
+
+    /* Line items table */
+    .lf-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .lf-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .lf-table th { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+    .lf-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    .lf-table tr:last-child td { border-bottom: none; }
+
+    /* Checklist */
+    .lf-checklist { list-style: none; padding: 0; margin: 0; }
+    .lf-checklist li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .lf-checklist li:last-child { border-bottom: none; }
+    .lf-check-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .lf-check-pass { background: #dcfce7; color: #16a34a; }
+    .lf-check-warn { background: #fef9c3; color: #ca8a04; }
+    .lf-check-fail { background: #fee2e2; color: #dc2626; }
+
+    /* Red flags */
+    .lf-flag-card { background: #fff; border-left: 4px solid #dc2626; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+    .lf-flag-card h4 { font-size: 1rem; color: #dc2626; margin: 0 0 0.25rem; }
+    .lf-flag-card .lf-flag-why { font-size: 0.9rem; color: #64748b; margin: 0 0 0.25rem; }
+    .lf-flag-card .lf-flag-action { font-size: 0.9rem; color: #1e293b; font-weight: 600; margin: 0; }
+
+    /* Tips */
+    .lf-tips { list-style: none; padding: 0; margin: 0; counter-reset: tip; }
+    .lf-tips li { padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.95rem; color: #334155; }
+    .lf-tips li:last-child { border-bottom: none; }
+    .lf-tips li::before { counter-increment: tip; content: counter(tip); width: 24px; height: 24px; background: #eff6ff; color: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+
+    .lf-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .lf-actions a, .lf-actions button { text-align: center; }
+
+    .lf-hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .lf-hero h1 { font-size: 1.5rem; }
+      .lf-summary { grid-template-columns: 1fr; }
+      .lf-table { font-size: 0.8rem; }
+      .lf-table th, .lf-table td { padding: 0.4rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/auto-repair-quote-analyzer.html">Auto Repair</a>
+        <a class="nav-cta" href="/analyze-quote.html">Check My Price</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="lf-app" id="lfApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
+  <section style="margin-top:32px; padding:24px 0; border-top:1px solid var(--border,#e2e8f0);">
+    <h3 style="font-size:16px; color:var(--text-muted,#6b7280); margin:0 0 12px;">Analyze quotes for other services</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+      <a href="/roofing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Roofing</a>
+      <a href="/hvac-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">HVAC</a>
+      <a href="/auto-repair-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Auto Repair</a>
+      <a href="/medical-bill-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Medical Bills</a>
+      <a href="/electrical-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Electrical</a>
+      <a href="/plumbing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Plumbing</a>
+      <a href="/solar-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Solar</a>
+      <a href="/concrete-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Concrete</a>
+      <a href="/legal-fee-analyzer.html" style="padding:6px 14px; background:#eff6ff; border:1px solid #93c5fd; border-radius:999px; font-size:13px; color:#1d4ed8; text-decoration:none; font-weight:600;">Legal Fees</a>
+    </div>
+  </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps consumers check legal fees, medical bills, contractor quotes, and mechanic quotes for fairness. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-ocr.js" defer></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a document -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ── Legal Rate Data ──
+    var LEGAL_RATES = {
+      family_law: { low: 200, mid: 350, high: 550 },
+      criminal_defense: { low: 200, mid: 400, high: 750 },
+      estate_planning: { low: 200, mid: 350, high: 500 },
+      real_estate: { low: 200, mid: 350, high: 500 },
+      business_law: { low: 250, mid: 400, high: 700 },
+      immigration: { low: 200, mid: 350, high: 500 },
+      bankruptcy: { low: 200, mid: 300, high: 450 },
+      employment_law: { low: 250, mid: 400, high: 600 },
+      intellectual_property: { low: 300, mid: 450, high: 800 },
+      tax_law: { low: 250, mid: 400, high: 700 },
+      general_litigation: { low: 250, mid: 400, high: 650 }
+    };
+
+    var REGION_MULT = {
+      northeast: 1.25, southeast: 0.90, midwest: 0.92,
+      south: 0.88, mountain: 0.95, west: 1.30
+    };
+
+    var PRACTICE_LABELS = {
+      family_law: "Family Law",
+      criminal_defense: "Criminal Defense",
+      estate_planning: "Estate Planning",
+      real_estate: "Real Estate",
+      business_law: "Business Law",
+      immigration: "Immigration",
+      bankruptcy: "Bankruptcy",
+      employment_law: "Employment Law",
+      intellectual_property: "Intellectual Property",
+      tax_law: "Tax Law",
+      general_litigation: "General Litigation"
+    };
+
+    // ── Agreement check items ──
+    var AGREEMENT_CHECKS = [
+      { key: "scopeDefined", label: "Scope of representation defined" },
+      { key: "rateStated", label: "Hourly rate or fee clearly stated" },
+      { key: "billingIncrement", label: "Billing increment specified" },
+      { key: "retainerTerms", label: "Retainer terms explained" },
+      { key: "expensePolicy", label: "Expense policy outlined" },
+      { key: "estimatedCost", label: "Estimated total cost provided" },
+      { key: "communicationPolicy", label: "Communication policy included" },
+      { key: "terminationClause", label: "Termination clause present" },
+      { key: "conflictCheck", label: "Conflict of interest check noted" },
+      { key: "feeDisputeProcess", label: "Fee dispute process described" }
+    ];
+
+    // ── State ──
+    var appRoot = document.getElementById("lfApp");
+    var state = {
+      step: "upload",
+      uploadedFile: null,
+      extractedText: "",
+      result: null
+    };
+
+    // ── Helpers ──
+    function $(sel, el) { return (el || document).querySelector(sel); }
+    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function fmtWhole(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+
+    function escHtml(s) {
+      var d = document.createElement("div");
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    // ── Feedback ──
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "legal_fee", verdict: state.result ? state.result.verdictType : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our analysis.</div>';
+    };
+
+    // ── Save as image ──
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("lfApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-legal-fee-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
+    // ── Email report ──
+    window.emailReport = function() {
+      var r = state.result;
+      if (!r) return;
+      var subject = "My Legal Fee Analysis - TruePrice";
+      var body = "Legal Fee Analysis from TruePrice\n\n";
+      body += "Attorney/Firm: " + (r.attorney || "Unknown") + "\n";
+      body += "Practice Area: " + (PRACTICE_LABELS[r.practiceArea] || r.practiceArea || "Unknown") + "\n";
+      body += "Hourly Rate: " + fmtWhole(r.hourlyRate) + "/hr\n";
+      body += "Market Range: " + fmtWhole(r.marketLow) + " - " + fmtWhole(r.marketHigh) + "/hr\n\n";
+      if (r.redFlags.length > 0) {
+        body += "Red Flags: " + r.redFlags.length + "\n";
+        r.redFlags.forEach(function(f, i) {
+          body += (i + 1) + ". " + f.title + "\n";
+        });
+      } else {
+        body += "No red flags found in the agreement.\n";
+      }
+      body += "\nView full analysis at https://truepricehq.com/legal-fee-analyzer.html";
+      window.location.href = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    };
+
+    // ── Start over ──
+    window.startOver = function() {
+      state.step = "upload";
+      state.uploadedFile = null;
+      state.extractedText = "";
+      state.result = null;
+      render();
+      window.scrollTo(0, 0);
+    };
+
+    // ── Render ──
+    function render() {
+      switch (state.step) {
+        case "upload": renderUpload(); break;
+        case "uploading": renderUploading(); break;
+        case "result": renderResult(); break;
+      }
+    }
+
+    // ── Upload Step ──
+    function renderUpload() {
+      appRoot.innerHTML = '\
+        <div class="lf-hero">\
+          <img src="/images/trudy-thinking.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>Is your attorney\'s fee fair?</h1>\
+          <p>Upload your retainer agreement, fee agreement, or legal invoice. Trudy checks the rates against market data and flags concerning terms.</p>\
+          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to legal fees? Read our <a href="/legal-cost-guide.html" style="color:#16a34a;">Legal Cost Guide</a></p>\
+        </div>\
+        <div class="lf-card">\
+          <div class="lf-upload-zone" id="uploadZone">\
+            <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
+            <p><strong>Upload Your Agreement or Invoice</strong></p>\
+            <p class="hint">Drag and drop a PDF or photo of your retainer agreement, fee agreement, or legal invoice</p>\
+            <p class="hint">PDF, JPG, PNG accepted</p>\
+            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your documents stay private. Never stored or shared.</div>\
+        </div>';
+
+      var zone = document.getElementById("uploadZone");
+      var fileInput = document.getElementById("fileInput");
+
+      zone.addEventListener("click", function() { fileInput.click(); });
+      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; zone.style.background = "#eff6ff"; });
+      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc"; });
+      zone.addEventListener("drop", function(e) {
+        e.preventDefault();
+        zone.style.borderColor = "#cbd5e1";
+        zone.style.background = "#f8fafc";
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener("change", function() {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+      });
+    }
+
+    // ── File handling ──
+    function handleFile(file) {
+      state.uploadedFile = file;
+      state.step = "uploading";
+      render();
+      processFile(file);
+    }
+
+    // ── Uploading Step ──
+    function renderUploading() {
+      appRoot.innerHTML = '\
+        <div class="lf-hero">\
+          <h1>Analyzing your legal fees...</h1>\
+          <p style="color:#64748b;">Don\'t sign until Trudy checks it</p>\
+        </div>\
+        <div class="lf-card">\
+          <div class="lf-progress">\
+            <div class="lf-progress-bar"><div class="lf-progress-fill" id="progFill" style="width:10%"></div></div>\
+            <p class="lf-progress-text" id="progText">Loading document...</p>\
+          </div>\
+        </div>';
+    }
+
+    function setProgress(pct, msg) {
+      var fill = document.getElementById("progFill");
+      var txt = document.getElementById("progText");
+      if (fill) fill.style.width = pct + "%";
+      if (txt) txt.textContent = msg;
+    }
+
+    async function processFile(file) {
+      try {
+        setProgress(10, "Loading document...");
+        await window.loadVendorLibs();
+
+        var text = "";
+        var imageData = null;
+        if (file.type === "application/pdf") {
+          setProgress(25, "Reading fee terms...");
+          text = await extractPdfText(file);
+        } else {
+          setProgress(25, "Reading fee terms...");
+          imageData = await fileToBase64(file);
+          text = await extractImageText(file);
+        }
+
+        setProgress(45, "Checking rates against market data...");
+        state.extractedText = text;
+
+        var apiResult = null;
+        try {
+          setProgress(55, "Reviewing agreement terms...");
+          var apiPayload = { text: text };
+          if (imageData) apiPayload.images = [imageData];
+          var apiResponse = await fetch("/api/legal-fee-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiPayload)
+          });
+          if (apiResponse.ok) {
+            apiResult = await apiResponse.json();
+          }
+        } catch (apiErr) {
+          console.warn("API unavailable, falling back to local parsing:", apiErr);
+        }
+
+        setProgress(80, "Reviewing agreement terms...");
+
+        var result = null;
+        if (apiResult && (apiResult.hourlyRate || apiResult.practiceArea || apiResult.lineItems)) {
+          result = buildResultFromAPI(apiResult);
+        } else {
+          result = buildResultFromLocal(text);
+        }
+
+        setProgress(100, "Done!");
+        state.result = result;
+        state.step = "result";
+        setTimeout(render, 400);
+
+      } catch (err) {
+        console.error("Legal fee analysis error:", err);
+        renderErrorFallback();
+      }
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extractPdfText(file) {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var allText = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        var page = await pdf.getPage(i);
+        var content = await page.getTextContent();
+        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+        allText.push(pageText);
+      }
+      return allText.join("\n");
+    }
+
+    async function extractImageText(file) {
+      if (typeof window.extractTextFromImage === "function") {
+        try {
+          return await window.extractTextFromImage(file);
+        } catch (e) {
+          console.warn("OCR extraction failed:", e);
+        }
+      }
+      return "";
+    }
+
+    // ── Detect practice area from text ──
+    function detectPracticeArea(text) {
+      var lower = text.toLowerCase();
+      var keywords = {
+        family_law: ["family law", "divorce", "custody", "child support", "alimony", "marital", "prenuptial"],
+        criminal_defense: ["criminal", "defense", "felony", "misdemeanor", "dui", "dwi", "assault", "drug charge"],
+        estate_planning: ["estate planning", "will", "trust", "probate", "power of attorney", "living will", "inheritance"],
+        real_estate: ["real estate", "property", "closing", "title", "deed", "mortgage", "zoning"],
+        business_law: ["business", "corporate", "llc", "incorporation", "partnership", "contract", "commercial"],
+        immigration: ["immigration", "visa", "green card", "citizenship", "deportation", "asylum", "uscis"],
+        bankruptcy: ["bankruptcy", "chapter 7", "chapter 11", "chapter 13", "debt relief", "creditor"],
+        employment_law: ["employment", "wrongful termination", "discrimination", "harassment", "wage", "labor"],
+        intellectual_property: ["intellectual property", "patent", "trademark", "copyright", "trade secret", "ip law"],
+        tax_law: ["tax", "irs", "audit", "tax court", "tax planning", "tax resolution"],
+        general_litigation: ["litigation", "lawsuit", "plaintiff", "defendant", "civil", "dispute", "trial"]
+      };
+      var bestMatch = "general_litigation";
+      var bestCount = 0;
+      for (var area in keywords) {
+        var count = 0;
+        keywords[area].forEach(function(kw) {
+          if (lower.indexOf(kw) !== -1) count++;
+        });
+        if (count > bestCount) {
+          bestCount = count;
+          bestMatch = area;
+        }
+      }
+      return bestMatch;
+    }
+
+    // ── Detect region from text ──
+    function detectRegion(text) {
+      var lower = text.toLowerCase();
+      var regions = {
+        northeast: ["new york", "ny ", "boston", "massachusetts", "connecticut", "new jersey", "nj ", "pennsylvania", "philadelphia", "maine", "vermont", "new hampshire", "rhode island"],
+        southeast: ["florida", "georgia", "atlanta", "miami", "north carolina", "south carolina", "virginia", "tennessee", "nashville"],
+        midwest: ["ohio", "michigan", "illinois", "chicago", "indiana", "wisconsin", "minnesota", "iowa", "missouri"],
+        south: ["texas", "houston", "dallas", "austin", "oklahoma", "louisiana", "arkansas", "mississippi", "alabama"],
+        mountain: ["colorado", "denver", "utah", "arizona", "phoenix", "new mexico", "idaho", "montana", "wyoming", "nevada"],
+        west: ["california", "los angeles", "san francisco", "seattle", "washington", "oregon", "portland"]
+      };
+      for (var region in regions) {
+        for (var i = 0; i < regions[region].length; i++) {
+          if (lower.indexOf(regions[region][i]) !== -1) return region;
+        }
+      }
+      return null;
+    }
+
+    // ── Get market range for practice area + region ──
+    function getMarketRange(practiceArea, region) {
+      var rates = LEGAL_RATES[practiceArea] || LEGAL_RATES.general_litigation;
+      var mult = region ? (REGION_MULT[region] || 1) : 1;
+      return {
+        low: Math.round(rates.low * mult),
+        mid: Math.round(rates.mid * mult),
+        high: Math.round(rates.high * mult)
+      };
+    }
+
+    // ── Build result from API response ──
+    function buildResultFromAPI(api) {
+      var practiceArea = api.practiceArea || "general_litigation";
+      var region = api.region || null;
+      var hourlyRate = api.hourlyRate || 0;
+      var feeType = api.feeType || "hourly";
+      var contingencyPct = api.contingencyPct || null;
+      var flatFee = api.flatFee || null;
+      var market = getMarketRange(practiceArea, region);
+
+      var verdictType = "fair";
+      if (hourlyRate > 0) {
+        if (hourlyRate > market.high) verdictType = "above";
+        else if (hourlyRate < market.low) verdictType = "below";
+      }
+
+      var checks = {};
+      AGREEMENT_CHECKS.forEach(function(c) {
+        if (api.checks && api.checks[c.key] !== undefined) {
+          checks[c.key] = api.checks[c.key];
+        } else {
+          checks[c.key] = null;
+        }
+      });
+
+      var lineItems = (api.lineItems || []).map(function(item) {
+        return {
+          description: item.description || item.service || "Legal service",
+          hours: item.hours || null,
+          rate: item.rate || hourlyRate || null,
+          amount: item.amount || 0
+        };
+      });
+
+      return {
+        attorney: api.attorney || api.firm || "Unknown Attorney",
+        practiceArea: practiceArea,
+        region: region,
+        hourlyRate: hourlyRate,
+        feeType: feeType,
+        contingencyPct: contingencyPct,
+        flatFee: flatFee,
+        marketLow: market.low,
+        marketMid: market.mid,
+        marketHigh: market.high,
+        verdictType: verdictType,
+        checks: checks,
+        redFlags: api.redFlags || [],
+        lineItems: lineItems,
+        source: "api"
+      };
+    }
+
+    // ── Build result from local text parsing ──
+    function buildResultFromLocal(text) {
+      var redFlags = [];
+
+      // Detect hourly rate
+      var hourlyRate = 0;
+      var ratePatterns = [
+        /(?:hourly\s*rate|rate\s*of|billed?\s*at|per\s*hour)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i,
+        /\$([\d,]+(?:\.\d{2})?)\s*(?:per\s*hour|\/\s*h(?:ou)?r)/i,
+        /(?:rate)[:\s]*\$?([\d,]+)\s*(?:per|\/)/i
+      ];
+      for (var rp = 0; rp < ratePatterns.length; rp++) {
+        var rateMatch = ratePatterns[rp].exec(text);
+        if (rateMatch) {
+          var parsed = parseFloat(rateMatch[1].replace(/,/g, ""));
+          if (parsed >= 50 && parsed <= 2000) {
+            hourlyRate = parsed;
+            break;
+          }
+        }
+      }
+
+      // Detect fee type
+      var feeType = "hourly";
+      var contingencyPct = null;
+      var flatFee = null;
+      var contingencyMatch = text.match(/(\d{1,2}(?:\.\d+)?)\s*%\s*(?:contingency|of\s*(?:the\s*)?recovery|of\s*(?:any\s*)?settlement)/i);
+      if (contingencyMatch) {
+        feeType = "contingency";
+        contingencyPct = parseFloat(contingencyMatch[1]);
+      }
+      var flatMatch = text.match(/(?:flat\s*fee|fixed\s*fee|total\s*fee)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i);
+      if (flatMatch && !hourlyRate) {
+        feeType = "flat";
+        flatFee = parseFloat(flatMatch[1].replace(/,/g, ""));
+      }
+
+      // Detect practice area and region
+      var practiceArea = detectPracticeArea(text);
+      var region = detectRegion(text);
+      var market = getMarketRange(practiceArea, region);
+
+      // Determine verdict
+      var verdictType = "fair";
+      if (hourlyRate > 0) {
+        if (hourlyRate > market.high) verdictType = "above";
+        else if (hourlyRate < market.low) verdictType = "below";
+      } else if (feeType === "contingency" && contingencyPct) {
+        if (contingencyPct > 40) verdictType = "above";
+        else if (contingencyPct < 25) verdictType = "below";
+      }
+
+      // Detect attorney/firm name
+      var attorney = "Unknown Attorney";
+      var attorneyMatch = text.match(/(?:law\s*(?:office|firm|group)\s*of|attorney|esq)[:\s]*([A-Z][a-zA-Z\s.,'&]{3,50})/);
+      if (attorneyMatch) {
+        attorney = attorneyMatch[1].trim().replace(/[,\s]+$/, "");
+      } else {
+        var firmMatch = text.match(/^([A-Z][A-Za-z&,.\s]{5,50}(?:LLP|LLC|P\.?A\.?|P\.?C\.?|Law|Legal|Attorney|Esq))/m);
+        if (firmMatch) attorney = firmMatch[1].trim();
+      }
+
+      // Build checks from text analysis
+      var lower = text.toLowerCase();
+      var checks = {};
+      checks.scopeDefined = (lower.indexOf("scope") !== -1 || lower.indexOf("representation") !== -1 || lower.indexOf("matter") !== -1) ? "pass" : "warn";
+      checks.rateStated = (hourlyRate > 0 || flatFee || contingencyPct) ? "pass" : "fail";
+      checks.billingIncrement = detectBillingIncrement(lower);
+      checks.retainerTerms = (lower.indexOf("retainer") !== -1) ? "pass" : "warn";
+      checks.expensePolicy = (lower.indexOf("expense") !== -1 || lower.indexOf("cost") !== -1 || lower.indexOf("disbursement") !== -1) ? "pass" : "warn";
+      checks.estimatedCost = (lower.indexOf("estimat") !== -1 || lower.indexOf("budget") !== -1 || lower.indexOf("total cost") !== -1) ? "pass" : "warn";
+      checks.communicationPolicy = (lower.indexOf("communicat") !== -1 || lower.indexOf("response time") !== -1 || lower.indexOf("updates") !== -1) ? "pass" : "warn";
+      checks.terminationClause = (lower.indexOf("terminat") !== -1 || lower.indexOf("withdraw") !== -1) ? "pass" : "warn";
+      checks.conflictCheck = (lower.indexOf("conflict") !== -1) ? "pass" : "warn";
+      checks.feeDisputeProcess = (lower.indexOf("dispute") !== -1 || lower.indexOf("arbitration") !== -1 || lower.indexOf("mediation") !== -1) ? "pass" : "warn";
+
+      // Generate red flags
+      if (lower.indexOf("non-refundable") !== -1 || lower.indexOf("nonrefundable") !== -1 || lower.indexOf("non refundable") !== -1) {
+        redFlags.push({
+          title: "Non-refundable retainer",
+          why: "The agreement states the retainer is non-refundable. Most state bar associations require attorneys to refund unearned portions of retainers.",
+          action: "Ask the attorney to clarify how unearned retainer funds will be handled. Consider consulting your state bar association."
+        });
+      }
+
+      if (lower.indexOf("15-minute") !== -1 || lower.indexOf("15 minute") !== -1 || lower.indexOf("quarter hour") !== -1 || lower.indexOf("0.25 hour") !== -1) {
+        redFlags.push({
+          title: "15-minute billing increments",
+          why: "The standard billing increment is 6 minutes (0.1 hour). A 15-minute increment means a 2-minute phone call could be billed as 15 minutes.",
+          action: "Request 6-minute (0.1 hour) billing increments, which is the industry standard."
+        });
+      }
+
+      if (checks.scopeDefined === "warn" || (lower.indexOf("any and all") !== -1 && lower.indexOf("matter") !== -1)) {
+        redFlags.push({
+          title: "Vague scope of representation",
+          why: "The agreement does not clearly define the scope of legal services. Vague scope can lead to unexpected charges for work you did not anticipate.",
+          action: "Ask for specific language describing exactly what legal matter the attorney will handle."
+        });
+      }
+
+      if (hourlyRate > 0 && hourlyRate > market.high * 1.3) {
+        redFlags.push({
+          title: "Rate significantly above market",
+          why: "The hourly rate of " + fmtWhole(hourlyRate) + " is well above the typical range of " + fmtWhole(market.low) + " - " + fmtWhole(market.high) + " for " + (PRACTICE_LABELS[practiceArea] || practiceArea).toLowerCase() + " in your area.",
+          action: "Ask the attorney to justify their rate or get quotes from 2-3 other attorneys for comparison."
+        });
+      }
+
+      if (contingencyPct && contingencyPct > 40) {
+        redFlags.push({
+          title: "High contingency percentage",
+          why: "A " + contingencyPct + "% contingency fee is above the typical 33-40% range. This means a larger share of your recovery goes to the attorney.",
+          action: "Negotiate the percentage down or ask if a sliding scale applies based on whether the case settles or goes to trial."
+        });
+      }
+
+      if (lower.indexOf("minimum fee") !== -1 || lower.indexOf("minimum charge") !== -1) {
+        redFlags.push({
+          title: "Minimum fee clause",
+          why: "The agreement includes a minimum fee. This means you may owe a fixed amount even if very little work is performed.",
+          action: "Ask what the minimum fee covers and whether it can be applied toward hourly charges."
+        });
+      }
+
+      if (checks.expensePolicy === "warn") {
+        redFlags.push({
+          title: "No expense policy defined",
+          why: "The agreement does not clearly describe how expenses (copying, filing fees, postage, expert witnesses) will be handled.",
+          action: "Ask the attorney to list which expenses will be billed separately and at what rates."
+        });
+      }
+
+      // Extract invoice line items
+      var lineItems = [];
+      var linePattern = /([A-Za-z][^$\n]{5,60})\s+([\d.]+)\s*(?:hrs?|hours?)\s*(?:@|x)\s*\$?([\d,]+(?:\.\d{2})?)\s*\$?([\d,]+(?:\.\d{2})?)/gi;
+      var lineMatch;
+      while ((lineMatch = linePattern.exec(text)) !== null) {
+        lineItems.push({
+          description: lineMatch[1].trim(),
+          hours: parseFloat(lineMatch[2]),
+          rate: parseFloat(lineMatch[3].replace(/,/g, "")),
+          amount: parseFloat(lineMatch[4].replace(/,/g, ""))
+        });
+      }
+
+      // Fallback: try simpler patterns for amounts
+      if (lineItems.length === 0) {
+        var simpleLinePattern = /([A-Za-z][^$\n]{5,60})\s+\$?([\d,]+(?:\.\d{2}))/g;
+        var simpleMatch;
+        while ((simpleMatch = simpleLinePattern.exec(text)) !== null) {
+          var amt = parseFloat(simpleMatch[2].replace(/,/g, ""));
+          if (amt > 10 && amt < 500000) {
+            lineItems.push({
+              description: simpleMatch[1].trim(),
+              hours: null,
+              rate: null,
+              amount: amt
+            });
+          }
+        }
+      }
+
+      return {
+        attorney: attorney,
+        practiceArea: practiceArea,
+        region: region,
+        hourlyRate: hourlyRate,
+        feeType: feeType,
+        contingencyPct: contingencyPct,
+        flatFee: flatFee,
+        marketLow: market.low,
+        marketMid: market.mid,
+        marketHigh: market.high,
+        verdictType: verdictType,
+        checks: checks,
+        redFlags: redFlags,
+        lineItems: lineItems,
+        source: "local"
+      };
+    }
+
+    function detectBillingIncrement(lower) {
+      if (lower.indexOf("6-minute") !== -1 || lower.indexOf("6 minute") !== -1 || lower.indexOf("one-tenth") !== -1 || lower.indexOf("0.1 hour") !== -1 || lower.indexOf("tenth of an hour") !== -1) {
+        return "pass";
+      }
+      if (lower.indexOf("15-minute") !== -1 || lower.indexOf("15 minute") !== -1 || lower.indexOf("quarter hour") !== -1 || lower.indexOf("0.25 hour") !== -1) {
+        return "fail";
+      }
+      if (lower.indexOf("increment") !== -1 || lower.indexOf("billing unit") !== -1) {
+        return "pass";
+      }
+      return "warn";
+    }
+
+    function renderErrorFallback() {
+      appRoot.innerHTML = '\
+        <div class="lf-hero">\
+          <h1>Something went wrong</h1>\
+          <p style="color:#64748b;">We couldn\'t process that file. Please try a different PDF or image.</p>\
+        </div>\
+        <div class="lf-card" style="text-align:center;">\
+          <button class="lf-btn lf-btn-primary" onclick="startOver()">Try Again</button>\
+        </div>';
+    }
+
+    // ── Result Step ──
+    function renderResult() {
+      var r = state.result;
+      if (!r) return;
+
+      var verdictCss = "lf-" + r.verdictType;
+      var verdictLabel = "";
+      var verdictTitle = "";
+      if (r.verdictType === "fair") {
+        verdictLabel = "Rate Looks Fair";
+        verdictTitle = "This rate is within the typical market range";
+      } else if (r.verdictType === "above") {
+        verdictLabel = "Above Market Rate";
+        verdictTitle = "This rate is higher than typical for your area";
+      } else {
+        verdictLabel = "Below Typical";
+        verdictTitle = "This rate is lower than the typical market range";
+      }
+
+      var html = '';
+
+      // Verdict card
+      html += '<div class="lf-verdict ' + verdictCss + '" id="lfVerdict">';
+      html += '<div class="verdict-label">' + escHtml(verdictLabel) + '</div>';
+      html += '<div class="verdict-title">' + escHtml(verdictTitle) + '</div>';
+      if (r.attorney && r.attorney !== "Unknown Attorney") {
+        html += '<div style="font-size:0.95rem; color:#64748b;">' + escHtml(r.attorney);
+        if (r.practiceArea) html += ' &middot; ' + escHtml(PRACTICE_LABELS[r.practiceArea] || r.practiceArea);
+        html += '</div>';
+      }
+      html += '<div class="lf-summary">';
+      if (r.feeType === "hourly" && r.hourlyRate > 0) {
+        html += '<div class="lf-summary-item"><div class="label">Hourly Rate</div><div class="value">' + fmtWhole(r.hourlyRate) + '/hr</div></div>';
+      } else if (r.feeType === "contingency" && r.contingencyPct) {
+        html += '<div class="lf-summary-item"><div class="label">Contingency</div><div class="value">' + r.contingencyPct + '%</div></div>';
+      } else if (r.feeType === "flat" && r.flatFee) {
+        html += '<div class="lf-summary-item"><div class="label">Flat Fee</div><div class="value">' + fmtWhole(r.flatFee) + '</div></div>';
+      } else {
+        html += '<div class="lf-summary-item"><div class="label">Fee</div><div class="value">Not detected</div></div>';
+      }
+      html += '<div class="lf-summary-item"><div class="label">Practice Area</div><div class="value" style="font-size:1rem;">' + escHtml(PRACTICE_LABELS[r.practiceArea] || "General") + '</div></div>';
+      html += '<div class="lf-summary-item"><div class="label">Market Mid</div><div class="value">' + fmtWhole(r.marketMid) + '/hr</div></div>';
+      html += '</div></div>';
+
+      // Rate comparison section
+      if (r.hourlyRate > 0) {
+        html += '<div class="lf-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Rate Comparison</h3>';
+        html += '<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin-bottom:1rem;">';
+        html += '<div style="text-align:center;"><div style="font-size:0.75rem; color:#64748b; text-transform:uppercase;">Your Rate</div><div style="font-size:1.3rem; font-weight:700; color:#1e293b;">' + fmtWhole(r.hourlyRate) + '/hr</div></div>';
+        html += '<div style="text-align:center;"><div style="font-size:0.75rem; color:#64748b; text-transform:uppercase;">Market Range</div><div style="font-size:1.3rem; font-weight:700; color:#1e293b;">' + fmtWhole(r.marketLow) + ' - ' + fmtWhole(r.marketHigh) + '</div></div>';
+        html += '<div style="text-align:center;"><div style="font-size:0.75rem; color:#64748b; text-transform:uppercase;">Market Mid</div><div style="font-size:1.3rem; font-weight:700; color:#1e293b;">' + fmtWhole(r.marketMid) + '/hr</div></div>';
+        html += '</div>';
+
+        // Visual rate bar
+        var barMax = Math.max(r.marketHigh * 1.4, r.hourlyRate * 1.2);
+        var rangeLPct = (r.marketLow / barMax * 100).toFixed(1);
+        var rangeWPct = ((r.marketHigh - r.marketLow) / barMax * 100).toFixed(1);
+        var markerPct = Math.min(98, Math.max(2, (r.hourlyRate / barMax * 100))).toFixed(1);
+        html += '<div class="lf-rate-bar-wrap">';
+        html += '<div class="lf-rate-bar">';
+        html += '<div class="lf-rate-range" style="left:' + rangeLPct + '%; width:' + rangeWPct + '%;"></div>';
+        html += '<div class="lf-rate-marker" style="left:' + markerPct + '%;"></div>';
+        html += '</div>';
+        html += '<div class="lf-rate-labels"><span>' + fmtWhole(0) + '</span><span style="color:#16a34a;">Market range</span><span>' + fmtWhole(barMax) + '</span></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+
+      // Retainer agreement checklist
+      html += '<div class="lf-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Agreement Checklist</h3>';
+      html += '<ul class="lf-checklist">';
+      AGREEMENT_CHECKS.forEach(function(check) {
+        var status = r.checks[check.key];
+        var iconClass = "lf-check-warn";
+        var iconChar = "?";
+        if (status === "pass" || status === true) { iconClass = "lf-check-pass"; iconChar = "&#10003;"; }
+        else if (status === "fail" || status === false) { iconClass = "lf-check-fail"; iconChar = "&#10007;"; }
+        html += '<li><span class="lf-check-icon ' + iconClass + '">' + iconChar + '</span>' + escHtml(check.label) + '</li>';
+      });
+      html += '</ul></div>';
+
+      // Red flags section
+      if (r.redFlags.length > 0) {
+        html += '<div class="lf-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#dc2626;">Red Flags</h3>';
+        r.redFlags.forEach(function(flag) {
+          html += '<div class="lf-flag-card">';
+          html += '<h4>' + escHtml(flag.title) + '</h4>';
+          html += '<p class="lf-flag-why">' + escHtml(flag.why) + '</p>';
+          html += '<p class="lf-flag-action">' + escHtml(flag.action) + '</p>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Line items table (if invoice)
+      if (r.lineItems.length > 0) {
+        html += '<div class="lf-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Line Items</h3>';
+        html += '<div class="lf-table-wrap"><table class="lf-table"><thead><tr>';
+        html += '<th>Description</th><th>Hours</th><th>Rate</th><th>Amount</th>';
+        html += '</tr></thead><tbody>';
+        var totalAmount = 0;
+        r.lineItems.forEach(function(item) {
+          html += '<tr>';
+          html += '<td>' + escHtml(item.description) + '</td>';
+          html += '<td>' + (item.hours !== null ? item.hours.toFixed(1) : '--') + '</td>';
+          html += '<td>' + (item.rate !== null ? fmtWhole(item.rate) + '/hr' : '--') + '</td>';
+          html += '<td>' + fmt(item.amount) + '</td>';
+          html += '</tr>';
+          totalAmount += item.amount;
+        });
+        if (r.lineItems.length > 1) {
+          html += '<tr style="font-weight:700; border-top:2px solid #e2e8f0;"><td>Total</td><td></td><td></td><td>' + fmt(totalAmount) + '</td></tr>';
+        }
+        html += '</tbody></table></div></div>';
+      }
+
+      // Tips section
+      html += '<div class="lf-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Tips Before You Sign</h3>';
+      html += '<ul class="lf-tips">';
+      html += '<li>Ask about billing increment (6-minute standard, 15-minute costs you more).</li>';
+      html += '<li>Request a budget estimate for the total engagement.</li>';
+      html += '<li>Understand what\'s billed separately (copying, postage, filing fees).</li>';
+      html += '<li>Compare 2-3 attorneys before signing.</li>';
+      html += '</ul></div>';
+
+      // Feedback
+      html += '<div class="lf-card" id="estimateFeedback" style="text-align:center;">';
+      html += '<p style="font-size:0.95rem; color:#64748b; margin:0 0 0.75rem;">Was this analysis helpful?</p>';
+      html += '<div style="display:flex; gap:0.5rem; justify-content:center;">';
+      html += '<button class="lf-btn lf-btn-secondary" onclick="submitFeedback(\'yes\')">Yes, helpful</button>';
+      html += '<button class="lf-btn lf-btn-secondary" onclick="submitFeedback(\'no\')">Not really</button>';
+      html += '</div></div>';
+
+      // Actions
+      html += '<div class="lf-actions">';
+      html += '<button class="lf-btn lf-btn-primary lf-btn-full" onclick="saveResultAsImage()">Save as Image</button>';
+      html += '<button class="lf-btn lf-btn-secondary lf-btn-full" onclick="emailReport()">Email Me This Report</button>';
+      html += '<button class="lf-btn lf-btn-secondary lf-btn-full" onclick="startOver()">Start Over</button>';
+      html += '<a href="/legal-cost-guide.html" class="lf-btn lf-btn-secondary lf-btn-full" style="color:#16a34a;">Read Legal Cost Guide</a>';
+      html += '</div>';
+
+      appRoot.innerHTML = html;
+      window.scrollTo(0, 0);
+
+      // Track analysis
+      try {
+        fetch("/api/analytics", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "event",
+            event: "legal_fee_analyzed",
+            meta: {
+              source: r.source,
+              practiceArea: r.practiceArea,
+              hourlyRate: r.hourlyRate,
+              feeType: r.feeType,
+              verdictType: r.verdictType,
+              redFlagCount: r.redFlags.length,
+              lineItemCount: r.lineItems.length
+            },
+            path: window.location.pathname
+          })
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    // ── Init ──
+    render();
+
+  })();
+  </script>
+</body>
+</html>

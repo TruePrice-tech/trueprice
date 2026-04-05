@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "sources": "Clio Legal Trends Report, state bar fee surveys, NALP data",
+    "baseYear": 2025,
+    "inflationRate": 0.04
+  },
+  "hourlyRatesByPracticeArea": {
+    "family_law": {
+      "label": "Family Law (Divorce, Custody, Support)",
+      "rates": { "low": 200, "mid": 350, "high": 550 },
+      "typicalHours": { "simple_divorce": [5, 15], "contested_divorce": [20, 60], "custody_modification": [10, 30], "prenup": [5, 10] }
+    },
+    "personal_injury": {
+      "label": "Personal Injury",
+      "rates": { "low": 0, "mid": 0, "high": 0 },
+      "feeType": "contingency",
+      "contingencyRange": [25, 40],
+      "notes": "Most PI attorneys work on contingency (25-40% of settlement). You pay nothing upfront. If they ask for hourly fees, that's unusual."
+    },
+    "criminal_defense": {
+      "label": "Criminal Defense",
+      "rates": { "low": 200, "mid": 400, "high": 750 },
+      "flatFees": { "misdemeanor": [1500, 5000], "dui_first": [2500, 7500], "felony": [5000, 25000], "federal": [10000, 50000] }
+    },
+    "estate_planning": {
+      "label": "Estate Planning (Wills, Trusts)",
+      "rates": { "low": 200, "mid": 350, "high": 500 },
+      "flatFees": { "simple_will": [300, 1000], "trust": [1500, 5000], "estate_plan_package": [2000, 7500], "probate": [3000, 15000] }
+    },
+    "real_estate": {
+      "label": "Real Estate Law",
+      "rates": { "low": 200, "mid": 350, "high": 500 },
+      "flatFees": { "closing": [500, 1500], "title_review": [300, 800], "dispute": [3000, 15000] }
+    },
+    "business_law": {
+      "label": "Business Law (Formation, Contracts)",
+      "rates": { "low": 250, "mid": 400, "high": 700 },
+      "flatFees": { "llc_formation": [500, 2000], "contract_review": [500, 2500], "partnership_agreement": [1500, 5000] }
+    },
+    "immigration": {
+      "label": "Immigration Law",
+      "rates": { "low": 200, "mid": 350, "high": 500 },
+      "flatFees": { "green_card_family": [3000, 8000], "green_card_employment": [5000, 15000], "naturalization": [1500, 4000], "asylum": [5000, 15000], "h1b": [2000, 5000] }
+    },
+    "bankruptcy": {
+      "label": "Bankruptcy",
+      "rates": { "low": 200, "mid": 300, "high": 450 },
+      "flatFees": { "chapter_7": [1000, 3500], "chapter_13": [2500, 6000] },
+      "notes": "Most bankruptcy attorneys charge flat fees. Filing fees are additional ($338 Chapter 7, $313 Chapter 13)."
+    },
+    "employment_law": {
+      "label": "Employment Law (Wrongful Termination, Discrimination)",
+      "rates": { "low": 250, "mid": 400, "high": 600 },
+      "notes": "Employee-side cases often taken on contingency. Employer-side billed hourly."
+    },
+    "intellectual_property": {
+      "label": "Intellectual Property (Patents, Trademarks)",
+      "rates": { "low": 300, "mid": 450, "high": 800 },
+      "flatFees": { "trademark_registration": [1000, 3000], "patent_application": [8000, 20000], "copyright_registration": [500, 1500] }
+    },
+    "tax_law": {
+      "label": "Tax Law (IRS disputes, Tax Planning)",
+      "rates": { "low": 250, "mid": 400, "high": 700 },
+      "flatFees": { "audit_representation": [3000, 15000], "offer_in_compromise": [3500, 10000], "tax_court": [5000, 25000] }
+    },
+    "general_litigation": {
+      "label": "General Civil Litigation",
+      "rates": { "low": 250, "mid": 400, "high": 650 },
+      "typicalHours": { "small_claims_prep": [3, 8], "contract_dispute": [20, 80], "complex_litigation": [50, 200] }
+    }
+  },
+  "regionalMultipliers": {
+    "northeast": 1.25,
+    "southeast": 0.90,
+    "midwest": 0.92,
+    "south": 0.88,
+    "mountain": 0.95,
+    "west": 1.30
+  },
+  "firmSizeMultipliers": {
+    "solo": 0.75,
+    "small": 1.0,
+    "midsize": 1.25,
+    "large": 1.60,
+    "biglaw": 2.50
+  },
+  "firmSizeLabels": {
+    "solo": "Solo Practitioner",
+    "small": "Small Firm (2-10 attorneys)",
+    "midsize": "Midsize Firm (11-50 attorneys)",
+    "large": "Large Firm (51-200 attorneys)",
+    "biglaw": "BigLaw (200+ attorneys)"
+  },
+  "retainerCheckItems": [
+    { "key": "scopeDefined", "label": "Scope of representation clearly defined", "weight": 15 },
+    { "key": "rateStated", "label": "Hourly rate or fee structure stated", "weight": 15 },
+    { "key": "billingIncrement", "label": "Billing increment disclosed (6-min vs 15-min)", "weight": 10 },
+    { "key": "retainerAmount", "label": "Retainer amount and replenishment terms", "weight": 10 },
+    { "key": "expensePolicy", "label": "Expense policy (what's billed separately)", "weight": 10 },
+    { "key": "estimatedCost", "label": "Estimated total cost or range provided", "weight": 10 },
+    { "key": "communicationPolicy", "label": "Communication expectations (response time, billing for calls)", "weight": 8 },
+    { "key": "terminationClause", "label": "Termination clause (how to end the engagement)", "weight": 8 },
+    { "key": "conflictCheck", "label": "Conflict of interest check disclosed", "weight": 7 },
+    { "key": "feeDispute", "label": "Fee dispute resolution process", "weight": 7 }
+  ],
+  "redFlags": [
+    "Non-refundable retainer (most states require unused portions to be returned)",
+    "No written fee agreement (required by ethics rules in most states)",
+    "Billing in 15-minute or larger increments (industry standard is 6 minutes / 0.1 hour)",
+    "Vague scope ('all legal matters') without specific case description",
+    "No estimated total cost or range",
+    "Charging for clerical tasks (filing, copying, scheduling) at attorney rates",
+    "No termination clause or penalties for ending the engagement",
+    "Requiring payment of opposing counsel's fees if you lose",
+    "Flat fee with no refund if case resolves quickly"
+  ]
+}
