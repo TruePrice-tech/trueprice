@@ -240,12 +240,26 @@ export default async function handler(req, res) {
     if (req.query.counter === "1") {
       const BASE_COUNT = 847;
       try {
+        // Count from analytics events
         const rawEvents = await redis.lrange("tp:events", 0, -1);
         const analysisCount = rawEvents.filter(e => {
           const ev = typeof e === "string" ? JSON.parse(e) : e;
           return ev.event === "analysis_completed" || ev.event === "estimate_completed" || ev.event === "quote_uploaded";
         }).length;
-        return res.status(200).json({ count: BASE_COUNT + analysisCount });
+
+        // Count from anonymized pricing data (new verticals)
+        const pricingCount = await redis.llen("tp:pricing_data") || 0;
+
+        // Count seeded calibration data
+        const calKeys = await redis.keys("cal:*") || [];
+        let calCount = 0;
+        for (const key of calKeys) {
+          const data = await redis.get(key);
+          if (data && data.count) calCount += data.count;
+          else if (data && data.quotes) calCount += data.quotes.length;
+        }
+
+        return res.status(200).json({ count: BASE_COUNT + analysisCount + pricingCount + calCount });
       } catch (e) {
         return res.status(200).json({ count: BASE_COUNT });
       }
