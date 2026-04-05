@@ -303,7 +303,8 @@ async function main() {
             totalQuotes++;
 
             // Filter
-            if (!q.price || q.price < 2000) {
+            var minPrice = (sub.service === "auto-repair" || sub.service === "medical" || sub.service === "legal") ? 200 : 2000;
+            if (!q.price || q.price < minPrice) {
               console.log(`       Skip: price too low ($${q.price})`);
               totalSkipped++;
               continue;
@@ -313,7 +314,8 @@ async function main() {
               totalSkipped++;
               continue;
             }
-            if (q.isRepair && q.price < 3000) {
+            var minRepair = (sub.service === "auto-repair") ? 200 : 3000;
+            if (q.isRepair && q.price < minRepair) {
               console.log(`       Skip: small repair ($${q.price})`);
               totalSkipped++;
               continue;
