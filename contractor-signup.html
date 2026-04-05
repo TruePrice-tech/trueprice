@@ -411,14 +411,19 @@
 
         '<div class="cs-form-group"><label>Insurance Certificate *</label>' + fileArea + '</div>' +
 
-        '<div class="cs-form-group"><label>Google Business Profile URL *</label><input type="url" id="fGoogleProfile" value="' + esc(d.googleProfileUrl) + '" placeholder="https://www.google.com/maps/place/..." />' +
-          '<p class="cs-hint">We check your review score to confirm you meet the 3.5-star minimum.</p></div>' +
+        '<div class="cs-form-group"><label>Verify Your Business Email *</label>' +
+          '<p class="cs-hint">We\'ll send a 6-digit code to <strong>' + esc(state.form.email || 'your email') + '</strong> to verify your business.</p>' +
+          '<div style="display:flex;gap:8px;margin-top:8px;">' +
+            '<button type="button" class="cs-btn" id="btnSendCode" style="font-size:14px;padding:8px 16px;">' + (state.emailVerified ? 'Verified' : 'Send Code') + '</button>' +
+            '<input type="text" id="fVerifyCode" placeholder="Enter 6-digit code" maxlength="6" style="max-width:160px;" />' +
+            '<button type="button" class="cs-btn" id="btnVerifyCode" style="font-size:14px;padding:8px 16px;">Verify</button>' +
+          '</div></div>' +
 
         validationsHtml +
 
         '<div class="cs-btn-row">' +
           '<button class="cs-btn cs-btn-back" id="btnBack">Back</button>' +
-          '<button class="cs-btn cs-btn-primary" id="btnSubmitVerify">' + (state.submitting ? 'Submitting...' : 'Submit for Review') + '</button>' +
+          '<button class="cs-btn cs-btn-primary" id="btnSubmitVerify">' + (state.submitting ? 'Submitting...' : 'Submit Application') + '</button>' +
         '</div>';
     }
 
@@ -540,7 +545,7 @@
       var el = function(id) { var e = document.getElementById(id); return e ? e.value.trim() : ""; };
       d.licenseNumber = el("fLicenseNumber");
       d.licenseState = el("fLicenseState");
-      d.googleProfileUrl = el("fGoogleProfile");
+      // Google profile no longer required
     }
 
     function validateStep3() {
@@ -548,7 +553,7 @@
       if (!d.licenseNumber) return "License number is required.";
       if (!d.licenseState) return "License state is required.";
       if (!d.insuranceBase64) return "Insurance certificate is required.";
-      if (!d.googleProfileUrl) return "Google Business Profile URL is required.";
+      if (!state.emailVerified) return "Please verify your business email before submitting.";
       return null;
     }
 
@@ -609,14 +614,21 @@
         });
       }
 
-      /* Google profile URL - verify on blur */
-      var gInput = document.getElementById("fGoogleProfile");
-      if (gInput) {
-        gInput.addEventListener("blur", function() {
-          var url = gInput.value.trim();
-          if (url && url.indexOf("google.com") > -1) {
-            verifyGoogleProfile(url);
-          }
+      /* Email verification - send code button */
+      var sendCodeBtn = document.getElementById("btnSendCode");
+      if (sendCodeBtn) {
+        sendCodeBtn.addEventListener("click", function() {
+          var email = state.form.email;
+          if (!email || email.indexOf("@") === -1) { alert("Enter your business email in Step 2 first."); return; }
+          sendVerificationCode(email);
+        });
+      }
+      var verifyCodeBtn = document.getElementById("btnVerifyCode");
+      if (verifyCodeBtn) {
+        verifyCodeBtn.addEventListener("click", function() {
+          var code = document.getElementById("fVerifyCode").value.trim();
+          if (!code || code.length !== 6) { alert("Enter the 6-digit code from your email."); return; }
+          checkVerificationCode(state.form.email, code);
         });
       }
 
@@ -696,57 +708,91 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "verify-insurance",
-          insuranceImage: base64Data
+          action: "review_doc",
+          image: base64Data,
+          docType: "insurance"
         })
       })
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        if (data.verified) {
-          state.validations.insurance = {
-            type: "success",
-            message: "Insurance verified: " + (data.summary || "$1M general liability confirmed")
-          };
+        if (data.success && data.data) {
+          var d = data.data;
+          state.insuranceReviewData = d;
+          if (d.meetsMinimum && !d.isExpired) {
+            state.validations.insurance = {
+              type: "success",
+              message: "Insurance verified: " + (d.summary || d.coverageAmount + " general liability confirmed")
+            };
+          } else if (d.isExpired) {
+            state.validations.insurance = {
+              type: "error",
+              message: "Insurance appears expired (exp: " + (d.expirationDate || "unknown") + "). Please upload current certificate."
+            };
+          } else {
+            state.validations.insurance = {
+              type: "error",
+              message: "Coverage below $1M minimum or could not confirm. " + (d.summary || "Please upload a certificate showing $1M+ general liability.")
+            };
+          }
         } else {
           state.validations.insurance = {
             type: "error",
-            message: data.message || "Could not verify insurance document. Please ensure it shows current coverage."
+            message: "Could not read insurance document. Please upload a clear photo or PDF of your certificate."
           };
         }
         render();
       })
       .catch(function() {
-        state.validations.insurance = { type: "warning", message: "Insurance document uploaded. Will be reviewed manually." };
+        state.validations.insurance = { type: "error", message: "Could not verify insurance. Please try again." };
         render();
       });
     }
 
-    function verifyGoogleProfile(url) {
-      state.validations.google = { type: "warning", message: "Checking Google Reviews..." };
+    function sendVerificationCode(email) {
+      state.validations.email = { type: "warning", message: "Sending verification code..." };
       render();
 
       fetch("/api/contractor-verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ googleProfileUrl: url })
+        body: JSON.stringify({ action: "send_code", email: email })
       })
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        if (data.stars >= 3.5) {
-          state.validations.google = {
-            type: "success",
-            message: "Google Reviews: " + data.stars + " stars (" + data.count + " reviews) - meets Verified threshold"
-          };
+        if (data.success) {
+          state.validations.email = { type: "warning", message: "Code sent to " + email + ". Check your inbox and enter it below." };
         } else {
-          state.validations.google = {
-            type: "error",
-            message: "Google Reviews: " + data.stars + " stars - below 3.5 minimum for Verified"
-          };
+          state.validations.email = { type: "error", message: data.error || "Could not send code. Try again." };
         }
         render();
       })
       .catch(function() {
-        state.validations.google = { type: "warning", message: "Could not verify Google profile. We'll check manually." };
+        state.validations.email = { type: "error", message: "Could not send verification code. Try again." };
+        render();
+      });
+    }
+
+    function checkVerificationCode(email, code) {
+      state.validations.email = { type: "warning", message: "Verifying code..." };
+      render();
+
+      fetch("/api/contractor-verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "verify_code", email: email, code: code })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.verified) {
+          state.validations.email = { type: "success", message: "Email verified successfully." };
+          state.emailVerified = true;
+        } else {
+          state.validations.email = { type: "error", message: data.error || "Incorrect code. Try again." };
+        }
+        render();
+      })
+      .catch(function() {
+        state.validations.email = { type: "error", message: "Verification failed. Try again." };
         render();
       });
     }
@@ -776,8 +822,7 @@
         payload.verification = {
           licenseNumber: state.docs.licenseNumber,
           licenseState: state.docs.licenseState,
-          googleProfileUrl: state.docs.googleProfileUrl,
-          insuranceImage: state.docs.insuranceBase64
+          insuranceReview: state.insuranceReviewData || null
         };
       }
 

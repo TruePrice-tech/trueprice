@@ -88,31 +88,89 @@
 
     function renderList(contractors) {
       if (!contractors.length) {
-        app.innerHTML = '<div class="dash-header"><h1>Claimed Contractors</h1><p>No signups yet.</p></div><div class="c-empty">Contractors who sign up will appear here.</div>';
+        app.innerHTML = '<div class="dash-header"><h1>Contractor Management</h1><p>No signups yet.</p></div><div class="c-empty">Contractors who sign up will appear here.</div>';
         return;
       }
 
-      var html = '<div class="dash-header"><h1>Claimed Contractors</h1></div>';
+      // Stats summary
+      var stats = { total: contractors.length, basic: 0, verified: 0, featured: 0, pending: 0, approved: 0, rejected: 0 };
+      contractors.forEach(function(c) {
+        var t = c.tier || "basic";
+        if (stats[t] !== undefined) stats[t]++;
+        var s = c.status || "pending";
+        if (stats[s] !== undefined) stats[s]++;
+      });
+
+      var html = '<div class="dash-header"><h1>Contractor Management</h1></div>';
+      html += '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">';
+      html += '<div style="padding:12px 20px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;"><strong>' + stats.approved + '</strong> Live</div>';
+      html += '<div style="padding:12px 20px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;"><strong>' + stats.pending + '</strong> Pending</div>';
+      html += '<div style="padding:12px 20px;background:#dbeafe;border:1px solid #93c5fd;border-radius:10px;"><strong>' + stats.basic + '</strong> Basic</div>';
+      html += '<div style="padding:12px 20px;background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;"><strong>' + stats.verified + '</strong> Verified</div>';
+      html += '<div style="padding:12px 20px;background:#fef3c7;border:1px solid #fbbf24;border-radius:10px;"><strong>' + stats.featured + '</strong> Featured</div>';
+      html += '</div>';
+
+      // Pending first
+      var sorted = contractors.slice().sort(function(a, b) {
+        if (a.status === "pending" && b.status !== "pending") return -1;
+        if (a.status !== "pending" && b.status === "pending") return 1;
+        return 0;
+      });
+
       html += '<div class="dash-count">' + contractors.length + ' contractor' + (contractors.length !== 1 ? 's' : '') + '</div>';
       html += '<ul class="c-list">';
 
-      contractors.forEach(function(c) {
+      sorted.forEach(function(c) {
         var biz = c.business || {};
         var tierClass = c.tier === "featured" ? "c-tier-featured" : c.tier === "verified" ? "c-tier-verified" : "c-tier-basic";
         var city = (biz.city || "") + (biz.state ? ", " + biz.state : "");
         var date = c.submittedAt ? new Date(c.submittedAt).toLocaleDateString() : "";
+        var email = biz.email || c.email || "";
+        var isPending = c.status === "pending";
+        var statusBadge = isPending
+          ? '<span style="padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;background:#fef3c7;color:#92400e;">PENDING</span>'
+          : c.status === "rejected"
+            ? '<span style="padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;background:#fee2e2;color:#991b1b;">REJECTED</span>'
+            : '<span style="padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;background:#d1fae5;color:#065f46;">LIVE</span>';
+        var notes = c.reviewNotes ? '<div style="font-size:11px;color:#94a3b8;margin-top:2px;">' + escapeHtml(c.reviewNotes) + '</div>' : '';
 
-        html += '<li class="c-item">';
+        html += '<li class="c-item" style="align-items:center;">';
         html += '<div class="c-name">' + escapeHtml(biz.name || "Unknown") + '</div>';
         html += '<div class="c-city">' + escapeHtml(city) + '</div>';
         html += '<span class="c-tier ' + tierClass + '">' + escapeHtml(c.tier || "basic") + '</span>';
+        html += statusBadge;
         html += '<div class="c-date">' + escapeHtml(date) + '</div>';
+        if (isPending) {
+          html += '<div style="display:flex;gap:6px;">';
+          html += '<button onclick="approveContractor(\'' + escapeHtml(email) + '\')" style="padding:4px 12px;border:none;border-radius:6px;background:#16a34a;color:#fff;font-size:12px;font-weight:600;cursor:pointer;">Approve</button>';
+          html += '<button onclick="rejectContractor(\'' + escapeHtml(email) + '\')" style="padding:4px 12px;border:none;border-radius:6px;background:#dc2626;color:#fff;font-size:12px;font-weight:600;cursor:pointer;">Reject</button>';
+          html += '</div>';
+        }
+        html += notes;
         html += '</li>';
       });
 
       html += '</ul>';
       app.innerHTML = html;
     }
+
+    window.approveContractor = function(email) {
+      if (!confirm("Approve " + email + "?")) return;
+      fetch("/api/contractor-admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "update_status", email: email, status: "approved", key: savedKey })
+      }).then(function() { loadData(); });
+    };
+
+    window.rejectContractor = function(email) {
+      var reason = prompt("Rejection reason (optional):");
+      fetch("/api/contractor-admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "update_status", email: email, status: "rejected", notes: reason || "", key: savedKey })
+      }).then(function() { loadData(); });
+    };
 
     function escapeHtml(t) {
       var d = document.createElement("div");

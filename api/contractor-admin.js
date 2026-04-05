@@ -68,7 +68,7 @@ async function getStats(contractors) {
   return stats;
 }
 
-async function updateStatus(email, status) {
+async function updateStatus(email, status, notes) {
   if (!email || !["approved", "rejected"].includes(status)) {
     throw new Error("Invalid email or status. Status must be approved or rejected.");
   }
@@ -82,6 +82,7 @@ async function updateStatus(email, status) {
   const data = typeof raw === "string" ? JSON.parse(raw) : raw;
   data.status = status;
   data.reviewedAt = new Date().toISOString();
+  if (notes) data.reviewNotes = (data.reviewNotes ? data.reviewNotes + "; " : "") + notes;
 
   await redis.set(key, JSON.stringify(data));
   return { success: true, email, status };
@@ -137,8 +138,8 @@ export default async function handler(req, res) {
       const { action } = req.body;
 
       if (action === "update_status") {
-        const { email, status } = req.body;
-        const result = await updateStatus(email, status);
+        const { email, status, notes } = req.body;
+        const result = await updateStatus(email, status, notes);
         return res.status(200).json(result);
       }
 

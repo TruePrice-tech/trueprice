@@ -32,9 +32,15 @@ async function checkRateLimit(ip) {
 const CHAT_SYSTEM_PROMPT = `You are Trudy, the TruePrice assistant helping contractors sign up for the TruePrice directory. Be helpful, concise, and professional.
 
 TruePrice has three listing tiers:
-- Basic (free): Any contractor can list. Business name, phone, services, area. Unverified.
-- Verified (free, earned): Requires valid license, $1M+ liability insurance, 2+ years in business, 3.5+ Google stars (10+ reviews), no unresolved BBB complaints. Gets Verified badge and priority placement.
-- Featured (paid, must be Verified first): Requires 4.0+ Google stars and signing the Transparency Pledge. Gets top placement, logo, website link, appears in quote analysis results. $99/month.
+- Basic (free): Any contractor can list. Business name, phone, services, area. Unverified. Live instantly.
+- Verified (free, earned): Requires valid license, $1M+ liability insurance, and verified business email. Gets Verified badge and priority placement. Verification is automated -- if your insurance cert and license check out and you verify your email, you're approved instantly.
+- Featured (paid, must be Verified first): Requires signing the Transparency Pledge. Gets top placement, logo, website link, appears in quote analysis results. Pricing to be announced.
+
+Verification process (fully automated, no waiting):
+1. Upload your insurance certificate -- our AI reads it and confirms $1M+ coverage
+2. Enter your license number and state
+3. Verify your business email with a 6-digit code
+4. If all three pass, your Verified listing goes live immediately
 
 The Transparency Pledge requires: itemized quotes, stated labor rates, warranty terms, no same-day signing pressure, permit costs included, 5-day dispute response, allow anonymized quote data for benchmarking.
 
@@ -174,8 +180,8 @@ async function handleSubmit(tier, business, verification, pledge) {
 
   // Validate tier-specific fields
   if (tier === "verified" || tier === "featured") {
-    if (!verification?.licenseNumber || !verification?.licenseState || !verification?.googleProfileUrl) {
-      throw new Error("Verified tier requires license number, license state, and Google Business Profile URL.");
+    if (!verification?.licenseNumber || !verification?.licenseState) {
+      throw new Error("Verified tier requires license number and license state.");
     }
   }
 
@@ -186,8 +192,59 @@ async function handleSubmit(tier, business, verification, pledge) {
   }
 
   const email = business.email.toLowerCase().trim();
-  const status = tier === "basic" ? "approved" : "pending";
   const submittedAt = new Date().toISOString();
+
+  // Determine auto-approval status based on verification signals
+  let status = "pending";
+  let autoApprovalNotes = [];
+
+  if (tier === "basic") {
+    status = "approved";
+  } else {
+    // Check all 3 automated verification signals:
+    // 1. Email verified (code confirmed)
+    // 2. Insurance meets minimum (from AI review stored in verification)
+    // 3. License number provided and formatted
+
+    let emailVerified = false;
+    let insuranceVerified = false;
+    let licenseProvided = false;
+
+    // 1. Check email verification
+    try {
+      const verifiedKey = `verify_confirmed:${email}`;
+      const isVerified = await redis.get(verifiedKey);
+      emailVerified = isVerified === "true" || isVerified === true;
+    } catch(e) { /* Redis error, treat as unverified */ }
+
+    // 2. Check insurance data from AI review (passed in verification object)
+    if (verification?.insuranceReview) {
+      const ins = verification.insuranceReview;
+      insuranceVerified = ins.meetsMinimum === true && ins.isExpired !== true;
+    }
+
+    // 3. License number provided with valid format
+    if (verification?.licenseNumber && verification?.licenseState) {
+      const ln = verification.licenseNumber.trim();
+      licenseProvided = ln.length >= 4 && /[A-Za-z0-9]/.test(ln);
+    }
+
+    if (emailVerified) autoApprovalNotes.push("email_verified");
+    if (insuranceVerified) autoApprovalNotes.push("insurance_verified");
+    if (licenseProvided) autoApprovalNotes.push("license_provided");
+
+    // Auto-approve if all 3 signals pass
+    if (emailVerified && insuranceVerified && licenseProvided) {
+      status = "approved";
+      autoApprovalNotes.push("auto_approved");
+    }
+
+    // Featured additionally requires pledge (already validated above)
+    if (tier === "featured" && status === "approved" && !pledge) {
+      status = "pending";
+      autoApprovalNotes.push("pending_pledge");
+    }
+  }
 
   const application = {
     tier,
@@ -196,7 +253,7 @@ async function handleSubmit(tier, business, verification, pledge) {
     pledge: !!pledge,
     status,
     submittedAt,
-    reviewNotes: ""
+    reviewNotes: autoApprovalNotes.join(", ")
   };
 
   try {
@@ -205,6 +262,7 @@ async function handleSubmit(tier, business, verification, pledge) {
       email,
       business: business.name,
       tier,
+      status,
       submittedAt
     }));
   } catch (e) {
@@ -212,11 +270,16 @@ async function handleSubmit(tier, business, verification, pledge) {
     throw new Error("Failed to save application. Please try again.");
   }
 
-  const message = status === "approved"
-    ? "Your Basic listing is live! You can upgrade to Verified at any time."
-    : `Your ${tier} application has been submitted and is under review. Typical turnaround: 1-2 business days.`;
+  let message;
+  if (status === "approved" && tier === "basic") {
+    message = "Your Basic listing is live! You can upgrade to Verified at any time.";
+  } else if (status === "approved") {
+    message = `Your ${tier} listing is live! All verification checks passed automatically.`;
+  } else {
+    message = `Your ${tier} application has been submitted. We're reviewing your documents. Most applications are processed within a few hours.`;
+  }
 
-  return { success: true, status, message };
+  return { success: true, status, message, checks: autoApprovalNotes };
 }
 
 export default async function handler(req, res) {

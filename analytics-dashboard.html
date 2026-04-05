@@ -134,6 +134,11 @@
         <div id="feedbackList" style="max-height:300px; overflow-y:auto;"></div>
       </div>
 
+      <div class="card" style="grid-column:1/-1;">
+        <h3>Contractors</h3>
+        <div id="contractorMetrics" style="color:var(--text-muted);">Loading...</div>
+      </div>
+
       <div style="text-align:center; margin-top:16px; font-size:13px; color:var(--text-muted);">
         Analytics data persists in Redis.
       </div>
@@ -343,6 +348,30 @@
           return '<div class="dash-chart-bar" style="height:' + Math.max(pct, 2) + '%" title="' + h[0] + ': ' + h[1] + ' views"></div>';
         }).join("") :
         '<div class="dash-empty">No data yet for this time range</div>';
+
+      // Contractor metrics
+      fetch("/api/contractor-admin?action=stats&key=" + encodeURIComponent(adminKey))
+        .then(function(r) { return r.json(); })
+        .then(function(raw) {
+          var cs = raw.stats || raw;
+          var total = cs.total || 0;
+          var html = '<div style="display:flex;gap:16px;flex-wrap:wrap;">';
+          html += stat("Total Contractors", total);
+          html += statColor("Live", cs.approved || 0, "#16a34a");
+          html += statColor("Pending", cs.pending || 0, "#d97706");
+          html += stat("Basic", cs.basic || 0);
+          html += statColor("Verified", cs.verified || 0, "#059669");
+          html += statColor("Featured", cs.featured || 0, "#d97706");
+          if (cs.rejected) html += statColor("Rejected", cs.rejected, "#dc2626");
+          html += '</div>';
+          if (cs.pending > 0) {
+            html += '<div style="margin-top:12px;"><a href="/contractor-dashboard.html" style="color:var(--brand);font-weight:600;font-size:14px;">Review ' + cs.pending + ' pending application' + (cs.pending !== 1 ? 's' : '') + ' &rarr;</a></div>';
+          }
+          document.getElementById("contractorMetrics").innerHTML = html;
+        })
+        .catch(function() {
+          document.getElementById("contractorMetrics").innerHTML = '<span style="color:var(--text-muted);">Could not load contractor data</span>';
+        });
     }
 
     function stat(label, value) {
