@@ -27,21 +27,25 @@ function getSeasonalMultiplier(service) {
 }
 
 const SERVICE_CONFIG = {
-  roofing:       { file: 'pricing-model.json', label: 'Roof Replacement', urlSlug: 'roof', refSize: '2,000 sq ft home' },
-  hvac:          { file: 'hvac-pricing-model.json', label: 'HVAC Replacement', urlSlug: 'hvac', refSize: '2,000 sq ft home' },
-  plumbing:      { file: 'plumbing-pricing-model.json', label: 'Plumbing', urlSlug: 'plumbing', refSize: 'typical project' },
-  electrical:    { file: 'electrical-pricing-model.json', label: 'Electrical', urlSlug: 'electrical', refSize: 'typical project' },
-  windows:       { file: 'window-pricing-model.json', label: 'Window Replacement', urlSlug: 'window', refSize: '10 windows' },
-  siding:        { file: 'siding-pricing-model.json', label: 'Siding Installation', urlSlug: 'siding', refSize: '2,000 sq ft' },
-  painting:      { file: 'painting-pricing-model.json', label: 'House Painting', urlSlug: 'painting', refSize: '2,000 sq ft exterior' },
-  solar:         { file: 'solar-pricing-model.json', label: 'Solar Installation', urlSlug: 'solar', refSize: '10 kW system' },
-  'garage-doors':{ file: 'garage-door-pricing-model.json', label: 'Garage Door', urlSlug: 'garage-door', refSize: 'per unit' },
-  fencing:       { file: 'fencing-pricing-model.json', label: 'Fence Installation', urlSlug: 'fence', refSize: '200 linear feet' },
-  concrete:      { file: 'concrete-pricing-model.json', label: 'Concrete Work', urlSlug: 'concrete', refSize: '600 sq ft' },
-  landscaping:   { file: 'landscaping-pricing-model.json', label: 'Landscaping', urlSlug: 'landscaping', refSize: 'typical project' },
-  foundation:    { file: 'foundation-pricing-model.json', label: 'Foundation Repair', urlSlug: 'foundation', refSize: 'moderate repair' },
-  kitchen:       { file: 'kitchen-pricing-model.json', label: 'Kitchen Remodel', urlSlug: 'kitchen-remodel', refSize: 'average kitchen' },
-  insulation:    { file: 'insulation-pricing-model.json', label: 'Insulation', urlSlug: 'insulation', refSize: '1,500 sq ft' },
+  roofing:       { file: 'pricing-model.json', label: 'Roof Replacement', urlSlug: 'roof', refSize: '2,000 sq ft home', category: 'home' },
+  hvac:          { file: 'hvac-pricing-model.json', label: 'HVAC Replacement', urlSlug: 'hvac', refSize: '2,000 sq ft home', category: 'home' },
+  plumbing:      { file: 'plumbing-pricing-model.json', label: 'Plumbing', urlSlug: 'plumbing', refSize: 'typical project', category: 'home' },
+  electrical:    { file: 'electrical-pricing-model.json', label: 'Electrical', urlSlug: 'electrical', refSize: 'typical project', category: 'home' },
+  windows:       { file: 'window-pricing-model.json', label: 'Window Replacement', urlSlug: 'window', refSize: '10 windows', category: 'home' },
+  siding:        { file: 'siding-pricing-model.json', label: 'Siding Installation', urlSlug: 'siding', refSize: '2,000 sq ft', category: 'home' },
+  painting:      { file: 'painting-pricing-model.json', label: 'House Painting', urlSlug: 'painting', refSize: '2,000 sq ft exterior', category: 'home' },
+  solar:         { file: 'solar-pricing-model.json', label: 'Solar Installation', urlSlug: 'solar', refSize: '10 kW system', category: 'home' },
+  'garage-doors':{ file: 'garage-door-pricing-model.json', label: 'Garage Door', urlSlug: 'garage-door', refSize: 'per unit', category: 'home' },
+  fencing:       { file: 'fencing-pricing-model.json', label: 'Fence Installation', urlSlug: 'fence', refSize: '200 linear feet', category: 'home' },
+  concrete:      { file: 'concrete-pricing-model.json', label: 'Concrete Work', urlSlug: 'concrete', refSize: '600 sq ft', category: 'home' },
+  landscaping:   { file: 'landscaping-pricing-model.json', label: 'Landscaping', urlSlug: 'landscaping', refSize: 'typical project', category: 'home' },
+  foundation:    { file: 'foundation-pricing-model.json', label: 'Foundation Repair', urlSlug: 'foundation', refSize: 'moderate repair', category: 'home' },
+  kitchen:       { file: 'kitchen-pricing-model.json', label: 'Kitchen Remodel', urlSlug: 'kitchen-remodel', refSize: 'average kitchen', category: 'home' },
+  insulation:    { file: 'insulation-pricing-model.json', label: 'Insulation', urlSlug: 'insulation', refSize: '1,500 sq ft', category: 'home' },
+  gutters:       { file: 'gutters-pricing-model.json', label: 'Gutter Installation', urlSlug: 'gutter', refSize: '150 linear feet', category: 'home' },
+  'auto-repair': { file: 'auto-repair-common-jobs.json', label: 'Auto Repair', urlSlug: null, refSize: null, category: 'auto' },
+  medical:       { file: 'medical-common-procedures.json', label: 'Medical Costs', urlSlug: null, refSize: null, category: 'medical' },
+  legal:         { file: 'legal-fee-pricing.json', label: 'Legal Fees', urlSlug: null, refSize: null, category: 'legal' },
 };
 
 function roundPrice(value, roundTo) {
@@ -368,6 +372,73 @@ function computeInsulation(model, mult) {
   };
 }
 
+function computeGutters(model, mult) {
+  const lf = 150;
+  const overhead = model.overheadMultiplier || 1.0;
+  const types = model.basePricePerLinearFoot;
+  const show = ['aluminum_seamless', 'vinyl', 'steel', 'copper'];
+  const materials = show.filter(k => types[k]).map(key => {
+    const t = types[key];
+    const low = t.low * lf * mult * overhead;
+    const high = t.high * lf * mult * overhead;
+    return { label: t.label, low: smartRound(low), high: smartRound(high) };
+  });
+  const allLows = materials.map(m => m.low);
+  const allHighs = materials.map(m => m.high);
+  return {
+    materials,
+    overallLow: Math.min(...allLows),
+    overallHigh: Math.max(...allHighs),
+  };
+}
+
+function computeAutoRepair(data, mult) {
+  const repairs = data.commonRepairs;
+  const show = ['brakes_front', 'oil_change_synthetic', 'timing_belt', 'alternator', 'ac_compressor', 'transmission_rebuild'];
+  const materials = show.filter(k => repairs[k]).map(key => {
+    const r = repairs[key];
+    return { label: r.label, low: smartRound(r.totalRange.low * mult), high: smartRound(r.totalRange.high * mult) };
+  });
+  const allLows = materials.map(m => m.low);
+  const allHighs = materials.map(m => m.high);
+  return { materials, overallLow: Math.min(...allLows), overallHigh: Math.max(...allHighs) };
+}
+
+function computeMedical(data) {
+  const procs = data.commonProcedures;
+  const show = ['er_visit_moderate', 'mri_brain', 'blood_work_basic', 'knee_replacement', 'colonoscopy_diagnostic', 'therapy_session'];
+  const materials = show.filter(k => procs[k]).map(key => {
+    const p = procs[key];
+    return { label: p.label, low: p.totalCostRange.low, high: p.totalCostRange.high };
+  });
+  const allLows = materials.map(m => m.low);
+  const allHighs = materials.map(m => m.high);
+  return { materials, overallLow: Math.min(...allLows), overallHigh: Math.max(...allHighs) };
+}
+
+function computeLegal(data, mult) {
+  const areas = data.hourlyRatesByPracticeArea;
+  const show = ['family_law', 'criminal_defense', 'estate_planning', 'real_estate', 'business_law', 'immigration'];
+  const materials = show.filter(k => areas[k]).map(key => {
+    const a = areas[key];
+    if (a.flatFees) {
+      const fees = Object.values(a.flatFees);
+      const low = Math.min(...fees.map(f => f[0])) * mult;
+      const high = Math.max(...fees.map(f => f[1])) * mult;
+      return { label: a.label, low: smartRound(low), high: smartRound(high) };
+    }
+    return { label: a.label, low: smartRound(a.rates.low * mult), high: smartRound(a.rates.high * mult) + '/hr' };
+  });
+  // For overall range, use hourly rates
+  const allRates = show.filter(k => areas[k]).map(k => areas[k].rates).filter(r => r.low > 0);
+  return {
+    materials,
+    overallLow: Math.min(...allRates.map(r => smartRound(r.low * mult))),
+    overallHigh: Math.max(...allRates.map(r => smartRound(r.high * mult))),
+    isHourly: true
+  };
+}
+
 const COMPUTE_MAP = {
   roofing: computeRoofing,
   hvac: computeHvac,
@@ -384,6 +455,10 @@ const COMPUTE_MAP = {
   foundation: computeFoundation,
   kitchen: computeKitchen,
   insulation: computeInsulation,
+  gutters: computeGutters,
+  'auto-repair': computeAutoRepair,
+  medical: computeMedical,
+  legal: computeLegal,
 };
 
 module.exports = async (req, res) => {
@@ -418,58 +493,91 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const region = getRegion(stateUpper);
     const model = loadJson(config.file);
-    const cityKey = city + "|" + stateUpper;
-    const cityMultipliers = getCityMultipliers();
-    const cityMult = cityMultipliers[cityKey] ? cityMultipliers[cityKey].multiplier : null;
-    const laborMult = cityMult || ((model.laborMultiplierByRegion || {})[region] || 1.0);
     const computeFn = COMPUTE_MAP[service];
+    const category = config.category;
+
+    // Non-home verticals: simpler multiplier logic
+    let laborMult = 1.0;
+    if (category === 'home' || category === 'auto') {
+      const region = getRegion(stateUpper);
+      if (category === 'auto') {
+        laborMult = (model.laborMultiplierByRegion || {})[region] || 1.0;
+      } else {
+        const cityKey = city + "|" + stateUpper;
+        const cityMultipliers = getCityMultipliers();
+        const cityMult = cityMultipliers[cityKey] ? cityMultipliers[cityKey].multiplier : null;
+        laborMult = cityMult || ((model.laborMultiplierByRegion || {})[region] || 1.0);
+      }
+    } else if (category === 'legal') {
+      const region = getRegion(stateUpper);
+      laborMult = (model.regionalMultipliers || {})[region] || 1.0;
+    }
+    // medical: no regional multiplier (prices vary by facility, not region)
+
     const result = computeFn(model, laborMult);
 
-    // Apply inflation and seasonal adjustments
-    const inflationMult = getInflationMultiplier();
-    const seasonalMult = getSeasonalMultiplier(service);
-    const timeMult = inflationMult * seasonalMult;
+    // Apply inflation and seasonal adjustments (home services only)
+    let totalMult = 1.0;
+    if (category === 'home') {
+      const inflationMult = getInflationMultiplier();
+      const seasonalMult = getSeasonalMultiplier(service);
+      totalMult = inflationMult * seasonalMult;
 
-    // Check for calibration data from real quotes
-    let calibrationFactor = 1.0;
-    try {
-      const { Redis } = await import("@upstash/redis");
-      const redis = Redis.fromEnv();
-      const calKey = `cal:${city.toLowerCase()}:${stateUpper}:${service}`;
-      const calData = await redis.get(calKey);
-      if (calData && calData.quotes >= 1 && calData.avgPrice > 0 && result.overallLow > 0) {
-        const modelMid = (result.overallLow + result.overallHigh) / 2;
-        const realAvg = calData.avgPrice;
-        // Blend: weight calibration based on number of quotes (more quotes = more influence)
-        const calWeight = Math.min(calData.quotes / 5, 1.0) * 0.3; // max 30% influence
-        calibrationFactor = 1.0 + (realAvg / modelMid - 1.0) * calWeight;
-        calibrationFactor = Math.max(0.7, Math.min(1.3, calibrationFactor)); // cap at ±30%
-      }
-    } catch(e) { /* calibration unavailable, use model only */ }
+      // Check for calibration data from real quotes
+      try {
+        const { Redis } = await import("@upstash/redis");
+        const redis = Redis.fromEnv();
+        const calKey = `cal:${city.toLowerCase()}:${stateUpper}:${service}`;
+        const calData = await redis.get(calKey);
+        if (calData && calData.quotes >= 1 && calData.avgPrice > 0 && result.overallLow > 0) {
+          const modelMid = (result.overallLow + result.overallHigh) / 2;
+          const realAvg = calData.avgPrice;
+          const calWeight = Math.min(calData.quotes / 5, 1.0) * 0.3;
+          let calibrationFactor = 1.0 + (realAvg / modelMid - 1.0) * calWeight;
+          calibrationFactor = Math.max(0.7, Math.min(1.3, calibrationFactor));
+          totalMult *= calibrationFactor;
+        }
+      } catch(e) { /* calibration unavailable */ }
+    }
 
-    const totalMult = timeMult * calibrationFactor;
     const adjustedMaterials = result.materials.map(m => ({
       label: m.label,
-      low: smartRound(m.low * totalMult),
-      high: smartRound(m.high * totalMult),
+      low: typeof m.low === 'number' ? smartRound(m.low * totalMult) : m.low,
+      high: typeof m.high === 'string' ? m.high : smartRound(m.high * totalMult),
     }));
     const adjustedLow = smartRound(result.overallLow * totalMult);
     const adjustedHigh = smartRound(result.overallHigh * totalMult);
 
-    const cityPageUrl = `https://truepricehq.com/${slugify(city)}-${stateUpper.toLowerCase()}-${config.urlSlug}-cost.html`;
+    // Build appropriate URLs per category
+    let cityPageUrl, analyzerUrl;
+    if (category === 'home') {
+      cityPageUrl = `https://truepricehq.com/${slugify(city)}-${stateUpper.toLowerCase()}-${config.urlSlug}-cost.html`;
+      analyzerUrl = 'https://truepricehq.com/analyze-quote.html';
+    } else if (category === 'auto') {
+      cityPageUrl = 'https://truepricehq.com/auto-repair-cost-guide.html';
+      analyzerUrl = 'https://truepricehq.com/auto-repair-quote-analyzer.html';
+    } else if (category === 'medical') {
+      cityPageUrl = 'https://truepricehq.com/medical-cost-guide.html';
+      analyzerUrl = 'https://truepricehq.com/medical-bill-analyzer.html';
+    } else if (category === 'legal') {
+      cityPageUrl = 'https://truepricehq.com/legal-cost-guide.html';
+      analyzerUrl = 'https://truepricehq.com/legal-fee-analyzer.html';
+    }
 
     return res.status(200).json({
       city,
       state: stateUpper,
       service,
       serviceLabel: config.label,
+      category,
       materials: adjustedMaterials,
       overallLow: adjustedLow,
       overallHigh: adjustedHigh,
       referenceSize: config.refSize,
+      isHourly: result.isHourly || false,
       cityPageUrl,
+      analyzerUrl,
       updated: new Date().toISOString().split('T')[0],
     });
   } catch (err) {

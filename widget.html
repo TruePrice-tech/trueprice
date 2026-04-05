@@ -5,18 +5,18 @@
   <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Embeddable Pricing Widget | TruePrice</title>
-  <meta name="description" content="Embed local home service pricing data on your site. One line of code, no signup, free. Covers 15 services across 739 cities." />
+  <meta name="description" content="Embed local pricing data on your site. Home services, auto repair, medical costs, and legal fees. One line of code, no signup, free." />
   <link rel="canonical" href="https://truepricehq.com/widget.html" />
   <meta name="robots" content="index,follow" />
   <meta property="og:title" content="Embeddable Pricing Widget | TruePrice" />
-  <meta property="og:description" content="A free, lightweight widget that shows local home service costs. One line of code. No signup." />
+  <meta property="og:description" content="Free widget showing local costs for home services, auto repair, medical procedures, and legal fees. One line of code. No signup." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/widget.html" />
   <meta property="og:site_name" content="TruePrice" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Embeddable Pricing Widget | TruePrice" />
-  <meta name="twitter:description" content="A free, lightweight widget that shows local home service costs. One line of code. No signup." />
+  <meta name="twitter:description" content="Free widget showing local costs for home services, auto repair, medical procedures, and legal fees. One line of code. No signup." />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
   <style>
@@ -74,8 +74,8 @@
   <!-- Hero -->
   <section class="widget-hero">
     <div class="container">
-      <h1>Embed TruePrice Pricing Data on Your Site</h1>
-      <p>A free, lightweight widget that shows local home service costs. One line of code. No signup.</p>
+      <h1>Embed Real Pricing Data on Your Site</h1>
+      <p>A free, lightweight widget that shows local costs for home services, auto repair, medical procedures, and legal fees. One line of code. No signup.</p>
     </div>
   </section>
 
@@ -167,27 +167,45 @@
         </label>
         <label>Service
           <select id="widget-service">
-            <option value="roofing" selected>Roofing</option>
-            <option value="hvac">HVAC</option>
-            <option value="plumbing">Plumbing</option>
-            <option value="solar">Solar</option>
-            <option value="painting">Painting</option>
-            <option value="electrical">Electrical</option>
-            <option value="landscaping">Landscaping</option>
-            <option value="kitchen-remodel">Kitchen Remodel</option>
-            <option value="window-replacement">Window Replacement</option>
-            <option value="fencing">Fencing</option>
-            <option value="garage-door">Garage Door</option>
-            <option value="insulation">Insulation</option>
-            <option value="concrete">Concrete</option>
-            <option value="bathroom-remodel">Bathroom Remodel</option>
-            <option value="flooring">Flooring</option>
+            <optgroup label="Home Services">
+              <option value="roofing" selected>Roofing</option>
+              <option value="hvac">HVAC</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="electrical">Electrical</option>
+              <option value="solar">Solar</option>
+              <option value="painting">Painting</option>
+              <option value="windows">Windows</option>
+              <option value="siding">Siding</option>
+              <option value="fencing">Fencing</option>
+              <option value="concrete">Concrete</option>
+              <option value="landscaping">Landscaping</option>
+              <option value="garage-doors">Garage Door</option>
+              <option value="kitchen">Kitchen Remodel</option>
+              <option value="foundation">Foundation</option>
+              <option value="insulation">Insulation</option>
+              <option value="gutters">Gutters</option>
+            </optgroup>
+            <optgroup label="Auto">
+              <option value="auto-repair">Auto Repair</option>
+            </optgroup>
+            <optgroup label="Medical">
+              <option value="medical">Medical Costs</option>
+            </optgroup>
+            <optgroup label="Legal">
+              <option value="legal">Legal Fees</option>
+            </optgroup>
           </select>
         </label>
         <label>Theme
           <select id="widget-theme">
             <option value="light" selected>Light</option>
             <option value="dark">Dark</option>
+          </select>
+        </label>
+        <label>Location
+          <select id="widget-auto">
+            <option value="manual" selected>Manual (city/state)</option>
+            <option value="auto">Auto-detect visitor</option>
           </select>
         </label>
       </div>
@@ -212,16 +230,16 @@
       <h2>Features</h2>
       <div class="widget-features-grid">
         <div class="widget-feature">
-          <h3>Covers 15 home services</h3>
-          <p>Roofing, HVAC, plumbing, solar, painting, electrical, landscaping, kitchen and bathroom remodels, and more.</p>
+          <h3>4 verticals, 19 services</h3>
+          <p>Home services, auto repair, medical procedures, and legal fees. Pricing data your readers actually need.</p>
         </div>
         <div class="widget-feature">
-          <h3>739 cities with local pricing</h3>
-          <p>Real cost data localized to your audience's city. Not national averages.</p>
+          <h3>Local pricing, not national averages</h3>
+          <p>Cost data localized to your audience's city and state. Regional labor rates and cost-of-living adjustments built in.</p>
         </div>
         <div class="widget-feature">
-          <h3>Updates automatically</h3>
-          <p>Pricing data is fetched live from TruePrice. Your widget always shows current numbers.</p>
+          <h3>Auto-detect visitor location</h3>
+          <p>Set data-auto="true" and the widget automatically shows pricing for the visitor's city. No configuration needed.</p>
         </div>
         <div class="widget-feature">
           <h3>Light and dark themes</h3>
@@ -242,11 +260,14 @@
     <section class="widget-section">
       <h2>Who Should Use This</h2>
       <div class="widget-users-grid">
-        <div class="widget-user">Real estate bloggers</div>
-        <div class="widget-user">Home improvement sites</div>
+        <div class="widget-user">Home improvement bloggers</div>
+        <div class="widget-user">Real estate agent websites</div>
+        <div class="widget-user">Auto and car enthusiast blogs</div>
+        <div class="widget-user">Health and patient advocacy sites</div>
+        <div class="widget-user">Legal advice bloggers</div>
         <div class="widget-user">Local news outlets</div>
         <div class="widget-user">Contractor directories</div>
-        <div class="widget-user">Real estate agent websites</div>
+        <div class="widget-user">Personal finance blogs</div>
       </div>
     </section>
 
@@ -257,26 +278,31 @@
       <table class="widget-services-table">
         <thead>
           <tr>
+            <th>Category</th>
             <th>Service</th>
             <th>data-service value</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Roofing</td><td><code>roofing</code></td></tr>
+          <tr><td rowspan="16" style="font-weight:600; vertical-align:top;">Home Services</td><td>Roofing</td><td><code>roofing</code></td></tr>
           <tr><td>HVAC</td><td><code>hvac</code></td></tr>
           <tr><td>Plumbing</td><td><code>plumbing</code></td></tr>
+          <tr><td>Electrical</td><td><code>electrical</code></td></tr>
           <tr><td>Solar</td><td><code>solar</code></td></tr>
           <tr><td>Painting</td><td><code>painting</code></td></tr>
-          <tr><td>Electrical</td><td><code>electrical</code></td></tr>
-          <tr><td>Landscaping</td><td><code>landscaping</code></td></tr>
-          <tr><td>Kitchen Remodel</td><td><code>kitchen-remodel</code></td></tr>
-          <tr><td>Window Replacement</td><td><code>window-replacement</code></td></tr>
+          <tr><td>Windows</td><td><code>windows</code></td></tr>
+          <tr><td>Siding</td><td><code>siding</code></td></tr>
           <tr><td>Fencing</td><td><code>fencing</code></td></tr>
-          <tr><td>Garage Door</td><td><code>garage-door</code></td></tr>
-          <tr><td>Insulation</td><td><code>insulation</code></td></tr>
           <tr><td>Concrete</td><td><code>concrete</code></td></tr>
-          <tr><td>Bathroom Remodel</td><td><code>bathroom-remodel</code></td></tr>
-          <tr><td>Flooring</td><td><code>flooring</code></td></tr>
+          <tr><td>Landscaping</td><td><code>landscaping</code></td></tr>
+          <tr><td>Garage Door</td><td><code>garage-doors</code></td></tr>
+          <tr><td>Kitchen Remodel</td><td><code>kitchen</code></td></tr>
+          <tr><td>Foundation</td><td><code>foundation</code></td></tr>
+          <tr><td>Insulation</td><td><code>insulation</code></td></tr>
+          <tr><td>Gutters</td><td><code>gutters</code></td></tr>
+          <tr><td style="font-weight:600;">Auto</td><td>Auto Repair</td><td><code>auto-repair</code></td></tr>
+          <tr><td style="font-weight:600;">Medical</td><td>Medical Costs</td><td><code>medical</code></td></tr>
+          <tr><td style="font-weight:600;">Legal</td><td>Legal Fees</td><td><code>legal</code></td></tr>
         </tbody>
       </table>
     </section>
@@ -302,11 +328,11 @@
       var stateSelect = document.getElementById('widget-state');
       var serviceSelect = document.getElementById('widget-service');
       var themeSelect = document.getElementById('widget-theme');
+      var autoSelect = document.getElementById('widget-auto');
       var demoArea = document.getElementById('widget-demo-area');
       var codeText = document.getElementById('widget-code-text');
       var copyBtn = document.getElementById('widget-copy-btn');
 
-      // Map cities to their default states
       var cityStateMap = {
         'Dallas': 'TX', 'Houston': 'TX', 'Austin': 'TX', 'San Antonio': 'TX',
         'Phoenix': 'AZ', 'Los Angeles': 'CA', 'Chicago': 'IL', 'Miami': 'FL',
@@ -315,20 +341,31 @@
         'Las Vegas': 'NV', 'Minneapolis': 'MN', 'Detroit': 'MI', 'Tampa': 'FL'
       };
 
-      // When city changes, auto-select the matching state
       citySelect.addEventListener('change', function() {
         var defaultState = cityStateMap[citySelect.value];
-        if (defaultState) {
-          stateSelect.value = defaultState;
-        }
+        if (defaultState) stateSelect.value = defaultState;
         updateWidget();
       });
 
       stateSelect.addEventListener('change', updateWidget);
       serviceSelect.addEventListener('change', updateWidget);
       themeSelect.addEventListener('change', updateWidget);
+      autoSelect.addEventListener('change', function() {
+        var isAuto = autoSelect.value === 'auto';
+        citySelect.disabled = isAuto;
+        stateSelect.disabled = isAuto;
+        citySelect.style.opacity = isAuto ? '0.5' : '1';
+        stateSelect.style.opacity = isAuto ? '0.5' : '1';
+        updateWidget();
+      });
 
       function getEmbedCode() {
+        var isAuto = autoSelect.value === 'auto';
+        if (isAuto) {
+          return '<script src="https://truepricehq.com/widget/tp-widget.js" data-service="' +
+            serviceSelect.value + '" data-theme="' + themeSelect.value +
+            '" data-auto="true" async><\/script>';
+        }
         return '<script src="https://truepricehq.com/widget/tp-widget.js" data-city="' +
           citySelect.value + '" data-state="' + stateSelect.value +
           '" data-service="' + serviceSelect.value +
@@ -341,24 +378,16 @@
 
       function updateWidget() {
         updateCodeDisplay();
-
-        // Update demo area background for dark theme
-        if (themeSelect.value === 'dark') {
-          demoArea.style.background = '#0f172a';
-        } else {
-          demoArea.style.background = '';
-        }
-
-        // Remove existing widget
+        demoArea.style.background = themeSelect.value === 'dark' ? '#0f172a' : '';
         demoArea.innerHTML = '';
 
-        // Create new script element
         var s = document.createElement('script');
         s.src = '/widget/tp-widget.js';
         s.setAttribute('data-city', citySelect.value);
         s.setAttribute('data-state', stateSelect.value);
         s.setAttribute('data-service', serviceSelect.value);
         s.setAttribute('data-theme', themeSelect.value);
+        if (autoSelect.value === 'auto') s.setAttribute('data-auto', 'true');
         s.async = true;
         demoArea.appendChild(s);
       }
@@ -370,7 +399,6 @@
         });
       });
 
-      // Initial render
       updateWidget();
     })();
   </script>
