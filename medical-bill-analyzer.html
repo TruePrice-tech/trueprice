@@ -11,7 +11,7 @@
   <title>Medical Bill Analyzer - Is Your Hospital Bill Correct? | TruePrice</title>
   <meta
     name="description"
-    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against Medicare rates and flags items to dispute. Free, no signup."
+    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against published benchmark rates and flags items to dispute. Free, no signup."
   />
   <link rel="canonical" href="https://truepricehq.com/medical-bill-analyzer.html" />
   <meta name="robots" content="index,follow" />
@@ -19,7 +19,7 @@
   <meta property="og:title" content="Medical Bill Analyzer | TruePrice" />
   <meta
     property="og:description"
-    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against Medicare rates and flags items to dispute."
+    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against published benchmark rates and flags items to dispute."
   />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/medical-bill-analyzer.html" />
@@ -29,7 +29,7 @@
   <meta name="twitter:title" content="Medical Bill Analyzer | TruePrice" />
   <meta
     name="twitter:description"
-    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against Medicare rates and flags items to dispute."
+    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against published benchmark rates and flags items to dispute."
   />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
@@ -45,7 +45,7 @@
     "@type": "WebApplication",
     "name": "TruePrice Medical Bill Analyzer",
     "url": "https://truepricehq.com/medical-bill-analyzer.html",
-    "description": "Free AI-powered medical bill analysis. Upload a hospital bill, EOB, or invoice to check for errors, overcharges, and billing issues against Medicare rates.",
+    "description": "Free AI-powered medical bill analysis. Upload a hospital bill, EOB, or invoice to check for errors, overcharges, and billing issues against published benchmark rates.",
     "applicationCategory": "UtilityApplication",
     "offers": {
       "@type": "Offer",
@@ -355,7 +355,7 @@
         <div class="mb-hero">\
           <img src="/images/trudy-medical.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
           <h1>Is your medical bill correct?</h1>\
-          <p>Upload your bill, EOB, or hospital invoice. Trudy checks every charge against Medicare rates and flags errors, overcharges, and items to dispute.</p>\
+          <p>Upload your bill, EOB, or hospital invoice. Trudy checks every charge against published benchmark rates and flags errors, overcharges, and items to dispute.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to medical billing? Read our <a href="/medical-cost-guide.html" style="color:#16a34a;">Medical Cost Guide</a></p>\
         </div>\
         <div class="mb-card">\
@@ -367,7 +367,7 @@
             <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
           </div>\
           <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your bill stays private. Processed securely, never stored or shared.</div>\
-          <div style="margin-top:6px; font-size:11px; color:#94a3b8; text-align:center;">This tool compares charges against published Medicare rates. It is not medical or insurance advice. <a href="/terms.html" style="color:#94a3b8;">Terms</a></div>\
+          <div style="margin-top:6px; font-size:11px; color:#94a3b8; text-align:center;">This tool compares charges against published benchmark rates. It is not medical or insurance advice. <a href="/terms.html" style="color:#94a3b8;">Terms</a></div>\
         </div>';
 
       var zone = document.getElementById("uploadZone");
@@ -433,7 +433,7 @@
           text = await extractImageText(file);
         }
 
-        setProgress(50, "Checking CPT codes against Medicare rates...");
+        setProgress(50, "Checking CPT codes against published benchmark rates...");
         state.extractedText = text;
 
         var apiResult = null;
@@ -624,7 +624,7 @@
           redFlags.push({
             title: "Overcharge on " + item.service + " (CPT " + item.cptCode + ")",
             why: "Charged " + fmt(item.charged) + " which is " + item.ratio.toFixed(1) + "x the Medicare rate of " + fmt(item.medicareRate) + ".",
-            action: "Request itemized breakdown and ask billing to justify the charge above Medicare rates."
+            action: "Request itemized breakdown and ask billing to justify the charge above benchmark rates."
           });
         }
       });
@@ -752,7 +752,7 @@
       html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">How to Dispute Your Bill</h3>';
       html += '<ul class="mb-tips">';
       html += '<li>Request an itemized bill from the billing department with all CPT codes and descriptions.</li>';
-      html += '<li>Compare each CPT code to Medicare rates. Charges over 3x Medicare are worth questioning.</li>';
+      html += '<li>Compare each CPT code to benchmark rates. Charges over 3x Medicare are worth questioning.</li>';
       html += '<li>Call the billing department and reference specific line items that appear incorrect or overcharged.</li>';
       html += '<li>File a formal appeal with your insurance company if covered services were denied or underpaid.</li>';
       html += '<li>Contact your state insurance commissioner if the provider or insurer is unresponsive.</li>';

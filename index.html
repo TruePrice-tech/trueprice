@@ -315,8 +315,8 @@
         <div class="hp-step">
           <div class="hp-step-num">2</div>
           <h3>AI reads every line</h3>
-          <p>Prices compared against local benchmarks and Medicare rates. Scope items verified. Errors and red flags flagged.</p>
-          <div class="hp-step-example">Roofing: 10/12 scope items &bull; Auto: labor rate vs market &bull; Medical: CPT codes vs Medicare</div>
+          <p>Prices compared against local benchmarks and published rates. Scope items verified. Errors and red flags flagged.</p>
+          <div class="hp-step-example">Roofing: 10/12 scope items &bull; Auto: labor rate vs market &bull; Medical: CPT codes vs benchmarks</div>
         </div>
         <div class="hp-step">
           <div class="hp-step-num">3</div>
@@ -350,7 +350,7 @@
         <a class="hp-cost-card" href="/medical-cost-guide.html" style="padding:20px; background:var(--bg); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.15s;">
           <div style="font-size:13px; color:var(--text-muted); font-weight:600;">ER Visit (moderate)</div>
           <div style="font-size:22px; font-weight:800; margin:4px 0;">$1,500 - $5,000</div>
-          <div style="font-size:12px; color:var(--text-muted);">Medicare rate: $450</div>
+          <div style="font-size:12px; color:var(--text-muted);">Benchmark rate: $450</div>
         </a>
         <a class="hp-cost-card" href="/window-replacement-cost.html" style="padding:20px; background:var(--bg); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.15s;">
           <div style="font-size:13px; color:var(--text-muted); font-weight:600;">Window Replacement</div>
@@ -528,7 +528,7 @@ fetch("/api/analytics?counter=1").then(r=>r.json()).then(d=>{
       delta: "3 charges flagged on a $4,200 ER visit at Memorial Hospital, Denver, CO",
       stats: [
         { label: "Total billed", value: "$4,200", color: "#dc2626" },
-        { label: "Medicare rate", value: "$1,450", color: "" },
+        { label: "Benchmark rate", value: "$1,450", color: "" },
         { label: "Red flags", value: "3 found", color: "#dc2626" }
       ],
       pills: [
