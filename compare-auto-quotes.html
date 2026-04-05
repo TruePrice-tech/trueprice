@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Mechanic Quotes Side by Side | TruePrice</title>
+  <meta name="description" content="Upload 2-3 mechanic quotes to compare them side by side. See which shop offers the best value based on price, labor rates, parts quality, and warranty." />
+  <link rel="canonical" href="https://truepricehq.com/compare-auto-quotes.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Compare Mechanic Quotes | TruePrice" />
+  <meta property="og:description" content="Upload 2-3 mechanic quotes to compare them side by side for the best value." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/compare-auto-quotes.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Compare Mechanic Quotes | TruePrice" />
+  <meta name="twitter:description" content="Upload 2-3 mechanic quotes to compare them side by side." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+  <style>
+    .caq-wrap { max-width: 960px; margin: 40px auto; padding: 0 24px; }
+    .caq-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-lg); }
+    .caq-card h1 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.02em; text-align: center; }
+    .caq-sub { color: var(--text-secondary); margin: 0 0 28px; font-size: 16px; text-align: center; }
+
+    .caq-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+    .caq-slot {
+      border: 2px dashed #cbd5e1; border-radius: 16px; padding: 32px 16px;
+      text-align: center; cursor: pointer; transition: all 0.2s;
+      background: #f8fafc; position: relative; min-height: 180px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    }
+    .caq-slot:hover { border-color: #3b82f6; background: #eff6ff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .caq-slot.uploaded { border-style: solid; border-color: #22c55e; background: #f0fdf4; cursor: default; }
+    .caq-slot.uploading { border-color: #3b82f6; background: #eff6ff; }
+    .caq-slot .slot-icon { font-size: 40px; }
+    .caq-slot .slot-label { font-size: 15px; font-weight: 700; color: var(--text); }
+    .caq-slot .slot-hint { font-size: 12px; color: #94a3b8; }
+    .caq-slot .slot-check { color: #22c55e; font-size: 28px; margin-bottom: 4px; }
+    .caq-slot .slot-shop { font-size: 14px; font-weight: 700; color: #1e293b; }
+    .caq-slot .slot-price { font-size: 16px; font-weight: 800; color: #16a34a; }
+    .caq-slot .slot-remove {
+      position: absolute; top: 8px; right: 10px; background: none; border: none;
+      color: #94a3b8; font-size: 18px; cursor: pointer; line-height: 1; padding: 4px;
+    }
+    .caq-slot .slot-remove:hover { color: #ef4444; }
+    .caq-slot .slot-error { color: #ef4444; font-size: 13px; }
+    .caq-slot input[type="file"] { display: none; }
+
+    .caq-compare-btn {
+      display: block; width: 100%; padding: 16px; border: none; border-radius: 12px;
+      font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+      font-family: inherit; background: #1d4ed8; color: #fff;
+    }
+    .caq-compare-btn:hover { background: #1e40af; }
+    .caq-compare-btn:disabled { background: #93c5fd; cursor: not-allowed; }
+
+    .caq-parsing-dots::after {
+      content: '';
+      animation: caqDots 1.2s steps(4, end) infinite;
+    }
+    @keyframes caqDots {
+      0% { content: ''; }
+      25% { content: '.'; }
+      50% { content: '..'; }
+      75% { content: '...'; }
+    }
+
+    /* Results */
+    .caq-results { display: none; }
+    .caq-results.visible { display: block; }
+
+    .caq-winner-banner {
+      display: flex; align-items: center; gap: 16px; padding: 20px 24px;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 2px solid #86efac;
+      border-radius: 16px; margin-bottom: 28px;
+    }
+    .caq-winner-banner img { width: 64px; flex-shrink: 0; }
+    .caq-winner-title { font-size: 20px; font-weight: 800; color: #15803d; margin: 0 0 4px; }
+    .caq-winner-sub { font-size: 14px; color: #166534; margin: 0; }
+
+    .caq-table-wrap { overflow-x: auto; margin-bottom: 28px; }
+    .caq-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .caq-table th, .caq-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    .caq-table th { background: #f8fafc; font-weight: 700; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+    .caq-table td { color: #1e293b; }
+    .caq-table tr:last-child td { border-bottom: none; }
+    .caq-table .row-label { font-weight: 600; color: #64748b; background: #f8fafc; white-space: nowrap; width: 160px; }
+    .caq-table .highlight { background: #f0fdf4; font-weight: 700; }
+    .caq-table .scope-section td { padding-top: 6px; padding-bottom: 6px; }
+
+    .caq-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .caq-badge-green { background: #dcfce7; color: #15803d; }
+
+    .caq-scope-check { color: #22c55e; font-weight: 700; }
+    .caq-scope-missing { color: #f59e0b; }
+    .caq-scope-no { color: #ef4444; }
+
+    .caq-score-bar-wrap { display: flex; align-items: center; gap: 10px; }
+    .caq-score-bar {
+      flex: 1; height: 12px; background: #e5e7eb; border-radius: 6px; overflow: hidden;
+    }
+    .caq-score-bar-fill {
+      height: 100%; border-radius: 6px; transition: width 0.6s ease;
+    }
+    .caq-score-label { font-weight: 800; font-size: 16px; min-width: 36px; }
+
+    .caq-cta-section {
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+      padding-top: 24px; border-top: 1px solid #e5e7eb;
+    }
+    .caq-cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;
+      text-decoration: none; cursor: pointer; transition: all 0.15s; border: 2px solid transparent;
+      font-family: inherit;
+    }
+    .caq-cta-primary { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+    .caq-cta-primary:hover { background: #1e40af; }
+    .caq-cta-secondary { background: #f1f5f9; color: #334155; border-color: #e2e8f0; }
+    .caq-cta-secondary:hover { background: #e2e8f0; }
+    .caq-cta-outline { background: #fff; color: #64748b; border-color: #e2e8f0; }
+    .caq-cta-outline:hover { border-color: #94a3b8; color: #334155; }
+
+    .caq-back { font-size: 14px; color: var(--text-muted); cursor: pointer; margin-bottom: 16px; display: inline-block; background: none; border: none; font-family: inherit; padding: 0; }
+    .caq-back:hover { color: var(--text); }
+
+    @media (max-width: 700px) {
+      .caq-slots { grid-template-columns: 1fr; }
+      .caq-card { padding: 24px 16px; }
+      .caq-card h1 { font-size: 22px; }
+      .caq-winner-banner { flex-direction: column; text-align: center; }
+      .caq-table { font-size: 13px; }
+      .caq-table th, .caq-table td { padding: 8px 10px; }
+      .caq-table .row-label { width: 120px; }
+      .caq-cta-section { flex-direction: column; }
+      .caq-cta-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="caq-wrap">
+      <div class="caq-card">
+
+        <!-- STEP 1: Upload Quotes -->
+        <div id="uploadStep">
+          <div style="text-align:center; margin-bottom:16px;">
+            <img id="trudyHero" src="/images/trudy-auto.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
+          </div>
+          <h1>Compare your mechanic quotes</h1>
+          <p class="caq-sub">Upload 2 or 3 shop quotes and we'll show you which one is the best deal.</p>
+
+          <div class="caq-slots">
+            <div class="caq-slot" id="slot0" onclick="document.getElementById('file0').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 1</span>
+              <span class="slot-hint">PDF, photo, or screenshot</span>
+              <input type="file" id="file0" accept=".pdf,image/*" onchange="handleUpload(0, this)" />
+            </div>
+            <div class="caq-slot" id="slot1" onclick="document.getElementById('file1').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 2</span>
+              <span class="slot-hint">PDF, photo, or screenshot</span>
+              <input type="file" id="file1" accept=".pdf,image/*" onchange="handleUpload(1, this)" />
+            </div>
+            <div class="caq-slot" id="slot2" onclick="document.getElementById('file2').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 3</span>
+              <span class="slot-hint">Optional</span>
+              <input type="file" id="file2" accept=".pdf,image/*" onchange="handleUpload(2, this)" />
+            </div>
+          </div>
+
+          <button class="caq-compare-btn" id="compareBtn" disabled onclick="showResults()">Upload at least 2 quotes to compare</button>
+        </div>
+
+        <!-- STEP 2: Results -->
+        <div id="resultsStep" class="caq-results">
+          <button class="caq-back" onclick="goBack()">&larr; Upload different quotes</button>
+          <div id="resultsContent"></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps car owners analyze mechanic quotes, compare shop prices, and estimate auto repair costs.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="/methodology.html" style="color:inherit;">Methodology</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/tp-analytics.min.js" async></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+  <script>
+    // Stub functions required by analyzer-ocr.js when used outside the main analyzer
+    if (typeof window.setUploadStatus === "undefined") window.setUploadStatus = function() {};
+    if (typeof window.setSmartUploadStatus === "undefined") window.setSmartUploadStatus = function() {};
+    if (typeof window.renderAnalyzingState === "undefined") window.renderAnalyzingState = function() {};
+    if (typeof window.renderInlineAnalyzingState === "undefined") window.renderInlineAnalyzingState = function() {};
+  </script>
+  <script src="/js/analyzer-ocr.js"></script>
+
+  <script>
+  (function() {
+    var quotes = [null, null, null];
+    var uploadCount = 0;
+
+    // Scope checklist for auto repair transparency
+    var SCOPE_ITEMS = [
+      { key: "partsItemized", label: "Parts itemized" },
+      { key: "laborRateStated", label: "Labor rate stated" },
+      { key: "laborHoursListed", label: "Labor hours listed" },
+      { key: "partsTypeSpecified", label: "Parts type specified" },
+      { key: "shopSuppliesDisclosed", label: "Shop supplies disclosed" },
+      { key: "taxNoted", label: "Tax noted" },
+      { key: "partsWarranty", label: "Parts warranty" },
+      { key: "laborWarranty", label: "Labor warranty" },
+      { key: "diagnosticFeeNoted", label: "Diagnostic fee noted" },
+      { key: "fluidDisposalNoted", label: "Fluid disposal noted" }
+    ];
+
+    // Track uploaded file signatures to detect duplicates
+    var uploadedFiles = [null, null, null];
+
+    function escHtml(str) {
+      var div = document.createElement("div");
+      div.appendChild(document.createTextNode(str || ""));
+      return div.innerHTML;
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result.split(",")[1]); };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function extractPdfText(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var typedArray = new Uint8Array(reader.result);
+          pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
+            var pages = [];
+            var total = pdf.numPages;
+            var processed = 0;
+            for (var i = 1; i <= total; i++) {
+              (function(pageNum) {
+                pdf.getPage(pageNum).then(function(page) {
+                  page.getTextContent().then(function(content) {
+                    pages[pageNum - 1] = content.items.map(function(item) { return item.str; }).join(" ");
+                    processed++;
+                    if (processed === total) {
+                      resolve(pages.join("\n"));
+                    }
+                  });
+                });
+              })(i);
+            }
+            if (total === 0) resolve("");
+          }).catch(reject);
+        };
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+      });
+    }
+
+    function sendToApi(payload) {
+      return fetch("/api/auto-repair-estimate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function(res) {
+        if (!res.ok) throw new Error("API returned " + res.status);
+        return res.json();
+      });
+    }
+
+    window.handleUpload = function(idx, input) {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      if (file.size > 20 * 1024 * 1024) {
+        alert("File is too large. Please upload a file under 20MB.");
+        input.value = "";
+        return;
+      }
+
+      // Check for exact same file (same name + size)
+      var fileSig = file.name + "|" + file.size;
+      for (var d = 0; d < 3; d++) {
+        if (d !== idx && uploadedFiles[d] === fileSig) {
+          alert("This file has already been uploaded in Quote " + (d + 1) + ". Please upload a different quote.");
+          input.value = "";
+          return;
+        }
+      }
+      uploadedFiles[idx] = fileSig;
+
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.add("uploading");
+      slot.classList.remove("uploaded");
+      slot.onclick = null;
+      slot.innerHTML =
+        '<img src="/images/trudy-auto.png" alt="Trudy" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<span class="slot-label">Parsing quote<span class="caq-parsing-dots"></span></span>' +
+        '<span class="slot-hint">This may take a moment</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+      loadVendorLibs().then(function() {
+        var isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+
+        if (isPdf) {
+          return extractPdfText(file).then(function(text) {
+            return sendToApi({ text: text });
+          });
+        } else {
+          return fileToBase64(file).then(function(b64) {
+            return sendToApi({ images: [b64] });
+          });
+        }
+      }).then(function(data) {
+        var p = data || {};
+
+        // Build scope items from API response
+        var scopeItems = {};
+        SCOPE_ITEMS.forEach(function(item) {
+          if (p.scopeItems && p.scopeItems[item.key]) {
+            scopeItems[item.key] = p.scopeItems[item.key];
+          } else {
+            scopeItems[item.key] = "unclear";
+          }
+        });
+
+        // Detect scope from raw text if available
+        var rawText = (p.rawText || "").toLowerCase();
+        if (rawText) {
+          if (!scopeItems.partsItemized || scopeItems.partsItemized === "unclear") {
+            if (/part\s*#|part\s*number|p\/n/i.test(rawText)) scopeItems.partsItemized = "included";
+          }
+          if (!scopeItems.laborRateStated || scopeItems.laborRateStated === "unclear") {
+            if (/labor\s*rate|\$\s*\d+\s*\/?\s*(hr|hour)/i.test(rawText)) scopeItems.laborRateStated = "included";
+          }
+          if (!scopeItems.laborHoursListed || scopeItems.laborHoursListed === "unclear") {
+            if (/\d+\.?\d*\s*(hrs?|hours?)/i.test(rawText)) scopeItems.laborHoursListed = "included";
+          }
+          if (!scopeItems.partsTypeSpecified || scopeItems.partsTypeSpecified === "unclear") {
+            if (/oem|aftermarket|reman|remanufactured|genuine/i.test(rawText)) scopeItems.partsTypeSpecified = "included";
+          }
+          if (!scopeItems.shopSuppliesDisclosed || scopeItems.shopSuppliesDisclosed === "unclear") {
+            if (/shop\s*suppl|misc\s*suppl|environmental/i.test(rawText)) scopeItems.shopSuppliesDisclosed = "included";
+          }
+          if (!scopeItems.taxNoted || scopeItems.taxNoted === "unclear") {
+            if (/tax|sales\s*tax/i.test(rawText)) scopeItems.taxNoted = "included";
+          }
+          if (!scopeItems.partsWarranty || scopeItems.partsWarranty === "unclear") {
+            if (/parts?\s*warrant|warrant.*parts/i.test(rawText)) scopeItems.partsWarranty = "included";
+          }
+          if (!scopeItems.laborWarranty || scopeItems.laborWarranty === "unclear") {
+            if (/labor\s*warrant|warrant.*labor|workmanship/i.test(rawText)) scopeItems.laborWarranty = "included";
+          }
+          if (!scopeItems.diagnosticFeeNoted || scopeItems.diagnosticFeeNoted === "unclear") {
+            if (/diagnost|diag\s*fee|inspection\s*fee/i.test(rawText)) scopeItems.diagnosticFeeNoted = "included";
+          }
+          if (!scopeItems.fluidDisposalNoted || scopeItems.fluidDisposalNoted === "unclear") {
+            if (/disposal|hazardous|waste|fluid\s*recycle/i.test(rawText)) scopeItems.fluidDisposalNoted = "included";
+          }
+        }
+
+        var price = parseFloat(String(p.totalPrice || p.price || p.finalPrice || 0).replace(/[^0-9.]/g, "")) || 0;
+        var shopName = p.shopName || p.contractor || "Shop " + (idx + 1);
+
+        quotes[idx] = {
+          shopName: shopName,
+          shopType: p.shopType || "Unknown",
+          price: price,
+          laborRate: parseFloat(String(p.laborRate || 0).replace(/[^0-9.]/g, "")) || 0,
+          laborHours: parseFloat(String(p.laborHours || p.totalLaborHours || 0).replace(/[^0-9.]/g, "")) || 0,
+          partsTotal: parseFloat(String(p.partsTotal || 0).replace(/[^0-9.]/g, "")) || 0,
+          laborTotal: parseFloat(String(p.laborTotal || 0).replace(/[^0-9.]/g, "")) || 0,
+          partsType: p.partsType || "Unknown",
+          repairs: p.repairs || p.lineItems || [],
+          scopeItems: scopeItems,
+          warrantyParts: p.warrantyParts || p.partsWarrantyMonths || 0,
+          warrantyLabor: p.warrantyLabor || p.laborWarrantyMonths || 0,
+          rawText: rawText
+        };
+
+        slot.classList.remove("uploading");
+        slot.classList.add("uploaded");
+        slot.onclick = null;
+
+        var nameIsDefault = shopName === "Shop " + (idx + 1);
+        slot.innerHTML =
+          '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
+          '<span class="slot-check">&#10003;</span>' +
+          '<input type="text" class="slot-edit-name" value="' + escHtml(shopName) + '" data-idx="' + idx + '" placeholder="Shop name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid ' + (nameIsDefault ? '#fde68a' : '#e2e8f0') + '; border-radius:6px; padding:4px 8px; width:90%; background:' + (nameIsDefault ? '#fffbeb' : '#fff') + ';" />' +
+          '<input type="text" class="slot-edit-price" value="' + (price > 0 ? '$' + price.toLocaleString() : '') + '" data-idx="' + idx + '" placeholder="Enter price (e.g. $1,200)" style="font-size:16px; font-weight:700; text-align:center; color:#1d4ed8; border:1px solid ' + (price > 0 ? '#e2e8f0' : '#fde68a') + '; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:' + (price > 0 ? '#fff' : '#fffbeb') + ';" />' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+        // Bind edit handlers
+        slot.querySelector(".slot-edit-name").addEventListener("change", function() {
+          quotes[idx].shopName = this.value.trim() || "Shop " + (idx + 1);
+          this.style.borderColor = "#e2e8f0";
+          this.style.background = "#fff";
+        });
+        slot.querySelector(".slot-edit-price").addEventListener("change", function() {
+          var val = parseFloat(this.value.replace(/[^0-9.]/g, "")) || 0;
+          quotes[idx].price = val;
+          if (val > 0) {
+            this.value = "$" + val.toLocaleString();
+            this.style.borderColor = "#e2e8f0";
+            this.style.background = "#fff";
+          }
+          updateCompareBtn();
+        });
+
+        updateCompareBtn();
+      }).catch(function(err) {
+        console.error("[compare-auto-quotes] Parse error:", err);
+        slot.classList.remove("uploading");
+        slot.innerHTML =
+          '<span class="slot-icon">&#128196;</span>' +
+          '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+          '<span class="slot-error">Could not parse. Try another file.</span>' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+        slot.onclick = function() { document.getElementById("file" + idx).click(); };
+        quotes[idx] = null;
+        uploadedFiles[idx] = null;
+        updateCompareBtn();
+      });
+    };
+
+    window.removeQuote = function(idx) {
+      quotes[idx] = null;
+      uploadedFiles[idx] = null;
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.remove("uploaded", "uploading");
+      slot.innerHTML =
+        '<span class="slot-icon">&#128196;</span>' +
+        '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+        '<span class="slot-hint">' + (idx === 2 ? "Optional" : "PDF, photo, or screenshot") + '</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+      slot.onclick = function() { document.getElementById("file" + idx).click(); };
+      updateCompareBtn();
+    };
+
+    function updateCompareBtn() {
+      var count = quotes.filter(function(q) { return q !== null; }).length;
+      var btn = document.getElementById("compareBtn");
+      if (count >= 2) {
+        btn.disabled = false;
+        btn.textContent = "Compare " + count + " quotes";
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Upload at least 2 quotes to compare";
+      }
+    }
+
+    function scoreQuote(q, allQuotes) {
+      // Price weight: 40%
+      var priceScore = 0;
+      var prices = allQuotes.map(function(aq) { return aq.price; }).filter(function(p) { return p > 0; });
+      if (q.price > 0 && prices.length >= 2) {
+        var avgPrice = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
+        var ratio = q.price / avgPrice;
+        if (ratio < 0.5) {
+          // Suspiciously low
+          priceScore = 15;
+        } else if (ratio <= 1.0) {
+          priceScore = 25 + (1 - ratio) * 30;
+        } else {
+          priceScore = Math.max(5, 25 - (ratio - 1) * 30);
+        }
+      } else if (q.price > 0) {
+        priceScore = 20;
+      }
+
+      // Scope transparency: 30%
+      var confirmed = 0;
+      SCOPE_ITEMS.forEach(function(item) {
+        var val = (q.scopeItems && q.scopeItems[item.key]) || "";
+        if (val === "included") confirmed++;
+      });
+      var scopeScore = (confirmed / SCOPE_ITEMS.length) * 30;
+
+      // Warranty: 20%
+      var warrantyScore = 0;
+      var partsW = q.warrantyParts || 0;
+      var laborW = q.warrantyLabor || 0;
+      var maxW = Math.max(partsW, laborW);
+      if (maxW > 0) {
+        // 24 months is excellent, score proportionally
+        warrantyScore = Math.min(maxW / 24, 1) * 20;
+      }
+      // Also count warranty scope items
+      if (q.scopeItems && q.scopeItems.partsWarranty === "included") warrantyScore = Math.max(warrantyScore, 5);
+      if (q.scopeItems && q.scopeItems.laborWarranty === "included") warrantyScore = Math.max(warrantyScore, 5);
+
+      // Parts quality: 10%
+      var partsScore = 0;
+      var pt = (q.partsType || "").toLowerCase();
+      if (pt === "oem" || pt === "genuine") {
+        partsScore = 10;
+      } else if (pt === "aftermarket") {
+        partsScore = 8;
+      } else if (pt === "remanufactured" || pt === "reman") {
+        partsScore = 7;
+      } else if (pt !== "unknown" && pt !== "") {
+        partsScore = 5;
+      } else {
+        partsScore = 2;
+      }
+
+      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + warrantyScore + partsScore)));
+      return {
+        total: total,
+        priceScore: Math.round(priceScore),
+        scopeScore: Math.round(scopeScore),
+        scopeCount: confirmed,
+        warrantyScore: Math.round(warrantyScore),
+        partsScore: Math.round(partsScore)
+      };
+    }
+
+    function scoreColor(score) {
+      if (score >= 70) return "#16a34a";
+      if (score >= 40) return "#d97706";
+      return "#ef4444";
+    }
+
+    window.showResults = function() {
+      var active = [];
+      quotes.forEach(function(q, i) { if (q) active.push({ idx: i, data: q }); });
+      if (active.length < 2) return;
+
+      // Score each quote
+      var allData = active.map(function(a) { return a.data; });
+      active.forEach(function(a) {
+        a.score = scoreQuote(a.data, allData);
+      });
+
+      // Find best value (highest score)
+      var bestValue = active[0];
+      active.forEach(function(a) {
+        if (a.score.total > bestValue.score.total) bestValue = a;
+      });
+
+      var scoreSpread = bestValue.score.total - Math.min.apply(null, active.map(function(a) { return a.score.total; }));
+      var isTight = scoreSpread <= 5;
+
+      // Find best price
+      var validPrices = active.map(function(a) { return a.data.price; }).filter(function(p) { return p > 0; });
+      var bestPrice = validPrices.length ? Math.min.apply(null, validPrices) : 0;
+
+      // Build results HTML
+      var html = "";
+
+      // Winner banner
+      html += '<div class="caq-winner-banner">';
+      html += '<img src="/images/trudy-auto.png" alt="Trudy" />';
+      html += '<div>';
+      html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">TruePrice Quote Analysis</p>';
+      if (isTight) {
+        html += '<p class="caq-winner-title">These quotes are closely matched</p>';
+        html += '<p class="caq-winner-sub">Scores are within 5 points. Review the details below to decide.</p>';
+      } else {
+        html += '<p class="caq-winner-title">' + escHtml(bestValue.data.shopName) + ' shows the best overall value</p>';
+        html += '<p class="caq-winner-sub">Based on price, scope transparency, warranty, and parts quality.</p>';
+      }
+      html += '</div></div>';
+
+      // Score bars
+      html += '<div style="margin-bottom:28px;">';
+      active.forEach(function(a) {
+        var color = scoreColor(a.score.total);
+        html += '<div style="margin-bottom:12px;">';
+        html += '<div style="font-weight:700; font-size:14px; margin-bottom:4px;">' + escHtml(a.data.shopName);
+        if (a === bestValue && !isTight) html += ' <span class="caq-badge caq-badge-green">BEST VALUE</span>';
+        html += '</div>';
+        html += '<div class="caq-score-bar-wrap">';
+        html += '<div class="caq-score-bar"><div class="caq-score-bar-fill" style="width:' + a.score.total + '%; background:' + color + ';"></div></div>';
+        html += '<span class="caq-score-label" style="color:' + color + ';">' + a.score.total + '</span>';
+        html += '</div></div>';
+      });
+      html += '</div>';
+
+      // Comparison table
+      html += '<div class="caq-table-wrap"><table class="caq-table">';
+
+      // Header
+      html += '<thead><tr><th></th>';
+      active.forEach(function(a) {
+        html += '<th>' + escHtml(a.data.shopName);
+        if (a === bestValue && !isTight) html += ' <span class="caq-badge caq-badge-green">BEST VALUE</span>';
+        html += '</th>';
+      });
+      html += '</tr></thead><tbody>';
+
+      // Shop Type
+      html += '<tr><td class="row-label">Shop Type</td>';
+      active.forEach(function(a) {
+        html += '<td>' + escHtml(a.data.shopType) + '</td>';
+      });
+      html += '</tr>';
+
+      // Total Price
+      html += '<tr><td class="row-label">Total Price</td>';
+      active.forEach(function(a) {
+        var cls = (a.data.price > 0 && a.data.price === bestPrice) ? ' class="highlight"' : '';
+        html += '<td' + cls + '>' + (a.data.price > 0 ? '$' + a.data.price.toLocaleString() : 'N/A') + '</td>';
+      });
+      html += '</tr>';
+
+      // Labor Rate
+      var laborRates = active.map(function(a) { return a.data.laborRate; }).filter(function(r) { return r > 0; });
+      var bestLaborRate = laborRates.length ? Math.min.apply(null, laborRates) : 0;
+      html += '<tr><td class="row-label">Labor Rate</td>';
+      active.forEach(function(a) {
+        var cls = (a.data.laborRate > 0 && a.data.laborRate === bestLaborRate) ? ' class="highlight"' : '';
+        html += '<td' + cls + '>' + (a.data.laborRate > 0 ? '$' + a.data.laborRate.toFixed(2) + '/hr' : 'N/A') + '</td>';
+      });
+      html += '</tr>';
+
+      // Total Labor Hours
+      html += '<tr><td class="row-label">Total Labor Hours</td>';
+      active.forEach(function(a) {
+        html += '<td>' + (a.data.laborHours > 0 ? a.data.laborHours.toFixed(1) + ' hrs' : 'N/A') + '</td>';
+      });
+      html += '</tr>';
+
+      // Parts Total
+      html += '<tr><td class="row-label">Parts Total</td>';
+      active.forEach(function(a) {
+        html += '<td>' + (a.data.partsTotal > 0 ? '$' + a.data.partsTotal.toLocaleString() : 'N/A') + '</td>';
+      });
+      html += '</tr>';
+
+      // Labor Total
+      html += '<tr><td class="row-label">Labor Total</td>';
+      active.forEach(function(a) {
+        html += '<td>' + (a.data.laborTotal > 0 ? '$' + a.data.laborTotal.toLocaleString() : 'N/A') + '</td>';
+      });
+      html += '</tr>';
+
+      // Parts Type
+      html += '<tr><td class="row-label">Parts Type</td>';
+      active.forEach(function(a) {
+        html += '<td>' + escHtml(a.data.partsType) + '</td>';
+      });
+      html += '</tr>';
+
+      // Individual repairs
+      var maxRepairs = 0;
+      active.forEach(function(a) {
+        var len = (a.data.repairs && a.data.repairs.length) || 0;
+        if (len > maxRepairs) maxRepairs = len;
+      });
+      if (maxRepairs > 0) {
+        html += '<tr><td class="row-label" colspan="' + (active.length + 1) + '" style="font-weight:700; color:#1e293b; padding-top:16px;">Individual Repairs</td></tr>';
+        for (var r = 0; r < maxRepairs; r++) {
+          html += '<tr class="scope-section"><td class="row-label" style="padding-left:28px; font-weight:400;">#' + (r + 1) + '</td>';
+          active.forEach(function(a) {
+            var repair = a.data.repairs && a.data.repairs[r];
+            if (repair) {
+              var repairName = repair.name || repair.description || repair;
+              var repairPrice = repair.price || repair.total || "";
+              var display = escHtml(typeof repairName === "string" ? repairName : String(repairName));
+              if (repairPrice) display += ' <span style="color:#64748b;">($' + parseFloat(String(repairPrice).replace(/[^0-9.]/g, "")).toLocaleString() + ')</span>';
+              html += '<td>' + display + '</td>';
+            } else {
+              html += '<td style="color:#94a3b8;">--</td>';
+            }
+          });
+          html += '</tr>';
+        }
+      }
+
+      // Scope checklist section
+      html += '<tr><td class="row-label" colspan="' + (active.length + 1) + '" style="font-weight:700; color:#1e293b; padding-top:16px;">Transparency Checklist</td></tr>';
+
+      // Scope score row
+      html += '<tr><td class="row-label">Scope Score</td>';
+      active.forEach(function(a) {
+        var count = a.score.scopeCount;
+        var color = count >= Math.round(SCOPE_ITEMS.length * 0.75) ? '#16a34a' : count >= Math.round(SCOPE_ITEMS.length * 0.5) ? '#d97706' : '#ef4444';
+        html += '<td><span style="color:' + color + '; font-weight:700;">' + count + '/' + SCOPE_ITEMS.length + '</span> items confirmed</td>';
+      });
+      html += '</tr>';
+
+      // Individual scope items
+      SCOPE_ITEMS.forEach(function(item) {
+        html += '<tr class="scope-section"><td class="row-label" style="padding-left:28px; font-weight:400;">' + item.label + '</td>';
+        active.forEach(function(a) {
+          var val = (a.data.scopeItems && a.data.scopeItems[item.key]) || "unclear";
+          if (val === "included") {
+            html += '<td><span class="caq-scope-check">&#10003; Yes</span></td>';
+          } else if (val === "excluded" || val === "missing") {
+            html += '<td><span class="caq-scope-no">&#10007; No</span></td>';
+          } else {
+            html += '<td><span class="caq-scope-missing">? Unclear</span></td>';
+          }
+        });
+        html += '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+
+      // CTAs
+      html += '<div class="caq-cta-section">';
+      html += '<a href="/auto-repair-quote-analyzer.html" class="caq-cta-btn caq-cta-primary">Analyze another quote</a>';
+      html += '<a href="/auto-repair-cost-guide.html" class="caq-cta-btn caq-cta-secondary">Auto Repair Cost Guide</a>';
+      html += '<button class="caq-cta-btn caq-cta-outline" onclick="startOver()">Start over</button>';
+      html += '</div>';
+
+      document.getElementById("resultsContent").innerHTML = html;
+      document.getElementById("uploadStep").style.display = "none";
+      document.getElementById("resultsStep").classList.add("visible");
+
+      // Animate score bars
+      setTimeout(function() {
+        var fills = document.querySelectorAll(".caq-score-bar-fill");
+        fills.forEach(function(fill) {
+          var width = fill.style.width;
+          fill.style.width = "0%";
+          setTimeout(function() { fill.style.width = width; }, 50);
+        });
+      }, 100);
+    };
+
+    window.goBack = function() {
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("uploadStep").style.display = "block";
+    };
+
+    window.startOver = function() {
+      quotes = [null, null, null];
+      uploadedFiles = [null, null, null];
+      for (var i = 0; i < 3; i++) {
+        var slot = document.getElementById("slot" + i);
+        slot.classList.remove("uploaded", "uploading");
+        slot.innerHTML =
+          '<span class="slot-icon">&#128196;</span>' +
+          '<span class="slot-label">Quote ' + (i + 1) + '</span>' +
+          '<span class="slot-hint">' + (i === 2 ? "Optional" : "PDF, photo, or screenshot") + '</span>' +
+          '<input type="file" id="file' + i + '" accept=".pdf,image/*" onchange="handleUpload(' + i + ', this)" />';
+        slot.onclick = (function(idx) {
+          return function() { document.getElementById("file" + idx).click(); };
+        })(i);
+      }
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("resultsContent").innerHTML = "";
+      document.getElementById("uploadStep").style.display = "block";
+      updateCompareBtn();
+    };
+
+  })();
+  </script>
+</body>
+</html>

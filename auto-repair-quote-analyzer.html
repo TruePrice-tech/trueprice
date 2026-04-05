@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <title>Auto Repair Quote Analyzer - Is Your Mechanic Quote Fair? | TruePrice</title>
+  <meta
+    name="description"
+    content="Upload your mechanic or auto repair quote to instantly check if the price is fair. Compares labor rates, parts pricing, and scope against market data."
+  />
+  <link rel="canonical" href="https://truepricehq.com/auto-repair-quote-analyzer.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Auto Repair Quote Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Upload your mechanic or auto repair quote to instantly check if the price is fair. Compares labor rates, parts pricing, and scope against market data."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/auto-repair-quote-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Auto Repair Quote Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Upload your mechanic or auto repair quote to instantly check if the price is fair. Compares labor rates, parts pricing, and scope against market data."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TruePrice Auto Repair Quote Analyzer",
+    "url": "https://truepricehq.com/auto-repair-quote-analyzer.html",
+    "description": "Free AI-powered mechanic quote analysis. Upload an auto repair quote to check labor rates, parts pricing, and scope against market data.",
+    "applicationCategory": "UtilityApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "Web",
+    "provider": {
+      "@type": "Organization",
+      "name": "TruePrice",
+      "url": "https://truepricehq.com"
+    }
+  }
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+
+  <style>
+    .ar-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .ar-hero { text-align: center; margin-bottom: 2rem; }
+    .ar-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .ar-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .ar-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+
+    .ar-upload-zone {
+      border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc;
+    }
+    .ar-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .ar-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
+    .ar-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .ar-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+
+    .ar-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
+    .ar-divider::before, .ar-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
+
+    .ar-manual-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .ar-manual-form input, .ar-manual-form select {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 100%; box-sizing: border-box;
+    }
+    .ar-manual-form input:focus, .ar-manual-form select:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+    .ar-row { display: flex; gap: 0.75rem; }
+    .ar-row > * { flex: 1; }
+
+    .ar-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .ar-btn-primary { background: #2563eb; color: #fff; }
+    .ar-btn-primary:hover { background: #1d4ed8; }
+    .ar-btn-secondary { background: #f1f5f9; color: #334155; }
+    .ar-btn-secondary:hover { background: #e2e8f0; }
+    .ar-btn-full { width: 100%; }
+
+    .ar-progress { margin: 1.5rem 0; }
+    .ar-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .ar-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .ar-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+
+    /* Verdict card */
+    .ar-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .ar-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .ar-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
+    .ar-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    .ar-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .ar-verdict.fair .verdict-label { color: #16a34a; }
+    .ar-verdict.high .verdict-label { color: #dc2626; }
+    .ar-verdict.low .verdict-label { color: #ca8a04; }
+    .ar-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .ar-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+
+    /* Repair line items table */
+    .ar-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    .ar-table th { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    .ar-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    .ar-table tr:last-child td { border-bottom: none; }
+    .ar-table .ar-table-total td { border-top: 2px solid #e2e8f0; font-weight: 700; color: #1e293b; }
+
+    /* Scope checklist */
+    .ar-scope { list-style: none; padding: 0; margin: 0; }
+    .ar-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .ar-scope li:last-child { border-bottom: none; }
+    .scope-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .scope-included { background: #dcfce7; color: #16a34a; }
+    .scope-missing { background: #fee2e2; color: #dc2626; }
+    .scope-unclear { background: #f1f5f9; color: #94a3b8; }
+
+    /* Details grid */
+    .ar-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .ar-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .ar-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .ar-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+
+    .ar-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .ar-actions a, .ar-actions button { text-align: center; }
+
+    .ar-labor-flag { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; margin-left: 6px; }
+    .ar-labor-flag.high { background: #fef2f2; color: #dc2626; }
+    .ar-labor-flag.low { background: #fefce8; color: #ca8a04; }
+    .ar-labor-flag.fair { background: #f0fdf4; color: #16a34a; }
+
+    .ar-hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .ar-hero h1 { font-size: 1.5rem; }
+      .ar-row { flex-direction: column; }
+      .ar-details { grid-template-columns: 1fr; }
+      .ar-table { font-size: 0.85rem; }
+      .ar-table th, .ar-table td { padding: 0.5rem 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="ar-app" id="arApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
+  <section style="margin-top:32px; padding:24px 0; border-top:1px solid var(--border,#e2e8f0);">
+    <h3 style="font-size:16px; color:var(--text-muted,#6b7280); margin:0 0 12px;">Analyze quotes for other services</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+      <a href="/roofing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Roofing</a>
+      <a href="/hvac-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">HVAC</a>
+      <a href="/plumbing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Plumbing</a>
+      <a href="/electrical-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Electrical</a>
+      <a href="/solar-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Solar</a>
+      <a href="/window-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Windows</a>
+      <a href="/painting-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Painting</a>
+      <a href="/siding-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Siding</a>
+      <a href="/fencing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Fencing</a>
+      <a href="/concrete-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Concrete</a>
+      <a href="/landscaping-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Landscaping</a>
+      <a href="/garage-door-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Garage Doors</a>
+      <a href="/foundation-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Foundation</a>
+      <a href="/kitchen-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Kitchen</a>
+      <a href="/insulation-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Insulation</a>
+      <a href="/gutters-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Gutters</a>
+    </div>
+  </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps car owners analyze mechanic quotes, compare shop prices, and estimate auto repair costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-ocr.js" defer></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ── Auto Repair Pricing Model ──
+    var AUTO_REPAIR_PRICING = {
+      laborRatesByShopType: {
+        dealer: { low: 120, mid: 150, high: 180 },
+        independent: { low: 80, mid: 105, high: 130 },
+        chain: { low: 90, mid: 115, high: 140 }
+      },
+      laborMultiplierByRegion: {
+        south: 0.92, southeast: 0.95, northeast: 1.15,
+        midwest: 0.97, mountain: 1.02, west: 1.20
+      },
+      scopeItems: [
+        { key: "partsItemized", label: "Parts itemized separately from labor", weight: 15 },
+        { key: "laborRateStated", label: "Labor rate per hour stated", weight: 12 },
+        { key: "laborHoursListed", label: "Labor hours listed per job", weight: 12 },
+        { key: "partsType", label: "OEM/aftermarket/reman parts specified", weight: 10 },
+        { key: "shopSupplies", label: "Shop supplies/fees disclosed", weight: 8 },
+        { key: "taxIncluded", label: "Tax included or noted", weight: 6 },
+        { key: "partsWarranty", label: "Warranty on parts", weight: 10 },
+        { key: "laborWarranty", label: "Warranty on labor", weight: 10 },
+        { key: "diagnosticFee", label: "Diagnostic fee applied to repair", weight: 8 },
+        { key: "fluidDisposal", label: "Fluid/waste disposal fees", weight: 5 }
+      ]
+    };
+
+    var STATE_REGIONS = {
+      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+      WY:"mountain",DC:"northeast"
+    };
+
+    var US_STATES = {
+      "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
+      "colorado":"CO","connecticut":"CT","delaware":"DE","florida":"FL","georgia":"GA",
+      "hawaii":"HI","idaho":"ID","illinois":"IL","indiana":"IN","iowa":"IA","kansas":"KS",
+      "kentucky":"KY","louisiana":"LA","maine":"ME","maryland":"MD","massachusetts":"MA",
+      "michigan":"MI","minnesota":"MN","mississippi":"MS","missouri":"MO","montana":"MT",
+      "nebraska":"NE","nevada":"NV","new hampshire":"NH","new jersey":"NJ","new mexico":"NM",
+      "new york":"NY","north carolina":"NC","north dakota":"ND","ohio":"OH","oklahoma":"OK",
+      "oregon":"OR","pennsylvania":"PA","rhode island":"RI","south carolina":"SC",
+      "south dakota":"SD","tennessee":"TN","texas":"TX","utah":"UT","vermont":"VT",
+      "virginia":"VA","washington":"WA","west virginia":"WV","wisconsin":"WI","wyoming":"WY",
+      "district of columbia":"DC"
+    };
+
+    // ── State ──
+    var appRoot = document.getElementById("arApp");
+    var state = {
+      step: "upload",          // upload | uploading | result
+      stateCode: "",
+      shopType: "independent",
+      uploadedFile: null,
+      extractedText: "",
+      result: null
+    };
+
+    // ── Helpers ──
+    function $(sel, el) { return (el || document).querySelector(sel); }
+    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+    function fmtCents(n) { return "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+    function getRegionFromState(sc) {
+      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+    }
+
+    function getRegionalLaborRate(shopType, region) {
+      var rates = AUTO_REPAIR_PRICING.laborRatesByShopType[shopType] || AUTO_REPAIR_PRICING.laborRatesByShopType.independent;
+      var mult = AUTO_REPAIR_PRICING.laborMultiplierByRegion[region] || 1.0;
+      return {
+        low: Math.round(rates.low * mult),
+        mid: Math.round(rates.mid * mult),
+        high: Math.round(rates.high * mult)
+      };
+    }
+
+    function verdictFromRatio(ratio) {
+      if (ratio < 0.78) return { label: "Unusually Low", css: "low" };
+      if (ratio <= 0.90) return { label: "Below Average", css: "low" };
+      if (ratio <= 1.12) return { label: "Fair Price", css: "fair" };
+      if (ratio <= 1.25) return { label: "Above Average", css: "high" };
+      return { label: "Overpriced", css: "high" };
+    }
+
+    function laborRateFlag(detected, regional) {
+      if (!detected || !regional) return null;
+      var ratio = detected / regional.mid;
+      if (ratio > 1.20) return { label: "Above market", css: "high" };
+      if (ratio < 0.80) return { label: "Below market", css: "low" };
+      return { label: "Market rate", css: "fair" };
+    }
+
+    function capitalize(s) {
+      return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+    }
+
+    // ── Feedback ──
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "auto_repair", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
+    // ── Save as image ──
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("arApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-auto-repair-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
+    // ── Render ──
+    function render() {
+      switch (state.step) {
+        case "upload": renderUpload(); break;
+        case "uploading": renderUploading(); break;
+        case "result": renderResult(); break;
+      }
+    }
+
+    // ── Upload Step ──
+    function renderUpload() {
+      appRoot.innerHTML = '\
+        <div class="ar-hero">\
+          <img src="/images/trudy-auto.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>Is your mechanic quote fair?</h1>\
+          <p>Upload your auto repair quote or enter the total to check if the price is right.</p>\
+          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to auto repair pricing? Read our <a href="/auto-repair-cost-guide.html" style="color:#16a34a;">Auto Repair Cost Guide</a></p>\
+        </div>\
+        <div class="ar-card">\
+          <div class="ar-upload-zone" id="uploadZone">\
+            <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
+            <p><strong>Upload Your Quote</strong></p>\
+            <p class="hint">Drag and drop a PDF or photo of your mechanic quote</p>\
+            <p class="hint">PDF, JPG, PNG accepted</p>\
+            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
+          <div class="ar-divider">or enter your quote total manually</div>\
+          <div class="ar-manual-form">\
+            <div class="ar-row">\
+              <div style="position:relative;">\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Quote Total</label>\
+                <div style="display:flex;align-items:center;gap:6px;">\
+                  <span style="font-size:18px;font-weight:700;color:#334155;">$</span>\
+                  <input type="number" id="manualTotal" placeholder="e.g. 1850" min="50" max="50000" />\
+                </div>\
+              </div>\
+              <div>\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">State</label>\
+                <input type="text" id="manualState" placeholder="e.g. TX" maxlength="2" style="text-transform:uppercase;" />\
+              </div>\
+            </div>\
+            <div class="ar-row">\
+              <div>\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Shop Type</label>\
+                <select id="manualShopType">\
+                  <option value="independent">Independent Shop</option>\
+                  <option value="dealer">Dealership</option>\
+                  <option value="chain">Chain (Midas, Firestone, etc.)</option>\
+                </select>\
+              </div>\
+              <div>\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Labor Rate (if known)</label>\
+                <div style="display:flex;align-items:center;gap:6px;">\
+                  <span style="font-size:14px;color:#64748b;">$/hr</span>\
+                  <input type="number" id="manualLaborRate" placeholder="optional" min="30" max="400" />\
+                </div>\
+              </div>\
+            </div>\
+            <button class="ar-btn ar-btn-primary ar-btn-full" id="btnManualAnalyze">Analyze This Quote</button>\
+          </div>\
+        </div>';
+
+      // File upload events
+      var zone = document.getElementById("uploadZone");
+      var fileInput = document.getElementById("fileInput");
+
+      zone.addEventListener("click", function() { fileInput.click(); });
+      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; zone.style.background = "#eff6ff"; });
+      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc"; });
+      zone.addEventListener("drop", function(e) {
+        e.preventDefault();
+        zone.style.borderColor = "#cbd5e1";
+        zone.style.background = "#f8fafc";
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener("change", function() {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+      });
+
+      // Manual entry
+      document.getElementById("btnManualAnalyze").addEventListener("click", function() {
+        var total = parseFloat(document.getElementById("manualTotal").value);
+        if (!total || total < 50) { alert("Please enter a valid quote total."); return; }
+
+        var rawState = (document.getElementById("manualState").value || "").trim().toUpperCase();
+        state.stateCode = STATE_REGIONS[rawState] ? rawState : "TX";
+        state.shopType = document.getElementById("manualShopType").value || "independent";
+        var laborRate = parseFloat(document.getElementById("manualLaborRate").value) || null;
+
+        var region = getRegionFromState(state.stateCode);
+        var regionalRates = getRegionalLaborRate(state.shopType, region);
+        var benchmark = total; // for manual, we compare against regional labor rate benchmark
+        var ratio = laborRate ? (laborRate / regionalRates.mid) : 1.0;
+
+        // If no labor rate given, assume quote total represents full repair
+        // Use a rough benchmark: independent avg is ~$500-800 for typical repair
+        var quoteBenchmark = total * (regionalRates.mid / (AUTO_REPAIR_PRICING.laborRatesByShopType[state.shopType] || AUTO_REPAIR_PRICING.laborRatesByShopType.independent).mid);
+        var totalRatio = total / quoteBenchmark;
+
+        state.result = {
+          source: "manual",
+          quoteTotal: total,
+          benchmark: quoteBenchmark,
+          ratio: totalRatio,
+          verdict: verdictFromRatio(totalRatio),
+          lineItems: [],
+          laborRate: laborRate,
+          laborHours: null,
+          partsTotal: null,
+          laborTotal: null,
+          shopType: state.shopType,
+          partsType: null,
+          region: region,
+          regionalRates: regionalRates,
+          laborFlag: laborRate ? laborRateFlag(laborRate, regionalRates) : null,
+          scopeSignals: {},
+          parsed: null
+        };
+
+        state.step = "result";
+        render();
+      });
+    }
+
+    // ── File handling ──
+    function handleFile(file) {
+      state.uploadedFile = file;
+      state.step = "uploading";
+      render();
+      processFile(file);
+    }
+
+    function renderUploading() {
+      appRoot.innerHTML = '\
+        <div class="ar-hero">\
+          <h1>Analyzing your repair quote...</h1>\
+          <p style="color:#64748b;">Don\'t sign until Trudy checks it</p>\
+        </div>\
+        <div class="ar-card">\
+          <div class="ar-progress">\
+            <div class="ar-progress-bar"><div class="ar-progress-fill" id="progFill" style="width:10%"></div></div>\
+            <p class="ar-progress-text" id="progText">Loading document...</p>\
+          </div>\
+        </div>';
+    }
+
+    function setProgress(pct, msg) {
+      var fill = document.getElementById("progFill");
+      var txt = document.getElementById("progText");
+      if (fill) fill.style.width = pct + "%";
+      if (txt) txt.textContent = msg;
+    }
+
+    async function processFile(file) {
+      try {
+        setProgress(15, "Loading parsing libraries...");
+        await window.loadVendorLibs();
+
+        var text = "";
+        var imageData = null;
+        if (file.type === "application/pdf") {
+          setProgress(30, "Extracting text from PDF...");
+          text = await extractPdfText(file);
+        } else {
+          setProgress(30, "Processing image...");
+          imageData = await fileToBase64(file);
+          text = await extractImageText(file);
+        }
+
+        setProgress(50, "Analyzing auto repair quote...");
+        state.extractedText = text;
+
+        // Try API first for better parsing of mechanic quotes
+        var apiResult = null;
+        try {
+          setProgress(60, "Checking quote against market data...");
+          var apiPayload = { text: text };
+          if (imageData) apiPayload.images = [imageData];
+          var apiResponse = await fetch("/api/auto-repair-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiPayload)
+          });
+          if (apiResponse.ok) {
+            apiResult = await apiResponse.json();
+          }
+        } catch (apiErr) {
+          console.warn("API unavailable, falling back to local parsing:", apiErr);
+        }
+
+        setProgress(75, "Calculating verdict...");
+
+        var result = null;
+        if (apiResult && apiResult.quoteTotal) {
+          result = buildResultFromAPI(apiResult);
+        } else {
+          result = buildResultFromLocal(text);
+        }
+
+        setProgress(100, "Done!");
+        state.result = result;
+        state.step = "result";
+        setTimeout(render, 400);
+
+      } catch (err) {
+        console.error("Auto repair analysis error:", err);
+        renderErrorFallback();
+      }
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function buildResultFromAPI(api) {
+      var region = getRegionFromState(api.stateCode || state.stateCode || "TX");
+      if (api.stateCode) state.stateCode = api.stateCode;
+      var shopType = api.shopType || state.shopType || "independent";
+      var regionalRates = getRegionalLaborRate(shopType, region);
+
+      var lineItems = (api.lineItems || []).map(function(item) {
+        return {
+          description: item.description || "Repair item",
+          partsCost: item.partsCost || 0,
+          laborCost: item.laborCost || 0,
+          total: (item.partsCost || 0) + (item.laborCost || 0)
+        };
+      });
+
+      var quoteTotal = api.quoteTotal || 0;
+      var benchmark = api.benchmark || quoteTotal;
+      var ratio = benchmark > 0 ? quoteTotal / benchmark : 1.0;
+
+      return {
+        source: "upload",
+        quoteTotal: quoteTotal,
+        benchmark: benchmark,
+        ratio: ratio,
+        verdict: verdictFromRatio(ratio),
+        lineItems: lineItems,
+        laborRate: api.laborRate || null,
+        laborHours: api.laborHours || null,
+        partsTotal: api.partsTotal || null,
+        laborTotal: api.laborTotal || null,
+        shopType: shopType,
+        partsType: api.partsType || null,
+        region: region,
+        regionalRates: regionalRates,
+        laborFlag: api.laborRate ? laborRateFlag(api.laborRate, regionalRates) : null,
+        scopeSignals: api.scopeSignals || {},
+        parsed: api
+      };
+    }
+
+    function buildResultFromLocal(text) {
+      // Local regex parsing fallback
+      var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
+      var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v > 0 && v < 100000; });
+
+      // Try to use analyzer-parser.js
+      var parsed = null;
+      try {
+        if (typeof parseExtractedText === "function") {
+          parsed = parseExtractedText(text);
+        }
+      } catch (parseErr) {
+        console.warn("Parser error:", parseErr);
+      }
+
+      // Detect labor rate
+      var laborRate = null;
+      var laborRateMatch = text.match(/labor\s*(?:rate|charge)?[:\s]*\$?\s*(\d{2,3}(?:\.\d{2})?)\s*(?:\/\s*h(?:ou)?r|per\s*h(?:ou)?r|hr)/i);
+      if (laborRateMatch) laborRate = parseFloat(laborRateMatch[1]);
+
+      // Detect labor hours
+      var laborHours = null;
+      var hoursMatch = text.match(/(\d+(?:\.\d+)?)\s*(?:hours?|hrs?)\s*(?:of\s*)?labor/i);
+      if (!hoursMatch) hoursMatch = text.match(/labor\s*(?:time|hours?)[:\s]*(\d+(?:\.\d+)?)/i);
+      if (hoursMatch) laborHours = parseFloat(hoursMatch[1]);
+
+      // Detect parts type
+      var partsType = null;
+      if (/\bOEM\b/i.test(text)) partsType = "OEM";
+      else if (/\baftermarket\b/i.test(text)) partsType = "Aftermarket";
+      else if (/\breman(?:ufactured)?\b/i.test(text)) partsType = "Remanufactured";
+
+      // Detect shop type from text
+      var shopType = state.shopType || "independent";
+      if (/\b(?:dealer(?:ship)?|toyota|honda|ford|chevy|chevrolet|bmw|mercedes|audi|nissan|hyundai|kia)\b/i.test(text)) {
+        shopType = "dealer";
+      } else if (/\b(?:midas|firestone|jiffy|pep\s*boys|valvoline|meineke|maaco|aamco|goodyear)\b/i.test(text)) {
+        shopType = "chain";
+      }
+
+      // Detect state from text
+      var stateMatch = text.match(/\b([A-Z]{2})\s+\d{5}\b/);
+      if (stateMatch && STATE_REGIONS[stateMatch[1]]) {
+        state.stateCode = stateMatch[1];
+      }
+
+      var region = getRegionFromState(state.stateCode);
+      var regionalRates = getRegionalLaborRate(shopType, region);
+
+      // Build line items from regex
+      var lineItems = [];
+      var lineItemPattern = /([A-Za-z][A-Za-z\s\/\-&]+?)[\s.]*\$?([\d,]+(?:\.\d{2})?)/g;
+      var match;
+      var seenDescriptions = {};
+      while ((match = lineItemPattern.exec(text)) !== null) {
+        var desc = match[1].trim();
+        var val = parseFloat(match[2].replace(/,/g, ""));
+        if (desc.length > 3 && desc.length < 80 && val >= 10 && val < 20000 && !seenDescriptions[desc.toLowerCase()]) {
+          seenDescriptions[desc.toLowerCase()] = true;
+          lineItems.push({ description: desc, partsCost: 0, laborCost: 0, total: val });
+        }
+        if (lineItems.length >= 15) break;
+      }
+
+      // Get total - prefer parsed final price, then highest price, then sum of line items
+      var quoteTotal = 0;
+      if (parsed && parsed.finalPrice && parsed.finalPrice > 50) {
+        quoteTotal = parsed.finalPrice;
+      } else if (prices.length) {
+        prices.sort(function(a, b) { return b - a; });
+        // The total is usually the largest amount
+        quoteTotal = prices[0];
+      } else {
+        // Sum line items
+        quoteTotal = lineItems.reduce(function(sum, item) { return sum + item.total; }, 0);
+      }
+
+      // Parts and labor totals from text
+      var partsTotal = null;
+      var laborTotal = null;
+      var partsTotalMatch = text.match(/(?:parts?\s*(?:total)?|total\s*parts)[:\s]*\$?\s*([\d,]+(?:\.\d{2})?)/i);
+      if (partsTotalMatch) partsTotal = parseFloat(partsTotalMatch[1].replace(/,/g, ""));
+      var laborTotalMatch = text.match(/(?:labor\s*(?:total)?|total\s*labor)[:\s]*\$?\s*([\d,]+(?:\.\d{2})?)/i);
+      if (laborTotalMatch) laborTotal = parseFloat(laborTotalMatch[1].replace(/,/g, ""));
+
+      // Build scope signals
+      var scopeSignals = {};
+      scopeSignals.partsItemized = { status: lineItems.length > 1 ? "included" : "unclear" };
+      scopeSignals.laborRateStated = { status: laborRate ? "included" : "unclear" };
+      scopeSignals.laborHoursListed = { status: laborHours ? "included" : "unclear" };
+      scopeSignals.partsType = { status: partsType ? "included" : "unclear" };
+      scopeSignals.shopSupplies = { status: /shop\s*suppl|env(?:ironmental)?\s*fee|misc\s*fee/i.test(text) ? "included" : "unclear" };
+      scopeSignals.taxIncluded = { status: /\btax\b/i.test(text) ? "included" : "unclear" };
+      scopeSignals.partsWarranty = { status: /(?:parts?\s*)?warrant/i.test(text) ? "included" : "unclear" };
+      scopeSignals.laborWarranty = { status: /labor\s*warrant|warrant.*labor/i.test(text) ? "included" : "unclear" };
+      scopeSignals.diagnosticFee = { status: /diagnost/i.test(text) ? "included" : "unclear" };
+      scopeSignals.fluidDisposal = { status: /dispos|waste|fluid\s*fee|env(?:ironmental)/i.test(text) ? "included" : "unclear" };
+
+      // Estimate benchmark from labor rate and hours if available
+      var benchmark = quoteTotal;
+      if (laborRate && laborHours) {
+        var expectedLabor = regionalRates.mid * laborHours;
+        var actualLabor = laborRate * laborHours;
+        var partsEstimate = quoteTotal - actualLabor;
+        if (partsEstimate < 0) partsEstimate = quoteTotal * 0.4;
+        benchmark = expectedLabor + partsEstimate;
+      } else {
+        // rough benchmark: apply regional multiplier relative to south baseline
+        var regionMult = AUTO_REPAIR_PRICING.laborMultiplierByRegion[region] || 1.0;
+        benchmark = quoteTotal / regionMult * 1.0; // normalized
+      }
+
+      var ratio = benchmark > 0 ? quoteTotal / benchmark : 1.0;
+
+      return {
+        source: "upload",
+        quoteTotal: quoteTotal,
+        benchmark: benchmark,
+        ratio: ratio,
+        verdict: verdictFromRatio(ratio),
+        lineItems: lineItems,
+        laborRate: laborRate,
+        laborHours: laborHours,
+        partsTotal: partsTotal,
+        laborTotal: laborTotal,
+        shopType: shopType,
+        partsType: partsType,
+        region: region,
+        regionalRates: regionalRates,
+        laborFlag: laborRate ? laborRateFlag(laborRate, regionalRates) : null,
+        scopeSignals: scopeSignals,
+        parsed: parsed
+      };
+    }
+
+    function renderErrorFallback() {
+      appRoot.innerHTML = '\
+        <div class="ar-hero"><h1>We couldn\'t read that file</h1></div>\
+        <div class="ar-card" style="text-align:center;">\
+          <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
+          <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
+          <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:12px;">\
+            <span style="font-size:20px;font-weight:700;">$</span>\
+            <input type="number" id="fallbackPrice" placeholder="e.g. 1850" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+          </div>\
+          <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
+            <select id="fallbackShopType" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;">\
+              <option value="independent">Independent Shop</option>\
+              <option value="dealer">Dealership</option>\
+              <option value="chain">Chain Shop</option>\
+            </select>\
+            <input type="text" id="fallbackState" placeholder="State (TX)" maxlength="2" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;width:80px;text-transform:uppercase;" />\
+          </div>\
+          <button class="ar-btn ar-btn-primary" id="fallbackBtn">Analyze this price</button>\
+          <div style="margin-top:14px;"><button class="ar-btn ar-btn-secondary" id="fallbackRestart">Start over</button></div>\
+        </div>';
+      document.getElementById("fallbackBtn").addEventListener("click", function() {
+        var price = parseFloat(document.getElementById("fallbackPrice").value);
+        if (!price || price < 50) { alert("Please enter a valid price."); return; }
+        var rawSt = (document.getElementById("fallbackState").value || "").trim().toUpperCase();
+        state.stateCode = STATE_REGIONS[rawSt] ? rawSt : "TX";
+        state.shopType = document.getElementById("fallbackShopType").value || "independent";
+        var region = getRegionFromState(state.stateCode);
+        var regionalRates = getRegionalLaborRate(state.shopType, region);
+        var regionMult = AUTO_REPAIR_PRICING.laborMultiplierByRegion[region] || 1.0;
+        var benchmark = price / regionMult;
+        var ratio = price / benchmark;
+        state.result = {
+          source: "manual",
+          quoteTotal: price,
+          benchmark: benchmark,
+          ratio: ratio,
+          verdict: verdictFromRatio(ratio),
+          lineItems: [],
+          laborRate: null, laborHours: null, partsTotal: null, laborTotal: null,
+          shopType: state.shopType, partsType: null, region: region,
+          regionalRates: regionalRates, laborFlag: null, scopeSignals: {}, parsed: null
+        };
+        state.step = "result";
+        render();
+      });
+      document.getElementById("fallbackRestart").addEventListener("click", function() {
+        state.step = "upload";
+        render();
+      });
+    }
+
+    // ── PDF extraction ──
+    async function extractPdfText(file) {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var allText = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        var page = await pdf.getPage(i);
+        var content = await page.getTextContent();
+        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+        allText.push(pageText);
+      }
+      return allText.join("\n");
+    }
+
+    // ── Image extraction ──
+    async function preprocessImage(file, mode) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement("canvas");
+            var scale = Math.max(1.5, Math.min(2.5, 2400 / Math.max(img.width, img.height)));
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            var ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            if (mode === "strong") {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.6 + 128;
+                gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            } else {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.3 + 128;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+          };
+          img.onerror = reject;
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extractImageText(file) {
+      // Try OCR helper if available
+      if (typeof window.runAnalyzerOCR === "function") {
+        try {
+          var ocrResult = await window.runAnalyzerOCR(file);
+          if (ocrResult && ocrResult.length > 30) return ocrResult;
+        } catch (e) {
+          console.warn("OCR helper failed, trying Tesseract:", e);
+        }
+      }
+
+      // Fallback to Tesseract if available
+      if (typeof Tesseract !== "undefined") {
+        var softImage = await preprocessImage(file, "soft");
+        var worker = await Tesseract.createWorker("eng");
+        var result = await worker.recognize(softImage);
+        var text = (result.data.text || "").trim();
+        if (text.length < 50) {
+          var strongImage = await preprocessImage(file, "strong");
+          var result2 = await worker.recognize(strongImage);
+          var text2 = (result2.data.text || "").trim();
+          if (text2.length > text.length) text = text2;
+        }
+        await worker.terminate();
+        return text;
+      }
+
+      return "";
+    }
+
+    // ── Result Step ──
+    function renderResult() {
+      var r = state.result;
+      if (!r) { state.step = "upload"; render(); return; }
+
+      var isUpload = r.source === "upload";
+      var verdictCss = r.verdict.css;
+      var priceDisplay = fmt(r.quoteTotal);
+      var rangeText = "";
+
+      if (r.quoteTotal > 0 && r.benchmark > 0) {
+        var pct = Math.round((r.ratio - 1) * 100);
+        var dir = pct > 0 ? "above" : "below";
+        if (Math.abs(pct) <= 2) {
+          rangeText = "Right at the market average for " + capitalize(r.region);
+        } else {
+          rangeText = Math.abs(pct) + "% " + dir + " average for " + capitalize(r.region);
+        }
+      }
+
+      // Shop type labels
+      var shopLabels = { dealer: "Dealership", independent: "Independent Shop", chain: "Chain Shop" };
+
+      // ── Details grid ──
+      var detailsHtml = '<div class="ar-details">';
+      detailsHtml += '<div class="ar-detail"><div class="label">Shop Type</div><div class="value">' + (shopLabels[r.shopType] || r.shopType) + '</div></div>';
+      detailsHtml += '<div class="ar-detail"><div class="label">Region</div><div class="value">' + capitalize(r.region) + '</div></div>';
+
+      if (r.laborRate) {
+        var flagHtml = "";
+        if (r.laborFlag) {
+          flagHtml = '<span class="ar-labor-flag ' + r.laborFlag.css + '">' + r.laborFlag.label + '</span>';
+        }
+        detailsHtml += '<div class="ar-detail"><div class="label">Labor Rate</div><div class="value">$' + r.laborRate + '/hr' + flagHtml + '</div></div>';
+      }
+      if (r.laborHours) {
+        detailsHtml += '<div class="ar-detail"><div class="label">Labor Hours</div><div class="value">' + r.laborHours + ' hrs</div></div>';
+      }
+      if (r.partsTotal) {
+        detailsHtml += '<div class="ar-detail"><div class="label">Parts Total</div><div class="value">' + fmt(r.partsTotal) + '</div></div>';
+      }
+      if (r.laborTotal) {
+        detailsHtml += '<div class="ar-detail"><div class="label">Labor Total</div><div class="value">' + fmt(r.laborTotal) + '</div></div>';
+      }
+      if (r.partsType) {
+        detailsHtml += '<div class="ar-detail"><div class="label">Parts Type</div><div class="value">' + r.partsType + '</div></div>';
+      }
+
+      // Regional labor rate context
+      if (r.regionalRates) {
+        detailsHtml += '<div class="ar-detail"><div class="label">Market Labor Rate (' + (shopLabels[r.shopType] || "Shop") + ')</div><div class="value">$' + r.regionalRates.low + ' - $' + r.regionalRates.high + '/hr</div></div>';
+      }
+      detailsHtml += '</div>';
+
+      // ── Line items table ──
+      var tableHtml = "";
+      if (r.lineItems && r.lineItems.length > 0) {
+        var hasPartsSplit = r.lineItems.some(function(item) { return item.partsCost > 0 || item.laborCost > 0; });
+
+        tableHtml = '<div class="ar-card"><h3 style="margin-bottom:0.75rem;">Repair Breakdown</h3><div style="overflow-x:auto;"><table class="ar-table"><thead><tr><th>Description</th>';
+        if (hasPartsSplit) {
+          tableHtml += '<th style="text-align:right;">Parts</th><th style="text-align:right;">Labor</th>';
+        }
+        tableHtml += '<th style="text-align:right;">Total</th></tr></thead><tbody>';
+
+        var runningTotal = 0;
+        r.lineItems.forEach(function(item) {
+          var lineTotal = item.total || ((item.partsCost || 0) + (item.laborCost || 0));
+          runningTotal += lineTotal;
+          tableHtml += '<tr><td>' + item.description + '</td>';
+          if (hasPartsSplit) {
+            tableHtml += '<td style="text-align:right;">' + (item.partsCost ? fmtCents(item.partsCost) : '-') + '</td>';
+            tableHtml += '<td style="text-align:right;">' + (item.laborCost ? fmtCents(item.laborCost) : '-') + '</td>';
+          }
+          tableHtml += '<td style="text-align:right;">' + fmtCents(lineTotal) + '</td></tr>';
+        });
+
+        tableHtml += '<tr class="ar-table-total"><td>Total</td>';
+        if (hasPartsSplit) tableHtml += '<td></td><td></td>';
+        tableHtml += '<td style="text-align:right;">' + fmtCents(r.quoteTotal || runningTotal) + '</td></tr>';
+        tableHtml += '</tbody></table></div></div>';
+      }
+
+      // ── Scope checklist ──
+      var scopeHtml = "";
+      if (r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+        var scopeScore = 0;
+        var scopeMax = 0;
+        scopeHtml = '<div class="ar-card"><h3 style="margin-bottom:0.75rem;">Quote Transparency Score</h3><ul class="ar-scope">';
+        AUTO_REPAIR_PRICING.scopeItems.forEach(function(item) {
+          var sig = r.scopeSignals[item.key];
+          var status = sig ? sig.status : "unclear";
+          var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
+          var iconChar = status === "included" ? "&#10003;" : status === "excluded" ? "&#10007;" : "?";
+          var statusLabel = status === "included" ? "Found" : status === "excluded" ? "Missing" : "Not found";
+          scopeMax += item.weight;
+          if (status === "included") scopeScore += item.weight;
+          scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
+        });
+        scopeHtml += '</ul>';
+
+        // Transparency score bar
+        var scorePct = scopeMax > 0 ? Math.round((scopeScore / scopeMax) * 100) : 0;
+        var scoreColor = scorePct >= 70 ? "#16a34a" : scorePct >= 40 ? "#ca8a04" : "#dc2626";
+        var scoreLabel = scorePct >= 70 ? "Good transparency" : scorePct >= 40 ? "Moderate transparency" : "Low transparency";
+        scopeHtml += '<div style="margin-top:12px;padding:12px;background:#f8fafc;border-radius:8px;">';
+        scopeHtml += '<div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px;"><span style="font-weight:600;color:' + scoreColor + ';">' + scoreLabel + '</span><span style="color:#64748b;">' + scorePct + '%</span></div>';
+        scopeHtml += '<div style="height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + scorePct + '%;background:' + scoreColor + ';border-radius:3px;"></div></div>';
+        scopeHtml += '</div>';
+
+        // Missing items warning
+        var missingItems = AUTO_REPAIR_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        var criticalMissing = missingItems.filter(function(item) { return item.weight >= 10; });
+        if (criticalMissing.length > 0) {
+          scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;">';
+          scopeHtml += '<strong>Ask your mechanic about:</strong> ';
+          scopeHtml += criticalMissing.map(function(item) { return item.label.toLowerCase(); }).join(", ");
+          scopeHtml += '</div>';
+        }
+        scopeHtml += '</div>';
+      }
+
+      // ── Market context ──
+      var contextHtml = '';
+      if (r.quoteTotal > 0) {
+        var tip = "";
+        if (r.verdict.css === "high") {
+          tip = "This quote is higher than typical market rates for your area and shop type. Getting 2-3 competing quotes could save you money. Independent shops often charge 20-40% less than dealerships for the same work.";
+        } else if (r.verdict.css === "low") {
+          tip = "This quote is lower than expected. Verify the shop is using quality parts and ask about warranty coverage. Very low quotes sometimes indicate used or low-quality parts, or the estimate may not include all necessary work.";
+        } else {
+          tip = "This quote appears to be within the typical market range for " + capitalize(r.region) + " region " + (shopLabels[r.shopType] || "shop") + " pricing.";
+        }
+        contextHtml = '<div class="ar-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p>';
+        if (r.laborRate && r.laborFlag) {
+          contextHtml += '<p style="color:#475569;font-size:0.95rem;margin-top:8px;">The detected labor rate of <strong>$' + r.laborRate + '/hr</strong> is <strong>' + r.laborFlag.label.toLowerCase() + '</strong> for ' + (shopLabels[r.shopType] || "this shop type") + ' in the ' + capitalize(r.region) + ' region (typical range: $' + r.regionalRates.low + '-$' + r.regionalRates.high + '/hr).</p>';
+        }
+        contextHtml += '</div>';
+      }
+
+      // ── Next steps ──
+      var tipsHtml = '<div class="ar-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Ask for parts to be itemized separately from labor if not already</li>';
+      tipsHtml += '<li>Confirm whether parts are OEM, aftermarket, or remanufactured</li>';
+      tipsHtml += '<li>Ask about warranty coverage on both parts and labor</li>';
+      tipsHtml += '<li>Check if the diagnostic fee is applied toward the repair cost</li>';
+      if (r.verdict.css === "high") {
+        tipsHtml += '<li>Get 2-3 quotes from independent shops for comparison</li>';
+        tipsHtml += '<li>Ask if aftermarket parts can be used to reduce cost</li>';
+        tipsHtml += '<li>Check if the repair is covered under any existing warranty or recall</li>';
+      }
+      if (r.verdict.css === "low") {
+        tipsHtml += '<li>Verify the parts brand and quality level being used</li>';
+        tipsHtml += '<li>Confirm the quote includes all necessary work, not just a partial fix</li>';
+        tipsHtml += '<li>Ask about the shop\'s warranty policy before authorizing work</li>';
+      }
+      tipsHtml += '</ul></div>';
+
+      // ── Savings tips ──
+      var savingsHtml = '<div class="ar-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
+      savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      savingsHtml += '<li>Independent shops typically charge 20-40% less than dealerships</li>';
+      savingsHtml += '<li>Aftermarket parts can save 30-50% vs OEM with similar quality</li>';
+      savingsHtml += '<li>Ask if the shop offers a price match guarantee</li>';
+      savingsHtml += '<li>Check for manufacturer recalls that cover the repair for free</li>';
+      savingsHtml += '</ul></div>';
+
+      // ── Feedback ──
+      var feedbackHtml = '\
+<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
+  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this analysis helpful?</div>\
+  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, helpful</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
+      // ── Email report ──
+      var emailSubject = encodeURIComponent("My Auto Repair Quote Analysis from TruePrice");
+      var emailBody = encodeURIComponent(
+        "Auto Repair Quote Analysis\n" +
+        "Quote Total: " + fmt(r.quoteTotal) + "\n" +
+        "Shop Type: " + (shopLabels[r.shopType] || r.shopType) + "\n" +
+        (r.laborRate ? "Labor Rate: $" + r.laborRate + "/hr\n" : "") +
+        (r.laborHours ? "Labor Hours: " + r.laborHours + "\n" : "") +
+        (r.partsType ? "Parts: " + r.partsType + "\n" : "") +
+        "Verdict: " + r.verdict.label + "\n" +
+        "Region: " + capitalize(r.region) + "\n\n" +
+        "Analyzed by TruePrice - https://truepricehq.com/auto-repair-quote-analyzer.html"
+      );
+
+      // ── Assemble page ──
+      appRoot.innerHTML = '\
+        <div class="ar-hero">\
+          <h1>' + (isUpload ? "Auto Repair Quote Analysis" : "Quote Analysis") + '</h1>\
+          <p style="font-size:0.9rem;color:#64748b;">Don\'t sign until Trudy checks it</p>\
+        </div>\
+        <div class="ar-verdict ' + verdictCss + '">\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-auto.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Auto Repair Verdict</div></div>\
+          <div class="verdict-label">' + r.verdict.label + '</div>\
+          <div class="verdict-price">' + priceDisplay + '</div>\
+          <div class="verdict-range">' + rangeText + '</div>\
+        </div>\
+        <div class="ar-card">\
+          <h3 style="margin-bottom:0.75rem;">Quote Details</h3>\
+          ' + detailsHtml + '\
+        </div>\
+        ' + tableHtml + '\
+        ' + scopeHtml + '\
+        ' + contextHtml + '\
+        ' + tipsHtml + '\
+        ' + savingsHtml + '\
+        <div class="ar-actions">\
+          <a class="ar-btn ar-btn-primary ar-btn-full" href="/auto-repair-cost-guide.html">View Auto Repair Cost Guide</a>\
+          <a class="ar-btn ar-btn-secondary ar-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
+          <button class="ar-btn ar-btn-secondary ar-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
+          <button class="ar-btn ar-btn-secondary ar-btn-full" id="btnStartOver">Start Over</button>\
+        </div>\
+        ' + feedbackHtml;
+
+      document.getElementById("btnStartOver").addEventListener("click", function() {
+        state = {
+          step: "upload",
+          stateCode: "",
+          shopType: "independent",
+          uploadedFile: null,
+          extractedText: "",
+          result: null
+        };
+        render();
+      });
+    }
+
+    // ── Init ──
+    render();
+
+  })();
+  </script>
+<script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+{
+  "commonRepairs": {
+    "brakes_front": {
+      "label": "Front Brake Pads & Rotors",
+      "category": "brakes",
+      "laborHours": { "low": 1.0, "high": 2.0 },
+      "partsRange": { "oem": [150, 350], "aftermarket": [80, 200], "reman": [60, 150] },
+      "totalRange": { "low": 250, "high": 600 },
+      "perAxle": true,
+      "notes": "Per axle. Rotors may not need replacing every time."
+    },
+    "brakes_rear": {
+      "label": "Rear Brake Pads & Rotors",
+      "category": "brakes",
+      "laborHours": { "low": 1.0, "high": 2.5 },
+      "partsRange": { "oem": [130, 300], "aftermarket": [70, 180], "reman": [50, 130] },
+      "totalRange": { "low": 230, "high": 550 },
+      "perAxle": true,
+      "notes": "Per axle. Drum brakes may cost more due to complexity."
+    },
+    "brakes_all_four": {
+      "label": "Full Brake Job (All 4 Wheels)",
+      "category": "brakes",
+      "laborHours": { "low": 2.0, "high": 4.0 },
+      "partsRange": { "oem": [280, 650], "aftermarket": [150, 380], "reman": [110, 280] },
+      "totalRange": { "low": 450, "high": 1100 },
+      "perAxle": false,
+      "notes": "Both axles, pads and rotors. Common discount vs doing separately."
+    },
+    "oil_change_conventional": {
+      "label": "Oil Change (Conventional)",
+      "category": "maintenance",
+      "laborHours": { "low": 0.3, "high": 0.5 },
+      "partsRange": { "oem": [20, 35], "aftermarket": [15, 25], "reman": [15, 25] },
+      "totalRange": { "low": 35, "high": 75 },
+      "perAxle": false,
+      "notes": "Conventional oil, standard filter."
+    },
+    "oil_change_synthetic": {
+      "label": "Oil Change (Full Synthetic)",
+      "category": "maintenance",
+      "laborHours": { "low": 0.3, "high": 0.5 },
+      "partsRange": { "oem": [35, 60], "aftermarket": [30, 50], "reman": [30, 50] },
+      "totalRange": { "low": 65, "high": 120 },
+      "perAxle": false,
+      "notes": "Full synthetic oil. Required by most modern vehicles."
+    },
+    "timing_belt": {
+      "label": "Timing Belt Replacement",
+      "category": "engine",
+      "laborHours": { "low": 3.0, "high": 6.0 },
+      "partsRange": { "oem": [100, 250], "aftermarket": [60, 150], "reman": [50, 120] },
+      "totalRange": { "low": 500, "high": 1200 },
+      "perAxle": false,
+      "notes": "Often done with water pump. Interference engines risk major damage if belt breaks."
+    },
+    "timing_chain": {
+      "label": "Timing Chain Replacement",
+      "category": "engine",
+      "laborHours": { "low": 4.0, "high": 10.0 },
+      "partsRange": { "oem": [200, 500], "aftermarket": [120, 300], "reman": [100, 250] },
+      "totalRange": { "low": 800, "high": 2500 },
+      "perAxle": false,
+      "notes": "More labor-intensive than timing belt. Often includes guides and tensioners."
+    },
+    "transmission_rebuild": {
+      "label": "Transmission Rebuild",
+      "category": "transmission",
+      "laborHours": { "low": 8.0, "high": 15.0 },
+      "partsRange": { "oem": [800, 2000], "aftermarket": [500, 1200], "reman": [400, 1000] },
+      "totalRange": { "low": 2500, "high": 5000 },
+      "perAxle": false,
+      "notes": "Full rebuild with torque converter. Reman unit may be more cost-effective."
+    },
+    "transmission_replacement": {
+      "label": "Transmission Replacement (Reman)",
+      "category": "transmission",
+      "laborHours": { "low": 6.0, "high": 12.0 },
+      "partsRange": { "oem": [2000, 4000], "aftermarket": [1500, 3000], "reman": [1200, 2500] },
+      "totalRange": { "low": 2800, "high": 6000 },
+      "perAxle": false,
+      "notes": "Remanufactured unit with warranty. Often faster than rebuild."
+    },
+    "alternator": {
+      "label": "Alternator Replacement",
+      "category": "electrical",
+      "laborHours": { "low": 1.0, "high": 2.5 },
+      "partsRange": { "oem": [200, 450], "aftermarket": [100, 250], "reman": [80, 200] },
+      "totalRange": { "low": 350, "high": 700 },
+      "perAxle": false,
+      "notes": "Reman alternators are very common and reliable."
+    },
+    "starter_motor": {
+      "label": "Starter Motor Replacement",
+      "category": "electrical",
+      "laborHours": { "low": 1.0, "high": 3.0 },
+      "partsRange": { "oem": [150, 400], "aftermarket": [80, 200], "reman": [60, 150] },
+      "totalRange": { "low": 300, "high": 650 },
+      "perAxle": false,
+      "notes": "Labor varies greatly by vehicle. Some starters are very accessible, others buried."
+    },
+    "battery": {
+      "label": "Battery Replacement",
+      "category": "electrical",
+      "laborHours": { "low": 0.3, "high": 0.5 },
+      "partsRange": { "oem": [100, 200], "aftermarket": [80, 170], "reman": [80, 170] },
+      "totalRange": { "low": 120, "high": 250 },
+      "perAxle": false,
+      "notes": "AGM batteries for start-stop systems cost more ($200-350)."
+    },
+    "ac_compressor": {
+      "label": "AC Compressor Replacement",
+      "category": "ac",
+      "laborHours": { "low": 2.0, "high": 4.0 },
+      "partsRange": { "oem": [300, 700], "aftermarket": [200, 450], "reman": [150, 350] },
+      "totalRange": { "low": 600, "high": 1200 },
+      "perAxle": false,
+      "notes": "Includes evacuate and recharge. Often replace expansion valve and drier too."
+    },
+    "ac_recharge": {
+      "label": "AC Recharge (Evacuate & Fill)",
+      "category": "ac",
+      "laborHours": { "low": 0.5, "high": 1.5 },
+      "partsRange": { "oem": [30, 60], "aftermarket": [30, 60], "reman": [30, 60] },
+      "totalRange": { "low": 100, "high": 250 },
+      "perAxle": false,
+      "notes": "If system needs frequent recharging, there is a leak that needs repair."
+    },
+    "water_pump": {
+      "label": "Water Pump Replacement",
+      "category": "engine",
+      "laborHours": { "low": 2.0, "high": 5.0 },
+      "partsRange": { "oem": [80, 250], "aftermarket": [50, 150], "reman": [40, 120] },
+      "totalRange": { "low": 350, "high": 900 },
+      "perAxle": false,
+      "notes": "Often done with timing belt. Labor is the main cost."
+    },
+    "head_gasket": {
+      "label": "Head Gasket Replacement",
+      "category": "engine",
+      "laborHours": { "low": 8.0, "high": 16.0 },
+      "partsRange": { "oem": [200, 500], "aftermarket": [100, 300], "reman": [100, 300] },
+      "totalRange": { "low": 1500, "high": 3500 },
+      "perAxle": false,
+      "notes": "Very labor intensive. Machine shop work may add $200-400."
+    },
+    "catalytic_converter": {
+      "label": "Catalytic Converter Replacement",
+      "category": "exhaust",
+      "laborHours": { "low": 1.0, "high": 3.0 },
+      "partsRange": { "oem": [500, 2500], "aftermarket": [200, 800], "reman": [150, 600] },
+      "totalRange": { "low": 500, "high": 3000 },
+      "perAxle": false,
+      "notes": "OEM cats are significantly more expensive. Some states require OEM (CA, NY)."
+    },
+    "exhaust_muffler": {
+      "label": "Muffler Replacement",
+      "category": "exhaust",
+      "laborHours": { "low": 0.5, "high": 1.5 },
+      "partsRange": { "oem": [80, 250], "aftermarket": [40, 150], "reman": [40, 150] },
+      "totalRange": { "low": 150, "high": 400 },
+      "perAxle": false,
+      "notes": "Includes gaskets and hangers. Rust can add labor time."
+    },
+    "struts_front": {
+      "label": "Front Struts (Pair)",
+      "category": "suspension",
+      "laborHours": { "low": 1.5, "high": 3.0 },
+      "partsRange": { "oem": [200, 500], "aftermarket": [120, 300], "reman": [100, 250] },
+      "totalRange": { "low": 400, "high": 900 },
+      "perAxle": false,
+      "notes": "Per pair. Alignment required after replacement."
+    },
+    "struts_rear": {
+      "label": "Rear Shocks/Struts (Pair)",
+      "category": "suspension",
+      "laborHours": { "low": 1.0, "high": 2.5 },
+      "partsRange": { "oem": [150, 400], "aftermarket": [80, 220], "reman": [70, 180] },
+      "totalRange": { "low": 300, "high": 700 },
+      "perAxle": false,
+      "notes": "Per pair. Rear shocks are usually simpler than front struts."
+    },
+    "wheel_bearing": {
+      "label": "Wheel Bearing Replacement",
+      "category": "suspension",
+      "laborHours": { "low": 1.0, "high": 2.5 },
+      "partsRange": { "oem": [80, 250], "aftermarket": [40, 150], "reman": [30, 120] },
+      "totalRange": { "low": 250, "high": 550 },
+      "perAxle": false,
+      "notes": "Per wheel. Hub assembly replacement is more common on modern vehicles."
+    },
+    "spark_plugs": {
+      "label": "Spark Plug Replacement",
+      "category": "engine",
+      "laborHours": { "low": 0.5, "high": 2.0 },
+      "partsRange": { "oem": [30, 80], "aftermarket": [20, 60], "reman": [20, 60] },
+      "totalRange": { "low": 100, "high": 350 },
+      "perAxle": false,
+      "notes": "4-cylinder is cheaper, V6/V8 more. Some engines have hard-to-reach plugs."
+    },
+    "clutch_replacement": {
+      "label": "Clutch Replacement",
+      "category": "transmission",
+      "laborHours": { "low": 4.0, "high": 8.0 },
+      "partsRange": { "oem": [300, 700], "aftermarket": [150, 400], "reman": [120, 350] },
+      "totalRange": { "low": 800, "high": 2000 },
+      "perAxle": false,
+      "notes": "Includes pressure plate and throw-out bearing. Flywheel resurface may add $100-200."
+    },
+    "cv_axle": {
+      "label": "CV Axle Replacement",
+      "category": "drivetrain",
+      "laborHours": { "low": 1.0, "high": 2.5 },
+      "partsRange": { "oem": [150, 350], "aftermarket": [60, 180], "reman": [50, 150] },
+      "totalRange": { "low": 200, "high": 500 },
+      "perAxle": false,
+      "notes": "Per side. Reman axles are common and reliable."
+    },
+    "radiator": {
+      "label": "Radiator Replacement",
+      "category": "cooling",
+      "laborHours": { "low": 1.5, "high": 3.0 },
+      "partsRange": { "oem": [150, 400], "aftermarket": [80, 250], "reman": [70, 200] },
+      "totalRange": { "low": 400, "high": 900 },
+      "perAxle": false,
+      "notes": "Includes coolant flush. Hoses may need replacing too."
+    },
+    "fuel_pump": {
+      "label": "Fuel Pump Replacement",
+      "category": "fuel",
+      "laborHours": { "low": 1.5, "high": 4.0 },
+      "partsRange": { "oem": [200, 500], "aftermarket": [100, 300], "reman": [80, 250] },
+      "totalRange": { "low": 400, "high": 1000 },
+      "perAxle": false,
+      "notes": "In-tank pumps require dropping the fuel tank, adding labor."
+    },
+    "power_steering_pump": {
+      "label": "Power Steering Pump",
+      "category": "steering",
+      "laborHours": { "low": 1.0, "high": 2.5 },
+      "partsRange": { "oem": [150, 350], "aftermarket": [80, 200], "reman": [60, 160] },
+      "totalRange": { "low": 300, "high": 650 },
+      "perAxle": false,
+      "notes": "Includes fluid flush. Hoses should be inspected."
+    },
+    "tie_rod_ends": {
+      "label": "Tie Rod Ends (Pair)",
+      "category": "steering",
+      "laborHours": { "low": 1.0, "high": 2.0 },
+      "partsRange": { "oem": [60, 180], "aftermarket": [30, 100], "reman": [25, 80] },
+      "totalRange": { "low": 200, "high": 450 },
+      "perAxle": false,
+      "notes": "Alignment required after replacement. Inner vs outer affects price."
+    },
+    "ball_joints": {
+      "label": "Ball Joint Replacement (Per Side)",
+      "category": "suspension",
+      "laborHours": { "low": 1.5, "high": 3.0 },
+      "partsRange": { "oem": [60, 200], "aftermarket": [30, 120], "reman": [25, 100] },
+      "totalRange": { "low": 250, "high": 550 },
+      "perAxle": false,
+      "notes": "Upper and lower ball joints priced separately. Alignment required."
+    },
+    "serpentine_belt": {
+      "label": "Serpentine Belt Replacement",
+      "category": "engine",
+      "laborHours": { "low": 0.3, "high": 1.0 },
+      "partsRange": { "oem": [25, 60], "aftermarket": [15, 40], "reman": [15, 40] },
+      "totalRange": { "low": 75, "high": 200 },
+      "perAxle": false,
+      "notes": "Quick job on most vehicles. Tensioner may need replacing too ($50-150)."
+    },
+    "thermostat": {
+      "label": "Thermostat Replacement",
+      "category": "cooling",
+      "laborHours": { "low": 0.5, "high": 1.5 },
+      "partsRange": { "oem": [20, 60], "aftermarket": [10, 35], "reman": [10, 35] },
+      "totalRange": { "low": 150, "high": 350 },
+      "perAxle": false,
+      "notes": "Simple job but critical for engine temperature management."
+    }
+  },
+  "categories": {
+    "brakes": { "label": "Brakes", "icon": "disc" },
+    "engine": { "label": "Engine", "icon": "engine" },
+    "transmission": { "label": "Transmission", "icon": "gears" },
+    "electrical": { "label": "Electrical", "icon": "battery" },
+    "ac": { "label": "A/C & Heating", "icon": "snowflake" },
+    "exhaust": { "label": "Exhaust", "icon": "exhaust" },
+    "suspension": { "label": "Suspension", "icon": "spring" },
+    "cooling": { "label": "Cooling System", "icon": "thermometer" },
+    "fuel": { "label": "Fuel System", "icon": "fuel" },
+    "steering": { "label": "Steering", "icon": "steering" },
+    "drivetrain": { "label": "Drivetrain", "icon": "axle" },
+    "maintenance": { "label": "Maintenance", "icon": "wrench" }
+  },
+  "scopeCheckItems": [
+    { "key": "partsItemized", "label": "Parts itemized separately from labor", "weight": 15 },
+    { "key": "laborRateStated", "label": "Labor rate per hour stated", "weight": 12 },
+    { "key": "laborHoursListed", "label": "Labor hours listed per job", "weight": 12 },
+    { "key": "partsType", "label": "OEM/aftermarket/reman specified", "weight": 10 },
+    { "key": "shopSupplies", "label": "Shop supplies/fees disclosed", "weight": 8 },
+    { "key": "taxIncluded", "label": "Tax included or noted", "weight": 6 },
+    { "key": "partsWarranty", "label": "Warranty on parts", "weight": 10 },
+    { "key": "laborWarranty", "label": "Warranty on labor", "weight": 10 },
+    { "key": "diagnosticFee", "label": "Diagnostic fee applied to repair", "weight": 8 },
+    { "key": "fluidDisposal", "label": "Fluid/waste disposal fees", "weight": 5 }
+  ]
+}

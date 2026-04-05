@@ -26,7 +26,7 @@
     "@type": "WebApplication",
     "name": "TruePrice Quote Analyzer",
     "url": "https://truepricehq.com/analyze-quote.html",
-    "description": "Free AI-powered contractor quote analysis for 16 home services. Upload a quote to check pricing, scope, and red flags.",
+    "description": "Free AI-powered contractor and mechanic quote analysis for 16 home services plus auto repair. Upload a quote to check pricing, scope, and red flags.",
     "applicationCategory": "UtilityApplication",
     "offers": {
       "@type": "Offer",
@@ -192,6 +192,10 @@
               <span class="tile-icon"><img src="/images/trudy-gutters.png" alt="Gutters" /></span>
               <span class="tile-label">Gutters</span>
             </div>
+            <div class="service-tile" data-svc="auto-repair" data-photo="0" data-analyzer="/auto-repair-quote-analyzer.html" style="border:2px solid #3b82f6; background:#eff6ff;">
+              <span class="tile-icon"><img src="/images/trudy-auto.png" alt="Auto Repair" width="100" height="100" style="object-fit:contain;" /></span>
+              <span class="tile-label">Auto Repair <span style="font-size:10px; background:#3b82f6; color:#fff; padding:1px 6px; border-radius:4px; vertical-align:middle;">NEW</span></span>
+            </div>
           </div>
         </div>
 
@@ -238,7 +242,7 @@
       solar: "Solar", windows: "Windows", siding: "Siding", painting: "Painting",
       fencing: "Fencing", concrete: "Concrete", landscaping: "Landscaping",
       "garage-doors": "Garage Doors", foundation: "Foundation", kitchen: "Kitchen",
-      insulation: "Insulation", gutters: "Gutters", other: "Home Project"
+      insulation: "Insulation", gutters: "Gutters", "auto-repair": "Auto Repair", other: "Home Project"
     };
 
     var photoDescs = {
@@ -277,7 +281,7 @@
           solar: "solar", windows: "windows", siding: "siding", painting: "painting",
           fencing: "fencing", concrete: "concrete", landscaping: "landscaping",
           "garage-doors": "garage", foundation: "foundation", kitchen: "kitchen",
-          insulation: "insulation", gutters: "gutters"
+          insulation: "insulation", gutters: "gutters", "auto-repair": "auto"
         };
         var step2TrudyImg = document.getElementById("step2Trudy");
         if (step2TrudyImg) step2TrudyImg.src = "/images/trudy-" + (trudyMap[svc] || "peeking") + ".png";

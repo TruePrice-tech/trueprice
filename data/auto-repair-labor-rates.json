@@ -1,0 +1,39 @@
+{
+  "laborRatesByShopType": {
+    "dealer": { "low": 120, "mid": 150, "high": 180 },
+    "independent": { "low": 80, "mid": 105, "high": 130 },
+    "chain": { "low": 90, "mid": 115, "high": 140 }
+  },
+  "laborMultiplierByRegion": {
+    "south": 0.92,
+    "southeast": 0.95,
+    "northeast": 1.15,
+    "midwest": 0.97,
+    "mountain": 1.02,
+    "west": 1.20
+  },
+  "shopTypeLabels": {
+    "dealer": "Dealership",
+    "independent": "Independent Shop",
+    "chain": "National Chain (Midas, Firestone, etc.)"
+  },
+  "stateRegions": {
+    "AL":"southeast","AK":"west","AZ":"west","AR":"south","CA":"west","CO":"mountain",
+    "CT":"northeast","DE":"northeast","FL":"southeast","GA":"southeast","HI":"west",
+    "ID":"mountain","IL":"midwest","IN":"midwest","IA":"midwest","KS":"midwest",
+    "KY":"southeast","LA":"south","ME":"northeast","MD":"northeast","MA":"northeast",
+    "MI":"midwest","MN":"midwest","MS":"south","MO":"midwest","MT":"mountain",
+    "NE":"midwest","NV":"west","NH":"northeast","NJ":"northeast","NM":"mountain",
+    "NY":"northeast","NC":"southeast","ND":"midwest","OH":"midwest","OK":"south",
+    "OR":"west","PA":"northeast","RI":"northeast","SC":"southeast","SD":"midwest",
+    "TN":"southeast","TX":"south","UT":"mountain","VT":"northeast","VA":"southeast",
+    "WA":"west","WV":"southeast","WI":"midwest","WY":"mountain","DC":"northeast"
+  },
+  "diagnosticFee": {
+    "dealer": { "low": 120, "high": 180 },
+    "independent": { "low": 75, "high": 130 },
+    "chain": { "low": 50, "high": 100 }
+  },
+  "inflationBaseYear": 2025,
+  "inflationRate": 0.03
+}
