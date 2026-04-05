@@ -527,6 +527,7 @@ module.exports = async (req, res) => {
 
     // Apply inflation and seasonal adjustments (home services only)
     let totalMult = 1.0;
+    let calData = null;
     if (category === 'home') {
       const inflationMult = getInflationMultiplier();
       const seasonalMult = getSeasonalMultiplier(service);
@@ -537,7 +538,7 @@ module.exports = async (req, res) => {
         const { Redis } = await import("@upstash/redis");
         const redis = Redis.fromEnv();
         const calKey = `cal:${city.toLowerCase()}:${stateUpper}:${service}`;
-        const calData = await redis.get(calKey);
+        calData = await redis.get(calKey);
         if (calData && calData.quotes >= 1 && calData.avgPrice > 0 && result.overallLow > 0) {
           const modelMid = (result.overallLow + result.overallHigh) / 2;
           const realAvg = calData.avgPrice;
@@ -547,6 +548,25 @@ module.exports = async (req, res) => {
           totalMult *= calibrationFactor;
         }
       } catch(e) { /* calibration unavailable */ }
+    }
+
+    // Determine confidence level
+    const cityKey = city + "|" + stateUpper;
+    const confidenceLabels = {
+      verified: 'Based on verified local quotes',
+      calibrated: 'Adjusted with local quote data',
+      modeled: 'Based on local cost data',
+      estimated: 'Based on regional averages',
+    };
+    let confidence;
+    if (calData && calData.quotes >= 5) {
+      confidence = 'verified';
+    } else if (calData && calData.quotes >= 1) {
+      confidence = 'calibrated';
+    } else if (getCityMultipliers()[cityKey]) {
+      confidence = 'modeled';
+    } else {
+      confidence = 'estimated';
     }
 
     const adjustedMaterials = result.materials.map(m => {
@@ -588,6 +608,8 @@ module.exports = async (req, res) => {
       overallHigh: adjustedHigh,
       referenceSize: config.refSize,
       isHourly: result.isHourly || false,
+      confidence,
+      confidenceLabel: confidenceLabels[confidence],
       cityPageUrl,
       analyzerUrl,
       updated: new Date().toISOString().split('T')[0],

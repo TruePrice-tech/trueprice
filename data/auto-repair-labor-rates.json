@@ -30,9 +30,9 @@
     "WA":"west","WV":"southeast","WI":"midwest","WY":"mountain","DC":"northeast"
   },
   "diagnosticFee": {
-    "dealer": { "low": 120, "high": 180 },
-    "independent": { "low": 75, "high": 130 },
-    "chain": { "low": 50, "high": 100 }
+    "dealer": { "low": 150, "high": 250 },
+    "independent": { "low": 100, "high": 175 },
+    "chain": { "low": 75, "high": 150 }
   },
   "inflationBaseYear": 2025,
   "inflationRate": 0.03

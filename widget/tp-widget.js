@@ -47,6 +47,8 @@
     '.tp-highlight-price { font-size:28px; font-weight:800; color:' + textPrimary + '; }',
     '.tp-highlight-range { font-size:13px; color:' + textSecondary + '; margin-top:4px; }',
     '.tp-highlight-note { font-size:12px; color:' + textSecondary + '; margin-top:6px; }',
+    '.tp-confidence { font-size:11px; color:' + textSecondary + '; margin-top:6px; display:flex; align-items:center; justify-content:center; gap:4px; }',
+    '.tp-confidence-dot { width:6px; height:6px; border-radius:50%; background:#22c55e; display:inline-block; flex-shrink:0; }',
     '.tp-materials { margin:16px 0; }',
     '.tp-material { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid ' + rowBorder + '; font-size:14px; }',
     '.tp-material:last-child { border-bottom:none; }',
@@ -163,12 +165,20 @@
       html.push('<div class="tp-highlight-price">' + fmt(mostCommon) + '</div>');
       html.push('<div class="tp-highlight-range">Range: ' + fmt(data.overallLow) + ' &ndash; ' + fmt(data.overallHigh) + '</div>');
       if (note) html.push('<div class="tp-highlight-note">' + esc(note) + '</div>');
+      if (data.confidenceLabel) {
+        var dot = data.confidence === 'verified' ? '<span class="tp-confidence-dot"></span>' : '';
+        html.push('<div class="tp-confidence">' + dot + esc(data.confidenceLabel) + '</div>');
+      }
       html.push('</div>');
     } else if (isHourly) {
       html.push('<div class="tp-highlight">');
       html.push('<div class="tp-highlight-label">Typical hourly rate</div>');
       html.push('<div class="tp-highlight-price">' + fmt(data.overallLow) + ' &ndash; ' + fmt(data.overallHigh) + '/hr</div>');
       html.push('<div class="tp-highlight-note">Varies by practice area, firm size, and region</div>');
+      if (data.confidenceLabel) {
+        var dotH = data.confidence === 'verified' ? '<span class="tp-confidence-dot"></span>' : '';
+        html.push('<div class="tp-confidence">' + dotH + esc(data.confidenceLabel) + '</div>');
+      }
       html.push('</div>');
     }
 
