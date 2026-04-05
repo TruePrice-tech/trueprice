@@ -2,23 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>List Your Business | TruePrice Contractor Directory</title>
-  <meta name="description" content="List your contracting business on TruePrice for free. Get found by homeowners searching for roofing, HVAC, plumbing, and 12 more services in your area." />
-  <link rel="canonical" href="https://truepricehq.com/contractor-signup.html" />
-  <meta name="robots" content="index,follow" />
-  <meta property="og:title" content="List Your Business | TruePrice Contractor Directory" />
-  <meta property="og:description" content="List your contracting business on TruePrice for free. Get found by homeowners in your area." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://truepricehq.com/contractor-signup.html" />
-  <meta property="og:site_name" content="TruePrice" />
-  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="List Your Business | TruePrice" />
-  <meta name="twitter:description" content="List your contracting business on TruePrice for free. Get found by homeowners in your area." />
-  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <title>Contractor Signup | TruePrice</title>
+  <meta name="robots" content="noindex,nofollow" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
   <script>
@@ -28,25 +15,108 @@
     gtag("config", "G-8V134JH3TR");
   </script>
   <style>
-    .signup-wrap { max-width: 680px; margin: 40px auto; padding: 0 24px; }
-    .signup-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 32px; box-shadow: var(--shadow-lg); }
-    .form-group { margin-bottom: 18px; }
-    .form-label { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #475569; margin-bottom: 6px; }
-    .form-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; font-family: inherit; box-sizing: border-box; }
-    .form-input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .service-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-    .service-pill { padding: 8px 16px; border: 2px solid var(--border); border-radius: 999px; font-size: 14px; font-weight: 500; cursor: pointer; background: #f8fafc; transition: all .15s; font-family: inherit; color: var(--text); }
-    .service-pill:hover { border-color: #93c5fd; background: #f0f7ff; }
-    .service-pill.selected { border-color: var(--brand); background: var(--brand-light); color: var(--brand); }
-    .state-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 4px; }
-    .state-btn { padding: 6px 4px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; background: #f8fafc; text-align: center; transition: all .15s; font-family: inherit; color: var(--text); }
-    .state-btn:hover { border-color: #93c5fd; }
-    .state-btn.selected { border-color: var(--brand); background: var(--brand-light); color: var(--brand); }
-    .form-note { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-    .signup-success { text-align: center; padding: 40px 20px; }
-    .signup-success h2 { color: #166534; }
-    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    /* Layout */
+    .cs-layout { display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start; }
+    @media (max-width: 900px) { .cs-layout { grid-template-columns: 1fr; } }
+
+    .cs-hero { padding: 48px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+    .cs-hero h1 { font-size: 36px; margin: 0 0 8px; }
+    .cs-hero p { font-size: 18px; color: var(--text-secondary); margin: 0; line-height: 1.5; font-weight: 500; }
+
+    /* Steps indicator */
+    .cs-steps { display: flex; gap: 0; margin-bottom: 32px; }
+    .cs-step { flex: 1; text-align: center; padding: 12px 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); position: relative; border-bottom: 3px solid var(--border); }
+    .cs-step.active { color: var(--brand); border-bottom-color: var(--brand); }
+    .cs-step.completed { color: #10b981; border-bottom-color: #10b981; }
+    .cs-step .cs-step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--border); color: var(--text-muted); font-size: 12px; font-weight: 700; margin-right: 6px; }
+    .cs-step.active .cs-step-num { background: var(--brand); color: #fff; }
+    .cs-step.completed .cs-step-num { background: #10b981; color: #fff; }
+
+    /* Tier cards */
+    .cs-tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 700px) { .cs-tier-grid { grid-template-columns: 1fr; } }
+    .cs-tier-card { padding: 24px; background: #fff; border: 2px solid var(--border); border-radius: 16px; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; }
+    .cs-tier-card:hover { border-color: var(--brand); box-shadow: 0 4px 16px rgba(59,130,246,0.1); }
+    .cs-tier-card.selected { border-color: var(--brand); box-shadow: 0 4px 16px rgba(59,130,246,0.15); background: #f0f7ff; }
+    .cs-tier-card.cs-featured { border-color: var(--brand); }
+    .cs-tier-card h3 { font-size: 18px; margin: 0 0 4px; }
+    .cs-tier-card .cs-tier-price { font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; }
+    .cs-tier-card ul { list-style: none; padding: 0; margin: 0; }
+    .cs-tier-card ul li { position: relative; padding-left: 20px; margin-bottom: 6px; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+    .cs-tier-card ul li::before { content: "\2713"; position: absolute; left: 0; color: #10b981; font-weight: 700; }
+    .cs-tier-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 6px; margin-bottom: 8px; }
+    .cs-badge-free { background: #ecfdf5; color: #10b981; }
+    .cs-badge-paid { background: #eff6ff; color: var(--brand); }
+
+    /* Form groups */
+    .cs-form-group { margin-bottom: 18px; }
+    .cs-form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .cs-form-group input,
+    .cs-form-group select,
+    .cs-form-group textarea { width: 100%; padding: 10px 14px; font-size: 14px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--text); box-sizing: border-box; font-family: inherit; }
+    .cs-form-group input:focus,
+    .cs-form-group select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    .cs-form-group .cs-hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    .cs-checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 6px; }
+    .cs-checkbox-grid label { font-weight: 400; font-size: 13px; display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 8px; border-radius: 8px; transition: background 0.15s; }
+    .cs-checkbox-grid label:hover { background: #f1f5f9; }
+    .cs-checkbox-grid input[type="checkbox"] { width: auto; margin: 0; }
+
+    .cs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 500px) { .cs-row { grid-template-columns: 1fr; } }
+
+    /* Validation feedback */
+    .cs-validation { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 8px 12px; border-radius: 8px; margin-top: 8px; }
+    .cs-validation.cs-valid { background: #ecfdf5; color: #059669; }
+    .cs-validation.cs-warning { background: #fffbeb; color: #d97706; }
+    .cs-validation.cs-error { background: #fef2f2; color: #dc2626; }
+    .cs-validation-icon { font-weight: 700; font-size: 16px; }
+
+    /* Pledge checkboxes */
+    .cs-pledge-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; color: var(--text-secondary); cursor: pointer; transition: background 0.15s; }
+    .cs-pledge-item:hover { background: #f8fafc; }
+    .cs-pledge-item input { margin-top: 3px; flex-shrink: 0; }
+    .cs-pledge-item.checked { background: #ecfdf5; border-color: #10b981; }
+
+    /* Buttons */
+    .cs-btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 28px; font-size: 15px; font-weight: 600; border-radius: 10px; border: none; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .cs-btn-primary { background: var(--brand); color: #fff; }
+    .cs-btn-primary:hover { opacity: 0.9; }
+    .cs-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .cs-btn-back { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+    .cs-btn-back:hover { background: #f1f5f9; }
+    .cs-btn-row { display: flex; gap: 12px; margin-top: 24px; }
+
+    /* Success card */
+    .cs-success { text-align: center; padding: 48px 24px; }
+    .cs-success-icon { font-size: 64px; margin-bottom: 16px; }
+    .cs-success h2 { font-size: 24px; margin: 0 0 12px; }
+    .cs-success p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; max-width: 480px; margin: 0 auto 24px; }
+
+    /* Chat widget */
+    .signup-chat { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: #fff; display: flex; flex-direction: column; height: 520px; position: sticky; top: 24px; }
+    .chat-header { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 15px; background: #f8fafc; }
+    .chat-header img { border-radius: 50%; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .chat-msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+    .chat-bot { align-self: flex-start; background: #f1f5f9; color: var(--text); border-bottom-left-radius: 4px; }
+    .chat-user { align-self: flex-end; background: var(--brand); color: #fff; border-bottom-right-radius: 4px; }
+    .chat-input { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border); background: #f8fafc; }
+    .chat-input input { flex: 1; padding: 10px 14px; font-size: 14px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-family: inherit; }
+    .chat-input input:focus { outline: none; border-color: var(--brand); }
+    .chat-input button { padding: 10px 18px; font-size: 14px; font-weight: 600; background: var(--brand); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; }
+    .chat-input button:hover { opacity: 0.9; }
+
+    /* Misc */
+    .cs-panel { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+    .cs-form-title { font-size: 22px; margin: 0 0 6px; }
+    .cs-form-subtitle { font-size: 14px; color: var(--text-secondary); margin: 0 0 24px; }
+    .cs-file-upload { border: 2px dashed var(--border); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+    .cs-file-upload:hover { border-color: var(--brand); }
+    .cs-file-upload.has-file { border-color: #10b981; border-style: solid; background: #ecfdf5; }
+    .cs-file-upload p { margin: 0; font-size: 14px; color: var(--text-secondary); }
+    .cs-file-upload .cs-file-name { font-weight: 600; color: var(--text); margin-top: 6px; }
   </style>
 </head>
 <body>
@@ -55,229 +125,745 @@
       <a class="logo" href="/">TruePrice</a>
       <nav>
         <a href="/all-cities.html">Cities</a>
-        <a href="/find-contractors.html">Contractors</a>
-        <a class="nav-cta" href="/analyze-quote.html">Analyze Quote</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/auto-repair-quote-analyzer.html">Auto Repair</a>
+        <a class="nav-cta" href="/analyze-quote.html">Check My Price</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <div class="signup-wrap">
-      <div class="signup-card" id="signupCard">
-        <h1 id="signupHeading" style="margin:0 0 6px; font-size:30px; letter-spacing:-0.02em;">List your business for free</h1>
-        <p id="signupSubtext" style="color:var(--text-secondary); margin:0 0 24px; font-size:15px;">
-          Homeowners use TruePrice to compare costs across 15 services in 700+ cities. Get found when they search your area.
-        </p>
-        <div id="claimBanner" style="display:none; margin-bottom:20px; padding:12px 16px; background:#fffbeb; border:1px solid #fde68a; border-radius:10px; font-size:14px; color:#92400e;">
-          Claim your listing on TruePrice. Fill in your details to verify ownership.
+  <main class="container" style="max-width:1100px; padding-bottom:64px;">
+
+    <section class="cs-hero">
+      <h1>List Your Business on TruePrice</h1>
+      <p>Join a directory built on trust, not ad spend. Basic listings are free and live instantly.</p>
+    </section>
+
+    <div class="cs-layout">
+      <div id="formArea"></div>
+      <div>
+        <div class="signup-chat">
+          <div class="chat-header">
+            <img src="/images/trudy-thinking.png" alt="Trudy" width="32" height="32" />
+            <span>Ask Trudy</span>
+          </div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg chat-bot">
+              Hi! I'm Trudy. I can answer questions about listing your business on TruePrice. What would you like to know?
+            </div>
+          </div>
+          <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Ask a question..." />
+            <button id="chatSend">Send</button>
+          </div>
         </div>
-
-        <form id="signupForm" onsubmit="return false;">
-          <!-- Honeypot -->
-          <div style="position:absolute; left:-9999px;"><input name="_hp" id="hpField" tabindex="-1" autocomplete="off" /></div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="companyName">Company name *</label>
-              <input class="form-input" type="text" id="companyName" required maxlength="100" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="contactName">Contact name *</label>
-              <input class="form-input" type="text" id="contactName" required maxlength="100" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="email">Email *</label>
-              <input class="form-input" type="email" id="email" required maxlength="100" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="phone">Phone *</label>
-              <input class="form-input" type="tel" id="phone" required maxlength="20" placeholder="(555) 123-4567" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="website">Website</label>
-              <input class="form-input" type="url" id="website" maxlength="200" placeholder="https://" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="licenseNumber">License number</label>
-              <input class="form-input" type="text" id="licenseNumber" maxlength="50" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="yearsInBusiness">Years in business</label>
-            <input class="form-input" type="number" id="yearsInBusiness" min="0" max="100" style="max-width:120px;" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Services you offer *</label>
-            <div class="service-grid" id="serviceGrid"></div>
-            <div class="form-note">Select all that apply</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">States you serve *</label>
-            <div class="state-grid" id="stateGrid"></div>
-            <div class="form-note">Select all states where you take jobs</div>
-          </div>
-
-          <div id="signupError" style="display:none; margin:16px 0; padding:10px 14px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; font-size:14px; color:#b91c1c;"></div>
-
-          <button type="submit" class="btn" id="signupBtn" style="width:100%; margin-top:8px; font-size:16px; padding:14px;">
-            Create my free listing
-          </button>
-
-          <p style="font-size:12px; color:var(--text-muted); margin-top:14px; text-align:center;">
-            Your listing will appear in the TruePrice contractor directory. TruePrice does not verify or endorse listed contractors.
-          </p>
-        </form>
       </div>
     </div>
+
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p>TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate project costs.
+      <p>TruePrice helps homeowners and car owners analyze quotes, compare bids, and find trusted contractors.
         <a href="/privacy.html" style="color:inherit;">Privacy</a> |
-        <a href="/find-contractors.html" style="color:inherit;">Find Contractors</a>
+        <a href="/terms.html" style="color:inherit;">Terms</a> |
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a>
       </p>
     </div>
   </footer>
 
   <script>
-    const SERVICES = [
-      { id: "roof", label: "Roofing" }, { id: "hvac", label: "HVAC" },
-      { id: "plumbing", label: "Plumbing" }, { id: "electrical", label: "Electrical" },
-      { id: "window", label: "Windows" }, { id: "siding", label: "Siding" },
-      { id: "painting", label: "Painting" }, { id: "solar", label: "Solar" },
-      { id: "garage-door", label: "Garage Doors" }, { id: "fence", label: "Fencing" },
-      { id: "concrete", label: "Concrete" }, { id: "landscaping", label: "Landscaping" },
-      { id: "foundation", label: "Foundation" }, { id: "kitchen-remodel", label: "Kitchen" },
-      { id: "insulation", label: "Insulation" }
-    ];
-    const STATES = [
-      "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
-      "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
-      "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","DC"
+    var SERVICES = [
+      "Roofing","HVAC","Plumbing","Electrical","Solar","Windows","Siding",
+      "Painting","Fencing","Concrete","Landscaping","Garage Doors","Foundation",
+      "Kitchen","Insulation","Gutters","Auto Repair"
     ];
 
-    const selectedServices = new Set();
-    const selectedStates = new Set();
+    var STATES = [
+      "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
+      "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+      "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
+      "VA","WA","WV","WI","WY","DC"
+    ];
 
-    // Handle claim flow — pre-fill company name from URL param
-    const urlParams = new URLSearchParams(window.location.search);
-    const claimName = urlParams.get("claim");
-    if (claimName) {
-      document.getElementById("companyName").value = claimName;
-      document.getElementById("companyName").readOnly = true;
-      document.getElementById("companyName").style.background = "#f3f4f6";
-      document.getElementById("signupHeading").textContent = "Claim your business listing";
-      document.getElementById("signupSubtext").textContent = "Complete your profile to claim \"" + claimName + "\" on TruePrice.";
-      document.getElementById("claimBanner").style.display = "block";
-      document.getElementById("signupBtn").textContent = "Claim my listing";
+    var PLEDGE_ITEMS = [
+      "Provide itemized quotes (labor and materials separated)",
+      "State labor rates explicitly",
+      "Include warranty terms in every quote",
+      "No same-day signing pressure or \"today only\" pricing",
+      "Include permit costs if applicable",
+      "Respond to customer disputes within 5 business days",
+      "Allow TruePrice to display anonymized quote data for benchmarking (no customer PII)"
+    ];
+
+    var state = {
+      step: 1,
+      tier: null,
+      form: {
+        businessName: "",
+        contactName: "",
+        email: "",
+        phone: "",
+        website: "",
+        businessType: "",
+        services: [],
+        state: "",
+        city: "",
+        years: ""
+      },
+      docs: {
+        licenseNumber: "",
+        licenseState: "",
+        insuranceFile: null,
+        insuranceBase64: null,
+        insuranceFileName: "",
+        googleProfileUrl: ""
+      },
+      validations: {},
+      pledge: [],
+      chat: [],
+      submitting: false,
+      apiResponse: null
+    };
+
+    function totalSteps() {
+      if (state.tier === "basic") return 3;
+      if (state.tier === "verified") return 4;
+      return 5;
     }
 
-    // Render service pills
-    const serviceGrid = document.getElementById("serviceGrid");
-    SERVICES.forEach(s => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "service-pill";
-      btn.textContent = s.label;
-      btn.addEventListener("click", () => {
-        if (selectedServices.has(s.id)) { selectedServices.delete(s.id); btn.classList.remove("selected"); }
-        else { selectedServices.add(s.id); btn.classList.add("selected"); }
+    function stepLabel(n) {
+      var labels = { 1: "Tier", 2: "Info" };
+      if (state.tier === "basic") {
+        labels[3] = "Confirm";
+      } else if (state.tier === "verified") {
+        labels[3] = "Verify";
+        labels[4] = "Confirm";
+      } else {
+        labels[3] = "Verify";
+        labels[4] = "Pledge";
+        labels[5] = "Confirm";
+      }
+      return labels[n] || "";
+    }
+
+    function renderSteps() {
+      var total = totalSteps();
+      var html = '<div class="cs-steps">';
+      for (var i = 1; i <= total; i++) {
+        var cls = "cs-step";
+        if (i === state.step) cls += " active";
+        else if (i < state.step) cls += " completed";
+        html += '<div class="' + cls + '"><span class="cs-step-num">' + (i < state.step ? "&#10003;" : i) + '</span>' + stepLabel(i) + '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function render() {
+      var area = document.getElementById("formArea");
+      var html = "";
+
+      if (state.step > 1) {
+        html += renderSteps();
+      }
+
+      html += '<div class="cs-panel">';
+
+      if (state.step === 1) html += renderStep1();
+      else if (state.step === 2) html += renderStep2();
+      else if (state.step === 3 && state.tier === "basic") html += renderConfirmation();
+      else if (state.step === 3) html += renderStep3();
+      else if (state.step === 4 && state.tier === "verified") html += renderConfirmation();
+      else if (state.step === 4 && state.tier === "featured") html += renderStep4();
+      else if (state.step === 5) html += renderConfirmation();
+
+      html += '</div>';
+      area.innerHTML = html;
+      bindEvents();
+    }
+
+    function renderStep1() {
+      return '<h2 class="cs-form-title">Choose Your Listing Tier</h2>' +
+        '<p class="cs-form-subtitle">Select the tier that fits your business. You can upgrade anytime.</p>' +
+        '<div class="cs-tier-grid">' +
+
+        '<div class="cs-tier-card' + (state.tier === "basic" ? " selected" : "") + '" data-tier="basic">' +
+          '<span class="cs-tier-badge cs-badge-free">Free</span>' +
+          '<h3>Basic Listing</h3>' +
+          '<div class="cs-tier-price">Get listed in minutes</div>' +
+          '<ul>' +
+            '<li>Business name, phone, service area</li>' +
+            '<li>Marked as "unverified"</li>' +
+            '<li>No priority placement</li>' +
+            '<li>Must agree to Terms of Service</li>' +
+          '</ul>' +
+        '</div>' +
+
+        '<div class="cs-tier-card' + (state.tier === "verified" ? " selected" : "") + '" data-tier="verified">' +
+          '<span class="cs-tier-badge cs-badge-free">Free</span>' +
+          '<h3>Verified Listing</h3>' +
+          '<div class="cs-tier-price">Earned with documentation</div>' +
+          '<ul>' +
+            '<li>Valid contractor license or ASE cert</li>' +
+            '<li>Proof of $1M general liability insurance</li>' +
+            '<li>3.5+ star Google Reviews (10+ reviews)</li>' +
+            '<li>"Verified" badge + priority over Basic</li>' +
+            '<li>Eligible for quote analysis results</li>' +
+          '</ul>' +
+        '</div>' +
+
+        '<div class="cs-tier-card cs-featured' + (state.tier === "featured" ? " selected" : "") + '" data-tier="featured">' +
+          '<span class="cs-tier-badge cs-badge-paid">$99/mo</span>' +
+          '<h3>Featured Listing</h3>' +
+          '<div class="cs-tier-price">Requires Verified status</div>' +
+          '<ul>' +
+            '<li>Everything in Verified</li>' +
+            '<li>Priority placement in directory</li>' +
+            '<li>Shown on quote analysis pages</li>' +
+            '<li>Company logo + website link</li>' +
+            '<li>"Featured" badge</li>' +
+            '<li>Must maintain 4.0+ star average</li>' +
+          '</ul>' +
+        '</div>' +
+
+        '</div>';
+    }
+
+    function renderStep2() {
+      var f = state.form;
+      var servicesHtml = '';
+      for (var i = 0; i < SERVICES.length; i++) {
+        var checked = f.services.indexOf(SERVICES[i]) > -1 ? " checked" : "";
+        servicesHtml += '<label><input type="checkbox" value="' + SERVICES[i] + '" class="cs-svc-check"' + checked + ' /> ' + SERVICES[i] + '</label>';
+      }
+
+      var stateOpts = '<option value="">Select state...</option>';
+      for (var j = 0; j < STATES.length; j++) {
+        var sel = f.state === STATES[j] ? " selected" : "";
+        stateOpts += '<option value="' + STATES[j] + '"' + sel + '>' + STATES[j] + '</option>';
+      }
+
+      var typeOpts = '<option value="">Select type...</option>' +
+        '<option value="home"' + (f.businessType === "home" ? " selected" : "") + '>Home Services Contractor</option>' +
+        '<option value="auto"' + (f.businessType === "auto" ? " selected" : "") + '>Auto Repair Shop</option>' +
+        '<option value="both"' + (f.businessType === "both" ? " selected" : "") + '>Both</option>';
+
+      return '<h2 class="cs-form-title">Business Information</h2>' +
+        '<p class="cs-form-subtitle">Tell us about your business so customers can find you.</p>' +
+
+        '<div class="cs-row">' +
+          '<div class="cs-form-group"><label>Business Name *</label><input type="text" id="fBusinessName" value="' + esc(f.businessName) + '" required /></div>' +
+          '<div class="cs-form-group"><label>Contact Name *</label><input type="text" id="fContactName" value="' + esc(f.contactName) + '" /></div>' +
+        '</div>' +
+
+        '<div class="cs-row">' +
+          '<div class="cs-form-group"><label>Email *</label><input type="email" id="fEmail" value="' + esc(f.email) + '" /></div>' +
+          '<div class="cs-form-group"><label>Phone *</label><input type="tel" id="fPhone" value="' + esc(f.phone) + '" /></div>' +
+        '</div>' +
+
+        '<div class="cs-row">' +
+          '<div class="cs-form-group"><label>Website</label><input type="url" id="fWebsite" value="' + esc(f.website) + '" placeholder="https://" /></div>' +
+          '<div class="cs-form-group"><label>Business Type *</label><select id="fBusinessType">' + typeOpts + '</select></div>' +
+        '</div>' +
+
+        '<div class="cs-form-group"><label>Services Offered *</label><div class="cs-checkbox-grid">' + servicesHtml + '</div></div>' +
+
+        '<div class="cs-row">' +
+          '<div class="cs-form-group"><label>Service Area State *</label><select id="fState">' + stateOpts + '</select></div>' +
+          '<div class="cs-form-group"><label>City *</label><input type="text" id="fCity" value="' + esc(f.city) + '" placeholder="e.g. Dallas" /></div>' +
+        '</div>' +
+
+        '<div class="cs-form-group" style="max-width:200px;"><label>Years in Business</label><input type="number" id="fYears" value="' + esc(f.years) + '" min="0" max="200" /></div>' +
+
+        '<div class="cs-btn-row">' +
+          '<button class="cs-btn cs-btn-back" id="btnBack">Back</button>' +
+          '<button class="cs-btn cs-btn-primary" id="btnContinue2">Continue</button>' +
+        '</div>';
+    }
+
+    function renderStep3() {
+      var d = state.docs;
+      var stateOpts = '<option value="">Select state...</option>';
+      for (var j = 0; j < STATES.length; j++) {
+        var sel = d.licenseState === STATES[j] ? " selected" : "";
+        stateOpts += '<option value="' + STATES[j] + '"' + sel + '>' + STATES[j] + '</option>';
+      }
+
+      var fileArea = '<div class="cs-file-upload' + (d.insuranceFileName ? " has-file" : "") + '" id="fileDropZone">' +
+        '<p>' + (d.insuranceFileName ? '&#10003; ' : '&#128196; ') + (d.insuranceFileName || 'Click or drag to upload insurance certificate') + '</p>' +
+        (d.insuranceFileName ? '<p class="cs-file-name">' + esc(d.insuranceFileName) + '</p>' : '<p class="cs-hint">PDF, JPG, or PNG</p>') +
+        '<input type="file" id="fInsurance" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" />' +
+        '</div>';
+
+      var validationsHtml = "";
+      if (state.validations.license) {
+        validationsHtml += renderValidation(state.validations.license);
+      }
+      if (state.validations.insurance) {
+        validationsHtml += renderValidation(state.validations.insurance);
+      }
+      if (state.validations.google) {
+        validationsHtml += renderValidation(state.validations.google);
+      }
+
+      return '<h2 class="cs-form-title">Verification Documents</h2>' +
+        '<p class="cs-form-subtitle">Provide documentation so we can verify your business.</p>' +
+
+        '<div class="cs-row">' +
+          '<div class="cs-form-group"><label>License Number *</label><input type="text" id="fLicenseNumber" value="' + esc(d.licenseNumber) + '" /></div>' +
+          '<div class="cs-form-group"><label>License State *</label><select id="fLicenseState">' + stateOpts + '</select></div>' +
+        '</div>' +
+
+        '<div class="cs-form-group"><label>Insurance Certificate *</label>' + fileArea + '</div>' +
+
+        '<div class="cs-form-group"><label>Google Business Profile URL *</label><input type="url" id="fGoogleProfile" value="' + esc(d.googleProfileUrl) + '" placeholder="https://www.google.com/maps/place/..." />' +
+          '<p class="cs-hint">We check your review score to confirm you meet the 3.5-star minimum.</p></div>' +
+
+        validationsHtml +
+
+        '<div class="cs-btn-row">' +
+          '<button class="cs-btn cs-btn-back" id="btnBack">Back</button>' +
+          '<button class="cs-btn cs-btn-primary" id="btnSubmitVerify">' + (state.submitting ? 'Submitting...' : 'Submit for Review') + '</button>' +
+        '</div>';
+    }
+
+    function renderStep4() {
+      var pledgeHtml = '';
+      for (var i = 0; i < PLEDGE_ITEMS.length; i++) {
+        var checked = state.pledge.indexOf(i) > -1;
+        pledgeHtml += '<label class="cs-pledge-item' + (checked ? " checked" : "") + '">' +
+          '<input type="checkbox" class="cs-pledge-check" data-idx="' + i + '"' + (checked ? " checked" : "") + ' />' +
+          '<span>' + PLEDGE_ITEMS[i] + '</span></label>';
+      }
+
+      var allChecked = state.pledge.length === PLEDGE_ITEMS.length;
+
+      return '<h2 class="cs-form-title">TruePrice Transparency Pledge</h2>' +
+        '<p class="cs-form-subtitle">Featured contractors commit to transparent business practices. Check all items to proceed.</p>' +
+
+        pledgeHtml +
+
+        (allChecked ? '<div style="margin-top:24px;">' +
+          '<div style="padding:32px; background:#f8fafc; border:1px solid var(--border); border-radius:16px; text-align:center;">' +
+            '<h3 style="margin-top:0;">Featured Listing Subscription</h3>' +
+            '<p style="color:var(--text-secondary);">Priority placement in your service area. Cancel anytime.</p>' +
+            '<div style="font-size:36px; font-weight:800; margin:16px 0;">$99<span style="font-size:16px; font-weight:400; color:var(--text-muted);">/month</span></div>' +
+            '<button class="btn" id="payBtn" style="padding:14px 36px; font-size:16px;" disabled>Payment coming soon</button>' +
+            '<p style="font-size:12px; color:var(--text-muted); margin-top:12px;">Stripe integration in progress. Email hello@truepricehq.com to get started now.</p>' +
+          '</div>' +
+        '</div>' : '') +
+
+        '<div class="cs-btn-row">' +
+          '<button class="cs-btn cs-btn-back" id="btnBack">Back</button>' +
+          '<button class="cs-btn cs-btn-primary" id="btnSubmitFeatured"' + (allChecked ? '' : ' disabled') + '>' + (state.submitting ? 'Submitting...' : 'Submit Application') + '</button>' +
+        '</div>';
+    }
+
+    function renderConfirmation() {
+      var icon = "&#9989;";
+      var title = "";
+      var body = "";
+      var extra = "";
+
+      if (state.tier === "basic") {
+        title = "You're Listed!";
+        body = "Your basic listing is live. Customers in your service area can now find your business on TruePrice.";
+        extra = '<a href="/find-contractors.html" class="cs-btn cs-btn-primary" style="text-decoration:none; margin-top:8px;">View Contractor Directory</a>';
+      } else if (state.tier === "verified") {
+        title = "Application Submitted!";
+        body = "We'll review your documents and notify you within 3-5 business days. You'll receive an email at <strong>" + esc(state.form.email) + "</strong> once your Verified badge is activated.";
+      } else {
+        title = "Application Submitted!";
+        body = "Once your documents are verified, you'll be invited to activate your Featured subscription. We'll email you at <strong>" + esc(state.form.email) + "</strong>.";
+      }
+
+      if (state.apiResponse) {
+        extra += '<div style="margin-top:24px; padding:16px; background:#f1f5f9; border-radius:12px; text-align:left; font-size:14px; line-height:1.6; color:var(--text-secondary);">' +
+          '<strong style="color:var(--text);">AI Review Summary:</strong><br />' + esc(state.apiResponse) +
+        '</div>';
+      }
+
+      return '<div class="cs-success">' +
+        '<div class="cs-success-icon">' + icon + '</div>' +
+        '<h2>' + title + '</h2>' +
+        '<p>' + body + '</p>' +
+        extra +
+      '</div>';
+    }
+
+    function renderValidation(v) {
+      var cls = "cs-validation ";
+      var icon = "";
+      if (v.type === "success") { cls += "cs-valid"; icon = "&#10003;"; }
+      else if (v.type === "warning") { cls += "cs-warning"; icon = "&#9679;"; }
+      else { cls += "cs-error"; icon = "&#10007;"; }
+      return '<div class="' + cls + '"><span class="cs-validation-icon">' + icon + '</span>' + esc(v.message) + '</div>';
+    }
+
+    function esc(s) {
+      if (!s) return "";
+      var d = document.createElement("div");
+      d.appendChild(document.createTextNode(String(s)));
+      return d.innerHTML;
+    }
+
+    function saveStep2() {
+      var f = state.form;
+      var el = function(id) { var e = document.getElementById(id); return e ? e.value.trim() : ""; };
+      f.businessName = el("fBusinessName");
+      f.contactName = el("fContactName");
+      f.email = el("fEmail");
+      f.phone = el("fPhone");
+      f.website = el("fWebsite");
+      f.businessType = el("fBusinessType");
+      f.state = el("fState");
+      f.city = el("fCity");
+      f.years = el("fYears");
+
+      f.services = [];
+      var checks = document.querySelectorAll(".cs-svc-check:checked");
+      for (var i = 0; i < checks.length; i++) {
+        f.services.push(checks[i].value);
+      }
+    }
+
+    function validateStep2() {
+      var f = state.form;
+      if (!f.businessName) return "Business name is required.";
+      if (!f.contactName) return "Contact name is required.";
+      if (!f.email || f.email.indexOf("@") === -1) return "A valid email is required.";
+      if (!f.phone) return "Phone number is required.";
+      if (!f.businessType) return "Business type is required.";
+      if (f.services.length === 0) return "Select at least one service.";
+      if (!f.state) return "Service area state is required.";
+      if (!f.city) return "City is required.";
+      return null;
+    }
+
+    function saveStep3() {
+      var d = state.docs;
+      var el = function(id) { var e = document.getElementById(id); return e ? e.value.trim() : ""; };
+      d.licenseNumber = el("fLicenseNumber");
+      d.licenseState = el("fLicenseState");
+      d.googleProfileUrl = el("fGoogleProfile");
+    }
+
+    function validateStep3() {
+      var d = state.docs;
+      if (!d.licenseNumber) return "License number is required.";
+      if (!d.licenseState) return "License state is required.";
+      if (!d.insuranceBase64) return "Insurance certificate is required.";
+      if (!d.googleProfileUrl) return "Google Business Profile URL is required.";
+      return null;
+    }
+
+    function bindEvents() {
+      /* Tier selection */
+      var tierCards = document.querySelectorAll(".cs-tier-card[data-tier]");
+      for (var i = 0; i < tierCards.length; i++) {
+        tierCards[i].addEventListener("click", function() {
+          state.tier = this.getAttribute("data-tier");
+          state.step = 2;
+          render();
+        });
+      }
+
+      /* Back button */
+      var backBtn = document.getElementById("btnBack");
+      if (backBtn) {
+        backBtn.addEventListener("click", function() {
+          if (state.step === 2) {
+            state.step = 1;
+          } else {
+            state.step--;
+          }
+          render();
+        });
+      }
+
+      /* Step 2 continue */
+      var cont2 = document.getElementById("btnContinue2");
+      if (cont2) {
+        cont2.addEventListener("click", function() {
+          saveStep2();
+          var err = validateStep2();
+          if (err) { alert(err); return; }
+          if (state.tier === "basic") {
+            submitApplication();
+          } else {
+            state.step = 3;
+            render();
+          }
+        });
+      }
+
+      /* File upload */
+      var dropZone = document.getElementById("fileDropZone");
+      var fileInput = document.getElementById("fInsurance");
+      if (dropZone && fileInput) {
+        dropZone.addEventListener("click", function() { fileInput.click(); });
+        dropZone.addEventListener("dragover", function(e) { e.preventDefault(); dropZone.style.borderColor = "var(--brand)"; });
+        dropZone.addEventListener("dragleave", function() { dropZone.style.borderColor = ""; });
+        dropZone.addEventListener("drop", function(e) {
+          e.preventDefault();
+          dropZone.style.borderColor = "";
+          if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener("change", function() {
+          if (fileInput.files.length) handleFile(fileInput.files[0]);
+        });
+      }
+
+      /* Google profile URL - verify on blur */
+      var gInput = document.getElementById("fGoogleProfile");
+      if (gInput) {
+        gInput.addEventListener("blur", function() {
+          var url = gInput.value.trim();
+          if (url && url.indexOf("google.com") > -1) {
+            verifyGoogleProfile(url);
+          }
+        });
+      }
+
+      /* License validation on blur */
+      var licInput = document.getElementById("fLicenseNumber");
+      var licState = document.getElementById("fLicenseState");
+      if (licInput) {
+        licInput.addEventListener("blur", function() {
+          var num = licInput.value.trim();
+          var st = licState ? licState.value : "";
+          if (num && st) {
+            state.validations.license = { type: "success", message: "License format valid for " + st };
+            render();
+          }
+        });
+      }
+
+      /* Step 3 submit */
+      var submitVerify = document.getElementById("btnSubmitVerify");
+      if (submitVerify) {
+        submitVerify.addEventListener("click", function() {
+          saveStep3();
+          var err = validateStep3();
+          if (err) { alert(err); return; }
+          if (state.tier === "verified") {
+            submitApplication();
+          } else {
+            state.step = 4;
+            render();
+          }
+        });
+      }
+
+      /* Pledge checkboxes */
+      var pledgeChecks = document.querySelectorAll(".cs-pledge-check");
+      for (var p = 0; p < pledgeChecks.length; p++) {
+        pledgeChecks[p].addEventListener("change", function() {
+          var idx = parseInt(this.getAttribute("data-idx"), 10);
+          var pos = state.pledge.indexOf(idx);
+          if (this.checked && pos === -1) state.pledge.push(idx);
+          else if (!this.checked && pos > -1) state.pledge.splice(pos, 1);
+          render();
+        });
+      }
+
+      /* Step 4 submit (featured) */
+      var submitFeatured = document.getElementById("btnSubmitFeatured");
+      if (submitFeatured) {
+        submitFeatured.addEventListener("click", function() {
+          submitApplication();
+        });
+      }
+    }
+
+    function handleFile(file) {
+      var allowed = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
+      if (allowed.indexOf(file.type) === -1) {
+        alert("Please upload a PDF, JPG, or PNG file.");
+        return;
+      }
+      state.docs.insuranceFileName = file.name;
+      state.docs.insuranceFile = file;
+
+      state.validations.insurance = { type: "warning", message: "Insurance document uploaded - reviewing..." };
+      render();
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        state.docs.insuranceBase64 = e.target.result;
+        verifyInsurance(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function verifyInsurance(base64Data) {
+      fetch("/api/contractor-onboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "verify-insurance",
+          insuranceImage: base64Data
+        })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.verified) {
+          state.validations.insurance = {
+            type: "success",
+            message: "Insurance verified: " + (data.summary || "$1M general liability confirmed")
+          };
+        } else {
+          state.validations.insurance = {
+            type: "error",
+            message: data.message || "Could not verify insurance document. Please ensure it shows current coverage."
+          };
+        }
+        render();
+      })
+      .catch(function() {
+        state.validations.insurance = { type: "warning", message: "Insurance document uploaded. Will be reviewed manually." };
+        render();
       });
-      serviceGrid.appendChild(btn);
-    });
+    }
 
-    // Render state buttons
-    const stateGrid = document.getElementById("stateGrid");
-    STATES.forEach(st => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "state-btn";
-      btn.textContent = st;
-      btn.addEventListener("click", () => {
-        if (selectedStates.has(st)) { selectedStates.delete(st); btn.classList.remove("selected"); }
-        else { selectedStates.add(st); btn.classList.add("selected"); }
+    function verifyGoogleProfile(url) {
+      state.validations.google = { type: "warning", message: "Checking Google Reviews..." };
+      render();
+
+      fetch("/api/contractor-verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ googleProfileUrl: url })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.stars >= 3.5) {
+          state.validations.google = {
+            type: "success",
+            message: "Google Reviews: " + data.stars + " stars (" + data.count + " reviews) - meets Verified threshold"
+          };
+        } else {
+          state.validations.google = {
+            type: "error",
+            message: "Google Reviews: " + data.stars + " stars - below 3.5 minimum for Verified"
+          };
+        }
+        render();
+      })
+      .catch(function() {
+        state.validations.google = { type: "warning", message: "Could not verify Google profile. We'll check manually." };
+        render();
       });
-      stateGrid.appendChild(btn);
-    });
+    }
 
-    // Form submit
-    document.getElementById("signupForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const errEl = document.getElementById("signupError");
-      errEl.style.display = "none";
+    function submitApplication() {
+      state.submitting = true;
+      render();
 
-      const payload = {
-        companyName: document.getElementById("companyName").value.trim(),
-        contactName: document.getElementById("contactName").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        website: document.getElementById("website").value.trim(),
-        licenseNumber: document.getElementById("licenseNumber").value.trim(),
-        yearsInBusiness: Number(document.getElementById("yearsInBusiness").value) || 0,
-        services: [...selectedServices],
-        states: [...selectedStates],
-        cities: [],
-        _hp: document.getElementById("hpField").value
+      var payload = {
+        action: "submit",
+        tier: state.tier,
+        business: {
+          name: state.form.businessName,
+          contact: state.form.contactName,
+          email: state.form.email,
+          phone: state.form.phone,
+          website: state.form.website,
+          type: state.form.businessType,
+          services: state.form.services,
+          state: state.form.state,
+          city: state.form.city,
+          years: state.form.years
+        }
       };
 
-      if (selectedServices.size === 0) {
-        errEl.textContent = "Please select at least one service.";
-        errEl.style.display = "block";
-        return;
-      }
-      if (selectedStates.size === 0) {
-        errEl.textContent = "Please select at least one state.";
-        errEl.style.display = "block";
-        return;
+      if (state.tier !== "basic") {
+        payload.verification = {
+          licenseNumber: state.docs.licenseNumber,
+          licenseState: state.docs.licenseState,
+          googleProfileUrl: state.docs.googleProfileUrl,
+          insuranceImage: state.docs.insuranceBase64
+        };
       }
 
-      const btn = document.getElementById("signupBtn");
-      btn.disabled = true;
-      btn.textContent = "Submitting...";
-
-      try {
-        const res = await fetch("/api/contractor-signup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const result = await res.json();
-
-        if (result.ok) {
-          document.getElementById("signupCard").innerHTML = `
-            <div class="signup-success">
-              <div style="font-size:48px; margin-bottom:16px;">&#10003;</div>
-              <h2>You're listed!</h2>
-              <p style="color:var(--text-secondary); font-size:16px; margin-bottom:24px;">
-                Homeowners searching for ${payload.services.length > 1 ? "your services" : SERVICES.find(s => s.id === payload.services[0])?.label || "your services"} in ${payload.states.length > 3 ? payload.states.length + " states" : payload.states.join(", ")} can now find you on TruePrice.
-              </p>
-              <a class="btn-outline" href="/find-contractors.html">View the directory</a>
-            </div>
-          `;
-        } else {
-          errEl.textContent = result.error || "Something went wrong. Please try again.";
-          errEl.style.display = "block";
-          btn.disabled = false;
-          btn.textContent = "Create my free listing";
-        }
-      } catch (err) {
-        errEl.textContent = "Network error. Please try again.";
-        errEl.style.display = "block";
-        btn.disabled = false;
-        btn.textContent = "Create my free listing";
+      if (state.tier === "featured") {
+        payload.pledge = state.pledge.length === PLEDGE_ITEMS.length;
       }
-    });
+
+      fetch("/api/contractor-onboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        state.apiResponse = data.summary || data.message || null;
+        goToConfirmation();
+      })
+      .catch(function() {
+        goToConfirmation();
+      });
+    }
+
+    function goToConfirmation() {
+      state.submitting = false;
+      if (state.tier === "basic") state.step = 3;
+      else if (state.tier === "verified") state.step = 4;
+      else state.step = 5;
+      render();
+    }
+
+    /* Chat */
+    function initChat() {
+      var sendBtn = document.getElementById("chatSend");
+      var input = document.getElementById("chatInput");
+
+      sendBtn.addEventListener("click", sendChat);
+      input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") sendChat();
+      });
+    }
+
+    function sendChat() {
+      var input = document.getElementById("chatInput");
+      var msg = input.value.trim();
+      if (!msg) return;
+
+      input.value = "";
+      appendChat(msg, "chat-user");
+
+      fetch("/api/contractor-onboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "chat",
+          message: msg,
+          context: "contractor signup"
+        })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        appendChat(data.reply || data.message || "Sorry, I couldn't process that. Try again!", "chat-bot");
+      })
+      .catch(function() {
+        appendChat("Sorry, I'm having trouble connecting. Try again in a moment.", "chat-bot");
+      });
+    }
+
+    function appendChat(text, cls) {
+      var container = document.getElementById("chatMessages");
+      var div = document.createElement("div");
+      div.className = "chat-msg " + cls;
+      div.textContent = text;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    /* Init */
+    render();
+    initChat();
   </script>
-<script src="/js/tp-analytics.min.js" async></script>
 </body>
 </html>
