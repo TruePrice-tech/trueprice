@@ -2,6 +2,38 @@ import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
 
+function buildAnonymizedRecord(vertical, parsed) {
+  if (!parsed) return null;
+  return {
+    v: vertical,
+    ts: new Date().toISOString(),
+    feeStructure: parsed.feeStructure || null,
+    hourlyRate: parsed.hourlyRate || null,
+    flatFee: parsed.flatFee || null,
+    contingencyPct: parsed.contingencyPercent || null,
+    retainerAmount: parsed.retainerAmount || null,
+    practiceArea: parsed.practiceArea || null,
+    billingIncrement: parsed.billingIncrement || null,
+    lineItemCount: parsed.lineItems ? parsed.lineItems.length : 0,
+    redFlagCount: parsed.redFlags ? parsed.redFlags.length : 0,
+    city: parsed.city || null,
+    state: parsed.stateCode || null
+  };
+}
+
+async function captureAnonymizedData(vertical, parsed) {
+  try {
+    const record = buildAnonymizedRecord(vertical, parsed);
+    if (!record) return;
+    await redis.lpush("tp:pricing_data", JSON.stringify(record));
+    // Keep list at max 50,000 entries
+    await redis.ltrim("tp:pricing_data", 0, 49999);
+  } catch (e) {
+    // Silent fail - never block the user response for data capture
+    console.log("[data-capture] Error:", e.message);
+  }
+}
+
 const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_SEC = 3600;
 
@@ -151,6 +183,8 @@ Rules:
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
     }
+
+    captureAnonymizedData("legal", parsed); // fire and forget
 
     return res.status(200).json({ success: true, source: "claude-haiku", data: parsed });
 

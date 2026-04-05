@@ -2,6 +2,34 @@ import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
 
+function buildAnonymizedRecord(vertical, parsed) {
+  if (!parsed || !parsed.price) return null;
+  return {
+    v: vertical,
+    ts: new Date().toISOString(),
+    price: parsed.price,
+    material: parsed.material || null,
+    city: parsed.city || null,
+    state: parsed.stateCode || null,
+    roofSize: parsed.roofSize || null,
+    scopeIncluded: parsed.scopeItems ? Object.values(parsed.scopeItems).filter(v => v === "included").length : null,
+    scopeTotal: parsed.scopeItems ? Object.keys(parsed.scopeItems).length : null
+  };
+}
+
+async function captureAnonymizedData(vertical, parsed) {
+  try {
+    const record = buildAnonymizedRecord(vertical, parsed);
+    if (!record) return;
+    await redis.lpush("tp:pricing_data", JSON.stringify(record));
+    // Keep list at max 50,000 entries
+    await redis.ltrim("tp:pricing_data", 0, 49999);
+  } catch (e) {
+    // Silent fail - never block the user response for data capture
+    console.log("[data-capture] Error:", e.message);
+  }
+}
+
 const PQ_RATE_LIMIT_MAX = 10;
 const PQ_RATE_LIMIT_WINDOW_SEC = 3600; // 1 hour
 
@@ -161,6 +189,8 @@ Rules:
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
     }
+
+    captureAnonymizedData("home", parsed); // fire and forget
 
     return res.status(200).json({
       success: true,
