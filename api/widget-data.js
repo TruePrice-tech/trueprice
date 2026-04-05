@@ -387,6 +387,7 @@ const COMPUTE_MAP = {
 };
 
 module.exports = async (req, res) => {
+  // Wildcard CORS required: this endpoint serves embeddable pricing widgets on third-party sites
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 'public, max-age=86400');
 
