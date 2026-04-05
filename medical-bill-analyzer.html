@@ -388,15 +388,14 @@
     // ── Uploading Step ──
     function renderUploading() {
       appRoot.innerHTML = '\
-        <div class="mb-hero">\
-          <h1>Analyzing your medical bill...</h1>\
-          <p style="color:#64748b;">Don\'t pay until Trudy checks it</p>\
-        </div>\
-        <div class="mb-card">\
-          <div class="mb-progress">\
-            <div class="mb-progress-bar"><div class="mb-progress-fill" id="progFill" style="width:10%"></div></div>\
-            <p class="mb-progress-text" id="progText">Loading document...</p>\
+        <div style="max-width:720px; margin:60px auto; text-align:center; padding:0 24px;">\
+          <img src="/images/trudy-medical.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />\
+          <h1 style="font-size:24px; margin-bottom:8px;">Analyzing your medical bill...</h1>\
+          <p style="color:#64748b; margin-bottom:24px;">Don\'t pay until Trudy checks it</p>\
+          <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:12px;">\
+            <div id="progFill" style="width:10%; height:100%; background:#0d9488; transition:width .4s;"></div>\
           </div>\
+          <p style="font-size:14px; color:#94a3b8;" id="progText">Loading document...</p>\
         </div>';
     }
 

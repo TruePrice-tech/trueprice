@@ -502,15 +502,14 @@
 
     function renderUploading() {
       appRoot.innerHTML = '\
-        <div class="ar-hero">\
-          <h1>Analyzing your repair quote...</h1>\
-          <p style="color:#64748b;">Don\'t sign until Trudy checks it</p>\
-        </div>\
-        <div class="ar-card">\
-          <div class="ar-progress">\
-            <div class="ar-progress-bar"><div class="ar-progress-fill" id="progFill" style="width:10%"></div></div>\
-            <p class="ar-progress-text" id="progText">Loading document...</p>\
+        <div style="max-width:720px; margin:60px auto; text-align:center; padding:0 24px;">\
+          <img src="/images/trudy-auto.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />\
+          <h1 style="font-size:24px; margin-bottom:8px;">Analyzing your repair quote...</h1>\
+          <p style="color:#64748b; margin-bottom:24px;">Don\'t sign until Trudy checks it</p>\
+          <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:12px;">\
+            <div id="progFill" style="width:10%; height:100%; background:#2563eb; transition:width .4s;"></div>\
           </div>\
+          <p style="font-size:14px; color:#94a3b8;" id="progText">Loading document...</p>\
         </div>';
     }
 

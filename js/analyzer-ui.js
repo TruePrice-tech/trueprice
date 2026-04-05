@@ -8879,7 +8879,7 @@ function buildComparisonWinnerHtml(summary) {
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
 
-          <img src="/images/trudy-working.png" alt="Trudy" width="140" style="margin-bottom:16px;" />
+          <img src="/images/trudy-working.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />
 
           <div class="progress-phase" id="analysisPhaseLabel">
             Trudy is reading your document...
