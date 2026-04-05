@@ -200,7 +200,7 @@
 
       // Stats row
       document.getElementById("statsRow").innerHTML =
-        stat("Quotes Analyzed", quoteCount) +
+        stat("Total Quotes", d.totalQuotesAllSources || quoteCount) +
         stat("Page Views", d.totalViews) +
         stat("Unique Visitors", d.uniqueVisitors) +
         stat("Events", d.totalEvents || 0);

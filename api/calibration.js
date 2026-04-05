@@ -240,6 +240,9 @@ export default async function handler(req, res) {
     const quoteKey = `cal_quote:${quote.city.toLowerCase()}:${quote.stateCode}:${service}:${Date.now()}`;
     await redis.set(quoteKey, JSON.stringify(quote), { ex: 365 * 24 * 60 * 60 }); // 1 year TTL
 
+    // Increment global quote counter (used by public counter endpoint)
+    await redis.incr("tp:total_quotes").catch(() => {});
+
     // Update the city calibration aggregate (score >= 40 filters low-trust outliers)
     if (weight > 0 && score >= 40 && quote.city && quote.stateCode) {
       const calKey = `cal:${quote.city.toLowerCase()}:${quote.stateCode}:${service}`;

@@ -236,22 +236,45 @@ export default async function handler(req, res) {
       return res.status(200).send(gif);
     }
 
-    // Public counter
+    // Public counter - total real quotes across all sources and verticals
     if (req.query.counter === "1") {
-      const BASE_COUNT = 1096; // 847 original + 249 Reddit seeded
       try {
+        // tp:total_quotes is incremented by the calibration API on every quote POST
+        const totalQuotes = (await redis.get("tp:total_quotes")) || 0;
+
+        // Also count analysis events from the analyzer UI (user-submitted quotes)
         const rawEvents = await redis.lrange("tp:events", 0, -1);
         const analysisCount = rawEvents.filter(e => {
           const ev = typeof e === "string" ? JSON.parse(e) : e;
           return ev.event === "analysis_completed" || ev.event === "estimate_completed" || ev.event === "quote_uploaded";
         }).length;
 
-        let pricingCount = 0;
-        try { pricingCount = (await redis.llen("tp:pricing_data")) || 0; } catch(e2) {}
-
-        return res.status(200).json({ count: BASE_COUNT + analysisCount + pricingCount });
+        return res.status(200).json({ count: Number(totalQuotes) + analysisCount });
       } catch (e) {
-        return res.status(200).json({ count: BASE_COUNT });
+        return res.status(200).json({ count: 0 });
+      }
+    }
+
+    // Admin: initialize or sync the global quote counter from calibration aggregates
+    if (req.query.initCounter === "1") {
+      const adminKey = req.query.key || "";
+      if (adminKey !== ADMIN_KEY) return res.status(403).json({ error: "Unauthorized" });
+      try {
+        // Scan all cal:* keys and sum their quote counts
+        let cursor = "0";
+        let totalQuotes = 0;
+        do {
+          const [nextCursor, keys] = await redis.scan(cursor, { match: "cal:*", count: 200 });
+          cursor = String(nextCursor);
+          for (const k of keys) {
+            const data = await redis.get(k);
+            if (data && data.quotes) totalQuotes += data.quotes;
+          }
+        } while (cursor !== "0");
+        await redis.set("tp:total_quotes", totalQuotes);
+        return res.status(200).json({ ok: true, totalQuotes });
+      } catch (e) {
+        return res.status(500).json({ error: e.message });
       }
     }
 
@@ -374,6 +397,16 @@ export default async function handler(req, res) {
       const feedbackYes = allFeedback.filter(f => f.rating === "yes").length;
       const feedbackNo = allFeedback.filter(f => f.rating === "no").length;
 
+      // Total quotes across all sources (calibration + analysis events)
+      let totalQuotesAllSources = 0;
+      try {
+        const tq = (await redis.get("tp:total_quotes")) || 0;
+        const userAnalyses = allEvents.filter(ev =>
+          ev.event === "analysis_completed" || ev.event === "estimate_completed" || ev.event === "quote_uploaded"
+        ).length;
+        totalQuotesAllSources = Number(tq) + userAnalyses;
+      } catch(e2) {}
+
       return res.status(200).json({
         range, totalViews, uniqueVisitors, totalStored: allViews.length,
         topPages, topReferrers, directTraffic: directCount,
@@ -381,7 +414,8 @@ export default async function handler(req, res) {
         totalEvents: filteredEvents.length, topEvents, recentEvents,
         funnel, topCities, topRegions,
         totalCrawls: filteredCrawls.length, topBots, recentCrawls,
-        feedbackYes, feedbackNo, totalFeedback: allFeedback.length, recentFeedback
+        feedbackYes, feedbackNo, totalFeedback: allFeedback.length, recentFeedback,
+        totalQuotesAllSources
       });
     } catch (e) {
       console.error("Analytics GET error:", e);
