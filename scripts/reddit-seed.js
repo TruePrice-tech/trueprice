@@ -17,6 +17,9 @@
  *   --dry-run               (parse but don't seed)
  */
 
+const fs = require("fs");
+const path = require("path");
+
 const CALIBRATION_URL = "https://truepricehq.com/api/calibration";
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const INFLATION_RATE = 0.03; // 3% annual
@@ -55,6 +58,20 @@ const SUBREDDITS = [
 ];
 
 const SEARCH_TERMS = ["quote", "quoted", "estimate", "bid", "price", "cost", "paid"];
+
+const SEEDED_IDS_PATH = path.join(__dirname, "..", "data", "seeded-reddit-ids.json");
+
+function loadSeededIds() {
+  try {
+    return new Set(JSON.parse(fs.readFileSync(SEEDED_IDS_PATH, "utf8")));
+  } catch (e) {
+    return new Set();
+  }
+}
+
+function saveSeededIds(ids) {
+  fs.writeFileSync(SEEDED_IDS_PATH, JSON.stringify([...ids], null, 0));
+}
 
 function parseArgs() {
   const args = {};
@@ -215,6 +232,8 @@ async function main() {
   }
 
   const seenIds = new Set();
+  const seededIds = loadSeededIds();
+  console.log(`  Previously seeded: ${seededIds.size} posts`);
   let totalPosts = 0;
   let totalQuotes = 0;
   let totalSeeded = 0;
@@ -253,6 +272,10 @@ async function main() {
         for (const post of result.posts) {
           if (seenIds.has(post.id)) continue;
           seenIds.add(post.id);
+          if (seededIds.has(post.id)) {
+            console.log(`\n  [skip] ${post.title.slice(0, 50)}... (already seeded)`);
+            continue;
+          }
           totalPosts++;
 
           if (totalPosts >= maxPosts) break;
@@ -306,6 +329,7 @@ async function main() {
             if (dryRun) {
               console.log("       [DRY RUN] Would seed this quote.");
               totalSeeded++;
+              seededIds.add(post.id);
               continue;
             }
 
@@ -325,6 +349,8 @@ async function main() {
               if (seedResult.ok) {
                 console.log(`       Seeded OK (trust: ${seedResult.trustScore})`);
                 totalSeeded++;
+                seededIds.add(post.id);
+                if (totalSeeded % 5 === 0) saveSeededIds(seededIds);
               } else {
                 console.log(`       Seed failed:`, seedResult);
                 totalSkipped++;
@@ -346,6 +372,7 @@ async function main() {
     }
   }
 
+  saveSeededIds(seededIds);
   console.log("\n\n=== Summary ===");
   console.log(`Posts scanned:  ${totalPosts}`);
   console.log(`Quotes found:  ${totalQuotes}`);
