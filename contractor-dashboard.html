@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Contractors | TruePrice Admin</title>
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <style>
+    .dash-wrap { max-width: 720px; margin: 32px auto; padding: 0 24px; }
+    .dash-header { margin-bottom: 24px; }
+    .dash-header h1 { font-size: 24px; margin: 0 0 4px; }
+    .dash-header p { font-size: 14px; color: var(--text-muted); margin: 0; }
+    .dash-login { max-width: 400px; margin: 120px auto; text-align: center; }
+    .dash-login input { padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; width: 200px; font-family: inherit; margin-right: 8px; }
+    .dash-count { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
+    .c-list { list-style: none; padding: 0; margin: 0; }
+    .c-item { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+    .c-item:last-child { border-bottom: none; }
+    .c-name { font-weight: 700; font-size: 15px; flex: 1; }
+    .c-city { font-size: 14px; color: var(--text-secondary); }
+    .c-tier { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+    .c-tier-basic { background: #f1f5f9; color: #64748b; }
+    .c-tier-verified { background: #dcfce7; color: #166534; }
+    .c-tier-featured { background: #e0e7ff; color: #3730a3; }
+    .c-date { font-size: 12px; color: var(--text-muted); }
+    .c-empty { text-align: center; padding: 48px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/analytics-dashboard.html">Analytics</a>
+        <a href="/contractor-dashboard.html" style="font-weight:700;">Contractors</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="dash-wrap" id="app">
+    <div class="dash-login">
+      <h2>Contractor Dashboard</h2>
+      <p style="color:var(--text-secondary); margin-bottom:16px;">Enter admin key to view</p>
+      <input type="password" id="keyInput" placeholder="Admin key" />
+      <button class="btn" id="loginBtn">Go</button>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var app = document.getElementById("app");
+    var savedKey = localStorage.getItem("tp_admin_key") || "";
+
+    document.getElementById("loginBtn").addEventListener("click", function() {
+      savedKey = document.getElementById("keyInput").value.trim();
+      localStorage.setItem("tp_admin_key", savedKey);
+      loadData();
+    });
+
+    if (savedKey) loadData();
+
+    function loadData() {
+      app.innerHTML = '<div style="text-align:center; padding:60px; color:var(--text-muted);">Loading...</div>';
+
+      fetch("/api/contractor-admin?action=list&key=" + encodeURIComponent(savedKey))
+        .then(function(r) {
+          if (r.status === 403) throw new Error("bad_key");
+          return r.json();
+        })
+        .then(function(data) {
+          renderList(data.contractors || []);
+        })
+        .catch(function(err) {
+          if (err.message === "bad_key") {
+            app.innerHTML = '<div class="dash-login"><h2>Invalid key</h2><p style="color:var(--text-secondary); margin-bottom:16px;">Check your admin key and try again.</p><input type="password" id="keyInput" placeholder="Admin key" /><button class="btn" id="loginBtn">Go</button></div>';
+            document.getElementById("loginBtn").addEventListener("click", function() {
+              savedKey = document.getElementById("keyInput").value.trim();
+              localStorage.setItem("tp_admin_key", savedKey);
+              loadData();
+            });
+          } else {
+            app.innerHTML = '<div class="c-empty">Failed to load. Try refreshing.</div>';
+          }
+        });
+    }
+
+    function renderList(contractors) {
+      if (!contractors.length) {
+        app.innerHTML = '<div class="dash-header"><h1>Claimed Contractors</h1><p>No signups yet.</p></div><div class="c-empty">Contractors who sign up will appear here.</div>';
+        return;
+      }
+
+      var html = '<div class="dash-header"><h1>Claimed Contractors</h1></div>';
+      html += '<div class="dash-count">' + contractors.length + ' contractor' + (contractors.length !== 1 ? 's' : '') + '</div>';
+      html += '<ul class="c-list">';
+
+      contractors.forEach(function(c) {
+        var biz = c.business || {};
+        var tierClass = c.tier === "featured" ? "c-tier-featured" : c.tier === "verified" ? "c-tier-verified" : "c-tier-basic";
+        var city = (biz.city || "") + (biz.state ? ", " + biz.state : "");
+        var date = c.submittedAt ? new Date(c.submittedAt).toLocaleDateString() : "";
+
+        html += '<li class="c-item">';
+        html += '<div class="c-name">' + escapeHtml(biz.name || "Unknown") + '</div>';
+        html += '<div class="c-city">' + escapeHtml(city) + '</div>';
+        html += '<span class="c-tier ' + tierClass + '">' + escapeHtml(c.tier || "basic") + '</span>';
+        html += '<div class="c-date">' + escapeHtml(date) + '</div>';
+        html += '</li>';
+      });
+
+      html += '</ul>';
+      app.innerHTML = html;
+    }
+
+    function escapeHtml(t) {
+      var d = document.createElement("div");
+      d.appendChild(document.createTextNode(String(t || "")));
+      return d.innerHTML;
+    }
+  })();
+  </script>
+</body>
+</html>
