@@ -231,7 +231,7 @@
         <button class="demo-tab" data-demo="auto" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Auto Repair</button>
         <button class="demo-tab" data-demo="medical" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Medical Bill</button>
         <button class="demo-tab" data-demo="legal" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Legal Fees</button>
-        <button class="demo-tab" data-demo="plumbing" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Plumbing</button>
+        <button class="demo-tab" data-demo="moving" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Moving</button>
       </div>
 
       <div class="hp-demo-card" style="max-width:860px; padding:36px; margin-top:0;" id="demoCard">
@@ -555,25 +555,27 @@ fetch("/api/analytics?counter=1").then(r=>r.json()).then(d=>{
       cta: { text: "Check your legal fees", href: "/legal-fee-analyzer.html" },
       img: "/images/trudy-legal.png"
     },
-    plumbing: {
-      verdictLabel: "TruePrice Plumbing Verdict",
-      verdict: "This quote looks fair",
-      verdictColor: "#166534",
-      verdictBg: "#f0fdf4",
-      verdictBorder: "#86efac",
-      delta: "$3,200 water heater replacement (50 gal tankless) in Seattle, WA",
+    moving: {
+      verdictLabel: "TruePrice Moving Verdict",
+      verdict: "Higher than expected",
+      verdictColor: "#b45309",
+      verdictBg: "#fffbeb",
+      verdictBorder: "#fde68a",
+      delta: "$4,800 local move (3BR) in Charlotte, NC with full packing",
       stats: [
-        { label: "Your quote", value: "$3,200", color: "var(--brand)" },
-        { label: "Expected range", value: "$2,800 \u2013 $3,800", color: "" },
-        { label: "Scope", value: "5/6", color: "#166534" }
+        { label: "Your quote", value: "$4,800", color: "#b45309" },
+        { label: "Expected range", value: "$2,400 \u2013 $3,600", color: "" },
+        { label: "Scope", value: "6/10", color: "#b45309" }
       ],
       pills: [
-        { text: "Materials", ok: true }, { text: "Labor", ok: true },
-        { text: "Permit", ok: true }, { text: "Cleanup", ok: true },
-        { text: "Warranty", ok: true }, { text: "Inspection", ok: false }
+        { text: "Inventory list", ok: true }, { text: "Hourly rate", ok: true },
+        { text: "Insurance", ok: true }, { text: "USDOT #", ok: true },
+        { text: "Stair fees", ok: false }, { text: "Cancellation policy", ok: false },
+        { text: "Delivery window", ok: true }, { text: "Packing costs", ok: true },
+        { text: "Fuel surcharge", ok: false }, { text: "Weight estimate", ok: false }
       ],
-      cta: { text: "Check your plumbing quote", href: "/plumbing-quote-analyzer.html" },
-      img: "/images/trudy-plumbing.png"
+      cta: { text: "Check your moving quote", href: "/moving-quote-analyzer.html" },
+      img: "/images/trudy-moving.png"
     }
   };
 
