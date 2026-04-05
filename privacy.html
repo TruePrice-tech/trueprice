@@ -36,25 +36,59 @@
   <main>
     <div class="container" style="max-width:760px; padding:48px 24px;">
       <h1>Privacy Policy</h1>
-      <p><strong>Last updated:</strong> March 23, 2026</p>
+      <p><strong>Last updated:</strong> April 5, 2026</p>
 
-      <h2>What Data We Collect</h2>
-      <p>TruePrice is designed to protect your privacy. When you upload a contractor quote, the file is processed entirely in your browser using client-side JavaScript. Your uploaded quotes are <strong>not sent to or stored on our servers</strong>.</p>
+      <h2>What TruePrice Covers</h2>
+      <p>TruePrice analyzes contractor quotes (16 home services), auto repair invoices, medical bills and EOBs, and legal fee agreements. This privacy policy covers all verticals.</p>
+
+      <h2>How Your Documents Are Processed</h2>
+      <p>When you upload a document (quote, bill, invoice, or agreement), it is processed in two stages:</p>
+      <ul>
+        <li><strong>Client-side processing:</strong> Text extraction from PDFs and basic parsing happens in your browser. The original file is never uploaded to our servers.</li>
+        <li><strong>AI analysis:</strong> Extracted text (not the original file) is sent to our secure API, which uses Anthropic's Claude AI to analyze pricing, detect errors, and generate verdicts. This data is processed in transit and is <strong>not stored</strong> by TruePrice or Anthropic after analysis is complete.</li>
+      </ul>
+      <p>For image uploads (photos of quotes or bills), the image is sent to our API for AI-powered text extraction and analysis, then discarded.</p>
+
+      <h2>What Data We Extract</h2>
+      <p>Depending on the document type, TruePrice may extract: pricing data, line items, scope items, CPT codes (medical), hourly rates (legal), labor rates (auto repair), contractor/provider names, service dates, and location information. This data is used solely to generate your analysis and is not retained after your session.</p>
+
+      <h2>Medical and Legal Documents</h2>
+      <p>Medical bills and legal fee agreements may contain sensitive personal information. TruePrice treats these documents with the same privacy protections as all other uploads. We do not store, share, or retain the contents of your medical bills, EOBs, retainer agreements, or legal invoices. Analysis results are generated in real-time and not saved on our servers.</p>
+      <p><strong>Important:</strong> TruePrice is not a HIPAA-covered entity. If you are concerned about transmitting protected health information, you may use the manual entry features instead of uploading documents.</p>
 
       <h2>Address and Geocoding</h2>
       <p>When you enter a property address, it is sent to Mapbox for geocoding purposes (converting an address into geographic coordinates). This allows us to provide location-specific pricing data. Mapbox's use of this data is governed by their own <a href="https://www.mapbox.com/legal/privacy" target="_blank" rel="noopener">privacy policy</a>.</p>
 
-      <h2>Community Quote Data</h2>
-      <p>If you choose to submit your quote data to help improve our pricing models, anonymized pricing information (such as total cost, roof size, material type, and region) may be collected. No personally identifiable information such as your name, full address, or contractor details is stored in this process.</p>
+      <h2>Community Data</h2>
+      <p>If you choose to submit feedback or data to help improve our pricing models, anonymized pricing information (such as total cost, service type, and region) may be collected. No personally identifiable information is stored in this process.</p>
+
+      <h2>Contractor Signup Data</h2>
+      <p>Contractors who sign up for the TruePrice directory provide business information (name, contact, services, license, insurance) which is stored securely. This data is used to verify qualifications and display listings. Contractor data is not shared with third parties.</p>
 
       <h2>Local Storage</h2>
       <p>We use your browser's <code>localStorage</code> to maintain session tracking information, such as a session ID and analysis history. This data stays on your device and is not transmitted to any server. You can clear it at any time through your browser settings.</p>
 
       <h2>Cookies</h2>
-      <p>TruePrice does <strong>not</strong> use cookies.</p>
+      <p>TruePrice does <strong>not</strong> use cookies. We use Google Analytics for aggregate traffic data, which may use its own cookies subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a>.</p>
+
+      <h2>Third-Party Services</h2>
+      <p>TruePrice uses the following third-party services:</p>
+      <ul>
+        <li><strong>Anthropic (Claude AI):</strong> Document analysis. Data is processed in transit and not retained.</li>
+        <li><strong>Upstash (Redis):</strong> Rate limiting and contractor application storage. No document content is stored.</li>
+        <li><strong>Vercel:</strong> Hosting and serverless functions.</li>
+        <li><strong>Mapbox:</strong> Address geocoding.</li>
+        <li><strong>Google Analytics:</strong> Aggregate traffic data.</li>
+      </ul>
 
       <h2>Third-Party Sharing</h2>
-      <p>We do <strong>not</strong> sell, rent, or share your personal data with third parties for marketing or advertising purposes.</p>
+      <p>We do <strong>not</strong> sell, rent, or share your personal data with third parties for marketing or advertising purposes. We do not sell leads to contractors, repair shops, healthcare providers, or attorneys. Ever.</p>
+
+      <h2>Data Retention</h2>
+      <p>Uploaded documents: not retained. Analysis results: not stored on our servers. Contractor applications: retained until the contractor requests deletion. Analytics data: retained in aggregate form. Email signups: retained until unsubscribe.</p>
+
+      <h2>Your Rights</h2>
+      <p>You may request deletion of any data associated with your email address by contacting us. Since we do not require accounts and do not store uploaded documents, there is typically no personal data to delete beyond email signup records and contractor applications.</p>
 
       <h2>Contact</h2>
       <p>If you have questions about this privacy policy, please contact us at <a href="mailto:privacy@truepricehq.com">privacy@truepricehq.com</a>.</p>
