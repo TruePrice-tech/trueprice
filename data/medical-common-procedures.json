@@ -1,0 +1,195 @@
+{
+  "commonProcedures": {
+    "er_visit_moderate": {
+      "label": "Emergency Room Visit (moderate)",
+      "category": "emergency",
+      "totalCostRange": { "low": 1500, "high": 5000 },
+      "medicareEquivalent": 450,
+      "includes": "Physician fee, facility fee, basic labs/imaging",
+      "notes": "ER facility fees alone can be $1,000-3,000. Urgent care for the same issue: $150-500."
+    },
+    "er_visit_severe": {
+      "label": "Emergency Room Visit (severe)",
+      "category": "emergency",
+      "totalCostRange": { "low": 4000, "high": 15000 },
+      "medicareEquivalent": 1200,
+      "includes": "Physician fee, facility fee, labs, imaging, procedures",
+      "notes": "Trauma or critical care. Costs escalate rapidly with imaging and procedures."
+    },
+    "mri_brain": {
+      "label": "Brain MRI (with and without contrast)",
+      "category": "imaging",
+      "totalCostRange": { "low": 500, "high": 3500 },
+      "medicareEquivalent": 350,
+      "includes": "Technical fee, professional (radiologist) fee, contrast",
+      "notes": "Freestanding imaging center: $400-800. Hospital outpatient: $1,500-3,500. Same machine, same quality."
+    },
+    "mri_knee": {
+      "label": "Knee MRI",
+      "category": "imaging",
+      "totalCostRange": { "low": 400, "high": 3000 },
+      "medicareEquivalent": 280,
+      "includes": "Technical and professional fees",
+      "notes": "Ask your doctor to order at a freestanding center instead of the hospital."
+    },
+    "ct_abdomen": {
+      "label": "CT Scan (abdomen/pelvis with contrast)",
+      "category": "imaging",
+      "totalCostRange": { "low": 300, "high": 2500 },
+      "medicareEquivalent": 250,
+      "includes": "Technical fee, radiologist fee, contrast material",
+      "notes": "Price varies 5-8x between facilities in the same city."
+    },
+    "xray_chest": {
+      "label": "Chest X-ray (2 views)",
+      "category": "imaging",
+      "totalCostRange": { "low": 50, "high": 400 },
+      "medicareEquivalent": 30,
+      "includes": "Technical and professional fees",
+      "notes": "Should never cost over $100 outside of an ER."
+    },
+    "blood_work_basic": {
+      "label": "Basic Blood Work (CBC + CMP)",
+      "category": "lab",
+      "totalCostRange": { "low": 25, "high": 300 },
+      "medicareEquivalent": 25,
+      "includes": "CBC, comprehensive metabolic panel, venipuncture",
+      "notes": "Quest/Labcorp cash price: $25-50. Hospital lab: $150-300 for same tests."
+    },
+    "lipid_panel": {
+      "label": "Cholesterol Panel",
+      "category": "lab",
+      "totalCostRange": { "low": 20, "high": 150 },
+      "medicareEquivalent": 18,
+      "includes": "Lipid panel with HDL, LDL, triglycerides",
+      "notes": "Cash price at standalone lab: $20-40."
+    },
+    "knee_replacement": {
+      "label": "Total Knee Replacement",
+      "category": "surgery",
+      "totalCostRange": { "low": 25000, "high": 70000 },
+      "medicareEquivalent": 18000,
+      "includes": "Surgeon, anesthesia, facility, implant, 2-3 day stay, PT",
+      "notes": "Ambulatory surgery centers now do these for $15-25K all-in. Ask about ASC options."
+    },
+    "hip_replacement": {
+      "label": "Total Hip Replacement",
+      "category": "surgery",
+      "totalCostRange": { "low": 25000, "high": 65000 },
+      "medicareEquivalent": 17000,
+      "includes": "Surgeon, anesthesia, facility, implant, stay, PT",
+      "notes": "Similar to knee replacement in cost structure."
+    },
+    "gallbladder_removal": {
+      "label": "Gallbladder Removal (Laparoscopic)",
+      "category": "surgery",
+      "totalCostRange": { "low": 8000, "high": 25000 },
+      "medicareEquivalent": 5500,
+      "includes": "Surgeon, anesthesia, facility, pathology",
+      "notes": "Outpatient at ASC: $5K-10K. Hospital: $15K-25K."
+    },
+    "hernia_repair": {
+      "label": "Inguinal Hernia Repair",
+      "category": "surgery",
+      "totalCostRange": { "low": 5000, "high": 18000 },
+      "medicareEquivalent": 4000,
+      "includes": "Surgeon, anesthesia, facility, mesh",
+      "notes": "Outpatient procedure. ASC saves 40-60%."
+    },
+    "colonoscopy_screening": {
+      "label": "Screening Colonoscopy",
+      "category": "procedure",
+      "totalCostRange": { "low": 0, "high": 5000 },
+      "medicareEquivalent": 0,
+      "includes": "Physician, facility, anesthesia, pathology if biopsied",
+      "notes": "ACA requires $0 cost for preventive screening. If polyps found, may be reclassified as diagnostic and billed. Dispute this."
+    },
+    "colonoscopy_diagnostic": {
+      "label": "Diagnostic Colonoscopy",
+      "category": "procedure",
+      "totalCostRange": { "low": 2000, "high": 6000 },
+      "medicareEquivalent": 1200,
+      "includes": "Physician, facility, anesthesia, pathology",
+      "notes": "If converted from screening to diagnostic during procedure, you may owe cost-sharing."
+    },
+    "vaginal_delivery": {
+      "label": "Vaginal Delivery (total cost)",
+      "category": "maternity",
+      "totalCostRange": { "low": 10000, "high": 25000 },
+      "medicareEquivalent": 7000,
+      "includes": "OB global fee, hospital stay (2 days), anesthesia if epidural, newborn care",
+      "notes": "Epidural adds $1,500-4,000. Newborn circumcision adds $200-500."
+    },
+    "cesarean_delivery": {
+      "label": "C-Section Delivery (total cost)",
+      "category": "maternity",
+      "totalCostRange": { "low": 15000, "high": 45000 },
+      "medicareEquivalent": 10000,
+      "includes": "Surgeon, anesthesia, hospital stay (3-4 days), newborn care",
+      "notes": "Unplanned C-sections cost more than scheduled due to ER/OR fees."
+    },
+    "therapy_session": {
+      "label": "Therapy Session (60 min)",
+      "category": "mental_health",
+      "totalCostRange": { "low": 100, "high": 350 },
+      "medicareEquivalent": 130,
+      "includes": "Psychotherapy, 53-60 minutes",
+      "notes": "In-network copay: $20-50. Out-of-network: $150-350 per session."
+    },
+    "physical_therapy_session": {
+      "label": "Physical Therapy Session",
+      "category": "physical_therapy",
+      "totalCostRange": { "low": 75, "high": 350 },
+      "medicareEquivalent": 100,
+      "includes": "Evaluation or 3-4 treatment units (45-60 min)",
+      "notes": "Bills multiple 15-min CPT codes per session. Review unit counts."
+    },
+    "dental_crown": {
+      "label": "Dental Crown (porcelain)",
+      "category": "dental",
+      "totalCostRange": { "low": 800, "high": 2000 },
+      "medicareEquivalent": null,
+      "includes": "Prep, impression, lab, placement",
+      "notes": "Medicare doesn't cover dental. Dental school clinics: $400-600."
+    },
+    "dental_root_canal": {
+      "label": "Root Canal (molar)",
+      "category": "dental",
+      "totalCostRange": { "low": 700, "high": 1500 },
+      "medicareEquivalent": null,
+      "includes": "Endodontic treatment, X-rays, temp filling",
+      "notes": "Does not include crown afterward ($800-2,000 additional)."
+    },
+    "dental_extraction_wisdom": {
+      "label": "Wisdom Teeth Removal (all 4)",
+      "category": "dental",
+      "totalCostRange": { "low": 1000, "high": 3500 },
+      "medicareEquivalent": null,
+      "includes": "Surgical extraction, anesthesia, follow-up",
+      "notes": "Impacted teeth cost more. Oral surgeon vs general dentist affects price."
+    }
+  },
+  "categories": {
+    "emergency": { "label": "Emergency Room" },
+    "imaging": { "label": "Imaging & Scans" },
+    "lab": { "label": "Lab Work" },
+    "surgery": { "label": "Surgery" },
+    "procedure": { "label": "Procedures" },
+    "maternity": { "label": "Maternity & Delivery" },
+    "mental_health": { "label": "Mental Health" },
+    "physical_therapy": { "label": "Physical Therapy" },
+    "dental": { "label": "Dental" }
+  },
+  "disputeTips": [
+    "Request an itemized bill (not a summary). Hospitals are required to provide this.",
+    "Check every CPT code against Medicare rates. If you're paying more than 3x Medicare, it's worth disputing.",
+    "Look for duplicate charges. Same service billed twice on the same date is a common error.",
+    "Verify the visit level (E&M code). A routine follow-up coded as level 5 (99215) instead of level 3 (99213) adds $150-250.",
+    "Check if screening procedures were reclassified as diagnostic. Preventive screenings should be $0 under ACA.",
+    "Ask for a cash/self-pay discount. Most hospitals offer 30-60% off for uninsured patients who ask.",
+    "File a formal appeal with your insurance if a claim is denied. First appeals succeed about 50% of the time.",
+    "Contact your state insurance commissioner if your insurer denies a covered service.",
+    "Negotiate a payment plan before paying in full. Most hospitals offer 0% interest plans.",
+    "Check for balance billing. In-network providers cannot balance bill you in most states (No Surprises Act)."
+  ]
+}

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <title>Medical Bill Analyzer - Is Your Hospital Bill Correct? | TruePrice</title>
+  <meta
+    name="description"
+    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against Medicare rates and flags items to dispute. Free, no signup."
+  />
+  <link rel="canonical" href="https://truepricehq.com/medical-bill-analyzer.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Medical Bill Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against Medicare rates and flags items to dispute."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/medical-bill-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Medical Bill Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against Medicare rates and flags items to dispute."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TruePrice Medical Bill Analyzer",
+    "url": "https://truepricehq.com/medical-bill-analyzer.html",
+    "description": "Free AI-powered medical bill analysis. Upload a hospital bill, EOB, or invoice to check for errors, overcharges, and billing issues against Medicare rates.",
+    "applicationCategory": "UtilityApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "Web",
+    "provider": {
+      "@type": "Organization",
+      "name": "TruePrice",
+      "url": "https://truepricehq.com"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Medical Bill Analyzer"}]}
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8V134JH3TR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-8V134JH3TR");
+  </script>
+
+  <style>
+    .mb-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .mb-hero { text-align: center; margin-bottom: 2rem; }
+    .mb-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .mb-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .mb-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+
+    .mb-upload-zone {
+      border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc;
+    }
+    .mb-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .mb-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
+    .mb-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .mb-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+
+    .mb-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .mb-btn-primary { background: #2563eb; color: #fff; }
+    .mb-btn-primary:hover { background: #1d4ed8; }
+    .mb-btn-secondary { background: #f1f5f9; color: #334155; }
+    .mb-btn-secondary:hover { background: #e2e8f0; }
+    .mb-btn-full { width: 100%; }
+
+    .mb-progress { margin: 1.5rem 0; }
+    .mb-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .mb-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .mb-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+
+    /* Verdict card */
+    .mb-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .mb-verdict.issues { background: #fef2f2; border: 2px solid #fca5a5; }
+    .mb-verdict.clean { background: #f0fdf4; border: 2px solid #86efac; }
+    .mb-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .mb-verdict.issues .verdict-label { color: #dc2626; }
+    .mb-verdict.clean .verdict-label { color: #16a34a; }
+    .mb-verdict .verdict-title { font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-bottom: 0.5rem; }
+
+    /* Summary grid */
+    .mb-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-top: 1rem; }
+    .mb-summary-item { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; text-align: center; }
+    .mb-summary-item .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .mb-summary-item .value { font-size: 1.2rem; font-weight: 700; color: #1e293b; }
+
+    /* Line items table */
+    .mb-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .mb-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .mb-table th { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+    .mb-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    .mb-table tr:last-child td { border-bottom: none; }
+    .mb-table tr.mb-row-flagged { background: #fef2f2; }
+    .mb-table .mb-flag-icon { color: #dc2626; font-weight: 700; }
+    .mb-table .mb-ratio-high { color: #dc2626; font-weight: 700; }
+    .mb-table .mb-ratio-ok { color: #16a34a; }
+
+    /* Bill check list */
+    .mb-checklist { list-style: none; padding: 0; margin: 0; }
+    .mb-checklist li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .mb-checklist li:last-child { border-bottom: none; }
+    .mb-check-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .mb-check-pass { background: #dcfce7; color: #16a34a; }
+    .mb-check-warn { background: #fef9c3; color: #ca8a04; }
+    .mb-check-fail { background: #fee2e2; color: #dc2626; }
+
+    /* Red flags */
+    .mb-flag-card { background: #fff; border-left: 4px solid #dc2626; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+    .mb-flag-card h4 { font-size: 1rem; color: #dc2626; margin: 0 0 0.25rem; }
+    .mb-flag-card .mb-flag-why { font-size: 0.9rem; color: #64748b; margin: 0 0 0.25rem; }
+    .mb-flag-card .mb-flag-action { font-size: 0.9rem; color: #1e293b; font-weight: 600; margin: 0; }
+
+    /* Dispute tips */
+    .mb-tips { list-style: none; padding: 0; margin: 0; counter-reset: tip; }
+    .mb-tips li { padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.95rem; color: #334155; }
+    .mb-tips li:last-child { border-bottom: none; }
+    .mb-tips li::before { counter-increment: tip; content: counter(tip); width: 24px; height: 24px; background: #eff6ff; color: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+
+    .mb-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .mb-actions a, .mb-actions button { text-align: center; }
+
+    .mb-hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .mb-hero h1 { font-size: 1.5rem; }
+      .mb-summary { grid-template-columns: 1fr; }
+      .mb-table { font-size: 0.8rem; }
+      .mb-table th, .mb-table td { padding: 0.4rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/auto-repair-quote-analyzer.html">Auto Repair</a>
+        <a class="nav-cta" href="/analyze-quote.html">Check My Price</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="mb-app" id="mbApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
+  <section style="margin-top:32px; padding:24px 0; border-top:1px solid var(--border,#e2e8f0);">
+    <h3 style="font-size:16px; color:var(--text-muted,#6b7280); margin:0 0 12px;">Analyze quotes for other services</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+      <a href="/roofing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Roofing</a>
+      <a href="/hvac-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">HVAC</a>
+      <a href="/plumbing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Plumbing</a>
+      <a href="/electrical-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Electrical</a>
+      <a href="/solar-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Solar</a>
+      <a href="/window-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Windows</a>
+      <a href="/painting-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Painting</a>
+      <a href="/siding-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Siding</a>
+      <a href="/fencing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Fencing</a>
+      <a href="/concrete-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Concrete</a>
+      <a href="/auto-repair-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Auto Repair</a>
+      <a href="/medical-bill-analyzer.html" style="padding:6px 14px; background:#eff6ff; border:1px solid #93c5fd; border-radius:999px; font-size:13px; color:#1d4ed8; text-decoration:none; font-weight:600;">Medical Bills</a>
+    </div>
+  </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps consumers check medical bills, contractor quotes, and mechanic quotes for fairness. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-ocr.js" defer></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a bill -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ── Medicare Rate Lookup (common CPT codes) ──
+    var MEDICARE_RATES = {
+      "99213": 110, "99214": 165, "99215": 225, "99283": 150, "99285": 350,
+      "70553": 350, "72148": 270, "74177": 250, "71046": 30,
+      "85025": 11, "80053": 14, "80061": 18, "36415": 3,
+      "45378": 350, "45380": 400, "90837": 130, "97110": 35
+    };
+
+    // ── Bill check items ──
+    var BILL_CHECKS = [
+      { key: "cptListed", label: "CPT codes listed" },
+      { key: "chargesItemized", label: "Charges itemized" },
+      { key: "feesSeparated", label: "Facility vs professional fees separated" },
+      { key: "insuranceAdjusted", label: "Insurance adjustments applied" },
+      { key: "inNetwork", label: "In-network provider" },
+      { key: "noDuplicates", label: "No duplicate charges" },
+      { key: "datesMatch", label: "Dates match visit" },
+      { key: "noUnbundling", label: "No unbundled charges" },
+      { key: "noUpcoding", label: "No upcoding" },
+      { key: "responsibilityClear", label: "Patient responsibility clear" }
+    ];
+
+    // ── State ──
+    var appRoot = document.getElementById("mbApp");
+    var state = {
+      step: "upload",
+      uploadedFile: null,
+      extractedText: "",
+      result: null
+    };
+
+    // ── Helpers ──
+    function $(sel, el) { return (el || document).querySelector(sel); }
+    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function fmtWhole(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+
+    function escHtml(s) {
+      var d = document.createElement("div");
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    // ── Feedback ──
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "medical_bill", verdict: state.result ? (state.result.redFlags.length > 0 ? "issues_found" : "clean") : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our analysis.</div>';
+    };
+
+    // ── Save as image ──
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("mbApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-medical-bill-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
+    // ── Email report ──
+    window.emailReport = function() {
+      var r = state.result;
+      if (!r) return;
+      var subject = "My Medical Bill Analysis - TruePrice";
+      var body = "Medical Bill Analysis from TruePrice\n\n";
+      body += "Facility: " + (r.facility || "Unknown") + "\n";
+      body += "Total Billed: " + fmt(r.totalBilled) + "\n";
+      body += "Insurance Paid: " + fmt(r.insurancePaid) + "\n";
+      body += "You Owe: " + fmt(r.youOwe) + "\n\n";
+      if (r.redFlags.length > 0) {
+        body += "Issues Found: " + r.redFlags.length + "\n";
+        r.redFlags.forEach(function(f, i) {
+          body += (i + 1) + ". " + f.title + "\n";
+        });
+      } else {
+        body += "No billing issues found.\n";
+      }
+      body += "\nView full analysis at https://truepricehq.com/medical-bill-analyzer.html";
+      window.location.href = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    };
+
+    // ── Start over ──
+    window.startOver = function() {
+      state.step = "upload";
+      state.uploadedFile = null;
+      state.extractedText = "";
+      state.result = null;
+      render();
+      window.scrollTo(0, 0);
+    };
+
+    // ── Render ──
+    function render() {
+      switch (state.step) {
+        case "upload": renderUpload(); break;
+        case "uploading": renderUploading(); break;
+        case "result": renderResult(); break;
+      }
+    }
+
+    // ── Upload Step ──
+    function renderUpload() {
+      appRoot.innerHTML = '\
+        <div class="mb-hero">\
+          <img src="/images/trudy-thinking.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>Is your medical bill correct?</h1>\
+          <p>Upload your bill, EOB, or hospital invoice. Trudy checks every charge against Medicare rates and flags errors, overcharges, and items to dispute.</p>\
+          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to medical billing? Read our <a href="/medical-cost-guide.html" style="color:#16a34a;">Medical Cost Guide</a></p>\
+        </div>\
+        <div class="mb-card">\
+          <div class="mb-upload-zone" id="uploadZone">\
+            <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
+            <p><strong>Upload Your Bill</strong></p>\
+            <p class="hint">Drag and drop a PDF or photo of your medical bill, EOB, or hospital invoice</p>\
+            <p class="hint">PDF, JPG, PNG accepted</p>\
+            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your bill stays private. Processed securely, never stored or shared.</div>\
+        </div>';
+
+      var zone = document.getElementById("uploadZone");
+      var fileInput = document.getElementById("fileInput");
+
+      zone.addEventListener("click", function() { fileInput.click(); });
+      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; zone.style.background = "#eff6ff"; });
+      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc"; });
+      zone.addEventListener("drop", function(e) {
+        e.preventDefault();
+        zone.style.borderColor = "#cbd5e1";
+        zone.style.background = "#f8fafc";
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener("change", function() {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+      });
+    }
+
+    // ── File handling ──
+    function handleFile(file) {
+      state.uploadedFile = file;
+      state.step = "uploading";
+      render();
+      processFile(file);
+    }
+
+    // ── Uploading Step ──
+    function renderUploading() {
+      appRoot.innerHTML = '\
+        <div class="mb-hero">\
+          <h1>Analyzing your medical bill...</h1>\
+          <p style="color:#64748b;">Don\'t pay until Trudy checks it</p>\
+        </div>\
+        <div class="mb-card">\
+          <div class="mb-progress">\
+            <div class="mb-progress-bar"><div class="mb-progress-fill" id="progFill" style="width:10%"></div></div>\
+            <p class="mb-progress-text" id="progText">Loading document...</p>\
+          </div>\
+        </div>';
+    }
+
+    function setProgress(pct, msg) {
+      var fill = document.getElementById("progFill");
+      var txt = document.getElementById("progText");
+      if (fill) fill.style.width = pct + "%";
+      if (txt) txt.textContent = msg;
+    }
+
+    async function processFile(file) {
+      try {
+        setProgress(15, "Loading document...");
+        await window.loadVendorLibs();
+
+        var text = "";
+        var imageData = null;
+        if (file.type === "application/pdf") {
+          setProgress(30, "Reading line items...");
+          text = await extractPdfText(file);
+        } else {
+          setProgress(30, "Reading line items...");
+          imageData = await fileToBase64(file);
+          text = await extractImageText(file);
+        }
+
+        setProgress(50, "Checking CPT codes against Medicare rates...");
+        state.extractedText = text;
+
+        var apiResult = null;
+        try {
+          setProgress(60, "Scanning for billing errors...");
+          var apiPayload = { text: text };
+          if (imageData) apiPayload.images = [imageData];
+          var apiResponse = await fetch("/api/medical-bill-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiPayload)
+          });
+          if (apiResponse.ok) {
+            apiResult = await apiResponse.json();
+          }
+        } catch (apiErr) {
+          console.warn("API unavailable, falling back to local parsing:", apiErr);
+        }
+
+        setProgress(85, "Scanning for billing errors...");
+
+        var result = null;
+        if (apiResult && (apiResult.totalBilled || apiResult.lineItems)) {
+          result = buildResultFromAPI(apiResult);
+        } else {
+          result = buildResultFromLocal(text);
+        }
+
+        setProgress(100, "Done!");
+        state.result = result;
+        state.step = "result";
+        setTimeout(render, 400);
+
+      } catch (err) {
+        console.error("Medical bill analysis error:", err);
+        renderErrorFallback();
+      }
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extractPdfText(file) {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var allText = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        var page = await pdf.getPage(i);
+        var content = await page.getTextContent();
+        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+        allText.push(pageText);
+      }
+      return allText.join("\n");
+    }
+
+    async function extractImageText(file) {
+      if (typeof window.extractTextFromImage === "function") {
+        try {
+          return await window.extractTextFromImage(file);
+        } catch (e) {
+          console.warn("OCR extraction failed:", e);
+        }
+      }
+      return "";
+    }
+
+    // ── Build result from API response ──
+    function buildResultFromAPI(api) {
+      var lineItems = (api.lineItems || []).map(function(item) {
+        var cpt = item.cptCode || "";
+        var medicareRate = item.medicareRate || MEDICARE_RATES[cpt] || null;
+        var charged = item.charged || 0;
+        var ratio = (medicareRate && medicareRate > 0) ? (charged / medicareRate) : null;
+        return {
+          service: item.service || item.description || "Medical service",
+          cptCode: cpt,
+          charged: charged,
+          medicareRate: medicareRate,
+          ratio: ratio,
+          flagged: ratio !== null && ratio > 3
+        };
+      });
+
+      var checks = {};
+      BILL_CHECKS.forEach(function(c) {
+        if (api.checks && api.checks[c.key] !== undefined) {
+          checks[c.key] = api.checks[c.key];
+        } else {
+          checks[c.key] = null;
+        }
+      });
+
+      var redFlags = api.redFlags || [];
+
+      return {
+        facility: api.facility || "Unknown Facility",
+        facilityType: api.facilityType || "",
+        totalBilled: api.totalBilled || 0,
+        insurancePaid: api.insurancePaid || 0,
+        youOwe: api.youOwe || 0,
+        lineItems: lineItems,
+        checks: checks,
+        redFlags: redFlags,
+        source: "api"
+      };
+    }
+
+    // ── Build result from local text parsing ──
+    function buildResultFromLocal(text) {
+      var lineItems = [];
+      var redFlags = [];
+
+      // Extract CPT codes and charges from text
+      var cptPattern = /(\d{5})\s*[-:]?\s*([^$\n]{3,50})\s*\$?([\d,]+(?:\.\d{2})?)/g;
+      var match;
+      while ((match = cptPattern.exec(text)) !== null) {
+        var cpt = match[1];
+        var service = match[2].trim();
+        var charged = parseFloat(match[3].replace(/,/g, ""));
+        if (charged > 0 && charged < 500000) {
+          var medicareRate = MEDICARE_RATES[cpt] || null;
+          var ratio = (medicareRate && medicareRate > 0) ? (charged / medicareRate) : null;
+          lineItems.push({
+            service: service,
+            cptCode: cpt,
+            charged: charged,
+            medicareRate: medicareRate,
+            ratio: ratio,
+            flagged: ratio !== null && ratio > 3
+          });
+        }
+      }
+
+      // If no CPT-based parsing, try generic dollar amounts
+      if (lineItems.length === 0) {
+        var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
+        var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v > 0 && v < 500000; });
+        prices.forEach(function(p, i) {
+          lineItems.push({
+            service: "Charge #" + (i + 1),
+            cptCode: "",
+            charged: p,
+            medicareRate: null,
+            ratio: null,
+            flagged: false
+          });
+        });
+      }
+
+      // Calculate totals
+      var totalBilled = 0;
+      lineItems.forEach(function(item) { totalBilled += item.charged; });
+
+      // Detect insurance paid from text
+      var insPaidMatch = text.match(/(?:insurance|plan)\s*(?:paid|payment|adj)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i);
+      var insurancePaid = insPaidMatch ? parseFloat(insPaidMatch[1].replace(/,/g, "")) : 0;
+
+      var youOweMatch = text.match(/(?:patient|you)\s*(?:owe|responsibility|balance|due)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i);
+      var youOwe = youOweMatch ? parseFloat(youOweMatch[1].replace(/,/g, "")) : Math.max(0, totalBilled - insurancePaid);
+
+      // Detect facility name
+      var facilityMatch = text.match(/^(.{5,60}(?:hospital|medical|health|clinic|center|surgery|emergency))/im);
+      var facility = facilityMatch ? facilityMatch[1].trim() : "Unknown Facility";
+
+      // Build checks from what we can detect
+      var checks = {};
+      var hasCpt = lineItems.some(function(i) { return i.cptCode.length === 5; });
+      checks.cptListed = hasCpt ? "pass" : "warn";
+      checks.chargesItemized = lineItems.length > 1 ? "pass" : "warn";
+      checks.feesSeparated = null;
+      checks.insuranceAdjusted = insurancePaid > 0 ? "pass" : "warn";
+      checks.inNetwork = null;
+      checks.noDuplicates = detectDuplicates(lineItems) ? "fail" : "pass";
+      checks.datesMatch = null;
+      checks.noUnbundling = null;
+      checks.noUpcoding = null;
+      checks.responsibilityClear = youOwe > 0 ? "pass" : "warn";
+
+      // Generate red flags from local analysis
+      lineItems.forEach(function(item) {
+        if (item.ratio !== null && item.ratio > 3) {
+          redFlags.push({
+            title: "Overcharge on " + item.service + " (CPT " + item.cptCode + ")",
+            why: "Charged " + fmt(item.charged) + " which is " + item.ratio.toFixed(1) + "x the Medicare rate of " + fmt(item.medicareRate) + ".",
+            action: "Request itemized breakdown and ask billing to justify the charge above Medicare rates."
+          });
+        }
+      });
+
+      if (detectDuplicates(lineItems)) {
+        redFlags.push({
+          title: "Possible duplicate charges detected",
+          why: "Two or more line items appear to be the same service charged multiple times.",
+          action: "Compare dates of service and ask billing department to verify each charge is for a separate service."
+        });
+      }
+
+      return {
+        facility: facility,
+        facilityType: "",
+        totalBilled: totalBilled,
+        insurancePaid: insurancePaid,
+        youOwe: youOwe,
+        lineItems: lineItems,
+        checks: checks,
+        redFlags: redFlags,
+        source: "local"
+      };
+    }
+
+    function detectDuplicates(items) {
+      var seen = {};
+      for (var i = 0; i < items.length; i++) {
+        var key = items[i].cptCode + "|" + items[i].charged;
+        if (key !== "|0" && seen[key]) return true;
+        seen[key] = true;
+      }
+      return false;
+    }
+
+    function renderErrorFallback() {
+      appRoot.innerHTML = '\
+        <div class="mb-hero">\
+          <h1>Something went wrong</h1>\
+          <p style="color:#64748b;">We couldn\'t process that file. Please try a different PDF or image.</p>\
+        </div>\
+        <div class="mb-card" style="text-align:center;">\
+          <button class="mb-btn mb-btn-primary" onclick="startOver()">Try Again</button>\
+        </div>';
+    }
+
+    // ── Result Step ──
+    function renderResult() {
+      var r = state.result;
+      if (!r) return;
+
+      var hasIssues = r.redFlags.length > 0;
+      var verdictCss = hasIssues ? "issues" : "clean";
+      var verdictLabel = hasIssues ? ("Billing Issues Found: " + r.redFlags.length) : "This bill looks correct";
+
+      var html = '';
+
+      // Verdict card
+      html += '<div class="mb-verdict ' + verdictCss + '" id="mbVerdict">';
+      html += '<div class="verdict-label">' + (hasIssues ? "Issues Found" : "All Clear") + '</div>';
+      html += '<div class="verdict-title">' + escHtml(verdictLabel) + '</div>';
+      if (r.facility && r.facility !== "Unknown Facility") {
+        html += '<div style="font-size:0.95rem; color:#64748b;">' + escHtml(r.facility);
+        if (r.facilityType) html += ' &middot; ' + escHtml(r.facilityType);
+        html += '</div>';
+      }
+      html += '<div class="mb-summary">';
+      html += '<div class="mb-summary-item"><div class="label">Total Billed</div><div class="value">' + fmtWhole(r.totalBilled) + '</div></div>';
+      html += '<div class="mb-summary-item"><div class="label">Insurance Paid</div><div class="value">' + fmtWhole(r.insurancePaid) + '</div></div>';
+      html += '<div class="mb-summary-item"><div class="label">You Owe</div><div class="value" style="color:' + (r.youOwe > 0 ? '#dc2626' : '#16a34a') + ';">' + fmtWhole(r.youOwe) + '</div></div>';
+      html += '</div></div>';
+
+      // Line items table
+      if (r.lineItems.length > 0) {
+        html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Line Items</h3>';
+        html += '<div class="mb-table-wrap"><table class="mb-table"><thead><tr>';
+        html += '<th>Service</th><th>CPT</th><th>Charged</th><th>Medicare</th><th>Ratio</th><th>Flag</th>';
+        html += '</tr></thead><tbody>';
+        r.lineItems.forEach(function(item) {
+          var rowClass = item.flagged ? ' class="mb-row-flagged"' : '';
+          html += '<tr' + rowClass + '>';
+          html += '<td>' + escHtml(item.service) + '</td>';
+          html += '<td>' + escHtml(item.cptCode || '--') + '</td>';
+          html += '<td>' + fmt(item.charged) + '</td>';
+          html += '<td>' + (item.medicareRate ? fmt(item.medicareRate) : '--') + '</td>';
+          if (item.ratio !== null) {
+            var ratioClass = item.ratio > 3 ? 'mb-ratio-high' : 'mb-ratio-ok';
+            html += '<td class="' + ratioClass + '">' + item.ratio.toFixed(1) + 'x</td>';
+          } else {
+            html += '<td>--</td>';
+          }
+          html += '<td>' + (item.flagged ? '<span class="mb-flag-icon" title="Overcharge">&#9888;</span>' : '') + '</td>';
+          html += '</tr>';
+        });
+        html += '</tbody></table></div></div>';
+      }
+
+      // Bill check results
+      html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Bill Check Results</h3>';
+      html += '<ul class="mb-checklist">';
+      BILL_CHECKS.forEach(function(check) {
+        var status = r.checks[check.key];
+        var iconClass = "mb-check-warn";
+        var iconChar = "?";
+        if (status === "pass" || status === true) { iconClass = "mb-check-pass"; iconChar = "&#10003;"; }
+        else if (status === "fail" || status === false) { iconClass = "mb-check-fail"; iconChar = "&#10007;"; }
+        html += '<li><span class="mb-check-icon ' + iconClass + '">' + iconChar + '</span>' + escHtml(check.label) + '</li>';
+      });
+      html += '</ul></div>';
+
+      // Red flags section
+      if (r.redFlags.length > 0) {
+        html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#dc2626;">Red Flags</h3>';
+        r.redFlags.forEach(function(flag) {
+          html += '<div class="mb-flag-card">';
+          html += '<h4>' + escHtml(flag.title) + '</h4>';
+          html += '<p class="mb-flag-why">' + escHtml(flag.why) + '</p>';
+          html += '<p class="mb-flag-action">' + escHtml(flag.action) + '</p>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // How to dispute section
+      html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">How to Dispute Your Bill</h3>';
+      html += '<ul class="mb-tips">';
+      html += '<li>Request an itemized bill from the billing department with all CPT codes and descriptions.</li>';
+      html += '<li>Compare each CPT code to Medicare rates. Charges over 3x Medicare are worth questioning.</li>';
+      html += '<li>Call the billing department and reference specific line items that appear incorrect or overcharged.</li>';
+      html += '<li>File a formal appeal with your insurance company if covered services were denied or underpaid.</li>';
+      html += '<li>Contact your state insurance commissioner if the provider or insurer is unresponsive.</li>';
+      html += '<li>Ask for a cash-pay or self-pay discount if you are uninsured or paying out of pocket.</li>';
+      html += '</ul></div>';
+
+      // Feedback
+      html += '<div class="mb-card" id="estimateFeedback" style="text-align:center;">';
+      html += '<p style="font-size:0.95rem; color:#64748b; margin:0 0 0.75rem;">Was this analysis helpful?</p>';
+      html += '<div style="display:flex; gap:0.5rem; justify-content:center;">';
+      html += '<button class="mb-btn mb-btn-secondary" onclick="submitFeedback(\'yes\')">Yes, helpful</button>';
+      html += '<button class="mb-btn mb-btn-secondary" onclick="submitFeedback(\'no\')">Not really</button>';
+      html += '</div></div>';
+
+      // Actions
+      html += '<div class="mb-actions">';
+      html += '<button class="mb-btn mb-btn-primary mb-btn-full" onclick="saveResultAsImage()">Save as Image</button>';
+      html += '<button class="mb-btn mb-btn-secondary mb-btn-full" onclick="emailReport()">Email Me This Report</button>';
+      html += '<button class="mb-btn mb-btn-secondary mb-btn-full" onclick="startOver()">Start Over</button>';
+      html += '<a href="/medical-cost-guide.html" class="mb-btn mb-btn-secondary mb-btn-full" style="color:#16a34a;">Read Medical Cost Guide</a>';
+      html += '</div>';
+
+      appRoot.innerHTML = html;
+      window.scrollTo(0, 0);
+
+      // Track analysis
+      try {
+        fetch("/api/analytics", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "event",
+            event: "medical_bill_analyzed",
+            meta: {
+              source: r.source,
+              totalBilled: r.totalBilled,
+              youOwe: r.youOwe,
+              redFlagCount: r.redFlags.length,
+              lineItemCount: r.lineItems.length
+            },
+            path: window.location.pathname
+          })
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    // ── Init ──
+    render();
+
+  })();
+  </script>
+</body>
+</html>
