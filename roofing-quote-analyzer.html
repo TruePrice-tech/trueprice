@@ -33,6 +33,9 @@
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
 
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice Roofing Quote Analyzer","url":"https://truepricehq.com/roofing-quote-analyzer.html","description":"Upload any roofing contractor quote to check if the price is fair. AI-powered analysis with local pricing data.","applicationCategory":"UtilityApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"operatingSystem":"Web","provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
+  </script>
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#1d4ed8" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
@@ -53,15 +56,16 @@
   </header>
 
   <main class="analyzer-wrap" style="caret-color: transparent;">
+    <h1 class="sr-only">Roofing Quote Analyzer</h1>
     <div id="appRoot">
       <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
         <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 16px;"></div>
         <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
-        <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+        <style>@keyframes spin{to{transform:rotate(360deg)}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}</style>
       </div>
     </div>
   <section style="margin-top:32px; padding:24px 0; border-top:1px solid var(--border,#e2e8f0);">
-    <h3 style="font-size:16px; color:var(--text-muted,#6b7280); margin:0 0 12px;">Analyze quotes for other services</h3>
+    <h2 style="font-size:16px; color:var(--text-muted,#6b7280); margin:0 0 12px;">Analyze quotes for other services</h2>
     <div style="display:flex; flex-wrap:wrap; gap:8px;">
       <a href="/hvac-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">HVAC</a>
       <a href="/plumbing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Plumbing</a>
