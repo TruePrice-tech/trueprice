@@ -238,22 +238,20 @@ export default async function handler(req, res) {
 
     // Public counter
     if (req.query.counter === "1") {
-      const BASE_COUNT = 847;
-      const SEEDED_COUNT = 249; // Reddit seeder quotes (tracked in seeded-reddit-ids.json)
+      const BASE_COUNT = 1096; // 847 original + 249 Reddit seeded
       try {
-        // Count from analytics events
         const rawEvents = await redis.lrange("tp:events", 0, -1);
         const analysisCount = rawEvents.filter(e => {
           const ev = typeof e === "string" ? JSON.parse(e) : e;
           return ev.event === "analysis_completed" || ev.event === "estimate_completed" || ev.event === "quote_uploaded";
         }).length;
 
-        // Count from anonymized pricing data (new verticals)
-        const pricingCount = await redis.llen("tp:pricing_data") || 0;
+        let pricingCount = 0;
+        try { pricingCount = (await redis.llen("tp:pricing_data")) || 0; } catch(e2) {}
 
-        return res.status(200).json({ count: BASE_COUNT + SEEDED_COUNT + analysisCount + pricingCount });
+        return res.status(200).json({ count: BASE_COUNT + analysisCount + pricingCount });
       } catch (e) {
-        return res.status(200).json({ count: BASE_COUNT + SEEDED_COUNT });
+        return res.status(200).json({ count: BASE_COUNT });
       }
     }
 
