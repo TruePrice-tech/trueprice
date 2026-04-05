@@ -239,6 +239,7 @@ export default async function handler(req, res) {
     // Public counter
     if (req.query.counter === "1") {
       const BASE_COUNT = 847;
+      const SEEDED_COUNT = 249; // Reddit seeder quotes (tracked in seeded-reddit-ids.json)
       try {
         // Count from analytics events
         const rawEvents = await redis.lrange("tp:events", 0, -1);
@@ -250,18 +251,9 @@ export default async function handler(req, res) {
         // Count from anonymized pricing data (new verticals)
         const pricingCount = await redis.llen("tp:pricing_data") || 0;
 
-        // Count seeded calibration data
-        const calKeys = await redis.keys("cal:*") || [];
-        let calCount = 0;
-        for (const key of calKeys) {
-          const data = await redis.get(key);
-          if (data && data.count) calCount += data.count;
-          else if (data && data.quotes) calCount += data.quotes.length;
-        }
-
-        return res.status(200).json({ count: BASE_COUNT + analysisCount + pricingCount + calCount });
+        return res.status(200).json({ count: BASE_COUNT + SEEDED_COUNT + analysisCount + pricingCount });
       } catch (e) {
-        return res.status(200).json({ count: BASE_COUNT });
+        return res.status(200).json({ count: BASE_COUNT + SEEDED_COUNT });
       }
     }
 

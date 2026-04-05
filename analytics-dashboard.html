@@ -190,12 +190,20 @@
       var singleViewPages = (d.topPages || []).filter(function(p) { return p.count === 1; }).length;
       var bounceRate = totalPages > 0 ? Math.round(singleViewPages / totalPages * 100) : 0;
 
+      // Fetch live quote counter
+      var quoteCount = "...";
+      try {
+        var counterRes = await fetch("/api/analytics?counter=1");
+        var counterData = await counterRes.json();
+        quoteCount = counterData.count || "N/A";
+      } catch(e) { quoteCount = "N/A"; }
+
       // Stats row
       document.getElementById("statsRow").innerHTML =
+        stat("Quotes Analyzed", quoteCount) +
         stat("Page Views", d.totalViews) +
         stat("Unique Visitors", d.uniqueVisitors) +
-        stat("Events", d.totalEvents || 0) +
-        stat("Bot Crawls", d.totalCrawls || 0);
+        stat("Events", d.totalEvents || 0);
 
       // Conversion stats row
       document.getElementById("conversionRow").innerHTML =
