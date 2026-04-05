@@ -31,7 +31,7 @@ I thought it might be a good fit for your cost content since it gives readers ac
 
 The embed is literally one line of code:
 
-<script src="https://truepricehq.com/widget/tp-widget.js" data-service="${t.service || 'roofing'}" data-auto="true" async></script>
+&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="${t.service || 'roofing'}" data-auto="true" async&gt;&lt;/script&gt;
 
 No signup, no ads, no affiliate stuff. I'm a real person, not a bot, and you're welcome to call me anytime if you want to talk about it.
 
@@ -50,7 +50,7 @@ Figured it could be useful embedded alongside your repair content. Here's what i
 
 One line to embed:
 
-<script src="https://truepricehq.com/widget/tp-widget.js" data-service="auto-repair" data-auto="true" async></script>
+&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="auto-repair" data-auto="true" async&gt;&lt;/script&gt;
 
 Totally free, no catch. I'm just trying to get it in front of people who'd actually use it. Feel free to call or text me if you have questions.
 
@@ -71,7 +71,7 @@ Here's the widget: truepricehq.com/widget.html (pick "Medical Costs")
 
 One line to embed:
 
-<script src="https://truepricehq.com/widget/tp-widget.js" data-service="medical" data-auto="true" async></script>
+&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="medical" data-auto="true" async&gt;&lt;/script&gt;
 
 No signup, no ads. I'm a real person building this because medical billing is broken and people deserve better tools. Call me anytime if you want to chat about it.
 
@@ -92,7 +92,7 @@ Widget demo: truepricehq.com/widget.html (pick "Legal Fees")
 
 Embed code:
 
-<script src="https://truepricehq.com/widget/tp-widget.js" data-service="legal" data-auto="true" async></script>
+&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="legal" data-auto="true" async&gt;&lt;/script&gt;
 
 Free, no signup, no strings. Happy to jump on a call if you want to talk through it. I'm a real human, I promise.
 
@@ -111,7 +111,7 @@ Here's the widget page: truepricehq.com/widget.html
 
 One line to embed, works with any of 19 services:
 
-<script src="https://truepricehq.com/widget/tp-widget.js" data-service="${t.service || 'roofing'}" data-auto="true" async></script>
+&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="${t.service || 'roofing'}" data-auto="true" async&gt;&lt;/script&gt;
 
 No signup, no ads, no affiliate links. Just a tool I think people would actually use. Feel free to call or text me, I'm happy to answer any questions.
 
