@@ -297,7 +297,6 @@ async function main() {
       if (opts.dryRun) {
         console.log(`  SEED ${city}, ${stateCode} [${service}] = $${midPrice.toLocaleString()}`);
         seeded++;
-        tracking[trackingId] = true;
         continue;
       }
 
