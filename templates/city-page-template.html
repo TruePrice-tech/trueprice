@@ -57,7 +57,7 @@
 "@context":"https://schema.org",
 "@type":"FAQPage",
 "mainEntity":[
-{"@type":"Question","name":"How much does a new roof cost in {{CITY}}?","acceptedAnswer":{"@type":"Answer","text":"Most homeowners in {{CITY}} pay between ${{AVG_LOW}} and ${{AVG_HIGH}} for a complete roof replacement depending on roof size and materials."}},
+{"@type":"Question","name":"How much does a new roof cost in {{CITY}}?","acceptedAnswer":{"@type":"Answer","text":"Most homeowners in {{CITY}} pay around {{MOST_COMMON_PRICE}} for a new roof. The full range is ${{AVG_LOW}} to ${{AVG_HIGH}} depending on roof size and materials."}},
 {"@type":"Question","name":"Why do roofing quotes vary so much?","acceptedAnswer":{"@type":"Answer","text":"Roofing estimates vary depending on labor assumptions, material brands, flashing work, ventilation upgrades, and warranty coverage included in the proposal."}},
 {"@type":"Question","name":"Should I always choose the lowest roofing quote?","acceptedAnswer":{"@type":"Answer","text":"Not always. Lower bids sometimes exclude items like flashing, ventilation upgrades, or disposal costs that appear later as change orders."}}
 ]
@@ -100,12 +100,13 @@
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
 <a href="/find-contractors.html">Contractors</a>
-<a href="/photo-estimate.html">Photo Estimate</a>
-<a class="nav-cta" href="/roofing-quote-analyzer.html">Analyze Quote</a>
+<a href="/auto-repair-quote-analyzer.html">Auto Repair</a>
+<a class="nav-cta" href="/analyze-quote.html">Check My Price</a>
 </nav>
 </div>
 </header>
 
+<!-- 1. Hero -->
 <div class="hero hero-dark">
 <div class="container">
 
@@ -119,11 +120,18 @@
 <div style="text-align:center; margin-bottom:12px;"><img src="/images/trudy-roofing.png" alt="Trudy" width="100" style="display:inline-block;" /></div>
 <h1>Roof Replacement Cost in {{CITY_STATE}}</h1>
 
-<p>
-The average roof replacement in <strong>{{CITY_STATE}}</strong> costs between
-<span class="hero-price">${{AVG_LOW}}</span> and <span class="hero-price">${{AVG_HIGH}}</span>
-depending on roof size, materials, and project complexity.
+<p style="font-size:20px; line-height:1.5; max-width:600px; margin:0 auto 8px;">
+Most homeowners in <strong>{{CITY}}</strong> pay around
+<span class="hero-price">{{MOST_COMMON_PRICE}}</span> for a new roof.
 </p>
+
+<p style="font-size:14px; opacity:0.85; margin-bottom:12px;">
+Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
+</p>
+
+<div style="display:inline-block; padding:6px 16px; border-radius:999px; font-size:13px; font-weight:600; margin-bottom:16px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2);">
+<span class="{{CITY_VS_NATIONAL_CLASS}}">{{CITY_VS_NATIONAL}}</span> national average
+</div>
 
 <div class="hero-meta">
 <div class="hero-meta-item">
@@ -153,55 +161,48 @@ depending on roof size, materials, and project complexity.
 
 <main class="container" style="padding-top:32px; padding-bottom:32px;">
 
+<!-- 2. CTA box -->
 <div class="cta-box">
-<h2>Get a free cost estimate for {{CITY}}</h2>
+<h2>Check My Price in {{CITY}}</h2>
 <p>
-Enter your details for a personalized estimate, or upload a contractor quote for an instant price check.
+Upload a contractor quote for an instant price check, or get a personalized estimate for your roof.
 </p>
-<div style="display:flex; gap:10px; flex-wrap:wrap;">
-<a class="btn" href="/roofing-quote-analyzer.html?city={{CITY}}&state={{STATE_CODE}}">Get free estimate</a>
-<a class="btn-outline" href="/roofing-quote-analyzer.html?city={{CITY}}&state={{STATE_CODE}}&mode=upload">Analyze a quote</a>
+<div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+<a class="btn" href="/analyze-quote.html?city={{CITY}}&state={{STATE_CODE}}">Check My Price in {{CITY}}</a>
+<a class="btn-outline" href="/compare-quotes.html">or compare quotes side by side</a>
 </div>
 </div>
+<p style="text-align:center; margin-top:12px; font-size:14px;"><a href="/roof-replacement-cost-guide.html" style="color:var(--brand);">Read our Roofing Cost Guide</a> for national averages, material comparisons, and money-saving tips.</p>
 
-<div class="cta-box" style="background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); text-align:center;">
-<h3 style="margin-top:0;">Get free roofing pricing guides</h3>
-<p style="font-size:14px; color:var(--text-secondary);">Local pricing data for {{CITY}} and 700+ other cities. No spam, unsubscribe anytime.</p>
-<form class="city-email-form" style="display:flex; gap:8px; max-width:400px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
-<label for="cityEmail" class="sr-only">Email address</label>
-<input type="email" id="cityEmail" placeholder="your@email.com" required aria-label="Email address" style="flex:1; min-width:200px; padding:10px 14px; border:1px solid var(--border); border-radius:10px; font-size:14px; font-family:inherit;" />
-<button type="submit" class="btn" style="padding:10px 20px; font-size:14px;">Send guides</button>
-</form>
-<div class="city-email-status" role="status" aria-live="polite" style="margin-top:8px; font-size:13px;"></div>
-</div>
-
+<!-- 3. Price comparison bar chart -->
 <section class="section">
-<h2>Cost by House Size in {{CITY}}</h2>
-<div class="price-grid">
-<div class="price-grid-item">
-<h3>1,500 sq ft</h3>
-<p class="price">$9,000 &ndash; $15,000</p>
-</div>
-<div class="price-grid-item">
-<h3>2,000 sq ft</h3>
-<p class="price">$11,000 &ndash; $18,000</p>
-</div>
-<div class="price-grid-item">
-<h3>2,500 sq ft</h3>
-<p class="price">$13,000 &ndash; $21,000</p>
-</div>
-<div class="price-grid-item">
-<h3>3,000 sq ft</h3>
-<p class="price">$16,000 &ndash; $26,000</p>
-</div>
+<h2>How {{CITY}} Compares</h2>
+<p>Average roof replacement cost in {{CITY}} vs. nearby cities.</p>
+{{PRICE_BAR_CHART}}
+</section>
+
+<!-- 4. House size x material table -->
+<section class="section">
+<h2>Cost by House Size and Material in {{CITY}}</h2>
+{{HOUSE_SIZE_TABLE}}
+</section>
+
+<!-- 5. Local context cards -->
+{{LOCAL_CONTEXT_SECTION}}
+
+<!-- 6. Scope checklist -->
+<section class="section">
+<h2>What Your {{CITY}} Roofing Quote Should Include</h2>
+<p style="margin-bottom:16px;">A complete roofing proposal should cover all 12 of these items. Missing any could mean surprise costs later.</p>
+{{SCOPE_CHECKLIST}}
+<div style="text-align:center; margin-top:20px; padding:16px; background:var(--bg-subtle,#f8fafc); border-radius:12px; border:1px solid var(--border,#e2e8f0);">
+<p style="margin:0; font-size:15px;">Have a quote? <a href="/analyze-quote.html?city={{CITY}}&state={{STATE_CODE}}" style="color:var(--brand); font-weight:600;">Upload it and Trudy will check all 12 items for you.</a></p>
 </div>
 </section>
 
-
-{{LOCAL_CONTEXT_SECTION}}
-
+<!-- 7. What affects cost -->
 <section class="section">
-<h2>What affects roofing cost in {{CITY}}</h2>
+<h2>What Affects Roofing Cost in {{CITY}}</h2>
 <ul class="factor-list">
 <li>Roof pitch and accessibility</li>
 <li>Material type (architectural, metal, tile)</li>
@@ -213,16 +214,13 @@ Enter your details for a personalized estimate, or upload a contractor quote for
 </ul>
 </section>
 
+<!-- 8. Savings tip callout -->
+<div style="padding:20px 24px; border-radius:12px; border-left:4px solid var(--brand,#2563eb); background:var(--bg-subtle,#f8fafc); margin-bottom:32px;">
+<p style="margin:0 0 4px; font-weight:700; font-size:15px; color:var(--brand,#2563eb);">Savings Tip</p>
+<p style="margin:0; font-size:14px; line-height:1.6;">{{SAVINGS_TIP}}</p>
+</div>
 
-<section class="cta-box">
-<h2>Estimate your roof replacement cost</h2>
-<p>
-Use the TruePrice calculator to estimate cost by roof size, material, and complexity.
-</p>
-<a class="btn-outline" href="/roof-replacement-cost-calculator.html">Open calculator</a>
-</section>
-
-
+<!-- 9. Material-specific pages -->
 <section class="section">
 <h2>{{CITY}} Roofing Prices by Material</h2>
 <p>See detailed pricing for each roofing material in {{CITY_STATE}}.</p>
@@ -231,7 +229,7 @@ Use the TruePrice calculator to estimate cost by roof size, material, and comple
 </div>
 </section>
 
-
+<!-- 10. Cross-state city comparison -->
 <section class="section">
 <h2>Compare With Nearby Metros</h2>
 <p>See how roofing costs in {{CITY}} compare to major cities in neighboring states.</p>
@@ -240,10 +238,11 @@ Use the TruePrice calculator to estimate cost by roof size, material, and comple
 </ul>
 </section>
 
-
+<!-- 11. Helpful guides -->
 <section class="section">
 <h2>Helpful Guides</h2>
 <ul>
+<li><a href="/roof-replacement-cost-guide.html">Complete roof replacement cost guide</a></li>
 <li><a href="/roof-replacement-cost-per-square-foot.html">Roof replacement cost per square foot</a></li>
 <li><a href="/roof-replacement-cost-by-house-size.html">Roof replacement cost by house size</a></li>
 <li><a href="/how-to-compare-roofing-quotes.html">How to compare roofing quotes</a></li>
@@ -252,7 +251,7 @@ Use the TruePrice calculator to estimate cost by roof size, material, and comple
 </ul>
 </section>
 
-
+<!-- 12. Other services -->
 <section class="section">
 <h2>Other Services in {{CITY}}</h2>
 <p>Compare contractor costs for other home services in {{CITY_STATE}}.</p>
@@ -271,10 +270,11 @@ Use the TruePrice calculator to estimate cost by roof size, material, and comple
 <a href="/{{SLUG_LC}}-foundation-cost.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Foundation</a>
 <a href="/{{SLUG_LC}}-kitchen-remodel-cost.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Kitchen</a>
 <a href="/{{SLUG_LC}}-insulation-cost.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Insulation</a>
+<a href="/{{SLUG_LC}}-gutter-cost.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Gutters</a>
 </div>
 </section>
 
-
+<!-- 13. FAQ -->
 <section class="section">
 <h2>Frequently Asked Questions</h2>
 <div class="faq-list">
@@ -283,8 +283,18 @@ Use the TruePrice calculator to estimate cost by roof size, material, and comple
 <summary>How much does a new roof cost in {{CITY}}?</summary>
 <div class="faq-answer">
 <p>
-Most homeowners in {{CITY}} pay between ${{AVG_LOW}} and ${{AVG_HIGH}} for a
-complete roof replacement depending on roof size and materials.
+Most homeowners in {{CITY}} pay around {{MOST_COMMON_PRICE}} for a new roof.
+The full range is ${{AVG_LOW}} to ${{AVG_HIGH}} depending on roof size and materials.
+</p>
+</div>
+</details>
+
+<details class="faq-item">
+<summary>Is roofing more expensive in {{CITY}} than average?</summary>
+<div class="faq-answer">
+<p>
+Roofing in {{CITY}} is {{CITY_VS_NATIONAL}} the national average. Local labor rates,
+material availability, and building code requirements all influence pricing.
 </p>
 </div>
 </details>
@@ -311,11 +321,23 @@ change orders.
 </div>
 </details>
 
+<details class="faq-item">
+<summary>What should a roofing quote include?</summary>
+<div class="faq-answer">
+<p>
+A complete quote should include tear-off, underlayment, flashing, ice and water shield,
+drip edge, ventilation, ridge vent, starter strip, ridge cap, decking inspection,
+disposal/cleanup, and the permit. If any of these are missing, ask your contractor why.
+</p>
+</div>
+</details>
+
 {{EXTRA_FAQ_ITEMS}}
 
 </div>
 </section>
 
+<!-- 14. Popular cities -->
 <section class="section popular-cities">
 <h2>Popular Cities for Roof Replacement</h2>
 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
@@ -323,12 +345,30 @@ change orders.
 </div>
 </section>
 
+<!-- 15. Nearby cities -->
+{{NEARBY_CITIES_SECTION}}
+
+<!-- 16. Email signup -->
+<section class="section" style="max-width:520px; margin:0 auto 40px;">
+<div class="cta-box" style="background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); text-align:center;">
+<h3 style="margin-top:0;">Get free roofing pricing guides</h3>
+<p style="font-size:14px; color:var(--text-secondary);">Local pricing data for {{CITY}} and 700+ other cities. No spam, unsubscribe anytime.</p>
+<form class="city-email-form" style="display:flex; gap:8px; max-width:400px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
+<label for="cityEmail" class="sr-only">Email address</label>
+<input type="email" id="cityEmail" placeholder="your@email.com" required aria-label="Email address" style="flex:1; min-width:200px; padding:10px 14px; border:1px solid var(--border); border-radius:10px; font-size:14px; font-family:inherit;" />
+<button type="submit" class="btn" style="padding:10px 20px; font-size:14px;">Send guides</button>
+</form>
+<div class="city-email-status" role="status" aria-live="polite" style="margin-top:8px; font-size:13px;"></div>
+</div>
+</section>
+
 </main>
 
+<!-- 17. Footer -->
 <footer class="site-footer">
 <div class="container">
 <p>
-TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate costs across 16 home services plus auto repair.
+TruePrice helps homeowners and car owners analyze contractor and mechanic quotes, compare bids, and estimate project costs.
 <a href="/privacy.html" style="color:inherit;">Privacy</a> |
 <a href="/about.html" style="color:inherit;">About</a> |
 <a href="/guides.html" style="color:inherit;">Guides</a> |
@@ -367,7 +407,7 @@ TruePrice helps homeowners analyze contractor quotes, compare bids, and estimate
     btn.disabled = true; btn.textContent = 'Sending...';
     fetch('/api/analytics', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type:'email_signup', email:email, source:'city_page'}) })
       .then(function(r){return r.json()})
-      .then(function(d){ status.style.color='#166534'; status.textContent='Thanks! We'll keep you posted.'; form.reset(); localStorage.setItem('tp_subscribed','1'); })
+      .then(function(d){ status.style.color='#166534'; status.textContent='Thanks! We\u2019ll keep you posted.'; form.reset(); localStorage.setItem('tp_subscribed','1'); })
       .catch(function(){ status.style.color='#b91c1c'; status.textContent='Something went wrong. Try again.'; });
     btn.disabled = false; btn.textContent = 'Send guides';
   });

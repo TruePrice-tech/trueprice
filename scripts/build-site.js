@@ -579,6 +579,186 @@ function buildPopularCityLinks(cityPricing) {
     .join("\n");
 }
 
+// --- New template variable builders ---
+
+const NATIONAL_AVG_2000_ARCH = 10100;
+
+function buildMostCommonPrice(cityPricing) {
+  const size2000 = cityPricing.sizes["2000"];
+  if (!size2000) return "$0";
+  if (size2000.architectural) {
+    return "$" + Math.round(size2000.architectural).toLocaleString();
+  }
+  // Fallback: average of all materials at 2000 sq ft
+  const vals = Object.values(size2000).map(Number).filter((v) => v > 0);
+  if (!vals.length) return "$0";
+  const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+  return "$" + Math.round(avg).toLocaleString();
+}
+
+function buildCityVsNational(cityPricing) {
+  const size2000 = cityPricing.sizes["2000"];
+  if (!size2000 || !size2000.architectural) return "near";
+  const price = size2000.architectural;
+  const pctDiff = ((price - NATIONAL_AVG_2000_ARCH) / NATIONAL_AVG_2000_ARCH) * 100;
+  if (Math.abs(pctDiff) <= 3) return "near";
+  const rounded = Math.round(Math.abs(pctDiff));
+  return pctDiff > 0 ? `${rounded}% above` : `${rounded}% below`;
+}
+
+function buildCityVsNationalClass(cityPricing) {
+  const size2000 = cityPricing.sizes["2000"];
+  if (!size2000 || !size2000.architectural) return "near";
+  const price = size2000.architectural;
+  const pctDiff = ((price - NATIONAL_AVG_2000_ARCH) / NATIONAL_AVG_2000_ARCH) * 100;
+  if (Math.abs(pctDiff) <= 3) return "near";
+  return pctDiff > 0 ? "above" : "below";
+}
+
+function buildPriceBarChart(cityPricing, allCityRows) {
+  const currentPrice = cityPricing.sizes["2000"] && cityPricing.sizes["2000"].architectural;
+  if (!currentPrice) return "";
+
+  // Find nearby cities: same state + neighboring states
+  const neighbors = NEIGHBORING_STATES[cityPricing.state_code] || [];
+  const sameState = allCityRows
+    .filter((c) => c.state_code === cityPricing.state_code && c.city !== cityPricing.city)
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0));
+  const neighborState = allCityRows
+    .filter((c) => neighbors.includes(c.state_code))
+    .sort((a, b) => Number(b.population || 0) - Number(a.population || 0));
+
+  const candidates = [...sameState, ...neighborState]
+    .filter((c) => c.sizes && c.sizes["2000"] && c.sizes["2000"].architectural)
+    .slice(0, 4);
+
+  if (!candidates.length) return "";
+
+  // Build comparison list including current city
+  const entries = [
+    { label: `${cityPricing.city}, ${cityPricing.state_code}`, price: currentPrice, isCurrent: true }
+  ];
+  for (const c of candidates) {
+    entries.push({
+      label: `${c.city}, ${c.state_code}`,
+      price: c.sizes["2000"].architectural,
+      isCurrent: false
+    });
+  }
+
+  const maxPrice = Math.max(...entries.map((e) => e.price));
+
+  const css = `<style>
+.price-bar-row { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.price-bar-label { min-width:140px; font-size:14px; font-weight:500; color:var(--text-secondary); text-align:right; }
+.price-bar-track { flex:1; height:24px; background:#f1f5f9; border-radius:6px; overflow:hidden; }
+.price-bar-fill { height:100%; border-radius:6px; transition:width 0.4s; }
+.price-bar-current { background:#1d4ed8; }
+.price-bar-other { background:#cbd5e1; }
+.price-bar-value { min-width:80px; font-size:14px; font-weight:700; }
+</style>`;
+
+  const bars = entries.map((e) => {
+    const widthPct = Math.round((e.price / maxPrice) * 100);
+    const cls = e.isCurrent ? "price-bar-current" : "price-bar-other";
+    const formatted = "$" + Math.round(e.price).toLocaleString();
+    return `<div class="price-bar-row">
+  <span class="price-bar-label">${e.label}</span>
+  <div class="price-bar-track"><div class="price-bar-fill ${cls}" style="width:${widthPct}%"></div></div>
+  <span class="price-bar-value">${formatted}</span>
+</div>`;
+  }).join("\n");
+
+  return css + "\n" + bars;
+}
+
+function buildScopeChecklist() {
+  const items = [
+    "Tear-off of old roof",
+    "Underlayment (synthetic preferred)",
+    "Flashing at all penetrations",
+    "Ice & water shield",
+    "Drip edge on all eaves",
+    "Ridge ventilation",
+    "Ridge vent",
+    "Starter strip",
+    "Ridge cap shingles",
+    "Decking inspection/repair",
+    "Debris removal & cleanup",
+    "Building permit"
+  ];
+
+  const checkItems = items.map((item) =>
+    `<div style="display:flex; align-items:center; gap:8px; padding:10px 14px; background:#f0fdf4; border:1px solid #a7f3d0; border-radius:8px;">
+    <span style="color:#16a34a; font-weight:700;">&#10003;</span>
+    <span style="font-size:14px;">${item}</span>
+  </div>`
+  ).join("\n  ");
+
+  return `<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+  ${checkItems}
+</div>`;
+}
+
+function buildHouseSizeTable(cityPricing) {
+  const standardSizes = ["1000", "1500", "2000", "2500", "3000"];
+  const availableSizes = standardSizes.filter((s) => cityPricing.sizes[s]);
+
+  if (!availableSizes.length) return "";
+
+  const rows = availableSizes.map((size) => {
+    const d = cityPricing.sizes[size];
+    const fmt = (v) => "$" + Math.round(v).toLocaleString();
+    const is2000 = size === "2000";
+    const archStyle = is2000 ? ' style="text-align:right; padding:10px 14px; background:#eff6ff; font-weight:700;"' : ' style="text-align:right; padding:10px 14px;"';
+    return `<tr${is2000 ? ' style="background:#fafbff;"' : ""}>
+<td style="text-align:left; padding:10px 14px;">${size} sq ft</td>
+<td style="text-align:right; padding:10px 14px;">${fmt(d.asphalt)}</td>
+<td${archStyle}>${fmt(d.architectural)}</td>
+<td style="text-align:right; padding:10px 14px;">${fmt(d.metal)}</td>
+<td style="text-align:right; padding:10px 14px;">${fmt(d.tile)}</td>
+</tr>`;
+  }).join("\n");
+
+  return `<div style="overflow-x:auto;">
+<table class="price-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border);">
+<th style="text-align:left; padding:10px 14px; font-weight:700;">House Size</th>
+<th style="text-align:right; padding:10px 14px;">Asphalt</th>
+<th style="text-align:right; padding:10px 14px;">Architectural</th>
+<th style="text-align:right; padding:10px 14px;">Metal</th>
+<th style="text-align:right; padding:10px 14px;">Tile</th>
+</tr>
+</thead>
+<tbody>
+${rows}
+</tbody>
+</table>
+</div>`;
+}
+
+function buildSavingsTip(cityPricing) {
+  const ctx = getCityContext(cityPricing.city, cityPricing.state_code);
+  const city = cityPricing.city;
+
+  if (ctx) {
+    if (ctx.growthRate === "high") {
+      return `${city} is a fast-growing market. Booking in the off-season (late fall or winter) can save 10-15% on labor.`;
+    }
+    if (ctx.hailRisk === "high") {
+      return `Ask your insurer about hail damage claims before paying out of pocket. Many ${city} homeowners qualify for partial or full coverage.`;
+    }
+    if (ctx.hurricaneZone) {
+      return `Check if your insurance covers wind damage from hurricanes. Florida law requires insurers to cover roof replacement if wind damage exceeds a threshold.`;
+    }
+  }
+
+  return `Get 3 quotes minimum. In ${city}, the spread between the highest and lowest bid is typically 30-40%.`;
+}
+
+// --- End new template variable builders ---
+
 function generateCityPageHtml(cityPricing, allCityRows) {
   let template = loadTemplate();
 
@@ -645,6 +825,15 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{CROSS_STATE_CITIES}}", buildCrossStateCities(cityPricing, allCityRows));
   template = template.replaceAll("{{MATERIAL_CITY_LINKS}}", buildMaterialCityLinksSection(cityPricing));
   template = template.replaceAll("{{POPULAR_CITY_LINKS}}", buildPopularCityLinks(cityPricing));
+
+  // New upgraded city page variables
+  template = template.replaceAll("{{MOST_COMMON_PRICE}}", buildMostCommonPrice(cityPricing));
+  template = template.replaceAll("{{CITY_VS_NATIONAL}}", buildCityVsNational(cityPricing));
+  template = template.replaceAll("{{CITY_VS_NATIONAL_CLASS}}", buildCityVsNationalClass(cityPricing));
+  template = template.replaceAll("{{PRICE_BAR_CHART}}", buildPriceBarChart(cityPricing, allCityRows));
+  template = template.replaceAll("{{SCOPE_CHECKLIST}}", buildScopeChecklist());
+  template = template.replaceAll("{{HOUSE_SIZE_TABLE}}", buildHouseSizeTable(cityPricing));
+  template = template.replaceAll("{{SAVINGS_TIP}}", buildSavingsTip(cityPricing));
 
   if (template.includes("{{NEARBY_CITIES_SECTION}}")) {
     template = template.replace("{{NEARBY_CITIES_SECTION}}", nearbyCitiesSection);
