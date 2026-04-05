@@ -22,22 +22,36 @@ const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const INFLATION_RATE = 0.03; // 3% annual
 
 const SUBREDDITS = [
+  // Home services
   { name: "roofing", service: "roofing" },
   { name: "hvac", service: "hvac" },
   { name: "hvacadvice", service: "hvac" },
   { name: "plumbing", service: "plumbing" },
   { name: "solar", service: "solar" },
-  { name: "HomeImprovement", service: "auto" },
+  { name: "HomeImprovement", service: "general" },
   { name: "electricians", service: "electrical" },
   { name: "askanelectrician", service: "electrical" },
   { name: "landscaping", service: "landscaping" },
-  { name: "Carpentry", service: "auto" },
   { name: "Concrete", service: "concrete" },
   { name: "Fencing", service: "fencing" },
   { name: "painting", service: "painting" },
   { name: "GarageDoorService", service: "garage-doors" },
   { name: "KitchenRemodel", service: "kitchen" },
-  { name: "homeowners", service: "auto" }
+  { name: "homeowners", service: "general" },
+  // Auto repair
+  { name: "MechanicAdvice", service: "auto-repair" },
+  { name: "autorepair", service: "auto-repair" },
+  { name: "Cartalk", service: "auto-repair" },
+  { name: "AskMechanics", service: "auto-repair" },
+  // Medical bills
+  { name: "personalfinance", service: "medical" },
+  { name: "HealthInsurance", service: "medical" },
+  { name: "MedicalBill", service: "medical" },
+  { name: "Insurance", service: "medical" },
+  // Legal fees
+  { name: "legaladvice", service: "legal" },
+  { name: "Ask_Lawyers", service: "legal" },
+  { name: "legal", service: "legal" }
 ];
 
 const SEARCH_TERMS = ["quote", "quoted", "estimate", "bid", "price", "cost", "paid"];
