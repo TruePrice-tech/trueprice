@@ -180,8 +180,9 @@
         var hiddenClass = i >= MAX_VISIBLE ? ' tp-hidden tp-extra-row' : '';
         html.push('<div class="tp-material' + hiddenClass + '">');
         html.push('<span class="tp-material-name">' + esc(m.label) + '</span>');
+        var suffix = m.hourly ? '/hr' : '';
         var priceStr = typeof m.high === 'string' ? fmt(m.low) + ' &ndash; ' + esc(String(m.high))
-          : fmt(m.low) + ' &ndash; ' + fmt(m.high);
+          : fmt(m.low) + ' &ndash; ' + fmt(m.high) + suffix;
         html.push('<span class="tp-material-price">' + priceStr + '</span>');
         html.push('</div>');
       }

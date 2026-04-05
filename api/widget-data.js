@@ -418,19 +418,27 @@ function computeMedical(data) {
 
 function computeLegal(data, mult) {
   const areas = data.hourlyRatesByPracticeArea;
-  const show = ['family_law', 'criminal_defense', 'estate_planning', 'real_estate', 'business_law', 'immigration'];
-  const materials = show.filter(k => areas[k]).map(key => {
-    const a = areas[key];
-    if (a.flatFees) {
-      const fees = Object.values(a.flatFees);
-      const low = Math.min(...fees.map(f => f[0])) * mult;
-      const high = Math.max(...fees.map(f => f[1])) * mult;
-      return { label: a.label, low: smartRound(low), high: smartRound(high) };
+  // Show a mix: some with flat fees (most useful for readers), some hourly
+  const show = [
+    { key: 'estate_planning', fee: 'simple_will', feeLabel: 'Simple Will' },
+    { key: 'criminal_defense', fee: 'dui_first', feeLabel: 'DUI Defense' },
+    { key: 'family_law', fee: null },
+    { key: 'bankruptcy', fee: 'chapter_7', feeLabel: 'Chapter 7 Bankruptcy' },
+    { key: 'immigration', fee: 'naturalization', feeLabel: 'Naturalization' },
+    { key: 'business_law', fee: 'llc_formation', feeLabel: 'LLC Formation' },
+  ];
+  const materials = show.filter(s => areas[s.key]).map(s => {
+    const a = areas[s.key];
+    if (s.fee && a.flatFees && a.flatFees[s.fee]) {
+      const f = a.flatFees[s.fee];
+      return { label: s.feeLabel, low: smartRound(f[0] * mult), high: smartRound(f[1] * mult) };
     }
-    return { label: a.label, low: smartRound(a.rates.low * mult), high: smartRound(a.rates.high * mult) + '/hr' };
-  });
-  // For overall range, use hourly rates
-  const allRates = show.filter(k => areas[k]).map(k => areas[k].rates).filter(r => r.low > 0);
+    if (a.rates && a.rates.low > 0) {
+      return { label: a.label, low: smartRound(a.rates.low * mult), high: smartRound(a.rates.high * mult), hourly: true };
+    }
+    return null;
+  }).filter(Boolean);
+  const allRates = Object.values(areas).map(a => a.rates).filter(r => r && r.low > 0);
   return {
     materials,
     overallLow: Math.min(...allRates.map(r => smartRound(r.low * mult))),
@@ -541,11 +549,15 @@ module.exports = async (req, res) => {
       } catch(e) { /* calibration unavailable */ }
     }
 
-    const adjustedMaterials = result.materials.map(m => ({
-      label: m.label,
-      low: typeof m.low === 'number' ? smartRound(m.low * totalMult) : m.low,
-      high: typeof m.high === 'string' ? m.high : smartRound(m.high * totalMult),
-    }));
+    const adjustedMaterials = result.materials.map(m => {
+      const item = {
+        label: m.label,
+        low: typeof m.low === 'number' ? smartRound(m.low * totalMult) : m.low,
+        high: typeof m.high === 'string' ? m.high : smartRound(m.high * totalMult),
+      };
+      if (m.hourly) item.hourly = true;
+      return item;
+    });
     const adjustedLow = smartRound(result.overallLow * totalMult);
     const adjustedHigh = smartRound(result.overallHigh * totalMult);
 
