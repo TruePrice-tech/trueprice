@@ -537,6 +537,7 @@
 
     // ── File handling ──
     function handleFile(file) {
+      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "moving" });
       state.uploadedFile = file;
       state.step = "uploading";
       render();
@@ -611,6 +612,7 @@
 
         setProgress(100, "Done!");
         state.result = result;
+        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "moving" });
         state.step = "result";
         setTimeout(render, 400);
 
@@ -1202,6 +1204,7 @@
     }
 
     // ── Init ──
+    if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "moving" });
     render();
 
   })();

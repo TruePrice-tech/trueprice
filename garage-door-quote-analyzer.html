@@ -538,6 +538,7 @@
       })();
 
       document.getElementById("btnEstimate").addEventListener("click", function() {
+        if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "garage-door" });
         state.address.street = document.getElementById("addrStreet").value.trim();
         state.address.city = document.getElementById("addrCity").value.trim();
         var rawState = document.getElementById("addrState").value.trim();
@@ -560,6 +561,7 @@
 
     // ── Upload / Processing ──
     function handleFile(file) {
+      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "garage-door" });
       state.uploadedFile = file;
       var streetEl = document.getElementById("addrStreet");
       var cityEl = document.getElementById("addrCity");
@@ -688,6 +690,7 @@
           parsed: parsed
         };
 
+        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "garage-door" });
         state.step = "result";
         setTimeout(render, 400);
 
@@ -1130,6 +1133,7 @@
     }
 
     // ── Init ──
+    if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "garage-door" });
     render();
 
   })();

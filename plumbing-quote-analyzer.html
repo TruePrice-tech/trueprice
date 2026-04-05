@@ -584,6 +584,7 @@
       })();
 
       document.getElementById("btnEstimate").addEventListener("click", function() {
+        if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "plumbing" });
         state.address.street = document.getElementById("addrStreet").value.trim();
         state.address.city = document.getElementById("addrCity").value.trim();
         var rawState = document.getElementById("addrState").value.trim();
@@ -606,6 +607,7 @@
 
     // ── Upload / Processing ──
     function handleFile(file) {
+      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "plumbing" });
       state.uploadedFile = file;
       // capture address before leaving
       var streetEl = document.getElementById("addrStreet");
@@ -748,6 +750,7 @@
           parsed: parsed
         };
 
+        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "plumbing" });
         state.step = "result";
         setTimeout(render, 400);
 
@@ -1241,6 +1244,7 @@
     }
 
     // ── Init ──
+    if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "plumbing" });
     render();
 
   })();
