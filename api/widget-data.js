@@ -46,6 +46,7 @@ const SERVICE_CONFIG = {
   'auto-repair': { file: 'auto-repair-common-jobs.json', label: 'Auto Repair', urlSlug: null, refSize: null, category: 'auto' },
   medical:       { file: 'medical-common-procedures.json', label: 'Medical Costs', urlSlug: null, refSize: null, category: 'medical' },
   legal:         { file: 'legal-fee-pricing.json', label: 'Legal Fees', urlSlug: null, refSize: null, category: 'legal' },
+  moving:        { file: 'moving-pricing.json', label: 'Moving Costs', urlSlug: null, refSize: null, category: 'moving' },
 };
 
 function roundPrice(value, roundTo) {
@@ -416,6 +417,18 @@ function computeMedical(data) {
   return { materials, overallLow: Math.min(...allLows), overallHigh: Math.max(...allHighs) };
 }
 
+function computeMoving(data, mult) {
+  const sizes = data.localTotalBySize;
+  const show = ['studio', '1br', '2br', '3br', '4br'];
+  const materials = show.filter(k => sizes[k]).map(key => {
+    const s = sizes[key];
+    return { label: s.label, low: smartRound(s.low * mult), high: smartRound(s.high * mult) };
+  });
+  const allLows = materials.map(m => m.low);
+  const allHighs = materials.map(m => m.high);
+  return { materials, overallLow: Math.min(...allLows), overallHigh: Math.max(...allHighs) };
+}
+
 function computeLegal(data, mult) {
   const areas = data.hourlyRatesByPracticeArea;
   // Show a mix: some with flat fees (most useful for readers), some hourly
@@ -467,6 +480,7 @@ const COMPUTE_MAP = {
   'auto-repair': computeAutoRepair,
   medical: computeMedical,
   legal: computeLegal,
+  moving: computeMoving,
 };
 
 module.exports = async (req, res) => {
@@ -522,6 +536,10 @@ module.exports = async (req, res) => {
       laborMult = (model.regionalMultipliers || {})[region] || 1.0;
     }
     // medical: no regional multiplier (prices vary by facility, not region)
+    if (category === 'moving') {
+      const region = getRegion(stateUpper);
+      laborMult = (model.regionalMultipliers || {})[region] || 1.0;
+    }
 
     const result = computeFn(model, laborMult);
 
@@ -595,6 +613,9 @@ module.exports = async (req, res) => {
     } else if (category === 'legal') {
       cityPageUrl = 'https://truepricehq.com/legal-cost-guide.html';
       analyzerUrl = 'https://truepricehq.com/legal-fee-analyzer.html';
+    } else if (category === 'moving') {
+      cityPageUrl = 'https://truepricehq.com/moving-cost-guide.html';
+      analyzerUrl = 'https://truepricehq.com/moving-quote-analyzer.html';
     }
 
     return res.status(200).json({
