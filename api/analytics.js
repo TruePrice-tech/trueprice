@@ -255,24 +255,18 @@ export default async function handler(req, res) {
       }
     }
 
-    // Admin: initialize or sync the global quote counter from calibration aggregates
+    // Admin: set the global quote counter directly
     if (req.query.initCounter === "1") {
       const adminKey = req.query.key || "";
       if (adminKey !== ADMIN_KEY) return res.status(403).json({ error: "Unauthorized" });
       try {
-        // Scan all cal:* keys and sum their quote counts
-        let cursor = "0";
-        let totalQuotes = 0;
-        do {
-          const [nextCursor, keys] = await redis.scan(cursor, { match: "cal:*", count: 200 });
-          cursor = String(nextCursor);
-          for (const k of keys) {
-            const data = await redis.get(k);
-            if (data && data.quotes) totalQuotes += data.quotes;
-          }
-        } while (cursor !== "0");
-        await redis.set("tp:total_quotes", totalQuotes);
-        return res.status(200).json({ ok: true, totalQuotes });
+        const setValue = parseInt(req.query.value || "0");
+        if (setValue > 0) {
+          await redis.set("tp:total_quotes", setValue);
+          return res.status(200).json({ ok: true, totalQuotes: setValue });
+        }
+        const current = (await redis.get("tp:total_quotes")) || 0;
+        return res.status(200).json({ ok: true, totalQuotes: Number(current) });
       } catch (e) {
         return res.status(500).json({ error: e.message });
       }
