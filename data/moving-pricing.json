@@ -1,0 +1,86 @@
+{
+  "localHourlyRates": {
+    "2_movers": { "label": "2 Movers + Truck", "low": 80, "mid": 100, "high": 120 },
+    "3_movers": { "label": "3 Movers + Truck", "low": 120, "mid": 145, "high": 170 },
+    "4_movers": { "label": "4 Movers + Truck", "low": 160, "mid": 190, "high": 220 }
+  },
+  "localTotalBySize": {
+    "studio": { "label": "Studio / Small 1BR", "low": 300, "high": 600, "typicalHours": 3 },
+    "1br": { "label": "1 Bedroom", "low": 400, "high": 800, "typicalHours": 4 },
+    "2br": { "label": "2 Bedrooms", "low": 600, "high": 1200, "typicalHours": 5 },
+    "3br": { "label": "3 Bedrooms", "low": 900, "high": 1800, "typicalHours": 7 },
+    "4br": { "label": "4+ Bedrooms", "low": 1200, "high": 2500, "typicalHours": 9 }
+  },
+  "longDistanceBySize": {
+    "1br": { "label": "1 Bedroom", "weight": 2000, "under250": [1500, 3000], "mid500": [2000, 4000], "mid1000": [2500, 5500], "cross_country": [3000, 6000] },
+    "2br": { "label": "2 Bedrooms", "weight": 5000, "under250": [2000, 4000], "mid500": [3000, 5500], "mid1000": [3500, 6500], "cross_country": [4500, 8000] },
+    "3br": { "label": "3 Bedrooms", "weight": 8000, "under250": [2500, 5000], "mid500": [3500, 6500], "mid1000": [5000, 8000], "cross_country": [6000, 10000] },
+    "4br": { "label": "4+ Bedrooms", "weight": 12000, "under250": [3500, 6500], "mid500": [5000, 8500], "mid1000": [6500, 10000], "cross_country": [8000, 14000] }
+  },
+  "packingCosts": {
+    "per_box": { "label": "Per Box (mover-packed)", "low": 3, "high": 10 },
+    "full_1br": { "label": "Full Packing (1BR)", "low": 300, "high": 600 },
+    "full_2br": { "label": "Full Packing (2BR)", "low": 400, "high": 800 },
+    "full_3br": { "label": "Full Packing (3BR)", "low": 500, "high": 1200 },
+    "full_4br": { "label": "Full Packing (4BR+)", "low": 800, "high": 2000 }
+  },
+  "specialItems": {
+    "piano_upright": { "label": "Piano (Upright)", "low": 200, "high": 600 },
+    "piano_grand": { "label": "Grand Piano", "low": 500, "high": 1500 },
+    "pool_table": { "label": "Pool Table", "low": 300, "high": 800 },
+    "hot_tub": { "label": "Hot Tub", "low": 300, "high": 1000 },
+    "safe_gun": { "label": "Gun Safe / Heavy Safe", "low": 200, "high": 600 },
+    "antiques": { "label": "Antiques / Fine Art (per item)", "low": 100, "high": 500 }
+  },
+  "commonFees": {
+    "stairs": { "label": "Stairs (per flight)", "low": 50, "high": 100 },
+    "long_carry": { "label": "Long Carry (75+ ft from door to truck)", "low": 75, "high": 150 },
+    "elevator": { "label": "Elevator Fee", "low": 75, "high": 150 },
+    "weekend_peak": { "label": "Weekend / Peak Season Surcharge", "pct": [10, 25], "note": "May through September is peak season" },
+    "fuel_surcharge": { "label": "Fuel Surcharge", "pct": [5, 12] },
+    "shuttle": { "label": "Shuttle Service (truck can't access)", "low": 200, "high": 500 },
+    "bulky_item": { "label": "Bulky Item Surcharge", "low": 50, "high": 200 },
+    "storage_in_transit": { "label": "Storage in Transit (per month)", "low": 150, "high": 500 }
+  },
+  "storageCosts": {
+    "5x5": { "label": "5x5 Unit", "low": 50, "high": 80 },
+    "5x10": { "label": "5x10 Unit", "low": 70, "high": 120 },
+    "10x10": { "label": "10x10 Unit", "low": 100, "high": 180 },
+    "10x20": { "label": "10x20 Unit", "low": 150, "high": 300 },
+    "10x30": { "label": "10x30 Unit", "low": 200, "high": 400 },
+    "climate_premium_pct": 25
+  },
+  "regionalMultipliers": {
+    "northeast": 1.20,
+    "southeast": 0.92,
+    "midwest": 0.95,
+    "south": 0.90,
+    "mountain": 1.00,
+    "west": 1.25
+  },
+  "scopeCheckItems": [
+    { "key": "inventoryList", "label": "Itemized inventory list provided", "weight": 15 },
+    { "key": "pickupWindow", "label": "Pickup date and time window", "weight": 10 },
+    { "key": "deliveryWindow", "label": "Delivery date and time window", "weight": 10 },
+    { "key": "insurance", "label": "Insurance / valuation coverage included", "weight": 12 },
+    { "key": "weightEstimate", "label": "Weight estimate or binding price", "weight": 12 },
+    { "key": "usdotNumber", "label": "USDOT and MC numbers listed", "weight": 15 },
+    { "key": "cancellationPolicy", "label": "Cancellation policy stated", "weight": 8 },
+    { "key": "stairsFees", "label": "Stair / elevator / long carry fees disclosed", "weight": 8 },
+    { "key": "packingCosts", "label": "Packing costs itemized separately", "weight": 5 },
+    { "key": "fuelSurcharge", "label": "Fuel surcharge disclosed", "weight": 5 }
+  ],
+  "redFlags": [
+    "No in-home or video survey before giving a binding estimate",
+    "Demands large cash deposit upfront (legit movers take 10-20% or bill on delivery)",
+    "No USDOT number on the estimate or website",
+    "Unmarked trucks or generic rental trucks on moving day",
+    "Phone-only estimate without seeing your belongings",
+    "Binding estimate that \"adjusts\" on moving day based on actual weight",
+    "Will not provide a written estimate or contract",
+    "Asks you to sign blank or incomplete documents",
+    "Price seems too good to be true (significantly below all other quotes)"
+  ],
+  "inflationBaseYear": 2025,
+  "inflationRate": 0.03
+}

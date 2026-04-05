@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <title>Moving Quote Analyzer - Is Your Moving Quote Fair? | TruePrice</title>
+  <meta
+    name="description"
+    content="Upload your moving company estimate to instantly check if the price is fair. Compares hourly rates, weight charges, fees, and scope against market data."
+  />
+  <link rel="canonical" href="https://truepricehq.com/moving-quote-analyzer.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Moving Quote Analyzer | TruePrice" />
+  <meta
+    property="og:description"
+    content="Upload your moving company estimate to instantly check if the price is fair. Compares hourly rates, weight charges, fees, and scope against market data."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/moving-quote-analyzer.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Moving Quote Analyzer | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Upload your moving company estimate to instantly check if the price is fair. Compares hourly rates, weight charges, fees, and scope against market data."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#d97706" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TruePrice Moving Quote Analyzer",
+    "url": "https://truepricehq.com/moving-quote-analyzer.html",
+    "description": "Free AI-powered moving quote analysis. Upload a moving company estimate to check hourly rates, weight charges, fees, and scope against market data.",
+    "applicationCategory": "UtilityApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "Web",
+    "provider": {
+      "@type": "Organization",
+      "name": "TruePrice",
+      "url": "https://truepricehq.com"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Moving Quote Analyzer"}]}
+  </script>
+
+  <style>
+    .mv-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .mv-hero { text-align: center; margin-bottom: 2rem; user-select: none; cursor: default; }
+    .mv-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .mv-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .mv-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+
+    .mv-upload-zone {
+      border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
+      text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      background: #f8fafc;
+    }
+    .mv-upload-zone:hover { border-color: #d97706; background: #fffbeb; }
+    .mv-upload-zone svg { width: 48px; height: 48px; color: #d97706; margin-bottom: 0.75rem; }
+    .mv-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .mv-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+
+    .mv-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
+    .mv-divider::before, .mv-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
+
+    .mv-manual-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .mv-manual-form input, .mv-manual-form select {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 100%; box-sizing: border-box;
+    }
+    .mv-manual-form input:focus, .mv-manual-form select:focus { outline: none; border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
+
+    .mv-row { display: flex; gap: 0.75rem; }
+    .mv-row > * { flex: 1; }
+
+    .mv-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .mv-btn-primary { background: #d97706; color: #fff; }
+    .mv-btn-primary:hover { background: #b45309; }
+    .mv-btn-secondary { background: #f1f5f9; color: #334155; }
+    .mv-btn-secondary:hover { background: #e2e8f0; }
+    .mv-btn-full { width: 100%; }
+
+    .mv-progress { margin: 1.5rem 0; }
+    .mv-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .mv-progress-fill { height: 100%; background: #0d9488; border-radius: 3px; transition: width 0.4s ease; }
+    .mv-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+
+    /* Verdict card */
+    .mv-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .mv-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .mv-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
+    .mv-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    .mv-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .mv-verdict.fair .verdict-label { color: #16a34a; }
+    .mv-verdict.high .verdict-label { color: #dc2626; }
+    .mv-verdict.low .verdict-label { color: #ca8a04; }
+    .mv-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .mv-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+
+    /* Line items table */
+    .mv-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    .mv-table th { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    .mv-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    .mv-table tr:last-child td { border-bottom: none; }
+    .mv-table .mv-table-total td { border-top: 2px solid #e2e8f0; font-weight: 700; color: #1e293b; }
+
+    /* Scope checklist */
+    .mv-scope { list-style: none; padding: 0; margin: 0; }
+    .mv-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .mv-scope li:last-child { border-bottom: none; }
+    .scope-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .scope-included { background: #dcfce7; color: #16a34a; }
+    .scope-missing { background: #fee2e2; color: #dc2626; }
+    .scope-unclear { background: #f1f5f9; color: #94a3b8; }
+
+    /* Details grid */
+    .mv-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .mv-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .mv-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .mv-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+
+    .mv-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .mv-actions a, .mv-actions button { text-align: center; }
+
+    .mv-rate-flag { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; margin-left: 6px; }
+    .mv-rate-flag.high { background: #fef2f2; color: #dc2626; }
+    .mv-rate-flag.low { background: #fefce8; color: #ca8a04; }
+    .mv-rate-flag.fair { background: #f0fdf4; color: #16a34a; }
+
+    .mv-hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .mv-hero h1 { font-size: 1.5rem; }
+      .mv-row { flex-direction: column; }
+      .mv-details { grid-template-columns: 1fr; }
+      .mv-table { font-size: 0.85rem; }
+      .mv-table th, .mv-table td { padding: 0.5rem 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="mv-app" id="mvApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#d97706; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
+  <section style="margin-top:32px; padding:24px 0; border-top:1px solid var(--border,#e2e8f0);">
+    <h3 style="font-size:16px; color:var(--text-muted,#6b7280); margin:0 0 12px;">Analyze quotes for other services</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+      <a href="/roofing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Roofing</a>
+      <a href="/hvac-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">HVAC</a>
+      <a href="/plumbing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Plumbing</a>
+      <a href="/electrical-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Electrical</a>
+      <a href="/solar-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Solar</a>
+      <a href="/auto-repair-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Auto Repair</a>
+      <a href="/painting-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Painting</a>
+      <a href="/siding-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Siding</a>
+      <a href="/fencing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Fencing</a>
+      <a href="/concrete-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Concrete</a>
+      <a href="/landscaping-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Landscaping</a>
+      <a href="/garage-door-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Garage Doors</a>
+      <a href="/foundation-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Foundation</a>
+      <a href="/kitchen-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Kitchen</a>
+      <a href="/insulation-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Insulation</a>
+      <a href="/gutters-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Gutters</a>
+    </div>
+  </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps homeowners analyze moving quotes, compare mover prices, and estimate moving costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-ocr.js" defer></script>
+
+  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ── Moving Pricing Model ──
+    var MOVING_PRICING = {
+      hourlyRatesByMoveType: {
+        local: { low: 80, mid: 120, high: 180 },
+        longDistance: { low: 2000, mid: 4500, high: 8000 }
+      },
+      hourlyRatesByCrewSize: {
+        2: { low: 80, mid: 110, high: 150 },
+        3: { low: 120, mid: 160, high: 210 },
+        4: { low: 160, mid: 210, high: 280 }
+      },
+      costPerPoundLongDistance: { low: 0.40, mid: 0.70, high: 1.00 },
+      localByHomeSize: {
+        studio:  { low: 300,  mid: 500,   high: 800 },
+        "1br":   { low: 400,  mid: 700,   high: 1100 },
+        "2br":   { low: 600,  mid: 1000,  high: 1600 },
+        "3br":   { low: 900,  mid: 1500,  high: 2400 },
+        "4br":   { low: 1200, mid: 2200,  high: 3500 },
+        "5br+":  { low: 1800, mid: 3200,  high: 5000 }
+      },
+      longDistanceByHomeSize: {
+        studio:  { low: 1200, mid: 2200,  high: 3500 },
+        "1br":   { low: 1800, mid: 3000,  high: 4500 },
+        "2br":   { low: 2500, mid: 4500,  high: 7000 },
+        "3br":   { low: 3500, mid: 6000,  high: 9500 },
+        "4br":   { low: 5000, mid: 8500,  high: 13000 },
+        "5br+":  { low: 7000, mid: 12000, high: 18000 }
+      },
+      regionMultiplier: {
+        south: 0.90, southeast: 0.93, northeast: 1.18,
+        midwest: 0.95, mountain: 1.00, west: 1.22
+      },
+      scopeItems: [
+        { key: "bindingEstimate", label: "Binding or not-to-exceed estimate provided", weight: 15 },
+        { key: "inventoryList", label: "Detailed inventory list included", weight: 12 },
+        { key: "laborRateStated", label: "Hourly rate or weight rate stated", weight: 12 },
+        { key: "insuranceCoverage", label: "Valuation/insurance coverage specified", weight: 12 },
+        { key: "packingCosts", label: "Packing materials and labor itemized", weight: 10 },
+        { key: "specialItems", label: "Special item handling noted (piano, art, etc.)", weight: 8 },
+        { key: "stairsElevator", label: "Stairs/elevator/long carry fees disclosed", weight: 8 },
+        { key: "storageFees", label: "Storage fees (if applicable) listed", weight: 6 },
+        { key: "cancellationPolicy", label: "Cancellation/rescheduling policy stated", weight: 8 },
+        { key: "licenseDOT", label: "USDOT or state license number shown", weight: 9 }
+      ]
+    };
+
+    var STATE_REGIONS = {
+      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+      WY:"mountain",DC:"northeast"
+    };
+
+    // ── State ──
+    var appRoot = document.getElementById("mvApp");
+    var state = {
+      step: "upload",
+      stateCode: "",
+      moveType: "local",
+      homeSize: "2br",
+      uploadedFile: null,
+      extractedText: "",
+      result: null
+    };
+
+    // ── Helpers ──
+    function $(sel, el) { return (el || document).querySelector(sel); }
+    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+    function fmtCents(n) { return "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+    function getRegionFromState(sc) {
+      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+    }
+
+    function getExpectedRange(moveType, homeSize, region) {
+      var table = moveType === "longDistance" ? MOVING_PRICING.longDistanceByHomeSize : MOVING_PRICING.localByHomeSize;
+      var base = table[homeSize] || table["2br"];
+      var mult = MOVING_PRICING.regionMultiplier[region] || 1.0;
+      return {
+        low: Math.round(base.low * mult),
+        mid: Math.round(base.mid * mult),
+        high: Math.round(base.high * mult)
+      };
+    }
+
+    function verdictFromRatio(ratio) {
+      if (ratio < 0.78) return { label: "Unusually Low", css: "low" };
+      if (ratio <= 0.90) return { label: "Below Average", css: "low" };
+      if (ratio <= 1.12) return { label: "Fair Price", css: "fair" };
+      if (ratio <= 1.25) return { label: "Above Average", css: "high" };
+      return { label: "Higher Than Expected", css: "high" };
+    }
+
+    function rateFlag(detected, expected) {
+      if (!detected || !expected) return null;
+      var ratio = detected / expected.mid;
+      if (ratio > 1.20) return { label: "Above market", css: "high" };
+      if (ratio < 0.80) return { label: "Below market", css: "low" };
+      return { label: "Market rate", css: "fair" };
+    }
+
+    function capitalize(s) {
+      return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+    }
+
+    var homeSizeLabels = {
+      studio: "Studio", "1br": "1 Bedroom", "2br": "2 Bedroom", "3br": "3 Bedroom",
+      "4br": "4 Bedroom", "5br+": "5+ Bedroom"
+    };
+
+    // ── Feedback ──
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "moving", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
+    // ── Save as image ──
+    window.saveResultAsImage = function() {
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
+      function doCapture() {
+        html2canvas(document.getElementById("mvApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-moving-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        });
+      }
+    };
+
+    // ── Render ──
+    function render() {
+      switch (state.step) {
+        case "upload": renderUpload(); break;
+        case "uploading": renderUploading(); break;
+        case "result": renderResult(); break;
+      }
+    }
+
+    // ── Upload Step ──
+    function renderUpload() {
+      appRoot.innerHTML = '\
+        <div class="mv-hero">\
+          <img src="/images/trudy-moving.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>Is your moving quote fair?</h1>\
+          <p>Upload your estimate from any moving company. Trudy checks the rates, fees, and flags anything suspicious.</p>\
+        </div>\
+        <div class="mv-card">\
+          <div class="mv-upload-zone" id="uploadZone">\
+            <div style="font-size:36px; margin-bottom:8px;">&#128230;</div>\
+            <p><strong>Upload Your Moving Quote</strong></p>\
+            <p class="hint">Drag and drop a PDF or photo of your moving estimate</p>\
+            <p class="hint">PDF, JPG, PNG accepted</p>\
+            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          </div>\
+          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
+          <div class="mv-divider">or enter your quote total manually</div>\
+          <div class="mv-manual-form">\
+            <div class="mv-row">\
+              <div style="position:relative;">\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Quote Total</label>\
+                <div style="display:flex;align-items:center;gap:6px;">\
+                  <span style="font-size:18px;font-weight:700;color:#334155;">$</span>\
+                  <input type="number" id="manualTotal" placeholder="e.g. 2400" min="50" max="50000" />\
+                </div>\
+              </div>\
+              <div>\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">State</label>\
+                <input type="text" id="manualState" placeholder="e.g. TX" maxlength="2" style="text-transform:uppercase;" />\
+              </div>\
+            </div>\
+            <div class="mv-row">\
+              <div>\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Move Type</label>\
+                <select id="manualMoveType">\
+                  <option value="local">Local (under 100 miles)</option>\
+                  <option value="longDistance">Long Distance (100+ miles)</option>\
+                </select>\
+              </div>\
+              <div>\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Home Size</label>\
+                <select id="manualHomeSize">\
+                  <option value="studio">Studio</option>\
+                  <option value="1br">1 Bedroom</option>\
+                  <option value="2br" selected>2 Bedroom</option>\
+                  <option value="3br">3 Bedroom</option>\
+                  <option value="4br">4 Bedroom</option>\
+                  <option value="5br+">5+ Bedroom</option>\
+                </select>\
+              </div>\
+            </div>\
+            <div class="mv-row">\
+              <div>\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Hourly Rate (if known)</label>\
+                <div style="display:flex;align-items:center;gap:6px;">\
+                  <span style="font-size:14px;color:#64748b;">$/hr</span>\
+                  <input type="number" id="manualHourlyRate" placeholder="optional" min="30" max="500" />\
+                </div>\
+              </div>\
+              <div>\
+                <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Distance (miles)</label>\
+                <input type="number" id="manualDistance" placeholder="optional" min="1" max="5000" />\
+              </div>\
+            </div>\
+            <button class="mv-btn mv-btn-primary mv-btn-full" id="btnManualAnalyze">Analyze This Quote</button>\
+          </div>\
+        </div>';
+
+      // File upload events
+      var zone = document.getElementById("uploadZone");
+      var fileInput = document.getElementById("fileInput");
+
+      zone.addEventListener("click", function() { fileInput.click(); });
+      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#d97706"; zone.style.background = "#fffbeb"; });
+      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc"; });
+      zone.addEventListener("drop", function(e) {
+        e.preventDefault();
+        zone.style.borderColor = "#cbd5e1";
+        zone.style.background = "#f8fafc";
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener("change", function() {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+      });
+
+      // Paste handler
+      document.addEventListener("paste", function(e) {
+        if (state.step !== "upload") return;
+        var items = (e.clipboardData || {}).items || [];
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf("image") !== -1) {
+            handleFile(items[i].getAsFile());
+            break;
+          }
+        }
+      });
+
+      // Manual entry
+      document.getElementById("btnManualAnalyze").addEventListener("click", function() {
+        var total = parseFloat(document.getElementById("manualTotal").value);
+        if (!total || total < 50) { alert("Please enter a valid quote total."); return; }
+
+        var rawState = (document.getElementById("manualState").value || "").trim().toUpperCase();
+        state.stateCode = STATE_REGIONS[rawState] ? rawState : "TX";
+        state.moveType = document.getElementById("manualMoveType").value || "local";
+        state.homeSize = document.getElementById("manualHomeSize").value || "2br";
+        var hourlyRate = parseFloat(document.getElementById("manualHourlyRate").value) || null;
+        var distance = parseFloat(document.getElementById("manualDistance").value) || null;
+
+        var region = getRegionFromState(state.stateCode);
+        var expected = getExpectedRange(state.moveType, state.homeSize, region);
+        var ratio = expected.mid > 0 ? total / expected.mid : 1.0;
+
+        state.result = {
+          source: "manual",
+          quoteTotal: total,
+          benchmark: expected.mid,
+          expectedRange: expected,
+          ratio: ratio,
+          verdict: verdictFromRatio(ratio),
+          lineItems: [],
+          hourlyRate: hourlyRate,
+          crewSize: null,
+          estimatedHours: null,
+          weight: null,
+          distance: distance,
+          moveDate: null,
+          moveType: state.moveType,
+          homeSize: state.homeSize,
+          region: region,
+          rateFlag: hourlyRate ? rateFlag(hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[2]) : null,
+          scopeSignals: {},
+          redFlags: [],
+          parsed: null
+        };
+
+        state.step = "result";
+        render();
+      });
+    }
+
+    // ── File handling ──
+    function handleFile(file) {
+      state.uploadedFile = file;
+      state.step = "uploading";
+      render();
+      processFile(file);
+    }
+
+    function renderUploading() {
+      appRoot.innerHTML = '\
+        <div style="max-width:720px; margin:60px auto; text-align:center; padding:0 24px;">\
+          <img src="/images/trudy-moving.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />\
+          <h1 style="font-size:24px; margin-bottom:8px;">Analyzing your moving quote...</h1>\
+          <p style="color:#64748b; margin-bottom:24px;">Don\'t sign until Trudy checks it</p>\
+          <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:12px;">\
+            <div id="progFill" style="width:10%; height:100%; background:#0d9488; transition:width .4s;"></div>\
+          </div>\
+          <p style="font-size:14px; color:#94a3b8;" id="progText">Loading document...</p>\
+        </div>';
+    }
+
+    function setProgress(pct, msg) {
+      var fill = document.getElementById("progFill");
+      var txt = document.getElementById("progText");
+      if (fill) fill.style.width = pct + "%";
+      if (txt) txt.textContent = msg;
+    }
+
+    async function processFile(file) {
+      try {
+        setProgress(15, "Loading parsing libraries...");
+        await window.loadVendorLibs();
+
+        var text = "";
+        var imageData = null;
+        if (file.type === "application/pdf") {
+          setProgress(30, "Extracting text from PDF...");
+          text = await extractPdfText(file);
+        } else {
+          setProgress(30, "Processing image...");
+          imageData = await fileToBase64(file);
+          text = await extractImageText(file);
+        }
+
+        setProgress(50, "Analyzing moving quote...");
+        state.extractedText = text;
+
+        // Try API first
+        var apiResult = null;
+        try {
+          setProgress(60, "Checking quote against market data...");
+          var apiPayload = { text: text };
+          if (imageData) apiPayload.images = [imageData];
+          var apiResponse = await fetch("/api/moving-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiPayload)
+          });
+          if (apiResponse.ok) {
+            apiResult = await apiResponse.json();
+          }
+        } catch (apiErr) {
+          console.warn("API unavailable, falling back to local parsing:", apiErr);
+        }
+
+        setProgress(75, "Calculating verdict...");
+
+        var result = null;
+        if (apiResult && apiResult.quoteTotal) {
+          result = buildResultFromAPI(apiResult);
+        } else {
+          result = buildResultFromLocal(text);
+        }
+
+        setProgress(100, "Done!");
+        state.result = result;
+        state.step = "result";
+        setTimeout(render, 400);
+
+      } catch (err) {
+        console.error("Moving analysis error:", err);
+        renderErrorFallback();
+      }
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function buildResultFromAPI(api) {
+      var region = getRegionFromState(api.stateCode || state.stateCode || "TX");
+      if (api.stateCode) state.stateCode = api.stateCode;
+      var moveType = api.moveType || state.moveType || "local";
+      var homeSize = api.homeSize || state.homeSize || "2br";
+      var expected = getExpectedRange(moveType, homeSize, region);
+
+      var lineItems = (api.lineItems || []).map(function(item) {
+        return {
+          description: item.description || "Service",
+          cost: item.cost || 0
+        };
+      });
+
+      var quoteTotal = api.quoteTotal || 0;
+      var benchmark = api.benchmark || expected.mid;
+      var ratio = benchmark > 0 ? quoteTotal / benchmark : 1.0;
+
+      return {
+        source: "upload",
+        quoteTotal: quoteTotal,
+        benchmark: benchmark,
+        expectedRange: expected,
+        ratio: ratio,
+        verdict: verdictFromRatio(ratio),
+        lineItems: lineItems,
+        hourlyRate: api.hourlyRate || null,
+        crewSize: api.crewSize || null,
+        estimatedHours: api.estimatedHours || null,
+        weight: api.weight || null,
+        distance: api.distance || null,
+        moveDate: api.moveDate || null,
+        moveType: moveType,
+        homeSize: homeSize,
+        region: region,
+        rateFlag: api.hourlyRate ? rateFlag(api.hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[api.crewSize || 2]) : null,
+        scopeSignals: api.scopeSignals || {},
+        redFlags: api.redFlags || [],
+        parsed: api
+      };
+    }
+
+    function buildResultFromLocal(text) {
+      var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
+      var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v > 0 && v < 100000; });
+
+      // Detect move type
+      var moveType = "local";
+      if (/long\s*distance|interstate|cross[\s-]country|out[\s-]of[\s-]state/i.test(text)) {
+        moveType = "longDistance";
+      }
+
+      // Detect home size
+      var homeSize = "2br";
+      if (/\bstudio\b/i.test(text)) homeSize = "studio";
+      else if (/\b1[\s-]?(?:bed(?:room)?|br)\b/i.test(text)) homeSize = "1br";
+      else if (/\b2[\s-]?(?:bed(?:room)?|br)\b/i.test(text)) homeSize = "2br";
+      else if (/\b3[\s-]?(?:bed(?:room)?|br)\b/i.test(text)) homeSize = "3br";
+      else if (/\b4[\s-]?(?:bed(?:room)?|br)\b/i.test(text)) homeSize = "4br";
+      else if (/\b5[\s-]?(?:bed(?:room)?|br)\b|\b[56789][\s-]?(?:bed|room)/i.test(text)) homeSize = "5br+";
+
+      // Detect hourly rate
+      var hourlyRate = null;
+      var rateMatch = text.match(/\$?\s*(\d{2,3}(?:\.\d{2})?)\s*(?:\/\s*h(?:ou)?r|per\s*h(?:ou)?r|hr)/i);
+      if (rateMatch) hourlyRate = parseFloat(rateMatch[1]);
+
+      // Detect crew size
+      var crewSize = null;
+      var crewMatch = text.match(/(\d)\s*(?:movers?|men|crew|guys|person)/i);
+      if (crewMatch) crewSize = parseInt(crewMatch[1]);
+
+      // Detect estimated hours
+      var estimatedHours = null;
+      var hoursMatch = text.match(/(\d+(?:\.\d+)?)\s*(?:hours?|hrs?)\b/i);
+      if (hoursMatch) estimatedHours = parseFloat(hoursMatch[1]);
+
+      // Detect weight
+      var weight = null;
+      var weightMatch = text.match(/([\d,]+)\s*(?:lbs?|pounds?)/i);
+      if (weightMatch) weight = parseFloat(weightMatch[1].replace(/,/g, ""));
+
+      // Detect distance
+      var distance = null;
+      var distMatch = text.match(/([\d,]+)\s*miles?/i);
+      if (distMatch) distance = parseFloat(distMatch[1].replace(/,/g, ""));
+      if (distance && distance > 100) moveType = "longDistance";
+
+      // Detect move date
+      var moveDate = null;
+      var dateMatch = text.match(/(?:move|moving|service)\s*date[:\s]*([A-Za-z]+\s+\d{1,2},?\s*\d{4}|\d{1,2}\/\d{1,2}\/\d{2,4})/i);
+      if (dateMatch) moveDate = dateMatch[1];
+
+      // Detect state
+      var stateMatch = text.match(/\b([A-Z]{2})\s+\d{5}\b/);
+      if (stateMatch && STATE_REGIONS[stateMatch[1]]) {
+        state.stateCode = stateMatch[1];
+      }
+
+      var region = getRegionFromState(state.stateCode);
+      var expected = getExpectedRange(moveType, homeSize, region);
+
+      // Build line items
+      var lineItems = [];
+      var lineItemPattern = /([A-Za-z][A-Za-z\s\/\-&]+?)[\s.]*\$?([\d,]+(?:\.\d{2})?)/g;
+      var match;
+      var seenDescriptions = {};
+      while ((match = lineItemPattern.exec(text)) !== null) {
+        var desc = match[1].trim();
+        var val = parseFloat(match[2].replace(/,/g, ""));
+        if (desc.length > 3 && desc.length < 80 && val >= 10 && val < 50000 && !seenDescriptions[desc.toLowerCase()]) {
+          seenDescriptions[desc.toLowerCase()] = true;
+          lineItems.push({ description: desc, cost: val });
+        }
+        if (lineItems.length >= 15) break;
+      }
+
+      // Get total
+      var quoteTotal = 0;
+      if (prices.length) {
+        prices.sort(function(a, b) { return b - a; });
+        quoteTotal = prices[0];
+      } else {
+        quoteTotal = lineItems.reduce(function(sum, item) { return sum + item.cost; }, 0);
+      }
+
+      // Build scope signals
+      var scopeSignals = {};
+      scopeSignals.bindingEstimate = { status: /\bbinding\b|not[\s-]to[\s-]exceed|guaranteed\s*(?:price|rate|cost)/i.test(text) ? "included" : "unclear" };
+      scopeSignals.inventoryList = { status: /inventory|item\s*list|contents?\s*list/i.test(text) ? "included" : "unclear" };
+      scopeSignals.laborRateStated = { status: hourlyRate ? "included" : "unclear" };
+      scopeSignals.insuranceCoverage = { status: /\b(?:valuation|insurance|coverage|liability|released?\s*value|full[\s-]value)\b/i.test(text) ? "included" : "unclear" };
+      scopeSignals.packingCosts = { status: /\bpack(?:ing|age)?\b.*(?:\$|cost|fee|charge)/i.test(text) ? "included" : "unclear" };
+      scopeSignals.specialItems = { status: /\b(?:piano|antique|artwork|art\b|fragile|special\s*item|pool\s*table|gun\s*safe|hot\s*tub)\b/i.test(text) ? "included" : "unclear" };
+      scopeSignals.stairsElevator = { status: /\b(?:stair|flight|elevator|long\s*carry|shuttle)\b/i.test(text) ? "included" : "unclear" };
+      scopeSignals.storageFees = { status: /\b(?:storage|warehouse|SIT|storage[\s-]in[\s-]transit)\b/i.test(text) ? "included" : "unclear" };
+      scopeSignals.cancellationPolicy = { status: /\b(?:cancel|reschedul|refund)\b/i.test(text) ? "included" : "unclear" };
+      scopeSignals.licenseDOT = { status: /\b(?:USDOT|DOT\s*#|MC\s*#|license\s*#|PUC|ICC)\b/i.test(text) ? "included" : "unclear" };
+
+      // Red flags
+      var redFlags = [];
+      if (/large\s*deposit|cash\s*only|pay\s*(?:in\s*)?cash/i.test(text)) {
+        redFlags.push("Requests cash payment or large deposit -- a common moving scam red flag.");
+      }
+      if (!/\b(?:USDOT|DOT\s*#|MC\s*#|license)\b/i.test(text)) {
+        redFlags.push("No USDOT or license number found. Licensed movers are required to display this.");
+      }
+      if (/\bnon[\s-]?binding\b/i.test(text) && !/\bnot[\s-]to[\s-]exceed\b/i.test(text)) {
+        redFlags.push("Non-binding estimate means the final price can increase on moving day.");
+      }
+      if (/\bphone\s*estimate\b|\bsight[\s-]unseen\b|\bno\s*(?:survey|walk[\s-]through|inspection)\b/i.test(text)) {
+        redFlags.push("Estimate given without an in-home survey or video walkthrough -- prices may change significantly.");
+      }
+      if (quoteTotal > 0 && expected.mid > 0 && quoteTotal / expected.mid > 1.4) {
+        redFlags.push("Quote is significantly above market average for this move type and home size.");
+      }
+
+      var ratio = expected.mid > 0 ? quoteTotal / expected.mid : 1.0;
+
+      return {
+        source: "upload",
+        quoteTotal: quoteTotal,
+        benchmark: expected.mid,
+        expectedRange: expected,
+        ratio: ratio,
+        verdict: verdictFromRatio(ratio),
+        lineItems: lineItems,
+        hourlyRate: hourlyRate,
+        crewSize: crewSize,
+        estimatedHours: estimatedHours,
+        weight: weight,
+        distance: distance,
+        moveDate: moveDate,
+        moveType: moveType,
+        homeSize: homeSize,
+        region: region,
+        rateFlag: hourlyRate ? rateFlag(hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[crewSize || 2]) : null,
+        scopeSignals: scopeSignals,
+        redFlags: redFlags,
+        parsed: null
+      };
+    }
+
+    function renderErrorFallback() {
+      appRoot.innerHTML = '\
+        <div class="mv-hero"><h1>We couldn\'t read that file</h1></div>\
+        <div class="mv-card" style="text-align:center;">\
+          <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
+          <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
+          <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:12px;">\
+            <span style="font-size:20px;font-weight:700;">$</span>\
+            <input type="number" id="fallbackPrice" placeholder="e.g. 2400" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+          </div>\
+          <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:12px;flex-wrap:wrap;">\
+            <select id="fallbackMoveType" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;">\
+              <option value="local">Local Move</option>\
+              <option value="longDistance">Long Distance</option>\
+            </select>\
+            <select id="fallbackHomeSize" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;">\
+              <option value="studio">Studio</option>\
+              <option value="1br">1 Bedroom</option>\
+              <option value="2br" selected>2 Bedroom</option>\
+              <option value="3br">3 Bedroom</option>\
+              <option value="4br">4 Bedroom</option>\
+              <option value="5br+">5+ Bedroom</option>\
+            </select>\
+            <input type="text" id="fallbackState" placeholder="State (TX)" maxlength="2" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;width:80px;text-transform:uppercase;" />\
+          </div>\
+          <button class="mv-btn mv-btn-primary" id="fallbackBtn">Analyze this price</button>\
+          <div style="margin-top:14px;"><button class="mv-btn mv-btn-secondary" id="fallbackRestart">Start over</button></div>\
+        </div>';
+      document.getElementById("fallbackBtn").addEventListener("click", function() {
+        var price = parseFloat(document.getElementById("fallbackPrice").value);
+        if (!price || price < 50) { alert("Please enter a valid price."); return; }
+        var rawSt = (document.getElementById("fallbackState").value || "").trim().toUpperCase();
+        state.stateCode = STATE_REGIONS[rawSt] ? rawSt : "TX";
+        var moveType = document.getElementById("fallbackMoveType").value || "local";
+        var homeSize = document.getElementById("fallbackHomeSize").value || "2br";
+        var region = getRegionFromState(state.stateCode);
+        var expected = getExpectedRange(moveType, homeSize, region);
+        var ratio = expected.mid > 0 ? price / expected.mid : 1.0;
+        state.result = {
+          source: "manual",
+          quoteTotal: price,
+          benchmark: expected.mid,
+          expectedRange: expected,
+          ratio: ratio,
+          verdict: verdictFromRatio(ratio),
+          lineItems: [],
+          hourlyRate: null, crewSize: null, estimatedHours: null, weight: null,
+          distance: null, moveDate: null, moveType: moveType, homeSize: homeSize,
+          region: region, rateFlag: null, scopeSignals: {}, redFlags: [], parsed: null
+        };
+        state.step = "result";
+        render();
+      });
+      document.getElementById("fallbackRestart").addEventListener("click", function() {
+        state.step = "upload";
+        render();
+      });
+    }
+
+    // ── PDF extraction ──
+    async function extractPdfText(file) {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var allText = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        var page = await pdf.getPage(i);
+        var content = await page.getTextContent();
+        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+        allText.push(pageText);
+      }
+      return allText.join("\n");
+    }
+
+    // ── Image extraction ──
+    async function preprocessImage(file, mode) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement("canvas");
+            var scale = Math.max(1.5, Math.min(2.5, 2400 / Math.max(img.width, img.height)));
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            var ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            if (mode === "strong") {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.6 + 128;
+                gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            } else {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.3 + 128;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+          };
+          img.onerror = reject;
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extractImageText(file) {
+      if (typeof window.runAnalyzerOCR === "function") {
+        try {
+          var ocrResult = await window.runAnalyzerOCR(file);
+          if (ocrResult && ocrResult.length > 30) return ocrResult;
+        } catch (e) {
+          console.warn("OCR helper failed, trying Tesseract:", e);
+        }
+      }
+
+      if (typeof Tesseract !== "undefined") {
+        var softImage = await preprocessImage(file, "soft");
+        var worker = await Tesseract.createWorker("eng");
+        var result = await worker.recognize(softImage);
+        var text = (result.data.text || "").trim();
+        if (text.length < 50) {
+          var strongImage = await preprocessImage(file, "strong");
+          var result2 = await worker.recognize(strongImage);
+          var text2 = (result2.data.text || "").trim();
+          if (text2.length > text.length) text = text2;
+        }
+        await worker.terminate();
+        return text;
+      }
+
+      return "";
+    }
+
+    // ── Result Step ──
+    function renderResult() {
+      var r = state.result;
+      if (!r) { state.step = "upload"; render(); return; }
+
+      var isUpload = r.source === "upload";
+      var verdictCss = r.verdict.css;
+      var priceDisplay = fmt(r.quoteTotal);
+      var rangeText = "";
+
+      if (r.quoteTotal > 0 && r.expectedRange) {
+        var pct = Math.round((r.ratio - 1) * 100);
+        var dir = pct > 0 ? "above" : "below";
+        if (Math.abs(pct) <= 2) {
+          rangeText = "Right at the market average for " + capitalize(r.region);
+        } else {
+          rangeText = Math.abs(pct) + "% " + dir + " average for " + capitalize(r.region);
+        }
+        rangeText += " (typical range: " + fmt(r.expectedRange.low) + " - " + fmt(r.expectedRange.high) + ")";
+      }
+
+      var moveTypeLabels = { local: "Local Move", longDistance: "Long Distance" };
+
+      // ── Move details grid ──
+      var detailsHtml = '<div class="mv-details">';
+      detailsHtml += '<div class="mv-detail"><div class="label">Move Type</div><div class="value">' + (moveTypeLabels[r.moveType] || r.moveType) + '</div></div>';
+      detailsHtml += '<div class="mv-detail"><div class="label">Home Size</div><div class="value">' + (homeSizeLabels[r.homeSize] || r.homeSize) + '</div></div>';
+      detailsHtml += '<div class="mv-detail"><div class="label">Region</div><div class="value">' + capitalize(r.region) + '</div></div>';
+
+      if (r.distance) {
+        detailsHtml += '<div class="mv-detail"><div class="label">Distance</div><div class="value">' + r.distance.toLocaleString() + ' miles</div></div>';
+      }
+      if (r.hourlyRate) {
+        var flagHtml = "";
+        if (r.rateFlag) {
+          flagHtml = '<span class="mv-rate-flag ' + r.rateFlag.css + '">' + r.rateFlag.label + '</span>';
+        }
+        detailsHtml += '<div class="mv-detail"><div class="label">Hourly Rate</div><div class="value">$' + r.hourlyRate + '/hr' + flagHtml + '</div></div>';
+      }
+      if (r.crewSize) {
+        detailsHtml += '<div class="mv-detail"><div class="label">Crew Size</div><div class="value">' + r.crewSize + ' movers</div></div>';
+      }
+      if (r.estimatedHours) {
+        detailsHtml += '<div class="mv-detail"><div class="label">Estimated Hours</div><div class="value">' + r.estimatedHours + ' hrs</div></div>';
+      }
+      if (r.weight) {
+        detailsHtml += '<div class="mv-detail"><div class="label">Estimated Weight</div><div class="value">' + r.weight.toLocaleString() + ' lbs</div></div>';
+      }
+      if (r.moveDate) {
+        detailsHtml += '<div class="mv-detail"><div class="label">Move Date</div><div class="value">' + r.moveDate + '</div></div>';
+      }
+
+      // Market rate context
+      if (r.expectedRange) {
+        detailsHtml += '<div class="mv-detail"><div class="label">Market Range (' + (homeSizeLabels[r.homeSize] || r.homeSize) + ')</div><div class="value">' + fmt(r.expectedRange.low) + ' - ' + fmt(r.expectedRange.high) + '</div></div>';
+      }
+      detailsHtml += '</div>';
+
+      // ── Line items table ──
+      var tableHtml = "";
+      if (r.lineItems && r.lineItems.length > 0) {
+        tableHtml = '<div class="mv-card"><h3 style="margin-bottom:0.75rem;">Cost Breakdown</h3><div style="overflow-x:auto;"><table class="mv-table"><thead><tr><th>Description</th><th style="text-align:right;">Cost</th></tr></thead><tbody>';
+
+        var runningTotal = 0;
+        r.lineItems.forEach(function(item) {
+          var lineTotal = item.cost || 0;
+          runningTotal += lineTotal;
+          tableHtml += '<tr><td>' + item.description + '</td><td style="text-align:right;">' + fmtCents(lineTotal) + '</td></tr>';
+        });
+
+        tableHtml += '<tr class="mv-table-total"><td>Total</td><td style="text-align:right;">' + fmtCents(r.quoteTotal || runningTotal) + '</td></tr>';
+        tableHtml += '</tbody></table></div></div>';
+      }
+
+      // ── Scope checklist ──
+      var scopeHtml = "";
+      if (r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+        var scopeScore = 0;
+        var scopeMax = 0;
+        scopeHtml = '<div class="mv-card"><h3 style="margin-bottom:0.75rem;">Quote Transparency Score</h3><ul class="mv-scope">';
+        MOVING_PRICING.scopeItems.forEach(function(item) {
+          var sig = r.scopeSignals[item.key];
+          var status = sig ? sig.status : "unclear";
+          var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
+          var iconChar = status === "included" ? "&#10003;" : status === "excluded" ? "&#10007;" : "?";
+          var statusLabel = status === "included" ? "Found" : status === "excluded" ? "Missing" : "Not found";
+          scopeMax += item.weight;
+          if (status === "included") scopeScore += item.weight;
+          scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
+        });
+        scopeHtml += '</ul>';
+
+        // Transparency score bar
+        var scorePct = scopeMax > 0 ? Math.round((scopeScore / scopeMax) * 100) : 0;
+        var scoreColor = scorePct >= 70 ? "#16a34a" : scorePct >= 40 ? "#ca8a04" : "#dc2626";
+        var scoreLabel = scorePct >= 70 ? "Good transparency" : scorePct >= 40 ? "Moderate transparency" : "Low transparency";
+        scopeHtml += '<div style="margin-top:12px;padding:12px;background:#f8fafc;border-radius:8px;">';
+        scopeHtml += '<div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px;"><span style="font-weight:600;color:' + scoreColor + ';">' + scoreLabel + '</span><span style="color:#64748b;">' + scorePct + '%</span></div>';
+        scopeHtml += '<div style="height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + scorePct + '%;background:' + scoreColor + ';border-radius:3px;"></div></div>';
+        scopeHtml += '</div>';
+
+        // Missing items as "What to ask your mover"
+        var missingItems = MOVING_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        if (missingItems.length > 0) {
+          scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;margin-top:12px;color:#92400e;">';
+          scopeHtml += '<strong>Ask your mover about:</strong> ';
+          scopeHtml += missingItems.map(function(item) { return item.label.toLowerCase(); }).join(", ");
+          scopeHtml += '</div>';
+        }
+        scopeHtml += '</div>';
+      }
+
+      // ── Red flags ──
+      var redFlagsHtml = "";
+      if (r.redFlags && r.redFlags.length > 0) {
+        redFlagsHtml = '<div class="mv-card" style="background:#fef2f2;border:1px solid #fecaca;">';
+        redFlagsHtml += '<h3 style="margin-bottom:0.75rem;color:#dc2626;">Red Flags Detected</h3>';
+        redFlagsHtml += '<ul style="padding-left:18px;color:#991b1b;font-size:0.95rem;line-height:1.8;">';
+        r.redFlags.forEach(function(flag) {
+          redFlagsHtml += '<li>' + flag + '</li>';
+        });
+        redFlagsHtml += '</ul></div>';
+      }
+
+      // ── Market context ──
+      var contextHtml = '';
+      if (r.quoteTotal > 0) {
+        var tip = "";
+        if (r.verdict.css === "high") {
+          tip = "This quote is higher than typical market rates for a " + (homeSizeLabels[r.homeSize] || r.homeSize) + " " + (moveTypeLabels[r.moveType] || "move") + " in the " + capitalize(r.region) + " region. Getting 3-5 competing quotes is standard practice and could save you hundreds.";
+        } else if (r.verdict.css === "low") {
+          tip = "This quote is lower than expected. While it could be a good deal, extremely low quotes from movers can sometimes indicate hidden fees, bait-and-switch pricing, or unlicensed operators. Verify the company is licensed and ask for a binding estimate.";
+        } else {
+          tip = "This quote appears to be within the typical market range for a " + (homeSizeLabels[r.homeSize] || r.homeSize) + " " + (moveTypeLabels[r.moveType] || "move") + " in the " + capitalize(r.region) + " region.";
+        }
+        contextHtml = '<div class="mv-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p>';
+        if (r.hourlyRate && r.rateFlag) {
+          contextHtml += '<p style="color:#475569;font-size:0.95rem;margin-top:8px;">The detected hourly rate of <strong>$' + r.hourlyRate + '/hr</strong> is <strong>' + r.rateFlag.label.toLowerCase() + '</strong> for a ' + (r.crewSize || 2) + '-person crew.</p>';
+        }
+        contextHtml += '</div>';
+      }
+
+      // ── What to ask / negotiation tips ──
+      var tipsHtml = '<div class="mv-card"><h3 style="margin-bottom:0.75rem;">What to Ask Your Mover</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Is this a binding estimate or can the price change on moving day?</li>';
+      tipsHtml += '<li>What valuation/insurance coverage is included? What does full-value protection cost?</li>';
+      tipsHtml += '<li>Are there extra charges for stairs, long carries, elevators, or bulky items?</li>';
+      tipsHtml += '<li>What happens if the move takes longer than estimated?</li>';
+      if (r.moveType === "longDistance") {
+        tipsHtml += '<li>What is the delivery window? Is there a guaranteed delivery date option?</li>';
+        tipsHtml += '<li>Will my belongings be on a dedicated truck or combined with other shipments?</li>';
+      }
+      if (r.verdict.css === "high") {
+        tipsHtml += '<li>Can any services (packing, disassembly) be removed to lower the price?</li>';
+        tipsHtml += '<li>Is there a discount for flexible move dates (mid-week or mid-month)?</li>';
+        tipsHtml += '<li>Get 3-5 quotes from licensed movers before committing</li>';
+      }
+      if (r.verdict.css === "low") {
+        tipsHtml += '<li>Verify the company\'s USDOT number at <strong>safer.fmcsa.dot.gov</strong></li>';
+        tipsHtml += '<li>Ask for a written binding estimate before agreeing to the move</li>';
+        tipsHtml += '<li>Check online reviews on Google, Yelp, and the BBB</li>';
+      }
+      tipsHtml += '</ul></div>';
+
+      // ── Savings tips ──
+      var savingsHtml = '<div class="mv-card" style="background:#fffbeb;border:1px solid #fde68a;">';
+      savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#d97706;">Ways to Save on Your Move</h3>';
+      savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      savingsHtml += '<li>Move mid-week (Tue-Thu) or mid-month for lower rates</li>';
+      savingsHtml += '<li>Declutter before the move to reduce weight and time</li>';
+      savingsHtml += '<li>Do your own packing to save on packing labor and materials</li>';
+      savingsHtml += '<li>Book 4-6 weeks in advance for better availability and pricing</li>';
+      savingsHtml += '<li>Ask if the mover offers a discount for flexible delivery dates</li>';
+      savingsHtml += '</ul></div>';
+
+      // ── Feedback ──
+      var feedbackHtml = '\
+<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
+  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this analysis helpful?</div>\
+  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, helpful</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
+      // ── Email report ──
+      var emailSubject = encodeURIComponent("My Moving Quote Analysis from TruePrice");
+      var emailBody = encodeURIComponent(
+        "Moving Quote Analysis\n" +
+        "Quote Total: " + fmt(r.quoteTotal) + "\n" +
+        "Move Type: " + (moveTypeLabels[r.moveType] || r.moveType) + "\n" +
+        "Home Size: " + (homeSizeLabels[r.homeSize] || r.homeSize) + "\n" +
+        (r.hourlyRate ? "Hourly Rate: $" + r.hourlyRate + "/hr\n" : "") +
+        (r.distance ? "Distance: " + r.distance + " miles\n" : "") +
+        (r.weight ? "Weight: " + r.weight + " lbs\n" : "") +
+        "Verdict: " + r.verdict.label + "\n" +
+        "Region: " + capitalize(r.region) + "\n" +
+        "Market Range: " + fmt(r.expectedRange.low) + " - " + fmt(r.expectedRange.high) + "\n\n" +
+        "Analyzed by TruePrice - https://truepricehq.com/moving-quote-analyzer.html"
+      );
+
+      // ── Assemble page ──
+      appRoot.innerHTML = '\
+        <div class="mv-hero">\
+          <h1>' + (isUpload ? "Moving Quote Analysis" : "Quote Analysis") + '</h1>\
+          <p style="font-size:0.9rem;color:#64748b;">Don\'t sign until Trudy checks it</p>\
+        </div>\
+        <div class="mv-verdict ' + verdictCss + '">\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-moving.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Moving Verdict</div></div>\
+          <div class="verdict-label">' + r.verdict.label + '</div>\
+          <div class="verdict-price">' + priceDisplay + '</div>\
+          <div class="verdict-range">' + rangeText + '</div>\
+        </div>\
+        <div class="mv-card">\
+          <h3 style="margin-bottom:0.75rem;">Move Details</h3>\
+          ' + detailsHtml + '\
+        </div>\
+        ' + tableHtml + '\
+        ' + redFlagsHtml + '\
+        ' + scopeHtml + '\
+        ' + contextHtml + '\
+        ' + tipsHtml + '\
+        ' + savingsHtml + '\
+        <div class="mv-actions">\
+          <a class="mv-btn mv-btn-secondary mv-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
+          <button class="mv-btn mv-btn-secondary mv-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
+          <button class="mv-btn mv-btn-secondary mv-btn-full" id="btnStartOver">Start Over</button>\
+        </div>\
+        ' + feedbackHtml;
+
+      document.getElementById("btnStartOver").addEventListener("click", function() {
+        state = {
+          step: "upload",
+          stateCode: "",
+          moveType: "local",
+          homeSize: "2br",
+          uploadedFile: null,
+          extractedText: "",
+          result: null
+        };
+        render();
+      });
+    }
+
+    // ── Init ──
+    render();
+
+  })();
+  </script>
+<script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
