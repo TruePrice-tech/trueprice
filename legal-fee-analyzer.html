@@ -354,6 +354,7 @@
         body += "No red flags found in the agreement.\n";
       }
       body += "\nView full analysis at https://truepricehq.com/legal-fee-analyzer.html";
+      body += "\n\nDisclaimer: This analysis compares fees against published bar association data and is for informational purposes only. It does not constitute legal advice. Consult a licensed attorney in your jurisdiction for legal guidance.";
       window.location.href = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     };
 
@@ -394,6 +395,7 @@
             <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
           </div>\
           <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your documents stay private. Never stored or shared.</div>\
+          <div style="margin-top:6px; font-size:11px; color:#94a3b8; text-align:center;">This tool compares fees against published bar association data. It is not legal advice. <a href="/terms.html" style="color:#94a3b8;">Terms</a></div>\
         </div>';
 
       var zone = document.getElementById("uploadZone");
