@@ -1052,7 +1052,8 @@ if(p.get("zip")) {
 window._urlYear=p.get("year")||"";
 window._urlMake=p.get("make")||"";
 window._urlModel=p.get("model")||"";
-if(p.get("path")==="quote") switchPath("quote");
+if(p.get("path")==="quote") switchPath("quote", true);
+else if(p.get("path")==="estimate") switchPath("estimate", true);
 
 // =============================================
 // QUOTE PATH: FULL ANALYZER
