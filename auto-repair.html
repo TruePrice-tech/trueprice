@@ -25,6 +25,43 @@
 .ar-hero h1{font-size:30px;margin-bottom:6px;}
 .ar-hero p{color:var(--text-secondary,#64748b);font-size:16px;}
 
+/* Report header (Trudy-branded, shown on screen + print) */
+.tp-report-header{display:flex;align-items:center;gap:18px;padding:22px 24px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:16px;color:#fff;margin-bottom:18px;box-shadow:0 4px 14px rgba(29,78,216,0.18);}
+.tp-report-header img{background:#fff;border-radius:50%;padding:6px;flex-shrink:0;}
+.tp-report-header .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.9;font-weight:700;}
+.tp-report-header .title{font-size:22px;font-weight:800;margin:2px 0;}
+.tp-report-header .sub{font-size:13px;opacity:0.92;}
+.tp-report-actions{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+.tp-report-actions button{padding:11px 20px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px;}
+.tp-report-actions .btn-print{background:#1e293b;color:#fff;}
+.tp-report-actions .btn-share{background:#1d4ed8;color:#fff;}
+.tp-report-actions .btn-print:hover,.tp-report-actions .btn-share:hover{opacity:0.92;}
+
+/* Scenario comparison matrix */
+.scenario-matrix{margin-bottom:18px;}
+.scenario-matrix h3{margin:0 0 4px;font-size:18px;}
+.scenario-matrix .scenario-sub{font-size:13px;color:#64748b;margin:0 0 16px;}
+.scenario-table{width:100%;border-collapse:separate;border-spacing:6px;}
+.scenario-table th{padding:8px 6px;font-size:11px;text-transform:uppercase;color:#64748b;font-weight:700;text-align:center;}
+.scenario-table th.row-label{text-align:left;}
+.scenario-table td{padding:14px 8px;background:#f8fafc;border-radius:10px;text-align:center;font-weight:700;font-size:17px;color:#1e293b;border:2px solid transparent;transition:all 0.2s;}
+.scenario-table td.current{background:#1d4ed8;color:#fff;border-color:#1d4ed8;box-shadow:0 0 0 4px rgba(29,78,216,0.18);}
+.scenario-table td.current .pick-tag{display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;opacity:0.9;}
+.scenario-table td .pick-tag{display:none;}
+.scenario-table td.empty{color:#cbd5e1;font-weight:400;}
+
+/* Print stylesheet */
+@media print {
+  @page { margin: 0.5in; }
+  body * { visibility: hidden; }
+  #estimateResult, #estimateResult * { visibility: visible; }
+  #estimateResult { position:absolute; top:0; left:0; width:100%; }
+  .no-print, .ae-share, .ae-cta, .ae-compare, .ae-ai-loading, #vehicleNotesSection, #localShopsSection, .tp-report-actions { display:none !important; }
+  .ae-card { break-inside: avoid; box-shadow:none; border:1px solid #cbd5e1; page-break-inside: avoid; }
+  .tp-report-header { background:#1d4ed8 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .scenario-table td.current { background:#1d4ed8 !important; color:#fff !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}
+
 /* Two-path buttons */
 .ar-paths{display:flex;gap:16px;margin-bottom:28px;}
 .ar-path-btn{flex:1;padding:24px 16px;border-radius:14px;text-align:center;cursor:pointer;transition:all .2s;font-family:inherit;}
@@ -848,6 +885,90 @@ function attachCompareHandler(){
 var currentPartsPref="aftermarket";
 var lastEstimateInputs=null;
 
+// Build a 3x3 scenario matrix: shop type x parts type, summed across all selected repairs
+function buildScenarioMatrix(repairKeys,year,make,model,zip,state){
+  var shops=["independent","dealer","chain"];
+  var partsTypes=["aftermarket","oem","reman"];
+  var matrix={};
+  shops.forEach(function(s){
+    matrix[s]={};
+    partsTypes.forEach(function(pt){
+      var total=0,hasAny=false;
+      repairKeys.forEach(function(rk){
+        var repair=REPAIRS[rk];
+        // Skip if this repair has no pricing for this parts type
+        if(!repair.partsRange[pt]&&pt!=="aftermarket") return;
+        hasAny=true;
+        var est=buildClientEstimate(rk,year,make,model,zip,state,s,pt);
+        total+=est.totalMid;
+      });
+      matrix[s][pt]=hasAny?total:null;
+    });
+  });
+  return matrix;
+}
+
+function renderScenarioMatrix(matrix,currentShop,currentParts){
+  var shops=[["independent","Independent"],["dealer","Dealership"],["chain","Chain"]];
+  var partsTypes=[["aftermarket","Aftermarket"],["oem","OEM"],["reman","Remanufactured"]];
+  var h='<div class="ae-card scenario-matrix">';
+  h+='<h3>Compare Scenarios</h3>';
+  h+='<p class="scenario-sub">See how the total changes based on shop type and parts choice. Your selection is highlighted.</p>';
+  h+='<table class="scenario-table"><thead><tr><th></th>';
+  partsTypes.forEach(function(p){h+='<th>'+p[1]+'</th>';});
+  h+='</tr></thead><tbody>';
+  shops.forEach(function(s){
+    h+='<tr><th class="row-label">'+s[1]+'</th>';
+    partsTypes.forEach(function(p){
+      var val=matrix[s[0]][p[0]];
+      if(val==null||val===0){h+='<td class="empty">—</td>';return;}
+      var isCurrent=(s[0]===currentShop&&p[0]===currentParts);
+      h+='<td class="'+(isCurrent?"current":"")+'">'+fmt(val)+'<span class="pick-tag">Your pick</span></td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  h+='</div>';
+  return h;
+}
+
+function renderReportHeader(vehicleDesc,locationDesc){
+  var dateStr=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+  return '<div class="tp-report-header">'+
+    '<img src="/images/trudy-auto.png" alt="Trudy" width="78" height="78" />'+
+    '<div>'+
+      '<div class="eyebrow">TruePrice Auto Repair Report</div>'+
+      '<div class="title">Estimate prepared by Trudy</div>'+
+      '<div class="sub">'+vehicleDesc+' &bull; '+locationDesc+' &bull; '+dateStr+'</div>'+
+      '<div class="sub" style="font-size:11px;margin-top:4px;">truepricehq.com/auto-repair.html</div>'+
+    '</div>'+
+  '</div>';
+}
+
+function renderReportActions(){
+  return '<div class="tp-report-actions no-print">'+
+    '<button type="button" class="btn-print" onclick="window.print()">&#128424; Print / Save PDF</button>'+
+    '<button type="button" class="btn-share" onclick="shareReport()">&#128279; Share</button>'+
+  '</div>';
+}
+
+function shareReport(){
+  var url=window.location.href.split("?")[0];
+  var inp=lastEstimateInputs||{};
+  var params=new URLSearchParams();
+  if(inp.year) params.set("year",inp.year);
+  if(inp.make) params.set("make",inp.make);
+  if(inp.model) params.set("model",inp.model);
+  if(inp.zip) params.set("zip",inp.zip);
+  if(inp.state) params.set("state",inp.state);
+  var shareUrl=url+"?"+params.toString();
+  if(navigator.share){
+    navigator.share({title:"TruePrice Auto Repair Estimate",text:"My auto repair estimate from TruePrice — checked by Trudy",url:shareUrl}).catch(function(){});
+  } else {
+    navigator.clipboard.writeText(shareUrl).then(function(){alert("Link copied to clipboard!");},function(){prompt("Copy this link:",shareUrl);});
+  }
+}
+
 // Click handler for the OEM/aftermarket/reman toggle (event delegation)
 document.addEventListener("click",function(ev){
   var btn=ev.target.closest&&ev.target.closest(".ae-parts-btn");
@@ -902,29 +1023,37 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
 
   var resultEl=document.getElementById("estimateResult");
 
-  // Multi-repair: show itemized summary then individual details
+  // Build scenario matrix (3 shops x 3 parts types) summed across all selected repairs
+  var matrix=buildScenarioMatrix(repairKeys,year,make,model,zip,stateVal);
+  var matrixHtml=renderScenarioMatrix(matrix,shopType,currentPartsPref);
+
+  // Branded header + print/share actions appear at top of every report
+  var headerHtml=renderReportHeader(vehicleDesc,locationDesc);
+  var actionsHtml=renderReportActions();
+
+  // Combined summary table (always shown — works for 1 or many repairs)
+  var mh='<div class="ae-card"><h3>'+(allEstimates.length>1?"Combined Estimate":"Estimate")+' for '+vehicleDesc+'</h3>';
+  mh+='<div style="font-size:13px;color:#64748b;margin-bottom:12px;">'+locationDesc+'</div>';
+  mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">'+(allEstimates.length>1?"Combined Total ("+allEstimates.length+" repairs)":"Estimated Total")+'</div>';
+  mh+='<div class="total">'+fmt(grandTotalMid)+'</div>';
+  mh+='<div class="range">Range: '+fmt(grandTotalLow)+' - '+fmt(grandTotalHigh)+'</div></div>';
+  mh+='<table class="ae-parts-table"><thead><tr><th>Repair</th><th style="text-align:right">Labor</th><th style="text-align:right">Parts</th><th style="text-align:right">Total</th></tr></thead><tbody>';
+  allEstimates.forEach(function(e){
+    mh+='<tr><td>'+e.repairLabel+'</td><td style="text-align:right">'+fmt(e.laborMid)+'</td><td style="text-align:right">'+fmt(e.partsMid)+'</td><td style="text-align:right;font-weight:700">'+fmt(e.totalMid)+'</td></tr>';
+  });
   if(allEstimates.length>1){
-    var mh='<div class="ae-card"><h3>Estimate for '+vehicleDesc+' in '+locationDesc+'</h3>';
-    mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">Combined Total ('+allEstimates.length+' repairs)</div>';
-    mh+='<div class="total">'+fmt(grandTotalMid)+'</div>';
-    mh+='<div class="range">Range: '+fmt(grandTotalLow)+' - '+fmt(grandTotalHigh)+'</div></div>';
-    mh+='<table class="ae-parts-table"><thead><tr><th>Repair</th><th style="text-align:right">Labor</th><th style="text-align:right">Parts</th><th style="text-align:right">Total</th></tr></thead><tbody>';
-    allEstimates.forEach(function(e){
-      mh+='<tr><td>'+e.repairLabel+'</td><td style="text-align:right">'+fmt(e.laborMid)+'</td><td style="text-align:right">'+fmt(e.partsMid)+'</td><td style="text-align:right;font-weight:700">'+fmt(e.totalMid)+'</td></tr>';
-    });
-    mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandTotalMid - grandTax)+'</td></tr>';
-    mh+='<tr><td>Shop Supplies</td><td></td><td></td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
-    if(grandFees>0) mh+='<tr><td>Hazmat / Disposal / Refrigerant</td><td></td><td></td><td style="text-align:right">'+fmt(grandFees)+'</td></tr>';
-    mh+='<tr><td>Tax</td><td></td><td></td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
-    mh+='<tr class="selected"><td><strong>Total</strong></td><td></td><td></td><td style="text-align:right;font-weight:700;font-size:16px">'+fmt(grandTotalMid)+'</td></tr>';
-    mh+='</tbody></table></div>';
-    // Then show full detail card for EVERY selected repair
-    var detailCards=allEstimates.map(function(e){return renderEstimate(e,vehicleDesc,locationDesc,shopType,{});}).join("");
-    resultEl.innerHTML=mh+detailCards;
-  } else {
-    var est=allEstimates[0];
-    resultEl.innerHTML=renderEstimate(est,vehicleDesc,locationDesc,shopType,{});
+    mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandTotalMid - grandTax - grandFees - grandSupplies)+'</td></tr>';
   }
+  mh+='<tr><td>Shop Supplies</td><td></td><td></td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
+  if(grandFees>0) mh+='<tr><td>Hazmat / Disposal / Refrigerant</td><td></td><td></td><td style="text-align:right">'+fmt(grandFees)+'</td></tr>';
+  mh+='<tr><td>Tax</td><td></td><td></td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
+  mh+='<tr class="selected"><td><strong>Total</strong></td><td></td><td></td><td style="text-align:right;font-weight:700;font-size:16px">'+fmt(grandTotalMid)+'</td></tr>';
+  mh+='</tbody></table></div>';
+
+  // Detail card for every selected repair (parts toggle lives inside these)
+  var detailCards=allEstimates.map(function(e){return renderEstimate(e,vehicleDesc,locationDesc,shopType,{});}).join("");
+
+  resultEl.innerHTML=headerHtml+actionsHtml+mh+matrixHtml+detailCards;
   resultEl.scrollIntoView({behavior:"smooth"});
   attachCompareHandler();
 
