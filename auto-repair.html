@@ -225,12 +225,64 @@
 </div>
 
 <!-- ==================== ESTIMATE PATH ==================== -->
-<div id="estimatePath" class="ar-hidden">
+<div id="estimatePath" class="ar-hidden" style="animation:fadeSlideIn 0.3s ease-out;">
+<style>
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.repair-picker-btn{padding:12px 16px;border:2px dashed var(--border,#e2e8f0);border-radius:10px;cursor:pointer;font-size:15px;color:#64748b;text-align:center;transition:all 0.2s;}
+.repair-picker-btn:hover{border-color:#1d4ed8;color:#1d4ed8;}
+.repair-picker-btn.has-items{border-style:solid;border-color:#1d4ed8;background:#eff6ff;color:#1e293b;text-align:left;}
+.repair-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.repair-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:#dbeafe;color:#1d4ed8;border-radius:999px;font-size:12px;font-weight:600;}
+.repair-chip .remove{cursor:pointer;font-size:14px;color:#93c5fd;margin-left:2px;}
+.repair-chip .remove:hover{color:#dc2626;}
+.repair-panel{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:1000;background:rgba(0,0,0,0.4);}
+.repair-panel.open{display:flex;align-items:center;justify-content:center;}
+.repair-panel-inner{background:#fff;border-radius:16px;max-width:600px;width:90%;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+.repair-panel-header{padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;}
+.repair-panel-header h3{margin:0;font-size:18px;}
+.repair-panel-close{background:none;border:none;font-size:24px;cursor:pointer;color:#94a3b8;padding:4px;}
+.repair-panel-close:hover{color:#dc2626;}
+.repair-panel-search{padding:12px 20px;border-bottom:1px solid #e2e8f0;}
+.repair-panel-search input{width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px;box-sizing:border-box;}
+.repair-panel-search input:focus{outline:none;border-color:#1d4ed8;}
+.repair-panel-body{overflow-y:auto;padding:12px 20px;flex:1;}
+.repair-cat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#94a3b8;padding:10px 0 4px;border-bottom:1px solid #f1f5f9;margin-top:8px;}
+.repair-cat-label:first-child{margin-top:0;}
+.repair-item{display:flex;align-items:center;gap:10px;padding:8px 4px;cursor:pointer;border-radius:6px;transition:background 0.1s;}
+.repair-item:hover{background:#f8fafc;}
+.repair-item input[type=checkbox]{width:18px;height:18px;accent-color:#1d4ed8;cursor:pointer;}
+.repair-item label{cursor:pointer;font-size:14px;flex:1;}
+.repair-panel-footer{padding:12px 20px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;}
+.repair-panel-footer .count{font-size:13px;color:#64748b;}
+.repair-panel-done{padding:10px 24px;border:none;border-radius:8px;background:#1d4ed8;color:#fff;font-size:14px;font-weight:600;cursor:pointer;}
+</style>
 <div class="ae-form">
 <div>
-<label>What repairs do you need? (select all that apply)</label>
-<select id="repairSelect" multiple size="6" style="min-height:160px;"><option value="" disabled>Click to select repairs (hold Ctrl/Cmd for multiple)</option><optgroup label="AC / Heating"><option value="ac_compressor">AC Compressor Replacement</option><option value="ac_recharge">AC Recharge (R134a)</option></optgroup><optgroup label="Brakes"><option value="brakes_all_four">Complete Brake Job (All 4 Wheels)</option><option value="brakes_front">Front Brake Pads &amp; Rotors</option><option value="brakes_rear">Rear Brake Pads &amp; Rotors</option></optgroup><optgroup label="Cooling System"><option value="radiator">Radiator Replacement</option><option value="thermostat">Thermostat Replacement</option><option value="water_pump">Water Pump Replacement</option></optgroup><optgroup label="Drivetrain / Clutch"><option value="cv_axle">CV Axle Replacement</option><option value="clutch_replacement">Clutch Replacement</option></optgroup><optgroup label="Electrical / Starting / Charging"><option value="alternator">Alternator Replacement</option><option value="battery">Battery Replacement (12V)</option><option value="headlight_assembly">Headlight Assembly</option><option value="ignition_coils">Ignition Coil(s) Replacement</option><option value="starter_motor">Starter Motor Replacement</option><option value="window_regulator">Window Regulator/Motor</option></optgroup><optgroup label="Engine"><option value="engine_replacement">Engine Replacement</option><option value="head_gasket">Head Gasket Replacement</option><option value="serpentine_belt">Serpentine Belt Replacement</option><option value="spark_plugs">Spark Plug Replacement</option><option value="timing_belt">Timing Belt Replacement</option><option value="timing_chain">Timing Chain Replacement</option><option value="turbo_replacement">Turbocharger Replacement</option></optgroup><optgroup label="Electric / Hybrid"><option value="ev_battery_module">EV Battery Module Repair</option><option value="ev_battery_pack">EV Battery Pack Replacement</option><option value="hybrid_battery">Hybrid Battery Replacement</option></optgroup><optgroup label="Exhaust / Emissions"><option value="catalytic_converter">Catalytic Converter</option><option value="dpf_cleaning">DPF Filter Cleaning/Replace (Diesel)</option><option value="exhaust_muffler">Muffler Replacement</option><option value="o2_sensor">Oxygen Sensor Replacement</option></optgroup><optgroup label="Fuel System"><option value="fuel_injector">Fuel Injector Replacement (Single)</option><option value="fuel_pump">Fuel Pump Replacement</option></optgroup><optgroup label="Routine Maintenance"><option value="oil_change_conventional">Oil Change (Conventional)</option><option value="oil_change_synthetic">Oil Change (Full Synthetic)</option></optgroup><optgroup label="Steering"><option value="power_steering_pump">Power Steering Pump</option><option value="tie_rod_ends">Tie Rod Ends (Pair)</option></optgroup><optgroup label="Suspension"><option value="ball_joints">Ball Joints (Pair)</option><option value="control_arms">Control Arms (Pair)</option><option value="struts_front">Front Struts (Pair)</option><option value="struts_rear">Rear Struts/Shocks (Pair)</option><option value="wheel_bearing">Wheel Bearing Replacement</option></optgroup><optgroup label="Transmission"><option value="transmission_rebuild">Transmission Rebuild</option><option value="transmission_replacement">Transmission Replacement</option></optgroup></select>
+<label>What repairs do you need?</label>
+<div class="repair-picker-btn" id="repairPickerBtn" onclick="openRepairPicker()">+ Select repairs (tap to choose)</div>
+<div class="repair-chips" id="repairChips"></div>
+<!-- Hidden for backward compat -->
+<select id="repairSelect" multiple style="display:none;"><optgroup label="AC / Heating"><option value="ac_compressor">AC Compressor Replacement</option><option value="ac_recharge">AC Recharge (R134a)</option></optgroup><optgroup label="Brakes"><option value="brakes_all_four">Complete Brake Job (All 4 Wheels)</option><option value="brakes_front">Front Brake Pads &amp; Rotors</option><option value="brakes_rear">Rear Brake Pads &amp; Rotors</option></optgroup><optgroup label="Cooling System"><option value="radiator">Radiator Replacement</option><option value="thermostat">Thermostat Replacement</option><option value="water_pump">Water Pump Replacement</option></optgroup><optgroup label="Drivetrain / Clutch"><option value="cv_axle">CV Axle Replacement</option><option value="clutch_replacement">Clutch Replacement</option></optgroup><optgroup label="Electrical / Starting / Charging"><option value="alternator">Alternator Replacement</option><option value="battery">Battery Replacement (12V)</option><option value="headlight_assembly">Headlight Assembly</option><option value="ignition_coils">Ignition Coil(s) Replacement</option><option value="starter_motor">Starter Motor Replacement</option><option value="window_regulator">Window Regulator/Motor</option></optgroup><optgroup label="Engine"><option value="engine_replacement">Engine Replacement</option><option value="head_gasket">Head Gasket Replacement</option><option value="serpentine_belt">Serpentine Belt Replacement</option><option value="spark_plugs">Spark Plug Replacement</option><option value="timing_belt">Timing Belt Replacement</option><option value="timing_chain">Timing Chain Replacement</option><option value="turbo_replacement">Turbocharger Replacement</option></optgroup><optgroup label="Electric / Hybrid"><option value="ev_battery_module">EV Battery Module Repair</option><option value="ev_battery_pack">EV Battery Pack Replacement</option><option value="hybrid_battery">Hybrid Battery Replacement</option></optgroup><optgroup label="Exhaust / Emissions"><option value="catalytic_converter">Catalytic Converter</option><option value="dpf_cleaning">DPF Filter Cleaning/Replace (Diesel)</option><option value="exhaust_muffler">Muffler Replacement</option><option value="o2_sensor">Oxygen Sensor Replacement</option></optgroup><optgroup label="Fuel System"><option value="fuel_injector">Fuel Injector Replacement (Single)</option><option value="fuel_pump">Fuel Pump Replacement</option></optgroup><optgroup label="Routine Maintenance"><option value="oil_change_conventional">Oil Change (Conventional)</option><option value="oil_change_synthetic">Oil Change (Full Synthetic)</option></optgroup><optgroup label="Steering"><option value="power_steering_pump">Power Steering Pump</option><option value="tie_rod_ends">Tie Rod Ends (Pair)</option></optgroup><optgroup label="Suspension"><option value="ball_joints">Ball Joints (Pair)</option><option value="control_arms">Control Arms (Pair)</option><option value="struts_front">Front Struts (Pair)</option><option value="struts_rear">Rear Struts/Shocks (Pair)</option><option value="wheel_bearing">Wheel Bearing Replacement</option></optgroup><optgroup label="Transmission"><option value="transmission_rebuild">Transmission Rebuild</option><option value="transmission_replacement">Transmission Replacement</option></optgroup></select>
 </div>
+
+<!-- Repair picker modal -->
+<div class="repair-panel" id="repairPanel" onclick="if(event.target===this)closeRepairPicker()">
+<div class="repair-panel-inner">
+<div class="repair-panel-header">
+<h3>Select Repairs</h3>
+<button class="repair-panel-close" onclick="closeRepairPicker()">&times;</button>
+</div>
+<div class="repair-panel-search">
+<input type="text" id="repairSearch" placeholder="Search repairs..." oninput="filterRepairs()" />
+</div>
+<div class="repair-panel-body" id="repairPanelBody"></div>
+<div class="repair-panel-footer">
+<span class="count" id="repairCount">0 selected</span>
+<button class="repair-panel-done" onclick="closeRepairPicker()">Done</button>
+</div>
+</div>
+</div>
+
 <div class="ae-row">
 <div><label>Year</label><input type="number" id="yearInput" placeholder="e.g. 2019" min="1970" max="2027" /></div>
 <div><label>Make</label><input type="text" id="makeInput" placeholder="e.g. Honda" /></div>
@@ -290,6 +342,110 @@ window.loadVendorLibs=function(){
 
 <script>
 // =============================================
+// REPAIR PICKER
+var selectedRepairs = {};
+
+function buildRepairPanel() {
+  var body = document.getElementById("repairPanelBody");
+  var cats = {};
+  for (var key in REPAIRS) {
+    var r = REPAIRS[key];
+    var cat = CATEGORIES[r.category] ? CATEGORIES[r.category].label : r.category;
+    if (!cats[cat]) cats[cat] = [];
+    cats[cat].push({ key: key, label: r.label });
+  }
+  var h = "";
+  Object.keys(cats).sort().forEach(function(cat) {
+    h += '<div class="repair-cat-label" data-cat="' + cat + '">' + cat + '</div>';
+    cats[cat].sort(function(a,b){return a.label.localeCompare(b.label);}).forEach(function(item) {
+      var checked = selectedRepairs[item.key] ? " checked" : "";
+      h += '<div class="repair-item" data-search="' + item.label.toLowerCase() + '" onclick="toggleRepair(\'' + item.key + '\',this)">';
+      h += '<input type="checkbox" id="rp_' + item.key + '"' + checked + ' />';
+      h += '<label for="rp_' + item.key + '">' + item.label + '</label>';
+      h += '</div>';
+    });
+  });
+  body.innerHTML = h;
+}
+
+function toggleRepair(key, el) {
+  var cb = el.querySelector("input[type=checkbox]");
+  // Toggle unless click was directly on checkbox (it already toggled)
+  if (event.target !== cb) cb.checked = !cb.checked;
+  if (cb.checked) {
+    selectedRepairs[key] = REPAIRS[key].label;
+  } else {
+    delete selectedRepairs[key];
+  }
+  updateRepairChips();
+}
+
+function updateRepairChips() {
+  var chips = document.getElementById("repairChips");
+  var btn = document.getElementById("repairPickerBtn");
+  var count = Object.keys(selectedRepairs).length;
+  var sel = document.getElementById("repairSelect");
+  // Sync hidden select
+  for (var i = 0; i < sel.options.length; i++) {
+    sel.options[i].selected = !!selectedRepairs[sel.options[i].value];
+  }
+  // Update count in panel
+  var countEl = document.getElementById("repairCount");
+  if (countEl) countEl.textContent = count + " selected";
+  // Update chips
+  if (count === 0) {
+    chips.innerHTML = "";
+    btn.className = "repair-picker-btn";
+    btn.textContent = "+ Select repairs (tap to choose)";
+  } else {
+    btn.className = "repair-picker-btn has-items";
+    btn.innerHTML = count + " repair" + (count > 1 ? "s" : "") + " selected <span style='float:right;color:#1d4ed8;font-size:13px;'>Change</span>";
+    var ch = "";
+    for (var key in selectedRepairs) {
+      ch += '<span class="repair-chip">' + selectedRepairs[key] + ' <span class="remove" onclick="event.stopPropagation();removeRepair(\'' + key + '\')">&times;</span></span>';
+    }
+    chips.innerHTML = ch;
+  }
+}
+
+function removeRepair(key) {
+  delete selectedRepairs[key];
+  var cb = document.getElementById("rp_" + key);
+  if (cb) cb.checked = false;
+  updateRepairChips();
+}
+
+function openRepairPicker() {
+  buildRepairPanel();
+  document.getElementById("repairPanel").classList.add("open");
+  document.getElementById("repairSearch").value = "";
+  document.getElementById("repairSearch").focus();
+}
+
+function closeRepairPicker() {
+  document.getElementById("repairPanel").classList.remove("open");
+  updateRepairChips();
+}
+
+function filterRepairs() {
+  var q = document.getElementById("repairSearch").value.toLowerCase();
+  var items = document.querySelectorAll(".repair-item");
+  var cats = document.querySelectorAll(".repair-cat-label");
+  var visibleCats = {};
+  items.forEach(function(el) {
+    var match = !q || el.getAttribute("data-search").indexOf(q) > -1;
+    el.style.display = match ? "" : "none";
+    if (match) {
+      var prev = el.previousElementSibling;
+      while (prev && !prev.classList.contains("repair-cat-label")) prev = prev.previousElementSibling;
+      if (prev) visibleCats[prev.getAttribute("data-cat")] = true;
+    }
+  });
+  cats.forEach(function(el) {
+    el.style.display = !q || visibleCats[el.getAttribute("data-cat")] ? "" : "none";
+  });
+}
+
 // PATH TOGGLE
 // =============================================
 function switchPath(path){
@@ -301,14 +457,14 @@ function switchPath(path){
     estBtn.className="ar-path-btn ar-path-estimate active";
     quoBtn.className="ar-path-btn ar-path-quote dimmed";
     estPath.classList.remove("ar-hidden");
+    estPath.style.animation="none";estPath.offsetHeight;estPath.style.animation="fadeSlideIn 0.3s ease-out";
     quoPath.classList.add("ar-hidden");
-    estPath.scrollIntoView({behavior:"smooth",block:"start"});
   } else {
     estBtn.className="ar-path-btn ar-path-estimate dimmed";
     quoBtn.className="ar-path-btn ar-path-quote active";
     estPath.classList.add("ar-hidden");
     quoPath.classList.remove("ar-hidden");
-    quoPath.scrollIntoView({behavior:"smooth",block:"start"});
+    quoPath.style.animation="none";quoPath.offsetHeight;quoPath.style.animation="fadeSlideIn 0.3s ease-out";
     if(!quoteAppInitialized) initQuoteApp();
   }
   if(typeof tpTrack==="function") tpTrack("path_switch",{path:path,page:"/auto-repair.html"});
@@ -326,6 +482,7 @@ var REPAIRS={"brakes_front":{"label":"Front Brake Pads & Rotors","category":"bra
 
 var STATES={"AL":0.82,"AK":1.1,"AZ":0.95,"AR":0.78,"CA":1.25,"CO":1.08,"CT":1.18,"DE":1.05,"FL":0.92,"GA":0.88,"HI":1.12,"ID":0.85,"IL":1.02,"IN":0.88,"IA":0.85,"KS":0.85,"KY":0.82,"LA":0.85,"ME":0.95,"MD":1.05,"MA":1.15,"MI":0.88,"MN":0.95,"MS":0.78,"MO":0.85,"MT":0.9,"NE":0.85,"NV":1.0,"NH":1.05,"NJ":1.12,"NM":0.88,"NY":1.18,"NC":0.88,"ND":0.85,"OH":0.88,"OK":0.8,"OR":1.02,"PA":1.0,"RI":1.05,"SC":0.85,"SD":0.82,"TN":0.85,"TX":0.9,"UT":0.92,"VT":0.95,"VA":0.95,"WA":1.12,"WV":0.78,"WI":0.9,"WY":0.88,"DC":1.2};
 
+var CATEGORIES={"brakes":{"label":"Brakes"},"engine":{"label":"Engine"},"transmission":{"label":"Transmission"},"electrical":{"label":"Electrical / Starting / Charging"},"ac":{"label":"AC / Heating"},"exhaust":{"label":"Exhaust / Emissions"},"suspension":{"label":"Suspension"},"cooling":{"label":"Cooling System"},"fuel":{"label":"Fuel System"},"steering":{"label":"Steering"},"drivetrain":{"label":"Drivetrain / Clutch"},"maintenance":{"label":"Routine Maintenance"},"ev":{"label":"Electric / Hybrid"}};
 var VEHICLES={"economy":{"mult":0.85,"label":"Economy (Civic, Corolla, Sentra)","examples":"Honda Civic, Toyota Corolla, Nissan Sentra, Hyundai Elantra"},"standard":{"mult":1.0,"label":"Standard (Camry, Accord, Altima)","examples":"Toyota Camry, Honda Accord, Ford Fusion, Chevy Malibu"},"truck_suv":{"mult":1.15,"label":"Truck / SUV","examples":"Ford F-150, Chevy Silverado, Toyota 4Runner, Jeep Wrangler"},"luxury":{"mult":1.35,"label":"Luxury / European","examples":"BMW, Mercedes, Audi, Lexus, Volvo, Jaguar"},"performance":{"mult":1.5,"label":"Performance / Exotic","examples":"Porsche, Corvette, AMG, M-series, RS models"},"ev_hybrid":{"mult":1.2,"label":"Electric / Hybrid","examples":"Tesla, Prius, Bolt, Leaf, Mach-E, ID.4"}};
 
 var SHOPS={"dealer":{"low":125,"mid":155,"high":200},"independent":{"low":75,"mid":105,"high":150},"chain":{"low":90,"mid":120,"high":145}};
@@ -555,9 +712,7 @@ function attachCompareHandler(){
 
 // Estimate button handler
 document.getElementById("estimateBtn").addEventListener("click",function(){
-  var selOpts=document.getElementById("repairSelect").selectedOptions;
-  var repairKeys=[];
-  for(var i=0;i<selOpts.length;i++){if(selOpts[i].value)repairKeys.push(selOpts[i].value);}
+  var repairKeys=Object.keys(selectedRepairs);
   var year=parseInt(document.getElementById("yearInput").value)||0;
   var make=document.getElementById("makeInput").value.trim();
   var model=document.getElementById("modelInput").value.trim();
