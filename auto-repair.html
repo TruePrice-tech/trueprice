@@ -918,8 +918,9 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
     mh+='<tr><td>Tax</td><td></td><td></td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
     mh+='<tr class="selected"><td><strong>Total</strong></td><td></td><td></td><td style="text-align:right;font-weight:700;font-size:16px">'+fmt(grandTotalMid)+'</td></tr>';
     mh+='</tbody></table></div>';
-    // Then show first repair's full detail card below
-    resultEl.innerHTML=mh+renderEstimate(allEstimates[0],vehicleDesc,locationDesc,shopType,{});
+    // Then show full detail card for EVERY selected repair
+    var detailCards=allEstimates.map(function(e){return renderEstimate(e,vehicleDesc,locationDesc,shopType,{});}).join("");
+    resultEl.innerHTML=mh+detailCards;
   } else {
     var est=allEstimates[0];
     resultEl.innerHTML=renderEstimate(est,vehicleDesc,locationDesc,shopType,{});
