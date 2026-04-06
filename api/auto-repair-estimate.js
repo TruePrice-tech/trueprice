@@ -157,11 +157,14 @@ Return this exact JSON structure:
   }
 }
 
-Rules:
-- totalPrice: Use the grand total, not individual line items
-- repairs: List each distinct repair/service as a separate item
+CRITICAL RULES:
+- ALWAYS extract dollar amounts. If you can see ANY numbers that look like prices, extract them. Do not return null for prices if there are dollar amounts visible in the image.
+- totalPrice: Look for a grand total, subtotal, balance due, or total amount. If you cannot find an explicit total, SUM the individual line item amounts.
+- If individual line amounts are partially readable, give your best estimate. A rough number is better than null.
+- repairs: List each distinct repair/service as a separate item. ALWAYS include the dollar amount for each if visible.
+- shopType: Look for shop/business name. "dealer" if it mentions a car brand + service/dealer. "chain" if Midas/Firestone/Jiffy Lube/Pep Boys/Brake Check/Valvoline/Meineke/AAMCO/Maaco/Goodyear. "independent" otherwise.
+- redFlags: ALWAYS check for: missing warranty info, missing parts type (OEM/aftermarket), no labor rate disclosed, excessive shop supply fees (>10%), missing line item breakdown. Flag at least one issue if the quote lacks transparency.
 - partsType: "oem" = original manufacturer, "aftermarket" = third-party new, "reman" = remanufactured/rebuilt
-- shopType: "dealer" if dealership, "chain" if Midas/Firestone/Jiffy Lube/Pep Boys/etc, "independent" otherwise
 - scopeItems: Mark "yes" only if clearly present in the quote
 - vehicleCategory: "economy" for Civic/Corolla/Sentra, "standard" for Camry/Accord, "truck_suv" for trucks/SUVs, "luxury" for BMW/Mercedes/Audi/Lexus, "performance" for Porsche/Corvette/AMG/M-series, "ev_hybrid" for Tesla/Prius/Bolt/Leaf
 - possibleUpsells: Flag brake fluid flush added to a brake job, engine flush with oil change, wheel alignment added to brake job (not suspension work), fuel system cleaning with oil change, or any add-on service that appears unnecessary for the primary repair
