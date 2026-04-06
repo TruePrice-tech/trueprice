@@ -10,7 +10,7 @@
   <title>Auto Repair Quote Analyzer - Is Your Mechanic Quote Fair? | TruePrice</title>
   <meta
     name="description"
-    content="Upload your mechanic or auto repair quote to instantly check if the price is fair. Compares labor rates, parts pricing, and scope against market data."
+    content="Upload your mechanic quote. AI checks labor rates against state-level benchmarks for 43 repairs, detects upsells, scores quote transparency. Free."
   />
   <link rel="canonical" href="https://truepricehq.com/auto-repair-quote-analyzer.html" />
   <meta name="robots" content="index,follow" />
@@ -61,6 +61,46 @@
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Auto Repair Quote Analyzer"}]}
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does TruePrice check my repair quote?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TruePrice uses AI to extract line items, labor rates, and parts from your uploaded quote. It then compares each repair against state-level labor rate benchmarks for 43 common auto repairs, checks for possible unnecessary upsells, and scores the quote's overall transparency."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a fair labor rate for auto repair?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Fair labor rates vary by region and shop type. Independent shops typically charge $80-$130/hr, chain shops $90-$140/hr, and dealerships $120-$180/hr. Rates are higher in the Northeast and West and lower in the South and Midwest. TruePrice adjusts benchmarks for your specific state and shop type."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I tell if a repair is unnecessary?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Common signs include bundled services not related to your complaint, fluid flushes at low mileage, fuel system cleaning on newer vehicles, and engine treatments with no diagnosed problem. TruePrice flags possible upsells on your quote and explains why each may not be needed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I use OEM or aftermarket parts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Aftermarket parts from quality brands like Bosch, Denso, Moog, and Monroe can save 30-50% compared to OEM parts with similar reliability. OEM parts may be preferred for warranty-covered vehicles or complex electronic components. TruePrice calculates your potential savings from switching to aftermarket parts."
+        }
+      }
+    ]
+  }
   </script>
 
   <style>
@@ -153,6 +193,39 @@
     .ar-labor-flag.fair { background: #f0fdf4; color: #16a34a; }
 
     .ar-hidden { display: none !important; }
+
+    /* Urgency badges */
+    .ar-urgency { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; vertical-align: middle; margin-left: 6px; }
+    .ar-urgency.critical { background: #fef2f2; color: #dc2626; }
+    .ar-urgency.soon { background: #fefce8; color: #ca8a04; }
+    .ar-urgency.can-wait { background: #f0fdf4; color: #16a34a; }
+
+    /* Upsell alert card */
+    .ar-upsell-card { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .ar-upsell-card h3 { color: #92400e; margin-bottom: 0.75rem; }
+    .ar-upsell-item { padding: 10px 0; border-bottom: 1px solid #fde68a; }
+    .ar-upsell-item:last-child { border-bottom: none; }
+    .ar-upsell-item .upsell-name { font-weight: 600; color: #92400e; }
+    .ar-upsell-item .upsell-reason { font-size: 0.9rem; color: #78350f; margin-top: 2px; }
+    .ar-upsell-item .upsell-cost { font-size: 0.85rem; color: #a16207; margin-top: 2px; }
+
+    /* Parts savings table */
+    .ar-savings-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 0.75rem; }
+    .ar-savings-table th { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.75rem; text-transform: uppercase; }
+    .ar-savings-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #f1f5f9; }
+    .ar-savings-table .savings-amt { color: #16a34a; font-weight: 600; }
+    .ar-savings-table tr:last-child td { border-bottom: none; }
+
+    /* State protection card */
+    .ar-protection-card { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .ar-protection-card h3 { color: #1e40af; margin-bottom: 0.75rem; }
+    .ar-protection-card ul { padding-left: 18px; color: #1e3a5f; font-size: 0.95rem; line-height: 1.8; }
+    .ar-protection-card a { color: #2563eb; }
+
+    /* Pricing context */
+    .ar-pricing-context { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .ar-pricing-chip { background: #f1f5f9; border-radius: 8px; padding: 6px 12px; font-size: 0.85rem; color: #475569; }
+    .ar-pricing-chip strong { color: #1e293b; }
 
     @media (max-width: 600px) {
       .ar-hero h1 { font-size: 1.5rem; }
@@ -355,19 +428,133 @@
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
     };
 
-    // ── Save as image ──
-    window.saveResultAsImage = function() {
-      if (typeof html2canvas === "undefined") {
-        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
-      } else { doCapture(); }
+    // ── Download Analysis Report ──
+    window.downloadAnalysisReport = function() {
+      var r = state.result;
+      if (!r) return;
+
+      var shopLabels = { dealer: "Dealership", independent: "Independent Shop", chain: "Chain Shop" };
+      var today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+      // Build report HTML
+      var html = '<div id="arReportCapture" style="padding:32px;max-width:680px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#fff;">';
+
+      // Header
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1d4ed8;padding-bottom:12px;margin-bottom:20px;">';
+      html += '<div style="font-size:22px;font-weight:800;color:#1d4ed8;">TruePrice</div>';
+      html += '<div style="font-size:13px;color:#64748b;">Auto Repair Analysis &middot; ' + today + '</div>';
+      html += '</div>';
+
+      // Verdict
+      var vColor = r.verdict.css === "fair" ? "#16a34a" : r.verdict.css === "high" ? "#dc2626" : "#ca8a04";
+      var vBg = r.verdict.css === "fair" ? "#f0fdf4" : r.verdict.css === "high" ? "#fef2f2" : "#fefce8";
+      html += '<div style="background:' + vBg + ';border-radius:10px;padding:18px;text-align:center;margin-bottom:18px;">';
+      html += '<div style="font-size:12px;text-transform:uppercase;font-weight:700;color:' + vColor + ';letter-spacing:0.04em;">' + r.verdict.label + '</div>';
+      html += '<div style="font-size:28px;font-weight:800;color:#1e293b;">' + fmt(r.quoteTotal) + '</div>';
+      if (r.benchmark > 0) {
+        var pct = Math.round((r.ratio - 1) * 100);
+        var dir = pct > 0 ? "above" : "below";
+        html += '<div style="font-size:13px;color:#64748b;">' + (Math.abs(pct) <= 2 ? "At market average" : Math.abs(pct) + "% " + dir + " average") + ' for ' + capitalize(r.region) + '</div>';
+      }
+      html += '</div>';
+
+      // Line items with urgency
+      if (r.lineItems && r.lineItems.length > 0) {
+        html += '<div style="margin-bottom:18px;"><div style="font-weight:700;font-size:15px;margin-bottom:8px;">Repair Breakdown</div>';
+        html += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+        html += '<tr style="border-bottom:2px solid #e2e8f0;"><th style="text-align:left;padding:6px;">Repair</th><th style="text-align:right;padding:6px;">Amount</th></tr>';
+        r.lineItems.forEach(function(item) {
+          var lineTotal = item.total || ((item.partsCost || 0) + (item.laborCost || 0));
+          var badge = "";
+          if (item.urgency) {
+            var bc = item.urgency === "critical" ? "#dc2626" : item.urgency === "soon" ? "#ca8a04" : "#16a34a";
+            var bl = item.urgency === "critical" ? "CRITICAL" : item.urgency === "soon" ? "SOON" : "CAN WAIT";
+            badge = ' <span style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;color:#fff;background:' + bc + ';">' + bl + '</span>';
+          }
+          html += '<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px;">' + item.description + badge + '</td><td style="text-align:right;padding:6px;">' + fmtCents(lineTotal) + '</td></tr>';
+        });
+        html += '</table></div>';
+      }
+
+      // Upsell alerts
+      if (r.possibleUpsells && r.possibleUpsells.length > 0) {
+        html += '<div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:14px;margin-bottom:18px;">';
+        html += '<div style="font-weight:700;font-size:14px;color:#92400e;margin-bottom:8px;">Possible Unnecessary Services</div>';
+        r.possibleUpsells.forEach(function(u) {
+          html += '<div style="font-size:13px;color:#78350f;margin-bottom:4px;"><strong>' + (u.service || u.name || "Service") + '</strong>: ' + (u.reason || "May not be needed.") + '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Parts savings
+      if (r.aftermarketSavings && r.aftermarketSavings.parts && r.aftermarketSavings.parts.length > 0) {
+        var ts = 0;
+        r.aftermarketSavings.parts.forEach(function(p) { ts += (p.oemPrice || 0) - (p.aftermarketPrice || 0); });
+        if (ts > 0) {
+          html += '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:14px;margin-bottom:18px;">';
+          html += '<div style="font-weight:700;font-size:14px;color:#166534;margin-bottom:8px;">Aftermarket Parts Could Save You ' + fmt(ts) + '</div>';
+          html += '<table style="width:100%;border-collapse:collapse;font-size:12px;"><tr><th style="text-align:left;padding:4px;">Part</th><th style="text-align:right;padding:4px;">OEM</th><th style="text-align:right;padding:4px;">Aftermarket</th><th style="text-align:right;padding:4px;">Savings</th></tr>';
+          r.aftermarketSavings.parts.forEach(function(p) {
+            var sv = (p.oemPrice || 0) - (p.aftermarketPrice || 0);
+            html += '<tr><td style="padding:4px;">' + (p.name || "Part") + '</td><td style="text-align:right;padding:4px;">' + fmtCents(p.oemPrice || 0) + '</td><td style="text-align:right;padding:4px;">' + fmtCents(p.aftermarketPrice || 0) + '</td><td style="text-align:right;padding:4px;color:#16a34a;font-weight:600;">' + fmtCents(sv) + '</td></tr>';
+          });
+          html += '</table></div>';
+        }
+      }
+
+      // Transparency score
+      if (r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+        var sc = 0, mx = 0;
+        AUTO_REPAIR_PRICING.scopeItems.forEach(function(item) {
+          mx += item.weight;
+          var sig = r.scopeSignals[item.key];
+          if (sig && sig.status === "included") sc += item.weight;
+        });
+        var pct2 = mx > 0 ? Math.round((sc / mx) * 100) : 0;
+        html += '<div style="margin-bottom:18px;"><div style="font-weight:700;font-size:15px;margin-bottom:6px;">Transparency Score: ' + pct2 + '%</div>';
+        html += '<div style="height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + pct2 + '%;background:' + (pct2 >= 70 ? "#16a34a" : pct2 >= 40 ? "#ca8a04" : "#dc2626") + ';border-radius:3px;"></div></div></div>';
+      }
+
+      // State protection
+      if (r.stateConsumerProtection && r.stateConsumerProtection.rules && r.stateConsumerProtection.rules.length > 0) {
+        var sn = r.stateConsumerProtection.stateName || state.stateCode || "Your State";
+        html += '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;margin-bottom:18px;">';
+        html += '<div style="font-weight:700;font-size:14px;color:#1e40af;margin-bottom:6px;">Your Rights in ' + sn + '</div>';
+        html += '<ul style="padding-left:18px;font-size:13px;color:#1e3a5f;">';
+        r.stateConsumerProtection.rules.forEach(function(rule) { html += '<li>' + rule + '</li>'; });
+        html += '</ul></div>';
+      }
+
+      // Disclaimer
+      html += '<div style="margin-top:24px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;line-height:1.5;">';
+      html += 'This analysis is for informational purposes only and does not constitute professional automotive advice. Pricing benchmarks are estimates based on regional averages and may not reflect your exact situation. Always consult with a qualified mechanic. Generated by TruePrice (truepricehq.com).';
+      html += '</div>';
+
+      html += '</div>';
+
+      // Render offscreen, capture, remove
+      var container = document.createElement("div");
+      container.style.position = "fixed";
+      container.style.left = "-9999px";
+      container.style.top = "0";
+      container.style.width = "720px";
+      container.style.background = "#fff";
+      container.innerHTML = html;
+      document.body.appendChild(container);
+
       function doCapture() {
-        html2canvas(document.getElementById("arApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+        html2canvas(container.querySelector("#arReportCapture"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          document.body.removeChild(container);
           var link = document.createElement("a");
           link.download = "trueprice-auto-repair-analysis.png";
           link.href = canvas.toDataURL("image/png");
           link.click();
-        });
+        }).catch(function() { document.body.removeChild(container); });
       }
+
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
+      } else { doCapture(); }
     };
 
     // ── Render ──
@@ -602,7 +789,8 @@
           description: item.description || "Repair item",
           partsCost: item.partsCost || 0,
           laborCost: item.laborCost || 0,
-          total: (item.partsCost || 0) + (item.laborCost || 0)
+          total: (item.partsCost || 0) + (item.laborCost || 0),
+          urgency: item.repairUrgency || item.urgency || null
         };
       });
 
@@ -627,7 +815,13 @@
         regionalRates: regionalRates,
         laborFlag: api.laborRate ? laborRateFlag(api.laborRate, regionalRates) : null,
         scopeSignals: api.scopeSignals || {},
-        parsed: api
+        parsed: api,
+        vehicleCategory: api.vehicleCategory || null,
+        possibleUpsells: api.possibleUpsells || [],
+        pricingContext: api.pricingContext || null,
+        stateConsumerProtection: api.stateConsumerProtection || null,
+        aftermarketSavings: api.aftermarketSavings || null,
+        commonRepairBenchmarks: api.commonRepairBenchmarks || null
       };
     }
 
@@ -975,7 +1169,13 @@
         r.lineItems.forEach(function(item) {
           var lineTotal = item.total || ((item.partsCost || 0) + (item.laborCost || 0));
           runningTotal += lineTotal;
-          tableHtml += '<tr><td>' + item.description + '</td>';
+          var urgencyBadge = "";
+          if (item.urgency) {
+            var uCss = item.urgency === "critical" ? "critical" : item.urgency === "soon" ? "soon" : "can-wait";
+            var uLabel = item.urgency === "critical" ? "Critical" : item.urgency === "soon" ? "Soon" : "Can Wait";
+            urgencyBadge = ' <span class="ar-urgency ' + uCss + '">' + uLabel + '</span>';
+          }
+          tableHtml += '<tr><td>' + item.description + urgencyBadge + '</td>';
           if (hasPartsSplit) {
             tableHtml += '<td style="text-align:right;">' + (item.partsCost ? fmtCents(item.partsCost) : '-') + '</td>';
             tableHtml += '<td style="text-align:right;">' + (item.laborCost ? fmtCents(item.laborCost) : '-') + '</td>';
@@ -987,6 +1187,101 @@
         if (hasPartsSplit) tableHtml += '<td></td><td></td>';
         tableHtml += '<td style="text-align:right;">' + fmtCents(r.quoteTotal || runningTotal) + '</td></tr>';
         tableHtml += '</tbody></table></div></div>';
+      }
+
+      // ── Repair Urgency Legend ──
+      var urgencyHtml = "";
+      var hasUrgency = r.lineItems && r.lineItems.some(function(item) { return !!item.urgency; });
+      if (hasUrgency) {
+        urgencyHtml = '<div class="ar-card"><h3 style="margin-bottom:0.75rem;">Repair Urgency</h3>';
+        urgencyHtml += '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">';
+        urgencyHtml += '<div style="display:flex;align-items:center;gap:4px;"><span class="ar-urgency critical">Critical</span><span style="font-size:0.85rem;color:#64748b;">Do not drive until repaired</span></div>';
+        urgencyHtml += '<div style="display:flex;align-items:center;gap:4px;"><span class="ar-urgency soon">Soon</span><span style="font-size:0.85rem;color:#64748b;">Schedule within 1-2 weeks</span></div>';
+        urgencyHtml += '<div style="display:flex;align-items:center;gap:4px;"><span class="ar-urgency can-wait">Can Wait</span><span style="font-size:0.85rem;color:#64748b;">Schedule at convenience</span></div>';
+        urgencyHtml += '</div>';
+        var criticalItems = r.lineItems.filter(function(i) { return i.urgency === "critical"; });
+        if (criticalItems.length > 0) {
+          urgencyHtml += '<div style="padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;font-size:0.9rem;color:#991b1b;">';
+          urgencyHtml += '<strong>Safety alert:</strong> ' + criticalItems.map(function(i) { return i.description; }).join(", ") + ' should be addressed immediately.';
+          urgencyHtml += '</div>';
+        }
+        urgencyHtml += '</div>';
+      }
+
+      // ── Upsell Alert Section ──
+      var upsellHtml = "";
+      if (r.possibleUpsells && r.possibleUpsells.length > 0) {
+        upsellHtml = '<div class="ar-upsell-card"><h3>Possible Unnecessary Services</h3>';
+        upsellHtml += '<p style="font-size:0.9rem;color:#78350f;margin-bottom:12px;">These services on your quote may not be needed. This is informational -- discuss with your mechanic.</p>';
+        r.possibleUpsells.forEach(function(upsell) {
+          upsellHtml += '<div class="ar-upsell-item">';
+          upsellHtml += '<div class="upsell-name">' + (upsell.service || upsell.name || "Service") + '</div>';
+          upsellHtml += '<div class="upsell-reason">This service may not be needed because ' + (upsell.reason || "it is not commonly required for the reported issue.") + '</div>';
+          if (upsell.typicalCost) {
+            upsellHtml += '<div class="upsell-cost">Typical cost: ' + fmtCents(upsell.typicalCost) + '</div>';
+          }
+          upsellHtml += '</div>';
+        });
+        upsellHtml += '</div>';
+      }
+
+      // ── Parts Savings Calculator ──
+      var partsSavingsHtml = "";
+      if (r.aftermarketSavings && r.aftermarketSavings.parts && r.aftermarketSavings.parts.length > 0) {
+        var totalSavings = 0;
+        r.aftermarketSavings.parts.forEach(function(p) { totalSavings += (p.oemPrice || 0) - (p.aftermarketPrice || 0); });
+        if (totalSavings > 0) {
+          partsSavingsHtml = '<div class="ar-card" style="background:#f0fdf4;border:1px solid #86efac;">';
+          partsSavingsHtml += '<h3 style="color:#166534;margin-bottom:0.5rem;">Aftermarket Parts Could Save You ' + fmt(totalSavings) + '</h3>';
+          partsSavingsHtml += '<div style="overflow-x:auto;"><table class="ar-savings-table"><thead><tr><th>Part</th><th style="text-align:right;">OEM Price</th><th style="text-align:right;">Aftermarket</th><th style="text-align:right;">Savings</th></tr></thead><tbody>';
+          r.aftermarketSavings.parts.forEach(function(p) {
+            var sv = (p.oemPrice || 0) - (p.aftermarketPrice || 0);
+            partsSavingsHtml += '<tr><td>' + (p.name || "Part") + '</td>';
+            partsSavingsHtml += '<td style="text-align:right;">' + fmtCents(p.oemPrice || 0) + '</td>';
+            partsSavingsHtml += '<td style="text-align:right;">' + fmtCents(p.aftermarketPrice || 0) + '</td>';
+            partsSavingsHtml += '<td style="text-align:right;" class="savings-amt">' + fmtCents(sv) + '</td></tr>';
+          });
+          partsSavingsHtml += '</tbody></table></div>';
+          partsSavingsHtml += '<p style="font-size:0.85rem;color:#475569;margin-top:10px;">Quality aftermarket brands include Bosch, Denso, Moog, Monroe, ACDelco, and Dorman. Ask your mechanic about equivalent aftermarket options.</p>';
+          partsSavingsHtml += '</div>';
+        }
+      }
+
+      // ── State Consumer Protection ──
+      var protectionHtml = "";
+      if (r.stateConsumerProtection && r.stateConsumerProtection.rules && r.stateConsumerProtection.rules.length > 0) {
+        var stateName = r.stateConsumerProtection.stateName || state.stateCode || "Your State";
+        protectionHtml = '<div class="ar-protection-card"><h3>Your Rights in ' + stateName + '</h3><ul>';
+        r.stateConsumerProtection.rules.forEach(function(rule) {
+          protectionHtml += '<li>' + rule + '</li>';
+        });
+        protectionHtml += '</ul>';
+        if (r.stateConsumerProtection.agencyUrl) {
+          protectionHtml += '<p style="margin-top:8px;"><a href="' + r.stateConsumerProtection.agencyUrl + '" target="_blank" rel="noopener">' + (r.stateConsumerProtection.agencyName || "State Consumer Protection Agency") + '</a></p>';
+        }
+        protectionHtml += '</div>';
+      }
+
+      // ── Vehicle Pricing Context ──
+      var pricingCtxHtml = "";
+      if (r.pricingContext || r.vehicleCategory) {
+        var ctx = r.pricingContext || {};
+        pricingCtxHtml = '<div class="ar-card"><h3 style="margin-bottom:0.5rem;">Pricing Context</h3>';
+        var ctxLabel = "Pricing adjusted for";
+        if (r.vehicleCategory) ctxLabel += " " + r.vehicleCategory;
+        if (state.stateCode) ctxLabel += " in " + state.stateCode;
+        pricingCtxHtml += '<p style="color:#475569;font-size:0.95rem;">' + ctxLabel + '</p>';
+        pricingCtxHtml += '<div class="ar-pricing-context">';
+        if (ctx.stateLaborMultiplier) {
+          pricingCtxHtml += '<div class="ar-pricing-chip">State labor rate: <strong>' + ctx.stateLaborMultiplier + 'x</strong></div>';
+        }
+        if (ctx.vehicleCategoryMultiplier) {
+          pricingCtxHtml += '<div class="ar-pricing-chip">Vehicle category: <strong>' + ctx.vehicleCategoryMultiplier + 'x</strong></div>';
+        }
+        if (r.regionalRates) {
+          pricingCtxHtml += '<div class="ar-pricing-chip">Market rate: <strong>$' + r.regionalRates.low + '-$' + r.regionalRates.high + '/hr</strong></div>';
+        }
+        pricingCtxHtml += '</div></div>';
       }
 
       // ── Scope checklist ──
@@ -1116,6 +1411,11 @@
           ' + detailsHtml + '\
         </div>\
         ' + tableHtml + '\
+        ' + urgencyHtml + '\
+        ' + upsellHtml + '\
+        ' + partsSavingsHtml + '\
+        ' + protectionHtml + '\
+        ' + pricingCtxHtml + '\
         ' + scopeHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
@@ -1123,7 +1423,7 @@
         <div class="ar-actions">\
           <a class="ar-btn ar-btn-primary ar-btn-full" href="/auto-repair-cost-guide.html">View Auto Repair Cost Guide</a>\
           <a class="ar-btn ar-btn-secondary ar-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
-          <button class="ar-btn ar-btn-secondary ar-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
+          <button class="ar-btn ar-btn-secondary ar-btn-full" onclick="downloadAnalysisReport()">Download Analysis Report</button>\
           <button class="ar-btn ar-btn-secondary ar-btn-full" id="btnStartOver">Start Over</button>\
         </div>\
         ' + feedbackHtml;

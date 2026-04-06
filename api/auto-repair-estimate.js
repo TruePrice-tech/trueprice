@@ -1,4 +1,6 @@
 import { Redis } from "@upstash/redis";
+import fs from "fs";
+import path from "path";
 
 const redis = Redis.fromEnv();
 
@@ -13,7 +15,6 @@ function buildAnonymizedRecord(vertical, parsed) {
     partsTotal: parsed.partsTotal || null,
     laborTotal: parsed.laborTotal || null,
     shopType: parsed.shopType || null,
-    city: parsed.city || null,
     state: parsed.stateCode || null,
     repairCount: parsed.repairs ? parsed.repairs.length : 0,
     partsType: parsed.repairs && parsed.repairs.length > 0 ? parsed.repairs[0].partsType : null
@@ -128,6 +129,8 @@ Return this exact JSON structure:
   "stateCode": <2-letter state code or null>,
   "yearMakeModel": <string like "2019 Honda Civic" or null>,
   "mileage": <number or null>,
+  "vehicleCategory": <"economy" | "standard" | "truck_suv" | "luxury" | "performance" | "ev_hybrid" | null - categorize from yearMakeModel>,
+  "possibleUpsells": [<string - descriptions of potentially unnecessary add-on services found in the quote>],
   "repairs": [
     {
       "description": <string - repair description>,
@@ -135,7 +138,9 @@ Return this exact JSON structure:
       "laborCost": <number or null>,
       "partsCost": <number or null>,
       "partsType": <"oem" | "aftermarket" | "reman" | "unknown">,
-      "lineTotal": <number or null>
+      "lineTotal": <number or null>,
+      "repairUrgency": <"critical" | "soon" | "can_wait" | "maintenance" - how urgent is this repair>,
+      "laborHoursFlag": <"high" | "normal" | "low" - whether quoted hours seem high/normal/low vs typical book time>
     }
   ],
   "scopeItems": {
@@ -158,6 +163,10 @@ Rules:
 - partsType: "oem" = original manufacturer, "aftermarket" = third-party new, "reman" = remanufactured/rebuilt
 - shopType: "dealer" if dealership, "chain" if Midas/Firestone/Jiffy Lube/Pep Boys/etc, "independent" otherwise
 - scopeItems: Mark "yes" only if clearly present in the quote
+- vehicleCategory: "economy" for Civic/Corolla/Sentra, "standard" for Camry/Accord, "truck_suv" for trucks/SUVs, "luxury" for BMW/Mercedes/Audi/Lexus, "performance" for Porsche/Corvette/AMG/M-series, "ev_hybrid" for Tesla/Prius/Bolt/Leaf
+- possibleUpsells: Flag brake fluid flush added to a brake job, engine flush with oil change, wheel alignment added to brake job (not suspension work), fuel system cleaning with oil change, or any add-on service that appears unnecessary for the primary repair
+- laborHoursFlag: Compare quoted hours to typical book time. Flag "high" if labor hours exceed 1.5x what is typical for that repair type, "low" if under 0.5x typical, otherwise "normal"
+- repairUrgency: "critical" = safety risk / do not drive, "soon" = fix within 1-2 weeks, "can_wait" = schedule at convenience, "maintenance" = routine service
 - Return ONLY the JSON object, nothing else`
     });
 
@@ -194,6 +203,137 @@ Rules:
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
     }
+
+    // --- Server-side enrichment from pricing data ---
+    try {
+      const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'auto-repair-pricing.json'), 'utf-8'));
+
+      const stateCode = parsed.stateCode || null;
+      const stateMult = pricingData.stateMultipliers?.[stateCode] || 1.0;
+      const vehicleCat = parsed.vehicleCategory || null;
+      const vehicleMult = pricingData.vehicleCategoryMultipliers?.[vehicleCat]?.mult || 1.0;
+      const shopType = parsed.shopType || "independent";
+      const shopTypeRate = pricingData.laborRatesByShopType?.[shopType] || pricingData.laborRatesByShopType?.independent;
+
+      // Adjusted labor rate benchmark
+      const adjustedLaborRate = Math.round(shopTypeRate.mid * stateMult * vehicleMult);
+
+      // Enrich each repair with benchmark data
+      let oemPartsTotal = 0;
+      let aftermarketPartsTotal = 0;
+      if (parsed.repairs && Array.isArray(parsed.repairs)) {
+        for (const repair of parsed.repairs) {
+          // Try to match repair to commonRepairs by keyword
+          const descLower = (repair.description || "").toLowerCase();
+          let matched = null;
+          for (const [key, data] of Object.entries(pricingData.commonRepairs || {})) {
+            const labelLower = data.label.toLowerCase();
+            const keyWords = key.replace(/_/g, " ");
+            if (descLower.includes(labelLower) || descLower.includes(keyWords) ||
+                labelLower.split(" ").every(w => w.length > 2 && descLower.includes(w))) {
+              matched = { key, ...data };
+              break;
+            }
+          }
+          if (matched) {
+            repair.benchmark = {
+              repairKey: matched.key,
+              label: matched.label,
+              totalRange: matched.totalRange,
+              typicalLaborHours: matched.laborHours
+            };
+            // Override urgency from data if available
+            if (matched.urgency) {
+              repair.repairUrgency = matched.urgency;
+            }
+            // Labor hours flag: server-side check
+            if (repair.laborHours && matched.laborHours) {
+              const typicalHigh = matched.laborHours.high;
+              if (repair.laborHours > typicalHigh * 1.5) {
+                repair.laborHoursFlag = "high";
+              } else if (repair.laborHours < matched.laborHours.low * 0.5) {
+                repair.laborHoursFlag = "low";
+              }
+            }
+            // OEM vs aftermarket savings
+            if (matched.partsRange) {
+              const oemMid = matched.partsRange.oem ? (matched.partsRange.oem[0] + matched.partsRange.oem[1]) / 2 : 0;
+              const afterMid = matched.partsRange.aftermarket ? (matched.partsRange.aftermarket[0] + matched.partsRange.aftermarket[1]) / 2 : oemMid;
+              oemPartsTotal += oemMid;
+              aftermarketPartsTotal += afterMid;
+            }
+          }
+        }
+      }
+
+      // Check for common upsell patterns from data
+      const serverUpsells = [];
+      if (parsed.repairs && pricingData.commonUpsells) {
+        const repairDescs = parsed.repairs.map(r => (r.description || "").toLowerCase());
+        const allDescs = repairDescs.join(" ");
+        const hasBrakeJob = repairDescs.some(d => d.includes("brake"));
+        const hasOilChange = repairDescs.some(d => d.includes("oil change") || d.includes("oil filter"));
+        const hasSuspension = repairDescs.some(d => d.includes("strut") || d.includes("shock") || d.includes("suspension") || d.includes("control arm") || d.includes("ball joint"));
+
+        for (const upsell of pricingData.commonUpsells) {
+          let triggered = false;
+          if (upsell.trigger === "brake_job" && hasBrakeJob) triggered = true;
+          if (upsell.trigger === "oil_change" && hasOilChange) triggered = true;
+          if (upsell.trigger === "suspension" && hasSuspension) triggered = true;
+          if (upsell.trigger === "any") triggered = true;
+          if (upsell.trigger === "check_engine" && allDescs.includes("check engine")) triggered = true;
+
+          if (triggered) {
+            const upsellLower = upsell.upsell.toLowerCase();
+            if (repairDescs.some(d => d.includes(upsellLower) || upsellLower.split(" ").every(w => w.length > 3 && d.includes(w)))) {
+              // Special case: alignment with brake job but no suspension work
+              if (upsell.upsell === "wheel alignment" && upsell.trigger === "brake_job" && hasSuspension) continue;
+              serverUpsells.push({
+                service: upsell.upsell,
+                necessary: upsell.necessary,
+                typicalCost: upsell.typical_cost,
+                notes: upsell.notes
+              });
+            }
+          }
+        }
+      }
+      if (serverUpsells.length > 0) {
+        parsed.detectedUpsells = serverUpsells;
+      }
+
+      // Add pricing context
+      parsed.pricingContext = {
+        state: stateCode,
+        stateMultiplier: stateMult,
+        vehicleCategory: vehicleCat,
+        vehicleCategoryMultiplier: vehicleMult,
+        shopType: shopType,
+        adjustedLaborRate: adjustedLaborRate,
+        laborRateRange: shopTypeRate,
+        source: pricingData.metadata?.sources || "AAA 2026, RepairPal, Mitchell labor guides"
+      };
+
+      // State consumer protection info
+      if (stateCode && pricingData.stateConsumerProtection?.[stateCode]) {
+        parsed.stateConsumerProtection = pricingData.stateConsumerProtection[stateCode];
+      }
+
+      // OEM vs aftermarket savings summary
+      if (oemPartsTotal > 0 && aftermarketPartsTotal > 0 && oemPartsTotal !== aftermarketPartsTotal) {
+        parsed.partsSavings = {
+          estimatedOemTotal: Math.round(oemPartsTotal),
+          estimatedAftermarketTotal: Math.round(aftermarketPartsTotal),
+          potentialSavings: Math.round(oemPartsTotal - aftermarketPartsTotal)
+        };
+      }
+    } catch (e) {
+      // Pricing enrichment failed -- still return AI results
+      console.log("[auto-repair-estimate] Pricing enrichment error:", e.message);
+    }
+
+    // Strip PII before returning or storing
+    delete parsed.shopName;
 
     captureAnonymizedData("auto", parsed); // fire and forget
 
