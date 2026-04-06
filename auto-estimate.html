@@ -45,7 +45,35 @@
 .ae-share{font-size:12px;color:var(--brand);cursor:pointer;float:right;}
 .ae-share:hover{text-decoration:underline;}
 .ae-cta{text-align:center;margin-top:24px;padding:20px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;}
-@media(max-width:500px){.ae-breakdown{grid-template-columns:1fr;}.ae-row{flex-direction:column;}}
+@media(max-width:500px){.ae-breakdown{grid-template-columns:1fr;}.ae-row{flex-direction:column;}.ae-compare-inputs{flex-direction:column;}}
+.ae-ai-loading{text-align:center;padding:16px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;margin:12px 0;font-size:14px;color:#1d4ed8;display:none;}
+.ae-ai-loading .spinner{display:inline-block;width:18px;height:18px;border:3px solid #bfdbfe;border-top-color:#1d4ed8;border-radius:50%;animation:aesp .7s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes aesp{to{transform:rotate(360deg)}}
+.ae-complexity{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-left:8px;vertical-align:middle;}
+.ae-complexity.simple{background:#dcfce7;color:#166534;}
+.ae-complexity.moderate{background:#fef9c3;color:#854d0e;}
+.ae-complexity.complex{background:#fee2e2;color:#991b1b;}
+.ae-vehicle-notes{padding:16px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;margin:16px 0;font-size:14px;color:#0c4a6e;line-height:1.5;}
+.ae-vehicle-notes h4{margin:0 0 8px;font-size:14px;color:#0369a1;}
+.ae-local-shops{margin:16px 0;}
+.ae-local-shops h4{font-size:16px;margin:0 0 10px;}
+.ae-local-shops table{width:100%;border-collapse:collapse;font-size:13px;}
+.ae-local-shops th{text-align:left;padding:8px;background:#f1f5f9;font-size:11px;text-transform:uppercase;color:var(--text-muted);}
+.ae-local-shops td{padding:8px;border-bottom:1px solid #f1f5f9;}
+.ae-compare{margin:20px 0;}
+.ae-compare h4{font-size:16px;margin:0 0 12px;}
+.ae-compare-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;align-items:end;}
+.ae-compare-row>div{flex:1;min-width:100px;}
+.ae-compare-row label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;display:block;margin-bottom:3px;}
+.ae-compare-row input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;}
+.ae-compare-btn{padding:10px 20px;border:none;border-radius:8px;background:var(--brand);color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;margin-top:16px;}
+.ae-compare-results table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;}
+.ae-compare-results th{text-align:left;padding:8px;background:#f1f5f9;font-size:11px;text-transform:uppercase;color:var(--text-muted);}
+.ae-compare-results td{padding:8px;border-bottom:1px solid #f1f5f9;}
+.ae-verdict{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;}
+.ae-verdict.good{background:#dcfce7;color:#166534;}
+.ae-verdict.fair{background:#fef9c3;color:#854d0e;}
+.ae-verdict.high{background:#fee2e2;color:#991b1b;}
 </style>
 </head>
 <body>
@@ -115,6 +143,228 @@ function detectVehicleCategory(make, model) {
 
 function fmt(n){return "$"+Math.round(n).toLocaleString();}
 
+// Current estimate state (used by compare feature)
+var currentEstimate = { totalMid: 0, repairLabel: "", vehicleDesc: "", shopType: "", city: "", state: "", repairKey: "" };
+
+function buildClientEstimate(repairKey, year, make, model, city, state, shopType) {
+  var repair = REPAIRS[repairKey];
+  var stateMult = STATES[state] || 1.0;
+  var vehicleCat = detectVehicleCategory(make, model);
+  var vehicleMult = VEHICLES[vehicleCat] ? VEHICLES[vehicleCat].mult : 1.0;
+  var vehicleLabel = VEHICLES[vehicleCat] ? VEHICLES[vehicleCat].label : "Standard";
+  var shopRates = SHOPS[shopType] || SHOPS.independent;
+  var taxRate = TAX[state] || 0.06;
+
+  var laborRateLow = Math.round(shopRates.low * stateMult * vehicleMult);
+  var laborRateMid = Math.round(shopRates.mid * stateMult * vehicleMult);
+  var laborRateHigh = Math.round(shopRates.high * stateMult * vehicleMult);
+  var laborHrsLow = repair.laborHours.low;
+  var laborHrsHigh = repair.laborHours.high;
+  var laborHrsMid = (laborHrsLow + laborHrsHigh) / 2;
+
+  var ageAdj = 1.0;
+  if (year > 0 && year < 2000) ageAdj = 1.15;
+  else if (year >= 2000 && year < 2010) ageAdj = 1.05;
+
+  var laborLow = Math.round(laborRateLow * laborHrsLow * ageAdj);
+  var laborMid = Math.round(laborRateMid * laborHrsMid * ageAdj);
+  var laborHigh = Math.round(laborRateHigh * laborHrsHigh * ageAdj);
+
+  var partsTypes = [];
+  if (repair.partsRange.oem) partsTypes.push({type:"OEM (Original)",low:repair.partsRange.oem[0],high:repair.partsRange.oem[1],mult:vehicleMult});
+  if (repair.partsRange.aftermarket) partsTypes.push({type:"Aftermarket",low:repair.partsRange.aftermarket[0],high:repair.partsRange.aftermarket[1],mult:1.0});
+  if (repair.partsRange.reman) partsTypes.push({type:"Remanufactured",low:repair.partsRange.reman[0],high:repair.partsRange.reman[1],mult:1.0});
+
+  var partsDefault = repair.partsRange.aftermarket || repair.partsRange.oem || [0,0];
+  var partsMid = Math.round(((partsDefault[0]+partsDefault[1])/2) * (vehicleCat==="luxury"?1.3:vehicleCat==="truck_suv"?1.1:1.0) * stateMult);
+  var partsLow = Math.round(partsDefault[0] * stateMult);
+  var partsHigh = Math.round((repair.partsRange.oem||partsDefault)[1] * vehicleMult * stateMult);
+
+  var shopSupplies = Math.round(laborMid * 0.06);
+  var taxLow = Math.round((partsLow + shopSupplies) * taxRate);
+  var taxMid = Math.round((partsMid + shopSupplies) * taxRate);
+  var taxHigh = Math.round((partsHigh + shopSupplies) * taxRate);
+
+  var totalLow = laborLow + partsLow + taxLow;
+  var totalMid = laborMid + partsMid + shopSupplies + taxMid;
+  var totalHigh = laborHigh + partsHigh + shopSupplies + taxHigh;
+
+  return {
+    repair: repair, laborRateMid: laborRateMid, laborHrsMid: laborHrsMid,
+    laborMid: laborMid, partsMid: partsMid, partsLow: partsLow, partsHigh: partsHigh,
+    shopSupplies: shopSupplies, taxRate: taxRate, taxMid: taxMid,
+    totalLow: totalLow, totalMid: totalMid, totalHigh: totalHigh,
+    vehicleLabel: vehicleLabel, ageAdj: ageAdj, partsTypes: partsTypes, stateMult: stateMult
+  };
+}
+
+function renderEstimate(est, vehicleDesc, locationDesc, shopType, opts) {
+  opts = opts || {};
+  var repair = est.repair;
+  var h = '<div class="ae-card" id="estimateCard">';
+  var shareText = repair.label + " for " + vehicleDesc + " in " + locationDesc + ": " + fmt(est.totalLow) + " - " + fmt(est.totalHigh) + " (aftermarket parts, " + shopType + " shop). truepricehq.com/auto-estimate.html";
+  h += '<span class="ae-share" onclick="navigator.clipboard.writeText(\'' + shareText.replace(/'/g, "\\'") + '\');this.textContent=\'Copied!\'">Share</span>';
+  h += '<h3>' + repair.label;
+  if (opts.complexity) h += '<span class="ae-complexity ' + opts.complexity + '">' + opts.complexity + '</span>';
+  h += '</h3>';
+  h += '<div style="font-size:14px;color:#64748b;">' + vehicleDesc + ' &bull; ' + locationDesc + ' &bull; ' + est.vehicleLabel + ' &bull; ' + (shopType==="dealer"?"Dealership":shopType==="chain"?"Chain Shop":"Independent Shop") + '</div>';
+
+  if (opts.aiSource) h += '<div style="font-size:11px;color:#16a34a;margin-top:4px;font-weight:600;">Vehicle-specific estimate from TruePrice AI</div>';
+
+  h += '<div class="ae-total-box">';
+  h += '<div style="font-size:13px;color:var(--text-muted);">Estimated Total</div>';
+  h += '<div class="total" id="estTotal">' + fmt(est.totalMid) + '</div>';
+  h += '<div class="range" id="estRange">Range: ' + fmt(est.totalLow) + ' - ' + fmt(est.totalHigh) + '</div>';
+  h += '</div>';
+
+  h += '<div class="ae-breakdown" id="estBreakdown">';
+  h += '<div class="ae-breakdown-item"><div class="label">Labor (' + est.laborHrsMid.toFixed(1) + ' hrs @ ' + fmt(est.laborRateMid) + '/hr)</div><div class="value">' + fmt(est.laborMid) + '</div></div>';
+  h += '<div class="ae-breakdown-item"><div class="label">Parts (aftermarket)</div><div class="value">' + fmt(est.partsMid) + '</div></div>';
+  h += '<div class="ae-breakdown-item"><div class="label">Shop Supplies (~6%)</div><div class="value">' + fmt(est.shopSupplies) + '</div></div>';
+  h += '<div class="ae-breakdown-item"><div class="label">Tax (' + (est.taxRate*100).toFixed(1) + '% on parts)</div><div class="value">' + fmt(est.taxMid) + '</div></div>';
+  h += '</div>';
+
+  if (est.partsTypes.length > 1) {
+    h += '<h4 style="margin:16px 0 8px;font-size:14px;">Parts Options</h4>';
+    h += '<table class="ae-parts-table"><thead><tr><th>Type</th><th>Parts Cost</th><th>Total w/ Labor + Tax</th></tr></thead><tbody>';
+    est.partsTypes.forEach(function(pt) {
+      var ptMid = Math.round(((pt.low+pt.high)/2) * pt.mult * est.stateMult);
+      var ptTotal = est.laborMid + ptMid + est.shopSupplies + Math.round((ptMid+est.shopSupplies)*est.taxRate);
+      var isDefault = pt.type === "Aftermarket";
+      h += '<tr' + (isDefault?' class="selected"':'') + '>';
+      h += '<td>' + pt.type + '</td>';
+      h += '<td>' + fmt(Math.round(pt.low*est.stateMult)) + ' - ' + fmt(Math.round(pt.high*pt.mult*est.stateMult)) + '</td>';
+      h += '<td><strong>' + fmt(ptTotal) + '</strong></td>';
+      h += '</tr>';
+    });
+    h += '</tbody></table>';
+    h += '<div class="ae-note">Aftermarket parts are highlighted. OEM parts are original manufacturer quality. Remanufactured are factory-rebuilt.</div>';
+  }
+
+  if (repair.notes && !opts.aiSource) h += '<div class="ae-note" style="margin-top:12px;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;color:#92400e;">' + repair.notes + '</div>';
+  if (est.ageAdj > 1.0) h += '<div class="ae-note">Labor adjusted +' + Math.round((est.ageAdj-1)*100) + '% for older vehicle (more time to access parts).</div>';
+
+  h += '</div>';
+
+  // AI loading indicator
+  h += '<div class="ae-ai-loading" id="aiLoading"><span class="spinner"></span>Getting vehicle-specific estimate for your ' + vehicleDesc + '...</div>';
+
+  // Vehicle notes placeholder (filled by AI)
+  h += '<div id="vehicleNotesSection"></div>';
+
+  // Local shops placeholder (filled by AI)
+  h += '<div id="localShopsSection"></div>';
+
+  // Shop comparison section
+  h += '<div class="ae-card ae-compare">';
+  h += '<h4>Compare Your Quotes</h4>';
+  h += '<p style="font-size:13px;color:var(--text-secondary);margin:0 0 12px;">Enter quotes you have received and see how they stack up against the benchmark.</p>';
+  for (var i = 1; i <= 3; i++) {
+    h += '<div class="ae-compare-row">';
+    h += '<div style="flex:2;"><label>Shop Name</label><input type="text" id="cmpName' + i + '" placeholder="Shop ' + i + '" /></div>';
+    h += '<div><label>Total Quote</label><input type="number" id="cmpQuote' + i + '" placeholder="$0" /></div>';
+    h += '<div><label>Labor Hrs (opt)</label><input type="number" id="cmpHrs' + i + '" placeholder="-" step="0.5" /></div>';
+    h += '<div><label>Labor Rate (opt)</label><input type="number" id="cmpRate' + i + '" placeholder="-" /></div>';
+    h += '</div>';
+  }
+  h += '<button class="ae-compare-btn" id="compareBtn">Compare</button>';
+  h += '<div class="ae-compare-results" id="compareResults"></div>';
+  h += '</div>';
+
+  // CTA
+  h += '<div class="ae-cta">';
+  h += '<p style="margin:0 0 8px;font-weight:600;">Have a quote for this repair?</p>';
+  h += '<p style="margin:0 0 12px;font-size:14px;color:var(--text-secondary);">Upload it and Trudy checks every line item against this benchmark.</p>';
+  h += '<a href="/auto-repair-quote-analyzer.html" class="ae-btn" style="display:inline-block;width:auto;padding:12px 24px;text-decoration:none;">Upload My Quote</a>';
+  h += '</div>';
+
+  return h;
+}
+
+function renderVehicleNotes(data) {
+  var h = '';
+  if (data.vehicleNotes || data.commonIssues) {
+    h += '<div class="ae-vehicle-notes">';
+    h += '<h4>Vehicle-Specific Notes</h4>';
+    if (data.vehicleNotes) h += '<p style="margin:0 0 8px;">' + data.vehicleNotes + '</p>';
+    if (data.commonIssues) h += '<p style="margin:0;font-size:13px;color:#0c4a6e;"><strong>Common issues:</strong> ' + data.commonIssues + '</p>';
+    h += '</div>';
+  }
+  return h;
+}
+
+function renderLocalShops(shops) {
+  if (!shops || !shops.length) return '';
+  var h = '<div class="ae-card ae-local-shops">';
+  h += '<h4>Local Shop Pricing (from user reports)</h4>';
+  h += '<table><thead><tr><th>Shop Name</th><th>Avg Price for This Repair</th><th>Quote Count</th></tr></thead><tbody>';
+  shops.forEach(function(s) {
+    h += '<tr><td>' + (s.shopName || s.name || 'Unknown') + '</td><td>' + fmt(s.avgPrice || s.averagePrice || 0) + '</td><td>' + (s.quoteCount || s.count || 0) + '</td></tr>';
+  });
+  h += '</tbody></table>';
+  h += '<div class="ae-note" style="margin-top:8px;">Based on user-submitted quotes. Not verified by the shop.</div>';
+  h += '</div>';
+  return h;
+}
+
+function attachCompareHandler() {
+  var btn = document.getElementById("compareBtn");
+  if (!btn) return;
+  btn.addEventListener("click", function() {
+    var benchmark = currentEstimate.totalMid;
+    var rows = [];
+    for (var i = 1; i <= 3; i++) {
+      var name = document.getElementById("cmpName" + i).value.trim();
+      var quote = parseFloat(document.getElementById("cmpQuote" + i).value);
+      var hrs = document.getElementById("cmpHrs" + i).value;
+      var rate = document.getElementById("cmpRate" + i).value;
+      if (!name || isNaN(quote) || quote <= 0) continue;
+      var diff = quote - benchmark;
+      var pct = (diff / benchmark) * 100;
+      var verdict, vclass;
+      if (pct > 15) { verdict = "High"; vclass = "high"; }
+      else if (pct < -15) { verdict = "Good Deal"; vclass = "good"; }
+      else { verdict = "Fair"; vclass = "fair"; }
+      rows.push({ name: name, quote: quote, diff: diff, pct: pct, hrs: hrs, rate: rate, verdict: verdict, vclass: vclass });
+
+      // Store the quote via API (fire and forget)
+      try {
+        fetch("/api/vehicle-estimate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "store_quote",
+            shopName: name,
+            totalQuote: quote,
+            laborHours: hrs ? parseFloat(hrs) : null,
+            laborRate: rate ? parseFloat(rate) : null,
+            repair: currentEstimate.repairLabel,
+            repairKey: currentEstimate.repairKey,
+            city: currentEstimate.city,
+            state: currentEstimate.state
+          })
+        }).catch(function(){});
+      } catch(e){}
+    }
+    if (!rows.length) { alert("Enter at least one shop name and quote."); return; }
+
+    var h = '<table><thead><tr><th>Shop</th><th>Their Price</th><th>Our Benchmark</th><th>Difference</th><th>Labor Rate</th><th>Verdict</th></tr></thead><tbody>';
+    rows.forEach(function(r) {
+      var rateStr = (r.rate && r.hrs) ? fmt(parseFloat(r.rate)) + "/hr x " + r.hrs + "h" : (r.rate ? fmt(parseFloat(r.rate)) + "/hr" : "-");
+      h += '<tr>';
+      h += '<td>' + r.name + '</td>';
+      h += '<td>' + fmt(r.quote) + '</td>';
+      h += '<td>' + fmt(benchmark) + '</td>';
+      h += '<td style="color:' + (r.diff > 0 ? '#dc2626' : '#16a34a') + ';">' + (r.diff > 0 ? '+' : '') + fmt(r.diff) + ' (' + (r.pct > 0 ? '+' : '') + r.pct.toFixed(0) + '%)</td>';
+      h += '<td>' + rateStr + '</td>';
+      h += '<td><span class="ae-verdict ' + r.vclass + '">' + r.verdict + '</span></td>';
+      h += '</tr>';
+    });
+    h += '</tbody></table>';
+    document.getElementById("compareResults").innerHTML = h;
+  });
+}
+
 document.getElementById("estimateBtn").addEventListener("click", function(){
   var repairKey = document.getElementById("repairSelect").value;
   var year = parseInt(document.getElementById("yearInput").value) || 0;
@@ -128,116 +378,131 @@ document.getElementById("estimateBtn").addEventListener("click", function(){
   if (!state) { alert("Select your state."); return; }
 
   var repair = REPAIRS[repairKey];
-  var stateMult = STATES[state] || 1.0;
-  var vehicleCat = detectVehicleCategory(make, model);
-  var vehicleMult = VEHICLES[vehicleCat] ? VEHICLES[vehicleCat].mult : 1.0;
-  var vehicleLabel = VEHICLES[vehicleCat] ? VEHICLES[vehicleCat].label : "Standard";
-  var shopRates = SHOPS[shopType] || SHOPS.independent;
-  var taxRate = TAX[state] || 0.06;
-
-  // Calculate labor
-  var laborRateLow = Math.round(shopRates.low * stateMult * vehicleMult);
-  var laborRateMid = Math.round(shopRates.mid * stateMult * vehicleMult);
-  var laborRateHigh = Math.round(shopRates.high * stateMult * vehicleMult);
-  var laborHrsLow = repair.laborHours.low;
-  var laborHrsHigh = repair.laborHours.high;
-  var laborHrsMid = (laborHrsLow + laborHrsHigh) / 2;
-
-  // Vehicle age adjustment (older cars can take more labor)
-  var ageAdj = 1.0;
-  if (year > 0 && year < 2000) ageAdj = 1.15;
-  else if (year >= 2000 && year < 2010) ageAdj = 1.05;
-
-  var laborLow = Math.round(laborRateLow * laborHrsLow * ageAdj);
-  var laborMid = Math.round(laborRateMid * laborHrsMid * ageAdj);
-  var laborHigh = Math.round(laborRateHigh * laborHrsHigh * ageAdj);
-
-  // Parts pricing by type
-  var partsTypes = [];
-  if (repair.partsRange.oem) partsTypes.push({type:"OEM (Original)",low:repair.partsRange.oem[0],high:repair.partsRange.oem[1],mult:vehicleMult});
-  if (repair.partsRange.aftermarket) partsTypes.push({type:"Aftermarket",low:repair.partsRange.aftermarket[0],high:repair.partsRange.aftermarket[1],mult:1.0});
-  if (repair.partsRange.reman) partsTypes.push({type:"Remanufactured",low:repair.partsRange.reman[0],high:repair.partsRange.reman[1],mult:1.0});
-
-  // Default to aftermarket mid for the main estimate
-  var partsDefault = repair.partsRange.aftermarket || repair.partsRange.oem || [0,0];
-  var partsMid = Math.round(((partsDefault[0]+partsDefault[1])/2) * (vehicleCat==="luxury"?1.3:vehicleCat==="truck_suv"?1.1:1.0) * stateMult);
-  var partsLow = Math.round(partsDefault[0] * stateMult);
-  var partsHigh = Math.round((repair.partsRange.oem||partsDefault)[1] * vehicleMult * stateMult);
-
-  // Shop supplies (5-8% of labor)
-  var shopSupplies = Math.round(laborMid * 0.06);
-
-  // Subtotal
-  var subtotalLow = laborLow + partsLow;
-  var subtotalMid = laborMid + partsMid + shopSupplies;
-  var subtotalHigh = laborHigh + partsHigh + shopSupplies;
-
-  // Tax (on parts + shop supplies in most states, not labor)
-  var taxLow = Math.round((partsLow + shopSupplies) * taxRate);
-  var taxMid = Math.round((partsMid + shopSupplies) * taxRate);
-  var taxHigh = Math.round((partsHigh + shopSupplies) * taxRate);
-
-  var totalLow = subtotalLow + taxLow;
-  var totalMid = subtotalMid + taxMid;
-  var totalHigh = subtotalHigh + taxHigh;
-
   var vehicleDesc = (year>0?year+" ":"") + (make||"") + " " + (model||"");
   vehicleDesc = vehicleDesc.trim() || "Your vehicle";
   var locationDesc = city ? city + ", " + state : state;
 
-  // Build result
-  var h = '<div class="ae-card">';
-  var shareText = repair.label + " for " + vehicleDesc + " in " + locationDesc + ": " + fmt(totalLow) + " - " + fmt(totalHigh) + " (aftermarket parts, " + shopType + " shop). truepricehq.com/auto-estimate.html";
-  h += '<span class="ae-share" onclick="navigator.clipboard.writeText(\''+shareText.replace(/'/g,"\\'")+'\'');this.textContent=\'Copied!\'">Share</span>';
-  h += '<h3>' + repair.label + '</h3>';
-  h += '<div style="font-size:14px;color:#64748b;">' + vehicleDesc + ' &bull; ' + locationDesc + ' &bull; ' + vehicleLabel + ' &bull; ' + (shopType==="dealer"?"Dealership":shopType==="chain"?"Chain Shop":"Independent Shop") + '</div>';
+  // 1) Show client-side estimate immediately
+  var est = buildClientEstimate(repairKey, year, make, model, city, state, shopType);
 
-  h += '<div class="ae-total-box">';
-  h += '<div style="font-size:13px;color:var(--text-muted);">Estimated Total</div>';
-  h += '<div class="total">' + fmt(totalMid) + '</div>';
-  h += '<div class="range">Range: ' + fmt(totalLow) + ' - ' + fmt(totalHigh) + '</div>';
-  h += '</div>';
+  currentEstimate = {
+    totalMid: est.totalMid, repairLabel: repair.label, vehicleDesc: vehicleDesc,
+    shopType: shopType, city: city, state: state, repairKey: repairKey
+  };
 
-  h += '<div class="ae-breakdown">';
-  h += '<div class="ae-breakdown-item"><div class="label">Labor (' + laborHrsMid.toFixed(1) + ' hrs @ ' + fmt(laborRateMid) + '/hr)</div><div class="value">' + fmt(laborMid) + '</div></div>';
-  h += '<div class="ae-breakdown-item"><div class="label">Parts (aftermarket)</div><div class="value">' + fmt(partsMid) + '</div></div>';
-  h += '<div class="ae-breakdown-item"><div class="label">Shop Supplies (~6%)</div><div class="value">' + fmt(shopSupplies) + '</div></div>';
-  h += '<div class="ae-breakdown-item"><div class="label">Tax (' + (taxRate*100).toFixed(1) + '% on parts)</div><div class="value">' + fmt(taxMid) + '</div></div>';
-  h += '</div>';
+  var resultEl = document.getElementById("result");
+  resultEl.innerHTML = renderEstimate(est, vehicleDesc, locationDesc, shopType, {});
+  resultEl.style.display = "block";
+  resultEl.scrollIntoView({ behavior: "smooth" });
+  attachCompareHandler();
 
-  // Parts comparison table
-  if (partsTypes.length > 1) {
-    h += '<h4 style="margin:16px 0 8px;font-size:14px;">Parts Options</h4>';
-    h += '<table class="ae-parts-table"><thead><tr><th>Type</th><th>Parts Cost</th><th>Total w/ Labor + Tax</th></tr></thead><tbody>';
-    partsTypes.forEach(function(pt) {
-      var ptMid = Math.round(((pt.low+pt.high)/2) * pt.mult * stateMult);
-      var ptTotal = laborMid + ptMid + shopSupplies + Math.round((ptMid+shopSupplies)*taxRate);
-      var isDefault = pt.type === "Aftermarket";
-      h += '<tr' + (isDefault?' class="selected"':'') + '>';
-      h += '<td>' + pt.type + '</td>';
-      h += '<td>' + fmt(Math.round(pt.low*stateMult)) + ' - ' + fmt(Math.round(pt.high*pt.mult*stateMult)) + '</td>';
-      h += '<td><strong>' + fmt(ptTotal) + '</strong></td>';
-      h += '</tr>';
+  // 2) Fire AI call in background
+  if (make && model) {
+    var loader = document.getElementById("aiLoading");
+    if (loader) loader.style.display = "block";
+
+    fetch("/api/vehicle-estimate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "estimate",
+        year: year || null,
+        make: make,
+        model: model,
+        repair: repair.label,
+        repairKey: repairKey,
+        city: city || null,
+        state: state
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (loader) loader.style.display = "none";
+      if (!data || data.error) return;
+
+      // Update estimate with AI-specific numbers
+      var aiEst = Object.assign({}, est);
+      var shopRates = SHOPS[shopType] || SHOPS.independent;
+      var stateMult = STATES[state] || 1.0;
+      var vehicleCat = detectVehicleCategory(make, model);
+      var vehicleMult = VEHICLES[vehicleCat] ? VEHICLES[vehicleCat].mult : 1.0;
+      var taxRate = TAX[state] || 0.06;
+
+      if (data.laborHours) {
+        var aiHrs = (typeof data.laborHours === "object") ? ((data.laborHours.low + data.laborHours.high) / 2) : data.laborHours;
+        aiEst.laborHrsMid = aiHrs;
+        aiEst.laborRateMid = Math.round(shopRates.mid * stateMult * vehicleMult);
+        aiEst.laborMid = Math.round(aiEst.laborRateMid * aiHrs);
+      }
+
+      if (data.partsEstimate) {
+        var aiParts = data.partsEstimate;
+        if (aiParts.aftermarket) {
+          var am = aiParts.aftermarket;
+          aiEst.partsMid = Math.round(typeof am === "object" ? ((am.low + am.high) / 2) : am);
+        } else if (aiParts.oem) {
+          var oem = aiParts.oem;
+          aiEst.partsMid = Math.round((typeof oem === "object" ? ((oem.low + oem.high) / 2) : oem) * 0.65);
+        }
+        // Update parts types for table
+        if (aiParts.oem) {
+          var o = aiParts.oem;
+          var oLow = typeof o === "object" ? o.low : Math.round(o * 0.8);
+          var oHigh = typeof o === "object" ? o.high : Math.round(o * 1.2);
+          aiEst.partsTypes = aiEst.partsTypes.map(function(pt) {
+            if (pt.type === "OEM (Original)") return { type: pt.type, low: oLow, high: oHigh, mult: 1.0 };
+            return pt;
+          });
+        }
+        if (aiParts.aftermarket) {
+          var a = aiParts.aftermarket;
+          var aLow = typeof a === "object" ? a.low : Math.round(a * 0.8);
+          var aHigh = typeof a === "object" ? a.high : Math.round(a * 1.2);
+          aiEst.partsTypes = aiEst.partsTypes.map(function(pt) {
+            if (pt.type === "Aftermarket") return { type: pt.type, low: aLow, high: aHigh, mult: 1.0 };
+            return pt;
+          });
+        }
+        if (aiParts.reman) {
+          var rm = aiParts.reman;
+          var rmLow = typeof rm === "object" ? rm.low : Math.round(rm * 0.8);
+          var rmHigh = typeof rm === "object" ? rm.high : Math.round(rm * 1.2);
+          aiEst.partsTypes = aiEst.partsTypes.map(function(pt) {
+            if (pt.type === "Remanufactured") return { type: pt.type, low: rmLow, high: rmHigh, mult: 1.0 };
+            return pt;
+          });
+        }
+      }
+
+      // Recalculate totals
+      aiEst.shopSupplies = Math.round(aiEst.laborMid * 0.06);
+      aiEst.taxMid = Math.round((aiEst.partsMid + aiEst.shopSupplies) * taxRate);
+      aiEst.totalMid = aiEst.laborMid + aiEst.partsMid + aiEst.shopSupplies + aiEst.taxMid;
+      aiEst.totalLow = Math.round(aiEst.totalMid * 0.8);
+      aiEst.totalHigh = Math.round(aiEst.totalMid * 1.3);
+
+      currentEstimate.totalMid = aiEst.totalMid;
+
+      var complexity = data.complexity || null;
+      resultEl.innerHTML = renderEstimate(aiEst, vehicleDesc, locationDesc, shopType, {
+        aiSource: true,
+        complexity: complexity
+      });
+      attachCompareHandler();
+
+      // Render vehicle notes
+      var notesEl = document.getElementById("vehicleNotesSection");
+      if (notesEl) notesEl.innerHTML = renderVehicleNotes(data);
+
+      // Render local shops
+      var shopsEl = document.getElementById("localShopsSection");
+      if (shopsEl && data.localShops) shopsEl.innerHTML = renderLocalShops(data.localShops);
+    })
+    .catch(function(err) {
+      if (loader) loader.style.display = "none";
+      console.log("AI estimate unavailable:", err);
     });
-    h += '</tbody></table>';
-    h += '<div class="ae-note">Aftermarket parts are highlighted. OEM parts are original manufacturer quality. Remanufactured are factory-rebuilt.</div>';
   }
-
-  if (repair.notes) h += '<div class="ae-note" style="margin-top:12px;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;color:#92400e;">' + repair.notes + '</div>';
-  if (ageAdj > 1.0) h += '<div class="ae-note">Labor adjusted +' + Math.round((ageAdj-1)*100) + '% for older vehicle (more time to access parts).</div>';
-
-  h += '</div>';
-
-  // CTA
-  h += '<div class="ae-cta">';
-  h += '<p style="margin:0 0 8px;font-weight:600;">Have a quote for this repair?</p>';
-  h += '<p style="margin:0 0 12px;font-size:14px;color:var(--text-secondary);">Upload it and Trudy checks every line item against this benchmark.</p>';
-  h += '<a href="/auto-repair-quote-analyzer.html" class="ae-btn" style="display:inline-block;width:auto;padding:12px 24px;text-decoration:none;">Upload My Quote</a>';
-  h += '</div>';
-
-  document.getElementById("result").style.display = "block";
-  document.getElementById("result").innerHTML = h;
-  document.getElementById("result").scrollIntoView({behavior:"smooth"});
 });
 
 // URL params
