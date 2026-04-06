@@ -1,0 +1,203 @@
+{
+  "metadata": {
+    "sources": "HomeAdvisor, Angi, landscaping surveys",
+    "baseYear": 2026
+  },
+  "stateMultipliers": {
+    "AL": 0.85,
+    "AK": 1.15,
+    "AZ": 0.95,
+    "AR": 0.8,
+    "CA": 1.22,
+    "CO": 1.05,
+    "CT": 1.15,
+    "DE": 1.05,
+    "FL": 0.92,
+    "GA": 0.88,
+    "HI": 1.18,
+    "ID": 0.9,
+    "IL": 1.02,
+    "IN": 0.9,
+    "IA": 0.88,
+    "KS": 0.88,
+    "KY": 0.85,
+    "LA": 0.88,
+    "ME": 1.0,
+    "MD": 1.08,
+    "MA": 1.15,
+    "MI": 0.92,
+    "MN": 0.98,
+    "MS": 0.82,
+    "MO": 0.88,
+    "MT": 0.95,
+    "NE": 0.88,
+    "NV": 1.0,
+    "NH": 1.05,
+    "NJ": 1.12,
+    "NM": 0.9,
+    "NY": 1.18,
+    "NC": 0.9,
+    "ND": 0.9,
+    "OH": 0.92,
+    "OK": 0.85,
+    "OR": 1.05,
+    "PA": 1.0,
+    "RI": 1.08,
+    "SC": 0.85,
+    "SD": 0.88,
+    "TN": 0.85,
+    "TX": 0.9,
+    "UT": 0.92,
+    "VT": 1.0,
+    "VA": 0.95,
+    "WA": 1.1,
+    "WV": 0.8,
+    "WI": 0.92,
+    "WY": 0.92,
+    "DC": 1.2
+  },
+  "commonJobs": {
+    "sod_install": {
+      "label": "Sod Installation",
+      "total": [
+        1000,
+        3000
+      ],
+      "per_sqft": [
+        1,
+        3
+      ],
+      "urgency": "can_wait"
+    },
+    "landscape_design": {
+      "label": "Landscape Design + Install",
+      "total": [
+        3000,
+        15000
+      ],
+      "urgency": "can_wait"
+    },
+    "paver_patio": {
+      "label": "Paver Patio",
+      "total": [
+        2000,
+        8000
+      ],
+      "per_sqft": [
+        10,
+        25
+      ],
+      "urgency": "can_wait"
+    },
+    "retaining_wall_landscape": {
+      "label": "Retaining Wall (landscape block)",
+      "total": [
+        2000,
+        8000
+      ],
+      "per_sqft_face": [
+        15,
+        40
+      ],
+      "urgency": "can_wait"
+    },
+    "french_drain_yard": {
+      "label": "French Drain (yard)",
+      "total": [
+        1000,
+        4000
+      ],
+      "per_foot": [
+        15,
+        40
+      ],
+      "urgency": "soon"
+    },
+    "irrigation_system": {
+      "label": "Irrigation/Sprinkler System",
+      "total": [
+        2000,
+        5000
+      ],
+      "urgency": "can_wait"
+    },
+    "tree_removal_large": {
+      "label": "Large Tree Removal",
+      "total": [
+        1000,
+        3000
+      ],
+      "urgency": "varies"
+    },
+    "grading_drainage": {
+      "label": "Yard Grading/Drainage",
+      "total": [
+        1000,
+        5000
+      ],
+      "urgency": "soon"
+    }
+  },
+  "commonUpsells": [
+    {
+      "item": "Landscape lighting",
+      "cost": [
+        500,
+        2000
+      ],
+      "necessary": "rarely",
+      "notes": "Aesthetic. DIY kits $100-300."
+    },
+    {
+      "item": "Mulch delivery/spread",
+      "cost": [
+        200,
+        600
+      ],
+      "necessary": "sometimes",
+      "notes": "Should be included with planting."
+    }
+  ],
+  "scopeCheckItems": [
+    {
+      "key": "laborRate",
+      "label": "Labor rate stated",
+      "weight": 12
+    },
+    {
+      "key": "partsItemized",
+      "label": "Parts/materials itemized",
+      "weight": 15
+    },
+    {
+      "key": "permit",
+      "label": "Permits included",
+      "weight": 8
+    },
+    {
+      "key": "warranty",
+      "label": "Warranty stated",
+      "weight": 12
+    },
+    {
+      "key": "cleanup",
+      "label": "Cleanup included",
+      "weight": 6
+    },
+    {
+      "key": "timeline",
+      "label": "Timeline/schedule stated",
+      "weight": 5
+    },
+    {
+      "key": "plantList",
+      "label": "Plant species/materials listed",
+      "weight": 10
+    },
+    {
+      "key": "grading",
+      "label": "Grading/drainage addressed",
+      "weight": 8
+    }
+  ]
+}

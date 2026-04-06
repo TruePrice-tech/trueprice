@@ -1,0 +1,187 @@
+{
+  "metadata": {
+    "sources": "HomeAdvisor, Angi, garage door manufacturer data",
+    "baseYear": 2026
+  },
+  "stateMultipliers": {
+    "AL": 0.85,
+    "AK": 1.15,
+    "AZ": 0.95,
+    "AR": 0.8,
+    "CA": 1.22,
+    "CO": 1.05,
+    "CT": 1.15,
+    "DE": 1.05,
+    "FL": 0.92,
+    "GA": 0.88,
+    "HI": 1.18,
+    "ID": 0.9,
+    "IL": 1.02,
+    "IN": 0.9,
+    "IA": 0.88,
+    "KS": 0.88,
+    "KY": 0.85,
+    "LA": 0.88,
+    "ME": 1.0,
+    "MD": 1.08,
+    "MA": 1.15,
+    "MI": 0.92,
+    "MN": 0.98,
+    "MS": 0.82,
+    "MO": 0.88,
+    "MT": 0.95,
+    "NE": 0.88,
+    "NV": 1.0,
+    "NH": 1.05,
+    "NJ": 1.12,
+    "NM": 0.9,
+    "NY": 1.18,
+    "NC": 0.9,
+    "ND": 0.9,
+    "OH": 0.92,
+    "OK": 0.85,
+    "OR": 1.05,
+    "PA": 1.0,
+    "RI": 1.08,
+    "SC": 0.85,
+    "SD": 0.88,
+    "TN": 0.85,
+    "TX": 0.9,
+    "UT": 0.92,
+    "VT": 1.0,
+    "VA": 0.95,
+    "WA": 1.1,
+    "WV": 0.8,
+    "WI": 0.92,
+    "WY": 0.92,
+    "DC": 1.2
+  },
+  "commonJobs": {
+    "single_steel": {
+      "label": "Single Steel Door (8x7)",
+      "total": [
+        800,
+        1500
+      ],
+      "urgency": "soon"
+    },
+    "double_steel": {
+      "label": "Double Steel Door (16x7)",
+      "total": [
+        1000,
+        2500
+      ],
+      "urgency": "soon"
+    },
+    "single_insulated": {
+      "label": "Single Insulated Door",
+      "total": [
+        1000,
+        2000
+      ],
+      "urgency": "soon"
+    },
+    "double_insulated": {
+      "label": "Double Insulated Door",
+      "total": [
+        1500,
+        3000
+      ],
+      "urgency": "soon"
+    },
+    "carriage_style": {
+      "label": "Carriage House Style",
+      "total": [
+        1500,
+        4000
+      ],
+      "urgency": "can_wait"
+    },
+    "opener_install": {
+      "label": "Opener Installation",
+      "total": [
+        300,
+        600
+      ],
+      "urgency": "can_wait"
+    },
+    "spring_replacement": {
+      "label": "Spring Replacement",
+      "total": [
+        200,
+        400
+      ],
+      "urgency": "critical"
+    },
+    "panel_replacement": {
+      "label": "Panel Replacement",
+      "total": [
+        250,
+        800
+      ],
+      "urgency": "soon"
+    }
+  },
+  "commonUpsells": [
+    {
+      "item": "Smart opener upgrade",
+      "cost": [
+        100,
+        200
+      ],
+      "necessary": "rarely",
+      "notes": "WiFi-enabled. Nice but not needed."
+    },
+    {
+      "item": "Weatherstripping",
+      "cost": [
+        100,
+        200
+      ],
+      "necessary": "recommended",
+      "notes": "Insulation and pest prevention."
+    }
+  ],
+  "scopeCheckItems": [
+    {
+      "key": "laborRate",
+      "label": "Labor rate stated",
+      "weight": 12
+    },
+    {
+      "key": "partsItemized",
+      "label": "Parts/materials itemized",
+      "weight": 15
+    },
+    {
+      "key": "permit",
+      "label": "Permits included",
+      "weight": 8
+    },
+    {
+      "key": "warranty",
+      "label": "Warranty stated",
+      "weight": 12
+    },
+    {
+      "key": "cleanup",
+      "label": "Cleanup included",
+      "weight": 6
+    },
+    {
+      "key": "timeline",
+      "label": "Timeline/schedule stated",
+      "weight": 5
+    },
+    {
+      "key": "doorType",
+      "label": "Door type/material specified",
+      "weight": 12
+    },
+    {
+      "key": "insulation",
+      "label": "Insulation R-value stated",
+      "weight": 8
+    }
+  ]
+}

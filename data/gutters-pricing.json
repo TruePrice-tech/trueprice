@@ -1,0 +1,204 @@
+{
+  "metadata": {
+    "sources": "HomeAdvisor, Angi, gutter contractor surveys",
+    "baseYear": 2026
+  },
+  "stateMultipliers": {
+    "AL": 0.85,
+    "AK": 1.15,
+    "AZ": 0.95,
+    "AR": 0.8,
+    "CA": 1.22,
+    "CO": 1.05,
+    "CT": 1.15,
+    "DE": 1.05,
+    "FL": 0.92,
+    "GA": 0.88,
+    "HI": 1.18,
+    "ID": 0.9,
+    "IL": 1.02,
+    "IN": 0.9,
+    "IA": 0.88,
+    "KS": 0.88,
+    "KY": 0.85,
+    "LA": 0.88,
+    "ME": 1.0,
+    "MD": 1.08,
+    "MA": 1.15,
+    "MI": 0.92,
+    "MN": 0.98,
+    "MS": 0.82,
+    "MO": 0.88,
+    "MT": 0.95,
+    "NE": 0.88,
+    "NV": 1.0,
+    "NH": 1.05,
+    "NJ": 1.12,
+    "NM": 0.9,
+    "NY": 1.18,
+    "NC": 0.9,
+    "ND": 0.9,
+    "OH": 0.92,
+    "OK": 0.85,
+    "OR": 1.05,
+    "PA": 1.0,
+    "RI": 1.08,
+    "SC": 0.85,
+    "SD": 0.88,
+    "TN": 0.85,
+    "TX": 0.9,
+    "UT": 0.92,
+    "VT": 1.0,
+    "VA": 0.95,
+    "WA": 1.1,
+    "WV": 0.8,
+    "WI": 0.92,
+    "WY": 0.92,
+    "DC": 1.2
+  },
+  "commonJobs": {
+    "aluminum_seamless": {
+      "label": "Seamless Aluminum Gutters",
+      "total": [
+        1000,
+        2500
+      ],
+      "per_foot": [
+        6,
+        12
+      ],
+      "urgency": "soon"
+    },
+    "aluminum_sectional": {
+      "label": "Sectional Aluminum Gutters",
+      "total": [
+        800,
+        2000
+      ],
+      "per_foot": [
+        4,
+        9
+      ],
+      "urgency": "soon"
+    },
+    "copper_gutters": {
+      "label": "Copper Gutters",
+      "total": [
+        3000,
+        8000
+      ],
+      "per_foot": [
+        15,
+        30
+      ],
+      "urgency": "can_wait"
+    },
+    "steel_gutters": {
+      "label": "Steel Gutters",
+      "total": [
+        1500,
+        3500
+      ],
+      "per_foot": [
+        8,
+        15
+      ],
+      "urgency": "soon"
+    },
+    "gutter_guards": {
+      "label": "Gutter Guards/Covers",
+      "total": [
+        1000,
+        3000
+      ],
+      "per_foot": [
+        5,
+        15
+      ],
+      "urgency": "can_wait"
+    },
+    "gutter_repair": {
+      "label": "Gutter Repair (section)",
+      "total": [
+        150,
+        500
+      ],
+      "urgency": "soon"
+    },
+    "downspout_install": {
+      "label": "Downspout Install/Reroute",
+      "total": [
+        100,
+        300
+      ],
+      "urgency": "soon"
+    }
+  },
+  "commonUpsells": [
+    {
+      "item": "Gutter guards",
+      "cost": [
+        5,
+        15
+      ],
+      "necessary": "sometimes",
+      "notes": "Per foot. Reduces cleaning but not maintenance-free."
+    },
+    {
+      "item": "Heat cables",
+      "cost": [
+        500,
+        1500
+      ],
+      "necessary": "rarely",
+      "notes": "Only in heavy ice dam areas. High electricity cost."
+    }
+  ],
+  "scopeCheckItems": [
+    {
+      "key": "laborRate",
+      "label": "Labor rate stated",
+      "weight": 12
+    },
+    {
+      "key": "partsItemized",
+      "label": "Parts/materials itemized",
+      "weight": 15
+    },
+    {
+      "key": "permit",
+      "label": "Permits included",
+      "weight": 8
+    },
+    {
+      "key": "warranty",
+      "label": "Warranty stated",
+      "weight": 12
+    },
+    {
+      "key": "cleanup",
+      "label": "Cleanup included",
+      "weight": 6
+    },
+    {
+      "key": "timeline",
+      "label": "Timeline/schedule stated",
+      "weight": 5
+    },
+    {
+      "key": "materialType",
+      "label": "Gutter material specified",
+      "weight": 12
+    },
+    {
+      "key": "size",
+      "label": "Gutter size (5\" vs 6\")",
+      "weight": 8
+    },
+    {
+      "key": "downspouts",
+      "label": "Downspout count/placement",
+      "weight": 8
+    }
+  ]
+}
