@@ -741,7 +741,7 @@
       }
 
       // Credit card surcharge
-      if /(credit card|cc|card)\s*(surcharge|fee|charge).{0,15}\d+%/i.test(text) || /\d+%\s*(credit card|cc|card)\s*(surcharge|fee)/i.test(text)) {
+      if (/(credit card|cc|card)\s*(surcharge|fee|charge).{0,15}\d+%/i.test(text) || /\d+%\s*(credit card|cc|card)\s*(surcharge|fee)/i.test(text)) {
         flags.push({ severity: "low", label: "Credit card surcharge", detail: "Some contractors add 2-4% for credit card payments. Ask about check or ACH payment to avoid the fee." });
       }
 
