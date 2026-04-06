@@ -306,6 +306,24 @@ export default async function handler(req, res) {
       const totalViews = filtered.length;
       const uniqueVisitors = new Set(filtered.map(pv => pv.ipHash)).size;
 
+      // Daily unique visitors (for trend + average)
+      const dailyUniqueMap = {};
+      filtered.forEach(pv => {
+        const d = new Date(pv.ts).toISOString().substring(0, 10);
+        if (!dailyUniqueMap[d]) dailyUniqueMap[d] = new Set();
+        dailyUniqueMap[d].add(pv.ipHash);
+      });
+      const dailyUniques = Object.entries(dailyUniqueMap)
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([date, set]) => ({ date, uniques: set.size }));
+      const rangeDays = range === "1h" ? (1 / 24)
+        : range === "24h" ? 1
+        : range === "7d" ? 7
+        : range === "30d" ? 30 : 1;
+      const avgVisitorsPerDay = rangeDays > 0
+        ? Math.round((dailyUniques.reduce((s, d) => s + d.uniques, 0) / rangeDays) * 10) / 10
+        : 0;
+
       const pageCounts = {};
       filtered.forEach(pv => { pageCounts[pv.path] = (pageCounts[pv.path] || 0) + 1; });
       const topPages = Object.entries(pageCounts)
@@ -402,7 +420,7 @@ export default async function handler(req, res) {
       } catch(e2) {}
 
       return res.status(200).json({
-        range, totalViews, uniqueVisitors, totalStored: allViews.length,
+        range, totalViews, uniqueVisitors, avgVisitorsPerDay, dailyUniques, totalStored: allViews.length,
         topPages, topReferrers, directTraffic: directCount,
         devices, browsers, hourly,
         totalEvents: filteredEvents.length, topEvents, recentEvents,

@@ -213,6 +213,7 @@
         stat("Total Quotes", d.totalQuotesAllSources || quoteCount) +
         stat("Page Views", d.totalViews) +
         stat("Unique Visitors", d.uniqueVisitors) +
+        stat("Avg Visitors / Day", d.avgVisitorsPerDay != null ? d.avgVisitorsPerDay : "—") +
         stat("Events", d.totalEvents || 0);
 
       // Conversion stats row
