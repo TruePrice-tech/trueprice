@@ -1517,6 +1517,49 @@ function bindRoofCalculatorActions() {
   const fallbackUsed = !!analysis?.roofSizeEstimateMeta?.fallbackUsed;
   const isUnavailable = roofSizeSource === "unavailable";
 
+  // Build context-aware reasoning that explains WHY a price is high/low
+  function buildContextReasoning(direction, a) {
+    var parts = [];
+    var material = (a?.material || a?.materialLabel || "").toLowerCase();
+    var warranty = a?.warrantyYears || 0;
+    var scopeCount = 0;
+    if (a?.scopeItems) {
+      for (var k in a.scopeItems) { if (a.scopeItems[k] === "included") scopeCount++; }
+    }
+
+    if (direction === "above" || direction === "well above") {
+      parts.push("This quote is " + direction + " the typical range for your area.");
+      // Explain possible justifications
+      var justifications = [];
+      if (material && (material.includes("metal") || material.includes("tile") || material.includes("slate") || material.includes("cedar"))) {
+        justifications.push("premium " + material + " material (which costs significantly more than standard asphalt)");
+      }
+      if (warranty >= 10) justifications.push("a strong " + warranty + "-year warranty");
+      if (scopeCount >= 10) justifications.push("comprehensive scope (" + scopeCount + " items included)");
+
+      if (justifications.length > 0) {
+        parts.push("However, this quote includes " + justifications.join(", ") + " which can justify a higher price.");
+        parts.push("Compare against quotes with the SAME materials and scope before concluding it's overpriced.");
+      } else {
+        parts.push("Ask for a line-by-line breakdown and compare against another quote with the same scope and materials.");
+      }
+    } else if (direction === "below") {
+      parts.push("This quote is below typical market range.");
+      var concerns = [];
+      if (scopeCount < 8) concerns.push("only " + scopeCount + " scope items are confirmed (some may be missing)");
+      if (warranty < 5) concerns.push("warranty coverage appears limited");
+      if (!material || material === "unknown") concerns.push("material type is not specified");
+
+      if (concerns.length > 0) {
+        parts.push("This could mean " + concerns.join(", ") + ".");
+        parts.push("A low price with missing scope items often leads to change orders later. Confirm exactly what's included before signing.");
+      } else {
+        parts.push("This may be a competitive bid, but confirm all scope items are included and there are no hidden costs.");
+      }
+    }
+    return parts.join(" ");
+  }
+
   if (
     roofSizeSeverity === "high" ||
     hasAmbiguousProperty ||
@@ -1534,7 +1577,7 @@ function bindRoofCalculatorActions() {
   if (rawVerdict.includes("overpriced")) {
     return {
       action: "NEGOTIATE",
-      reasoning: "This quote appears materially above expected pricing. Ask for a line-by-line explanation and compare another quote.",
+      reasoning: buildContextReasoning("well above", analysis),
       strength: "high"
     };
   }
@@ -1542,7 +1585,7 @@ function bindRoofCalculatorActions() {
   if (rawVerdict.includes("higher than expected")) {
     return {
       action: "NEGOTIATE",
-      reasoning: "This quote appears above expected pricing. Compare another quote before accepting the premium.",
+      reasoning: buildContextReasoning("above", analysis),
       strength: hasHighRisk ? "high" : "medium"
     };
   }
@@ -1550,7 +1593,7 @@ function bindRoofCalculatorActions() {
   if (rawVerdict.includes("possible scope risk") || rawVerdict.includes("unusually low")) {
     return {
       action: "REVIEW",
-      reasoning: "This quote is low enough that missing scope or later change orders are possible. Confirm inclusions before moving forward.",
+      reasoning: buildContextReasoning("below", analysis),
       strength: "high"
     };
   }
@@ -1559,8 +1602,8 @@ function bindRoofCalculatorActions() {
     return {
       action: "PROCEED",
       reasoning: hasMediumRisk || hasEstimatedReliability
-        ? "Pricing looks reasonable, but review flagged items before signing."
-        : "Pricing looks reasonable relative to expected market range.",
+        ? "Pricing looks reasonable for the scope and materials specified, but review flagged items before signing."
+        : "Pricing looks reasonable for the material, scope, and warranty included in this quote.",
       strength: hasMediumRisk ? "medium" : "high"
     };
   }
@@ -3077,18 +3120,18 @@ function scoreComparisonQuote(quote, analysis) {
   } else if (price <= mid * 1.15) {
     priceScore = 78;
     band = "fair";
-    reasons.push("Price is somewhat above modeled midpoint");
+    reasons.push("Price is above midpoint. Check if premium materials, extended warranty, or broader scope justify the difference.");
   } else if (price <= mid * 1.30) {
     priceScore = 54;
     riskPenalty = 8;
     band = "high";
-    reasons.push("Price is materially above modeled midpoint");
+    reasons.push("Price is significantly above midpoint. This could reflect premium materials, larger scope, or higher labor quality -- or it could be overpriced. Compare same-scope quotes.");
   } else {
     priceScore = 28;
     riskPenalty = 16;
     band = "very_high";
-    reasons.push("Price is far above modeled midpoint");
-    warnings.push("This quote is expensive relative to modeled pricing");
+    reasons.push("Price is well above midpoint. Unless this includes premium materials, exceptional warranty, or unusually large scope, get competing quotes.");
+    warnings.push("This quote is significantly above typical range. Ask for a detailed breakdown before signing.");
   }
 
   const rawScopeScore = getComparisonScopeScore(quote);

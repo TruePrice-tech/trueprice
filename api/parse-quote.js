@@ -156,7 +156,9 @@ CRITICAL EXTRACTION RULES:
 - roofSize: Convert roofing squares to sq ft (1 square = 100 sq ft)
 - scopeItems: Mark "included" only if clearly stated in the quote, "excluded" if explicitly excluded, "unclear" if not mentioned
 - Never return null for price if there are dollar amounts visible anywhere in the document
-- Return ONLY the JSON object, nothing else`
+- Return ONLY the JSON object, nothing else
+
+- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.`
     });
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {

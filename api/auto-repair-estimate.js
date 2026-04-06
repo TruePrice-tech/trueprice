@@ -170,7 +170,9 @@ CRITICAL RULES:
 - possibleUpsells: Flag brake fluid flush added to a brake job, engine flush with oil change, wheel alignment added to brake job (not suspension work), fuel system cleaning with oil change, or any add-on service that appears unnecessary for the primary repair
 - laborHoursFlag: Compare quoted hours to typical book time. Flag "high" if labor hours exceed 1.5x what is typical for that repair type, "low" if under 0.5x typical, otherwise "normal"
 - repairUrgency: "critical" = safety risk / do not drive, "soon" = fix within 1-2 weeks, "can_wait" = schedule at convenience, "maintenance" = routine service
-- Return ONLY the JSON object, nothing else`
+- Return ONLY the JSON object, nothing else
+
+- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.`
     });
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {

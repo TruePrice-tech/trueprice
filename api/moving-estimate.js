@@ -159,6 +159,8 @@ CRITICAL EXTRACTION RULES:
 - redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
 - Never return null for a price field if there are dollar amounts visible anywhere in the document.
 
+- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.
+
 Rules:
 - totalPrice: Use the grand total / binding estimate amount, not individual line items
 - moveType: "local" if within same metro area or under 100 miles, "long_distance" if over 100 miles or interstate, "unknown" if unclear
