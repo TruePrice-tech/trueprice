@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Auto Repair Pricing | TruePrice</title>
+<meta name="description" content="Get a precise repair estimate or upload a mechanic quote for instant analysis. 43 repairs, AI-powered vehicle-specific pricing. Free." />
+<link rel="canonical" href="https://truepricehq.com/auto-repair.html" />
+<meta name="robots" content="index,follow" />
+<meta property="og:title" content="Auto Repair Pricing | TruePrice" />
+<meta property="og:description" content="Get a precise repair estimate or upload a mechanic quote for instant analysis. 43 repairs, AI-powered vehicle-specific pricing." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://truepricehq.com/auto-repair.html" />
+<meta property="og:site_name" content="TruePrice" />
+<meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Auto Repair Pricing | TruePrice" />
+<meta name="twitter:description" content="Get a precise repair estimate or upload a mechanic quote for instant analysis. 43 repairs, AI-powered." />
+<link rel="stylesheet" href="/css/trueprice.min.css" />
+<style>
+.ar-wrap{max-width:820px;margin:0 auto;padding:32px 16px;}
+.ar-hero{text-align:center;margin-bottom:28px;}
+.ar-hero img{margin-bottom:10px;}
+.ar-hero h1{font-size:30px;margin-bottom:6px;}
+.ar-hero p{color:var(--text-secondary,#64748b);font-size:16px;}
+
+/* Two-path buttons */
+.ar-paths{display:flex;gap:16px;margin-bottom:28px;}
+.ar-path-btn{flex:1;padding:24px 16px;border-radius:14px;text-align:center;cursor:pointer;transition:all .2s;font-family:inherit;}
+.ar-path-btn h3{margin:0 0 6px;font-size:17px;}
+.ar-path-btn p{margin:0;font-size:13px;}
+.ar-path-estimate{background:#1d4ed8;color:#fff;border:2px solid #1d4ed8;}
+.ar-path-estimate:hover{background:#1e40af;}
+.ar-path-estimate.active{background:#1d4ed8;box-shadow:0 0 0 4px rgba(29,78,216,0.25);}
+.ar-path-estimate.dimmed{background:transparent;color:#1d4ed8;opacity:0.55;}
+.ar-path-quote{background:#fff;color:#1d4ed8;border:2px solid #1d4ed8;}
+.ar-path-quote:hover{background:#eff6ff;}
+.ar-path-quote.active{background:#eff6ff;box-shadow:0 0 0 4px rgba(29,78,216,0.25);}
+.ar-path-quote.dimmed{opacity:0.55;}
+
+/* Shared form styles */
+.ae-form{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+.ae-row{display:flex;gap:10px;flex-wrap:wrap;}
+.ae-row>*{flex:1;min-width:140px;}
+.ae-form label{font-size:12px;font-weight:600;color:var(--text-muted,#6b7280);text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:4px;}
+.ae-form select,.ae-form input{width:100%;padding:10px 12px;border:1px solid var(--border,#e2e8f0);border-radius:10px;font-size:14px;font-family:inherit;box-sizing:border-box;}
+.ae-form select:focus,.ae-form input:focus{outline:none;border-color:#1d4ed8;box-shadow:0 0 0 3px rgba(29,78,216,0.15);}
+.ae-btn{padding:14px 24px;border:none;border-radius:10px;background:#1d4ed8;color:#fff;font-size:16px;font-weight:700;cursor:pointer;width:100%;font-family:inherit;}
+.ae-btn:hover{opacity:0.9;}
+
+/* Estimate result styles */
+.ae-card{background:#fff;border:1px solid var(--border,#e2e8f0);border-radius:14px;padding:24px;margin-bottom:16px;}
+.ae-total-box{text-align:center;padding:24px;background:var(--bg-subtle,#f8fafc);border-radius:12px;margin:16px 0;}
+.ae-total-box .total{font-size:42px;font-weight:800;color:#1d4ed8;}
+.ae-total-box .range{font-size:14px;color:var(--text-secondary,#64748b);}
+.ae-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0;}
+.ae-breakdown-item{padding:12px;background:#f8fafc;border-radius:8px;}
+.ae-breakdown-item .label{font-size:11px;color:var(--text-muted,#6b7280);text-transform:uppercase;}
+.ae-breakdown-item .value{font-size:18px;font-weight:700;color:#1e293b;}
+.ae-parts-table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0;}
+.ae-parts-table th{text-align:left;padding:6px 8px;background:#f1f5f9;font-size:11px;text-transform:uppercase;color:var(--text-muted,#6b7280);}
+.ae-parts-table td{padding:6px 8px;border-bottom:1px solid #f1f5f9;}
+.ae-parts-table tr.selected{background:#eff6ff;font-weight:600;}
+.ae-note{font-size:12px;color:var(--text-muted,#6b7280);margin-top:8px;}
+.ae-share{font-size:12px;color:#1d4ed8;cursor:pointer;float:right;}
+.ae-share:hover{text-decoration:underline;}
+.ae-ai-loading{text-align:center;padding:16px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;margin:12px 0;font-size:14px;color:#1d4ed8;display:none;}
+.ae-ai-loading .spinner{display:inline-block;width:18px;height:18px;border:3px solid #bfdbfe;border-top-color:#1d4ed8;border-radius:50%;animation:aesp .7s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes aesp{to{transform:rotate(360deg)}}
+.ae-complexity{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-left:8px;vertical-align:middle;}
+.ae-complexity.simple{background:#dcfce7;color:#166534;}
+.ae-complexity.moderate{background:#fef9c3;color:#854d0e;}
+.ae-complexity.complex{background:#fee2e2;color:#991b1b;}
+.ae-vehicle-notes{padding:16px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;margin:16px 0;font-size:14px;color:#0c4a6e;line-height:1.5;}
+.ae-vehicle-notes h4{margin:0 0 8px;font-size:14px;color:#0369a1;}
+.ae-local-shops{margin:16px 0;}
+.ae-local-shops h4{font-size:16px;margin:0 0 10px;}
+.ae-local-shops table{width:100%;border-collapse:collapse;font-size:13px;}
+.ae-local-shops th{text-align:left;padding:8px;background:#f1f5f9;font-size:11px;text-transform:uppercase;color:var(--text-muted,#6b7280);}
+.ae-local-shops td{padding:8px;border-bottom:1px solid #f1f5f9;}
+.ae-compare{margin:20px 0;}
+.ae-compare h4{font-size:16px;margin:0 0 12px;}
+.ae-compare-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;align-items:end;}
+.ae-compare-row>div{flex:1;min-width:100px;}
+.ae-compare-row label{font-size:11px;font-weight:600;color:var(--text-muted,#6b7280);text-transform:uppercase;display:block;margin-bottom:3px;}
+.ae-compare-row input{width:100%;padding:8px 10px;border:1px solid var(--border,#e2e8f0);border-radius:8px;font-size:13px;font-family:inherit;box-sizing:border-box;}
+.ae-compare-btn{padding:10px 20px;border:none;border-radius:8px;background:#1d4ed8;color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;margin-top:16px;}
+.ae-compare-results table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;}
+.ae-compare-results th{text-align:left;padding:8px;background:#f1f5f9;font-size:11px;text-transform:uppercase;color:var(--text-muted,#6b7280);}
+.ae-compare-results td{padding:8px;border-bottom:1px solid #f1f5f9;}
+.ae-verdict{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;}
+.ae-verdict.good{background:#dcfce7;color:#166534;}
+.ae-verdict.fair{background:#fef9c3;color:#854d0e;}
+.ae-verdict.high{background:#fee2e2;color:#991b1b;}
+.ae-cta{text-align:center;margin-top:24px;padding:20px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;}
+
+/* Quote analyzer styles */
+.ar-upload-zone{border:2px dashed #cbd5e1;border-radius:12px;padding:2.5rem 1.5rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;background:#f8fafc;}
+.ar-upload-zone:hover{border-color:#3b82f6;background:#eff6ff;}
+.ar-upload-zone p{margin:0.25rem 0;color:#475569;}
+.ar-upload-zone .hint{font-size:0.85rem;color:#94a3b8;}
+.ar-divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0;color:#94a3b8;font-size:0.9rem;}
+.ar-divider::before,.ar-divider::after{content:"";flex:1;height:1px;background:#e2e8f0;}
+.ar-manual-form{display:flex;flex-direction:column;gap:0.75rem;}
+.ar-manual-form input,.ar-manual-form select{padding:0.75rem 1rem;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem;width:100%;box-sizing:border-box;font-family:inherit;}
+.ar-manual-form input:focus,.ar-manual-form select:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,0.15);}
+.ar-row{display:flex;gap:0.75rem;}
+.ar-row>*{flex:1;}
+.ar-btn-q{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:8px;font-size:1rem;font-weight:600;border:none;cursor:pointer;transition:background 0.2s;text-decoration:none;font-family:inherit;}
+.ar-btn-primary{background:#2563eb;color:#fff;}
+.ar-btn-primary:hover{background:#1d4ed8;}
+.ar-btn-secondary{background:#f1f5f9;color:#334155;}
+.ar-btn-secondary:hover{background:#e2e8f0;}
+.ar-btn-full{width:100%;}
+
+/* Verdict card */
+.ar-verdict-card{border-radius:12px;padding:2rem;text-align:center;margin-bottom:1.5rem;}
+.ar-verdict-card.fair{background:#f0fdf4;border:2px solid #86efac;}
+.ar-verdict-card.high{background:#fef2f2;border:2px solid #fca5a5;}
+.ar-verdict-card.low{background:#fefce8;border:2px solid #fde047;}
+.ar-verdict-card .verdict-label{font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;font-weight:700;margin-bottom:0.25rem;}
+.ar-verdict-card.fair .verdict-label{color:#16a34a;}
+.ar-verdict-card.high .verdict-label{color:#dc2626;}
+.ar-verdict-card.low .verdict-label{color:#ca8a04;}
+.ar-verdict-card .verdict-price{font-size:2rem;font-weight:800;color:#1e293b;}
+.ar-verdict-card .verdict-range{font-size:0.95rem;color:#64748b;margin-top:0.25rem;}
+
+/* Quote result tables */
+.ar-table{width:100%;border-collapse:collapse;font-size:0.95rem;}
+.ar-table th{text-align:left;padding:0.6rem 0.75rem;border-bottom:2px solid #e2e8f0;color:#64748b;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.03em;}
+.ar-table td{padding:0.6rem 0.75rem;border-bottom:1px solid #f1f5f9;color:#334155;}
+.ar-table tr:last-child td{border-bottom:none;}
+.ar-table .ar-table-total td{border-top:2px solid #e2e8f0;font-weight:700;color:#1e293b;}
+
+/* Scope checklist */
+.ar-scope{list-style:none;padding:0;margin:0;}
+.ar-scope li{padding:0.5rem 0;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:0.5rem;font-size:0.95rem;}
+.ar-scope li:last-child{border-bottom:none;}
+.scope-icon{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;}
+.scope-included{background:#dcfce7;color:#16a34a;}
+.scope-missing{background:#fee2e2;color:#dc2626;}
+.scope-unclear{background:#f1f5f9;color:#94a3b8;}
+
+/* Details grid */
+.ar-details{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;}
+.ar-detail{background:#f8fafc;border-radius:8px;padding:0.75rem 1rem;}
+.ar-detail .label{font-size:0.8rem;color:#64748b;text-transform:uppercase;letter-spacing:0.03em;}
+.ar-detail .value{font-size:1.05rem;font-weight:600;color:#1e293b;}
+
+/* Urgency badges */
+.ar-urgency{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.03em;vertical-align:middle;margin-left:6px;}
+.ar-urgency.critical{background:#fef2f2;color:#dc2626;}
+.ar-urgency.soon{background:#fefce8;color:#ca8a04;}
+.ar-urgency.can-wait{background:#f0fdf4;color:#16a34a;}
+
+/* Labor flag */
+.ar-labor-flag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:0.8rem;font-weight:600;margin-left:6px;}
+.ar-labor-flag.high{background:#fef2f2;color:#dc2626;}
+.ar-labor-flag.low{background:#fefce8;color:#ca8a04;}
+.ar-labor-flag.fair{background:#f0fdf4;color:#16a34a;}
+
+/* Upsell card */
+.ar-upsell-card{background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+.ar-upsell-card h3{color:#92400e;margin-bottom:0.75rem;}
+.ar-upsell-item{padding:10px 0;border-bottom:1px solid #fde68a;}
+.ar-upsell-item:last-child{border-bottom:none;}
+.ar-upsell-item .upsell-name{font-weight:600;color:#92400e;}
+.ar-upsell-item .upsell-reason{font-size:0.9rem;color:#78350f;margin-top:2px;}
+.ar-upsell-item .upsell-cost{font-size:0.85rem;color:#a16207;margin-top:2px;}
+
+/* Parts savings */
+.ar-savings-table{width:100%;border-collapse:collapse;font-size:0.9rem;margin-top:0.75rem;}
+.ar-savings-table th{text-align:left;padding:0.5rem 0.6rem;border-bottom:2px solid #e2e8f0;color:#64748b;font-size:0.75rem;text-transform:uppercase;}
+.ar-savings-table td{padding:0.5rem 0.6rem;border-bottom:1px solid #f1f5f9;}
+.ar-savings-table .savings-amt{color:#16a34a;font-weight:600;}
+
+/* State protection */
+.ar-protection-card{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}
+.ar-protection-card h3{color:#1e40af;margin-bottom:0.75rem;}
+.ar-protection-card ul{padding-left:18px;color:#1e3a5f;font-size:0.95rem;line-height:1.8;}
+.ar-protection-card a{color:#2563eb;}
+
+/* Cross-links */
+.ar-cross-links{margin-top:32px;padding-top:24px;border-top:1px solid var(--border,#e2e8f0);}
+.ar-cross-links h3{font-size:15px;color:var(--text-muted,#6b7280);margin:0 0 12px;}
+.ar-cross-links .links{display:flex;flex-wrap:wrap;gap:10px;}
+.ar-cross-links a{padding:8px 16px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;font-size:13px;color:#1d4ed8;text-decoration:none;font-weight:500;}
+.ar-cross-links a:hover{background:#dbeafe;}
+
+.ar-hidden{display:none!important;}
+
+@media(max-width:600px){
+  .ar-paths{flex-direction:column;gap:10px;}
+  .ae-breakdown{grid-template-columns:1fr;}
+  .ae-row{flex-direction:column;}
+  .ae-compare-row{flex-direction:column;}
+  .ar-row{flex-direction:column;}
+  .ar-details{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="container"><a class="logo" href="/">TruePrice</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
+
+<main class="ar-wrap">
+
+<!-- Hero -->
+<div class="ar-hero">
+<img src="/images/trudy-estimate.png" alt="Trudy" width="110" />
+<h1>Auto Repair Pricing</h1>
+<p>Whether you're shopping around or checking a quote you already have.</p>
+</div>
+
+<!-- Two-path split -->
+<div class="ar-paths">
+<div class="ar-path-btn ar-path-estimate active" id="pathEstimateBtn" onclick="switchPath('estimate')">
+<h3>I Need an Estimate</h3>
+<p>See fair prices for your car and repair</p>
+</div>
+<div class="ar-path-btn ar-path-quote" id="pathQuoteBtn" onclick="switchPath('quote')">
+<h3>I Have a Quote</h3>
+<p>Upload your mechanic quote for AI analysis</p>
+</div>
+</div>
+
+<!-- ==================== ESTIMATE PATH ==================== -->
+<div id="estimatePath">
+<div class="ae-form">
+<div>
+<label>What repair do you need?</label>
+<select id="repairSelect"><option value="">Select a repair...</option><optgroup label="AC / Heating"><option value="ac_compressor">AC Compressor Replacement</option><option value="ac_recharge">AC Recharge (R134a)</option></optgroup><optgroup label="Brakes"><option value="brakes_all_four">Complete Brake Job (All 4 Wheels)</option><option value="brakes_front">Front Brake Pads &amp; Rotors</option><option value="brakes_rear">Rear Brake Pads &amp; Rotors</option></optgroup><optgroup label="Cooling System"><option value="radiator">Radiator Replacement</option><option value="thermostat">Thermostat Replacement</option><option value="water_pump">Water Pump Replacement</option></optgroup><optgroup label="Drivetrain / Clutch"><option value="cv_axle">CV Axle Replacement</option><option value="clutch_replacement">Clutch Replacement</option></optgroup><optgroup label="Electrical / Starting / Charging"><option value="alternator">Alternator Replacement</option><option value="battery">Battery Replacement (12V)</option><option value="headlight_assembly">Headlight Assembly</option><option value="ignition_coils">Ignition Coil(s) Replacement</option><option value="starter_motor">Starter Motor Replacement</option><option value="window_regulator">Window Regulator/Motor</option></optgroup><optgroup label="Engine"><option value="engine_replacement">Engine Replacement</option><option value="head_gasket">Head Gasket Replacement</option><option value="serpentine_belt">Serpentine Belt Replacement</option><option value="spark_plugs">Spark Plug Replacement</option><option value="timing_belt">Timing Belt Replacement</option><option value="timing_chain">Timing Chain Replacement</option><option value="turbo_replacement">Turbocharger Replacement</option></optgroup><optgroup label="Electric / Hybrid"><option value="ev_battery_module">EV Battery Module Repair</option><option value="ev_battery_pack">EV Battery Pack Replacement</option><option value="hybrid_battery">Hybrid Battery Replacement</option></optgroup><optgroup label="Exhaust / Emissions"><option value="catalytic_converter">Catalytic Converter</option><option value="dpf_cleaning">DPF Filter Cleaning/Replace (Diesel)</option><option value="exhaust_muffler">Muffler Replacement</option><option value="o2_sensor">Oxygen Sensor Replacement</option></optgroup><optgroup label="Fuel System"><option value="fuel_injector">Fuel Injector Replacement (Single)</option><option value="fuel_pump">Fuel Pump Replacement</option></optgroup><optgroup label="Routine Maintenance"><option value="oil_change_conventional">Oil Change (Conventional)</option><option value="oil_change_synthetic">Oil Change (Full Synthetic)</option></optgroup><optgroup label="Steering"><option value="power_steering_pump">Power Steering Pump</option><option value="tie_rod_ends">Tie Rod Ends (Pair)</option></optgroup><optgroup label="Suspension"><option value="ball_joints">Ball Joints (Pair)</option><option value="control_arms">Control Arms (Pair)</option><option value="struts_front">Front Struts (Pair)</option><option value="struts_rear">Rear Struts/Shocks (Pair)</option><option value="wheel_bearing">Wheel Bearing Replacement</option></optgroup><optgroup label="Transmission"><option value="transmission_rebuild">Transmission Rebuild</option><option value="transmission_replacement">Transmission Replacement</option></optgroup></select>
+</div>
+<div class="ae-row">
+<div><label>Year</label><input type="number" id="yearInput" placeholder="e.g. 2019" min="1970" max="2027" /></div>
+<div><label>Make</label><input type="text" id="makeInput" placeholder="e.g. Honda" /></div>
+<div><label>Model</label><input type="text" id="modelInput" placeholder="e.g. Civic" /></div>
+</div>
+<div class="ae-row">
+<div><label>City (optional)</label><input type="text" id="cityInput" placeholder="e.g. Charlotte" /></div>
+<div><label>State</label><select id="stateSelect"><option value="">State</option><option value="AK">AK</option><option value="AL">AL</option><option value="AR">AR</option><option value="AZ">AZ</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DC">DC</option><option value="DE">DE</option><option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option><option value="IA">IA</option><option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="MA">MA</option><option value="MD">MD</option><option value="ME">ME</option><option value="MI">MI</option><option value="MN">MN</option><option value="MO">MO</option><option value="MS">MS</option><option value="MT">MT</option><option value="NC">NC</option><option value="ND">ND</option><option value="NE">NE</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NV">NV</option><option value="NY">NY</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VA">VA</option><option value="VT">VT</option><option value="WA">WA</option><option value="WI">WI</option><option value="WV">WV</option><option value="WY">WY</option></select></div>
+<div><label>Shop Type</label><select id="shopSelect"><option value="independent">Independent</option><option value="dealer">Dealership</option><option value="chain">Chain (Midas, etc.)</option></select></div>
+</div>
+<button class="ae-btn" id="estimateBtn">Get My Estimate</button>
+</div>
+<div id="estimateResult"></div>
+</div>
+
+<!-- ==================== QUOTE PATH ==================== -->
+<div id="quotePath" class="ar-hidden">
+<div id="quoteApp">
+<!-- rendered by JS -->
+</div>
+</div>
+
+<!-- Cross-links -->
+<div class="ar-cross-links">
+<h3>More auto repair tools</h3>
+<div class="links">
+<a href="/repair-check.html">Is this repair needed?</a>
+<a href="/compare-auto-quotes.html">Compare multiple quotes</a>
+<a href="/auto-repair-cost-guide.html">Auto repair cost guide</a>
+</div>
+</div>
+
+<div style="padding:12px;background:#f8fafc;border-radius:10px;font-size:11px;color:var(--text-muted,#6b7280);text-align:center;margin-top:24px;">
+Estimates based on industry labor guides, parts pricing databases, and state-level cost data. Actual costs vary by shop, vehicle condition, and specific parts used. Not professional automotive advice.
+</div>
+</main>
+
+<footer class="site-footer"><div class="container"><p>TruePrice helps you understand fair auto repair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
+
+<!-- Vendor lib loader for PDF/image processing -->
+<script>
+window._vendorLibsLoaded=false;
+window.loadVendorLibs=function(){
+  if(window._vendorLibsLoaded)return Promise.resolve();
+  window._vendorLibsLoaded=true;
+  return Promise.all([
+    new Promise(function(r){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";s.onload=r;document.head.appendChild(s);}),
+    new Promise(function(r){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";s.onload=r;document.head.appendChild(s);})
+  ]).then(function(){
+    if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";}
+  });
+};
+</script>
+<script src="/js/affiliate-links.min.js"></script>
+<script src="/js/analyzer-parser.min.js" defer></script>
+<script src="/js/analyzer-ocr.js" defer></script>
+
+<script>
+// =============================================
+// PATH TOGGLE
+// =============================================
+function switchPath(path){
+  var estBtn=document.getElementById("pathEstimateBtn");
+  var quoBtn=document.getElementById("pathQuoteBtn");
+  var estPath=document.getElementById("estimatePath");
+  var quoPath=document.getElementById("quotePath");
+  if(path==="estimate"){
+    estBtn.className="ar-path-btn ar-path-estimate active";
+    quoBtn.className="ar-path-btn ar-path-quote dimmed";
+    estPath.classList.remove("ar-hidden");
+    quoPath.classList.add("ar-hidden");
+  } else {
+    estBtn.className="ar-path-btn ar-path-estimate dimmed";
+    quoBtn.className="ar-path-btn ar-path-quote active";
+    estPath.classList.add("ar-hidden");
+    quoPath.classList.remove("ar-hidden");
+    if(!quoteAppInitialized) initQuoteApp();
+  }
+  if(typeof tpTrack==="function") tpTrack("path_switch",{path:path,page:"/auto-repair.html"});
+}
+
+// =============================================
+// ESTIMATE PATH: DATA + LOGIC
+// =============================================
+var REPAIRS={"brakes_front":{"label":"Front Brake Pads & Rotors","category":"brakes","laborHours":{"low":1.0,"high":2.0},"partsRange":{"oem":[150,350],"aftermarket":[80,200],"reman":[60,150]},"totalRange":{"low":250,"high":650},"perAxle":true,"urgency":"soon","notes":"Per axle. Rotors may not need replacing every time."},"brakes_rear":{"label":"Rear Brake Pads & Rotors","category":"brakes","laborHours":{"low":1.0,"high":2.0},"partsRange":{"oem":[130,300],"aftermarket":[70,180],"reman":[50,130]},"totalRange":{"low":230,"high":600},"perAxle":true,"urgency":"soon"},"brakes_all_four":{"label":"Complete Brake Job (All 4 Wheels)","category":"brakes","laborHours":{"low":2.0,"high":4.0},"partsRange":{"oem":[280,650],"aftermarket":[150,380],"reman":[110,280]},"totalRange":{"low":450,"high":1200},"urgency":"soon"},"oil_change_conventional":{"label":"Oil Change (Conventional)","category":"maintenance","laborHours":{"low":0.3,"high":0.5},"partsRange":{"oem":[25,40],"aftermarket":[20,35]},"totalRange":{"low":35,"high":75},"urgency":"maintenance"},"oil_change_synthetic":{"label":"Oil Change (Full Synthetic)","category":"maintenance","laborHours":{"low":0.3,"high":0.5},"partsRange":{"oem":[45,70],"aftermarket":[35,60]},"totalRange":{"low":65,"high":125},"urgency":"maintenance"},"timing_belt":{"label":"Timing Belt Replacement","category":"engine","laborHours":{"low":3.0,"high":6.0},"partsRange":{"oem":[80,200],"aftermarket":[50,120]},"totalRange":{"low":400,"high":1300},"urgency":"soon","notes":"Replace at manufacturer interval (60-100K miles). Failure can destroy engine."},"timing_chain":{"label":"Timing Chain Replacement","category":"engine","laborHours":{"low":5.0,"high":10.0},"partsRange":{"oem":[150,400],"aftermarket":[80,250]},"totalRange":{"low":800,"high":2500},"urgency":"critical"},"transmission_rebuild":{"label":"Transmission Rebuild","category":"transmission","laborHours":{"low":8.0,"high":15.0},"partsRange":{"oem":[800,2000],"aftermarket":[500,1500],"reman":[400,1200]},"totalRange":{"low":1800,"high":3500},"urgency":"critical"},"transmission_replacement":{"label":"Transmission Replacement","category":"transmission","laborHours":{"low":6.0,"high":10.0},"partsRange":{"oem":[2000,4000],"aftermarket":[1500,3000],"reman":[1200,2500]},"totalRange":{"low":2800,"high":6000},"urgency":"critical"},"alternator":{"label":"Alternator Replacement","category":"electrical","laborHours":{"low":1.0,"high":3.0},"partsRange":{"oem":[250,500],"aftermarket":[120,300],"reman":[80,200]},"totalRange":{"low":350,"high":800},"urgency":"critical"},"starter_motor":{"label":"Starter Motor Replacement","category":"electrical","laborHours":{"low":1.0,"high":3.0},"partsRange":{"oem":[200,450],"aftermarket":[100,250],"reman":[75,200]},"totalRange":{"low":300,"high":700},"urgency":"critical"},"battery":{"label":"Battery Replacement (12V)","category":"electrical","laborHours":{"low":0.3,"high":0.5},"partsRange":{"oem":[100,200],"aftermarket":[80,160]},"totalRange":{"low":120,"high":300},"urgency":"critical"},"ac_compressor":{"label":"AC Compressor Replacement","category":"ac","laborHours":{"low":3.0,"high":5.0},"partsRange":{"oem":[300,700],"aftermarket":[200,500],"reman":[150,400]},"totalRange":{"low":600,"high":1400},"urgency":"can_wait"},"ac_recharge":{"label":"AC Recharge (R134a)","category":"ac","laborHours":{"low":0.5,"high":1.0},"partsRange":{"oem":[30,60]},"totalRange":{"low":100,"high":250},"urgency":"can_wait"},"water_pump":{"label":"Water Pump Replacement","category":"cooling","laborHours":{"low":2.0,"high":5.0},"partsRange":{"oem":[150,350],"aftermarket":[80,200],"reman":[60,150]},"totalRange":{"low":350,"high":900},"urgency":"critical"},"radiator":{"label":"Radiator Replacement","category":"cooling","laborHours":{"low":2.0,"high":4.0},"partsRange":{"oem":[250,500],"aftermarket":[120,300]},"totalRange":{"low":400,"high":900},"urgency":"critical"},"thermostat":{"label":"Thermostat Replacement","category":"cooling","laborHours":{"low":1.0,"high":2.5},"partsRange":{"oem":[30,80],"aftermarket":[15,50]},"totalRange":{"low":150,"high":400},"urgency":"soon"},"head_gasket":{"label":"Head Gasket Replacement","category":"engine","laborHours":{"low":10.0,"high":20.0},"partsRange":{"oem":[200,600],"aftermarket":[100,350]},"totalRange":{"low":1500,"high":3500},"urgency":"critical","notes":"Major repair. Get second opinion. Compare cost vs vehicle value."},"catalytic_converter":{"label":"Catalytic Converter","category":"exhaust","laborHours":{"low":1.0,"high":3.0},"partsRange":{"oem":[800,2500],"aftermarket":[200,800]},"totalRange":{"low":500,"high":3000},"urgency":"soon","notes":"CA requires CARB-compliant. OEM much more expensive. High theft target."},"exhaust_muffler":{"label":"Muffler Replacement","category":"exhaust","laborHours":{"low":0.5,"high":1.5},"partsRange":{"oem":[100,250],"aftermarket":[50,150]},"totalRange":{"low":150,"high":400},"urgency":"can_wait"},"o2_sensor":{"label":"Oxygen Sensor Replacement","category":"exhaust","laborHours":{"low":0.5,"high":1.5},"partsRange":{"oem":[80,200],"aftermarket":[40,120]},"totalRange":{"low":150,"high":400},"urgency":"soon"},"struts_front":{"label":"Front Struts (Pair)","category":"suspension","laborHours":{"low":2.0,"high":4.0},"partsRange":{"oem":[200,500],"aftermarket":[100,300]},"totalRange":{"low":400,"high":900},"urgency":"soon"},"struts_rear":{"label":"Rear Struts/Shocks (Pair)","category":"suspension","laborHours":{"low":1.5,"high":3.0},"partsRange":{"oem":[150,400],"aftermarket":[80,250]},"totalRange":{"low":300,"high":700},"urgency":"soon"},"wheel_bearing":{"label":"Wheel Bearing Replacement","category":"suspension","laborHours":{"low":1.0,"high":2.5},"partsRange":{"oem":[100,250],"aftermarket":[60,150]},"totalRange":{"low":250,"high":550},"urgency":"critical"},"ball_joints":{"label":"Ball Joints (Pair)","category":"suspension","laborHours":{"low":1.5,"high":3.0},"partsRange":{"oem":[100,300],"aftermarket":[60,180]},"totalRange":{"low":250,"high":600},"urgency":"critical"},"control_arms":{"label":"Control Arms (Pair)","category":"suspension","laborHours":{"low":1.5,"high":3.5},"partsRange":{"oem":[200,500],"aftermarket":[100,300]},"totalRange":{"low":400,"high":1200},"urgency":"soon"},"tie_rod_ends":{"label":"Tie Rod Ends (Pair)","category":"steering","laborHours":{"low":1.0,"high":2.0},"partsRange":{"oem":[80,200],"aftermarket":[40,120]},"totalRange":{"low":200,"high":500},"urgency":"critical"},"spark_plugs":{"label":"Spark Plug Replacement","category":"engine","laborHours":{"low":0.5,"high":3.0},"partsRange":{"oem":[40,120],"aftermarket":[20,80]},"totalRange":{"low":100,"high":350},"urgency":"maintenance","notes":"Labor varies hugely by engine. V6/V8 with coil-on-plug can be 3+ hours."},"ignition_coils":{"label":"Ignition Coil(s) Replacement","category":"electrical","laborHours":{"low":0.5,"high":2.0},"partsRange":{"oem":[50,200],"aftermarket":[25,100]},"totalRange":{"low":150,"high":500},"urgency":"soon"},"clutch_replacement":{"label":"Clutch Replacement","category":"drivetrain","laborHours":{"low":4.0,"high":8.0},"partsRange":{"oem":[300,800],"aftermarket":[150,500]},"totalRange":{"low":800,"high":2000},"urgency":"critical"},"cv_axle":{"label":"CV Axle Replacement","category":"drivetrain","laborHours":{"low":1.0,"high":2.5},"partsRange":{"oem":[150,350],"aftermarket":[80,200],"reman":[60,150]},"totalRange":{"low":200,"high":500},"urgency":"soon"},"fuel_pump":{"label":"Fuel Pump Replacement","category":"fuel","laborHours":{"low":2.0,"high":4.0},"partsRange":{"oem":[250,600],"aftermarket":[150,400]},"totalRange":{"low":400,"high":1000},"urgency":"critical"},"fuel_injector":{"label":"Fuel Injector Replacement (Single)","category":"fuel","laborHours":{"low":1.0,"high":2.0},"partsRange":{"oem":[80,300],"aftermarket":[40,150]},"totalRange":{"low":150,"high":500},"urgency":"soon"},"serpentine_belt":{"label":"Serpentine Belt Replacement","category":"engine","laborHours":{"low":0.3,"high":1.0},"partsRange":{"oem":[30,80],"aftermarket":[15,50]},"totalRange":{"low":75,"high":200},"urgency":"soon"},"power_steering_pump":{"label":"Power Steering Pump","category":"steering","laborHours":{"low":1.5,"high":3.0},"partsRange":{"oem":[200,400],"aftermarket":[100,250],"reman":[80,200]},"totalRange":{"low":300,"high":700},"urgency":"soon"},"window_regulator":{"label":"Window Regulator/Motor","category":"electrical","laborHours":{"low":1.0,"high":2.5},"partsRange":{"oem":[150,350],"aftermarket":[60,200]},"totalRange":{"low":250,"high":600},"urgency":"can_wait"},"headlight_assembly":{"label":"Headlight Assembly","category":"electrical","laborHours":{"low":0.5,"high":1.5},"partsRange":{"oem":[200,600],"aftermarket":[80,300]},"totalRange":{"low":150,"high":800},"urgency":"critical","notes":"Luxury LED/HID assemblies can cost $800-4000 OEM."},"engine_replacement":{"label":"Engine Replacement","category":"engine","laborHours":{"low":10.0,"high":20.0},"partsRange":{"oem":[3000,7000],"aftermarket":[1500,4000],"reman":[2000,5000]},"totalRange":{"low":3000,"high":8000},"urgency":"critical","notes":"Compare cost vs vehicle value before proceeding."},"ev_battery_pack":{"label":"EV Battery Pack Replacement","category":"ev","laborHours":{"low":3.0,"high":8.0},"partsRange":{"oem":[7000,20000],"reman":[3000,10000]},"totalRange":{"low":4000,"high":25000},"urgency":"critical","notes":"Most EVs have 8yr/100K mile battery warranty. Check warranty first."},"ev_battery_module":{"label":"EV Battery Module Repair","category":"ev","laborHours":{"low":2.0,"high":5.0},"partsRange":{"reman":[1500,5000]},"totalRange":{"low":3000,"high":8000},"urgency":"critical","notes":"Module-level repair is 30-50% cheaper than full pack replacement."},"hybrid_battery":{"label":"Hybrid Battery Replacement","category":"ev","laborHours":{"low":2.0,"high":4.0},"partsRange":{"oem":[2500,5000],"reman":[1500,3000]},"totalRange":{"low":2000,"high":6000},"urgency":"critical","notes":"Reman hybrid batteries from Greentec, re/cell save 30-50%."},"turbo_replacement":{"label":"Turbocharger Replacement","category":"engine","laborHours":{"low":4.0,"high":8.0},"partsRange":{"oem":[800,2500],"aftermarket":[400,1500],"reman":[300,1200]},"totalRange":{"low":1500,"high":4000},"urgency":"critical"},"dpf_cleaning":{"label":"DPF Filter Cleaning/Replace (Diesel)","category":"exhaust","laborHours":{"low":1.0,"high":3.0},"partsRange":{"oem":[500,2000],"aftermarket":[300,1000]},"totalRange":{"low":500,"high":3000},"urgency":"soon"}};
+
+var STATES={"AL":0.82,"AK":1.1,"AZ":0.95,"AR":0.78,"CA":1.25,"CO":1.08,"CT":1.18,"DE":1.05,"FL":0.92,"GA":0.88,"HI":1.12,"ID":0.85,"IL":1.02,"IN":0.88,"IA":0.85,"KS":0.85,"KY":0.82,"LA":0.85,"ME":0.95,"MD":1.05,"MA":1.15,"MI":0.88,"MN":0.95,"MS":0.78,"MO":0.85,"MT":0.9,"NE":0.85,"NV":1.0,"NH":1.05,"NJ":1.12,"NM":0.88,"NY":1.18,"NC":0.88,"ND":0.85,"OH":0.88,"OK":0.8,"OR":1.02,"PA":1.0,"RI":1.05,"SC":0.85,"SD":0.82,"TN":0.85,"TX":0.9,"UT":0.92,"VT":0.95,"VA":0.95,"WA":1.12,"WV":0.78,"WI":0.9,"WY":0.88,"DC":1.2};
+
+var VEHICLES={"economy":{"mult":0.85,"label":"Economy (Civic, Corolla, Sentra)","examples":"Honda Civic, Toyota Corolla, Nissan Sentra, Hyundai Elantra"},"standard":{"mult":1.0,"label":"Standard (Camry, Accord, Altima)","examples":"Toyota Camry, Honda Accord, Ford Fusion, Chevy Malibu"},"truck_suv":{"mult":1.15,"label":"Truck / SUV","examples":"Ford F-150, Chevy Silverado, Toyota 4Runner, Jeep Wrangler"},"luxury":{"mult":1.35,"label":"Luxury / European","examples":"BMW, Mercedes, Audi, Lexus, Volvo, Jaguar"},"performance":{"mult":1.5,"label":"Performance / Exotic","examples":"Porsche, Corvette, AMG, M-series, RS models"},"ev_hybrid":{"mult":1.2,"label":"Electric / Hybrid","examples":"Tesla, Prius, Bolt, Leaf, Mach-E, ID.4"}};
+
+var SHOPS={"dealer":{"low":125,"mid":155,"high":200},"independent":{"low":75,"mid":105,"high":150},"chain":{"low":90,"mid":120,"high":145}};
+
+var TAX={"AL":0.04,"AK":0.0,"AZ":0.056,"AR":0.065,"CA":0.0725,"CO":0.029,"CT":0.0635,"DE":0.0,"FL":0.06,"GA":0.04,"HI":0.04,"ID":0.06,"IL":0.0625,"IN":0.07,"IA":0.06,"KS":0.065,"KY":0.06,"LA":0.0445,"ME":0.055,"MD":0.06,"MA":0.0625,"MI":0.06,"MN":0.0688,"MS":0.07,"MO":0.0423,"MT":0.0,"NE":0.055,"NV":0.0685,"NH":0.0,"NJ":0.0663,"NM":0.0513,"NY":0.04,"NC":0.0475,"ND":0.05,"OH":0.0575,"OK":0.045,"OR":0.0,"PA":0.06,"RI":0.07,"SC":0.06,"SD":0.045,"TN":0.07,"TX":0.0625,"UT":0.061,"VT":0.06,"VA":0.053,"WA":0.065,"WV":0.06,"WI":0.05,"WY":0.04,"DC":0.06};
+
+var MAKE_MAP={
+  economy:["nissan","hyundai","kia","mitsubishi","suzuki","datsun","geo","saturn","scion","daewoo","fiat"],
+  standard:["honda","toyota","ford","chevrolet","chevy","mazda","subaru","volkswagen","vw","buick","chrysler","dodge","pontiac","oldsmobile","mercury"],
+  truck_suv:["ram","gmc","jeep","land rover","isuzu","hummer"],
+  luxury:["bmw","mercedes","audi","lexus","infiniti","acura","volvo","cadillac","lincoln","jaguar","maserati","alfa romeo","genesis"],
+  performance:["porsche","corvette","ferrari","lamborghini","mclaren","aston martin","lotus"],
+  ev_hybrid:["tesla","rivian","lucid","polestar"]
+};
+var TRUCK_MODELS=["f-150","f150","silverado","sierra","tundra","tacoma","ranger","colorado","frontier","titan","ram","wrangler","4runner","tahoe","suburban","expedition","explorer","highlander","pilot","pathfinder","rav4","cr-v","crv","equinox","traverse"];
+
+function detectVehicleCategory(make,model){
+  var m=(make||"").toLowerCase().trim();
+  var mod=(model||"").toLowerCase().trim();
+  for(var i=0;i<TRUCK_MODELS.length;i++){if(mod.indexOf(TRUCK_MODELS[i])>-1)return"truck_suv";}
+  for(var cat in MAKE_MAP){for(var j=0;j<MAKE_MAP[cat].length;j++){if(m.indexOf(MAKE_MAP[cat][j])>-1)return cat;}}
+  return"standard";
+}
+
+function fmt(n){return"$"+Math.round(n).toLocaleString();}
+function fmtCents(n){return"$"+Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+var currentEstimate={totalMid:0,repairLabel:"",vehicleDesc:"",shopType:"",city:"",state:"",repairKey:""};
+
+function buildClientEstimate(repairKey,year,make,model,city,state,shopType){
+  var repair=REPAIRS[repairKey];
+  var stateMult=STATES[state]||1.0;
+  var vehicleCat=detectVehicleCategory(make,model);
+  var vehicleMult=VEHICLES[vehicleCat]?VEHICLES[vehicleCat].mult:1.0;
+  var vehicleLabel=VEHICLES[vehicleCat]?VEHICLES[vehicleCat].label:"Standard";
+  var shopRates=SHOPS[shopType]||SHOPS.independent;
+  var taxRate=TAX[state]||0.06;
+
+  var laborRateLow=Math.round(shopRates.low*stateMult*vehicleMult);
+  var laborRateMid=Math.round(shopRates.mid*stateMult*vehicleMult);
+  var laborRateHigh=Math.round(shopRates.high*stateMult*vehicleMult);
+  var laborHrsLow=repair.laborHours.low;
+  var laborHrsHigh=repair.laborHours.high;
+  var laborHrsMid=(laborHrsLow+laborHrsHigh)/2;
+
+  var ageAdj=1.0;
+  if(year>0&&year<2000) ageAdj=1.15;
+  else if(year>=2000&&year<2010) ageAdj=1.05;
+
+  var laborLow=Math.round(laborRateLow*laborHrsLow*ageAdj);
+  var laborMid=Math.round(laborRateMid*laborHrsMid*ageAdj);
+  var laborHigh=Math.round(laborRateHigh*laborHrsHigh*ageAdj);
+
+  var partsTypes=[];
+  if(repair.partsRange.oem) partsTypes.push({type:"OEM (Original)",low:repair.partsRange.oem[0],high:repair.partsRange.oem[1],mult:vehicleMult});
+  if(repair.partsRange.aftermarket) partsTypes.push({type:"Aftermarket",low:repair.partsRange.aftermarket[0],high:repair.partsRange.aftermarket[1],mult:1.0});
+  if(repair.partsRange.reman) partsTypes.push({type:"Remanufactured",low:repair.partsRange.reman[0],high:repair.partsRange.reman[1],mult:1.0});
+
+  var partsDefault=repair.partsRange.aftermarket||repair.partsRange.oem||[0,0];
+  var partsMid=Math.round(((partsDefault[0]+partsDefault[1])/2)*(vehicleCat==="luxury"?1.3:vehicleCat==="truck_suv"?1.1:1.0)*stateMult);
+  var partsLow=Math.round(partsDefault[0]*stateMult);
+  var partsHigh=Math.round((repair.partsRange.oem||partsDefault)[1]*vehicleMult*stateMult);
+
+  var shopSupplies=Math.round(laborMid*0.06);
+  var taxLow=Math.round((partsLow+shopSupplies)*taxRate);
+  var taxMid=Math.round((partsMid+shopSupplies)*taxRate);
+  var taxHigh=Math.round((partsHigh+shopSupplies)*taxRate);
+
+  var totalLow=laborLow+partsLow+taxLow;
+  var totalMid=laborMid+partsMid+shopSupplies+taxMid;
+  var totalHigh=laborHigh+partsHigh+shopSupplies+taxHigh;
+
+  return{repair:repair,laborRateMid:laborRateMid,laborHrsMid:laborHrsMid,laborMid:laborMid,partsMid:partsMid,partsLow:partsLow,partsHigh:partsHigh,shopSupplies:shopSupplies,taxRate:taxRate,taxMid:taxMid,totalLow:totalLow,totalMid:totalMid,totalHigh:totalHigh,vehicleLabel:vehicleLabel,ageAdj:ageAdj,partsTypes:partsTypes,stateMult:stateMult};
+}
+
+function renderEstimate(est,vehicleDesc,locationDesc,shopType,opts){
+  opts=opts||{};
+  var repair=est.repair;
+  var shopLabel=shopType==="dealer"?"Dealership":shopType==="chain"?"Chain Shop":"Independent Shop";
+  var h='<div class="ae-card" id="estimateCard">';
+  var shareText=repair.label+" for "+vehicleDesc+" in "+locationDesc+": "+fmt(est.totalLow)+" - "+fmt(est.totalHigh)+" (aftermarket parts, "+shopType+" shop). truepricehq.com/auto-repair.html";
+  h+='<span class="ae-share" onclick="navigator.clipboard.writeText(\''+shareText.replace(/'/g,"\\'")+'\');this.textContent=\'Copied!\'">Share</span>';
+  h+='<h3>'+repair.label;
+  if(opts.complexity) h+='<span class="ae-complexity '+opts.complexity+'">'+opts.complexity+'</span>';
+  h+='</h3>';
+  h+='<div style="font-size:14px;color:#64748b;">'+vehicleDesc+' &bull; '+locationDesc+' &bull; '+est.vehicleLabel+' &bull; '+shopLabel+'</div>';
+  if(opts.aiSource) h+='<div style="font-size:11px;color:#16a34a;margin-top:4px;font-weight:600;">Vehicle-specific estimate from TruePrice AI</div>';
+
+  h+='<div class="ae-total-box">';
+  h+='<div style="font-size:13px;color:var(--text-muted,#6b7280);">Estimated Total for Your '+vehicleDesc+'</div>';
+  h+='<div class="total" id="estTotal">'+fmt(est.totalMid)+'</div>';
+  h+='<div class="range" id="estRange">Range: '+fmt(est.totalLow)+' - '+fmt(est.totalHigh)+' in '+locationDesc+'</div>';
+  h+='</div>';
+
+  h+='<div class="ae-breakdown" id="estBreakdown">';
+  h+='<div class="ae-breakdown-item"><div class="label">Labor ('+est.laborHrsMid.toFixed(1)+' hrs @ '+fmt(est.laborRateMid)+'/hr)</div><div class="value">'+fmt(est.laborMid)+'</div></div>';
+  h+='<div class="ae-breakdown-item"><div class="label">Parts (aftermarket)</div><div class="value">'+fmt(est.partsMid)+'</div></div>';
+  h+='<div class="ae-breakdown-item"><div class="label">Shop Supplies (~6%)</div><div class="value">'+fmt(est.shopSupplies)+'</div></div>';
+  h+='<div class="ae-breakdown-item"><div class="label">Tax ('+(est.taxRate*100).toFixed(1)+'% on parts)</div><div class="value">'+fmt(est.taxMid)+'</div></div>';
+  h+='</div>';
+
+  // Shop type rate context
+  var stateCode=document.getElementById("stateSelect").value;
+  h+='<div style="font-size:12px;color:#475569;padding:8px 12px;background:#f8fafc;border-radius:8px;margin:8px 0;">'+shopLabel+' rate in '+stateCode+': '+fmt(est.laborRateMid)+'/hr</div>';
+
+  if(est.partsTypes.length>1){
+    h+='<h4 style="margin:16px 0 8px;font-size:14px;">Parts Options</h4>';
+    h+='<table class="ae-parts-table"><thead><tr><th>Type</th><th>Parts Cost</th><th>Total w/ Labor + Tax</th></tr></thead><tbody>';
+    est.partsTypes.forEach(function(pt){
+      var ptMid=Math.round(((pt.low+pt.high)/2)*pt.mult*est.stateMult);
+      var ptTotal=est.laborMid+ptMid+est.shopSupplies+Math.round((ptMid+est.shopSupplies)*est.taxRate);
+      var isDefault=pt.type==="Aftermarket";
+      h+='<tr'+(isDefault?' class="selected"':'')+'>';
+      h+='<td>'+pt.type+'</td>';
+      h+='<td>'+fmt(Math.round(pt.low*est.stateMult))+' - '+fmt(Math.round(pt.high*pt.mult*est.stateMult))+'</td>';
+      h+='<td><strong>'+fmt(ptTotal)+'</strong></td>';
+      h+='</tr>';
+    });
+    h+='</tbody></table>';
+    h+='<div class="ae-note">Aftermarket parts are highlighted. OEM parts are original manufacturer quality. Remanufactured are factory-rebuilt.</div>';
+  }
+
+  if(repair.notes&&!opts.aiSource) h+='<div class="ae-note" style="margin-top:12px;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;color:#92400e;">'+repair.notes+'</div>';
+  if(est.ageAdj>1.0){
+    var ageYears=new Date().getFullYear()-(parseInt(document.getElementById("yearInput").value)||2020);
+    h+='<div class="ae-note">Labor adjusted +'+Math.round((est.ageAdj-1)*100)+'% for '+ageYears+'-year-old vehicle (more time to access parts).</div>';
+  }
+  h+='</div>';
+
+  // AI loading
+  h+='<div class="ae-ai-loading" id="aiLoading"><span class="spinner"></span>Getting vehicle-specific estimate for your '+vehicleDesc+'...</div>';
+  h+='<div id="vehicleNotesSection"></div>';
+  h+='<div id="localShopsSection"></div>';
+
+  // Shop comparison
+  h+='<div class="ae-card ae-compare">';
+  h+='<h4>Compare Your Quotes</h4>';
+  h+='<p style="font-size:13px;color:var(--text-secondary,#64748b);margin:0 0 12px;">Enter quotes you have received and see how they stack up against the benchmark.</p>';
+  for(var i=1;i<=3;i++){
+    h+='<div class="ae-compare-row">';
+    h+='<div style="flex:2;"><label>Shop Name</label><input type="text" id="cmpName'+i+'" placeholder="Shop '+i+'" /></div>';
+    h+='<div><label>Total Quote</label><input type="number" id="cmpQuote'+i+'" placeholder="$0" /></div>';
+    h+='<div><label>Labor Hrs (opt)</label><input type="number" id="cmpHrs'+i+'" placeholder="-" step="0.5" /></div>';
+    h+='<div><label>Labor Rate (opt)</label><input type="number" id="cmpRate'+i+'" placeholder="-" /></div>';
+    h+='</div>';
+  }
+  h+='<button class="ae-compare-btn" id="compareBtn">Compare</button>';
+  h+='<div class="ae-compare-results" id="compareResults"></div>';
+  h+='</div>';
+
+  // CTA to switch to quote path
+  h+='<div class="ae-cta">';
+  h+='<p style="margin:0 0 8px;font-weight:600;">Have a quote for this repair?</p>';
+  h+='<p style="margin:0 0 12px;font-size:14px;color:var(--text-secondary,#64748b);">Upload it and Trudy checks every line item against this benchmark.</p>';
+  h+='<button class="ae-btn" style="width:auto;display:inline-block;padding:12px 24px;" onclick="switchPath(\'quote\')">Upload My Quote</button>';
+  h+='</div>';
+
+  return h;
+}
+
+function renderVehicleNotes(data){
+  var h='';
+  if(data.vehicleNotes||data.commonIssues){
+    h+='<div class="ae-vehicle-notes">';
+    h+='<h4>Vehicle-Specific Notes</h4>';
+    if(data.vehicleNotes) h+='<p style="margin:0 0 8px;">'+data.vehicleNotes+'</p>';
+    if(data.commonIssues) h+='<p style="margin:0;font-size:13px;color:#0c4a6e;"><strong>Common issues:</strong> '+data.commonIssues+'</p>';
+    h+='</div>';
+  }
+  return h;
+}
+
+function renderLocalShops(shops){
+  if(!shops||!shops.length)return'';
+  var h='<div class="ae-card ae-local-shops">';
+  h+='<h4>Local Shop Pricing (from user reports)</h4>';
+  h+='<table><thead><tr><th>Shop Name</th><th>Avg Price for This Repair</th><th>Quote Count</th></tr></thead><tbody>';
+  shops.forEach(function(s){
+    h+='<tr><td>'+(s.shopName||s.name||'Unknown')+'</td><td>'+fmt(s.avgPrice||s.averagePrice||0)+'</td><td>'+(s.quoteCount||s.count||0)+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  h+='<div class="ae-note" style="margin-top:8px;">Based on user-submitted quotes. Not verified by the shop.</div>';
+  h+='</div>';
+  return h;
+}
+
+function attachCompareHandler(){
+  var btn=document.getElementById("compareBtn");
+  if(!btn)return;
+  btn.addEventListener("click",function(){
+    var benchmark=currentEstimate.totalMid;
+    var rows=[];
+    for(var i=1;i<=3;i++){
+      var name=document.getElementById("cmpName"+i).value.trim();
+      var quote=parseFloat(document.getElementById("cmpQuote"+i).value);
+      var hrs=document.getElementById("cmpHrs"+i).value;
+      var rate=document.getElementById("cmpRate"+i).value;
+      if(!name||isNaN(quote)||quote<=0)continue;
+      var diff=quote-benchmark;
+      var pct=(diff/benchmark)*100;
+      var verdict,vclass;
+      if(pct>15){verdict="High";vclass="high";}
+      else if(pct<-15){verdict="Good Deal";vclass="good";}
+      else{verdict="Fair";vclass="fair";}
+      rows.push({name:name,quote:quote,diff:diff,pct:pct,hrs:hrs,rate:rate,verdict:verdict,vclass:vclass});
+      try{
+        fetch("/api/vehicle-estimate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"store_quote",shopName:name,totalQuote:quote,laborHours:hrs?parseFloat(hrs):null,laborRate:rate?parseFloat(rate):null,repair:currentEstimate.repairLabel,repairKey:currentEstimate.repairKey,city:currentEstimate.city,state:currentEstimate.state})}).catch(function(){});
+      }catch(e){}
+    }
+    if(!rows.length){alert("Enter at least one shop name and quote.");return;}
+    var h='<table><thead><tr><th>Shop</th><th>Their Price</th><th>Our Benchmark</th><th>Difference</th><th>Labor Rate</th><th>Verdict</th></tr></thead><tbody>';
+    rows.forEach(function(r){
+      var rateStr=(r.rate&&r.hrs)?fmt(parseFloat(r.rate))+"/hr x "+r.hrs+"h":(r.rate?fmt(parseFloat(r.rate))+"/hr":"-");
+      h+='<tr>';
+      h+='<td>'+r.name+'</td>';
+      h+='<td>'+fmt(r.quote)+'</td>';
+      h+='<td>'+fmt(benchmark)+'</td>';
+      h+='<td style="color:'+(r.diff>0?'#dc2626':'#16a34a')+';">'+(r.diff>0?'+':'')+fmt(r.diff)+' ('+(r.pct>0?'+':'')+r.pct.toFixed(0)+'%)</td>';
+      h+='<td>'+rateStr+'</td>';
+      h+='<td><span class="ae-verdict '+r.vclass+'">'+r.verdict+'</span></td>';
+      h+='</tr>';
+    });
+    h+='</tbody></table>';
+    document.getElementById("compareResults").innerHTML=h;
+  });
+}
+
+// Estimate button handler
+document.getElementById("estimateBtn").addEventListener("click",function(){
+  var repairKey=document.getElementById("repairSelect").value;
+  var year=parseInt(document.getElementById("yearInput").value)||0;
+  var make=document.getElementById("makeInput").value.trim();
+  var model=document.getElementById("modelInput").value.trim();
+  var city=document.getElementById("cityInput").value.trim();
+  var stateVal=document.getElementById("stateSelect").value;
+  var shopType=document.getElementById("shopSelect").value;
+
+  if(!repairKey){alert("Select a repair.");return;}
+  if(!stateVal){alert("Select your state.");return;}
+
+  var repair=REPAIRS[repairKey];
+  var vehicleDesc=(year>0?year+" ":"")+(make||"")+" "+(model||"");
+  vehicleDesc=vehicleDesc.trim()||"Your vehicle";
+  var locationDesc=city?city+", "+stateVal:stateVal;
+
+  var est=buildClientEstimate(repairKey,year,make,model,city,stateVal,shopType);
+  currentEstimate={totalMid:est.totalMid,repairLabel:repair.label,vehicleDesc:vehicleDesc,shopType:shopType,city:city,state:stateVal,repairKey:repairKey};
+
+  var resultEl=document.getElementById("estimateResult");
+  resultEl.innerHTML=renderEstimate(est,vehicleDesc,locationDesc,shopType,{});
+  resultEl.scrollIntoView({behavior:"smooth"});
+  attachCompareHandler();
+
+  if(typeof tpTrack==="function") tpTrack("estimate_generated",{repair:repairKey,state:stateVal,shopType:shopType});
+
+  // AI call
+  if(make&&model){
+    var loader=document.getElementById("aiLoading");
+    if(loader) loader.style.display="block";
+    fetch("/api/vehicle-estimate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"estimate",year:year||null,make:make,model:model,repair:repair.label,repairKey:repairKey,city:city||null,state:stateVal})})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(loader) loader.style.display="none";
+      if(!data||data.error)return;
+      var aiEst=Object.assign({},est);
+      var shopRates=SHOPS[shopType]||SHOPS.independent;
+      var stateMult=STATES[stateVal]||1.0;
+      var vehicleCat=detectVehicleCategory(make,model);
+      var vehicleMult=VEHICLES[vehicleCat]?VEHICLES[vehicleCat].mult:1.0;
+      var taxRate=TAX[stateVal]||0.06;
+
+      if(data.laborHours){
+        var aiHrs=(typeof data.laborHours==="object")?((data.laborHours.low+data.laborHours.high)/2):data.laborHours;
+        aiEst.laborHrsMid=aiHrs;
+        aiEst.laborRateMid=Math.round(shopRates.mid*stateMult*vehicleMult);
+        aiEst.laborMid=Math.round(aiEst.laborRateMid*aiHrs);
+      }
+      if(data.partsEstimate){
+        var aiParts=data.partsEstimate;
+        if(aiParts.aftermarket){var am=aiParts.aftermarket;aiEst.partsMid=Math.round(typeof am==="object"?((am.low+am.high)/2):am);}
+        else if(aiParts.oem){var oem=aiParts.oem;aiEst.partsMid=Math.round((typeof oem==="object"?((oem.low+oem.high)/2):oem)*0.65);}
+        if(aiParts.oem){var o=aiParts.oem;var oLow=typeof o==="object"?o.low:Math.round(o*0.8);var oHigh=typeof o==="object"?o.high:Math.round(o*1.2);aiEst.partsTypes=aiEst.partsTypes.map(function(pt){if(pt.type==="OEM (Original)")return{type:pt.type,low:oLow,high:oHigh,mult:1.0};return pt;});}
+        if(aiParts.aftermarket){var a=aiParts.aftermarket;var aLow=typeof a==="object"?a.low:Math.round(a*0.8);var aHigh=typeof a==="object"?a.high:Math.round(a*1.2);aiEst.partsTypes=aiEst.partsTypes.map(function(pt){if(pt.type==="Aftermarket")return{type:pt.type,low:aLow,high:aHigh,mult:1.0};return pt;});}
+        if(aiParts.reman){var rm=aiParts.reman;var rmLow=typeof rm==="object"?rm.low:Math.round(rm*0.8);var rmHigh=typeof rm==="object"?rm.high:Math.round(rm*1.2);aiEst.partsTypes=aiEst.partsTypes.map(function(pt){if(pt.type==="Remanufactured")return{type:pt.type,low:rmLow,high:rmHigh,mult:1.0};return pt;});}
+      }
+      aiEst.shopSupplies=Math.round(aiEst.laborMid*0.06);
+      aiEst.taxMid=Math.round((aiEst.partsMid+aiEst.shopSupplies)*taxRate);
+      aiEst.totalMid=aiEst.laborMid+aiEst.partsMid+aiEst.shopSupplies+aiEst.taxMid;
+      aiEst.totalLow=Math.round(aiEst.totalMid*0.8);
+      aiEst.totalHigh=Math.round(aiEst.totalMid*1.3);
+      currentEstimate.totalMid=aiEst.totalMid;
+      var complexity=data.complexity||null;
+      resultEl.innerHTML=renderEstimate(aiEst,vehicleDesc,locationDesc,shopType,{aiSource:true,complexity:complexity});
+      attachCompareHandler();
+      var notesEl=document.getElementById("vehicleNotesSection");
+      if(notesEl) notesEl.innerHTML=renderVehicleNotes(data);
+      var shopsEl=document.getElementById("localShopsSection");
+      if(shopsEl&&data.localShops) shopsEl.innerHTML=renderLocalShops(data.localShops);
+    })
+    .catch(function(err){
+      if(loader) loader.style.display="none";
+      console.log("AI estimate unavailable:",err);
+    });
+  }
+});
+
+// URL params for estimate path
+var p=new URLSearchParams(window.location.search);
+if(p.get("repair")) document.getElementById("repairSelect").value=p.get("repair");
+if(p.get("year")) document.getElementById("yearInput").value=p.get("year");
+if(p.get("make")) document.getElementById("makeInput").value=p.get("make");
+if(p.get("model")) document.getElementById("modelInput").value=p.get("model");
+if(p.get("state")) document.getElementById("stateSelect").value=p.get("state").toUpperCase();
+if(p.get("city")) document.getElementById("cityInput").value=p.get("city");
+if(p.get("path")==="quote") switchPath("quote");
+
+// =============================================
+// QUOTE PATH: FULL ANALYZER
+// =============================================
+var quoteAppInitialized=false;
+
+var AUTO_REPAIR_PRICING={
+  laborRatesByShopType:{dealer:{low:120,mid:150,high:180},independent:{low:80,mid:105,high:130},chain:{low:90,mid:115,high:140}},
+  laborMultiplierByRegion:{south:0.92,southeast:0.95,northeast:1.15,midwest:0.97,mountain:1.02,west:1.20},
+  scopeItems:[
+    {key:"partsItemized",label:"Parts itemized separately from labor",weight:15},
+    {key:"laborRateStated",label:"Labor rate per hour stated",weight:12},
+    {key:"laborHoursListed",label:"Labor hours listed per job",weight:12},
+    {key:"partsType",label:"OEM/aftermarket/reman parts specified",weight:10},
+    {key:"shopSupplies",label:"Shop supplies/fees disclosed",weight:8},
+    {key:"taxIncluded",label:"Tax included or noted",weight:6},
+    {key:"partsWarranty",label:"Warranty on parts",weight:10},
+    {key:"laborWarranty",label:"Warranty on labor",weight:10},
+    {key:"diagnosticFee",label:"Diagnostic fee applied to repair",weight:8},
+    {key:"fluidDisposal",label:"Fluid/waste disposal fees",weight:5}
+  ]
+};
+
+var STATE_REGIONS={
+  AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+  DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+  IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+  MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+  MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+  NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+  PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+  UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+  WY:"mountain",DC:"northeast"
+};
+
+var US_STATES={
+  "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
+  "colorado":"CO","connecticut":"CT","delaware":"DE","florida":"FL","georgia":"GA",
+  "hawaii":"HI","idaho":"ID","illinois":"IL","indiana":"IN","iowa":"IA","kansas":"KS",
+  "kentucky":"KY","louisiana":"LA","maine":"ME","maryland":"MD","massachusetts":"MA",
+  "michigan":"MI","minnesota":"MN","mississippi":"MS","missouri":"MO","montana":"MT",
+  "nebraska":"NE","nevada":"NV","new hampshire":"NH","new jersey":"NJ","new mexico":"NM",
+  "new york":"NY","north carolina":"NC","north dakota":"ND","ohio":"OH","oklahoma":"OK",
+  "oregon":"OR","pennsylvania":"PA","rhode island":"RI","south carolina":"SC",
+  "south dakota":"SD","tennessee":"TN","texas":"TX","utah":"UT","vermont":"VT",
+  "virginia":"VA","washington":"WA","west virginia":"WV","wisconsin":"WI","wyoming":"WY",
+  "district of columbia":"DC"
+};
+
+var qState={step:"upload",stateCode:"",shopType:"independent",uploadedFile:null,extractedText:"",result:null};
+
+function getRegionFromState(sc){return STATE_REGIONS[(sc||"").toUpperCase()]||"south";}
+function getRegionalLaborRate(shopType,region){
+  var rates=AUTO_REPAIR_PRICING.laborRatesByShopType[shopType]||AUTO_REPAIR_PRICING.laborRatesByShopType.independent;
+  var mult=AUTO_REPAIR_PRICING.laborMultiplierByRegion[region]||1.0;
+  return{low:Math.round(rates.low*mult),mid:Math.round(rates.mid*mult),high:Math.round(rates.high*mult)};
+}
+function verdictFromRatio(ratio){
+  if(ratio<0.78)return{label:"Unusually Low",css:"low"};
+  if(ratio<=0.90)return{label:"Below Average",css:"low"};
+  if(ratio<=1.12)return{label:"Fair Price",css:"fair"};
+  if(ratio<=1.25)return{label:"Above Average",css:"high"};
+  return{label:"Overpriced",css:"high"};
+}
+function laborRateFlag(detected,regional){
+  if(!detected||!regional)return null;
+  var ratio=detected/regional.mid;
+  if(ratio>1.20)return{label:"Above market",css:"high"};
+  if(ratio<0.80)return{label:"Below market",css:"low"};
+  return{label:"Market rate",css:"fair"};
+}
+function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):"";}
+
+// Feedback
+window.submitFeedback=function(response){
+  var fb=document.getElementById("estimateFeedback");
+  if(!fb)return;
+  fetch("/api/analytics",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"event",event:"estimate_feedback",meta:{response:response,service:"auto_repair",verdict:qState.result?qState.result.verdict.label:""},path:window.location.pathname})}).catch(function(){});
+  fb.innerHTML='<div style="font-size:14px;color:#166534;padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+};
+
+// Download report
+window.downloadAnalysisReport=function(){
+  var r=qState.result;
+  if(!r)return;
+  var shopLabels={dealer:"Dealership",independent:"Independent Shop",chain:"Chain Shop"};
+  var today=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+  var html='<div id="arReportCapture" style="padding:32px;max-width:680px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#fff;">';
+  html+='<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1d4ed8;padding-bottom:12px;margin-bottom:20px;">';
+  html+='<div style="font-size:22px;font-weight:800;color:#1d4ed8;">TruePrice</div>';
+  html+='<div style="font-size:13px;color:#64748b;">Auto Repair Analysis &middot; '+today+'</div></div>';
+  var vColor=r.verdict.css==="fair"?"#16a34a":r.verdict.css==="high"?"#dc2626":"#ca8a04";
+  var vBg=r.verdict.css==="fair"?"#f0fdf4":r.verdict.css==="high"?"#fef2f2":"#fefce8";
+  html+='<div style="background:'+vBg+';border-radius:10px;padding:18px;text-align:center;margin-bottom:18px;">';
+  html+='<div style="font-size:12px;text-transform:uppercase;font-weight:700;color:'+vColor+';letter-spacing:0.04em;">'+r.verdict.label+'</div>';
+  html+='<div style="font-size:28px;font-weight:800;color:#1e293b;">'+fmt(r.quoteTotal)+'</div>';
+  if(r.benchmark>0){var pct2=Math.round((r.ratio-1)*100);var dir=pct2>0?"above":"below";html+='<div style="font-size:13px;color:#64748b;">'+(Math.abs(pct2)<=2?"At market average":Math.abs(pct2)+"% "+dir+" average")+' for '+capitalize(r.region)+'</div>';}
+  html+='</div>';
+  if(r.lineItems&&r.lineItems.length>0){
+    html+='<div style="margin-bottom:18px;"><div style="font-weight:700;font-size:15px;margin-bottom:8px;">Repair Breakdown</div>';
+    html+='<table style="width:100%;border-collapse:collapse;font-size:13px;"><tr style="border-bottom:2px solid #e2e8f0;"><th style="text-align:left;padding:6px;">Repair</th><th style="text-align:right;padding:6px;">Amount</th></tr>';
+    r.lineItems.forEach(function(item){var lineTotal=item.total||((item.partsCost||0)+(item.laborCost||0));html+='<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px;">'+item.description+'</td><td style="text-align:right;padding:6px;">'+fmtCents(lineTotal)+'</td></tr>';});
+    html+='</table></div>';
+  }
+  html+='<div style="margin-top:24px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;line-height:1.5;">This analysis is for informational purposes only. Generated by TruePrice (truepricehq.com).</div></div>';
+
+  var container=document.createElement("div");
+  container.style.position="fixed";container.style.left="-9999px";container.style.top="0";container.style.width="720px";container.style.background="#fff";
+  container.innerHTML=html;
+  document.body.appendChild(container);
+  function doCapture(){
+    html2canvas(container.querySelector("#arReportCapture"),{scale:2,useCORS:true,backgroundColor:"#ffffff"}).then(function(canvas){
+      document.body.removeChild(container);
+      var link=document.createElement("a");link.download="trueprice-auto-repair-analysis.png";link.href=canvas.toDataURL("image/png");link.click();
+    }).catch(function(){document.body.removeChild(container);});
+  }
+  if(typeof html2canvas==="undefined"){window.loadVendorLibs&&window.loadVendorLibs().then(doCapture);}else{doCapture();}
+};
+
+function initQuoteApp(){
+  quoteAppInitialized=true;
+  var appRoot=document.getElementById("quoteApp");
+
+  function qRender(){
+    switch(qState.step){
+      case"upload":renderUpload();break;
+      case"uploading":renderUploading();break;
+      case"result":renderQuoteResult();break;
+    }
+  }
+
+  function renderUpload(){
+    appRoot.innerHTML='\
+      <div class="ae-card">\
+        <div class="ar-upload-zone" id="uploadZone">\
+          <div style="font-size:36px;margin-bottom:8px;">&#128196;</div>\
+          <p><strong>Upload Your Quote</strong></p>\
+          <p class="hint">Drag and drop a PDF or photo of your mechanic quote</p>\
+          <p class="hint">PDF, JPG, PNG accepted</p>\
+          <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+        </div>\
+        <div style="margin-top:12px;font-size:12px;color:#94a3b8;text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
+        <div class="ar-divider">or enter your quote total manually</div>\
+        <div class="ar-manual-form">\
+          <div class="ar-row">\
+            <div style="position:relative;">\
+              <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Quote Total</label>\
+              <div style="display:flex;align-items:center;gap:6px;">\
+                <span style="font-size:18px;font-weight:700;color:#334155;">$</span>\
+                <input type="number" id="manualTotal" placeholder="e.g. 1850" min="50" max="50000" />\
+              </div>\
+            </div>\
+            <div>\
+              <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">State</label>\
+              <input type="text" id="manualState" placeholder="e.g. TX" maxlength="2" style="text-transform:uppercase;" />\
+            </div>\
+          </div>\
+          <div class="ar-row">\
+            <div>\
+              <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Shop Type</label>\
+              <select id="manualShopType">\
+                <option value="independent">Independent Shop</option>\
+                <option value="dealer">Dealership</option>\
+                <option value="chain">Chain (Midas, Firestone, etc.)</option>\
+              </select>\
+            </div>\
+            <div>\
+              <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Labor Rate (if known)</label>\
+              <div style="display:flex;align-items:center;gap:6px;">\
+                <span style="font-size:14px;color:#64748b;">$/hr</span>\
+                <input type="number" id="manualLaborRate" placeholder="optional" min="30" max="400" />\
+              </div>\
+            </div>\
+          </div>\
+          <button class="ar-btn-q ar-btn-primary ar-btn-full" id="btnManualAnalyze">Analyze This Quote</button>\
+        </div>\
+      </div>';
+
+    var zone=document.getElementById("uploadZone");
+    var fileInput=document.getElementById("fileInput");
+    zone.addEventListener("click",function(){fileInput.click();});
+    zone.addEventListener("dragover",function(e){e.preventDefault();zone.style.borderColor="#3b82f6";zone.style.background="#eff6ff";});
+    zone.addEventListener("dragleave",function(){zone.style.borderColor="#cbd5e1";zone.style.background="#f8fafc";});
+    zone.addEventListener("drop",function(e){
+      e.preventDefault();zone.style.borderColor="#cbd5e1";zone.style.background="#f8fafc";
+      if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener("change",function(){if(fileInput.files.length) handleFile(fileInput.files[0]);});
+
+    document.getElementById("btnManualAnalyze").addEventListener("click",function(){
+      var total=parseFloat(document.getElementById("manualTotal").value);
+      if(!total||total<50){alert("Please enter a valid quote total.");return;}
+      var rawState=(document.getElementById("manualState").value||"").trim().toUpperCase();
+      qState.stateCode=STATE_REGIONS[rawState]?rawState:"TX";
+      qState.shopType=document.getElementById("manualShopType").value||"independent";
+      var laborRate=parseFloat(document.getElementById("manualLaborRate").value)||null;
+      var region=getRegionFromState(qState.stateCode);
+      var regionalRates=getRegionalLaborRate(qState.shopType,region);
+      var quoteBenchmark=total*(regionalRates.mid/(AUTO_REPAIR_PRICING.laborRatesByShopType[qState.shopType]||AUTO_REPAIR_PRICING.laborRatesByShopType.independent).mid);
+      var totalRatio=total/quoteBenchmark;
+      qState.result={source:"manual",quoteTotal:total,benchmark:quoteBenchmark,ratio:totalRatio,verdict:verdictFromRatio(totalRatio),lineItems:[],laborRate:laborRate,laborHours:null,partsTotal:null,laborTotal:null,shopType:qState.shopType,partsType:null,region:region,regionalRates:regionalRates,laborFlag:laborRate?laborRateFlag(laborRate,regionalRates):null,scopeSignals:{},parsed:null};
+      qState.step="result";qRender();
+    });
+  }
+
+  function handleFile(file){
+    if(typeof tpTrack==="function") tpTrack("funnel_upload_quote",{service:"auto-repair"});
+    qState.uploadedFile=file;qState.step="uploading";qRender();processFile(file);
+  }
+
+  function renderUploading(){
+    appRoot.innerHTML='\
+      <div style="text-align:center;padding:40px 24px;">\
+        <img src="/images/trudy-auto.png" alt="Trudy" width="120" style="margin-bottom:16px;" />\
+        <h2 style="font-size:22px;margin-bottom:8px;">Analyzing your repair quote...</h2>\
+        <p style="color:#64748b;margin-bottom:24px;">Don\'t sign until Trudy checks it</p>\
+        <div style="height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-bottom:12px;">\
+          <div id="progFill" style="width:10%;height:100%;background:#2563eb;transition:width .4s;"></div>\
+        </div>\
+        <p style="font-size:14px;color:#94a3b8;" id="progText">Loading document...</p>\
+      </div>';
+  }
+
+  function setProgress(pct,msg){
+    var fill=document.getElementById("progFill");
+    var txt=document.getElementById("progText");
+    if(fill) fill.style.width=pct+"%";
+    if(txt) txt.textContent=msg;
+  }
+
+  async function processFile(file){
+    try{
+      setProgress(15,"Loading parsing libraries...");
+      await window.loadVendorLibs();
+      var text="";var imageData=null;
+      if(file.type==="application/pdf"){
+        setProgress(30,"Extracting text from PDF...");
+        text=await extractPdfText(file);
+      }else{
+        setProgress(30,"Processing image...");
+        imageData=await fileToBase64(file);
+        text=await extractImageText(file);
+      }
+      setProgress(50,"Analyzing auto repair quote...");
+      qState.extractedText=text;
+      var apiResult=null;
+      try{
+        setProgress(60,"Checking quote against market data...");
+        var apiPayload={text:text};
+        if(imageData) apiPayload.images=[imageData];
+        var apiResponse=await fetch("/api/auto-repair-estimate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(apiPayload)});
+        if(apiResponse.ok) apiResult=await apiResponse.json();
+      }catch(apiErr){console.warn("API unavailable, falling back to local parsing:",apiErr);}
+      setProgress(75,"Calculating verdict...");
+      var result=null;
+      if(apiResult&&apiResult.quoteTotal){result=buildResultFromAPI(apiResult);}
+      else{result=buildResultFromLocal(text);}
+      setProgress(100,"Done!");
+      qState.result=result;
+      if(typeof tpTrack==="function") tpTrack("funnel_analysis_complete",{service:"auto-repair"});
+      qState.step="result";
+      setTimeout(qRender,400);
+    }catch(err){
+      console.error("Auto repair analysis error:",err);
+      renderErrorFallback();
+    }
+  }
+
+  function fileToBase64(file){
+    return new Promise(function(resolve,reject){
+      var reader=new FileReader();reader.onload=function(){resolve(reader.result);};reader.onerror=reject;reader.readAsDataURL(file);
+    });
+  }
+
+  function buildResultFromAPI(api){
+    var region=getRegionFromState(api.stateCode||qState.stateCode||"TX");
+    if(api.stateCode) qState.stateCode=api.stateCode;
+    var shopType=api.shopType||qState.shopType||"independent";
+    var regionalRates=getRegionalLaborRate(shopType,region);
+    var lineItems=(api.lineItems||[]).map(function(item){return{description:item.description||"Repair item",partsCost:item.partsCost||0,laborCost:item.laborCost||0,total:(item.partsCost||0)+(item.laborCost||0),urgency:item.repairUrgency||item.urgency||null};});
+    var quoteTotal=api.quoteTotal||0;
+    var benchmark=api.benchmark||quoteTotal;
+    var ratio=benchmark>0?quoteTotal/benchmark:1.0;
+    return{source:"upload",quoteTotal:quoteTotal,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:lineItems,laborRate:api.laborRate||null,laborHours:api.laborHours||null,partsTotal:api.partsTotal||null,laborTotal:api.laborTotal||null,shopType:shopType,partsType:api.partsType||null,region:region,regionalRates:regionalRates,laborFlag:api.laborRate?laborRateFlag(api.laborRate,regionalRates):null,scopeSignals:api.scopeSignals||{},parsed:api,vehicleCategory:api.vehicleCategory||null,possibleUpsells:api.possibleUpsells||[],pricingContext:api.pricingContext||null,stateConsumerProtection:api.stateConsumerProtection||null,aftermarketSavings:api.aftermarketSavings||null,commonRepairBenchmarks:api.commonRepairBenchmarks||null};
+  }
+
+  function buildResultFromLocal(text){
+    var priceMatches=text.match(/\$[\d,]+(?:\.\d{2})?/g)||[];
+    var prices=priceMatches.map(function(p){return parseFloat(p.replace(/[$,]/g,""));}).filter(function(v){return v>0&&v<100000;});
+    var parsed=null;
+    try{if(typeof parseExtractedText==="function") parsed=parseExtractedText(text);}catch(parseErr){console.warn("Parser error:",parseErr);}
+    var laborRate=null;
+    var laborRateMatch=text.match(/labor\s*(?:rate|charge)?[:\s]*\$?\s*(\d{2,3}(?:\.\d{2})?)\s*(?:\/\s*h(?:ou)?r|per\s*h(?:ou)?r|hr)/i);
+    if(laborRateMatch) laborRate=parseFloat(laborRateMatch[1]);
+    var laborHours=null;
+    var hoursMatch=text.match(/(\d+(?:\.\d+)?)\s*(?:hours?|hrs?)\s*(?:of\s*)?labor/i);
+    if(!hoursMatch) hoursMatch=text.match(/labor\s*(?:time|hours?)[:\s]*(\d+(?:\.\d+)?)/i);
+    if(hoursMatch) laborHours=parseFloat(hoursMatch[1]);
+    var partsType=null;
+    if(/\bOEM\b/i.test(text)) partsType="OEM";
+    else if(/\baftermarket\b/i.test(text)) partsType="Aftermarket";
+    else if(/\breman(?:ufactured)?\b/i.test(text)) partsType="Remanufactured";
+    var shopType=qState.shopType||"independent";
+    if(/\b(?:dealer(?:ship)?|toyota|honda|ford|chevy|chevrolet|bmw|mercedes|audi|nissan|hyundai|kia)\b/i.test(text)) shopType="dealer";
+    else if(/\b(?:midas|firestone|jiffy|pep\s*boys|valvoline|meineke|maaco|aamco|goodyear)\b/i.test(text)) shopType="chain";
+    var stateMatch=text.match(/\b([A-Z]{2})\s+\d{5}\b/);
+    if(stateMatch&&STATE_REGIONS[stateMatch[1]]) qState.stateCode=stateMatch[1];
+    var region=getRegionFromState(qState.stateCode);
+    var regionalRates=getRegionalLaborRate(shopType,region);
+    var lineItems=[];
+    var lineItemPattern=/([A-Za-z][A-Za-z\s\/\-&]+?)[\s.]*\$?([\d,]+(?:\.\d{2})?)/g;
+    var match;var seenDescriptions={};
+    while((match=lineItemPattern.exec(text))!==null){
+      var desc=match[1].trim();var val=parseFloat(match[2].replace(/,/g,""));
+      if(desc.length>3&&desc.length<80&&val>=10&&val<20000&&!seenDescriptions[desc.toLowerCase()]){
+        seenDescriptions[desc.toLowerCase()]=true;
+        lineItems.push({description:desc,partsCost:0,laborCost:0,total:val});
+      }
+      if(lineItems.length>=15)break;
+    }
+    var quoteTotal=0;
+    if(parsed&&parsed.finalPrice&&parsed.finalPrice>50) quoteTotal=parsed.finalPrice;
+    else if(prices.length){prices.sort(function(a,b){return b-a;});quoteTotal=prices[0];}
+    else quoteTotal=lineItems.reduce(function(sum,item){return sum+item.total;},0);
+    var partsTotal=null;var laborTotal=null;
+    var partsTotalMatch=text.match(/(?:parts?\s*(?:total)?|total\s*parts)[:\s]*\$?\s*([\d,]+(?:\.\d{2})?)/i);
+    if(partsTotalMatch) partsTotal=parseFloat(partsTotalMatch[1].replace(/,/g,""));
+    var laborTotalMatch=text.match(/(?:labor\s*(?:total)?|total\s*labor)[:\s]*\$?\s*([\d,]+(?:\.\d{2})?)/i);
+    if(laborTotalMatch) laborTotal=parseFloat(laborTotalMatch[1].replace(/,/g,""));
+    var scopeSignals={};
+    scopeSignals.partsItemized={status:lineItems.length>1?"included":"unclear"};
+    scopeSignals.laborRateStated={status:laborRate?"included":"unclear"};
+    scopeSignals.laborHoursListed={status:laborHours?"included":"unclear"};
+    scopeSignals.partsType={status:partsType?"included":"unclear"};
+    scopeSignals.shopSupplies={status:/shop\s*suppl|env(?:ironmental)?\s*fee|misc\s*fee/i.test(text)?"included":"unclear"};
+    scopeSignals.taxIncluded={status:/\btax\b/i.test(text)?"included":"unclear"};
+    scopeSignals.partsWarranty={status:/(?:parts?\s*)?warrant/i.test(text)?"included":"unclear"};
+    scopeSignals.laborWarranty={status:/labor\s*warrant|warrant.*labor/i.test(text)?"included":"unclear"};
+    scopeSignals.diagnosticFee={status:/diagnost/i.test(text)?"included":"unclear"};
+    scopeSignals.fluidDisposal={status:/dispos|waste|fluid\s*fee|env(?:ironmental)/i.test(text)?"included":"unclear"};
+    var benchmark=quoteTotal;
+    if(laborRate&&laborHours){
+      var expectedLabor=regionalRates.mid*laborHours;
+      var actualLabor=laborRate*laborHours;
+      var partsEstimate=quoteTotal-actualLabor;
+      if(partsEstimate<0) partsEstimate=quoteTotal*0.4;
+      benchmark=expectedLabor+partsEstimate;
+    }else{
+      var regionMult=AUTO_REPAIR_PRICING.laborMultiplierByRegion[region]||1.0;
+      benchmark=quoteTotal/regionMult*1.0;
+    }
+    var ratio=benchmark>0?quoteTotal/benchmark:1.0;
+    return{source:"upload",quoteTotal:quoteTotal,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:lineItems,laborRate:laborRate,laborHours:laborHours,partsTotal:partsTotal,laborTotal:laborTotal,shopType:shopType,partsType:partsType,region:region,regionalRates:regionalRates,laborFlag:laborRate?laborRateFlag(laborRate,regionalRates):null,scopeSignals:scopeSignals,parsed:parsed};
+  }
+
+  function renderErrorFallback(){
+    appRoot.innerHTML='\
+      <div style="text-align:center;margin-bottom:16px;"><h2>We couldn\'t read that file</h2></div>\
+      <div class="ae-card" style="text-align:center;">\
+        <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
+        <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
+        <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:12px;">\
+          <span style="font-size:20px;font-weight:700;">$</span>\
+          <input type="number" id="fallbackPrice" placeholder="e.g. 1850" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+        </div>\
+        <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
+          <select id="fallbackShopType" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;">\
+            <option value="independent">Independent Shop</option>\
+            <option value="dealer">Dealership</option>\
+            <option value="chain">Chain Shop</option>\
+          </select>\
+          <input type="text" id="fallbackState" placeholder="State (TX)" maxlength="2" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;width:80px;text-transform:uppercase;" />\
+        </div>\
+        <button class="ar-btn-q ar-btn-primary" id="fallbackBtn">Analyze this price</button>\
+        <div style="margin-top:14px;"><button class="ar-btn-q ar-btn-secondary" id="fallbackRestart">Start over</button></div>\
+      </div>';
+    document.getElementById("fallbackBtn").addEventListener("click",function(){
+      var price=parseFloat(document.getElementById("fallbackPrice").value);
+      if(!price||price<50){alert("Please enter a valid price.");return;}
+      var rawSt=(document.getElementById("fallbackState").value||"").trim().toUpperCase();
+      qState.stateCode=STATE_REGIONS[rawSt]?rawSt:"TX";
+      qState.shopType=document.getElementById("fallbackShopType").value||"independent";
+      var region=getRegionFromState(qState.stateCode);
+      var regionalRates=getRegionalLaborRate(qState.shopType,region);
+      var regionMult=AUTO_REPAIR_PRICING.laborMultiplierByRegion[region]||1.0;
+      var benchmark=price/regionMult;
+      var ratio=price/benchmark;
+      qState.result={source:"manual",quoteTotal:price,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:[],laborRate:null,laborHours:null,partsTotal:null,laborTotal:null,shopType:qState.shopType,partsType:null,region:region,regionalRates:regionalRates,laborFlag:null,scopeSignals:{},parsed:null};
+      qState.step="result";qRender();
+    });
+    document.getElementById("fallbackRestart").addEventListener("click",function(){qState.step="upload";qRender();});
+  }
+
+  async function extractPdfText(file){
+    var arrayBuffer=await file.arrayBuffer();
+    var pdf=await pdfjsLib.getDocument({data:arrayBuffer}).promise;
+    var allText=[];
+    for(var i=1;i<=pdf.numPages;i++){var page=await pdf.getPage(i);var content=await page.getTextContent();var pageText=content.items.map(function(item){return item.str;}).join(" ");allText.push(pageText);}
+    return allText.join("\n");
+  }
+
+  async function preprocessImage(file,mode){
+    return new Promise(function(resolve,reject){
+      var reader=new FileReader();
+      reader.onload=function(){
+        var img=new Image();
+        img.onload=function(){
+          var canvas=document.createElement("canvas");
+          var scale=Math.max(1.5,Math.min(2.5,2400/Math.max(img.width,img.height)));
+          canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);
+          var ctx=canvas.getContext("2d");ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
+          ctx.drawImage(img,0,0,canvas.width,canvas.height);
+          var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);var data=imageData.data;
+          if(mode==="strong"){for(var i=0;i<data.length;i+=4){var gray=0.299*data[i]+0.587*data[i+1]+0.114*data[i+2];gray=(gray-128)*1.6+128;gray=gray>170?255:gray<85?0:gray;gray=Math.max(0,Math.min(255,gray));data[i]=gray;data[i+1]=gray;data[i+2]=gray;}}
+          else{for(var i=0;i<data.length;i+=4){var gray=0.299*data[i]+0.587*data[i+1]+0.114*data[i+2];gray=(gray-128)*1.3+128;gray=Math.max(0,Math.min(255,gray));data[i]=gray;data[i+1]=gray;data[i+2]=gray;}}
+          ctx.putImageData(imageData,0,0);resolve(canvas.toDataURL("image/png"));
+        };
+        img.onerror=reject;img.src=reader.result;
+      };
+      reader.onerror=reject;reader.readAsDataURL(file);
+    });
+  }
+
+  async function extractImageText(file){
+    if(typeof window.runAnalyzerOCR==="function"){try{var ocrResult=await window.runAnalyzerOCR(file);if(ocrResult&&ocrResult.length>30)return ocrResult;}catch(e){console.warn("OCR helper failed:",e);}}
+    if(typeof Tesseract!=="undefined"){
+      var softImage=await preprocessImage(file,"soft");
+      var worker=await Tesseract.createWorker("eng");
+      var result=await worker.recognize(softImage);
+      var text=(result.data.text||"").trim();
+      if(text.length<50){var strongImage=await preprocessImage(file,"strong");var result2=await worker.recognize(strongImage);var text2=(result2.data.text||"").trim();if(text2.length>text.length) text=text2;}
+      await worker.terminate();return text;
+    }
+    return"";
+  }
+
+  // ---- QUOTE RESULT RENDERING ----
+  function renderQuoteResult(){
+    var r=qState.result;
+    if(!r){qState.step="upload";qRender();return;}
+    var isUpload=r.source==="upload";
+    var verdictCss=r.verdict.css;
+    var priceDisplay=fmt(r.quoteTotal);
+    var rangeText="";
+    if(r.quoteTotal>0&&r.benchmark>0){
+      var pct=Math.round((r.ratio-1)*100);
+      var dir=pct>0?"above":"below";
+      if(Math.abs(pct)<=2) rangeText="Right at the market average for "+capitalize(r.region);
+      else rangeText=Math.abs(pct)+"% "+dir+" average for "+capitalize(r.region);
+    }
+    var shopLabels={dealer:"Dealership",independent:"Independent Shop",chain:"Chain Shop"};
+
+    // Details grid
+    var detailsHtml='<div class="ar-details">';
+    detailsHtml+='<div class="ar-detail"><div class="label">Shop Type</div><div class="value">'+(shopLabels[r.shopType]||r.shopType)+'</div></div>';
+    detailsHtml+='<div class="ar-detail"><div class="label">Region</div><div class="value">'+capitalize(r.region)+'</div></div>';
+    if(r.laborRate){var flagHtml="";if(r.laborFlag) flagHtml='<span class="ar-labor-flag '+r.laborFlag.css+'">'+r.laborFlag.label+'</span>';detailsHtml+='<div class="ar-detail"><div class="label">Labor Rate</div><div class="value">$'+r.laborRate+'/hr'+flagHtml+'</div></div>';}
+    if(r.laborHours) detailsHtml+='<div class="ar-detail"><div class="label">Labor Hours</div><div class="value">'+r.laborHours+' hrs</div></div>';
+    if(r.partsTotal) detailsHtml+='<div class="ar-detail"><div class="label">Parts Total</div><div class="value">'+fmt(r.partsTotal)+'</div></div>';
+    if(r.laborTotal) detailsHtml+='<div class="ar-detail"><div class="label">Labor Total</div><div class="value">'+fmt(r.laborTotal)+'</div></div>';
+    if(r.partsType) detailsHtml+='<div class="ar-detail"><div class="label">Parts Type</div><div class="value">'+r.partsType+'</div></div>';
+    if(r.regionalRates) detailsHtml+='<div class="ar-detail"><div class="label">Market Labor Rate ('+(shopLabels[r.shopType]||"Shop")+')</div><div class="value">$'+r.regionalRates.low+' - $'+r.regionalRates.high+'/hr</div></div>';
+    detailsHtml+='</div>';
+
+    // Line items table
+    var tableHtml="";
+    if(r.lineItems&&r.lineItems.length>0){
+      var hasPartsSplit=r.lineItems.some(function(item){return item.partsCost>0||item.laborCost>0;});
+      tableHtml='<div class="ae-card"><h3 style="margin-bottom:0.75rem;">Repair Breakdown</h3><div style="overflow-x:auto;"><table class="ar-table"><thead><tr><th>Description</th>';
+      if(hasPartsSplit) tableHtml+='<th style="text-align:right;">Parts</th><th style="text-align:right;">Labor</th>';
+      tableHtml+='<th style="text-align:right;">Total</th></tr></thead><tbody>';
+      var runningTotal=0;
+      r.lineItems.forEach(function(item){
+        var lineTotal=item.total||((item.partsCost||0)+(item.laborCost||0));
+        runningTotal+=lineTotal;
+        var urgencyBadge="";
+        if(item.urgency){var uCss=item.urgency==="critical"?"critical":item.urgency==="soon"?"soon":"can-wait";var uLabel=item.urgency==="critical"?"Critical":item.urgency==="soon"?"Soon":"Can Wait";urgencyBadge=' <span class="ar-urgency '+uCss+'">'+uLabel+'</span>';}
+        tableHtml+='<tr><td>'+item.description+urgencyBadge+'</td>';
+        if(hasPartsSplit){tableHtml+='<td style="text-align:right;">'+(item.partsCost?fmtCents(item.partsCost):'-')+'</td>';tableHtml+='<td style="text-align:right;">'+(item.laborCost?fmtCents(item.laborCost):'-')+'</td>';}
+        tableHtml+='<td style="text-align:right;">'+fmtCents(lineTotal)+'</td></tr>';
+      });
+      tableHtml+='<tr class="ar-table-total"><td>Total</td>';
+      if(hasPartsSplit) tableHtml+='<td></td><td></td>';
+      tableHtml+='<td style="text-align:right;">'+fmtCents(r.quoteTotal||runningTotal)+'</td></tr></tbody></table></div></div>';
+    }
+
+    // Upsell alerts
+    var upsellHtml="";
+    if(r.possibleUpsells&&r.possibleUpsells.length>0){
+      upsellHtml='<div class="ar-upsell-card"><h3>Possible Unnecessary Services</h3>';
+      upsellHtml+='<p style="font-size:0.9rem;color:#78350f;margin-bottom:12px;">These services on your quote may not be needed. This is informational -- discuss with your mechanic.</p>';
+      r.possibleUpsells.forEach(function(upsell){
+        upsellHtml+='<div class="ar-upsell-item"><div class="upsell-name">'+(upsell.service||upsell.name||"Service")+'</div>';
+        upsellHtml+='<div class="upsell-reason">This service may not be needed because '+(upsell.reason||"it is not commonly required for the reported issue.")+'</div>';
+        if(upsell.typicalCost) upsellHtml+='<div class="upsell-cost">Typical cost: '+fmtCents(upsell.typicalCost)+'</div>';
+        upsellHtml+='</div>';
+      });
+      upsellHtml+='</div>';
+    }
+
+    // Parts savings
+    var partsSavingsHtml="";
+    if(r.aftermarketSavings&&r.aftermarketSavings.parts&&r.aftermarketSavings.parts.length>0){
+      var totalSavings=0;r.aftermarketSavings.parts.forEach(function(p){totalSavings+=(p.oemPrice||0)-(p.aftermarketPrice||0);});
+      if(totalSavings>0){
+        partsSavingsHtml='<div class="ae-card" style="background:#f0fdf4;border:1px solid #86efac;">';
+        partsSavingsHtml+='<h3 style="color:#166534;margin-bottom:0.5rem;">Aftermarket Parts Could Save You '+fmt(totalSavings)+'</h3>';
+        partsSavingsHtml+='<div style="overflow-x:auto;"><table class="ar-savings-table"><thead><tr><th>Part</th><th style="text-align:right;">OEM Price</th><th style="text-align:right;">Aftermarket</th><th style="text-align:right;">Savings</th></tr></thead><tbody>';
+        r.aftermarketSavings.parts.forEach(function(p){var sv=(p.oemPrice||0)-(p.aftermarketPrice||0);partsSavingsHtml+='<tr><td>'+(p.name||"Part")+'</td><td style="text-align:right;">'+fmtCents(p.oemPrice||0)+'</td><td style="text-align:right;">'+fmtCents(p.aftermarketPrice||0)+'</td><td style="text-align:right;" class="savings-amt">'+fmtCents(sv)+'</td></tr>';});
+        partsSavingsHtml+='</tbody></table></div></div>';
+      }
+    }
+
+    // State protection
+    var protectionHtml="";
+    if(r.stateConsumerProtection&&r.stateConsumerProtection.rules&&r.stateConsumerProtection.rules.length>0){
+      var stateName=r.stateConsumerProtection.stateName||qState.stateCode||"Your State";
+      protectionHtml='<div class="ar-protection-card"><h3>Your Rights in '+stateName+'</h3><ul>';
+      r.stateConsumerProtection.rules.forEach(function(rule){protectionHtml+='<li>'+rule+'</li>';});
+      protectionHtml+='</ul>';
+      if(r.stateConsumerProtection.agencyUrl) protectionHtml+='<p style="margin-top:8px;"><a href="'+r.stateConsumerProtection.agencyUrl+'" target="_blank" rel="noopener">'+(r.stateConsumerProtection.agencyName||"State Consumer Protection Agency")+'</a></p>';
+      protectionHtml+='</div>';
+    }
+
+    // Scope checklist
+    var scopeHtml="";
+    if(r.scopeSignals&&Object.keys(r.scopeSignals).length>0){
+      var scopeScore=0,scopeMax=0;
+      scopeHtml='<div class="ae-card"><h3 style="margin-bottom:0.75rem;">Quote Transparency Score</h3><ul class="ar-scope">';
+      AUTO_REPAIR_PRICING.scopeItems.forEach(function(item){
+        var sig=r.scopeSignals[item.key];var status=sig?sig.status:"unclear";
+        var iconClass=status==="included"?"scope-included":status==="excluded"?"scope-missing":"scope-unclear";
+        var iconChar=status==="included"?"&#10003;":status==="excluded"?"&#10007;":"?";
+        var statusLabel=status==="included"?"Found":status==="excluded"?"Missing":"Not found";
+        scopeMax+=item.weight;if(status==="included") scopeScore+=item.weight;
+        scopeHtml+='<li><span class="scope-icon '+iconClass+'">'+iconChar+'</span><span>'+item.label+'</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">'+statusLabel+'</span></li>';
+      });
+      scopeHtml+='</ul>';
+      var scorePct=scopeMax>0?Math.round((scopeScore/scopeMax)*100):0;
+      var scoreColor=scorePct>=70?"#16a34a":scorePct>=40?"#ca8a04":"#dc2626";
+      var scoreLabel=scorePct>=70?"Good transparency":scorePct>=40?"Moderate transparency":"Low transparency";
+      scopeHtml+='<div style="margin-top:12px;padding:12px;background:#f8fafc;border-radius:8px;">';
+      scopeHtml+='<div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px;"><span style="font-weight:600;color:'+scoreColor+';">'+scoreLabel+'</span><span style="color:#64748b;">'+scorePct+'%</span></div>';
+      scopeHtml+='<div style="height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div style="height:100%;width:'+scorePct+'%;background:'+scoreColor+';border-radius:3px;"></div></div></div>';
+      var missingItems=AUTO_REPAIR_PRICING.scopeItems.filter(function(item){var sig=r.scopeSignals[item.key];return!sig||sig.status!=="included";});
+      var criticalMissing=missingItems.filter(function(item){return item.weight>=10;});
+      if(criticalMissing.length>0){
+        scopeHtml+='<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;">';
+        scopeHtml+='<strong>Ask your mechanic about:</strong> '+criticalMissing.map(function(item){return item.label.toLowerCase();}).join(", ");
+        scopeHtml+='</div>';
+      }
+      scopeHtml+='</div>';
+    }
+
+    // Market context
+    var contextHtml='';
+    if(r.quoteTotal>0){
+      var tip="";
+      if(r.verdict.css==="high") tip="This quote is higher than typical market rates for your area and shop type. Getting 2-3 competing quotes could save you money. Independent shops often charge 20-40% less than dealerships for the same work.";
+      else if(r.verdict.css==="low") tip="This quote is lower than expected. Verify the shop is using quality parts and ask about warranty coverage.";
+      else tip="This quote appears to be within the typical market range for "+capitalize(r.region)+" region "+(shopLabels[r.shopType]||"shop")+" pricing.";
+      contextHtml='<div class="ae-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">'+tip+'</p>';
+      if(r.laborRate&&r.laborFlag) contextHtml+='<p style="color:#475569;font-size:0.95rem;margin-top:8px;">The detected labor rate of <strong>$'+r.laborRate+'/hr</strong> is <strong>'+r.laborFlag.label.toLowerCase()+'</strong> for '+(shopLabels[r.shopType]||"this shop type")+' in the '+capitalize(r.region)+' region (typical range: $'+r.regionalRates.low+'-$'+r.regionalRates.high+'/hr).</p>';
+      contextHtml+='</div>';
+    }
+
+    // Feedback
+    var feedbackHtml='\
+<div id="estimateFeedback" style="margin-top:1.5rem;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;text-align:center;">\
+  <div style="font-size:14px;color:#475569;margin-bottom:10px;">Was this analysis helpful?</div>\
+  <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;">Yes, helpful</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
+    // Assemble
+    appRoot.innerHTML='\
+      <div class="ar-verdict-card '+verdictCss+'">\
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-auto.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Auto Repair Verdict</div></div>\
+        <div class="verdict-label">'+r.verdict.label+'</div>\
+        <div class="verdict-price">'+priceDisplay+'</div>\
+        <div class="verdict-range">'+rangeText+'</div>\
+      </div>\
+      <div class="ae-card"><h3 style="margin-bottom:0.75rem;">Quote Details</h3>'+detailsHtml+'</div>\
+      '+tableHtml+'\
+      '+upsellHtml+'\
+      '+partsSavingsHtml+'\
+      '+protectionHtml+'\
+      '+scopeHtml+'\
+      '+contextHtml+'\
+      <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem;">\
+        <button class="ar-btn-q ar-btn-primary ar-btn-full" onclick="switchPath(\'estimate\')">Get a Fresh Estimate for This Repair</button>\
+        <a class="ar-btn-q ar-btn-secondary ar-btn-full" href="/repair-check.html" style="text-align:center;">Is This Repair Actually Needed?</a>\
+        <button class="ar-btn-q ar-btn-secondary ar-btn-full" onclick="downloadAnalysisReport()">Download Analysis Report</button>\
+        <button class="ar-btn-q ar-btn-secondary ar-btn-full" id="btnStartOver">Start Over</button>\
+      </div>\
+      '+feedbackHtml;
+
+    document.getElementById("btnStartOver").addEventListener("click",function(){
+      qState={step:"upload",stateCode:"",shopType:"independent",uploadedFile:null,extractedText:"",result:null};
+      qRender();
+    });
+  }
+
+  // init
+  if(typeof tpTrack==="function") tpTrack("funnel_visit_analyzer",{service:"auto-repair"});
+  qRender();
+}
+</script>
+
+<!-- Feedback widget -->
+<div id="tpFeedback" style="position:fixed;bottom:16px;right:16px;z-index:999;display:none;">
+<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);max-width:280px;font-family:system-ui,sans-serif;">
+<div style="font-size:14px;font-weight:600;margin-bottom:8px;">Was this helpful?</div>
+<div style="display:flex;gap:8px;margin-bottom:8px;">
+<button onclick="tpFb('yes')" style="flex:1;padding:8px;border:1px solid #bbf7d0;border-radius:8px;background:#f0fdf4;cursor:pointer;font-size:13px;">Yes</button>
+<button onclick="tpFb('no')" style="flex:1;padding:8px;border:1px solid #fecaca;border-radius:8px;background:#fef2f2;cursor:pointer;font-size:13px;">Not really</button>
+</div>
+<a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:12px;color:#64748b;text-decoration:none;">Tell us more &rarr;</a>
+<button onclick="document.getElementById('tpFeedback').style.display='none'" style="position:absolute;top:8px;right:10px;background:none;border:none;color:#94a3b8;cursor:pointer;font-size:16px;">&times;</button>
+</div>
+</div>
+<script>
+function tpFb(r){if(typeof tpTrack==="function")tpTrack("feedback_quick",{response:r,page:location.pathname});var el=document.getElementById("tpFeedback");el.innerHTML='<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);font-size:14px;color:#16a34a;text-align:center;">Thanks for the feedback!</div>';setTimeout(function(){el.style.display="none";},2000);}
+setTimeout(function(){var el=document.getElementById("tpFeedback");if(el)el.style.display="block";},15000);
+</script>
+<script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
