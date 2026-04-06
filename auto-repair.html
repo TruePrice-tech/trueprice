@@ -448,32 +448,32 @@ function filterRepairs() {
 
 // PATH TOGGLE
 // =============================================
-function switchPath(path){
+function switchPath(path, silent){
   var estBtn=document.getElementById("pathEstimateBtn");
   var quoBtn=document.getElementById("pathQuoteBtn");
   var estPath=document.getElementById("estimatePath");
   var quoPath=document.getElementById("quotePath");
   if(path==="estimate"){
-    estBtn.className="ar-path-btn ar-path-estimate active";
-    quoBtn.className="ar-path-btn ar-path-quote dimmed";
+    estBtn.className="ar-path-btn ar-path-estimate" + (silent?"":" active");
+    quoBtn.className="ar-path-btn ar-path-quote" + (silent?"":" dimmed");
     estPath.classList.remove("ar-hidden");
     estPath.style.animation="none";estPath.offsetHeight;estPath.style.animation="fadeSlideIn 0.3s ease-out";
     quoPath.classList.add("ar-hidden");
   } else {
-    estBtn.className="ar-path-btn ar-path-estimate dimmed";
-    quoBtn.className="ar-path-btn ar-path-quote active";
+    estBtn.className="ar-path-btn ar-path-estimate" + (silent?"":" dimmed");
+    quoBtn.className="ar-path-btn ar-path-quote" + (silent?"":" active");
     estPath.classList.add("ar-hidden");
     quoPath.classList.remove("ar-hidden");
     quoPath.style.animation="none";quoPath.offsetHeight;quoPath.style.animation="fadeSlideIn 0.3s ease-out";
     if(!quoteAppInitialized) initQuoteApp();
   }
-  if(typeof tpTrack==="function") tpTrack("path_switch",{path:path,page:"/auto-repair.html"});
+  if(typeof tpTrack==="function") tpTrack("path_switch",{path:path,page:"/auto-repair.html",silent:!!silent});
 }
 
-// Handle URL param
+// Handle URL param — open the panel but leave both buttons in neutral (light) state
 var _urlPath = new URLSearchParams(window.location.search).get("path");
-if(_urlPath === "quote") switchPath("quote");
-else if(_urlPath === "estimate") switchPath("estimate");
+if(_urlPath === "quote") switchPath("quote", true);
+else if(_urlPath === "estimate") switchPath("estimate", true);
 
 // =============================================
 // ESTIMATE PATH: DATA + LOGIC
