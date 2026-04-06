@@ -931,3 +931,20 @@ h3 {
 .trudy-bounce {
   animation: trudyBounce 0.8s ease-in-out infinite;
 }
+
+/* Prevent text caret blinking next to Trudy mascot images when user clicks
+   the empty space around her. The inline image flow otherwise leaves a
+   focusable text slot that shows the cursor caret. */
+img[src*="trudy"],
+img[alt*="Trudy"],
+img[alt*="trudy"] {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+img[src*="trudy"]:focus,
+img[alt*="Trudy"]:focus,
+img[alt*="trudy"]:focus {
+  outline: none;
+}
