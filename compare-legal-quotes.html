@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Attorney Quotes Side by Side | TruePrice</title>
+  <meta name="description" content="Upload 2-3 attorney retainer agreements or invoices and compare them side by side. See hourly rates, billing increments, red flags, and agreement scores at a glance." />
+  <link rel="canonical" href="https://truepricehq.com/compare-legal-quotes.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Compare Attorney Quotes | TruePrice" />
+  <meta property="og:description" content="Upload 2-3 attorney retainer agreements or invoices and compare them side by side." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/compare-legal-quotes.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Compare Attorney Quotes | TruePrice" />
+  <meta name="twitter:description" content="Upload 2-3 attorney retainer agreements or invoices and compare them side by side." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TruePrice Attorney Quote Comparison",
+    "url": "https://truepricehq.com/compare-legal-quotes.html",
+    "description": "Upload 2-3 attorney retainer agreements or legal invoices and compare fees, terms, and red flags side by side. Free.",
+    "applicationCategory": "UtilityApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "Web",
+    "provider": {
+      "@type": "Organization",
+      "name": "TruePrice",
+      "url": "https://truepricehq.com"
+    }
+  }
+  </script>
+
+  <style>
+    .cq-wrap { max-width: 1020px; margin: 40px auto; padding: 0 24px; }
+    .cq-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-lg); }
+    .cq-card h1 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.02em; text-align: center; }
+    .cq-sub { color: var(--text-secondary); margin: 0 0 28px; font-size: 16px; text-align: center; }
+
+    .cq-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+    .cq-slot {
+      border: 2px dashed #cbd5e1; border-radius: 16px; padding: 32px 16px;
+      text-align: center; cursor: pointer; transition: all 0.2s;
+      background: #f8fafc; position: relative; min-height: 180px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    }
+    .cq-slot:hover { border-color: #7c3aed; background: #f5f3ff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .cq-slot.uploaded { border-style: solid; border-color: #22c55e; background: #f0fdf4; cursor: default; }
+    .cq-slot.uploading { border-color: #7c3aed; background: #f5f3ff; }
+    .cq-slot .slot-icon { font-size: 40px; }
+    .cq-slot .slot-label { font-size: 15px; font-weight: 700; color: var(--text); }
+    .cq-slot .slot-hint { font-size: 12px; color: #94a3b8; }
+    .cq-slot .slot-check { color: #22c55e; font-size: 28px; margin-bottom: 4px; }
+    .cq-slot .slot-firm { font-size: 14px; font-weight: 700; color: #1e293b; }
+    .cq-slot .slot-rate { font-size: 16px; font-weight: 800; color: #7c3aed; }
+    .cq-slot .slot-remove {
+      position: absolute; top: 8px; right: 10px; background: none; border: none;
+      color: #94a3b8; font-size: 18px; cursor: pointer; line-height: 1; padding: 4px;
+    }
+    .cq-slot .slot-remove:hover { color: #ef4444; }
+    .cq-slot .slot-error { color: #ef4444; font-size: 13px; }
+    .cq-slot input[type="file"] { display: none; }
+
+    .cq-compare-btn {
+      display: block; width: 100%; padding: 16px; border: none; border-radius: 12px;
+      font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+      font-family: inherit; background: #7c3aed; color: #fff;
+    }
+    .cq-compare-btn:hover { background: #6d28d9; }
+    .cq-compare-btn:disabled { background: #c4b5fd; cursor: not-allowed; }
+
+    .cq-parsing-dots::after {
+      content: '';
+      animation: cqDots 1.2s steps(4, end) infinite;
+    }
+    @keyframes cqDots {
+      0% { content: ''; }
+      25% { content: '.'; }
+      50% { content: '..'; }
+      75% { content: '...'; }
+    }
+
+    .cq-rate-note {
+      text-align: center; font-size: 12px; color: #94a3b8; margin-top: 12px;
+    }
+
+    /* Results */
+    .cq-results { display: none; }
+    .cq-results.visible { display: block; }
+
+    .cq-table-wrap { overflow-x: auto; margin-bottom: 28px; }
+    .cq-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .cq-table th, .cq-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    .cq-table th { background: #f8fafc; font-weight: 700; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+    .cq-table td { color: #1e293b; }
+    .cq-table tr:last-child td { border-bottom: none; }
+    .cq-table .row-label { font-weight: 600; color: #64748b; background: #f8fafc; white-space: nowrap; width: 180px; }
+    .cq-table .highlight { background: #f0fdf4; font-weight: 700; }
+
+    .cq-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .cq-badge-green { background: #dcfce7; color: #15803d; }
+    .cq-badge-red { background: #fee2e2; color: #991b1b; }
+    .cq-badge-yellow { background: #fef9c3; color: #854d0e; }
+    .cq-badge-purple { background: #f3e8ff; color: #6b21a8; }
+
+    .cq-score-bar-wrap { display: flex; align-items: center; gap: 10px; }
+    .cq-score-bar {
+      flex: 1; height: 12px; background: #e5e7eb; border-radius: 6px; overflow: hidden;
+    }
+    .cq-score-bar-fill {
+      height: 100%; border-radius: 6px; transition: width 0.6s ease;
+    }
+    .cq-score-label { font-weight: 800; font-size: 16px; min-width: 36px; }
+
+    .cq-differences { margin-bottom: 28px; }
+    .cq-differences h3 { font-size: 18px; margin: 0 0 12px; color: #1e293b; }
+    .cq-differences ul { margin: 0; padding-left: 20px; }
+    .cq-differences li { font-size: 14px; color: #334155; margin-bottom: 6px; line-height: 1.5; }
+
+    .cq-disclaimer {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+      padding: 16px 20px; font-size: 12px; color: #64748b; line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .cq-cta-section {
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+      padding-top: 24px; border-top: 1px solid #e5e7eb;
+    }
+    .cq-cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;
+      text-decoration: none; cursor: pointer; transition: all 0.15s; border: 2px solid transparent;
+      font-family: inherit;
+    }
+    .cq-cta-primary { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+    .cq-cta-primary:hover { background: #6d28d9; }
+    .cq-cta-secondary { background: #f1f5f9; color: #334155; border-color: #e2e8f0; }
+    .cq-cta-secondary:hover { background: #e2e8f0; }
+
+    .cq-back { font-size: 14px; color: var(--text-muted); cursor: pointer; margin-bottom: 16px; display: inline-block; background: none; border: none; font-family: inherit; padding: 0; }
+    .cq-back:hover { color: var(--text); }
+
+    .cq-rate-limited {
+      background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px;
+      padding: 12px 16px; font-size: 13px; color: #991b1b; text-align: center;
+      margin-bottom: 16px; display: none;
+    }
+
+    @media (max-width: 700px) {
+      .cq-slots { grid-template-columns: 1fr; }
+      .cq-card { padding: 24px 16px; }
+      .cq-card h1 { font-size: 22px; }
+      .cq-table { font-size: 13px; }
+      .cq-table th, .cq-table td { padding: 8px 10px; }
+      .cq-table .row-label { width: 130px; }
+      .cq-cta-section { flex-direction: column; }
+      .cq-cta-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/legal-fee-analyzer.html">Legal Fee Analyzer</a>
+        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="cq-wrap">
+      <div class="cq-card">
+
+        <!-- STEP 1: Upload -->
+        <div id="uploadStep">
+          <div style="text-align:center; margin-bottom:16px;">
+            <img src="/images/trudy-legal.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
+          </div>
+          <h1>Compare attorney quotes</h1>
+          <p class="cq-sub">Upload 2 or 3 retainer agreements or invoices and see them side by side.</p>
+
+          <div class="cq-slots">
+            <div class="cq-slot" id="slot0" onclick="document.getElementById('file0').click()">
+              <span class="slot-icon">&#9878;</span>
+              <span class="slot-label">Attorney 1</span>
+              <span class="slot-hint">PDF, photo, or screenshot</span>
+              <input type="file" id="file0" accept=".pdf,image/*" onchange="handleUpload(0, this)" />
+            </div>
+            <div class="cq-slot" id="slot1" onclick="document.getElementById('file1').click()">
+              <span class="slot-icon">&#9878;</span>
+              <span class="slot-label">Attorney 2</span>
+              <span class="slot-hint">PDF, photo, or screenshot</span>
+              <input type="file" id="file1" accept=".pdf,image/*" onchange="handleUpload(1, this)" />
+            </div>
+            <div class="cq-slot" id="slot2" onclick="document.getElementById('file2').click()">
+              <span class="slot-icon">&#9878;</span>
+              <span class="slot-label">Attorney 3</span>
+              <span class="slot-hint">Optional</span>
+              <input type="file" id="file2" accept=".pdf,image/*" onchange="handleUpload(2, this)" />
+            </div>
+          </div>
+
+          <div id="rateLimitNote" class="cq-rate-limited">Rate limit reached (10 requests/hour). Please try again in a few minutes.</div>
+
+          <button class="cq-compare-btn" id="compareBtn" disabled onclick="showResults()">Upload at least 2 quotes to compare</button>
+
+          <p class="cq-rate-note">Each upload uses 1 of 10 free analyses per hour. 3 quotes = 3 calls.</p>
+        </div>
+
+        <!-- STEP 2: Results -->
+        <div id="resultsStep" class="cq-results">
+          <button class="cq-back" onclick="goBack()">&larr; Upload different quotes</button>
+          <div id="resultsContent"></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps consumers check legal fees, medical bills, contractor quotes, and mechanic quotes for fairness.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
+        <a href="/terms.html" style="color:inherit;">Terms</a> |
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/tp-analytics.min.js" async></script>
+
+  <!-- Vendor libs loaded on-demand -->
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return Promise.all([
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+      ]).then(function() {
+        if (window.pdfjsLib) {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        }
+      });
+    };
+  </script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    var quotes = [null, null, null];
+    var uploadedFiles = [null, null, null];
+    var rateLimited = false;
+
+    // ── Legal Rate Data (same as legal-fee-analyzer) ──
+    var LEGAL_RATES = {
+      family_law: { low: 200, mid: 350, high: 550 },
+      criminal_defense: { low: 200, mid: 400, high: 750 },
+      estate_planning: { low: 200, mid: 350, high: 500 },
+      real_estate: { low: 200, mid: 350, high: 500 },
+      business_law: { low: 250, mid: 400, high: 700 },
+      immigration: { low: 200, mid: 350, high: 500 },
+      bankruptcy: { low: 200, mid: 300, high: 450 },
+      employment_law: { low: 250, mid: 400, high: 600 },
+      intellectual_property: { low: 300, mid: 450, high: 800 },
+      tax_law: { low: 250, mid: 400, high: 700 },
+      general_litigation: { low: 250, mid: 400, high: 650 }
+    };
+
+    var REGION_MULT = {
+      northeast: 1.25, southeast: 0.90, midwest: 0.92,
+      south: 0.88, mountain: 0.95, west: 1.30
+    };
+
+    var PRACTICE_LABELS = {
+      family_law: "Family Law", criminal_defense: "Criminal Defense",
+      estate_planning: "Estate Planning", real_estate: "Real Estate",
+      business_law: "Business Law", immigration: "Immigration",
+      bankruptcy: "Bankruptcy", employment_law: "Employment Law",
+      intellectual_property: "Intellectual Property", tax_law: "Tax Law",
+      general_litigation: "General Litigation"
+    };
+
+    var AGREEMENT_CHECKS = [
+      { key: "scopeDefined", label: "Scope of representation defined" },
+      { key: "rateStated", label: "Hourly rate or fee clearly stated" },
+      { key: "billingIncrement", label: "Billing increment specified" },
+      { key: "retainerTerms", label: "Retainer terms explained" },
+      { key: "expensePolicy", label: "Expense policy outlined" },
+      { key: "estimatedCost", label: "Estimated total cost provided" },
+      { key: "communicationPolicy", label: "Communication policy included" },
+      { key: "terminationClause", label: "Termination clause present" },
+      { key: "conflictCheck", label: "Conflict of interest check noted" },
+      { key: "feeDisputeProcess", label: "Fee dispute process described" }
+    ];
+
+    // ── Helpers ──
+    function escHtml(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+    function fmtWhole(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+
+    function getMarketRange(practiceArea, region) {
+      var rates = LEGAL_RATES[practiceArea] || LEGAL_RATES.general_litigation;
+      var mult = region ? (REGION_MULT[region] || 1) : 1;
+      return { low: Math.round(rates.low * mult), mid: Math.round(rates.mid * mult), high: Math.round(rates.high * mult) };
+    }
+
+    // ── PDF text extraction ──
+    async function extractPdfText(file) {
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      var allText = [];
+      for (var i = 1; i <= pdf.numPages; i++) {
+        var page = await pdf.getPage(i);
+        var content = await page.getTextContent();
+        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
+        allText.push(pageText);
+      }
+      return allText.join("\n");
+    }
+
+    // ── Image text extraction ──
+    async function extractImageText(file) {
+      if (typeof window.extractTextFromImage === "function") {
+        try { return await window.extractTextFromImage(file); } catch (e) { console.warn("OCR failed:", e); }
+      }
+      return "";
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ── Build result from API response (same shape as legal-fee-analyzer) ──
+    function buildResultFromAPI(api) {
+      var practiceArea = api.practiceArea || "general_litigation";
+      var region = api.region || null;
+      var hourlyRate = api.hourlyRate || 0;
+      var feeType = api.feeType || "hourly";
+      var market = getMarketRange(practiceArea, region);
+
+      var verdictType = "fair";
+      if (hourlyRate > 0) {
+        if (hourlyRate > market.high) verdictType = "above";
+        else if (hourlyRate < market.low) verdictType = "below";
+      }
+
+      var checks = {};
+      AGREEMENT_CHECKS.forEach(function(c) {
+        checks[c.key] = (api.checks && api.checks[c.key] !== undefined) ? api.checks[c.key] : null;
+      });
+
+      return {
+        attorney: api.attorney || api.firm || "",
+        practiceArea: practiceArea,
+        region: region,
+        hourlyRate: hourlyRate,
+        feeType: feeType,
+        contingencyPct: api.contingencyPct || null,
+        flatFee: api.flatFee || null,
+        retainerAmount: api.retainerAmount || api.retainer || null,
+        billingIncrement: api.billingIncrement || null,
+        nonRefundableRetainer: api.nonRefundableRetainer || false,
+        marketLow: market.low,
+        marketMid: market.mid,
+        marketHigh: market.high,
+        verdictType: verdictType,
+        checks: checks,
+        redFlags: api.redFlags || [],
+        blockBillingEntries: api.blockBillingEntries || [],
+        retainerScore: api.retainerScore != null ? api.retainerScore : null,
+        source: "api"
+      };
+    }
+
+    // ── Process a single file ──
+    async function processFile(file) {
+      await window.loadVendorLibs();
+
+      var text = "";
+      var imageData = null;
+      if (file.type === "application/pdf") {
+        text = await extractPdfText(file);
+      } else {
+        imageData = await fileToBase64(file);
+        text = await extractImageText(file);
+      }
+
+      var apiPayload = { text: text };
+      if (imageData) apiPayload.images = [imageData];
+
+      var apiResponse = await fetch("/api/legal-fee-estimate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(apiPayload)
+      });
+
+      if (apiResponse.status === 429) {
+        rateLimited = true;
+        document.getElementById("rateLimitNote").style.display = "block";
+        throw new Error("Rate limited");
+      }
+
+      if (!apiResponse.ok) {
+        throw new Error("API returned " + apiResponse.status);
+      }
+
+      var apiResult = await apiResponse.json();
+      return buildResultFromAPI(apiResult);
+    }
+
+    // ── Upload handler ──
+    window.handleUpload = async function(idx, input) {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      if (file.size > 20 * 1024 * 1024) {
+        alert("File is too large. Please upload a file under 20MB.");
+        input.value = "";
+        return;
+      }
+
+      var fileSig = file.name + "|" + file.size;
+      for (var d = 0; d < 3; d++) {
+        if (d !== idx && uploadedFiles[d] === fileSig) {
+          alert("This file has already been uploaded in Attorney " + (d + 1) + ". Please upload a different document.");
+          input.value = "";
+          return;
+        }
+      }
+      uploadedFiles[idx] = fileSig;
+
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.add("uploading");
+      slot.classList.remove("uploaded");
+      slot.onclick = null;
+      slot.innerHTML =
+        '<img src="/images/trudy-working.png" alt="Trudy" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<span class="slot-label">Analyzing fees<span class="cq-parsing-dots"></span></span>' +
+        '<span class="slot-hint">Checking rates against market data</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+      try {
+        var result = await processFile(file);
+        quotes[idx] = result;
+
+        var firmName = result.attorney || "Attorney " + (idx + 1);
+        var rateDisplay = "";
+        if (result.feeType === "hourly" && result.hourlyRate > 0) {
+          rateDisplay = fmtWhole(result.hourlyRate) + "/hr";
+        } else if (result.feeType === "flat" && result.flatFee) {
+          rateDisplay = fmtWhole(result.flatFee) + " flat";
+        } else if (result.feeType === "contingency" && result.contingencyPct) {
+          rateDisplay = result.contingencyPct + "% contingency";
+        } else {
+          rateDisplay = "See details";
+        }
+
+        slot.classList.remove("uploading");
+        slot.classList.add("uploaded");
+        slot.onclick = null;
+        slot.innerHTML =
+          '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
+          '<span class="slot-check">&#10003;</span>' +
+          '<span class="slot-firm">' + escHtml(firmName) + '</span>' +
+          '<span class="slot-rate">' + escHtml(rateDisplay) + '</span>' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+        updateCompareBtn();
+      } catch (err) {
+        console.error("[compare-legal] Parse error:", err);
+        slot.classList.remove("uploading");
+        slot.innerHTML =
+          '<span class="slot-icon">&#9878;</span>' +
+          '<span class="slot-label">Attorney ' + (idx + 1) + '</span>' +
+          '<span class="slot-error">' + (rateLimited ? "Rate limited. Try later." : "Could not parse. Try another file.") + '</span>' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+        slot.onclick = function() { document.getElementById("file" + idx).click(); };
+        quotes[idx] = null;
+        uploadedFiles[idx] = null;
+        updateCompareBtn();
+      }
+    };
+
+    window.removeQuote = function(idx) {
+      quotes[idx] = null;
+      uploadedFiles[idx] = null;
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.remove("uploaded", "uploading");
+      slot.innerHTML =
+        '<span class="slot-icon">&#9878;</span>' +
+        '<span class="slot-label">Attorney ' + (idx + 1) + '</span>' +
+        '<span class="slot-hint">' + (idx === 2 ? "Optional" : "PDF, photo, or screenshot") + '</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+      slot.onclick = function() { document.getElementById("file" + idx).click(); };
+      updateCompareBtn();
+    };
+
+    function updateCompareBtn() {
+      var count = quotes.filter(function(q) { return q !== null; }).length;
+      var btn = document.getElementById("compareBtn");
+      if (count >= 2) {
+        btn.disabled = false;
+        btn.textContent = "Compare " + count + " quotes";
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Upload at least 2 quotes to compare";
+      }
+    }
+
+    // ── Show results ──
+    window.showResults = function() {
+      var active = [];
+      for (var i = 0; i < 3; i++) {
+        if (quotes[i]) active.push({ idx: i, data: quotes[i] });
+      }
+      if (active.length < 2) return;
+
+      document.getElementById("uploadStep").style.display = "none";
+      var resultsStep = document.getElementById("resultsStep");
+      resultsStep.classList.add("visible");
+
+      var labels = ["Attorney 1", "Attorney 2", "Attorney 3"];
+
+      // Build comparison table
+      var h = '';
+      h += '<h2 style="text-align:center; font-size:24px; margin:0 0 24px;">Side-by-Side Comparison</h2>';
+
+      h += '<div class="cq-table-wrap"><table class="cq-table" id="comparisonTable">';
+
+      // Header row
+      h += '<thead><tr><th class="row-label"></th>';
+      active.forEach(function(a) {
+        var name = a.data.attorney || labels[a.idx];
+        h += '<th style="text-align:center;">' + escHtml(name) + '</th>';
+      });
+      h += '</tr></thead><tbody>';
+
+      // Practice Area
+      h += '<tr><td class="row-label">Practice Area</td>';
+      active.forEach(function(a) {
+        h += '<td>' + escHtml(PRACTICE_LABELS[a.data.practiceArea] || a.data.practiceArea || "Unknown") + '</td>';
+      });
+      h += '</tr>';
+
+      // Fee Structure
+      h += '<tr><td class="row-label">Fee Structure</td>';
+      active.forEach(function(a) {
+        var ft = a.data.feeType || "unknown";
+        var label = ft === "hourly" ? "Hourly" : ft === "flat" ? "Flat Fee" : ft === "contingency" ? "Contingency" : ft;
+        h += '<td>' + escHtml(label) + '</td>';
+      });
+      h += '</tr>';
+
+      // Hourly Rate
+      var hourlyRates = active.map(function(a) { return (a.data.feeType === "hourly" && a.data.hourlyRate > 0) ? a.data.hourlyRate : null; });
+      var validHourly = hourlyRates.filter(function(r) { return r !== null; });
+      var lowestHourly = validHourly.length > 0 ? Math.min.apply(null, validHourly) : null;
+
+      h += '<tr><td class="row-label">Hourly Rate</td>';
+      active.forEach(function(a, i) {
+        var rate = hourlyRates[i];
+        if (rate !== null) {
+          var isLowest = (validHourly.length > 1 && rate === lowestHourly);
+          var cls = isLowest ? ' class="highlight"' : '';
+          var badge = isLowest ? ' <span class="cq-badge cq-badge-green">Lowest rate</span>' : '';
+
+          // Market comparison
+          var market = getMarketRange(a.data.practiceArea, a.data.region);
+          var mktNote = '';
+          if (rate > market.high) mktNote = '<div style="font-size:11px; color:#dc2626; margin-top:2px;">Above market (' + fmtWhole(market.low) + '-' + fmtWhole(market.high) + ')</div>';
+          else if (rate < market.low) mktNote = '<div style="font-size:11px; color:#ca8a04; margin-top:2px;">Below market (' + fmtWhole(market.low) + '-' + fmtWhole(market.high) + ')</div>';
+          else mktNote = '<div style="font-size:11px; color:#16a34a; margin-top:2px;">Within market (' + fmtWhole(market.low) + '-' + fmtWhole(market.high) + ')</div>';
+
+          h += '<td' + cls + '>' + fmtWhole(rate) + '/hr' + badge + mktNote + '</td>';
+        } else {
+          h += '<td style="color:#94a3b8;">N/A</td>';
+        }
+      });
+      h += '</tr>';
+
+      // Flat Fee
+      var hasAnyFlat = active.some(function(a) { return a.data.flatFee; });
+      if (hasAnyFlat) {
+        h += '<tr><td class="row-label">Flat Fee</td>';
+        active.forEach(function(a) {
+          h += '<td>' + (a.data.flatFee ? fmtWhole(a.data.flatFee) : '<span style="color:#94a3b8;">N/A</span>') + '</td>';
+        });
+        h += '</tr>';
+      }
+
+      // Contingency
+      var hasAnyContingency = active.some(function(a) { return a.data.contingencyPct; });
+      if (hasAnyContingency) {
+        h += '<tr><td class="row-label">Contingency</td>';
+        active.forEach(function(a) {
+          h += '<td>' + (a.data.contingencyPct ? a.data.contingencyPct + '%' : '<span style="color:#94a3b8;">N/A</span>') + '</td>';
+        });
+        h += '</tr>';
+      }
+
+      // Retainer Amount
+      var hasAnyRetainer = active.some(function(a) { return a.data.retainerAmount; });
+      if (hasAnyRetainer) {
+        h += '<tr><td class="row-label">Retainer Amount</td>';
+        active.forEach(function(a) {
+          var ret = a.data.retainerAmount;
+          var extra = '';
+          if (a.data.nonRefundableRetainer) extra = ' <span class="cq-badge cq-badge-red">Non-refundable</span>';
+          h += '<td>' + (ret ? fmtWhole(ret) + extra : '<span style="color:#94a3b8;">Not stated</span>') + '</td>';
+        });
+        h += '</tr>';
+      }
+
+      // Billing Increment
+      var increments = active.map(function(a) { return a.data.billingIncrement || null; });
+      var hasAnyIncrement = increments.some(function(v) { return v !== null; });
+      if (hasAnyIncrement) {
+        var bestIncrement = null;
+        increments.forEach(function(v) {
+          if (v !== null && (bestIncrement === null || v < bestIncrement)) bestIncrement = v;
+        });
+
+        h += '<tr><td class="row-label">Billing Increment</td>';
+        active.forEach(function(a, i) {
+          var inc = increments[i];
+          if (inc !== null) {
+            var isBest = (inc === bestIncrement && increments.filter(function(v) { return v !== null; }).length > 1);
+            var cls = isBest ? ' class="highlight"' : '';
+            var badge = '';
+            if (isBest) badge = ' <span class="cq-badge cq-badge-green">Standard</span>';
+            if (inc >= 15) badge = ' <span class="cq-badge cq-badge-yellow">15-min increments</span>';
+            h += '<td' + cls + '>' + inc + '-minute' + badge + '</td>';
+          } else {
+            h += '<td style="color:#94a3b8;">Not stated</td>';
+          }
+        });
+        h += '</tr>';
+      }
+
+      // Agreement Score
+      var scores = active.map(function(a) { return a.data.retainerScore; });
+      var validScores = scores.filter(function(s) { return s !== null && s !== undefined; });
+      var highestScore = validScores.length > 0 ? Math.max.apply(null, validScores) : null;
+
+      h += '<tr><td class="row-label">Agreement Score</td>';
+      active.forEach(function(a, i) {
+        var score = scores[i];
+        if (score !== null && score !== undefined) {
+          var isBest = (validScores.length > 1 && score === highestScore);
+          var cls = isBest ? ' class="highlight"' : '';
+          var color = score >= 70 ? '#16a34a' : score >= 40 ? '#ca8a04' : '#dc2626';
+          var badge = isBest ? ' <span class="cq-badge cq-badge-green">Highest score</span>' : '';
+          h += '<td' + cls + '>';
+          h += '<div class="cq-score-bar-wrap">';
+          h += '<div class="cq-score-bar"><div class="cq-score-bar-fill" style="width:' + score + '%; background:' + color + ';"></div></div>';
+          h += '<span class="cq-score-label" style="color:' + color + ';">' + score + '</span>';
+          h += '</div>' + badge + '</td>';
+        } else {
+          h += '<td style="color:#94a3b8;">N/A</td>';
+        }
+      });
+      h += '</tr>';
+
+      // Red Flag Count
+      var flagCounts = active.map(function(a) { return a.data.redFlags ? a.data.redFlags.length : 0; });
+      var fewestFlags = Math.min.apply(null, flagCounts);
+
+      h += '<tr><td class="row-label">Red Flags</td>';
+      active.forEach(function(a, i) {
+        var count = flagCounts[i];
+        var isBest = (count === fewestFlags && flagCounts.filter(function(c, j) { return j !== i; }).some(function(c) { return c > fewestFlags; }));
+        var cls = isBest ? ' class="highlight"' : '';
+        var badge = isBest ? ' <span class="cq-badge cq-badge-green">Fewest flags</span>' : '';
+        var color = count === 0 ? '#16a34a' : count <= 2 ? '#ca8a04' : '#dc2626';
+        h += '<td' + cls + '><span style="font-weight:700; color:' + color + ';">' + count + '</span>' + badge + '</td>';
+      });
+      h += '</tr>';
+
+      // Block Billing
+      h += '<tr><td class="row-label">Block Billing</td>';
+      active.forEach(function(a) {
+        var has = a.data.blockBillingEntries && a.data.blockBillingEntries.length > 0;
+        if (has) {
+          h += '<td><span style="color:#dc2626; font-weight:600;">Yes</span> (' + a.data.blockBillingEntries.length + ' entries)</td>';
+        } else {
+          h += '<td><span style="color:#16a34a; font-weight:600;">None detected</span></td>';
+        }
+      });
+      h += '</tr>';
+
+      h += '</tbody></table></div>';
+
+      // ── Key Differences ──
+      var diffs = buildDifferences(active, labels);
+      if (diffs.length > 0) {
+        h += '<div class="cq-differences"><h3>Key Differences</h3><ul>';
+        diffs.forEach(function(d) { h += '<li>' + escHtml(d) + '</li>'; });
+        h += '</ul></div>';
+      }
+
+      // ── Disclaimer ──
+      h += '<div class="cq-disclaimer">This comparison is informational only. TruePrice does not recommend, endorse, or rank attorneys. Choosing legal representation is a personal decision. This is not legal advice.</div>';
+
+      // ── CTA ──
+      h += '<div class="cq-cta-section">';
+      h += '<button class="cq-cta-btn cq-cta-primary" onclick="downloadComparisonReport()">Download Comparison Report</button>';
+      h += '<a class="cq-cta-btn cq-cta-secondary" href="/legal-fee-analyzer.html">Analyze a single quote in detail</a>';
+      h += '</div>';
+
+      document.getElementById("resultsContent").innerHTML = h;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    // ── Build key differences ──
+    function buildDifferences(active, labels) {
+      var diffs = [];
+
+      // Fee structure differences
+      var feeTypes = active.map(function(a) { return a.data.feeType; });
+      var uniqueFees = feeTypes.filter(function(v, i, arr) { return arr.indexOf(v) === i; });
+      if (uniqueFees.length > 1) {
+        var parts = active.map(function(a) {
+          var name = a.data.attorney || labels[a.idx];
+          var ft = a.data.feeType === "hourly" ? "hourly billing" : a.data.feeType === "flat" ? "a flat fee" : a.data.feeType === "contingency" ? "contingency" : a.data.feeType;
+          return name + " uses " + ft;
+        });
+        diffs.push(parts.join(", while ") + ".");
+      }
+
+      // Hourly rate spread
+      var hourlyActive = active.filter(function(a) { return a.data.feeType === "hourly" && a.data.hourlyRate > 0; });
+      if (hourlyActive.length >= 2) {
+        var rates = hourlyActive.map(function(a) { return a.data.hourlyRate; });
+        var spread = Math.max.apply(null, rates) - Math.min.apply(null, rates);
+        if (spread > 0) {
+          diffs.push("Hourly rates range from " + fmtWhole(Math.min.apply(null, rates)) + " to " + fmtWhole(Math.max.apply(null, rates)) + "/hr, a spread of " + fmtWhole(spread) + ".");
+        }
+      }
+
+      // Billing increment differences
+      var incActive = active.filter(function(a) { return a.data.billingIncrement; });
+      if (incActive.length >= 2) {
+        var incs = incActive.map(function(a) { return a.data.billingIncrement; });
+        var uniqueIncs = incs.filter(function(v, i, arr) { return arr.indexOf(v) === i; });
+        if (uniqueIncs.length > 1) {
+          var parts2 = incActive.map(function(a) {
+            return (a.data.attorney || labels[a.idx]) + " uses " + a.data.billingIncrement + "-minute";
+          });
+          diffs.push(parts2.join(" billing increments while ") + " billing increments.");
+        }
+      }
+
+      // Non-refundable retainer
+      var nonRefund = active.filter(function(a) { return a.data.nonRefundableRetainer; });
+      var refund = active.filter(function(a) { return a.data.retainerAmount && !a.data.nonRefundableRetainer; });
+      if (nonRefund.length > 0 && refund.length > 0) {
+        var nonNames = nonRefund.map(function(a) { return a.data.attorney || labels[a.idx]; }).join(" and ");
+        var refNames = refund.map(function(a) { return a.data.attorney || labels[a.idx]; }).join(" and ");
+        diffs.push(nonNames + " has a non-refundable retainer. " + refNames + " does not.");
+      }
+
+      // Red flag count differences
+      var flagCounts = active.map(function(a) { return { name: a.data.attorney || labels[a.idx], count: a.data.redFlags ? a.data.redFlags.length : 0 }; });
+      var uniqueCounts = flagCounts.map(function(f) { return f.count; }).filter(function(v, i, arr) { return arr.indexOf(v) === i; });
+      if (uniqueCounts.length > 1) {
+        var most = flagCounts.reduce(function(a, b) { return a.count > b.count ? a : b; });
+        var least = flagCounts.reduce(function(a, b) { return a.count < b.count ? a : b; });
+        if (most.count > 0) {
+          diffs.push(most.name + " has " + most.count + " red flag" + (most.count > 1 ? "s" : "") + " while " + least.name + " has " + least.count + ".");
+        }
+      }
+
+      // Block billing
+      var hasBlock = active.filter(function(a) { return a.data.blockBillingEntries && a.data.blockBillingEntries.length > 0; });
+      var noBlock = active.filter(function(a) { return !a.data.blockBillingEntries || a.data.blockBillingEntries.length === 0; });
+      if (hasBlock.length > 0 && noBlock.length > 0) {
+        var blockNames = hasBlock.map(function(a) { return a.data.attorney || labels[a.idx]; }).join(" and ");
+        diffs.push(blockNames + " shows block billing, which makes it harder to verify time spent on individual tasks.");
+      }
+
+      // Agreement score spread
+      var scoreActive = active.filter(function(a) { return a.data.retainerScore != null; });
+      if (scoreActive.length >= 2) {
+        var sArr = scoreActive.map(function(a) { return a.data.retainerScore; });
+        var sSpread = Math.max.apply(null, sArr) - Math.min.apply(null, sArr);
+        if (sSpread >= 15) {
+          var bestS = scoreActive.reduce(function(a, b) { return a.data.retainerScore > b.data.retainerScore ? a : b; });
+          diffs.push((bestS.data.attorney || labels[bestS.idx]) + " has the most transparent agreement (score " + bestS.data.retainerScore + "/100).");
+        }
+      }
+
+      return diffs;
+    }
+
+    // ── Download comparison report as PNG ──
+    window.downloadComparisonReport = function() {
+      var active = [];
+      for (var i = 0; i < 3; i++) {
+        if (quotes[i]) active.push({ idx: i, data: quotes[i] });
+      }
+      if (active.length < 2) return;
+
+      var optLabels = ["Option A", "Option B", "Option C"];
+      var report = document.createElement("div");
+      report.style.cssText = "width:860px;padding:40px;background:#fff;font-family:system-ui,-apple-system,sans-serif;color:#1e293b;line-height:1.6;";
+
+      var r = '';
+      // Header
+      r += '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #7c3aed;padding-bottom:16px;margin-bottom:24px;">';
+      r += '<div><div style="font-size:24px;font-weight:800;color:#7c3aed;">TruePrice</div><div style="font-size:13px;color:#64748b;">Attorney Quote Comparison</div></div>';
+      r += '<div style="text-align:right;font-size:12px;color:#94a3b8;">Generated ' + new Date().toLocaleDateString() + '<br>truepricehq.com</div>';
+      r += '</div>';
+
+      // Table
+      r += '<table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;">';
+      r += '<thead><tr><th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e2e8f0;color:#64748b;font-size:11px;text-transform:uppercase;"></th>';
+      active.forEach(function(a, i) {
+        r += '<th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e2e8f0;color:#1e293b;font-size:13px;">' + optLabels[i] + '</th>';
+      });
+      r += '</tr></thead><tbody>';
+
+      // Rows
+      var rows = [
+        { label: "Practice Area", fn: function(a) { return PRACTICE_LABELS[a.data.practiceArea] || "Unknown"; } },
+        { label: "Fee Structure", fn: function(a) { var ft = a.data.feeType; return ft === "hourly" ? "Hourly" : ft === "flat" ? "Flat Fee" : ft === "contingency" ? "Contingency" : ft || "Unknown"; } },
+        { label: "Hourly Rate", fn: function(a) { return (a.data.feeType === "hourly" && a.data.hourlyRate > 0) ? fmtWhole(a.data.hourlyRate) + "/hr" : "N/A"; } },
+        { label: "Retainer", fn: function(a) { return a.data.retainerAmount ? fmtWhole(a.data.retainerAmount) + (a.data.nonRefundableRetainer ? " (non-refundable)" : "") : "Not stated"; } },
+        { label: "Billing Increment", fn: function(a) { return a.data.billingIncrement ? a.data.billingIncrement + "-minute" : "Not stated"; } },
+        { label: "Agreement Score", fn: function(a) { return a.data.retainerScore != null ? a.data.retainerScore + "/100" : "N/A"; } },
+        { label: "Red Flags", fn: function(a) { return (a.data.redFlags ? a.data.redFlags.length : 0) + ""; } },
+        { label: "Block Billing", fn: function(a) { return (a.data.blockBillingEntries && a.data.blockBillingEntries.length > 0) ? "Yes" : "No"; } }
+      ];
+
+      rows.forEach(function(row) {
+        r += '<tr>';
+        r += '<td style="padding:8px 12px;font-weight:600;color:#64748b;border-bottom:1px solid #f1f5f9;white-space:nowrap;">' + row.label + '</td>';
+        active.forEach(function(a) {
+          r += '<td style="padding:8px 12px;text-align:center;border-bottom:1px solid #f1f5f9;">' + escHtml(row.fn(a)) + '</td>';
+        });
+        r += '</tr>';
+      });
+
+      r += '</tbody></table>';
+
+      // Key differences
+      var labels2 = ["Attorney 1", "Attorney 2", "Attorney 3"];
+      var diffs = buildDifferences(active, labels2);
+      if (diffs.length > 0) {
+        r += '<div style="margin-bottom:20px;"><div style="font-size:14px;font-weight:700;margin-bottom:8px;">Key Differences</div>';
+        diffs.forEach(function(d) {
+          r += '<div style="font-size:12px;color:#334155;padding:3px 0;">- ' + escHtml(d) + '</div>';
+        });
+        r += '</div>';
+      }
+
+      // Footer disclaimer
+      r += '<div style="border-top:2px solid #e2e8f0;padding-top:16px;margin-top:24px;">';
+      r += '<div style="font-size:10px;color:#94a3b8;line-height:1.5;">This comparison is informational only. TruePrice does not recommend, endorse, or rank attorneys. Choosing legal representation is a personal decision. This is not legal advice. No attorney or client names are included in this report. AI-generated analysis may contain errors. Verify findings with a licensed attorney in your jurisdiction. TruePrice does not store your documents.</div>';
+      r += '<div style="font-size:11px;color:#94a3b8;text-align:right;margin-top:8px;">truepricehq.com</div>';
+      r += '</div>';
+
+      report.innerHTML = r;
+      document.body.appendChild(report);
+      report.style.position = "fixed";
+      report.style.left = "-9999px";
+      report.style.top = "0";
+
+      function doRender() {
+        html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 860 }).then(function(canvas) {
+          document.body.removeChild(report);
+          var link = document.createElement("a");
+          link.download = "trueprice-legal-comparison.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        }).catch(function() { document.body.removeChild(report); });
+      }
+
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doRender);
+      } else { doRender(); }
+    };
+
+    // ── Back ──
+    window.goBack = function() {
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("uploadStep").style.display = "";
+      window.scrollTo(0, 0);
+    };
+
+  })();
+  </script>
+</body>
+</html>
