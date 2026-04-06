@@ -533,16 +533,46 @@
         h += '</div>';
       }
       if (r.pricingContext) {
-        h += '<div style="font-size:12px;color:#94a3b8;margin-bottom:16px;">City-level pricing applied. Multiplier: ' + (r.pricingContext.multiplier || 1.0) + 'x. Source: ' + (r.pricingContext.source || "TruePrice data") + '</div>';
+        h += '<div style="font-size:12px;color:#94a3b8;margin-bottom:16px;">City-level pricing applied. Multiplier: ' + (r.pricingContext.stateMultiplier || r.pricingContext.multiplier || 1.0) + 'x. Source: ' + (r.pricingContext.source || "TruePrice data") + '</div>';
       }
-      h += '<div style="border-top:2px solid #e2e8f0;padding-top:16px;margin-top:24px;display:flex;justify-content:space-between;"><div style="font-size:11px;color:#94a3b8;max-width:500px;">This report is AI-generated and informational only. Not professional advice. Verify all findings independently.</div><div style="font-size:11px;color:#94a3b8;text-align:right;">truepricehq.com</div></div>';
+      // Tax credit in report
+      var sysVal = r.systemType ? r.systemType.value : "";
+      if (sysVal === "heat_pump" || sysVal === "mini_split") {
+        h += '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:14px;margin-bottom:18px;">';
+        h += '<div style="font-weight:700;font-size:14px;color:#166534;margin-bottom:6px;">Tax Credit: Up to $2,000</div>';
+        h += '<div style="font-size:13px;color:#14532d;">Qualifying heat pumps are eligible for a federal tax credit of up to $2,000/year under the Inflation Reduction Act (Section 25C).</div>';
+        h += '</div>';
+      }
+      // Oversizing in report
+      if (r.oversizingFlag) {
+        h += '<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;padding:14px;margin-bottom:18px;">';
+        h += '<div style="font-weight:700;font-size:14px;color:#991b1b;margin-bottom:6px;">Oversizing Warning</div>';
+        h += '<div style="font-size:13px;color:#7f1d1d;">This system may be oversized. Ask for a Manual J load calculation to verify correct sizing.</div>';
+        h += '</div>';
+      }
+      // Upsells in report
+      if (r.possibleUpsells && r.possibleUpsells.length > 0) {
+        h += '<div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:14px;margin-bottom:18px;">';
+        h += '<div style="font-weight:700;font-size:14px;color:#92400e;margin-bottom:8px;">Possible Unnecessary Add-ons</div>';
+        r.possibleUpsells.forEach(function(u) {
+          h += '<div style="font-size:13px;color:#78350f;margin-bottom:4px;"><strong>' + (u.service || u.name || "Service") + '</strong>: ' + (u.reason || "May not be needed.") + '</div>';
+        });
+        h += '</div>';
+      }
+      // Warranty in report
+      if (r.warrantyParts && !r.warrantyLabor) {
+        h += '<div style="background:#fefce8;border:1px solid #fde047;border-radius:10px;padding:14px;margin-bottom:18px;">';
+        h += '<div style="font-weight:700;font-size:14px;color:#854d0e;">Warranty Gap: No labor warranty detected</div>';
+        h += '</div>';
+      }
+      h += '<div style="border-top:2px solid #e2e8f0;padding-top:16px;margin-top:24px;display:flex;justify-content:space-between;"><div style="font-size:11px;color:#94a3b8;max-width:500px;">This report is AI-generated and informational only. Not professional HVAC advice. Verify all findings independently.</div><div style="font-size:11px;color:#94a3b8;text-align:right;">truepricehq.com</div></div>';
       report.innerHTML = h;
       document.body.appendChild(report);
       report.style.position = "fixed"; report.style.left = "-9999px"; report.style.top = "0";
       function doRender() {
         html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 800 }).then(function(canvas) {
           document.body.removeChild(report);
-          var link = document.createElement("a"); link.download = "trueprice-analysis-report.png"; link.href = canvas.toDataURL("image/png"); link.click();
+          var link = document.createElement("a"); link.download = "trueprice-hvac-analysis-report.png"; link.href = canvas.toDataURL("image/png"); link.click();
         }).catch(function() { document.body.removeChild(report); });
       }
       if (typeof html2canvas === "undefined") { window.loadVendorLibs && window.loadVendorLibs().then(doRender); } else { doRender(); }
@@ -1265,6 +1295,21 @@
       if (r.brandNote) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Brand</div><div class="value">' + r.brandNote + '</div></div>';
       }
+      if (r.modelNumber) {
+        detailsHtml += '<div class="hvac-detail"><div class="label">Model</div><div class="value">' + r.modelNumber + '</div></div>';
+      }
+      if (r.refrigerantType) {
+        detailsHtml += '<div class="hvac-detail"><div class="label">Refrigerant</div><div class="value">' + r.refrigerantType + '</div></div>';
+      }
+      if (r.zones) {
+        detailsHtml += '<div class="hvac-detail"><div class="label">Zones</div><div class="value">' + r.zones + '</div></div>';
+      }
+      if (r.warrantyParts) {
+        detailsHtml += '<div class="hvac-detail"><div class="label">Parts Warranty</div><div class="value">' + r.warrantyParts + ' yr</div></div>';
+      }
+      if (r.warrantyLabor) {
+        detailsHtml += '<div class="hvac-detail"><div class="label">Labor Warranty</div><div class="value">' + r.warrantyLabor + ' yr</div></div>';
+      }
       var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
       detailsHtml += '<div class="hvac-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
 
@@ -1314,6 +1359,200 @@
           }
         });
         scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Ductwork, electrical upgrades, or structural modifications may add cost.</p></div>';
+      }
+
+      // ── Tax Credit Alert ──
+      var taxCreditHtml = "";
+      var sysVal = r.systemType ? r.systemType.value : "";
+      if (sysVal === "heat_pump" || sysVal === "mini_split") {
+        taxCreditHtml = '<div class="hvac-tax-credit">';
+        taxCreditHtml += '<h3>You May Qualify for a $2,000 Federal Tax Credit</h3>';
+        taxCreditHtml += '<p>Under the Inflation Reduction Act, qualifying heat pumps are eligible for a federal tax credit of up to <strong>$2,000 per year</strong> (Section 25C). The system must meet CEE Tier 1 efficiency requirements or higher.</p>';
+        taxCreditHtml += '<p style="margin-top:8px;"><a href="https://www.energystar.gov/about/federal-tax-credits/air-source-heat-pumps" target="_blank" rel="noopener">Check qualifying models on EnergyStar.gov</a></p>';
+        taxCreditHtml += '</div>';
+      }
+      if (r.pricingContext && r.pricingContext.taxCredit === "geothermal") {
+        taxCreditHtml = '<div class="hvac-tax-credit">';
+        taxCreditHtml += '<h3>Geothermal Systems Qualify for 30% Federal Tax Credit</h3>';
+        taxCreditHtml += '<p>Geothermal heat pump systems qualify for a <strong>30% federal tax credit with no cap</strong> under the Inflation Reduction Act. This applies to both equipment and installation costs.</p>';
+        taxCreditHtml += '<p style="margin-top:8px;"><a href="https://www.energystar.gov/about/federal-tax-credits/geothermal-heat-pumps" target="_blank" rel="noopener">Learn more on EnergyStar.gov</a></p>';
+        taxCreditHtml += '</div>';
+      }
+
+      // ── Oversizing Warning ──
+      var oversizingHtml = "";
+      if (r.oversizingFlag) {
+        oversizingHtml = '<div class="hvac-oversizing">';
+        oversizingHtml += '<h3>This System May Be Oversized for Your Home</h3>';
+        oversizingHtml += '<p>An oversized HVAC system short-cycles (turns on and off too frequently), which wastes energy, increases wear on components, and fails to properly dehumidify your home. This can lead to higher utility bills and premature equipment failure.</p>';
+        oversizingHtml += '<p style="margin-top:8px;"><strong>Recommendation:</strong> Ask the contractor to provide a Manual J load calculation to verify the correct system size for your home. A properly sized system runs longer cycles, dehumidifies better, and costs less to operate.</p>';
+        oversizingHtml += '</div>';
+      }
+
+      // ── Upsell Alert ──
+      var upsellHtml = "";
+      if (r.possibleUpsells && r.possibleUpsells.length > 0) {
+        upsellHtml = '<div class="hvac-upsell-card"><h3>Possible Unnecessary Add-ons</h3>';
+        upsellHtml += '<p style="font-size:0.9rem;color:#78350f;margin-bottom:12px;">These items on your quote may not be needed. This is informational -- discuss with your contractor.</p>';
+        r.possibleUpsells.forEach(function(upsell) {
+          var needed = upsell.usuallyNeeded || upsell.needed || "sometimes";
+          var neededLabel = needed === "rarely" ? "Rarely needed" : needed === "usually" ? "Usually needed" : "Sometimes needed";
+          var neededCss = needed === "rarely" ? "rarely" : needed === "usually" ? "usually" : "sometimes";
+          upsellHtml += '<div class="hvac-upsell-item">';
+          upsellHtml += '<div class="upsell-name">' + (upsell.service || upsell.name || "Service") + '<span class="upsell-needed ' + neededCss + '">' + neededLabel + '</span></div>';
+          upsellHtml += '<div class="upsell-reason">' + (upsell.reason || "This add-on may not be required for your installation.") + '</div>';
+          upsellHtml += '</div>';
+        });
+        upsellHtml += '</div>';
+      }
+
+      // ── Efficiency ROI Section ──
+      var roiHtml = "";
+      if (r.seer && r.seer >= 14) {
+        var currentSeer = r.seer;
+        var baseSeer = 14;
+        // Rough annual cooling cost at 14 SEER is ~$900; savings scale with SEER improvement
+        var baseCost = 900;
+        var currentCost = Math.round(baseCost * (baseSeer / currentSeer));
+        var annualSavings = baseCost - currentCost;
+        if (annualSavings > 0 && currentSeer > baseSeer) {
+          // Estimate premium cost for higher SEER
+          var premiumPerSeer = 350; // rough extra cost per SEER point
+          var premiumCost = (currentSeer - baseSeer) * premiumPerSeer;
+          var paybackYears = premiumCost > 0 ? Math.round(premiumCost / annualSavings) : 0;
+          roiHtml = '<div class="hvac-roi">';
+          roiHtml += '<h3>Efficiency ROI</h3>';
+          roiHtml += '<p>Upgrading from ' + baseSeer + ' SEER (minimum) to <strong>' + currentSeer + ' SEER saves approximately $' + annualSavings + '/year</strong> on cooling costs.</p>';
+          if (paybackYears > 0) {
+            roiHtml += '<p>The efficiency premium pays for itself in approximately <strong>' + paybackYears + ' years</strong>.</p>';
+          }
+          roiHtml += '<p style="font-size:0.85rem;color:#64748b;margin-top:8px;">Based on average U.S. cooling costs. Actual savings depend on climate, usage, and electricity rates.</p>';
+          roiHtml += '</div>';
+        }
+      }
+
+      // ── State Pricing Context ──
+      var statePricingHtml = "";
+      if (r.pricingContext && r.pricingContext.stateMultiplier) {
+        var sm = r.pricingContext.stateMultiplier;
+        var pctDiff = Math.round((sm - 1.0) * 100);
+        var aboveBelow = pctDiff > 0 ? "above" : "below";
+        var stateName = r.pricingContext.stateName || state.address.stateCode || "your state";
+        statePricingHtml = '<div class="hvac-pricing-ctx"><h3 style="margin-bottom:0.5rem;">State Pricing Context</h3>';
+        if (Math.abs(pctDiff) >= 2) {
+          statePricingHtml += '<p style="color:#475569;font-size:0.95rem;">HVAC costs in <strong>' + stateName + '</strong> are <strong>' + Math.abs(pctDiff) + '% ' + aboveBelow + '</strong> the national average.</p>';
+        } else {
+          statePricingHtml += '<p style="color:#475569;font-size:0.95rem;">HVAC costs in <strong>' + stateName + '</strong> are near the national average.</p>';
+        }
+        var chips = '';
+        if (r.pricingContext.stateMultiplier) chips += '<div class="hvac-pricing-chip">State multiplier: <strong>' + sm.toFixed(2) + 'x</strong></div>';
+        if (r.pricingContext.seasonalMultiplier) chips += '<div class="hvac-pricing-chip">Seasonal adjustment: <strong>' + r.pricingContext.seasonalMultiplier.toFixed(2) + 'x</strong></div>';
+        if (r.pricingContext.expectedRange) chips += '<div class="hvac-pricing-chip">Expected range: <strong>$' + r.pricingContext.expectedRange.low.toLocaleString() + ' - $' + r.pricingContext.expectedRange.high.toLocaleString() + '</strong></div>';
+        if (r.pricingContext.taxCredit) chips += '<div class="hvac-pricing-chip">Tax credit eligible: <strong>' + r.pricingContext.taxCredit + '</strong></div>';
+        if (chips) statePricingHtml += '<div style="margin-top:8px;">' + chips + '</div>';
+        statePricingHtml += '</div>';
+      }
+
+      // ── Brand Cost-of-Ownership Comparison ──
+      var brandCompHtml = "";
+      if (r.systemType && r.systemType !== "geothermal") {
+        var detectedTonnage = r.tonnage || 3;
+        var detectedSeer = r.seer || 16;
+        var stateMult = (r.pricingContext && r.pricingContext.stateMultiplier) || 1.0;
+
+        // Brand data: upfront cost multiplier, avg annual maintenance, estimated lifespan, annual energy savings vs 14 SEER baseline
+        var brandData = [
+          { tier: "Premium", examples: "Carrier, Trane, Lennox", upfrontMult: 1.20, maintenance: 120, lifespan: 18, energyMult: 0.92, warrantyParts: "10 yr", warrantyLabor: "1-2 yr" },
+          { tier: "Mid-Range", examples: "Rheem, York, Coleman", upfrontMult: 1.00, maintenance: 150, lifespan: 15, energyMult: 1.00, warrantyParts: "10 yr", warrantyLabor: "1 yr" },
+          { tier: "Value", examples: "Goodman, Amana, Payne", upfrontMult: 0.85, maintenance: 180, lifespan: 12, energyMult: 1.05, warrantyParts: "10 yr", warrantyLabor: "1 yr" }
+        ];
+
+        // Calculate base equipment cost from detected system
+        var baseEquipCost = 0;
+        if (r.quoteTotal) {
+          baseEquipCost = r.quoteTotal;
+        } else if (r.pricingContext && r.pricingContext.expectedRange) {
+          baseEquipCost = Math.round((r.pricingContext.expectedRange.low + r.pricingContext.expectedRange.high) / 2);
+        } else {
+          baseEquipCost = 8000; // reasonable default
+        }
+
+        // Baseline annual energy cost (14 SEER, 3 ton)
+        var baseEnergyCost = 1100;
+        var seerSavings = detectedSeer > 14 ? Math.round(baseEnergyCost * (1 - 14 / detectedSeer)) : 0;
+        var annualEnergy = baseEnergyCost - seerSavings;
+
+        var horizon = 15;
+
+        brandCompHtml = '<div class="hvac-card" style="margin-bottom:16px;">';
+        brandCompHtml += '<h3 style="margin:0 0 8px;">Total Cost of Ownership (' + horizon + ' Years)</h3>';
+        brandCompHtml += '<p style="font-size:13px;color:#64748b;margin-bottom:12px;">Same system type and efficiency. Estimates based on published specs and industry averages.</p>';
+        brandCompHtml += '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">';
+        brandCompHtml += '<thead><tr style="background:#f1f5f9;"><th style="padding:8px;text-align:left;">Brand Tier</th><th style="padding:8px;text-align:right;">Upfront</th><th style="padding:8px;text-align:right;">Energy/yr</th><th style="padding:8px;text-align:right;">Maint./yr</th><th style="padding:8px;text-align:center;">Est. Life</th><th style="padding:8px;text-align:right;">' + horizon + '-yr Total</th><th style="padding:8px;text-align:right;">Cost/yr</th></tr></thead><tbody>';
+
+        var results = [];
+        brandData.forEach(function(b) {
+          var upfront = Math.round(baseEquipCost * b.upfrontMult / stateMult * stateMult); // normalize to mid-range baseline
+          upfront = Math.round(baseEquipCost * b.upfrontMult);
+          var energy = Math.round(annualEnergy * b.energyMult);
+          var yearsInHorizon = Math.min(horizon, b.lifespan);
+          var replacements = horizon > b.lifespan ? 1 : 0;
+          var replacementCost = replacements * Math.round(upfront * 0.9); // replacement slightly cheaper (existing infrastructure)
+          var totalCost = upfront + (energy * horizon) + (b.maintenance * horizon) + replacementCost;
+          var costPerYear = Math.round(totalCost / horizon);
+          results.push({ tier: b.tier, examples: b.examples, upfront: upfront, energy: energy, maintenance: b.maintenance, lifespan: b.lifespan, totalCost: totalCost, costPerYear: costPerYear, warrantyParts: b.warrantyParts, warrantyLabor: b.warrantyLabor, replacements: replacements });
+        });
+
+        // Find lowest cost/year for highlighting
+        var lowestCostPerYear = Math.min.apply(null, results.map(function(r) { return r.costPerYear; }));
+
+        results.forEach(function(b) {
+          var isLowest = b.costPerYear === lowestCostPerYear;
+          var rowStyle = isLowest ? ' style="background:#f0fdf4;"' : '';
+          brandCompHtml += '<tr' + rowStyle + '>';
+          brandCompHtml += '<td style="padding:8px;"><strong>' + b.tier + '</strong><br><span style="font-size:11px;color:#94a3b8;">' + b.examples + '</span></td>';
+          brandCompHtml += '<td style="padding:8px;text-align:right;">$' + b.upfront.toLocaleString() + '</td>';
+          brandCompHtml += '<td style="padding:8px;text-align:right;">$' + b.energy.toLocaleString() + '</td>';
+          brandCompHtml += '<td style="padding:8px;text-align:right;">$' + b.maintenance.toLocaleString() + '</td>';
+          brandCompHtml += '<td style="padding:8px;text-align:center;">' + b.lifespan + ' yrs' + (b.replacements ? '<br><span style="font-size:10px;color:#dc2626;">+1 replacement</span>' : '') + '</td>';
+          brandCompHtml += '<td style="padding:8px;text-align:right;font-weight:700;">$' + b.totalCost.toLocaleString() + '</td>';
+          brandCompHtml += '<td style="padding:8px;text-align:right;font-weight:700;color:' + (isLowest ? '#16a34a' : '#1e293b') + ';">$' + b.costPerYear.toLocaleString() + '/yr' + (isLowest ? '<br><span style="font-size:10px;">Lowest</span>' : '') + '</td>';
+          brandCompHtml += '</tr>';
+        });
+
+        brandCompHtml += '</tbody></table></div>';
+        brandCompHtml += '<div style="margin-top:12px;font-size:12px;color:#94a3b8;">';
+        brandCompHtml += 'Based on ' + detectedSeer + ' SEER, ' + detectedTonnage + '-ton system. ';
+        brandCompHtml += 'Energy costs assume $0.14/kWh average. Maintenance includes annual tune-up + typical repairs. ';
+        if (results[0].replacements) brandCompHtml += 'Value tier includes a replacement at year ' + results[2].lifespan + ' since lifespan is shorter than ' + horizon + ' years. ';
+        brandCompHtml += 'Actual costs vary by installation quality, usage, and climate. This is not a brand recommendation.</div>';
+        brandCompHtml += '</div>';
+      }
+
+      // ── Warranty Analysis ──
+      var warrantyHtml = "";
+      var hasWarrantyInfo = r.warrantyParts || r.warrantyLabor;
+      if (hasWarrantyInfo) {
+        var wFlags = [];
+        if (r.warrantyParts && !r.warrantyLabor) {
+          wFlags.push("This quote includes a parts warranty but <strong>no labor warranty</strong>. If the equipment fails, you could pay $500-$2,000+ in labor costs for warranty repairs.");
+        }
+        if (r.warrantyLabor && Number(r.warrantyLabor) < 2) {
+          wFlags.push("The labor warranty is only <strong>" + r.warrantyLabor + " year" + (Number(r.warrantyLabor) === 1 ? "" : "s") + "</strong>. Most HVAC failures happen in years 2-5. Consider negotiating for at least 2 years of labor coverage.");
+        }
+        if (wFlags.length > 0) {
+          warrantyHtml = '<div class="hvac-warranty-alert">';
+          warrantyHtml += '<h3>Warranty Gaps Detected</h3>';
+          wFlags.forEach(function(f) { warrantyHtml += '<p>' + f + '</p>'; });
+          warrantyHtml += '<p style="font-size:0.85rem;color:#92400e;margin-top:8px;">Industry standard: 10-year parts warranty, 1-2 year labor warranty. Premium installers offer 5-10 year labor warranties.</p>';
+          warrantyHtml += '</div>';
+        }
+      } else if (isUpload) {
+        // No warranty mentioned at all in an uploaded quote
+        warrantyHtml = '<div class="hvac-warranty-alert">';
+        warrantyHtml += '<h3>No Warranty Information Detected</h3>';
+        warrantyHtml += '<p>We did not detect warranty details in your quote. Make sure to confirm both <strong>parts warranty</strong> (typically 10 years from manufacturer) and <strong>labor warranty</strong> (typically 1-2 years from installer) before signing.</p>';
+        warrantyHtml += '</div>';
       }
 
       // Market context
@@ -1394,7 +1633,14 @@
           <h3 style="margin-bottom:0.75rem;">System Details</h3>\
           ' + detailsHtml + '\
         </div>\
+        ' + taxCreditHtml + '\
+        ' + oversizingHtml + '\
+        ' + upsellHtml + '\
         ' + scopeHtml + '\
+        ' + roiHtml + '\
+        ' + statePricingHtml + '\
+        ' + brandCompHtml + '\
+        ' + warrantyHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
         ' + rebateHtml + '\
