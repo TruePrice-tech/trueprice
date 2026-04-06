@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Legal Billing Increment Calculator | TruePrice</title>
+  <meta name="description" content="See how much 15-minute vs 6-minute billing increments really cost you. Free calculator shows the hidden cost of attorney billing practices." />
+  <link rel="canonical" href="https://truepricehq.com/legal-billing-calculator.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Legal Billing Increment Calculator | TruePrice" />
+  <meta property="og:description" content="See how much 15-minute vs 6-minute billing increments really cost you. Free calculator shows the hidden cost of attorney billing practices." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/legal-billing-calculator.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Legal Billing Increment Calculator | TruePrice" />
+  <meta name="twitter:description" content="See how much 15-minute vs 6-minute billing increments really cost you." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#7c3aed" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TruePrice Legal Billing Increment Calculator",
+    "url": "https://truepricehq.com/legal-billing-calculator.html",
+    "description": "Free calculator that shows how much 15-minute vs 6-minute attorney billing increments cost you over the life of a case.",
+    "applicationCategory": "UtilityApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "operatingSystem": "Web",
+    "provider": { "@type": "Organization", "name": "TruePrice", "url": "https://truepricehq.com" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Legal Billing Increment Calculator"}]}
+  </script>
+
+  <style>
+    :root { --purple: #7c3aed; --purple-light: #ede9fe; --purple-dark: #5b21b6; --red: #dc2626; --green: #16a34a; }
+
+    .bc-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+
+    /* Hero */
+    .bc-hero { text-align: center; margin-bottom: 2rem; }
+    .bc-hero img { width: 120px; height: auto; margin-bottom: 1rem; }
+    .bc-hero h1 { font-size: 2rem; color: #1e293b; margin: 0 0 0.5rem; }
+    .bc-hero p { color: #64748b; font-size: 1.1rem; margin: 0; }
+
+    /* Cards */
+    .bc-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+    .bc-card h2 { font-size: 1.15rem; color: #1e293b; margin: 0 0 1rem; }
+
+    /* Form inputs */
+    .bc-field { margin-bottom: 1.25rem; }
+    .bc-field label { display: block; font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 0.4rem; }
+    .bc-field input[type="number"],
+    .bc-field select {
+      width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #d1d5db; border-radius: 8px;
+      font-size: 1rem; color: #1e293b; background: #fff; box-sizing: border-box;
+    }
+    .bc-field input[type="number"]:focus,
+    .bc-field select:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+
+    /* Radio group */
+    .bc-radios { display: flex; gap: 0.75rem; }
+    .bc-radio-label {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.6rem 1rem; border: 2px solid #d1d5db; border-radius: 8px;
+      cursor: pointer; font-size: 0.95rem; font-weight: 600; color: #475569; transition: all 0.15s;
+    }
+    .bc-radio-label:has(input:checked) { border-color: var(--purple); background: var(--purple-light); color: var(--purple-dark); }
+    .bc-radio-label input { display: none; }
+
+    /* Slider */
+    .bc-slider-wrap { display: flex; align-items: center; gap: 0.75rem; }
+    .bc-slider-wrap input[type="range"] { flex: 1; accent-color: var(--purple); }
+    .bc-slider-val { font-weight: 700; font-size: 1.1rem; color: var(--purple); min-width: 32px; text-align: center; }
+
+    /* Results */
+    .bc-result-section { margin-bottom: 1.5rem; }
+    .bc-result-section:last-child { margin-bottom: 0; }
+    .bc-result-section h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: #64748b; margin: 0 0 0.75rem; }
+
+    .bc-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .bc-compare-item { padding: 0.75rem 1rem; border-radius: 8px; text-align: center; }
+    .bc-compare-item.six { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .bc-compare-item.fifteen { background: #fef2f2; border: 1px solid #fecaca; }
+    .bc-compare-item .c-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .bc-compare-item .c-value { font-size: 1.3rem; font-weight: 800; color: #1e293b; }
+
+    .bc-overpay { text-align: center; padding: 0.75rem; background: #fef2f2; border-radius: 8px; border: 1px solid #fecaca; }
+    .bc-overpay .label { font-size: 0.8rem; color: #64748b; }
+    .bc-overpay .amount { font-size: 1.1rem; font-weight: 700; color: var(--red); }
+
+    .bc-big-number {
+      text-align: center; padding: 1.25rem; background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border-radius: 12px; border: 2px solid #fca5a5;
+    }
+    .bc-big-number .label { font-size: 0.85rem; color: #64748b; margin-bottom: 0.25rem; }
+    .bc-big-number .amount { font-size: 2.5rem; font-weight: 900; color: var(--red); line-height: 1.1; }
+    .bc-big-number .sub { font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem; }
+
+    /* Bar chart */
+    .bc-bars { margin-top: 0.5rem; }
+    .bc-bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .bc-bar-label { width: 55px; font-size: 0.8rem; font-weight: 600; color: #475569; text-align: right; flex-shrink: 0; }
+    .bc-bar-track { flex: 1; height: 28px; background: #f1f5f9; border-radius: 6px; overflow: hidden; position: relative; }
+    .bc-bar-fill { height: 100%; border-radius: 6px; transition: width 0.4s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; }
+    .bc-bar-fill.six { background: #22c55e; }
+    .bc-bar-fill.fifteen { background: #ef4444; }
+    .bc-bar-fill span { font-size: 0.75rem; font-weight: 700; color: #fff; white-space: nowrap; }
+
+    /* Tips card */
+    .bc-tips { list-style: none; padding: 0; margin: 0; }
+    .bc-tips li { padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9; font-size: 0.95rem; color: #334155; display: flex; align-items: flex-start; gap: 0.5rem; }
+    .bc-tips li:last-child { border-bottom: none; }
+    .bc-tips .tip-icon { color: var(--purple); font-weight: 700; flex-shrink: 0; }
+
+    /* Share button */
+    .bc-share-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; background: var(--purple); color: #fff; transition: background 0.2s; width: 100%;
+    }
+    .bc-share-btn:hover { background: var(--purple-dark); }
+    .bc-share-btn.copied { background: var(--green); }
+
+    /* Disclaimer */
+    .bc-disclaimer { font-size: 0.8rem; color: #94a3b8; text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; }
+
+    /* Task description */
+    .bc-task-desc { text-align: center; font-size: 0.95rem; color: #475569; margin-bottom: 0.75rem; }
+
+    @media (max-width: 600px) {
+      .bc-hero h1 { font-size: 1.5rem; }
+      .bc-card { padding: 1.25rem 1rem; }
+      .bc-compare { grid-template-columns: 1fr; }
+      .bc-big-number .amount { font-size: 2rem; }
+      .bc-radios { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/auto-repair-quote-analyzer.html">Auto Repair</a>
+        <a class="nav-cta" href="/analyze-quote.html">Check My Price</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div class="bc-app">
+
+      <!-- Hero -->
+      <div class="bc-hero">
+        <img src="/images/trudy-legal.png" alt="Trudy the TruePrice bunny in legal attire" width="120" height="120" />
+        <h1>How Much Do Billing Increments Cost You?</h1>
+        <p>See the real cost difference between 6-minute and 15-minute billing.</p>
+      </div>
+
+      <!-- Calculator Inputs -->
+      <div class="bc-card">
+        <h2>Your Details</h2>
+
+        <div class="bc-field">
+          <label for="bcRate">Attorney Hourly Rate ($)</label>
+          <input type="number" id="bcRate" value="350" min="50" max="2000" step="10" />
+        </div>
+
+        <div class="bc-field">
+          <label>Billing Increment</label>
+          <div class="bc-radios">
+            <label class="bc-radio-label">
+              <input type="radio" name="bcIncrement" value="0.1" /> 6-min (0.1 hr)
+            </label>
+            <label class="bc-radio-label">
+              <input type="radio" name="bcIncrement" value="0.25" checked /> 15-min (0.25 hr)
+            </label>
+          </div>
+        </div>
+
+        <div class="bc-field">
+          <label for="bcTasks">Short Tasks per Month: <span class="bc-slider-val" id="bcTasksVal">20</span></label>
+          <div class="bc-slider-wrap">
+            <input type="range" id="bcTasks" min="5" max="60" value="20" step="1" />
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#94a3b8; margin-top:2px;"><span>5</span><span>Emails, calls, brief reviews</span><span>60</span></div>
+        </div>
+
+        <div class="bc-field">
+          <label for="bcDuration">Average Duration of Short Tasks</label>
+          <select id="bcDuration">
+            <option value="1">1 minute</option>
+            <option value="2" selected>2 minutes</option>
+            <option value="3">3 minutes</option>
+            <option value="5">5 minutes</option>
+          </select>
+        </div>
+
+        <div class="bc-field">
+          <label for="bcCase">Estimated Case Duration</label>
+          <select id="bcCase">
+            <option value="3">3 months</option>
+            <option value="6" selected>6 months</option>
+            <option value="12">12 months</option>
+            <option value="24">24 months</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="bc-card" id="bcResults">
+        <h2>Your Results</h2>
+
+        <!-- Per-task -->
+        <div class="bc-result-section">
+          <h3>Per-Task Comparison</h3>
+          <p class="bc-task-desc" id="bcTaskDesc">A 2-minute email at $350/hr:</p>
+          <div class="bc-compare">
+            <div class="bc-compare-item six">
+              <div class="c-label">6-min increment</div>
+              <div class="c-value" id="bcPerTask6">$35.00</div>
+              <div class="c-label" id="bcPerTask6Hr">(0.1 hr)</div>
+            </div>
+            <div class="bc-compare-item fifteen">
+              <div class="c-label">15-min increment</div>
+              <div class="c-value" id="bcPerTask15">$87.50</div>
+              <div class="c-label" id="bcPerTask15Hr">(0.25 hr)</div>
+            </div>
+          </div>
+          <div class="bc-overpay">
+            <span class="label">You overpay: </span>
+            <span class="amount" id="bcOverpayTask">$52.50 per task</span>
+          </div>
+
+          <!-- Bar chart -->
+          <div class="bc-bars" style="margin-top:1rem;">
+            <div class="bc-bar-row">
+              <div class="bc-bar-label">6-min</div>
+              <div class="bc-bar-track"><div class="bc-bar-fill six" id="bcBar6" style="width:40%"><span id="bcBar6Label">$35.00</span></div></div>
+            </div>
+            <div class="bc-bar-row">
+              <div class="bc-bar-label">15-min</div>
+              <div class="bc-bar-track"><div class="bc-bar-fill fifteen" id="bcBar15" style="width:100%"><span id="bcBar15Label">$87.50</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly -->
+        <div class="bc-result-section">
+          <h3>Monthly Impact</h3>
+          <p class="bc-task-desc" id="bcMonthDesc">20 short tasks per month:</p>
+          <div class="bc-compare">
+            <div class="bc-compare-item six">
+              <div class="c-label">6-min total</div>
+              <div class="c-value" id="bcMonth6">$700</div>
+            </div>
+            <div class="bc-compare-item fifteen">
+              <div class="c-label">15-min total</div>
+              <div class="c-value" id="bcMonth15">$1,750</div>
+            </div>
+          </div>
+          <div class="bc-overpay">
+            <span class="label">Monthly overcharge: </span>
+            <span class="amount" id="bcOverpayMonth">$1,050</span>
+          </div>
+        </div>
+
+        <!-- Case total -->
+        <div class="bc-result-section">
+          <h3>Case Total Impact</h3>
+          <p class="bc-task-desc" id="bcCaseDesc">Over 6 months:</p>
+          <div class="bc-compare">
+            <div class="bc-compare-item six">
+              <div class="c-label">6-min total</div>
+              <div class="c-value" id="bcCase6">$4,200</div>
+            </div>
+            <div class="bc-compare-item fifteen">
+              <div class="c-label">15-min total</div>
+              <div class="c-value" id="bcCase15">$10,500</div>
+            </div>
+          </div>
+          <div class="bc-big-number">
+            <div class="label">Total overcharge with 15-min increments</div>
+            <div class="amount" id="bcOverpayTotal">$6,300</div>
+            <div class="sub">vs industry-standard 6-minute billing</div>
+          </div>
+        </div>
+
+        <!-- What to do -->
+        <div class="bc-result-section">
+          <h3>What You Can Do</h3>
+          <ul class="bc-tips">
+            <li><span class="tip-icon">&#10148;</span> Ask your attorney to switch to 6-minute increments. Many will.</li>
+            <li><span class="tip-icon">&#10148;</span> The industry standard is 6-minute (0.1 hour) increments.</li>
+            <li><span class="tip-icon">&#10148;</span> <a href="/legal-fee-analyzer.html" style="color:var(--purple); font-weight:600;">Analyze your full legal fee agreement</a> for more red flags.</li>
+          </ul>
+        </div>
+
+        <!-- Share -->
+        <button class="bc-share-btn" id="bcShareBtn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share This Result
+        </button>
+      </div>
+
+      <!-- Disclaimer -->
+      <p class="bc-disclaimer">This calculator is for educational purposes. Actual billing depends on your fee agreement. This is not legal advice.</p>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps consumers check legal fees, medical bills, contractor quotes, and mechanic quotes for fairness. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/affiliate-links.min.js"></script>
+
+  <script>
+  (function() {
+    "use strict";
+
+    var rateInput    = document.getElementById("bcRate");
+    var tasksSlider  = document.getElementById("bcTasks");
+    var tasksVal     = document.getElementById("bcTasksVal");
+    var durationSel  = document.getElementById("bcDuration");
+    var caseSel      = document.getElementById("bcCase");
+    var increments   = document.querySelectorAll('input[name="bcIncrement"]');
+
+    function fmt(n) {
+      return "$" + n.toLocaleString("en-US", { minimumFractionDigits: n % 1 !== 0 ? 2 : 0, maximumFractionDigits: 2 });
+    }
+
+    function getIncrement6(taskMin) {
+      // 6-min increments: round up to nearest 0.1 hr (6 min)
+      return Math.ceil(taskMin / 6) * 0.1;
+    }
+
+    function getIncrement15(taskMin) {
+      // 15-min increments: round up to nearest 0.25 hr (15 min)
+      return Math.ceil(taskMin / 15) * 0.25;
+    }
+
+    function calc() {
+      var rate     = parseFloat(rateInput.value) || 350;
+      var tasks    = parseInt(tasksSlider.value) || 20;
+      var duration = parseInt(durationSel.value) || 2;
+      var months   = parseInt(caseSel.value) || 6;
+
+      tasksVal.textContent = tasks;
+
+      var hrs6  = getIncrement6(duration);
+      var hrs15 = getIncrement15(duration);
+
+      var perTask6  = rate * hrs6;
+      var perTask15 = rate * hrs15;
+      var overpayTask = perTask15 - perTask6;
+
+      var month6  = perTask6  * tasks;
+      var month15 = perTask15 * tasks;
+      var overpayMonth = month15 - month6;
+
+      var case6  = month6  * months;
+      var case15 = month15 * months;
+      var overpayTotal = case15 - case6;
+
+      // Per-task
+      document.getElementById("bcTaskDesc").textContent =
+        "A " + duration + "-minute task at " + fmt(rate) + "/hr:";
+      document.getElementById("bcPerTask6").textContent  = fmt(perTask6);
+      document.getElementById("bcPerTask15").textContent = fmt(perTask15);
+      document.getElementById("bcPerTask6Hr").textContent  = "(" + hrs6.toFixed(1) + " hr)";
+      document.getElementById("bcPerTask15Hr").textContent = "(" + hrs15.toFixed(2) + " hr)";
+      document.getElementById("bcOverpayTask").textContent = fmt(overpayTask) + " per task";
+
+      // Bars
+      var maxBar = Math.max(perTask6, perTask15, 1);
+      var bar6  = document.getElementById("bcBar6");
+      var bar15 = document.getElementById("bcBar15");
+      bar6.style.width  = ((perTask6  / maxBar) * 100) + "%";
+      bar15.style.width = ((perTask15 / maxBar) * 100) + "%";
+      document.getElementById("bcBar6Label").textContent  = fmt(perTask6);
+      document.getElementById("bcBar15Label").textContent = fmt(perTask15);
+
+      // Monthly
+      document.getElementById("bcMonthDesc").textContent =
+        tasks + " short tasks per month:";
+      document.getElementById("bcMonth6").textContent  = fmt(month6);
+      document.getElementById("bcMonth15").textContent = fmt(month15);
+      document.getElementById("bcOverpayMonth").textContent = fmt(overpayMonth);
+
+      // Case total
+      document.getElementById("bcCaseDesc").textContent = "Over " + months + " months:";
+      document.getElementById("bcCase6").textContent  = fmt(case6);
+      document.getElementById("bcCase15").textContent = fmt(case15);
+      document.getElementById("bcOverpayTotal").textContent = fmt(overpayTotal);
+    }
+
+    // Bind events
+    rateInput.addEventListener("input", calc);
+    tasksSlider.addEventListener("input", calc);
+    durationSel.addEventListener("change", calc);
+    caseSel.addEventListener("change", calc);
+    increments.forEach(function(r) { r.addEventListener("change", calc); });
+
+    // Share button
+    document.getElementById("bcShareBtn").addEventListener("click", function() {
+      var total   = document.getElementById("bcOverpayTotal").textContent;
+      var months  = caseSel.value;
+      var text = "My attorney's 15-min billing increments cost me an extra " + total +
+        " over " + months + " months vs the industry standard 6-min. Check yours: truepricehq.com/legal-billing-calculator.html";
+
+      var btn = this;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          btn.classList.add("copied");
+          btn.innerHTML = "&#10003; Copied to Clipboard";
+          setTimeout(function() {
+            btn.classList.remove("copied");
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share This Result';
+          }, 2500);
+        });
+      } else {
+        // Fallback
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); btn.classList.add("copied"); btn.textContent = "Copied!"; } catch(e) {}
+        document.body.removeChild(ta);
+        setTimeout(function() {
+          btn.classList.remove("copied");
+          btn.textContent = "Share This Result";
+        }, 2500);
+      }
+    });
+
+    // Initial calc
+    calc();
+  })();
+  </script>
+</body>
+</html>
