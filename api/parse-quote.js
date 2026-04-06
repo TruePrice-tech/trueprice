@@ -149,11 +149,13 @@ Return this exact JSON structure:
   }
 }
 
-Rules:
-- price: Use the TOTAL/grand total, not line items, deposits, or deductibles
+CRITICAL EXTRACTION RULES:
+- ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
+- price: Use the TOTAL/grand total, not line items, deposits, or deductibles. If no explicit total, SUM line items.
 - material: Choose the PRIMARY roofing material being installed, not materials being removed
 - roofSize: Convert roofing squares to sq ft (1 square = 100 sq ft)
 - scopeItems: Mark "included" only if clearly stated in the quote, "excluded" if explicitly excluded, "unclear" if not mentioned
+- Never return null for price if there are dollar amounts visible anywhere in the document
 - Return ONLY the JSON object, nothing else`
     });
 

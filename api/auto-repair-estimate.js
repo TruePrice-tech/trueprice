@@ -34,7 +34,7 @@ async function captureAnonymizedData(vertical, parsed) {
   }
 }
 
-const RATE_LIMIT_MAX = 50;
+const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_SEC = 3600;
 
 const memoryRateLimit = new Map();
@@ -163,7 +163,7 @@ CRITICAL RULES:
 - If individual line amounts are partially readable, give your best estimate. A rough number is better than null.
 - repairs: List each distinct repair/service as a separate item. ALWAYS include the dollar amount for each if visible.
 - shopType: Look for shop/business name. "dealer" if it mentions a car brand + service/dealer. "chain" if Midas/Firestone/Jiffy Lube/Pep Boys/Brake Check/Valvoline/Meineke/AAMCO/Maaco/Goodyear. "independent" otherwise.
-- redFlags: ALWAYS check for: missing warranty info, missing parts type (OEM/aftermarket), no labor rate disclosed, excessive shop supply fees (>10%), missing line item breakdown. Flag at least one issue if the quote lacks transparency.
+- redFlags: You MUST return at least 1-2 red flags. No real quote is perfect. Check for: missing warranty terms, parts type not specified (OEM vs aftermarket), labor rate not disclosed, labor hours not listed per repair, excessive shop supply fees (>10%), no diagnostic fee waiver mentioned, no parts/labor breakdown. If the quote IS transparent, flag minor items like "no warranty duration specified" or "parts type not labeled."
 - partsType: "oem" = original manufacturer, "aftermarket" = third-party new, "reman" = remanufactured/rebuilt
 - scopeItems: Mark "yes" only if clearly present in the quote
 - vehicleCategory: "economy" for Civic/Corolla/Sentra, "standard" for Camry/Accord, "truck_suv" for trucks/SUVs, "luxury" for BMW/Mercedes/Audi/Lexus, "performance" for Porsche/Corvette/AMG/M-series, "ev_hybrid" for Tesla/Prius/Bolt/Leaf
