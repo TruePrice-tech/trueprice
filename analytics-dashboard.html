@@ -135,6 +135,11 @@
       </div>
 
       <div class="card" style="grid-column:1/-1;">
+        <h3>User Engagement</h3>
+        <div id="engagementMetrics" style="color:var(--text-muted);">Loading...</div>
+      </div>
+
+      <div class="card" style="grid-column:1/-1;">
         <h3>Contractors</h3>
         <div id="contractorMetrics" style="color:var(--text-muted);">Loading...</div>
       </div>
@@ -348,6 +353,40 @@
           return '<div class="dash-chart-bar" style="height:' + Math.max(pct, 2) + '%" title="' + h[0] + ': ' + h[1] + ' views"></div>';
         }).join("") :
         '<div class="dash-empty">No data yet for this time range</div>';
+
+      // Engagement metrics (from event data)
+      var engHtml = '<div style="display:flex;gap:16px;flex-wrap:wrap;">';
+      // Page duration stats
+      var durationEvents = (d.recentEvents || []).filter(function(e) { return e.event === "page_duration"; });
+      var durations = durationEvents.map(function(e) { return (e.meta && e.meta.seconds) || 0; }).filter(function(s) { return s > 0; });
+      var avgDuration = durations.length > 0 ? Math.round(durations.reduce(function(a,b){return a+b;},0) / durations.length) : 0;
+      var maxPages = durationEvents.reduce(function(max, e) { return Math.max(max, (e.meta && e.meta.pages) || 0); }, 0);
+      var avgPages = durationEvents.length > 0 ? (durationEvents.reduce(function(s,e){return s+((e.meta&&e.meta.pages)||0);},0) / durationEvents.length).toFixed(1) : "0";
+      // Just browsing clicks
+      var browsingClicks = (d.recentEvents || []).filter(function(e) { return e.event === "just_browsing_click"; });
+      var browsingByVertical = {};
+      browsingClicks.forEach(function(e) {
+        var v = (e.meta && e.meta.vertical) || "unknown";
+        browsingByVertical[v] = (browsingByVertical[v] || 0) + 1;
+      });
+      // Multi-page sessions
+      var multiPage = durationEvents.filter(function(e) { return e.meta && e.meta.pages > 1; }).length;
+      var singlePage = durationEvents.length - multiPage;
+      var bounceRate = durationEvents.length > 0 ? Math.round(singlePage / durationEvents.length * 100) : 0;
+
+      engHtml += stat("Avg Time on Page", avgDuration + "s");
+      engHtml += stat("Avg Pages/Session", avgPages);
+      engHtml += statColor("Bounce Rate", bounceRate + "%", bounceRate > 60 ? "#dc2626" : bounceRate > 40 ? "#d97706" : "#16a34a");
+      engHtml += stat("Just Browsing Clicks", browsingClicks.length);
+      engHtml += stat("Duration Samples", durations.length);
+      engHtml += '</div>';
+
+      if (Object.keys(browsingByVertical).length > 0) {
+        engHtml += '<div style="margin-top:12px;font-size:14px;"><strong>Just Browsing by vertical:</strong> ';
+        engHtml += Object.entries(browsingByVertical).map(function(e) { return e[0] + ": " + e[1]; }).join(" &bull; ");
+        engHtml += '</div>';
+      }
+      document.getElementById("engagementMetrics").innerHTML = engHtml;
 
       // Contractor metrics
       fetch("/api/contractor-admin?action=stats&key=" + encodeURIComponent(adminKey))

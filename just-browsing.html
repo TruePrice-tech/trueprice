@@ -93,5 +93,16 @@
 
 <footer class="site-footer"><div class="container"><p>TruePrice helps you understand fair pricing before you sign. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
 <script src="/js/tp-analytics.min.js" async></script>
+<script>
+// Track which vertical users click from the browsing page
+document.querySelectorAll(".jb-card").forEach(function(card) {
+  card.addEventListener("click", function() {
+    var vertical = card.querySelector("h3") ? card.querySelector("h3").textContent.trim() : "unknown";
+    if (typeof tpTrack === "function") {
+      tpTrack("just_browsing_click", { vertical: vertical, href: card.href || "" });
+    }
+  });
+});
+</script>
 </body>
 </html>
