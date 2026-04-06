@@ -610,6 +610,57 @@
       updateCompareBtn();
     };
 
+    // Build context-aware explanation for price differences
+    function buildPriceExplanation(active) {
+      if (active.length < 2) return "";
+      var priced = active.filter(function(a) { return a.data.price > 0; });
+      if (priced.length < 2) return "";
+
+      priced.sort(function(a, b) { return a.data.price - b.data.price; });
+      var cheapest = priced[0];
+      var most = priced[priced.length - 1];
+      var diff = most.data.price - cheapest.data.price;
+      var pctDiff = Math.round(diff / cheapest.data.price * 100);
+
+      if (pctDiff < 5) return "These quotes are within 5% of each other -- the price difference is minimal.";
+
+      var parts = [];
+      parts.push(escHtml(most.data.contractor) + " is $" + diff.toLocaleString() + " (" + pctDiff + "%) more than " + escHtml(cheapest.data.contractor) + ".");
+
+      // Check what could explain the difference
+      var reasons = [];
+      // Material difference
+      var cheapMat = (cheapest.data.material || "").toLowerCase();
+      var expMat = (most.data.material || "").toLowerCase();
+      if (cheapMat && expMat && cheapMat !== expMat) {
+        reasons.push("different materials (" + escHtml(cheapest.data.material) + " vs " + escHtml(most.data.material) + ")");
+      }
+      // Scope difference
+      var cheapScope = 0, expScope = 0;
+      if (cheapest.data.scopeItems) { for (var k in cheapest.data.scopeItems) { if (cheapest.data.scopeItems[k] === "included") cheapScope++; } }
+      if (most.data.scopeItems) { for (var k in most.data.scopeItems) { if (most.data.scopeItems[k] === "included") expScope++; } }
+      if (expScope > cheapScope + 2) {
+        reasons.push("broader scope (" + expScope + " vs " + cheapScope + " items confirmed)");
+      } else if (cheapScope > expScope + 2) {
+        reasons.push("the cheaper quote actually includes more scope items (" + cheapScope + " vs " + expScope + ")");
+      }
+      // Warranty difference
+      var cheapWar = cheapest.data.warrantyYears || 0;
+      var expWar = most.data.warrantyYears || 0;
+      if (expWar > cheapWar + 2) {
+        reasons.push("stronger warranty (" + expWar + " vs " + cheapWar + " years)");
+      }
+
+      if (reasons.length > 0) {
+        parts.push("This may be due to " + reasons.join(", ") + ".");
+        parts.push("Compare the scope and materials carefully -- the cheapest quote isn't always the best value if it excludes important items.");
+      } else {
+        parts.push("The quotes appear to cover similar scope. Ask each contractor for a line-by-line breakdown to understand the difference.");
+      }
+
+      return parts.join(" ");
+    }
+
     function updateCompareBtn() {
       var count = quotes.filter(function(q) { return q !== null; }).length;
       var btn = document.getElementById("compareBtn");
@@ -821,10 +872,15 @@
       html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">TruePrice Quote Analysis</p>';
       if (isTight) {
         html += '<p class="cq-winner-title">These quotes are closely matched</p>';
-        html += '<p class="cq-winner-sub">Scores are within 5 points. Review the details and questions below to decide.</p>';
+        html += '<p class="cq-winner-sub">Scores are within 5 points. Price differences may reflect different materials, scope, or warranty. Review the details below to understand what each quote includes.</p>';
       } else {
         html += '<p class="cq-winner-title">' + escHtml(bestValue.data.contractor) + ' shows the best overall value</p>';
-        html += '<p class="cq-winner-sub">Based on price, scope completeness, warranty, and transparency. See questions to ask each contractor below.</p>';
+        html += '<p class="cq-winner-sub">Based on price, scope completeness, warranty, and transparency.</p>';
+      }
+      // Context-aware explanation of price differences
+      var priceExplanation = buildPriceExplanation(active);
+      if (priceExplanation) {
+        html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + priceExplanation + '</p>';
       }
       html += '</div></div>';
 

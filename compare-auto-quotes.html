@@ -612,10 +612,30 @@
       html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">TruePrice Quote Analysis</p>';
       if (isTight) {
         html += '<p class="caq-winner-title">These quotes are closely matched</p>';
-        html += '<p class="caq-winner-sub">Scores are within 5 points. Review the details below to decide.</p>';
+        html += '<p class="caq-winner-sub">Scores are within 5 points. Price differences may reflect different parts quality (OEM vs aftermarket), labor rates, or warranty coverage. Review the details below.</p>';
       } else {
         html += '<p class="caq-winner-title">' + escHtml(bestValue.data.shopName) + ' shows the best overall value</p>';
         html += '<p class="caq-winner-sub">Based on price, scope transparency, warranty, and parts quality.</p>';
+      }
+      // Price context
+      var priced = active.filter(function(a){return a.data.price>0;});
+      if (priced.length >= 2) {
+        priced.sort(function(a,b){return a.data.price-b.data.price;});
+        var diff = priced[priced.length-1].data.price - priced[0].data.price;
+        var pct = Math.round(diff/priced[0].data.price*100);
+        if (pct > 5) {
+          var reasons = [];
+          var cheapParts = (priced[0].data.partsType||"").toLowerCase();
+          var expParts = (priced[priced.length-1].data.partsType||"").toLowerCase();
+          if (cheapParts && expParts && cheapParts !== expParts) reasons.push("different parts quality (" + cheapParts + " vs " + expParts + ")");
+          var cheapRate = priced[0].data.laborRate||0;
+          var expRate = priced[priced.length-1].data.laborRate||0;
+          if (cheapRate && expRate && expRate > cheapRate*1.2) reasons.push("higher labor rate ($" + expRate + "/hr vs $" + cheapRate + "/hr)");
+          var ctx = escHtml(priced[priced.length-1].data.shopName) + " is $" + diff.toLocaleString() + " (" + pct + "%) more. ";
+          ctx += reasons.length ? "This may reflect " + reasons.join(", ") + ". " : "";
+          ctx += "A higher price doesn't always mean overcharging -- it may include better parts, longer warranty, or more thorough work.";
+          html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + ctx + '</p>';
+        }
       }
       html += '</div></div>';
 
