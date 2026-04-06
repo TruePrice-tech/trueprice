@@ -27,6 +27,11 @@
 <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg">
 
 <link rel="stylesheet" href="/css/trueprice.min.css">
+<style>
+@media(max-width:600px){
+  div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}
+}
+</style>
 
 <script type="application/ld+json">
 {
@@ -145,6 +150,22 @@ Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
 <span class="hero-meta-label">Tile</span>
 <span class="hero-meta-value">{{CITY_RATE_TILE}}/sq</span>
 </div>
+<div class="hero-meta-item">
+<span class="hero-meta-label">Cedar</span>
+<span class="hero-meta-value">{{CITY_RATE_CEDAR}}/sq</span>
+</div>
+<div class="hero-meta-item">
+<span class="hero-meta-label">Flat</span>
+<span class="hero-meta-value">{{CITY_RATE_FLAT}}/sq</span>
+</div>
+<div class="hero-meta-item">
+<span class="hero-meta-label">Slate</span>
+<span class="hero-meta-value">{{CITY_RATE_SLATE}}/sq</span>
+</div>
+<div class="hero-meta-item">
+<span class="hero-meta-label">Concrete</span>
+<span class="hero-meta-value">{{CITY_RATE_CONCRETE}}/sq</span>
+</div>
 </div>
 
 </div>
@@ -152,18 +173,60 @@ Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
 
 <main class="container" style="padding-top:32px; padding-bottom:32px;">
 
-<!-- 2. CTA box -->
-<div class="cta-box">
-<h2>Check My Price in {{CITY}}</h2>
-<p>
-Upload a contractor quote for an instant price check, or get a personalized estimate for your roof.
-</p>
-<div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-<a class="btn" href="/analyze-quote.html?city={{CITY}}&state={{STATE_CODE}}">Check My Price in {{CITY}}</a>
-<a class="btn-outline" href="/compare-quotes.html">or compare quotes side by side</a>
+<!-- 2. Dual CTA -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+<div class="cta-box" style="text-align:center;">
+<h3 style="margin-top:0;font-size:18px;">I have a quote</h3>
+<p style="font-size:14px;color:var(--text-secondary);">Upload it and Trudy checks every line item against {{CITY}} market data.</p>
+<a class="btn" href="/analyze-quote.html?city={{CITY}}&state={{STATE_CODE}}">Check My Quote</a>
+</div>
+<div class="cta-box" style="text-align:center;background:#f0fdf4;border-color:#bbf7d0;">
+<h3 style="margin-top:0;font-size:18px;">Just shopping around?</h3>
+<p style="font-size:14px;color:var(--text-secondary);">Use the calculator below to see fair prices for your roof in {{CITY}}.</p>
+<a class="btn" href="#calcResult" style="background:#16a34a;">See Fair Prices</a>
 </div>
 </div>
-<p style="text-align:center; margin-top:12px; font-size:14px;"><a href="/roof-replacement-cost-guide.html" style="color:var(--brand);">Read our Roofing Cost Guide</a> for national averages, material comparisons, and money-saving tips.</p>
+<p style="text-align:center;font-size:14px;"><a href="/compare-quotes.html" style="color:var(--brand);">Compare multiple quotes side by side</a> &bull; <a href="/find-contractors.html?state={{STATE_CODE}}" style="color:var(--brand);">Find contractors in {{STATE_CODE}}</a></p>
+
+<!-- 2b. Instant Calculator -->
+<section class="section">
+<h2>Instant Roof Cost Calculator</h2>
+<p>Enter your roof size and pick a material to see your estimated cost in {{CITY}}.</p>
+<div style="display:flex;flex-wrap:wrap;gap:16px;margin:16px 0;">
+<div style="flex:1;min-width:200px;">
+<label style="font-size:13px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px;">Roof Size (sq ft)</label>
+<input type="range" id="calcSize" min="800" max="4000" value="2000" step="100" style="width:100%;" oninput="updateCalc()" />
+<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);"><span>800</span><span id="calcSizeLabel">2,000 sq ft</span><span>4,000</span></div>
+</div>
+<div style="flex:1;min-width:200px;">
+<label style="font-size:13px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px;">Material</label>
+<select id="calcMaterial" onchange="updateCalc()" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:14px;">
+<option value="asphalt">Asphalt 3-Tab</option>
+<option value="architectural" selected>Architectural Shingle</option>
+<option value="metal">Standing Seam Metal</option>
+<option value="tile">Clay/Concrete Tile</option>
+<option value="cedar">Cedar Shake</option>
+<option value="flat">Flat/TPO/EPDM</option>
+<option value="slate">Natural Slate</option>
+<option value="concrete">Concrete Tile</option>
+</select>
+</div>
+</div>
+<div id="calcResult" style="text-align:center;padding:24px;background:var(--bg-subtle);border-radius:12px;border:1px solid var(--border);">
+<div style="font-size:14px;color:var(--text-muted);">Estimated Cost in {{CITY}}</div>
+<div style="font-size:36px;font-weight:800;color:var(--brand);" id="calcPrice">$12,150</div>
+<div style="font-size:13px;color:var(--text-secondary);" id="calcRange">Range: $9,800 - $14,500</div>
+<div style="font-size:12px;color:var(--text-muted);margin-top:8px;" id="calcPerSqFt">$6.08 per sq ft</div>
+</div>
+</section>
+
+<!-- 2c. Live Widget -->
+<section class="section">
+<h2>Live Pricing Widget</h2>
+<p>Interactive pricing data for {{CITY}}. This same widget can be embedded on any website.</p>
+<script src="https://truepricehq.com/widget/tp-widget.js" data-service="roofing" data-city="{{CITY}}" data-state="{{STATE_CODE}}" async></script>
+<p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Want this on your site? <a href="/widget.html" style="color:var(--brand);">Get the embed code</a></p>
+</section>
 
 <!-- 3. Price comparison bar chart -->
 <section class="section">
@@ -176,6 +239,15 @@ Upload a contractor quote for an instant price check, or get a personalized esti
 <section class="section">
 <h2>Cost by House Size and Material in {{CITY}}</h2>
 {{HOUSE_SIZE_TABLE}}
+</section>
+
+<!-- 4b. Material Comparison -->
+<section class="section">
+<h2>Roofing Materials Compared</h2>
+<p>Side-by-side comparison of all materials available in {{CITY}}.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+{{MATERIAL_COMPARISON_CARDS}}
+</div>
 </section>
 
 <!-- 5. Local context cards -->
@@ -405,5 +477,23 @@ TruePrice helps homeowners and car owners analyze contractor and mechanic quotes
 })();
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
+<script>
+var CITY_PRICES = {{CITY_PRICES_JSON}};
+function updateCalc() {
+  var size = parseInt(document.getElementById("calcSize").value);
+  var mat = document.getElementById("calcMaterial").value;
+  document.getElementById("calcSizeLabel").textContent = size.toLocaleString() + " sq ft";
+  if (CITY_PRICES && CITY_PRICES[mat]) {
+    var perSqFt = CITY_PRICES[mat] / 2000;
+    var est = Math.round(perSqFt * size);
+    var lo = Math.round(est * 0.85);
+    var hi = Math.round(est * 1.15);
+    document.getElementById("calcPrice").textContent = "$" + est.toLocaleString();
+    document.getElementById("calcRange").textContent = "Range: $" + lo.toLocaleString() + " - $" + hi.toLocaleString();
+    document.getElementById("calcPerSqFt").textContent = "$" + perSqFt.toFixed(2) + " per sq ft";
+  }
+}
+updateCalc();
+</script>
 </body>
 </html>

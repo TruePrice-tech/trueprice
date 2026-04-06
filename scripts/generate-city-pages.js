@@ -1026,6 +1026,8 @@ ${faqHtml}
 
     loadCityPricing();
   </script>
+  <script src="/js/city-enhance.js" defer></script>
+  <script src="/js/tp-analytics.min.js" async></script>
 </body>
 </html>
 `;
