@@ -1,0 +1,350 @@
+{
+  "metadata": {
+    "sources": "HomeAdvisor, Angi, painting contractor surveys, Sherwin-Williams/Benjamin Moore",
+    "baseYear": 2026
+  },
+  "stateMultipliers": {
+    "AL": 0.85,
+    "AK": 1.15,
+    "AZ": 0.95,
+    "AR": 0.8,
+    "CA": 1.22,
+    "CO": 1.05,
+    "CT": 1.15,
+    "DE": 1.05,
+    "FL": 0.92,
+    "GA": 0.88,
+    "HI": 1.18,
+    "ID": 0.9,
+    "IL": 1.02,
+    "IN": 0.9,
+    "IA": 0.88,
+    "KS": 0.88,
+    "KY": 0.85,
+    "LA": 0.88,
+    "ME": 1.0,
+    "MD": 1.08,
+    "MA": 1.15,
+    "MI": 0.92,
+    "MN": 0.98,
+    "MS": 0.82,
+    "MO": 0.88,
+    "MT": 0.95,
+    "NE": 0.88,
+    "NV": 1.0,
+    "NH": 1.05,
+    "NJ": 1.12,
+    "NM": 0.9,
+    "NY": 1.18,
+    "NC": 0.9,
+    "ND": 0.9,
+    "OH": 0.92,
+    "OK": 0.85,
+    "OR": 1.05,
+    "PA": 1.0,
+    "RI": 1.08,
+    "SC": 0.85,
+    "SD": 0.88,
+    "TN": 0.85,
+    "TX": 0.9,
+    "UT": 0.92,
+    "VT": 1.0,
+    "VA": 0.95,
+    "WA": 1.1,
+    "WV": 0.8,
+    "WI": 0.92,
+    "WY": 0.92,
+    "DC": 1.2
+  },
+  "laborRates": {
+    "low": 25,
+    "mid": 50,
+    "high": 75,
+    "per_sqft_interior": [
+      2,
+      6
+    ],
+    "per_sqft_exterior": [
+      1.5,
+      4
+    ]
+  },
+  "commonJobs": {
+    "interior_room": {
+      "label": "Interior Room (avg 12x12)",
+      "total": [
+        300,
+        800
+      ],
+      "labor_hrs": [
+        4,
+        8
+      ],
+      "parts": [
+        50,
+        150
+      ],
+      "urgency": "can_wait"
+    },
+    "interior_whole_house": {
+      "label": "Interior Whole House (2000 sqft)",
+      "total": [
+        2000,
+        6000
+      ],
+      "labor_hrs": [
+        30,
+        60
+      ],
+      "parts": [
+        400,
+        1200
+      ],
+      "urgency": "can_wait"
+    },
+    "exterior_whole_house": {
+      "label": "Exterior Whole House",
+      "total": [
+        2500,
+        7000
+      ],
+      "labor_hrs": [
+        40,
+        80
+      ],
+      "parts": [
+        500,
+        1500
+      ],
+      "urgency": "can_wait"
+    },
+    "cabinet_painting": {
+      "label": "Kitchen Cabinet Painting",
+      "total": [
+        1500,
+        4000
+      ],
+      "labor_hrs": [
+        20,
+        40
+      ],
+      "parts": [
+        200,
+        600
+      ],
+      "urgency": "can_wait"
+    },
+    "deck_staining": {
+      "label": "Deck Staining/Sealing",
+      "total": [
+        500,
+        2000
+      ],
+      "labor_hrs": [
+        6,
+        15
+      ],
+      "parts": [
+        100,
+        400
+      ],
+      "urgency": "can_wait"
+    },
+    "trim_painting": {
+      "label": "Trim/Baseboards (whole house)",
+      "total": [
+        800,
+        2500
+      ],
+      "labor_hrs": [
+        10,
+        25
+      ],
+      "parts": [
+        100,
+        400
+      ],
+      "urgency": "can_wait"
+    },
+    "ceiling_painting": {
+      "label": "Ceiling Painting (per room)",
+      "total": [
+        150,
+        400
+      ],
+      "labor_hrs": [
+        2,
+        4
+      ],
+      "parts": [
+        30,
+        80
+      ],
+      "urgency": "can_wait"
+    },
+    "accent_wall": {
+      "label": "Accent Wall",
+      "total": [
+        100,
+        300
+      ],
+      "labor_hrs": [
+        2,
+        4
+      ],
+      "parts": [
+        30,
+        80
+      ],
+      "urgency": "can_wait"
+    },
+    "popcorn_removal": {
+      "label": "Popcorn Ceiling Removal (per room)",
+      "total": [
+        300,
+        800
+      ],
+      "labor_hrs": [
+        4,
+        8
+      ],
+      "parts": [
+        20,
+        50
+      ],
+      "urgency": "can_wait",
+      "notes": "Pre-1980 homes may contain asbestos. Test before removal."
+    },
+    "pressure_washing": {
+      "label": "Pressure Washing (before exterior)",
+      "total": [
+        200,
+        600
+      ],
+      "labor_hrs": [
+        2,
+        5
+      ],
+      "parts": [
+        20,
+        50
+      ],
+      "urgency": "can_wait"
+    }
+  },
+  "paintQuality": {
+    "economy": {
+      "label": "Economy (Glidden, Valspar)",
+      "per_gallon": [
+        25,
+        40
+      ],
+      "coverage": "350 sqft/gal",
+      "coats_needed": 2,
+      "lifespan_interior": "3-5 years",
+      "lifespan_exterior": "3-5 years"
+    },
+    "mid": {
+      "label": "Mid-Range (Behr, PPG)",
+      "per_gallon": [
+        35,
+        55
+      ],
+      "coverage": "400 sqft/gal",
+      "coats_needed": 2,
+      "lifespan_interior": "5-8 years",
+      "lifespan_exterior": "5-7 years"
+    },
+    "premium": {
+      "label": "Premium (Sherwin-Williams, Benjamin Moore)",
+      "per_gallon": [
+        50,
+        80
+      ],
+      "coverage": "400 sqft/gal",
+      "coats_needed": "1-2",
+      "lifespan_interior": "8-12 years",
+      "lifespan_exterior": "7-10 years"
+    }
+  },
+  "commonUpsells": [
+    {
+      "item": "Primer coat (separate)",
+      "cost": [
+        200,
+        500
+      ],
+      "necessary": "sometimes",
+      "notes": "Needed for dark-to-light color changes or bare drywall. Premium paints include primer."
+    },
+    {
+      "item": "Color consultation",
+      "cost": [
+        100,
+        300
+      ],
+      "necessary": "rarely",
+      "notes": "Many paint stores offer this free. Sherwin-Williams has free color matching."
+    },
+    {
+      "item": "Lead paint testing",
+      "cost": [
+        200,
+        500
+      ],
+      "necessary": "verify",
+      "notes": "Required for pre-1978 homes. Federal law (EPA RRP Rule)."
+    },
+    {
+      "item": "Wallpaper removal",
+      "cost": [
+        300,
+        800
+      ],
+      "necessary": "if_applicable",
+      "notes": "Per room. Necessary if painting over wallpaper."
+    }
+  ],
+  "scopeCheckItems": [
+    {
+      "key": "laborRate",
+      "label": "Labor rate or per-sqft price stated",
+      "weight": 12
+    },
+    {
+      "key": "paintBrand",
+      "label": "Paint brand/quality specified",
+      "weight": 12
+    },
+    {
+      "key": "coats",
+      "label": "Number of coats specified",
+      "weight": 10
+    },
+    {
+      "key": "prepWork",
+      "label": "Prep work included (sanding, patching, caulking)",
+      "weight": 15
+    },
+    {
+      "key": "primerIncluded",
+      "label": "Primer included or noted",
+      "weight": 8
+    },
+    {
+      "key": "warranty",
+      "label": "Warranty on workmanship",
+      "weight": 10
+    },
+    {
+      "key": "furniture",
+      "label": "Furniture moving/covering included",
+      "weight": 6
+    },
+    {
+      "key": "cleanup",
+      "label": "Cleanup and touch-up included",
+      "weight": 8
+    }
+  ]
+}

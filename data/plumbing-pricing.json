@@ -1,0 +1,371 @@
+{
+  "metadata": {
+    "sources": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys",
+    "baseYear": 2026
+  },
+  "stateMultipliers": {
+    "AL": 0.85,
+    "AK": 1.15,
+    "AZ": 0.95,
+    "AR": 0.8,
+    "CA": 1.22,
+    "CO": 1.05,
+    "CT": 1.15,
+    "DE": 1.05,
+    "FL": 0.92,
+    "GA": 0.88,
+    "HI": 1.18,
+    "ID": 0.9,
+    "IL": 1.02,
+    "IN": 0.9,
+    "IA": 0.88,
+    "KS": 0.88,
+    "KY": 0.85,
+    "LA": 0.88,
+    "ME": 1.0,
+    "MD": 1.08,
+    "MA": 1.15,
+    "MI": 0.92,
+    "MN": 0.98,
+    "MS": 0.82,
+    "MO": 0.88,
+    "MT": 0.95,
+    "NE": 0.88,
+    "NV": 1.0,
+    "NH": 1.05,
+    "NJ": 1.12,
+    "NM": 0.9,
+    "NY": 1.18,
+    "NC": 0.9,
+    "ND": 0.9,
+    "OH": 0.92,
+    "OK": 0.85,
+    "OR": 1.05,
+    "PA": 1.0,
+    "RI": 1.08,
+    "SC": 0.85,
+    "SD": 0.88,
+    "TN": 0.85,
+    "TX": 0.9,
+    "UT": 0.92,
+    "VT": 1.0,
+    "VA": 0.95,
+    "WA": 1.1,
+    "WV": 0.8,
+    "WI": 0.92,
+    "WY": 0.92,
+    "DC": 1.2
+  },
+  "laborRates": {
+    "low": 75,
+    "mid": 110,
+    "high": 175,
+    "emergency": 200
+  },
+  "commonJobs": {
+    "water_heater_tank": {
+      "label": "Water Heater (Tank)",
+      "total": [
+        800,
+        2000
+      ],
+      "labor_hrs": [
+        2,
+        4
+      ],
+      "parts": [
+        400,
+        1200
+      ],
+      "urgency": "soon"
+    },
+    "water_heater_tankless": {
+      "label": "Water Heater (Tankless)",
+      "total": [
+        2000,
+        4500
+      ],
+      "labor_hrs": [
+        4,
+        8
+      ],
+      "parts": [
+        1200,
+        3000
+      ],
+      "urgency": "soon"
+    },
+    "whole_house_repipe": {
+      "label": "Whole House Repipe",
+      "total": [
+        2000,
+        6000
+      ],
+      "labor_hrs": [
+        15,
+        40
+      ],
+      "parts": [
+        500,
+        2000
+      ],
+      "urgency": "can_wait"
+    },
+    "sewer_line_repair": {
+      "label": "Sewer Line Repair",
+      "total": [
+        1500,
+        5000
+      ],
+      "labor_hrs": [
+        4,
+        12
+      ],
+      "parts": [
+        500,
+        2000
+      ],
+      "urgency": "critical"
+    },
+    "sewer_line_replace": {
+      "label": "Sewer Line Replacement",
+      "total": [
+        3000,
+        10000
+      ],
+      "labor_hrs": [
+        8,
+        20
+      ],
+      "parts": [
+        1500,
+        5000
+      ],
+      "urgency": "critical"
+    },
+    "drain_cleaning": {
+      "label": "Drain Cleaning/Unclog",
+      "total": [
+        150,
+        500
+      ],
+      "labor_hrs": [
+        0.5,
+        2
+      ],
+      "parts": [
+        0,
+        50
+      ],
+      "urgency": "soon"
+    },
+    "toilet_install": {
+      "label": "Toilet Installation",
+      "total": [
+        200,
+        600
+      ],
+      "labor_hrs": [
+        1,
+        2
+      ],
+      "parts": [
+        100,
+        400
+      ],
+      "urgency": "soon"
+    },
+    "faucet_install": {
+      "label": "Faucet Installation",
+      "total": [
+        150,
+        400
+      ],
+      "labor_hrs": [
+        1,
+        2
+      ],
+      "parts": [
+        50,
+        250
+      ],
+      "urgency": "can_wait"
+    },
+    "garbage_disposal": {
+      "label": "Garbage Disposal Install",
+      "total": [
+        200,
+        500
+      ],
+      "labor_hrs": [
+        1,
+        2
+      ],
+      "parts": [
+        100,
+        300
+      ],
+      "urgency": "can_wait"
+    },
+    "sump_pump": {
+      "label": "Sump Pump Install",
+      "total": [
+        500,
+        1500
+      ],
+      "labor_hrs": [
+        2,
+        5
+      ],
+      "parts": [
+        200,
+        800
+      ],
+      "urgency": "soon"
+    },
+    "gas_line_install": {
+      "label": "Gas Line Installation",
+      "total": [
+        500,
+        2000
+      ],
+      "labor_hrs": [
+        2,
+        6
+      ],
+      "parts": [
+        200,
+        800
+      ],
+      "urgency": "can_wait"
+    },
+    "leak_repair": {
+      "label": "Pipe Leak Repair",
+      "total": [
+        150,
+        500
+      ],
+      "labor_hrs": [
+        1,
+        3
+      ],
+      "parts": [
+        20,
+        100
+      ],
+      "urgency": "critical"
+    },
+    "water_softener": {
+      "label": "Water Softener Install",
+      "total": [
+        800,
+        2500
+      ],
+      "labor_hrs": [
+        2,
+        4
+      ],
+      "parts": [
+        500,
+        1800
+      ],
+      "urgency": "can_wait"
+    },
+    "backflow_preventer": {
+      "label": "Backflow Preventer",
+      "total": [
+        200,
+        800
+      ],
+      "labor_hrs": [
+        1,
+        3
+      ],
+      "parts": [
+        100,
+        400
+      ],
+      "urgency": "can_wait"
+    }
+  },
+  "commonUpsells": [
+    {
+      "item": "Camera inspection",
+      "cost": [
+        100,
+        400
+      ],
+      "necessary": "sometimes",
+      "notes": "Useful for diagnosing hidden issues. Not needed for simple clogs."
+    },
+    {
+      "item": "Whole-house water filter",
+      "cost": [
+        500,
+        2000
+      ],
+      "necessary": "rarely",
+      "notes": "Only if water quality test shows issues."
+    },
+    {
+      "item": "Expansion tank",
+      "cost": [
+        200,
+        400
+      ],
+      "necessary": "sometimes",
+      "notes": "Required by code in some areas with closed water systems."
+    },
+    {
+      "item": "PRV replacement",
+      "cost": [
+        300,
+        600
+      ],
+      "necessary": "verify",
+      "notes": "Pressure reducing valve. Only if water pressure exceeds 80 PSI."
+    }
+  ],
+  "scopeCheckItems": [
+    {
+      "key": "laborRate",
+      "label": "Labor rate stated",
+      "weight": 12
+    },
+    {
+      "key": "partsItemized",
+      "label": "Parts itemized separately",
+      "weight": 15
+    },
+    {
+      "key": "permit",
+      "label": "Permits included",
+      "weight": 8
+    },
+    {
+      "key": "warranty",
+      "label": "Warranty on parts and labor",
+      "weight": 12
+    },
+    {
+      "key": "cleanup",
+      "label": "Cleanup and disposal included",
+      "weight": 6
+    },
+    {
+      "key": "materialSpec",
+      "label": "Material type specified (PEX, copper, PVC)",
+      "weight": 10
+    },
+    {
+      "key": "codeCompliance",
+      "label": "Code compliance mentioned",
+      "weight": 8
+    },
+    {
+      "key": "diagnosticFee",
+      "label": "Diagnostic/service call fee noted",
+      "weight": 6
+    }
+  ]
+}

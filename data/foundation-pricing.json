@@ -1,0 +1,348 @@
+{
+  "metadata": {
+    "sources": "HomeAdvisor, Angi, structural engineer surveys, foundation contractor data",
+    "baseYear": 2026
+  },
+  "stateMultipliers": {
+    "AL": 0.85,
+    "AK": 1.15,
+    "AZ": 0.95,
+    "AR": 0.8,
+    "CA": 1.22,
+    "CO": 1.05,
+    "CT": 1.15,
+    "DE": 1.05,
+    "FL": 0.92,
+    "GA": 0.88,
+    "HI": 1.18,
+    "ID": 0.9,
+    "IL": 1.02,
+    "IN": 0.9,
+    "IA": 0.88,
+    "KS": 0.88,
+    "KY": 0.85,
+    "LA": 0.88,
+    "ME": 1.0,
+    "MD": 1.08,
+    "MA": 1.15,
+    "MI": 0.92,
+    "MN": 0.98,
+    "MS": 0.82,
+    "MO": 0.88,
+    "MT": 0.95,
+    "NE": 0.88,
+    "NV": 1.0,
+    "NH": 1.05,
+    "NJ": 1.12,
+    "NM": 0.9,
+    "NY": 1.18,
+    "NC": 0.9,
+    "ND": 0.9,
+    "OH": 0.92,
+    "OK": 0.85,
+    "OR": 1.05,
+    "PA": 1.0,
+    "RI": 1.08,
+    "SC": 0.85,
+    "SD": 0.88,
+    "TN": 0.85,
+    "TX": 0.9,
+    "UT": 0.92,
+    "VT": 1.0,
+    "VA": 0.95,
+    "WA": 1.1,
+    "WV": 0.8,
+    "WI": 0.92,
+    "WY": 0.92,
+    "DC": 1.2
+  },
+  "laborRates": {
+    "low": 100,
+    "mid": 150,
+    "high": 225
+  },
+  "commonJobs": {
+    "pier_push": {
+      "label": "Push Piers (per pier)",
+      "total": [
+        1000,
+        2500
+      ],
+      "labor_hrs": [
+        3,
+        6
+      ],
+      "parts": [
+        500,
+        1500
+      ],
+      "urgency": "critical"
+    },
+    "pier_helical": {
+      "label": "Helical Piers (per pier)",
+      "total": [
+        1500,
+        3500
+      ],
+      "labor_hrs": [
+        3,
+        6
+      ],
+      "parts": [
+        800,
+        2500
+      ],
+      "urgency": "critical"
+    },
+    "slabjacking": {
+      "label": "Slabjacking/Mudjacking",
+      "total": [
+        500,
+        1500
+      ],
+      "labor_hrs": [
+        2,
+        4
+      ],
+      "parts": [
+        200,
+        800
+      ],
+      "urgency": "soon"
+    },
+    "polyurethane_foam": {
+      "label": "Polyurethane Foam Injection",
+      "total": [
+        1000,
+        3000
+      ],
+      "labor_hrs": [
+        2,
+        5
+      ],
+      "parts": [
+        500,
+        2000
+      ],
+      "urgency": "soon"
+    },
+    "wall_anchors": {
+      "label": "Wall Anchors (per anchor)",
+      "total": [
+        500,
+        1500
+      ],
+      "labor_hrs": [
+        2,
+        4
+      ],
+      "parts": [
+        200,
+        800
+      ],
+      "urgency": "critical"
+    },
+    "carbon_fiber_straps": {
+      "label": "Carbon Fiber Wall Straps (per strap)",
+      "total": [
+        400,
+        1000
+      ],
+      "labor_hrs": [
+        1,
+        3
+      ],
+      "parts": [
+        200,
+        600
+      ],
+      "urgency": "soon"
+    },
+    "crack_injection": {
+      "label": "Foundation Crack Injection",
+      "total": [
+        300,
+        800
+      ],
+      "labor_hrs": [
+        1,
+        3
+      ],
+      "parts": [
+        50,
+        200
+      ],
+      "urgency": "soon"
+    },
+    "waterproofing_interior": {
+      "label": "Interior Waterproofing",
+      "total": [
+        3000,
+        8000
+      ],
+      "labor_hrs": [
+        15,
+        30
+      ],
+      "parts": [
+        1000,
+        3000
+      ],
+      "urgency": "soon"
+    },
+    "waterproofing_exterior": {
+      "label": "Exterior Waterproofing",
+      "total": [
+        5000,
+        15000
+      ],
+      "labor_hrs": [
+        20,
+        50
+      ],
+      "parts": [
+        2000,
+        5000
+      ],
+      "urgency": "can_wait"
+    },
+    "french_drain": {
+      "label": "French Drain (interior)",
+      "total": [
+        2000,
+        6000
+      ],
+      "labor_hrs": [
+        10,
+        20
+      ],
+      "parts": [
+        500,
+        2000
+      ],
+      "urgency": "soon"
+    },
+    "sump_pump_foundation": {
+      "label": "Sump Pump (with foundation work)",
+      "total": [
+        500,
+        1500
+      ],
+      "labor_hrs": [
+        2,
+        5
+      ],
+      "parts": [
+        200,
+        800
+      ],
+      "urgency": "soon"
+    },
+    "structural_engineer_report": {
+      "label": "Structural Engineer Report",
+      "total": [
+        300,
+        800
+      ],
+      "labor_hrs": [
+        2,
+        4
+      ],
+      "parts": [
+        0,
+        0
+      ],
+      "urgency": "critical",
+      "notes": "Get this BEFORE accepting any foundation repair quote."
+    }
+  },
+  "commonUpsells": [
+    {
+      "item": "Lifetime warranty",
+      "cost": [
+        500,
+        2000
+      ],
+      "necessary": "recommended",
+      "notes": "Foundation work should have transferable warranty. Worth it for resale value."
+    },
+    {
+      "item": "Cosmetic crack repair",
+      "cost": [
+        200,
+        500
+      ],
+      "necessary": "sometimes",
+      "notes": "Structural repair doesn't always include cosmetic finish. Clarify scope."
+    },
+    {
+      "item": "Grading/drainage improvement",
+      "cost": [
+        1000,
+        3000
+      ],
+      "necessary": "often",
+      "notes": "Poor drainage causes most foundation problems. Fixing the cause prevents recurrence."
+    },
+    {
+      "item": "Full basement waterproofing with repair",
+      "cost": [
+        5000,
+        15000
+      ],
+      "necessary": "verify",
+      "notes": "May not be needed if the foundation repair addresses the water issue."
+    }
+  ],
+  "redFlags": [
+    "No structural engineer assessment before recommending repairs",
+    "Quoting over the phone without inspecting the foundation",
+    "Recommending piers when crack injection would suffice",
+    "No permit mentioned (required in most jurisdictions)",
+    "Pressure to sign immediately (scare tactics about house collapsing)",
+    "No warranty or non-transferable warranty",
+    "Not addressing the root cause (drainage, grading)"
+  ],
+  "scopeCheckItems": [
+    {
+      "key": "engineerReport",
+      "label": "Structural engineer report referenced",
+      "weight": 15
+    },
+    {
+      "key": "repairMethod",
+      "label": "Repair method clearly specified",
+      "weight": 12
+    },
+    {
+      "key": "numPiers",
+      "label": "Number of piers/anchors specified",
+      "weight": 10
+    },
+    {
+      "key": "permit",
+      "label": "Permits included",
+      "weight": 10
+    },
+    {
+      "key": "warranty",
+      "label": "Warranty (transferable, lifetime preferred)",
+      "weight": 15
+    },
+    {
+      "key": "drainage",
+      "label": "Drainage/root cause addressed",
+      "weight": 10
+    },
+    {
+      "key": "timeline",
+      "label": "Project timeline stated",
+      "weight": 5
+    },
+    {
+      "key": "cleanup",
+      "label": "Cleanup and restoration included",
+      "weight": 8
+    }
+  ]
+}

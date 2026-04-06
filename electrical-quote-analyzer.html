@@ -662,7 +662,38 @@
           text = await extractImageText(file);
         }
 
-        setProgress(70, "Analyzing electrical quote...");
+        setProgress(50, "Sending to AI for analysis...");
+        
+        // Try API-first approach
+        var apiResult = null;
+        try {
+          var apiPayload = { text: text };
+          // Add image if available
+          if (file.type && file.type.startsWith("image/")) {
+            var reader = new FileReader();
+            var imgData = await new Promise(function(resolve, reject) {
+              reader.onload = function() { resolve(reader.result); };
+              reader.onerror = reject;
+              reader.readAsDataURL(file);
+            });
+            apiPayload.images = [imgData];
+          }
+          var apiResp = await fetch("/api/electrical-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiPayload)
+          });
+          if (apiResp.ok) {
+            var apiData = await apiResp.json();
+            if (apiData.success && apiData.data) {
+              apiResult = apiData.data;
+            }
+          }
+        } catch(apiErr) {
+          console.warn("API unavailable, using local parsing:", apiErr);
+        }
+        
+        setProgress(70, "Building analysis...");
         state.extractedText = text;
 
         // Use analyzer-parser.js for price extraction
