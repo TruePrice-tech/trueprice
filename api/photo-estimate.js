@@ -199,6 +199,12 @@ export default async function handler(req, res) {
   "additionalNotes": <any relevant observations about the roof>
 }
 
+CRITICAL EXTRACTION RULES:
+- ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
+- If you cannot find an explicit total, SUM the individual line item amounts.
+- redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
+- Never return null for a price field if there are dollar amounts visible anywhere in the document.
+
 Rules:
 - stories: Count rows of windows to determine stories. Two rows of windows = 2 stories. One row = 1 story.
 - complexity: "simple" = basic rectangle/L-shape, "moderate" = some dormers or valleys, "complex" = many angles

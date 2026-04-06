@@ -168,6 +168,12 @@ Return this exact JSON structure:
   "summary": <string - one paragraph plain-English summary of the bill and any concerns>
 }
 
+CRITICAL EXTRACTION RULES:
+- ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
+- If you cannot find an explicit total, SUM the individual line item amounts.
+- redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
+- Never return null for a price field if there are dollar amounts visible anywhere in the document.
+
 CRITICAL ANALYSIS RULES:
 - Extract ALL line items you can find
 - For each line item, identify CPT/HCPCS code if present
