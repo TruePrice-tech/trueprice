@@ -247,6 +247,22 @@
   <script src="/js/analyzer-ocr.js"></script>
 
   <script>
+  // Diagnostic: check if required functions loaded
+  window.addEventListener("load", function() {
+    var missing = [];
+    if (typeof parseUploadedComparisonFile !== "function") missing.push("parseUploadedComparisonFile");
+    if (typeof parseExtractedText !== "function") missing.push("parseExtractedText");
+    if (typeof loadVendorLibs !== "function") missing.push("loadVendorLibs");
+    if (missing.length > 0) {
+      console.error("[compare-quotes] Missing functions:", missing.join(", "));
+      var hint = document.querySelector(".cq-sub");
+      if (hint) hint.innerHTML += '<br><span style="color:#dc2626;font-size:13px;">Error: Some parsing libraries failed to load (' + missing.join(", ") + '). Try refreshing.</span>';
+    } else {
+      console.log("[compare-quotes] All required functions loaded OK");
+    }
+  });
+  </script>
+  <script>
   (function() {
     var quotes = [null, null, null]; // parsed data per slot
     var uploadCount = 0;
