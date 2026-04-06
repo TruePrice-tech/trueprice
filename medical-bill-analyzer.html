@@ -121,6 +121,7 @@
     .mb-table tr.mb-row-flagged { background: #fef2f2; }
     .mb-table .mb-flag-icon { color: #dc2626; font-weight: 700; }
     .mb-table .mb-ratio-high { color: #dc2626; font-weight: 700; }
+    .mb-table .mb-ratio-warn { color: #d97706; font-weight: 600; }
     .mb-table .mb-ratio-ok { color: #16a34a; }
 
     /* Bill check list */
@@ -502,38 +503,50 @@
       var lineItems = (api.lineItems || []).map(function(item) {
         var cpt = item.cptCode || "";
         var medicareRate = item.medicareRate || MEDICARE_RATES[cpt] || null;
-        var charged = item.charged || 0;
+        var charged = item.chargedAmount || item.charged || 0;
         var ratio = (medicareRate && medicareRate > 0) ? (charged / medicareRate) : null;
         return {
           service: item.service || item.description || "Medical service",
           cptCode: cpt,
           charged: charged,
           medicareRate: medicareRate,
+          commercialEstimate: item.commercialEstimate || null,
+          fairPriceRange: item.fairPriceRange || null,
           ratio: ratio,
-          flagged: ratio !== null && ratio > 3
+          overchargeFlag: item.overchargeFlag || null,
+          flagged: ratio !== null && ratio > 3,
+          isFacilityFee: item.isFacilityFee || false,
+          category: item.category || "other"
         };
       });
 
       var checks = {};
       BILL_CHECKS.forEach(function(c) {
-        if (api.checks && api.checks[c.key] !== undefined) {
-          checks[c.key] = api.checks[c.key];
-        } else {
-          checks[c.key] = null;
-        }
+        var val = null;
+        if (api.billChecks && api.billChecks[c.key] !== undefined) val = api.billChecks[c.key];
+        else if (api.checks && api.checks[c.key] !== undefined) val = api.checks[c.key];
+        checks[c.key] = val;
       });
 
       var redFlags = api.redFlags || [];
 
       return {
-        facility: api.facility || "Unknown Facility",
+        facility: api.facilityName || api.facility || "Unknown Facility",
         facilityType: api.facilityType || "",
         totalBilled: api.totalBilled || 0,
         insurancePaid: api.insurancePaid || 0,
-        youOwe: api.youOwe || 0,
+        adjustments: api.adjustments || 0,
+        youOwe: api.patientResponsibility || api.youOwe || 0,
         lineItems: lineItems,
         checks: checks,
         redFlags: redFlags,
+        // New enriched fields
+        unbundlingDetails: api.unbundlingDetails || [],
+        facilityComparison: api.facilityComparison || {},
+        noSurprisesFlags: api.noSurprisesFlags || [],
+        disputeActions: api.disputeActions || [],
+        pricingContext: api.pricingContext || null,
+        summary: api.summary || "",
         source: "api"
       };
     }
@@ -692,22 +705,29 @@
       if (r.lineItems.length > 0) {
         html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Line Items</h3>';
         html += '<div class="mb-table-wrap"><table class="mb-table"><thead><tr>';
-        html += '<th>Service</th><th>CPT</th><th>Charged</th><th>Medicare</th><th>Ratio</th><th>Flag</th>';
+        html += '<th>Service</th><th>CPT</th><th>Charged</th><th>Medicare</th><th>Fair Price</th><th>Ratio</th><th>Flag</th>';
         html += '</tr></thead><tbody>';
         r.lineItems.forEach(function(item) {
           var rowClass = item.flagged ? ' class="mb-row-flagged"' : '';
           html += '<tr' + rowClass + '>';
-          html += '<td>' + escHtml(item.service) + '</td>';
+          html += '<td>' + escHtml(item.service) + (item.isFacilityFee ? ' <span style="font-size:0.7rem;color:#94a3b8;">(facility)</span>' : '') + '</td>';
           html += '<td>' + escHtml(item.cptCode || '--') + '</td>';
           html += '<td>' + fmt(item.charged) + '</td>';
           html += '<td>' + (item.medicareRate ? fmt(item.medicareRate) : '--') + '</td>';
+          if (item.fairPriceRange) {
+            html += '<td style="font-size:0.8rem;">' + fmt(item.fairPriceRange[0]) + '-' + fmt(item.fairPriceRange[1]) + '</td>';
+          } else if (item.commercialEstimate) {
+            html += '<td>~' + fmt(item.commercialEstimate) + '</td>';
+          } else {
+            html += '<td>--</td>';
+          }
           if (item.ratio !== null) {
-            var ratioClass = item.ratio > 3 ? 'mb-ratio-high' : 'mb-ratio-ok';
+            var ratioClass = item.ratio > 3 ? 'mb-ratio-high' : item.ratio > 2 ? 'mb-ratio-warn' : 'mb-ratio-ok';
             html += '<td class="' + ratioClass + '">' + item.ratio.toFixed(1) + 'x</td>';
           } else {
             html += '<td>--</td>';
           }
-          html += '<td>' + (item.flagged ? '<span class="mb-flag-icon" title="Overcharge">&#9888;</span>' : '') + '</td>';
+          html += '<td>' + (item.overchargeFlag ? '<span class="mb-flag-icon" title="' + escHtml(item.overchargeFlag) + '">&#9888;</span>' : item.flagged ? '<span class="mb-flag-icon" title="Overcharge">&#9888;</span>' : '') + '</td>';
           html += '</tr>';
         });
         html += '</tbody></table></div></div>';
@@ -728,26 +748,100 @@
 
       // Red flags section
       if (r.redFlags.length > 0) {
-        html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#dc2626;">Red Flags</h3>';
+        html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#dc2626;">Red Flags (' + r.redFlags.length + ')</h3>';
         r.redFlags.forEach(function(flag) {
-          html += '<div class="mb-flag-card">';
-          html += '<h4>' + escHtml(flag.title) + '</h4>';
-          html += '<p class="mb-flag-why">' + escHtml(flag.why) + '</p>';
-          html += '<p class="mb-flag-action">' + escHtml(flag.action) + '</p>';
+          if (typeof flag === "string") {
+            html += '<div class="mb-flag-card"><p style="margin:0;color:#991b1b;">' + escHtml(flag) + '</p></div>';
+          } else {
+            html += '<div class="mb-flag-card">';
+            html += '<h4>' + escHtml(flag.title || "") + '</h4>';
+            if (flag.why) html += '<p class="mb-flag-why">' + escHtml(flag.why) + '</p>';
+            if (flag.action) html += '<p class="mb-flag-action">' + escHtml(flag.action) + '</p>';
+            html += '</div>';
+          }
+        });
+        html += '</div>';
+      }
+
+      // No Surprises Act flags
+      if (r.noSurprisesFlags && r.noSurprisesFlags.length > 0) {
+        html += '<div class="mb-card" style="background:#fef2f2;border-color:#fecaca;">';
+        html += '<h3 style="margin:0 0 1rem;font-size:1.1rem;color:#dc2626;">No Surprises Act Violations</h3>';
+        html += '<p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;">The No Surprises Act (2022) protects patients from surprise medical bills. These potential violations were detected:</p>';
+        r.noSurprisesFlags.forEach(function(flag) {
+          html += '<div style="padding:8px 12px;background:#fff;border:1px solid #fecaca;border-radius:8px;margin-bottom:8px;font-size:0.9rem;color:#991b1b;">' + escHtml(flag) + '</div>';
+        });
+        html += '<p style="font-size:0.85rem;color:#64748b;margin-top:8px;">File a complaint at <strong>cms.gov/nosurprises</strong> or call 1-800-985-3059.</p>';
+        html += '</div>';
+      }
+
+      // Facility comparison / savings
+      if (r.facilityComparison && (r.facilityComparison.estimatedSavingsAtASC || r.facilityComparison.estimatedSavingsAtImaging)) {
+        html += '<div class="mb-card" style="background:#f0fdf4;border-color:#bbf7d0;">';
+        html += '<h3 style="margin:0 0 1rem;font-size:1.1rem;color:#065f46;">Potential Savings at Other Facilities</h3>';
+        html += '<p style="font-size:0.85rem;color:#475569;margin-bottom:12px;">The same procedures may cost significantly less at a different facility type.</p>';
+        html += '<div style="display:flex;gap:12px;flex-wrap:wrap;">';
+        if (r.facilityComparison.estimatedSavingsAtASC) {
+          html += '<div style="flex:1;min-width:200px;padding:16px;background:#fff;border:1px solid #bbf7d0;border-radius:10px;text-align:center;">';
+          html += '<div style="font-size:0.8rem;color:#64748b;text-transform:uppercase;">Ambulatory Surgery Center</div>';
+          html += '<div style="font-size:1.5rem;font-weight:800;color:#16a34a;">Save ' + fmtWhole(r.facilityComparison.estimatedSavingsAtASC) + '</div>';
+          html += '<div style="font-size:0.8rem;color:#64748b;">vs hospital outpatient (avg 42% savings)</div>';
+          html += '</div>';
+        }
+        if (r.facilityComparison.estimatedSavingsAtImaging) {
+          html += '<div style="flex:1;min-width:200px;padding:16px;background:#fff;border:1px solid #bbf7d0;border-radius:10px;text-align:center;">';
+          html += '<div style="font-size:0.8rem;color:#64748b;text-transform:uppercase;">Freestanding Imaging Center</div>';
+          html += '<div style="font-size:1.5rem;font-weight:800;color:#16a34a;">Save ' + fmtWhole(r.facilityComparison.estimatedSavingsAtImaging) + '</div>';
+          html += '<div style="font-size:0.8rem;color:#64748b;">Same equipment, 40-60% less</div>';
+          html += '</div>';
+        }
+        html += '</div></div>';
+      }
+
+      // Unbundling details
+      if (r.unbundlingDetails && r.unbundlingDetails.length > 0) {
+        html += '<div class="mb-card" style="background:#fffbeb;border-color:#fde68a;">';
+        html += '<h3 style="margin:0 0 1rem;font-size:1.1rem;color:#92400e;">Unbundling Issues Detected</h3>';
+        html += '<p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;">These codes should not be billed together according to CMS NCCI Edits:</p>';
+        r.unbundlingDetails.forEach(function(v) {
+          html += '<div style="padding:8px 12px;background:#fff;border:1px solid #fde68a;border-radius:8px;margin-bottom:8px;font-size:0.9rem;">';
+          html += '<strong>CPT ' + escHtml((v.codes || []).join(' + ')) + ':</strong> ' + escHtml(v.rule);
           html += '</div>';
         });
         html += '</div>';
       }
 
-      // How to dispute section
-      html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">How to Dispute Your Bill</h3>';
+      // Geographic pricing context
+      if (r.pricingContext && r.pricingContext.state) {
+        html += '<div class="mb-card"><h3 style="margin:0 0 0.75rem;font-size:1.1rem;color:#1e293b;">Pricing Context</h3>';
+        html += '<p style="font-size:0.9rem;color:#475569;">Based on ' + escHtml(r.pricingContext.state) + ' pricing data. ';
+        html += 'Commercial rates in this state average <strong>' + (r.pricingContext.commercialMultiplier * 100).toFixed(0) + '% of Medicare</strong>. ';
+        html += 'Medicare rates adjusted by geographic factor of ' + r.pricingContext.stateMultiplier.toFixed(2) + 'x.</p>';
+        html += '<p style="font-size:0.8rem;color:#94a3b8;margin-top:4px;">Source: ' + escHtml(r.pricingContext.source || "CMS MPFS 2026") + '</p></div>';
+      }
+
+      // Dispute actions (from AI)
+      var disputeHtml = '';
+      if (r.disputeActions && r.disputeActions.length > 0) {
+        disputeHtml += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Recommended Actions</h3>';
+        disputeHtml += '<ol class="mb-tips">';
+        r.disputeActions.forEach(function(action) {
+          disputeHtml += '<li>' + escHtml(action) + '</li>';
+        });
+        disputeHtml += '</ol></div>';
+      }
+
+      // How to dispute section (generic fallback)
+      html += disputeHtml || '';
+      html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">General Dispute Tips</h3>';
       html += '<ul class="mb-tips">';
-      html += '<li>Request an itemized bill from the billing department with all CPT codes and descriptions.</li>';
-      html += '<li>Compare each CPT code to benchmark rates. Charges over 3x Medicare are worth questioning.</li>';
-      html += '<li>Call the billing department and reference specific line items that appear incorrect or overcharged.</li>';
-      html += '<li>File a formal appeal with your insurance company if covered services were denied or underpaid.</li>';
-      html += '<li>Contact your state insurance commissioner if the provider or insurer is unresponsive.</li>';
-      html += '<li>Ask for a cash-pay or self-pay discount if you are uninsured or paying out of pocket.</li>';
+      html += '<li>Request an itemized bill with all CPT codes and descriptions.</li>';
+      html += '<li>Charges over 3x Medicare rate are worth questioning.</li>';
+      html += '<li>Call billing and reference specific overcharged line items.</li>';
+      html += '<li>File a formal appeal with insurance if services were denied or underpaid.</li>';
+      html += '<li>Contact your state insurance commissioner if unresponsive.</li>';
+      html += '<li>Ask for cash-pay or self-pay discount if uninsured.</li>';
+      html += '<li>If bill exceeds a good faith estimate by $400+, dispute under the No Surprises Act.</li>';
       html += '</ul></div>';
 
       // Feedback

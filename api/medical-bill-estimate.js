@@ -1,4 +1,6 @@
 import { Redis } from "@upstash/redis";
+import fs from "fs";
+import path from "path";
 
 const redis = Redis.fromEnv();
 
@@ -111,7 +113,7 @@ export default async function handler(req, res) {
 
     content.push({
       type: "text",
-      text: `Analyze this medical bill, Explanation of Benefits (EOB), or healthcare invoice. Extract the following information and return ONLY valid JSON (no markdown, no explanation):
+      text: `Analyze this medical bill, Explanation of Benefits (EOB), or healthcare invoice. You are a medical billing expert. Extract information and return ONLY valid JSON (no markdown, no explanation):
 
 ${text ? "EXTRACTED TEXT FROM BILL:\n" + text.substring(0, 10000) + "\n\n" : ""}
 
@@ -124,45 +126,63 @@ Return this exact JSON structure:
   "facilityName": <string or null - hospital, clinic, or provider name>,
   "facilityType": <"hospital_outpatient" | "hospital_inpatient" | "emergency_room" | "physician_office" | "ambulatory_surgery_center" | "lab" | "imaging_center" | "urgent_care" | null>,
   "serviceDate": <string "YYYY-MM-DD" or null>,
+  "stateCode": <string two-letter state or null - state where services were provided>,
   "patientName": <string or null>,
   "insuranceName": <string or null>,
+  "isEmergency": <boolean - was this an emergency visit?>,
   "lineItems": [
     {
       "description": <string - service description>,
       "cptCode": <string or null - CPT/HCPCS code if listed>,
-      "quantity": <number or null>,
+      "quantity": <number, default 1>,
       "chargedAmount": <number or null>,
       "allowedAmount": <number or null - insurance allowed amount>,
       "insurancePaid": <number or null>,
       "patientOwes": <number or null>,
-      "category": <"office_visit" | "emergency" | "imaging" | "lab" | "surgery" | "maternity" | "mental_health" | "physical_therapy" | "inpatient" | "procedure" | "anesthesia" | "pharmacy" | "other">
+      "isFacilityFee": <boolean - is this a facility fee vs professional fee?>,
+      "category": <"office_visit" | "emergency" | "imaging" | "lab" | "surgery" | "maternity" | "mental_health" | "physical_therapy" | "inpatient" | "procedure" | "anesthesia" | "pharmacy" | "dental" | "other">
     }
   ],
   "billChecks": {
-    "cptCodes": <"yes" | "no" | "partial" - are CPT codes listed?>,
-    "itemized": <"yes" | "no" | "partial" - are charges itemized?>,
+    "cptCodes": <"yes" | "no" | "partial">,
+    "itemized": <"yes" | "no" | "partial">,
     "facility": <"yes" | "no" | "unclear" - facility vs professional fee separated?>,
-    "insuranceApplied": <"yes" | "no" | "unclear" - insurance adjustments applied?>,
-    "inNetwork": <"yes" | "no" | "unclear" - is provider in-network?>,
-    "duplicates": <"none_found" | "possible" | "unclear" - any duplicate charges?>,
-    "dateMatch": <"yes" | "no" | "unclear" - do dates look consistent?>,
-    "unbundling": <"none_found" | "possible" | "unclear" - any unbundled charges?>,
-    "upcoding": <"none_found" | "possible" | "unclear" - any potential upcoding?>,
-    "patientResponsibility": <"yes" | "no" | "unclear" - is patient amount clearly stated?>
+    "insuranceApplied": <"yes" | "no" | "unclear">,
+    "inNetwork": <"yes" | "no" | "unclear">,
+    "duplicates": <"none_found" | "possible" | "unclear">,
+    "dateMatch": <"yes" | "no" | "unclear">,
+    "unbundling": <"none_found" | "possible" | "unclear">,
+    "upcoding": <"none_found" | "possible" | "unclear">,
+    "patientResponsibility": <"yes" | "no" | "unclear">,
+    "noSurprisesCompliant": <"yes" | "no" | "unclear" | "not_applicable">
   },
+  "unbundlingDetails": [<array of {codes: [string], rule: string} if unbundling detected>],
+  "facilityComparison": {
+    "currentFacilityType": <string or null>,
+    "estimatedSavingsAtASC": <number or null - estimated $ savings if done at ambulatory surgery center>,
+    "estimatedSavingsAtImaging": <number or null - savings at freestanding imaging center>,
+    "applicableProcedures": [<CPT codes that could be done at lower-cost facility>]
+  },
+  "noSurprisesFlags": [<array of strings if any No Surprises Act violations detected: balance billing on emergency, OON at in-network facility, no good faith estimate, bill exceeds estimate by $400+>],
   "redFlags": [<array of strings describing any billing concerns, errors, or items worth disputing>],
+  "disputeActions": [<array of specific steps the patient should take, e.g. "Call billing at X and request itemized bill", "File appeal with insurance for CPT XXXXX", "Request cash/self-pay discount">],
   "summary": <string - one paragraph plain-English summary of the bill and any concerns>
 }
 
-Rules:
+CRITICAL ANALYSIS RULES:
 - Extract ALL line items you can find
-- For each line item, try to identify the CPT code if present
-- Flag any charges that seem unusually high for the service
+- For each line item, identify CPT/HCPCS code if present
+- Flag charges > 3x Medicare rate for that CPT code as potential overcharges
 - Flag duplicate charges (same CPT code, same date)
-- Flag potential upcoding (e.g., level 5 visit for what sounds routine)
-- If a screening colonoscopy was billed as diagnostic, flag it
-- Note if facility fees seem disproportionate
-- redFlags should list specific, actionable concerns the patient should dispute
+- Flag potential upcoding (level 5 visit for routine care, critical care for non-ICU)
+- Check for NCCI unbundling: flag if CMP (80053) billed with BMP (80048) or glucose (82947); if colonoscopy with biopsy (45380) also bills diagnostic (45378); if complete EKG (93000) also bills interpretation (93010); similar bundling violations
+- If screening colonoscopy/mammogram was billed as diagnostic, flag as possible ACA preventive care violation
+- If emergency visit and patient billed balance (above in-network rate), flag No Surprises Act violation
+- If out-of-network provider at in-network facility, flag No Surprises Act violation
+- Note facility fees: if facility fee > 30% of total, flag and calculate savings at ASC or freestanding center
+- For imaging (MRI, CT, X-ray), calculate savings at freestanding imaging center (typically 40-60% less)
+- For surgery done at hospital outpatient, calculate ASC savings (typically 42% less)
+- Provide specific, actionable dispute steps, not generic advice
 - Return ONLY the JSON object, nothing else`
     });
 
@@ -198,6 +218,85 @@ Rules:
     } catch (e) {
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
+    }
+
+    // Enrich with local pricing data
+    try {
+      const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'medical-cpt-pricing.json'), 'utf-8'));
+      const stateCode = (parsed.stateCode || "").toUpperCase();
+      const stateMult = pricingData.gpciLocalities?.stateMultipliers?.[stateCode] || 1.0;
+      const commercialMult = pricingData.commercialByState?.[stateCode] || 2.54;
+      const facilityType = parsed.facilityType || "hospital_outpatient";
+      const facilityMult = pricingData.facilityMultipliers?.[facilityType] || 1.0;
+
+      // Enrich each line item with Medicare benchmark
+      if (parsed.lineItems) {
+        for (const li of parsed.lineItems) {
+          if (li.cptCode && pricingData.commonCPTCodes?.[li.cptCode]) {
+            const cptData = pricingData.commonCPTCodes[li.cptCode];
+            li.medicareRate = Math.round(cptData.medicareRate * stateMult);
+            li.commercialEstimate = Math.round(cptData.medicareRate * commercialMult);
+            li.fairPriceRange = [
+              Math.round(cptData.medicareRate * stateMult),
+              Math.round(cptData.medicareRate * commercialMult * 1.1)
+            ];
+            if (li.chargedAmount && li.medicareRate > 0) {
+              li.chargeToMedicareRatio = Math.round((li.chargedAmount / li.medicareRate) * 100) / 100;
+              if (li.chargeToMedicareRatio > 3.5) {
+                li.overchargeFlag = "Charged " + li.chargeToMedicareRatio + "x Medicare rate";
+              }
+            }
+          }
+        }
+      }
+
+      // Server-side NCCI bundle check
+      if (parsed.lineItems && pricingData.ncciCommonBundles) {
+        const billedCodes = new Set(parsed.lineItems.map(li => li.cptCode).filter(Boolean));
+        const bundleViolations = [];
+        for (const bundle of pricingData.ncciCommonBundles) {
+          if (billedCodes.has(bundle.col1) && billedCodes.has(bundle.col2)) {
+            bundleViolations.push({
+              codes: [bundle.col1, bundle.col2],
+              rule: bundle.rule
+            });
+          }
+        }
+        if (bundleViolations.length > 0) {
+          parsed.unbundlingDetails = (parsed.unbundlingDetails || []).concat(bundleViolations);
+          for (const v of bundleViolations) {
+            const flag = "Possible unbundling: CPT " + v.codes[0] + " and " + v.codes[1] + " billed together. " + v.rule;
+            if (!parsed.redFlags.includes(flag)) parsed.redFlags.push(flag);
+          }
+        }
+      }
+
+      // Add geographic context
+      parsed.pricingContext = {
+        state: stateCode || null,
+        stateMultiplier: stateMult,
+        commercialMultiplier: commercialMult,
+        facilityType: facilityType,
+        facilityMultiplier: facilityMult,
+        source: "CMS MPFS 2026 + RAND 2024"
+      };
+
+      // Facility savings calculation
+      if (!parsed.facilityComparison) parsed.facilityComparison = {};
+      if (facilityType === "hospital_outpatient" || facilityType === "emergency_room") {
+        const ascMult = pricingData.facilityMultipliers?.ambulatory_surgery_center || 0.58;
+        const imagingMult = pricingData.facilityMultipliers?.freestanding_imaging || 0.40;
+        let surgeryTotal = 0, imagingTotal = 0;
+        for (const li of (parsed.lineItems || [])) {
+          if (li.category === "surgery" || li.category === "procedure") surgeryTotal += (li.chargedAmount || 0);
+          if (li.category === "imaging") imagingTotal += (li.chargedAmount || 0);
+        }
+        if (surgeryTotal > 0) parsed.facilityComparison.estimatedSavingsAtASC = Math.round(surgeryTotal * (1 - ascMult));
+        if (imagingTotal > 0) parsed.facilityComparison.estimatedSavingsAtImaging = Math.round(imagingTotal * (1 - imagingMult));
+      }
+    } catch(e) {
+      // Pricing enrichment failed -- still return AI results
+      console.log("[medical-bill-estimate] Pricing enrichment error:", e.message);
     }
 
     captureAnonymizedData("medical", parsed); // fire and forget

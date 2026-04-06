@@ -1,331 +1,1796 @@
 {
   "metadata": {
-    "source": "CMS Medicare Physician Fee Schedule + commercial rate estimates",
-    "baseYear": 2025,
-    "inflationRate": 0.04,
-    "notes": "Commercial rates are typically 1.5-3x Medicare rates. Ranges reflect geographic variation."
+    "source": "CMS MPFS 2026, RAND 2024, Milliman 2025",
+    "baseYear": 2026,
+    "conversionFactor": 33.4,
+    "inflationRate": 0.03,
+    "commercialMultipliers": {
+      "professional": 1.48,
+      "outpatient_facility": 2.63,
+      "inpatient_facility": 2.09,
+      "overall": 2.54
+    },
+    "codeCount": 146
   },
-  "regionalMultipliers": {
-    "northeast": 1.18,
-    "southeast": 0.95,
-    "midwest": 0.97,
-    "south": 0.92,
-    "mountain": 1.02,
-    "west": 1.25
+  "gpciLocalities": {
+    "notes": "GPCI adjusts Medicare by locality. PE GPCI has largest impact.",
+    "stateMultipliers": {
+      "AL": 0.9,
+      "AK": 1.25,
+      "AZ": 0.98,
+      "AR": 0.87,
+      "CA": 1.22,
+      "CO": 1.02,
+      "CT": 1.12,
+      "DE": 1.05,
+      "FL": 1.0,
+      "GA": 0.98,
+      "HI": 1.15,
+      "ID": 0.92,
+      "IL": 1.05,
+      "IN": 0.95,
+      "IA": 0.93,
+      "KS": 0.92,
+      "KY": 0.92,
+      "LA": 0.95,
+      "ME": 0.98,
+      "MD": 1.08,
+      "MA": 1.15,
+      "MI": 1.0,
+      "MN": 0.98,
+      "MS": 0.85,
+      "MO": 0.92,
+      "MT": 0.95,
+      "NE": 0.92,
+      "NV": 1.02,
+      "NH": 1.05,
+      "NJ": 1.15,
+      "NM": 0.93,
+      "NY": 1.18,
+      "NC": 0.95,
+      "ND": 0.93,
+      "OH": 0.98,
+      "OK": 0.9,
+      "OR": 1.05,
+      "PA": 1.02,
+      "RI": 1.08,
+      "SC": 0.93,
+      "SD": 0.9,
+      "TN": 0.93,
+      "TX": 0.98,
+      "UT": 0.95,
+      "VT": 0.98,
+      "VA": 1.0,
+      "WA": 1.1,
+      "WV": 0.88,
+      "WI": 0.98,
+      "WY": 0.95,
+      "DC": 1.15
+    }
   },
   "facilityMultipliers": {
     "hospital_outpatient": 1.0,
     "hospital_inpatient": 1.3,
-    "ambulatory_surgery_center": 0.65,
-    "physician_office": 0.5,
-    "emergency_room": 2.5,
-    "freestanding_imaging": 0.4
+    "ambulatory_surgery_center": 0.58,
+    "physician_office": 0.45,
+    "emergency_room": 2.8,
+    "freestanding_imaging": 0.4,
+    "freestanding_lab": 0.3,
+    "urgent_care": 0.7,
+    "notes": "ASC saves 42% vs HOPD. Freestanding imaging 40-60% less."
+  },
+  "commercialByState": {
+    "notes": "Commercial as % of Medicare (RAND 2024). Unlisted=2.54.",
+    "AR": 1.7,
+    "IA": 1.85,
+    "MA": 1.9,
+    "MI": 1.95,
+    "MS": 1.95,
+    "MN": 2.1,
+    "OH": 2.15,
+    "PA": 2.2,
+    "MO": 2.2,
+    "TN": 2.25,
+    "TX": 2.4,
+    "IL": 2.5,
+    "VA": 2.5,
+    "NC": 2.55,
+    "CO": 2.6,
+    "AZ": 2.6,
+    "OR": 2.7,
+    "WA": 2.75,
+    "NJ": 2.8,
+    "MD": 2.85,
+    "CA": 3.1,
+    "DE": 3.05,
+    "FL": 3.1,
+    "GA": 3.15,
+    "NY": 3.05,
+    "SC": 3.1,
+    "WV": 3.1,
+    "WI": 3.15
+  },
+  "ncciCommonBundles": [
+    {
+      "col1": "80053",
+      "col2": "80048",
+      "rule": "CMP includes BMP. Do not bill both."
+    },
+    {
+      "col1": "80053",
+      "col2": "82310",
+      "rule": "CMP includes calcium."
+    },
+    {
+      "col1": "80053",
+      "col2": "82947",
+      "rule": "CMP includes glucose."
+    },
+    {
+      "col1": "85025",
+      "col2": "85004",
+      "rule": "CBC w/diff includes manual diff."
+    },
+    {
+      "col1": "45380",
+      "col2": "45378",
+      "rule": "Colonoscopy w/biopsy includes diagnostic."
+    },
+    {
+      "col1": "45385",
+      "col2": "45378",
+      "rule": "Polypectomy includes diagnostic."
+    },
+    {
+      "col1": "45385",
+      "col2": "45380",
+      "rule": "Polypectomy includes biopsy."
+    },
+    {
+      "col1": "43239",
+      "col2": "43235",
+      "rule": "EGD w/biopsy includes diagnostic."
+    },
+    {
+      "col1": "93000",
+      "col2": "93010",
+      "rule": "Complete EKG includes interpretation."
+    },
+    {
+      "col1": "93000",
+      "col2": "93005",
+      "rule": "Complete EKG includes tracing."
+    },
+    {
+      "col1": "93306",
+      "col2": "93303",
+      "rule": "Complete echo includes limited."
+    },
+    {
+      "col1": "59510",
+      "col2": "59400",
+      "rule": "C-section includes vaginal attempt."
+    },
+    {
+      "col1": "77067",
+      "col2": "77066",
+      "rule": "Screening mammo not with diagnostic."
+    },
+    {
+      "col1": "29881",
+      "col2": "29880",
+      "rule": "Meniscectomy includes arthroscopy."
+    },
+    {
+      "col1": "47562",
+      "col2": "49320",
+      "rule": "Lap chole includes diagnostic lap."
+    },
+    {
+      "col1": "58571",
+      "col2": "58661",
+      "rule": "Hysterectomy includes cyst removal."
+    },
+    {
+      "col1": "12001",
+      "col2": "12002",
+      "rule": "Cannot bill overlapping repair sizes."
+    },
+    {
+      "col1": "99214",
+      "col2": "99213",
+      "rule": "Cannot bill two E&M same visit."
+    }
+  ],
+  "noSurprisesAct": {
+    "effectiveDate": "2022-01-01",
+    "violations": [
+      {
+        "flag": "balance_billing_emergency",
+        "desc": "Balance billing for emergency services prohibited."
+      },
+      {
+        "flag": "no_good_faith_estimate",
+        "desc": "Provider must give cost estimate before scheduled service."
+      },
+      {
+        "flag": "oon_at_inn_facility",
+        "desc": "OON provider at in-network facility cannot balance bill without consent."
+      },
+      {
+        "flag": "cost_exceed_estimate",
+        "desc": "If bill exceeds estimate by $400+, patient can dispute."
+      }
+    ]
+  },
+  "billingErrorStats": {
+    "errorRate": "49-80%",
+    "avgErrorOnLargeBill": 1300,
+    "initialDenialRate": 0.26,
+    "commonErrors": [
+      "Duplicate charges",
+      "Upcoding",
+      "Unbundling",
+      "Balance billing violations",
+      "Screening reclassified as diagnostic",
+      "Generic meds at brand prices",
+      "Facility fee at physician office",
+      "Wrong quantity/units"
+    ]
   },
   "commonCPTCodes": {
-    "99213": {
-      "description": "Office visit, established patient (level 3)",
+    "99202": {
+      "description": "New patient visit (L2)",
       "category": "office_visit",
-      "medicareRate": 110,
-      "commercialRange": [150, 300],
-      "notes": "Most common office visit code. 15-30 minute visit."
-    },
-    "99214": {
-      "description": "Office visit, established patient (level 4)",
-      "category": "office_visit",
-      "medicareRate": 165,
-      "commercialRange": [200, 400],
-      "notes": "Moderate complexity visit. 30-40 minutes."
-    },
-    "99215": {
-      "description": "Office visit, established patient (level 5)",
-      "category": "office_visit",
-      "medicareRate": 225,
-      "commercialRange": [300, 550],
-      "notes": "High complexity visit. 40-55 minutes."
+      "medicareRate": 76,
+      "commercialRange": [
+        100,
+        200
+      ],
+      "notes": "15-29 min"
     },
     "99203": {
-      "description": "Office visit, new patient (level 3)",
+      "description": "New patient visit (L3)",
       "category": "office_visit",
       "medicareRate": 135,
-      "commercialRange": [175, 350],
-      "notes": "New patient, low complexity. 30-45 minutes."
+      "commercialRange": [
+        175,
+        350
+      ],
+      "notes": "30-44 min"
     },
     "99204": {
-      "description": "Office visit, new patient (level 4)",
+      "description": "New patient visit (L4)",
       "category": "office_visit",
       "medicareRate": 205,
-      "commercialRange": [275, 500],
-      "notes": "New patient, moderate complexity. 45-60 minutes."
+      "commercialRange": [
+        275,
+        500
+      ],
+      "notes": "45-59 min"
+    },
+    "99205": {
+      "description": "New patient visit (L5)",
+      "category": "office_visit",
+      "medicareRate": 265,
+      "commercialRange": [
+        350,
+        650
+      ],
+      "notes": "60-74 min"
+    },
+    "99211": {
+      "description": "Established visit (L1)",
+      "category": "office_visit",
+      "medicareRate": 28,
+      "commercialRange": [
+        35,
+        80
+      ],
+      "notes": "Nurse visit"
+    },
+    "99212": {
+      "description": "Established visit (L2)",
+      "category": "office_visit",
+      "medicareRate": 60,
+      "commercialRange": [
+        80,
+        160
+      ],
+      "notes": "10-19 min"
+    },
+    "99213": {
+      "description": "Established visit (L3)",
+      "category": "office_visit",
+      "medicareRate": 110,
+      "commercialRange": [
+        150,
+        300
+      ],
+      "notes": "Most common. 20-29 min"
+    },
+    "99214": {
+      "description": "Established visit (L4)",
+      "category": "office_visit",
+      "medicareRate": 165,
+      "commercialRange": [
+        200,
+        400
+      ],
+      "notes": "Moderate. 30-39 min"
+    },
+    "99215": {
+      "description": "Established visit (L5)",
+      "category": "office_visit",
+      "medicareRate": 225,
+      "commercialRange": [
+        300,
+        550
+      ],
+      "notes": "High complexity. 40-54 min"
+    },
+    "99385": {
+      "description": "Preventive, new, 18-39",
+      "category": "office_visit",
+      "medicareRate": 175,
+      "commercialRange": [
+        200,
+        400
+      ],
+      "notes": "Annual physical"
+    },
+    "99386": {
+      "description": "Preventive, new, 40-64",
+      "category": "office_visit",
+      "medicareRate": 195,
+      "commercialRange": [
+        225,
+        450
+      ],
+      "notes": "Annual physical"
+    },
+    "99395": {
+      "description": "Preventive, est, 18-39",
+      "category": "office_visit",
+      "medicareRate": 155,
+      "commercialRange": [
+        175,
+        350
+      ],
+      "notes": "$0 under ACA"
+    },
+    "99396": {
+      "description": "Preventive, est, 40-64",
+      "category": "office_visit",
+      "medicareRate": 170,
+      "commercialRange": [
+        190,
+        380
+      ],
+      "notes": "$0 under ACA"
+    },
+    "99397": {
+      "description": "Preventive, est, 65+",
+      "category": "office_visit",
+      "medicareRate": 180,
+      "commercialRange": [
+        200,
+        400
+      ],
+      "notes": "Medicare Wellness"
+    },
+    "99441": {
+      "description": "Phone E&M, 5-10 min",
+      "category": "office_visit",
+      "medicareRate": 40,
+      "commercialRange": [
+        50,
+        120
+      ],
+      "notes": "Telehealth"
+    },
+    "99442": {
+      "description": "Phone E&M, 11-20 min",
+      "category": "office_visit",
+      "medicareRate": 75,
+      "commercialRange": [
+        90,
+        180
+      ],
+      "notes": "Telehealth"
+    },
+    "99443": {
+      "description": "Phone E&M, 21-30 min",
+      "category": "office_visit",
+      "medicareRate": 110,
+      "commercialRange": [
+        130,
+        260
+      ],
+      "notes": "Telehealth"
     },
     "99281": {
-      "description": "Emergency department visit (level 1)",
+      "description": "ER visit (L1)",
       "category": "emergency",
       "medicareRate": 50,
-      "commercialRange": [150, 500],
-      "notes": "Minor problem, self-limited."
+      "commercialRange": [
+        150,
+        500
+      ],
+      "notes": "Minor"
+    },
+    "99282": {
+      "description": "ER visit (L2)",
+      "category": "emergency",
+      "medicareRate": 95,
+      "commercialRange": [
+        300,
+        900
+      ],
+      "notes": "Low-moderate"
     },
     "99283": {
-      "description": "Emergency department visit (level 3)",
+      "description": "ER visit (L3)",
       "category": "emergency",
       "medicareRate": 150,
-      "commercialRange": [500, 1500],
-      "notes": "Moderate severity. Most common ER visit level."
+      "commercialRange": [
+        500,
+        1500
+      ],
+      "notes": "Most common"
+    },
+    "99284": {
+      "description": "ER visit (L4)",
+      "category": "emergency",
+      "medicareRate": 250,
+      "commercialRange": [
+        800,
+        2500
+      ],
+      "notes": "Urgent"
     },
     "99285": {
-      "description": "Emergency department visit (level 5)",
+      "description": "ER visit (L5)",
       "category": "emergency",
       "medicareRate": 350,
-      "commercialRange": [1500, 4000],
-      "notes": "High severity, life-threatening."
+      "commercialRange": [
+        1500,
+        4000
+      ],
+      "notes": "Life-threatening"
     },
     "99291": {
-      "description": "Critical care, first 30-74 minutes",
+      "description": "Critical care, first hr",
       "category": "emergency",
       "medicareRate": 400,
-      "commercialRange": [1000, 3000],
-      "notes": "ICU-level care. Additional 30-min increments billed separately."
+      "commercialRange": [
+        1000,
+        3000
+      ],
+      "notes": "ICU-level"
+    },
+    "99292": {
+      "description": "Critical care, addl 30m",
+      "category": "emergency",
+      "medicareRate": 200,
+      "commercialRange": [
+        500,
+        1500
+      ],
+      "notes": "Add-on"
     },
     "70553": {
-      "description": "MRI brain with and without contrast",
+      "description": "MRI brain w/wo contrast",
       "category": "imaging",
-      "medicareRate": 350,
-      "commercialRange": [1000, 3500],
-      "notes": "Freestanding imaging centers charge 40-60% less than hospitals."
+      "medicareRate": 437,
+      "commercialRange": [
+        1100,
+        3500
+      ],
+      "notes": "Freestanding 40-60% less"
     },
     "70551": {
-      "description": "MRI brain without contrast",
+      "description": "MRI brain w/o contrast",
       "category": "imaging",
-      "medicareRate": 250,
-      "commercialRange": [800, 2500],
-      "notes": "Without contrast is cheaper. Ask if contrast is medically necessary."
+      "medicareRate": 310,
+      "commercialRange": [
+        800,
+        2500
+      ],
+      "notes": "Ask if contrast needed"
+    },
+    "70552": {
+      "description": "MRI brain w contrast",
+      "category": "imaging",
+      "medicareRate": 370,
+      "commercialRange": [
+        950,
+        3000
+      ],
+      "notes": "Gadolinium"
     },
     "72148": {
-      "description": "MRI lumbar spine without contrast",
+      "description": "MRI lumbar w/o contrast",
       "category": "imaging",
-      "medicareRate": 270,
-      "commercialRange": [800, 2800],
-      "notes": "Common for back pain. Freestanding centers save significantly."
+      "medicareRate": 310,
+      "commercialRange": [
+        800,
+        2800
+      ],
+      "notes": "Back pain"
+    },
+    "72141": {
+      "description": "MRI cervical w/o contrast",
+      "category": "imaging",
+      "medicareRate": 310,
+      "commercialRange": [
+        800,
+        2800
+      ],
+      "notes": "Neck"
+    },
+    "73721": {
+      "description": "MRI knee w/o contrast",
+      "category": "imaging",
+      "medicareRate": 310,
+      "commercialRange": [
+        800,
+        2500
+      ],
+      "notes": "Ortho"
+    },
+    "73221": {
+      "description": "MRI shoulder w/o contrast",
+      "category": "imaging",
+      "medicareRate": 310,
+      "commercialRange": [
+        800,
+        2500
+      ],
+      "notes": "Rotator cuff"
     },
     "74177": {
-      "description": "CT abdomen and pelvis with contrast",
+      "description": "CT abd/pelvis w contrast",
+      "category": "imaging",
+      "medicareRate": 290,
+      "commercialRange": [
+        500,
+        2500
+      ],
+      "notes": "Common CT"
+    },
+    "74176": {
+      "description": "CT abd/pelvis w/o",
+      "category": "imaging",
+      "medicareRate": 230,
+      "commercialRange": [
+        400,
+        2000
+      ],
+      "notes": "No contrast"
+    },
+    "74178": {
+      "description": "CT abd/pelvis w/wo",
+      "category": "imaging",
+      "medicareRate": 340,
+      "commercialRange": [
+        600,
+        3000
+      ],
+      "notes": "Dual-phase"
+    },
+    "70450": {
+      "description": "CT head w/o contrast",
+      "category": "imaging",
+      "medicareRate": 189,
+      "commercialRange": [
+        400,
+        2000
+      ],
+      "notes": "ER head CT"
+    },
+    "70460": {
+      "description": "CT head w contrast",
+      "category": "imaging",
+      "medicareRate": 230,
+      "commercialRange": [
+        500,
+        2500
+      ],
+      "notes": "With contrast"
+    },
+    "71260": {
+      "description": "CT chest w contrast",
       "category": "imaging",
       "medicareRate": 250,
-      "commercialRange": [500, 2500],
-      "notes": "Common diagnostic CT. Price varies 5x between facilities."
+      "commercialRange": [
+        500,
+        2000
+      ],
+      "notes": "PE/lung"
     },
     "71046": {
       "description": "Chest X-ray, 2 views",
       "category": "imaging",
+      "medicareRate": 31,
+      "commercialRange": [
+        75,
+        350
+      ],
+      "notes": "Basic"
+    },
+    "71045": {
+      "description": "Chest X-ray, 1 view",
+      "category": "imaging",
+      "medicareRate": 24,
+      "commercialRange": [
+        50,
+        250
+      ],
+      "notes": "Single view"
+    },
+    "73030": {
+      "description": "Shoulder X-ray, 2+ views",
+      "category": "imaging",
+      "medicareRate": 28,
+      "commercialRange": [
+        60,
+        300
+      ],
+      "notes": "Ortho"
+    },
+    "73562": {
+      "description": "Knee X-ray, 3 views",
+      "category": "imaging",
       "medicareRate": 30,
-      "commercialRange": [75, 350],
-      "notes": "Basic diagnostic imaging. Heavily marked up in ER settings."
+      "commercialRange": [
+        65,
+        325
+      ],
+      "notes": "Common"
+    },
+    "73610": {
+      "description": "Ankle X-ray, 3 views",
+      "category": "imaging",
+      "medicareRate": 28,
+      "commercialRange": [
+        60,
+        300
+      ],
+      "notes": "Injury"
+    },
+    "73130": {
+      "description": "Hand X-ray, 2+ views",
+      "category": "imaging",
+      "medicareRate": 26,
+      "commercialRange": [
+        55,
+        275
+      ],
+      "notes": "Fracture"
     },
     "76856": {
-      "description": "Ultrasound, pelvic, complete",
+      "description": "US pelvic, complete",
       "category": "imaging",
       "medicareRate": 120,
-      "commercialRange": [200, 800],
-      "notes": "Common OB/GYN diagnostic."
+      "commercialRange": [
+        200,
+        800
+      ],
+      "notes": "OB/GYN"
+    },
+    "76830": {
+      "description": "US transvaginal",
+      "category": "imaging",
+      "medicareRate": 130,
+      "commercialRange": [
+        200,
+        800
+      ],
+      "notes": "GYN"
+    },
+    "76700": {
+      "description": "US abdominal, complete",
+      "category": "imaging",
+      "medicareRate": 130,
+      "commercialRange": [
+        200,
+        800
+      ],
+      "notes": "Abdominal"
+    },
+    "76805": {
+      "description": "US pregnant uterus",
+      "category": "imaging",
+      "medicareRate": 145,
+      "commercialRange": [
+        200,
+        600
+      ],
+      "notes": "OB ultrasound"
+    },
+    "77067": {
+      "description": "Screening mammo, bilateral",
+      "category": "imaging",
+      "medicareRate": 140,
+      "commercialRange": [
+        150,
+        500
+      ],
+      "notes": "$0 ACA preventive"
+    },
+    "77066": {
+      "description": "Diagnostic mammo, bilateral",
+      "category": "imaging",
+      "medicareRate": 160,
+      "commercialRange": [
+        200,
+        600
+      ],
+      "notes": "May cost share"
+    },
+    "93000": {
+      "description": "EKG, complete",
+      "category": "imaging",
+      "medicareRate": 20,
+      "commercialRange": [
+        50,
+        300
+      ],
+      "notes": "Heart test"
+    },
+    "93306": {
+      "description": "Echocardiogram, complete",
+      "category": "imaging",
+      "medicareRate": 230,
+      "commercialRange": [
+        400,
+        1500
+      ],
+      "notes": "Heart US"
+    },
+    "93010": {
+      "description": "EKG interpretation only",
+      "category": "imaging",
+      "medicareRate": 10,
+      "commercialRange": [
+        20,
+        100
+      ],
+      "notes": "Reading fee"
+    },
+    "78452": {
+      "description": "Nuclear stress test",
+      "category": "imaging",
+      "medicareRate": 350,
+      "commercialRange": [
+        800,
+        3000
+      ],
+      "notes": "Cardiac perfusion"
     },
     "85025": {
-      "description": "Complete blood count (CBC) with differential",
+      "description": "CBC with differential",
       "category": "lab",
       "medicareRate": 11,
-      "commercialRange": [25, 150],
-      "notes": "One of the most common lab tests. Should never cost over $50 at a lab."
+      "commercialRange": [
+        25,
+        150
+      ],
+      "notes": "Never >$50 at lab"
     },
     "80053": {
-      "description": "Comprehensive metabolic panel (CMP)",
+      "description": "Comprehensive metabolic panel",
       "category": "lab",
       "medicareRate": 14,
-      "commercialRange": [30, 200],
-      "notes": "Basic blood chemistry panel. Marked up heavily in hospital settings."
+      "commercialRange": [
+        30,
+        200
+      ],
+      "notes": "Basic chemistry"
+    },
+    "80048": {
+      "description": "Basic metabolic panel",
+      "category": "lab",
+      "medicareRate": 11,
+      "commercialRange": [
+        25,
+        150
+      ],
+      "notes": "Subset of CMP"
     },
     "80061": {
       "description": "Lipid panel",
       "category": "lab",
       "medicareRate": 18,
-      "commercialRange": [30, 150],
-      "notes": "Cholesterol screening. Cash price at Quest/Labcorp is $30-50."
+      "commercialRange": [
+        30,
+        150
+      ],
+      "notes": "Quest cash: $30-50"
     },
     "81001": {
       "description": "Urinalysis with microscopy",
       "category": "lab",
       "medicareRate": 5,
-      "commercialRange": [15, 100],
-      "notes": "Basic urine test. Should cost under $30."
+      "commercialRange": [
+        15,
+        100
+      ],
+      "notes": "Should <$30"
+    },
+    "81003": {
+      "description": "Urinalysis, automated",
+      "category": "lab",
+      "medicareRate": 4,
+      "commercialRange": [
+        10,
+        80
+      ],
+      "notes": "Dipstick"
     },
     "36415": {
       "description": "Venipuncture (blood draw)",
       "category": "lab",
       "medicareRate": 3,
-      "commercialRange": [10, 50],
-      "notes": "Drawing blood. Often billed separately from the lab test."
+      "commercialRange": [
+        10,
+        50
+      ],
+      "notes": "Billed separately"
+    },
+    "84443": {
+      "description": "TSH (thyroid)",
+      "category": "lab",
+      "medicareRate": 23,
+      "commercialRange": [
+        35,
+        200
+      ],
+      "notes": "Thyroid function"
+    },
+    "83036": {
+      "description": "Hemoglobin A1c",
+      "category": "lab",
+      "medicareRate": 13,
+      "commercialRange": [
+        25,
+        150
+      ],
+      "notes": "Diabetes monitoring"
+    },
+    "82947": {
+      "description": "Glucose, blood",
+      "category": "lab",
+      "medicareRate": 8,
+      "commercialRange": [
+        15,
+        100
+      ],
+      "notes": "Blood sugar"
+    },
+    "82306": {
+      "description": "Vitamin D, 25-hydroxy",
+      "category": "lab",
+      "medicareRate": 40,
+      "commercialRange": [
+        50,
+        250
+      ],
+      "notes": "Vitamin D"
+    },
+    "82728": {
+      "description": "Ferritin",
+      "category": "lab",
+      "medicareRate": 18,
+      "commercialRange": [
+        25,
+        150
+      ],
+      "notes": "Iron stores"
+    },
+    "84153": {
+      "description": "PSA",
+      "category": "lab",
+      "medicareRate": 25,
+      "commercialRange": [
+        35,
+        200
+      ],
+      "notes": "Prostate screening"
+    },
+    "87086": {
+      "description": "Urine culture",
+      "category": "lab",
+      "medicareRate": 10,
+      "commercialRange": [
+        20,
+        120
+      ],
+      "notes": "UTI"
+    },
+    "87491": {
+      "description": "Chlamydia nucleic acid",
+      "category": "lab",
+      "medicareRate": 36,
+      "commercialRange": [
+        50,
+        200
+      ],
+      "notes": "STI screening"
+    },
+    "87804": {
+      "description": "Influenza rapid test",
+      "category": "lab",
+      "medicareRate": 17,
+      "commercialRange": [
+        25,
+        150
+      ],
+      "notes": "Flu test"
+    },
+    "87635": {
+      "description": "COVID-19 PCR",
+      "category": "lab",
+      "medicareRate": 51,
+      "commercialRange": [
+        75,
+        300
+      ],
+      "notes": "SARS-CoV-2"
+    },
+    "80076": {
+      "description": "Hepatic function panel",
+      "category": "lab",
+      "medicareRate": 12,
+      "commercialRange": [
+        25,
+        150
+      ],
+      "notes": "Liver"
+    },
+    "85610": {
+      "description": "PT (prothrombin time)",
+      "category": "lab",
+      "medicareRate": 6,
+      "commercialRange": [
+        15,
+        80
+      ],
+      "notes": "Clotting"
+    },
+    "88305": {
+      "description": "Pathology, tissue exam",
+      "category": "lab",
+      "medicareRate": 75,
+      "commercialRange": [
+        100,
+        500
+      ],
+      "notes": "Biopsy analysis"
+    },
+    "88112": {
+      "description": "Cytopathology (Pap)",
+      "category": "lab",
+      "medicareRate": 25,
+      "commercialRange": [
+        35,
+        150
+      ],
+      "notes": "Cervical screening"
     },
     "27447": {
       "description": "Total knee replacement",
       "category": "surgery",
-      "medicareRate": 1500,
-      "commercialRange": [15000, 50000],
-      "notes": "Surgeon fee only. Total cost with facility: $30K-70K."
+      "medicareRate": 1695,
+      "commercialRange": [
+        4000,
+        30000
+      ],
+      "notes": "Surgeon fee. Total $30-70K"
     },
     "27130": {
       "description": "Total hip replacement",
       "category": "surgery",
-      "medicareRate": 1500,
-      "commercialRange": [15000, 50000],
-      "notes": "Surgeon fee only. Total cost with facility: $30K-65K."
+      "medicareRate": 1750,
+      "commercialRange": [
+        4000,
+        30000
+      ],
+      "notes": "Surgeon fee. Total $30-65K"
     },
     "47562": {
-      "description": "Laparoscopic cholecystectomy (gallbladder removal)",
+      "description": "Lap cholecystectomy",
       "category": "surgery",
       "medicareRate": 800,
-      "commercialRange": [5000, 20000],
-      "notes": "Outpatient at ASC saves 40-60% vs hospital."
+      "commercialRange": [
+        3000,
+        15000
+      ],
+      "notes": "ASC saves 40-60%"
     },
     "49505": {
       "description": "Inguinal hernia repair",
       "category": "surgery",
       "medicareRate": 700,
-      "commercialRange": [4000, 15000],
-      "notes": "Common outpatient surgery. ASC pricing much lower."
+      "commercialRange": [
+        3000,
+        12000
+      ],
+      "notes": "Outpatient"
     },
     "29881": {
-      "description": "Knee arthroscopy with meniscectomy",
+      "description": "Knee arthroscopy",
       "category": "surgery",
-      "medicareRate": 600,
-      "commercialRange": [5000, 18000],
-      "notes": "Outpatient procedure. Total cost includes facility and anesthesia."
+      "medicareRate": 733,
+      "commercialRange": [
+        3000,
+        15000
+      ],
+      "notes": "Meniscectomy"
+    },
+    "29827": {
+      "description": "Shoulder arthroscopy, RC",
+      "category": "surgery",
+      "medicareRate": 900,
+      "commercialRange": [
+        5000,
+        20000
+      ],
+      "notes": "Rotator cuff"
+    },
+    "66984": {
+      "description": "Cataract surgery w IOL",
+      "category": "surgery",
+      "medicareRate": 685,
+      "commercialRange": [
+        2000,
+        8000
+      ],
+      "notes": "Most common US surgery"
+    },
+    "44970": {
+      "description": "Lap appendectomy",
+      "category": "surgery",
+      "medicareRate": 750,
+      "commercialRange": [
+        5000,
+        20000
+      ],
+      "notes": "Emergency"
+    },
+    "58571": {
+      "description": "Lap hysterectomy",
+      "category": "surgery",
+      "medicareRate": 1200,
+      "commercialRange": [
+        6000,
+        25000
+      ],
+      "notes": "Major GYN"
+    },
+    "22551": {
+      "description": "Anterior cervical fusion",
+      "category": "surgery",
+      "medicareRate": 1800,
+      "commercialRange": [
+        8000,
+        40000
+      ],
+      "notes": "Spinal fusion"
+    },
+    "63047": {
+      "description": "Lumbar laminectomy",
+      "category": "surgery",
+      "medicareRate": 1500,
+      "commercialRange": [
+        6000,
+        30000
+      ],
+      "notes": "Back surgery"
+    },
+    "93458": {
+      "description": "Cardiac catheterization",
+      "category": "surgery",
+      "medicareRate": 990,
+      "commercialRange": [
+        3000,
+        15000
+      ],
+      "notes": "Heart cath"
+    },
+    "33533": {
+      "description": "CABG, single graft",
+      "category": "surgery",
+      "medicareRate": 2500,
+      "commercialRange": [
+        15000,
+        60000
+      ],
+      "notes": "Bypass"
+    },
+    "92928": {
+      "description": "Coronary stent",
+      "category": "surgery",
+      "medicareRate": 1200,
+      "commercialRange": [
+        5000,
+        25000
+      ],
+      "notes": "PCI"
+    },
+    "19301": {
+      "description": "Lumpectomy",
+      "category": "surgery",
+      "medicareRate": 650,
+      "commercialRange": [
+        3000,
+        12000
+      ],
+      "notes": "Breast cancer"
+    },
+    "19303": {
+      "description": "Mastectomy, total",
+      "category": "surgery",
+      "medicareRate": 1100,
+      "commercialRange": [
+        5000,
+        20000
+      ],
+      "notes": "Complete"
     },
     "59400": {
-      "description": "Routine obstetric care (vaginal delivery)",
+      "description": "OB care, vaginal delivery",
       "category": "maternity",
       "medicareRate": 2500,
-      "commercialRange": [5000, 15000],
-      "notes": "Global OB fee. Does not include hospital stay or anesthesia."
+      "commercialRange": [
+        5000,
+        15000
+      ],
+      "notes": "Global OB fee"
     },
     "59510": {
       "description": "Cesarean delivery",
       "category": "maternity",
       "medicareRate": 2800,
-      "commercialRange": [7000, 25000],
-      "notes": "Surgeon fee. Total cost with hospital stay: $15K-45K."
+      "commercialRange": [
+        7000,
+        25000
+      ],
+      "notes": "Total $15-45K"
+    },
+    "59409": {
+      "description": "Vaginal delivery only",
+      "category": "maternity",
+      "medicareRate": 1200,
+      "commercialRange": [
+        3000,
+        8000
+      ],
+      "notes": "Delivery only"
+    },
+    "59025": {
+      "description": "Fetal non-stress test",
+      "category": "maternity",
+      "medicareRate": 55,
+      "commercialRange": [
+        80,
+        300
+      ],
+      "notes": "Heart monitoring"
     },
     "90837": {
-      "description": "Psychotherapy, 60 minutes",
+      "description": "Psychotherapy, 60 min",
       "category": "mental_health",
       "medicareRate": 130,
-      "commercialRange": [150, 300],
-      "notes": "Standard therapy session. Out-of-network often $200-350."
+      "commercialRange": [
+        150,
+        300
+      ],
+      "notes": "Standard session"
     },
     "90834": {
-      "description": "Psychotherapy, 45 minutes",
+      "description": "Psychotherapy, 45 min",
       "category": "mental_health",
       "medicareRate": 105,
-      "commercialRange": [120, 250],
-      "notes": "Shorter therapy session."
+      "commercialRange": [
+        120,
+        250
+      ],
+      "notes": "Shorter"
+    },
+    "90832": {
+      "description": "Psychotherapy, 30 min",
+      "category": "mental_health",
+      "medicareRate": 75,
+      "commercialRange": [
+        90,
+        180
+      ],
+      "notes": "Brief"
     },
     "90791": {
-      "description": "Psychiatric diagnostic evaluation",
+      "description": "Psychiatric eval",
       "category": "mental_health",
       "medicareRate": 180,
-      "commercialRange": [250, 500],
-      "notes": "Initial psych evaluation. Often needed before starting medication."
+      "commercialRange": [
+        250,
+        500
+      ],
+      "notes": "Initial eval"
+    },
+    "90792": {
+      "description": "Psychiatric eval w medical",
+      "category": "mental_health",
+      "medicareRate": 200,
+      "commercialRange": [
+        275,
+        550
+      ],
+      "notes": "With meds"
+    },
+    "90847": {
+      "description": "Family therapy, w patient",
+      "category": "mental_health",
+      "medicareRate": 120,
+      "commercialRange": [
+        150,
+        300
+      ],
+      "notes": "Family"
+    },
+    "90853": {
+      "description": "Group psychotherapy",
+      "category": "mental_health",
+      "medicareRate": 35,
+      "commercialRange": [
+        40,
+        100
+      ],
+      "notes": "Group"
     },
     "97110": {
-      "description": "Therapeutic exercises (15 min)",
+      "description": "Therapeutic exercises 15m",
       "category": "physical_therapy",
-      "medicareRate": 35,
-      "commercialRange": [50, 120],
-      "notes": "Per 15-minute unit. Typical PT session bills 3-4 units."
+      "medicareRate": 38,
+      "commercialRange": [
+        50,
+        120
+      ],
+      "notes": "3-4 units typical"
     },
     "97140": {
-      "description": "Manual therapy (15 min)",
+      "description": "Manual therapy 15m",
       "category": "physical_therapy",
-      "medicareRate": 35,
-      "commercialRange": [50, 120],
-      "notes": "Per 15-minute unit. Often billed with 97110."
+      "medicareRate": 38,
+      "commercialRange": [
+        50,
+        120
+      ],
+      "notes": "Hands-on"
     },
     "97530": {
-      "description": "Therapeutic activities (15 min)",
+      "description": "Therapeutic activities 15m",
       "category": "physical_therapy",
       "medicareRate": 40,
-      "commercialRange": [55, 130],
-      "notes": "Functional activity training."
+      "commercialRange": [
+        55,
+        130
+      ],
+      "notes": "Functional"
     },
-    "99232": {
-      "description": "Subsequent hospital visit (level 2)",
+    "97161": {
+      "description": "PT eval, low",
+      "category": "physical_therapy",
+      "medicareRate": 95,
+      "commercialRange": [
+        120,
+        250
+      ],
+      "notes": "Initial"
+    },
+    "97162": {
+      "description": "PT eval, moderate",
+      "category": "physical_therapy",
+      "medicareRate": 115,
+      "commercialRange": [
+        140,
+        300
+      ],
+      "notes": "Moderate"
+    },
+    "97163": {
+      "description": "PT eval, high",
+      "category": "physical_therapy",
+      "medicareRate": 135,
+      "commercialRange": [
+        165,
+        350
+      ],
+      "notes": "Complex"
+    },
+    "97035": {
+      "description": "Ultrasound therapy 15m",
+      "category": "physical_therapy",
+      "medicareRate": 18,
+      "commercialRange": [
+        25,
+        80
+      ],
+      "notes": "Therapeutic US"
+    },
+    "97116": {
+      "description": "Gait training 15m",
+      "category": "physical_therapy",
+      "medicareRate": 35,
+      "commercialRange": [
+        45,
+        110
+      ],
+      "notes": "Walking/balance"
+    },
+    "99221": {
+      "description": "Hospital admit (L1)",
       "category": "inpatient",
-      "medicareRate": 110,
-      "commercialRange": [200, 400],
-      "notes": "Daily hospital visit from attending physician."
+      "medicareRate": 150,
+      "commercialRange": [
+        300,
+        600
+      ],
+      "notes": "Low"
+    },
+    "99222": {
+      "description": "Hospital admit (L2)",
+      "category": "inpatient",
+      "medicareRate": 210,
+      "commercialRange": [
+        400,
+        800
+      ],
+      "notes": "Moderate"
     },
     "99223": {
-      "description": "Initial hospital admission (level 3)",
+      "description": "Hospital admit (L3)",
       "category": "inpatient",
       "medicareRate": 280,
-      "commercialRange": [500, 1200],
-      "notes": "First day admission visit. High complexity."
+      "commercialRange": [
+        500,
+        1200
+      ],
+      "notes": "High"
+    },
+    "99231": {
+      "description": "Hospital visit (L1)",
+      "category": "inpatient",
+      "medicareRate": 80,
+      "commercialRange": [
+        150,
+        300
+      ],
+      "notes": "Daily, stable"
+    },
+    "99232": {
+      "description": "Hospital visit (L2)",
+      "category": "inpatient",
+      "medicareRate": 110,
+      "commercialRange": [
+        200,
+        400
+      ],
+      "notes": "Daily, moderate"
+    },
+    "99233": {
+      "description": "Hospital visit (L3)",
+      "category": "inpatient",
+      "medicareRate": 160,
+      "commercialRange": [
+        300,
+        600
+      ],
+      "notes": "Daily, complex"
+    },
+    "99238": {
+      "description": "Discharge, <=30 min",
+      "category": "inpatient",
+      "medicareRate": 100,
+      "commercialRange": [
+        200,
+        400
+      ],
+      "notes": "Discharge"
+    },
+    "99239": {
+      "description": "Discharge, >30 min",
+      "category": "inpatient",
+      "medicareRate": 140,
+      "commercialRange": [
+        275,
+        550
+      ],
+      "notes": "Complex"
     },
     "43239": {
-      "description": "Upper GI endoscopy with biopsy",
+      "description": "EGD with biopsy",
       "category": "procedure",
       "medicareRate": 350,
-      "commercialRange": [1500, 5000],
-      "notes": "Diagnostic scope. ASC pricing significantly lower."
+      "commercialRange": [
+        1500,
+        5000
+      ],
+      "notes": "ASC cheaper"
     },
     "45378": {
       "description": "Colonoscopy, diagnostic",
       "category": "procedure",
-      "medicareRate": 350,
-      "commercialRange": [1500, 5000],
-      "notes": "Screening colonoscopy should be covered at $0 under ACA."
+      "medicareRate": 521,
+      "commercialRange": [
+        1500,
+        5000
+      ],
+      "notes": "$0 screening ACA"
     },
     "45380": {
-      "description": "Colonoscopy with biopsy",
+      "description": "Colonoscopy w biopsy",
       "category": "procedure",
-      "medicareRate": 400,
-      "commercialRange": [2000, 6000],
-      "notes": "If polyps found during screening, may be reclassified as diagnostic."
+      "medicareRate": 574,
+      "commercialRange": [
+        2000,
+        6000
+      ],
+      "notes": "Watch reclassification"
+    },
+    "45385": {
+      "description": "Colonoscopy w polypectomy",
+      "category": "procedure",
+      "medicareRate": 620,
+      "commercialRange": [
+        2000,
+        7000
+      ],
+      "notes": "Polypectomy"
+    },
+    "52000": {
+      "description": "Cystoscopy",
+      "category": "procedure",
+      "medicareRate": 250,
+      "commercialRange": [
+        600,
+        2500
+      ],
+      "notes": "Bladder exam"
+    },
+    "57454": {
+      "description": "Colposcopy w biopsy",
+      "category": "procedure",
+      "medicareRate": 200,
+      "commercialRange": [
+        400,
+        1500
+      ],
+      "notes": "After abnormal Pap"
+    },
+    "11102": {
+      "description": "Skin biopsy, tangential",
+      "category": "procedure",
+      "medicareRate": 95,
+      "commercialRange": [
+        150,
+        500
+      ],
+      "notes": "Shave biopsy"
+    },
+    "11104": {
+      "description": "Skin biopsy, punch",
+      "category": "procedure",
+      "medicareRate": 120,
+      "commercialRange": [
+        175,
+        600
+      ],
+      "notes": "Punch biopsy"
+    },
+    "10060": {
+      "description": "I&D abscess",
+      "category": "procedure",
+      "medicareRate": 160,
+      "commercialRange": [
+        300,
+        1000
+      ],
+      "notes": "Draining"
+    },
+    "12001": {
+      "description": "Wound repair <=2.5cm",
+      "category": "procedure",
+      "medicareRate": 130,
+      "commercialRange": [
+        250,
+        800
+      ],
+      "notes": "Simple laceration"
+    },
+    "12002": {
+      "description": "Wound repair 2.6-7.5cm",
+      "category": "procedure",
+      "medicareRate": 160,
+      "commercialRange": [
+        300,
+        1000
+      ],
+      "notes": "Medium"
+    },
+    "20610": {
+      "description": "Joint injection, major",
+      "category": "procedure",
+      "medicareRate": 80,
+      "commercialRange": [
+        150,
+        500
+      ],
+      "notes": "Steroid injection"
+    },
+    "64483": {
+      "description": "Epidural steroid injection",
+      "category": "procedure",
+      "medicareRate": 350,
+      "commercialRange": [
+        800,
+        3000
+      ],
+      "notes": "Pain mgmt"
+    },
+    "36430": {
+      "description": "Blood transfusion",
+      "category": "procedure",
+      "medicareRate": 80,
+      "commercialRange": [
+        200,
+        800
+      ],
+      "notes": "Per unit"
+    },
+    "94640": {
+      "description": "Nebulizer treatment",
+      "category": "procedure",
+      "medicareRate": 20,
+      "commercialRange": [
+        50,
+        250
+      ],
+      "notes": "Breathing"
+    },
+    "96372": {
+      "description": "Injection, IM/SQ",
+      "category": "procedure",
+      "medicareRate": 25,
+      "commercialRange": [
+        50,
+        200
+      ],
+      "notes": "Drug extra"
+    },
+    "96374": {
+      "description": "IV push, single",
+      "category": "procedure",
+      "medicareRate": 55,
+      "commercialRange": [
+        100,
+        400
+      ],
+      "notes": "IV med push"
+    },
+    "96365": {
+      "description": "IV infusion, initial 1hr",
+      "category": "procedure",
+      "medicareRate": 65,
+      "commercialRange": [
+        150,
+        600
+      ],
+      "notes": "IV fluid/drug"
+    },
+    "96366": {
+      "description": "IV infusion, addl hour",
+      "category": "procedure",
+      "medicareRate": 30,
+      "commercialRange": [
+        60,
+        250
+      ],
+      "notes": "Additional"
     },
     "00142": {
-      "description": "Anesthesia for eye procedures",
+      "description": "Anesthesia, eye",
       "category": "anesthesia",
       "medicareRate": 200,
-      "commercialRange": [300, 1000],
-      "notes": "Anesthesia billed by time units."
+      "commercialRange": [
+        300,
+        1000
+      ],
+      "notes": "Time units"
     },
     "01996": {
-      "description": "Epidural anesthesia (labor)",
+      "description": "Epidural anesthesia, labor",
       "category": "anesthesia",
       "medicareRate": 400,
-      "commercialRange": [1500, 4000],
-      "notes": "Labor epidural. Charged per time block."
+      "commercialRange": [
+        1500,
+        4000
+      ],
+      "notes": "Labor"
+    },
+    "00740": {
+      "description": "Anesthesia, upper GI",
+      "category": "anesthesia",
+      "medicareRate": 300,
+      "commercialRange": [
+        500,
+        1500
+      ],
+      "notes": "Endoscopy"
+    },
+    "00810": {
+      "description": "Anesthesia, lower GI",
+      "category": "anesthesia",
+      "medicareRate": 300,
+      "commercialRange": [
+        500,
+        1500
+      ],
+      "notes": "Colonoscopy"
+    },
+    "01402": {
+      "description": "Anesthesia, knee replace",
+      "category": "anesthesia",
+      "medicareRate": 500,
+      "commercialRange": [
+        800,
+        2500
+      ],
+      "notes": "Arthroplasty"
+    },
+    "J2405": {
+      "description": "Ondansetron inj 1mg",
+      "category": "pharmacy",
+      "medicareRate": 1,
+      "commercialRange": [
+        5,
+        50
+      ],
+      "notes": "Zofran generic"
+    },
+    "J3490": {
+      "description": "Unclassified drugs",
+      "category": "pharmacy",
+      "medicareRate": 0,
+      "commercialRange": [
+        10,
+        500
+      ],
+      "notes": "Ask specifics"
+    },
+    "D2740": {
+      "description": "Crown, porcelain",
+      "category": "dental",
+      "medicareRate": 0,
+      "commercialRange": [
+        800,
+        2000
+      ],
+      "notes": "No Medicare"
+    },
+    "D3330": {
+      "description": "Root canal, molar",
+      "category": "dental",
+      "medicareRate": 0,
+      "commercialRange": [
+        1000,
+        2000
+      ],
+      "notes": "Molar"
+    },
+    "D7210": {
+      "description": "Surgical extraction",
+      "category": "dental",
+      "medicareRate": 0,
+      "commercialRange": [
+        250,
+        600
+      ],
+      "notes": "Per tooth"
     }
   },
   "categories": {
-    "office_visit": { "label": "Office Visits", "icon": "stethoscope" },
-    "emergency": { "label": "Emergency Room", "icon": "ambulance" },
-    "imaging": { "label": "Imaging (MRI, CT, X-ray)", "icon": "scan" },
-    "lab": { "label": "Lab Work", "icon": "vial" },
-    "surgery": { "label": "Surgery", "icon": "scalpel" },
-    "maternity": { "label": "Maternity & Delivery", "icon": "baby" },
-    "mental_health": { "label": "Mental Health", "icon": "brain" },
-    "physical_therapy": { "label": "Physical Therapy", "icon": "exercise" },
-    "inpatient": { "label": "Hospital Stays", "icon": "hospital" },
-    "procedure": { "label": "Procedures", "icon": "procedure" },
-    "anesthesia": { "label": "Anesthesia", "icon": "syringe" }
+    "office_visit": {
+      "label": "Office Visits"
+    },
+    "emergency": {
+      "label": "Emergency Room"
+    },
+    "imaging": {
+      "label": "Imaging (MRI, CT, X-ray)"
+    },
+    "lab": {
+      "label": "Lab Work"
+    },
+    "surgery": {
+      "label": "Surgery"
+    },
+    "maternity": {
+      "label": "Maternity & Delivery"
+    },
+    "mental_health": {
+      "label": "Mental Health"
+    },
+    "physical_therapy": {
+      "label": "Physical Therapy"
+    },
+    "inpatient": {
+      "label": "Hospital Stays"
+    },
+    "procedure": {
+      "label": "Procedures"
+    },
+    "anesthesia": {
+      "label": "Anesthesia"
+    },
+    "pharmacy": {
+      "label": "Pharmacy / Drugs"
+    },
+    "dental": {
+      "label": "Dental"
+    }
   },
   "billCheckItems": [
-    { "key": "cptCodes", "label": "CPT codes listed for each charge", "weight": 15 },
-    { "key": "itemized", "label": "Each service listed separately (not bundled)", "weight": 12 },
-    { "key": "facility", "label": "Facility fee vs professional fee separated", "weight": 12 },
-    { "key": "insuranceApplied", "label": "Insurance adjustments applied", "weight": 10 },
-    { "key": "inNetwork", "label": "Provider is in-network (or disclosed as out)", "weight": 10 },
-    { "key": "duplicates", "label": "No duplicate charges for same service", "weight": 10 },
-    { "key": "dateMatch", "label": "Service dates match your visit", "weight": 8 },
-    { "key": "unbundling", "label": "No unbundled charges (splitting what should be one code)", "weight": 8 },
-    { "key": "upcoding", "label": "Visit level matches complexity (no upcoding)", "weight": 8 },
-    { "key": "patientResponsibility", "label": "Patient responsibility clearly stated", "weight": 7 }
+    {
+      "key": "cptCodes",
+      "label": "CPT codes listed for each charge",
+      "weight": 15
+    },
+    {
+      "key": "itemized",
+      "label": "Each service listed separately",
+      "weight": 12
+    },
+    {
+      "key": "facility",
+      "label": "Facility vs professional fee separated",
+      "weight": 12
+    },
+    {
+      "key": "insuranceApplied",
+      "label": "Insurance adjustments applied",
+      "weight": 10
+    },
+    {
+      "key": "inNetwork",
+      "label": "Provider in-network",
+      "weight": 10
+    },
+    {
+      "key": "duplicates",
+      "label": "No duplicate charges",
+      "weight": 10
+    },
+    {
+      "key": "dateMatch",
+      "label": "Service dates match visit",
+      "weight": 8
+    },
+    {
+      "key": "unbundling",
+      "label": "No unbundled charges",
+      "weight": 8
+    },
+    {
+      "key": "upcoding",
+      "label": "Visit level matches complexity",
+      "weight": 8
+    },
+    {
+      "key": "patientResponsibility",
+      "label": "Patient responsibility stated",
+      "weight": 7
+    }
   ]
 }
