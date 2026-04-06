@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Is This Repair Needed? Free Auto Repair Check | TruePrice</title>
+  <meta name="description" content="The shop says you need a repair. Find out if it's actually urgent, what it should cost, and whether they're upselling you. Free, instant, no signup." />
+  <link rel="canonical" href="https://truepricehq.com/repair-check.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Is This Repair Needed? Free Auto Repair Check | TruePrice" />
+  <meta property="og:description" content="The shop says you need a repair. Find out if it's actually urgent, what it should cost, and whether they're upselling you." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/repair-check.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Is This Repair Needed? Free Auto Repair Check | TruePrice" />
+  <meta name="twitter:description" content="The shop says you need a repair. Find out if it's actually urgent, what it should cost, and whether they're upselling you." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "TruePrice Repair Check",
+    "url": "https://truepricehq.com/repair-check.html",
+    "description": "Free tool to check if a recommended auto repair is actually needed, what it should cost, and common upsell warnings.",
+    "applicationCategory": "UtilityApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "operatingSystem": "Web",
+    "provider": { "@type": "Organization", "name": "TruePrice", "url": "https://truepricehq.com" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Is This Repair Needed?"}]}
+  </script>
+
+  <style>
+    .rc-app { max-width: 660px; margin: 0 auto; padding: 2rem 1rem; }
+    .rc-hero { text-align: center; margin-bottom: 2rem; user-select: none; cursor: default; }
+    .rc-hero img { width: 80px; height: auto; margin-bottom: 0.5rem; }
+    .rc-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .rc-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .rc-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+
+    .rc-form { display: flex; flex-direction: column; gap: 0.85rem; }
+    .rc-label { font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 0.2rem; display: block; }
+    .rc-form input, .rc-form select { padding: 0.7rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; width: 100%; box-sizing: border-box; }
+    .rc-form input:focus, .rc-form select:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+    .rc-row { display: flex; gap: 0.75rem; }
+    .rc-row > * { flex: 1; min-width: 0; }
+
+    .rc-radio-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .rc-radio-group label { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.85rem; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer; font-size: 0.95rem; transition: all 0.15s; }
+    .rc-radio-group label:has(input:checked) { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+    .rc-radio-group input[type="radio"] { accent-color: #2563eb; }
+
+    /* Search dropdown */
+    .rc-search-wrap { position: relative; }
+    .rc-search-wrap input { padding-right: 2.5rem; }
+    .rc-dropdown { position: absolute; top: 100%; left: 0; right: 0; max-height: 280px; overflow-y: auto; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); z-index: 50; display: none; margin-top: 2px; }
+    .rc-dropdown.open { display: block; }
+    .rc-dd-cat { padding: 0.5rem 0.85rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: #64748b; background: #f8fafc; position: sticky; top: 0; }
+    .rc-dd-item { padding: 0.55rem 0.85rem; cursor: pointer; font-size: 0.95rem; color: #334155; }
+    .rc-dd-item:hover, .rc-dd-item.active { background: #eff6ff; color: #1d4ed8; }
+    .rc-dd-none { padding: 1rem; text-align: center; color: #94a3b8; font-size: 0.9rem; }
+
+    /* Results */
+    .rc-results { display: none; }
+    .rc-results.visible { display: block; }
+
+    /* Urgency badge */
+    .rc-urgency-badge { border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; }
+    .rc-urgency-badge .badge-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .rc-urgency-badge .badge-level { font-size: 1.25rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+    .rc-urgency-badge .badge-advice { font-size: 1rem; margin-top: 0.35rem; }
+    .rc-urgency-badge.critical { background: #fef2f2; border: 2px solid #fca5a5; }
+    .rc-urgency-badge.critical .badge-level { color: #dc2626; }
+    .rc-urgency-badge.critical .badge-advice { color: #991b1b; }
+    .rc-urgency-badge.soon { background: #fefce8; border: 2px solid #fde047; }
+    .rc-urgency-badge.soon .badge-level { color: #ca8a04; }
+    .rc-urgency-badge.soon .badge-advice { color: #854d0e; }
+    .rc-urgency-badge.can_wait { background: #f0fdf4; border: 2px solid #86efac; }
+    .rc-urgency-badge.can_wait .badge-level { color: #16a34a; }
+    .rc-urgency-badge.can_wait .badge-advice { color: #166534; }
+    .rc-urgency-badge.maintenance { background: #f8fafc; border: 2px solid #cbd5e1; }
+    .rc-urgency-badge.maintenance .badge-level { color: #64748b; }
+    .rc-urgency-badge.maintenance .badge-advice { color: #475569; }
+
+    /* Price card */
+    .rc-price-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+    .rc-price-card h3 { margin-bottom: 0.75rem; color: #1e293b; font-size: 1.1rem; }
+    .rc-price-main { font-size: 1.8rem; font-weight: 800; color: #1d4ed8; margin-bottom: 0.35rem; }
+    .rc-price-context { font-size: 0.9rem; color: #64748b; margin-bottom: 0.75rem; }
+    .rc-parts-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .rc-parts-table th { text-align: left; padding: 0.45rem 0.5rem; border-bottom: 2px solid #e2e8f0; color: #64748b; font-size: 0.75rem; text-transform: uppercase; }
+    .rc-parts-table td { padding: 0.45rem 0.5rem; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    .rc-parts-table tr:last-child td { border-bottom: none; }
+
+    /* Upsell warning */
+    .rc-upsell-card { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; display: none; }
+    .rc-upsell-card.visible { display: block; }
+    .rc-upsell-card h3 { color: #92400e; margin-bottom: 0.75rem; font-size: 1rem; }
+    .rc-upsell-item { padding: 0.6rem 0; border-bottom: 1px solid #fde68a; }
+    .rc-upsell-item:last-child { border-bottom: none; }
+    .rc-upsell-name { font-weight: 600; color: #92400e; }
+    .rc-upsell-tag { display: inline-block; padding: 1px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 6px; }
+    .rc-upsell-tag.rarely { background: #fef2f2; color: #dc2626; }
+    .rc-upsell-tag.no { background: #fef2f2; color: #dc2626; }
+    .rc-upsell-tag.sometimes { background: #fefce8; color: #ca8a04; }
+    .rc-upsell-tag.verify { background: #eff6ff; color: #2563eb; }
+    .rc-upsell-note { font-size: 0.85rem; color: #78350f; margin-top: 2px; }
+    .rc-upsell-cost { font-size: 0.8rem; color: #a16207; margin-top: 2px; }
+
+    /* Mileage context */
+    .rc-mileage-card { background: #f8fafc; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: none; }
+    .rc-mileage-card.visible { display: block; }
+    .rc-mileage-card p { color: #334155; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+    .rc-mileage-card strong { color: #1e293b; }
+
+    /* Tips */
+    .rc-tips { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .rc-tips h3 { color: #1e40af; margin-bottom: 0.5rem; font-size: 1rem; }
+    .rc-tips ul { padding-left: 18px; margin: 0; color: #1e3a5f; font-size: 0.9rem; line-height: 1.8; }
+    .rc-tips a { color: #2563eb; }
+
+    /* Repair notes */
+    .rc-note { background: #f1f5f9; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: #475569; display: none; }
+    .rc-note.visible { display: block; }
+
+    /* Buttons */
+    .rc-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.7rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600; border: none; cursor: pointer; transition: background 0.15s; text-decoration: none; }
+    .rc-btn-primary { background: #2563eb; color: #fff; }
+    .rc-btn-primary:hover { background: #1d4ed8; }
+    .rc-btn-secondary { background: #f1f5f9; color: #334155; }
+    .rc-btn-secondary:hover { background: #e2e8f0; }
+    .rc-btn-full { width: 100%; }
+    .rc-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+
+    /* Disclaimer */
+    .rc-disclaimer { font-size: 0.8rem; color: #94a3b8; text-align: center; line-height: 1.6; margin-top: 1rem; }
+
+    /* Copied toast */
+    .rc-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #1e293b; color: #fff; padding: 0.7rem 1.5rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .rc-toast.show { opacity: 1; }
+
+    @media (max-width: 600px) {
+      .rc-hero h1 { font-size: 1.45rem; }
+      .rc-row { flex-direction: column; }
+      .rc-card { padding: 1.25rem; }
+      .rc-price-main { font-size: 1.4rem; }
+      .rc-urgency-badge { padding: 1.25rem; }
+      .rc-urgency-badge .badge-icon { font-size: 2rem; }
+      .rc-urgency-badge .badge-level { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="rc-app" id="rcApp">
+
+      <!-- Hero -->
+      <div class="rc-hero">
+        <img src="/images/trudy-auto.png" alt="Trudy the TruePrice bunny" />
+        <h1>Is This Repair Actually Needed?</h1>
+        <p>The shop says you need it. Here's what the data says.</p>
+      </div>
+
+      <!-- Input Form -->
+      <div class="rc-card">
+        <div class="rc-form" id="rcForm">
+
+          <div>
+            <label class="rc-label" for="rcRepairInput">What repair did the shop recommend?</label>
+            <div class="rc-search-wrap" id="rcSearchWrap">
+              <input type="text" id="rcRepairInput" placeholder="Search repairs (e.g. brake pads, timing belt...)" autocomplete="off" />
+              <div class="rc-dropdown" id="rcDropdown"></div>
+            </div>
+          </div>
+
+          <div>
+            <label class="rc-label" for="rcVehicle">Your vehicle</label>
+            <input type="text" id="rcVehicle" placeholder="e.g. 2021 Honda Civic" />
+          </div>
+
+          <div class="rc-row">
+            <div>
+              <label class="rc-label" for="rcMileage">Mileage</label>
+              <input type="number" id="rcMileage" placeholder="e.g. 67000" min="0" />
+            </div>
+            <div>
+              <label class="rc-label" for="rcState">State</label>
+              <select id="rcState">
+                <option value="">Select state</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="rc-label">Shop type</label>
+            <div class="rc-radio-group">
+              <label><input type="radio" name="shopType" value="independent" checked /> Independent</label>
+              <label><input type="radio" name="shopType" value="dealer" /> Dealer</label>
+              <label><input type="radio" name="shopType" value="chain" /> Chain</label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="rc-results" id="rcResults">
+        <div id="rcUrgencyBadge" class="rc-urgency-badge"></div>
+        <div id="rcPriceCard" class="rc-price-card"></div>
+        <div id="rcNote" class="rc-note"></div>
+        <div id="rcUpsellCard" class="rc-upsell-card"></div>
+        <div id="rcMileageCard" class="rc-mileage-card"></div>
+
+        <div class="rc-tips">
+          <h3>Before You Approve</h3>
+          <ul>
+            <li>Get 2-3 quotes before approving</li>
+            <li>Ask about aftermarket parts to save 20-50%</li>
+            <li>Request to see the worn or damaged part</li>
+            <li>Check your owner's manual for the manufacturer's maintenance schedule</li>
+            <li><a href="/auto-repair-quote-analyzer.html">Upload your full quote for a detailed AI analysis</a></li>
+          </ul>
+        </div>
+
+        <div class="rc-actions">
+          <button class="rc-btn rc-btn-primary rc-btn-full" id="rcShare">Share This Result</button>
+          <button class="rc-btn rc-btn-secondary rc-btn-full" id="rcReset">Check Another Repair</button>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="rc-disclaimer">
+        This tool provides general guidance based on typical vehicle maintenance schedules. Your specific vehicle may have different requirements. Always consult your owner's manual and a qualified mechanic. This is not professional automotive advice.
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps car owners check repair urgency, compare shop prices, and avoid unnecessary upsells. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <div class="rc-toast" id="rcToast">Copied to clipboard</div>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ========== EMBEDDED DATA ==========
+
+    var stateMultipliers = {"AL":0.82,"AK":1.1,"AZ":0.95,"AR":0.78,"CA":1.25,"CO":1.08,"CT":1.18,"DE":1.05,"FL":0.92,"GA":0.88,"HI":1.12,"ID":0.85,"IL":1.02,"IN":0.88,"IA":0.85,"KS":0.85,"KY":0.82,"LA":0.85,"ME":0.95,"MD":1.05,"MA":1.15,"MI":0.88,"MN":0.95,"MS":0.78,"MO":0.85,"MT":0.9,"NE":0.85,"NV":1.0,"NH":1.05,"NJ":1.12,"NM":0.88,"NY":1.18,"NC":0.88,"ND":0.85,"OH":0.88,"OK":0.8,"OR":1.02,"PA":1.0,"RI":1.05,"SC":0.85,"SD":0.82,"TN":0.85,"TX":0.9,"UT":0.92,"VT":0.95,"VA":0.95,"WA":1.12,"WV":0.78,"WI":0.9,"WY":0.88,"DC":1.2};
+
+    var stateNames = {"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming","DC":"Washington DC"};
+
+    var shopTypeMultipliers = { dealer: 1.18, independent: 0.88, chain: 1.0 };
+    var shopTypeLabels = { dealer: "a dealership", independent: "an independent shop", chain: "a chain shop" };
+
+    var vehicleCategories = {
+      economy: { mult: 0.85, keywords: ["civic","corolla","sentra","elantra","fit","yaris","versa","accent","rio","sonic","spark","fiesta","cruze","forte","impreza"] },
+      luxury: { mult: 1.35, keywords: ["bmw","mercedes","benz","audi","lexus","volvo","jaguar","infiniti","acura","cadillac","lincoln","genesis","land rover","range rover","porsche cayenne","porsche macan"] },
+      performance: { mult: 1.5, keywords: ["porsche 911","corvette","amg","m3","m4","m5","rs3","rs5","rs7","gt350","gt500","hellcat","srt","nismo","type r","shelby","viper"] },
+      truck_suv: { mult: 1.15, keywords: ["f-150","f150","silverado","sierra","ram 1500","ram 2500","ram 3500","tundra","tacoma","ranger","colorado","frontier","titan","4runner","wrangler","bronco","tahoe","suburban","expedition","yukon","sequoia","explorer","highlander","pilot","pathfinder","durango","grand cherokee","rav4","cr-v","crv","rogue","escape","equinox","tucson","santa fe","telluride","palisade"] },
+      ev_hybrid: { mult: 1.2, keywords: ["tesla","prius","bolt","leaf","mach-e","id.4","id4","ioniq","ev6","model 3","model y","model s","model x","rivian","lucid","mustang mach","niro ev","e-tron","etron","taycan","electric","hybrid","phev","plug-in"] },
+      standard: { mult: 1.0, keywords: [] }
+    };
+
+    var categoryLabels = {
+      brakes: "Brakes",
+      engine: "Engine",
+      transmission: "Transmission",
+      electrical: "Electrical",
+      ac: "AC / Climate",
+      cooling: "Cooling",
+      exhaust: "Exhaust",
+      suspension: "Suspension",
+      steering: "Steering",
+      maintenance: "Maintenance",
+      drivetrain: "Drivetrain",
+      fuel: "Fuel System",
+      ev: "EV / Hybrid"
+    };
+
+    var commonRepairs = {
+      brakes_front: { label:"Front Brake Pads & Rotors", category:"brakes", totalRange:{low:250,high:650}, partsRange:{oem:[150,350],aftermarket:[80,200],reman:[60,150]}, urgency:"soon", notes:"Per axle. Rotors may not need replacing every time." },
+      brakes_rear: { label:"Rear Brake Pads & Rotors", category:"brakes", totalRange:{low:230,high:600}, partsRange:{oem:[130,300],aftermarket:[70,180],reman:[50,130]}, urgency:"soon", notes:"" },
+      brakes_all_four: { label:"Complete Brake Job (All 4 Wheels)", category:"brakes", totalRange:{low:450,high:1200}, partsRange:{oem:[280,650],aftermarket:[150,380],reman:[110,280]}, urgency:"soon", notes:"" },
+      oil_change_conventional: { label:"Oil Change (Conventional)", category:"maintenance", totalRange:{low:35,high:75}, partsRange:{oem:[25,40],aftermarket:[20,35]}, urgency:"maintenance", notes:"" },
+      oil_change_synthetic: { label:"Oil Change (Full Synthetic)", category:"maintenance", totalRange:{low:65,high:125}, partsRange:{oem:[45,70],aftermarket:[35,60]}, urgency:"maintenance", notes:"" },
+      timing_belt: { label:"Timing Belt Replacement", category:"engine", totalRange:{low:400,high:1300}, partsRange:{oem:[80,200],aftermarket:[50,120]}, urgency:"soon", notes:"Replace at manufacturer interval (60-100K miles). Failure can destroy engine." },
+      timing_chain: { label:"Timing Chain Replacement", category:"engine", totalRange:{low:800,high:2500}, partsRange:{oem:[150,400],aftermarket:[80,250]}, urgency:"critical", notes:"" },
+      transmission_rebuild: { label:"Transmission Rebuild", category:"transmission", totalRange:{low:1800,high:3500}, partsRange:{oem:[800,2000],aftermarket:[500,1500],reman:[400,1200]}, urgency:"critical", notes:"" },
+      transmission_replacement: { label:"Transmission Replacement", category:"transmission", totalRange:{low:2800,high:6000}, partsRange:{oem:[2000,4000],aftermarket:[1500,3000],reman:[1200,2500]}, urgency:"critical", notes:"" },
+      alternator: { label:"Alternator Replacement", category:"electrical", totalRange:{low:350,high:800}, partsRange:{oem:[250,500],aftermarket:[120,300],reman:[80,200]}, urgency:"critical", notes:"" },
+      starter_motor: { label:"Starter Motor Replacement", category:"electrical", totalRange:{low:300,high:700}, partsRange:{oem:[200,450],aftermarket:[100,250],reman:[75,200]}, urgency:"critical", notes:"" },
+      battery: { label:"Battery Replacement (12V)", category:"electrical", totalRange:{low:120,high:300}, partsRange:{oem:[100,200],aftermarket:[80,160]}, urgency:"critical", notes:"" },
+      ac_compressor: { label:"AC Compressor Replacement", category:"ac", totalRange:{low:600,high:1400}, partsRange:{oem:[300,700],aftermarket:[200,500],reman:[150,400]}, urgency:"can_wait", notes:"" },
+      ac_recharge: { label:"AC Recharge (R134a)", category:"ac", totalRange:{low:100,high:250}, partsRange:{oem:[30,60]}, urgency:"can_wait", notes:"" },
+      water_pump: { label:"Water Pump Replacement", category:"cooling", totalRange:{low:350,high:900}, partsRange:{oem:[150,350],aftermarket:[80,200],reman:[60,150]}, urgency:"critical", notes:"" },
+      radiator: { label:"Radiator Replacement", category:"cooling", totalRange:{low:400,high:900}, partsRange:{oem:[250,500],aftermarket:[120,300]}, urgency:"critical", notes:"" },
+      thermostat: { label:"Thermostat Replacement", category:"cooling", totalRange:{low:150,high:400}, partsRange:{oem:[30,80],aftermarket:[15,50]}, urgency:"soon", notes:"" },
+      head_gasket: { label:"Head Gasket Replacement", category:"engine", totalRange:{low:1500,high:3500}, partsRange:{oem:[200,600],aftermarket:[100,350]}, urgency:"critical", notes:"Major repair. Get second opinion. Compare cost vs vehicle value." },
+      catalytic_converter: { label:"Catalytic Converter", category:"exhaust", totalRange:{low:500,high:3000}, partsRange:{oem:[800,2500],aftermarket:[200,800]}, urgency:"soon", notes:"CA requires CARB-compliant. OEM much more expensive. High theft target." },
+      exhaust_muffler: { label:"Muffler Replacement", category:"exhaust", totalRange:{low:150,high:400}, partsRange:{oem:[100,250],aftermarket:[50,150]}, urgency:"can_wait", notes:"" },
+      o2_sensor: { label:"Oxygen Sensor Replacement", category:"exhaust", totalRange:{low:150,high:400}, partsRange:{oem:[80,200],aftermarket:[40,120]}, urgency:"soon", notes:"" },
+      struts_front: { label:"Front Struts (Pair)", category:"suspension", totalRange:{low:400,high:900}, partsRange:{oem:[200,500],aftermarket:[100,300]}, urgency:"soon", notes:"" },
+      struts_rear: { label:"Rear Struts/Shocks (Pair)", category:"suspension", totalRange:{low:300,high:700}, partsRange:{oem:[150,400],aftermarket:[80,250]}, urgency:"soon", notes:"" },
+      wheel_bearing: { label:"Wheel Bearing Replacement", category:"suspension", totalRange:{low:250,high:550}, partsRange:{oem:[100,250],aftermarket:[60,150]}, urgency:"critical", notes:"" },
+      ball_joints: { label:"Ball Joints (Pair)", category:"suspension", totalRange:{low:250,high:600}, partsRange:{oem:[100,300],aftermarket:[60,180]}, urgency:"critical", notes:"" },
+      control_arms: { label:"Control Arms (Pair)", category:"suspension", totalRange:{low:400,high:1200}, partsRange:{oem:[200,500],aftermarket:[100,300]}, urgency:"soon", notes:"" },
+      tie_rod_ends: { label:"Tie Rod Ends (Pair)", category:"steering", totalRange:{low:200,high:500}, partsRange:{oem:[80,200],aftermarket:[40,120]}, urgency:"critical", notes:"" },
+      spark_plugs: { label:"Spark Plug Replacement", category:"engine", totalRange:{low:100,high:350}, partsRange:{oem:[40,120],aftermarket:[20,80]}, urgency:"maintenance", notes:"Labor varies hugely by engine. V6/V8 with coil-on-plug can be 3+ hours." },
+      ignition_coils: { label:"Ignition Coil(s) Replacement", category:"electrical", totalRange:{low:150,high:500}, partsRange:{oem:[50,200],aftermarket:[25,100]}, urgency:"soon", notes:"" },
+      clutch_replacement: { label:"Clutch Replacement", category:"drivetrain", totalRange:{low:800,high:2000}, partsRange:{oem:[300,800],aftermarket:[150,500]}, urgency:"critical", notes:"" },
+      cv_axle: { label:"CV Axle Replacement", category:"drivetrain", totalRange:{low:200,high:500}, partsRange:{oem:[150,350],aftermarket:[80,200],reman:[60,150]}, urgency:"soon", notes:"" },
+      fuel_pump: { label:"Fuel Pump Replacement", category:"fuel", totalRange:{low:400,high:1000}, partsRange:{oem:[250,600],aftermarket:[150,400]}, urgency:"critical", notes:"" },
+      fuel_injector: { label:"Fuel Injector Replacement (Single)", category:"fuel", totalRange:{low:150,high:500}, partsRange:{oem:[80,300],aftermarket:[40,150]}, urgency:"soon", notes:"" },
+      serpentine_belt: { label:"Serpentine Belt Replacement", category:"engine", totalRange:{low:75,high:200}, partsRange:{oem:[30,80],aftermarket:[15,50]}, urgency:"soon", notes:"" },
+      power_steering_pump: { label:"Power Steering Pump", category:"steering", totalRange:{low:300,high:700}, partsRange:{oem:[200,400],aftermarket:[100,250],reman:[80,200]}, urgency:"soon", notes:"" },
+      window_regulator: { label:"Window Regulator/Motor", category:"electrical", totalRange:{low:250,high:600}, partsRange:{oem:[150,350],aftermarket:[60,200]}, urgency:"can_wait", notes:"" },
+      headlight_assembly: { label:"Headlight Assembly", category:"electrical", totalRange:{low:150,high:800}, partsRange:{oem:[200,600],aftermarket:[80,300]}, urgency:"critical", notes:"Luxury LED/HID assemblies can cost $800-4000 OEM." },
+      engine_replacement: { label:"Engine Replacement", category:"engine", totalRange:{low:3000,high:8000}, partsRange:{oem:[3000,7000],aftermarket:[1500,4000],reman:[2000,5000]}, urgency:"critical", notes:"Compare cost vs vehicle value before proceeding." },
+      ev_battery_pack: { label:"EV Battery Pack Replacement", category:"ev", totalRange:{low:4000,high:25000}, partsRange:{oem:[7000,20000],reman:[3000,10000]}, urgency:"critical", notes:"Most EVs have 8yr/100K mile battery warranty. Check warranty first." },
+      ev_battery_module: { label:"EV Battery Module Repair", category:"ev", totalRange:{low:3000,high:8000}, partsRange:{reman:[1500,5000]}, urgency:"critical", notes:"Module-level repair is 30-50% cheaper than full pack replacement." },
+      hybrid_battery: { label:"Hybrid Battery Replacement", category:"ev", totalRange:{low:2000,high:6000}, partsRange:{oem:[2500,5000],reman:[1500,3000]}, urgency:"critical", notes:"Reman hybrid batteries from Greentec, re/cell save 30-50%." },
+      turbo_replacement: { label:"Turbocharger Replacement", category:"engine", totalRange:{low:1500,high:4000}, partsRange:{oem:[800,2500],aftermarket:[400,1500],reman:[300,1200]}, urgency:"critical", notes:"" },
+      dpf_cleaning: { label:"DPF Filter Cleaning/Replace (Diesel)", category:"exhaust", totalRange:{low:500,high:3000}, partsRange:{oem:[500,2000],aftermarket:[300,1000]}, urgency:"soon", notes:"" }
+    };
+
+    var commonUpsells = [
+      { trigger:"brake_job", upsell:"Brake fluid flush", typical_cost:[80,150], necessary:"rarely", notes:"Brake fluid should be changed every 2-3 years, but not necessarily every brake job." },
+      { trigger:"brake_job", upsell:"Wheel alignment", typical_cost:[80,120], necessary:"no", notes:"Brakes do not affect alignment. Only needed after suspension work." },
+      { trigger:"oil_change", upsell:"Engine flush", typical_cost:[100,200], necessary:"rarely", notes:"Can damage seals on high-mileage engines. Most manufacturers do not recommend." },
+      { trigger:"oil_change", upsell:"Fuel system cleaning", typical_cost:[100,200], necessary:"rarely", notes:"Modern fuel already contains detergents. Useful only if specific symptoms." },
+      { trigger:"oil_change", upsell:"Cabin air filter", typical_cost:[40,80], necessary:"sometimes", notes:"Replace every 15-20K miles. DIY cost: $10-20. Shop markup is high." },
+      { trigger:"any", upsell:"Transmission flush", typical_cost:[150,300], necessary:"sometimes", notes:"Check owner's manual. Some manufacturers say never flush, only drain-and-fill." },
+      { trigger:"any", upsell:"Coolant flush", typical_cost:[100,200], necessary:"sometimes", notes:"Every 30-60K miles per manufacturer. Not needed annually." },
+      { trigger:"check_engine", upsell:"Multiple sensors replaced", typical_cost:[300,800], necessary:"verify", notes:"One bad sensor can trigger multiple codes. Diagnose root cause first." },
+      { trigger:"suspension", upsell:"Replace all 4 struts when only 2 needed", typical_cost:[400,900], necessary:"no", notes:"Struts should be replaced in pairs (front or rear), not necessarily all 4." }
+    ];
+
+    var urgencyConfig = {
+      critical: { label:"Safety Critical", icon:"\u26A0\uFE0F", advice:"Do not drive until repaired. Safety risk to you and others." },
+      soon: { label:"Repair Soon", icon:"\u23F0", advice:"Schedule within 1-2 weeks. Continued driving may cause further damage." },
+      can_wait: { label:"Can Wait", icon:"\u2705", advice:"Not urgent. Schedule at your convenience or next service interval." },
+      maintenance: { label:"Routine Maintenance", icon:"\uD83D\uDD27", advice:"Follow your manufacturer's recommended schedule." }
+    };
+
+    // Mileage context rules: [repairKey pattern, typical low, typical high, label]
+    var mileageRules = [
+      { keys:["timing_belt"], low:60000, high:105000, name:"timing belt replacement" },
+      { keys:["spark_plugs"], low:30000, high:100000, name:"spark plug replacement" },
+      { keys:["brakes_front","brakes_rear","brakes_all_four"], low:30000, high:70000, name:"brake pad replacement" },
+      { keys:["transmission_rebuild","transmission_replacement"], low:100000, high:200000, name:"transmission service" },
+      { keys:["water_pump"], low:60000, high:100000, name:"water pump replacement" },
+      { keys:["serpentine_belt"], low:60000, high:100000, name:"serpentine belt replacement" },
+      { keys:["alternator"], low:80000, high:150000, name:"alternator replacement" },
+      { keys:["starter_motor"], low:80000, high:150000, name:"starter motor replacement" },
+      { keys:["clutch_replacement"], low:60000, high:100000, name:"clutch replacement" },
+      { keys:["struts_front","struts_rear"], low:50000, high:100000, name:"strut/shock replacement" },
+      { keys:["catalytic_converter"], low:80000, high:150000, name:"catalytic converter replacement" },
+      { keys:["fuel_pump"], low:100000, high:200000, name:"fuel pump replacement" },
+      { keys:["head_gasket"], low:100000, high:200000, name:"head gasket replacement" },
+      { keys:["cv_axle"], low:70000, high:130000, name:"CV axle replacement" },
+      { keys:["battery"], low:30000, high:60000, name:"battery replacement (3-5 years typical)" },
+      { keys:["thermostat"], low:80000, high:150000, name:"thermostat replacement" },
+      { keys:["wheel_bearing"], low:75000, high:150000, name:"wheel bearing replacement" },
+      { keys:["ev_battery_pack","ev_battery_module","hybrid_battery"], low:100000, high:200000, name:"battery pack service" }
+    ];
+
+    // Upsell trigger mapping: repair key -> which trigger strings apply
+    var upsellTriggerMap = {
+      brakes_front: ["brake_job","any"],
+      brakes_rear: ["brake_job","any"],
+      brakes_all_four: ["brake_job","any"],
+      oil_change_conventional: ["oil_change","any"],
+      oil_change_synthetic: ["oil_change","any"],
+      struts_front: ["suspension","any"],
+      struts_rear: ["suspension","any"],
+      control_arms: ["suspension","any"],
+      ball_joints: ["suspension","any"],
+      o2_sensor: ["check_engine","any"],
+      catalytic_converter: ["check_engine","any"]
+    };
+
+    // ========== DOM REFS ==========
+    var repairInput = document.getElementById("rcRepairInput");
+    var dropdown = document.getElementById("rcDropdown");
+    var vehicleInput = document.getElementById("rcVehicle");
+    var mileageInput = document.getElementById("rcMileage");
+    var stateSelect = document.getElementById("rcState");
+    var resultsDiv = document.getElementById("rcResults");
+    var urgencyBadge = document.getElementById("rcUrgencyBadge");
+    var priceCard = document.getElementById("rcPriceCard");
+    var noteDiv = document.getElementById("rcNote");
+    var upsellCard = document.getElementById("rcUpsellCard");
+    var mileageCard = document.getElementById("rcMileageCard");
+    var shareBtn = document.getElementById("rcShare");
+    var resetBtn = document.getElementById("rcReset");
+    var toastEl = document.getElementById("rcToast");
+
+    var selectedRepairKey = null;
+
+    // ========== INIT STATE SELECT ==========
+    var stateKeys = Object.keys(stateMultipliers).sort(function(a,b) {
+      return (stateNames[a]||a).localeCompare(stateNames[b]||b);
+    });
+    stateKeys.forEach(function(code) {
+      var opt = document.createElement("option");
+      opt.value = code;
+      opt.textContent = stateNames[code] || code;
+      stateSelect.appendChild(opt);
+    });
+
+    // ========== SEARCHABLE DROPDOWN ==========
+
+    function buildDropdownItems(filter) {
+      var html = "";
+      var grouped = {};
+      var order = ["brakes","engine","transmission","electrical","ac","cooling","exhaust","suspension","steering","drivetrain","fuel","maintenance","ev"];
+
+      Object.keys(commonRepairs).forEach(function(key) {
+        var r = commonRepairs[key];
+        if (filter) {
+          var lf = filter.toLowerCase();
+          if (r.label.toLowerCase().indexOf(lf) === -1 && r.category.toLowerCase().indexOf(lf) === -1) return;
+        }
+        if (!grouped[r.category]) grouped[r.category] = [];
+        grouped[r.category].push({ key: key, label: r.label });
+      });
+
+      var anyResults = false;
+      order.forEach(function(cat) {
+        if (!grouped[cat]) return;
+        anyResults = true;
+        html += '<div class="rc-dd-cat">' + (categoryLabels[cat] || cat) + '</div>';
+        grouped[cat].forEach(function(item) {
+          html += '<div class="rc-dd-item" data-key="' + item.key + '">' + item.label + '</div>';
+        });
+      });
+
+      if (!anyResults) {
+        html = '<div class="rc-dd-none">No repairs found</div>';
+      }
+
+      dropdown.innerHTML = html;
+
+      // Bind clicks
+      var items = dropdown.querySelectorAll(".rc-dd-item");
+      items.forEach(function(el) {
+        el.addEventListener("mousedown", function(e) {
+          e.preventDefault();
+          selectRepair(el.getAttribute("data-key"));
+        });
+      });
+    }
+
+    function selectRepair(key) {
+      selectedRepairKey = key;
+      repairInput.value = commonRepairs[key].label;
+      dropdown.classList.remove("open");
+      updateResults();
+    }
+
+    repairInput.addEventListener("focus", function() {
+      buildDropdownItems(repairInput.value);
+      dropdown.classList.add("open");
+    });
+
+    repairInput.addEventListener("input", function() {
+      selectedRepairKey = null;
+      buildDropdownItems(repairInput.value);
+      dropdown.classList.add("open");
+      hideResults();
+    });
+
+    repairInput.addEventListener("blur", function() {
+      setTimeout(function() { dropdown.classList.remove("open"); }, 150);
+    });
+
+    // ========== VEHICLE CATEGORY DETECTION ==========
+    function detectVehicleCategory(text) {
+      if (!text) return "standard";
+      var lower = text.toLowerCase();
+      var cats = ["performance","luxury","ev_hybrid","truck_suv","economy"];
+      for (var i = 0; i < cats.length; i++) {
+        var cat = cats[i];
+        var kws = vehicleCategories[cat].keywords;
+        for (var j = 0; j < kws.length; j++) {
+          if (lower.indexOf(kws[j]) !== -1) return cat;
+        }
+      }
+      return "standard";
+    }
+
+    // ========== PRICE CALCULATION ==========
+    function calcPrice(repair, stateCode, shopType, vehicleCat) {
+      var base = repair.totalRange;
+      var sMult = stateMultipliers[stateCode] || 1.0;
+      var shopMult = shopTypeMultipliers[shopType] || 1.0;
+      var vMult = vehicleCategories[vehicleCat] ? vehicleCategories[vehicleCat].mult : 1.0;
+      var low = Math.round(base.low * sMult * shopMult * vMult);
+      var high = Math.round(base.high * sMult * shopMult * vMult);
+      return { low: low, high: high };
+    }
+
+    // ========== FORMAT ==========
+    function fmt(n) { return "$" + n.toLocaleString(); }
+
+    // ========== UPDATE RESULTS ==========
+    function hideResults() {
+      resultsDiv.classList.remove("visible");
+    }
+
+    function updateResults() {
+      if (!selectedRepairKey) { hideResults(); return; }
+
+      var repair = commonRepairs[selectedRepairKey];
+      if (!repair) { hideResults(); return; }
+
+      var stateCode = stateSelect.value || "";
+      var shopType = (document.querySelector('input[name="shopType"]:checked') || {}).value || "independent";
+      var vehicle = vehicleInput.value.trim();
+      var mileage = parseInt(mileageInput.value) || 0;
+      var vehicleCat = detectVehicleCategory(vehicle);
+
+      // Urgency badge
+      var urg = urgencyConfig[repair.urgency] || urgencyConfig.maintenance;
+      urgencyBadge.className = "rc-urgency-badge " + repair.urgency;
+      urgencyBadge.innerHTML =
+        '<div class="badge-icon">' + urg.icon + '</div>' +
+        '<div class="badge-level">' + urg.label + '</div>' +
+        '<div class="badge-advice">' + urg.advice + '</div>';
+
+      // Price
+      var price = calcPrice(repair, stateCode, shopType, vehicleCat);
+      var contextParts = [];
+      if (stateCode) contextParts.push(stateNames[stateCode]);
+      contextParts.push(shopTypeLabels[shopType]);
+      if (vehicle) contextParts.push(vehicle);
+
+      var partsHtml = "";
+      if (repair.partsRange) {
+        var types = Object.keys(repair.partsRange);
+        if (types.length > 1 || (types.length === 1 && types[0] !== "oem")) {
+          partsHtml = '<h4 style="margin:0.75rem 0 0.35rem;font-size:0.9rem;color:#64748b;">Parts pricing (before labor)</h4>';
+          partsHtml += '<table class="rc-parts-table"><thead><tr><th>Type</th><th>Low</th><th>High</th></tr></thead><tbody>';
+          var typeLabels = { oem: "OEM", aftermarket: "Aftermarket", reman: "Remanufactured" };
+          types.forEach(function(t) {
+            var r = repair.partsRange[t];
+            partsHtml += '<tr><td>' + (typeLabels[t] || t) + '</td><td>' + fmt(r[0]) + '</td><td>' + fmt(r[1]) + '</td></tr>';
+          });
+          partsHtml += '</tbody></table>';
+        }
+      }
+
+      priceCard.innerHTML =
+        '<h3>Estimated Cost</h3>' +
+        '<div class="rc-price-main">' + fmt(price.low) + ' - ' + fmt(price.high) + '</div>' +
+        '<div class="rc-price-context">Typical cost for <strong>' + repair.label + '</strong>' +
+        (contextParts.length ? ' in ' + contextParts.join(' at ') : '') + '</div>' +
+        partsHtml;
+
+      // Notes
+      if (repair.notes) {
+        noteDiv.innerHTML = '<strong>Note:</strong> ' + repair.notes;
+        noteDiv.classList.add("visible");
+      } else {
+        noteDiv.classList.remove("visible");
+      }
+
+      // Upsell check
+      var triggers = upsellTriggerMap[selectedRepairKey] || ["any"];
+      // always include "any"
+      if (triggers.indexOf("any") === -1) triggers.push("any");
+      var matchedUpsells = commonUpsells.filter(function(u) {
+        return triggers.indexOf(u.trigger) !== -1;
+      });
+
+      if (matchedUpsells.length > 0) {
+        var uhtml = '<h3>Common Upsells With This Repair</h3>';
+        uhtml += '<p style="font-size:0.85rem;color:#92400e;margin-bottom:0.75rem;">Shops commonly add these services with ' + repair.label.toLowerCase() + '. Not all are necessary.</p>';
+        matchedUpsells.forEach(function(u) {
+          var nTag = { rarely:"Usually not needed", no:"Not needed", sometimes:"Sometimes needed", verify:"Verify first" };
+          uhtml += '<div class="rc-upsell-item">' +
+            '<div><span class="rc-upsell-name">' + u.upsell + '</span>' +
+            '<span class="rc-upsell-tag ' + u.necessary + '">' + (nTag[u.necessary] || u.necessary) + '</span></div>' +
+            '<div class="rc-upsell-note">' + u.notes + '</div>' +
+            '<div class="rc-upsell-cost">Typical add-on cost: ' + fmt(u.typical_cost[0]) + ' - ' + fmt(u.typical_cost[1]) + '</div>' +
+            '</div>';
+        });
+        upsellCard.innerHTML = uhtml;
+        upsellCard.classList.add("visible");
+      } else {
+        upsellCard.classList.remove("visible");
+      }
+
+      // Mileage context
+      if (mileage > 0) {
+        var mileageMsg = "";
+        for (var i = 0; i < mileageRules.length; i++) {
+          var rule = mileageRules[i];
+          if (rule.keys.indexOf(selectedRepairKey) !== -1) {
+            var miles = mileage.toLocaleString();
+            if (mileage < rule.low) {
+              mileageMsg = 'At <strong>' + miles + ' miles</strong>, ' + rule.name + ' is <strong>premature</strong> for most vehicles. Typical interval is ' + rule.low.toLocaleString() + '-' + rule.high.toLocaleString() + ' miles. Ask why the shop is recommending it now.';
+            } else if (mileage >= rule.low && mileage <= rule.high) {
+              mileageMsg = 'At <strong>' + miles + ' miles</strong>, ' + rule.name + ' is <strong>typical</strong> and within the normal service window (' + rule.low.toLocaleString() + '-' + rule.high.toLocaleString() + ' miles).';
+            } else {
+              mileageMsg = 'At <strong>' + miles + ' miles</strong>, ' + rule.name + ' is <strong>overdue</strong> for most vehicles. Normal interval is ' + rule.low.toLocaleString() + '-' + rule.high.toLocaleString() + ' miles. Prioritize this.';
+            }
+            break;
+          }
+        }
+        if (mileageMsg) {
+          mileageCard.innerHTML = '<p>' + mileageMsg + '</p>';
+          mileageCard.classList.add("visible");
+        } else {
+          mileageCard.classList.remove("visible");
+        }
+      } else {
+        mileageCard.classList.remove("visible");
+      }
+
+      resultsDiv.classList.add("visible");
+      resultsDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      if (typeof tpTrack === "function") tpTrack("repair_check", { repair: selectedRepairKey, urgency: repair.urgency });
+    }
+
+    // ========== EVENT LISTENERS ==========
+    vehicleInput.addEventListener("input", function() { if (selectedRepairKey) updateResults(); });
+    mileageInput.addEventListener("input", function() { if (selectedRepairKey) updateResults(); });
+    stateSelect.addEventListener("change", function() { if (selectedRepairKey) updateResults(); });
+    document.querySelectorAll('input[name="shopType"]').forEach(function(el) {
+      el.addEventListener("change", function() { if (selectedRepairKey) updateResults(); });
+    });
+
+    // Share
+    shareBtn.addEventListener("click", function() {
+      if (!selectedRepairKey) return;
+      var repair = commonRepairs[selectedRepairKey];
+      var stateCode = stateSelect.value;
+      var shopType = (document.querySelector('input[name="shopType"]:checked') || {}).value || "independent";
+      var vehicle = vehicleInput.value.trim() || "my car";
+      var mileage = mileageInput.value || "unknown";
+      var vehicleCat = detectVehicleCategory(vehicle);
+      var price = calcPrice(repair, stateCode, shopType, vehicleCat);
+      var urg = urgencyConfig[repair.urgency];
+
+      var text = "The shop says I need " + repair.label.toLowerCase() + " on my " + vehicle + " at " + Number(mileage).toLocaleString() + " miles.\n" +
+        "TruePrice says: " + urg.label + ". Typical cost: " + fmt(price.low) + "-" + fmt(price.high) + ".\n" +
+        "Check yours: truepricehq.com/repair-check.html";
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() { showToast(); });
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast();
+      }
+    });
+
+    function showToast() {
+      toastEl.classList.add("show");
+      setTimeout(function() { toastEl.classList.remove("show"); }, 2000);
+    }
+
+    // Reset
+    resetBtn.addEventListener("click", function() {
+      selectedRepairKey = null;
+      repairInput.value = "";
+      vehicleInput.value = "";
+      mileageInput.value = "";
+      stateSelect.value = "";
+      document.querySelector('input[name="shopType"][value="independent"]').checked = true;
+      hideResults();
+      repairInput.focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Track page visit
+    if (typeof tpTrack === "function") tpTrack("funnel_visit_repair_check", { service: "auto-repair" });
+
+  })();
+  </script>
+<script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
