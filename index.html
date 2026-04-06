@@ -520,16 +520,16 @@ fetch("/api/analytics?counter=1").then(r=>r.json()).then(d=>{
       verdictColor: "#dc2626",
       verdictBg: "#fef2f2",
       verdictBorder: "#fca5a5",
-      delta: "3 charges flagged on a $4,200 ER visit at Memorial Hospital, Denver, CO",
+      delta: "3 charges flagged on a $4,200 ER visit at Memorial Hospital, Denver, CO. Save $1,680 at freestanding imaging center.",
       stats: [
         { label: "Total billed", value: "$4,200", color: "#dc2626" },
-        { label: "Benchmark rate", value: "$1,450", color: "" },
+        { label: "CO benchmark", value: "$1,450", color: "" },
         { label: "Red flags", value: "3 found", color: "#dc2626" }
       ],
       pills: [
-        { text: "CPT codes listed", ok: true }, { text: "Charges itemized", ok: true },
+        { text: "CPT codes listed", ok: true }, { text: "NCCI bundle check", ok: true },
         { text: "Insurance applied", ok: true }, { text: "Duplicate charge", ok: false },
-        { text: "Possible upcoding", ok: false }, { text: "Facility fee unclear", ok: false }
+        { text: "Possible upcoding", ok: false }, { text: "No Surprises Act", ok: false }
       ],
       cta: { text: "Check your medical bill", href: "/medical-bill-analyzer.html" },
       img: "/images/trudy-medical.png"

@@ -10,7 +10,7 @@
   <title>Medical Bill Analyzer - Is Your Hospital Bill Correct? | TruePrice</title>
   <meta
     name="description"
-    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against published benchmark rates and flags items to dispute. Free, no signup."
+    content="Upload your medical bill or EOB to check for errors, overcharges, and unbundling. Compares 146 procedures against Medicare rates with state-level pricing. Detects No Surprises Act violations and calculates facility savings. Free, no signup."
   />
   <link rel="canonical" href="https://truepricehq.com/medical-bill-analyzer.html" />
   <meta name="robots" content="index,follow" />
@@ -44,7 +44,7 @@
     "@type": "WebApplication",
     "name": "TruePrice Medical Bill Analyzer",
     "url": "https://truepricehq.com/medical-bill-analyzer.html",
-    "description": "Free AI-powered medical bill analysis. Upload a hospital bill, EOB, or invoice to check for errors, overcharges, and billing issues against published benchmark rates.",
+    "description": "Free AI-powered medical bill analysis. Compares 146 procedures against state-adjusted Medicare rates. Detects unbundling (NCCI edits), upcoding, duplicate charges, and No Surprises Act violations. Calculates savings at alternative facilities.",
     "applicationCategory": "UtilityApplication",
     "offers": {
       "@type": "Offer",
@@ -61,6 +61,14 @@
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Medical Bill Analyzer"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How does TruePrice check my medical bill?","acceptedAnswer":{"@type":"Answer","text":"TruePrice uses AI to extract line items, CPT codes, and charges from your bill, then compares each charge against 146 Medicare benchmark rates adjusted for your state. It checks for duplicate charges, unbundling violations (NCCI edits), upcoding, and No Surprises Act violations."}},
+    {"@type":"Question","name":"Is my medical bill data stored?","acceptedAnswer":{"@type":"Answer","text":"No. Your bill is processed in real-time and not saved. Only anonymized aggregate data (amounts, CPT codes, state) is captured to improve pricing benchmarks. No patient names, dates of birth, or document contents are retained."}},
+    {"@type":"Question","name":"What is the No Surprises Act?","acceptedAnswer":{"@type":"Answer","text":"The No Surprises Act (2022) protects patients from surprise medical bills. Emergency services must be billed at in-network rates, out-of-network providers at in-network facilities cannot balance bill without consent, and bills exceeding a good faith estimate by $400+ can be disputed."}},
+    {"@type":"Question","name":"Can I save money by going to a different facility?","acceptedAnswer":{"@type":"Answer","text":"Often yes. The same MRI costs 40-60% less at a freestanding imaging center vs a hospital. Ambulatory surgery centers save an average of 42% vs hospital outpatient departments for the same procedures."}}
+  ]}
   </script>
 
   <style>
@@ -360,7 +368,7 @@
             <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
           </div>\
           <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your bill stays private. Processed securely, never stored or shared.</div>\
-          <div style="margin-top:6px; font-size:11px; color:#94a3b8; text-align:center;">This tool compares charges against published benchmark rates. It is not medical or insurance advice. <a href="/terms.html" style="color:#94a3b8;">Terms</a></div>\
+          <div style="margin-top:6px; font-size:11px; color:#94a3b8; text-align:center;">This tool compares charges against published benchmark rates. AI-generated analysis may contain errors. This is not a substitute for professional medical billing advice. Consult your insurance provider and a medical billing advocate for formal disputes. <a href="/terms.html" style="color:#94a3b8;">Terms</a></div>\
         </div>';
 
       var zone = document.getElementById("uploadZone");
@@ -701,6 +709,11 @@
       html += '<div class="mb-summary-item"><div class="label">You Owe</div><div class="value" style="color:' + (r.youOwe > 0 ? '#dc2626' : '#16a34a') + ';">' + fmtWhole(r.youOwe) + '</div></div>';
       html += '</div></div>';
 
+      // AI disclaimer banner
+      html += '<div style="padding:8px 14px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;margin-bottom:16px;font-size:11px;color:#0369a1;text-align:center;">';
+      html += 'This analysis is AI-generated and may contain errors. It is not a substitute for professional medical billing advice. Always verify findings with your insurance provider and healthcare facility.';
+      html += '</div>';
+
       // Line items table
       if (r.lineItems.length > 0) {
         html += '<div class="mb-card"><h3 style="margin:0 0 1rem; font-size:1.1rem; color:#1e293b;">Line Items</h3>';
@@ -772,6 +785,7 @@
           html += '<div style="padding:8px 12px;background:#fff;border:1px solid #fecaca;border-radius:8px;margin-bottom:8px;font-size:0.9rem;color:#991b1b;">' + escHtml(flag) + '</div>';
         });
         html += '<p style="font-size:0.85rem;color:#64748b;margin-top:8px;">File a complaint at <strong>cms.gov/nosurprises</strong> or call 1-800-985-3059.</p>';
+        html += '<p style="font-size:0.8rem;color:#64748b;margin-top:4px;">This is an automated assessment. Actual violation determination requires review of all circumstances including consent forms and network agreements.</p>';
         html += '</div>';
       }
 

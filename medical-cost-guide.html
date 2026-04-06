@@ -24,8 +24,6 @@
 <link rel="stylesheet" href="/css/trueprice.min.css" />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://truepricehq.com/guides.html"},{"@type":"ListItem","position":3,"name":"Medical Cost Guide"}]}
-</script>
-
 <style>
 .mcg-hero{text-align:center;padding:48px 0 32px;}
 .mcg-hero h1{font-size:2.25rem;margin-bottom:12px;}
@@ -88,7 +86,7 @@
 <img src="/images/trudy-medical.png" alt="Trudy reviewing a medical bill" width="140" style="margin-bottom:12px;" />
 <h1>Medical Cost Guide 2026</h1>
 <p>What common medical procedures should actually cost, how to read your bill, and how to fight overcharges.</p>
-<p style="font-size:12px; color:var(--text-muted); margin-top:12px; max-width:600px; margin-left:auto; margin-right:auto;">Prices based on published Medicare reimbursement rates and industry data. This guide is informational only and does not constitute medical, insurance, or legal advice.</p>
+<p style="font-size:12px; color:var(--text-muted); margin-top:12px; max-width:600px; margin-left:auto; margin-right:auto;">Prices based on CMS Medicare Physician Fee Schedule 2026 and RAND commercial rate studies. Covers 146 procedure codes across 13 categories. This guide is informational only and does not constitute medical, insurance, or legal advice.</p>
 </div>
 
 <!-- Emergency & Urgent Care -->
@@ -186,6 +184,23 @@
 <div class="mcg-tip">
 <strong>Tip:</strong> ASC = Ambulatory Surgery Center. Same surgeons, same results, 40&ndash;60% less than hospitals. Ask your surgeon if your procedure can be performed at an ASC.
 </div>
+</section>
+
+<!-- Facility Comparison -->
+<section class="section">
+<h2>Same Procedure, Different Price: Facility Comparison</h2>
+<p>Where you get a procedure done can matter more than what procedure you get. The same MRI costs 40-60% less at a freestanding imaging center vs a hospital outpatient department.</p>
+<table class="price-table">
+<thead><tr><th>Setting</th><th>vs Hospital Outpatient</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Hospital Outpatient</td><td>Baseline</td><td>Brain MRI: $1,500-3,500</td></tr>
+<tr><td>Ambulatory Surgery Center</td><td>42% less</td><td>Colonoscopy: $1,089 vs $1,766</td></tr>
+<tr><td>Freestanding Imaging Center</td><td>40-60% less</td><td>Brain MRI: $400-800</td></tr>
+<tr><td>Physician Office</td><td>55% less</td><td>No facility fee added</td></tr>
+<tr><td>Emergency Room</td><td>180% more</td><td>Same X-ray: $350 vs $75</td></tr>
+</tbody>
+</table>
+<p style="font-size:14px; color:var(--text-secondary); margin-top:12px;">Source: CMS OPPS/ASC rates 2026, JAMA Health Forum colonoscopy study</p>
 </section>
 
 <!-- Maternity Costs -->
@@ -311,6 +326,11 @@
 </div>
 </div>
 
+<div class="faq-item">
+<h3>What is the No Surprises Act and how does it protect me?</h3>
+<p>The No Surprises Act (effective January 2022) protects patients from surprise medical bills. Key protections: emergency services must be billed at in-network rates regardless of provider network status; out-of-network providers at in-network facilities cannot balance bill without prior written consent; and if your final bill exceeds a good faith estimate by $400 or more, you can dispute it through an independent review process. File complaints at cms.gov/nosurprises or call 1-800-985-3059.</p>
+</div>
+
 </div>
 </section>
 
@@ -381,11 +401,17 @@
     "@type": "Answer",
     "text": "Current Procedural Terminology (CPT) codes are standardized five-digit codes maintained by the American Medical Association. Every medical service, test, and procedure has a unique CPT code. These codes determine how much providers bill and how much insurance pays. Knowing the CPT code for your service lets you look up the Medicare reimbursement rate and compare it to what you were charged."
    }
+  },
+  {
+   "@type": "Question",
+   "name": "What is the No Surprises Act and how does it protect me?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The No Surprises Act (effective January 2022) protects patients from surprise medical bills. Key protections: emergency services must be billed at in-network rates regardless of provider network status; out-of-network providers at in-network facilities cannot balance bill without prior written consent; and if your final bill exceeds a good faith estimate by $400 or more, you can dispute it through an independent review process. File complaints at cms.gov/nosurprises or call 1-800-985-3059."
+   }
   }
  ]
 }
-</script>
-
 <img src="/api/analytics?pixel=1&p=medical-cost-guide.html" alt="" style="position:absolute;width:1px;height:1px;opacity:0;" />
 
 </body>
