@@ -293,19 +293,137 @@
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our analysis.</div>';
     };
 
-    // ── Save as image ──
-    window.saveResultAsImage = function() {
-      if (typeof html2canvas === "undefined") {
-        window.loadVendorLibs && window.loadVendorLibs().then(doCapture);
-      } else { doCapture(); }
-      function doCapture() {
-        html2canvas(document.getElementById("mbApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+    // ── Download Analysis Report ──
+    window.downloadAnalysisReport = function() {
+      var r = state.result;
+      if (!r) return;
+
+      // Build a clean, standalone report div (no PHI, no original bill)
+      var report = document.createElement("div");
+      report.style.cssText = "width:800px;padding:40px;background:#fff;font-family:system-ui,-apple-system,sans-serif;color:#1e293b;line-height:1.6;";
+
+      var h = '';
+      // Header
+      h += '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1d4ed8;padding-bottom:16px;margin-bottom:24px;">';
+      h += '<div><div style="font-size:24px;font-weight:800;color:#1d4ed8;">TruePrice</div><div style="font-size:13px;color:#64748b;">Medical Bill Analysis Report</div></div>';
+      h += '<div style="text-align:right;font-size:12px;color:#94a3b8;">Generated ' + new Date().toLocaleDateString() + '<br>truepricehq.com</div>';
+      h += '</div>';
+
+      // Verdict
+      var hasIssues = r.redFlags && r.redFlags.length > 0;
+      var verdictBg = hasIssues ? '#fef2f2' : '#f0fdf4';
+      var verdictBorder = hasIssues ? '#fca5a5' : '#86efac';
+      var verdictColor = hasIssues ? '#dc2626' : '#16a34a';
+      var verdictText = hasIssues ? (r.redFlags.length + ' Issue' + (r.redFlags.length > 1 ? 's' : '') + ' Found') : 'No Obvious Issues';
+      h += '<div style="background:' + verdictBg + ';border:2px solid ' + verdictBorder + ';border-radius:12px;padding:20px;margin-bottom:20px;text-align:center;">';
+      h += '<div style="font-size:28px;font-weight:800;color:' + verdictColor + ';">' + verdictText + '</div>';
+      if (r.facility && r.facility !== "Unknown Facility") h += '<div style="font-size:14px;color:#64748b;margin-top:4px;">' + escHtml(r.facility) + '</div>';
+      h += '</div>';
+
+      // Summary numbers
+      h += '<div style="display:flex;gap:16px;margin-bottom:20px;">';
+      h += '<div style="flex:1;padding:16px;background:#f8fafc;border-radius:10px;text-align:center;"><div style="font-size:12px;color:#64748b;text-transform:uppercase;">Total Billed</div><div style="font-size:22px;font-weight:700;">' + fmtWhole(r.totalBilled) + '</div></div>';
+      h += '<div style="flex:1;padding:16px;background:#f8fafc;border-radius:10px;text-align:center;"><div style="font-size:12px;color:#64748b;text-transform:uppercase;">Insurance Paid</div><div style="font-size:22px;font-weight:700;">' + fmtWhole(r.insurancePaid) + '</div></div>';
+      h += '<div style="flex:1;padding:16px;background:#f8fafc;border-radius:10px;text-align:center;"><div style="font-size:12px;color:#64748b;text-transform:uppercase;">You Owe</div><div style="font-size:22px;font-weight:700;color:' + (r.youOwe > 0 ? '#dc2626' : '#16a34a') + ';">' + fmtWhole(r.youOwe) + '</div></div>';
+      h += '</div>';
+
+      // Flagged line items only
+      var flaggedItems = (r.lineItems || []).filter(function(li) { return li.flagged || li.overchargeFlag; });
+      if (flaggedItems.length > 0) {
+        h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;margin-bottom:8px;">Flagged Charges</div>';
+        h += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+        h += '<thead><tr style="background:#f1f5f9;"><th style="padding:8px;text-align:left;">Service</th><th style="padding:8px;">CPT</th><th style="padding:8px;text-align:right;">Charged</th><th style="padding:8px;text-align:right;">Fair Price</th><th style="padding:8px;text-align:right;">Ratio</th></tr></thead><tbody>';
+        flaggedItems.forEach(function(li) {
+          h += '<tr style="border-bottom:1px solid #f1f5f9;">';
+          h += '<td style="padding:8px;">' + escHtml(li.service) + '</td>';
+          h += '<td style="padding:8px;text-align:center;">' + escHtml(li.cptCode || '--') + '</td>';
+          h += '<td style="padding:8px;text-align:right;color:#dc2626;font-weight:600;">' + fmt(li.charged) + '</td>';
+          h += '<td style="padding:8px;text-align:right;">' + (li.fairPriceRange ? fmt(li.fairPriceRange[0]) + '-' + fmt(li.fairPriceRange[1]) : (li.medicareRate ? fmt(li.medicareRate) : '--')) + '</td>';
+          h += '<td style="padding:8px;text-align:right;color:#dc2626;font-weight:600;">' + (li.ratio ? li.ratio.toFixed(1) + 'x' : '--') + '</td>';
+          h += '</tr>';
+        });
+        h += '</tbody></table></div>';
+      }
+
+      // Unbundling violations
+      if (r.unbundlingDetails && r.unbundlingDetails.length > 0) {
+        h += '<div style="margin-bottom:20px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:16px;">';
+        h += '<div style="font-size:16px;font-weight:700;color:#92400e;margin-bottom:8px;">Unbundling Issues (NCCI Edits)</div>';
+        var seen = {};
+        r.unbundlingDetails.forEach(function(v) {
+          var key = (v.codes || []).join('+');
+          if (seen[key]) return;
+          seen[key] = true;
+          h += '<div style="padding:6px 0;font-size:13px;border-bottom:1px solid #fde68a;"><strong>CPT ' + escHtml(key) + ':</strong> ' + escHtml(v.rule) + '</div>';
+        });
+        h += '</div>';
+      }
+
+      // Red flags
+      if (r.redFlags && r.redFlags.length > 0) {
+        h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;color:#dc2626;margin-bottom:8px;">Issues Identified</div>';
+        var seenFlags = {};
+        r.redFlags.forEach(function(flag) {
+          var text = typeof flag === "string" ? flag : (flag.title || "");
+          if (!text || seenFlags[text]) return;
+          seenFlags[text] = true;
+          h += '<div style="padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;margin-bottom:6px;font-size:13px;color:#991b1b;">' + escHtml(text) + '</div>';
+        });
+        h += '</div>';
+      }
+
+      // Recommended actions
+      if (r.disputeActions && r.disputeActions.length > 0) {
+        h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;margin-bottom:8px;">Recommended Actions</div>';
+        h += '<ol style="padding-left:18px;font-size:13px;color:#475569;">';
+        r.disputeActions.forEach(function(a) { h += '<li style="margin-bottom:6px;">' + escHtml(a) + '</li>'; });
+        h += '</ol></div>';
+      }
+
+      // Facility savings
+      if (r.facilityComparison && (r.facilityComparison.estimatedSavingsAtASC || r.facilityComparison.estimatedSavingsAtImaging)) {
+        h += '<div style="margin-bottom:20px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px;">';
+        h += '<div style="font-size:16px;font-weight:700;color:#065f46;margin-bottom:8px;">Potential Facility Savings</div>';
+        if (r.facilityComparison.estimatedSavingsAtASC) h += '<div style="font-size:14px;color:#475569;">Ambulatory Surgery Center: <strong style="color:#16a34a;">Save ' + fmtWhole(r.facilityComparison.estimatedSavingsAtASC) + '</strong> (avg 42% less than hospital outpatient)</div>';
+        if (r.facilityComparison.estimatedSavingsAtImaging) h += '<div style="font-size:14px;color:#475569;margin-top:4px;">Freestanding Imaging Center: <strong style="color:#16a34a;">Save ' + fmtWhole(r.facilityComparison.estimatedSavingsAtImaging) + '</strong> (40-60% less for same equipment)</div>';
+        h += '</div>';
+      }
+
+      // Pricing context
+      if (r.pricingContext && r.pricingContext.state) {
+        h += '<div style="font-size:12px;color:#94a3b8;margin-bottom:16px;">Pricing based on ' + escHtml(r.pricingContext.state) + ' rates. Commercial avg ' + (r.pricingContext.commercialMultiplier * 100).toFixed(0) + '% of Medicare. Source: ' + escHtml(r.pricingContext.source || 'CMS MPFS 2026') + '</div>';
+      }
+
+      // Footer
+      h += '<div style="border-top:2px solid #e2e8f0;padding-top:16px;margin-top:24px;display:flex;justify-content:space-between;align-items:center;">';
+      h += '<div style="font-size:11px;color:#94a3b8;max-width:500px;">This report is AI-generated and informational only. It is not a substitute for professional medical billing advice. Verify all findings with your insurance provider. TruePrice does not store your medical documents.</div>';
+      h += '<div style="font-size:11px;color:#94a3b8;text-align:right;">truepricehq.com<br>Free Medical Bill Analysis</div>';
+      h += '</div>';
+
+      report.innerHTML = h;
+
+      // Render to image
+      document.body.appendChild(report);
+      report.style.position = "fixed";
+      report.style.left = "-9999px";
+      report.style.top = "0";
+
+      function doRender() {
+        html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 800 }).then(function(canvas) {
+          document.body.removeChild(report);
           var link = document.createElement("a");
-          link.download = "trueprice-medical-bill-analysis.png";
+          link.download = "trueprice-analysis-report.png";
           link.href = canvas.toDataURL("image/png");
           link.click();
+        }).catch(function() {
+          document.body.removeChild(report);
+          alert("Could not generate report. Try again.");
         });
       }
+
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(doRender);
+      } else { doRender(); }
     };
 
     // ── Email report ──
@@ -868,7 +986,7 @@
 
       // Actions
       html += '<div class="mb-actions">';
-      html += '<button class="mb-btn mb-btn-primary mb-btn-full" onclick="saveResultAsImage()">Save as Image</button>';
+      html += '<button class="mb-btn mb-btn-primary mb-btn-full" onclick="downloadAnalysisReport()">Download Analysis Report</button>';
       html += '<button class="mb-btn mb-btn-secondary mb-btn-full" onclick="emailReport()">Email Me This Report</button>';
       html += '<button class="mb-btn mb-btn-secondary mb-btn-full" onclick="startOver()">Start Over</button>';
       html += '<a href="/medical-cost-guide.html" class="mb-btn mb-btn-secondary mb-btn-full" style="color:#16a34a;">Read Medical Cost Guide</a>';
