@@ -1,0 +1,307 @@
+import { Redis } from "@upstash/redis";
+import fs from "fs";
+import path from "path";
+
+const redis = Redis.fromEnv();
+
+function buildAnonymizedRecord(vertical, parsed) {
+  if (!parsed || !parsed.totalPrice) return null;
+  return {
+    v: vertical,
+    ts: new Date().toISOString(),
+    price: parsed.totalPrice,
+    repairType: parsed.repairType || null,
+    numPiers: parsed.numPiers || null,
+    warrantyType: parsed.warrantyType || null,
+    transferable: parsed.transferable || null,
+    engineerReport: parsed.engineerReport || null,
+    state: parsed.stateCode || null,
+    lineItemCount: parsed.lineItems ? parsed.lineItems.length : 0
+  };
+}
+
+async function captureAnonymizedData(vertical, parsed) {
+  try {
+    const record = buildAnonymizedRecord(vertical, parsed);
+    if (!record) return;
+    await redis.lpush("tp:pricing_data", JSON.stringify(record));
+    await redis.ltrim("tp:pricing_data", 0, 49999);
+  } catch (e) {
+    console.log("[data-capture] Error:", e.message);
+  }
+}
+
+const RATE_LIMIT_MAX = 10;
+const RATE_LIMIT_WINDOW_SEC = 3600;
+
+const memoryRateLimit = new Map();
+function checkMemoryRateLimit(ip) {
+  const now = Date.now();
+  const entry = memoryRateLimit.get(ip);
+  if (!entry || now - entry.start > RATE_LIMIT_WINDOW_SEC * 1000) {
+    memoryRateLimit.set(ip, { count: 1, start: now });
+    return true;
+  }
+  entry.count++;
+  return entry.count <= RATE_LIMIT_MAX;
+}
+
+async function checkRateLimit(ip) {
+  try {
+    const key = `foundation_rate:${ip}`;
+    const count = await redis.incr(key);
+    if (count === 1) await redis.expire(key, RATE_LIMIT_WINDOW_SEC);
+    return count <= RATE_LIMIT_MAX;
+  } catch (e) {
+    console.log("[foundation-estimate] Redis rate limit error, falling back to in-memory:", e.message);
+    return checkMemoryRateLimit(ip);
+  }
+}
+
+export default async function handler(req, res) {
+  const allowedOrigin = "https://truepricehq.com";
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
+  if (!(await checkRateLimit(clientIp))) {
+    return res.status(429).json({ error: "Rate limit exceeded. Maximum 10 requests per hour. Please try again later." });
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: "API key not configured" });
+  }
+
+  try {
+    const { text, images } = req.body;
+
+    if (!text && (!images || images.length === 0)) {
+      return res.status(400).json({ error: "No text or images provided" });
+    }
+
+    const content = [];
+
+    if (images && images.length > 0) {
+      for (const img of images.slice(0, 3)) {
+        const match = img.match(/^data:(image\/[^;]+);base64,(.+)$/);
+        if (match) {
+          content.push({
+            type: "image",
+            source: {
+              type: "base64",
+              media_type: match[1],
+              data: match[2]
+            }
+          });
+        }
+      }
+    }
+
+    content.push({
+      type: "text",
+      text: `Analyze this foundation repair quote or estimate. Extract the following information and return ONLY valid JSON (no markdown, no explanation):
+
+${text ? "EXTRACTED TEXT FROM QUOTE:\n" + text.substring(0, 8000) + "\n\n" : ""}
+
+Return this exact JSON structure:
+{
+  "totalPrice": <number or null - the total quoted price>,
+  "laborTotal": <number or null - total labor cost>,
+  "partsTotal": <number or null - total parts/materials cost>,
+  "laborRate": <number or null - hourly labor rate if stated>,
+  "repairType": <"pier_push" | "pier_helical" | "slabjacking" | "polyurethane_foam" | "wall_anchors" | "carbon_fiber_straps" | "crack_injection" | "waterproofing_interior" | "waterproofing_exterior" | "french_drain" | "sump_pump_foundation" | null>,
+  "repairMethod": <string or null - specific repair method described>,
+  "numPiers": <number or null - number of piers, anchors, or straps>,
+  "warrantyType": <"lifetime" | "limited" | "none" | null>,
+  "transferable": <boolean or null - whether warranty is transferable to new owner>,
+  "engineerReport": <boolean or null - whether a structural engineer report is referenced or included>,
+  "city": <string or null - city from the quote>,
+  "stateCode": <string or null - 2-letter state code>,
+  "lineItems": [
+    {
+      "description": <string - line item description>,
+      "laborCost": <number or null>,
+      "materialCost": <number or null>,
+      "lineTotal": <number or null>
+    }
+  ],
+  "scopeItems": {
+    "engineerReport": <"yes" | "no" | "unclear" - structural engineer report referenced>,
+    "repairMethod": <"yes" | "no" | "unclear" - repair method clearly specified>,
+    "numPiers": <"yes" | "no" | "unclear" - number of piers/anchors specified>,
+    "permit": <"yes" | "no" | "unclear" - permits included>,
+    "warranty": <"yes" | "no" | "unclear" - warranty (transferable, lifetime preferred)>,
+    "drainage": <"yes" | "no" | "unclear" - drainage/root cause addressed>,
+    "timeline": <"yes" | "no" | "unclear" - project timeline stated>,
+    "cleanup": <"yes" | "no" | "unclear" - cleanup and restoration included>
+  },
+  "possibleUpsells": [<string - descriptions of potential upsell items>],
+  "redFlags": [<string - any concerning items found in the quote>],
+  "summary": <string - brief plain-English summary of the quote and value assessment>
+}
+
+Rules:
+- totalPrice: Use the grand total / bottom line, not sum of line items
+- repairType: Pick the best match from the enum
+- numPiers: Count of individual piers, anchors, or carbon fiber straps
+- engineerReport: true only if a structural engineer assessment is clearly referenced
+- scopeItems: Mark "yes" only if clearly present in the quote
+- redFlags: Include if any of the following are detected:
+  * No structural engineer assessment before recommending repairs
+  * Quote given over the phone without inspecting the foundation in person
+  * Recommending piers when crack injection would suffice (minor cracks only)
+  * Pressure tactics (e.g. "sign today" discounts, scare language about imminent collapse)
+  * No warranty or non-transferable warranty on structural work
+  * Not addressing the root cause (drainage, grading, gutters)
+  * No permit mentioned (required in most jurisdictions for structural work)
+  * Any other suspicious or concerning items
+- possibleUpsells: Flag cosmetic crack repair, full waterproofing bundles, drainage upgrades, or any add-on that may not be necessary
+- IMPORTANT: Always note in the summary that homeowners should get an independent structural engineer report before accepting any foundation repair quote
+- Return ONLY the JSON object, nothing else`
+    });
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01"
+      },
+      body: JSON.stringify({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 2048,
+        messages: [
+          { role: "user", content }
+        ]
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error("Claude API error:", response.status, errText);
+      return res.status(502).json({ error: "AI parsing failed", status: response.status });
+    }
+
+    const data = await response.json();
+    const aiText = data.content?.[0]?.text || "";
+
+    let parsed;
+    try {
+      const jsonMatch = aiText.match(/\{[\s\S]*\}/);
+      parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(aiText);
+    } catch (e) {
+      console.error("Failed to parse Claude response:", aiText);
+      return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
+    }
+
+    // --- Server-side enrichment from pricing data ---
+    try {
+      const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'foundation-pricing.json'), 'utf-8'));
+
+      const stateCode = parsed.stateCode || null;
+      const stateMult = pricingData.stateMultipliers?.[stateCode] || 1.0;
+      const repairType = parsed.repairType || null;
+      const jobData = pricingData.commonJobs?.[repairType] || null;
+
+      // Calculate expected price range for detected repair type
+      let expectedRange = null;
+      if (jobData) {
+        let baseLow = jobData.total[0];
+        let baseHigh = jobData.total[1];
+
+        // For per-pier/per-anchor jobs, multiply by number of piers
+        const perUnitTypes = ["pier_push", "pier_helical", "wall_anchors", "carbon_fiber_straps"];
+        if (perUnitTypes.includes(repairType) && parsed.numPiers && parsed.numPiers > 1) {
+          baseLow *= parsed.numPiers;
+          baseHigh *= parsed.numPiers;
+        }
+
+        expectedRange = {
+          low: Math.round(baseLow * stateMult),
+          high: Math.round(baseHigh * stateMult)
+        };
+      }
+
+      // Check for upsell patterns from commonUpsells
+      const serverUpsells = [];
+      if (parsed.lineItems && pricingData.commonUpsells) {
+        const allDescs = parsed.lineItems.map(li => (li.description || "").toLowerCase()).join(" ");
+        for (const upsell of pricingData.commonUpsells) {
+          const itemLower = upsell.item.toLowerCase();
+          const itemWords = itemLower.split(/[\s\/]+/).filter(w => w.length > 3);
+          if (itemWords.some(w => allDescs.includes(w)) || allDescs.includes(itemLower)) {
+            serverUpsells.push({
+              item: upsell.item,
+              necessary: upsell.necessary,
+              typicalCost: upsell.cost,
+              notes: upsell.notes
+            });
+          }
+        }
+      }
+      if (serverUpsells.length > 0) {
+        parsed.detectedUpsells = serverUpsells;
+      }
+
+      // Always recommend structural engineer report
+      if (!parsed.engineerReport) {
+        if (!parsed.redFlags) parsed.redFlags = [];
+        if (!parsed.redFlags.some(f => f.toLowerCase().includes("structural engineer"))) {
+          parsed.redFlags.push("No structural engineer report referenced. We strongly recommend getting an independent structural engineer assessment ($300-$800) before accepting any foundation repair quote.");
+        }
+      }
+
+      // Flag non-transferable warranty
+      if (parsed.transferable === false) {
+        if (!parsed.redFlags) parsed.redFlags = [];
+        if (!parsed.redFlags.some(f => f.toLowerCase().includes("non-transferable"))) {
+          parsed.redFlags.push("Warranty is non-transferable. Foundation repair warranties should be transferable to protect resale value.");
+        }
+      }
+
+      // Add structural engineer report cost reference
+      const engineerReportData = pricingData.commonJobs?.structural_engineer_report || null;
+
+      // Add pricing context
+      parsed.pricingContext = {
+        state: stateCode,
+        stateMultiplier: stateMult,
+        repairType: repairType,
+        repairLabel: jobData?.label || null,
+        expectedRange: expectedRange,
+        urgency: jobData?.urgency || null,
+        engineerReportCost: engineerReportData ? engineerReportData.total : [300, 800],
+        engineerReportNote: "Get an independent structural engineer report BEFORE accepting any foundation repair quote.",
+        source: pricingData.metadata?.sources || "HomeAdvisor, Angi, structural engineer surveys, foundation contractor data"
+      };
+
+    } catch (e) {
+      console.log("[foundation-estimate] Pricing enrichment error:", e.message);
+    }
+
+    // Strip PII before returning or storing
+    delete parsed.city;
+
+    captureAnonymizedData("foundation", parsed); // fire and forget
+
+    return res.status(200).json({
+      success: true,
+      source: "claude-haiku",
+      data: parsed
+    });
+
+  } catch (error) {
+    console.error("foundation-estimate error:", error);
+    return res.status(500).json({ error: error.message || "Internal error" });
+  }
+}
