@@ -284,12 +284,12 @@
 </div>
 
 <div class="ae-row">
-<div><label>Year</label><input type="number" id="yearInput" placeholder="e.g. 2019" min="1970" max="2027" /></div>
-<div><label>Make</label><input type="text" id="makeInput" placeholder="e.g. Honda" /></div>
-<div><label>Model</label><input type="text" id="modelInput" placeholder="e.g. Civic" /></div>
+<div><label>Year</label><select id="yearInput"><option value="">Year</option></select></div>
+<div><label>Make</label><select id="makeInput" disabled><option value="">Select year first</option></select></div>
+<div><label>Model</label><select id="modelInput" disabled><option value="">Select make first</option></select></div>
 </div>
 <div class="ae-row">
-<div><label>City (optional)</label><input type="text" id="cityInput" placeholder="e.g. Charlotte" /></div>
+<div><label>ZIP Code <span style="color:#dc2626;">*</span></label><input type="text" id="zipInput" placeholder="e.g. 28202" maxlength="5" inputmode="numeric" pattern="[0-9]{5}" /><div id="zipDetected" style="font-size:11px;color:#16a34a;margin-top:4px;display:none;"></div></div>
 <div><label>State</label><select id="stateSelect"><option value="">State</option><option value="AK">AK</option><option value="AL">AL</option><option value="AR">AR</option><option value="AZ">AZ</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DC">DC</option><option value="DE">DE</option><option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option><option value="IA">IA</option><option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="MA">MA</option><option value="MD">MD</option><option value="ME">ME</option><option value="MI">MI</option><option value="MN">MN</option><option value="MO">MO</option><option value="MS">MS</option><option value="MT">MT</option><option value="NC">NC</option><option value="ND">ND</option><option value="NE">NE</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NV">NV</option><option value="NY">NY</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VA">VA</option><option value="VT">VT</option><option value="WA">WA</option><option value="WI">WI</option><option value="WV">WV</option><option value="WY">WY</option></select></div>
 <div><label>Shop Type</label><select id="shopSelect"><option value="independent">Independent</option><option value="dealer">Dealership</option><option value="chain">Chain (Midas, etc.)</option></select></div>
 </div>
@@ -489,6 +489,74 @@ var SHOPS={"dealer":{"low":125,"mid":155,"high":200},"independent":{"low":75,"mi
 
 var TAX={"AL":0.04,"AK":0.0,"AZ":0.056,"AR":0.065,"CA":0.0725,"CO":0.029,"CT":0.0635,"DE":0.0,"FL":0.06,"GA":0.04,"HI":0.04,"ID":0.06,"IL":0.0625,"IN":0.07,"IA":0.06,"KS":0.065,"KY":0.06,"LA":0.0445,"ME":0.055,"MD":0.06,"MA":0.0625,"MI":0.06,"MN":0.0688,"MS":0.07,"MO":0.0423,"MT":0.0,"NE":0.055,"NV":0.0685,"NH":0.0,"NJ":0.0663,"NM":0.0513,"NY":0.04,"NC":0.0475,"ND":0.05,"OH":0.0575,"OK":0.045,"OR":0.0,"PA":0.06,"RI":0.07,"SC":0.06,"SD":0.045,"TN":0.07,"TX":0.0625,"UT":0.061,"VT":0.06,"VA":0.053,"WA":0.065,"WV":0.06,"WI":0.05,"WY":0.04,"DC":0.06};
 
+// Metro labor-rate multipliers keyed by ZIP3 (first 3 digits). Falls back to state mult.
+// Top US metros where labor rates diverge significantly from state average.
+var METRO_RATES={
+  // NYC/NJ
+  "100":1.35,"101":1.35,"102":1.35,"103":1.32,"104":1.32,"110":1.30,"111":1.30,"112":1.30,"113":1.28,"114":1.28,"070":1.28,"071":1.28,"072":1.25,"073":1.25,"074":1.25,
+  // Boston
+  "021":1.28,"022":1.28,"023":1.25,"024":1.22,"025":1.20,
+  // DC metro
+  "200":1.25,"201":1.25,"202":1.25,"203":1.22,"204":1.22,"220":1.20,"221":1.20,"222":1.20,
+  // Philly
+  "190":1.18,"191":1.18,"192":1.15,"193":1.15,"194":1.13,
+  // Miami/SoFla
+  "330":1.10,"331":1.10,"332":1.10,"333":1.08,
+  // Atlanta
+  "300":1.05,"301":1.05,"302":1.05,"303":1.05,
+  // Chicago
+  "606":1.18,"607":1.16,"604":1.14,"605":1.14,
+  // Houston
+  "770":1.05,"772":1.05,"773":1.03,"774":1.03,
+  // Dallas
+  "750":1.08,"751":1.08,"752":1.08,"753":1.06,
+  // Austin
+  "786":1.10,"787":1.10,"788":1.08,
+  // Denver
+  "800":1.12,"801":1.12,"802":1.12,"803":1.10,
+  // Phoenix
+  "850":1.05,"852":1.05,"853":1.05,
+  // Seattle
+  "980":1.25,"981":1.25,"982":1.22,"983":1.20,
+  // Portland
+  "970":1.15,"971":1.15,"972":1.13,
+  // SF Bay Area
+  "940":1.45,"941":1.45,"943":1.42,"944":1.42,"945":1.42,"946":1.40,"947":1.40,"948":1.38,"949":1.35,
+  // LA / OC / SD
+  "900":1.30,"901":1.30,"902":1.30,"903":1.28,"904":1.28,"905":1.28,"906":1.28,"907":1.28,"908":1.28,"910":1.28,"911":1.28,"912":1.28,"913":1.28,"914":1.28,"915":1.28,"916":1.28,"917":1.28,"918":1.28,"919":1.25,"920":1.22,"921":1.22,"922":1.22,
+  // Charlotte
+  "280":1.02,"281":1.02,"282":1.00,
+  // Nashville
+  "372":1.02,"370":1.02,"371":1.00,
+  // Detroit
+  "480":1.05,"481":1.05,"482":1.03,
+  // Minneapolis
+  "554":1.10,"555":1.10,"550":1.08,"551":1.08
+};
+
+// Fees that auto shops add depending on the type of work being done.
+// Returns dollar amounts (not multipliers). Stacks across multiple repairs.
+var FEES_BY_CATEGORY={
+  ac:{refrigerant:35,hazmat:12,label:"Refrigerant + hazmat"},
+  cooling:{hazmat:10,disposal:6,label:"Coolant disposal"},
+  maintenance:{disposal:6,label:"Oil/filter disposal"},
+  transmission:{hazmat:12,disposal:8,label:"Trans fluid disposal"},
+  brakes:{hazmat:8,label:"Brake fluid hazmat"},
+  fuel:{hazmat:15,label:"Fuel hazmat"},
+  engine:{hazmat:8,label:"Engine fluid hazmat"},
+  drivetrain:{hazmat:10,disposal:6,label:"Gear oil disposal"}
+};
+function calcFees(category){
+  var f=FEES_BY_CATEGORY[category];
+  if(!f) return {total:0,label:"",breakdown:[]};
+  var total=(f.refrigerant||0)+(f.hazmat||0)+(f.disposal||0)+(f.environmental||0);
+  var bd=[];
+  if(f.refrigerant) bd.push("EPA refrigerant $"+f.refrigerant);
+  if(f.hazmat) bd.push("Hazmat $"+f.hazmat);
+  if(f.disposal) bd.push("Disposal $"+f.disposal);
+  return {total:total,label:f.label,breakdown:bd};
+}
+
 var MAKE_MAP={
   economy:["nissan","hyundai","kia","mitsubishi","suzuki","datsun","geo","saturn","scion","daewoo","fiat"],
   standard:["honda","toyota","ford","chevrolet","chevy","mazda","subaru","volkswagen","vw","buick","chrysler","dodge","pontiac","oldsmobile","mercury"],
@@ -512,18 +580,23 @@ function fmtCents(n){return"$"+Number(n).toLocaleString("en-US",{minimumFraction
 
 var currentEstimate={totalMid:0,repairLabel:"",vehicleDesc:"",shopType:"",city:"",state:"",repairKey:""};
 
-function buildClientEstimate(repairKey,year,make,model,city,state,shopType){
+function buildClientEstimate(repairKey,year,make,model,zip,state,shopType,partsPref){
   var repair=REPAIRS[repairKey];
   var stateMult=STATES[state]||1.0;
+  // ZIP3 metro multiplier overrides state when available — finer-grained pricing
+  var zip3=(zip||"").substring(0,3);
+  var metroMult=METRO_RATES[zip3]||null;
+  var geoMult=metroMult!=null?metroMult:stateMult;
+  var geoSource=metroMult!=null?"metro":"state";
   var vehicleCat=detectVehicleCategory(make,model);
   var vehicleMult=VEHICLES[vehicleCat]?VEHICLES[vehicleCat].mult:1.0;
   var vehicleLabel=VEHICLES[vehicleCat]?VEHICLES[vehicleCat].label:"Standard";
   var shopRates=SHOPS[shopType]||SHOPS.independent;
   var taxRate=TAX[state]||0.06;
 
-  var laborRateLow=Math.round(shopRates.low*stateMult*vehicleMult);
-  var laborRateMid=Math.round(shopRates.mid*stateMult*vehicleMult);
-  var laborRateHigh=Math.round(shopRates.high*stateMult*vehicleMult);
+  var laborRateLow=Math.round(shopRates.low*geoMult*vehicleMult);
+  var laborRateMid=Math.round(shopRates.mid*geoMult*vehicleMult);
+  var laborRateHigh=Math.round(shopRates.high*geoMult*vehicleMult);
   var laborHrsLow=repair.laborHours.low;
   var laborHrsHigh=repair.laborHours.high;
   var laborHrsMid=(laborHrsLow+laborHrsHigh)/2;
@@ -541,21 +614,27 @@ function buildClientEstimate(repairKey,year,make,model,city,state,shopType){
   if(repair.partsRange.aftermarket) partsTypes.push({type:"Aftermarket",low:repair.partsRange.aftermarket[0],high:repair.partsRange.aftermarket[1],mult:1.0});
   if(repair.partsRange.reman) partsTypes.push({type:"Remanufactured",low:repair.partsRange.reman[0],high:repair.partsRange.reman[1],mult:1.0});
 
-  var partsDefault=repair.partsRange.aftermarket||repair.partsRange.oem||[0,0];
-  var partsMid=Math.round(((partsDefault[0]+partsDefault[1])/2)*(vehicleCat==="luxury"?1.3:vehicleCat==="truck_suv"?1.1:1.0)*stateMult);
-  var partsLow=Math.round(partsDefault[0]*stateMult);
-  var partsHigh=Math.round((repair.partsRange.oem||partsDefault)[1]*vehicleMult*stateMult);
+  // Pick parts source based on user preference (oem | aftermarket | reman)
+  var pref=partsPref||"aftermarket";
+  var partsDefault=repair.partsRange[pref]||repair.partsRange.aftermarket||repair.partsRange.oem||[0,0];
+  var prefMult=(pref==="oem")?vehicleMult:1.0;
+  var partsMid=Math.round(((partsDefault[0]+partsDefault[1])/2)*prefMult*geoMult);
+  var partsLow=Math.round(partsDefault[0]*prefMult*geoMult);
+  var partsHigh=Math.round(partsDefault[1]*prefMult*geoMult);
 
   var shopSupplies=Math.round(laborMid*0.06);
+  // Repair-specific fees (refrigerant, hazmat, disposal) — RepairPal excludes these; we include them
+  var feeInfo=calcFees(repair.category);
+  var fees=feeInfo.total;
   var taxLow=Math.round((partsLow+shopSupplies)*taxRate);
   var taxMid=Math.round((partsMid+shopSupplies)*taxRate);
   var taxHigh=Math.round((partsHigh+shopSupplies)*taxRate);
 
-  var totalLow=laborLow+partsLow+taxLow;
-  var totalMid=laborMid+partsMid+shopSupplies+taxMid;
-  var totalHigh=laborHigh+partsHigh+shopSupplies+taxHigh;
+  var totalLow=laborLow+partsLow+taxLow+fees;
+  var totalMid=laborMid+partsMid+shopSupplies+taxMid+fees;
+  var totalHigh=laborHigh+partsHigh+shopSupplies+taxHigh+fees;
 
-  return{repair:repair,laborRateMid:laborRateMid,laborHrsMid:laborHrsMid,laborMid:laborMid,partsMid:partsMid,partsLow:partsLow,partsHigh:partsHigh,shopSupplies:shopSupplies,taxRate:taxRate,taxMid:taxMid,totalLow:totalLow,totalMid:totalMid,totalHigh:totalHigh,vehicleLabel:vehicleLabel,ageAdj:ageAdj,partsTypes:partsTypes,stateMult:stateMult};
+  return{repair:repair,laborRateMid:laborRateMid,laborHrsMid:laborHrsMid,laborMid:laborMid,partsMid:partsMid,partsLow:partsLow,partsHigh:partsHigh,partsPref:pref,shopSupplies:shopSupplies,taxRate:taxRate,taxMid:taxMid,fees:fees,feeInfo:feeInfo,totalLow:totalLow,totalMid:totalMid,totalHigh:totalHigh,vehicleLabel:vehicleLabel,ageAdj:ageAdj,partsTypes:partsTypes,stateMult:stateMult,geoMult:geoMult,geoSource:geoSource};
 }
 
 function renderEstimate(est,vehicleDesc,locationDesc,shopType,opts){
@@ -579,30 +658,30 @@ function renderEstimate(est,vehicleDesc,locationDesc,shopType,opts){
 
   h+='<div class="ae-breakdown" id="estBreakdown">';
   h+='<div class="ae-breakdown-item"><div class="label">Labor ('+est.laborHrsMid.toFixed(1)+' hrs @ '+fmt(est.laborRateMid)+'/hr)</div><div class="value">'+fmt(est.laborMid)+'</div></div>';
-  h+='<div class="ae-breakdown-item"><div class="label">Parts (aftermarket)</div><div class="value">'+fmt(est.partsMid)+'</div></div>';
+  h+='<div class="ae-breakdown-item"><div class="label">Parts ('+est.partsPref+')</div><div class="value">'+fmt(est.partsMid)+'</div></div>';
   h+='<div class="ae-breakdown-item"><div class="label">Shop Supplies (~6%)</div><div class="value">'+fmt(est.shopSupplies)+'</div></div>';
   h+='<div class="ae-breakdown-item"><div class="label">Tax ('+(est.taxRate*100).toFixed(1)+'% on parts)</div><div class="value">'+fmt(est.taxMid)+'</div></div>';
+  if(est.fees>0){
+    h+='<div class="ae-breakdown-item" style="grid-column:span 2;"><div class="label">'+est.feeInfo.label+'</div><div class="value">'+fmt(est.fees)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+est.feeInfo.breakdown.join(" + ")+'</div></div></div>';
+  }
   h+='</div>';
 
-  // Shop type rate context
+  // Shop type rate context with geo source badge
   var stateCode=document.getElementById("stateSelect").value;
-  h+='<div style="font-size:12px;color:#475569;padding:8px 12px;background:#f8fafc;border-radius:8px;margin:8px 0;">'+shopLabel+' rate in '+stateCode+': '+fmt(est.laborRateMid)+'/hr</div>';
+  var geoBadge=est.geoSource==="metro"?'<span style="display:inline-block;padding:2px 8px;background:#dcfce7;color:#166534;border-radius:6px;font-size:10px;font-weight:700;margin-left:6px;">METRO PRICING</span>':'<span style="display:inline-block;padding:2px 8px;background:#fef9c3;color:#854d0e;border-radius:6px;font-size:10px;font-weight:700;margin-left:6px;">STATE AVG</span>';
+  h+='<div style="font-size:12px;color:#475569;padding:8px 12px;background:#f8fafc;border-radius:8px;margin:8px 0;">'+shopLabel+' rate: '+fmt(est.laborRateMid)+'/hr'+geoBadge+'</div>';
 
+  // Interactive parts type toggle
   if(est.partsTypes.length>1){
-    h+='<h4 style="margin:16px 0 8px;font-size:14px;">Parts Options</h4>';
-    h+='<table class="ae-parts-table"><thead><tr><th>Type</th><th>Parts Cost</th><th>Total w/ Labor + Tax</th></tr></thead><tbody>';
+    h+='<h4 style="margin:16px 0 8px;font-size:14px;">Parts Type</h4>';
+    h+='<div class="ae-parts-toggle" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">';
     est.partsTypes.forEach(function(pt){
-      var ptMid=Math.round(((pt.low+pt.high)/2)*pt.mult*est.stateMult);
-      var ptTotal=est.laborMid+ptMid+est.shopSupplies+Math.round((ptMid+est.shopSupplies)*est.taxRate);
-      var isDefault=pt.type==="Aftermarket";
-      h+='<tr'+(isDefault?' class="selected"':'')+'>';
-      h+='<td>'+pt.type+'</td>';
-      h+='<td>'+fmt(Math.round(pt.low*est.stateMult))+' - '+fmt(Math.round(pt.high*pt.mult*est.stateMult))+'</td>';
-      h+='<td><strong>'+fmt(ptTotal)+'</strong></td>';
-      h+='</tr>';
+      var key=pt.type==="OEM (Original)"?"oem":pt.type==="Aftermarket"?"aftermarket":"reman";
+      var active=key===est.partsPref;
+      h+='<button type="button" class="ae-parts-btn" data-pref="'+key+'" style="flex:1;min-width:120px;padding:10px 12px;border:2px solid '+(active?"#1d4ed8":"#e2e8f0")+';background:'+(active?"#eff6ff":"#fff")+';color:'+(active?"#1d4ed8":"#475569")+';border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;">'+pt.type+'</button>';
     });
-    h+='</tbody></table>';
-    h+='<div class="ae-note">Aftermarket parts are highlighted. OEM parts are original manufacturer quality. Remanufactured are factory-rebuilt.</div>';
+    h+='</div>';
+    h+='<div class="ae-note">OEM = original manufacturer. Aftermarket = compatible third-party (cheaper). Remanufactured = factory-rebuilt (cheapest).</div>';
   }
 
   if(repair.notes&&!opts.aiSource) h+='<div class="ae-note" style="margin-top:12px;padding:8px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;color:#92400e;">'+repair.notes+'</div>';
@@ -710,42 +789,61 @@ function attachCompareHandler(){
   });
 }
 
+// Track current parts preference (oem | aftermarket | reman) and estimate inputs for re-render
+var currentPartsPref="aftermarket";
+var lastEstimateInputs=null;
+
+// Click handler for the OEM/aftermarket/reman toggle (event delegation)
+document.addEventListener("click",function(ev){
+  var btn=ev.target.closest&&ev.target.closest(".ae-parts-btn");
+  if(!btn||!lastEstimateInputs) return;
+  currentPartsPref=btn.getAttribute("data-pref");
+  rerunEstimate();
+});
+
+function rerunEstimate(){
+  if(!lastEstimateInputs) return;
+  document.getElementById("estimateBtn").click();
+}
+
 // Estimate button handler
 document.getElementById("estimateBtn").addEventListener("click",function(){
   var repairKeys=Object.keys(selectedRepairs);
   var year=parseInt(document.getElementById("yearInput").value)||0;
   var make=document.getElementById("makeInput").value.trim();
   var model=document.getElementById("modelInput").value.trim();
-  var city=document.getElementById("cityInput").value.trim();
+  var zip=document.getElementById("zipInput").value.trim();
   var stateVal=document.getElementById("stateSelect").value;
   var shopType=document.getElementById("shopSelect").value;
 
   if(!repairKeys.length){alert("Select at least one repair.");return;}
-  if(!stateVal){alert("Select your state.");return;}
+  if(!/^\d{5}$/.test(zip)){alert("Enter a valid 5-digit ZIP code.");return;}
+  if(!stateVal){alert("Select your state (or wait for ZIP lookup to fill it).");return;}
+  if(!year||!make||!model){alert("Select year, make, and model.");return;}
+
+  lastEstimateInputs={year:year,make:make,model:model,zip:zip,state:stateVal,shopType:shopType};
 
   // Support single repair for backward compat
   var repairKey=repairKeys[0];
 
   var repair=REPAIRS[repairKey];
-  var vehicleDesc=(year>0?year+" ":"")+(make||"")+" "+(model||"");
-  vehicleDesc=vehicleDesc.trim()||"Your vehicle";
-  var locationDesc=city?city+", "+stateVal:stateVal;
-
-  var repair=REPAIRS[repairKey];
+  var vehicleDesc=year+" "+make+" "+model;
+  var detectedCity=window._zipCity||"";
+  var locationDesc=detectedCity?detectedCity+", "+stateVal+" "+zip:stateVal+" "+zip;
 
   // Build estimates for ALL selected repairs
   var allEstimates=[];
-  var grandTotalLow=0,grandTotalMid=0,grandTotalHigh=0,grandLabor=0,grandParts=0,grandTax=0,grandSupplies=0;
+  var grandTotalLow=0,grandTotalMid=0,grandTotalHigh=0,grandLabor=0,grandParts=0,grandTax=0,grandSupplies=0,grandFees=0;
   repairKeys.forEach(function(rk){
-    var est=buildClientEstimate(rk,year,make,model,city,stateVal,shopType);
+    var est=buildClientEstimate(rk,year,make,model,zip,stateVal,shopType,currentPartsPref);
     est.repairKey=rk;
     est.repairLabel=REPAIRS[rk].label;
     allEstimates.push(est);
     grandTotalLow+=est.totalLow;grandTotalMid+=est.totalMid;grandTotalHigh+=est.totalHigh;
-    grandLabor+=est.laborMid;grandParts+=est.partsMid;grandTax+=est.taxMid;grandSupplies+=est.shopSupplies;
+    grandLabor+=est.laborMid;grandParts+=est.partsMid;grandTax+=est.taxMid;grandSupplies+=est.shopSupplies;grandFees+=est.fees||0;
   });
 
-  currentEstimate={totalMid:grandTotalMid,repairLabel:allEstimates.map(function(e){return e.repairLabel;}).join(", "),vehicleDesc:vehicleDesc,shopType:shopType,city:city,state:stateVal,repairKey:repairKey};
+  currentEstimate={totalMid:grandTotalMid,repairLabel:allEstimates.map(function(e){return e.repairLabel;}).join(", "),vehicleDesc:vehicleDesc,shopType:shopType,city:detectedCity,zip:zip,state:stateVal,repairKey:repairKey};
 
   var resultEl=document.getElementById("estimateResult");
 
@@ -761,6 +859,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
     });
     mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandTotalMid - grandTax)+'</td></tr>';
     mh+='<tr><td>Shop Supplies</td><td></td><td></td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
+    if(grandFees>0) mh+='<tr><td>Hazmat / Disposal / Refrigerant</td><td></td><td></td><td style="text-align:right">'+fmt(grandFees)+'</td></tr>';
     mh+='<tr><td>Tax</td><td></td><td></td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
     mh+='<tr class="selected"><td><strong>Total</strong></td><td></td><td></td><td style="text-align:right;font-weight:700;font-size:16px">'+fmt(grandTotalMid)+'</td></tr>';
     mh+='</tbody></table></div>';
@@ -779,7 +878,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   if(make&&model){
     var loader=document.getElementById("aiLoading");
     if(loader) loader.style.display="block";
-    fetch("/api/vehicle-estimate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"estimate",year:year||null,make:make,model:model,repair:repair.label,repairKey:repairKey,city:city||null,state:stateVal})})
+    fetch("/api/vehicle-estimate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"estimate",year:year||null,make:make,model:model,repair:repair.label,repairKey:repairKey,zip:zip,city:detectedCity||null,state:stateVal})})
     .then(function(r){return r.json();})
     .then(function(data){
       if(loader) loader.style.display="none";
@@ -826,14 +925,133 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   }
 });
 
+// =============================================
+// NHTSA vPIC cascading dropdowns: Year -> Make -> Model
+// Free, no API key. https://vpic.nhtsa.dot.gov/api/
+// =============================================
+(function initVehicleDropdowns(){
+  var yearSel=document.getElementById("yearInput");
+  var makeSel=document.getElementById("makeInput");
+  var modelSel=document.getElementById("modelInput");
+  if(!yearSel||!makeSel||!modelSel) return;
+
+  // Populate years (current year + 1 down to 1995)
+  var thisYear=new Date().getFullYear();
+  var years=[];
+  for(var y=thisYear+1;y>=1995;y--) years.push(y);
+  yearSel.innerHTML='<option value="">Year</option>'+years.map(function(y){return '<option value="'+y+'">'+y+'</option>';}).join("");
+
+  function setOptions(sel,items,placeholder){
+    sel.innerHTML='<option value="">'+placeholder+'</option>'+items.map(function(it){return '<option value="'+it+'">'+it+'</option>';}).join("");
+    sel.disabled=items.length===0;
+  }
+
+  // Cache makes/models in sessionStorage to avoid repeat fetches
+  function cacheGet(k){try{return JSON.parse(sessionStorage.getItem(k)||"null");}catch(e){return null;}}
+  function cacheSet(k,v){try{sessionStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+  yearSel.addEventListener("change",function(){
+    var y=yearSel.value;
+    setOptions(makeSel,[],"Loading makes…");
+    setOptions(modelSel,[],"Select make first");
+    if(!y) return;
+    var ck="nhtsa_makes_"+y;
+    var cached=cacheGet(ck);
+    if(cached){setOptions(makeSel,cached,"Select make");tryUrlMake();return;}
+    fetch("https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json")
+      .then(function(r){return r.json();})
+      .then(function(d){
+        var makes=(d.Results||[]).map(function(x){return x.MakeName;}).filter(function(m,i,a){return a.indexOf(m)===i;}).sort();
+        // Add common truck/SUV brands not under "car" type
+        ["RAM","JEEP","GMC","HUMMER","RIVIAN","TESLA","LUCID","POLESTAR"].forEach(function(m){if(makes.indexOf(m)===-1)makes.push(m);});
+        makes.sort();
+        cacheSet(ck,makes);
+        setOptions(makeSel,makes,"Select make");
+        tryUrlMake();
+      })
+      .catch(function(){setOptions(makeSel,[],"Make lookup failed — refresh");});
+  });
+
+  makeSel.addEventListener("change",function(){
+    var y=yearSel.value,m=makeSel.value;
+    setOptions(modelSel,[],"Loading models…");
+    if(!y||!m) return;
+    var ck="nhtsa_models_"+y+"_"+m;
+    var cached=cacheGet(ck);
+    if(cached){setOptions(modelSel,cached,"Select model");tryUrlModel();return;}
+    fetch("https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/"+encodeURIComponent(m)+"/modelyear/"+y+"?format=json")
+      .then(function(r){return r.json();})
+      .then(function(d){
+        var models=(d.Results||[]).map(function(x){return x.Model_Name;}).filter(function(v,i,a){return a.indexOf(v)===i;}).sort();
+        cacheSet(ck,models);
+        setOptions(modelSel,models,models.length?"Select model":"No models found");
+        tryUrlModel();
+      })
+      .catch(function(){setOptions(modelSel,[],"Model lookup failed");});
+  });
+
+  function tryUrlMake(){
+    if(window._urlMake){
+      var opt=Array.prototype.find.call(makeSel.options,function(o){return o.value.toLowerCase()===window._urlMake.toLowerCase();});
+      if(opt){makeSel.value=opt.value;makeSel.dispatchEvent(new Event("change"));}
+      window._urlMake="";
+    }
+  }
+  function tryUrlModel(){
+    if(window._urlModel){
+      var opt=Array.prototype.find.call(modelSel.options,function(o){return o.value.toLowerCase()===window._urlModel.toLowerCase();});
+      if(opt) modelSel.value=opt.value;
+      window._urlModel="";
+    }
+  }
+
+  // Apply URL year if present (triggers chain)
+  setTimeout(function(){
+    if(window._urlYear){
+      yearSel.value=window._urlYear;
+      yearSel.dispatchEvent(new Event("change"));
+      window._urlYear="";
+    }
+  },50);
+})();
+
+// =============================================
+// ZIP lookup -> auto-fill state and city
+// Uses zippopotam.us (free, no key)
+// =============================================
+function lookupZip(zip){
+  if(!/^\d{5}$/.test(zip)) return;
+  fetch("https://api.zippopotam.us/us/"+zip)
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(d){
+      if(!d||!d.places||!d.places[0]) return;
+      var place=d.places[0];
+      var st=place["state abbreviation"];
+      var city=place["place name"];
+      window._zipCity=city;
+      var stSel=document.getElementById("stateSelect");
+      if(stSel&&st) stSel.value=st;
+      var det=document.getElementById("zipDetected");
+      if(det){det.style.display="block";det.textContent="✓ "+city+", "+st;}
+    })
+    .catch(function(){});
+}
+document.getElementById("zipInput").addEventListener("blur",function(){lookupZip(this.value.trim());});
+document.getElementById("zipInput").addEventListener("input",function(){
+  if(/^\d{5}$/.test(this.value.trim())) lookupZip(this.value.trim());
+});
+
 // URL params for estimate path
 var p=new URLSearchParams(window.location.search);
-if(p.get("repair")) document.getElementById("repairSelect").value=p.get("repair");
-if(p.get("year")) document.getElementById("yearInput").value=p.get("year");
-if(p.get("make")) document.getElementById("makeInput").value=p.get("make");
-if(p.get("model")) document.getElementById("modelInput").value=p.get("model");
 if(p.get("state")) document.getElementById("stateSelect").value=p.get("state").toUpperCase();
-if(p.get("city")) document.getElementById("cityInput").value=p.get("city");
+if(p.get("zip")) {
+  document.getElementById("zipInput").value=p.get("zip");
+  lookupZip(p.get("zip"));
+}
+// year/make/model from URL handled after NHTSA dropdowns load (see initVehicleDropdowns)
+window._urlYear=p.get("year")||"";
+window._urlMake=p.get("make")||"";
+window._urlModel=p.get("model")||"";
 if(p.get("path")==="quote") switchPath("quote");
 
 // =============================================
