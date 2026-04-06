@@ -207,29 +207,29 @@
 
 <!-- Hero -->
 <div class="ar-hero">
-<img src="/images/trudy-estimate.png" alt="Trudy" width="110" />
+<img src="/images/trudy-auto.png" alt="Trudy" width="110" />
 <h1>Auto Repair Pricing</h1>
 <p>Whether you're shopping around or checking a quote you already have.</p>
 </div>
 
 <!-- Two-path split -->
 <div class="ar-paths">
-<div class="ar-path-btn ar-path-estimate active" id="pathEstimateBtn" onclick="switchPath('estimate')">
-<h3>I Need an Estimate</h3>
+<div class="ar-path-btn ar-path-estimate" id="pathEstimateBtn" onclick="switchPath('estimate')">
+<h3>&#128270; I Need an Estimate</h3>
 <p>See fair prices for your car and repair</p>
 </div>
 <div class="ar-path-btn ar-path-quote" id="pathQuoteBtn" onclick="switchPath('quote')">
-<h3>I Have a Quote</h3>
+<h3>&#128196; I Have a Quote</h3>
 <p>Upload your mechanic quote for AI analysis</p>
 </div>
 </div>
 
 <!-- ==================== ESTIMATE PATH ==================== -->
-<div id="estimatePath">
+<div id="estimatePath" class="ar-hidden">
 <div class="ae-form">
 <div>
-<label>What repair do you need?</label>
-<select id="repairSelect"><option value="">Select a repair...</option><optgroup label="AC / Heating"><option value="ac_compressor">AC Compressor Replacement</option><option value="ac_recharge">AC Recharge (R134a)</option></optgroup><optgroup label="Brakes"><option value="brakes_all_four">Complete Brake Job (All 4 Wheels)</option><option value="brakes_front">Front Brake Pads &amp; Rotors</option><option value="brakes_rear">Rear Brake Pads &amp; Rotors</option></optgroup><optgroup label="Cooling System"><option value="radiator">Radiator Replacement</option><option value="thermostat">Thermostat Replacement</option><option value="water_pump">Water Pump Replacement</option></optgroup><optgroup label="Drivetrain / Clutch"><option value="cv_axle">CV Axle Replacement</option><option value="clutch_replacement">Clutch Replacement</option></optgroup><optgroup label="Electrical / Starting / Charging"><option value="alternator">Alternator Replacement</option><option value="battery">Battery Replacement (12V)</option><option value="headlight_assembly">Headlight Assembly</option><option value="ignition_coils">Ignition Coil(s) Replacement</option><option value="starter_motor">Starter Motor Replacement</option><option value="window_regulator">Window Regulator/Motor</option></optgroup><optgroup label="Engine"><option value="engine_replacement">Engine Replacement</option><option value="head_gasket">Head Gasket Replacement</option><option value="serpentine_belt">Serpentine Belt Replacement</option><option value="spark_plugs">Spark Plug Replacement</option><option value="timing_belt">Timing Belt Replacement</option><option value="timing_chain">Timing Chain Replacement</option><option value="turbo_replacement">Turbocharger Replacement</option></optgroup><optgroup label="Electric / Hybrid"><option value="ev_battery_module">EV Battery Module Repair</option><option value="ev_battery_pack">EV Battery Pack Replacement</option><option value="hybrid_battery">Hybrid Battery Replacement</option></optgroup><optgroup label="Exhaust / Emissions"><option value="catalytic_converter">Catalytic Converter</option><option value="dpf_cleaning">DPF Filter Cleaning/Replace (Diesel)</option><option value="exhaust_muffler">Muffler Replacement</option><option value="o2_sensor">Oxygen Sensor Replacement</option></optgroup><optgroup label="Fuel System"><option value="fuel_injector">Fuel Injector Replacement (Single)</option><option value="fuel_pump">Fuel Pump Replacement</option></optgroup><optgroup label="Routine Maintenance"><option value="oil_change_conventional">Oil Change (Conventional)</option><option value="oil_change_synthetic">Oil Change (Full Synthetic)</option></optgroup><optgroup label="Steering"><option value="power_steering_pump">Power Steering Pump</option><option value="tie_rod_ends">Tie Rod Ends (Pair)</option></optgroup><optgroup label="Suspension"><option value="ball_joints">Ball Joints (Pair)</option><option value="control_arms">Control Arms (Pair)</option><option value="struts_front">Front Struts (Pair)</option><option value="struts_rear">Rear Struts/Shocks (Pair)</option><option value="wheel_bearing">Wheel Bearing Replacement</option></optgroup><optgroup label="Transmission"><option value="transmission_rebuild">Transmission Rebuild</option><option value="transmission_replacement">Transmission Replacement</option></optgroup></select>
+<label>What repairs do you need? (select all that apply)</label>
+<select id="repairSelect" multiple size="6" style="min-height:160px;"><option value="" disabled>Click to select repairs (hold Ctrl/Cmd for multiple)</option><optgroup label="AC / Heating"><option value="ac_compressor">AC Compressor Replacement</option><option value="ac_recharge">AC Recharge (R134a)</option></optgroup><optgroup label="Brakes"><option value="brakes_all_four">Complete Brake Job (All 4 Wheels)</option><option value="brakes_front">Front Brake Pads &amp; Rotors</option><option value="brakes_rear">Rear Brake Pads &amp; Rotors</option></optgroup><optgroup label="Cooling System"><option value="radiator">Radiator Replacement</option><option value="thermostat">Thermostat Replacement</option><option value="water_pump">Water Pump Replacement</option></optgroup><optgroup label="Drivetrain / Clutch"><option value="cv_axle">CV Axle Replacement</option><option value="clutch_replacement">Clutch Replacement</option></optgroup><optgroup label="Electrical / Starting / Charging"><option value="alternator">Alternator Replacement</option><option value="battery">Battery Replacement (12V)</option><option value="headlight_assembly">Headlight Assembly</option><option value="ignition_coils">Ignition Coil(s) Replacement</option><option value="starter_motor">Starter Motor Replacement</option><option value="window_regulator">Window Regulator/Motor</option></optgroup><optgroup label="Engine"><option value="engine_replacement">Engine Replacement</option><option value="head_gasket">Head Gasket Replacement</option><option value="serpentine_belt">Serpentine Belt Replacement</option><option value="spark_plugs">Spark Plug Replacement</option><option value="timing_belt">Timing Belt Replacement</option><option value="timing_chain">Timing Chain Replacement</option><option value="turbo_replacement">Turbocharger Replacement</option></optgroup><optgroup label="Electric / Hybrid"><option value="ev_battery_module">EV Battery Module Repair</option><option value="ev_battery_pack">EV Battery Pack Replacement</option><option value="hybrid_battery">Hybrid Battery Replacement</option></optgroup><optgroup label="Exhaust / Emissions"><option value="catalytic_converter">Catalytic Converter</option><option value="dpf_cleaning">DPF Filter Cleaning/Replace (Diesel)</option><option value="exhaust_muffler">Muffler Replacement</option><option value="o2_sensor">Oxygen Sensor Replacement</option></optgroup><optgroup label="Fuel System"><option value="fuel_injector">Fuel Injector Replacement (Single)</option><option value="fuel_pump">Fuel Pump Replacement</option></optgroup><optgroup label="Routine Maintenance"><option value="oil_change_conventional">Oil Change (Conventional)</option><option value="oil_change_synthetic">Oil Change (Full Synthetic)</option></optgroup><optgroup label="Steering"><option value="power_steering_pump">Power Steering Pump</option><option value="tie_rod_ends">Tie Rod Ends (Pair)</option></optgroup><optgroup label="Suspension"><option value="ball_joints">Ball Joints (Pair)</option><option value="control_arms">Control Arms (Pair)</option><option value="struts_front">Front Struts (Pair)</option><option value="struts_rear">Rear Struts/Shocks (Pair)</option><option value="wheel_bearing">Wheel Bearing Replacement</option></optgroup><optgroup label="Transmission"><option value="transmission_rebuild">Transmission Rebuild</option><option value="transmission_replacement">Transmission Replacement</option></optgroup></select>
 </div>
 <div class="ae-row">
 <div><label>Year</label><input type="number" id="yearInput" placeholder="e.g. 2019" min="1970" max="2027" /></div>
@@ -302,15 +302,22 @@ function switchPath(path){
     quoBtn.className="ar-path-btn ar-path-quote dimmed";
     estPath.classList.remove("ar-hidden");
     quoPath.classList.add("ar-hidden");
+    estPath.scrollIntoView({behavior:"smooth",block:"start"});
   } else {
     estBtn.className="ar-path-btn ar-path-estimate dimmed";
     quoBtn.className="ar-path-btn ar-path-quote active";
     estPath.classList.add("ar-hidden");
     quoPath.classList.remove("ar-hidden");
+    quoPath.scrollIntoView({behavior:"smooth",block:"start"});
     if(!quoteAppInitialized) initQuoteApp();
   }
   if(typeof tpTrack==="function") tpTrack("path_switch",{path:path,page:"/auto-repair.html"});
 }
+
+// Handle URL param
+var _urlPath = new URLSearchParams(window.location.search).get("path");
+if(_urlPath === "quote") switchPath("quote");
+else if(_urlPath === "estimate") switchPath("estimate");
 
 // =============================================
 // ESTIMATE PATH: DATA + LOGIC
@@ -548,7 +555,9 @@ function attachCompareHandler(){
 
 // Estimate button handler
 document.getElementById("estimateBtn").addEventListener("click",function(){
-  var repairKey=document.getElementById("repairSelect").value;
+  var selOpts=document.getElementById("repairSelect").selectedOptions;
+  var repairKeys=[];
+  for(var i=0;i<selOpts.length;i++){if(selOpts[i].value)repairKeys.push(selOpts[i].value);}
   var year=parseInt(document.getElementById("yearInput").value)||0;
   var make=document.getElementById("makeInput").value.trim();
   var model=document.getElementById("modelInput").value.trim();
@@ -556,23 +565,60 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   var stateVal=document.getElementById("stateSelect").value;
   var shopType=document.getElementById("shopSelect").value;
 
-  if(!repairKey){alert("Select a repair.");return;}
+  if(!repairKeys.length){alert("Select at least one repair.");return;}
   if(!stateVal){alert("Select your state.");return;}
+
+  // Support single repair for backward compat
+  var repairKey=repairKeys[0];
 
   var repair=REPAIRS[repairKey];
   var vehicleDesc=(year>0?year+" ":"")+(make||"")+" "+(model||"");
   vehicleDesc=vehicleDesc.trim()||"Your vehicle";
   var locationDesc=city?city+", "+stateVal:stateVal;
 
-  var est=buildClientEstimate(repairKey,year,make,model,city,stateVal,shopType);
-  currentEstimate={totalMid:est.totalMid,repairLabel:repair.label,vehicleDesc:vehicleDesc,shopType:shopType,city:city,state:stateVal,repairKey:repairKey};
+  var repair=REPAIRS[repairKey];
+
+  // Build estimates for ALL selected repairs
+  var allEstimates=[];
+  var grandTotalLow=0,grandTotalMid=0,grandTotalHigh=0,grandLabor=0,grandParts=0,grandTax=0,grandSupplies=0;
+  repairKeys.forEach(function(rk){
+    var est=buildClientEstimate(rk,year,make,model,city,stateVal,shopType);
+    est.repairKey=rk;
+    est.repairLabel=REPAIRS[rk].label;
+    allEstimates.push(est);
+    grandTotalLow+=est.totalLow;grandTotalMid+=est.totalMid;grandTotalHigh+=est.totalHigh;
+    grandLabor+=est.laborMid;grandParts+=est.partsMid;grandTax+=est.taxMid;grandSupplies+=est.shopSupplies;
+  });
+
+  currentEstimate={totalMid:grandTotalMid,repairLabel:allEstimates.map(function(e){return e.repairLabel;}).join(", "),vehicleDesc:vehicleDesc,shopType:shopType,city:city,state:stateVal,repairKey:repairKey};
 
   var resultEl=document.getElementById("estimateResult");
-  resultEl.innerHTML=renderEstimate(est,vehicleDesc,locationDesc,shopType,{});
+
+  // Multi-repair: show itemized summary then individual details
+  if(allEstimates.length>1){
+    var mh='<div class="ae-card"><h3>Estimate for '+vehicleDesc+' in '+locationDesc+'</h3>';
+    mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">Combined Total ('+allEstimates.length+' repairs)</div>';
+    mh+='<div class="total">'+fmt(grandTotalMid)+'</div>';
+    mh+='<div class="range">Range: '+fmt(grandTotalLow)+' - '+fmt(grandTotalHigh)+'</div></div>';
+    mh+='<table class="ae-parts-table"><thead><tr><th>Repair</th><th style="text-align:right">Labor</th><th style="text-align:right">Parts</th><th style="text-align:right">Total</th></tr></thead><tbody>';
+    allEstimates.forEach(function(e){
+      mh+='<tr><td>'+e.repairLabel+'</td><td style="text-align:right">'+fmt(e.laborMid)+'</td><td style="text-align:right">'+fmt(e.partsMid)+'</td><td style="text-align:right;font-weight:700">'+fmt(e.totalMid)+'</td></tr>';
+    });
+    mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandTotalMid - grandTax)+'</td></tr>';
+    mh+='<tr><td>Shop Supplies</td><td></td><td></td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
+    mh+='<tr><td>Tax</td><td></td><td></td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
+    mh+='<tr class="selected"><td><strong>Total</strong></td><td></td><td></td><td style="text-align:right;font-weight:700;font-size:16px">'+fmt(grandTotalMid)+'</td></tr>';
+    mh+='</tbody></table></div>';
+    // Then show first repair's full detail card below
+    resultEl.innerHTML=mh+renderEstimate(allEstimates[0],vehicleDesc,locationDesc,shopType,{});
+  } else {
+    var est=allEstimates[0];
+    resultEl.innerHTML=renderEstimate(est,vehicleDesc,locationDesc,shopType,{});
+  }
   resultEl.scrollIntoView({behavior:"smooth"});
   attachCompareHandler();
 
-  if(typeof tpTrack==="function") tpTrack("estimate_generated",{repair:repairKey,state:stateVal,shopType:shopType});
+  if(typeof tpTrack==="function") tpTrack("estimate_generated",{repairs:repairKeys.join(","),count:repairKeys.length,state:stateVal,shopType:shopType});
 
   // AI call
   if(make&&model){
@@ -776,40 +822,7 @@ function initQuoteApp(){
           <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
         </div>\
         <div style="margin-top:12px;font-size:12px;color:#94a3b8;text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
-        <div class="ar-divider">or enter your quote total manually</div>\
-        <div class="ar-manual-form">\
-          <div class="ar-row">\
-            <div style="position:relative;">\
-              <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Quote Total</label>\
-              <div style="display:flex;align-items:center;gap:6px;">\
-                <span style="font-size:18px;font-weight:700;color:#334155;">$</span>\
-                <input type="number" id="manualTotal" placeholder="e.g. 1850" min="50" max="50000" />\
-              </div>\
-            </div>\
-            <div>\
-              <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">State</label>\
-              <input type="text" id="manualState" placeholder="e.g. TX" maxlength="2" style="text-transform:uppercase;" />\
-            </div>\
-          </div>\
-          <div class="ar-row">\
-            <div>\
-              <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Shop Type</label>\
-              <select id="manualShopType">\
-                <option value="independent">Independent Shop</option>\
-                <option value="dealer">Dealership</option>\
-                <option value="chain">Chain (Midas, Firestone, etc.)</option>\
-              </select>\
-            </div>\
-            <div>\
-              <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Labor Rate (if known)</label>\
-              <div style="display:flex;align-items:center;gap:6px;">\
-                <span style="font-size:14px;color:#64748b;">$/hr</span>\
-                <input type="number" id="manualLaborRate" placeholder="optional" min="30" max="400" />\
-              </div>\
-            </div>\
-          </div>\
-          <button class="ar-btn-q ar-btn-primary ar-btn-full" id="btnManualAnalyze">Analyze This Quote</button>\
-        </div>\
+        <div style="margin-top:16px;text-align:center;font-size:13px;color:#64748b;">Don\'t have a quote? <a href="#" onclick="switchPath(\'estimate\');return false;" style="color:#1d4ed8;font-weight:600;">Get an estimate instead</a></div>\
       </div>';
 
     var zone=document.getElementById("uploadZone");
