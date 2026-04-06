@@ -1458,60 +1458,98 @@
       if (r.systemType && r.systemType !== "geothermal") {
         var detectedTonnage = r.tonnage || 3;
         var detectedSeer = r.seer || 16;
+        var detectedBrand = (r.brand || "").toLowerCase();
         var stateMult = (r.pricingContext && r.pricingContext.stateMultiplier) || 1.0;
+        var stateCode = (r.pricingContext && r.pricingContext.state) || "";
 
-        // Brand data: upfront cost multiplier, avg annual maintenance, estimated lifespan, annual energy savings vs 14 SEER baseline
+        // State electricity rates (approximate, $/kWh)
+        var stateElecRates = {
+          AL:0.13,AK:0.23,AZ:0.13,AR:0.11,CA:0.22,CO:0.14,CT:0.22,DE:0.13,DC:0.13,FL:0.13,
+          GA:0.13,HI:0.33,ID:0.10,IL:0.14,IN:0.13,IA:0.13,KS:0.13,KY:0.11,LA:0.10,ME:0.18,
+          MD:0.14,MA:0.22,MI:0.17,MN:0.14,MS:0.12,MO:0.12,MT:0.11,NE:0.11,NV:0.12,NH:0.20,
+          NJ:0.16,NM:0.13,NY:0.20,NC:0.12,ND:0.11,OH:0.13,OK:0.11,OR:0.11,PA:0.14,RI:0.22,
+          SC:0.13,SD:0.12,TN:0.11,TX:0.13,UT:0.11,VT:0.18,VA:0.12,WA:0.10,WV:0.12,WI:0.15,WY:0.11
+        };
+        var elecRate = stateElecRates[stateCode] || 0.14;
+
+        // Climate lifespan adjustment
+        var climateLifeAdj = 0;
+        var climateNote = "";
+        var hotStates = ["FL","TX","AZ","LA","MS","AL","GA","SC","NV","HI"];
+        var coldStates = ["MN","WI","ND","SD","MT","WY","ME","VT","NH","AK"];
+        if (hotStates.indexOf(stateCode) > -1) { climateLifeAdj = -2; climateNote = "Hot/humid climates shorten HVAC lifespan by ~2 years vs national average."; }
+        else if (coldStates.indexOf(stateCode) > -1) { climateLifeAdj = 1; climateNote = "Cold climates: AC units last longer (less use), but furnaces work harder."; }
+
+        // Brand tier data with brand-to-tier mapping
+        var brandTierMap = {
+          carrier:"Premium",trane:"Premium",lennox:"Premium",
+          "american standard":"Premium Value",daikin:"Premium Value",bryant:"Premium Value",
+          rheem:"Mid-Range",ruud:"Mid-Range",york:"Mid-Range",coleman:"Mid-Range",heil:"Mid-Range",
+          goodman:"Value",amana:"Value",payne:"Value",comfortmaker:"Value",tempstar:"Value"
+        };
+        var userTier = brandTierMap[detectedBrand] || null;
+
         var brandData = [
-          { tier: "Premium", examples: "Carrier, Trane, Lennox", upfrontMult: 1.20, maintenance: 120, lifespan: 18, energyMult: 0.92, warrantyParts: "10 yr", warrantyLabor: "1-2 yr" },
-          { tier: "Premium Value", examples: "American Standard, Daikin, Bryant", upfrontMult: 1.10, maintenance: 130, lifespan: 17, energyMult: 0.95, warrantyParts: "10 yr", warrantyLabor: "1-2 yr" },
-          { tier: "Mid-Range", examples: "Rheem, York, Coleman", upfrontMult: 1.00, maintenance: 150, lifespan: 15, energyMult: 1.00, warrantyParts: "10 yr", warrantyLabor: "1 yr" },
-          { tier: "Value", examples: "Goodman, Amana, Payne", upfrontMult: 0.85, maintenance: 180, lifespan: 12, energyMult: 1.05, warrantyParts: "10 yr", warrantyLabor: "1 yr" }
+          { tier: "Premium", examples: "Carrier, Trane, Lennox", upfrontMult: 1.20, maintenance: 120, baseLifespan: 18, energyMult: 0.92 },
+          { tier: "Premium Value", examples: "American Standard, Daikin, Bryant", upfrontMult: 1.10, maintenance: 130, baseLifespan: 17, energyMult: 0.95 },
+          { tier: "Mid-Range", examples: "Rheem, York, Coleman", upfrontMult: 1.00, maintenance: 150, baseLifespan: 15, energyMult: 1.00 },
+          { tier: "Value", examples: "Goodman, Amana, Payne", upfrontMult: 0.85, maintenance: 180, baseLifespan: 12, energyMult: 1.05 }
         ];
 
-        // Calculate base equipment cost from detected system
-        var baseEquipCost = 0;
-        if (r.quoteTotal) {
-          baseEquipCost = r.quoteTotal;
-        } else if (r.pricingContext && r.pricingContext.expectedRange) {
-          baseEquipCost = Math.round((r.pricingContext.expectedRange.low + r.pricingContext.expectedRange.high) / 2);
-        } else {
-          baseEquipCost = 8000; // reasonable default
-        }
+        // Use user's actual quote price for their tier, calculate others relative
+        var userQuotePrice = r.quoteTotal || r.price || 0;
+        var userTierData = userTier ? brandData.find(function(b) { return b.tier === userTier; }) : null;
+        var midRangeBasePrice = userTierData && userQuotePrice > 0 ? Math.round(userQuotePrice / userTierData.upfrontMult) : 8000;
 
-        // Baseline annual energy cost (14 SEER, 3 ton)
-        var baseEnergyCost = 1100;
-        var seerSavings = detectedSeer > 14 ? Math.round(baseEnergyCost * (1 - 14 / detectedSeer)) : 0;
-        var annualEnergy = baseEnergyCost - seerSavings;
+        // Energy cost adjusted for state electricity rate and user's SEER
+        var baseAnnualCooling = Math.round(12000 * detectedTonnage * 1000 / (detectedSeer * 1000) * elecRate * 1200); // simplified
+        // More realistic: ~$80-120 per ton per year at 14 SEER at $0.14/kWh
+        var baseEnergyCostPerTon = Math.round(100 * (elecRate / 0.14)); // scale by local rate
+        var baseEnergyCost14 = baseEnergyCostPerTon * detectedTonnage * (14 / 14); // baseline at 14 SEER
+        var userEnergyAtSeer = Math.round(baseEnergyCost14 * (14 / detectedSeer));
 
         var horizon = 15;
 
+        // Header with personalization
         brandCompHtml = '<div class="hvac-card" style="margin-bottom:16px;">';
+        if (userTier && userQuotePrice > 0) {
+          brandCompHtml += '<div style="padding:10px 14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;margin-bottom:12px;font-size:13px;color:#1e40af;">';
+          brandCompHtml += 'Your quote: <strong>$' + userQuotePrice.toLocaleString() + '</strong> for a <strong>' + (r.brand || userTier) + '</strong> (' + userTier + ' tier). ';
+          brandCompHtml += 'Here is how it compares over ' + horizon + ' years in <strong>' + (stateCode || "your area") + '</strong>.';
+          brandCompHtml += '</div>';
+        }
         brandCompHtml += '<h3 style="margin:0 0 8px;">Total Cost of Ownership (' + horizon + ' Years)</h3>';
-        brandCompHtml += '<p style="font-size:13px;color:#64748b;margin-bottom:12px;">Same system type and efficiency. Estimates based on published specs and industry averages.</p>';
+        brandCompHtml += '<p style="font-size:13px;color:#64748b;margin-bottom:4px;">' + detectedSeer + ' SEER, ' + detectedTonnage + '-ton ' + (r.systemType || "system").replace(/_/g, " ") + (stateCode ? ' in ' + stateCode : '') + '. Energy at $' + elecRate.toFixed(2) + '/kWh.</p>';
+        if (climateNote) brandCompHtml += '<p style="font-size:12px;color:#d97706;margin-bottom:8px;">' + climateNote + '</p>';
+
         brandCompHtml += '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">';
         brandCompHtml += '<thead><tr style="background:#f1f5f9;"><th style="padding:8px;text-align:left;">Brand Tier</th><th style="padding:8px;text-align:right;">Upfront</th><th style="padding:8px;text-align:right;">Energy/yr</th><th style="padding:8px;text-align:right;">Maint./yr</th><th style="padding:8px;text-align:center;">Est. Life</th><th style="padding:8px;text-align:right;">' + horizon + '-yr Total</th><th style="padding:8px;text-align:right;">Cost/yr</th></tr></thead><tbody>';
 
         var results = [];
         brandData.forEach(function(b) {
-          var upfront = Math.round(baseEquipCost * b.upfrontMult / stateMult * stateMult); // normalize to mid-range baseline
-          upfront = Math.round(baseEquipCost * b.upfrontMult);
-          var energy = Math.round(annualEnergy * b.energyMult);
-          var yearsInHorizon = Math.min(horizon, b.lifespan);
-          var replacements = horizon > b.lifespan ? 1 : 0;
-          var replacementCost = replacements * Math.round(upfront * 0.9); // replacement slightly cheaper (existing infrastructure)
+          var upfront = Math.round(midRangeBasePrice * b.upfrontMult);
+          // If this is the user's tier and we have their actual price, use it
+          if (b.tier === userTier && userQuotePrice > 0) upfront = userQuotePrice;
+          var energy = Math.round(userEnergyAtSeer * b.energyMult);
+          var lifespan = Math.max(8, b.baseLifespan + climateLifeAdj);
+          var replacements = horizon > lifespan ? 1 : 0;
+          var replacementCost = replacements * Math.round(upfront * 0.9);
           var totalCost = upfront + (energy * horizon) + (b.maintenance * horizon) + replacementCost;
           var costPerYear = Math.round(totalCost / horizon);
-          results.push({ tier: b.tier, examples: b.examples, upfront: upfront, energy: energy, maintenance: b.maintenance, lifespan: b.lifespan, totalCost: totalCost, costPerYear: costPerYear, warrantyParts: b.warrantyParts, warrantyLabor: b.warrantyLabor, replacements: replacements });
+          var isUser = b.tier === userTier;
+          results.push({ tier: b.tier, examples: b.examples, upfront: upfront, energy: energy, maintenance: b.maintenance, lifespan: lifespan, totalCost: totalCost, costPerYear: costPerYear, replacements: replacements, isUser: isUser });
         });
 
-        // Find lowest cost/year for highlighting
-        var lowestCostPerYear = Math.min.apply(null, results.map(function(r) { return r.costPerYear; }));
+        var lowestCostPerYear = Math.min.apply(null, results.map(function(x) { return x.costPerYear; }));
 
         results.forEach(function(b) {
           var isLowest = b.costPerYear === lowestCostPerYear;
-          var rowStyle = isLowest ? ' style="background:#f0fdf4;"' : '';
+          var bg = b.isUser ? "#eff6ff" : isLowest ? "#f0fdf4" : "";
+          var rowStyle = bg ? ' style="background:' + bg + ';"' : '';
           brandCompHtml += '<tr' + rowStyle + '>';
-          brandCompHtml += '<td style="padding:8px;"><strong>' + b.tier + '</strong><br><span style="font-size:11px;color:#94a3b8;">' + b.examples + '</span></td>';
+          brandCompHtml += '<td style="padding:8px;"><strong>' + b.tier + '</strong>';
+          if (b.isUser) brandCompHtml += ' <span style="display:inline-block;padding:1px 6px;background:#1d4ed8;color:#fff;border-radius:4px;font-size:10px;font-weight:700;">YOUR QUOTE</span>';
+          brandCompHtml += '<br><span style="font-size:11px;color:#94a3b8;">' + b.examples + '</span></td>';
           brandCompHtml += '<td style="padding:8px;text-align:right;">$' + b.upfront.toLocaleString() + '</td>';
           brandCompHtml += '<td style="padding:8px;text-align:right;">$' + b.energy.toLocaleString() + '</td>';
           brandCompHtml += '<td style="padding:8px;text-align:right;">$' + b.maintenance.toLocaleString() + '</td>';
@@ -1522,11 +1560,32 @@
         });
 
         brandCompHtml += '</tbody></table></div>';
-        brandCompHtml += '<div style="margin-top:12px;font-size:12px;color:#94a3b8;">';
-        brandCompHtml += 'Based on ' + detectedSeer + ' SEER, ' + detectedTonnage + '-ton system. ';
-        brandCompHtml += 'Energy costs assume $0.14/kWh average. Maintenance includes annual tune-up + typical repairs. ';
-        if (results[0].replacements) brandCompHtml += 'Value tier includes a replacement at year ' + results[2].lifespan + ' since lifespan is shorter than ' + horizon + ' years. ';
-        brandCompHtml += 'Actual costs vary by installation quality, usage, and climate. This is not a brand recommendation.</div>';
+
+        // Personalized insight
+        if (userTier && results.length > 0) {
+          var userResult = results.find(function(x) { return x.isUser; });
+          if (userResult && userResult.costPerYear !== lowestCostPerYear) {
+            var lowestResult = results.find(function(x) { return x.costPerYear === lowestCostPerYear; });
+            var diff = userResult.costPerYear - lowestCostPerYear;
+            var totalDiff = diff * horizon;
+            brandCompHtml += '<div style="margin-top:12px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:13px;color:#92400e;">';
+            brandCompHtml += 'Your ' + userTier + ' system costs <strong>$' + diff.toLocaleString() + '/year more</strong> ($' + totalDiff.toLocaleString() + ' over ' + horizon + ' years) than ' + lowestResult.tier + '. ';
+            if (userResult.upfront < lowestResult.upfront) {
+              brandCompHtml += 'However, your upfront cost is <strong>$' + (lowestResult.upfront - userResult.upfront).toLocaleString() + ' less</strong>. ';
+            }
+            brandCompHtml += '</div>';
+          } else if (userResult && userResult.costPerYear === lowestCostPerYear) {
+            brandCompHtml += '<div style="margin-top:12px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;font-size:13px;color:#065f46;">';
+            brandCompHtml += 'Your ' + (r.brand || userTier) + ' system has the <strong>lowest estimated cost per year</strong> over ' + horizon + ' years among all brand tiers.';
+            brandCompHtml += '</div>';
+          }
+        }
+
+        brandCompHtml += '<div style="margin-top:12px;font-size:11px;color:#94a3b8;">';
+        brandCompHtml += 'Based on published specs, DOE energy data, and industry maintenance averages. ';
+        brandCompHtml += 'Energy cost uses ' + stateCode + ' average electricity rate ($' + elecRate.toFixed(2) + '/kWh). ';
+        if (climateLifeAdj !== 0) brandCompHtml += 'Lifespan adjusted for ' + stateCode + ' climate. ';
+        brandCompHtml += 'Actual costs vary by installation quality, usage, and home characteristics. This is not a brand recommendation.</div>';
         brandCompHtml += '</div>';
       }
 
