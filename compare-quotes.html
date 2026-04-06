@@ -576,13 +576,19 @@
 
         updateCompareBtn();
       } catch (err) {
-        console.error("[compare-quotes] Parse error:", err, err.stack);
-        alert("Parse error: " + (err.message || err) + "\n\nStack: " + (err.stack || "none"));
+        console.error("[compare-quotes] Parse error:", err);
         slot.classList.remove("uploading");
+        var errMsg = "Could not read this file.";
+        if (err && err.message) {
+          if (err.message.includes("429") || err.message.includes("Rate")) errMsg = "Too many uploads. Wait a minute and try again.";
+          else if (err.message.includes("Tesseract")) errMsg = "Image OCR failed. Try a clearer photo or PDF.";
+          else if (err.message.includes("network") || err.message.includes("fetch")) errMsg = "Network error. Check your connection.";
+        }
         slot.innerHTML =
-          '<span class="slot-icon">&#128196;</span>' +
+          '<span class="slot-icon" style="font-size:24px;">&#9888;</span>' +
           '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
-          '<span class="slot-error">Could not parse. Try another file.</span>' +
+          '<span class="slot-error" style="color:#dc2626;font-size:12px;">' + errMsg + '</span>' +
+          '<span class="slot-hint" style="margin-top:4px;cursor:pointer;color:var(--brand);font-size:12px;font-weight:600;" onclick="event.stopPropagation();removeQuote(' + idx + ')">Try again</span>' +
           '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
         slot.onclick = function() { document.getElementById("file" + idx).click(); };
         quotes[idx] = null;
