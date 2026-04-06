@@ -1,0 +1,284 @@
+#!/usr/bin/env python3
+"""Build expanded legal fee pricing database with state-level rates."""
+import json, os
+
+data = {
+  "metadata": {
+    "sources": "Clio Legal Trends Report 2025, LawPay State Rate Data, state bar fee surveys (MI, TX, FL, CO, OR), NALP 2025, Thumbtack, ABA Model Rules",
+    "baseYear": 2026,
+    "nationalAvgHourlyRate": 349,
+    "inflationRate": 0.03,
+    "notes": "State multipliers derived from Clio/LawPay state average rates relative to $349 national average."
+  },
+  "stateMultipliers": {
+    "AL": 0.72, "AK": 0.95, "AZ": 0.88, "AR": 0.73, "CA": 1.20,
+    "CO": 0.93, "CT": 1.10, "DE": 1.21, "FL": 0.91, "GA": 0.85,
+    "HI": 1.00, "ID": 0.75, "IL": 1.02, "IN": 0.78, "IA": 0.76,
+    "KS": 0.77, "KY": 0.70, "LA": 0.80, "ME": 0.82, "MD": 1.05,
+    "MA": 1.12, "MI": 0.83, "MN": 0.90, "MS": 0.71, "MO": 0.80,
+    "MT": 0.78, "NE": 0.77, "NV": 0.92, "NH": 0.88, "NJ": 1.08,
+    "NM": 0.78, "NY": 1.14, "NC": 0.82, "ND": 0.76, "OH": 0.82,
+    "OK": 0.74, "OR": 0.90, "PA": 0.95, "RI": 0.95, "SC": 0.78,
+    "SD": 0.73, "TN": 0.80, "TX": 0.92, "UT": 0.82, "VT": 0.82,
+    "VA": 0.95, "WA": 1.05, "WV": 0.56, "WI": 0.82, "WY": 0.70,
+    "DC": 1.41
+  },
+  "firmSizeMultipliers": {
+    "solo": 0.75, "small": 1.0, "midsize": 1.25, "large": 1.60, "biglaw": 2.50
+  },
+  "firmSizeLabels": {
+    "solo": "Solo Practitioner",
+    "small": "Small Firm (2-10 attorneys)",
+    "midsize": "Midsize Firm (11-50 attorneys)",
+    "large": "Large Firm (51-200 attorneys)",
+    "biglaw": "BigLaw (200+ attorneys)"
+  },
+  "hourlyRatesByPracticeArea": {
+    "family_law": {
+      "label": "Family Law (Divorce, Custody, Support)",
+      "rates": {"low": 200, "mid": 350, "high": 550},
+      "typicalHours": {"simple_divorce": [5, 15], "contested_divorce": [20, 60], "custody_modification": [10, 30], "prenup": [5, 10]},
+      "flatFees": {"uncontested_divorce": [700, 2000], "contested_divorce_total": [7000, 11300], "prenuptial_agreement": [2500, 6000], "name_change": [250, 1000], "adoption": [3000, 3500]}
+    },
+    "personal_injury": {
+      "label": "Personal Injury",
+      "rates": {"low": 0, "mid": 0, "high": 0},
+      "feeType": "contingency",
+      "contingencyRange": [25, 40],
+      "contingencyDetails": {"pre_trial": 33.3, "trial": 40, "appeal": 45},
+      "notes": "Most PI attorneys work on contingency. You pay nothing upfront. If they ask for hourly fees, that is unusual."
+    },
+    "criminal_defense": {
+      "label": "Criminal Defense",
+      "rates": {"low": 189, "mid": 352, "high": 750},
+      "flatFees": {"misdemeanor": [1500, 5000], "dui_first": [2500, 5000], "dui_trial": [5000, 15000], "felony": [5000, 25000], "federal": [10000, 50000], "traffic_ticket": [100, 700], "expungement_misdemeanor": [200, 1000], "expungement_felony": [1500, 3500]}
+    },
+    "estate_planning": {
+      "label": "Estate Planning (Wills, Trusts)",
+      "rates": {"low": 200, "mid": 350, "high": 500},
+      "flatFees": {"simple_will": [300, 1000], "living_trust": [1500, 3000], "estate_plan_package": [1000, 3500], "power_of_attorney": [150, 500], "healthcare_directive": [150, 400], "probate": [3000, 15000]}
+    },
+    "real_estate": {
+      "label": "Real Estate Law",
+      "rates": {"low": 150, "mid": 350, "high": 500},
+      "flatFees": {"closing": [800, 1500], "title_review": [300, 800], "lease_review": [200, 500], "dispute": [3000, 15000]}
+    },
+    "business_law": {
+      "label": "Business Law (Formation, Contracts)",
+      "rates": {"low": 250, "mid": 400, "high": 700},
+      "flatFees": {"llc_formation": [500, 1500], "corporation_formation": [1000, 3000], "contract_review": [200, 500], "contract_drafting": [500, 2500], "partnership_agreement": [1500, 5000], "operating_agreement": [500, 2000]}
+    },
+    "immigration": {
+      "label": "Immigration Law",
+      "rates": {"low": 150, "mid": 350, "high": 500},
+      "flatFees": {"green_card_family": [2000, 5000], "green_card_employment": [5000, 15000], "naturalization": [500, 2500], "asylum": [5000, 15000], "h1b": [2500, 5000], "daca_renewal": [500, 1500]}
+    },
+    "bankruptcy": {
+      "label": "Bankruptcy",
+      "rates": {"low": 200, "mid": 300, "high": 450},
+      "flatFees": {"chapter_7": [1000, 2000], "chapter_13": [2500, 5000]},
+      "filingFees": {"chapter_7": 338, "chapter_13": 313},
+      "notes": "Most bankruptcy attorneys charge flat fees. Filing fees are additional."
+    },
+    "employment_law": {
+      "label": "Employment Law",
+      "rates": {"low": 98, "mid": 400, "high": 600},
+      "notes": "Employee-side cases often taken on contingency (25-40%). Employer-side billed hourly.",
+      "contingencyRange": [25, 40]
+    },
+    "intellectual_property": {
+      "label": "Intellectual Property",
+      "rates": {"low": 300, "mid": 450, "high": 800},
+      "flatFees": {"trademark_registration": [1000, 3500], "trademark_office_action": [1500, 3500], "patent_application": [8000, 20000], "copyright_registration": [500, 1500]}
+    },
+    "tax_law": {
+      "label": "Tax Law (IRS Disputes, Tax Planning)",
+      "rates": {"low": 250, "mid": 400, "high": 700},
+      "flatFees": {"audit_representation": [3000, 15000], "offer_in_compromise": [3500, 10000], "tax_court": [5000, 25000]}
+    },
+    "general_litigation": {
+      "label": "General Civil Litigation",
+      "rates": {"low": 250, "mid": 400, "high": 650},
+      "typicalHours": {"small_claims_prep": [3, 8], "contract_dispute": [20, 80], "complex_litigation": [50, 200]}
+    },
+    "landlord_tenant": {
+      "label": "Landlord-Tenant Law",
+      "rates": {"low": 150, "mid": 300, "high": 500},
+      "flatFees": {"eviction_defense": [1000, 3000], "lease_dispute": [500, 2500], "security_deposit": [300, 1000]}
+    },
+    "workers_compensation": {
+      "label": "Workers Compensation",
+      "rates": {"low": 0, "mid": 0, "high": 0},
+      "feeType": "contingency",
+      "contingencyRange": [15, 25],
+      "notes": "Most states cap workers comp attorney fees at 15-25% of benefits recovered. Fee must be approved by the workers comp board."
+    },
+    "medical_malpractice": {
+      "label": "Medical Malpractice",
+      "rates": {"low": 0, "mid": 0, "high": 0},
+      "feeType": "contingency",
+      "contingencyRange": [30, 40],
+      "notes": "Almost always contingency due to high case costs. Some states cap contingency fees in med mal cases."
+    }
+  },
+  "billingAbusePatterns": {
+    "block_billing": {
+      "label": "Block Billing",
+      "description": "Lumping multiple tasks into one time entry without separating hours per task",
+      "example": "Research, draft motion, review file, conference call - 4.5 hrs",
+      "impact": "Courts reduce block-billed fees 20-30%. Impossible to verify if hours are reasonable.",
+      "detection": "Single entry with multiple tasks separated by commas/semicolons AND hours > 1.0"
+    },
+    "vague_entries": {
+      "label": "Vague Time Entries",
+      "description": "Billing descriptions too generic to evaluate reasonableness",
+      "examples": ["Research", "Review file", "Memo to file", "Attention to matter", "Telephone conference with VB", "Work on case"],
+      "impact": "Cannot verify what was actually done or whether time was reasonable"
+    },
+    "paralegal_at_attorney_rate": {
+      "label": "Clerical/Paralegal Work at Attorney Rate",
+      "description": "Billing attorney rates for tasks that should be done by a paralegal or staff",
+      "examples": ["Filing documents", "Copying", "Scheduling", "Calendar entries", "Organizing file", "Mailing"],
+      "typicalParalegalRate": [75, 175],
+      "impact": "3-5x overcharge for clerical work"
+    },
+    "excessive_research": {
+      "label": "Excessive Research",
+      "description": "Senior attorney billing for basic legal research that should be known or done by a junior",
+      "detection": "Partner-rate research > 2 hours on routine matters"
+    },
+    "double_billing": {
+      "label": "Double/Overlapping Billing",
+      "description": "Multiple attorneys billing for attending same meeting, call, or deposition",
+      "detection": "Two+ attorneys billing same time block for same event"
+    },
+    "overhead_as_expense": {
+      "label": "Overhead Charged as Expense",
+      "description": "Firm overhead costs passed through as billable expenses",
+      "examples": ["Copies at $0.25-1.00/page (actual cost: $0.03)", "Fax charges", "Postage", "Westlaw/LexisNexis research fees", "Administrative surcharge"],
+      "impact": "These should be absorbed as firm overhead, not billed separately"
+    },
+    "minimum_increment_abuse": {
+      "label": "Billing Increment Padding",
+      "description": "Using 15-minute minimums to inflate short tasks",
+      "example": "A 2-minute email billed as 0.25 hours ($87.50 at $350/hr instead of $11.67 at 6-min increments)",
+      "impact": "Can inflate bills 2-5x for frequent short communications"
+    }
+  },
+  "retainerCheckItems": [
+    {"key": "scopeDefined", "label": "Scope of representation clearly defined", "weight": 15},
+    {"key": "rateStated", "label": "Hourly rate or fee structure stated", "weight": 15},
+    {"key": "billingIncrement", "label": "Billing increment disclosed (6-min vs 15-min)", "weight": 10},
+    {"key": "retainerAmount", "label": "Retainer amount and replenishment terms", "weight": 10},
+    {"key": "expensePolicy", "label": "Expense policy (what is billed separately)", "weight": 10},
+    {"key": "estimatedCost", "label": "Estimated total cost or range provided", "weight": 10},
+    {"key": "communicationPolicy", "label": "Communication expectations (response time, billing for calls)", "weight": 8},
+    {"key": "terminationClause", "label": "Termination clause (how to end the engagement)", "weight": 8},
+    {"key": "conflictCheck", "label": "Conflict of interest check disclosed", "weight": 7},
+    {"key": "feeDispute", "label": "Fee dispute resolution process", "weight": 7}
+  ],
+  "redFlags": [
+    "Non-refundable retainer (most states require unused portions to be returned)",
+    "No written fee agreement (required by ethics rules in most states)",
+    "Billing in 15-minute or larger increments (industry standard is 6 minutes / 0.1 hour)",
+    "Vague scope ('all legal matters') without specific case description",
+    "No estimated total cost or range",
+    "Charging for clerical tasks (filing, copying, scheduling) at attorney rates",
+    "No termination clause or penalties for ending the engagement",
+    "Requiring payment of opposing counsel's fees if you lose",
+    "Flat fee with no refund if case resolves quickly"
+  ],
+  "stateBarComplaintLinks": {
+    "AL": "https://www.alabar.org/office-of-general-counsel/file-a-complaint/",
+    "AK": "https://alaskabar.org/lawyer-discipline/file-a-complaint/",
+    "AZ": "https://www.azbar.org/for-the-public/filing-a-complaint/",
+    "AR": "https://www.arcourts.gov/professional-conduct",
+    "CA": "https://www.calbar.ca.gov/Public/Complaints-Claims",
+    "CO": "https://www.coloradosupremecourt.com/Regulation/Complaints.asp",
+    "CT": "https://www.jud.ct.gov/sgc/",
+    "DE": "https://courts.delaware.gov/odc/",
+    "FL": "https://www.floridabar.org/public/acap/",
+    "GA": "https://www.gabar.org/forthepublic/statedisciplinaryboard.cfm",
+    "HI": "https://dbhawaii.org/for-the-public/how-to-file-a-complaint/",
+    "ID": "https://isb.idaho.gov/bar-counsel/how-to-file-a-complaint/",
+    "IL": "https://www.iardc.org/information-for-the-public/",
+    "IN": "https://www.in.gov/courts/discipline/file-a-complaint/",
+    "IA": "https://www.iowacourts.gov/opr",
+    "KS": "https://www.kscourts.org/KS-Courts/Disciplinary-Administrator",
+    "KY": "https://www.kybar.org/page/complaint",
+    "LA": "https://www.ladb.org/public/file-a-complaint",
+    "ME": "https://www.mebaroverseers.org/filing_complaints/",
+    "MD": "https://www.mdcourts.gov/attygrievance",
+    "MA": "https://bbbo.state.ma.us/",
+    "MI": "https://www.michbar.org/generalinfo/pdfs/complaint.pdf",
+    "MN": "https://lprb.mncourts.gov/LawyerComplaint/Pages/default.aspx",
+    "MS": "https://courts.ms.gov/research/rules/msrulesofcourt/rules_of_discipline.pdf",
+    "MO": "https://www.mochiefcounsel.org/complaint-process/",
+    "MT": "https://www.montanabar.org/page/FilingAComplaint",
+    "NE": "https://supremecourt.nebraska.gov/counsel-discipline",
+    "NV": "https://www.nvbar.org/member-services-3702/office-of-bar-counsel/",
+    "NH": "https://www.nhattyreg.org/how-file-complaint",
+    "NJ": "https://www.njcourts.gov/attorneys/oae",
+    "NM": "https://www.nmdisciplinaryboard.org/file-a-complaint/",
+    "NY": "https://nysba.org/attorney-discipline/",
+    "NC": "https://www.ncbar.gov/for-the-public/filing-a-complaint/",
+    "ND": "https://www.ndcourts.gov/legal-resources/disciplinary-board",
+    "OH": "https://www.ohiobar.org/public-resources/filing-a-grievance/",
+    "OK": "https://www.okbar.org/ogc/filing/",
+    "OR": "https://www.osbar.org/public/complaints/",
+    "PA": "https://www.padisciplinaryboard.org/for-the-public/how-to-file-a-complaint",
+    "RI": "https://www.courts.ri.gov/AttorneyResources/disciplinarycounsel/Pages/default.aspx",
+    "SC": "https://www.commissiononlawyerconduct.org/FileAComplaint.html",
+    "SD": "https://www.sdbar.org/page/Complaints",
+    "TN": "https://www.tbpr.org/for-the-public/file-a-complaint",
+    "TX": "https://www.texasbar.com/Content/NavigationMenu/ForThePublic/ProblemswithanAttorney/",
+    "UT": "https://www.utahbar.org/opc/how-to-file-a-complaint/",
+    "VT": "https://www.vermontjudiciary.org/complaints-about-lawyers",
+    "VA": "https://www.vsb.org/site/public/filing-complaints",
+    "WA": "https://www.wsba.org/for-the-public/filing-a-grievance",
+    "WV": "https://www.wvodc.org/how-to-file-a-complaint",
+    "WI": "https://www.wicourts.gov/courts/offices/olr.htm",
+    "WY": "https://www.courts.state.wy.us/board-of-professional-responsibility/",
+    "DC": "https://www.dcodc.org/how-to-file-a-complaint"
+  },
+  "legalAidResources": {
+    "incomeThreshold": {"fpl_125_single": 19950, "fpl_125_family4": 40950, "fpl_250_single": 39900},
+    "resources": [
+      {"name": "Legal Services Corporation", "url": "https://www.lsc.gov/about-lsc/what-legal-aid/get-legal-help", "desc": "Funds 129 nonprofit legal aid organizations. Income below 125% FPL."},
+      {"name": "ABA Free Legal Answers", "url": "https://www.abafreelegalanswers.org/", "desc": "Free online Q&A with volunteer attorneys. Income below 250% FPL."},
+      {"name": "LawHelp.org", "url": "https://www.lawhelp.org/", "desc": "State-by-state directory of free legal help."},
+      {"name": "Court Self-Help Centers", "url": "https://www.usa.gov/legal-aid", "desc": "Free guidance at courthouses for self-represented litigants."},
+      {"name": "Law School Clinics", "url": "https://www.americanbar.org/groups/legal_education/resources/law-school-clinical-programs/", "desc": "Law students supervised by professors. Free or low-cost."},
+      {"name": "Bar Referral Programs", "url": "https://www.americanbar.org/groups/legal_services/flh-home/", "desc": "Reduced-fee initial consultations ($25-$50)."}
+    ]
+  },
+  "abaModelRule1_5": {
+    "title": "ABA Model Rule 1.5 - Fees",
+    "factors": [
+      "Time and labor required, novelty and difficulty, skill required",
+      "Likelihood acceptance precludes other employment",
+      "Fee customarily charged in locality for similar services",
+      "Amount involved and results obtained",
+      "Time limitations imposed by client or circumstances",
+      "Nature and length of professional relationship",
+      "Experience, reputation, and ability of the lawyer",
+      "Whether fee is fixed or contingent"
+    ],
+    "requirements": [
+      "Fees must be communicated in writing before or shortly after engagement",
+      "Contingency fee agreements must be in writing",
+      "Cannot charge unconscionable or clearly excessive fees",
+      "Fee-splitting with non-lawyers is prohibited in most states"
+    ]
+  }
+}
+
+out = os.path.join(os.path.dirname(__file__), '..', 'data', 'legal-fee-pricing.json')
+with open(out, 'w') as f:
+    json.dump(data, f, indent=2)
+
+areas = len(data['hourlyRatesByPracticeArea'])
+states = len(data['stateMultipliers'])
+bars = len(data['stateBarComplaintLinks'])
+flat_total = sum(len(v.get('flatFees', {})) for v in data['hourlyRatesByPracticeArea'].values())
+print(f'Saved: {areas} practice areas, {states} state multipliers, {bars} state bar links, {flat_total} flat fee benchmarks')

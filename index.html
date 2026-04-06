@@ -540,17 +540,16 @@ fetch("/api/analytics?counter=1").then(r=>r.json()).then(d=>{
       verdictColor: "#dc2626",
       verdictBg: "#fef2f2",
       verdictBorder: "#fca5a5",
-      delta: "$450/hr for a family law attorney in Charlotte, NC (small firm)",
+      delta: "$450/hr for family law in NC. NC average: $287/hr. Block billing detected on 3 entries.",
       stats: [
         { label: "Attorney rate", value: "$450/hr", color: "#dc2626" },
-        { label: "Market range", value: "$200 \u2013 $350", color: "" },
-        { label: "Retainer check", value: "7/10", color: "#ca8a04" }
+        { label: "NC market avg", value: "$287/hr", color: "" },
+        { label: "Agreement score", value: "62/100", color: "#ca8a04" }
       ],
       pills: [
         { text: "Scope defined", ok: true }, { text: "Rate stated", ok: true },
-        { text: "Termination clause", ok: true }, { text: "Conflict check", ok: true },
-        { text: "15-min billing", ok: false }, { text: "No cost estimate", ok: false },
-        { text: "Non-refundable retainer", ok: false }
+        { text: "Block billing", ok: false }, { text: "15-min increments", ok: false },
+        { text: "Non-refundable retainer", ok: false }, { text: "Flat fee available", ok: true }
       ],
       cta: { text: "Check your legal fees", href: "/legal-fee-analyzer.html" },
       img: "/images/trudy-legal.png"
