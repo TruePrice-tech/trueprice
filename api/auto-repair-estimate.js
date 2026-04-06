@@ -34,7 +34,7 @@ async function captureAnonymizedData(vertical, parsed) {
   }
 }
 
-const RATE_LIMIT_MAX = 10;
+const RATE_LIMIT_MAX = 50; // Temporarily raised for testing
 const RATE_LIMIT_WINDOW_SEC = 3600;
 
 const memoryRateLimit = new Map();
