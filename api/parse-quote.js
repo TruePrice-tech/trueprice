@@ -1,17 +1,20 @@
 import { Redis } from "@upstash/redis";
+import fs from "fs";
+import path from "path";
 
 const redis = Redis.fromEnv();
 
 function buildAnonymizedRecord(vertical, parsed) {
   if (!parsed || !parsed.price) return null;
+  // No city -- state only for privacy
   return {
     v: vertical,
     ts: new Date().toISOString(),
     price: parsed.price,
     material: parsed.material || null,
-    city: parsed.city || null,
     state: parsed.stateCode || null,
     roofSize: parsed.roofSize || null,
+    service: parsed.service || null,
     scopeIncluded: parsed.scopeItems ? Object.values(parsed.scopeItems).filter(v => v === "included").length : null,
     scopeTotal: parsed.scopeItems ? Object.keys(parsed.scopeItems).length : null
   };
@@ -188,6 +191,42 @@ Rules:
     } catch (e) {
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
+    }
+
+    // City-level pricing enrichment
+    try {
+      const multipliers = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'city-cost-multipliers.json'), 'utf-8'));
+      const city = parsed.city || "";
+      const stateCode = (parsed.stateCode || "").toUpperCase();
+      const service = parsed.service || "roofing";
+      const key = city + "|" + stateCode;
+      const entry = multipliers[key];
+
+      if (entry) {
+        const svcMult = entry.serviceMultipliers?.[service] || entry.multiplier || 1.0;
+        parsed.pricingContext = {
+          city: city,
+          state: stateCode,
+          multiplier: svcMult,
+          laborMult: entry.laborMult || 1.0,
+          materialsMult: entry.materialsMult || 1.0,
+          population: entry.population || null,
+          source: "city_direct"
+        };
+      } else if (stateCode) {
+        // State average fallback
+        const stateCities = Object.entries(multipliers).filter(([k]) => k.endsWith("|" + stateCode));
+        if (stateCities.length > 0) {
+          const avgMult = stateCities.reduce((sum, [, v]) => sum + (v.serviceMultipliers?.[service] || v.multiplier || 1.0), 0) / stateCities.length;
+          parsed.pricingContext = {
+            state: stateCode,
+            multiplier: Math.round(avgMult * 1000) / 1000,
+            source: "state_avg"
+          };
+        }
+      }
+    } catch(e) {
+      // Enrichment failed, continue without it
     }
 
     captureAnonymizedData("home", parsed); // fire and forget
