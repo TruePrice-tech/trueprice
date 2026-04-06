@@ -499,17 +499,16 @@ fetch("/api/analytics?counter=1").then(r=>r.json()).then(d=>{
       verdictColor: "#166534",
       verdictBg: "#f0fdf4",
       verdictBorder: "#86efac",
-      delta: "$1,850 brake job (all 4 wheels) at independent shop in Phoenix, AZ",
+      delta: "$1,850 brake job (all 4 wheels) at independent shop in AZ. Aftermarket parts save $280. 1 upsell flagged.",
       stats: [
         { label: "Your quote", value: "$1,850", color: "var(--brand)" },
-        { label: "Market range", value: "$1,400 \u2013 $2,100", color: "" },
+        { label: "AZ market avg", value: "$1,680", color: "" },
         { label: "Labor rate", value: "$110/hr", color: "#166534" }
       ],
       pills: [
         { text: "Parts itemized", ok: true }, { text: "Labor rate stated", ok: true },
-        { text: "Labor hours listed", ok: true }, { text: "OEM parts specified", ok: true },
-        { text: "Parts warranty", ok: true }, { text: "Shop supplies", ok: false },
-        { text: "Fluid disposal", ok: false }
+        { text: "Urgency: Repair Soon", ok: true }, { text: "OEM parts", ok: true },
+        { text: "Brake fluid flush", ok: false }, { text: "No shop supplies", ok: false }
       ],
       cta: { text: "Check your mechanic quote", href: "/auto-repair-quote-analyzer.html" },
       img: "/images/trudy-auto.png"
