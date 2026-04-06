@@ -6,6 +6,7 @@ const redis = Redis.fromEnv();
 
 function buildAnonymizedRecord(vertical, parsed) {
   if (!parsed || !parsed.totalBilled) return null;
+  // No city, no patient name, no dates -- state only for geographic context
   return {
     v: vertical,
     ts: new Date().toISOString(),
@@ -17,7 +18,6 @@ function buildAnonymizedRecord(vertical, parsed) {
     lineItemCount: parsed.lineItems ? parsed.lineItems.length : 0,
     cptCodes: parsed.lineItems ? parsed.lineItems.map(li => li.cptCode).filter(Boolean) : [],
     redFlagCount: parsed.redFlags ? parsed.redFlags.length : 0,
-    city: parsed.city || null,
     state: parsed.stateCode || null
   };
 }
@@ -127,7 +127,6 @@ Return this exact JSON structure:
   "facilityType": <"hospital_outpatient" | "hospital_inpatient" | "emergency_room" | "physician_office" | "ambulatory_surgery_center" | "lab" | "imaging_center" | "urgent_care" | null>,
   "serviceDate": <string "YYYY-MM-DD" or null>,
   "stateCode": <string two-letter state or null - state where services were provided>,
-  "patientName": <string or null>,
   "insuranceName": <string or null>,
   "isEmergency": <boolean - was this an emergency visit?>,
   "lineItems": [
@@ -298,6 +297,9 @@ CRITICAL ANALYSIS RULES:
       // Pricing enrichment failed -- still return AI results
       console.log("[medical-bill-estimate] Pricing enrichment error:", e.message);
     }
+
+    // Strip any PII before returning or storing
+    delete parsed.patientName;
 
     captureAnonymizedData("medical", parsed); // fire and forget
 
