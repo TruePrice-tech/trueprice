@@ -10,7 +10,7 @@
   <title>HVAC Quote Analyzer - Is Your HVAC Quote Fair? | TruePrice</title>
   <meta
     name="description"
-    content="Upload your HVAC quote to instantly see if the price is fair. Analyzes central AC, heat pump, furnace, and mini-split quotes against local market data."
+    content="Upload your HVAC quote. AI checks against state-level benchmarks for 6 system types, detects oversizing and upsells, calculates tax credits. Free."
   />
   <link rel="canonical" href="https://truepricehq.com/hvac-quote-analyzer.html" />
   <meta name="robots" content="index,follow" />
@@ -37,6 +37,47 @@
   <meta name="theme-color" content="#1d4ed8" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
   <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much does HVAC replacement cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HVAC replacement costs range from $3,000 to $15,000 depending on system type, efficiency rating, home size, and region. Central AC units average $3,500-$7,500, heat pumps $4,000-$8,500, furnaces $3,200-$5,800, and full systems (AC + furnace) $6,000-$12,000. TruePrice adjusts benchmarks for your specific state, city, season, and system specs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What SEER rating should I get?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The minimum SEER rating required by federal law is 14-15 depending on your region. For most homeowners, 16 SEER offers the best balance of efficiency and cost. 18+ SEER systems save more on energy bills but have higher upfront costs and longer payback periods (8-12 years). In hot climates like Texas or Arizona, higher SEER ratings pay back faster."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do heat pumps qualify for tax credits?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Under the Inflation Reduction Act, qualifying heat pumps are eligible for a federal tax credit of up to $2,000 per year. The system must meet specific efficiency requirements (CEE Tier 1 or higher). Geothermal heat pumps qualify for a 30% tax credit with no cap. Check energystar.gov for current qualifying models."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I know if my HVAC quote is fair?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Upload your HVAC quote to TruePrice for a free analysis. We check the total against state-level benchmarks adjusted for system type, efficiency, tonnage, brand tier, and seasonal demand. We also flag missing scope items, potential oversizing, unnecessary upsells, and warranty gaps. A fair quote should include equipment, labor, permits, disposal, and at least a 1-year labor warranty."
+        }
+      }
+    ]
+  }
+  </script>
 
   <style>
     .hvac-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
@@ -133,6 +174,43 @@
     .hvac-actions a, .hvac-actions button { text-align: center; }
 
     .hvac-hidden { display: none !important; }
+
+    /* Tax credit alert */
+    .hvac-tax-credit { background: #f0fdf4; border: 1px solid #86efac; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .hvac-tax-credit h3 { color: #166534; margin-bottom: 0.5rem; font-size: 1rem; }
+    .hvac-tax-credit p { color: #14532d; font-size: 0.95rem; margin: 0.25rem 0; }
+    .hvac-tax-credit a { color: #166534; font-weight: 600; }
+
+    /* Oversizing warning */
+    .hvac-oversizing { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .hvac-oversizing h3 { color: #991b1b; margin-bottom: 0.5rem; font-size: 1rem; }
+    .hvac-oversizing p { color: #7f1d1d; font-size: 0.95rem; margin: 0.25rem 0; }
+
+    /* Upsell alert */
+    .hvac-upsell-card { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .hvac-upsell-card h3 { color: #92400e; margin-bottom: 0.5rem; font-size: 1rem; }
+    .hvac-upsell-item { padding: 0.6rem 0; border-bottom: 1px solid #fde68a; }
+    .hvac-upsell-item:last-child { border-bottom: none; }
+    .upsell-name { font-weight: 600; color: #78350f; font-size: 0.95rem; }
+    .upsell-reason { font-size: 0.85rem; color: #92400e; margin-top: 2px; }
+    .upsell-needed { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; }
+    .upsell-needed.rarely { background: #fef2f2; color: #dc2626; }
+    .upsell-needed.sometimes { background: #fefce8; color: #ca8a04; }
+    .upsell-needed.usually { background: #f0fdf4; color: #16a34a; }
+
+    /* Efficiency ROI */
+    .hvac-roi { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .hvac-roi h3 { color: #1e40af; margin-bottom: 0.5rem; font-size: 1rem; }
+    .hvac-roi p { color: #1e3a5f; font-size: 0.95rem; margin: 0.25rem 0; }
+
+    /* Warranty analysis */
+    .hvac-warranty-alert { background: #fefce8; border: 1px solid #fde047; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .hvac-warranty-alert h3 { color: #854d0e; margin-bottom: 0.5rem; font-size: 1rem; }
+    .hvac-warranty-alert p { color: #713f12; font-size: 0.95rem; margin: 0.25rem 0; }
+
+    /* State pricing context */
+    .hvac-pricing-ctx { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .hvac-pricing-chip { display: inline-block; padding: 4px 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.85rem; color: #334155; margin: 4px 4px 4px 0; }
 
     @media (max-width: 600px) {
       .hvac-hero h1 { font-size: 1.5rem; }
@@ -660,6 +738,36 @@
         setProgress(70, "Analyzing HVAC quote...");
         state.extractedText = text;
 
+        // Try HVAC-specific API first for better parsing
+        var apiResult = null;
+        try {
+          setProgress(60, "Checking quote against HVAC market data...");
+          var apiPayload = { text: text };
+          if (file.type !== "application/pdf") {
+            apiPayload.images = [await fileToBase64(file)];
+          }
+          var apiResponse = await fetch("/api/hvac-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiPayload)
+          });
+          if (apiResponse.ok) {
+            apiResult = await apiResponse.json();
+          }
+        } catch (apiErr) {
+          console.warn("HVAC API unavailable, falling back to local parsing:", apiErr);
+        }
+
+        // If API returned good data, use it
+        if (apiResult && (apiResult.quoteTotal || apiResult.finalPrice)) {
+          setProgress(100, "Done!");
+          state.result = buildResultFromAPI(apiResult);
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "hvac", source: "api" });
+          state.step = "result";
+          setTimeout(render, 400);
+          return;
+        }
+
         // Use analyzer-parser.js for price extraction
         var parsed = null;
         try {
@@ -785,6 +893,78 @@
           render();
         });
       }
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function buildResultFromAPI(api) {
+      var region = getRegionFromState(api.stateCode || state.address.stateCode || "TX");
+      if (api.stateCode) state.address.stateCode = api.stateCode;
+
+      var lineItems = (api.lineItems || []).map(function(item) {
+        return {
+          description: item.description || "Line item",
+          cost: item.cost || item.total || 0,
+          total: item.cost || item.total || 0
+        };
+      });
+
+      var quoteTotal = api.quoteTotal || api.finalPrice || 0;
+      var seerVal = api.seer || null;
+      var tonnageVal = api.tonnage || null;
+      var afueVal = api.afue || null;
+      var effectiveSeer = seerVal || 14;
+      var effectiveTons = tonnageVal || 3;
+
+      var sysTypeValue = api.systemType || "central_ac";
+      var sysLabel = (HVAC_PRICING.basePriceBySystem[sysTypeValue] && HVAC_PRICING.basePriceBySystem[sysTypeValue].label) || sysTypeValue;
+
+      var benchmark = api.benchmark || calcBenchmark(sysTypeValue, effectiveSeer, effectiveTons, region, "good");
+      var ratio = benchmark > 0 ? quoteTotal / benchmark : 1.0;
+
+      var brandNote = "";
+      if (api.brand) {
+        var bTier = "";
+        Object.keys(HVAC_PRICING.brands).forEach(function(tier) {
+          if (HVAC_PRICING.brands[tier].indexOf(api.brand) >= 0) bTier = tier;
+        });
+        brandNote = api.brand + (bTier ? " (" + bTier + " tier)" : "");
+      }
+
+      return {
+        source: "upload",
+        quotePrice: quoteTotal,
+        benchmark: benchmark,
+        ratio: ratio,
+        verdict: verdictFromRatio(ratio),
+        systemType: { value: sysTypeValue, label: sysLabel },
+        seer: seerVal,
+        afue: afueVal,
+        tonnage: tonnageVal,
+        brand: api.brand ? { brand: api.brand, tier: "" } : null,
+        brandNote: brandNote,
+        modelNumber: api.modelNumber || null,
+        zones: api.zones || null,
+        refrigerantType: api.refrigerantType || null,
+        warrantyParts: api.warrantyParts || null,
+        warrantyLabor: api.warrantyLabor || null,
+        possibleUpsells: api.possibleUpsells || [],
+        oversizingFlag: api.oversizingFlag || false,
+        pricingContext: api.pricingContext || null,
+        scopeSignals: api.scopeSignals || {},
+        region: region,
+        location: api.location || null,
+        lineItems: lineItems,
+        parsed: api,
+        redFlags: api.redFlags || []
+      };
     }
 
     async function extractPdfText(file) {
