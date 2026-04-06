@@ -1,4 +1,6 @@
 import { Redis } from "@upstash/redis";
+import fs from "fs";
+import path from "path";
 
 const redis = Redis.fromEnv();
 
@@ -16,7 +18,6 @@ function buildAnonymizedRecord(vertical, parsed) {
     billingIncrement: parsed.billingIncrement || null,
     lineItemCount: parsed.lineItems ? parsed.lineItems.length : 0,
     redFlagCount: parsed.redFlags ? parsed.redFlags.length : 0,
-    city: parsed.city || null,
     state: parsed.stateCode || null
   };
 }
@@ -106,6 +107,7 @@ Return this exact JSON structure:
   "firmName": <string or null>,
   "attorneyName": <string or null>,
   "practiceArea": <"family_law" | "personal_injury" | "criminal_defense" | "estate_planning" | "real_estate" | "business_law" | "immigration" | "bankruptcy" | "employment_law" | "intellectual_property" | "tax_law" | "general_litigation" | "other">,
+  "firmSize": <"solo" | "small" | "midsize" | "large" | "biglaw" | null>,
   "feeStructure": <"hourly" | "flat_fee" | "contingency" | "hybrid" | "unclear">,
   "hourlyRate": <number or null>,
   "flatFee": <number or null>,
@@ -125,6 +127,11 @@ Return this exact JSON structure:
       "amount": <number or null>
     }
   ],
+  "blockBillingEntries": [<array of line item indices (0-based) where block billing is detected>],
+  "vagueEntries": [<array of line item indices (0-based) with vague descriptions>],
+  "paralegalWorkAtAttorneyRate": [<array of line item indices (0-based) where clerical work is billed at attorney rate>],
+  "overheadExpenses": [<array of strings describing overhead items being billed as expenses>],
+  "estimatedIncrementOvercharge": <number or null - estimated $ overcharged due to 15-min vs 6-min increments>,
   "retainerChecks": {
     "scopeDefined": <"yes" | "no" | "unclear">,
     "rateStated": <"yes" | "no" | "unclear">,
@@ -144,10 +151,14 @@ Return this exact JSON structure:
 Rules:
 - Extract the practice area from context (divorce = family_law, DUI = criminal_defense, etc.)
 - For contingency agreements, note the percentage and what it applies to
-- Flag billing in 15-minute increments as a concern
+- Infer firmSize from context: solo (1 attorney), small (2-10), midsize (11-50), large (51-200), biglaw (200+). Use null if unknown.
+- Flag block billing: entries with multiple tasks in one time entry (commas/semicolons separating tasks like "research, draft motion, call client") with > 1.0 hours. Add their indices to blockBillingEntries.
+- Flag vague entries: descriptions like "research", "review file", "memo to file", "attention to matter", "work on case" without specifics. Add their indices to vagueEntries.
+- Flag paralegal work at attorney rate: filing, copying, scheduling, calendar entries, organizing billed at $200+/hr. Add their indices to paralegalWorkAtAttorneyRate.
+- Flag overhead expenses: copies charged > $0.10/page, fax charges, postage, generic "administrative fee". List them in overheadExpenses.
+- If 15-minute increments detected, estimate the overcharge vs 6-minute for short entries (emails, brief calls). For each short entry (likely < 6 min), the overcharge is (0.25 - 0.1) * rate. Sum these into estimatedIncrementOvercharge.
 - Flag non-refundable retainers
 - Flag vague scope definitions
-- Flag charges for clerical work at attorney rates
 - Flag any unusual or potentially unethical fee provisions
 - Return ONLY the JSON object, nothing else`
     });
@@ -183,6 +194,65 @@ Rules:
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
     }
+
+    // Enrich with local pricing data
+    try {
+      const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'legal-fee-pricing.json'), 'utf-8'));
+      const stateCode = (parsed.stateCode || "").toUpperCase();
+      const firmSize = parsed.firmSize || null;
+      const practiceArea = parsed.practiceArea || "general_litigation";
+      const stateMult = pricingData.stateMultipliers?.[stateCode] || 1.0;
+      const firmSizeMult = pricingData.firmSizeMultipliers?.[firmSize] || 1.0;
+
+      // Calculate adjusted market rate
+      const paData = pricingData.hourlyRatesByPracticeArea?.[practiceArea];
+      const baseRate = paData?.rates?.mid || pricingData.metadata?.nationalAvgHourlyRate || 349;
+      const adjustedRate = Math.round(baseRate * stateMult * firmSizeMult);
+
+      const pricingContext = {
+        state: stateCode || null,
+        stateMultiplier: stateMult,
+        firmSize: firmSize,
+        firmSizeMultiplier: firmSizeMult,
+        adjustedMarketRate: adjustedRate,
+        marketRateRange: paData ? [
+          Math.round(paData.rates.low * stateMult * firmSizeMult),
+          Math.round(paData.rates.high * stateMult * firmSizeMult)
+        ] : null,
+        source: "Clio Legal Trends 2025, LawPay, state bar surveys"
+      };
+
+      // Include flat fee comparison if available
+      if (paData?.flatFees) {
+        pricingContext.flatFeeComparison = {};
+        for (const [key, range] of Object.entries(paData.flatFees)) {
+          pricingContext.flatFeeComparison[key] = [
+            Math.round(range[0] * stateMult),
+            Math.round(range[1] * stateMult)
+          ];
+        }
+      }
+
+      parsed.pricingContext = pricingContext;
+
+      // Calculate retainer check score
+      if (parsed.retainerChecks && pricingData.retainerCheckItems) {
+        let totalWeight = 0;
+        let passingWeight = 0;
+        for (const item of pricingData.retainerCheckItems) {
+          totalWeight += item.weight;
+          const val = parsed.retainerChecks[item.key];
+          if (val === "yes") passingWeight += item.weight;
+        }
+        parsed.retainerCheckScore = totalWeight > 0 ? Math.round((passingWeight / totalWeight) * 100) : null;
+      }
+    } catch (e) {
+      // Pricing enrichment failed -- still return AI results
+      console.log("[legal-fee-estimate] Pricing enrichment error:", e.message);
+    }
+
+    // Strip PII before returning or storing
+    delete parsed.attorneyName;
 
     captureAnonymizedData("legal", parsed); // fire and forget
 
