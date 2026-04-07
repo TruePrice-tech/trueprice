@@ -578,6 +578,28 @@ var VEHICLES={"economy":{"mult":0.85,"label":"Economy (Civic, Corolla, Sentra)",
 
 var SHOPS={"dealer":{"low":125,"mid":155,"high":200},"independent":{"low":75,"mid":105,"high":150},"chain":{"low":90,"mid":120,"high":145}};
 
+// BLS labor rate data (loaded asynchronously from /data/bls-mechanic-wages.json on page load).
+// Source: BLS OEWS May 2024, SOC 49-3023 (Automotive Service Technicians and Mechanics).
+// Used to derive labor rate from real federal wage data instead of made-up multipliers.
+window.BLS_WAGES=null;
+fetch("/data/bls-mechanic-wages.json").then(function(r){return r.json();}).then(function(d){window.BLS_WAGES=d;}).catch(function(){});
+
+// Industry-standard overhead multipliers: shop labor rate ~= mechanic wage * overhead.
+// Source: industry surveys (AAA, automotive trade pubs) — covers rent, insurance, tools, profit.
+var BLS_OVERHEAD={independent:3.0,chain:3.5,dealer:4.5};
+
+function blsLookup(city,state){
+  if(!window.BLS_WAGES) return null;
+  var key=(city||"").toLowerCase().trim();
+  if(key&&window.BLS_WAGES.cities[key]){
+    return {wage:window.BLS_WAGES.cities[key].wage,source:"metro",msa:window.BLS_WAGES.cities[key].msa};
+  }
+  if(state&&window.BLS_WAGES.stateMedian[state]){
+    return {wage:window.BLS_WAGES.stateMedian[state],source:"state",msa:null};
+  }
+  return {wage:window.BLS_WAGES.usMedian,source:"national",msa:null};
+}
+
 var TAX={"AL":0.04,"AK":0.0,"AZ":0.056,"AR":0.065,"CA":0.0725,"CO":0.029,"CT":0.0635,"DE":0.0,"FL":0.06,"GA":0.04,"HI":0.04,"ID":0.06,"IL":0.0625,"IN":0.07,"IA":0.06,"KS":0.065,"KY":0.06,"LA":0.0445,"ME":0.055,"MD":0.06,"MA":0.0625,"MI":0.06,"MN":0.0688,"MS":0.07,"MO":0.0423,"MT":0.0,"NE":0.055,"NV":0.0685,"NH":0.0,"NJ":0.0663,"NM":0.0513,"NY":0.04,"NC":0.0475,"ND":0.05,"OH":0.0575,"OK":0.045,"OR":0.0,"PA":0.06,"RI":0.07,"SC":0.06,"SD":0.045,"TN":0.07,"TX":0.0625,"UT":0.061,"VT":0.06,"VA":0.053,"WA":0.065,"WV":0.06,"WI":0.05,"WY":0.04,"DC":0.06};
 
 // Metro labor-rate multipliers keyed by ZIP3 (first 3 digits). Falls back to state mult.
@@ -674,20 +696,38 @@ var currentEstimate={totalMid:0,repairLabel:"",vehicleDesc:"",shopType:"",city:"
 function buildClientEstimate(repairKey,year,make,model,zip,state,shopType,partsPref){
   var repair=REPAIRS[repairKey];
   var stateMult=STATES[state]||1.0;
-  // ZIP3 metro multiplier overrides state when available — finer-grained pricing
+  // ZIP3 metro multiplier — kept as a parts-cost adjustment fallback only
   var zip3=(zip||"").substring(0,3);
   var metroMult=METRO_RATES[zip3]||null;
   var geoMult=metroMult!=null?metroMult:stateMult;
-  var geoSource=metroMult!=null?"metro":"state";
   var vehicleCat=detectVehicleCategory(make,model);
   var vehicleMult=VEHICLES[vehicleCat]?VEHICLES[vehicleCat].mult:1.0;
   var vehicleLabel=VEHICLES[vehicleCat]?VEHICLES[vehicleCat].label:"Standard";
-  var shopRates=SHOPS[shopType]||SHOPS.independent;
   var taxRate=TAX[state]||0.06;
 
-  var laborRateLow=Math.round(shopRates.low*geoMult*vehicleMult);
-  var laborRateMid=Math.round(shopRates.mid*geoMult*vehicleMult);
-  var laborRateHigh=Math.round(shopRates.high*geoMult*vehicleMult);
+  // ============================================================
+  // LABOR RATE: derived from BLS OEWS mechanic wages (real federal data)
+  // ============================================================
+  // Lookup priority: city -> MSA wage > state median > US median > legacy SHOPS table
+  var blsCity=window._zipCity||"";
+  var bls=blsLookup(blsCity,state);
+  var laborRateLow,laborRateMid,laborRateHigh,geoSource,blsMsa=null;
+  if(bls){
+    var overhead=BLS_OVERHEAD[shopType]||BLS_OVERHEAD.independent;
+    var midRate=bls.wage*overhead*vehicleMult;
+    laborRateMid=Math.round(midRate);
+    laborRateLow=Math.round(midRate*0.85);
+    laborRateHigh=Math.round(midRate*1.20);
+    geoSource="bls_"+bls.source;  // bls_metro | bls_state | bls_national
+    blsMsa=bls.msa;
+  } else {
+    // Fallback while BLS_WAGES is still loading or for unknown states
+    var shopRates=SHOPS[shopType]||SHOPS.independent;
+    laborRateLow=Math.round(shopRates.low*geoMult*vehicleMult);
+    laborRateMid=Math.round(shopRates.mid*geoMult*vehicleMult);
+    laborRateHigh=Math.round(shopRates.high*geoMult*vehicleMult);
+    geoSource=metroMult!=null?"legacy_metro":"legacy_state";
+  }
   var laborHrsLow=repair.laborHours.low;
   var laborHrsHigh=repair.laborHours.high;
   var laborHrsMid=(laborHrsLow+laborHrsHigh)/2;
@@ -734,7 +774,7 @@ function buildClientEstimate(repairKey,year,make,model,zip,state,shopType,partsP
   var totalMid=laborMid+partsMid+shopSupplies+taxMid+fees;
   var totalHigh=laborHigh+partsHigh+shopSupplies+taxHigh+fees;
 
-  return{repair:repair,laborRateMid:laborRateMid,laborHrsMid:laborHrsMid,laborMid:laborMid,partsMid:partsMid,partsLow:partsLow,partsHigh:partsHigh,partsPref:pref,shopSupplies:shopSupplies,taxRate:taxRate,taxMid:taxMid,fees:fees,feeInfo:feeInfo,totalLow:totalLow,totalMid:totalMid,totalHigh:totalHigh,vehicleLabel:vehicleLabel,ageAdj:ageAdj,partsTypes:partsTypes,stateMult:stateMult,geoMult:geoMult,geoSource:geoSource};
+  return{repair:repair,laborRateMid:laborRateMid,laborHrsMid:laborHrsMid,laborMid:laborMid,partsMid:partsMid,partsLow:partsLow,partsHigh:partsHigh,partsPref:pref,shopSupplies:shopSupplies,taxRate:taxRate,taxMid:taxMid,fees:fees,feeInfo:feeInfo,totalLow:totalLow,totalMid:totalMid,totalHigh:totalHigh,vehicleLabel:vehicleLabel,ageAdj:ageAdj,partsTypes:partsTypes,stateMult:stateMult,geoMult:geoMult,geoSource:geoSource,blsMsa:blsMsa};
 }
 
 function renderEstimate(est,vehicleDesc,locationDesc,shopType,opts){
@@ -1053,11 +1093,21 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   var headerHtml=renderReportHeader(vehicleDesc,locationDesc);
   var actionsHtml=renderReportActions();
 
-  // Geo source badge — honest "metro-area average" wording
+  // Geo source badge — honest sourcing, attributes BLS when used
   var geoSrc=allEstimates[0].geoSource;
-  var geoBadge=geoSrc==="metro"
-    ?'<span style="display:inline-block;padding:3px 10px;background:#dcfce7;color:#166534;border-radius:8px;font-size:11px;font-weight:700;">Metro-area average</span>'
-    :'<span style="display:inline-block;padding:3px 10px;background:#fef9c3;color:#854d0e;border-radius:8px;font-size:11px;font-weight:700;">State average</span>';
+  var blsMsa=allEstimates[0].blsMsa;
+  var geoBadge;
+  if(geoSrc==="bls_metro"){
+    geoBadge='<span style="display:inline-block;padding:3px 10px;background:#dcfce7;color:#166534;border-radius:8px;font-size:11px;font-weight:700;" title="'+(blsMsa||"")+'">BLS metro wage data</span>';
+  } else if(geoSrc==="bls_state"){
+    geoBadge='<span style="display:inline-block;padding:3px 10px;background:#fef9c3;color:#854d0e;border-radius:8px;font-size:11px;font-weight:700;">BLS state median wage</span>';
+  } else if(geoSrc==="bls_national"){
+    geoBadge='<span style="display:inline-block;padding:3px 10px;background:#fef3c7;color:#854d0e;border-radius:8px;font-size:11px;font-weight:700;">BLS national median wage</span>';
+  } else if(geoSrc==="legacy_metro"){
+    geoBadge='<span style="display:inline-block;padding:3px 10px;background:#e0e7ff;color:#3730a3;border-radius:8px;font-size:11px;font-weight:700;">Metro estimate</span>';
+  } else {
+    geoBadge='<span style="display:inline-block;padding:3px 10px;background:#fef9c3;color:#854d0e;border-radius:8px;font-size:11px;font-weight:700;">State estimate</span>';
+  }
 
   // Mode toggle (Full Repair vs Parts Only) + Parts type toggle
   var modeOpts=[["full","Full Repair"],["parts","Parts Only (DIY)"]];
@@ -1156,7 +1206,12 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
     mh+='</tbody></table></div>';
 
     mh+='<div style="margin-top:14px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:6px;font-size:11px;color:#64748b;line-height:1.5;">';
-    mh+='<strong>About these numbers:</strong> Pricing reflects '+(geoSrc==="metro"?"metro-area averages from labor rate surveys":"state-level averages")+' combined with industry-typical labor hours and parts ranges. Actual shop quotes vary based on vehicle condition, specific parts used, and shop pricing. Use this as a benchmark, not a guarantee. Numbers exclude diagnostic fees (often $50-150, waived if work is performed).';
+    var sourceText="";
+    if(geoSrc==="bls_metro") sourceText="BLS OEWS May 2024 mechanic wages for "+(blsMsa||"your metro")+", multiplied by industry-standard shop overhead (3.0x independent / 3.5x chain / 4.5x dealer)";
+    else if(geoSrc==="bls_state") sourceText="BLS OEWS May 2024 state median mechanic wages (no city-specific data for your area), multiplied by industry-standard shop overhead";
+    else if(geoSrc==="bls_national") sourceText="BLS OEWS May 2024 national median mechanic wages, multiplied by industry-standard shop overhead";
+    else sourceText="state-level averages combined with industry-typical labor rates";
+    mh+='<strong>About these numbers:</strong> Labor pricing derived from '+sourceText+'. Parts ranges from industry-typical pricing (live retailer data coming soon). Actual shop quotes vary based on vehicle condition, specific parts used, and shop pricing. Use this as a benchmark, not a guarantee. Numbers exclude diagnostic fees (often $50-150, waived if work is performed).';
     mh+='</div></div>';
   }
 
