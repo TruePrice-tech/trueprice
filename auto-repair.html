@@ -1026,10 +1026,20 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
     var est=buildClientEstimate(rk,year,make,model,zip,stateVal,shopType,currentPartsPref);
     est.repairKey=rk;
     est.repairLabel=REPAIRS[rk].label;
+    est.calibrated=null; // populated async after render if flywheel has data
     allEstimates.push(est);
     grandTotalLow+=est.totalLow;grandTotalMid+=est.totalMid;grandTotalHigh+=est.totalHigh;
     grandLabor+=est.laborMid;grandParts+=est.partsMid;grandTax+=est.taxMid;grandSupplies+=est.shopSupplies;grandFees+=est.fees||0;
   });
+
+  // Apply any previously-fetched calibration data for this exact input set
+  var inputSig=year+"|"+make+"|"+model+"|"+zip+"|"+stateVal;
+  if(window._calibCache&&window._calibCache.sig===inputSig){
+    allEstimates.forEach(function(e){
+      var c=window._calibCache.data[e.repairKey];
+      if(c) e.calibrated=c;
+    });
+  }
 
   currentEstimate={totalMid:grandTotalMid,repairLabel:allEstimates.map(function(e){return e.repairLabel;}).join(", "),vehicleDesc:vehicleDesc,shopType:shopType,city:detectedCity,zip:zip,state:stateVal,repairKey:repairKey};
 
@@ -1130,7 +1140,11 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
       mh+='<td style="text-align:right">'+fmt(e.laborMid)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+e.laborHrsMid.toFixed(1)+' hrs @ '+fmt(e.laborRateMid)+'</div></td>';
       mh+='<td style="text-align:right">'+fmt(e.partsMid)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+fmt(e.partsLow)+' - '+fmt(e.partsHigh)+'</div></td>';
       mh+='<td style="text-align:right">'+(e.fees>0?fmt(e.fees)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+e.feeInfo.label+'</div>':'<span style="color:#cbd5e1;">—</span>')+'</td>';
-      mh+='<td style="text-align:right;font-weight:700">'+fmt(e.totalMid)+'</td>';
+      var totalCell=fmt(e.totalMid);
+      if(e.calibrated){
+        totalCell+='<div style="font-size:10px;color:#16a34a;font-weight:700;margin-top:2px;">&#10003; Real avg '+fmt(e.calibrated.avgPrice)+'<div style="font-size:9px;color:#16a34a;font-weight:500;">from '+e.calibrated.quotes+' user quotes</div></div>';
+      }
+      mh+='<td style="text-align:right;font-weight:700">'+totalCell+'</td>';
       mh+='</tr>';
     });
     if(allEstimates.length>1){
@@ -1148,6 +1162,31 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
 
   // Scenario matrix only makes sense in full-repair mode (shop type matters)
   resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml);
+
+  // One-shot calibration fetch per input signature.
+  // Only fetch if we don't already have it cached for this exact set of inputs.
+  if(!window._calibCache||window._calibCache.sig!==inputSig){
+    var calibCity=window._zipCity||"";
+    Promise.all(repairKeys.map(function(rk){
+      var qs="state="+encodeURIComponent(stateVal)+"&service=auto&repair="+encodeURIComponent(rk)+(calibCity?"&city="+encodeURIComponent(calibCity):"");
+      return fetch("/api/calibration?"+qs).then(function(r){return r.json();}).catch(function(){return null;});
+    })).then(function(results){
+      var data={};
+      var anyHit=false;
+      results.forEach(function(d,i){
+        if(d&&d.hasCalibration&&d.quotes>=3&&d.avgPrice>0){
+          data[repairKeys[i]]={avgPrice:d.avgPrice,quotes:d.quotes,source:d.source};
+          anyHit=true;
+        }
+      });
+      window._calibCache={sig:inputSig,data:data};
+      if(anyHit){
+        // Re-render once with the cached calibration applied
+        var btn=document.getElementById("estimateBtn");
+        if(btn) btn.click();
+      }
+    });
+  }
   resultEl.scrollIntoView({behavior:"smooth"});
   attachCompareHandler();
 

@@ -111,20 +111,38 @@ export default async function handler(req, res) {
 
   if (req.method === "OPTIONS") return res.status(204).end();
 
-  // GET: Retrieve calibration data for a city/service
+  // GET: Retrieve calibration data for a city/service [optional :repair sub-key]
   if (req.method === "GET") {
-    const { city, state, service } = req.query;
+    const { city, state, service, repair } = req.query;
     if (!state) return res.status(400).json({ error: "Missing state" });
 
-    const key = `cal:${(city || "").toLowerCase()}:${state.toUpperCase()}:${service || "roofing"}`;
-    const data = await redis.get(key);
+    const svc = service || "roofing";
+    const cityLc = (city || "").toLowerCase();
+    const st = state.toUpperCase();
+    const repairKey = (repair || "").toLowerCase().replace(/[^a-z0-9_]/g, "_");
 
-    if (!data) return res.status(200).json({ hasCalibration: false });
+    // Build key list to try in order: most specific first
+    const keysToTry = [];
+    if (repairKey) {
+      keysToTry.push(`cal:${cityLc}:${st}:${svc}:${repairKey}`);          // city + repair
+      keysToTry.push(`cal:metro:${st}:${svc}:${repairKey}`);              // state-wide for that repair (fallback)
+    }
+    keysToTry.push(`cal:${cityLc}:${st}:${svc}`);                         // city + service
+    keysToTry.push(`cal:metro:${st}:${svc}`);                             // state-wide
 
-    return res.status(200).json({
-      hasCalibration: true,
-      ...data
-    });
+    for (const key of keysToTry) {
+      const data = await redis.get(key);
+      if (data) {
+        const parsed = typeof data === "string" ? JSON.parse(data) : data;
+        return res.status(200).json({
+          hasCalibration: true,
+          source: key,
+          ...parsed
+        });
+      }
+    }
+
+    return res.status(200).json({ hasCalibration: false });
   }
 
   // POST: Submit a quote for calibration
@@ -191,7 +209,14 @@ export default async function handler(req, res) {
       _tooManySubmissions: false,
       timestamp: Date.now(),
       ip: isAdmin ? "admin" : ip.split(",")[0].trim(),
-      notes: body.notes || ""
+      notes: body.notes || "",
+      // Auto-repair specific (and other per-item verticals)
+      repair: body.repair || null,
+      year: body.year || null,
+      make: body.make || null,
+      model: body.model || null,
+      partsType: body.partsType || null,
+      sourceUrl: body.sourceUrl || null  // for scraped data — link back to origin
     };
 
     // Compute trust score
@@ -201,6 +226,13 @@ export default async function handler(req, res) {
       score = 90;
       reasons = ["admin_verified_seed"];
       weight = 1.0;
+    } else if (source === "scrape" || source === "scrape_reddit" || source === "scrape_forum") {
+      // Scraped data from public sources (Reddit, forums, review sites).
+      // Lower trust than user-uploaded but still useful for cold-start coverage.
+      // Requires admin key OR scrape ingestion key (treated like admin for this branch).
+      score = 35;
+      reasons = ["scraped_public_source", source];
+      weight = 0.15;
     } else if (source === "user_confirmed_helpful") {
       // User clicked "Yes helpful" on a quote analysis - confirmed real quote
       score = 55;
@@ -243,18 +275,33 @@ export default async function handler(req, res) {
     // Increment global quote counter (used by public counter endpoint)
     await redis.incr("tp:total_quotes").catch(() => {});
 
-    // Update the city calibration aggregate (score >= 40 filters low-trust outliers)
-    if (weight > 0 && score >= 40 && quote.city && quote.stateCode) {
-      const calKey = `cal:${quote.city.toLowerCase()}:${quote.stateCode}:${service}`;
-      const existing = await redis.get(calKey) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+    // Update the city calibration aggregate.
+    // Threshold: score >= 30 (lower than before so scraped data with score 35 still flows in,
+    // but its 0.15 influence weight keeps it from dominating real user quotes).
+    async function bumpAggregate(key) {
+      const existing = (await redis.get(key)) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+      const e = typeof existing === "string" ? JSON.parse(existing) : existing;
+      e.quotes += 1;
+      e.weightedSum += quote.price * weight;
+      e.totalWeight += weight;
+      e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+      e.lastUpdated = Date.now();
+      await redis.set(key, JSON.stringify(e));
+    }
 
-      existing.quotes += 1;
-      existing.weightedSum += quote.price * weight;
-      existing.totalWeight += weight;
-      existing.avgPrice = Math.round(existing.weightedSum / existing.totalWeight);
-      existing.lastUpdated = Date.now();
+    if (weight > 0 && score >= 30 && quote.stateCode) {
+      const cityLc = (quote.city || "").toLowerCase();
+      const repairKey = quote.repair ? quote.repair.toLowerCase().replace(/[^a-z0-9_]/g, "_") : null;
 
-      await redis.set(calKey, JSON.stringify(existing));
+      // Write to all applicable buckets so reads can fall back gracefully:
+      // 1) city + service          (most general, all verticals)
+      // 2) city + service + repair (per-repair, e.g. auto)
+      // 3) state + service         (state-wide fallback when city has no data)
+      // 4) state + service + repair
+      if (cityLc) await bumpAggregate(`cal:${cityLc}:${quote.stateCode}:${service}`);
+      if (cityLc && repairKey) await bumpAggregate(`cal:${cityLc}:${quote.stateCode}:${service}:${repairKey}`);
+      await bumpAggregate(`cal:metro:${quote.stateCode}:${service}`);
+      if (repairKey) await bumpAggregate(`cal:metro:${quote.stateCode}:${service}:${repairKey}`);
     }
 
     return res.status(200).json({

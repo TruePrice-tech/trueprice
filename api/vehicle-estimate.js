@@ -78,6 +78,39 @@ async function storeShopQuote(shopData) {
     }
 
     await redis.set(key, JSON.stringify(record));
+
+    // Bridge to the unified calibration flywheel so auto-repair quotes feed
+    // the same store as every other vertical. We write directly here rather
+    // than HTTP-bouncing to /api/calibration to avoid an extra hop.
+    try {
+      if (shopData.repair && shopData.price > 0) {
+        const cityLc = (shopData.city || "").toLowerCase();
+        const st = shopData.state.toUpperCase();
+        const repairKey = shopData.repair.toLowerCase().replace(/[^a-z0-9_]/g, "_");
+        const service = "auto";
+        // Trust score for shop-quote uploads is moderate (40) — real price + named shop + city
+        // Influence weight 0.3 — keeps a single quote from skewing the aggregate hard
+        const weight = 0.3;
+        const bump = async (k) => {
+          const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+          const e = typeof ex === "string" ? JSON.parse(ex) : ex;
+          e.quotes += 1;
+          e.weightedSum += shopData.price * weight;
+          e.totalWeight += weight;
+          e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+          e.lastUpdated = Date.now();
+          await redis.set(k, JSON.stringify(e));
+        };
+        if (cityLc) await bump(`cal:${cityLc}:${st}:${service}`);
+        if (cityLc) await bump(`cal:${cityLc}:${st}:${service}:${repairKey}`);
+        await bump(`cal:metro:${st}:${service}`);
+        await bump(`cal:metro:${st}:${service}:${repairKey}`);
+        await redis.incr("tp:total_quotes").catch(() => {});
+      }
+    } catch (calErr) {
+      console.log("[shop-store] calibration bridge error:", calErr.message);
+    }
+
     return true;
   } catch (e) {
     console.log("[shop-store] Error:", e.message);
