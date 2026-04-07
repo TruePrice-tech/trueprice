@@ -1990,6 +1990,7 @@
           <div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
+          <div style="font-size:11px;color:#94a3b8;margin-top:10px;">Estimate only &mdash; for benchmark use, not a binding quote. <a href="#mvMethodology" onclick="var d=document.querySelector(\'.mv-methodology\');if(d)d.setAttribute(\'open\',\'\');return true;" style="color:#0d9488;">How we calculate this</a> &middot; <a href="/terms.html" style="color:#0d9488;">Terms</a></div>\
         </div>\
         ' + trustBadgeHtml + '\
         ' + bindingHtml + '\
@@ -2050,7 +2051,8 @@
             var statusBg = d.allowed ? "#f0fdf4" : "#fef2f2";
             var statusBorder = d.allowed ? "#86efac" : "#fca5a5";
             var html = '<div style="padding:12px 14px;background:' + statusBg + ';border:1px solid ' + statusBorder + ';border-radius:8px;">';
-            html += '<div style="font-weight:700;color:' + statusColor + ';margin-bottom:6px;">' + (d.allowed ? "&#10003; Carrier verified" : "&#9888;&#65039; Carrier found, but check status") + '</div>';
+            html += '<div style="font-weight:700;color:' + statusColor + ';margin-bottom:6px;">' + (d.allowed ? "&#10003; Federal registration confirmed" : "&#9888;&#65039; Carrier found in FMCSA, but check status") + '</div>';
+            html += '<div style="font-size:11px;color:#64748b;margin-bottom:8px;font-style:italic;">FMCSA verification confirms federal registration only. It is NOT an endorsement of the mover&apos;s quality, safety, or honesty. Always read recent reviews and verify insurance independently.</div>';
             if (d.legalName) html += '<div><strong>Legal name:</strong> ' + d.legalName + '</div>';
             if (d.dbaName) html += '<div><strong>DBA:</strong> ' + d.dbaName + '</div>';
             if (d.dotNumber) html += '<div><strong>USDOT #:</strong> ' + d.dotNumber + '</div>';

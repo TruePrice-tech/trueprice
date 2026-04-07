@@ -1199,7 +1199,9 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   if(isParts){
     mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">Parts Cost ('+currentPartsPref+(allEstimates.length>1?", "+allEstimates.length+" repairs":"")+')</div>';
     mh+='<div class="total">'+fmt(grandParts)+'</div>';
-    mh+='<div class="range">Range: '+fmt(grandPartsLow)+' - '+fmt(grandPartsHigh)+'</div></div>';
+    mh+='<div class="range">Range: '+fmt(grandPartsLow)+' - '+fmt(grandPartsHigh)+'</div>';
+    mh+='<div style="font-size:11px;color:#94a3b8;margin-top:8px;">Parts cost reference only &mdash; not a guaranteed retail price. <a href="/terms.html" style="color:#1d4ed8;">Terms</a></div>';
+    mh+='</div>';
 
     // Table: parts only
     mh+='<div style="overflow-x:auto;"><table class="ae-parts-table"><thead><tr>';
@@ -1237,7 +1239,9 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   } else {
     mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">'+(allEstimates.length>1?"Combined Total ("+allEstimates.length+" repairs)":"Estimated Total")+'</div>';
     mh+='<div class="total">'+fmt(grandTotalMid)+'</div>';
-    mh+='<div class="range">Range: '+fmt(grandTotalLow)+' - '+fmt(grandTotalHigh)+'</div></div>';
+    mh+='<div class="range">Range: '+fmt(grandTotalLow)+' - '+fmt(grandTotalHigh)+'</div>';
+    mh+='<div style="font-size:11px;color:#94a3b8;margin-top:8px;">Estimate only &mdash; for benchmark use, not a binding quote. <a href="#methodology" onclick="document.querySelector(\'details summary\')&&document.querySelector(\'details\').setAttribute(\'open\',\'\');return true;" style="color:#1d4ed8;">How we calculate this</a> &middot; <a href="/terms.html" style="color:#1d4ed8;">Terms</a></div>';
+    mh+='</div>';
 
     mh+='<div style="overflow-x:auto;"><table class="ae-parts-table"><thead><tr>';
     mh+='<th>Repair</th><th style="text-align:right">Labor</th><th style="text-align:right">Parts ('+currentPartsPref+')</th><th style="text-align:right">Fees</th><th style="text-align:right">Total</th>';
