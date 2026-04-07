@@ -705,10 +705,19 @@ function buildClientEstimate(repairKey,year,make,model,zip,state,shopType,partsP
   if(repair.partsRange.aftermarket) partsTypes.push({type:"Aftermarket",low:repair.partsRange.aftermarket[0],high:repair.partsRange.aftermarket[1],mult:1.0});
   if(repair.partsRange.reman) partsTypes.push({type:"Remanufactured",low:repair.partsRange.reman[0],high:repair.partsRange.reman[1],mult:1.0});
 
-  // Pick parts source based on user preference (oem | aftermarket | reman)
+  // Pick parts source based on user preference (aftermarket | oem | genuine | reman)
+  // genuine = OEM part in dealer-branded packaging (e.g. Land Rover-branded radiator)
+  // Same physical part as OEM, typically 30-50% markup. Higher for luxury/European.
   var pref=partsPref||"aftermarket";
-  var partsDefault=repair.partsRange[pref]||repair.partsRange.aftermarket||repair.partsRange.oem||[0,0];
-  var prefMult=(pref==="oem")?vehicleMult:1.0;
+  var sourcePref=(pref==="genuine")?"oem":pref;
+  var partsDefault=repair.partsRange[sourcePref]||repair.partsRange.aftermarket||repair.partsRange.oem||[0,0];
+  var prefMult=1.0;
+  if(pref==="oem") prefMult=vehicleMult;
+  else if(pref==="genuine"){
+    // Base OEM markup, plus extra for luxury/European brands where dealer markup is higher
+    var genuineMarkup=(vehicleCat==="luxury"||vehicleCat==="performance")?1.6:1.4;
+    prefMult=vehicleMult*genuineMarkup;
+  }
   var partsMid=Math.round(((partsDefault[0]+partsDefault[1])/2)*prefMult*geoMult);
   var partsLow=Math.round(partsDefault[0]*prefMult*geoMult);
   var partsHigh=Math.round(partsDefault[1]*prefMult*geoMult);
@@ -888,7 +897,7 @@ var lastEstimateInputs=null;
 // Build a 3x3 scenario matrix: shop type x parts type, summed across all selected repairs
 function buildScenarioMatrix(repairKeys,year,make,model,zip,state){
   var shops=["independent","dealer","chain"];
-  var partsTypes=["aftermarket","oem","reman"];
+  var partsTypes=["aftermarket","oem","genuine","reman"];
   var matrix={};
   shops.forEach(function(s){
     matrix[s]={};
@@ -896,8 +905,9 @@ function buildScenarioMatrix(repairKeys,year,make,model,zip,state){
       var total=0,hasAny=false;
       repairKeys.forEach(function(rk){
         var repair=REPAIRS[rk];
-        // Skip if this repair has no pricing for this parts type
-        if(!repair.partsRange[pt]&&pt!=="aftermarket") return;
+        // genuine uses OEM source data — only skip if OEM doesn't exist
+        var sourceKey=(pt==="genuine")?"oem":pt;
+        if(!repair.partsRange[sourceKey]&&sourceKey!=="aftermarket") return;
         hasAny=true;
         var est=buildClientEstimate(rk,year,make,model,zip,state,s,pt);
         total+=est.totalMid;
@@ -910,7 +920,7 @@ function buildScenarioMatrix(repairKeys,year,make,model,zip,state){
 
 function renderScenarioMatrix(matrix,currentShop,currentParts){
   var shops=[["independent","Independent"],["dealer","Dealership"],["chain","Chain"]];
-  var partsTypes=[["aftermarket","Aftermarket"],["oem","OEM"],["reman","Remanufactured"]];
+  var partsTypes=[["aftermarket","Aftermarket"],["oem","OEM"],["genuine","Genuine"],["reman","Reman"]];
   var h='<div class="ae-card scenario-matrix">';
   h+='<h3>Compare Scenarios</h3>';
   h+='<p class="scenario-sub">See how the total changes based on shop type and parts choice. Your selection is highlighted.</p>';
@@ -1041,7 +1051,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
 
   // Mode toggle (Full Repair vs Parts Only) + Parts type toggle
   var modeOpts=[["full","Full Repair"],["parts","Parts Only (DIY)"]];
-  var partsOpts=[["aftermarket","Aftermarket"],["oem","OEM (Original)"],["reman","Remanufactured"]];
+  var partsOpts=[["aftermarket","Aftermarket"],["oem","OEM"],["genuine","Dealer/Genuine"],["reman","Remanufactured"]];
   var partsToggle='<div class="ae-card" style="padding:14px 18px;">';
   partsToggle+='<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px;"><div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Mode:</div>';
   modeOpts.forEach(function(m){
@@ -1054,7 +1064,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
     var active=p[0]===currentPartsPref;
     partsToggle+='<button type="button" class="ae-parts-btn" data-pref="'+p[0]+'" style="padding:8px 16px;border:2px solid '+(active?"#1d4ed8":"#e2e8f0")+';background:'+(active?"#eff6ff":"#fff")+';color:'+(active?"#1d4ed8":"#475569")+';border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;">'+p[1]+'</button>';
   });
-  partsToggle+='<div style="margin-left:auto;font-size:11px;color:#94a3b8;">OEM = original • Aftermarket = third-party • Reman = factory-rebuilt</div></div></div>';
+  partsToggle+='<div style="margin-left:auto;font-size:11px;color:#94a3b8;max-width:280px;text-align:right;">Aftermarket = third-party • OEM = original supplier, plain box • Genuine = automaker-branded box (premium) • Reman = factory-rebuilt</div></div></div>';
 
   // Combined summary table — branches on currentMode
   var shopLabel=shopType==="dealer"?"Dealership":shopType==="chain"?"Chain Shop":"Independent Shop";
