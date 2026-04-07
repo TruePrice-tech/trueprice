@@ -67,11 +67,24 @@ def post_image(endpoint, fpath):
         return {"ok": False, "error": str(e), "elapsed": round(time.time() - t0, 1)}
 
 def extract_total(data):
-    """Pull totalPrice or quote total from various response shapes."""
+    """Pull totalPrice or quote total from various response shapes.
+    Falls through vertical-specific aliases (medical totalBilled, legal
+    retainerAmount/hourlyRate, etc.)"""
     if not data: return None
     inner = data.get("data") or data.get("estimate") or data
-    if isinstance(inner, dict):
-        return inner.get("totalPrice") or inner.get("quoteTotal") or inner.get("total")
+    if not isinstance(inner, dict):
+        return None
+    # Universal
+    v = inner.get("totalPrice") or inner.get("quoteTotal") or inner.get("total")
+    if v: return v
+    # Medical
+    v = inner.get("totalBilled") or inner.get("patientResponsibility")
+    if v: return v
+    # Legal
+    v = inner.get("retainerAmount")
+    if v: return v
+    hr = inner.get("hourlyRate")
+    if hr: return hr * 10  # typical engagement
     return None
 
 def test_vertical(vertical, endpoint, dry_run=False):
