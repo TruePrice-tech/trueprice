@@ -82,7 +82,8 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf });
+    // cacheNamespace: bump the suffix when the prompt changes to invalidate stale cache
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v2" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -163,12 +164,74 @@ Return this exact JSON structure:
 }
 
 CRITICAL EXTRACTION RULES:
-- ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
-- If you cannot find an explicit total, SUM the individual line item amounts.
-- redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
-- Never return null for a price field if there are dollar amounts visible anywhere in the document.
 
-- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.
+1. PICKING THE HEADLINE FEE (the most important rule):
+
+   - If the document shows a clearly labeled "Flat Fee", "Total Flat Fee",
+     "Total Cost", "Total Fee", "Engagement Fee", "Total for Services",
+     or similar PRIMARY price for the legal services (NOT third-party
+     costs, NOT court filing fees, NOT down-payments), put that EXACT
+     number in the `flatFee` field.
+
+   - If the document shows a "Retainer", "Initial Retainer", "Trust
+     Deposit", or "Initial Deposit" amount that the client must pay
+     upfront against future hourly billing, put it in `retainerAmount`.
+     (A retainer is different from a flat fee — retainers are drawn
+     down hourly; flat fees are the final price.)
+
+   - If the document is a contingency agreement, put the LOWEST tier
+     percentage (typically the "before lawsuit filed" or "settled
+     pre-suit" rate) in `contingencyPercent` as a number (33.33 for
+     "33 1/3%", 40 for "40%"). Set `flatFee` and `retainerAmount` to
+     null for pure contingency agreements.
+
+2. NEVER USE A DOWN-PAYMENT OR DEPOSIT AS THE TOTAL:
+
+   - If you see "$1,500 due upon signing" alongside "Total flat fee:
+     $3,500", the flat fee is $3,500, NOT $1,500.
+   - Down-payments, deposits, "due at signing", and payment plan
+     installments are partial payments, NOT the total fee.
+   - Always pick the GRAND TOTAL or labeled "Total Flat Fee" over
+     any partial payment.
+
+3. NEVER MIX LEGAL FEES WITH PASS-THROUGH COSTS:
+
+   - "Court filing fee", "recording fee", "title insurance", "credit
+     report", "process server", "court reporter" are pass-through
+     costs that the client pays through the firm, NOT legal services.
+   - Do NOT include these in `flatFee`. The legal services flat fee
+     is what the firm charges for its time and expertise.
+   - Pass-through costs CAN be summed into `estimatedTotalHigh` to
+     show the client's total out-of-pocket, but the headline fee is
+     the legal services portion only.
+
+4. HOURLY RATES:
+
+   - If multiple roles are listed (Senior Partner, Associate, Paralegal),
+     put the LEAD ATTORNEY's rate in `hourlyRate`. Note all rates in
+     `lineItems` or in `caseDescription`.
+   - If a single hourly rate is shown, put it in `hourlyRate`.
+
+5. ESTIMATED TOTAL RANGES:
+
+   - When the document gives a range like "$8,000 to $25,000", put the
+     low in `estimatedTotalLow` and high in `estimatedTotalHigh`.
+   - This is in addition to (not instead of) the retainer/flat fee.
+
+6. NEVER RETURN NULL FOR EVERY PRICE FIELD:
+
+   - If you see any dollar amounts in the document and the document is
+     a real legal fee/billing document, at least one of `flatFee`,
+     `retainerAmount`, `hourlyRate`, `contingencyPercent`,
+     `estimatedTotalLow`, or `estimatedTotalHigh` MUST be populated.
+   - Returning all-null for a real legal doc is a parse failure.
+
+7. RED FLAGS:
+
+   - ALWAYS identify at least one concern: vague scope, no termination
+     clause, non-refundable retainer, hidden fees, no expense policy,
+     unusually high travel rates, broad fee ranges, missing communication
+     policy, no conflict check, paralegal work at attorney rates.
 
 Rules:
 - Extract the practice area from context (divorce = family_law, DUI = criminal_defense, etc.)
@@ -217,7 +280,7 @@ Rules:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("legal-fee", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache(_guard.cacheNamespace || "legal-fee:v2", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
@@ -298,13 +361,26 @@ Rules:
     // FLYWHEEL BRIDGE: increment global counter + write to cal:* aggregates
     // so this vertical's quotes feed the same systems as moving and auto.
     try {
-      // Legal quotes use retainerAmount + hourlyRate, not totalPrice.
-      // Use retainer if present, otherwise estimate from hourlyRate * 10 (typical engagement).
-      const totalPrice = Number(
-        (parsed && parsed.totalPrice) ||
-        (parsed && parsed.retainerAmount) ||
-        (parsed && parsed.hourlyRate ? parsed.hourlyRate * 10 : 0)
-      ) || 0;
+      // Legal docs come in many shapes. Pick the most "headline" price in this order:
+      //   1. explicit totalPrice (rare)
+      //   2. flatFee (estate/criminal/closing/bankruptcy/LLC)
+      //   3. retainerAmount (litigation/family law)
+      //   4. estimatedTotalLow (when only a range is shown)
+      //   5. contingencyPercent * 50000 (typical PI gross recovery for counter purposes)
+      //   6. hourlyRate * 10 (typical short engagement fallback)
+      const _p = parsed || {};
+      let totalPrice = Number(_p.totalPrice) || Number(_p.flatFee) || Number(_p.retainerAmount) || 0;
+      if (!totalPrice && _p.estimatedTotalLow) {
+        totalPrice = Number(_p.estimatedTotalLow);
+      }
+      if (!totalPrice && _p.contingencyPercent) {
+        // Contingency cases don't have an upfront price — use a synthetic
+        // representative case value for counter/aggregate purposes only.
+        totalPrice = Math.round(50000 * (Number(_p.contingencyPercent) / 100));
+      }
+      if (!totalPrice && _p.hourlyRate) {
+        totalPrice = Number(_p.hourlyRate) * 10;
+      }
       if (totalPrice > 0 && !_isTestMode) {
         await redis.incr("tp:total_quotes").catch(() => {});
         const cityLc = String((parsed && (parsed.city || parsed.cityName || parsed.firmCity)) || "")

@@ -203,22 +203,25 @@ export async function runAbuseGuard(req, opts = {}) {
   }
 
   // 6. Image hash dedup
+  // Vertical+version namespace lets endpoints invalidate the cache when
+  // they update their parser prompt by bumping the version suffix.
   let imageHash = null;
+  const cacheNs = opts.cacheNamespace || vertical;
   if (imageBytes) {
     try {
       imageHash = crypto.createHash("sha256").update(imageBytes).digest("hex").substring(0, 24);
-      const cacheKey = `tp:image_cache:${vertical}:${imageHash}`;
+      const cacheKey = `tp:image_cache:${cacheNs}:${imageHash}`;
       const cached = await redis.get(cacheKey);
       if (cached) {
         const parsed = typeof cached === "string" ? JSON.parse(cached) : cached;
-        return { ok: true, imageHash, cachedResult: parsed };
+        return { ok: true, imageHash, cachedResult: parsed, cacheNamespace: cacheNs };
       }
     } catch (e) {
       /* fall through */
     }
   }
 
-  return { ok: true, imageHash };
+  return { ok: true, imageHash, cacheNamespace: cacheNs };
 }
 
 // Call this AFTER a successful Claude API call to increment the global ceiling.
@@ -237,10 +240,12 @@ export async function recordClaudeCall() {
 
 // Store a successful parse result in the image cache so duplicate uploads
 // of the same image return instantly without paying for Claude.
-export async function storeImageCache(vertical, imageHash, result) {
+// `cacheNs` is the namespace used in runAbuseGuard — pass the same value
+// (defaults to vertical name).
+export async function storeImageCache(cacheNs, imageHash, result) {
   if (!imageHash || !result) return;
   try {
-    const cacheKey = `tp:image_cache:${vertical}:${imageHash}`;
+    const cacheKey = `tp:image_cache:${cacheNs}:${imageHash}`;
     await redis.set(cacheKey, JSON.stringify(result), { ex: IMAGE_CACHE_TTL_SEC });
   } catch (e) {
     /* swallow */
