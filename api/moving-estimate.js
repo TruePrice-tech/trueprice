@@ -154,21 +154,45 @@ Return this exact JSON structure:
 }
 
 CRITICAL EXTRACTION RULES:
-- ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
-- If you cannot find an explicit total, SUM the individual line item amounts.
-- redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
-- Never return null for a price field if there are dollar amounts visible anywhere in the document.
 
-- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.
+1. TOTAL PRICE:
+   - If the document SHOWS a labeled grand total (look for "Total", "Grand Total", "Binding Price", "Bound Total", "Estimate Total", "Quote Total", "Amount Due"), use that EXACT number. Do NOT sum line items if a grand total is present — the grand total is the source of truth.
+   - Only sum line items when there is no labeled total ANYWHERE in the document.
+   - Tax and fees are usually already included in the displayed grand total. Do not double-add them.
+   - If line items appear to add up to a different number than the displayed total, trust the displayed total but add a redFlag noting the discrepancy.
 
-Rules:
-- totalPrice: Use the grand total / binding estimate amount, not individual line items
+2. ORIGIN AND DESTINATION CITIES:
+   - pickupCity/pickupState: Look for "Origin", "From", "Pickup Address", "Loading Address", "Move From", "Ship From" markers. The city listed there is the pickup.
+   - deliveryCity/deliveryState: Look for "Destination", "To", "Delivery Address", "Unloading Address", "Move To", "Ship To" markers. The city listed there is the delivery.
+   - SANITY CHECK: If pickupCity and deliveryCity end up the same, you almost certainly mis-parsed one of them — re-read the document and try again.
+   - Use full city names (e.g. "Denver" not "DEN", "Fort Worth" not "FTW") and 2-letter state codes.
+   - If origin or destination is shown only as a state, leave the city null and fill the state.
+   - If the only location info is a generic route like "Long distance" with no city names, leave both null.
+
+3. MULTIPLE QUOTES IN ONE DOCUMENT:
+   - If the document contains MORE THAN ONE distinct mover's quote (e.g. a comparison sheet showing two or three movers side by side), return the data from the FIRST quote in the document.
+   - Add a redFlag stating: "Document contains multiple quotes (X movers visible). Only the first was analyzed — upload each quote separately for individual analysis."
+
+4. COMPANY NAME:
+   - Look for letterhead, logo text, "From:", "Mover:", "Carrier:", "Quote prepared by:", or any branding visible in the document.
+   - If the company name is only visible in a logo image and no text matches, leave null.
+   - Common moving brands to recognize: Two Men and a Truck, Allied Van Lines, United Van Lines, Mayflower, North American, Atlas Van Lines, U-Pack, PODS, Bellhop, Penske, Budget, College Hunks, You Move Me.
+
+5. PRICES:
+   - ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. Never return null for a price field if there are dollar amounts visible anywhere in the document.
+   - Negative numbers represent discounts/credits and should be extracted as negative.
+   - Redacted/blacked-out prices should be extracted as null with a redFlag noting that the price was redacted.
+
+6. RED FLAGS:
+   - ALWAYS identify at least one concern. Check for: missing USDOT number, no written estimate, large required deposits over 25%, no cancellation policy, vague weight estimates, unusually low prices that suggest a scam, missing pickup/delivery windows, missing valuation coverage, non-binding language, line-item totals that don't match the grand total.
+   - Real quotes almost always have transparency gaps — find them.
+
+OTHER RULES:
 - moveType: "local" if within same metro area or under 100 miles, "long_distance" if over 100 miles or interstate, "unknown" if unclear
 - homeSize: Infer from inventory list or bedroom count if mentioned
 - isPeakSeason: true if move is May-September or falls in last/first few days of any month
 - lineItems: List each charge as a separate item with the appropriate category
 - category: "labor" for crew/hourly charges, "packing" for boxes/materials/packing service, "special_item" for piano/hot tub/heavy items, "fee" for fuel/stair/long carry/shuttle, "insurance" for valuation/coverage, "storage" for storage-in-transit or warehouse
-- redFlags: Flag things like missing USDOT number, no written estimate, large required deposits over 25%, no cancellation policy, vague weight estimates, unusually low prices that suggest a scam
 - scopeItems: Mark "yes" only if clearly present in the quote
 - Return ONLY the JSON object, nothing else`
     });
