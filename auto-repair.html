@@ -934,7 +934,8 @@ var currentPartsPref="aftermarket";
 var currentMode="full"; // "full" = labor+parts+fees+tax, "parts" = parts only (DIY)
 var lastEstimateInputs=null;
 
-// Build a 3x3 scenario matrix: shop type x parts type, summed across all selected repairs
+// Build a 4x4 scenario matrix: 3 shop types + DIY (parts only) x 4 parts types,
+// summed across all selected repairs.
 function buildScenarioMatrix(repairKeys,year,make,model,zip,state){
   var shops=["independent","dealer","chain"];
   var partsTypes=["aftermarket","oem","genuine","reman"];
@@ -955,29 +956,64 @@ function buildScenarioMatrix(repairKeys,year,make,model,zip,state){
       matrix[s][pt]=hasAny?total:null;
     });
   });
+  // DIY row: parts cost only, no labor/fees/tax. Independent shop chosen as
+  // a neutral baseline since labor doesn't apply.
+  matrix["diy"]={};
+  partsTypes.forEach(function(pt){
+    var partsTotal=0,hasAny=false;
+    repairKeys.forEach(function(rk){
+      var repair=REPAIRS[rk];
+      var sourceKey=(pt==="genuine")?"oem":pt;
+      if(!repair.partsRange[sourceKey]&&sourceKey!=="aftermarket") return;
+      hasAny=true;
+      var est=buildClientEstimate(rk,year,make,model,zip,state,"independent",pt);
+      partsTotal+=est.partsMid;
+    });
+    matrix["diy"][pt]=hasAny?partsTotal:null;
+  });
   return matrix;
 }
 
 function renderScenarioMatrix(matrix,currentShop,currentParts){
-  var shops=[["independent","Independent"],["dealer","Dealership"],["chain","Chain"]];
+  var shops=[
+    ["independent","Independent"],
+    ["dealer","Dealership"],
+    ["chain","Chain"],
+    ["diy","DIY (parts only)"]
+  ];
   var partsTypes=[["aftermarket","Aftermarket"],["oem","OEM"],["genuine","Genuine"],["reman","Reman"]];
   var h='<div class="ae-card scenario-matrix">';
   h+='<h3>Compare Scenarios</h3>';
-  h+='<p class="scenario-sub">See how the total changes based on shop type and parts choice. Your selection is highlighted.</p>';
+  h+='<p class="scenario-sub">See how the total changes based on shop type and parts choice. The DIY row shows just the cost of parts (no labor, supplies, or fees) if you do the work yourself. Your selection is highlighted.</p>';
   h+='<table class="scenario-table"><thead><tr><th></th>';
   partsTypes.forEach(function(p){h+='<th>'+p[1]+'</th>';});
   h+='</tr></thead><tbody>';
   shops.forEach(function(s){
+    var isDiy=s[0]==="diy";
     h+='<tr><th class="row-label">'+s[1]+'</th>';
     partsTypes.forEach(function(p){
       var val=matrix[s[0]][p[0]];
       if(val==null||val===0){h+='<td class="empty">—</td>';return;}
-      var isCurrent=(s[0]===currentShop&&p[0]===currentParts);
-      h+='<td class="'+(isCurrent?"current":"")+'">'+fmt(val)+'<span class="pick-tag">Your pick</span></td>';
+      // DIY row is highlighted only when user is in parts-only mode
+      var isCurrent=isDiy
+        ? (currentMode==="parts" && p[0]===currentParts)
+        : (currentMode==="full" && s[0]===currentShop && p[0]===currentParts);
+      var cellStyle=isDiy?'style="background:#f0fdf4;color:#166534;"':'';
+      h+='<td class="'+(isCurrent?"current":"")+'" '+(isCurrent?'':cellStyle)+'>'+fmt(val)+'<span class="pick-tag">Your pick</span></td>';
     });
     h+='</tr>';
   });
   h+='</tbody></table>';
+
+  // Glossary block — explains the parts tiers in plain language
+  h+='<div style="margin-top:14px;padding:12px 16px;background:#f8fafc;border-radius:10px;font-size:12px;color:#475569;line-height:1.6;">';
+  h+='<div style="font-weight:700;color:#1e293b;margin-bottom:6px;">What the parts types mean</div>';
+  h+='<div><strong>Aftermarket</strong> &mdash; third-party brands like Bosch, Denso, or Spectra that fit your vehicle but are not made by the original supplier. Cheapest option, often perfectly fine for non-critical parts.</div>';
+  h+='<div style="margin-top:4px;"><strong>OEM</strong> &mdash; the same physical part the factory installed, made by the original equipment manufacturer (often Bosch, Denso, etc.) but sold in plain packaging. Mid-priced.</div>';
+  h+='<div style="margin-top:4px;"><strong>Dealer / Genuine</strong> &mdash; the identical OEM part in the automaker&apos;s branded box (e.g. Toyota-branded, BMW-branded). Same part as OEM, 30-60% premium for the brand. Required by some warranties.</div>';
+  h+='<div style="margin-top:4px;"><strong>Remanufactured</strong> &mdash; factory-rebuilt cores (alternators, starters, calipers, etc.). Cheapest option, usually carries a warranty. Not available for all parts.</div>';
+  h+='</div>';
+
   h+='</div>';
   return h;
 }
