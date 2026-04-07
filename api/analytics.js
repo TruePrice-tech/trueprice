@@ -160,12 +160,51 @@ export default async function handler(req, res) {
         const rating = String(data.rating || "").substring(0, 10);
         const comment = String(data.comment || "").substring(0, 500).trim();
         const page = String(data.path || "/").substring(0, 200);
+        const replyTo = String(data.email || "").substring(0, 100).trim();
         const geo = getGeo(req);
         await redis.lpush("tp:feedback", JSON.stringify({
           rating, comment, page, device, city: geo.city, region: geo.region,
-          ipHash, ts: Date.now()
+          replyTo, ipHash, ts: Date.now()
         }));
         await redis.ltrim("tp:feedback", 0, 1000);
+
+        // Forward to hello@truepricehq.com via Resend if there's actual content
+        if (comment.length > 0) {
+          const resendKey = process.env.RESEND_API_KEY;
+          if (resendKey) {
+            try {
+              await fetch("https://api.resend.com/emails", {
+                method: "POST",
+                headers: {
+                  "Authorization": `Bearer ${resendKey}`,
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  from: "TruePrice Feedback <noreply@truepricehq.com>",
+                  to: ["hello@truepricehq.com"],
+                  reply_to: replyTo || undefined,
+                  subject: `[TruePrice Feedback] ${rating || "comment"} on ${page}`,
+                  html: `<div style="font-family:sans-serif;max-width:560px;padding:20px;">
+                    <h2 style="color:#1e293b;margin:0 0 12px;">New TruePrice Feedback</h2>
+                    <table style="font-size:14px;color:#475569;border-collapse:collapse;width:100%;">
+                      <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Page</td><td style="padding:6px 0;"><a href="https://truepricehq.com${page}">${page}</a></td></tr>
+                      <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Rating</td><td style="padding:6px 0;">${rating || "(none)"}</td></tr>
+                      <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Reply-to</td><td style="padding:6px 0;">${replyTo || "(none provided)"}</td></tr>
+                      <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Device</td><td style="padding:6px 0;">${device}</td></tr>
+                      <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Location</td><td style="padding:6px 0;">${geo.city || ""} ${geo.region || ""}</td></tr>
+                    </table>
+                    <div style="margin-top:18px;padding:14px 18px;background:#f8fafc;border-left:3px solid #1d4ed8;border-radius:6px;color:#1e293b;white-space:pre-wrap;">${comment.replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]))}</div>
+                  </div>`
+                })
+              });
+            } catch(e) {
+              console.error("[feedback] email forward failed:", e.message);
+            }
+          } else {
+            console.log("[feedback] no RESEND_API_KEY set - email not sent");
+          }
+        }
+
         return res.status(200).json({ ok: true });
       }
 
