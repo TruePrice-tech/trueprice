@@ -71,6 +71,17 @@
 
     .mv-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
 
+    /* Two-path buttons (matches auto-repair pattern) */
+    .mv-paths { display:flex; gap:16px; margin-bottom:24px; }
+    .mv-path-btn { flex:1; padding:22px 16px; border-radius:14px; text-align:center; cursor:pointer; transition:all .2s; font-family:inherit; background:#f8fafc; color:#475569; border:2px solid #e2e8f0; }
+    .mv-path-btn h3 { margin:0 0 6px; font-size:17px; }
+    .mv-path-btn p { margin:0; font-size:13px; }
+    .mv-path-btn:hover { background:#fffbeb; border-color:#fcd34d; color:#b45309; }
+    .mv-path-btn.active { background:#d97706; color:#fff; border-color:#d97706; box-shadow:0 0 0 4px rgba(217,119,6,0.2); }
+    .mv-path-btn.dimmed { background:#f8fafc; color:#94a3b8; border-color:#e2e8f0; opacity:0.6; }
+    .mv-hidden { display:none !important; }
+    @keyframes mvFadeSlideIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
     .mv-dual {
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -599,16 +610,98 @@
       }
     }
 
+    // Path switching for the I-need-an-estimate / I-have-a-quote toggle.
+    // Exposed on window so the inline onclick handlers in the rendered markup work.
+    window.mvSwitchPath = function(path, silent) {
+      var estBtn = document.getElementById("pathEstimateBtn");
+      var quoBtn = document.getElementById("pathQuoteBtn");
+      var estPanel = document.getElementById("estimatePath");
+      var quoPanel = document.getElementById("quotePath");
+      if (!estBtn || !quoBtn || !estPanel || !quoPanel) return;
+      if (path === "estimate") {
+        estBtn.className = "mv-path-btn" + (silent ? "" : " active");
+        quoBtn.className = "mv-path-btn" + (silent ? "" : " dimmed");
+        estPanel.classList.remove("mv-hidden");
+        quoPanel.classList.add("mv-hidden");
+      } else {
+        estBtn.className = "mv-path-btn" + (silent ? "" : " dimmed");
+        quoBtn.className = "mv-path-btn" + (silent ? "" : " active");
+        estPanel.classList.add("mv-hidden");
+        quoPanel.classList.remove("mv-hidden");
+      }
+      if (typeof tpTrack === "function") tpTrack("path_switch", { path: path, page: "/moving-quote-analyzer.html", silent: !!silent });
+    };
+
     // ── Upload Step ──
     function renderUpload() {
       var seasonInfo = getSeasonLabel();
       appRoot.innerHTML = '\
         <div class="mv-hero">\
-          <img src="/images/trudy-moving.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
-          <h1>Is your moving quote fair?</h1>\
-          <p>Upload your estimate or enter details below. Trudy checks rates, fees, and compares every moving method.</p>\
+          <img src="/images/trudy-moving.png" alt="Trudy" width="140" style="margin-bottom:12px;" />\
+          <h1>How much should your move cost?</h1>\
+          <p>Get a fair estimate or check a quote you already have.</p>\
           <span class="mv-seasonal-badge ' + seasonInfo.css + '">' + seasonInfo.label + '</span>\
         </div>\
+        <div class="mv-paths">\
+          <div class="mv-path-btn" id="pathEstimateBtn" onclick="mvSwitchPath(\'estimate\')">\
+            <h3>&#128270; I Need an Estimate</h3>\
+            <p>See fair moving prices for your move</p>\
+          </div>\
+          <div class="mv-path-btn" id="pathQuoteBtn" onclick="mvSwitchPath(\'quote\')">\
+            <h3>&#128196; I Have a Quote</h3>\
+            <p>Upload, snap, or paste your mover\'s quote</p>\
+          </div>\
+        </div>\
+        <div id="estimatePath" class="mv-hidden" style="animation:mvFadeSlideIn 0.3s ease-out;">\
+          <div class="mv-card">\
+            <h2 style="margin:0 0 6px;font-size:18px;">Tell Trudy about your move</h2>\
+            <p style="margin:0 0 16px;font-size:13px;color:#64748b;">No quote needed. Trudy compares DIY truck rentals, labor-only help, full-service movers, and container shipping for your route.</p>\
+            <div class="mv-manual-form">\
+              <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:16px;">\
+                <div style="font-size:0.9rem;font-weight:600;color:#0369a1;margin-bottom:10px;">Where are you moving?</div>\
+                <div class="mv-row">\
+                  <div>\
+                    <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">From City</label>\
+                    <input type="text" id="estFromCity" placeholder="e.g. Charlotte" />\
+                  </div>\
+                  <div>\
+                    <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">From State</label>\
+                    <input type="text" id="estFromState" placeholder="NC" maxlength="2" style="text-transform:uppercase;" />\
+                  </div>\
+                </div>\
+                <div class="mv-row" style="margin-top:8px;">\
+                  <div>\
+                    <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">To City</label>\
+                    <input type="text" id="estToCity" placeholder="e.g. Atlanta" />\
+                  </div>\
+                  <div>\
+                    <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">To State</label>\
+                    <input type="text" id="estToState" placeholder="GA" maxlength="2" style="text-transform:uppercase;" />\
+                  </div>\
+                </div>\
+              </div>\
+              <div class="mv-row">\
+                <div>\
+                  <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Home Size</label>\
+                  <select id="estHomeSize">\
+                    <option value="studio">Studio</option>\
+                    <option value="1br">1 Bedroom</option>\
+                    <option value="2br" selected>2 Bedroom</option>\
+                    <option value="3br">3 Bedroom</option>\
+                    <option value="4br">4 Bedroom</option>\
+                    <option value="5br+">5+ Bedroom</option>\
+                  </select>\
+                </div>\
+                <div>\
+                  <label style="font-size:0.85rem;color:#64748b;margin-bottom:4px;display:block;">Move Date (optional)</label>\
+                  <input type="date" id="estMoveDate" />\
+                </div>\
+              </div>\
+              <button class="mv-btn mv-btn-primary mv-btn-full" id="btnGetEstimate">Get my estimate</button>\
+            </div>\
+          </div>\
+        </div>\
+        <div id="quotePath" class="mv-hidden" style="animation:mvFadeSlideIn 0.3s ease-out;">\
         <div class="mv-card">\
           <div class="mv-dual">\
             <div class="mv-dual-card" id="uploadZone" style="cursor:pointer;">\
@@ -690,7 +783,88 @@
             </div>\
             <button class="mv-btn mv-btn-primary mv-btn-full" id="btnManualAnalyze">Analyze This Quote</button>\
           </div>\
+        </div>\
         </div>';
+
+      // Path switching: open the panel the user landed with (URL param), or default to estimate
+      var urlPath = new URLSearchParams(window.location.search).get("path");
+      mvSwitchPath(urlPath === "quote" ? "quote" : "estimate", true);
+
+      // Estimate button (new path)
+      var estBtn = document.getElementById("btnGetEstimate");
+      if (estBtn) {
+        estBtn.addEventListener("click", async function() {
+          state.fromCity = (document.getElementById("estFromCity").value || "").trim();
+          state.fromState = (document.getElementById("estFromState").value || "").trim().toUpperCase();
+          state.toCity = (document.getElementById("estToCity").value || "").trim();
+          state.toState = (document.getElementById("estToState").value || "").trim().toUpperCase();
+          state.homeSize = document.getElementById("estHomeSize").value || "2br";
+          var moveDate = document.getElementById("estMoveDate").value || null;
+
+          if (!state.fromCity || !state.fromState) { alert("Enter your origin city and state."); return; }
+          if (!state.toCity || !state.toState) { alert("Enter your destination city and state."); return; }
+          if (!STATE_NAMES[state.fromState]) { alert("Invalid origin state code."); return; }
+          if (!STATE_NAMES[state.toState]) { alert("Invalid destination state code."); return; }
+
+          state.step = "uploading";
+          render();
+          setProgress(30, "Looking up local rates...");
+
+          var originData = await fetchCityData(state.fromCity, state.fromState);
+          var destData = await fetchCityData(state.toCity, state.toState);
+          state.originMult = originData.mult; state.destMult = destData.mult;
+          state.originLat = originData.lat; state.originLng = originData.lng;
+          state.destLat = destData.lat; state.destLng = destData.lng;
+
+          setProgress(60, "Calculating distance and method options...");
+          var distance = null;
+          if (state.originLat && state.destLat) {
+            distance = Math.round(haversineMiles(state.originLat, state.originLng, state.destLat, state.destLng));
+          }
+          state.distance = distance;
+          state.moveType = inferMoveType(state.fromState, state.toState, distance);
+          if (distance && distance > 100) state.moveType = "longDistance";
+
+          var cityMult = getWeightedMult();
+          var expected = getExpectedRange(state.moveType, state.homeSize, cityMult, distance);
+
+          setProgress(90, "Building comparison...");
+          state.result = {
+            source: "estimate_only",
+            quoteTotal: 0,
+            benchmark: expected.mid,
+            expectedRange: expected,
+            ratio: 1.0,
+            verdict: { type: "estimate", label: "Estimate", message: "Here's what your move should cost based on industry-typical rates." },
+            lineItems: [],
+            hourlyRate: null,
+            crewSize: null,
+            estimatedHours: null,
+            weight: null,
+            distance: distance,
+            moveDate: moveDate,
+            moveType: state.moveType,
+            homeSize: state.homeSize,
+            cityMult: cityMult,
+            fromCity: state.fromCity, fromState: state.fromState,
+            toCity: state.toCity, toState: state.toState,
+            isInterstate: state.fromState !== state.toState,
+            rateFlag: null,
+            scopeSignals: {},
+            redFlags: [],
+            comparison: getComparisonEstimates(state.moveType, state.homeSize, cityMult, distance),
+            parsed: null,
+            isEstimateOnly: true
+          };
+          if (state.result.isInterstate) {
+            state.result.redFlags.push("Interstate move: any mover you hire must have a valid USDOT number — verify at safer.fmcsa.dot.gov");
+          }
+          if (typeof tpTrack === "function") tpTrack("estimate_generated", { service: "moving", from: state.fromState, to: state.toState, homeSize: state.homeSize });
+          setProgress(100, "Done!");
+          state.step = "result";
+          setTimeout(render, 300);
+        });
+      }
 
       // File upload events
       var zone = document.getElementById("uploadZone");
