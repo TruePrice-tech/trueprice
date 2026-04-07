@@ -53,13 +53,25 @@
 /* Print stylesheet */
 @media print {
   @page { margin: 0.5in; }
-  body * { visibility: hidden; }
-  #estimateResult, #estimateResult * { visibility: visible; }
-  #estimateResult { position:absolute; top:0; left:0; width:100%; }
-  .no-print, .ae-share, .ae-cta, .ae-compare, .ae-ai-loading, #vehicleNotesSection, #localShopsSection, .tp-report-actions { display:none !important; }
+  /* Hide everything by default, then unhide only the result. Using display:none
+     instead of visibility:hidden so hidden elements don't reserve layout space
+     (which was pushing the estimate onto page 2 with a blank page 1). */
+  body > *:not(main),
+  main > *:not(#estimateResult),
+  .site-header, .site-footer, nav, header, footer,
+  .ar-paths, #estimatePath, #quotePath, .ar-cross-links,
+  .no-print, .ae-share, .ae-cta, .ae-compare, .ae-ai-loading,
+  #vehicleNotesSection, #localShopsSection, .tp-report-actions,
+  .ar-tools-block, .tp-tools-block { display: none !important; }
+  body, html, main { margin:0 !important; padding:0 !important; background:#fff !important; }
+  #estimateResult { display:block !important; margin:0 !important; padding:0 !important; }
+  #estimateResult * { visibility: visible; }
   .ae-card { break-inside: avoid; box-shadow:none; border:1px solid #cbd5e1; page-break-inside: avoid; }
   .tp-report-header { background:#1d4ed8 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .scenario-table td.current { background:#1d4ed8 !important; color:#fff !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  details { display:block !important; }
+  details > summary { display:none !important; }
+  details > div { display:block !important; }
 }
 
 /* Two-path buttons */
