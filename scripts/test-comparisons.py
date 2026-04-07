@@ -72,22 +72,66 @@ def post(endpoint, fpath):
     except Exception as e:
         return {"error": str(e)}
 
-def extract_total(d):
+REPRESENTATIVE_RECOVERY = 50000
+REPRESENTATIVE_HOURS = 30
+
+def extract_total(d, vertical=None):
+    """Headline price for ranking comparison fixtures.
+
+    For LEGAL, all quotes in a comparison set must be normalized to the
+    SAME representative scenario (a $50k recovery / 30-hour matter), so
+    a 33% contingency genuinely ranks cheaper than a 40% one. We deliberately
+    IGNORE totalPrice / flatFee scraped from individual quotes for legal,
+    because different quotes will use different formats (one says "$18,150
+    estimated", the next says "35% contingency", the next says "$28,000")
+    and comparing those raw values is apples to oranges. Normalize first.
+
+    For all other verticals, use the standard fallthrough chain.
+    """
     if not d: return None
     inner = d.get("data") or d.get("estimate") or d
     if not isinstance(inner, dict): return None
-    for f in ["totalPrice","quoteTotal","total","flatFee","retainerAmount","totalBilled","patientResponsibility","estimatedTotalLow"]:
+
+    if vertical == "legal":
+        # Legal-specific normalization (project everything to one matter)
+        cp = inner.get("contingencyPercent") or inner.get("contingencyPct")
+        if cp:
+            return round(REPRESENTATIVE_RECOVERY * (cp / 100))
+        flat = inner.get("flatFee")
+        if flat: return flat
+        hr = inner.get("hourlyRate")
+        if hr: return hr * REPRESENTATIVE_HOURS
+        ret = inner.get("retainerAmount") or inner.get("retainer")
+        if ret: return ret
+        # Last resort: any totalPrice the parser scraped
+        return inner.get("totalPrice")
+
+    # Standard fallthrough for all other verticals
+    for f in ["totalPrice","quoteTotal","total","flatFee","retainerAmount","totalBilled","patientResponsibility","estimatedTotalLow","price"]:
         v = inner.get(f)
         if v: return v
-    cp = inner.get("contingencyPercent")
-    if cp: return round(50000 * (cp / 100))
-    hr = inner.get("hourlyRate")
-    if hr: return hr * 10
     return None
 
-def test_vertical_comparison(vertical, endpoint):
+def extract_verdict(d):
+    """Pull any verdict / summary / explanation field the parser produced.
+    Returns the longest non-empty string we can find. Empty/short means
+    the parser parsed the price but failed to explain it — a silent UX
+    bug we want to catch."""
+    if not d: return ""
+    inner = d.get("data") or d.get("estimate") or d
+    if not isinstance(inner, dict): return ""
+    candidates = []
+    for f in ["summary", "verdict", "verdictText", "explanation", "analysis", "assessment", "notes"]:
+        v = inner.get(f)
+        if isinstance(v, str) and v.strip():
+            candidates.append(v.strip())
+    return max(candidates, key=len) if candidates else ""
+
+def test_vertical_comparison(vertical, endpoint, include_messy=True):
     folder = f"test-quotes/{vertical}-test-images"
     fixtures = sorted(glob.glob(os.path.join(folder, "comparison-*.png")))
+    if include_messy:
+        fixtures += sorted(glob.glob(os.path.join(folder, "messy-comparison-*.jpg")))
     if not fixtures:
         return None
     if not endpoint:
@@ -96,26 +140,40 @@ def test_vertical_comparison(vertical, endpoint):
     results = []
     for f in fixtures:
         name = os.path.basename(f)
-        print(f"  {name}: posting...")
+        is_messy = name.startswith("messy-")
+        tag = " [messy]" if is_messy else ""
+        print(f"  {name}{tag}: posting...")
         t0 = time.time()
         d = post(endpoint, f)
         elapsed = round(time.time() - t0, 1)
         if "error" in d:
             print(f"    FAIL ({elapsed}s): {d.get('error')} {d.get('body','')[:100]}")
-            results.append({"file": name, "ok": False, "err": str(d)[:200]})
+            results.append({"file": name, "ok": False, "err": str(d)[:200], "messy": is_messy})
         else:
-            total = extract_total(d)
-            print(f"    OK ({elapsed}s) total={total}")
-            results.append({"file": name, "ok": True, "total": total})
+            total = extract_total(d, vertical=vertical)
+            verdict = extract_verdict(d)
+            verdict_ok = len(verdict) >= 40
+            v_tag = "" if verdict_ok else " VERDICT_TOO_SHORT"
+            print(f"    OK ({elapsed}s) total={total} verdict={len(verdict)}c{v_tag}")
+            results.append({"file": name, "ok": True, "total": total,
+                            "verdict_len": len(verdict), "verdict_ok": verdict_ok,
+                            "messy": is_messy})
         time.sleep(2)
-    parsed = sum(1 for r in results if r.get("ok") and r.get("total"))
+    clean_results = [r for r in results if not r.get("messy")]
+    messy_results = [r for r in results if r.get("messy")]
+    parsed = sum(1 for r in clean_results if r.get("ok") and r.get("total"))
+    parsed_messy = sum(1 for r in messy_results if r.get("ok") and r.get("total"))
+    verdict_ok_count = sum(1 for r in results if r.get("verdict_ok"))
     cheapest = None
-    if parsed == len(fixtures):
-        cheapest = min(results, key=lambda r: r.get("total") or float('inf'))
+    if parsed == len(clean_results):
+        cheapest = min(clean_results, key=lambda r: r.get("total") or float('inf'))
     return {
         "vertical": vertical,
-        "fixtures": len(fixtures),
+        "fixtures": len(clean_results),
+        "messy_fixtures": len(messy_results),
         "parsed": parsed,
+        "parsed_messy": parsed_messy,
+        "verdict_ok": verdict_ok_count,
         "cheapest": cheapest["file"] if cheapest else None,
         "results": results,
     }
@@ -138,16 +196,18 @@ def main():
             print(f"  {v} ERR: {e}")
 
     print("\n\n=== COMPARISON TEST SUMMARY ===")
-    print(f"{'vertical':12} {'parsed':>10} {'cheapest':40}")
+    print(f"{'vertical':12} {'clean':>8} {'messy':>8} {'verdict':>8}  {'cheapest':40}")
     for r in summary:
         if r.get("skipped"):
             print(f"{r['vertical']:12} SKIPPED ({r['skipped']})")
             continue
-        n = r["fixtures"]
-        p = r["parsed"]
-        ch = r.get("cheapest", "?")
+        n = r["fixtures"]; p = r["parsed"]
+        nm = r.get("messy_fixtures", 0); pm = r.get("parsed_messy", 0)
+        vo = r.get("verdict_ok", 0)
+        total_fix = n + nm
+        ch = r.get("cheapest") or "?"
         flag = "OK" if p == n else "FAIL"
-        print(f"{r['vertical']:12} {p}/{n:<8} {ch:40} {flag}")
+        print(f"{r['vertical']:12} {p}/{n:<6} {pm}/{nm:<6} {vo}/{total_fix:<6} {ch:40} {flag}")
 
 if __name__ == "__main__":
     main()
