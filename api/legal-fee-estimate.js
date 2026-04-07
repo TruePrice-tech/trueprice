@@ -83,7 +83,7 @@ export default async function handler(req, res) {
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
     // cacheNamespace: bump the suffix when the prompt changes to invalidate stale cache
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v2" });
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v3" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -163,89 +163,67 @@ Return this exact JSON structure:
   "summary": <string - one paragraph plain-English summary>
 }
 
-CRITICAL EXTRACTION RULES:
+CRITICAL EXTRACTION RULES (read carefully):
 
-1. PICKING THE HEADLINE FEE (the most important rule):
+PICKING THE HEADLINE FEE — only ONE of these fields gets the primary number:
 
-   - If the document shows a clearly labeled "Flat Fee", "Total Flat Fee",
-     "Total Cost", "Total Fee", "Engagement Fee", "Total for Services",
-     or similar PRIMARY price for the legal services (NOT third-party
-     costs, NOT court filing fees, NOT down-payments), put that EXACT
-     number in the \`flatFee\` field.
+  flatFee: The single dollar amount the client pays the FIRM for the legal
+    services described, when there is one. Look for labels like "Flat Fee",
+    "Total Flat Fee", "Total Cost for Services", "Engagement Fee", "FLAT FEE
+    FOR LEGAL SERVICES". Examples:
+      "Total flat fee: $3,500"           -> flatFee = 3500
+      "FLAT FEE FOR LEGAL SERVICES: $895" -> flatFee = 895
+      "The total flat fee is $1,250"     -> flatFee = 1250
+      "Total flat fee: $1,495"           -> flatFee = 1495
+      "$850" (LLC formation flat fee)    -> flatFee = 850
 
-   - If the document shows a "Retainer", "Initial Retainer", "Trust
-     Deposit", or "Initial Deposit" amount that the client must pay
-     upfront against future hourly billing, put it in \`retainerAmount\`.
-     (A retainer is different from a flat fee — retainers are drawn
-     down hourly; flat fees are the final price.)
+  retainerAmount: A trust-account deposit the client pays UP FRONT to be
+    drawn down hourly. Use this when there is no flat fee, only an hourly
+    rate plus an initial deposit. Examples:
+      "Initial Retainer: $15,000"        -> retainerAmount = 15000
+      "Client agrees to deposit $7,500"  -> retainerAmount = 7500
 
-   - If the document is a contingency agreement, put the LOWEST tier
-     percentage (typically the "before lawsuit filed" or "settled
-     pre-suit" rate) in \`contingencyPercent\` as a number (33.33 for
-     "33 1/3%", 40 for "40%"). Set \`flatFee\` and \`retainerAmount\` to
-     null for pure contingency agreements.
+  contingencyPercent: The lowest tier percentage from a contingency
+    agreement. Use this for personal injury, employment, etc. Examples:
+      "33 1/3% if before lawsuit"        -> contingencyPercent = 33.33
+      "40% if matter resolves before trial" (only tier shown) -> contingencyPercent = 40
 
-2. NEVER USE A DOWN-PAYMENT OR DEPOSIT AS THE TOTAL:
+NEVER use a down-payment, deposit, or installment as the headline fee.
+  WRONG: "Total flat fee: $3,500. $1,500 due upon signing." -> flatFee = 1500
+  RIGHT: "Total flat fee: $3,500. $1,500 due upon signing." -> flatFee = 3500
 
-   - If you see "$1,500 due upon signing" alongside "Total flat fee:
-     $3,500", the flat fee is $3,500, NOT $1,500.
-   - Down-payments, deposits, "due at signing", and payment plan
-     installments are partial payments, NOT the total fee.
-   - Always pick the GRAND TOTAL or labeled "Total Flat Fee" over
-     any partial payment.
+NEVER include filing fees, court costs, title insurance, recording fees,
+  credit reports, or any other pass-through cost in flatFee. Those are
+  third-party costs, not the firm's legal fee. Put them in lineItems
+  with category notes; do NOT add them to flatFee.
 
-3. NEVER MIX LEGAL FEES WITH PASS-THROUGH COSTS:
+NEVER sum a flat fee with an "additional services" hourly rate to get a
+  bigger number. Example:
+    "Flat fee: $1,250. Additional services beyond scope: $325/hr"
+    -> flatFee = 1250, hourlyRate = 325 (DO NOT report 1575 or 3250)
 
-   - "Court filing fee", "recording fee", "title insurance", "credit
-     report", "process server", "court reporter" are pass-through
-     costs that the client pays through the firm, NOT legal services.
-   - Do NOT include these in \`flatFee\`. The legal services flat fee
-     is what the firm charges for its time and expertise.
-   - Pass-through costs CAN be summed into \`estimatedTotalHigh\` to
-     show the client's total out-of-pocket, but the headline fee is
-     the legal services portion only.
+When in doubt: pick the LOWEST clearly-labeled total, not the highest.
+  The user wants to know what they will most likely pay; the highest
+  number is usually a worst-case range or a "could go up to" amount.
 
-4. HOURLY RATES:
+OTHER FIELDS:
+  - hourlyRate: lead attorney rate when an hourly model is used
+  - estimatedTotalLow / estimatedTotalHigh: explicit range like "$8,000 to $25,000"
+  - city / stateCode: from firm letterhead
+  - practiceArea: divorce = family_law, DUI = criminal_defense, will = estate_planning, etc.
+  - firmSize: solo (1), small (2-10), midsize (11-50), large (51-200), biglaw (200+), null if unknown
+  - feeStructure: hourly | flat_fee | contingency | hybrid | unclear
+  - documentType: retainer_agreement | engagement_letter | invoice | fee_agreement | other
+  - lineItems: each fee/rate/cost as a row
+  - redFlags: vague scope, non-refundable retainer, no termination clause,
+    no expense policy, unusually high rates, broad fee ranges, missing
+    conflict check, paralegal work at attorney rate, etc. Always at least one.
 
-   - If multiple roles are listed (Senior Partner, Associate, Paralegal),
-     put the LEAD ATTORNEY's rate in \`hourlyRate\`. Note all rates in
-     \`lineItems\` or in \`caseDescription\`.
-   - If a single hourly rate is shown, put it in \`hourlyRate\`.
+NEVER RETURN ALL-NULL for a real legal document with visible dollar amounts.
+At least one of flatFee, retainerAmount, hourlyRate, contingencyPercent,
+or estimatedTotalLow MUST be populated.
 
-5. ESTIMATED TOTAL RANGES:
-
-   - When the document gives a range like "$8,000 to $25,000", put the
-     low in \`estimatedTotalLow\` and high in \`estimatedTotalHigh\`.
-   - This is in addition to (not instead of) the retainer/flat fee.
-
-6. NEVER RETURN NULL FOR EVERY PRICE FIELD:
-
-   - If you see any dollar amounts in the document and the document is
-     a real legal fee/billing document, at least one of \`flatFee\`,
-     \`retainerAmount\`, \`hourlyRate\`, \`contingencyPercent\`,
-     \`estimatedTotalLow\`, or \`estimatedTotalHigh\` MUST be populated.
-   - Returning all-null for a real legal doc is a parse failure.
-
-7. RED FLAGS:
-
-   - ALWAYS identify at least one concern: vague scope, no termination
-     clause, non-refundable retainer, hidden fees, no expense policy,
-     unusually high travel rates, broad fee ranges, missing communication
-     policy, no conflict check, paralegal work at attorney rates.
-
-Rules:
-- Extract the practice area from context (divorce = family_law, DUI = criminal_defense, etc.)
-- For contingency agreements, note the percentage and what it applies to
-- Infer firmSize from context: solo (1 attorney), small (2-10), midsize (11-50), large (51-200), biglaw (200+). Use null if unknown.
-- Flag block billing: entries with multiple tasks in one time entry (commas/semicolons separating tasks like "research, draft motion, call client") with > 1.0 hours. Add their indices to blockBillingEntries.
-- Flag vague entries: descriptions like "research", "review file", "memo to file", "attention to matter", "work on case" without specifics. Add their indices to vagueEntries.
-- Flag paralegal work at attorney rate: filing, copying, scheduling, calendar entries, organizing billed at $200+/hr. Add their indices to paralegalWorkAtAttorneyRate.
-- Flag overhead expenses: copies charged > $0.10/page, fax charges, postage, generic "administrative fee". List them in overheadExpenses.
-- If 15-minute increments detected, estimate the overcharge vs 6-minute for short entries (emails, brief calls). For each short entry (likely < 6 min), the overcharge is (0.25 - 0.1) * rate. Sum these into estimatedIncrementOvercharge.
-- Flag non-refundable retainers
-- Flag vague scope definitions
-- Flag any unusual or potentially unethical fee provisions
-- Return ONLY the JSON object, nothing else`
+Return ONLY the JSON object, no markdown, no explanation.`
     });
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -280,7 +258,7 @@ Rules:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache(_guard.cacheNamespace || "legal-fee:v2", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache(_guard.cacheNamespace || "legal-fee:v3", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
