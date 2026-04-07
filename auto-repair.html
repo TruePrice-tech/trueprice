@@ -880,8 +880,9 @@ function attachCompareHandler(){
   });
 }
 
-// Track current parts preference (oem | aftermarket | reman) and estimate inputs for re-render
+// Track current parts preference (oem | aftermarket | reman), mode (full | parts), and estimate inputs for re-render
 var currentPartsPref="aftermarket";
+var currentMode="full"; // "full" = labor+parts+fees+tax, "parts" = parts only (DIY)
 var lastEstimateInputs=null;
 
 // Build a 3x3 scenario matrix: shop type x parts type, summed across all selected repairs
@@ -933,11 +934,12 @@ function renderScenarioMatrix(matrix,currentShop,currentParts){
 
 function renderReportHeader(vehicleDesc,locationDesc){
   var dateStr=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+  var isParts=currentMode==="parts";
   return '<div class="tp-report-header">'+
     '<img src="/images/trudy-auto.png" alt="Trudy" width="78" height="78" />'+
     '<div>'+
-      '<div class="eyebrow">TruePrice Auto Repair Report</div>'+
-      '<div class="title">Estimate prepared by Trudy</div>'+
+      '<div class="eyebrow">TruePrice '+(isParts?"DIY Parts Report":"Auto Repair Report")+'</div>'+
+      '<div class="title">'+(isParts?"Parts cost checked by Trudy":"Estimate prepared by Trudy")+'</div>'+
       '<div class="sub">'+vehicleDesc+' &bull; '+locationDesc+' &bull; '+dateStr+'</div>'+
       '<div class="sub" style="font-size:11px;margin-top:4px;">truepricehq.com/auto-repair.html</div>'+
     '</div>'+
@@ -968,12 +970,13 @@ function shareReport(){
   }
 }
 
-// Click handler for the OEM/aftermarket/reman toggle (event delegation)
+// Click handler for the OEM/aftermarket/reman toggle and mode toggle (event delegation)
 document.addEventListener("click",function(ev){
-  var btn=ev.target.closest&&ev.target.closest(".ae-parts-btn");
-  if(!btn||!lastEstimateInputs) return;
-  currentPartsPref=btn.getAttribute("data-pref");
-  rerunEstimate();
+  if(!ev.target.closest) return;
+  var partsBtn=ev.target.closest(".ae-parts-btn");
+  if(partsBtn&&lastEstimateInputs){currentPartsPref=partsBtn.getAttribute("data-pref");rerunEstimate();return;}
+  var modeBtn=ev.target.closest(".ae-mode-btn");
+  if(modeBtn&&lastEstimateInputs){currentMode=modeBtn.getAttribute("data-mode");rerunEstimate();return;}
 });
 
 function rerunEstimate(){
@@ -1036,48 +1039,105 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
     ?'<span style="display:inline-block;padding:3px 10px;background:#dcfce7;color:#166534;border-radius:8px;font-size:11px;font-weight:700;">Metro-area average</span>'
     :'<span style="display:inline-block;padding:3px 10px;background:#fef9c3;color:#854d0e;border-radius:8px;font-size:11px;font-weight:700;">State average</span>';
 
-  // Global parts toggle — applies to ALL repairs in the report
+  // Mode toggle (Full Repair vs Parts Only) + Parts type toggle
+  var modeOpts=[["full","Full Repair"],["parts","Parts Only (DIY)"]];
   var partsOpts=[["aftermarket","Aftermarket"],["oem","OEM (Original)"],["reman","Remanufactured"]];
-  var partsToggle='<div class="ae-card" style="padding:14px 18px;"><div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;"><div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Parts Type:</div>';
+  var partsToggle='<div class="ae-card" style="padding:14px 18px;">';
+  partsToggle+='<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px;"><div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Mode:</div>';
+  modeOpts.forEach(function(m){
+    var active=m[0]===currentMode;
+    partsToggle+='<button type="button" class="ae-mode-btn" data-mode="'+m[0]+'" style="padding:8px 16px;border:2px solid '+(active?"#1d4ed8":"#e2e8f0")+';background:'+(active?"#1d4ed8":"#fff")+';color:'+(active?"#fff":"#475569")+';border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;">'+m[1]+'</button>';
+  });
+  partsToggle+='<div style="margin-left:auto;font-size:11px;color:#94a3b8;">'+(currentMode==="parts"?"DIY mode — parts cost only, no labor":"Includes labor, parts, supplies, fees, tax")+'</div></div>';
+  partsToggle+='<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;"><div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Parts Type:</div>';
   partsOpts.forEach(function(p){
     var active=p[0]===currentPartsPref;
     partsToggle+='<button type="button" class="ae-parts-btn" data-pref="'+p[0]+'" style="padding:8px 16px;border:2px solid '+(active?"#1d4ed8":"#e2e8f0")+';background:'+(active?"#eff6ff":"#fff")+';color:'+(active?"#1d4ed8":"#475569")+';border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;">'+p[1]+'</button>';
   });
   partsToggle+='<div style="margin-left:auto;font-size:11px;color:#94a3b8;">OEM = original • Aftermarket = third-party • Reman = factory-rebuilt</div></div></div>';
 
-  // Combined summary table — one expanded row per repair with all the detail
+  // Combined summary table — branches on currentMode
   var shopLabel=shopType==="dealer"?"Dealership":shopType==="chain"?"Chain Shop":"Independent Shop";
   var firstEst=allEstimates[0];
-  var mh='<div class="ae-card"><div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;"><div><h3 style="margin:0 0 4px;">'+(allEstimates.length>1?"Combined Estimate":"Estimate")+'</h3><div style="font-size:13px;color:#64748b;">'+vehicleDesc+' &bull; '+locationDesc+' &bull; '+shopLabel+' &bull; '+fmt(firstEst.laborRateMid)+'/hr</div></div><div>'+geoBadge+'</div></div>';
-  mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">'+(allEstimates.length>1?"Combined Total ("+allEstimates.length+" repairs)":"Estimated Total")+'</div>';
-  mh+='<div class="total">'+fmt(grandTotalMid)+'</div>';
-  mh+='<div class="range">Range: '+fmt(grandTotalLow)+' - '+fmt(grandTotalHigh)+'</div></div>';
+  var isParts=currentMode==="parts";
+  var grandPartsLow=allEstimates.reduce(function(s,e){return s+e.partsLow;},0);
+  var grandPartsHigh=allEstimates.reduce(function(s,e){return s+e.partsHigh;},0);
 
-  mh+='<div style="overflow-x:auto;"><table class="ae-parts-table"><thead><tr>';
-  mh+='<th>Repair</th><th style="text-align:right">Labor</th><th style="text-align:right">Parts ('+currentPartsPref+')</th><th style="text-align:right">Fees</th><th style="text-align:right">Total</th>';
-  mh+='</tr></thead><tbody>';
-  allEstimates.forEach(function(e){
-    mh+='<tr>';
-    mh+='<td><strong>'+e.repairLabel+'</strong>'+(e.repair.notes?'<div style="font-size:11px;color:#94a3b8;font-weight:400;margin-top:2px;">'+e.repair.notes+'</div>':'')+'</td>';
-    mh+='<td style="text-align:right">'+fmt(e.laborMid)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+e.laborHrsMid.toFixed(1)+' hrs @ '+fmt(e.laborRateMid)+'</div></td>';
-    mh+='<td style="text-align:right">'+fmt(e.partsMid)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+fmt(e.partsLow)+' - '+fmt(e.partsHigh)+'</div></td>';
-    mh+='<td style="text-align:right">'+(e.fees>0?fmt(e.fees)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+e.feeInfo.label+'</div>':'<span style="color:#cbd5e1;">—</span>')+'</td>';
-    mh+='<td style="text-align:right;font-weight:700">'+fmt(e.totalMid)+'</td>';
-    mh+='</tr>';
-  });
-  if(allEstimates.length>1){
-    mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right">'+fmt(grandFees)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandLabor+grandParts+grandFees)+'</td></tr>';
+  var titleText=isParts?"Parts Cost Report":(allEstimates.length>1?"Combined Estimate":"Estimate");
+  var subText=isParts?(vehicleDesc+' &bull; '+locationDesc+' &bull; DIY mode'):(vehicleDesc+' &bull; '+locationDesc+' &bull; '+shopLabel+' &bull; '+fmt(firstEst.laborRateMid)+'/hr');
+
+  var mh='<div class="ae-card"><div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;"><div><h3 style="margin:0 0 4px;">'+titleText+'</h3><div style="font-size:13px;color:#64748b;">'+subText+'</div></div><div>'+geoBadge+'</div></div>';
+
+  if(isParts){
+    mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">Parts Cost ('+currentPartsPref+(allEstimates.length>1?", "+allEstimates.length+" repairs":"")+')</div>';
+    mh+='<div class="total">'+fmt(grandParts)+'</div>';
+    mh+='<div class="range">Range: '+fmt(grandPartsLow)+' - '+fmt(grandPartsHigh)+'</div></div>';
+
+    // Table: parts only
+    mh+='<div style="overflow-x:auto;"><table class="ae-parts-table"><thead><tr>';
+    mh+='<th>Repair</th><th style="text-align:right">Parts Range</th><th style="text-align:right">Parts Median</th>';
+    mh+='</tr></thead><tbody>';
+    allEstimates.forEach(function(e){
+      mh+='<tr>';
+      mh+='<td><strong>'+e.repairLabel+'</strong>'+(e.repair.notes?'<div style="font-size:11px;color:#94a3b8;font-weight:400;margin-top:2px;">'+e.repair.notes+'</div>':'')+'</td>';
+      mh+='<td style="text-align:right;color:#64748b;">'+fmt(e.partsLow)+' – '+fmt(e.partsHigh)+'</td>';
+      mh+='<td style="text-align:right;font-weight:700">'+fmt(e.partsMid)+'</td>';
+      mh+='</tr>';
+    });
+    if(allEstimates.length>1){
+      mh+='<tr class="selected"><td><strong>Total ('+currentPartsPref+')</strong></td><td style="text-align:right;color:#64748b;">'+fmt(grandPartsLow)+' – '+fmt(grandPartsHigh)+'</td><td style="text-align:right;font-weight:800;font-size:17px;">'+fmt(grandParts)+'</td></tr>';
+    }
+    mh+='</tbody></table></div>';
+
+    // DIY savings callout — compute full-repair total at same parts pref
+    var fullTotal=0;
+    repairKeys.forEach(function(rk){
+      var e=buildClientEstimate(rk,year,make,model,zip,stateVal,shopType,currentPartsPref);
+      fullTotal+=e.totalMid;
+    });
+    var savings=fullTotal-grandParts;
+    var savingsPct=fullTotal>0?Math.round(savings/fullTotal*100):0;
+    mh+='<div style="margin-top:16px;padding:18px 20px;background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-radius:12px;border:2px solid #86efac;">';
+    mh+='<div style="font-size:11px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:0.06em;">DIY Savings</div>';
+    mh+='<div style="font-size:28px;font-weight:800;color:#166534;margin:4px 0;">'+fmt(savings)+' <span style="font-size:14px;font-weight:600;">('+savingsPct+'% off)</span></div>';
+    mh+='<div style="font-size:13px;color:#166534;">vs '+fmt(fullTotal)+' for the same job at a '+shopLabel.toLowerCase()+'. Trade-off: your time, tools, and any mistakes. Some jobs require special equipment.</div>';
+    mh+='</div>';
+
+    mh+='<div style="margin-top:14px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:6px;font-size:11px;color:#64748b;line-height:1.5;">';
+    mh+='<strong>About these numbers:</strong> Parts prices reflect '+currentPartsPref+' market ranges from auto parts retailers (RockAuto, AutoZone, Advance Auto, dealers). Specialty/luxury parts and shipping not included. Always verify fitment for your specific year/make/model/trim before ordering.';
+    mh+='</div></div>';
+  } else {
+    mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">'+(allEstimates.length>1?"Combined Total ("+allEstimates.length+" repairs)":"Estimated Total")+'</div>';
+    mh+='<div class="total">'+fmt(grandTotalMid)+'</div>';
+    mh+='<div class="range">Range: '+fmt(grandTotalLow)+' - '+fmt(grandTotalHigh)+'</div></div>';
+
+    mh+='<div style="overflow-x:auto;"><table class="ae-parts-table"><thead><tr>';
+    mh+='<th>Repair</th><th style="text-align:right">Labor</th><th style="text-align:right">Parts ('+currentPartsPref+')</th><th style="text-align:right">Fees</th><th style="text-align:right">Total</th>';
+    mh+='</tr></thead><tbody>';
+    allEstimates.forEach(function(e){
+      mh+='<tr>';
+      mh+='<td><strong>'+e.repairLabel+'</strong>'+(e.repair.notes?'<div style="font-size:11px;color:#94a3b8;font-weight:400;margin-top:2px;">'+e.repair.notes+'</div>':'')+'</td>';
+      mh+='<td style="text-align:right">'+fmt(e.laborMid)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+e.laborHrsMid.toFixed(1)+' hrs @ '+fmt(e.laborRateMid)+'</div></td>';
+      mh+='<td style="text-align:right">'+fmt(e.partsMid)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+fmt(e.partsLow)+' - '+fmt(e.partsHigh)+'</div></td>';
+      mh+='<td style="text-align:right">'+(e.fees>0?fmt(e.fees)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+e.feeInfo.label+'</div>':'<span style="color:#cbd5e1;">—</span>')+'</td>';
+      mh+='<td style="text-align:right;font-weight:700">'+fmt(e.totalMid)+'</td>';
+      mh+='</tr>';
+    });
+    if(allEstimates.length>1){
+      mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right">'+fmt(grandFees)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandLabor+grandParts+grandFees)+'</td></tr>';
+    }
+    mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;">Shop Supplies (~6% of labor)</td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
+    mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;">Tax ('+(firstEst.taxRate*100).toFixed(1)+'% on parts)</td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
+    mh+='<tr class="selected"><td colspan="4" style="text-align:right;font-weight:800;">Total</td><td style="text-align:right;font-weight:800;font-size:17px;">'+fmt(grandTotalMid)+'</td></tr>';
+    mh+='</tbody></table></div>';
+
+    mh+='<div style="margin-top:14px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:6px;font-size:11px;color:#64748b;line-height:1.5;">';
+    mh+='<strong>About these numbers:</strong> Pricing reflects '+(geoSrc==="metro"?"metro-area averages from labor rate surveys":"state-level averages")+' combined with industry-typical labor hours and parts ranges. Actual shop quotes vary based on vehicle condition, specific parts used, and shop pricing. Use this as a benchmark, not a guarantee. Numbers exclude diagnostic fees (often $50-150, waived if work is performed).';
+    mh+='</div></div>';
   }
-  mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;">Shop Supplies (~6% of labor)</td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
-  mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;">Tax ('+(firstEst.taxRate*100).toFixed(1)+'% on parts)</td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
-  mh+='<tr class="selected"><td colspan="4" style="text-align:right;font-weight:800;">Total</td><td style="text-align:right;font-weight:800;font-size:17px;">'+fmt(grandTotalMid)+'</td></tr>';
-  mh+='</tbody></table></div>';
 
-  mh+='<div style="margin-top:14px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:6px;font-size:11px;color:#64748b;line-height:1.5;">';
-  mh+='<strong>About these numbers:</strong> Pricing reflects '+(geoSrc==="metro"?"metro-area averages from labor rate surveys":"state-level averages")+' combined with industry-typical labor hours and parts ranges. Actual shop quotes vary based on vehicle condition, specific parts used, and shop pricing. Use this as a benchmark, not a guarantee. Numbers exclude diagnostic fees (often $50-150, waived if work is performed).';
-  mh+='</div></div>';
-
-  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+matrixHtml;
+  // Scenario matrix only makes sense in full-repair mode (shop type matters)
+  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml);
   resultEl.scrollIntoView({behavior:"smooth"});
   attachCompareHandler();
 
