@@ -1142,7 +1142,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   // Populate years (current year + 1 down to 1995)
   var thisYear=new Date().getFullYear();
   var years=[];
-  for(var y=thisYear+1;y>=1995;y--) years.push(y);
+  for(var y=thisYear+1;y>=1970;y--) years.push(y);
   yearSel.innerHTML='<option value="">Year</option>'+years.map(function(y){return '<option value="'+y+'">'+y+'</option>';}).join("");
 
   function setOptions(sel,items,placeholder){
