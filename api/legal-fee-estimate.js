@@ -2,6 +2,7 @@ import { Redis } from "@upstash/redis";
 import fs from "fs";
 import path from "path";
 import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
+import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 
 const redis = Redis.fromEnv();
 
@@ -83,7 +84,7 @@ export default async function handler(req, res) {
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
     // cacheNamespace: bump the suffix when the prompt changes to invalidate stale cache
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v3" });
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v4-ocr" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -95,13 +96,35 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: "API key not configured" });
 
   try {
-    const { text, images } = req.body;
+    let { text, images } = req.body;
     if (!text && (!images || images.length === 0)) {
       return res.status(400).json({ error: "No text or images provided" });
     }
 
+    // OCR-FIRST PIPELINE: When the caller sends an image without OCR text
+    // (browser OCR failed, API consumer, test runner), run server-side OCR
+    // via OCR.space and use the extracted text. If the text looks good,
+    // DROP the image from the Claude call entirely (text-only is ~10x cheaper).
+    let ocrSource = null;
+    if ((!text || text.length < 100) && images && images.length > 0) {
+      const firstImg = images[0];
+      const match = firstImg && firstImg.match(/^data:(image\/[^;]+);base64,(.+)$/);
+      if (match) {
+        const ocrResult = await runOcr(match[2], match[1]);
+        if (ocrResult && ocrResult.text) {
+          text = ocrResult.text;
+          ocrSource = ocrResult.source;
+          console.log(`[legal-fee] OCR extracted ${ocrResult.text.length} chars via ${ocrResult.source}`);
+        }
+      }
+    }
+
+    // Decide whether to send the image to Claude vision or text-only.
+    // If OCR text is good enough, drop the image (~90% cost savings on Claude).
+    const useTextOnly = text && ocrTextLooksGood(text);
+
     const content = [];
-    if (images && images.length > 0) {
+    if (!useTextOnly && images && images.length > 0) {
       for (const img of images.slice(0, 3)) {
         const match = img.match(/^data:(image\/[^;]+);base64,(.+)$/);
         if (match) {
@@ -258,7 +281,7 @@ Return ONLY the JSON object, no markdown, no explanation.`
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache(_guard.cacheNamespace || "legal-fee:v3", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache(_guard.cacheNamespace || "legal-fee:v4-ocr", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
