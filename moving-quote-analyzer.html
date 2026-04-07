@@ -71,6 +71,35 @@
 
     .mv-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
 
+    /* Refine-estimate accordion */
+    .mv-accordion { border:1px solid #e2e8f0; border-radius:10px; margin-top:8px; background:#fff; }
+    .mv-accordion summary { padding:12px 16px; cursor:pointer; font-size:14px; font-weight:600; color:#0369a1; list-style:none; display:flex; align-items:center; justify-content:space-between; }
+    .mv-accordion summary::-webkit-details-marker { display:none; }
+    .mv-accordion summary::after { content:"+"; font-size:20px; font-weight:700; color:#94a3b8; transition:transform 0.2s; }
+    .mv-accordion[open] summary::after { transform:rotate(45deg); }
+    .mv-accordion .mv-accordion-body { padding:14px 16px 16px; border-top:1px solid #f1f5f9; }
+    .mv-check-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+    @media (max-width:520px) { .mv-check-grid { grid-template-columns:1fr; } }
+    .mv-check { display:flex; align-items:flex-start; gap:8px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer; transition:all 0.15s; background:#f8fafc; font-size:13px; }
+    .mv-check:hover { border-color:#fcd34d; background:#fffbeb; }
+    .mv-check input[type="checkbox"] { margin-top:2px; cursor:pointer; flex-shrink:0; }
+    .mv-check span { color:#475569; line-height:1.4; }
+    .mv-check span small { display:block; color:#94a3b8; font-size:11px; margin-top:1px; }
+
+    .mv-trust-badge { display:flex; align-items:center; gap:10px; padding:14px 18px; background:linear-gradient(135deg,#dcfce7,#bbf7d0); border:2px solid #86efac; border-radius:12px; margin:16px 0; }
+    .mv-trust-badge .icon { font-size:24px; flex-shrink:0; }
+    .mv-trust-badge .copy { font-size:13px; color:#166534; line-height:1.4; }
+    .mv-trust-badge .copy strong { display:block; font-weight:800; font-size:14px; margin-bottom:2px; }
+
+    .mv-methodology { margin-top:14px; padding:12px 16px; background:#f8fafc; border-left:3px solid #0d9488; border-radius:6px; font-size:11px; color:#64748b; line-height:1.6; }
+    .mv-methodology summary { cursor:pointer; font-weight:700; color:#1e293b; font-size:12px; list-style:none; }
+    .mv-methodology summary::-webkit-details-marker { display:none; }
+    .mv-methodology summary::before { content:"+"; display:inline-block; width:14px; color:#94a3b8; }
+    .mv-methodology[open] summary::before { content:"\2212"; }
+    .mv-methodology > div { margin-top:8px; }
+
+    .mv-transit { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:#eff6ff; color:#1d4ed8; border-radius:8px; font-size:12px; font-weight:600; margin-top:8px; }
+
     /* Two-path buttons (matches auto-repair pattern) */
     .mv-paths { display:flex; gap:16px; margin-bottom:24px; }
     .mv-path-btn { flex:1; padding:22px 16px; border-radius:14px; text-align:center; cursor:pointer; transition:all .2s; font-family:inherit; background:#f8fafc; color:#475569; border:2px solid #e2e8f0; }
@@ -467,17 +496,57 @@
       return { label: "Off-peak", css: "offpeak", tip: "Great timing. Demand is lower so rates and availability are better." };
     }
 
-    function getExpectedRange(moveType, homeSize, cityMult, dist) {
+    // Compute a cost-modifier multiplier from optional extras (stairs, packing,
+    // long carry, heavy items, etc.). Industry-standard line-item adjustments.
+    function getExtrasMult(extras) {
+      if (!extras) return 1.0;
+      var m = 1.0;
+      // Stairs at origin or destination (per flight, ~$50-75 each, modeled as %)
+      if (extras.stairsOrigin) m *= 1.04;
+      if (extras.stairsDest) m *= 1.04;
+      // No elevator in a high-rise = walk-up
+      if (extras.walkup) m *= 1.06;
+      // Long carry (more than ~75 ft from truck)
+      if (extras.longCarry) m *= 1.05;
+      // Packing services
+      if (extras.packing === "full") m *= 1.30;
+      else if (extras.packing === "partial") m *= 1.12;
+      // Heavy/awkward items add a flat ~$75-150 per item; modeled as % on top
+      if (extras.heavyItems && extras.heavyItems.length) {
+        var perItem = 0.025;  // ~2.5% per heavy item, capped at 6 items
+        var n = Math.min(extras.heavyItems.length, 6);
+        m *= (1 + perItem * n);
+      }
+      // Disassembly/reassembly help
+      if (extras.disassembly) m *= 1.04;
+      // Storage in transit
+      if (extras.storage) m *= 1.10;
+      return m;
+    }
+
+    function getExpectedRange(moveType, homeSize, cityMult, dist, extras) {
       var table = moveType === "longDistance" ? MOVING_PRICING.longDistanceByHomeSize : MOVING_PRICING.localByHomeSize;
       var base = table[homeSize] || table["2br"];
       var distTier = moveType === "longDistance" ? (MOVING_PRICING.distanceTierMultiplier[getDistanceTier(dist)] || 1.0) : 1.0;
       var seasonal = getSeasonalMult();
       var m = cityMult || 1.0;
+      var ex = getExtrasMult(extras);
       return {
-        low: Math.round(base.low * m * distTier * seasonal),
-        mid: Math.round(base.mid * m * distTier * seasonal),
-        high: Math.round(base.high * m * distTier * seasonal)
+        low: Math.round(base.low * m * distTier * seasonal * ex),
+        mid: Math.round(base.mid * m * distTier * seasonal * ex),
+        high: Math.round(base.high * m * distTier * seasonal * ex)
       };
+    }
+
+    // Estimate transit time in business days for long-distance moves.
+    // Industry-typical full-service: ~500 mi/day with a min/max spread.
+    function getTransitDays(moveType, dist) {
+      if (moveType !== "longDistance" || !dist) return null;
+      if (dist < 250) return { low: 1, high: 2 };
+      if (dist < 600) return { low: 2, high: 4 };
+      if (dist < 1200) return { low: 3, high: 7 };
+      if (dist < 2000) return { low: 5, high: 10 };
+      return { low: 7, high: 14 };
     }
 
     // Weighted city multiplier for interstate: 60% origin, 40% dest
@@ -504,6 +573,30 @@
       return { label: "Market rate", css: "fair" };
     }
 
+    // Detect binding vs non-binding language in extracted quote text.
+    // Federal regs (49 CFR 375.401) require movers to clearly state which.
+    function detectBindingType(text) {
+      if (!text) return null;
+      var t = text.toLowerCase();
+      var hasNonBinding = /non[-\s]?binding|non binding estimate|estimate is not binding/i.test(t);
+      var hasGuaranteed = /guaranteed (not[-\s]to[-\s]exceed|price)|guaranteed price|not[-\s]to[-\s]exceed/i.test(t);
+      var hasBinding = !hasNonBinding && /binding (estimate|quote|price)/i.test(t);
+      if (hasGuaranteed) return { type: "guaranteed", label: "Guaranteed Not-to-Exceed", css: "fair", explanation: "The mover commits to a maximum price. You pay this or less, never more. This is the strongest protection a mover can offer." };
+      if (hasBinding) return { type: "binding", label: "Binding Estimate", css: "fair", explanation: "The mover commits to the price for the services and weight described. They cannot legally charge more for those services even if the move takes longer than expected." };
+      if (hasNonBinding) return { type: "non-binding", label: "Non-Binding Estimate", css: "high", explanation: "The mover can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate." };
+      return null;
+    }
+
+    // Extract a possible USDOT number and mover/company name from quote text
+    function extractMoverInfo(text) {
+      if (!text) return { dotNumber: null, name: null };
+      var dotMatch = text.match(/\b(?:U\.?S\.?\s*)?DOT\s*(?:#|number|no\.?)?\s*[:\-]?\s*(\d{5,8})\b/i);
+      var dotNumber = dotMatch ? dotMatch[1] : null;
+      // Look for "Moving" or "Movers" or "Van Lines" or "Relocations" company names — common patterns
+      var nameMatch = text.match(/([A-Z][A-Za-z'&.\-]+(?:\s+[A-Z][A-Za-z'&.\-]+){0,4}\s+(?:Moving|Movers|Van Lines|Relocations?|Transfer|Storage)(?:\s+(?:Inc|LLC|Co|Company|Group))?)/);
+      return { dotNumber: dotNumber, name: nameMatch ? nameMatch[1].trim() : null };
+    }
+
     var homeSizeLabels = {
       studio: "Studio", "1br": "1 Bedroom", "2br": "2 Bedroom", "3br": "3 Bedroom",
       "4br": "4 Bedroom", "5br+": "5+ Bedroom"
@@ -519,16 +612,17 @@
     }
 
     // ── Comparison Methods ──
-    function getComparisonEstimates(moveType, homeSize, cityMult, dist) {
+    function getComparisonEstimates(moveType, homeSize, cityMult, dist, extras) {
       var seasonal = getSeasonalMult();
       var m = cityMult || 1.0;
       var distTier = moveType === "longDistance" ? (MOVING_PRICING.distanceTierMultiplier[getDistanceTier(dist)] || 1.0) : 1.0;
+      var ex = getExtrasMult(extras);
       var miles = dist || 30;
 
-      // 1. Full-service movers
+      // 1. Full-service movers (gets the full extras mult — they handle everything)
       var fsTable = moveType === "longDistance" ? MOVING_PRICING.longDistanceByHomeSize : MOVING_PRICING.localByHomeSize;
       var fsBase = fsTable[homeSize] || fsTable["2br"];
-      var fullService = { low: Math.round(fsBase.low * m * distTier * seasonal), high: Math.round(fsBase.high * m * distTier * seasonal) };
+      var fullService = { low: Math.round(fsBase.low * m * distTier * seasonal * ex), high: Math.round(fsBase.high * m * distTier * seasonal * ex) };
 
       // 2. Portable container (PODS, U-Pack)
       var containerBase = MOVING_PRICING.container.local[homeSize] || 400;
@@ -697,7 +791,42 @@
                   <input type="date" id="estMoveDate" />\
                 </div>\
               </div>\
-              <button class="mv-btn mv-btn-primary mv-btn-full" id="btnGetEstimate">Get my estimate</button>\
+              <details class="mv-accordion">\
+                <summary>Refine your estimate (optional)</summary>\
+                <div class="mv-accordion-body">\
+                  <div style="font-size:12px;color:#64748b;margin-bottom:6px;">Skip these for a fast ballpark, or fill them in for a tighter range.</div>\
+                  <div style="font-weight:600;font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:0.04em;margin:10px 0 4px;">Building access</div>\
+                  <div class="mv-check-grid">\
+                    <label class="mv-check"><input type="checkbox" id="extStairsOrigin" /><span>Stairs at origin<small>+4% per flight</small></span></label>\
+                    <label class="mv-check"><input type="checkbox" id="extStairsDest" /><span>Stairs at destination<small>+4% per flight</small></span></label>\
+                    <label class="mv-check"><input type="checkbox" id="extWalkup" /><span>Walk-up apartment (no elevator)<small>+6%</small></span></label>\
+                    <label class="mv-check"><input type="checkbox" id="extLongCarry" /><span>Long carry from truck (75+ ft)<small>+5%</small></span></label>\
+                  </div>\
+                  <div style="font-weight:600;font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:0.04em;margin:14px 0 4px;">Packing services</div>\
+                  <select id="extPacking" style="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:inherit;">\
+                    <option value="none">I\'ll pack everything myself</option>\
+                    <option value="partial">Partial packing (kitchen, fragiles)</option>\
+                    <option value="full">Full packing service (everything)</option>\
+                  </select>\
+                  <div style="font-weight:600;font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:0.04em;margin:14px 0 4px;">Heavy or awkward items</div>\
+                  <div class="mv-check-grid">\
+                    <label class="mv-check"><input type="checkbox" name="heavyItem" value="piano" /><span>Piano (upright or grand)</span></label>\
+                    <label class="mv-check"><input type="checkbox" name="heavyItem" value="safe" /><span>Gun safe / heavy safe</span></label>\
+                    <label class="mv-check"><input type="checkbox" name="heavyItem" value="hotTub" /><span>Hot tub</span></label>\
+                    <label class="mv-check"><input type="checkbox" name="heavyItem" value="poolTable" /><span>Pool table</span></label>\
+                    <label class="mv-check"><input type="checkbox" name="heavyItem" value="treadmill" /><span>Treadmill / heavy gym equipment</span></label>\
+                    <label class="mv-check"><input type="checkbox" name="heavyItem" value="appliance" /><span>Major appliance (fridge, washer)</span></label>\
+                    <label class="mv-check"><input type="checkbox" name="heavyItem" value="motorcycle" /><span>Motorcycle / ATV</span></label>\
+                    <label class="mv-check"><input type="checkbox" name="heavyItem" value="antique" /><span>Antique / fine art</span></label>\
+                  </div>\
+                  <div style="font-weight:600;font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:0.04em;margin:14px 0 4px;">Other</div>\
+                  <div class="mv-check-grid">\
+                    <label class="mv-check"><input type="checkbox" id="extDisassembly" /><span>Disassembly / reassembly help<small>+4%</small></span></label>\
+                    <label class="mv-check"><input type="checkbox" id="extStorage" /><span>Storage in transit<small>+10%</small></span></label>\
+                  </div>\
+                </div>\
+              </details>\
+              <button class="mv-btn mv-btn-primary mv-btn-full" id="btnGetEstimate" style="margin-top:14px;">Get my estimate</button>\
             </div>\
           </div>\
         </div>\
@@ -801,6 +930,23 @@
           state.homeSize = document.getElementById("estHomeSize").value || "2br";
           var moveDate = document.getElementById("estMoveDate").value || null;
 
+          // Collect optional refinements from the accordion
+          var heavyItems = Array.prototype.map.call(
+            document.querySelectorAll('input[name="heavyItem"]:checked'),
+            function(el){ return el.value; }
+          );
+          var extras = {
+            stairsOrigin: document.getElementById("extStairsOrigin").checked,
+            stairsDest: document.getElementById("extStairsDest").checked,
+            walkup: document.getElementById("extWalkup").checked,
+            longCarry: document.getElementById("extLongCarry").checked,
+            packing: document.getElementById("extPacking").value || "none",
+            heavyItems: heavyItems,
+            disassembly: document.getElementById("extDisassembly").checked,
+            storage: document.getElementById("extStorage").checked
+          };
+          state.extras = extras;
+
           if (!state.fromCity || !state.fromState) { alert("Enter your origin city and state."); return; }
           if (!state.toCity || !state.toState) { alert("Enter your destination city and state."); return; }
           if (!STATE_NAMES[state.fromState]) { alert("Invalid origin state code."); return; }
@@ -826,7 +972,8 @@
           if (distance && distance > 100) state.moveType = "longDistance";
 
           var cityMult = getWeightedMult();
-          var expected = getExpectedRange(state.moveType, state.homeSize, cityMult, distance);
+          var expected = getExpectedRange(state.moveType, state.homeSize, cityMult, distance, extras);
+          var transitDays = getTransitDays(state.moveType, distance);
 
           setProgress(90, "Building comparison...");
           state.result = {
@@ -852,9 +999,11 @@
             rateFlag: null,
             scopeSignals: {},
             redFlags: [],
-            comparison: getComparisonEstimates(state.moveType, state.homeSize, cityMult, distance),
+            comparison: getComparisonEstimates(state.moveType, state.homeSize, cityMult, distance, extras),
             parsed: null,
-            isEstimateOnly: true
+            isEstimateOnly: true,
+            extras: extras,
+            transitDays: transitDays
           };
           if (state.result.isInterstate) {
             state.result.redFlags.push("Interstate move: any mover you hire must have a valid USDOT number — verify at safer.fmcsa.dot.gov");
@@ -994,7 +1143,8 @@
           scopeSignals: {},
           redFlags: [],
           comparison: getComparisonEstimates(state.moveType, state.homeSize, cityMult, state.distance),
-          parsed: null
+          parsed: null,
+          transitDays: getTransitDays(state.moveType, state.distance)
         };
 
         // Auto red flags for manual
@@ -1221,7 +1371,10 @@
         rateFlag: api.hourlyRate ? rateFlag(api.hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[api.crewSize || 2]) : null,
         scopeSignals: api.scopeSignals || {}, redFlags: redFlags,
         comparison: getComparisonEstimates(moveType, homeSize, cityMult, distance),
-        parsed: api
+        parsed: api,
+        transitDays: getTransitDays(moveType, distance),
+        bindingType: detectBindingType(state.extractedText || ""),
+        moverInfo: extractMoverInfo(state.extractedText || "")
       };
     }
 
@@ -1356,7 +1509,10 @@
         rateFlag: hourlyRate ? rateFlag(hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[crewSize || 2]) : null,
         scopeSignals: scopeSignals, redFlags: redFlags,
         comparison: getComparisonEstimates(moveType, homeSize, cityMult, distance),
-        parsed: null
+        parsed: null,
+        transitDays: getTransitDays(moveType, distance),
+        bindingType: detectBindingType(text || ""),
+        moverInfo: extractMoverInfo(text || "")
       };
     }
 
@@ -1639,6 +1795,74 @@
         redFlagsHtml += '</ul></div>';
       }
 
+      // ── Transit time pill (long distance only) ──
+      var transitHtml = '';
+      if (r.transitDays) {
+        transitHtml = '<div style="text-align:center;margin-bottom:12px;"><span class="mv-transit">&#128666; Expected transit time: ' + r.transitDays.low + '&ndash;' + r.transitDays.high + ' business days</span></div>';
+      }
+
+      // ── Refinements summary (estimate path with optional extras) ──
+      var refinementsHtml = '';
+      if (r.extras) {
+        var bits = [];
+        if (r.extras.stairsOrigin) bits.push("stairs at origin");
+        if (r.extras.stairsDest) bits.push("stairs at destination");
+        if (r.extras.walkup) bits.push("walk-up apartment");
+        if (r.extras.longCarry) bits.push("long carry from truck");
+        if (r.extras.packing === "full") bits.push("full packing service");
+        else if (r.extras.packing === "partial") bits.push("partial packing");
+        if (r.extras.disassembly) bits.push("disassembly help");
+        if (r.extras.storage) bits.push("storage in transit");
+        if (r.extras.heavyItems && r.extras.heavyItems.length) {
+          bits.push(r.extras.heavyItems.length + " heavy/awkward item" + (r.extras.heavyItems.length > 1 ? "s" : ""));
+        }
+        if (bits.length) {
+          refinementsHtml = '<div class="mv-card" style="background:#f0f9ff;border:1px solid #bae6fd;"><div style="font-size:12px;color:#0369a1;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;">Estimate refined for</div><div style="font-size:13px;color:#0c4a6e;">' + bits.join(", ") + '</div></div>';
+        }
+      }
+
+      // ── Trust badge (no email, no phone, no lead-sale) ──
+      var trustBadgeHtml = '<div class="mv-trust-badge"><div class="icon">&#128274;</div><div class="copy"><strong>No email. No phone number. No lead-selling.</strong>We don\'t sell your data to movers and we never will. <a href="/about.html#how-we-make-money" style="color:#166534;text-decoration:underline;">How TruePrice makes money</a></div></div>';
+
+      // ── Binding type badge ──
+      var bindingHtml = '';
+      if (r.bindingType) {
+        var bgColor = r.bindingType.css === "high" ? "#fef2f2" : "#f0fdf4";
+        var borderColor = r.bindingType.css === "high" ? "#fca5a5" : "#86efac";
+        var textColor = r.bindingType.css === "high" ? "#991b1b" : "#166534";
+        bindingHtml = '<div class="mv-card" style="background:' + bgColor + ';border:2px solid ' + borderColor + ';">';
+        bindingHtml += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">';
+        bindingHtml += '<div style="font-size:11px;font-weight:800;color:' + textColor + ';text-transform:uppercase;letter-spacing:0.06em;">Quote type detected</div>';
+        bindingHtml += '<div style="font-size:14px;font-weight:800;color:' + textColor + ';">' + r.bindingType.label + '</div>';
+        bindingHtml += '</div>';
+        bindingHtml += '<div style="font-size:13px;color:' + textColor + ';line-height:1.5;">' + r.bindingType.explanation + '</div>';
+        bindingHtml += '</div>';
+      }
+
+      // ── USDOT lookup card (placeholder, populated async after render) ──
+      var usdotHtml = '';
+      if (r.moverInfo && (r.moverInfo.dotNumber || r.moverInfo.name)) {
+        usdotHtml = '<div class="mv-card" id="usdotCard"><h3 style="margin:0 0 6px;">FMCSA License Check</h3>';
+        usdotHtml += '<div style="font-size:13px;color:#64748b;margin-bottom:10px;">';
+        if (r.moverInfo.name) usdotHtml += 'Detected mover: <strong style="color:#1e293b;">' + r.moverInfo.name + '</strong>. ';
+        if (r.moverInfo.dotNumber) usdotHtml += 'USDOT #: <strong style="color:#1e293b;">' + r.moverInfo.dotNumber + '</strong>. ';
+        usdotHtml += 'Looking up the federal carrier record...</div>';
+        usdotHtml += '<div id="usdotResult" style="font-size:13px;color:#94a3b8;">Checking FMCSA SAFER...</div>';
+        usdotHtml += '</div>';
+      }
+
+      // ── Methodology block ──
+      var methodologyHtml = '<details class="mv-methodology"><summary>How we calculated this estimate</summary><div>';
+      methodologyHtml += '<p style="margin:0 0 6px;"><strong>Base rates:</strong> Industry-typical full-service mover ranges by home size, sourced from published surveys (HireAHelper, MoveBuddha, AMSA tariffs) and our own user-submitted quotes.</p>';
+      methodologyHtml += '<p style="margin:0 0 6px;"><strong>City multiplier:</strong> Local cost-of-living adjustment from BLS metro labor data and our calibration store.</p>';
+      methodologyHtml += '<p style="margin:0 0 6px;"><strong>Distance and seasonality:</strong> Distance-tier multiplier for long-distance moves plus a peak-season factor (summer + month-ends typically run 15-25% higher).</p>';
+      if (r.extras) {
+        methodologyHtml += '<p style="margin:0 0 6px;"><strong>Refinements:</strong> Stairs +4% per flight, walk-up +6%, long carry +5%, partial packing +12%, full packing +30%, disassembly +4%, storage +10%, plus ~2.5% per heavy/awkward item up to 6 items.</p>';
+      }
+      methodologyHtml += '<p style="margin:0 0 6px;"><strong>Crowdsourced calibration:</strong> When real users in your metro submit shop quotes through TruePrice (and we have at least 3 quotes for the same route), we display the real average alongside our estimate.</p>';
+      methodologyHtml += '<p style="margin:0;"><strong>What this is NOT:</strong> A binding quote, an insurance appraisal, or a substitute for a licensed mover\'s in-home estimate. It\'s a benchmark to help you spot unusually high or low quotes. Always get at least 3 quotes from licensed movers (USDOT verified at <a href="https://safer.fmcsa.dot.gov" target="_blank" rel="noopener" style="color:#0d9488;">safer.fmcsa.dot.gov</a>) before committing.</p>';
+      methodologyHtml += '</div></details>';
+
       // ── Comparison Matrix ──
       var comparisonHtml = '';
       if (r.comparison && r.comparison.length > 0) {
@@ -1760,12 +1984,17 @@
           <p style="font-size:0.9rem;color:#64748b;">Don\'t sign until Trudy checks it</p>\
         </div>\
         ' + routeHtml + '\
+        ' + transitHtml + '\
         <div class="mv-verdict ' + verdictCss + '">\
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-moving.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Moving Verdict</div></div>\
           <div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\
+        ' + trustBadgeHtml + '\
+        ' + bindingHtml + '\
+        ' + usdotHtml + '\
+        ' + refinementsHtml + '\
         <div class="mv-card">\
           <h3 style="margin-bottom:0.75rem;">Move Details</h3>\
           ' + detailsHtml + '\
@@ -1778,6 +2007,7 @@
         ' + contextHtml + '\
         ' + tipsHtml + '\
         ' + savingsHtml + '\
+        ' + methodologyHtml + '\
         <div class="mv-actions">\
           <a class="mv-btn mv-btn-secondary mv-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
           <button class="mv-btn mv-btn-secondary mv-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
@@ -1795,6 +2025,47 @@
         };
         render();
       });
+
+      // Async USDOT lookup — runs after the result page is rendered
+      if (r.moverInfo && (r.moverInfo.dotNumber || r.moverInfo.name)) {
+        var usdotResultEl = document.getElementById("usdotResult");
+        if (usdotResultEl) {
+          var payload = r.moverInfo.dotNumber ? { dotNumber: r.moverInfo.dotNumber } : { name: r.moverInfo.name };
+          fetch("/api/usdot-lookup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          })
+          .then(function(resp) { return resp.json(); })
+          .then(function(d) {
+            if (!d || !d.ok) {
+              usdotResultEl.innerHTML = '<span style="color:#94a3b8;">Could not reach FMCSA SAFER. Verify manually at <a href="https://safer.fmcsa.dot.gov" target="_blank" rel="noopener" style="color:#0d9488;">safer.fmcsa.dot.gov</a>.</span>';
+              return;
+            }
+            if (!d.found) {
+              usdotResultEl.innerHTML = '<div style="padding:10px 12px;background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;color:#991b1b;"><strong>&#9888;&#65039; No matching carrier found in the FMCSA database.</strong> This is a serious red flag for an interstate move. Verify manually at <a href="https://safer.fmcsa.dot.gov" target="_blank" rel="noopener" style="color:#dc2626;text-decoration:underline;">safer.fmcsa.dot.gov</a> before paying anything.</div>';
+              return;
+            }
+            var statusColor = d.allowed ? "#16a34a" : "#dc2626";
+            var statusBg = d.allowed ? "#f0fdf4" : "#fef2f2";
+            var statusBorder = d.allowed ? "#86efac" : "#fca5a5";
+            var html = '<div style="padding:12px 14px;background:' + statusBg + ';border:1px solid ' + statusBorder + ';border-radius:8px;">';
+            html += '<div style="font-weight:700;color:' + statusColor + ';margin-bottom:6px;">' + (d.allowed ? "&#10003; Carrier verified" : "&#9888;&#65039; Carrier found, but check status") + '</div>';
+            if (d.legalName) html += '<div><strong>Legal name:</strong> ' + d.legalName + '</div>';
+            if (d.dbaName) html += '<div><strong>DBA:</strong> ' + d.dbaName + '</div>';
+            if (d.dotNumber) html += '<div><strong>USDOT #:</strong> ' + d.dotNumber + '</div>';
+            if (d.mcMxNumber) html += '<div><strong>MC #:</strong> ' + d.mcMxNumber + '</div>';
+            if (d.status) html += '<div><strong>Status:</strong> ' + d.status + '</div>';
+            if (d.outOfService) html += '<div style="color:#dc2626;"><strong>Out of service:</strong> ' + d.outOfService + '</div>';
+            if (d.address) html += '<div><strong>Address:</strong> ' + d.address + '</div>';
+            html += '</div>';
+            usdotResultEl.innerHTML = html;
+          })
+          .catch(function() {
+            usdotResultEl.innerHTML = '<span style="color:#94a3b8;">Could not reach FMCSA SAFER right now. Verify manually at <a href="https://safer.fmcsa.dot.gov" target="_blank" rel="noopener" style="color:#0d9488;">safer.fmcsa.dot.gov</a>.</span>';
+          });
+        }
+      }
     }
 
     // ── Init ──
