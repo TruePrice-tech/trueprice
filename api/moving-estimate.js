@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis";
+import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
 
 const redis = Redis.fromEnv();
 
@@ -76,6 +77,19 @@ export default async function handler(req, res) {
   if (!(await checkRateLimit(clientIp))) {
     return res.status(429).json({ error: "Rate limit exceeded. Maximum 10 requests per hour. Please try again later." });
   }
+
+    // Abuse guard: burst detect, IP daily cap, suspicious patterns,
+    // image dedup, global Claude ceiling. Returns cached result if hit.
+    const _imageBuf = (req.body && req.body.images && req.body.images[0])
+      ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
+      : null;
+    const _guard = await runAbuseGuard(req, { vertical: "moving", imageBytes: _imageBuf });
+    if (!_guard.ok) {
+      return res.status(_guard.status).json({ error: _guard.error });
+    }
+    if (_guard.cachedResult) {
+      return res.status(200).json(_guard.cachedResult);
+    }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
@@ -226,6 +240,14 @@ OTHER RULES:
     try {
       const jsonMatch = aiText.match(/\{[\s\S]*\}/);
       parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(aiText);
+
+    // Record successful Claude call against the global ceiling
+    // and cache the parsed result by image hash for 24h dedup.
+    await recordClaudeCall();
+    if (_guard.imageHash) {
+      await storeImageCache("moving", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+    }
+
     } catch (e) {
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });

@@ -174,6 +174,21 @@ export default async function handler(req, res) {
         // Forward to hello@truepricehq.com via Resend if there's actual content
         let emailStatus = "skipped_empty";
         if (comment.length > 0) {
+          // Daily email throttle: cap forwarded emails at 200/day to prevent
+          // a feedback flood from blowing the Resend free tier or your inbox.
+          // Stored in Redis as long as comment exists; the comment itself
+          // still gets persisted to tp:feedback for the dashboard.
+          const dayKey = `tp:feedback_emails:${new Date().toISOString().substring(0, 10)}`;
+          let emailCount = 0;
+          try {
+            emailCount = await redis.incr(dayKey);
+            if (emailCount === 1) await redis.expire(dayKey, 26 * 3600);
+          } catch (e) { /* fail open */ }
+          if (emailCount > 200) {
+            emailStatus = "throttled_daily_cap";
+            console.log(`[feedback] daily email cap hit (${emailCount}/200) — comment stored, email skipped`);
+            return res.status(200).json({ ok: true, emailStatus });
+          }
           const resendKey = process.env.RESEND_API_KEY;
           if (resendKey) {
             try {
