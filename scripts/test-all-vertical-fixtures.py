@@ -53,7 +53,10 @@ def post_image(endpoint, fpath):
         headers={
             "Content-Type": "application/json",
             "Origin": BASE,
-            "User-Agent": "TruePriceTest/1.0"
+            "User-Agent": "Mozilla/5.0 (TruePriceTest)",
+            # Test-mode header: tells endpoints to skip flywheel writes so
+            # synthetic fixtures don't pollute counter or pricing aggregates.
+            "X-TruePrice-Test": "1"
         }
     )
     t0 = time.time()

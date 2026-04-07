@@ -29,7 +29,9 @@ async function checkRateLimit(ip) {
 }
 
 // Store shop quote data for the flywheel
-async function storeShopQuote(shopData) {
+// `isTestMode` (passed by the caller) skips the flywheel write entirely
+// so synthetic test fixtures don't pollute counter or pricing aggregates.
+async function storeShopQuote(shopData, isTestMode = false) {
   if (!shopData || !shopData.shopName || !shopData.state) return;
   try {
     const slug = shopData.shopName.toLowerCase().replace(/[^a-z0-9]/g, "_").substring(0, 50);
@@ -82,8 +84,9 @@ async function storeShopQuote(shopData) {
     // Bridge to the unified calibration flywheel so auto-repair quotes feed
     // the same store as every other vertical. We write directly here rather
     // than HTTP-bouncing to /api/calibration to avoid an extra hop.
+    // SKIPPED in test mode (synthetic fixtures must not affect counter or pricing).
     try {
-      if (shopData.repair && shopData.price > 0) {
+      if (shopData.repair && shopData.price > 0 && !isTestMode) {
         const cityLc = (shopData.city || "").toLowerCase();
         const st = shopData.state.toUpperCase();
         const repairKey = shopData.repair.toLowerCase().replace(/[^a-z0-9_]/g, "_");
@@ -211,7 +214,8 @@ export default async function handler(req, res) {
       if (!shopName || !state || !repair || !price) {
         return res.status(400).json({ error: "Missing required fields" });
       }
-      const stored = await storeShopQuote({ shopName, city, state, repair, price: Number(price), laborHours: Number(laborHours) || null, laborRate: Number(laborRate) || null, partsType });
+      const isTestMode = req.headers["x-trueprice-test"] === "1";
+      const stored = await storeShopQuote({ shopName, city, state, repair, price: Number(price), laborHours: Number(laborHours) || null, laborRate: Number(laborRate) || null, partsType }, isTestMode);
       return res.status(200).json({ ok: stored });
     }
 

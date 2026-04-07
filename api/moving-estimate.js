@@ -253,14 +253,22 @@ OTHER RULES:
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
     }
 
-    captureAnonymizedData("moving", parsed); // fire and forget — older tp:pricing_data list
+    if (req.headers["x-trueprice-test"] !== "1") captureAnonymizedData("moving", parsed); // fire and forget — older tp:pricing_data list
+    // Test-mode skip: synthetic test fixtures (X-TruePrice-Test: 1)
+    // do NOT count toward the public counter or feed pricing aggregates.
+    // Only real-world quotes from real users should affect either.
+    const _isTestMode = req.headers["x-trueprice-test"] === "1";
+    if (_isTestMode) {
+      console.log("[test-mode] skipping flywheel writes for this request");
+    }
+
 
     // Bridge to the unified calibration flywheel + global quote counter so
     // moving quote uploads light up the same systems as every other vertical.
     // Same pattern used by api/vehicle-estimate.js storeShopQuote.
     try {
       const totalPrice = Number(parsed && parsed.totalPrice) || 0;
-      if (totalPrice > 0) {
+      if (totalPrice > 0 && !_isTestMode) {
         await redis.incr("tp:total_quotes").catch(() => {});
 
         const cityLc = String((parsed && parsed.pickupCity) || "").toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");

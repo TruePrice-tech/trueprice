@@ -331,7 +331,15 @@ CRITICAL ANALYSIS RULES:
     // Strip any PII before returning or storing
     delete parsed.patientName;
 
-    captureAnonymizedData("medical", parsed); // fire and forget
+    if (req.headers["x-trueprice-test"] !== "1") captureAnonymizedData("medical", parsed); // fire and forget
+    // Test-mode skip: synthetic test fixtures (X-TruePrice-Test: 1)
+    // do NOT count toward the public counter or feed pricing aggregates.
+    // Only real-world quotes from real users should affect either.
+    const _isTestMode = req.headers["x-trueprice-test"] === "1";
+    if (_isTestMode) {
+      console.log("[test-mode] skipping flywheel writes for this request");
+    }
+
 
 
     // FLYWHEEL BRIDGE: increment global counter + write to cal:* aggregates
@@ -344,7 +352,7 @@ CRITICAL ANALYSIS RULES:
         (parsed && parsed.totalBilled) ||
         (parsed && parsed.patientResponsibility)
       ) || 0;
-      if (totalPrice > 0) {
+      if (totalPrice > 0 && !_isTestMode) {
         await redis.incr("tp:total_quotes").catch(() => {});
         const cityLc = String((parsed && (parsed.city || parsed.cityName || parsed.facilityCity)) || "")
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
