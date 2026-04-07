@@ -72,7 +72,10 @@ function parseSnapshot(html) {
   out.dotNumber = grab("USDOT Number:");
   // SAFER labels these as "USDOT Status:" and "Operating Authority Status:" — both useful
   out.status = grab("USDOT Status:");
-  out.authorityStatus = grab("Operating Authority Status:");
+  let auth = grab("Operating Authority Status:");
+  // SAFER appends "For Licensing and Insurance details click here." — strip it
+  if (auth) auth = auth.replace(/\s*For Licensing and Insurance.*$/i, "").trim();
+  out.authorityStatus = auth;
   out.outOfService = grab("Out of Service Date:");
   out.entityType = grab("Entity Type:");
   out.mcMxNumber = grab("MC/MX/FF Number") || grab("MC/MX/FF Number(s):");
