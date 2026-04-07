@@ -758,9 +758,14 @@ function buildClientEstimate(repairKey,year,make,model,zip,state,shopType,partsP
     var genuineMarkup=(vehicleCat==="luxury"||vehicleCat==="performance")?1.6:1.4;
     prefMult=vehicleMult*genuineMarkup;
   }
-  var partsMid=Math.round(((partsDefault[0]+partsDefault[1])/2)*prefMult*geoMult);
-  var partsLow=Math.round(partsDefault[0]*prefMult*geoMult);
-  var partsHigh=Math.round(partsDefault[1]*prefMult*geoMult);
+  // Parts pricing is mostly national (warehouse-distributed commodities). Only ~25%
+  // of any geo delta passes through to parts, capturing shop-markup variation and
+  // local fees but NOT the full mechanic-wage delta. SF parts cost ~5-10% more than
+  // rural GA, not 30-45% more.
+  var partsGeoMult=1.0+(geoMult-1.0)*0.25;
+  var partsMid=Math.round(((partsDefault[0]+partsDefault[1])/2)*prefMult*partsGeoMult);
+  var partsLow=Math.round(partsDefault[0]*prefMult*partsGeoMult);
+  var partsHigh=Math.round(partsDefault[1]*prefMult*partsGeoMult);
 
   var shopSupplies=Math.round(laborMid*0.06);
   // Repair-specific fees (refrigerant, hazmat, disposal) — RepairPal excludes these; we include them
@@ -1241,14 +1246,35 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
     mh+='<tr class="selected"><td colspan="4" style="text-align:right;font-weight:800;">Total</td><td style="text-align:right;font-weight:800;font-size:17px;">'+fmt(grandTotalMid)+'</td></tr>';
     mh+='</tbody></table></div>';
 
-    mh+='<div style="margin-top:14px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:6px;font-size:11px;color:#64748b;line-height:1.5;">';
+    // Full transparent methodology block — every input source named so users can verify
     var sourceText="";
     if(geoSrc==="bls_metro") sourceText="BLS OEWS May 2024 mechanic wages for "+(blsMsa||"your metro")+", multiplied by industry-standard shop overhead (3.0x independent / 3.5x chain / 4.5x dealer)";
     else if(geoSrc==="bls_state") sourceText="BLS OEWS May 2024 state median mechanic wages (no city-specific data for your area), multiplied by industry-standard shop overhead";
     else if(geoSrc==="bls_national") sourceText="BLS OEWS May 2024 national median mechanic wages, multiplied by industry-standard shop overhead";
     else sourceText="state-level averages combined with industry-typical labor rates";
-    mh+='<strong>About these numbers:</strong> Labor pricing derived from '+sourceText+'. Parts ranges from industry-typical pricing (live retailer data coming soon). Actual shop quotes vary based on vehicle condition, specific parts used, and shop pricing. Use this as a benchmark, not a guarantee. Numbers exclude diagnostic fees (often $50-150, waived if work is performed).';
-    mh+='</div></div>';
+
+    mh+='<details style="margin-top:14px;padding:14px 18px;background:#f8fafc;border-left:3px solid #1d4ed8;border-radius:6px;font-size:12px;color:#475569;line-height:1.6;">';
+    mh+='<summary style="cursor:pointer;font-weight:700;color:#1e293b;font-size:13px;">How we calculate this estimate &mdash; click for details</summary>';
+    mh+='<div style="margin-top:10px;">';
+
+    mh+='<div style="margin-bottom:10px;"><strong>Labor rate.</strong> Derived from '+sourceText+'. The mechanic wage is the input, and the shop overhead multiplier covers rent, insurance, tools, profit, and warranty work. This is real federal data, not our guess.</div>';
+
+    mh+='<div style="margin-bottom:10px;"><strong>Labor hours.</strong> Industry-typical ranges from our seed table for each repair category. A simple repair like an oil change uses 0.3-0.5 hours, a complex job like a head gasket uses 10-20 hours. Modified, lifted, rusted, or non-stock vehicles may take significantly longer than our defaults.</div>';
+
+    mh+='<div style="margin-bottom:10px;"><strong>Parts pricing.</strong> Industry-typical retail ranges by parts tier (Aftermarket / OEM / Genuine / Remanufactured). Auto parts are mostly nationally-distributed commodities, so a brake caliper costs roughly the same in San Francisco as in rural Georgia &mdash; we only apply about 25% of the local geo factor to parts (capturing shop-markup variance and local fees, not the full labor delta). Live retailer pricing from our parts data partners is coming in a future update.</div>';
+
+    mh+='<div style="margin-bottom:10px;"><strong>Shop supplies, tax, and fees.</strong> Shop supplies estimated at 6% of labor (industry standard). Sales tax computed from your state\'s rate ('+(firstEst.taxRate*100).toFixed(1)+'%). Hazmat / disposal / refrigerant fees added per repair category where applicable. Diagnostic fees ($50-150, often waived if you proceed with the work) are NOT included in the totals.</div>';
+
+    mh+='<div style="margin-bottom:10px;"><strong>What we DON\'T include.</strong> Diagnostic fees, towing, pre-existing damage discovered mid-repair, specialty tool fees, programming/coding charges (common on European cars and ADAS-equipped vehicles), or any premium for after-hours service.</div>';
+
+    mh+='<div style="margin-bottom:10px;"><strong>Crowdsourced calibration.</strong> When real users in your area submit shop quotes through TruePrice (and we have at least 3 quotes for the same repair in the same metro), we display the real average alongside our estimate as a sanity check. As more users contribute, the calibrated number gets more accurate.</div>';
+
+    mh+='<div style="margin-bottom:10px;"><strong>What this estimate is NOT.</strong> This is a benchmark to help you spot unusually high or low quotes &mdash; not a guaranteed price, not an insurance appraisal, and not a substitute for a licensed appraiser\'s estimate in claims, warranty disputes, or legal matters. Always get at least three quotes from licensed local shops before committing.</div>';
+
+    mh+='<div style="padding:10px 12px;background:#fef3c7;border:1px solid #fde68a;border-radius:6px;color:#92400e;font-size:11px;"><strong>&#9888;&#65039; DIY safety:</strong> Some repairs require specialized tools, EPA refrigerant certification, or carry serious safety risks if done incorrectly &mdash; especially brakes, fuel system, suspension, airbags, and anything load-bearing. Know your limits and get a professional for anything you\'re unsure about. The DIY savings number reflects parts cost only, not the value of your time, your tools, or your safety.</div>';
+
+    mh+='</div></details>';
+    mh+='</div>';
   }
 
   // Scenario matrix only makes sense in full-repair mode (shop type matters)
