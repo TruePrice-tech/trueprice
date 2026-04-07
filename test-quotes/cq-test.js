@@ -1,0 +1,822 @@
+  (function() {
+    var quotes = [null, null, null]; // parsed data per slot
+    var uploadCount = 0;
+
+    var SCOPE_BY_SERVICE = {
+      roofing: [
+        { key: "tearOff", label: "Tear-off" }, { key: "underlayment", label: "Underlayment" },
+        { key: "flashing", label: "Flashing" }, { key: "iceShield", label: "Ice & water shield" },
+        { key: "dripEdge", label: "Drip edge" }, { key: "ventilation", label: "Ventilation" },
+        { key: "ridgeVent", label: "Ridge vent" }, { key: "starterStrip", label: "Starter strip" },
+        { key: "ridgeCap", label: "Ridge cap" }, { key: "decking", label: "Decking repair" },
+        { key: "disposal", label: "Disposal/cleanup" }, { key: "permit", label: "Permit" }
+      ],
+      hvac: [
+        { key: "equipment", label: "Equipment" }, { key: "lineSet", label: "Line set" },
+        { key: "thermostat", label: "Thermostat" }, { key: "ductwork", label: "Ductwork" },
+        { key: "electrical", label: "Electrical" }, { key: "pad", label: "Pad" },
+        { key: "drainLine", label: "Drain line" }, { key: "filterRack", label: "Filter rack" },
+        { key: "permit", label: "Permit" }, { key: "disposal", label: "Disposal" },
+        { key: "warranty", label: "Warranty" }, { key: "loadCalc", label: "Load calc" }
+      ],
+      plumbing: [
+        { key: "materials", label: "Materials" }, { key: "labor", label: "Labor" },
+        { key: "permit", label: "Permit" }, { key: "inspection", label: "Inspection" },
+        { key: "cleanup", label: "Cleanup" }, { key: "warranty", label: "Warranty" }
+      ],
+      electrical: [
+        { key: "permits", label: "Permits" }, { key: "panel", label: "Panel" },
+        { key: "breakers", label: "Breakers" }, { key: "wiring", label: "Wiring" },
+        { key: "grounding", label: "Grounding" }, { key: "testing", label: "Testing" },
+        { key: "cleanup", label: "Cleanup" }, { key: "warranty", label: "Warranty" }
+      ],
+      solar: [
+        { key: "panels", label: "Panels" }, { key: "inverter", label: "Inverter" },
+        { key: "racking", label: "Racking" }, { key: "wiring", label: "Wiring" },
+        { key: "permits", label: "Permits" }, { key: "monitoring", label: "Monitoring" },
+        { key: "interconnection", label: "Utility interconnection" }, { key: "warranty", label: "Warranty" }
+      ],
+      general: [
+        { key: "materials", label: "Materials" }, { key: "labor", label: "Labor" },
+        { key: "permit", label: "Permit" }, { key: "cleanup", label: "Cleanup" },
+        { key: "disposal", label: "Disposal" }, { key: "warranty", label: "Warranty" }
+      ],
+      windows: [
+        { key: "windows", label: "Windows" }, { key: "frames", label: "Frames" },
+        { key: "glass", label: "Glass type" }, { key: "installation", label: "Installation" },
+        { key: "trim", label: "Interior/exterior trim" }, { key: "caulking", label: "Caulking/sealing" },
+        { key: "screens", label: "Screens" }, { key: "disposal", label: "Old window disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      painting: [
+        { key: "prep", label: "Surface prep" }, { key: "primer", label: "Primer" },
+        { key: "paint", label: "Paint (brand/type)" }, { key: "coats", label: "Number of coats" },
+        { key: "trim", label: "Trim/doors" }, { key: "caulking", label: "Caulking" },
+        { key: "powerWash", label: "Power washing" }, { key: "protection", label: "Drop cloths/masking" },
+        { key: "cleanup", label: "Cleanup" }, { key: "warranty", label: "Warranty" }
+      ],
+      siding: [
+        { key: "removal", label: "Old siding removal" }, { key: "material", label: "Siding material" },
+        { key: "insulation", label: "House wrap/insulation" }, { key: "trim", label: "Trim/fascia" },
+        { key: "corners", label: "Corners/J-channel" }, { key: "soffit", label: "Soffit" },
+        { key: "flashing", label: "Flashing" }, { key: "disposal", label: "Disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      concrete: [
+        { key: "excavation", label: "Excavation/grading" }, { key: "formwork", label: "Formwork" },
+        { key: "rebar", label: "Rebar/mesh" }, { key: "concrete", label: "Concrete (PSI/type)" },
+        { key: "finishing", label: "Finishing/stamping" }, { key: "curing", label: "Curing" },
+        { key: "sealing", label: "Sealing" }, { key: "disposal", label: "Disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      fencing: [
+        { key: "posts", label: "Posts" }, { key: "panels", label: "Panels/pickets" },
+        { key: "gates", label: "Gates" }, { key: "hardware", label: "Hardware" },
+        { key: "postHoles", label: "Post holes/concrete" }, { key: "removal", label: "Old fence removal" },
+        { key: "staining", label: "Staining/sealing" }, { key: "disposal", label: "Disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      landscaping: [
+        { key: "design", label: "Design plan" }, { key: "plants", label: "Plants/trees" },
+        { key: "mulch", label: "Mulch/rock" }, { key: "soil", label: "Soil/grading" },
+        { key: "irrigation", label: "Irrigation" }, { key: "lighting", label: "Landscape lighting" },
+        { key: "hardscape", label: "Hardscaping" }, { key: "sod", label: "Sod/seeding" },
+        { key: "cleanup", label: "Cleanup" }, { key: "warranty", label: "Warranty" }
+      ],
+      "garage-doors": [
+        { key: "door", label: "Door" }, { key: "springs", label: "Springs" },
+        { key: "opener", label: "Opener" }, { key: "tracks", label: "Tracks/hardware" },
+        { key: "weatherSeal", label: "Weather seal" }, { key: "insulation", label: "Insulation" },
+        { key: "removal", label: "Old door removal" }, { key: "disposal", label: "Disposal" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      foundation: [
+        { key: "excavation", label: "Excavation" }, { key: "piering", label: "Piering/piling" },
+        { key: "sealant", label: "Crack sealant" }, { key: "drainage", label: "Drainage" },
+        { key: "waterproofing", label: "Waterproofing" }, { key: "grading", label: "Regrading" },
+        { key: "permits", label: "Engineering/permits" }, { key: "backfill", label: "Backfill" },
+        { key: "warranty", label: "Warranty" }
+      ],
+      kitchen: [
+        { key: "cabinets", label: "Cabinets" }, { key: "countertops", label: "Countertops" },
+        { key: "flooring", label: "Flooring" }, { key: "backsplash", label: "Backsplash" },
+        { key: "plumbing", label: "Plumbing" }, { key: "electrical", label: "Electrical" },
+        { key: "appliances", label: "Appliances" }, { key: "demolition", label: "Demolition" },
+        { key: "permit", label: "Permit" }, { key: "warranty", label: "Warranty" }
+      ],
+      insulation: [
+        { key: "material", label: "Insulation material" }, { key: "rValue", label: "R-value" },
+        { key: "removal", label: "Old insulation removal" }, { key: "airSeal", label: "Air sealing" },
+        { key: "vaporBarrier", label: "Vapor barrier" }, { key: "ventilation", label: "Ventilation" },
+        { key: "cleanup", label: "Cleanup" }, { key: "disposal", label: "Disposal" },
+        { key: "warranty", label: "Warranty" }
+      ],
+      gutters: [
+        { key: "gutters", label: "Gutters" }, { key: "downspouts", label: "Downspouts" },
+        { key: "guards", label: "Gutter guards" }, { key: "hangers", label: "Hangers/brackets" },
+        { key: "removal", label: "Old gutter removal" }, { key: "fascia", label: "Fascia repair" },
+        { key: "disposal", label: "Disposal" }, { key: "warranty", label: "Warranty" }
+      ],
+      "auto-repair": [
+        { key: "partsItemized", label: "Parts itemized" }, { key: "laborRateStated", label: "Labor rate stated" },
+        { key: "laborHoursListed", label: "Labor hours listed" }, { key: "partsType", label: "Parts type specified" },
+        { key: "shopSupplies", label: "Shop supplies" }, { key: "taxIncluded", label: "Tax noted" },
+        { key: "partsWarranty", label: "Parts warranty" }, { key: "laborWarranty", label: "Labor warranty" },
+        { key: "diagnosticFee", label: "Diagnostic fee" }, { key: "fluidDisposal", label: "Fluid disposal" }
+      ]
+    };
+
+    var compareService = new URLSearchParams(window.location.search).get("service") || "roofing";
+    var SCOPE_ITEMS = SCOPE_BY_SERVICE[compareService] || SCOPE_BY_SERVICE.general;
+
+    var SERVICE_LABELS = {
+      roofing: "Roofing", hvac: "HVAC", plumbing: "Plumbing", electrical: "Electrical",
+      solar: "Solar", windows: "Window", painting: "Painting", siding: "Siding",
+      concrete: "Concrete", fencing: "Fencing", landscaping: "Landscaping",
+      "garage-doors": "Garage Door", foundation: "Foundation", kitchen: "Kitchen",
+      insulation: "Insulation", gutters: "Gutter", "auto-repair": "Auto Repair"
+    };
+
+    // Dynamic h1 text
+    var serviceLabel = SERVICE_LABELS[compareService] || "Contractor";
+    document.getElementById("compareH1").textContent = "Compare your " + serviceLabel.toLowerCase() + " quotes";
+
+    // Dynamic Trudy image based on service
+    var TRUDY_IMAGE_MAP = {
+      solar: "solar", insulation: "insulation", kitchen: "kitchen", electrical: "electrical",
+      fencing: "fencing", foundation: "foundation", windows: "windows", concrete: "concrete",
+      "garage-doors": "garage", landscaping: "landscaping", hvac: "hvac", painting: "painting",
+      plumbing: "plumbing", siding: "siding", gutters: "gutters", roofing: "roofing"
+    };
+    var trudySlug = TRUDY_IMAGE_MAP[compareService];
+    if (trudySlug) {
+      document.getElementById("trudyHero").src = "/images/trudy-" + trudySlug + ".png";
+    }
+
+    // Track uploaded file signatures to detect duplicates
+    var uploadedFiles = [null, null, null];
+
+    window.handleUpload = async function(idx, input) {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      if (file.size > 20 * 1024 * 1024) {
+        alert("File is too large. Please upload a file under 20MB.");
+        input.value = "";
+        return;
+      }
+
+      // Check for exact same file (same name + size)
+      var fileSig = file.name + "|" + file.size;
+      for (var d = 0; d < 3; d++) {
+        if (d !== idx && uploadedFiles[d] === fileSig) {
+          alert("This file has already been uploaded in Quote " + (d + 1) + ". Please upload a different quote.");
+          input.value = "";
+          return;
+        }
+      }
+      uploadedFiles[idx] = fileSig;
+
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.add("uploading");
+      slot.classList.remove("uploaded");
+      slot.onclick = null;
+      slot.innerHTML =
+        '<img src="/images/trudy-working.png" alt="Trudy" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<span class="slot-label">Parsing quote<span class="cq-parsing-dots"></span></span>' +
+        '<span class="slot-hint">This may take a moment</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+      try {
+        // Check all required functions exist
+        if (typeof parseUploadedComparisonFile !== "function") {
+          throw new Error("parseUploadedComparisonFile not loaded. Check analyzer-ocr.js");
+        }
+        if (typeof loadVendorLibs !== "function") {
+          throw new Error("loadVendorLibs not defined");
+        }
+        if (typeof parseExtractedText !== "function") {
+          throw new Error("parseExtractedText not loaded. Check analyzer-parser.min.js");
+        }
+
+        await loadVendorLibs();
+
+        console.log("[compare] Starting parse for file:", file.name, file.type, file.size);
+        var bundle = await parseUploadedComparisonFile(file);
+        console.log("[compare] Parse result:", JSON.stringify(bundle ? Object.keys(bundle) : "null"));
+        var localParsed = (bundle && bundle.parsed) ? bundle.parsed : (bundle || {});
+
+        // Map alternate key names to the canonical camelCase keys
+        var keyMap = {
+          tear_off: "tearOff", ice_barrier: "iceShield", drip_edge: "dripEdge",
+          ridge_vent: "ridgeVent", starter: "starterStrip", ridge_cap: "ridgeCap",
+          deck_repair: "decking", valley_metal: "valleyMetal"
+        };
+        function normalizeKey(k) { return keyMap[k] || k; }
+
+        // Build scope items from parsed.signals (where the parser stores them)
+        var scopeItems = {};
+        if (localParsed.signals) {
+          Object.keys(localParsed.signals).forEach(function(key) {
+            var sig = localParsed.signals[key];
+            if (sig && sig.status) scopeItems[normalizeKey(key)] = sig.status;
+          });
+        }
+        // Also check detectScopeItems results if available
+        if (localParsed.scopeDetected && Array.isArray(localParsed.scopeDetected)) {
+          localParsed.scopeDetected.forEach(function(item) {
+            var nk = normalizeKey(item.key);
+            if (item.detected && (!scopeItems[nk] || scopeItems[nk] === "unclear")) {
+              scopeItems[nk] = "included";
+            }
+          });
+        }
+        // Also merge from scopeItems if present (from AI)
+        if (localParsed.scopeItems) {
+          Object.keys(localParsed.scopeItems).forEach(function(key) {
+            var nk = normalizeKey(key);
+            if (!scopeItems[nk] || scopeItems[nk] === "unclear") {
+              scopeItems[nk] = localParsed.scopeItems[key];
+            }
+          });
+        }
+
+        var p = {
+          price: localParsed.finalPrice || localParsed.finalBestPrice || localParsed.price || 0,
+          contractor: localParsed.contractor || "",
+          material: localParsed.materialLabel || localParsed.material || "",
+          warrantyYears: localParsed.warrantyYears || 0,
+          roofSize: localParsed.roofSize || 0,
+          scopeItems: scopeItems
+        };
+
+        var price = p.price || 0;
+        var contractor = p.contractor || "Contractor " + (idx + 1);
+        if (typeof price === "string") price = parseFloat(price.replace(/[^0-9.]/g, "")) || 0;
+
+        quotes[idx] = {
+          contractor: contractor,
+          price: price,
+          material: p.materialLabel || p.material || "Not specified",
+          warrantyYears: p.warrantyYears || 0,
+          roofSize: p.roofSize || 0,
+          scopeItems: p.scopeItems || {},
+          rawText: ((bundle && bundle.normalizedText) || (bundle && bundle.rawText) || "").toLowerCase()
+        };
+
+        // Check for similar quotes (same contractor or price within 5%)
+        var duplicateWarning = "";
+        for (var s = 0; s < 3; s++) {
+          if (s === idx || !quotes[s]) continue;
+          var sameContractor = quotes[s].contractor && contractor && quotes[s].contractor.toLowerCase() === contractor.toLowerCase();
+          var similarPrice = price > 0 && quotes[s].price > 0 && Math.abs(price - quotes[s].price) / Math.max(price, quotes[s].price) < 0.05;
+          if (sameContractor && similarPrice) {
+            duplicateWarning = "This looks similar to Quote " + (s + 1) + ". Upload a different contractor's quote for a meaningful comparison.";
+            break;
+          } else if (sameContractor) {
+            duplicateWarning = "Same contractor as Quote " + (s + 1) + ". For best results, compare quotes from different contractors.";
+            break;
+          }
+        }
+
+        slot.classList.remove("uploading");
+        slot.classList.add("uploaded");
+        slot.onclick = null; // Don't open file picker on uploaded slots
+
+        var nameIsDefault = contractor === "Contractor " + (idx + 1);
+        slot.innerHTML =
+          '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
+          '<span class="slot-check">&#10003;</span>' +
+          '<input type="text" class="slot-edit-name" value="' + escHtml(contractor) + '" data-idx="' + idx + '" placeholder="Contractor name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid ' + (nameIsDefault ? '#fde68a' : '#e2e8f0') + '; border-radius:6px; padding:4px 8px; width:90%; background:' + (nameIsDefault ? '#fffbeb' : '#fff') + ';" />' +
+          '<input type="text" class="slot-edit-price" value="' + (price > 0 ? '$' + price.toLocaleString() : '') + '" data-idx="' + idx + '" placeholder="Enter price (e.g. $12,500)" style="font-size:16px; font-weight:700; text-align:center; color:#1d4ed8; border:1px solid ' + (price > 0 ? '#e2e8f0' : '#fde68a') + '; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:' + (price > 0 ? '#fff' : '#fffbeb') + ';" />' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />' +
+          (duplicateWarning ? '<div style="margin-top:8px; padding:6px 10px; background:#fffbeb; border:1px solid #fde68a; border-radius:6px; font-size:11px; color:#92400e;">' + escHtml(duplicateWarning) + '</div>' : '');
+
+        // Bind edit handlers
+        slot.querySelector(".slot-edit-name").addEventListener("change", function() {
+          quotes[idx].contractor = this.value.trim() || "Contractor " + (idx + 1);
+          this.style.borderColor = "#e2e8f0";
+          this.style.background = "#fff";
+        });
+        slot.querySelector(".slot-edit-price").addEventListener("change", function() {
+          var val = parseFloat(this.value.replace(/[^0-9.]/g, "")) || 0;
+          quotes[idx].price = val;
+          if (val > 0) {
+            this.value = "$" + val.toLocaleString();
+            this.style.borderColor = "#e2e8f0";
+            this.style.background = "#fff";
+          }
+          updateCompareBtn();
+        });
+
+        updateCompareBtn();
+      } catch (err) {
+        console.error("[compare-quotes] Parse error:", err, err.stack);
+        alert("Parse error: " + (err.message || err) + "\n\nStack: " + (err.stack || "none"));
+        slot.classList.remove("uploading");
+        slot.innerHTML =
+          '<span class="slot-icon">&#128196;</span>' +
+          '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+          '<span class="slot-error">Could not parse. Try another file.</span>' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+        slot.onclick = function() { document.getElementById("file" + idx).click(); };
+        quotes[idx] = null;
+        updateCompareBtn();
+      }
+    };
+
+    window.removeQuote = function(idx) {
+      quotes[idx] = null;
+      uploadedFiles[idx] = null;
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.remove("uploaded", "uploading");
+      slot.innerHTML =
+        '<span class="slot-icon">&#128196;</span>' +
+        '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+        '<span class="slot-hint">' + (idx === 2 ? "Optional" : "PDF, photo, or screenshot") + '</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+      slot.onclick = function() { document.getElementById("file" + idx).click(); };
+      updateCompareBtn();
+    };
+
+    function updateCompareBtn() {
+      var count = quotes.filter(function(q) { return q !== null; }).length;
+      var btn = document.getElementById("compareBtn");
+      if (count >= 2) {
+        btn.disabled = false;
+        btn.textContent = "Compare " + count + " quotes";
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Upload at least 2 quotes to compare";
+      }
+    }
+
+    function scoreQuote(q, allQuotes) {
+      // Scope completeness: 40 pts max (most important -- missing items = change orders)
+      var confirmed = 0;
+      var missing = [];
+      SCOPE_ITEMS.forEach(function(item) {
+        var val = (q.scopeItems && q.scopeItems[item.key]) || "";
+        if (val === "included") { confirmed++; }
+        else { missing.push(item.label); }
+      });
+      var scopeScore = (confirmed / SCOPE_ITEMS.length) * 40;
+
+      // Price competitiveness: 30 pts max
+      // Normalize by roof size if available, otherwise use raw price
+      var prices = allQuotes.map(function(aq) {
+        if (aq.price > 0 && aq.roofSize > 0) return aq.price / aq.roofSize;
+        return aq.price > 0 ? aq.price : null;
+      }).filter(function(p) { return p !== null; });
+
+      var priceScore = 0;
+      if (q.price > 0 && prices.length >= 2) {
+        var qNorm = (q.roofSize > 0) ? q.price / q.roofSize : q.price;
+        var avgPrice = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
+        // Score based on distance from average: at average = 20pts, cheapest = 30pts, most expensive = 10pts
+        // But penalize suspiciously low (below 60% of average)
+        var ratio = qNorm / avgPrice;
+        if (ratio < 0.6) {
+          // Suspiciously low -- could mean missing scope
+          priceScore = 10;
+        } else if (ratio <= 1.0) {
+          // Below or at average: 20-30 pts
+          priceScore = 20 + (1 - ratio) * 25;
+        } else {
+          // Above average: 10-20 pts
+          priceScore = Math.max(5, 20 - (ratio - 1) * 20);
+        }
+      } else if (q.price > 0) {
+        priceScore = 15; // Only one valid price, neutral score
+      }
+
+      // Warranty: 15 pts max
+      var warrantyScore = 0;
+      if (q.warrantyYears > 0) {
+        warrantyScore = Math.min(q.warrantyYears / 30, 1) * 15;
+      }
+
+      // Transparency: 15 pts max (did the quote clearly state things?)
+      var transparencyScore = 0;
+      if (q.contractor && q.contractor.length > 2) transparencyScore += 3;
+      if (q.material && q.material !== "unknown") transparencyScore += 3;
+      if (q.roofSize > 0) transparencyScore += 3;
+      if (q.warrantyYears > 0) transparencyScore += 3;
+      if (confirmed >= Math.round(SCOPE_ITEMS.length * 0.5)) transparencyScore += 3;
+
+      var total = Math.round(Math.max(0, Math.min(100, scopeScore + priceScore + warrantyScore + transparencyScore)));
+      return {
+        total: total, scopeCount: confirmed, missingItems: missing,
+        scopeScore: Math.round(scopeScore), priceScore: Math.round(priceScore),
+        warrantyScore: Math.round(warrantyScore), transparencyScore: Math.round(transparencyScore)
+      };
+    }
+
+    function buildQuestions(active, bestValue) {
+      var questions = [];
+      active.forEach(function(a) {
+        var qs = [];
+        var name = a.data.contractor || ("Quote " + (a.idx + 1));
+        // Missing scope items
+        if (a.score.missingItems.length > 0 && a.score.missingItems.length <= 6) {
+          qs.push("Can you confirm whether " + a.score.missingItems.join(", ") + " " + (a.score.missingItems.length === 1 ? "is" : "are") + " included in the price?");
+        } else if (a.score.missingItems.length > 6) {
+          qs.push("Your quote only confirms " + a.score.scopeCount + " of " + SCOPE_ITEMS.length + " standard scope items. Can you provide an itemized breakdown?");
+        }
+        // No warranty
+        if (!a.data.warrantyYears || a.data.warrantyYears <= 0) {
+          qs.push("What warranty do you offer on labor and materials?");
+        }
+        // Highest price
+        var maxPrice = 0;
+        active.forEach(function(b) { if (b.data.price > maxPrice) maxPrice = b.data.price; });
+        if (a.data.price === maxPrice && active.length > 1) {
+          var diff = a.data.price - bestValue.data.price;
+          if (diff > 0 && bestValue !== a) {
+            qs.push("Your quote is $" + diff.toLocaleString() + " higher than the best value option. What additional value does your bid include?");
+          }
+        }
+        // Suspiciously low
+        if (a.data.price > 0 && active.length > 1) {
+          var allPrices = active.map(function(b) { return b.data.price; }).filter(function(p) { return p > 0; });
+          var avg = allPrices.reduce(function(s, p) { return s + p; }, 0) / allPrices.length;
+          if (a.data.price < avg * 0.6) {
+            qs.push("Your price is significantly below the other quotes. Does this include all materials, labor, disposal, and permit fees?");
+          }
+        }
+        // No material specified
+        if (!a.data.material || a.data.material === "unknown") {
+          qs.push("What material/brand will you be using?");
+        }
+        if (qs.length > 0) {
+          questions.push({ contractor: name, items: qs, idx: a.idx });
+        }
+      });
+      return questions;
+    }
+
+    function detectRedFlags(quote) {
+      var flags = [];
+      var text = quote.rawText || "";
+
+      // Payment terms
+      if (/100%\s*(due|deposit|upfront|before|prior|at signing)/i.test(text) || /full\s*payment\s*(due|before|prior|upfront|at signing)/i.test(text)) {
+        flags.push({ severity: "high", label: "100% payment upfront", detail: "Paying in full before work starts removes your leverage if something goes wrong. Industry standard is 10-30% deposit." });
+      } else if (/50%\s*(deposit|down|due|at signing)/i.test(text) || /half\s*(down|due|deposit)/i.test(text)) {
+        flags.push({ severity: "medium", label: "50% deposit required", detail: "A 50% deposit is on the high side. 10-30% is more typical. Ensure the balance is due after completion, not mid-project." });
+      }
+
+      // Permits
+      if (/permit.{0,20}(homeowner|owner|customer|client|your)\s*(responsib|expense|cost|obtain)/i.test(text) || /homeowner.{0,15}(responsible|obtain).{0,15}permit/i.test(text)) {
+        flags.push({ severity: "medium", label: "Permits are your responsibility", detail: "Most reputable contractors pull permits themselves. If you're responsible, verify local requirements and factor in the cost." });
+      }
+
+      // Late fees
+      if (/1\.5%\s*(per|\/)\s*month|18%\s*(per|\/)\s*(year|annum|annual)/i.test(text) || /late\s*(fee|charge|penalty).{0,30}(1\.5|2)%/i.test(text)) {
+        flags.push({ severity: "medium", label: "High late payment penalty", detail: "Late fees above 12% APR are aggressive. Clarify payment schedule and grace period before signing." });
+      }
+
+      // Credit card surcharge
+      if (/(credit card|cc|card)\s*(surcharge|fee|charge).{0,15}\d+%/i.test(text) || /\d+%\s*(credit card|cc|card)\s*(surcharge|fee)/i.test(text)) {
+        flags.push({ severity: "low", label: "Credit card surcharge", detail: "Some contractors add 2-4% for credit card payments. Ask about check or ACH payment to avoid the fee." });
+      }
+
+      // No start date or timeline
+      if (text.length > 100 && !/start\s*date|completion|timeline|schedule|begin\s*work|commence/i.test(text)) {
+        flags.push({ severity: "low", label: "No timeline mentioned", detail: "The quote doesn't mention a start date or completion timeline. Get this in writing before signing." });
+      }
+
+      // Subcontractors
+      if (/sub\s*contract|subcontract|third.party|outside\s*crew/i.test(text)) {
+        flags.push({ severity: "low", label: "May use subcontractors", detail: "Not necessarily bad, but ask who will be on-site, who supervises, and whether the warranty covers subcontractor work." });
+      }
+
+      // Disclaimer / liability waiver
+      if (/not\s*(responsible|liable)\s*(for|if)|disclaim|waive.{0,10}(liab|claim|damage)|as[\s-]is/i.test(text)) {
+        flags.push({ severity: "medium", label: "Liability disclaimer detected", detail: "The contractor may be limiting their liability for certain outcomes. Read the fine print carefully and ask what is and isn't covered." });
+      }
+
+      // No written warranty in text but warrantyYears is 0
+      if (!quote.warrantyYears && text.length > 100 && !/warranty|workmanship\s*guarantee/i.test(text)) {
+        flags.push({ severity: "high", label: "No warranty mentioned", detail: "No workmanship or labor warranty was found in this quote. Always get warranty terms in writing before signing." });
+      }
+
+      // Same-day signing pressure
+      if (/same[\s-]*day|sign\s*today|today\s*only|expires?\s*today|limited[\s-]*time/i.test(text)) {
+        flags.push({ severity: "medium", label: "Same-day signing pressure", detail: "Discounts that expire today are a pressure tactic. A reputable contractor will honor their price for at least a week." });
+      }
+
+      return flags;
+    }
+
+    window.showResults = function() {
+      var active = [];
+      quotes.forEach(function(q, i) { if (q) active.push({ idx: i, data: q }); });
+      if (active.length < 2) return;
+
+      // Score each and detect red flags
+      var allData = active.map(function(a) { return a.data; });
+      active.forEach(function(a) {
+        a.score = scoreQuote(a.data, allData);
+        a.redFlags = detectRedFlags(a.data);
+        // Penalize score for red flags (high=-3, medium=-2, low=-1)
+        var flagPenalty = 0;
+        a.redFlags.forEach(function(f) {
+          if (f.severity === "high") flagPenalty += 3;
+          else if (f.severity === "medium") flagPenalty += 2;
+          else flagPenalty += 1;
+        });
+        a.score.flagPenalty = flagPenalty;
+        a.score.total = Math.max(0, Math.min(100, a.score.total - flagPenalty));
+      });
+
+      // Find best value (highest score)
+      var bestValue = active[0];
+      active.forEach(function(a) {
+        if (a.score.total > bestValue.score.total) bestValue = a;
+      });
+
+      // Check if scores are close (within 5 points = essentially tied)
+      var scoreSpread = bestValue.score.total - Math.min.apply(null, active.map(function(a) { return a.score.total; }));
+      var isTight = scoreSpread <= 5;
+
+      // Build results HTML
+      var html = "";
+
+      // Best value banner (not "winner" -- signals value, not a declaration)
+      html += '<div class="cq-winner-banner">';
+      html += '<img src="/images/trudy-thumbsup.png" alt="Trudy" />';
+      html += '<div>';
+      html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">TruePrice Quote Analysis</p>';
+      if (isTight) {
+        html += '<p class="cq-winner-title">These quotes are closely matched</p>';
+        html += '<p class="cq-winner-sub">Scores are within 5 points. Review the details and questions below to decide.</p>';
+      } else {
+        html += '<p class="cq-winner-title">' + escHtml(bestValue.data.contractor) + ' shows the best overall value</p>';
+        html += '<p class="cq-winner-sub">Based on price, scope completeness, warranty, and transparency. See questions to ask each contractor below.</p>';
+      }
+      html += '</div></div>';
+
+      // Find best price
+      var prices = active.map(function(a) { return a.data.price; }).filter(function(p) { return p > 0; });
+      var bestPrice = prices.length ? Math.min.apply(null, prices) : 0;
+
+      // Comparison table
+      html += '<div class="cq-table-wrap"><table class="cq-table">';
+
+      // Header
+      html += '<thead><tr><th></th>';
+      active.forEach(function(a) {
+        html += '<th>' + escHtml(a.data.contractor);
+        if (a === bestValue && !isTight) html += ' <span class="cq-badge cq-badge-green">BEST VALUE</span>';
+        html += '</th>';
+      });
+      html += '</tr></thead><tbody>';
+
+      // Total price
+      html += '<tr><td class="row-label">Total Price</td>';
+      active.forEach(function(a) {
+        var cls = (a.data.price > 0 && a.data.price === bestPrice) ? ' class="highlight"' : '';
+        html += '<td' + cls + '>' + (a.data.price > 0 ? '$' + a.data.price.toLocaleString() : 'N/A') + '</td>';
+      });
+      html += '</tr>';
+
+      // Price per sq ft
+      html += '<tr><td class="row-label">Price / sq ft</td>';
+      active.forEach(function(a) {
+        if (a.data.price > 0 && a.data.roofSize > 0) {
+          html += '<td>$' + (a.data.price / a.data.roofSize).toFixed(2) + '</td>';
+        } else {
+          html += '<td>N/A</td>';
+        }
+      });
+      html += '</tr>';
+
+      // Material
+      html += '<tr><td class="row-label">Material</td>';
+      active.forEach(function(a) { html += '<td>' + escHtml(a.data.material) + '</td>'; });
+      html += '</tr>';
+
+      // Warranty
+      html += '<tr><td class="row-label">Warranty</td>';
+      active.forEach(function(a) {
+        html += '<td>' + (a.data.warrantyYears > 0 ? a.data.warrantyYears + ' years' : 'Not specified') + '</td>';
+      });
+      html += '</tr>';
+
+      // Scope score
+      html += '<tr><td class="row-label">Scope Score</td>';
+      active.forEach(function(a) {
+        var count = a.score.scopeCount;
+        var color = count >= Math.round(SCOPE_ITEMS.length * 0.75) ? '#16a34a' : count >= Math.round(SCOPE_ITEMS.length * 0.5) ? '#d97706' : '#ef4444';
+        html += '<td><span style="color:' + color + '; font-weight:700;">' + count + '/' + SCOPE_ITEMS.length + '</span> items confirmed</td>';
+      });
+      html += '</tr>';
+
+      // Scope items
+      SCOPE_ITEMS.forEach(function(item) {
+        html += '<tr class="scope-section"><td class="row-label" style="padding-left:28px; font-weight:400;">' + item.label + '</td>';
+        active.forEach(function(a) {
+          var val = (a.data.scopeItems && a.data.scopeItems[item.key]) || "unclear";
+          if (val === "included") {
+            html += '<td><span class="cq-scope-check">&#10003; Included</span></td>';
+          } else if (val === "excluded") {
+            html += '<td><span class="cq-scope-no">&#10007; Excluded</span></td>';
+          } else {
+            html += '<td><span class="cq-scope-missing">? Unclear</span></td>';
+          }
+        });
+        html += '</tr>';
+      });
+
+      // Score breakdown
+      html += '<tr><td class="row-label">Scope (40)</td>';
+      active.forEach(function(a) { html += '<td>' + a.score.scopeScore + '</td>'; });
+      html += '</tr>';
+      html += '<tr><td class="row-label">Price (30)</td>';
+      active.forEach(function(a) { html += '<td>' + a.score.priceScore + '</td>'; });
+      html += '</tr>';
+      html += '<tr><td class="row-label">Warranty (15)</td>';
+      active.forEach(function(a) { html += '<td>' + a.score.warrantyScore + '</td>'; });
+      html += '</tr>';
+      html += '<tr><td class="row-label">Transparency (15)</td>';
+      active.forEach(function(a) { html += '<td>' + a.score.transparencyScore + '</td>'; });
+      html += '</tr>';
+
+      // Overall score
+      html += '<tr><td class="row-label" style="font-weight:800;">Value Score</td>';
+      active.forEach(function(a) {
+        var color = a === bestValue && !isTight ? '#22c55e' : '#3b82f6';
+        html += '<td><div class="cq-score-bar-wrap">' +
+          '<div class="cq-score-bar"><div class="cq-score-bar-fill" style="width:' + a.score.total + '%; background:' + color + ';"></div></div>' +
+          '<span class="cq-score-label" style="color:' + color + ';">' + a.score.total + '</span>' +
+          '</div></td>';
+      });
+      html += '</tr>';
+
+      html += '</tbody></table></div>';
+
+      // Questions to ask each contractor
+      var questions = buildQuestions(active, bestValue);
+      if (questions.length > 0) {
+        html += '<div style="margin-top:28px;">';
+        html += '<div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">';
+        html += '<img src="/images/trudy-clipboard.png" alt="Trudy with clipboard" width="48" />';
+        html += '<div>';
+        html += '<h3 style="margin:0; font-size:18px;">Questions to ask before you sign</h3>';
+        html += '<p style="margin:2px 0 0; font-size:14px; color:#64748b;">Based on what we found in each quote</p>';
+        html += '</div></div>';
+        questions.forEach(function(cq) {
+          html += '<div style="padding:16px 20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin-bottom:12px;">';
+          html += '<div style="font-size:15px; font-weight:700; margin-bottom:8px;">Ask ' + escHtml(cq.contractor) + ':</div>';
+          html += '<ul style="margin:0; padding-left:20px; list-style:disc;">';
+          cq.items.forEach(function(q) {
+            html += '<li style="font-size:14px; color:#334155; margin-bottom:6px; line-height:1.5;">' + escHtml(q) + '</li>';
+          });
+          html += '</ul></div>';
+        });
+        html += '</div>';
+      }
+
+      // Red flags from fine print
+      var allFlags = [];
+      active.forEach(function(a) {
+        var flags = detectRedFlags(a.data);
+        if (flags.length > 0) {
+          allFlags.push({ contractor: a.data.contractor || ("Quote " + (a.idx + 1)), flags: flags });
+        }
+      });
+      if (allFlags.length > 0) {
+        html += '<div style="margin-top:28px;">';
+        html += '<div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">';
+        html += '<img src="/images/trudy-worried.png" alt="Trudy looks concerned" width="48" />';
+        html += '<div>';
+        html += '<h3 style="margin:0; font-size:18px;">Fine print & red flags</h3>';
+        html += '<p style="margin:2px 0 0; font-size:14px; color:#64748b;">Things we spotted that are worth reviewing</p>';
+        html += '</div></div>';
+        allFlags.forEach(function(cf) {
+          html += '<div style="padding:16px 20px; background:#fef2f2; border:1px solid #fecaca; border-radius:12px; margin-bottom:12px;">';
+          html += '<div style="font-size:15px; font-weight:700; margin-bottom:10px; color:#991b1b;">' + escHtml(cf.contractor) + '</div>';
+          cf.flags.forEach(function(f) {
+            var icon = f.severity === "high" ? "&#9888;" : f.severity === "medium" ? "&#9679;" : "&#8226;";
+            var color = f.severity === "high" ? "#dc2626" : f.severity === "medium" ? "#d97706" : "#6b7280";
+            html += '<div style="margin-bottom:8px; padding-left:4px;">';
+            html += '<div style="font-size:14px; font-weight:700; color:' + color + ';">' + icon + ' ' + escHtml(f.label) + '</div>';
+            html += '<div style="font-size:13px; color:#475569; line-height:1.5; margin-top:2px; padding-left:18px;">' + escHtml(f.detail) + '</div>';
+            html += '</div>';
+          });
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // CTAs
+      var emailSubject = encodeURIComponent("My " + serviceLabel + " Quote Comparison - TruePrice");
+      var emailBody = encodeURIComponent(buildEmailSummary(active, bestValue, questions, allFlags));
+      html += '<div class="cq-cta-section">';
+      html += '<a class="cq-cta-btn cq-cta-primary" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">&#9993; Email this comparison</a>';
+      html += '<a class="cq-cta-btn cq-cta-secondary" href="/find-contractors.html">&#128269; Get more quotes from local contractors</a>';
+      html += '<button class="cq-cta-btn cq-cta-outline" onclick="startOver()">&#8634; Start over</button>';
+      html += '</div>';
+      html += '<div style="text-align:center; margin-top:24px; padding:20px 16px; border-top:2px solid #e2e8f0; background:#f8fafc; border-radius:0 0 16px 16px;">';
+      html += '<a href="https://truepricehq.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px; color:#64748b; font-size:14px;">';
+      html += '<img src="/images/trudy-peeking.png" alt="Trudy" width="32" /> Powered by <strong style="color:#1e3a5f;">TruePrice</strong> <span style="color:#94a3b8;">|</span> <span style="color:#3b82f6;">truepricehq.com</span>';
+      html += '</a></div>';
+      html += '<div style="text-align:center; margin-top:8px;"><a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:13px; color:#94a3b8; text-decoration:none;">Have a suggestion? Email hello@truepricehq.com</a></div>';
+
+      document.getElementById("resultsContent").innerHTML = html;
+      document.getElementById("uploadStep").style.display = "none";
+      document.getElementById("resultsStep").classList.add("visible");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Auto-submit compare quotes to calibration
+      active.forEach(function(a) {
+        if (a.data.price > 0) {
+          fetch("/api/calibration", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              price: a.data.price,
+              contractor: a.data.contractor || "",
+              city: a.data.city || "",
+              stateCode: a.data.stateCode || "",
+              material: a.data.material || "",
+              roofSize: a.data.roofSize || 0,
+              warrantyYears: a.data.warrantyYears || 0,
+              scopeItems: a.data.scopeItems || {},
+              source: "compare_upload",
+              service: compareService
+            })
+          }).catch(function() {});
+        }
+      });
+    };
+
+    function buildEmailSummary(active, bestValue, questions, allFlags) {
+      var lines = [];
+      lines.push("QUOTE COMPARISON");
+      lines.push("Generated by TruePrice (truepricehq.com)");
+      lines.push("");
+      lines.push("BEST VALUE: " + bestValue.data.contractor + " (Value Score: " + bestValue.score.total + "/100)");
+      lines.push("");
+      active.forEach(function(a) {
+        lines.push("--- " + a.data.contractor + " ---");
+        lines.push("Price: " + (a.data.price > 0 ? "$" + a.data.price.toLocaleString() : "N/A"));
+        lines.push("Material: " + a.data.material);
+        lines.push("Warranty: " + (a.data.warrantyYears > 0 ? a.data.warrantyYears + " years" : "N/A"));
+        lines.push("Scope: " + a.score.scopeCount + "/" + SCOPE_ITEMS.length + " items confirmed");
+        lines.push("Value Score: " + a.score.total + "/100");
+        lines.push("");
+      });
+      if (questions && questions.length > 0) {
+        lines.push("QUESTIONS TO ASK:");
+        lines.push("");
+        questions.forEach(function(cq) {
+          lines.push("Ask " + cq.contractor + ":");
+          cq.items.forEach(function(q) { lines.push("  - " + q); });
+          lines.push("");
+        });
+      }
+      if (allFlags && allFlags.length > 0) {
+        lines.push("RED FLAGS & FINE PRINT:");
+        lines.push("");
+        allFlags.forEach(function(cf) {
+          lines.push(cf.contractor + ":");
+          cf.flags.forEach(function(f) {
+            var sev = f.severity === "high" ? "[!]" : f.severity === "medium" ? "[*]" : "[-]";
+            lines.push("  " + sev + " " + f.label + " - " + f.detail);
+          });
+          lines.push("");
+        });
+      }
+      lines.push("Compare more quotes at https://truepricehq.com/compare-quotes.html");
+      return lines.join("\n");
+    }
+
+    window.goBack = function() {
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("uploadStep").style.display = "block";
+    };
+
+    window.startOver = function() {
+      quotes = [null, null, null];
+      [0, 1, 2].forEach(function(i) { window.removeQuote(i); });
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("uploadStep").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    function escHtml(str) {
+      var d = document.createElement("div");
+      d.textContent = str || "";
+      return d.innerHTML;
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise(function(resolve) {
+        var reader = new FileReader();
+        reader.onload = function(e) { resolve(e.target.result); };
+        reader.onerror = function() { resolve(null); };
+        reader.readAsDataURL(file);
+      });
+    }
+  })();
