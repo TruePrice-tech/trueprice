@@ -41,12 +41,57 @@ def get_counter():
     except:
         return None
 
+def run_ocr_local(image_b64, mime):
+    """Run OCR.space directly from the test runner so we exercise the
+    same OCR-first pipeline real production uses. Returns text or None."""
+    try:
+        import urllib.parse
+        body = urllib.parse.urlencode({
+            "base64Image": f"data:{mime};base64,{image_b64}",
+            "language": "eng",
+            "isOverlayRequired": "false",
+            "OCREngine": "2",
+            "isTable": "true",
+            "scale": "true",
+        }).encode()
+        req = urllib.request.Request(
+            "https://api.ocr.space/parse/image",
+            data=body,
+            headers={
+                "apikey": "K84200508188957",
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+        )
+        with urllib.request.urlopen(req, timeout=30) as r:
+            data = json.loads(r.read())
+        if data.get("IsErroredOnProcessing"):
+            return None
+        results = data.get("ParsedResults", [])
+        if not results:
+            return None
+        text = "\n".join(r.get("ParsedText", "") for r in results).strip()
+        return text if len(text) > 30 else None
+    except Exception as e:
+        return None
+
 def post_image(endpoint, fpath):
     with open(fpath, "rb") as f:
-        ext = os.path.splitext(fpath)[1].lower().strip(".")
-        if ext == "jpg": ext = "jpeg"
-        b64 = "data:image/" + ext + ";base64," + base64.b64encode(f.read()).decode()
-    payload = json.dumps({"images": [b64]}).encode()
+        raw = f.read()
+    ext = os.path.splitext(fpath)[1].lower().strip(".")
+    if ext == "jpg": ext = "jpeg"
+    mime = f"image/{ext}"
+    raw_b64 = base64.b64encode(raw).decode()
+    b64_data_url = f"data:{mime};base64,{raw_b64}"
+
+    # OCR-FIRST: run OCR.space locally before posting. If text is good,
+    # send text-only (skip the image entirely). This mirrors what the
+    # browser does in production for real users.
+    ocr_text = run_ocr_local(raw_b64, mime)
+    payload_obj = {"images": [b64_data_url]}
+    if ocr_text:
+        payload_obj["text"] = ocr_text
+
+    payload = json.dumps(payload_obj).encode()
     req = urllib.request.Request(
         f"{BASE}/api/{endpoint}",
         data=payload,

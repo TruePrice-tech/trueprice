@@ -1,106 +1,109 @@
 # Legal Test Results
 
-Run: 2026-04-07 15:55:59
+Run: 2026-04-07 16:34:48
 Endpoint: https://truepricehq.com/api/legal-fee-estimate
 Samples tested: 8
 
-**Counter at start:** 3885
-**Counter at end:** 3890
-**Counter delta:** +5 (expected +0)
+**Counter at start:** 3895
+**Counter at end:** 3895
+**Counter delta:** +0 (expected +8)
 
 **Parse success:** 8/8
-**Detected price:** 0/8
+**Detected price:** 8/8
 
 ## 01-estate-planning-flat-fee.png
 
-- Total: $None
-- Time: 7.6s
+- Total: $1250
+- Time: 9.1s
 - city: Asheville
 - stateCode: NC
-- redFlags: 9
-  - No termination clause or provisions for handling dispute resolution
-  - No expense policy disclosed (costs for document filing, copies, etc. may be billed separately)
-  - No estimated timeline provided for completion
-- lineItems: 4
+- redFlags: 7
+  - No termination clause or withdrawal provisions stated
+  - No conflict of interest check mentioned
+  - No expense policy or out-of-pocket cost handling defined
+- lineItems: 2
 
 ## 02-hourly-retainer-litigation.png
 
-- Total: $None
-- Time: 20.1s
+- Total: $15000
+- Time: 9.9s
 - city: Charlotte
 - stateCode: NC
 - redFlags: 11
-  - Non-contingency arrangement with explicit statement 'Fees are due regardless of outcome' - client bears full financial risk regardless of case result
-  - Vague scope of services - no description of what legal services are actually included in retainer
-  - No estimated total cost or scope limitations provided to client
+  - No scope of work or case description provided
+  - No termination clause specified
+  - No expense policy or cost allocation detailed
+- lineItems: 5
 
 ## 03-contingency-personal-injury.png
 
-- Total: $None
-- Time: 8.3s
+- Total: $16665
+- Time: 10.2s
 - city: Houston
 - stateCode: TX
-- redFlags: 9
-  - No retainer amount specified - client unclear on upfront costs
-  - Client responsible for case expenses ($4,500-$8,000 estimated) in addition to contingency fee
-  - No explicit termination clause defining how attorney departure or client termination affects fee structure
+- redFlags: 8
+  - No termination clause specified
+  - No communication or reporting policy defined
+  - No conflict of interest check mentioned
+- lineItems: 4
 
 ## 04-llc-formation-flat-fee.png
 
-- Total: $None
-- Time: 8.9s
+- Total: $850
+- Time: 10.3s
 - city: Austin
 - stateCode: TX
-- redFlags: 7
-  - No communication policy or response time expectations defined
-  - No termination clause or refund provisions stated
-  - Excluded services (multi-member operating agreement, trademark search, foreign qualification) could trigger additional $275/hr charges with no upper limit
-- lineItems: 7
+- redFlags: 6
+  - No termination clause or conditions for ending engagement
+  - No conflict of interest check mentioned
+  - No communication or progress reporting policy defined
+- lineItems: 8
 
 ## 05-divorce-hourly-retainer.png
 
-- Total: $None
-- Time: 8.5s
+- Total: $7500
+- Time: 8.9s
 - city: Atlanta
 - stateCode: GA
-- redFlags: 7
-  - No billing increment specified (6-minute, 10-minute, 15-minute, etc.) - creates potential for overcharging on short tasks
-  - Travel time billed at $200/hr (one-way) is unusually high and not clearly limited; no cap on travel expenses
-  - Estimated fee range is very broad ($8,000-$25,000), providing minimal predictability for client
+- redFlags: 6
+  - Billing increment not specified (could default to 6-min, 10-min, or 15-min)
+  - No expense policy disclosed (travel, court costs, filing fees not addressed)
+  - Broad fee range ($8,000–$25,000) provides limited cost predictability
 - lineItems: 4
 
 ## 06-criminal-defense-flat-fee.png
 
-- Total: $None
-- Time: 7.7s
+- Total: $3500
+- Time: 10.3s
 - city: Mobile
 - stateCode: AL
-- redFlags: 8
-  - Non-refundable flat fee with limited refund exception only as required by Alabama Rules of Professional Conduct
-  - Significant out-of-pocket expenses explicitly excluded from flat fee (appeals, expert witness fees, toxicology re-test, court costs) could substantially increase client's total cost
-  - No termination clause or dispute resolution mechanism specified
+- redFlags: 10
+  - Non-refundable flat fee ('earned upon receipt') may conflict with Alabama Rules of Professional Conduct
+  - No termination clause or conditions under which client may discharge attorney
+  - No communication policy or response time expectations
+- lineItems: 4
 
 ## 07-real-estate-closing-flat-fee.png
 
-- Total: $None
-- Time: 10.8s
+- Total: $895
+- Time: 9.3s
 - city: Raleigh
 - stateCode: NC
-- redFlags: 8
-  - Flat fee structure with optional survey cost ($400) creates ambiguity about what triggers additional charges
-  - Title insurance is estimated at $1,425 but marked 'est.' with no explanation of variables affecting final amount
-  - No retainer agreement or non-refundable retainer policy mentioned despite flat fee engagement
-- lineItems: 9
+- redFlags: 6
+  - No termination clause provided
+  - No conflict-of-interest check mentioned
+  - No communication policy outlined
+- lineItems: 5
 
 ## 08-bankruptcy-ch7-flat-fee.png
 
-- Total: $None
-- Time: 8.5s
+- Total: $1495
+- Time: 9.8s
 - city: Phoenix
 - stateCode: AZ
 - redFlags: 7
-  - No termination clause or refund policy specified for flat fee
-  - Limited scope communication regarding client rights and obligations
-  - No conflict of interest check disclosure
-- lineItems: 3
+  - Payment plan option B costs $1,500 total (more than flat fee of $1,495), potentially confusing to client
+  - No termination clause or conditions under which fees may be refunded
+  - No communication policy or response time guarantees specified
+- lineItems: 4
 
