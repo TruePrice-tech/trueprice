@@ -1,5 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
+import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 
 const redis = Redis.fromEnv();
 
@@ -97,15 +98,32 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { text, images } = req.body;
+    let { text, images } = req.body;
 
     if (!text && (!images || images.length === 0)) {
       return res.status(400).json({ error: "No text or images provided" });
     }
 
+    // OCR-FIRST PIPELINE: when caller sends image without OCR text,
+    // run server-side OCR.space first. If text is good, drop the image
+    // from the Claude call (~10x cheaper). Falls back to Claude vision.
+    if ((!text || text.length < 100) && images && images.length > 0) {
+      const _firstImg = images[0];
+      const _m = _firstImg && _firstImg.match(/^data:(image\/[^;]+);base64,(.+)$/);
+      if (_m) {
+        const _ocrResult = await runOcr(_m[2], _m[1]);
+        if (_ocrResult && _ocrResult.text) {
+          text = _ocrResult.text;
+          console.log(`[ocr-first] extracted ${_ocrResult.text.length} chars via ${_ocrResult.source}`);
+        }
+      }
+    }
+    const _useTextOnly = text && ocrTextLooksGood(text);
+
+
     const content = [];
 
-    if (images && images.length > 0) {
+    if (!_useTextOnly && images && images.length > 0) {
       for (const img of images.slice(0, 3)) {
         const match = img.match(/^data:(image\/[^;]+);base64,(.+)$/);
         if (match) {

@@ -1,6 +1,7 @@
 import { Redis } from "@upstash/redis";
 import fs from "fs";
 import path from "path";
+import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 
 const redis = Redis.fromEnv();
 
@@ -88,17 +89,33 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { text, images } = req.body;
+    let { text, images } = req.body;
 
     if (!text && (!images || images.length === 0)) {
       return res.status(400).json({ error: "No text or images provided" });
     }
 
+    // OCR-FIRST PIPELINE: when caller sends image without OCR text,
+    // run server-side OCR.space first. If text is good, drop the image
+    // from the Claude call (10x cheaper). Comparison flows reuse this
+    // endpoint for each individual quote, so OCR runs per-quote.
+    if ((!text || text.length < 100) && images && images.length > 0) {
+      const m = images[0] && images[0].match(/^data:(image\/[^;]+);base64,(.+)$/);
+      if (m) {
+        const ocrResult = await runOcr(m[2], m[1]);
+        if (ocrResult && ocrResult.text) {
+          text = ocrResult.text;
+          console.log(`[parse-quote] OCR extracted ${ocrResult.text.length} chars via ${ocrResult.source}`);
+        }
+      }
+    }
+    const useTextOnly = text && ocrTextLooksGood(text);
+
     // Build the message content
     const content = [];
 
-    // Add images first (Claude vision)
-    if (images && images.length > 0) {
+    // Add images first (Claude vision) ONLY when OCR wasn't good enough
+    if (!useTextOnly && images && images.length > 0) {
       for (const img of images.slice(0, 3)) { // Max 3 images
         // img should be a base64 data URL like "data:image/png;base64,..."
         const match = img.match(/^data:(image\/[^;]+);base64,(.+)$/);
