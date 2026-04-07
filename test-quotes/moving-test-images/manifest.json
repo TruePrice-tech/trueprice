@@ -1,0 +1,107 @@
+[
+  {
+    "id": "01",
+    "slug": "atlanta-dc-3k-estimate",
+    "title": "Atlanta to Washington DC (3K estimate)",
+    "url": "https://i.redd.it/yqjeackpbsoc1.jpeg",
+    "permalink": "https://reddit.com/r/moving/comments/various",
+    "tests": [
+      "long-distance",
+      "interstate",
+      "binding-detection"
+    ],
+    "file": "01-atlanta-dc-3k-estimate.jpeg",
+    "size": 288021,
+    "status": "ok"
+  },
+  {
+    "id": "02",
+    "slug": "thoughts-on-quote",
+    "title": "Thoughts on this quote?",
+    "url": "https://i.redd.it/md8c1bafococ1.jpeg",
+    "tests": [
+      "price-extraction"
+    ],
+    "file": "02-thoughts-on-quote.jpeg",
+    "size": 261398,
+    "status": "ok"
+  },
+  {
+    "id": "03",
+    "slug": "two-men-truck-doubled",
+    "title": "Two men and a truck $5200 to $22k",
+    "url": "https://i.redd.it/0ap588t1nsv91.jpg",
+    "tests": [
+      "mover-name-extraction",
+      "two-men-and-a-truck"
+    ],
+    "file": "03-two-men-truck-doubled.jpg",
+    "size": 144085,
+    "status": "ok"
+  },
+  {
+    "id": "04",
+    "slug": "allied-socal-denver-18k",
+    "title": "$18K quote from Allied for SoCal -> Denver",
+    "url": "https://i.redd.it/rhzzq81i4xef1.jpeg",
+    "tests": [
+      "allied-van-lines",
+      "long-distance",
+      "high-price"
+    ],
+    "file": "04-allied-socal-denver-18k.jpeg",
+    "size": 643787,
+    "status": "ok"
+  },
+  {
+    "id": "05",
+    "slug": "brightside-quote",
+    "title": "Have a quote from Brightside, is it safe to proceed?",
+    "url": "https://i.redd.it/7p6qqzdznahf1.jpeg",
+    "tests": [
+      "mover-name-extraction",
+      "scam-detection"
+    ],
+    "file": "05-brightside-quote.jpeg",
+    "size": 473677,
+    "status": "ok"
+  },
+  {
+    "id": "06",
+    "slug": "united-vs-mayflower",
+    "title": "Feedback on Quotes - United vs Mayflower",
+    "url": "https://i.redd.it/29hmunfrdlaf1.jpeg",
+    "tests": [
+      "multiple-quotes",
+      "comparison"
+    ],
+    "file": "06-united-vs-mayflower.jpeg",
+    "size": 292360,
+    "status": "ok"
+  },
+  {
+    "id": "07",
+    "slug": "mayflower-quote",
+    "title": "Mayflower Quote fair?",
+    "url": "https://i.redd.it/xuvw1ibpy8yc1.jpeg",
+    "tests": [
+      "mayflower-mover-name"
+    ],
+    "file": "07-mayflower-quote.jpeg",
+    "size": 386705,
+    "status": "ok"
+  },
+  {
+    "id": "08",
+    "slug": "fl-md-2-kids-3-pets",
+    "title": "Moving from FL to MD with 2 kids and 3 pets",
+    "url": "https://i.redd.it/ofbe4um1lcic1.jpeg",
+    "tests": [
+      "interstate",
+      "long-distance"
+    ],
+    "file": "08-fl-md-2-kids-3-pets.jpeg",
+    "size": 407374,
+    "status": "ok"
+  }
+]

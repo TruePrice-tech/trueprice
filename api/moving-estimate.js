@@ -207,7 +207,48 @@ Rules:
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
     }
 
-    captureAnonymizedData("moving", parsed); // fire and forget
+    captureAnonymizedData("moving", parsed); // fire and forget — older tp:pricing_data list
+
+    // Bridge to the unified calibration flywheel + global quote counter so
+    // moving quote uploads light up the same systems as every other vertical.
+    // Same pattern used by api/vehicle-estimate.js storeShopQuote.
+    try {
+      const totalPrice = Number(parsed && parsed.totalPrice) || 0;
+      if (totalPrice > 0) {
+        await redis.incr("tp:total_quotes").catch(() => {});
+
+        const cityLc = String((parsed && parsed.pickupCity) || "").toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
+        const st = String((parsed && parsed.pickupState) || "").toUpperCase();
+        const homeSize = String((parsed && parsed.homeSize) || "unknown").toLowerCase();
+        const moveType = String((parsed && parsed.moveType) || "unknown").toLowerCase();
+        const service = "moving";
+        // Trust score for AI-extracted real shop quotes is moderate.
+        // Influence weight 0.3 — keeps a single quote from skewing the aggregate.
+        const weight = 0.3;
+        if (st) {
+          const bump = async (k) => {
+            try {
+              const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+              const e = typeof ex === "string" ? JSON.parse(ex) : ex;
+              e.quotes += 1;
+              e.weightedSum += totalPrice * weight;
+              e.totalWeight += weight;
+              e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+              e.lastUpdated = Date.now();
+              await redis.set(k, JSON.stringify(e));
+            } catch (e) { /* aggregates are best-effort */ }
+          };
+          // Same fallback chain as auto and other verticals
+          if (cityLc) await bump(`cal:${cityLc}:${st}:${service}`);
+          if (cityLc && homeSize !== "unknown") await bump(`cal:${cityLc}:${st}:${service}:${homeSize}`);
+          await bump(`cal:metro:${st}:${service}`);
+          if (homeSize !== "unknown") await bump(`cal:metro:${st}:${service}:${homeSize}`);
+          if (moveType !== "unknown") await bump(`cal:metro:${st}:${service}:movetype_${moveType}`);
+        }
+      }
+    } catch (calErr) {
+      console.log("[moving-estimate] flywheel bridge error:", calErr.message);
+    }
 
     return res.status(200).json({
       success: true,
