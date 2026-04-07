@@ -71,6 +71,58 @@
 
     .mv-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
 
+    .mv-dual {
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    @media (max-width: 600px) {
+      .mv-dual { grid-template-columns: 1fr; }
+    }
+    .mv-dual-card {
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      background: #f8fafc;
+      transition: all 0.18s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: 180px;
+    }
+    .mv-dual-card:hover { border-color: #d97706; background: #fffbeb; }
+    .mv-dual-card .mv-dual-icon { font-size: 32px; margin-bottom: 6px; }
+    .mv-dual-card h3 { margin: 0 0 4px; font-size: 15px; color: #1e293b; }
+    .mv-dual-card p { margin: 0 0 10px; font-size: 12px; color: #64748b; }
+    .mv-dual-card .mv-dual-hosts { font-size: 11px; color: #94a3b8; margin-top: auto; }
+    .mv-url-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      box-sizing: border-box;
+      margin-bottom: 8px;
+    }
+    .mv-url-input:focus { outline: none; border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.15); }
+    .mv-url-btn {
+      width: 100%;
+      padding: 9px 12px;
+      background: #d97706;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .mv-url-btn:hover { background: #b45309; }
+    .mv-url-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .mv-url-error { font-size: 11px; color: #dc2626; margin-top: 6px; min-height: 14px; }
     .mv-upload-zone {
       border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
       text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
@@ -558,14 +610,25 @@
           <span class="mv-seasonal-badge ' + seasonInfo.css + '">' + seasonInfo.label + '</span>\
         </div>\
         <div class="mv-card">\
-          <div class="mv-upload-zone" id="uploadZone">\
-            <div style="font-size:36px; margin-bottom:8px;">&#128230;</div>\
-            <p><strong>Upload Your Moving Quote</strong></p>\
-            <p class="hint">Drag and drop a PDF or photo of your moving estimate</p>\
-            <p class="hint">PDF, JPG, PNG accepted</p>\
-            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          <div class="mv-dual">\
+            <div class="mv-dual-card" id="uploadZone" style="cursor:pointer;">\
+              <div class="mv-dual-icon">&#128230;</div>\
+              <h3>Upload a file</h3>\
+              <p>Drop your PDF or photo of the quote here</p>\
+              <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+              <div class="mv-dual-hosts">PDF, JPG, PNG &mdash; works with paper quotes</div>\
+            </div>\
+            <div class="mv-dual-card" style="cursor:default;">\
+              <div class="mv-dual-icon">&#128279;</div>\
+              <h3>Paste a quote link</h3>\
+              <p>From any moving portal email</p>\
+              <input type="url" id="urlInput" class="mv-url-input" placeholder="https://..." />\
+              <button type="button" id="urlSubmit" class="mv-url-btn">Analyze this link</button>\
+              <div class="mv-url-error" id="urlError"></div>\
+              <div class="mv-dual-hosts">HireAHelper, U-Haul, Bellhop, PODS, Penske</div>\
+            </div>\
           </div>\
-          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
+          <div style="margin-top:6px; font-size:12px; color:#94a3b8; text-align:center;">Either way works. Your quote stays private &mdash; never stored or shared.</div>\
           <div class="mv-divider">or enter your quote details manually</div>\
           <div class="mv-manual-form">\
             <div class="mv-row">\
@@ -632,7 +695,11 @@
       // File upload events
       var zone = document.getElementById("uploadZone");
       var fileInput = document.getElementById("fileInput");
-      zone.addEventListener("click", function() { fileInput.click(); });
+      zone.addEventListener("click", function(e) {
+        // Don't trigger file picker if click bubbles up from the URL card
+        if (e.target.closest && e.target.closest("#urlInput, #urlSubmit")) return;
+        fileInput.click();
+      });
       zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#d97706"; zone.style.background = "#fffbeb"; });
       zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; zone.style.background = "#f8fafc"; });
       zone.addEventListener("drop", function(e) {
@@ -640,6 +707,24 @@
         if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
       });
       fileInput.addEventListener("change", function() { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+      // URL paste events
+      var urlInput = document.getElementById("urlInput");
+      var urlSubmit = document.getElementById("urlSubmit");
+      var urlError = document.getElementById("urlError");
+      function clearUrlError() { urlError.textContent = ""; }
+      function showUrlError(msg) { urlError.textContent = msg; }
+      urlInput.addEventListener("input", clearUrlError);
+      urlInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") { e.preventDefault(); urlSubmit.click(); }
+      });
+      urlSubmit.addEventListener("click", function() {
+        var url = (urlInput.value || "").trim();
+        if (!url) { showUrlError("Paste a quote URL first"); return; }
+        if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+        clearUrlError();
+        handleUrl(url);
+      });
 
       // Paste handler
       document.addEventListener("paste", function(e) {
@@ -755,6 +840,81 @@
       state.step = "uploading";
       render();
       processFile(file);
+    }
+
+    // ── URL handling ──
+    function handleUrl(url) {
+      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "moving", source: "url" });
+      state.uploadedFile = null;
+      state.sourceUrl = url;
+      state.step = "uploading";
+      render();
+      processUrl(url);
+    }
+
+    async function processUrl(url) {
+      try {
+        setProgress(20, "Fetching your quote page...");
+        var fetchResp;
+        try {
+          fetchResp = await fetch("/api/fetch-quote-url", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: url })
+          });
+        } catch (e) {
+          throw new Error("Network error fetching the URL. Check your connection and try again.");
+        }
+        var fetchData = await fetchResp.json().catch(function(){ return null; });
+        if (!fetchResp.ok || !fetchData || !fetchData.ok) {
+          throw new Error((fetchData && fetchData.error) || "Could not load that URL");
+        }
+
+        setProgress(50, "Analyzing moving quote...");
+        state.extractedText = fetchData.text;
+
+        // Same downstream pipeline as processFile — POST to /api/moving-estimate
+        var apiResult = null;
+        try {
+          setProgress(65, "Checking quote against market data...");
+          var apiResponse = await fetch("/api/moving-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: fetchData.text, sourceUrl: url, sourceTitle: fetchData.title })
+          });
+          if (apiResponse.ok) apiResult = await apiResponse.json();
+        } catch (apiErr) {
+          console.warn("API unavailable, falling back to local parsing:", apiErr);
+        }
+
+        setProgress(80, "Calculating verdict...");
+        var result = null;
+        if (apiResult && apiResult.quoteTotal) {
+          result = await buildResultFromAPI(apiResult);
+        } else {
+          result = await buildResultFromLocal(fetchData.text);
+        }
+        if (result) {
+          result.sourceType = "url";
+          result.sourceUrl = url;
+          result.sourceHost = fetchData.host;
+        }
+
+        setProgress(100, "Done!");
+        state.result = result;
+        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "moving", source: "url" });
+        state.step = "result";
+        setTimeout(render, 400);
+      } catch (err) {
+        console.error("Moving URL analysis error:", err);
+        // Send the user back to the upload screen with an inline error message
+        state.step = "upload";
+        render();
+        setTimeout(function() {
+          var errEl = document.getElementById("urlError");
+          if (errEl) errEl.textContent = err.message || "Could not analyze that URL. Try uploading a PDF instead.";
+        }, 50);
+      }
     }
 
     function renderUploading() {
