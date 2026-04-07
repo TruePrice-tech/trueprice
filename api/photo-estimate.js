@@ -180,6 +180,10 @@ export default async function handler(req, res) {
 
     const serviceType = body.service || "roofing";
 
+    if (serviceType !== "roofing") {
+      return res.status(400).json({ error: "Photo estimate is only available for roofing. Use the per-vertical analyzer for other trades." });
+    }
+
     const prompts = {
       roofing: `Analyze this photo of a house/building exterior. Extract roofing characteristics and return ONLY valid JSON (no markdown):
 
@@ -217,49 +221,6 @@ Rules:
 - photographerDistance: "at_house" = standing at or on the property (close-up, looking up), "near" = next door or adjacent driveway (10-30 ft), "across_street" = across the street or from a distance (30-80 ft), "far" = very far away (80+ ft). Use perspective cues like angle, size of house in frame, and foreground elements.
 - estimatedDistanceFt: Your best estimate of how far the camera is from the house in feet.
 - photoQuality: "good" = roof clearly visible, "too_dark" = nighttime or very low light, "too_blurry" = out of focus, "too_far" = house is tiny in frame, "no_house" = no house/building visible, "obstructed" = trees/objects blocking most of the roof. Be honest about quality.
-- Return ONLY the JSON object`,
-
-      hvac: `Analyze this photo of an HVAC system or equipment. Return ONLY valid JSON:
-
-{
-  "systemType": "central_ac" | "heat_pump" | "furnace" | "mini_split" | "window_unit" | "unknown",
-  "estimatedAge": <number in years or null>,
-  "brand": <brand name if visible or null>,
-  "condition": "good" | "fair" | "poor" | "unknown",
-  "conditionNotes": ["rust", "dirty coils", "damaged fins", "vegetation overgrowth", "outdated"],
-  "estimatedTonnage": <number or null>,
-  "additionalNotes": <any relevant observations>
-}
-
-Return ONLY the JSON object`,
-
-      solar: `Analyze this photo of a house/building exterior for solar panel installation potential. Return ONLY valid JSON:
-
-{
-  "roofOrientation": "south" | "east-west" | "north" | "mixed" | "unknown",
-  "estimatedUsableRoofSqFt": <number - south/west-facing roof area suitable for panels>,
-  "shadeLevel": "minimal" | "moderate" | "heavy" | "unknown",
-  "shadeNotes": ["trees", "neighboring buildings", "chimney shadow", "dormers"],
-  "existingPanels": true | false,
-  "existingPanelCount": <number or null>,
-  "roofMaterial": "architectural" | "asphalt" | "metal" | "tile" | "flat" | "unknown",
-  "roofCondition": "good" | "fair" | "poor" | "unknown",
-  "stories": 1 | 2 | 3,
-  "complexity": "simple" | "moderate" | "complex",
-  "photographerDistance": "at_house" | "near" | "across_street" | "far",
-  "estimatedDistanceFt": <number - estimated distance in feet from photographer to the house>,
-  "photoQuality": "good" | "too_dark" | "too_blurry" | "too_far" | "no_house" | "obstructed",
-  "additionalNotes": <any relevant observations about solar potential>
-}
-
-Rules:
-- estimatedUsableRoofSqFt: Estimate south and west-facing roof area suitable for panels. Subtract chimneys, vents, skylights. Typically 50-70% of total roof area.
-- shadeLevel: "minimal" = full sun most of day, "moderate" = some tree shade, "heavy" = significant obstructions
-- stories: Count rows of windows. Two rows = 2 stories.
-- Do NOT estimate building footprint. Roof size is measured separately.
-- photographerDistance: "at_house" = standing at or on the property, "near" = next door (10-30 ft), "across_street" = across the street (30-80 ft), "far" = very far (80+ ft).
-- estimatedDistanceFt: Your best estimate of how far the camera is from the house in feet.
-- photoQuality: "good" = roof clearly visible, "too_dark" = nighttime or very low light, "too_blurry" = out of focus, "too_far" = house is tiny in frame, "no_house" = no house visible, "obstructed" = trees blocking roof.
 - Return ONLY the JSON object`,
 
       general: `Analyze this photo of a home exterior. Identify what home service might be needed. Return ONLY valid JSON:

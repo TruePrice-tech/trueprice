@@ -331,13 +331,7 @@
           '</a>';
 
         } else {
-          // Other services: photo + quote (or browse)
-          cards += '<a class="action-card action-card-green" href="/photo-estimate.html?service=' + svc + '">' +
-            '<span class="card-icon">&#128247;</span>' +
-            '<span class="card-title">Take a Photo</span>' +
-            '<span class="card-desc">' + (photoDescs[svc] || "Snap a photo for an instant AI estimate") + '</span>' +
-          '</a>';
-
+          // Other services: quote (or browse) + compare
           if (analyzer) {
             cards += '<a class="action-card action-card-blue" href="' + analyzer + '">' +
               '<span class="card-icon">&#128196;</span>' +

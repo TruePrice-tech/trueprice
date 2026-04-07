@@ -6,20 +6,20 @@
   <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Photo Estimate - Snap a Photo, Get a Price | TruePrice</title>
-  <meta name="description" content="Take a photo of your house and get an instant roofing, HVAC, or home service cost estimate. No forms, no signup. Just point and shoot." />
+  <title>Roof Photo Estimate - Snap a Photo, Get a Price | TruePrice</title>
+  <meta name="description" content="Take a photo of your house and get an instant roofing replacement cost estimate. No forms, no signup. Just point and shoot." />
   <link rel="canonical" href="https://truepricehq.com/photo-estimate.html" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="Photo Estimate | TruePrice" />
-  <meta property="og:description" content="Snap a photo of your house or AC unit. Get an instant roofing, HVAC, or solar cost estimate. No forms, no signup." />
+  <meta property="og:title" content="Roof Photo Estimate | TruePrice" />
+  <meta property="og:description" content="Snap a photo of your house. Get an instant roofing replacement cost estimate. No forms, no signup." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/photo-estimate.html" />
   <meta property="og:site_name" content="TruePrice" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Photo Estimate | TruePrice" />
-  <meta name="twitter:description" content="Snap a photo of your house or AC unit. Get an instant roofing, HVAC, or solar cost estimate." />
+  <meta name="twitter:title" content="Roof Photo Estimate | TruePrice" />
+  <meta name="twitter:description" content="Snap a photo of your house. Get an instant roofing replacement cost estimate." />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
 
   <link rel="stylesheet" href="/css/trueprice.min.css" />
@@ -191,8 +191,7 @@
     var SEASONAL_MULT = SEASONAL_MULTS[now.getMonth() + 1] || 1.0;
 
     var app = document.getElementById("peApp");
-    var urlService = new URLSearchParams(window.location.search).get("service") || "roofing";
-    if (!["roofing", "hvac", "solar"].includes(urlService)) urlService = "roofing";
+    var urlService = "roofing";
     var state = {
       step: "capture",
       service: urlService,
@@ -350,19 +349,11 @@
     function renderCapture() {
       var isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
       var photoLabels = {
-        roofing: { title: "Take a photo of your house", desc: "We'll estimate your roof size, material, and replacement price", addressLink: "/roofing-quote-analyzer.html?mode=estimator" },
-        hvac: { title: "Take a photo of your AC unit", desc: "We'll detect the brand, system type, and estimate replacement price", addressLink: null },
-        solar: { title: "Take a photo of your house", desc: "We'll assess your roof for solar potential and estimate installation price", addressLink: "/solar-quote-analyzer.html?mode=estimator" },
-        general: { title: "Take a photo of your home", desc: "We'll identify the project and estimate cost", addressLink: null }
+        roofing: { title: "Take a photo of your house", desc: "We'll estimate your roof size, material, and replacement price", addressLink: "/roofing-quote-analyzer.html?mode=estimator" }
       };
-      var labels = photoLabels[state.service] || photoLabels.general;
+      var labels = photoLabels.roofing;
 
-      var photoTips = {
-        roofing: "Stand 20-30ft back so the full roof is visible. Daytime works best.",
-        hvac: "Get close enough to read the brand label on your outdoor unit.",
-        solar: "Stand back to show the full roofline and any nearby trees."
-      };
-      var tipText = photoTips[state.service] || photoTips.roofing;
+      var tipText = "Stand 20-30ft back so the full roof is visible. Daytime works best.";
 
       app.innerHTML =
         '<div style="text-align:center; margin-bottom:16px;">' +
@@ -378,12 +369,6 @@
         '</div>' +
         '<input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none;" />' +
 
-        '<div style="display:flex; justify-content:center; gap:16px; margin-top:16px; font-size:13px;">' +
-          (state.service !== "roofing" ? '<a href="?service=roofing" style="color:#64748b; text-decoration:none;">Roofing</a>' : '<strong style="color:#1d4ed8;">Roofing</strong>') +
-          (state.service !== "hvac" ? '<a href="?service=hvac" style="color:#64748b; text-decoration:none;">HVAC</a>' : '<strong style="color:#1d4ed8;">HVAC</strong>') +
-          (state.service !== "solar" ? '<a href="?service=solar" style="color:#64748b; text-decoration:none;">Solar</a>' : '<strong style="color:#1d4ed8;">Solar</strong>') +
-        '</div>' +
-
         (labels.addressLink
           ? '<div style="text-align:center; margin-top:12px;"><a href="' + labels.addressLink + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">or enter address manually &rarr;</a></div>'
           : '<div style="text-align:center; margin-top:12px;"><a href="/analyze-quote.html#' + esc(state.service) + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>');
@@ -397,7 +382,7 @@
         savedEstimates.slice(0, 5).forEach(function(est) {
           var date = new Date(est.timestamp);
           var dateStr = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
-          var svcLabel = est.service === "hvac" ? "HVAC" : est.service === "solar" ? "Solar" : "Roofing";
+          var svcLabel = "Roofing";
           var loc = est.city ? est.city + ", " + est.stateCode : "";
           pastHtml += '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:#f8fafc; border:1px solid #f1f5f9; border-radius:8px; margin-bottom:6px; font-size:13px;">' +
             '<div><strong>' + svcLabel + '</strong>' + (loc ? ' &middot; ' + esc(loc) : '') + '<br><span style="color:#94a3b8;">' + dateStr + '</span></div>' +
@@ -464,8 +449,7 @@
 
     /* ── STEP 2: ANALYZING ── */
     function renderAnalyzing() {
-      var svcTrudy = { roofing: "trudy-roofing", hvac: "trudy-hvac", solar: "trudy-solar" };
-      var imgName = svcTrudy[state.service] || "trudy-working";
+      var imgName = "trudy-roofing";
       app.innerHTML =
         '<div style="text-align:center; padding:40px 20px;">' +
           '<img src="/images/' + imgName + '.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />' +
@@ -615,45 +599,6 @@
               roofSqFt: r.estimatedRoofSqFt
             };
           }
-        } else if (svc === "hvac") {
-          var hasSystem = r.systemType && r.systemType !== "unknown";
-          var hasCondition = r.condition && r.condition !== "unknown";
-          var hasLocation = state.city && state.stateCode;
-          canAutoConfirm = hasSystem && hasCondition && hasLocation;
-          if (canAutoConfirm) {
-            var brandTier = "mid";
-            var premiumBrands = ["Carrier","Trane","Lennox","Daikin"];
-            var valueBrands = ["Goodman","Payne","Heil","Comfortmaker"];
-            if (r.brand) {
-              if (premiumBrands.some(function(b) { return r.brand.toLowerCase().indexOf(b.toLowerCase()) >= 0; })) brandTier = "premium";
-              else if (valueBrands.some(function(b) { return r.brand.toLowerCase().indexOf(b.toLowerCase()) >= 0; })) brandTier = "value";
-            }
-            state.confirmed = {
-              city: state.city, stateCode: state.stateCode, address: state.address, zip: state.zip,
-              systemType: r.systemType,
-              tonnage: r.estimatedTonnage || 3,
-              efficiency: "16_seer",
-              brandTier: brandTier,
-              condition: r.condition,
-              homeSqFt: 2000
-            };
-          }
-        } else if (svc === "solar") {
-          var hasOrientation = r.roofOrientation && r.roofOrientation !== "unknown";
-          var hasShade = r.shadeLevel && r.shadeLevel !== "unknown";
-          var hasLocation = state.city && state.stateCode;
-          canAutoConfirm = hasOrientation && hasShade && hasLocation;
-          if (canAutoConfirm) {
-            state.confirmed = {
-              city: state.city, stateCode: state.stateCode, address: state.address, zip: state.zip,
-              panelTier: "standard",
-              systemSizeKW: 8,
-              battery: false,
-              shadeLevel: r.shadeLevel,
-              condition: r.roofCondition || r.condition || "good",
-              roofSqFt: r.estimatedUsableRoofSqFt || r.estimatedRoofSqFt || 1200
-            };
-          }
         }
 
         if (canAutoConfirm && state.cityMult) {
@@ -718,16 +663,6 @@
         var unknowns = (r.material === "unknown" ? 1 : 0) + (r.condition === "unknown" ? 1 : 0) + (r.roofStyle === "unknown" || r.roofStyle === "mixed" ? 1 : 0) + (r.pitch === "unknown" ? 1 : 0);
         poorPhoto = unknowns >= 3;
         lowConfidence = r.materialConfidence === "low" || r.material === "unknown";
-      } else if (svc === "hvac") {
-        qualitySubject = "HVAC system";
-        var unknowns = (r.systemType === "unknown" ? 1 : 0) + (r.condition === "unknown" ? 1 : 0) + (!r.brand ? 1 : 0) + (!r.estimatedTonnage ? 1 : 0);
-        poorPhoto = unknowns >= 3;
-        lowConfidence = r.systemType === "unknown";
-      } else if (svc === "solar") {
-        qualitySubject = "roof";
-        var unknowns = (r.roofOrientation === "unknown" ? 1 : 0) + (r.roofCondition === "unknown" ? 1 : 0) + (r.shadeLevel === "unknown" ? 1 : 0) + (r.roofMaterial === "unknown" ? 1 : 0);
-        poorPhoto = unknowns >= 3;
-        lowConfidence = r.roofOrientation === "unknown" || r.shadeLevel === "unknown";
       }
 
       var html = '';
@@ -823,114 +758,8 @@
           '</div>';
       }
 
-      if (svc === "hvac") {
-        var detectedSystem = r.systemType || "central_ac";
-        var detectedBrand = r.brand || "";
-        var brandTier = "mid";
-        var premiumBrands = ["Carrier","Trane","Lennox","Daikin"];
-        var valueBrands = ["Goodman","Payne","Heil","Comfortmaker"];
-        if (detectedBrand) {
-          if (premiumBrands.some(function(b) { return detectedBrand.toLowerCase().indexOf(b.toLowerCase()) >= 0; })) brandTier = "premium";
-          else if (valueBrands.some(function(b) { return detectedBrand.toLowerCase().indexOf(b.toLowerCase()) >= 0; })) brandTier = "value";
-        }
-        html +=
-          (detectedBrand ? '<div style="margin-bottom:16px; padding:10px 14px; background:#f0fdf4; border:1px solid #a7f3d0; border-radius:10px; font-size:14px; color:#166534;">Detected brand: <strong>' + esc(detectedBrand) + '</strong></div>' : '') +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">System Type</div>' +
-            buildOptionGroup("systemType", [
-              {value:"central_ac",label:"Central AC"},{value:"heat_pump",label:"Heat Pump"},
-              {value:"furnace",label:"Furnace"},{value:"mini_split",label:"Mini-Split"},{value:"full_system",label:"Full System"}
-            ], detectedSystem) +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">System Size (Tonnage)</div>' +
-            buildOptionGroup("tonnage", [
-              {value:"1.5",label:"1.5 ton"},{value:"2",label:"2 ton"},{value:"2.5",label:"2.5 ton"},
-              {value:"3",label:"3 ton"},{value:"3.5",label:"3.5 ton"},{value:"4",label:"4 ton"},{value:"5",label:"5 ton"}
-            ], String(r.estimatedTonnage || 3)) +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Efficiency</div>' +
-            buildOptionGroup("efficiency", [
-              {value:"14_seer",label:"14 SEER"},{value:"16_seer",label:"16 SEER"},
-              {value:"18_seer",label:"18 SEER"},{value:"20_seer",label:"20 SEER"}
-            ], "16_seer") +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Brand Tier</div>' +
-            buildOptionGroup("brandTier", [
-              {value:"premium",label:"Premium"},{value:"mid",label:"Mid-Range"},{value:"value",label:"Value"}
-            ], brandTier) +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Condition</div>' +
-            buildOptionGroup("condition", [
-              {value:"good",label:"Good"},{value:"fair",label:"Fair"},{value:"poor",label:"Poor"}
-            ], r.condition || "fair") +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Home Size (helps verify tonnage)</div>' +
-            '<div style="display:flex; align-items:center; gap:8px;">' +
-              '<input type="number" id="confirmHomeSqFt" value="2000" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
-              '<span style="font-size:14px; color:#64748b;">sq ft</span>' +
-            '</div>' +
-          '</div>';
-
-      } else if (svc === "solar") {
-        html +=
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Panel Tier</div>' +
-            buildOptionGroup("panelTier", [
-              {value:"standard",label:"Standard Panels"},{value:"premium",label:"Premium (SunPower, LG)"}
-            ], "standard") +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">System Size</div>' +
-            buildOptionGroup("systemSize", [
-              {value:"5",label:"5 kW"},{value:"8",label:"8 kW"},{value:"10",label:"10 kW"},
-              {value:"12",label:"12 kW"},{value:"15",label:"15 kW"}
-            ], "8") +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Battery Storage</div>' +
-            buildOptionGroup("battery", [
-              {value:"no",label:"No Battery"},{value:"yes",label:"Add Battery ($12K-$16K)"}
-            ], "no") +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Roof Condition</div>' +
-            buildOptionGroup("condition", [
-              {value:"good",label:"Good"},{value:"fair",label:"Fair"},{value:"poor",label:"Poor"}
-            ], r.roofCondition || r.condition || "good") +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Shade Level</div>' +
-            buildOptionGroup("shadeLevel", [
-              {value:"minimal",label:"Minimal"},{value:"moderate",label:"Moderate"},{value:"heavy",label:"Heavy"}
-            ], r.shadeLevel || "minimal") +
-          '</div>' +
-
-          '<div style="margin-bottom:16px;">' +
-            '<div class="pe-detail-label" style="margin-bottom:6px;">Usable Roof Area</div>' +
-            '<div style="display:flex; align-items:center; gap:8px;">' +
-              '<input type="number" id="confirmRoofSqFt" value="' + (r.estimatedUsableRoofSqFt || r.estimatedRoofSqFt || 1200) + '" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:14px; font-family:inherit; width:120px;" />' +
-              '<span style="font-size:14px; color:#64748b;">sq ft</span>' +
-            '</div>' +
-          '</div>';
-
-      } else {
-        // Roofing (default)
-        html +=
+      // Roofing
+      html +=
           '<div style="margin-bottom:16px;">' +
             '<div class="pe-detail-label" style="margin-bottom:6px;">Stories</div>' +
             buildOptionGroup("stories", [{value:"1",label:"1"},{value:"2",label:"2"},{value:"3",label:"3"}], String(r.stories || 1)) +
@@ -974,7 +803,6 @@
               '<span style="font-size:14px; color:#64748b;">sq ft</span>' +
             '</div>' +
           '</div>';
-      }
 
       html +=
 
@@ -1126,40 +954,26 @@
 
         var confirmed = { city: cityVal, stateCode: stateVal, address: addressVal, zip: zipVal, condition: getSelected("condition") || "fair" };
 
-        if (svc === "hvac") {
-          confirmed.systemType = getSelected("systemType") || "central_ac";
-          confirmed.tonnage = Number(getSelected("tonnage")) || 3;
-          confirmed.efficiency = getSelected("efficiency") || "16_seer";
-          confirmed.brandTier = getSelected("brandTier") || "mid";
-          confirmed.homeSqFt = Number((document.getElementById("confirmHomeSqFt") || {}).value) || 2000;
-        } else if (svc === "solar") {
-          confirmed.panelTier = getSelected("panelTier") || "standard";
-          confirmed.systemSizeKW = Number(getSelected("systemSize")) || 8;
-          confirmed.battery = getSelected("battery") === "yes";
-          confirmed.shadeLevel = getSelected("shadeLevel") || "minimal";
-          confirmed.roofSqFt = Number((document.getElementById("confirmRoofSqFt") || {}).value) || 1200;
-        } else {
-          confirmed.stories = Number(getSelected("stories")) || 1;
-          confirmed.material = getSelected("material") || "architectural";
-          confirmed.complexity = getSelected("complexity") || "simple";
-          confirmed.workType = getSelected("workType") || "new_roof";
-          var roofInput = document.getElementById("confirmRoofSqFt");
-          var roofVal = Number((roofInput || {}).value) || 0;
-          var addressProvided = (document.getElementById("confirmAddress") || {}).value && (document.getElementById("confirmAddress").value || "").trim();
-          // Only require manual roof size if no address provided (address lookup will find it)
-          if (!roofVal && !addressProvided && (svc === "roofing" || svc === "solar")) {
-            btn.disabled = false;
-            btn.textContent = "Looks good - get my estimate";
-            if (roofInput) roofInput.style.borderColor = "#ef4444";
-            alert("Please enter your roof size or street address so we can look it up.");
-            return;
-          }
-          confirmed.roofSqFt = roofVal;
+        confirmed.stories = Number(getSelected("stories")) || 1;
+        confirmed.material = getSelected("material") || "architectural";
+        confirmed.complexity = getSelected("complexity") || "simple";
+        confirmed.workType = getSelected("workType") || "new_roof";
+        var roofInput = document.getElementById("confirmRoofSqFt");
+        var roofVal = Number((roofInput || {}).value) || 0;
+        var addressProvided = (document.getElementById("confirmAddress") || {}).value && (document.getElementById("confirmAddress").value || "").trim();
+        // Only require manual roof size if no address provided (address lookup will find it)
+        if (!roofVal && !addressProvided) {
+          btn.disabled = false;
+          btn.textContent = "Looks good - get my estimate";
+          if (roofInput) roofInput.style.borderColor = "#ef4444";
+          alert("Please enter your roof size or street address so we can look it up.");
+          return;
         }
+        confirmed.roofSqFt = roofVal;
 
         // Validate roof size if applicable
         var roofInput = document.getElementById("confirmRoofSqFt");
-        if (roofInput && (svc === "roofing" || svc === "solar")) {
+        if (roofInput) {
           var roofVal = Number(roofInput.value);
           if (roofVal < 500) {
             btn.disabled = false;
@@ -1186,7 +1000,7 @@
         state.stateCode = stateVal;
         state.address = addressVal;
         state.zip = zipVal;
-        var needsFootprint = (svc === "roofing" || svc === "solar") && hasAddress;
+        var needsFootprint = hasAddress;
 
         function finishConfirm() {
           // Fetch city multiplier then go to result
@@ -1259,96 +1073,8 @@
       var conditionLabel = c.condition === "good" ? "Good condition" : c.condition === "poor" ? "Needs attention" : c.condition === "fair" ? "Normal wear" : "Condition unknown";
       var conditionNotesHtml = (r.conditionNotes && r.conditionNotes.length > 0) ? r.conditionNotes.map(function(n) { return esc(n); }).join(", ") : "";
 
-      if (svc === "hvac") {
-        var hvacPrices = {
-          central_ac: { "14_seer": 2800, "16_seer": 3400, "18_seer": 4200, "20_seer": 5200 },
-          heat_pump: { "14_seer": 3200, "16_seer": 3900, "18_seer": 4800, "20_seer": 6000 },
-          mini_split: { "14_seer": 3500, "16_seer": 5800, "18_seer": 8200, "20_seer": 10500 },
-          full_system: { "14_seer": 3200, "16_seer": 4000, "18_seer": 5200, "20_seer": 6500 }
-        };
-        var furnacePrices = { "14_seer": 3200, "16_seer": 4000, "18_seer": 4800, "20_seer": 5800 };
-
-        var systemType = c.systemType || "central_ac";
-        var tonnage = c.tonnage || 3;
-        var efficiency = c.efficiency || "16_seer";
-        var brandMult = c.brandTier === "premium" ? 1.12 : c.brandTier === "value" ? 0.90 : 1.0;
-
-        var basePricePerTon;
-        if (systemType === "furnace") {
-          basePricePerTon = furnacePrices[efficiency] || 4000;
-        } else if (systemType === "mini_split") {
-          // Mini splits price by zone count, approximate from tonnage
-          var zones = tonnage <= 1.5 ? 1 : tonnage <= 2.5 ? 2 : tonnage <= 3.5 ? 3 : 4;
-          var miniPrices = { 1: 3500, 2: 5800, 3: 8200, 4: 10500 };
-          basePricePerTon = (miniPrices[zones] || 5800) / tonnage;
-        } else {
-          basePricePerTon = (hvacPrices[systemType] || hvacPrices.central_ac)[efficiency] || 3400;
-        }
-
-        var totalCost = basePricePerTon * tonnage * laborMult * brandMult * INFLATION_MULT * SEASONAL_MULT;
-        mid = roundTo(totalCost, 50);
-        low = roundTo(mid * rangeLow, 50);
-        high = roundTo(mid * rangeHigh, 50);
-
-        var systemLabels = { central_ac: "Central AC", heat_pump: "Heat Pump", furnace: "Gas Furnace", mini_split: "Mini-Split", full_system: "Full HVAC System" };
-        var effLabels = { "14_seer": "14 SEER", "16_seer": "16 SEER", "18_seer": "18 SEER", "20_seer": "20 SEER" };
-
-        verdictLabel = "Estimated HVAC Replacement Cost";
-        verdictDesc = "for a " + tonnage + "-ton " + (systemLabels[systemType] || systemType) + " in " + locationLabel;
-
-        detailsHtml =
-          '<div class="pe-detail"><div class="pe-detail-label">System Type</div><div class="pe-detail-value">' + esc(systemLabels[systemType] || systemType) + '</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Tonnage</div><div class="pe-detail-value">' + tonnage + ' ton</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Efficiency</div><div class="pe-detail-value">' + esc(effLabels[efficiency] || efficiency) + '</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Brand Tier</div><div class="pe-detail-value">' + esc((c.brandTier || "mid").charAt(0).toUpperCase() + (c.brandTier || "mid").slice(1)) + '</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Home Size</div><div class="pe-detail-value">' + (c.homeSqFt || 2000).toLocaleString() + ' sq ft</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Pricing</div><div class="pe-detail-value">' + pricingSource + '</div></div>';
-
-        var hvacAnalyzerUrl = "/hvac-quote-analyzer.html" + (c.city ? "?city=" + encodeURIComponent(c.city) + "&state=" + encodeURIComponent(c.stateCode) : "");
-        ctaHtml =
-          '<a class="pe-btn pe-btn-primary pe-btn-full" href="' + hvacAnalyzerUrl + '">Get a detailed estimate</a>' +
-          '<a class="pe-btn pe-btn-secondary pe-btn-full" href="/find-contractors.html?service=hvac">Find HVAC contractors in ' + locationLabel + '</a>';
-        disclaimerHtml = 'This is an AI-powered estimate based on a single photo. For a more precise estimate, <a href="' + hvacAnalyzerUrl + '" style="color:#1d4ed8; font-weight:600;">upload an HVAC quote</a>.';
-
-      } else if (svc === "solar") {
-        var systemSizeKW = c.systemSizeKW || 8;
-        var pricePerWatt = c.panelTier === "premium" ? 3.75 : 3.00;
-        var systemWatts = systemSizeKW * 1000;
-        var shadeMult = c.shadeLevel === "heavy" ? 0.85 : c.shadeLevel === "moderate" ? 0.95 : 1.0;
-
-        var solarCost = systemWatts * pricePerWatt * laborMult * INFLATION_MULT;
-        var batteryCost = c.battery ? 14000 : 0;
-        var grossCost = solarCost + batteryCost;
-        var taxCredit = Math.round(grossCost * 0.30);
-        var netCost = grossCost - taxCredit;
-
-        mid = roundTo(netCost, 100);
-        low = roundTo(roundTo(grossCost * rangeLow, 100) - taxCredit, 100);
-        high = roundTo(roundTo(grossCost * rangeHigh, 100) - taxCredit, 100);
-        var grossMid = roundTo(grossCost, 100);
-
-        var monthlyOffset = { 5: "$100", 8: "$150", 10: "$200", 12: "$250", 15: "$300" };
-
-        verdictLabel = "Estimated Solar Installation Cost";
-        verdictDesc = "for a " + systemSizeKW + " kW system in " + locationLabel + " (after 30% federal tax credit)";
-
-        detailsHtml =
-          '<div class="pe-detail"><div class="pe-detail-label">System Size</div><div class="pe-detail-value">' + systemSizeKW + ' kW</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Panel Tier</div><div class="pe-detail-value">' + (c.panelTier === "premium" ? "Premium" : "Standard") + '</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Gross Cost</div><div class="pe-detail-value">' + fmt(grossMid) + '</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Federal Tax Credit (30%)</div><div class="pe-detail-value" style="color:#16a34a;">-' + fmt(taxCredit) + '</div></div>' +
-          '<div class="pe-detail"><div class="pe-detail-label">Monthly Bill Offset</div><div class="pe-detail-value">~' + (monthlyOffset[systemSizeKW] || "$150") + '/mo</div></div>' +
-          (c.battery ? '<div class="pe-detail"><div class="pe-detail-label">Battery Storage</div><div class="pe-detail-value">Included ($12K-$16K)</div></div>' : '') +
-          '<div class="pe-detail"><div class="pe-detail-label">Pricing</div><div class="pe-detail-value">' + pricingSource + '</div></div>';
-
-        var solarAnalyzerUrl = "/solar-quote-analyzer.html" + (c.city ? "?city=" + encodeURIComponent(c.city) + "&state=" + encodeURIComponent(c.stateCode) : "");
-        ctaHtml =
-          '<a class="pe-btn pe-btn-primary pe-btn-full" href="' + solarAnalyzerUrl + '">Get a detailed estimate</a>' +
-          '<a class="pe-btn pe-btn-secondary pe-btn-full" href="/find-contractors.html?service=solar">Find solar installers in ' + locationLabel + '</a>';
-        disclaimerHtml = 'This is an AI-powered estimate based on a single photo. For a more precise estimate, <a href="' + solarAnalyzerUrl + '" style="color:#1d4ed8; font-weight:600;">upload a solar quote</a>.';
-
-      } else {
-        // Roofing (default)
+      {
+        // Roofing
         var material = c.material || "architectural";
         var stories = c.stories || 1;
         var roofSqFt = c.roofSqFt || state.result.estimatedRoofSqFt || 2000;
@@ -1390,9 +1116,9 @@
       // Store estimate for feedback flywheel
       state.lastEstimate = { mid: mid, low: low, high: high };
 
-      // Build address block (shown at top for roofing/solar)
+      // Build address block
       var addressBlockHtml = '';
-      if (svc === "roofing" || svc === "solar") {
+      {
         addressBlockHtml =
           '<div id="addressVerifyBlock" style="margin-bottom:16px; padding:14px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; font-size:14px;">' +
             '<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">' +
@@ -1437,7 +1163,7 @@
           '<div class="pe-verdict">' +
             '<div class="pe-verdict-label">' + verdictLabel + '</div>' +
             '<div class="pe-verdict-price">' + fmt(low) + ' &ndash; ' + fmt(high) + '</div>' +
-            '<div class="pe-verdict-range">' + (svc === "roofing" ? "Midpoint: " + verdictDesc : verdictDesc) + '</div>' +
+            '<div class="pe-verdict-range">Midpoint: ' + verdictDesc + '</div>' +
           '</div>' +
 
           '<div class="pe-details">' + detailsHtml + '</div>' +
