@@ -70,9 +70,9 @@ def post_image(endpoint, fpath):
         return {"ok": False, "error": str(e), "elapsed": round(time.time() - t0, 1)}
 
 def extract_total(data):
-    """Pull totalPrice or quote total from various response shapes.
-    Falls through vertical-specific aliases (medical totalBilled, legal
-    retainerAmount/hourlyRate, etc.)"""
+    """Pull the headline price from a response, in the same order the
+    bridge in each endpoint uses. Must match the bridge fallthrough order
+    or the test runner display will mis-report parser accuracy."""
     if not data: return None
     inner = data.get("data") or data.get("estimate") or data
     if not isinstance(inner, dict):
@@ -80,14 +80,22 @@ def extract_total(data):
     # Universal
     v = inner.get("totalPrice") or inner.get("quoteTotal") or inner.get("total")
     if v: return v
+    # Legal: flatFee FIRST (most legal docs are flat-fee engagements)
+    v = inner.get("flatFee")
+    if v: return v
+    v = inner.get("retainerAmount")
+    if v: return v
+    cp = inner.get("contingencyPercent")
+    if cp: return round(50000 * (cp / 100))  # synthetic representative case
     # Medical
     v = inner.get("totalBilled") or inner.get("patientResponsibility")
     if v: return v
-    # Legal
-    v = inner.get("retainerAmount")
+    # Estimate range fallback
+    v = inner.get("estimatedTotalLow")
     if v: return v
+    # Last resort: hourly * 10
     hr = inner.get("hourlyRate")
-    if hr: return hr * 10  # typical engagement
+    if hr: return hr * 10
     return None
 
 def test_vertical(vertical, endpoint, dry_run=False):
