@@ -141,7 +141,7 @@ export default async function handler(req, res) {
 
     content.push({
       type: "text",
-      text: `Analyze this moving company estimate/quote. Extract the following information and return ONLY valid JSON (no markdown, no explanation):
+      text: `Analyze this moving company estimate/quote. Extract the following information and return ONLY valid JSON (no markdown, no prose outside the JSON object — the "summary" field inside the JSON is where your explanation goes):
 
 ${text ? "EXTRACTED TEXT FROM QUOTE:\n" + text.substring(0, 8000) + "\n\n" : ""}
 
@@ -182,7 +182,8 @@ Return this exact JSON structure:
     "packingCosts": <"yes" | "no" | "unclear">,
     "fuelSurcharge": <"yes" | "no" | "unclear">
   },
-  "redFlags": [<array of strings describing any concerning items found>]
+  "redFlags": [<array of strings describing any concerning items found>],
+  "summary": <string - 2 to 4 sentence plain-English verdict explaining whether this quote is fair, high, or low for the home size, move type, and route, what the biggest cost drivers are, and the single most important question the customer should ask the mover before signing. ALWAYS populate this field. Never leave it null or empty.>
 }
 
 CRITICAL EXTRACTION RULES:
@@ -226,6 +227,7 @@ OTHER RULES:
 - lineItems: List each charge as a separate item with the appropriate category
 - category: "labor" for crew/hourly charges, "packing" for boxes/materials/packing service, "special_item" for piano/hot tub/heavy items, "fee" for fuel/stair/long carry/shuttle, "insurance" for valuation/coverage, "storage" for storage-in-transit or warehouse
 - scopeItems: Mark "yes" only if clearly present in the quote
+- summary: ALWAYS write 2 to 4 sentences. Compare totalPrice against typical ranges for the homeSize and moveType, call out any redFlags in plain English, and end with one concrete next step for the customer. Never return an empty summary.
 - Return ONLY the JSON object, nothing else`
     });
 
@@ -263,7 +265,7 @@ OTHER RULES:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("moving", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("moving:v2-summary", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
