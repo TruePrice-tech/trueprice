@@ -1,4 +1,10 @@
 {
+  "crons": [
+    {
+      "path": "/api/daily-counter-tick",
+      "schedule": "0 9 * * *"
+    }
+  ],
   "functions": {
     "api/parse-quote.js": {
       "maxDuration": 30
