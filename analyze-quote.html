@@ -351,6 +351,29 @@
               '<span class="card-desc">See average ' + label.toLowerCase() + ' costs in your area</span>' +
             '</a>';
           }
+
+          // Per-vertical compare card. Every trade has its own dedicated
+          // comparison page with the right fields, scope checklist, and
+          // verdict logic for that vertical.
+          var compareRoutes = {
+            "hvac":"/compare-hvac-quotes.html","plumbing":"/compare-plumbing-quotes.html",
+            "electrical":"/compare-electrical-quotes.html","solar":"/compare-solar-quotes.html",
+            "windows":"/compare-windows-quotes.html","siding":"/compare-siding-quotes.html",
+            "painting":"/compare-painting-quotes.html","fencing":"/compare-fencing-quotes.html",
+            "concrete":"/compare-concrete-quotes.html","landscaping":"/compare-landscaping-quotes.html",
+            "garage-doors":"/compare-garage-door-quotes.html","foundation":"/compare-foundation-quotes.html",
+            "kitchen":"/compare-kitchen-quotes.html","insulation":"/compare-insulation-quotes.html",
+            "gutters":"/compare-gutters-quotes.html","auto-repair":"/compare-auto-quotes.html",
+            "moving":"/compare-moving-quotes.html","medical":"/compare-medical-quotes.html",
+            "legal":"/compare-legal-quotes.html"
+          };
+          if (compareRoutes[svc]) {
+            cards += '<a class="action-card action-card-purple" href="' + compareRoutes[svc] + '">' +
+              '<span class="card-icon">&#128202;</span>' +
+              '<span class="card-title">Compare Quotes</span>' +
+              '<span class="card-desc">Upload 2-3 ' + label.toLowerCase() + ' quotes to compare side by side</span>' +
+            '</a>';
+          }
         }
 
         actionCards.innerHTML = cards;

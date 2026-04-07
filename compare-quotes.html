@@ -2,11 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    // Per-vertical compare router. compare-quotes.html is the roofing
+    // comparison page (740+ city roof-cost pages link here). For any
+    // non-roofing ?service= param, redirect to that vertical's dedicated
+    // compare page. Every vertical has its own — nothing is "generic".
+    (function() {
+      try {
+        var s = (new URLSearchParams(location.search).get("service") || "").toLowerCase().trim();
+        var routes = {
+          "auto": "/compare-auto-quotes.html",
+          "auto-repair": "/compare-auto-quotes.html",
+          "legal": "/compare-legal-quotes.html",
+          "hvac": "/compare-hvac-quotes.html",
+          "plumbing": "/compare-plumbing-quotes.html",
+          "electrical": "/compare-electrical-quotes.html",
+          "solar": "/compare-solar-quotes.html",
+          "medical": "/compare-medical-quotes.html",
+          "moving": "/compare-moving-quotes.html",
+          "concrete": "/compare-concrete-quotes.html",
+          "foundation": "/compare-foundation-quotes.html",
+          "fencing": "/compare-fencing-quotes.html",
+          "fence": "/compare-fencing-quotes.html",
+          "garage-door": "/compare-garage-door-quotes.html",
+          "garage": "/compare-garage-door-quotes.html",
+          "gutters": "/compare-gutters-quotes.html",
+          "gutter": "/compare-gutters-quotes.html",
+          "insulation": "/compare-insulation-quotes.html",
+          "kitchen": "/compare-kitchen-quotes.html",
+          "landscaping": "/compare-landscaping-quotes.html",
+          "painting": "/compare-painting-quotes.html",
+          "siding": "/compare-siding-quotes.html",
+          "windows": "/compare-windows-quotes.html",
+          "window": "/compare-windows-quotes.html"
+        };
+        if (s && s !== "roofing" && s !== "roof" && routes[s]) {
+          location.replace(routes[s]);
+        }
+      } catch (e) { /* fall through to roofing comparison */ }
+    })();
+  </script>
   <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
   <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Compare Contractor Quotes Side by Side | TruePrice</title>
-  <meta name="description" content="Upload up to 3 contractor quotes and compare them side by side. See which offers the best value based on price, scope, and warranty. Works for all 16 home services plus auto repair." />
+  <title>Compare Roofing Quotes Side by Side | TruePrice</title>
+  <meta name="description" content="Upload up to 3 roofing quotes and compare them side by side. See which offers the best value based on price, scope, materials, and warranty. Other trades have their own dedicated comparison pages." />
   <link rel="canonical" href="https://truepricehq.com/compare-quotes.html" />
   <meta name="robots" content="index,follow" />
   <meta property="og:title" content="Compare Contractor Quotes | TruePrice" />

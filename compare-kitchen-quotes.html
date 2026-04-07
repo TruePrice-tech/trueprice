@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Kitchen Remodel Quotes Side by Side | TruePrice</title>
+  <meta name="description" content="Upload 2 or 3 kitchen remodel quotes and we'll show you which is the best deal once cabinet grade, countertops, and appliances are equalized." />
+  <link rel="canonical" href="https://truepricehq.com/compare-kitchen-quotes.html" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Compare Kitchen Remodel Quotes Side by Side | TruePrice" />
+  <meta property="og:description" content="Upload 2 or 3 kitchen remodel quotes and we'll show you which is the best deal once cabinet grade, countertops, and appliances are equalized." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/compare-kitchen-quotes.html" />
+  <meta property="og:site_name" content="TruePrice" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Compare Kitchen Remodel Quotes Side by Side | TruePrice" />
+  <meta name="twitter:description" content="Upload 2 or 3 kitchen remodel quotes and we'll show you which is the best deal once cabinet grade, countertops, and appliances are equalized." />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice Compare Kitchen Remodel Quotes Side by Side","url":"https://truepricehq.com/compare-kitchen-quotes.html","description":"Upload 2 or 3 kitchen remodel quotes and we'll show you which is the best deal once cabinet grade, countertops, and appliances are equalized.","applicationCategory":"UtilityApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"operatingSystem":"Web","provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
+  </script>
+  <style>
+    .cmp-wrap { max-width: 960px; margin: 40px auto; padding: 0 24px; }
+    .cmp-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-lg); }
+    .cmp-card h1 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.02em; text-align: center; }
+    .cmp-sub { color: var(--text-secondary); margin: 0 0 28px; font-size: 16px; text-align: center; }
+    .cmp-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+    .cmp-slot { border: 2px dashed #cbd5e1; border-radius: 16px; padding: 32px 16px; text-align: center; cursor: pointer; transition: all 0.2s; background: #f8fafc; position: relative; min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .cmp-slot:hover { border-color: #9333ea; background: #f0f9ff; transform: translateY(-2px); }
+    .cmp-slot.uploaded { border-style: solid; border-color: #22c55e; background: #f0fdf4; cursor: default; }
+    .cmp-slot.uploading { border-color: #9333ea; background: #f0f9ff; }
+    .cmp-slot .slot-icon { font-size: 40px; }
+    .cmp-slot .slot-label { font-size: 15px; font-weight: 700; color: var(--text); }
+    .cmp-slot .slot-hint { font-size: 12px; color: #94a3b8; }
+    .cmp-slot .slot-check { color: #22c55e; font-size: 28px; margin-bottom: 4px; }
+    .cmp-slot .slot-remove { position: absolute; top: 8px; right: 10px; background: none; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; line-height: 1; padding: 4px; }
+    .cmp-slot .slot-remove:hover { color: #ef4444; }
+    .cmp-slot .slot-error { color: #ef4444; font-size: 13px; }
+    .cmp-slot input[type="file"] { display: none; }
+    .cmp-compare-btn { display: block; width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: inherit; background: #9333ea; color: #fff; }
+    .cmp-compare-btn:hover { background: #7e22ce; }
+    .cmp-compare-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .cmp-parsing-dots::after { content: ''; animation: cmpDots 1.2s steps(4, end) infinite; }
+    @keyframes cmpDots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+    .cmp-results { display: none; }
+    .cmp-results.visible { display: block; }
+    .cmp-winner-banner { display: flex; align-items: center; gap: 16px; padding: 20px 24px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 2px solid #86efac; border-radius: 16px; margin-bottom: 28px; }
+    .cmp-winner-banner img { width: 64px; flex-shrink: 0; }
+    .cmp-winner-title { font-size: 20px; font-weight: 800; color: #15803d; margin: 0 0 4px; }
+    .cmp-winner-sub { font-size: 14px; color: #166534; margin: 0; }
+    .cmp-table-wrap { overflow-x: auto; margin-bottom: 28px; }
+    .cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .cmp-table th, .cmp-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    .cmp-table th { background: #f8fafc; font-weight: 700; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+    .cmp-table .row-label { font-weight: 600; color: #64748b; background: #f8fafc; white-space: nowrap; width: 180px; }
+    .cmp-table .highlight { background: #f0fdf4; font-weight: 700; }
+    .cmp-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; background: #dcfce7; color: #15803d; }
+    .cmp-scope-check { color: #22c55e; font-weight: 700; }
+    .cmp-scope-missing { color: #f59e0b; }
+    .cmp-scope-no { color: #ef4444; }
+    .cmp-score-bar-wrap { display: flex; align-items: center; gap: 10px; }
+    .cmp-score-bar { flex: 1; height: 12px; background: #e5e7eb; border-radius: 6px; overflow: hidden; }
+    .cmp-score-bar-fill { height: 100%; border-radius: 6px; transition: width 0.6s ease; }
+    .cmp-score-label { font-weight: 800; font-size: 16px; min-width: 36px; }
+    .cmp-cta-section { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding-top: 24px; border-top: 1px solid #e5e7eb; }
+    .cmp-cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.15s; border: 2px solid transparent; font-family: inherit; }
+    .cmp-cta-primary { background: #9333ea; color: #fff; border-color: #9333ea; }
+    .cmp-cta-primary:hover { background: #7e22ce; }
+    .cmp-cta-secondary { background: #f1f5f9; color: #334155; border-color: #e2e8f0; }
+    .cmp-cta-secondary:hover { background: #e2e8f0; }
+    .cmp-cta-outline { background: #fff; color: #64748b; border-color: #e2e8f0; }
+    .cmp-back { font-size: 14px; color: var(--text-muted); cursor: pointer; margin-bottom: 16px; display: inline-block; background: none; border: none; font-family: inherit; padding: 0; }
+    @media (max-width: 700px) {
+      .cmp-slots { grid-template-columns: 1fr; }
+      .cmp-card { padding: 24px 16px; }
+      .cmp-card h1 { font-size: 22px; }
+      .cmp-winner-banner { flex-direction: column; text-align: center; }
+      .cmp-table { font-size: 13px; }
+      .cmp-table th, .cmp-table td { padding: 8px 10px; }
+      .cmp-table .row-label { width: 130px; }
+      .cmp-cta-section { flex-direction: column; }
+      .cmp-cta-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+        <a href="/all-cities.html">Cities</a>
+        <a href="/guides.html">Guides</a>
+        <a href="/find-contractors.html">Contractors</a>
+        <a href="/photo-estimate.html">Photo Estimate</a>
+        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="cmp-wrap">
+      <div class="cmp-card">
+        <div id="uploadStep">
+          <div style="text-align:center; margin-bottom:16px;">
+            <img src="/images/trudy-kitchen.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
+          </div>
+          <h1>Compare your kitchen remodel quotes</h1>
+          <p class="cmp-sub">Upload 2 or 3 kitchen remodel quotes and we'll show you which is the best deal once cabinet grade, countertops, and appliances are equalized.</p>
+          <div class="cmp-slots">
+            <div class="cmp-slot" id="slot0" onclick="document.getElementById('file0').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 1</span>
+              <span class="slot-hint">PDF, photo, or screenshot</span>
+              <input type="file" id="file0" accept=".pdf,image/*" onchange="handleUpload(0, this)" />
+            </div>
+            <div class="cmp-slot" id="slot1" onclick="document.getElementById('file1').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 2</span>
+              <span class="slot-hint">PDF, photo, or screenshot</span>
+              <input type="file" id="file1" accept=".pdf,image/*" onchange="handleUpload(1, this)" />
+            </div>
+            <div class="cmp-slot" id="slot2" onclick="document.getElementById('file2').click()">
+              <span class="slot-icon">&#128196;</span>
+              <span class="slot-label">Quote 3</span>
+              <span class="slot-hint">Optional</span>
+              <input type="file" id="file2" accept=".pdf,image/*" onchange="handleUpload(2, this)" />
+            </div>
+          </div>
+          <button class="cmp-compare-btn" id="compareBtn" disabled onclick="showResults()">Upload at least 2 quotes to compare</button>
+        </div>
+        <div id="resultsStep" class="cmp-results">
+          <button class="cmp-back" onclick="goBack()">&larr; Upload different quotes</button>
+          <div id="resultsContent"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>TruePrice helps people analyze kitchen remodeler quotes, compare prices, and avoid being overcharged.
+        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
+        <a href="/about.html" style="color:inherit;">About</a> |
+        <a href="/methodology.html" style="color:inherit;">Methodology</a> |
+        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a>
+      </p>
+    </div>
+  </footer>
+  <script src="/js/tp-analytics.min.js" async></script>
+  <script>
+    window._vendorLibsLoaded = false;
+    window.loadVendorLibs = function() {
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }).then(function() {
+        if (window.pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"; }
+      });
+    };
+  </script>
+  <script>
+  (function() {
+    var quotes = [null, null, null];
+    var uploadedFiles = [null, null, null];
+    var ENDPOINT = "/api/kitchen-estimate";
+    var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
+    var ROWS = [{"label": "Remodel Tier", "field": "remodelTier", "type": "text"}, {"label": "Cabinet Type", "field": "cabinetType", "type": "text"}, {"label": "Countertop Material", "field": "countertopMaterial", "type": "text"}, {"label": "Appliances Included", "field": "appliancesIncluded", "type": "yesno"}, {"label": "Cabinet Cost", "field": "cabinetCost", "type": "money"}, {"label": "Countertop Cost", "field": "countertopCost", "type": "money"}, {"label": "Labor Cost", "field": "laborCost", "type": "money"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}];
+    var SCOPE_ITEMS = [{"key": "demo", "label": "Demo included"}, {"key": "permit", "label": "Permit pulled"}, {"key": "design", "label": "Design service"}, {"key": "plumbingMove", "label": "Plumbing relocation"}, {"key": "electricalMove", "label": "Electrical relocation"}, {"key": "warranty", "label": "Warranty stated"}, {"key": "cleanup", "label": "Cleanup/haul-off"}];
+    var TRUDY = "/images/trudy-kitchen.png";
+    var SINGLE_PAGE = "/kitchen-quote-analyzer.html";
+    var GUIDE_PAGE = "/kitchen-cost-guide.html";
+    var NOUN_SHORT = "Remodeler";
+
+    function escHtml(s) { var d = document.createElement("div"); d.appendChild(document.createTextNode(s == null ? "" : String(s))); return d.innerHTML; }
+    function fmtMoney(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? "$" + Math.round(n).toLocaleString() : "N/A"; }
+    function fmtNumber(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? n.toLocaleString() : "N/A"; }
+    function fmtYears(n) { n = parseFloat(n); return (n && n > 0) ? n + (n === 1 ? " yr" : " yrs") : "N/A"; }
+    function fmtYesNo(v) { if (v === true || v === "yes" || v === "Yes" || v === "true") return '<span class="cmp-scope-check">&#10003; Yes</span>'; if (v === false || v === "no" || v === "No" || v === "false") return '<span class="cmp-scope-no">&#10007; No</span>'; return '<span class="cmp-scope-missing">? Unclear</span>'; }
+    function fmtText(v) { return (v == null || v === "" || v === "Unknown" || v === "unknown") ? "Not stated" : escHtml(v); }
+
+    function readPrice(api) {
+      for (var i = 0; i < PRICE_FIELDS.length; i++) {
+        var v = api[PRICE_FIELDS[i]];
+        if (v != null && v !== "" && v !== 0) {
+          var n = parseFloat(String(v).replace(/[^0-9.-]/g, ""));
+          if (n && n > 0) return n;
+        }
+      }
+      return 0;
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var r = new FileReader();
+        r.onload = function() { resolve(r.result); };
+        r.onerror = reject;
+        r.readAsDataURL(file);
+      });
+    }
+
+    function extractPdfText(file) {
+      return new Promise(function(resolve, reject) {
+        var r = new FileReader();
+        r.onload = function() {
+          var typedArray = new Uint8Array(r.result);
+          pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
+            var pages = []; var total = pdf.numPages; var processed = 0;
+            if (total === 0) return resolve("");
+            for (var i = 1; i <= total; i++) {
+              (function(pn) {
+                pdf.getPage(pn).then(function(page) {
+                  page.getTextContent().then(function(c) {
+                    pages[pn - 1] = c.items.map(function(it) { return it.str; }).join(" ");
+                    processed++;
+                    if (processed === total) resolve(pages.join("\n"));
+                  });
+                });
+              })(i);
+            }
+          }).catch(reject);
+        };
+        r.onerror = reject;
+        r.readAsArrayBuffer(file);
+      });
+    }
+
+    function sendToApi(payload) {
+      return fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function(res) {
+        if (!res.ok) throw new Error("API " + res.status);
+        return res.json();
+      });
+    }
+
+    window.handleUpload = function(idx, input) {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      if (file.size > 20 * 1024 * 1024) { alert("File too large. Max 20MB."); input.value = ""; return; }
+      var fileSig = file.name + "|" + file.size;
+      for (var d = 0; d < 3; d++) {
+        if (d !== idx && uploadedFiles[d] === fileSig) {
+          alert("This file is already uploaded as Quote " + (d + 1) + ".");
+          input.value = ""; return;
+        }
+      }
+      uploadedFiles[idx] = fileSig;
+
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.add("uploading");
+      slot.classList.remove("uploaded");
+      slot.onclick = null;
+      slot.innerHTML =
+        '<img src="' + TRUDY + '" alt="Trudy" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
+        '<span class="slot-hint">This may take a moment</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+      loadVendorLibs().then(function() {
+        var isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+        if (isPdf) return extractPdfText(file).then(function(text) { return sendToApi({ text: text }); });
+        return fileToBase64(file).then(function(b64) { return sendToApi({ images: [b64] }); });
+      }).then(function(raw) {
+        // Endpoints either return { data: {...} } or the data directly
+        var api = (raw && raw.data) || raw || {};
+        var price = readPrice(api);
+        var name = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || (NOUN_SHORT + " " + (idx + 1));
+
+        // Compute derived fields
+        if (price > 0) {
+          if (api.squareFootage > 0) api._dollarsPerSqFt = (price / api.squareFootage).toFixed(2);
+          if (api.linearFeet > 0) api._dollarsPerLinearFt = (price / api.linearFeet).toFixed(2);
+          if (api.windowCount > 0) api._dollarsPerWindow = Math.round(price / api.windowCount);
+          if (api.systemSizeKw > 0) api._dollarsPerWatt = (price / (api.systemSizeKw * 1000)).toFixed(2);
+        }
+
+        quotes[idx] = { name: name, price: price, api: api, scopeItems: api.scopeItems || {}, redFlags: api.redFlags || [] };
+
+        slot.classList.remove("uploading");
+        slot.classList.add("uploaded");
+        var nameDefault = name === (NOUN_SHORT + " " + (idx + 1));
+        slot.innerHTML =
+          '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
+          '<span class="slot-check">&#10003;</span>' +
+          '<input type="text" class="slot-edit-name" value="' + escHtml(name) + '" data-idx="' + idx + '" placeholder="' + NOUN_SHORT + ' name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid ' + (nameDefault ? '#fde68a' : '#e2e8f0') + '; border-radius:6px; padding:4px 8px; width:90%; background:' + (nameDefault ? '#fffbeb' : '#fff') + ';" />' +
+          '<input type="text" class="slot-edit-price" value="' + (price > 0 ? '$' + Math.round(price).toLocaleString() : '') + '" data-idx="' + idx + '" placeholder="Enter price" style="font-size:16px; font-weight:700; text-align:center; color:#9333ea; border:1px solid ' + (price > 0 ? '#e2e8f0' : '#fde68a') + '; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:' + (price > 0 ? '#fff' : '#fffbeb') + ';" />' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+
+        slot.querySelector(".slot-edit-name").addEventListener("change", function() {
+          quotes[idx].name = this.value.trim() || (NOUN_SHORT + " " + (idx + 1));
+          this.style.borderColor = "#e2e8f0"; this.style.background = "#fff";
+        });
+        slot.querySelector(".slot-edit-price").addEventListener("change", function() {
+          var v = parseFloat(this.value.replace(/[^0-9.]/g, "")) || 0;
+          quotes[idx].price = v;
+          if (v > 0) { this.value = "$" + v.toLocaleString(); this.style.borderColor = "#e2e8f0"; this.style.background = "#fff"; }
+          updateBtn();
+        });
+        updateBtn();
+      }).catch(function(err) {
+        console.error("[compare-kitchen] parse error:", err);
+        slot.classList.remove("uploading");
+        slot.innerHTML =
+          '<span class="slot-icon">&#128196;</span>' +
+          '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+          '<span class="slot-error">Could not parse. Try another file.</span>' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+        slot.onclick = function() { document.getElementById("file" + idx).click(); };
+        quotes[idx] = null; uploadedFiles[idx] = null;
+        updateBtn();
+      });
+    };
+
+    window.removeQuote = function(idx) {
+      quotes[idx] = null; uploadedFiles[idx] = null;
+      var slot = document.getElementById("slot" + idx);
+      slot.classList.remove("uploaded", "uploading");
+      slot.innerHTML =
+        '<span class="slot-icon">&#128196;</span>' +
+        '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+        '<span class="slot-hint">' + (idx === 2 ? "Optional" : "PDF, photo, or screenshot") + '</span>' +
+        '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+      slot.onclick = function() { document.getElementById("file" + idx).click(); };
+      updateBtn();
+    };
+
+    function updateBtn() {
+      var n = quotes.filter(function(q) { return q !== null; }).length;
+      var b = document.getElementById("compareBtn");
+      if (n >= 2) { b.disabled = false; b.textContent = "Compare " + n + " quotes"; }
+      else { b.disabled = true; b.textContent = "Upload at least 2 quotes to compare"; }
+    }
+
+    function scoreQuote(q, all) {
+      // Price 50%, scope 30%, red flags -20%
+      var prices = all.map(function(a) { return a.price; }).filter(function(p) { return p > 0; });
+      var priceScore = 0;
+      if (q.price > 0 && prices.length >= 2) {
+        var avg = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
+        var ratio = q.price / avg;
+        if (ratio < 0.5) priceScore = 25; // suspiciously low
+        else if (ratio <= 1) priceScore = 35 + (1 - ratio) * 30;
+        else priceScore = Math.max(10, 35 - (ratio - 1) * 35);
+      } else if (q.price > 0) priceScore = 30;
+
+      var confirmed = 0;
+      SCOPE_ITEMS.forEach(function(it) {
+        var v = (q.scopeItems && q.scopeItems[it.key]) || "";
+        if (v === "included" || v === "yes" || v === true) confirmed++;
+      });
+      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 30 : 0;
+
+      var flagPenalty = Math.min(20, (q.redFlags || []).length * 5);
+
+      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + 20 - flagPenalty)));
+      return { total: total, scopeCount: confirmed, priceScore: Math.round(priceScore), scopeScore: Math.round(scopeScore), flagPenalty: flagPenalty };
+    }
+
+    function scoreColor(s) { return s >= 70 ? "#16a34a" : s >= 40 ? "#d97706" : "#ef4444"; }
+
+    function readField(api, field) {
+      if (field && field.charAt(0) === "_") return api[field];
+      return api[field];
+    }
+
+    window.showResults = function() {
+      var active = [];
+      quotes.forEach(function(q, i) { if (q) active.push({ idx: i, data: q }); });
+      if (active.length < 2) return;
+
+      var allData = active.map(function(a) { return a.data; });
+      active.forEach(function(a) { a.score = scoreQuote(a.data, allData); });
+
+      var bestValue = active[0];
+      active.forEach(function(a) { if (a.score.total > bestValue.score.total) bestValue = a; });
+
+      var validPrices = active.map(function(a) { return a.data.price; }).filter(function(p) { return p > 0; });
+      var bestPrice = validPrices.length ? Math.min.apply(null, validPrices) : 0;
+      var spread = bestValue.score.total - Math.min.apply(null, active.map(function(a) { return a.score.total; }));
+      var isTight = spread <= 5;
+
+      var html = "";
+      html += '<div class="cmp-winner-banner">';
+      html += '<img src="' + TRUDY + '" alt="Trudy" />';
+      html += '<div>';
+      html += '<p style="font-size:12px;font-weight:700;color:#9333ea;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">TruePrice Quote Analysis</p>';
+      if (isTight) {
+        html += '<p class="cmp-winner-title">These quotes are closely matched</p>';
+        html += '<p class="cmp-winner-sub">Scores are within 5 points. Review the details below to make your final call.</p>';
+      } else {
+        html += '<p class="cmp-winner-title">' + escHtml(bestValue.data.name) + ' shows the best overall value</p>';
+        html += '<p class="cmp-winner-sub">Based on price, scope transparency, and red flags.</p>';
+      }
+      var priced = active.filter(function(a) { return a.data.price > 0; });
+      if (priced.length >= 2) {
+        priced.sort(function(a, b) { return a.data.price - b.data.price; });
+        var diff = priced[priced.length - 1].data.price - priced[0].data.price;
+        var pct = Math.round(diff / priced[0].data.price * 100);
+        if (pct > 5) {
+          var ctx = escHtml(priced[priced.length - 1].data.name) + " is $" + diff.toLocaleString() + " (" + pct + "%) more than " + escHtml(priced[0].data.name) + ". A higher price isn\u2019t always overcharging \u2014 check the scope and warranty before deciding.";
+          html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + ctx + '</p>';
+        }
+      }
+      html += '</div></div>';
+
+      // Score bars
+      html += '<div style="margin-bottom:28px;">';
+      active.forEach(function(a) {
+        var c = scoreColor(a.score.total);
+        html += '<div style="margin-bottom:12px;">';
+        html += '<div style="font-weight:700;font-size:14px;margin-bottom:4px;">' + escHtml(a.data.name);
+        if (a === bestValue && !isTight) html += ' <span class="cmp-badge">BEST VALUE</span>';
+        html += '</div><div class="cmp-score-bar-wrap">';
+        html += '<div class="cmp-score-bar"><div class="cmp-score-bar-fill" style="width:' + a.score.total + '%;background:' + c + ';"></div></div>';
+        html += '<span class="cmp-score-label" style="color:' + c + ';">' + a.score.total + '</span>';
+        html += '</div></div>';
+      });
+      html += '</div>';
+
+      // Comparison table
+      html += '<div class="cmp-table-wrap"><table class="cmp-table"><thead><tr><th></th>';
+      active.forEach(function(a) {
+        html += '<th>' + escHtml(a.data.name);
+        if (a === bestValue && !isTight) html += ' <span class="cmp-badge">BEST</span>';
+        html += '</th>';
+      });
+      html += '</tr></thead><tbody>';
+
+      // Total Price
+      html += '<tr><td class="row-label">Total Price</td>';
+      active.forEach(function(a) {
+        var cls = (a.data.price > 0 && a.data.price === bestPrice) ? ' class="highlight"' : '';
+        html += '<td' + cls + '>' + (a.data.price > 0 ? '$' + Math.round(a.data.price).toLocaleString() : 'N/A') + '</td>';
+      });
+      html += '</tr>';
+
+      // Per-vertical rows
+      ROWS.forEach(function(row) {
+        html += '<tr><td class="row-label">' + escHtml(row.label) + '</td>';
+        active.forEach(function(a) {
+          var v = readField(a.data.api, row.field);
+          if ((v == null || v === "") && row.alt_field) v = readField(a.data.api, row.alt_field);
+          var disp = "N/A";
+          if (row.type === "money") disp = fmtMoney(v);
+          else if (row.type === "number") disp = fmtNumber(v);
+          else if (row.type === "years") disp = fmtYears(v);
+          else if (row.type === "yesno") disp = fmtYesNo(v);
+          else if (row.type === "computed") disp = (v != null && v !== "") ? "$" + v : "N/A";
+          else disp = fmtText(v);
+          html += '<td>' + disp + '</td>';
+        });
+        html += '</tr>';
+      });
+
+      // Scope checklist
+      if (SCOPE_ITEMS.length > 0) {
+        html += '<tr><td class="row-label" colspan="' + (active.length + 1) + '" style="font-weight:700;color:#1e293b;padding-top:16px;">Transparency Checklist</td></tr>';
+        html += '<tr><td class="row-label">Scope Score</td>';
+        active.forEach(function(a) {
+          var c = a.score.scopeCount;
+          var col = c >= Math.round(SCOPE_ITEMS.length * 0.75) ? '#16a34a' : c >= Math.round(SCOPE_ITEMS.length * 0.5) ? '#d97706' : '#ef4444';
+          html += '<td><span style="color:' + col + ';font-weight:700;">' + c + '/' + SCOPE_ITEMS.length + '</span> confirmed</td>';
+        });
+        html += '</tr>';
+        SCOPE_ITEMS.forEach(function(it) {
+          html += '<tr><td class="row-label" style="padding-left:28px;font-weight:400;">' + escHtml(it.label) + '</td>';
+          active.forEach(function(a) {
+            var v = (a.data.scopeItems && a.data.scopeItems[it.key]) || "unclear";
+            if (v === "included" || v === "yes" || v === true) html += '<td><span class="cmp-scope-check">&#10003; Yes</span></td>';
+            else if (v === "excluded" || v === "no" || v === false || v === "missing") html += '<td><span class="cmp-scope-no">&#10007; No</span></td>';
+            else html += '<td><span class="cmp-scope-missing">? Unclear</span></td>';
+          });
+          html += '</tr>';
+        });
+      }
+
+      // Red flags row
+      var anyFlags = active.some(function(a) { return (a.data.redFlags || []).length > 0; });
+      if (anyFlags) {
+        html += '<tr><td class="row-label" colspan="' + (active.length + 1) + '" style="font-weight:700;color:#1e293b;padding-top:16px;">Red Flags</td></tr>';
+        html += '<tr><td class="row-label">Issues</td>';
+        active.forEach(function(a) {
+          var flags = a.data.redFlags || [];
+          if (flags.length === 0) html += '<td><span style="color:#16a34a;">&#10003; None</span></td>';
+          else {
+            var list = flags.slice(0, 3).map(function(f) { return '&bull; ' + escHtml(typeof f === "string" ? f : (f.message || JSON.stringify(f))); }).join("<br>");
+            html += '<td style="font-size:12px;color:#b91c1c;">' + list + '</td>';
+          }
+        });
+        html += '</tr>';
+      }
+
+      html += '</tbody></table></div>';
+
+      // CTAs
+      html += '<div class="cmp-cta-section">';
+      html += '<a href="' + SINGLE_PAGE + '" class="cmp-cta-btn cmp-cta-primary">Analyze another quote</a>';
+      html += '<a href="' + GUIDE_PAGE + '" class="cmp-cta-btn cmp-cta-secondary">Cost guide</a>';
+      html += '<button class="cmp-cta-btn cmp-cta-outline" onclick="startOver()">Start over</button>';
+      html += '</div>';
+
+      document.getElementById("resultsContent").innerHTML = html;
+      document.getElementById("uploadStep").style.display = "none";
+      document.getElementById("resultsStep").classList.add("visible");
+
+      setTimeout(function() {
+        var fills = document.querySelectorAll(".cmp-score-bar-fill");
+        fills.forEach(function(f) { var w = f.style.width; f.style.width = "0%"; setTimeout(function() { f.style.width = w; }, 50); });
+      }, 100);
+    };
+
+    window.goBack = function() {
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("uploadStep").style.display = "block";
+    };
+
+    window.startOver = function() {
+      quotes = [null, null, null]; uploadedFiles = [null, null, null];
+      for (var i = 0; i < 3; i++) {
+        var s = document.getElementById("slot" + i);
+        s.classList.remove("uploaded", "uploading");
+        s.innerHTML = '<span class="slot-icon">&#128196;</span><span class="slot-label">Quote ' + (i + 1) + '</span><span class="slot-hint">' + (i === 2 ? "Optional" : "PDF, photo, or screenshot") + '</span><input type="file" id="file' + i + '" accept=".pdf,image/*" onchange="handleUpload(' + i + ', this)" />';
+        s.onclick = (function(idx) { return function() { document.getElementById("file" + idx).click(); }; })(i);
+      }
+      document.getElementById("resultsStep").classList.remove("visible");
+      document.getElementById("resultsContent").innerHTML = "";
+      document.getElementById("uploadStep").style.display = "block";
+      updateBtn();
+    };
+  })();
+  </script>
+  <script src="/js/feedback-modal.js" defer></script>
+</body>
+</html>
