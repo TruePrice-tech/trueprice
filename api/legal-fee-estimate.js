@@ -264,6 +264,38 @@ Rules:
 
     captureAnonymizedData("legal", parsed); // fire and forget
 
+
+    // FLYWHEEL BRIDGE: increment global counter + write to cal:* aggregates
+    // so this vertical's quotes feed the same systems as moving and auto.
+    try {
+      const totalPrice = Number(parsed && parsed.totalPrice) || 0;
+      if (totalPrice > 0) {
+        await redis.incr("tp:total_quotes").catch(() => {});
+        const cityLc = String((parsed && (parsed.city || parsed.cityName)) || "")
+          .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
+        const st = String((parsed && (parsed.stateCode || parsed.state)) || "").toUpperCase();
+        const service = "legal";
+        const weight = 0.3;
+        if (st) {
+          const bump = async (k) => {
+            try {
+              const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+              const e = typeof ex === "string" ? JSON.parse(ex) : ex;
+              e.quotes += 1;
+              e.weightedSum += totalPrice * weight;
+              e.totalWeight += weight;
+              e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+              e.lastUpdated = Date.now();
+              await redis.set(k, JSON.stringify(e));
+            } catch (e) { /* aggregates are best-effort */ }
+          };
+          if (cityLc) await bump(`cal:${cityLc}:${st}:legal`);
+          await bump(`cal:metro:${st}:legal`);
+        }
+      }
+    } catch (calErr) {
+      console.log("[legal-fee-estimate] flywheel bridge error:", calErr.message);
+    }
     return res.status(200).json({ success: true, source: "claude-haiku", data: parsed });
 
   } catch (error) {
