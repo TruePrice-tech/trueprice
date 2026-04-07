@@ -157,10 +157,13 @@ export default async function handler(req, res) {
       }
 
       if (type === "feedback") {
-        const rating = String(data.rating || "").substring(0, 10);
-        const comment = String(data.comment || "").substring(0, 500).trim();
-        const page = String(data.path || "/").substring(0, 200);
-        const replyTo = String(data.email || "").substring(0, 100).trim();
+        // Accept both shapes: {type, rating, comment, path} (legacy)
+        // and {type, data:{rating, comment, email, path}} (new modal)
+        const fb = (data.data && typeof data.data === "object") ? data.data : data;
+        const rating = String(fb.rating || "").substring(0, 10);
+        const comment = String(fb.comment || "").substring(0, 500).trim();
+        const page = String(fb.path || "/").substring(0, 200);
+        const replyTo = String(fb.email || "").substring(0, 100).trim();
         const geo = getGeo(req);
         await redis.lpush("tp:feedback", JSON.stringify({
           rating, comment, page, device, city: geo.city, region: geo.region,
