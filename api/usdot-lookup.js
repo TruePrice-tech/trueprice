@@ -37,33 +37,62 @@ async function checkRateLimit(ip) {
 }
 
 // Parse the SAFER company snapshot HTML for the fields we care about.
-// SAFER's snapshot page has a recognizable table structure.
+// SAFER uses <TH class="querylabelbkg">label:</TH> followed by
+// <TD class="queryfield">value</TD>. We anchor on the queryfield class
+// so we don't accidentally grab form inputs or nav cells.
 function parseSnapshot(html) {
+  // Bail early if SAFER returned a "no record" page (which still has TDs)
+  if (/Record Not Found|No records matching|No data is available|RECORD INACTIVE/i.test(html) && !/queryfield/i.test(html)) {
+    return null;
+  }
+  // The raw page must have at least one queryfield to be a real snapshot
+  if (!/queryfield/i.test(html)) return null;
+
   const out = {};
+  function clean(s) {
+    if (!s) return null;
+    return s.replace(/<[^>]+>/g, " ")
+      .replace(/&nbsp;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
   function grab(label) {
-    const re = new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[\\s\\S]*?<TD[^>]*>([\\s\\S]*?)</TD>", "i");
+    // Match: label text in a TH, then the next TD with class="queryfield"
+    const escLabel = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(escLabel + "[\\s\\S]{0,300}?<TD[^>]*class=\"queryfield\"[^>]*>([\\s\\S]*?)</TD>", "i");
     const m = html.match(re);
     if (!m) return null;
-    return m[1].replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").trim();
+    const v = clean(m[1]);
+    return v && v !== "-" ? v : null;
   }
+
   out.legalName = grab("Legal Name:");
   out.dbaName = grab("DBA Name:");
   out.dotNumber = grab("USDOT Number:");
   out.status = grab("Operating Status:");
   out.outOfService = grab("Out of Service Date:");
   out.entityType = grab("Entity Type:");
-  out.mcMxNumber = grab("MC/MX/FF Number");
+  out.mcMxNumber = grab("MC/MX/FF Number") || grab("MC/MX/FF Number(s):");
   out.address = grab("Physical Address:");
   out.power = grab("Power Units:");
   out.drivers = grab("Drivers:");
-  // Operating authority indicators
-  const isCarrier = /OPERATING/i.test(out.status || "");
-  out.allowed = isCarrier && !out.outOfService;
-  // Filter empty/null
+
+  // Filter empty/null FIRST so the "found" check is honest
   for (const k of Object.keys(out)) {
-    if (out[k] == null || out[k] === "" || out[k] === "-") delete out[k];
+    if (out[k] == null || out[k] === "") delete out[k];
   }
-  return Object.keys(out).length > 0 ? out : null;
+
+  // Need at least a legal name + DOT number to consider this a real result
+  if (!out.legalName || !out.dotNumber) return null;
+
+  // Operating authority: SAFER's status is something like "AUTHORIZED FOR Property"
+  // or "OUT-OF-SERVICE". "AUTHORIZED" or "ACTIVE" with no out-of-service date = allowed.
+  const statusOk = /AUTHORIZED|ACTIVE|OPERATING/i.test(out.status || "");
+  const oos = out.outOfService && !/^None$/i.test(out.outOfService);
+  out.allowed = statusOk && !oos;
+
+  return out;
 }
 
 async function fetchByDot(dotNumber) {
@@ -120,14 +149,18 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, error: "Provide dotNumber or name" });
   }
 
-  // Cache by canonical key
-  const cacheKey = "usdot:" + (dotNumber || ("name:" + name.toLowerCase().replace(/\s+/g, "_")));
-  try {
-    const cached = await redis.get(cacheKey);
-    if (cached) {
-      return res.status(200).json({ ok: true, cached: true, ...(typeof cached === "string" ? JSON.parse(cached) : cached) });
-    }
-  } catch (e) { /* fall through */ }
+  // Cache by canonical key (versioned so bad parses can be invalidated by bumping)
+  const PARSER_VERSION = "v2";
+  const cacheKey = "usdot:" + PARSER_VERSION + ":" + (dotNumber || ("name:" + name.toLowerCase().replace(/\s+/g, "_")));
+  const skipCache = body.nocache === true;
+  if (!skipCache) {
+    try {
+      const cached = await redis.get(cacheKey);
+      if (cached) {
+        return res.status(200).json({ ok: true, cached: true, ...(typeof cached === "string" ? JSON.parse(cached) : cached) });
+      }
+    } catch (e) { /* fall through */ }
+  }
 
   let snapshot = null;
   try {
