@@ -346,14 +346,13 @@
 <div class="ar-cross-links">
 <h3>More auto repair tools</h3>
 <div class="links">
-<a href="/repair-check.html">Is this repair needed?</a>
 <a href="/compare-auto-quotes.html">Compare multiple quotes</a>
 <a href="/auto-repair-cost-guide.html">Auto repair cost guide</a>
 </div>
 </div>
 
 <div style="padding:12px;background:#f8fafc;border-radius:10px;font-size:11px;color:var(--text-muted,#6b7280);text-align:center;margin-top:24px;">
-Estimates based on industry labor guides, parts pricing databases, and state-level cost data. Actual costs vary by shop, vehicle condition, and specific parts used. Not professional automotive advice.
+Estimates reflect metro-area average labor rates and industry-typical parts ranges. Actual shop quotes vary based on vehicle condition, specific parts, and local pricing. Use as a benchmark, not a guarantee. Not professional automotive advice.
 </div>
 </main>
 
@@ -1031,29 +1030,54 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   var headerHtml=renderReportHeader(vehicleDesc,locationDesc);
   var actionsHtml=renderReportActions();
 
-  // Combined summary table (always shown — works for 1 or many repairs)
-  var mh='<div class="ae-card"><h3>'+(allEstimates.length>1?"Combined Estimate":"Estimate")+' for '+vehicleDesc+'</h3>';
-  mh+='<div style="font-size:13px;color:#64748b;margin-bottom:12px;">'+locationDesc+'</div>';
+  // Geo source badge — honest "metro-area average" wording
+  var geoSrc=allEstimates[0].geoSource;
+  var geoBadge=geoSrc==="metro"
+    ?'<span style="display:inline-block;padding:3px 10px;background:#dcfce7;color:#166534;border-radius:8px;font-size:11px;font-weight:700;">Metro-area average</span>'
+    :'<span style="display:inline-block;padding:3px 10px;background:#fef9c3;color:#854d0e;border-radius:8px;font-size:11px;font-weight:700;">State average</span>';
+
+  // Global parts toggle — applies to ALL repairs in the report
+  var partsOpts=[["aftermarket","Aftermarket"],["oem","OEM (Original)"],["reman","Remanufactured"]];
+  var partsToggle='<div class="ae-card" style="padding:14px 18px;"><div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;"><div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Parts Type:</div>';
+  partsOpts.forEach(function(p){
+    var active=p[0]===currentPartsPref;
+    partsToggle+='<button type="button" class="ae-parts-btn" data-pref="'+p[0]+'" style="padding:8px 16px;border:2px solid '+(active?"#1d4ed8":"#e2e8f0")+';background:'+(active?"#eff6ff":"#fff")+';color:'+(active?"#1d4ed8":"#475569")+';border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;">'+p[1]+'</button>';
+  });
+  partsToggle+='<div style="margin-left:auto;font-size:11px;color:#94a3b8;">OEM = original • Aftermarket = third-party • Reman = factory-rebuilt</div></div></div>';
+
+  // Combined summary table — one expanded row per repair with all the detail
+  var shopLabel=shopType==="dealer"?"Dealership":shopType==="chain"?"Chain Shop":"Independent Shop";
+  var firstEst=allEstimates[0];
+  var mh='<div class="ae-card"><div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;"><div><h3 style="margin:0 0 4px;">'+(allEstimates.length>1?"Combined Estimate":"Estimate")+'</h3><div style="font-size:13px;color:#64748b;">'+vehicleDesc+' &bull; '+locationDesc+' &bull; '+shopLabel+' &bull; '+fmt(firstEst.laborRateMid)+'/hr</div></div><div>'+geoBadge+'</div></div>';
   mh+='<div class="ae-total-box"><div style="font-size:13px;color:var(--text-muted);">'+(allEstimates.length>1?"Combined Total ("+allEstimates.length+" repairs)":"Estimated Total")+'</div>';
   mh+='<div class="total">'+fmt(grandTotalMid)+'</div>';
   mh+='<div class="range">Range: '+fmt(grandTotalLow)+' - '+fmt(grandTotalHigh)+'</div></div>';
-  mh+='<table class="ae-parts-table"><thead><tr><th>Repair</th><th style="text-align:right">Labor</th><th style="text-align:right">Parts</th><th style="text-align:right">Total</th></tr></thead><tbody>';
+
+  mh+='<div style="overflow-x:auto;"><table class="ae-parts-table"><thead><tr>';
+  mh+='<th>Repair</th><th style="text-align:right">Labor</th><th style="text-align:right">Parts ('+currentPartsPref+')</th><th style="text-align:right">Fees</th><th style="text-align:right">Total</th>';
+  mh+='</tr></thead><tbody>';
   allEstimates.forEach(function(e){
-    mh+='<tr><td>'+e.repairLabel+'</td><td style="text-align:right">'+fmt(e.laborMid)+'</td><td style="text-align:right">'+fmt(e.partsMid)+'</td><td style="text-align:right;font-weight:700">'+fmt(e.totalMid)+'</td></tr>';
+    mh+='<tr>';
+    mh+='<td><strong>'+e.repairLabel+'</strong>'+(e.repair.notes?'<div style="font-size:11px;color:#94a3b8;font-weight:400;margin-top:2px;">'+e.repair.notes+'</div>':'')+'</td>';
+    mh+='<td style="text-align:right">'+fmt(e.laborMid)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+e.laborHrsMid.toFixed(1)+' hrs @ '+fmt(e.laborRateMid)+'</div></td>';
+    mh+='<td style="text-align:right">'+fmt(e.partsMid)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+fmt(e.partsLow)+' - '+fmt(e.partsHigh)+'</div></td>';
+    mh+='<td style="text-align:right">'+(e.fees>0?fmt(e.fees)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+e.feeInfo.label+'</div>':'<span style="color:#cbd5e1;">—</span>')+'</td>';
+    mh+='<td style="text-align:right;font-weight:700">'+fmt(e.totalMid)+'</td>';
+    mh+='</tr>';
   });
   if(allEstimates.length>1){
-    mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandTotalMid - grandTax - grandFees - grandSupplies)+'</td></tr>';
+    mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right">'+fmt(grandFees)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandLabor+grandParts+grandFees)+'</td></tr>';
   }
-  mh+='<tr><td>Shop Supplies</td><td></td><td></td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
-  if(grandFees>0) mh+='<tr><td>Hazmat / Disposal / Refrigerant</td><td></td><td></td><td style="text-align:right">'+fmt(grandFees)+'</td></tr>';
-  mh+='<tr><td>Tax</td><td></td><td></td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
-  mh+='<tr class="selected"><td><strong>Total</strong></td><td></td><td></td><td style="text-align:right;font-weight:700;font-size:16px">'+fmt(grandTotalMid)+'</td></tr>';
+  mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;">Shop Supplies (~6% of labor)</td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
+  mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;">Tax ('+(firstEst.taxRate*100).toFixed(1)+'% on parts)</td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
+  mh+='<tr class="selected"><td colspan="4" style="text-align:right;font-weight:800;">Total</td><td style="text-align:right;font-weight:800;font-size:17px;">'+fmt(grandTotalMid)+'</td></tr>';
   mh+='</tbody></table></div>';
 
-  // Detail card for every selected repair (parts toggle lives inside these)
-  var detailCards=allEstimates.map(function(e){return renderEstimate(e,vehicleDesc,locationDesc,shopType,{});}).join("");
+  mh+='<div style="margin-top:14px;padding:10px 14px;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:6px;font-size:11px;color:#64748b;line-height:1.5;">';
+  mh+='<strong>About these numbers:</strong> Pricing reflects '+(geoSrc==="metro"?"metro-area averages from labor rate surveys":"state-level averages")+' combined with industry-typical labor hours and parts ranges. Actual shop quotes vary based on vehicle condition, specific parts used, and shop pricing. Use this as a benchmark, not a guarantee. Numbers exclude diagnostic fees (often $50-150, waived if work is performed).';
+  mh+='</div></div>';
 
-  resultEl.innerHTML=headerHtml+actionsHtml+mh+matrixHtml+detailCards;
+  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+matrixHtml;
   resultEl.scrollIntoView({behavior:"smooth"});
   attachCompareHandler();
 
@@ -1095,13 +1119,8 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
       aiEst.totalLow=Math.round(aiEst.totalMid*0.8);
       aiEst.totalHigh=Math.round(aiEst.totalMid*1.3);
       currentEstimate.totalMid=aiEst.totalMid;
-      var complexity=data.complexity||null;
-      resultEl.innerHTML=renderEstimate(aiEst,vehicleDesc,locationDesc,shopType,{aiSource:true,complexity:complexity});
-      attachCompareHandler();
-      var notesEl=document.getElementById("vehicleNotesSection");
-      if(notesEl) notesEl.innerHTML=renderVehicleNotes(data);
-      var shopsEl=document.getElementById("localShopsSection");
-      if(shopsEl&&data.localShops) shopsEl.innerHTML=renderLocalShops(data.localShops);
+      // AI overlay disabled — new combined-table layout is the source of truth.
+      // Vehicle-specific tweaks could be merged in a future pass.
     })
     .catch(function(err){
       if(loader) loader.style.display="none";
