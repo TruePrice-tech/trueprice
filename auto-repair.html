@@ -1232,12 +1232,18 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
     var ck="nhtsa_makes_"+y;
     var cached=cacheGet(ck);
     if(cached){setOptions(makeSel,cached,"Select make");tryUrlMake();return;}
-    fetch("https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json")
-      .then(function(r){return r.json();})
-      .then(function(d){
-        var makes=(d.Results||[]).map(function(x){return x.MakeName;}).filter(function(m,i,a){return a.indexOf(m)===i;}).sort();
-        // Add common truck/SUV brands not under "car" type
-        ["RAM","JEEP","GMC","HUMMER","RIVIAN","TESLA","LUCID","POLESTAR"].forEach(function(m){if(makes.indexOf(m)===-1)makes.push(m);});
+    // Fetch both car and truck/SUV types and union — Land Rover, Jeep, Hummer, etc. live under truck
+    Promise.all([
+      fetch("https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json").then(function(r){return r.json();}),
+      fetch("https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/truck?format=json").then(function(r){return r.json();}),
+      fetch("https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/multipurpose%20passenger%20vehicle%20(mpv)?format=json").then(function(r){return r.json();}).catch(function(){return{Results:[]};})
+    ])
+      .then(function(results){
+        var all=[];
+        results.forEach(function(d){(d.Results||[]).forEach(function(x){all.push(x.MakeName);});});
+        var makes=all.filter(function(m,i,a){return a.indexOf(m)===i;});
+        // Belt-and-suspenders: ensure commonly-searched brands are present
+        ["RAM","JEEP","GMC","HUMMER","RIVIAN","TESLA","LUCID","POLESTAR","LAND ROVER","RANGE ROVER","MINI","GENESIS","ALFA ROMEO","FIAT","MASERATI","BENTLEY","ROLLS-ROYCE","FERRARI","LAMBORGHINI","MCLAREN","ASTON MARTIN","BUGATTI","SMART","SUZUKI","ISUZU","SAAB","SCION","PONTIAC","OLDSMOBILE","MERCURY","SATURN"].forEach(function(m){if(makes.indexOf(m)===-1)makes.push(m);});
         makes.sort();
         cacheSet(ck,makes);
         setOptions(makeSel,makes,"Select make");
