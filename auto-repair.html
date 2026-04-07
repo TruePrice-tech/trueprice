@@ -986,7 +986,12 @@ function renderScenarioMatrix(matrix,currentShop,currentParts){
     ["chain","Chain"],
     ["diy","DIY (parts only)"]
   ];
-  var partsTypes=[["aftermarket","Aftermarket"],["oem","OEM"],["genuine","Genuine"],["reman","Reman"]];
+  var allPartsTypes=[["aftermarket","Aftermarket"],["oem","OEM"],["genuine","Genuine"],["reman","Reman"]];
+  // Hide any parts column that has no data across all shop rows (e.g. Reman when
+  // no selected repair has rebuildable cores).
+  var partsTypes=allPartsTypes.filter(function(p){
+    return shops.some(function(s){var v=matrix[s[0]][p[0]];return v!=null&&v!==0;});
+  });
   var h='<div class="ae-card scenario-matrix">';
   h+='<h3>Compare Scenarios</h3>';
   h+='<p class="scenario-sub">See how the total changes based on shop type and parts choice. The DIY row shows just the cost of parts (no labor, supplies, or fees) if you do the work yourself. Your selection is highlighted.</p>';
