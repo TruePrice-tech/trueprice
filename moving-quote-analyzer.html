@@ -969,10 +969,26 @@
           };
           state.extras = extras;
 
-          if (!state.fromCity || !state.fromState) { alert("Enter your origin city and state."); return; }
-          if (!state.toCity || !state.toState) { alert("Enter your destination city and state."); return; }
-          if (!STATE_NAMES[state.fromState]) { alert("Invalid origin state code."); return; }
-          if (!STATE_NAMES[state.toState]) { alert("Invalid destination state code."); return; }
+          // Validation: highlight the offending field, scroll to it, and show inline error
+          function flagField(id, msg) {
+            var el = document.getElementById(id);
+            if (el) {
+              el.style.borderColor = "#dc2626";
+              el.style.boxShadow = "0 0 0 3px rgba(220,38,38,0.15)";
+              el.scrollIntoView({behavior:"smooth", block:"center"});
+              el.focus();
+              // Clear styling on next input
+              var clear = function(){ el.style.borderColor=""; el.style.boxShadow=""; el.removeEventListener("input", clear); };
+              el.addEventListener("input", clear);
+            }
+            alert(msg);
+          }
+          if (!state.fromCity) { flagField("estFromCity", "Please enter your origin city."); return; }
+          if (!state.fromState) { flagField("estFromState", "Please enter your origin state (2-letter code, e.g. NC)."); return; }
+          if (!state.toCity) { flagField("estToCity", "Please enter your destination city."); return; }
+          if (!state.toState) { flagField("estToState", "Please enter your destination state (2-letter code, e.g. GA)."); return; }
+          if (!STATE_NAMES[state.fromState]) { flagField("estFromState", "Invalid origin state code: \"" + state.fromState + "\". Use a 2-letter US state code like NC."); return; }
+          if (!STATE_NAMES[state.toState]) { flagField("estToState", "Invalid destination state code: \"" + state.toState + "\". Use a 2-letter US state code like GA."); return; }
 
           state.step = "uploading";
           render();
