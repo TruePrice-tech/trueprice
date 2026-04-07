@@ -78,13 +78,13 @@
     .mv-accordion summary::after { content:"+"; font-size:20px; font-weight:700; color:#94a3b8; transition:transform 0.2s; }
     .mv-accordion[open] summary::after { transform:rotate(45deg); }
     .mv-accordion .mv-accordion-body { padding:14px 16px 16px; border-top:1px solid #f1f5f9; }
-    .mv-check-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+    .mv-check-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; margin-top:8px; }
     @media (max-width:520px) { .mv-check-grid { grid-template-columns:1fr; } }
-    .mv-check { display:flex; align-items:flex-start; gap:8px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer; transition:all 0.15s; background:#f8fafc; font-size:13px; }
+    .mv-check { display:flex; align-items:flex-start; gap:10px; padding:12px 14px; border:1px solid #e2e8f0; border-radius:10px; cursor:pointer; transition:all 0.15s; background:#f8fafc; font-size:13px; min-width:0; box-sizing:border-box; }
     .mv-check:hover { border-color:#fcd34d; background:#fffbeb; }
-    .mv-check input[type="checkbox"] { margin-top:2px; cursor:pointer; flex-shrink:0; }
-    .mv-check span { color:#475569; line-height:1.4; }
-    .mv-check span small { display:block; color:#94a3b8; font-size:11px; margin-top:1px; }
+    .mv-check input[type="checkbox"] { margin-top:3px; cursor:pointer; flex-shrink:0; width:16px; height:16px; }
+    .mv-check > span { color:#475569; line-height:1.4; flex:1; min-width:0; word-wrap:break-word; }
+    .mv-check > span small { display:block; color:#94a3b8; font-size:11px; margin-top:2px; font-weight:400; }
 
     .mv-trust-badge { display:flex; align-items:center; gap:10px; padding:14px 18px; background:linear-gradient(135deg,#dcfce7,#bbf7d0); border:2px solid #86efac; border-radius:12px; margin:16px 0; }
     .mv-trust-badge .icon { font-size:24px; flex-shrink:0; }
