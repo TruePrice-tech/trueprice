@@ -70,7 +70,9 @@ function parseSnapshot(html) {
   out.legalName = grab("Legal Name:");
   out.dbaName = grab("DBA Name:");
   out.dotNumber = grab("USDOT Number:");
-  out.status = grab("Operating Status:");
+  // SAFER labels these as "USDOT Status:" and "Operating Authority Status:" — both useful
+  out.status = grab("USDOT Status:");
+  out.authorityStatus = grab("Operating Authority Status:");
   out.outOfService = grab("Out of Service Date:");
   out.entityType = grab("Entity Type:");
   out.mcMxNumber = grab("MC/MX/FF Number") || grab("MC/MX/FF Number(s):");
@@ -86,11 +88,13 @@ function parseSnapshot(html) {
   // Need at least a legal name + DOT number to consider this a real result
   if (!out.legalName || !out.dotNumber) return null;
 
-  // Operating authority: SAFER's status is something like "AUTHORIZED FOR Property"
-  // or "OUT-OF-SERVICE". "AUTHORIZED" or "ACTIVE" with no out-of-service date = allowed.
-  const statusOk = /AUTHORIZED|ACTIVE|OPERATING/i.test(out.status || "");
+  // SAFER USDOT status is "ACTIVE" / "INACTIVE", and Operating Authority is
+  // "AUTHORIZED FOR Property" / "NOT AUTHORIZED" / etc. We treat the carrier
+  // as allowed if EITHER says they can operate AND there's no OOS date.
+  const usdotOk = /\bACTIVE\b/i.test(out.status || "");
+  const authorityOk = /AUTHORIZED|OPERATING/i.test(out.authorityStatus || "");
   const oos = out.outOfService && !/^None$/i.test(out.outOfService);
-  out.allowed = statusOk && !oos;
+  out.allowed = (usdotOk || authorityOk) && !oos;
 
   return out;
 }
@@ -150,7 +154,7 @@ export default async function handler(req, res) {
   }
 
   // Cache by canonical key (versioned so bad parses can be invalidated by bumping)
-  const PARSER_VERSION = "v2";
+  const PARSER_VERSION = "v3";
   const cacheKey = "usdot:" + PARSER_VERSION + ":" + (dotNumber || ("name:" + name.toLowerCase().replace(/\s+/g, "_")));
   const skipCache = body.nocache === true;
   if (!skipCache) {
