@@ -78,13 +78,39 @@ def slugify(s, maxlen=50):
     s = re.sub(r"\s+", "-", s.strip()).lower()
     return s[:maxlen].strip("-")
 
+QUOTE_KEYWORDS = [
+    "quote", "estimate", "bill", "invoice", "$", "dollar", "fair price",
+    "ripped off", "ripoff", "is this fair", "is this normal", "thoughts on",
+    "feedback on", "did i get", "got a quote", "received a quote",
+    "received an estimate", "the price", "this price", "hourly rate",
+    "labor cost", "should i pay", "is this reasonable", "binding"
+]
+
+REJECT_KEYWORDS = [
+    "look at this", "story time", "rant", "meme", "the time i", "tip:",
+    "is it just me", "wholesome", "found this", "i made", "anybody else",
+    "vent", "frustrating", "tutorial", "how do i", "newbie",
+    "first day", "first time", "what is this", "identify this",
+    "what kind of", "is this safe", "to remove", "joke", "funny",
+    "lol", "haha", "lmao"
+]
+
+def is_quote_post(title):
+    t = (title or "").lower()
+    if any(k in t for k in REJECT_KEYWORDS):
+        return False
+    if any(k in t for k in QUOTE_KEYWORDS):
+        return True
+    return False
+
 def search_vertical(vertical, config):
     print(f"\n=== {vertical} ===")
     seen = set()
-    candidates = []
+    quote_candidates = []
+    other_candidates = []
     for sub in config["subs"]:
         for q in config["queries"]:
-            url = f"https://www.reddit.com/r/{sub}/search.json?q={q.replace(' ','+')}&restrict_sr=1&limit=50&sort=top&t=all"
+            url = f"https://www.reddit.com/r/{sub}/search.json?q={q.replace(' ','+')}&restrict_sr=1&limit=100&sort=top&t=all"
             d = fetch_json(url)
             if not d: continue
             posts = d.get("data", {}).get("children", [])
@@ -95,7 +121,7 @@ def search_vertical(vertical, config):
                 u = pd.get("url", "")
                 if "i.redd.it" in u or u.endswith((".jpg", ".jpeg", ".png", ".webp")):
                     seen.add(pid)
-                    candidates.append({
+                    cand = {
                         "id": pid,
                         "title": pd.get("title", "")[:80],
                         "url": u,
@@ -103,11 +129,21 @@ def search_vertical(vertical, config):
                         "score": pd.get("score", 0),
                         "sub": sub,
                         "query": q
-                    })
+                    }
+                    if is_quote_post(cand["title"]):
+                        quote_candidates.append(cand)
+                    else:
+                        other_candidates.append(cand)
             time.sleep(0.5)  # be polite
-    candidates.sort(key=lambda x: -x["score"])
-    print(f"  found {len(candidates)} unique image posts")
-    return candidates[:TARGET_PER_VERTICAL]
+    quote_candidates.sort(key=lambda x: -x["score"])
+    print(f"  found {len(quote_candidates)} quote-keyword matches "
+          f"({len(other_candidates)} non-matching also found)")
+    # Prefer quote-keyword matches; fall back to top-scored other if too few
+    result = quote_candidates[:TARGET_PER_VERTICAL]
+    if len(result) < TARGET_PER_VERTICAL:
+        other_candidates.sort(key=lambda x: -x["score"])
+        result += other_candidates[:TARGET_PER_VERTICAL - len(result)]
+    return result
 
 def download_samples(vertical, samples):
     out_dir = os.path.join("test-quotes", f"{vertical}-test-images")
@@ -162,10 +198,27 @@ def download_samples(vertical, samples):
     return results
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--vertical", help="re-scrape only this vertical")
+    ap.add_argument("--clean", action="store_true", help="delete existing fixtures first")
+    args = ap.parse_args()
+
     summary = {}
-    for vertical, config in VERTICALS.items():
+    targets = [args.vertical] if args.vertical else list(VERTICALS.keys())
+    for vertical in targets:
+        if vertical not in VERTICALS:
+            print(f"Unknown vertical: {vertical}")
+            continue
+        if args.clean:
+            folder = os.path.join("test-quotes", f"{vertical}-test-images")
+            if os.path.exists(folder):
+                for f in os.listdir(folder):
+                    if f.lower().endswith((".jpg",".jpeg",".png",".webp")):
+                        os.remove(os.path.join(folder, f))
+                print(f"  cleaned {folder}")
         try:
-            samples = search_vertical(vertical, config)
+            samples = search_vertical(vertical, VERTICALS[vertical])
             results = download_samples(vertical, samples)
             ok = sum(1 for r in results if r.get("status") in ("ok", "exists"))
             summary[vertical] = ok
