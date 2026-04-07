@@ -1,95 +1,148 @@
 # Solar Test Results
 
-Run: 2026-04-07 14:46:55
+Run: 2026-04-07 16:57:33
 Endpoint: https://truepricehq.com/api/solar-estimate
-Samples tested: 10
+Samples tested: 13
 
-**Counter at start:** 3872
-**Counter at end:** 3874
-**Counter delta:** +2 (expected +2)
+**Counter at start:** 3895
+**Counter at end:** 3895
+**Counter delta:** +0 (expected +9)
 
-**Parse success:** 8/10
-**Detected price:** 2/10
+**Parse success:** 13/13
+**Detected price:** 9/13
 
-## 01-solar-overtakes-and-wind-nuclear-as-the-number-one.jpeg
+## 01-first-bill-with-solar-not-too-bad.jpg
 
 - Total: $None
 - Time: 5.2s
-- redFlags: 7
-  - This is not a solar panel installation quote - it is a chart showing historical and projected global clean power generation sources from 1985-2025
-  - No pricing information available
-  - No system specifications provided
-
-## 02-parents-signed-up-for-solar-in-pa.jpg
-
-- Total: $132664.66
-- Time: 8.7s
-- redFlags: 11
-  - Cost per watt of $6.83 is significantly above market average ($2.50-$4.00), suggesting overpricing or inclusion of undisclosed services
-  - No equipment breakdown provided - panel brand, model, inverter type, and specifications completely absent
-  - No labor rate or installation cost itemization disclosed
-
-## 03-first-bill-with-solar-not-too-bad.jpg
-
-- Total: $None
-- Time: 5.9s
-- redFlags: 8
-  - This is NOT a solar quote - this is a PG&E energy bill statement showing a credit balance of -$318.95 with no payment due
-  - Document shows Net Energy Metering (NEM2) account summary, not an installation quote or estimate
-  - No solar system specifications, pricing, equipment details, or installation scope provided
-
-## 04-thinking-of-buying-10kw-solar-from-china.jpeg
-
-- Total: $4875
-- Time: 11.8s
-- stateCode: MX
-- redFlags: 10
-  - No installation labor costs included - quote only covers materials and international shipping
-  - No mention of building or electrical permits for grid interconnection
-  - No roof structural assessment documented despite roof mounting installation
-- lineItems: 8
-
-## 05-giant-solar-farm-in-china.png
-
-SKIPPED: too_large
-
-## 06-virginian-balcony-solar.png
-
-- Total: $None
-- Time: 5.3s
+- stateCode: CA
 - redFlags: 9
-  - No pricing information visible in image
-  - No equipment specifications or brands identified
-  - No system size (kW) stated
+  - This is a PG&E utility bill statement, not a solar installation quote
+  - No solar equipment pricing information present
+  - No system size, panel specifications, or equipment details provided
 
-## 07-41kw-flat-roof-system.jpg
-
-- Total: $None
-- Time: 6.3s
-- redFlags: 12
-  - No pricing information visible in the image
-  - No system size specifications provided
-  - No panel brand, model, or count details
-
-## 08-over-panelling-captures-more-power-than-you-might.jpeg
-
-FAIL: None — <urlopen error [WinError 10054] An existing connection was forcibly closed by the remote host>
-
-## 09-17-calls-i-quoted-four-places-for-solar-sunrun-was.jpg
+## 02-17-calls-i-quoted-four-places-for-solar-sunrun-was.jpg
 
 - Total: $None
-- Time: 4.8s
-- redFlags: 8
-  - This is a phone call history, not a solar panel installation quote
-  - No pricing information available
-  - No system specifications provided
-
-## 10-100th-duck-curve-day-marks-new-england-solar-power.jpeg
-
-- Total: $None
-- Time: 4.9s
-- redFlags: 7
-  - This is not a solar panel installation quote - it is a grid demand analysis chart showing BTM (Behind-the-Meter) PV performance data for November 25
+- Time: 5.6s
+- redFlags: 9
+  - No quote details visible - only phone call history from Sunrun shown
   - No pricing information provided
-  - No equipment specifications provided
+  - No system specifications disclosed
+
+## 03-power-bill-is-ridiculous-talk-me-out-of-a-solar-le.jpeg
+
+- Total: $28160
+- Time: 8.1s
+- redFlags: 8
+  - Lease structure means customer does not own the panels after 25 years
+  - No warranty information provided for panels, inverter, or workmanship
+  - No mention of permits, interconnection, or net metering application
+
+## 04-how-does-my-solar-quote-look-thx-in-advance-nc-duk.jpg
+
+- Total: $31993
+- Time: 7.8s
+- redFlags: 6
+  - No building/electrical permit explicitly mentioned
+  - No roof structural assessment documented for rooftop installation
+  - Labor costs not itemized or disclosed separately from equipment
+- lineItems: 2
+
+## 05-has-any-seen-huge-differences-in-solar-panel-quote.png
+
+- Total: $51938.41
+- Time: 13.1s
+- stateCode: CA
+- redFlags: 10
+  - No roof structural assessment disclosed despite rooftop installation
+  - No building/electrical permit costs itemized or mentioned
+  - No warranty terms (panel, inverter, or workmanship) provided in quote
+- lineItems: 7
+
+## 06-17600kw-system-with-2-powerwalls-98k-central-flori.png
+
+- Total: $98324.5
+- Time: 11.1s
+- redFlags: 11
+  - This is a lease agreement (Sunnova Easy Own Plan), not a purchase—customer does not own the panels or battery
+  - Cost per watt of $5.58 is significantly above market rate (typical range $2.50-$4.00 for full systems)
+  - No roof structural assessment documented despite rooftop solar installation
+- lineItems: 1
+
+## 07-is-this-a-good-or-bad-solar-quote-im-from-wisconsi.jpeg
+
+- Total: $None
+- Time: 6.1s
+- redFlags: 13
+  - No pricing information visible - this appears to be a 3D visual mockup only, not an actual quote
+  - No system size (kW) specified
+  - No panel brand, model, or count specified
+
+## 08-a-quote-from-alibabacom-for-solar-panels.jpeg
+
+- Total: $1779.82
+- Time: 9.0s
+- stateCode: FL
+- redFlags: 10
+  - This is a wholesale/materials-only quote with no inverter specified
+  - No inverter included or specified - critical component missing for functional system
+  - No installation labor quoted (only crating/shipping labor)
+- lineItems: 3
+
+## 09-just-getting-started-heres-my-first-quote-after-pe.jpg
+
+- Total: $67028.58
+- Time: 8.4s
+- stateCode: WA
+- redFlags: 12
+  - Cost per watt of $4.93 is above the $4.00 threshold—significantly higher than typical market rates of $2.50–$3.50/watt
+  - No panel brand, model, or specifications disclosed
+  - No inverter type or brand specified
+
+## 10-am-i-getting-ripped-off.jpeg
+
+- Total: $None
+- Time: 13.5s
+- redFlags: 13
+  - This is a Sunnova Power Purchase Agreement (PPA), not a purchase quote - customer does not own the solar system
+  - No system size in kilowatts disclosed
+  - No panel brand, model, or specifications provided
+- lineItems: 4
+
+## comparison-solar-01-low.png
+
+- Total: $14940
+- Time: 0.3s
+- city: Las Vegas
+- stateCode: NV
+- redFlags: 7
+  - No hourly labor rate disclosed; only total labor cost provided
+  - No roof structural assessment mentioned despite rooftop installation
+  - No estimated annual energy production or offset percentage provided
+- lineItems: 6
+
+## comparison-solar-02-mid.png
+
+- Total: $19250
+- Time: 0.3s
+- city: Las Vegas
+- stateCode: NV
+- redFlags: 8
+  - No roof structural assessment explicitly mentioned despite labor scope including 'structural'
+  - No installation timeline provided
+  - Labor rate not itemized or transparent (appears bundled)
+- lineItems: 7
+
+## comparison-solar-03-high.png
+
+- Total: $32770
+- Time: 0.3s
+- city: Las Vegas
+- stateCode: NV
+- redFlags: 7
+  - Cost per watt is exactly at the upper threshold of normal ($4.10/watt), driven by premium SunPower panels and Tesla Powerwall; verify this is competitive for your region
+  - No roof condition assessment documented; structural engineering is mentioned but specific findings not detailed
+  - No estimated annual production or offset percentage provided; customer cannot verify production guarantees
+- lineItems: 8
 

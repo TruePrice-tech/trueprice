@@ -21,7 +21,7 @@ BASE = "https://truepricehq.com"
 # Map test folder name -> API endpoint slug
 VERTICAL_ENDPOINTS = {
     "auto":       "auto-repair-estimate",
-    "roofing":    "roofing-estimate",  # may not exist; will check
+    "roofing":    "parse-quote",  # roofing analyzer is parse-quote.js
     "hvac":       "hvac-estimate",
     "plumbing":   "plumbing-estimate",
     "electrical": "electrical-estimate",
@@ -123,7 +123,7 @@ def extract_total(data):
     if not isinstance(inner, dict):
         return None
     # Universal
-    v = inner.get("totalPrice") or inner.get("quoteTotal") or inner.get("total")
+    v = inner.get("totalPrice") or inner.get("quoteTotal") or inner.get("total") or inner.get("price")
     if v: return v
     # Legal: flatFee FIRST (most legal docs are flat-fee engagements)
     v = inner.get("flatFee")

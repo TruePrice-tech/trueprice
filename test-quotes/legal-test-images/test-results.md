@@ -1,20 +1,20 @@
 # Legal Test Results
 
-Run: 2026-04-07 16:34:48
+Run: 2026-04-07 17:01:50
 Endpoint: https://truepricehq.com/api/legal-fee-estimate
-Samples tested: 8
+Samples tested: 11
 
 **Counter at start:** 3895
 **Counter at end:** 3895
-**Counter delta:** +0 (expected +8)
+**Counter delta:** +0 (expected +11)
 
-**Parse success:** 8/8
-**Detected price:** 8/8
+**Parse success:** 11/11
+**Detected price:** 11/11
 
 ## 01-estate-planning-flat-fee.png
 
 - Total: $1250
-- Time: 9.1s
+- Time: 0.5s
 - city: Asheville
 - stateCode: NC
 - redFlags: 7
@@ -26,7 +26,7 @@ Samples tested: 8
 ## 02-hourly-retainer-litigation.png
 
 - Total: $15000
-- Time: 9.9s
+- Time: 0.3s
 - city: Charlotte
 - stateCode: NC
 - redFlags: 11
@@ -38,7 +38,7 @@ Samples tested: 8
 ## 03-contingency-personal-injury.png
 
 - Total: $16665
-- Time: 10.2s
+- Time: 0.4s
 - city: Houston
 - stateCode: TX
 - redFlags: 8
@@ -50,7 +50,7 @@ Samples tested: 8
 ## 04-llc-formation-flat-fee.png
 
 - Total: $850
-- Time: 10.3s
+- Time: 0.3s
 - city: Austin
 - stateCode: TX
 - redFlags: 6
@@ -62,7 +62,7 @@ Samples tested: 8
 ## 05-divorce-hourly-retainer.png
 
 - Total: $7500
-- Time: 8.9s
+- Time: 0.3s
 - city: Atlanta
 - stateCode: GA
 - redFlags: 6
@@ -74,7 +74,7 @@ Samples tested: 8
 ## 06-criminal-defense-flat-fee.png
 
 - Total: $3500
-- Time: 10.3s
+- Time: 0.3s
 - city: Mobile
 - stateCode: AL
 - redFlags: 10
@@ -86,7 +86,7 @@ Samples tested: 8
 ## 07-real-estate-closing-flat-fee.png
 
 - Total: $895
-- Time: 9.3s
+- Time: 0.3s
 - city: Raleigh
 - stateCode: NC
 - redFlags: 6
@@ -98,12 +98,48 @@ Samples tested: 8
 ## 08-bankruptcy-ch7-flat-fee.png
 
 - Total: $1495
-- Time: 9.8s
+- Time: 0.3s
 - city: Phoenix
 - stateCode: AZ
 - redFlags: 7
   - Payment plan option B costs $1,500 total (more than flat fee of $1,495), potentially confusing to client
   - No termination clause or conditions under which fees may be refunded
   - No communication policy or response time guarantees specified
+- lineItems: 4
+
+## comparison-pi-01-firm-a-low.png
+
+- Total: $16500
+- Time: 0.6s
+- city: Charlotte
+- stateCode: NC
+- redFlags: 7
+  - No termination clause or conditions for ending representation
+  - Client bears all case expenses with no firm advancement; estimated $1,200-$2,500 out-of-pocket
+  - No communication policy or frequency of updates defined
+- lineItems: 2
+
+## comparison-pi-02-firm-b-mid.png
+
+- Total: $17500
+- Time: 0.3s
+- city: Charlotte
+- stateCode: NC
+- redFlags: 8
+  - No termination clause specified
+  - No conflict-of-interest check documented
+  - No dispute resolution mechanism for fee disagreements
+- lineItems: 4
+
+## comparison-pi-03-firm-c-high.png
+
+- Total: $500
+- Time: 0.3s
+- city: Charlotte
+- stateCode: NC
+- redFlags: 7
+  - No termination clause specified
+  - No conflict of interest check mentioned
+  - No communication protocol or billing dispute resolution process defined
 - lineItems: 4
 
