@@ -1,11 +1,11 @@
 # Roofing Test Results
 
-Run: 2026-04-07 14:39:42
+Run: 2026-04-07 16:48:05
 Endpoint: https://truepricehq.com/api/roofing-estimate
 Samples tested: 10
 
-**Counter at start:** 3868
-**Counter at end:** 3868
+**Counter at start:** 3895
+**Counter at end:** 3895
 **Counter delta:** +0 (expected +0)
 
 **Parse success:** 0/10
@@ -89,10 +89,5 @@ SKIPPED: too_large
 
 ## 10-7100-later-you-guys-were-right-this-was-the-least.jpeg
 
-FAIL: 404 — <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
-  <link rel="icon" href="/favicon-tr
+FAIL: 404 — 
 

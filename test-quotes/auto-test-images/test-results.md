@@ -1,91 +1,84 @@
 # Auto Test Results
 
-Run: 2026-04-07 14:39:15
+Run: 2026-04-07 16:47:21
 Endpoint: https://truepricehq.com/api/auto-repair-estimate
 Samples tested: 10
 
-**Counter at start:** 3868
-**Counter at end:** 3868
-**Counter delta:** +0 (expected +0)
+**Counter at start:** 3895
+**Counter at end:** 3895
+**Counter delta:** +0 (expected +2)
 
 **Parse success:** 9/10
-**Detected price:** 0/10
+**Detected price:** 2/10
 
-## 01-this-is-how-were-gonna-start-our-day-huh.jpg
+## 01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg
 
 - Total: $None
-- Time: 6.5s
-- redFlags: 6
-  - This is a PRE-WORKORDER document with no pricing, labor hours, or parts breakdown provided - customer estimate is blank and not yet calculated
-  - Repair description is vague ('no driveability acceleration between 115-122mph') with no diagnostic findings or root cause identified
-  - No labor rate, hourly estimate, or parts costs are disclosed on this preliminary quote
+- Time: 4.5s
 
-## 02-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg
+## 02-just-had-this-show-up-was-initially-quoted-2-hours.jpeg
+
+- Total: $None
+- Time: 6.7s
+
+## 03-wrote-an-estimate-for-this-beauty-of-german-engine.jpg
 
 - Total: $None
 - Time: 3.7s
-- redFlags: 3
-  - Image shows only a disconnected electrical connector with wiring harness - no actual repair quote document or pricing information is visible
-  - Cannot determine any repair details, labor costs, parts costs, or total pricing from this image
-  - No shop information, vehicle details, or service description available for analysis
 
-## 03-maybe-not-the-right-tool-for-the-job-customer-stat.jpg
-
-- Total: $None
-- Time: 3.5s
-
-## 04-just-had-this-show-up-was-initially-quoted-2-hours.jpeg
-
-- Total: $None
-- Time: 5.0s
-- redFlags: 4
-  - This is not a formal quote - it appears to be a humorous meme/image showing a damaged junction box with sarcastic text. No actual pricing, labor rate, warranty terms, or professional quote details are present.
-  - The caption 'Advise customer to go fuck themselves' indicates this is a joke post, not a legitimate repair estimate.
-  - No shop information, contact details, vehicle details, or any professional quote documentation visible.
-
-## 05-wrote-an-estimate-for-this-beauty-of-german-engine.jpg
-
-- Total: $None
-- Time: 2.6s
-
-## 06-when-the-tech-is-having-a-wonderful-day.jpg
-
-- Total: $None
-- Time: 5.0s
-- redFlags: 7
-  - No dollar amounts provided - quote lacks pricing entirely
-  - No shop name or contact information visible
-  - Parts type not specified (OEM vs aftermarket)
-
-## 07-i-dont-understand.jpeg
-
-- Total: $None
-- Time: 4.6s
-- redFlags: 6
-  - No pricing information provided - this appears to be a complaint/note entry screen, not a completed quote
-  - No labor rate disclosed
-  - No parts cost specified or parts type identified (OEM vs aftermarket)
-
-## 08-your-hitch-install-quote-was-too-high-so-my-friend.jpeg
+## 04-your-hitch-install-quote-was-too-high-so-my-friend.jpeg
 
 FAIL: 413 — Request Entity Too Large
 
 FUNCTION_PAYLOAD_TOO_LARGE
 
-iad1::trkwb-1775587138535-a424dc02587b
+iad1::858hb-1775594762844-a355833e3cb5
 
 
-## 09-just-rolled-outta-my-driveway-stealership-quoted-o.jpg
-
-- Total: $None
-- Time: 3.0s
-
-## 10-defrost-stopped-working-shop-want-1100-cad-to-fix.jpg
+## 05-just-rolled-outta-my-driveway-stealership-quoted-o.jpg
 
 - Total: $None
-- Time: 5.1s
-- redFlags: 4
-  - No repair quote document visible - image shows only an open vehicle hood with removed dash/interior components and a disconnected electrical connector in hand
-  - Cannot determine if this is mid-repair documentation, a vehicle awaiting diagnosis, or a completed repair photo with no accompanying invoice or estimate
-  - No shop name, labor rate, parts pricing, warranty terms, or any quote details present in the image
+- Time: 5.7s
+
+## 06-defrost-stopped-working-shop-want-1100-cad-to-fix.jpg
+
+- Total: $None
+- Time: 4.1s
+
+## 07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg
+
+- Total: $232.39
+- Time: 12.1s
+- redFlags: 7
+  - Parts are not itemized - $324.08 in parts listed without identifying specific components or part names, making it impossible to verify necessity or pricing
+  - Parts type not specified - no indication whether parts are OEM, aftermarket, or remanufactured
+  - $120.00 miscellaneous charge lacks description - vague category without breakdown of what services or materials are included
+
+## 08-cs-3-honda-dealerships-quoted-a-new-cylinder-block.jpg
+
+- Total: $None
+- Time: 4.1s
+- redFlags: 3
+  - Image shows only engine/spark plug in focus with blurred background - no actual quote document or pricing information is visible
+  - Unable to extract any pricing data, shop name, vehicle information, or repair details from the provided image
+  - This appears to be a generic mechanic shop photo, not a repair quote
+
+## 09-am-i-crazy-or-is-this-quote.jpg
+
+- Total: $5557.45
+- Time: 11.9s
+- redFlags: 8
+  - No labor rate disclosed - impossible to verify if labor is overpriced
+  - No labor hours listed per repair - cannot assess whether quoted work is reasonable
+  - Parts type not specified (OEM vs aftermarket) - Audi OEM parts at dealer typically cost 20-40% more than aftermarket alternatives
+
+## 10-top-two-pictures-are-from-our-estimate-2-months-ag.jpeg
+
+- Total: $None
+- Time: 7.2s
+- stateCode: WI
+- redFlags: 7
+  - Images show vehicle damage/collision repairs but NO written quote with itemized repairs, labor rates, parts costs, or total price is visible - cannot verify legitimacy of any estimate
+  - Multiple photos of the same vehicle (bumper, full front view, undercarriage damage) suggest collision damage, yet no repair line items, labor breakdown, or parts list is provided
+  - Wisconsin license plate visible but no shop name, address, phone, or formal quote header - appears to be informal documentation only
 

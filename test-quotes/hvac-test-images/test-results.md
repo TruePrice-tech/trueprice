@@ -1,103 +1,110 @@
 # Hvac Test Results
 
-Run: 2026-04-07 14:41:08
+Run: 2026-04-07 16:50:04
 Endpoint: https://truepricehq.com/api/hvac-estimate
 Samples tested: 10
 
-**Counter at start:** 3868
-**Counter at end:** None
-**Counter delta:** +None (expected +1)
+**Counter at start:** 3895
+**Counter at end:** 3895
+**Counter delta:** +0 (expected +3)
 
 **Parse success:** 7/10
-**Detected price:** 1/10
+**Detected price:** 3/10
 
-## 01-new-ac-installed-by-landlord-intake-might-be-too-s.jpeg
-
-- Total: $None
-- Time: 4.9s
-- redFlags: 3
-  - Image shows only ceiling exhaust vent and light fixture with a chocolate box - no actual HVAC quote document visible
-  - Cannot extract pricing, equipment specifications, or scope details from photograph
-  - No quote documentation present - image appears to be of a residential ceiling/vent installation only
-
-## 02-estimator-said-the-capacitor-would-be-700-not-incl.jpeg
+## 01-estimator-said-the-capacitor-would-be-700-not-incl.jpeg
 
 SKIPPED: too_large
 
-## 03-confession-ive-been-faking-it-kind-of-and-making-3.jpeg
+## 02-confession-ive-been-faking-it-kind-of-and-making-3.jpeg
 
 FAIL: 413 — Request Entity Too Large
 
 FUNCTION_PAYLOAD_TOO_LARGE
 
-iad1::htpgn-1775587189613-a48d3cd173c4
+iad1::srtdn-1775594890307-1f9b72af85f4
 
 
-## 04-just-got-quoted-33k-for-ac-and-heater-in-austin-fo.jpeg
+## 03-just-got-quoted-33k-for-ac-and-heater-in-austin-fo.jpeg
 
 FAIL: 413 — Request Entity Too Large
 
 FUNCTION_PAYLOAD_TOO_LARGE
 
-iad1::zpwkj-1775587193579-a733b39449f8
+iad1::kz9gn-1775594901400-09cd969ef47e
 
 
-## 05-i-mean-ya-cant-make-this-stuff-up.jpeg
+## 04-is-this-reasonable.jpeg
 
-- Total: $None
-- Time: 6.1s
-- systemType: full_system
-- stateCode: WV
-- redFlags: 7
-  - No pricing information provided - advertisement only, not a formal quote
-  - No equipment specifications (brand, model, SEER/AFUE ratings) listed
-  - No warranty terms disclosed
-
-## 06-brilliant-or-stupid-installing-a-water-hose-bypass.jpeg
-
-- Total: $None
-- Time: 6.2s
+- Total: $610
+- Time: 8.2s
+- systemType: central_ac
 - redFlags: 4
-  - Image shows only the evaporator coil and valve assembly - no actual equipment quote or pricing information is visible
-  - Yellow warning label visible but quote/estimate document is not readable in this image
-  - No pricing, system specifications, or itemization can be extracted from the photograph
-
-## 07-furnace-is-not-field-reparable.jpeg
-
-- Total: $None
-- Time: 6.4s
-- redFlags: 6
-  - Image shows only an air filter (20x24x1), not an HVAC quote or estimate
-  - No pricing information visible
-  - No equipment specifications provided
-
-## 08-race-to-the-bottom.jpeg
-
-- Total: $3800
-- Time: 15.9s
-- systemType: mini_split
-- brand: Alpine Blue Ridge
-- redFlags: 5
-  - No warranty terms disclosed (parts or labor duration)
-  - No itemized scope of work - unclear what installation labor includes (line set, electrical, drain line, pad installation, etc.)
-  - No permit or inspection mentioned for equipment installation
+  - R-22 (Freon) refrigerant used - this refrigerant is being phased out and is extremely expensive; consider upgrade to R410A or R454B system
+  - No warranty terms stated for any work performed
+  - No labor rates or breakdown disclosed between labor and materials
 - lineItems: 2
 
-## 09-filters-get-dirty-in-a-week-since-getting-new-hvac.jpg
+## 05-tech-quoted-my-dad-9000-to-replace-their-boiler.jpeg
 
 - Total: $None
-- Time: 4.9s
-- redFlags: 3
-  - This image shows fabric/textile samples with ETL compliance labels, not an HVAC quote. No pricing, equipment specifications, or system details are visible.
-  - The handwritten 'Sept 9 2023' label suggests these are material samples dated to that period, not a quote document.
-  - No contractor information, customer details, system specifications, or financial terms can be extracted from this image.
+- Time: 7.0s
+- systemType: gas_furnace
+- brand: Johnny's
+- redFlags: 8
+  - This is an interior photograph of a boiler/furnace installation with no visible pricing information or itemized quote
+  - No total price, labor costs, or equipment costs are visible or extractable from the image
+  - Only visible text includes safety warnings and the installer name 'Johnny's JPH' with phone number 269-125
 
-## 10-it-happened-to-my-mom.png
+## 06-called-for-a-tune-up-got-a-13000-quote.jpeg
 
 - Total: $None
-- Time: 6.4s
+- Time: 8.5s
+- systemType: gas_furnace
+- brand: Carrier
+- redFlags: 7
+  - No pricing information visible on the quote
+  - No itemized scope of work provided
+  - No warranty terms disclosed
+
+## 07-had-a-leak-in-the-coil-of-my-air-handler-is-this-r.jpeg
+
+- Total: $3810
+- Time: 10.8s
+- systemType: central_ac
+- redFlags: 9
+  - No labor cost breakdown provided - cannot verify fair labor pricing
+  - Labor costs are bundled and unclear; individual task labor rates not disclosed
+  - No Manual J load calculation mentioned for a system repair
+- lineItems: 14
+
+## 08-700-1200-for-a-blower-motor.jpeg
+
+- Total: $None
+- Time: 9.8s
+- brand: GE
 - redFlags: 6
-  - This is not a quote or estimate—it is a complaint/threat email from a customer accusing the company of unethical practices post-acquisition by private equity
-  - No pricing information, equipment specifications, or scope of work provided
-  - Email contains serious allegations including fraudulent sales tactics ('water softener grifting game'), predatory practices under private equity ownership, and unsolicited upselling
+  - This image shows only a motor nameplate label, not an HVAC system quote or estimate
+  - No pricing information is visible
+  - No scope of work or proposal details are present
+- lineItems: 1
+
+## 09-every-quote-10-total-ive-gotten-for-a-heat-pump-in.png
+
+- Total: $None
+- Time: 8.3s
+- redFlags: 9
+  - Document appears to be a comparison quote/bid sheet rather than a detailed proposal—lacks itemized labor costs and equipment specifications
+  - No Manual J load calculation mentioned for system sizing
+  - No permit inclusion stated
+- lineItems: 9
+
+## 10-8k-for-mitsubishi-mini-split-leak-detection-just-t.png
+
+- Total: $7943.56
+- Time: 9.4s
+- redFlags: 6
+  - No itemized pricing breakdown provided - cannot verify labor rates or material costs
+  - Refrigerant recovery and recharge explicitly excluded from quote; additional cost will be billed separately
+  - Three-day timeline for leak search only is exceptionally long and may indicate inefficient diagnostic approach
+- lineItems: 5
 
