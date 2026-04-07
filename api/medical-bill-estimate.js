@@ -315,12 +315,18 @@ CRITICAL ANALYSIS RULES:
     // FLYWHEEL BRIDGE: increment global counter + write to cal:* aggregates
     // so this vertical's quotes feed the same systems as moving and auto.
     try {
-      const totalPrice = Number(parsed && parsed.totalPrice) || 0;
+      // Medical bills use totalBilled, not totalPrice. Try in order:
+      // explicit totalPrice > totalBilled > patientResponsibility
+      const totalPrice = Number(
+        (parsed && parsed.totalPrice) ||
+        (parsed && parsed.totalBilled) ||
+        (parsed && parsed.patientResponsibility)
+      ) || 0;
       if (totalPrice > 0) {
         await redis.incr("tp:total_quotes").catch(() => {});
-        const cityLc = String((parsed && (parsed.city || parsed.cityName)) || "")
+        const cityLc = String((parsed && (parsed.city || parsed.cityName || parsed.facilityCity)) || "")
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
-        const st = String((parsed && (parsed.stateCode || parsed.state)) || "").toUpperCase();
+        const st = String((parsed && (parsed.stateCode || parsed.state || parsed.facilityState)) || "").toUpperCase();
         const service = "medical";
         const weight = 0.3;
         if (st) {

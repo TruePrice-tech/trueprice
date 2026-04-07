@@ -268,12 +268,18 @@ Rules:
     // FLYWHEEL BRIDGE: increment global counter + write to cal:* aggregates
     // so this vertical's quotes feed the same systems as moving and auto.
     try {
-      const totalPrice = Number(parsed && parsed.totalPrice) || 0;
+      // Legal quotes use retainerAmount + hourlyRate, not totalPrice.
+      // Use retainer if present, otherwise estimate from hourlyRate * 10 (typical engagement).
+      const totalPrice = Number(
+        (parsed && parsed.totalPrice) ||
+        (parsed && parsed.retainerAmount) ||
+        (parsed && parsed.hourlyRate ? parsed.hourlyRate * 10 : 0)
+      ) || 0;
       if (totalPrice > 0) {
         await redis.incr("tp:total_quotes").catch(() => {});
-        const cityLc = String((parsed && (parsed.city || parsed.cityName)) || "")
+        const cityLc = String((parsed && (parsed.city || parsed.cityName || parsed.firmCity)) || "")
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
-        const st = String((parsed && (parsed.stateCode || parsed.state)) || "").toUpperCase();
+        const st = String((parsed && (parsed.stateCode || parsed.state || parsed.firmState)) || "").toUpperCase();
         const service = "legal";
         const weight = 0.3;
         if (st) {
