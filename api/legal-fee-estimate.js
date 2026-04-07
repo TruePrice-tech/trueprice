@@ -171,18 +171,18 @@ CRITICAL EXTRACTION RULES:
      "Total Cost", "Total Fee", "Engagement Fee", "Total for Services",
      or similar PRIMARY price for the legal services (NOT third-party
      costs, NOT court filing fees, NOT down-payments), put that EXACT
-     number in the `flatFee` field.
+     number in the \`flatFee\` field.
 
    - If the document shows a "Retainer", "Initial Retainer", "Trust
      Deposit", or "Initial Deposit" amount that the client must pay
-     upfront against future hourly billing, put it in `retainerAmount`.
+     upfront against future hourly billing, put it in \`retainerAmount\`.
      (A retainer is different from a flat fee — retainers are drawn
      down hourly; flat fees are the final price.)
 
    - If the document is a contingency agreement, put the LOWEST tier
      percentage (typically the "before lawsuit filed" or "settled
-     pre-suit" rate) in `contingencyPercent` as a number (33.33 for
-     "33 1/3%", 40 for "40%"). Set `flatFee` and `retainerAmount` to
+     pre-suit" rate) in \`contingencyPercent\` as a number (33.33 for
+     "33 1/3%", 40 for "40%"). Set \`flatFee\` and \`retainerAmount\` to
      null for pure contingency agreements.
 
 2. NEVER USE A DOWN-PAYMENT OR DEPOSIT AS THE TOTAL:
@@ -199,31 +199,31 @@ CRITICAL EXTRACTION RULES:
    - "Court filing fee", "recording fee", "title insurance", "credit
      report", "process server", "court reporter" are pass-through
      costs that the client pays through the firm, NOT legal services.
-   - Do NOT include these in `flatFee`. The legal services flat fee
+   - Do NOT include these in \`flatFee\`. The legal services flat fee
      is what the firm charges for its time and expertise.
-   - Pass-through costs CAN be summed into `estimatedTotalHigh` to
+   - Pass-through costs CAN be summed into \`estimatedTotalHigh\` to
      show the client's total out-of-pocket, but the headline fee is
      the legal services portion only.
 
 4. HOURLY RATES:
 
    - If multiple roles are listed (Senior Partner, Associate, Paralegal),
-     put the LEAD ATTORNEY's rate in `hourlyRate`. Note all rates in
-     `lineItems` or in `caseDescription`.
-   - If a single hourly rate is shown, put it in `hourlyRate`.
+     put the LEAD ATTORNEY's rate in \`hourlyRate\`. Note all rates in
+     \`lineItems\` or in \`caseDescription\`.
+   - If a single hourly rate is shown, put it in \`hourlyRate\`.
 
 5. ESTIMATED TOTAL RANGES:
 
    - When the document gives a range like "$8,000 to $25,000", put the
-     low in `estimatedTotalLow` and high in `estimatedTotalHigh`.
+     low in \`estimatedTotalLow\` and high in \`estimatedTotalHigh\`.
    - This is in addition to (not instead of) the retainer/flat fee.
 
 6. NEVER RETURN NULL FOR EVERY PRICE FIELD:
 
    - If you see any dollar amounts in the document and the document is
-     a real legal fee/billing document, at least one of `flatFee`,
-     `retainerAmount`, `hourlyRate`, `contingencyPercent`,
-     `estimatedTotalLow`, or `estimatedTotalHigh` MUST be populated.
+     a real legal fee/billing document, at least one of \`flatFee\`,
+     \`retainerAmount\`, \`hourlyRate\`, \`contingencyPercent\`,
+     \`estimatedTotalLow\`, or \`estimatedTotalHigh\` MUST be populated.
    - Returning all-null for a real legal doc is a parse failure.
 
 7. RED FLAGS:
