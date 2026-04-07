@@ -68,6 +68,19 @@
     @media (max-width:600px) {
       .mv-app { padding: 1rem 0.75rem; }
     }
+
+    /* Make placeholder text visually distinct from real input values
+       so users don't mistake "NC" / "GA" hints for filled-in data */
+    .mv-manual-form input::placeholder,
+    .mv-manual-form select::placeholder {
+      color: #cbd5e1 !important;
+      font-style: italic;
+      opacity: 1;
+    }
+    .mv-state-suggested {
+      background: #f0fdf4 !important;
+      border-color: #86efac !important;
+    }
     .mv-hero { text-align: center; margin-bottom: 2rem; user-select: none; cursor: default; }
     .mv-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
     .mv-hero p { color: #64748b; font-size: 1.1rem; }
@@ -726,6 +739,70 @@
       }
     }
 
+    // City -> state lookup for the top ~250 US cities by population.
+    // Used to auto-fill state when user types a recognizable city name,
+    // so they don't have to enter the state manually for common cases.
+    var CITY_TO_STATE = {
+      "new york":"NY","los angeles":"CA","chicago":"IL","houston":"TX","phoenix":"AZ",
+      "philadelphia":"PA","san antonio":"TX","san diego":"CA","dallas":"TX","austin":"TX",
+      "jacksonville":"FL","fort worth":"TX","columbus":"OH","charlotte":"NC","indianapolis":"IN",
+      "san francisco":"CA","seattle":"WA","denver":"CO","washington":"DC","boston":"MA",
+      "el paso":"TX","nashville":"TN","oklahoma city":"OK","las vegas":"NV","detroit":"MI",
+      "portland":"OR","memphis":"TN","louisville":"KY","baltimore":"MD","milwaukee":"WI",
+      "albuquerque":"NM","tucson":"AZ","fresno":"CA","sacramento":"CA","mesa":"AZ",
+      "kansas city":"MO","atlanta":"GA","long beach":"CA","colorado springs":"CO","raleigh":"NC",
+      "miami":"FL","virginia beach":"VA","omaha":"NE","oakland":"CA","minneapolis":"MN",
+      "tulsa":"OK","arlington":"TX","tampa":"FL","new orleans":"LA","wichita":"KS",
+      "cleveland":"OH","bakersfield":"CA","aurora":"CO","anaheim":"CA","honolulu":"HI",
+      "santa ana":"CA","riverside":"CA","corpus christi":"TX","lexington":"KY","henderson":"NV",
+      "stockton":"CA","saint paul":"MN","st paul":"MN","cincinnati":"OH","st louis":"MO",
+      "saint louis":"MO","pittsburgh":"PA","greensboro":"NC","lincoln":"NE","anchorage":"AK",
+      "plano":"TX","orlando":"FL","irvine":"CA","newark":"NJ","durham":"NC",
+      "chula vista":"CA","toledo":"OH","fort wayne":"IN","st petersburg":"FL","saint petersburg":"FL",
+      "laredo":"TX","jersey city":"NJ","chandler":"AZ","madison":"WI","lubbock":"TX",
+      "scottsdale":"AZ","reno":"NV","buffalo":"NY","gilbert":"AZ","glendale":"AZ",
+      "north las vegas":"NV","winston-salem":"NC","winston salem":"NC","chesapeake":"VA","norfolk":"VA",
+      "fremont":"CA","garland":"TX","irving":"TX","hialeah":"FL","richmond":"VA",
+      "boise":"ID","spokane":"WA","baton rouge":"LA","tacoma":"WA","san bernardino":"CA",
+      "modesto":"CA","fontana":"CA","des moines":"IA","moreno valley":"CA","santa clarita":"CA",
+      "fayetteville":"NC","birmingham":"AL","oxnard":"CA","rochester":"NY","port st lucie":"FL",
+      "grand rapids":"MI","huntsville":"AL","salt lake city":"UT","frisco":"TX","yonkers":"NY",
+      "amarillo":"TX","glendale":"CA","huntington beach":"CA","mckinney":"TX","montgomery":"AL",
+      "augusta":"GA","aurora":"IL","akron":"OH","little rock":"AR","tempe":"AZ",
+      "columbus":"GA","overland park":"KS","grand prairie":"TX","tallahassee":"FL","cape coral":"FL",
+      "mobile":"AL","knoxville":"TN","shreveport":"LA","worcester":"MA","ontario":"CA",
+      "vancouver":"WA","sioux falls":"SD","chattanooga":"TN","brownsville":"TX","fort lauderdale":"FL",
+      "providence":"RI","newport news":"VA","rancho cucamonga":"CA","santa rosa":"CA","peoria":"AZ",
+      "oceanside":"CA","elk grove":"CA","salem":"OR","pembroke pines":"FL","eugene":"OR",
+      "garden grove":"CA","cary":"NC","fort collins":"CO","corona":"CA","springfield":"MO",
+      "jackson":"MS","alexandria":"VA","hayward":"CA","clarksville":"TN","lakewood":"CO",
+      "lancaster":"CA","salinas":"CA","palmdale":"CA","hollywood":"FL","springfield":"MA",
+      "macon":"GA","kansas city":"KS","sunnyvale":"CA","pomona":"CA","killeen":"TX",
+      "escondido":"CA","pasadena":"TX","naperville":"IL","bellevue":"WA","joliet":"IL",
+      "murfreesboro":"TN","midland":"TX","rockford":"IL","paterson":"NJ","savannah":"GA",
+      "bridgeport":"CT","torrance":"CA","mcallen":"TX","syracuse":"NY","surprise":"AZ",
+      "denton":"TX","roseville":"CA","thornton":"CO","miramar":"FL","pasadena":"CA",
+      "mesquite":"TX","olathe":"KS","dayton":"OH","carrollton":"TX","waco":"TX",
+      "orange":"CA","fullerton":"CA","charleston":"SC","west valley city":"UT","visalia":"CA",
+      "hampton":"VA","gainesville":"FL","warren":"MI","columbia":"SC","cedar rapids":"IA",
+      "sterling heights":"MI","new haven":"CT","stamford":"CT","concord":"CA","kent":"WA",
+      "santa clara":"CA","elizabeth":"NJ","round rock":"TX","thousand oaks":"CA","lafayette":"LA",
+      "athens":"GA","topeka":"KS","simi valley":"CA","fargo":"ND","norman":"OK",
+      "abilene":"TX","wilmington":"NC","hartford":"CT","victorville":"CA","pearland":"TX",
+      "vallejo":"CA","ann arbor":"MI","berkeley":"CA","allentown":"PA","richardson":"TX",
+      "odessa":"TX","arvada":"CO","cambridge":"MA","sugar land":"TX","lansing":"MI",
+      "evansville":"IN","college station":"TX","fairfield":"CA","clearwater":"FL","beaumont":"TX",
+      "independence":"MO","provo":"UT","west jordan":"UT","murfreesboro":"TN","everett":"WA",
+      "high point":"NC","richmond":"CA","westminster":"CO","wilmington":"DE","manchester":"NH",
+      "springfield":"IL","fort mill":"SC","indian land":"SC","rock hill":"SC"
+    };
+
+    function lookupCityState(city) {
+      if (!city) return null;
+      var key = city.toLowerCase().trim().replace(/\./g,"").replace(/\s+/g," ");
+      return CITY_TO_STATE[key] || null;
+    }
+
     // Path switching for the I-need-an-estimate / I-have-a-quote toggle.
     // Exposed on window so the inline onclick handlers in the rendered markup work.
     window.mvSwitchPath = function(path, silent) {
@@ -940,6 +1017,31 @@
       // Path switching: open the panel the user landed with (URL param), or default to estimate
       var urlPath = new URLSearchParams(window.location.search).get("path");
       mvSwitchPath(urlPath === "quote" ? "quote" : "estimate", true);
+
+      // City -> state auto-fill: when user types a recognizable city,
+      // auto-populate the state field. Saves a step for common cases.
+      function wireCityAutofill(cityId, stateId) {
+        var cityEl = document.getElementById(cityId);
+        var stateEl = document.getElementById(stateId);
+        if (!cityEl || !stateEl) return;
+        cityEl.addEventListener("blur", function() {
+          var city = (cityEl.value || "").trim();
+          if (!city) return;
+          // Don't overwrite if user already typed a state
+          if ((stateEl.value || "").trim().length === 2) return;
+          var st = lookupCityState(city);
+          if (st) {
+            stateEl.value = st;
+            stateEl.classList.add("mv-state-suggested");
+            // Clear highlight after 2s or on user edit
+            var clear = function() { stateEl.classList.remove("mv-state-suggested"); stateEl.removeEventListener("input", clear); };
+            stateEl.addEventListener("input", clear);
+            setTimeout(clear, 2500);
+          }
+        });
+      }
+      wireCityAutofill("estFromCity", "estFromState");
+      wireCityAutofill("estToCity", "estToState");
 
       // Estimate button (new path)
       var estBtn = document.getElementById("btnGetEstimate");
