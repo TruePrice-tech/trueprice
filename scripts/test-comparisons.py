@@ -22,10 +22,22 @@ VERTICAL_ENDPOINTS = {
     "hvac": "hvac-estimate",
     "plumbing": "plumbing-estimate",
     "electrical": "electrical-estimate",
-    "roofing": None,  # roofing uses parse-quote.js for the analyzer
+    "roofing": "parse-quote",  # roofing uses parse-quote.js
     "solar": "solar-estimate",
     "medical": "medical-bill-estimate",
     "legal": "legal-fee-estimate",
+    "moving": "moving-estimate",
+    "concrete": "concrete-estimate",
+    "foundation": "foundation-estimate",
+    "fencing": "fencing-estimate",
+    "garage-door": "garage-door-estimate",
+    "gutters": "gutters-estimate",
+    "insulation": "insulation-estimate",
+    "kitchen": "kitchen-estimate",
+    "landscaping": "landscaping-estimate",
+    "painting": "painting-estimate",
+    "siding": "siding-estimate",
+    "windows": "windows-estimate",
 }
 
 def ocr_local(b64, mime):
