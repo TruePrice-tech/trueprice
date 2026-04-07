@@ -1809,19 +1809,29 @@
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
-      var priceDisplay = fmt(r.quoteTotal);
-      var rangeText = "";
 
-      if (r.quoteTotal > 0 && r.expectedRange) {
+      // ── Headline price ──
+      // Estimate-only path: show the typical mid-range cost from our model
+      // Quote path: show the user's quote total
+      var priceDisplay;
+      var rangeText = "";
+      var areaLabel = r.fromCity && r.fromState ? r.fromCity + ", " + r.fromState : r.fromState ? STATE_NAMES[r.fromState] || r.fromState : "your area";
+
+      if (r.isEstimateOnly && r.expectedRange) {
+        priceDisplay = fmt(r.expectedRange.mid);
+        rangeText = "Typical range: " + fmt(r.expectedRange.low) + " - " + fmt(r.expectedRange.high) + " for " + areaLabel;
+      } else if (r.quoteTotal > 0 && r.expectedRange) {
+        priceDisplay = fmt(r.quoteTotal);
         var pct = Math.round((r.ratio - 1) * 100);
         var dir = pct > 0 ? "above" : "below";
-        var areaLabel = r.fromCity && r.fromState ? r.fromCity + ", " + r.fromState : r.fromState ? STATE_NAMES[r.fromState] || r.fromState : "your area";
         if (Math.abs(pct) <= 2) {
           rangeText = "Right at the market average for " + areaLabel;
         } else {
           rangeText = Math.abs(pct) + "% " + dir + " average for " + areaLabel;
         }
         rangeText += " (typical range: " + fmt(r.expectedRange.low) + " - " + fmt(r.expectedRange.high) + ")";
+      } else {
+        priceDisplay = fmt(r.quoteTotal || 0);
       }
 
       var moveTypeLabels = { local: "Local Move", longDistance: "Long Distance / Interstate" };
