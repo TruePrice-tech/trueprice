@@ -2100,16 +2100,15 @@
       savingsHtml += '<li>Ask if the mover offers a discount for flexible delivery dates</li>';
       savingsHtml += '</ul></div>';
 
-      // ── Feedback ──
-      var feedbackHtml = '\
-<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
-  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this analysis helpful?</div>\
-  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
-    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, helpful</button>\
-    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
-    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
-  </div>\
-</div>';
+      // ── Footer (shared Trudy template) ──
+      var footerHtml = (typeof window.tpRenderResultFooter === "function")
+        ? window.tpRenderResultFooter({
+            vertical: "moving",
+            trudyImage: "/images/trudy-moving.png",
+            onStartOver: "mvStartOver",
+            shareTitle: "My TruePrice moving analysis"
+          })
+        : "";
 
       // ── Email report ──
       var emailSubject = encodeURIComponent("My Moving Quote Analysis from TruePrice");
@@ -2159,14 +2158,10 @@
         ' + tipsHtml + '\
         ' + savingsHtml + '\
         ' + methodologyHtml + '\
-        <div class="mv-actions">\
-          <a class="mv-btn mv-btn-secondary mv-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
-          <button class="mv-btn mv-btn-secondary mv-btn-full" onclick="saveResultAsImage()">Save as Image</button>\
-          <button class="mv-btn mv-btn-secondary mv-btn-full" id="btnStartOver">Start Over</button>\
-        </div>\
-        ' + feedbackHtml;
+        ' + footerHtml;
 
-      document.getElementById("btnStartOver").addEventListener("click", function() {
+      // Define mvStartOver as a window fn so the shared footer's Start Over button can call it
+      window.mvStartOver = function() {
         state = {
           step: "upload", fromCity: "", fromState: "", toCity: "", toState: "",
           homeSize: "2br", distance: null, moveType: "local",
@@ -2175,7 +2170,7 @@
           originLat: null, originLng: null, destLat: null, destLng: null
         };
         render();
-      });
+      };
 
       // Async USDOT lookup — runs after the result page is rendered
       if (r.moverInfo && (r.moverInfo.dotNumber || r.moverInfo.name)) {
@@ -2243,5 +2238,6 @@ function tpFb(r){if(typeof tpTrack==="function")tpTrack("feedback_quick",{respon
 setTimeout(function(){var el=document.getElementById("tpFeedback");if(el)el.style.display="block";},15000);
 </script>
 <script src="/js/feedback-modal.js" defer></script>
+<script src="/js/trudy-footer.js" defer></script>
 </body>
 </html>

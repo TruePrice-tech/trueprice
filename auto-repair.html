@@ -1299,7 +1299,26 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   }
 
   // Scenario matrix only makes sense in full-repair mode (shop type matters)
-  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml);
+  // Append the shared Trudy footer at the bottom for consistent cross-vertical UX
+  var sharedFooterHtml = (typeof window.tpRenderResultFooter === "function")
+    ? window.tpRenderResultFooter({
+        vertical: "auto",
+        trudyImage: "/images/trudy-auto.png",
+        onStartOver: "arStartOver",
+        shareTitle: "My TruePrice auto repair report"
+      })
+    : "";
+  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml)+sharedFooterHtml;
+  // Define arStartOver as a window fn so the shared footer's Start Over button works
+  if (!window.arStartOver) {
+    window.arStartOver = function() {
+      lastEstimateInputs = null;
+      window._calibCache = null;
+      var resultEl = document.getElementById("estimateResult");
+      if (resultEl) resultEl.innerHTML = "";
+      window.scrollTo({top:0, behavior:"smooth"});
+    };
+  }
 
   // One-shot calibration fetch per input signature.
   // Only fetch if we don't already have it cached for this exact set of inputs.
@@ -2108,5 +2127,6 @@ setTimeout(function(){var el=document.getElementById("tpFeedback");if(el)el.styl
 </script>
 <script src="/js/tp-analytics.min.js" async></script>
 <script src="/js/feedback-modal.js" defer></script>
+<script src="/js/trudy-footer.js" defer></script>
 </body>
 </html>
