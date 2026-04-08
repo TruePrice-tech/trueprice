@@ -120,6 +120,7 @@
     .hp-why-icon { font-size: 24px; }
 
     /* New three-intent hero */
+    .tp-hero-section { position: relative; z-index: 1; padding: 88px 0 48px; }
     .tp-slogan { font-size: 56px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; color: #fff; text-align: center; margin: 0 auto 36px; max-width: 900px; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
     .tp-intent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
     .tp-intent-card { background: #fff; border-radius: 16px; padding: 22px 18px 20px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; position: relative; }
@@ -137,6 +138,7 @@
     .tp-counter-line { text-align: center; font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
 
     @media (max-width: 700px) {
+      .tp-hero-section { padding: 56px 0 32px; }
       .tp-slogan { font-size: 36px; margin-bottom: 24px; }
       .tp-intent-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
       .tp-intent-card { padding: 18px 12px 16px; border-top-width: 5px; }
@@ -203,7 +205,7 @@
   </header>
 
   <!-- HERO: three-intent funnel -->
-  <section class="hp-hero" style="position:relative; z-index:1; padding:88px 0 48px;">
+  <section class="hp-hero tp-hero-section">
     <div class="container" style="text-align:center;">
 
       <h1 class="tp-slogan anim-1">Don't guess. Know.</h1>
