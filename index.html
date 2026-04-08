@@ -121,12 +121,12 @@
 
     /* New three-intent hero */
     .tp-intent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
-    .tp-intent-card { background: #fff; border-radius: 18px; padding: 28px 22px 26px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 6px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; }
-    .tp-intent-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.24); }
-    .tp-intent-card img { max-height: 520px; width: 100%; height: auto; object-fit: contain; margin-bottom: 14px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18)); }
-    .tp-intent-card h2 { font-size: 22px; margin: 0 0 6px; color: #0f172a; line-height: 1.2; }
-    .tp-intent-card p.tp-sub { font-size: 15px; color: #475569; margin: 0 0 18px; line-height: 1.4; }
-    .tp-intent-cta { display: inline-block; background: var(--accent, #1d4ed8); color: #fff; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: filter 0.15s, transform 0.15s; }
+    .tp-intent-card { background: #fff; border-radius: 16px; padding: 22px 18px 18px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; }
+    .tp-intent-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.24); text-decoration: none; }
+    .tp-intent-card h2 { font-size: 19px; margin: 0 0 4px; color: #0f172a; line-height: 1.2; }
+    .tp-intent-card p.tp-sub { font-size: 14px; color: #475569; margin: 0 0 12px; line-height: 1.4; }
+    .tp-intent-card img { max-height: 160px; width: auto; height: auto; object-fit: contain; margin: 0 0 14px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18)); }
+    .tp-intent-cta { display: inline-block; background: var(--accent, #1d4ed8); color: #fff; font-weight: 700; font-size: 14px; padding: 10px 18px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: filter 0.15s, transform 0.15s; pointer-events: none; }
     .tp-intent-cta:hover { filter: brightness(1.08); transform: translateY(-1px); text-decoration: none; }
     .tp-trust-line { text-align: center; margin: 28px auto 4px; font-size: 14px; color: rgba(255,255,255,0.75); }
     .tp-counter-line { text-align: center; font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
@@ -138,8 +138,8 @@
 
     @media (max-width: 700px) {
       .tp-intent-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .tp-intent-card { padding: 18px 12px 18px; border-top-width: 5px; }
-      .tp-intent-card img { max-height: 280px; margin-bottom: 10px; }
+      .tp-intent-card { padding: 18px 12px 16px; border-top-width: 5px; }
+      .tp-intent-card img { max-height: 130px; margin-bottom: 10px; }
       .tp-intent-card h2 { font-size: 17px; }
       .tp-intent-card p.tp-sub { font-size: 13px; margin-bottom: 12px; }
       .tp-intent-cta { font-size: 14px; padding: 10px 16px; }
@@ -204,24 +204,24 @@
       <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">TruePrice — Free Contractor Quote Analyzer for 20 Trades</h1>
 
       <div class="tp-intent-grid anim-1">
-        <div class="tp-intent-card tp-card-estimate" style="--accent:#ec4899;">
-          <img src="/images/trudy-estimate-hero.webp" alt="Trudy with arms out asking what you need" width="533" height="800" loading="eager" />
+        <a class="tp-intent-card tp-card-estimate" href="/get-an-estimate.html" style="--accent:#ec4899;">
           <h2>How much will you spend?</h2>
           <p class="tp-sub">Shop before you buy.</p>
-          <a class="tp-intent-cta" href="/get-an-estimate.html">Give me an estimate</a>
-        </div>
-        <div class="tp-intent-card tp-card-compare" style="--accent:#eab308;">
-          <img src="/images/trudy-compare-hero.webp" alt="Trudy holding two quotes for comparison" width="533" height="800" loading="eager" />
+          <img src="/images/trudy-estimate-hero.webp" alt="Trudy with arms out asking what you need" width="533" height="800" loading="eager" />
+          <span class="tp-intent-cta">Give me an estimate</span>
+        </a>
+        <a class="tp-intent-card tp-card-compare" href="/compare-quotes-picker.html" style="--accent:#eab308;">
           <h2>Got multiple quotes?</h2>
           <p class="tp-sub">Side-by-side check on each.</p>
-          <a class="tp-intent-cta" href="/compare-quotes-picker.html">Compare quotes</a>
-        </div>
-        <div class="tp-intent-card tp-card-analyze" style="--accent:#1d4ed8;">
-          <img src="/images/trudy-analyze-hero.webp" alt="Trudy holding up a single quote, confident" width="533" height="800" loading="eager" />
+          <img src="/images/trudy-compare-hero.webp" alt="Trudy holding two quotes for comparison" width="533" height="800" loading="eager" />
+          <span class="tp-intent-cta">Compare quotes</span>
+        </a>
+        <a class="tp-intent-card tp-card-analyze" href="/analyze-my-quote.html" style="--accent:#1d4ed8;">
           <h2>Already got a quote?</h2>
           <p class="tp-sub">Don't sign till Trudy checks it.</p>
-          <a class="tp-intent-cta" href="/analyze-my-quote.html">Analyze my quote</a>
-        </div>
+          <img src="/images/trudy-analyze-hero.webp" alt="Trudy holding up a single quote, confident" width="533" height="800" loading="eager" />
+          <span class="tp-intent-cta">Analyze my quote</span>
+        </a>
       </div>
 
       <div class="tp-trust-line anim-3">Free &middot; No email &middot; No phone &middot; No lead-selling</div>
