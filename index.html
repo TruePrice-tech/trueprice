@@ -477,12 +477,38 @@
 <script src="/js/homepage.min.js" defer></script>
 <script>if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js").catch(function(){});</script>
 <script>
-// Live counter
-fetch("/api/analytics?counter=1").then(r=>r.json()).then(d=>{
-  var el=document.getElementById("liveCounter");
-  if(el&&d.count)el.textContent=d.count.toLocaleString();
-}).catch(function(){});
+// Live counter with count-up animation on page load.
+// Fetches the latest tp:total_quotes value, then animates from 0 -> target
+// to draw the user's eye to the social proof number.
+(function() {
+  var el = document.getElementById("liveCounter");
+  if (!el) return;
 
+  function animate(target) {
+    var start = performance.now();
+    var duration = 1400; // ms
+    function step(now) {
+      var t = Math.min(1, (now - start) / duration);
+      // ease-out cubic so the count slows as it approaches the target
+      var eased = 1 - Math.pow(1 - t, 3);
+      var value = Math.floor(eased * target);
+      el.textContent = value.toLocaleString();
+      if (t < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString();
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Start at 0 visually; fall back to a sane default if the API is slow
+  el.textContent = "0";
+  fetch("/api/analytics?counter=1")
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var n = (d && d.count) ? parseInt(d.count, 10) : 3895;
+      animate(n);
+    })
+    .catch(function() { animate(3895); });
+})();
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
 <script>
