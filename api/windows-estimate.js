@@ -201,13 +201,13 @@ Return this exact JSON structure:
   "brandLine": <string or null - product line like "100 Series" "250" "Lifestyle" "Tuscany" "5500">,
   "brandTier": <"value" | "mid" | "premium" | "luxury" | null - infer from brand+line>,
   "energyStarRated": <boolean or null - ENERGY STAR certified>,
-  "energyStarMostEfficient": <boolean or null - ENERGY STAR Most Efficient tier - this is what qualifies for the IRA tax credit>,
+  "energyStarMostEfficient": <boolean or null - ENERGY STAR Most Efficient tier - note: 25C federal credit EXPIRED Dec 31 2025; this tier still matters for state utility rebates>,
   "uFactor": <number or null - U-factor if listed (lower is better, e.g. 0.20)>,
   "shgc": <number or null - Solar Heat Gain Coefficient if listed>,
   "glassPackage": <"single_pane" | "double_pane" | "triple_pane" | null>,
   "lowE": <boolean or null - Low-E coating included>,
   "argonFill": <boolean or null - argon gas fill mentioned>,
-  "manufacturerPin": <string or null - the QM/PIN code required for IRA tax credit claims starting 2025>,
+  "manufacturerPin": <string or null - was required for 25C credit through 2025; now historical only since credit expired Dec 31 2025>,
   "city": <string or null - city from the quote>,
   "stateCode": <string or null - 2-letter state code>,
   "depositPercent": <number or null - deposit % required up front>,
@@ -258,7 +258,7 @@ CRITICAL EXTRACTION RULES:
 - If you cannot find an explicit total, SUM the individual line item amounts.
 - perWindowPrice: compute totalPrice / windowCount when both are known. This is the single most useful comparison number.
 - brandTier rules: Window World, Atrium, Alside Sheffield, Jeld-Wen Builders Vinyl = "value". Simonton, Milgard Style/Trinsic/Tuscany, Pella 250/350, Andersen 100, Alside Mezzo = "mid". Marvin Essential/Elevate, Pella Lifestyle, Andersen 200/400, ProVia, Soft-Lite Imperial, Milgard Ultra = "premium". Andersen A-Series, Pella Reserve/Architect, Marvin Signature, Renewal by Andersen = "luxury".
-- energyStarMostEfficient: this is the FEDERAL TAX CREDIT qualifying tier. Most quotes will say "ENERGY STAR" but not "Most Efficient". Only mark true if explicitly stated.
+- energyStarMostEfficient: this was the federal 25C tax credit qualifying tier. The 25C credit EXPIRED Dec 31, 2025 - it is no longer available for 2026 installs. The tier still matters for state/utility rebate eligibility. Only mark true if explicitly stated.
 - installMethod: look for "pocket" / "insert" / "retrofit" (= pocket) vs "full frame" / "new construction" / "tear-out" / "complete reframe" (= full_frame). Full-frame is +40 to +100% more.
 - Never return null for a price field if there are dollar amounts visible anywhere in the document.
 

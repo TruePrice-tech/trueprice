@@ -1,356 +1,635 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, BLS SOC 47-2111, NFPA, contractor surveys",
-    "baseYear": 2026
+    "sources": "BBB complaint analysis, Reddit r/electricians + r/askanelectrician, NerdWallet 2026 electrical pricing, HomeAdvisor/Angi 2026, BLS SOC 47-2111, NFPA 70 (NEC 2023), NECA labor units, IRS Form 5695, DSIRE state rebates",
+    "baseYear": 2026,
+    "nationalAverageHourlyRate": 110,
+    "notes": "All prices reflect fully installed cost (labor + materials + permit) unless noted. Electricians are state-licensed (not federal); license reciprocity is limited. IRA 25C credit covers up to $2,000/yr for electrical work that enables a heat pump, plus a separate $600/yr panel box line when the panel upgrade is required to add a qualified heat pump, heat pump water heater, EV charger, or similar electrification upgrade."
   },
+
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.18, "AZ": 0.95, "AR": 0.82, "CA": 1.25,
+    "CO": 1.05, "CT": 1.17, "DE": 1.05, "FL": 0.94, "GA": 0.90,
+    "HI": 1.22, "ID": 0.90, "IL": 1.05, "IN": 0.92, "IA": 0.90,
+    "KS": 0.88, "KY": 0.87, "LA": 0.88, "ME": 1.00, "MD": 1.10,
+    "MA": 1.18, "MI": 0.94, "MN": 1.00, "MS": 0.82, "MO": 0.90,
+    "MT": 0.95, "NE": 0.90, "NV": 1.02, "NH": 1.06, "NJ": 1.17,
+    "NM": 0.92, "NY": 1.22, "NC": 0.92, "ND": 0.92, "OH": 0.94,
+    "OK": 0.86, "OR": 1.08, "PA": 1.02, "RI": 1.10, "SC": 0.88,
+    "SD": 0.90, "TN": 0.88, "TX": 0.92, "UT": 0.94, "VT": 1.02,
+    "VA": 0.98, "WA": 1.14, "WV": 0.82, "WI": 0.95, "WY": 0.92,
+    "DC": 1.22
   },
+
+  "regionMultipliers": {
+    "northeast": { "states": ["NY","NJ","MA","CT","PA","RI","NH","VT","ME"], "multiplier": 1.17, "notes": "Prevailing wage, IBEW union density, historic home knob-and-tube remediation" },
+    "west_coast": { "states": ["CA","WA","OR"], "multiplier": 1.15, "notes": "Title 24 (CA) load calc, seismic strapping, wildfire zone breakers" },
+    "mountain": { "states": ["CO","UT","AZ","NV","NM","ID","MT","WY"], "multiplier": 0.98 },
+    "midwest": { "states": ["IL","OH","MI","IN","WI","MN","IA","ND","SD","NE","KS","MO"], "multiplier": 0.97, "notes": "Higher in Chicago (Chicago EMT-conduit requirement adds 20-35%)" },
+    "southeast": { "states": ["GA","NC","SC","TN","AL","MS","KY","VA","WV","FL"], "multiplier": 0.90, "notes": "Low labor rates; FL hurricane-zone service mast upgrades run higher" },
+    "south_central": { "states": ["TX","OK","AR","LA"], "multiplier": 0.89 }
+  },
+
   "laborRates": {
-    "low": 80,
-    "mid": 120,
-    "high": 180,
-    "master": 200
+    "apprentice": 55,
+    "journeyman_low": 85,
+    "journeyman_mid": 110,
+    "journeyman_high": 140,
+    "master": 175,
+    "emergency_multiplier": 1.75,
+    "notes": "Most residential electrical work is performed by a journeyman electrician under a master's license. Master electricians personally charging $175-$250/hr are typical for custom/commercial. Emergency (after-hours) rates typically 1.5x-2x."
   },
+
   "commonJobs": {
     "panel_upgrade_100_200": {
-      "label": "Panel Upgrade (100A to 200A)",
-      "total": [
-        1500,
-        4000
-      ],
-      "labor_hrs": [
-        4,
-        8
-      ],
-      "parts": [
-        500,
-        1500
-      ],
-      "urgency": "soon"
+      "label": "Panel Upgrade 100A to 200A",
+      "total": [1800, 4500],
+      "tierMid": 2800,
+      "labor_hrs": [6, 10],
+      "parts": [500, 1500],
+      "permit": [75, 400],
+      "urgency": "soon",
+      "nec_refs": ["NEC 230.79", "NEC 408.3", "NEC 250.24"],
+      "notes": "Includes new 200A main breaker panel, meter base, service entrance conductors, grounding electrode system, and permit/inspection. Service mast replacement adds $400-$1,200. Utility disconnect fee may apply."
     },
     "panel_upgrade_200_400": {
-      "label": "Panel Upgrade (200A to 400A)",
-      "total": [
-        3000,
-        6000
-      ],
-      "labor_hrs": [
-        6,
-        12
-      ],
-      "parts": [
-        1500,
-        3000
-      ],
-      "urgency": "can_wait"
+      "label": "Panel Upgrade 200A to 400A",
+      "total": [4000, 9000],
+      "tierMid": 6200,
+      "labor_hrs": [10, 20],
+      "parts": [1800, 4500],
+      "permit": [150, 600],
+      "urgency": "can_wait",
+      "nec_refs": ["NEC 230.79", "NEC 408.3"],
+      "notes": "Typically required for whole-home EV charging + heat pump + induction range + pool. Often involves a 400A meter base with two 200A panels."
+    },
+    "service_entrance_replace": {
+      "label": "Service Entrance / Weather Head Replace",
+      "total": [1200, 3500],
+      "labor_hrs": [4, 10],
+      "parts": [400, 1500],
+      "urgency": "soon",
+      "nec_refs": ["NEC 230"],
+      "notes": "Replacement of service drop mast, weatherhead, and SE conductors. Utility coordination required for disconnect."
     },
     "whole_house_rewire": {
       "label": "Whole House Rewire",
-      "total": [
-        3000,
-        8000
-      ],
-      "labor_hrs": [
-        20,
-        50
-      ],
-      "parts": [
-        1000,
-        3000
-      ],
-      "urgency": "can_wait"
+      "total": [8000, 30000],
+      "tierMid": 15000,
+      "labor_hrs": [60, 200],
+      "parts": [2500, 9000],
+      "urgency": "can_wait",
+      "nec_refs": ["NEC 210", "NEC 334", "NEC 406"],
+      "notes": "Typical range $4-$9/sqft. Required for knob-and-tube, cloth-insulated wiring, or aluminum branch circuits. Drywall repair often NOT included."
     },
-    "outlet_install": {
-      "label": "Outlet Installation",
-      "total": [
-        150,
-        350
-      ],
-      "labor_hrs": [
-        0.5,
-        1.5
-      ],
-      "parts": [
-        10,
-        50
-      ],
-      "urgency": "can_wait"
+    "knob_tube_removal": {
+      "label": "Knob & Tube Removal",
+      "total": [5000, 20000],
+      "tierMid": 10000,
+      "labor_hrs": [40, 120],
+      "parts": [1500, 5000],
+      "urgency": "soon",
+      "nec_refs": ["NEC 394 (historical)"],
+      "notes": "Many home insurers (State Farm, Allstate, Liberty Mutual, Safeco) will not renew policies with active K&T. Required for insurance and often required at sale."
+    },
+    "aluminum_branch_remediation": {
+      "label": "Aluminum Branch Wiring Remediation (AlumiConn/COPALUM)",
+      "total": [1200, 4500],
+      "labor_hrs": [8, 24],
+      "parts": [300, 1200],
+      "urgency": "soon",
+      "notes": "CPSC-recommended: COPALUM crimp (preferred) or AlumiConn lugs at every device. Full rewire often more cost-effective on homes over 2,000 sqft."
+    },
+    "ev_charger_level2": {
+      "label": "EV Charger Install (Level 2, 40-60A)",
+      "total": [900, 3000],
+      "tierMid": 1600,
+      "labor_hrs": [3, 8],
+      "parts": [450, 1800],
+      "permit": [40, 250],
+      "urgency": "can_wait",
+      "nec_refs": ["NEC 625", "NEC 210.8(F)"],
+      "notes": "Includes 240V dedicated circuit, GFCI breaker, charger unit, and permit. Long runs (>50 ft), exterior install, or panel upgrade add cost. Many utilities offer $250-$1,500 rebates. IRA 30C credit: 30% up to $1,000 in eligible census tracts."
+    },
+    "generator_whole_home": {
+      "label": "Whole-Home Standby Generator (14-26 kW)",
+      "total": [6500, 18000],
+      "tierMid": 11500,
+      "labor_hrs": [10, 24],
+      "parts": [4000, 13000],
+      "permit": [150, 600],
+      "urgency": "can_wait",
+      "nec_refs": ["NEC 702", "NEC 445"],
+      "notes": "Includes generator, ATS (automatic transfer switch), concrete pad, gas line tie-in (separate plumber typical), and commissioning. Natural gas tie-in often adds $500-$2,000."
+    },
+    "generator_portable_interlock": {
+      "label": "Generator Interlock Kit + Inlet",
+      "total": [600, 1500],
+      "labor_hrs": [3, 6],
+      "parts": [150, 400],
+      "urgency": "can_wait",
+      "notes": "Code-compliant alternative to a transfer switch. Uses manufacturer-specific interlock plate on panel."
+    },
+    "outlet_install_standard": {
+      "label": "Standard Outlet Install (new circuit)",
+      "total": [180, 450],
+      "labor_hrs": [1, 2],
+      "parts": [15, 60],
+      "urgency": "can_wait",
+      "nec_refs": ["NEC 210.52"]
     },
     "gfci_outlet": {
       "label": "GFCI Outlet Install",
-      "total": [
-        150,
-        300
-      ],
-      "labor_hrs": [
-        0.5,
-        1
-      ],
-      "parts": [
-        15,
-        30
-      ],
-      "urgency": "soon"
+      "total": [180, 350],
+      "labor_hrs": [0.5, 1.5],
+      "parts": [18, 45],
+      "urgency": "soon",
+      "nec_refs": ["NEC 210.8"],
+      "notes": "NEC 210.8 requires GFCI in: bathrooms, kitchens (all countertop outlets), laundry, garages, outdoors, crawl spaces, basements, within 6 ft of any sink, dishwashers, pool/spa."
     },
-    "ceiling_fan": {
-      "label": "Ceiling Fan Install",
-      "total": [
-        150,
-        400
-      ],
-      "labor_hrs": [
-        1,
-        2
-      ],
-      "parts": [
-        50,
-        250
-      ],
-      "urgency": "can_wait"
+    "afci_breaker": {
+      "label": "AFCI Breaker Install",
+      "total": [80, 220],
+      "labor_hrs": [0.5, 1.0],
+      "parts": [35, 90],
+      "urgency": "soon",
+      "nec_refs": ["NEC 210.12"],
+      "notes": "NEC 210.12 requires AFCI on nearly all 120V 15/20A branch circuits in dwelling units (bedrooms, living, kitchens, laundry, hallways). Breaker cost varies by brand."
     },
-    "light_fixture": {
-      "label": "Light Fixture Install",
-      "total": [
-        100,
-        350
-      ],
-      "labor_hrs": [
-        0.5,
-        2
-      ],
-      "parts": [
-        30,
-        200
-      ],
-      "urgency": "can_wait"
+    "ceiling_fan_install": {
+      "label": "Ceiling Fan Install (with existing box)",
+      "total": [150, 400],
+      "labor_hrs": [1, 2],
+      "parts": [0, 0],
+      "urgency": "can_wait",
+      "notes": "Fan-rated box install adds $75-$200."
     },
-    "ev_charger": {
-      "label": "EV Charger Install (Level 2)",
-      "total": [
-        800,
-        2500
-      ],
-      "labor_hrs": [
-        3,
-        6
-      ],
-      "parts": [
-        400,
-        1500
-      ],
-      "urgency": "can_wait"
+    "recessed_lights_6pack": {
+      "label": "Recessed Lighting (6 lights, existing ceiling)",
+      "total": [800, 2400],
+      "labor_hrs": [4, 10],
+      "parts": [200, 700],
+      "urgency": "can_wait",
+      "nec_refs": ["NEC 410"]
     },
-    "generator_install": {
-      "label": "Whole House Generator",
-      "total": [
-        5000,
-        15000
-      ],
-      "labor_hrs": [
-        8,
-        16
-      ],
-      "parts": [
-        3000,
-        10000
-      ],
-      "urgency": "can_wait"
-    },
-    "recessed_lights": {
-      "label": "Recessed Lighting (6 lights)",
-      "total": [
-        600,
-        1500
-      ],
-      "labor_hrs": [
-        3,
-        6
-      ],
-      "parts": [
-        200,
-        600
-      ],
-      "urgency": "can_wait"
-    },
-    "circuit_breaker": {
-      "label": "Circuit Breaker Replace",
-      "total": [
-        150,
-        350
-      ],
-      "labor_hrs": [
-        0.5,
-        1.5
-      ],
-      "parts": [
-        20,
-        80
-      ],
+    "circuit_breaker_replace": {
+      "label": "Circuit Breaker Replace (single)",
+      "total": [150, 350],
+      "labor_hrs": [0.5, 1.5],
+      "parts": [20, 90],
       "urgency": "critical"
     },
     "smoke_detector_hardwired": {
-      "label": "Hardwired Smoke Detectors (4)",
-      "total": [
-        300,
-        600
-      ],
-      "labor_hrs": [
-        1.5,
-        3
-      ],
-      "parts": [
-        100,
-        200
-      ],
-      "urgency": "critical"
+      "label": "Hardwired Interconnected Smoke/CO (4-6 devices)",
+      "total": [400, 900],
+      "labor_hrs": [2, 5],
+      "parts": [150, 350],
+      "urgency": "critical",
+      "nec_refs": ["NFPA 72"]
     },
-    "knob_tube_removal": {
-      "label": "Knob & Tube Wiring Removal",
-      "total": [
-        3000,
-        8000
-      ],
-      "labor_hrs": [
-        20,
-        50
-      ],
-      "parts": [
-        500,
-        2000
-      ],
-      "urgency": "soon",
-      "notes": "Required for insurance in many states."
+    "subpanel_install": {
+      "label": "Sub-panel Install (100A, same building)",
+      "total": [1200, 3500],
+      "labor_hrs": [6, 12],
+      "parts": [400, 1500],
+      "urgency": "can_wait",
+      "nec_refs": ["NEC 250.32"]
+    },
+    "heat_pump_circuit": {
+      "label": "Heat Pump Dedicated Circuit (30-60A)",
+      "total": [500, 1800],
+      "labor_hrs": [3, 8],
+      "parts": [150, 600],
+      "urgency": "can_wait",
+      "ira_linked": true,
+      "notes": "This circuit may qualify for 25C credit as part of the heat pump install when performed in the same tax year."
+    },
+    "ev_charger_install_service_call": {
+      "label": "Service Call / Diagnostic",
+      "total": [95, 275],
+      "labor_hrs": [1, 2],
+      "urgency": "critical"
     }
   },
+
+  "brandTiers": {
+    "panels": {
+      "Square D (Schneider)": [
+        { "tier": "Homeline", "grade": "value", "typical_cost_range": [180, 450], "notes": "Strong residential value line; widely stocked; 20-year warranty" },
+        { "tier": "QO", "grade": "premium", "typical_cost_range": [300, 700], "notes": "Industry reference line; plug-on-neutral; visual trip indicator" }
+      ],
+      "Eaton (Cutler-Hammer)": [
+        { "tier": "BR", "grade": "value", "typical_cost_range": [175, 425], "notes": "Interchangeable with many legacy panels" },
+        { "tier": "CH", "grade": "premium", "typical_cost_range": [350, 800], "notes": "Tightest tolerances; common in pro-installed homes" }
+      ],
+      "Siemens": [
+        { "tier": "Siemens Q", "grade": "standard", "typical_cost_range": [200, 500], "notes": "Widely available at HD; solid mid-tier" }
+      ],
+      "GE / ABB": [
+        { "tier": "PowerMark Gold / THQL", "grade": "standard", "typical_cost_range": [180, 450], "notes": "ABB acquired GE in 2018; parts still available" }
+      ],
+      "Leviton": [
+        { "tier": "Load Centers", "grade": "premium", "typical_cost_range": [400, 950], "notes": "Newer entrant; includes smart-panel options" }
+      ],
+      "SPAN": [
+        { "tier": "SPAN Panel", "grade": "smart_premium", "typical_cost_range": [3500, 5500], "notes": "Smart panel with per-circuit monitoring and load management; enables 200A service to handle 400A of loads" }
+      ]
+    },
+    "panels_avoid": [
+      { "brand": "Federal Pacific (FPE)", "model": "Stab-Lok", "issue": "Breakers fail to trip under overload; ~2,800 fires/yr attributed", "action": "Replace on discovery. Most insurers will not underwrite with FPE present." },
+      { "brand": "Zinsco / Sylvania-Zinsco", "model": "all", "issue": "Breakers fuse to the bus bar; bus bar corrosion", "action": "Replace on discovery." },
+      { "brand": "Pushmatic / Bulldog", "model": "all", "issue": "Obsolete; breakers no longer manufactured; push-button lacks trip indication", "action": "Replace when budget allows." },
+      { "brand": "Challenger", "model": "HACR breakers", "issue": "Subject to CPSC recall/alerts; overheating at bus", "action": "Evaluate and replace." }
+    ],
+    "ev_chargers": [
+      { "brand": "ChargePoint", "model": "Home Flex", "tier": "premium", "amps_max": 50, "hardware_cost": [599, 799], "notes": "Wi-Fi, app, utility-program compatible; most utility rebates require this or Wallbox" },
+      { "brand": "Wallbox", "model": "Pulsar Plus", "tier": "premium", "amps_max": 48, "hardware_cost": [649, 849], "notes": "Bi-directional Quasar variant available" },
+      { "brand": "Tesla", "model": "Wall Connector (Gen 3)", "tier": "standard", "amps_max": 48, "hardware_cost": [420, 550], "notes": "NACS native; J1772 adapter sold separately" },
+      { "brand": "Emporia", "model": "Level 2", "tier": "value", "amps_max": 48, "hardware_cost": [379, 479], "notes": "Strong value pick; load management built in" },
+      { "brand": "Grizzl-E", "model": "Classic / Smart", "tier": "value", "amps_max": 40, "hardware_cost": [399, 599], "notes": "Durable outdoor build" },
+      { "brand": "JuiceBox", "model": "40/48", "tier": "standard", "amps_max": 48, "hardware_cost": [599, 699], "notes": "Enel X Way bankruptcy (2024) left some units orphaned; check cloud status" }
+    ],
+    "generators": [
+      { "brand": "Generac", "model": "Guardian 18-26 kW", "tier": "value_mid", "equipment_cost": [4500, 8500], "notes": "Market leader; widest dealer network. Past CPSC recalls on Guardian 22 kW for burn/hand-injury risk (check by serial)." },
+      { "brand": "Kohler", "model": "20-26 kW", "tier": "premium", "equipment_cost": [5500, 10000], "notes": "Quieter; 5-year warranty standard; heavy-duty commercial-grade engines" },
+      { "brand": "Briggs & Stratton", "model": "Fortress / PowerProtect", "tier": "mid", "equipment_cost": [4200, 8000], "notes": "Briggs exited standby market 2020; service via Generac/Champion channels" },
+      { "brand": "Cummins", "model": "QuietConnect 20-22 kW", "tier": "premium", "equipment_cost": [5500, 10500], "notes": "Diesel option for off-grid; excellent commercial reputation" },
+      { "brand": "Champion", "model": "aXis 14-26 kW", "tier": "value", "equipment_cost": [3800, 7500], "notes": "Newer entrant; lower cost, growing dealer network" }
+    ]
+  },
+
   "commonUpsells": [
+    { "item": "Whole-house surge protector (Type 2)", "cost": [200, 600], "necessary": "recommended", "notes": "NEC 230.67 (2020+) requires SPD on dwelling service replacement/upgrade. Legitimately code-required on panel upgrades." },
+    { "item": "Smart panel upgrade (SPAN/Leviton)", "cost": [2500, 5000], "necessary": "rarely", "notes": "Convenience, not safety. Standard panel + smart breakers achieves most benefits for less." },
+    { "item": "Dedicated tandem/quad breakers", "cost": [40, 150], "necessary": "sometimes", "notes": "Legitimate if panel is full; watch for labeling as 'panel rework'." },
+    { "item": "Arc-fault breakers for entire home retrofit", "cost": [400, 1500], "necessary": "sometimes", "notes": "Code only requires AFCI on new circuits and circuit extensions. Voluntary retrofit is optional." },
+    { "item": "Copper grounding rod 'upgrade'", "cost": [150, 400], "necessary": "sometimes", "notes": "Supplemental grounding electrode is code-required (NEC 250.53). Charging >$400 for two rods + clamp is inflated." },
+    { "item": "Smart switches/dimmers throughout", "cost": [50, 200], "necessary": "rarely", "notes": "Cosmetic upgrade; DIY-friendly. $15-$30 DIY per switch." },
+    { "item": "Landscape / low-voltage lighting", "cost": [500, 3000], "necessary": "rarely", "notes": "Aesthetic only. DIY kits $150-$400." },
+    { "item": "USB / Type-C outlets", "cost": [60, 150], "necessary": "rarely", "notes": "Nice-to-have. USB adapters cost $5." },
+    { "item": "Whole-home battery backup tie-in", "cost": [8000, 20000], "necessary": "rarely", "notes": "Separate consideration from basic electrical; rarely needed on a service panel upgrade." }
+  ],
+
+  "stateLicensing": {
+    "notes": "Electricians are licensed at the STATE level (unlike federal), with some states delegating to municipalities. License reciprocity is LIMITED. 'Journeyman' and 'Master' are the two primary tiers in most states.",
+    "license_check_url_template": "https://search.[state].gov/electrician-license",
+    "states": {
+      "AL": { "authority": "Alabama Electrical Contractors Board", "journeyman_required": true, "master_required": true, "reciprocity": ["GA","TN","LA","MS"] },
+      "AK": { "authority": "AK Dept of Labor - Mechanical Inspection", "journeyman_required": true, "master_required": true, "reciprocity": ["MT","OR","WA"] },
+      "AZ": { "authority": "AZ ROC (K-11 license)", "journeyman_required": false, "master_required": false, "reciprocity": [], "notes": "Contractor ROC license; no state journeyman card. Tucson/Phoenix have local cards." },
+      "AR": { "authority": "AR Board of Electrical Examiners", "journeyman_required": true, "master_required": true, "reciprocity": ["LA","OK","TX"] },
+      "CA": { "authority": "CSLB C-10 Electrical Contractor + DIR ECU certification", "journeyman_required": true, "master_required": false, "reciprocity": [], "notes": "No master tier. State uses General Electrician / Residential / Fire Life Safety / Voice Data Video certifications." },
+      "CO": { "authority": "CO DORA - State Electrical Board", "journeyman_required": true, "master_required": true, "reciprocity": ["AK","AR","ID","MT","NE","NH","NM","OK","OR","UT","WY"] },
+      "CT": { "authority": "CT Dept of Consumer Protection (E-1/E-2)", "journeyman_required": true, "master_required": true, "reciprocity": [] },
+      "DE": { "authority": "DE Board of Electrical Examiners", "journeyman_required": true, "master_required": true, "reciprocity": [] },
+      "FL": { "authority": "FL DBPR ECLB", "journeyman_required": false, "master_required": false, "reciprocity": [], "notes": "Certified Electrical Contractor (state) or Registered (local) required to contract." },
+      "GA": { "authority": "GA Construction Industry Licensing Board (Division of Electrical Contractors)", "journeyman_required": false, "master_required": true, "reciprocity": ["AL","LA","NC","SC","TN"] },
+      "HI": { "authority": "HI DCCA - Board of Electricians and Plumbers", "journeyman_required": true, "master_required": true, "reciprocity": [] },
+      "ID": { "authority": "ID Division of Building Safety", "journeyman_required": true, "master_required": true, "reciprocity": ["AK","AR","CO","MT","ND","NM","OR","SD","UT","WY"] },
+      "IL": { "authority": "Local jurisdictions (no state license for most work)", "journeyman_required": false, "master_required": false, "reciprocity": [], "notes": "Chicago requires Chicago electrical license; most suburbs have municipal tests." },
+      "IN": { "authority": "Local (no state license)", "journeyman_required": false, "master_required": false, "reciprocity": [] },
+      "IA": { "authority": "IA Electrical Examining Board", "journeyman_required": true, "master_required": true, "reciprocity": ["AR","CO","ID","MN","MT","ND","NE","NH","NM","OK","SD","UT","WY"] },
+      "KS": { "authority": "Local jurisdictions (no state license)", "journeyman_required": false, "master_required": false, "reciprocity": [] },
+      "KY": { "authority": "KY Dept of Housing Buildings and Construction", "journeyman_required": true, "master_required": true, "reciprocity": [] },
+      "LA": { "authority": "LA State Licensing Board for Contractors", "journeyman_required": false, "master_required": true, "reciprocity": ["AL","AR","OK","TX"] },
+      "ME": { "authority": "ME Electricians' Examining Board", "journeyman_required": true, "master_required": true, "reciprocity": ["NH","VT"] },
+      "MD": { "authority": "MD State Board of Master Electricians", "journeyman_required": false, "master_required": true, "reciprocity": [] },
+      "MA": { "authority": "MA Board of State Examiners of Electricians", "journeyman_required": true, "master_required": true, "reciprocity": ["ME","NH","VT","RI"] },
+      "MI": { "authority": "MI LARA - Electrical Division", "journeyman_required": true, "master_required": true, "reciprocity": [] },
+      "MN": { "authority": "MN Dept of Labor - Electrical Section", "journeyman_required": true, "master_required": true, "reciprocity": ["IA","ND","SD","WI"] },
+      "MS": { "authority": "MS State Board of Contractors", "journeyman_required": false, "master_required": true, "reciprocity": ["AL","AR","FL","GA","LA","NC","SC","TN"] },
+      "MO": { "authority": "Local jurisdictions", "journeyman_required": false, "master_required": false, "reciprocity": [], "notes": "KC and STL have municipal licenses." },
+      "MT": { "authority": "MT State Electrical Board", "journeyman_required": true, "master_required": true, "reciprocity": ["AK","CO","ID","MN","ND","NM","OR","SD","UT","WA","WY"] },
+      "NE": { "authority": "NE State Electrical Board", "journeyman_required": true, "master_required": true, "reciprocity": ["CO","IA","MN","ND","NM","SD","UT","WY"] },
+      "NV": { "authority": "NV State Contractors Board (C-2 Electrical)", "journeyman_required": false, "master_required": false, "reciprocity": [], "notes": "Licensing at contractor (firm) level." },
+      "NH": { "authority": "NH Electricians' Board", "journeyman_required": true, "master_required": true, "reciprocity": ["ME","VT","MA","RI"] },
+      "NJ": { "authority": "NJ Board of Examiners of Electrical Contractors", "journeyman_required": false, "master_required": true, "reciprocity": [] },
+      "NM": { "authority": "NM Construction Industries Division", "journeyman_required": true, "master_required": true, "reciprocity": ["AK","CO","ID","IA","MT","NE","ND","OR","SD","UT","WY"] },
+      "NY": { "authority": "Local (NYC DOB, Buffalo, etc.) - no state license", "journeyman_required": false, "master_required": false, "reciprocity": [], "notes": "NYC Master Electrician license is notoriously strict." },
+      "NC": { "authority": "NC State Board of Examiners of Electrical Contractors", "journeyman_required": false, "master_required": true, "reciprocity": [] },
+      "ND": { "authority": "ND State Electrical Board", "journeyman_required": true, "master_required": true, "reciprocity": ["AK","CO","IA","MN","MT","NE","NM","OR","SD","UT","WY"] },
+      "OH": { "authority": "OH Construction Industry Licensing Board", "journeyman_required": false, "master_required": true, "reciprocity": [] },
+      "OK": { "authority": "OK Construction Industries Board", "journeyman_required": true, "master_required": true, "reciprocity": ["AR","CO","IA","LA","NE","NM","SD","TX","UT","WY"] },
+      "OR": { "authority": "OR Building Codes Division", "journeyman_required": true, "master_required": false, "reciprocity": ["AK","ID","MT","NM","WA","WY"] },
+      "PA": { "authority": "Local jurisdictions", "journeyman_required": false, "master_required": false, "reciprocity": [] },
+      "RI": { "authority": "RI Dept of Labor - Board of Electricians", "journeyman_required": true, "master_required": true, "reciprocity": ["MA","ME","NH"] },
+      "SC": { "authority": "SC Contractor's Licensing Board", "journeyman_required": false, "master_required": true, "reciprocity": ["GA","NC","TN"] },
+      "SD": { "authority": "SD State Electrical Commission", "journeyman_required": true, "master_required": true, "reciprocity": ["CO","IA","MN","MT","NE","ND","NM","UT","WY"] },
+      "TN": { "authority": "TN Board for Licensing Contractors (CE Electrical)", "journeyman_required": false, "master_required": true, "reciprocity": ["AL","GA","LA","MS","NC","OH","SC"] },
+      "TX": { "authority": "TX Dept of Licensing and Regulation (TDLR)", "journeyman_required": true, "master_required": true, "reciprocity": ["AR","LA","OK"] },
+      "UT": { "authority": "UT DOPL", "journeyman_required": true, "master_required": true, "reciprocity": ["AK","CO","ID","IA","MT","NE","ND","NM","OR","SD","WY"] },
+      "VT": { "authority": "VT Division of Fire Safety - Electrical Licensing", "journeyman_required": true, "master_required": true, "reciprocity": ["ME","NH"] },
+      "VA": { "authority": "VA DPOR - Board for Contractors", "journeyman_required": true, "master_required": true, "reciprocity": [] },
+      "WA": { "authority": "WA Dept of Labor & Industries", "journeyman_required": true, "master_required": false, "reciprocity": ["AK","ID","MT","OR","UT","WY"] },
+      "WV": { "authority": "WV State Fire Marshal - Electrical Licensing", "journeyman_required": true, "master_required": true, "reciprocity": [] },
+      "WI": { "authority": "WI Dept of Safety and Professional Services", "journeyman_required": true, "master_required": true, "reciprocity": ["MN"] },
+      "WY": { "authority": "WY Dept of Fire Prevention & Electrical Safety", "journeyman_required": true, "master_required": true, "reciprocity": ["AK","CO","ID","IA","MT","NE","NM","ND","OR","SD","UT"] },
+      "DC": { "authority": "DC DCRA - Board of Industrial Trades", "journeyman_required": true, "master_required": true, "reciprocity": [] }
+    }
+  },
+
+  "utilityRebates": [
+    { "utility": "Mass Save", "states": ["MA"], "program": "HEAT Loan + panel upgrade rebate", "amount": "up to $1,500 for panel upgrade enabling heat pump; 0% HEAT Loan", "eligibility": "Residential; coupled with heat pump install", "active2026": true },
+    { "utility": "NYSERDA EmPower+ / NY-Sun", "states": ["NY"], "program": "Electrification panel upgrade incentive", "amount": "up to $2,500 panel upgrade when paired with air-source heat pump", "eligibility": "Income-qualified or Comfort Home pathway", "active2026": true },
+    { "utility": "Con Edison", "states": ["NY"], "program": "Smart Usage Rewards + EV rebates", "amount": "$500 EV charger install rebate", "eligibility": "ConEd electric customer", "active2026": true },
+    { "utility": "PSEG Long Island", "states": ["NY"], "program": "Home Comfort / EV Make-Ready", "amount": "$500 residential EV charger rebate; panel upgrade bundled with HP", "active2026": true },
+    { "utility": "Eversource CT", "states": ["CT"], "program": "EnergizeCT HES-IE + EV Charger", "amount": "$500 L2 EV charger; $1,000+ panel upgrade with heat pump", "active2026": true },
+    { "utility": "PSE&G NJ / Clean Energy Program", "states": ["NJ"], "program": "Residential EV Charger", "amount": "$1,500 residential L2 charger rebate (up to $5,000 multi-family)", "active2026": true },
+    { "utility": "PECO", "states": ["PA"], "program": "Smart Ideas Residential", "amount": "$50 smart thermostat; limited panel incentives via IRA HEAR", "active2026": true },
+    { "utility": "Dominion Energy VA", "states": ["VA"], "program": "EV Charger Rebate", "amount": "$125 residential smart L2 charger rebate", "active2026": true },
+    { "utility": "Duke Energy Carolinas", "states": ["NC","SC"], "program": "Charger Prep Credit", "amount": "$1,133 one-time credit for new L2 circuit installation", "active2026": true },
+    { "utility": "Georgia Power", "states": ["GA"], "program": "EV Charger Rebate", "amount": "$250 rebate; time-of-use rate required", "active2026": true },
+    { "utility": "FPL", "states": ["FL"], "program": "EVolution Home", "amount": "$38/mo charger lease + install included", "active2026": true },
+    { "utility": "TVA / local power companies", "states": ["TN","AL","KY","MS","GA","NC","VA"], "program": "EnergyRight", "amount": "Panel upgrades via HEAR/HER pass-through", "active2026": true },
+    { "utility": "Xcel Energy", "states": ["CO","MN","WI","NM","ND","SD","MI"], "program": "Home Wiring Rebate + EV", "amount": "$500 L2 charger + wiring rebate; panel upgrade rebates for heat pump", "active2026": true },
+    { "utility": "CenterPoint / Energy Assurance", "states": ["MN","IN","OH","AR","LA","TX"], "program": "Residential Electrification", "active2026": true },
+    { "utility": "ComEd IL", "states": ["IL"], "program": "Beneficial Electrification", "amount": "$3,750 income-eligible panel upgrade; $250 L2 charger", "active2026": true },
+    { "utility": "DTE Energy", "states": ["MI"], "program": "Charging Forward", "amount": "$500 L2 charger + install rebate", "active2026": true },
+    { "utility": "Consumers Energy", "states": ["MI"], "program": "PowerMIDrive", "amount": "$500 L2 charger rebate", "active2026": true },
+    { "utility": "SRP / APS", "states": ["AZ"], "program": "Demand Management EV", "amount": "$250-$500 L2 charger; TOU required", "active2026": true },
+    { "utility": "Nevada Energy", "states": ["NV"], "program": "Electric Vehicle Infrastructure Demonstration", "amount": "$500 residential L2 rebate", "active2026": true },
+    { "utility": "PG&E / SCE / SDG&E", "states": ["CA"], "program": "Empower EV / TECH Clean California", "amount": "up to $2,000 panel/wiring for EV and up to $5,000 TECH heat pump bundled upgrades", "active2026": true },
+    { "utility": "Seattle City Light / Puget Sound Energy", "states": ["WA"], "program": "PSE Up & Go Electric", "amount": "$500 L2 charger + install; panel upgrade support via HEAR", "active2026": true },
+    { "utility": "Energy Trust of Oregon / PGE / PacifiCorp", "states": ["OR"], "program": "EV & Electrification", "amount": "$500 L2 charger; panel upgrades via HEAR", "active2026": true },
+    { "utility": "Alliant Energy", "states": ["IA","WI"], "program": "Residential Electrification", "amount": "$500 L2 charger; wiring incentives", "active2026": true },
+    { "utility": "Delmarva Power / BGE / Pepco", "states": ["DE","MD","DC"], "program": "EVsmart", "amount": "$300-$700 residential L2 charger rebates", "active2026": true }
+  ],
+
+  "iraPrograms": {
+    "25C": {
+      "section": "25C Energy Efficient Home Improvement Credit",
+      "rate": 0.30,
+      "annualCaps": {
+        "panelboard_subpanel_branch_feeder": 600,
+        "heat_pump_heat_pump_water_heater_biomass": 2000,
+        "total_annual_cap": 3200,
+        "notes": "Panel box upgrade qualifies for $600/yr when the upgrade is required to add, and is placed in service in the same year as, a qualified energy-efficient improvement (heat pump, HPWH, EV charger, etc.)."
+      },
+      "effectiveDate": "2023-01-01",
+      "expirationDate": "2032-12-31",
+      "excludesLabor": false,
+      "notes": "Unlike windows, the 25C panelboard credit INCLUDES labor and materials for the panel/subpanel/branch/feeder upgrade. Requires IRS Form 5695 Part II. Qualified Manufacturer PIN required for heat pump starting 2025."
+    },
+    "25D": {
+      "section": "25D Residential Clean Energy Credit",
+      "rate": 0.30,
+      "cap": null,
+      "effectiveDate": "2022-01-01",
+      "expirationDate": "2032-12-31",
+      "notes": "Applies to solar, battery storage, geothermal, fuel cell. Electrical work integral to a qualifying solar/battery install (conduit, disconnect, panel upgrade needed to interconnect) is included in the eligible cost basis."
+    },
+    "30C": {
+      "section": "30C Alternative Fuel Vehicle Refueling Property Credit (EV charger)",
+      "rate": 0.30,
+      "cap": 1000,
+      "eligibility": "Residential EV charger in eligible census tract (low-income or non-urban). Check EPA/Argonne 30C eligibility map.",
+      "effectiveDate": "2023-01-01",
+      "expirationDate": "2032-12-31",
+      "notes": "Includes hardware AND installation labor. Claim on IRS Form 8911."
+    },
+    "HEAR": {
+      "section": "DOE Home Electrification and Appliance Rebate (IRA Section 50122)",
+      "amounts": {
+        "panel_upgrade": 4000,
+        "wiring": 2500,
+        "heat_pump": 8000,
+        "heat_pump_water_heater": 1750,
+        "income_cap_pct_ami": 150
+      },
+      "notes": "Point-of-sale rebate through state energy office. Households under 80% AMI: 100% coverage up to caps. 80-150% AMI: 50%. Rolling out state-by-state through 2026. Cannot be combined with 25C on the same expenditure."
+    }
+  },
+
+  "nec_code_snapshot": {
+    "version": "NEC 2023 (NFPA 70)",
+    "key_sections": {
+      "210.8": "GFCI protection - all bathrooms, kitchens, laundry, garages, basements, outdoors, within 6 ft of sinks, dishwashers",
+      "210.12": "AFCI protection - nearly all dwelling 120V 15/20A branch circuits",
+      "210.52": "Required receptacle outlet locations and spacing",
+      "230.67": "Surge protection required on service replacement/upgrade in dwelling units (new 2020)",
+      "230.79": "Minimum service size 100A for single-family dwellings",
+      "250": "Grounding and bonding",
+      "406.12": "Tamper-resistant receptacles required in dwellings",
+      "408.3": "Panelboard requirements",
+      "625": "Electric vehicle power transfer system",
+      "702": "Optional standby systems (generators)",
+      "NFPA 72": "Smoke/CO alarm placement and interconnection"
+    }
+  },
+
+  "redFlagPatterns": [
     {
-      "item": "Whole-house surge protector",
-      "cost": [
-        200,
-        500
-      ],
-      "necessary": "recommended",
-      "notes": "Protects electronics. Low cost for significant protection."
+      "name": "federal_pacific_zinsco_pushmatic",
+      "regex": "\\b(federal pacific|\\bfpe\\b|stab[- ]?lok|zinsco|sylvania[- ]?zinsco|pushmatic|bulldog (pushmatic)?|challenger)\\b",
+      "severity": "high",
+      "explanation": "Federal Pacific, Zinsco, Pushmatic, and Challenger panels have documented safety defects (breakers that fail to trip, bus-bar corrosion, recalls). Most insurers will not underwrite homes with these panels.",
+      "action": "Replace the panel. This is not optional - it is a life-safety issue. Get a 200A Square D QO, Eaton CH, or Siemens panel."
     },
     {
-      "item": "Smart switches/dimmers",
-      "cost": [
-        50,
-        150
-      ],
-      "necessary": "rarely",
-      "notes": "Convenience, not safety. DIY is $15-30 per switch."
+      "name": "no_permit_major_work",
+      "regex": "\\b(permit|inspection|inspector)\\b",
+      "detectMode": "absence",
+      "scopedToJobTypes": ["panel_upgrade_100_200","panel_upgrade_200_400","whole_house_rewire","ev_charger_level2","generator_whole_home","service_entrance_replace","knob_tube_removal","subpanel_install"],
+      "severity": "high",
+      "explanation": "No permit mentioned for major electrical work. Virtually every jurisdiction requires a permit for panel changes, service entrance, rewiring, EV chargers, and generators. Unpermitted work fails home inspection at resale and voids insurance.",
+      "action": "Scope must read: 'contractor pulls and pays all permits and schedules inspection.'"
     },
     {
-      "item": "Landscape lighting",
-      "cost": [
-        500,
-        2000
-      ],
-      "necessary": "rarely",
-      "notes": "Aesthetic only. Can DIY with low-voltage kits for $100-300."
+      "name": "unlicensed_handyman",
+      "regex": "\\b(handyman|unlicensed|not licensed|owner[- ]builder|do[- ]?it[- ]?yourself|side[- ]?job)\\b",
+      "severity": "high",
+      "explanation": "Electrical work by unlicensed individuals is illegal in virtually all states and voids homeowners insurance. State licensing protects you from shock, fire, and fraud.",
+      "action": "Require state electrician license number on the contract and verify with the state board."
     },
     {
-      "item": "USB outlets",
-      "cost": [
-        80,
-        150
-      ],
-      "necessary": "rarely",
-      "notes": "Convenient but not needed. USB adapters cost $5."
+      "name": "no_license_number",
+      "regex": "\\b(license ?#|lic\\.? ?no\\.?|license number|electrical license|ec-?\\d{3,}|journeyman|master electrician)\\b",
+      "detectMode": "absence",
+      "severity": "high",
+      "explanation": "No state electrician license number or master electrician reference on the quote. AARP's #1 home-improvement fraud category: deposits taken, work never performed.",
+      "action": "Get the state license number in writing; verify with the state licensing board before any deposit."
+    },
+    {
+      "name": "knob_tube_not_addressed",
+      "regex": "\\b(knob[- ]?and[- ]?tube|k[- ]?&[- ]?t|knob tube)\\b",
+      "secondaryRegex": "\\b(remove|replace|rewire|remediate|abandon)\\b",
+      "secondaryMode": "absence",
+      "severity": "high",
+      "explanation": "Knob-and-tube wiring is present but the scope does not address removal or replacement. K&T is not rated for modern loads, cannot be buried in insulation, and triggers insurance non-renewal.",
+      "action": "Scope must include full K&T removal and replacement with modern NM-B (Romex) or conduit."
+    },
+    {
+      "name": "aluminum_branch_not_flagged",
+      "regex": "\\baluminum (branch|wiring|wire|conductor)\\b|\\b(al|alum) branch\\b",
+      "secondaryRegex": "\\b(copalum|alumi[- ]?conn|pigtail|remediate|remediation|replace|rewire)\\b",
+      "secondaryMode": "absence",
+      "severity": "high",
+      "explanation": "Aluminum branch wiring (1965-1973 era) detected but no remediation mentioned. CPSC identifies this as a fire hazard. Only COPALUM crimp or AlumiConn lugs are CPSC-approved fixes.",
+      "action": "Require COPALUM or AlumiConn remediation at every device, or full rewire."
+    },
+    {
+      "name": "no_gfci_wet_location",
+      "regex": "\\b(kitchen|bath(room)?|garage|outdoor|exterior|basement|laundry|pool|spa)\\b",
+      "secondaryRegex": "\\bgfci\\b",
+      "secondaryMode": "absence",
+      "severity": "high",
+      "explanation": "Work in a location that requires GFCI protection per NEC 210.8, but no GFCI mentioned. Required in all kitchens, bathrooms, laundry, garages, outdoor outlets, basements, and within 6 ft of sinks.",
+      "action": "Scope must specify GFCI protection on all receptacles within NEC 210.8 locations."
+    },
+    {
+      "name": "no_afci_required",
+      "regex": "\\b(new circuit|bedroom|living room|family room|dining|hallway|closet)\\b",
+      "secondaryRegex": "\\bafci\\b|\\barc[- ]?fault\\b",
+      "secondaryMode": "absence",
+      "severity": "medium",
+      "explanation": "New branch circuits in dwelling units require AFCI protection per NEC 210.12, but no AFCI mentioned.",
+      "action": "Ensure AFCI breakers or dual-function AFCI/GFCI breakers are specified for all covered circuits."
+    },
+    {
+      "name": "undersized_wire_for_amperage",
+      "regex": "\\b(14[- ]?gauge|14 awg)\\b.*\\b(20 ?a|30 ?a)\\b|\\b(12[- ]?gauge|12 awg)\\b.*\\b(30 ?a|40 ?a|50 ?a)\\b|\\b(10[- ]?gauge|10 awg)\\b.*\\b(40 ?a|50 ?a|60 ?a)\\b",
+      "severity": "high",
+      "explanation": "Wire gauge appears undersized for the stated breaker rating (14 AWG = 15A max, 12 AWG = 20A max, 10 AWG = 30A max, 8 AWG = 40-50A, 6 AWG = 55-65A). This is a fire hazard and a code violation.",
+      "action": "Require correct wire gauge per NEC 310.16 ampacity table. Do not accept this work."
+    },
+    {
+      "name": "no_surge_protection_panel_upgrade",
+      "regex": "\\bsurge|\\bspd\\b|\\btype[- ]?2\\b",
+      "detectMode": "absence",
+      "scopedToJobTypes": ["panel_upgrade_100_200","panel_upgrade_200_400"],
+      "severity": "medium",
+      "explanation": "NEC 230.67 (2020 and later) requires a Type 2 surge protective device on dwelling service replacements or upgrades. Missing from this panel upgrade quote.",
+      "action": "Confirm a Type 2 whole-house SPD is included, or that your jurisdiction has not yet adopted the 2020+ NEC."
+    },
+    {
+      "name": "no_grounding_bonding",
+      "regex": "\\b(ground(ing)?|bond(ing)?|ufer|ground rod|grounding electrode)\\b",
+      "detectMode": "absence",
+      "scopedToJobTypes": ["panel_upgrade_100_200","panel_upgrade_200_400","service_entrance_replace","whole_house_rewire"],
+      "severity": "high",
+      "explanation": "No mention of grounding or bonding on a panel/service job. NEC 250 requires a full grounding electrode system (ground rods, Ufer, water line bond).",
+      "action": "Scope must include grounding electrode system verification and bonding per NEC 250."
+    },
+    {
+      "name": "no_load_calculation",
+      "regex": "\\bload calc(ulation)?\\b|\\bnec 220\\b",
+      "detectMode": "absence",
+      "scopedToJobTypes": ["panel_upgrade_100_200","panel_upgrade_200_400","ev_charger_level2","service_entrance_replace","subpanel_install"],
+      "severity": "medium",
+      "explanation": "No load calculation mentioned. NEC 220 requires a dwelling load calc for service sizing, EV chargers, heat pumps, and major additions.",
+      "action": "Ask for the written NEC 220 load calculation before signing."
+    },
+    {
+      "name": "excessive_deposit",
+      "regex": "\\bdeposit\\b.*\\b(50|60|70|75|80|90|100) ?%\\b",
+      "secondaryRegex": "\\b(half|50 percent|full payment).*\\b(deposit|upfront|upon signing)\\b",
+      "severity": "high",
+      "explanation": "Deposit above 33% on electrical work. Industry standard is 10-33% at signing with balance on substantial completion. Large deposits are a leading indicator of fraud. Several states cap home improvement deposits (MD 33%, ME 33%, CT 1/3).",
+      "action": "Cap deposit at one-third. Remainder on passed inspection."
+    },
+    {
+      "name": "today_only_urgency",
+      "regex": "\\b(today only|tonight only|expires? (today|tonight|at midnight)|sign (today|tonight|now)|valid (today|for 24 ?hours)|one[- ]time offer|limited time|manager[' ]?s? special)\\b",
+      "severity": "high",
+      "explanation": "High-pressure urgency tactics. Legitimate electrical quotes are valid 14-60 days and breaker/wire pricing does not change hourly. Also bypasses your 3-day federal right-of-rescission mental check.",
+      "action": "Refuse to sign the same day. Get quote validity in writing (30 days minimum)."
+    },
+    {
+      "name": "vague_scope_language",
+      "regex": "\\b(standard install(ation)?|per (industry|company) standard|as discussed|per conversation|tbd|to be determined|misc materials|miscellaneous)\\b",
+      "severity": "medium",
+      "explanation": "Vague catch-all scope language is unenforceable. Everything that matters must be itemized in writing.",
+      "action": "Require itemized materials and scope in writing. Verbal promises do not survive change orders."
+    },
+    {
+      "name": "no_warranty_stated",
+      "regex": "\\bwarrant(y|ies)\\b|\\bguarantee\\b",
+      "detectMode": "absence",
+      "severity": "medium",
+      "explanation": "No workmanship warranty stated. Industry norm is 1-year workmanship minimum; reputable electricians offer 2-5 years on major work.",
+      "action": "Require written 1-year minimum workmanship warranty; 2+ years on panel, service, and generator work."
+    },
+    {
+      "name": "trip_charge_without_credit",
+      "regex": "\\b(trip charge|service call fee|dispatch fee|travel fee)\\b",
+      "secondaryRegex": "\\b(applied|credited|waived|included|deducted)\\b",
+      "secondaryMode": "absence",
+      "severity": "low",
+      "explanation": "Trip/service call fee not credited toward the job. Norm is for dispatch fee to apply against the job if work proceeds.",
+      "action": "Ask whether the trip charge is credited toward the work if you accept the quote."
+    },
+    {
+      "name": "copper_to_aluminum_service_surprise",
+      "regex": "\\b(aluminum|al) (se|service entrance|feeder|seu|ser|mobile home)\\b",
+      "severity": "low",
+      "explanation": "Aluminum SE/SER is acceptable and common for service entrance and feeders (NEC 310), but must have anti-oxidant and proper lugs. Flag only if no anti-oxidant or lug treatment mentioned.",
+      "action": "Confirm anti-oxidant compound and AL-rated lugs at terminations."
+    },
+    {
+      "name": "generator_no_gas_line_coordination",
+      "regex": "\\b(natural gas|propane|lp|lpg|gas line|fuel line)\\b",
+      "detectMode": "absence",
+      "scopedToJobTypes": ["generator_whole_home"],
+      "severity": "medium",
+      "explanation": "Whole-home generator quote does not mention fuel supply. Gas line sizing and pressure drop is the #1 generator install mistake. Under-sized lines cause hard-starts and failures.",
+      "action": "Confirm a licensed plumber will size and run the fuel line. Get BTU/h demand in writing."
+    },
+    {
+      "name": "ev_charger_continuous_load_mismatch",
+      "regex": "\\b(40 ?a|50 ?a) (breaker|circuit)\\b",
+      "secondaryRegex": "\\b(48 ?a|40 ?a continuous|80%)\\b",
+      "secondaryMode": "absence",
+      "severity": "medium",
+      "explanation": "NEC 625.42 treats EV charging as a continuous load: breaker must be 125% of charger output. A 48A charger requires a 60A breaker; a 40A charger requires a 50A breaker.",
+      "action": "Verify breaker size is at least 125% of the charger continuous output rating."
     }
   ],
+
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits and inspection included",
-      "weight": 10
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty on workmanship",
-      "weight": 12
-    },
-    {
-      "key": "codeCompliance",
-      "label": "NEC code compliance stated",
-      "weight": 10
-    },
-    {
-      "key": "licensed",
-      "label": "Licensed electrician performing work",
-      "weight": 10
-    },
-    {
-      "key": "wireSpec",
-      "label": "Wire gauge/type specified",
-      "weight": 8
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 5
-    }
+    { "key": "licenseNumber", "label": "State electrician license number on quote", "weight": 12 },
+    { "key": "permit", "label": "Permit pulled and paid by contractor", "weight": 10 },
+    { "key": "partsItemized", "label": "Parts/materials itemized with brand and part numbers", "weight": 10 },
+    { "key": "laborRate", "label": "Labor rate or labor total stated", "weight": 8 },
+    { "key": "loadCalc", "label": "NEC 220 load calculation performed", "weight": 8 },
+    { "key": "groundingBonding", "label": "Grounding and bonding (NEC 250) addressed", "weight": 8 },
+    { "key": "afciGfci", "label": "AFCI/GFCI protection per NEC 210.8 and 210.12", "weight": 8 },
+    { "key": "surgeProtection", "label": "Type 2 SPD on panel upgrade (NEC 230.67)", "weight": 6 },
+    { "key": "warranty", "label": "Workmanship warranty in writing (1+ year)", "weight": 8 },
+    { "key": "codeCompliance", "label": "NEC 2023 compliance stated", "weight": 6 },
+    { "key": "cleanup", "label": "Cleanup and debris removal included", "weight": 4 },
+    { "key": "brandSpec", "label": "Panel/breaker brand and model specified", "weight": 6 },
+    { "key": "inspectionIncluded", "label": "Final inspection scheduled and passed", "weight": 6 }
+  ],
+
+  "recommendedScopeItems": [
+    "State electrician license number on the contract",
+    "Master electrician name supervising the work",
+    "Permit pulled and paid by contractor (not homeowner)",
+    "NEC 220 load calculation in writing",
+    "Panel brand and model specified (Square D QO, Eaton CH, Siemens, etc.)",
+    "All breakers AFCI/GFCI where required by NEC 210.8 and 210.12",
+    "Type 2 whole-house surge protector on panel upgrade (NEC 230.67)",
+    "Grounding electrode system verified (two ground rods + water/Ufer bond)",
+    "Tamper-resistant receptacles (NEC 406.12) throughout",
+    "Final inspection scheduled; payment gated on passed inspection",
+    "Drywall/plaster patching explicitly included or excluded",
+    "1-year minimum workmanship warranty (2-5 year on panel/service/generator)",
+    "Deposit capped at one-third; balance on substantial completion"
+  ],
+
+  "questionsToAsk": [
+    "What is your state electrician license number? Who is the master electrician of record?",
+    "Who pulls the permit and who is responsible for scheduling the final inspection?",
+    "Can you provide the NEC 220 load calculation in writing before we start?",
+    "What panel brand and model are you installing? (e.g., Square D QO 200A main)",
+    "Is a Type 2 surge protective device included per NEC 230.67?",
+    "Are AFCI and GFCI protections included where NEC 210.8 and 210.12 require them?",
+    "Is drywall, plaster, or finish repair included, or do I hire that separately?",
+    "What is the workmanship warranty, and is it transferable to a new owner?",
+    "Is payment contingent on passing final inspection?",
+    "What is your deposit percentage, and when is the balance due?",
+    "Is this quote valid for at least 30 days?",
+    "Will you provide documentation I need for utility rebates and the 25C tax credit?",
+    "Will your W-2 employees perform the work, or will it be subcontracted?",
+    "Does the job require a utility disconnect, and who coordinates that?"
   ]
 }

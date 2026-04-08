@@ -255,7 +255,7 @@
     var CONTRACTOR_QS = [
       "Is this pocket/insert or full-frame replacement? (big price difference)",
       "What is the exact manufacturer, series, and model number of each window?",
-      "What are the NFRC U-factor and SHGC ratings? (needed for the $600 federal tax credit)",
+      "What are the NFRC U-factor and SHGC ratings? (needed for state utility rebate eligibility — note: 25C federal credit expired Dec 31 2025)",
       "Is exterior capping, interior trim, drywall repair, and haul-away included in this price?",
       "Who performs the install — W-2 employees or subcontractors? License number?",
       "Does the warranty transfer to future owners? How many times? What voids it?",
@@ -282,7 +282,7 @@
       appRoot.innerHTML = ''
         + '<div class="win-hero">'
         +   '<h1>Free Window Cost Estimate</h1>'
-        +   '<p>City-level pricing. Climate zone, rebates, and the $600 federal tax credit — all surfaced automatically.</p>'
+        +   '<p>City-level pricing. Climate zone and state utility rebates surfaced automatically. (The 25C federal tax credit expired Dec 31 2025.)</p>'
         +   '<p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to window pricing? Read our <a href="/window-replacement-cost-guide.html" style="color:#16a34a;">Window Replacement Cost Guide</a></p>'
         + '</div>'
         + '<div class="win-card">'
@@ -362,7 +362,7 @@
         var st = zipToState(zipEl.value);
         if (st) {
           var z = ZONE_SPECS[stateToZone(st)];
-          uEl.innerHTML = '<strong>ENERGY STAR target for your zone (' + z.label + '):</strong> U-factor ≤ ' + z.uFactorEs + ', SHGC ' + z.shgcText + '. Most Efficient U-factor ≤ ' + z.uMax + ' = federal tax credit eligible.';
+          uEl.innerHTML = '<strong>ENERGY STAR target for your zone (' + z.label + '):</strong> U-factor ≤ ' + z.uFactorEs + ', SHGC ' + z.shgcText + '. Most Efficient U-factor ≤ ' + z.uMax + ' = state-rebate eligible (25C federal credit expired Dec 31 2025).';
         } else {
           uEl.innerHTML = '';
         }
@@ -430,9 +430,9 @@
         };
       });
 
-      // Product-only cost ≈ 60% of installed; tax credit 30% capped at $600
+      // Product-only cost ≈ 60% of installed. Note: 25C federal tax credit EXPIRED Dec 31 2025 - no longer surfaced.
       var productEst = totalMid * 0.60;
-      var taxCredit  = Math.min(600, Math.round(productEst * 0.30));
+      var taxCredit  = 0;
 
       var rebate = REBATES[st] || null;
       var rebateTotal = rebate ? rebate.perWindow * form.count : 0;
@@ -491,15 +491,14 @@
         +   '<p style="margin-top:12px;font-size:13px;color:#64748b;">' + fmt(r.totalMid) + ' is the typical ' + r.locationLabel + ' price for ' + form.count + ' ' + frameLabel.toLowerCase() + ' ' + typeText + ' windows at the ' + tierLabels[form.tier].toLowerCase() + ' tier.</p>'
         + '</div>'
 
-        // 5. ENERGY STAR climate zone + tax credit
+        // 5. ENERGY STAR climate zone + (expired) federal credit notice
         + '<div class="win-card" style="border-left:4px solid #10b981;">'
         +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">ENERGY STAR Climate Zone: ' + r.zoneSpec.label + '</h3>'
         +   '<p style="margin:0 0 8px;color:#475569;font-size:14px;">In your zone, ENERGY STAR certified windows need U-factor ≤ <strong>' + r.zoneSpec.uFactorEs + '</strong> with SHGC <strong>' + r.zoneSpec.shgcText + '</strong>.</p>'
-        +   '<p style="margin:0 0 12px;color:#475569;font-size:14px;"><strong>ENERGY STAR Most Efficient</strong> (federal tax credit tier) requires U-factor ≤ <strong>' + r.zoneSpec.uMax + '</strong>.</p>'
-        // 6. Federal tax credit
-        +   '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px;">'
-        +     '<div style="font-weight:700;color:#166534;margin-bottom:4px;">Federal tax credit: up to ' + fmt(r.taxCredit) + '</div>'
-        +     '<div style="font-size:13px;color:#166534;">30% of product cost (not labor), capped at $600/yr. Requires ENERGY STAR Most Efficient certification. Claim via IRS Form 5695 — ask contractor for the manufacturer PIN. Credit resets each year through 2032.</div>'
+        +   '<p style="margin:0 0 12px;color:#475569;font-size:14px;"><strong>ENERGY STAR Most Efficient</strong> (state-rebate tier) requires U-factor ≤ <strong>' + r.zoneSpec.uMax + '</strong>.</p>'
+        +   '<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;">'
+        +     '<div style="font-weight:700;color:#991b1b;margin-bottom:4px;">25C federal tax credit: EXPIRED Dec 31 2025</div>'
+        +     '<div style="font-size:13px;color:#991b1b;">The $600 federal credit for windows is no longer available for installs on or after Jan 1 2026. State utility rebates (below) are now the only stackable savings.</div>'
         +   '</div>'
         + '</div>'
 

@@ -293,40 +293,29 @@
   "energyStarTargets": {
     "Northern": {
       "energyStar": { "uFactorMax": 0.22, "shgcMin": null, "shgcMax": null, "notes": "SHGC unrestricted; alternative path U<=0.26 + SHGC>=0.32 or U<=0.28 + SHGC>=0.42" },
-      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": 0.20, "shgcMax": null, "notes": "Qualifies for 25C federal tax credit" }
+      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": 0.20, "shgcMax": null, "notes": "Historically qualified for 25C credit (expired Dec 31 2025); still used for state rebate eligibility" }
     },
     "North-Central": {
       "energyStar": { "uFactorMax": 0.25, "shgcMin": null, "shgcMax": 0.40 },
-      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": null, "shgcMax": 0.40, "notes": "Qualifies for 25C federal tax credit; LSG (VT/SHGC) >= 1.10" }
+      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": null, "shgcMax": 0.40, "notes": "Historically qualified for 25C credit (expired Dec 31 2025); still relevant for state rebates; LSG (VT/SHGC) >= 1.10" }
     },
     "South-Central": {
       "energyStar": { "uFactorMax": 0.28, "shgcMin": null, "shgcMax": 0.23 },
-      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": null, "shgcMax": 0.23, "notes": "Qualifies for 25C federal tax credit; LSG >= 1.10" }
+      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": null, "shgcMax": 0.23, "notes": "Historically qualified for 25C credit (expired Dec 31 2025); still relevant for state rebates; LSG >= 1.10" }
     },
     "Southern": {
       "energyStar": { "uFactorMax": 0.32, "shgcMin": null, "shgcMax": 0.23 },
-      "mostEfficient": { "uFactorMax": 0.25, "shgcMin": null, "shgcMax": 0.23, "notes": "Qualifies for 25C federal tax credit; LSG >= 1.10" }
+      "mostEfficient": { "uFactorMax": 0.25, "shgcMin": null, "shgcMax": 0.23, "notes": "Historically qualified for 25C credit (expired Dec 31 2025); still relevant for state rebates; LSG >= 1.10" }
     }
   },
   "iraCredit": {
     "section": "25C Energy Efficient Home Improvement Credit",
-    "rate": 0.30,
-    "annualCap": 600,
-    "envelopeAnnualCap": 1200,
-    "totalAnnualCap": 3200,
-    "effectiveDate": "2023-01-01",
-    "expirationDate": "2032-12-31",
-    "requiresMostEfficient": true,
-    "excludesLabor": true,
-    "residentialOnly": true,
-    "principalResidenceOnly": true,
-    "rentalsExcluded": true,
-    "newConstructionExcluded": true,
-    "pinRequired": true,
-    "pinRequiredStartDate": "2025-01-01",
-    "claimForm": "IRS Form 5695 Part II",
-    "annualReset": true,
-    "notes": "30% of product cost only (not labor), capped at $600/year for windows/skylights. Requires ENERGY STAR Most Efficient certification and manufacturer Qualified Manufacturer PIN on Form 5695."
+    "status": "EXPIRED",
+    "expirationDate": "2025-12-31",
+    "expirationNote": "The 25C credit for windows expired Dec 31 2025. Installations on or after Jan 1 2026 do NOT qualify. Look to state utility rebates instead — see utilityRebates list below.",
+    "historicalRate": 0.30,
+    "historicalAnnualCap": 600,
+    "lastClaimableTaxYear": 2025
   },
   "utilityRebates": [
     { "utility": "Mass Save (Eversource, National Grid, Unitil, Cape Light)", "states": ["MA"], "perWindow": 75, "eligibility": "Triple-pane ENERGY STAR Northern Most Efficient; replacing single-pane; whole-home assessment required", "claimMethod": "Post-install via Mass Save portal; contractor can file", "active2026": true },
@@ -443,7 +432,7 @@
       "regex": "\\bu[- ]?(factor|value)\\b|\\bshgc\\b|\\bnfrc\\b",
       "detectMode": "absence",
       "severity": "high",
-      "explanation": "No U-factor, SHGC, or NFRC label data. You cannot verify ENERGY STAR eligibility or 25C federal tax credit qualification without these numbers.",
+      "explanation": "No U-factor, SHGC, or NFRC label data. You cannot verify ENERGY STAR eligibility or state rebate eligibility (note: 25C federal credit expired Dec 31 2025) without these numbers.",
       "action": "Require NFRC label data on every line: U-factor, SHGC, VT, air leakage."
     },
     {
@@ -497,7 +486,7 @@
     "Interior trim and drywall repair included",
     "Warranty terms in writing: transfer count, fees, voids",
     "ENERGY STAR certification and climate-zone compliance",
-    "Manufacturer PIN/QM code provided for 25C tax credit",
+    "Manufacturer PIN/QM code (was required for 25C through 2025; credit has since expired)",
     "Order date, manufacturer lead time, target install date",
     "Deposit capped at 33% with balance on substantial completion",
     "Installer is W-2 employee (or named subcontractor with license)",
@@ -516,7 +505,7 @@
     "Does normal household cleaning void the warranty?",
     "What is the deposit percentage, and when is the balance due?",
     "What's the order date, manufacturer lead time, and target install date?",
-    "Will you provide the manufacturer Qualified Manufacturer PIN so I can claim the 25C tax credit?",
+    "Note: 25C federal tax credit expired Dec 31 2025 — what state utility rebates does my install qualify for?",
     "Does this window meet ENERGY STAR Most Efficient for my climate zone?",
     "If I finance, is it deferred interest or 0% simple? May I see the Truth-in-Lending disclosure?"
   ]

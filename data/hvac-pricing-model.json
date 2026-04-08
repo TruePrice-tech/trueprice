@@ -209,11 +209,12 @@
         }
       },
       "taxCredit": {
-        "amount": 2000,
-        "requirement": "ENERGY STAR CEE Tier 1+, 15.2+ SEER2",
-        "program": "IRA Section 25C"
+        "amount": 0,
+        "requirement": "IRA Section 25C heat pump credit EXPIRED Dec 31, 2025. Check state/utility rebates via DSIRE.",
+        "program": "expired",
+        "expired": true
       },
-      "notes": "Heats and cools. $2,000 federal tax credit for qualifying models. Best for moderate climates."
+      "notes": "Heats and cools. Federal 25C tax credit expired Dec 31, 2025 - state/utility rebates may still apply. Best for moderate climates. 2026 installs must use A2L refrigerant (R-454B or R-32), not R-410A."
     },
     "gas_furnace": {
       "label": "Gas Furnace",
@@ -338,11 +339,12 @@
         }
       },
       "taxCredit": {
-        "amount": 2000,
-        "requirement": "ENERGY STAR, heat pump type",
-        "program": "IRA Section 25C"
+        "amount": 0,
+        "requirement": "IRA Section 25C heat pump credit EXPIRED Dec 31, 2025. Check DSIRE for state/utility rebates.",
+        "program": "expired",
+        "expired": true
       },
-      "notes": "No ductwork needed. Great for additions, older homes. Per-room temperature control."
+      "notes": "No ductwork needed. Great for additions, older homes. Per-room temperature control. Federal 25C credit expired Dec 31, 2025."
     },
     "full_system": {
       "label": "Full System (AC + Furnace)",

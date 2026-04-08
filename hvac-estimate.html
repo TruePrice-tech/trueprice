@@ -61,10 +61,10 @@
       },
       {
         "@type": "Question",
-        "name": "Do heat pumps qualify for tax credits?",
+        "name": "Do heat pumps still qualify for the federal tax credit in 2026?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Under the Inflation Reduction Act, qualifying heat pumps are eligible for a federal tax credit of up to $2,000 per year. The system must meet specific efficiency requirements (CEE Tier 1 or higher). Geothermal heat pumps qualify for a 30% tax credit with no cap. Check energystar.gov for current qualifying models."
+          "text": "No. The IRA Section 25C heat pump tax credit ($2,000 max) EXPIRED on December 31, 2025. As of 2026, there is no federal income tax credit for air-source heat pumps. Geothermal heat pumps still qualify for the 30% 25D credit with no cap through 2034. State and utility rebates through IRA HEAR and DSIRE programs are still active - check dsireusa.org for your area."
         }
       },
       {
@@ -575,12 +575,17 @@
       if (r.pricingContext) {
         h += '<div style="font-size:12px;color:#94a3b8;margin-bottom:16px;">City-level pricing applied. Multiplier: ' + (r.pricingContext.stateMultiplier || r.pricingContext.multiplier || 1.0) + 'x. Source: ' + (r.pricingContext.source || "TruePrice data") + '</div>';
       }
-      // Tax credit in report
+      // Tax credit notice - 25C EXPIRED Dec 31 2025
       var sysVal = r.systemType ? r.systemType.value : "";
       if (sysVal === "heat_pump" || sysVal === "mini_split") {
+        h += '<div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:14px;margin-bottom:18px;">';
+        h += '<div style="font-weight:700;font-size:14px;color:#92400e;margin-bottom:6px;">Federal 25C tax credit expired Dec 31, 2025</div>';
+        h += '<div style="font-size:13px;color:#78350f;">The $2,000 IRA heat-pump credit is no longer available for 2026 installs. State and utility rebates (IRA HEAR, DSIRE) may still apply - check dsireusa.org for your area.</div>';
+        h += '</div>';
+      } else if (sysVal === "geothermal") {
         h += '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:14px;margin-bottom:18px;">';
-        h += '<div style="font-weight:700;font-size:14px;color:#166534;margin-bottom:6px;">Tax Credit: Up to $2,000</div>';
-        h += '<div style="font-size:13px;color:#14532d;">Qualifying heat pumps are eligible for a federal tax credit of up to $2,000/year under the Inflation Reduction Act (Section 25C).</div>';
+        h += '<div style="font-weight:700;font-size:14px;color:#166534;margin-bottom:6px;">Geothermal 25D credit: 30% of cost (no cap)</div>';
+        h += '<div style="font-size:13px;color:#14532d;">Geothermal systems still qualify for the 30% federal tax credit with no cap through 2034 (IRA Section 25D).</div>';
         h += '</div>';
       }
       // Oversizing in report
@@ -1390,10 +1395,10 @@
       var taxCreditHtml = "";
       var sysVal = r.systemType ? r.systemType.value : "";
       if (sysVal === "heat_pump" || sysVal === "mini_split") {
-        taxCreditHtml = '<div class="hvac-tax-credit">';
-        taxCreditHtml += '<h3>You May Qualify for a $2,000 Federal Tax Credit</h3>';
-        taxCreditHtml += '<p>Under the Inflation Reduction Act, qualifying heat pumps are eligible for a federal tax credit of up to <strong>$2,000 per year</strong> (Section 25C). The system must meet CEE Tier 1 efficiency requirements or higher.</p>';
-        taxCreditHtml += '<p style="margin-top:8px;"><a href="https://www.energystar.gov/about/federal-tax-credits/air-source-heat-pumps" target="_blank" rel="noopener">Check qualifying models on EnergyStar.gov</a></p>';
+        taxCreditHtml = '<div class="hvac-tax-credit" style="background:#fffbeb;border-color:#fcd34d;">';
+        taxCreditHtml += '<h3 style="color:#92400e;">Federal 25C heat pump tax credit EXPIRED Dec 31, 2025</h3>';
+        taxCreditHtml += '<p>The $2,000 IRA Section 25C credit for air-source heat pumps is no longer available for 2026 installs. Geothermal (25D, 30% no cap) is still active through 2034.</p>';
+        taxCreditHtml += '<p style="margin-top:8px;">State and utility rebates through IRA HEAR and DSIRE programs may still apply. <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">Check dsireusa.org</a> for rebates in your area.</p>';
         taxCreditHtml += '</div>';
       }
       if (r.pricingContext && r.pricingContext.taxCredit === "geothermal") {
@@ -1473,7 +1478,7 @@
         if (r.pricingContext.stateMultiplier) chips += '<div class="hvac-pricing-chip">State multiplier: <strong>' + sm.toFixed(2) + 'x</strong></div>';
         if (r.pricingContext.seasonalMultiplier) chips += '<div class="hvac-pricing-chip">Seasonal adjustment: <strong>' + r.pricingContext.seasonalMultiplier.toFixed(2) + 'x</strong></div>';
         if (r.pricingContext.expectedRange) chips += '<div class="hvac-pricing-chip">Expected range: <strong>$' + r.pricingContext.expectedRange.low.toLocaleString() + ' - $' + r.pricingContext.expectedRange.high.toLocaleString() + '</strong></div>';
-        if (r.pricingContext.taxCredit) chips += '<div class="hvac-pricing-chip">Tax credit eligible: <strong>' + r.pricingContext.taxCredit + '</strong></div>';
+        if (r.pricingContext.taxCredit && !r.pricingContext.taxCredit.expired) chips += '<div class="hvac-pricing-chip">Tax credit eligible: <strong>' + (typeof r.pricingContext.taxCredit === 'string' ? r.pricingContext.taxCredit : (r.pricingContext.taxCredit.amount || '')) + '</strong></div>';
         if (chips) statePricingHtml += '<div style="margin-top:8px;">' + chips + '</div>';
         statePricingHtml += '</div>';
       }
@@ -1704,8 +1709,9 @@
       var rebateHtml = '<div class="hvac-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
       rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
       rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      rebateHtml += '<li>Federal tax credit: up to $2,000 for qualifying heat pumps (25C credit)</li>';
-      rebateHtml += '<li>Utility rebates: check with your local utility for efficiency upgrade incentives</li>';
+      rebateHtml += '<li>Federal 25C heat pump credit EXPIRED Dec 31, 2025 - no longer available for 2026 installs</li>';
+      rebateHtml += '<li>Geothermal 25D: 30% of cost with no cap, still active through 2034</li>';
+      rebateHtml += '<li>State/utility rebates: IRA HEAR up to $8,000 (income-qualified), plus state programs via <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">dsireusa.org</a></li>';
       rebateHtml += '<li>Off-season scheduling: HVAC installs in spring or fall can be 5-10% cheaper</li>';
       rebateHtml += '</ul></div>';
 

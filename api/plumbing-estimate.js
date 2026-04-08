@@ -365,6 +365,157 @@ Rules:
         }
       }
 
+      // --- Regex-driven red flag pattern engine (data-layer rules) ---
+      try {
+        const haystackParts = [
+          text || "",
+          parsed.summary || "",
+          ...(parsed.lineItems || []).map(li => `${li.description || ""} ${li.partsCost || ""} ${li.laborCost || ""}`),
+          ...(parsed.possibleUpsells || []),
+        ];
+        const haystack = haystackParts.join("\n").toLowerCase();
+        const structuredFlags = [];
+        for (const pat of (pricingData.redFlagPatterns || [])) {
+          try {
+            const primary = new RegExp(pat.regex, "i");
+            const primaryHit = primary.test(haystack);
+            if (pat.detectMode === "absence") {
+              // Fire when primary regex is ABSENT
+              if (!primaryHit) {
+                structuredFlags.push({ name: pat.name, severity: pat.severity, explanation: pat.explanation, action: pat.action });
+              }
+              continue;
+            }
+            if (!primaryHit) continue;
+            if (pat.secondaryRegex) {
+              const secondary = new RegExp(pat.secondaryRegex, "i");
+              const secondaryHit = secondary.test(haystack);
+              if (pat.secondaryMode === "absence" && secondaryHit) continue;
+              if (pat.secondaryMode !== "absence" && !secondaryHit) continue;
+            }
+            structuredFlags.push({ name: pat.name, severity: pat.severity, explanation: pat.explanation, action: pat.action });
+          } catch (_e) { /* bad regex, skip */ }
+        }
+        if (structuredFlags.length > 0) {
+          parsed.structuredRedFlags = structuredFlags;
+          // Also surface the top 3 high-severity in the plain redFlags array
+          const high = structuredFlags.filter(f => f.severity === "high").slice(0, 3);
+          for (const f of high) {
+            if (!parsed.redFlags.some(existing => (existing || "").toLowerCase().includes(f.name.replace(/_/g, " ")))) {
+              parsed.redFlags.push(f.explanation);
+            }
+          }
+        }
+      } catch (patErr) {
+        console.log("[plumbing-estimate] red flag pattern engine error:", patErr.message);
+      }
+
+      // --- Brand tier detection ---
+      try {
+        const combinedText = ((text || "") + " " + (parsed.summary || "") + " " +
+          (parsed.lineItems || []).map(li => li.description || "").join(" ")).toLowerCase();
+        const tierMap = {
+          water_heater_tank: "waterHeaterTank",
+          water_heater_tankless: "waterHeaterTankless",
+          whole_house_repipe: parsed.pipeType === "copper" ? "repipeCopper" : "repipePex",
+        };
+        const tierKey = tierMap[jobType];
+        if (tierKey && pricingData.brandTiers?.[tierKey]) {
+          const tiers = pricingData.brandTiers[tierKey];
+          let detectedTier = null;
+          for (const tierName of ["premium", "mid", "value"]) {
+            const tier = tiers[tierName];
+            if (!tier || !tier.brands) continue;
+            for (const brand of tier.brands) {
+              if (combinedText.includes(brand.toLowerCase())) {
+                detectedTier = { tier: tierName, brand, tierData: tier };
+                break;
+              }
+            }
+            if (detectedTier) break;
+          }
+          // Detect heat pump specifically
+          if (/\b(heat pump water heater|hpwh|hybrid water heater|proterra|voltex|aerotherm)\b/i.test(combinedText)) {
+            const hpwhTiers = pricingData.brandTiers.heatPumpWaterHeater;
+            for (const tierName of ["premium", "mid", "value"]) {
+              const tier = hpwhTiers[tierName];
+              for (const brand of tier.brands) {
+                if (combinedText.includes(brand.toLowerCase().split(" ")[0])) {
+                  detectedTier = { tier: tierName, brand, tierData: tier, category: "heat_pump_water_heater" };
+                  break;
+                }
+              }
+              if (detectedTier?.category === "heat_pump_water_heater") break;
+            }
+          }
+          if (detectedTier) {
+            parsed.brandTier = detectedTier;
+          }
+        }
+      } catch (btErr) {
+        console.log("[plumbing-estimate] brand tier detection error:", btErr.message);
+      }
+
+      // --- IRA 25C heat pump water heater credit surfacing ---
+      try {
+        const combinedText = ((text || "") + " " + (parsed.summary || "") + " " +
+          (parsed.lineItems || []).map(li => li.description || "").join(" ")).toLowerCase();
+        const isHPWH = /\b(heat pump water heater|hpwh|hybrid water heater|proterra|voltex|aerotherm)\b/i.test(combinedText)
+          || parsed.brandTier?.category === "heat_pump_water_heater";
+        if (isHPWH && pricingData.iraCredit) {
+          const qualifyingCost = Number(parsed.totalPrice) || 0;
+          const estimatedCredit = Math.min(
+            Math.round(qualifyingCost * pricingData.iraCredit.rate),
+            pricingData.iraCredit.annualCap
+          );
+          parsed.iraCredit = {
+            applies: true,
+            section: pricingData.iraCredit.section,
+            rate: pricingData.iraCredit.rate,
+            cap: pricingData.iraCredit.annualCap,
+            estimatedCredit,
+            requirements: [
+              "Heat pump water heater with UEF >= 2.2",
+              "Principal residence (not rentals, not new construction)",
+              "Manufacturer Qualified Manufacturer PIN required on Form 5695 (2025+)"
+            ],
+            claimForm: pricingData.iraCredit.claimForm,
+            notes: pricingData.iraCredit.notes,
+            stacksWith: pricingData.iraCredit.stacksWith,
+          };
+          if (!(parsed.redFlags || []).some(f => /25c|tax credit|ira/i.test(f))) {
+            parsed.redFlags = parsed.redFlags || [];
+            parsed.redFlags.push(
+              `This heat pump water heater likely qualifies for the federal 25C tax credit (30% up to $2,000, including labor). Estimated credit: $${estimatedCredit}. Ask the contractor for the manufacturer's Qualified Manufacturer PIN for IRS Form 5695.`
+            );
+          }
+        }
+      } catch (iraErr) {
+        console.log("[plumbing-estimate] IRA credit surfacing error:", iraErr.message);
+      }
+
+      // --- State licensing surfacing ---
+      try {
+        if (stateCode && pricingData.stateLicensing?.[stateCode]) {
+          parsed.stateLicensing = {
+            state: stateCode,
+            ...pricingData.stateLicensing[stateCode]
+          };
+        }
+      } catch (_e) {}
+
+      // --- Utility rebate surfacing (HPWH) ---
+      try {
+        if (stateCode && pricingData.utilityRebates) {
+          const applicable = pricingData.utilityRebates.filter(r =>
+            r.active2026 && Array.isArray(r.states) && r.states.includes(stateCode)
+          );
+          if (applicable.length > 0) {
+            parsed.utilityRebates = applicable;
+          }
+        }
+      } catch (_e) {}
+
       // Add pricing context
       parsed.pricingContext = {
         state: stateCode,

@@ -375,6 +375,119 @@ Rules:
         parsed.jobNotes = jobData.notes;
       }
 
+      // --- Data-driven red flag pattern detection (15-20 patterns) ---
+      try {
+        const haystack = ((text || "") + " " +
+          (parsed.lineItems || []).map(li => (li.description || "")).join(" ") + " " +
+          (parsed.summary || "") + " " +
+          (parsed.redFlags || []).join(" ")
+        ).toLowerCase();
+        const detectedPatterns = [];
+        for (const pat of (pricingData.redFlagPatterns || [])) {
+          try {
+            if (pat.scopedToJobTypes && pat.scopedToJobTypes.length &&
+                jobType && !pat.scopedToJobTypes.includes(jobType)) continue;
+
+            const primary = new RegExp(pat.regex, "i");
+            const primaryHit = primary.test(haystack);
+            const primaryPass = pat.detectMode === "absence" ? !primaryHit : primaryHit;
+            if (!primaryPass) continue;
+
+            if (pat.secondaryRegex) {
+              const secondary = new RegExp(pat.secondaryRegex, "i");
+              const secondaryHit = secondary.test(haystack);
+              const secondaryPass = pat.secondaryMode === "absence" ? !secondaryHit : secondaryHit;
+              if (!secondaryPass) continue;
+            }
+
+            detectedPatterns.push({
+              name: pat.name,
+              severity: pat.severity,
+              explanation: pat.explanation,
+              action: pat.action
+            });
+
+            if (!parsed.redFlags.some(f => (f || "").toLowerCase().includes(pat.name.replace(/_/g, " ")))) {
+              parsed.redFlags.push(`[${pat.severity.toUpperCase()}] ${pat.explanation} Action: ${pat.action}`);
+            }
+          } catch (_e) { /* skip malformed pattern */ }
+        }
+        if (detectedPatterns.length > 0) parsed.detectedRedFlagPatterns = detectedPatterns;
+      } catch (_e) {
+        console.log("[electrical-estimate] red-flag pattern scan error:", _e.message);
+      }
+
+      // --- State licensing context ---
+      try {
+        if (stateCode && pricingData.stateLicensing?.states?.[stateCode]) {
+          const lic = pricingData.stateLicensing.states[stateCode];
+          parsed.stateLicensing = {
+            state: stateCode,
+            authority: lic.authority,
+            masterRequired: lic.master_required,
+            journeymanRequired: lic.journeyman_required,
+            reciprocity: lic.reciprocity || [],
+            notes: lic.notes || null
+          };
+        }
+      } catch (_e) { /* optional */ }
+
+      // --- IRA 25C / 30C awareness ---
+      try {
+        const iraApplicable = [];
+        if (jobType && jobType.startsWith("panel_upgrade")) {
+          iraApplicable.push({
+            program: "25C Panelboard Credit",
+            amount: "30% up to $600/yr",
+            condition: "Panel must be upgraded to enable a heat pump, HPWH, EV charger, or similar electrification upgrade placed in service same tax year",
+            form: "IRS Form 5695 Part II"
+          });
+        }
+        if (jobType === "ev_charger_level2") {
+          iraApplicable.push({
+            program: "30C EV Charger Credit",
+            amount: "30% up to $1,000",
+            condition: "Residence must be in an eligible low-income or non-urban census tract; check Argonne 30C eligibility map",
+            form: "IRS Form 8911"
+          });
+        }
+        if (jobType === "heat_pump_circuit") {
+          iraApplicable.push({
+            program: "25C Heat Pump Credit",
+            amount: "30% up to $2,000/yr",
+            condition: "Electrical work bundled with qualified heat pump install",
+            form: "IRS Form 5695 Part II"
+          });
+        }
+        if (iraApplicable.length) parsed.iraApplicable = iraApplicable;
+      } catch (_e) { /* optional */ }
+
+      // --- Utility rebate context ---
+      try {
+        if (stateCode && Array.isArray(pricingData.utilityRebates)) {
+          const state_rebates = pricingData.utilityRebates
+            .filter(r => Array.isArray(r.states) && r.states.includes(stateCode) && r.active2026 !== false)
+            .slice(0, 4);
+          if (state_rebates.length) parsed.utilityRebates = state_rebates;
+        }
+      } catch (_e) { /* optional */ }
+
+      // --- Dangerous panel brand detection ---
+      try {
+        const panelAvoid = pricingData.brandTiers?.panels_avoid || [];
+        const dangerous = [];
+        const hay = haystackLower();
+        for (const p of panelAvoid) {
+          if (hay.includes(p.brand.toLowerCase()) || (p.model && p.model !== "all" && hay.includes(p.model.toLowerCase()))) {
+            dangerous.push(p);
+          }
+        }
+        function haystackLower() {
+          return ((text || "") + " " + (parsed.lineItems || []).map(li => (li.description || "")).join(" ")).toLowerCase();
+        }
+        if (dangerous.length) parsed.dangerousPanels = dangerous;
+      } catch (_e) { /* optional */ }
+
       // Add pricing context
       parsed.pricingContext = {
         state: stateCode,

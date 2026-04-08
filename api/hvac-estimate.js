@@ -212,6 +212,7 @@ Rules:
 - redFlags: Include if any of the following are detected:
   * SEER rating below 15 (below 2023 federal minimum for new equipment)
   * R-22 (Freon) refrigerant mentioned (phased out, extremely expensive)
+  * CRITICAL: R-410A refrigerant in a NEW install quote. Per EPA AIM Act, R-410A is ILLEGAL in new HVAC equipment manufactured or installed on or after Jan 1 2026. New systems must use A2L refrigerants (R-454B or R-32). Any 2026 quote spec'ing R-410A is a critical red flag - the equipment is either pre-ban inventory (acceptable with disclosure) or the contractor is out of compliance.
   * No Manual J load calculation mentioned for a full system install
   * Warranty is parts-only with no labor coverage
   * No permit included for a system replacement
@@ -370,16 +371,22 @@ Rules:
         }
       }
 
-      // Tax credit info for heat pumps and geothermal
+      // Tax credit info - 25C EXPIRED Dec 31 2025. Only geothermal 25D still active.
       let taxCreditInfo = null;
-      if (systemType === "heat_pump" || systemType === "mini_split") {
-        taxCreditInfo = pricingData.taxCredits2026?.heat_pump || null;
-      } else if (systemType === "geothermal") {
+      if (systemType === "geothermal") {
         taxCreditInfo = pricingData.taxCredits2026?.geothermal || null;
-      } else if (systemType === "gas_furnace" && parsed.afue && parsed.afue >= 97) {
-        taxCreditInfo = pricingData.taxCredits2026?.high_efficiency_furnace || null;
-      } else if (systemType === "central_ac") {
-        taxCreditInfo = pricingData.taxCredits2026?.high_efficiency_ac || null;
+      }
+      // 25C heat-pump / furnace / AC credits EXPIRED 12/31/2025. Do not surface.
+
+      // R-410A red flag - EPA AIM Act bans R-410A in new HVAC from Jan 1 2026
+      if (parsed.refrigerantType) {
+        const ref = String(parsed.refrigerantType).toUpperCase().replace(/[^A-Z0-9]/g, "");
+        if (ref.includes("410A") || ref === "R410" || ref.includes("R410")) {
+          if (!parsed.redFlags) parsed.redFlags = [];
+          if (!parsed.redFlags.some(f => /410a/i.test(f))) {
+            parsed.redFlags.unshift("CRITICAL: R-410A refrigerant is ILLEGAL in new HVAC installs as of Jan 1, 2026 (EPA AIM Act). New systems must use A2L refrigerants (R-454B or R-32). If this is a 2026 install, the contractor is either offloading pre-ban inventory (ask for written disclosure and extended warranty) or is out of compliance. Do not sign until this is resolved.");
+          }
+        }
       }
 
       // Check for upsell patterns from commonUpsells
