@@ -20,9 +20,16 @@
 .mcl-hero{text-align:center;margin-bottom:32px;}
 .mcl-hero h1{font-size:28px;margin-bottom:8px;}
 .mcl-hero p{color:var(--text-secondary);font-size:16px;}
-.mcl-search{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;}
+.mcl-search{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;position:relative;}
 .mcl-search input{flex:2;min-width:200px;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:16px;}
 .mcl-search input:focus{outline:none;border-color:#0d9488;box-shadow:0 0 0 3px rgba(13,148,136,0.15);}
+.mcl-suggest{position:absolute;top:52px;left:0;right:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.12);max-height:320px;overflow-y:auto;z-index:50;display:none;}
+.mcl-suggest.show{display:block;}
+.mcl-suggest-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.mcl-suggest-item:last-child{border-bottom:none;}
+.mcl-suggest-item:hover,.mcl-suggest-item.active{background:#f0fdfa;}
+.mcl-suggest-name{font-size:14px;color:#1e293b;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mcl-suggest-cpt{font-size:12px;color:#0d9488;font-weight:600;flex-shrink:0;}
 .mcl-search select{flex:1;min-width:100px;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:14px;}
 .mcl-results{display:flex;flex-direction:column;gap:12px;}
 .mcl-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;}
@@ -61,6 +68,7 @@
 
 <div class="mcl-search">
 <input type="text" id="searchInput" placeholder="Search procedure or CPT code (e.g. MRI brain, 99213)" autocomplete="off" />
+<div id="suggestList" class="mcl-suggest" role="listbox"></div>
 <select id="stateSelect"><option value="">State</option><option value="AK">AK</option><option value="AL">AL</option><option value="AR">AR</option><option value="AZ">AZ</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DC">DC</option><option value="DE">DE</option><option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option><option value="IA">IA</option><option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="MA">MA</option><option value="MD">MD</option><option value="ME">ME</option><option value="MI">MI</option><option value="MN">MN</option><option value="MO">MO</option><option value="MS">MS</option><option value="MT">MT</option><option value="NC">NC</option><option value="ND">ND</option><option value="NE">NE</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NV">NV</option><option value="NY">NY</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VA">VA</option><option value="VT">VT</option><option value="WA">WA</option><option value="WI">WI</option><option value="WV">WV</option><option value="WY">WY</option></select>
 <select id="facilitySelect">
 <option value="hospital_outpatient">Hospital Outpatient</option>
@@ -130,7 +138,47 @@ function doSearch(){
   rEl.innerHTML=h;
 }
 
-sEl.addEventListener("input",doSearch);
+var sugEl=document.getElementById("suggestList"),sugIdx=-1,sugList=[];
+function buildSuggest(){
+  var q=sEl.value.trim().toLowerCase();
+  if(q.length<2){sugEl.classList.remove("show");sugEl.innerHTML="";sugList=[];sugIdx=-1;return;}
+  sugList=[];
+  for(var code in CPT){
+    var c=CPT[code];
+    if(c.description.toLowerCase().indexOf(q)>-1||code.toLowerCase().indexOf(q)>-1){
+      sugList.push({code:code,d:c});
+      if(sugList.length>=8)break;
+    }
+  }
+  if(!sugList.length){sugEl.classList.remove("show");sugEl.innerHTML="";return;}
+  var h="";
+  sugList.forEach(function(s,i){
+    h+='<div class="mcl-suggest-item" data-i="'+i+'" role="option">';
+    h+='<span class="mcl-suggest-name">'+esc(s.d.description)+'</span>';
+    h+='<span class="mcl-suggest-cpt">'+esc(s.code)+'</span>';
+    h+='</div>';
+  });
+  sugEl.innerHTML=h;sugEl.classList.add("show");sugIdx=-1;
+  sugEl.querySelectorAll(".mcl-suggest-item").forEach(function(el){
+    el.addEventListener("mousedown",function(e){
+      e.preventDefault();
+      var i=parseInt(el.getAttribute("data-i"),10);
+      if(!isNaN(i)&&sugList[i]){sEl.value=sugList[i].d.description;sugEl.classList.remove("show");doSearch();}
+    });
+  });
+}
+sEl.addEventListener("input",function(){buildSuggest();doSearch();});
+sEl.addEventListener("focus",buildSuggest);
+sEl.addEventListener("blur",function(){setTimeout(function(){sugEl.classList.remove("show");},150);});
+sEl.addEventListener("keydown",function(e){
+  if(!sugEl.classList.contains("show")||!sugList.length)return;
+  var items=sugEl.querySelectorAll(".mcl-suggest-item");
+  if(e.key==="ArrowDown"){e.preventDefault();sugIdx=(sugIdx+1)%items.length;}
+  else if(e.key==="ArrowUp"){e.preventDefault();sugIdx=(sugIdx-1+items.length)%items.length;}
+  else if(e.key==="Enter"&&sugIdx>=0){e.preventDefault();sEl.value=sugList[sugIdx].d.description;sugEl.classList.remove("show");doSearch();return;}
+  else if(e.key==="Escape"){sugEl.classList.remove("show");return;}
+  items.forEach(function(el,i){el.classList.toggle("active",i===sugIdx);});
+});
 stEl.addEventListener("change",doSearch);
 fEl.addEventListener("change",doSearch);
 var p=new URLSearchParams(window.location.search);
