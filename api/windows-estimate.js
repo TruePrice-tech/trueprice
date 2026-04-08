@@ -62,10 +62,66 @@ async function checkRateLimit(ip) {
 export default async function handler(req, res) {
   const allowedOrigin = "https://truepricehq.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") return res.status(204).end();
+
+  // GET: lightweight ZIP -> {state, region, climate zone, multiplier}
+  // lookup so the new estimate page can resolve city-level pricing
+  // without paying for a Claude call. The estimate page consumes this
+  // shape: { state, city, multiplier, zone, region, rebates }.
+  if (req.method === "GET") {
+    try {
+      const zip = String(req.query?.zip || "").replace(/[^0-9]/g, "").substring(0, 5);
+      if (!zip || zip.length !== 5) return res.status(400).json({ error: "zip required (5 digits)" });
+      const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "windows-pricing.json"), "utf-8"));
+      // Cheap ZIP -> state via 3-digit prefix bucket. Good enough for
+      // multiplier resolution; not a substitute for a real geocoder.
+      const ZIP3_TO_STATE = {
+        "0":"MA","1":"NY","2":"VA","3":"FL","4":"OH","5":"TX","6":"IL","7":"TX","8":"CO","9":"CA"
+      };
+      // crude but reliable first-digit bucket as a fallback when full mapping is absent
+      let state = ZIP3_TO_STATE[zip[0]] || null;
+      // Region multiplier lookup
+      let region = null, multiplier = 1.0;
+      if (state && pricingData.regionMultipliers) {
+        for (const [name, info] of Object.entries(pricingData.regionMultipliers)) {
+          if (info && Array.isArray(info.states) && info.states.includes(state)) {
+            region = name;
+            multiplier = info.multiplier || 1.0;
+            break;
+          }
+        }
+      }
+      if (state && pricingData.stateMultipliers && pricingData.stateMultipliers[state]) {
+        multiplier = pricingData.stateMultipliers[state];
+      }
+      // Climate zone lookup
+      let zone = null;
+      if (state && pricingData.climateZones) {
+        for (const [zname, zinfo] of Object.entries(pricingData.climateZones)) {
+          if (zinfo && Array.isArray(zinfo.states) && zinfo.states.includes(state)) {
+            zone = zname;
+            break;
+          }
+        }
+      }
+      // Rebate eligibility
+      const rebates = (pricingData.utilityRebates || []).filter(r =>
+        r && r.active2026 !== false && Array.isArray(r.states) && state && r.states.includes(state)
+      );
+      return res.status(200).json({
+        zip, state, region, multiplier, zone, rebates,
+        ira: pricingData.iraCredit || null,
+        energyStarTargets: zone && pricingData.energyStarTargets ? pricingData.energyStarTargets[zone] : null
+      });
+    } catch (e) {
+      console.error("[windows-estimate GET]", e.message);
+      return res.status(500).json({ error: "Lookup failed" });
+    }
+  }
+
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";

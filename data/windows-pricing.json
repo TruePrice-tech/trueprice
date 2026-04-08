@@ -1,211 +1,523 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, window manufacturer data",
-    "baseYear": 2026
+    "sources": "competitor-research/windows-pricing.md, windows-energy-rebates.md, windows-redflags-and-ux.md",
+    "baseYear": 2026,
+    "nationalAveragePerWindow": 554,
+    "notes": "National average baseline ~$550-750/window installed (survey of 16 brands). All prices reflect fully installed per-window cost (product + labor) unless noted."
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.15, "AZ": 0.95, "AR": 0.85, "CA": 1.12,
+    "CO": 1.00, "CT": 1.17, "DE": 1.05, "FL": 0.95, "GA": 0.90,
+    "HI": 1.18, "ID": 0.90, "IL": 1.00, "IN": 0.92, "IA": 0.90,
+    "KS": 0.88, "KY": 0.88, "LA": 0.88, "ME": 1.00, "MD": 1.08,
+    "MA": 1.17, "MI": 0.95, "MN": 0.98, "MS": 0.82, "MO": 0.90,
+    "MT": 0.95, "NE": 0.90, "NV": 1.00, "NH": 1.08, "NJ": 1.17,
+    "NM": 0.92, "NY": 1.18, "NC": 0.92, "ND": 0.92, "OH": 0.95,
+    "OK": 0.88, "OR": 1.08, "PA": 1.05, "RI": 1.10, "SC": 0.88,
+    "SD": 0.90, "TN": 0.88, "TX": 0.90, "UT": 0.95, "VT": 1.00,
+    "VA": 0.98, "WA": 1.12, "WV": 0.85, "WI": 0.95, "WY": 0.92,
+    "DC": 1.20
   },
-  "laborRates": {
-    "low": 40,
-    "mid": 65,
-    "high": 100,
-    "per_window": [
-      150,
-      400
+  "regionMultipliers": {
+    "northeast": { "states": ["NY", "NJ", "MA", "CT", "PA", "RI", "NH", "VT", "ME"], "multiplier": 1.17, "notes": "Higher labor, prevailing wage in some markets, historic home premiums" },
+    "west": { "states": ["CA", "WA", "OR"], "multiplier": 1.12, "notes": "CA labor + Title 24 energy compliance upgrades" },
+    "mountain": { "states": ["CO", "UT", "AZ", "NV", "NM", "ID", "MT", "WY"], "multiplier": 1.00, "notes": "Roughly national average" },
+    "north_central": { "states": ["IL", "OH", "MI", "IN", "WI", "MN", "IA", "ND", "SD", "NE", "KS", "MO"], "multiplier": 1.00, "notes": "National average; higher in Chicago" },
+    "southeast": { "states": ["GA", "NC", "SC", "TN", "AL", "MS", "KY", "VA", "WV"], "multiplier": 0.92, "notes": "Lower labor rates" },
+    "florida_coastal": { "states": ["FL"], "multiplier": 1.22, "notes": "Impact/hurricane code drives premiums in coastal FL counties; inland FL ~0.95" },
+    "south_central": { "states": ["TX", "OK", "AR", "LA"], "multiplier": 0.88, "notes": "Lowest labor rates nationally" }
+  },
+  "frameMultipliers": {
+    "vinyl": 1.00,
+    "composite": 1.60,
+    "fiberglass": 1.70,
+    "aluminum": 1.10,
+    "wood_clad": 2.00
+  },
+  "installMethodMultiplier": {
+    "pocket": 1.00,
+    "insert": 1.00,
+    "full_frame": 1.50,
+    "new_construction": 1.55,
+    "notes": "Full-frame premium is +40% to +100% over pocket/insert. Average premium $600-$1,000/window over insert. Required when existing frame is rotted, out of square, or enlarging opening."
+  },
+  "brandTiers": {
+    "Andersen": [
+      { "tier": "100 Series", "frame": "composite", "low": 400, "mid": 650, "high": 1500, "notes": "Entry Fibrex composite; Home Depot" },
+      { "tier": "200 Series", "frame": "wood_clad", "low": 450, "mid": 900, "high": 2500, "notes": "Limited configurations" },
+      { "tier": "400 Series", "frame": "wood_clad", "low": 500, "mid": 1200, "high": 3000, "notes": "Flagship wood-clad" },
+      { "tier": "A-Series", "frame": "composite", "low": 1100, "mid": 2200, "high": 4000, "notes": "Architectural premium Fibrex+wood" }
+    ],
+    "Pella": [
+      { "tier": "250 Series", "frame": "vinyl", "low": 450, "mid": 800, "high": 1350, "notes": "Entry vinyl" },
+      { "tier": "350 Series", "frame": "vinyl", "low": 550, "mid": 950, "high": 1600, "notes": "Most efficient vinyl, triple-pane available" },
+      { "tier": "Lifestyle", "frame": "wood_clad", "low": 600, "mid": 1100, "high": 2000, "notes": "Mid-premium wood" },
+      { "tier": "Reserve", "frame": "wood_clad", "low": 1200, "mid": 2000, "high": 3500, "notes": "High-end custom wood" }
+    ],
+    "Marvin": [
+      { "tier": "Essential", "frame": "fiberglass", "low": 900, "mid": 1050, "high": 1200, "notes": "Ultrex fiberglass" },
+      { "tier": "Elevate", "frame": "fiberglass", "low": 1000, "mid": 1400, "high": 2400, "notes": "Fiberglass ext / wood int" },
+      { "tier": "Signature", "frame": "wood_clad", "low": 1200, "mid": 1800, "high": 2500, "notes": "Premium wood; Ultimate/Modern" }
+    ],
+    "Renewal by Andersen": [
+      { "tier": "All lines", "frame": "composite", "low": 1000, "mid": 1700, "high": 3500, "notes": "Fibrex composite only; factory-direct full-frame; 2-3x dealer Andersen" }
+    ],
+    "Window World": [
+      { "tier": "Comfort World", "frame": "vinyl", "low": 300, "mid": 375, "high": 550, "notes": "Rebadged MI Windows/Simonton/Alside; franchise model" }
+    ],
+    "Champion": [
+      { "tier": "Comfort 365", "frame": "vinyl", "low": 450, "mid": 750, "high": 1300, "notes": "Factory-direct; high-pressure sales" }
+    ],
+    "Milgard": [
+      { "tier": "Style Line", "frame": "vinyl", "low": 450, "mid": 675, "high": 900, "notes": "Budget vinyl (West/SW)" },
+      { "tier": "Trinsic", "frame": "vinyl", "low": 500, "mid": 750, "high": 1100, "notes": "Narrow sightline contemporary" },
+      { "tier": "Tuscany", "frame": "vinyl", "low": 500, "mid": 800, "high": 1295, "notes": "Traditional profile" },
+      { "tier": "Ultra", "frame": "fiberglass", "low": 700, "mid": 1100, "high": 1600, "notes": "Fiberglass line" }
+    ],
+    "Simonton": [
+      { "tier": "5500 Reflections", "frame": "vinyl", "low": 370, "mid": 600, "high": 885, "notes": "Mainstream vinyl" },
+      { "tier": "6500 Impressions", "frame": "vinyl", "low": 470, "mid": 775, "high": 1145, "notes": "Home Depot exclusive" },
+      { "tier": "9800 Impressions", "frame": "vinyl", "low": 700, "mid": 1050, "high": 1400, "notes": "Top vinyl line" }
+    ],
+    "Jeld-Wen": [
+      { "tier": "V2500 Builders", "frame": "vinyl", "low": 250, "mid": 375, "high": 550, "notes": "New-construction grade" },
+      { "tier": "V4500 Premium", "frame": "vinyl", "low": 375, "mid": 550, "high": 750, "notes": "Upgraded vinyl" },
+      { "tier": "Premium Atlantic Aluminum", "frame": "aluminum", "low": 600, "mid": 900, "high": 1400, "notes": "FL impact/coastal" },
+      { "tier": "Siteline", "frame": "wood_clad", "low": 600, "mid": 1000, "high": 1500, "notes": "Lower-volume wood" }
+    ],
+    "ProVia": [
+      { "tier": "Aspect", "frame": "vinyl", "low": 650, "mid": 800, "high": 950, "notes": "Entry ProVia vinyl" },
+      { "tier": "Endure", "frame": "vinyl", "low": 1100, "mid": 1400, "high": 1800, "notes": "Top vinyl; heavy frame, triple-pane option" },
+      { "tier": "Aeris", "frame": "wood_clad", "low": 1000, "mid": 1400, "high": 2500, "notes": "Wood interior / vinyl ext" }
+    ],
+    "Soft-Lite": [
+      { "tier": "Barrington", "frame": "vinyl", "low": 600, "mid": 750, "high": 900, "notes": "Entry Soft-Lite" },
+      { "tier": "Elements", "frame": "vinyl", "low": 850, "mid": 1100, "high": 1455, "notes": "Mid-premium" },
+      { "tier": "Imperial LS", "frame": "vinyl", "low": 1000, "mid": 1300, "high": 1600, "notes": "Top vinyl; wood interior option" }
+    ],
+    "Alside": [
+      { "tier": "Mezzo", "frame": "vinyl", "low": 450, "mid": 600, "high": 750, "notes": "Mid-value sweet spot; no triple-pane" },
+      { "tier": "Sheffield 8000", "frame": "vinyl", "low": 350, "mid": 475, "high": 625, "notes": "Builder-grade" }
+    ],
+    "Atrium": [
+      { "tier": "Series 450/8700", "frame": "vinyl", "low": 275, "mid": 375, "high": 500, "notes": "Bottom-tier builder/landlord grade" }
     ]
   },
   "commonJobs": {
     "vinyl_double_hung": {
       "label": "Vinyl Double-Hung Window",
-      "total": [
-        300,
-        700
-      ],
+      "total": [300, 700],
       "per_unit": true,
       "urgency": "can_wait"
     },
     "vinyl_casement": {
       "label": "Vinyl Casement Window",
-      "total": [
-        350,
-        800
-      ],
+      "total": [350, 800],
       "per_unit": true,
       "urgency": "can_wait"
     },
     "fiberglass_window": {
       "label": "Fiberglass Window",
-      "total": [
-        500,
-        1000
-      ],
+      "total": [700, 1600],
       "per_unit": true,
       "urgency": "can_wait"
     },
     "wood_window": {
-      "label": "Wood Window",
-      "total": [
-        600,
-        1200
-      ],
+      "label": "Wood-Clad Window",
+      "total": [600, 2000],
       "per_unit": true,
       "urgency": "can_wait"
     },
     "bay_window": {
       "label": "Bay/Bow Window",
-      "total": [
-        1500,
-        4000
-      ],
+      "total": [1500, 4000],
       "per_unit": true,
       "urgency": "can_wait"
     },
     "sliding_glass_door": {
       "label": "Sliding Glass Door",
-      "total": [
-        1000,
-        3000
-      ],
+      "total": [1000, 3000],
       "per_unit": true,
       "urgency": "can_wait"
     },
     "whole_house_10": {
       "label": "Whole House (10 windows)",
-      "total": [
-        3500,
-        8000
-      ],
+      "total": [3500, 8000],
       "urgency": "can_wait"
     },
     "whole_house_20": {
       "label": "Whole House (20 windows)",
-      "total": [
-        6000,
-        15000
-      ],
+      "total": [6000, 15000],
+      "urgency": "can_wait"
+    },
+    "value_vinyl_per_window": {
+      "label": "Value Vinyl (Window World / Atrium / Alside Sheffield)",
+      "total": [300, 625],
+      "tierMid": 425,
+      "per_unit": true,
+      "brands": ["Window World", "Atrium", "Alside Sheffield", "Jeld-Wen V2500"],
+      "urgency": "can_wait"
+    },
+    "midrange_vinyl_per_window": {
+      "label": "Midrange Vinyl (Simonton / Milgard / Pella 250)",
+      "total": [450, 1145],
+      "tierMid": 750,
+      "per_unit": true,
+      "brands": ["Simonton 5500", "Simonton 6500", "Milgard Tuscany", "Milgard Trinsic", "Pella 250", "Alside Mezzo", "Champion"],
+      "urgency": "can_wait"
+    },
+    "premium_vinyl_per_window": {
+      "label": "Premium Vinyl (Andersen 100 / ProVia / Soft-Lite)",
+      "total": [600, 1800],
+      "tierMid": 1100,
+      "per_unit": true,
+      "brands": ["Andersen 100", "ProVia Endure", "Soft-Lite Imperial LS", "Pella 350", "Simonton 9800"],
+      "urgency": "can_wait"
+    },
+    "fiberglass_per_window": {
+      "label": "Fiberglass (Marvin Essential / Milgard Ultra)",
+      "total": [700, 1600],
+      "tierMid": 1100,
+      "per_unit": true,
+      "brands": ["Marvin Essential", "Milgard Ultra"],
+      "urgency": "can_wait"
+    },
+    "wood_clad_per_window": {
+      "label": "Wood-Clad (Pella Lifestyle / Marvin Elevate / Andersen 400)",
+      "total": [600, 2500],
+      "tierMid": 1200,
+      "per_unit": true,
+      "brands": ["Pella Lifestyle", "Marvin Elevate", "Andersen 400", "Andersen 200", "ProVia Aeris"],
+      "urgency": "can_wait"
+    },
+    "premium_wood_clad_per_window": {
+      "label": "Premium Wood-Clad (Andersen A-Series / Pella Reserve / Marvin Signature / RbA)",
+      "total": [1100, 4000],
+      "tierMid": 2000,
+      "per_unit": true,
+      "brands": ["Andersen A-Series", "Pella Reserve", "Marvin Signature", "Renewal by Andersen"],
       "urgency": "can_wait"
     }
   },
   "commonUpsells": [
     {
       "item": "Triple-pane upgrade",
-      "cost": [
-        50,
-        150
-      ],
+      "cost": [100, 300],
       "necessary": "sometimes",
-      "notes": "Per window. Worth it in extreme climates only."
+      "notes": "Per window. Worth it in Northern/North-Central climate zones; marginal elsewhere."
     },
     {
       "item": "Low-E coating upgrade",
-      "cost": [
-        25,
-        75
-      ],
+      "cost": [25, 100],
       "necessary": "recommended",
-      "notes": "Per window. Significant energy savings."
+      "notes": "Per window. Required for ENERGY STAR compliance. Significant energy savings."
     },
     {
-      "item": "Exterior trim/capping",
-      "cost": [
-        50,
-        150
-      ],
+      "item": "Argon/krypton gas fill",
+      "cost": [15, 50],
+      "necessary": "recommended",
+      "notes": "Per window. Standard on ENERGY STAR units; usually included."
+    },
+    {
+      "item": "Exterior capping/wrap",
+      "cost": [50, 150],
       "necessary": "sometimes",
-      "notes": "Per window. Needed if existing trim is rotted."
+      "notes": "Per window. Needed if existing trim is rotted or when aesthetically upgrading."
+    },
+    {
+      "item": "Interior trim replacement",
+      "cost": [75, 250],
+      "necessary": "sometimes",
+      "notes": "Per window. Needed on full-frame replacement or damaged trim."
+    },
+    {
+      "item": "Grid/grille (SDL or between-glass)",
+      "cost": [35, 150],
+      "necessary": "optional",
+      "notes": "Per window. Cosmetic only; between-glass cheaper than simulated divided lite."
+    },
+    {
+      "item": "Impact-rated glass",
+      "cost": [150, 500],
+      "necessary": "sometimes",
+      "notes": "Per window. Required by code in FL coastal counties and other hurricane zones."
+    },
+    {
+      "item": "Full-frame vs pocket upgrade",
+      "cost": [200, 800],
+      "necessary": "sometimes",
+      "notes": "Per window. Required if existing frame is rotted or out of square."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
+    { "key": "brandModel", "label": "Brand and model number specified", "weight": 12 },
+    { "key": "nfrcRatings", "label": "U-factor and SHGC (NFRC label data) listed", "weight": 12 },
+    { "key": "installType", "label": "Install type specified (pocket vs full-frame)", "weight": 10 },
+    { "key": "partsItemized", "label": "Line-item breakdown (unit, labor, disposal, permit)", "weight": 10 },
+    { "key": "permit", "label": "Permits pulled and paid by contractor", "weight": 8 },
+    { "key": "disposal", "label": "Haul-away and disposal of old windows included", "weight": 8 },
+    { "key": "capping", "label": "Exterior capping/trim included", "weight": 6 },
+    { "key": "interiorTrim", "label": "Interior trim/drywall repair included", "weight": 6 },
+    { "key": "warranty", "label": "Warranty terms stated in writing (transferability, fees)", "weight": 8 },
+    { "key": "energyStar", "label": "ENERGY STAR certification noted", "weight": 6 },
+    { "key": "timeline", "label": "Order date, lead time, and target install date listed", "weight": 5 },
+    { "key": "deposit", "label": "Deposit 33% or less", "weight": 5 },
+    { "key": "laborRate", "label": "Labor rate or install labor stated", "weight": 4 }
+  ],
+  "climateZones": {
+    "Northern": {
+      "label": "Northern (heating-dominated)",
+      "states_primarily": ["AK", "ME", "NH", "VT", "MA", "NY", "MI", "MN", "WI", "ND", "SD", "MT", "ID", "WY", "WA", "OR"],
+      "states_partial": ["PA", "CT", "IL", "IA", "NE", "UT", "CO"],
+      "priority": "Low U-factor; SHGC unrestricted (higher SHGC helps via passive solar)"
     },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
+    "North-Central": {
+      "label": "North-Central (mixed, heating dominant)",
+      "states_primarily": ["OH", "IN", "MO", "KS", "WV", "MD", "DE", "NJ", "RI"],
+      "states_partial": ["PA", "NY", "CT", "IL", "NE", "IA", "CO", "UT", "NV", "CA", "KY", "VA"],
+      "priority": "Balanced U-factor and SHGC"
     },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
+    "South-Central": {
+      "label": "South-Central (mixed, cooling dominant)",
+      "states_primarily": ["NC", "TN", "AR", "OK", "NM"],
+      "states_partial": ["VA", "TX", "AZ", "NV", "CA", "KY"],
+      "priority": "Low SHGC; moderate U-factor"
     },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "windowType",
-      "label": "Window type/material specified",
-      "weight": 10
-    },
-    {
-      "key": "energyStar",
-      "label": "ENERGY STAR rating noted",
-      "weight": 8
+    "Southern": {
+      "label": "Southern (cooling-dominated)",
+      "states_primarily": ["FL", "GA", "AL", "MS", "LA", "HI", "PR"],
+      "states_partial": ["TX", "AZ", "CA"],
+      "priority": "Low SHGC is priority"
     }
+  },
+  "energyStarTargets": {
+    "Northern": {
+      "energyStar": { "uFactorMax": 0.22, "shgcMin": null, "shgcMax": null, "notes": "SHGC unrestricted; alternative path U<=0.26 + SHGC>=0.32 or U<=0.28 + SHGC>=0.42" },
+      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": 0.20, "shgcMax": null, "notes": "Qualifies for 25C federal tax credit" }
+    },
+    "North-Central": {
+      "energyStar": { "uFactorMax": 0.25, "shgcMin": null, "shgcMax": 0.40 },
+      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": null, "shgcMax": 0.40, "notes": "Qualifies for 25C federal tax credit; LSG (VT/SHGC) >= 1.10" }
+    },
+    "South-Central": {
+      "energyStar": { "uFactorMax": 0.28, "shgcMin": null, "shgcMax": 0.23 },
+      "mostEfficient": { "uFactorMax": 0.20, "shgcMin": null, "shgcMax": 0.23, "notes": "Qualifies for 25C federal tax credit; LSG >= 1.10" }
+    },
+    "Southern": {
+      "energyStar": { "uFactorMax": 0.32, "shgcMin": null, "shgcMax": 0.23 },
+      "mostEfficient": { "uFactorMax": 0.25, "shgcMin": null, "shgcMax": 0.23, "notes": "Qualifies for 25C federal tax credit; LSG >= 1.10" }
+    }
+  },
+  "iraCredit": {
+    "section": "25C Energy Efficient Home Improvement Credit",
+    "rate": 0.30,
+    "annualCap": 600,
+    "envelopeAnnualCap": 1200,
+    "totalAnnualCap": 3200,
+    "effectiveDate": "2023-01-01",
+    "expirationDate": "2032-12-31",
+    "requiresMostEfficient": true,
+    "excludesLabor": true,
+    "residentialOnly": true,
+    "principalResidenceOnly": true,
+    "rentalsExcluded": true,
+    "newConstructionExcluded": true,
+    "pinRequired": true,
+    "pinRequiredStartDate": "2025-01-01",
+    "claimForm": "IRS Form 5695 Part II",
+    "annualReset": true,
+    "notes": "30% of product cost only (not labor), capped at $600/year for windows/skylights. Requires ENERGY STAR Most Efficient certification and manufacturer Qualified Manufacturer PIN on Form 5695."
+  },
+  "utilityRebates": [
+    { "utility": "Mass Save (Eversource, National Grid, Unitil, Cape Light)", "states": ["MA"], "perWindow": 75, "eligibility": "Triple-pane ENERGY STAR Northern Most Efficient; replacing single-pane; whole-home assessment required", "claimMethod": "Post-install via Mass Save portal; contractor can file", "active2026": true },
+    { "utility": "NYSERDA EmPower+ / Comfort Home", "states": ["NY"], "perWindow": null, "bundleMax": 1000, "eligibility": "Income-qualified (EmPower+) or any homeowner (Comfort Home); BPI-certified contractor", "claimMethod": "Through participating contractor", "active2026": true },
+    { "utility": "Efficiency Vermont", "states": ["VT"], "perWindow": 40, "maxWindows": 10, "eligibility": "ENERGY STAR Northern; replacing single-pane", "claimMethod": "Mail-in rebate form with receipt", "active2026": true },
+    { "utility": "Efficiency Maine", "states": ["ME"], "perWindow": 65, "perWindowRange": [40, 90], "eligibility": "Tiered by U-factor; U<=0.22 for max; triple-pane bonus; registered contractor preferred", "claimMethod": "Online application + invoice", "active2026": true },
+    { "utility": "Focus on Energy", "states": ["WI"], "perWindow": 75, "maxWindows": 15, "eligibility": "Owner-occupied; ENERGY STAR Northern", "claimMethod": "Online rebate app, post-install", "active2026": true },
+    { "utility": "Xcel Energy", "states": ["CO"], "perWindow": 40, "eligibility": "ENERGY STAR Northern/North-Central", "claimMethod": "Online portal, post-install", "active2026": true },
+    { "utility": "CenterPoint Energy", "states": ["MN"], "perWindow": 25, "eligibility": "Gas-heated home; ENERGY STAR", "claimMethod": "Mail-in", "active2026": true },
+    { "utility": "DTE Energy", "states": ["MI"], "perWindow": 50, "eligibility": "Single-pane replacement; ENERGY STAR Northern", "claimMethod": "Online portal", "active2026": true },
+    { "utility": "Consumers Energy", "states": ["MI"], "perWindow": 15, "eligibility": "ENERGY STAR; gas/electric customer", "claimMethod": "Online", "active2026": true },
+    { "utility": "PSEG Long Island", "states": ["NY"], "perWindow": 50, "eligibility": "ENERGY STAR; BPI contractor (Home Comfort program)", "claimMethod": "Through contractor", "active2026": true },
+    { "utility": "Eversource CT", "states": ["CT"], "perWindow": 50, "eligibility": "Electric heat home; ENERGY STAR North-Central/Northern", "claimMethod": "Online rebate", "active2026": true },
+    { "utility": "Rhode Island Energy", "states": ["RI"], "perWindow": 50, "eligibility": "ENERGY STAR; replacing single-pane", "claimMethod": "Online", "active2026": true },
+    { "utility": "Avista", "states": ["WA", "ID", "OR"], "perWindow": 45, "perSqFt": 2.00, "eligibility": "ENERGY STAR Northern; electric heat", "claimMethod": "Mail-in", "active2026": true },
+    { "utility": "Puget Sound Energy", "states": ["WA"], "perWindow": 50, "eligibility": "Electric heat primary; ENERGY STAR Northern U<=0.22", "claimMethod": "Online portal", "active2026": true },
+    { "utility": "Energy Trust of Oregon", "states": ["OR"], "perWindow": 50, "perSqFt": 2.25, "eligibility": "ENERGY STAR Northern; Trade Ally contractor", "claimMethod": "Contractor files", "active2026": true },
+    { "utility": "Ameren Illinois / IL Home Energy", "states": ["IL"], "perWindow": 40, "eligibility": "Gas/electric customer; ENERGY STAR; replacing single-pane", "claimMethod": "Online", "active2026": true }
+  ],
+  "redFlagPatterns": [
+    {
+      "name": "today_only_urgency",
+      "regex": "\\b(today only|tonight only|expires? (today|tonight|at midnight)|sign (today|tonight|now)|valid (today|for 24 ?hours)|manager[' ]?s? special|truck ?load (pricing|special)|one[- ]time offer|limited time)\\b",
+      "severity": "high",
+      "explanation": "Signature urgency pressure. Legitimate window quotes are valid 7-30 days; manufacturer pricing does not change hourly. Also bypasses the 3-day federal right-of-rescission mental checkpoint.",
+      "action": "Refuse to sign in the same visit. Get quote validity in writing (7-30 days minimum)."
+    },
+    {
+      "name": "lifetime_warranty_void_traps",
+      "regex": "\\blifetime (limited )?warranty\\b",
+      "secondaryRegex": "\\b(void(ed)? if|provided that|subject to|must be (cleaned|inspected|maintained)|annual(ly)? (inspected|registered)|approved cleaner|registration (card|required))\\b",
+      "severity": "medium",
+      "explanation": "Lifetime warranty with fine-print maintenance voids (quarterly track cleaning, approved cleaners only, mail-in inspection cards). Most homeowners void these terms within 12 months.",
+      "action": "Request full warranty PDF by email. Confirm in writing that normal household cleaning does not void coverage."
+    },
+    {
+      "name": "one_time_transfer_warranty",
+      "regex": "\\btransfer(s|able|red)?\\b.*\\b(one|1|once|single|first)\\b",
+      "secondaryRegex": "\\btransfer fee\\b",
+      "severity": "medium",
+      "explanation": "Warranty transfers only once (often with $50-$250 fee). Homeowners resell within 7 years on average, so this is effectively a 7-year warranty, not lifetime.",
+      "action": "Ask explicitly how many times the warranty transfers and whether there's a fee. Get the answer in writing."
+    },
+    {
+      "name": "trim_capping_billed_separately",
+      "regex": "\\b(as needed|if (required|necessary)|additional|not included|extra)\\b.*\\b(cap(ping)?|trim|wrap|drywall|stool|apron|paint|finish(ing)?)\\b",
+      "severity": "high",
+      "explanation": "Capping, trim, drywall repair, or paint billed as 'as needed' or separately. Can add $75-$300 per opening discovered after walls are open when you have no leverage to walk away.",
+      "action": "Demand all-inclusive quote. Ask: 'Does this price include exterior capping, interior trim, drywall repair, and paint?'"
+    },
+    {
+      "name": "deferred_interest_balloon",
+      "regex": "\\b(no (payments?|interest) for \\d+ months?|deferred interest|same as cash|0% (apr|for \\d+))\\b",
+      "secondaryRegex": "\\bballoon\\b",
+      "severity": "high",
+      "explanation": "Deferred interest financing trap. At month 25, full retroactive interest at 27.99% APR hits, or a balloon payment 40% of balance is due. FTC and CFPB have issued alerts.",
+      "action": "Get the Truth-in-Lending disclosure. Confirm whether it's 'deferred interest' vs '0% simple.' Assume balloon until proven otherwise."
+    },
+    {
+      "name": "free_install_pricing_inversion",
+      "regex": "\\b(free install(ation)?|buy \\d+ get \\d+|installation included (free|at no)|no install(ation)? (cost|charge|fee))\\b",
+      "severity": "medium",
+      "explanation": "'Buy 4 get installation free' marks up the per-window price 30-60% to absorb the 'free' install. Obscures true unit cost and makes comparison impossible.",
+      "action": "Ask for line-item breakdown: window unit cost, installation, disposal, permit."
+    },
+    {
+      "name": "subcontractor_handoff",
+      "regex": "\\b(sub[- ]?contract(ed|or)?|authorized installer|independent (contractor|installer)|third[- ]party install)\\b",
+      "severity": "medium",
+      "explanation": "Install is performed by 1099 subcontracted crew with no brand accountability. Warranty disputes become finger-pointing between brand and sub. Quality varies wildly.",
+      "action": "Ask in writing: 'Will the company on this contract perform installation with W-2 employees, or is it subcontracted?' Get installer license number."
+    },
+    {
+      "name": "missing_disposal",
+      "regex": "\\b(haul[- ]?away|dispose|disposal|removal|debris|clean[- ]?up)\\b",
+      "detectMode": "absence",
+      "severity": "medium",
+      "explanation": "No mention of haul-away or disposal. Crew may charge $25-$75/window on install day or leave old units stacked in driveway. Pre-1978 windows have EPA RRP disposal requirements.",
+      "action": "Confirm 'haul-away and EPA-compliant disposal of existing windows' is a line item in the written scope."
+    },
+    {
+      "name": "homeowner_responsible_permit",
+      "regex": "\\b(homeowner|owner)\\b.*\\b(responsible|provide|obtain|pay)\\b.*\\bpermit",
+      "severity": "high",
+      "explanation": "Quote pushes permit responsibility to homeowner. Permits for whole-home window replacement run $150-$800. Unpermitted work can fail home inspection at resale.",
+      "action": "Scope must say 'contractor pulls and pays all required permits.'"
+    },
+    {
+      "name": "vague_scope_language",
+      "regex": "\\b(standard install(ation)?|per (industry|company) standard|as discussed|per conversation)\\b",
+      "severity": "medium",
+      "explanation": "Verbal promises without written scope detail. 'Per standard installation' is unenforceable. If it's not written, it does not exist.",
+      "action": "Every promise goes on the contract or walk away."
+    },
+    {
+      "name": "no_license_number",
+      "regex": "\\b(license ?#|lic\\.? ?no\\.?|license number|contractor license)\\b",
+      "detectMode": "absence",
+      "severity": "high",
+      "explanation": "No state contractor license number on quote. AARP's #1 elder fraud category for home improvement. Deposits taken, work never starts.",
+      "action": "Verify state contractor license, BBB rating, and Google Business Profile before any deposit."
+    },
+    {
+      "name": "vague_product_spec",
+      "regex": "\\b(premium|builder[- ]?grade|standard|economy|deluxe) (vinyl|window)\\b",
+      "secondaryRegex": "\\b(andersen|pella|marvin|simonton|milgard|harvey|jeld[- ]?wen|alside|atrium|ply ?gem|provia|okna|sunrise|soft[- ]?lite|series [a-z0-9]+|model [a-z0-9]+)\\b",
+      "secondaryMode": "absence",
+      "severity": "high",
+      "explanation": "'Premium vinyl' with no manufacturer, series, or model number. Prevents NFRC lookup and allows bait-and-switch to a cheaper SKU at install.",
+      "action": "Require manufacturer name, series, model number, and glass package on every line item."
+    },
+    {
+      "name": "missing_nfrc_ratings",
+      "regex": "\\bu[- ]?(factor|value)\\b|\\bshgc\\b|\\bnfrc\\b",
+      "detectMode": "absence",
+      "severity": "high",
+      "explanation": "No U-factor, SHGC, or NFRC label data. You cannot verify ENERGY STAR eligibility or 25C federal tax credit qualification without these numbers.",
+      "action": "Require NFRC label data on every line: U-factor, SHGC, VT, air leakage."
+    },
+    {
+      "name": "install_type_not_specified",
+      "regex": "\\b(pocket|insert|full[- ]?frame|retrofit|new construction|tear[- ]?out)\\b",
+      "detectMode": "absence",
+      "severity": "high",
+      "explanation": "Quote doesn't say pocket/insert vs full-frame. Price difference is $200-$600 per opening. You may be paying full-frame prices for a pocket install.",
+      "action": "Scope must specify one of: insert/pocket, full-frame, or new construction."
+    },
+    {
+      "name": "manager_approval_theatre",
+      "regex": "\\b(regular(ly)? priced? at|msrp|list price|was \\$[\\d,]+|manager (approval|discount|special)|corporate (approval|discount))\\b",
+      "severity": "medium",
+      "explanation": "Salesperson theatrically 'calls the manager' for a 40-50% discount off an inflated sticker. The original price was never real.",
+      "action": "Ignore the sticker. Judge only the final number against 2-3 competing quotes."
+    },
+    {
+      "name": "excessive_deposit",
+      "regex": "\\bdeposit\\b.*\\b(50|60|70|75|80|90|100) ?%\\b",
+      "secondaryRegex": "\\b(half|50 percent|full payment).*\\b(deposit|upfront|upon signing)\\b",
+      "severity": "high",
+      "explanation": "Deposit over 33%. Industry standard is 10-33% at signing, balance on completion. Large deposits are a leading indicator of abandonment fraud. Several states cap home improvement deposits (MD 33%, ME 33%).",
+      "action": "Cap deposit at one-third. Remainder on substantial completion."
+    },
+    {
+      "name": "vague_timeline",
+      "regex": "\\b(few weeks|soon|as soon as|tbd|asap|shortly)\\b",
+      "secondaryRegex": "\\b\\d{1,2}[/-]\\d{1,2}[/-]\\d{2,4}\\b",
+      "secondaryMode": "absence",
+      "severity": "medium",
+      "explanation": "No specific install date. Window orders take 4-12 weeks from manufacturer. Deposits sit with contractor indefinitely without accountability.",
+      "action": "Contract must state order date, manufacturer lead time, and target install date with a not-to-exceed clause."
+    },
+    {
+      "name": "out_of_state_po_box",
+      "regex": "\\bp\\.?o\\.? ?box\\b",
+      "severity": "high",
+      "explanation": "Address is a PO box or out of state with no local showroom/license/phone. Warranty service becomes impossible. State AGs cite out-of-state storm-chaser operations.",
+      "action": "Verify physical local address, in-state contractor license, and local reviews."
+    }
+  ],
+  "recommendedScopeItems": [
+    "Brand, series, and model number for every window",
+    "NFRC label data: U-factor, SHGC, VT, air leakage",
+    "Install type specified: pocket/insert or full-frame",
+    "Line-item breakdown: unit cost, labor, disposal, permit, trim",
+    "Contractor pulls and pays all required permits",
+    "Haul-away and EPA-compliant disposal of existing windows",
+    "Exterior capping/wrap included",
+    "Interior trim and drywall repair included",
+    "Warranty terms in writing: transfer count, fees, voids",
+    "ENERGY STAR certification and climate-zone compliance",
+    "Manufacturer PIN/QM code provided for 25C tax credit",
+    "Order date, manufacturer lead time, target install date",
+    "Deposit capped at 33% with balance on substantial completion",
+    "Installer is W-2 employee (or named subcontractor with license)",
+    "State contractor license number on the contract"
+  ],
+  "questionsToAsk": [
+    "Is this quote valid for at least 30 days in writing?",
+    "What is the exact brand, series, and model number of each window?",
+    "What are the U-factor, SHGC, and VT on the NFRC label?",
+    "Is this a pocket/insert or full-frame replacement?",
+    "Does the price include exterior capping, interior trim, drywall repair, and paint?",
+    "Who pulls and pays for the permit — you or me?",
+    "Is haul-away and disposal of my old windows included?",
+    "Will your W-2 employees install, or is it subcontracted? What's the installer's license number?",
+    "How many times does the warranty transfer, and is there a fee?",
+    "Does normal household cleaning void the warranty?",
+    "What is the deposit percentage, and when is the balance due?",
+    "What's the order date, manufacturer lead time, and target install date?",
+    "Will you provide the manufacturer Qualified Manufacturer PIN so I can claim the 25C tax credit?",
+    "Does this window meet ENERGY STAR Most Efficient for my climate zone?",
+    "If I finance, is it deferred interest or 0% simple? May I see the Truth-in-Lending disclosure?"
   ]
 }
