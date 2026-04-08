@@ -7,28 +7,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
-  <title>Kitchen Remodel Quote Analyzer - Is Your Kitchen Quote Fair? | TruePrice</title>
+  <title>Free Fencing Cost Estimate | TruePrice</title>
   <meta
     name="description"
-    content="Upload any kitchen contractor quote and get a free price check, scope analysis, and red flag detection."
+    content="Free fencing cost estimate by city. No email, no phone, no lead-selling."
   />
-  <link rel="canonical" href="https://truepricehq.com/kitchen-quote-analyzer.html" />
+  <link rel="canonical" href="https://truepricehq.com/fencing-estimate.html" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="Kitchen Remodel Quote Analyzer | TruePrice" />
+  <meta property="og:title" content="Free Fencing Cost Estimate | TruePrice" />
   <meta
     property="og:description"
-    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+    content="Free fencing cost estimate by city. No email, no phone, no lead-selling."
   />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://truepricehq.com/kitchen-quote-analyzer.html" />
+  <meta property="og:url" content="https://truepricehq.com/fencing-estimate.html" />
   <meta property="og:site_name" content="TruePrice" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Kitchen Remodel Quote Analyzer | TruePrice" />
+  <meta name="twitter:title" content="Free Fencing Cost Estimate | TruePrice" />
   <meta
     name="twitter:description"
-    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+    content="Free fencing cost estimate by city. No email, no phone, no lead-selling."
   />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
@@ -39,108 +39,113 @@
   <link rel="stylesheet" href="/css/analyzer.min.css" />
 
   <style>
-    .kit-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
-    .kit-hero { text-align: center; margin-bottom: 2rem; }
-    .kit-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
-    .kit-hero p { color: #64748b; font-size: 1.1rem; }
+    .fence-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .fence-hero { text-align: center; margin-bottom: 2rem; }
+    .fence-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .fence-hero p { color: #64748b; font-size: 1.1rem; }
 
-    .kit-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+    .fence-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
 
-    .kit-upload-zone {
+    .fence-upload-zone {
       border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
       text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
       background: #f8fafc;
     }
-    .kit-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
-    .kit-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
-    .kit-upload-zone p { margin: 0.25rem 0; color: #475569; }
-    .kit-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+    .fence-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .fence-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
+    .fence-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .fence-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
 
-    .kit-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
-    .kit-divider::before, .kit-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
+    .fence-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
+    .fence-divider::before, .fence-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
 
-    .kit-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
-    .kit-address-form input {
+    .fence-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .fence-address-form input {
       padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
       font-size: 1rem; width: 100%; box-sizing: border-box;
     }
-    .kit-address-form input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    .fence-address-form input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
 
-    .kit-row { display: flex; gap: 0.75rem; }
-    .kit-row > * { flex: 1; }
+    .fence-row { display: flex; gap: 0.75rem; }
+    .fence-row > * { flex: 1; }
 
-    .kit-btn {
+    .fence-btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
       padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
       border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
     }
-    .kit-btn-primary { background: #2563eb; color: #fff; }
-    .kit-btn-primary:hover { background: #1d4ed8; }
-    .kit-btn-secondary { background: #f1f5f9; color: #334155; }
-    .kit-btn-secondary:hover { background: #e2e8f0; }
-    .kit-btn-full { width: 100%; }
+    .fence-btn-primary { background: #2563eb; color: #fff; }
+    .fence-btn-primary:hover { background: #1d4ed8; }
+    .fence-btn-secondary { background: #f1f5f9; color: #334155; }
+    .fence-btn-secondary:hover { background: #e2e8f0; }
+    .fence-btn-full { width: 100%; }
 
-    .kit-progress { margin: 1.5rem 0; }
-    .kit-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
-    .kit-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
-    .kit-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+    .fence-progress { margin: 1.5rem 0; }
+    .fence-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .fence-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .fence-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
 
     /* Estimator steps */
-    .kit-step { margin-bottom: 1.5rem; }
-    .kit-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
-    .kit-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .kit-option {
+    .fence-step { margin-bottom: 1.5rem; }
+    .fence-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
+    .fence-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .fence-option {
       padding: 0.6rem 1.2rem; border: 2px solid #e2e8f0; border-radius: 8px;
       background: #fff; cursor: pointer; font-size: 0.95rem; color: #334155;
       transition: all 0.15s;
     }
-    .kit-option:hover { border-color: #93c5fd; background: #eff6ff; }
-    .kit-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+    .fence-option:hover { border-color: #93c5fd; background: #eff6ff; }
+    .fence-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+
+    .fence-lf-input {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 200px;
+    }
 
     /* Verdict card */
-    .kit-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
-    .kit-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
-    .kit-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
-    .kit-verdict.low { background: #fefce8; border: 2px solid #fde047; }
-    .kit-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
-    .kit-verdict.fair .verdict-label { color: #16a34a; }
-    .kit-verdict.high .verdict-label { color: #dc2626; }
-    .kit-verdict.low .verdict-label { color: #ca8a04; }
-    .kit-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
-    .kit-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+    .fence-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .fence-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .fence-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
+    .fence-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    .fence-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .fence-verdict.fair .verdict-label { color: #16a34a; }
+    .fence-verdict.high .verdict-label { color: #dc2626; }
+    .fence-verdict.low .verdict-label { color: #ca8a04; }
+    .fence-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .fence-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
 
     /* Scope checklist */
-    .kit-scope { list-style: none; padding: 0; margin: 0; }
-    .kit-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
-    .kit-scope li:last-child { border-bottom: none; }
+    .fence-scope { list-style: none; padding: 0; margin: 0; }
+    .fence-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .fence-scope li:last-child { border-bottom: none; }
     .scope-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
     .scope-included { background: #dcfce7; color: #16a34a; }
     .scope-missing { background: #fee2e2; color: #dc2626; }
     .scope-unclear { background: #f1f5f9; color: #94a3b8; }
 
     /* Details grid */
-    .kit-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
-    .kit-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
-    .kit-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
-    .kit-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+    .fence-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .fence-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .fence-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .fence-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
 
-    .kit-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
-    .kit-actions a, .kit-actions button { text-align: center; }
+    .fence-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .fence-actions a, .fence-actions button { text-align: center; }
 
-    .kit-hidden { display: none !important; }
+    .fence-hidden { display: none !important; }
 
     @media (max-width: 600px) {
-      .kit-hero h1 { font-size: 1.5rem; }
-      .kit-row { flex-direction: column; }
-      .kit-details { grid-template-columns: 1fr; }
-      .kit-options { flex-direction: column; }
+      .fence-hero h1 { font-size: 1.5rem; }
+      .fence-row { flex-direction: column; }
+      .fence-details { grid-template-columns: 1fr; }
+      .fence-options { flex-direction: column; }
     }
   </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice Kitchen Remodel Quote Analyzer","url":"https://truepricehq.com/kitchen-quote-analyzer.html","description":"Free analyzer for kitchen remodel contractor quotes. Get an estimate, upload a quote to check the price, or compare 2-3 quotes side by side. No email, no phone, no lead-selling.","applicationCategory":"UtilityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
+{"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice Fencing Quote Analyzer","url":"https://truepricehq.com/fencing-quote-analyzer.html","description":"Free analyzer for fencing contractor quotes. Get an estimate, upload a quote to check the price, or compare 2-3 quotes side by side. No email, no phone, no lead-selling.","applicationCategory":"UtilityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Kitchen Remodel","item":"https://truepricehq.com/kitchen-quote-analyzer.html"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Fencing","item":"https://truepricehq.com/fencing-quote-analyzer.html"}]}
 </script>
 </head>
 <body>
@@ -154,7 +159,12 @@
   </header>
 
   <main class="analyzer-wrap">
-    <div class="kit-app" id="kitApp">
+    <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;">
+      <span style="font-weight:700; color:#0f172a;">You are getting an estimate.</span>
+      <a href="/fencing-quote-analyzer.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Already have a quote? Analyze it &rarr;</a>
+      <a href="/compare-fencing-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a>
+    </div>
+    <div class="fence-app" id="fenceApp">
       <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
         <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
         <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
@@ -172,11 +182,11 @@
       <a href="/window-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Windows</a>
       <a href="/painting-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Painting</a>
       <a href="/siding-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Siding</a>
-      <a href="/fencing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Fencing</a>
       <a href="/concrete-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Concrete</a>
       <a href="/landscaping-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Landscaping</a>
       <a href="/garage-door-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Garage Doors</a>
       <a href="/foundation-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Foundation</a>
+      <a href="/kitchen-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Kitchen</a>
       <a href="/insulation-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Insulation</a>
       <a href="/gutters-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Gutters</a>
       <a href="/auto-repair-quote-analyzer.html" style="padding:6px 14px; background:#eff6ff; border:1px solid #93c5fd; border-radius:999px; font-size:13px; color:#1d4ed8; text-decoration:none; font-weight:600;">Auto Repair</a>
@@ -222,7 +232,7 @@
   </div>
 </div>
 
-      <p>TruePrice helps homeowners analyze kitchen remodel quotes, compare contractor bids, and estimate renovation costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+      <p>TruePrice helps homeowners analyze fence quotes, compare contractor bids, and estimate fencing costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
     </div>
   </footer>
 
@@ -250,42 +260,37 @@
   (function() {
     "use strict";
 
-    // ── Kitchen Pricing Model ──
-    var KIT_PRICING = {
-      basePriceByTier: {
-        minor:            { label: "Minor Remodel (Cosmetic)",  low: 15000, high: 30000,  base: 22500 },
-        midrange:         { label: "Mid-Range Remodel",         low: 30000, high: 60000,  base: 45000 },
-        major:            { label: "Major/Upscale Remodel",     low: 60000, high: 120000, base: 90000 },
-        cabinet_refacing: { label: "Cabinet Refacing",          low: 5000,  high: 12000,  base: 8500  }
+    // ── Fence Pricing Model ──
+    var FENCE_PRICING = {
+      basePricePerLinearFoot: {
+        wood_privacy: { label: "Wood Privacy (6ft)", low: 25, high: 50, mid: 37.50 },
+        vinyl_privacy: { label: "Vinyl Privacy", low: 30, high: 60, mid: 45.00 },
+        chain_link: { label: "Chain Link (4ft)", low: 15, high: 25, mid: 20.00 },
+        aluminum: { label: "Aluminum (4ft)", low: 30, high: 55, mid: 42.50 },
+        wrought_iron: { label: "Wrought Iron", low: 40, high: 75, mid: 57.50 }
       },
-      kitchenSizes: [
-        { label: "Small (< 100 sq ft)",      multiplier: 0.75 },
-        { label: "Average (100-150 sq ft)",   multiplier: 1.0  },
-        { label: "Large (150-200 sq ft)",     multiplier: 1.30 },
-        { label: "Expansive (200+ sq ft)",    multiplier: 1.65 }
-      ],
-      countertopMaterials: [
-        { key: "laminate", label: "Laminate",  multiplier: 0.85 },
-        { key: "granite",  label: "Granite",   multiplier: 1.0  },
-        { key: "quartz",   label: "Quartz",    multiplier: 1.10 },
-        { key: "marble",   label: "Marble",    multiplier: 1.25 }
-      ],
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      roundTo: 50,
+      heightMultiplier: { "4": 0.85, "6": 1.00, "8": 1.25 },
+      gateCost: {
+        wood_privacy: { low: 350, high: 600 },
+        vinyl_privacy: { low: 400, high: 700 },
+        chain_link: { low: 300, high: 500 },
+        aluminum: { low: 450, high: 800 },
+        wrought_iron: { low: 500, high: 800 }
+      },
       scopeItems: [
-        { key: "demo",         label: "Demolition and removal",       weight: 8  },
-        { key: "cabinets",     label: "Cabinets (supply and install)", weight: 20 },
-        { key: "countertops",  label: "Countertops",                   weight: 14 },
-        { key: "flooring",     label: "Flooring",                      weight: 8  },
-        { key: "backsplash",   label: "Backsplash",                    weight: 6  },
-        { key: "plumbing",     label: "Plumbing (sink, faucet, lines)", weight: 8  },
-        { key: "electrical",   label: "Electrical (outlets, wiring)",  weight: 8  },
-        { key: "appliances",   label: "Appliances",                    weight: 12 },
-        { key: "lighting",     label: "Lighting (under-cabinet, recessed)", weight: 5 },
-        { key: "painting",     label: "Painting and trim",            weight: 4  },
-        { key: "permits",      label: "Permits and inspections",      weight: 3  },
-        { key: "design",       label: "Design and planning",          weight: 5  },
-        { key: "warranty",     label: "Warranty (labor and materials)", weight: 5  }
+        { key: "postHoles", label: "Post holes", weight: 12 },
+        { key: "concreteFootings", label: "Concrete footings", weight: 14 },
+        { key: "posts", label: "Posts", weight: 14 },
+        { key: "rails", label: "Rails", weight: 10 },
+        { key: "picketsPanels", label: "Pickets / panels", weight: 14 },
+        { key: "gate", label: "Gate", weight: 10 },
+        { key: "hardware", label: "Hardware (hinges, latches, screws)", weight: 6 },
+        { key: "removalOldFence", label: "Old fence removal", weight: 6 },
+        { key: "permits", label: "Permits", weight: 4 },
+        { key: "grading", label: "Grading / ground prep", weight: 4 },
+        { key: "stainingSealing", label: "Staining / sealing", weight: 4 },
+        { key: "warranty", label: "Warranty", weight: 6 }
       ]
     };
 
@@ -316,14 +321,14 @@
     };
 
     // ── State ──
-    var appRoot = document.getElementById("kitApp");
+    var appRoot = document.getElementById("fenceApp");
     var state = {
       step: "address",        // address | uploading | estimator | result
       address: { street: "", city: "", stateCode: "", zip: "" },
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { tier: null, kitchenSize: null, countertop: null },
+      est: { fenceType: null, length: null, height: null, gate: null },
       // result
       result: null
     };
@@ -337,13 +342,13 @@
       return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
     }
 
-    // City-level multiplier
+    // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
       if (cityMultCache[key]) return;
-      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=kitchen")
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=fencing")
         .then(function(r) { return r.json(); })
         .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
         .catch(function() {});
@@ -352,35 +357,33 @@
       var key = city + "|" + stateCode;
       return cityMultCache[key] || null;
     }
-
     // Inflation: 3% annual from 2025
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: kitchen remodels peak in spring/summer
-    var SEASONAL_MULTS = { 1:0.94, 2:0.95, 3:0.98, 4:1.02, 5:1.06, 6:1.08, 7:1.08, 8:1.06, 9:1.02, 10:0.98, 11:0.94, 12:0.92 };
+    // Seasonal: fencing peaks in spring/summer
+    var SEASONAL_MULTS = { 1:0.92, 2:0.93, 3:0.97, 4:1.04, 5:1.08, 6:1.10, 7:1.10, 8:1.06, 9:1.00, 10:0.96, 11:0.93, 12:0.91 };
     var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
-    function calcBenchmark(tier, sizeIdx, countertopKey) {
-      var tierData = KIT_PRICING.basePriceByTier[tier];
-      if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
-      var base = tierData.base;
+    function getGateCost(fenceType) {
+      var gc = FENCE_PRICING.gateCost[fenceType];
+      if (!gc) return 500;
+      return Math.round((gc.low + gc.high) / 2);
+    }
 
-      var sizeMult = 1.0;
-      if (sizeIdx !== null && sizeIdx !== undefined && KIT_PRICING.kitchenSizes[sizeIdx]) {
-        sizeMult = KIT_PRICING.kitchenSizes[sizeIdx].multiplier;
-      }
+    function calcBenchmark(fenceType, linearFeet, height, includesGate) {
+      var typeData = FENCE_PRICING.basePricePerLinearFoot[fenceType];
+      if (!typeData) typeData = FENCE_PRICING.basePricePerLinearFoot.wood_privacy;
 
-      var countertopMult = 1.0;
-      if (countertopKey) {
-        var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === countertopKey; });
-        if (mat) countertopMult = mat.multiplier;
-      }
+      var midPerLF = typeData.mid;
+      var heightMult = FENCE_PRICING.heightMultiplier[String(height)] || 1.0;
 
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
       var region = getRegionFromState(state.address.stateCode);
-      var laborMult = cityMult || (KIT_PRICING.laborMultiplierByRegion[region] || 1.0);
+      var laborMult = cityMult || (FENCE_PRICING.laborMultiplierByRegion[region] || 1.0);
 
-      var total = base * sizeMult * countertopMult * laborMult * INFLATION_MULT * SEASONAL_MULT;
+      var gateCost = includesGate ? getGateCost(fenceType) : 0;
+
+      var total = midPerLF * linearFeet * laborMult * heightMult * INFLATION_MULT * SEASONAL_MULT + gateCost;
 
       return roundTo50(total);
     }
@@ -399,7 +402,7 @@
       fetch("/api/analytics", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "kitchen", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "fencing", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
       }).catch(function() {});
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
     };
@@ -439,6 +442,82 @@
       if (typeof html2canvas === "undefined") { window.loadVendorLibs && window.loadVendorLibs().then(doRender); } else { doRender(); }
     };
 
+    // ── Quote Parsing Helpers ──
+    function detectFenceType(text) {
+      var t = text.toLowerCase();
+      if (/wrought\s*iron/i.test(t)) return { value: "wrought_iron", label: "Wrought Iron" };
+      if (/vinyl\s*(privacy|fence|panel)/i.test(t) || /pvc\s*fence/i.test(t)) return { value: "vinyl_privacy", label: "Vinyl Privacy" };
+      if (/chain\s*link/i.test(t) || /chainlink/i.test(t)) return { value: "chain_link", label: "Chain Link (4ft)" };
+      if (/aluminum\s*(fence|panel|picket)/i.test(t)) return { value: "aluminum", label: "Aluminum (4ft)" };
+      if (/cedar/i.test(t) || /wood\s*(privacy|fence|panel|picket)/i.test(t) || /privacy\s*fence/i.test(t) || /stockade/i.test(t) || /board[\s-]*on[\s-]*board/i.test(t)) return { value: "wood_privacy", label: "Wood Privacy (6ft)" };
+      return { value: "wood_privacy", label: "Wood Privacy (6ft)" };
+    }
+
+    function detectLength(text) {
+      var patterns = [
+        /(\d+)\s*(?:linear\s*f(?:ee)?t|lin(?:eal)?\s*f(?:ee)?t|l\.?\s*f\.?t?\.?|lf\b)/i,
+        /(\d+)\s*(?:feet|ft\.?)\s*(?:of\s*)?(?:fence|fencing)/i,
+        /(?:total\s*(?:length|footage|linear))[:\s]*(\d+)/i,
+        /(?:fence\s*length)[:\s]*(\d+)/i
+      ];
+      for (var i = 0; i < patterns.length; i++) {
+        var m = text.match(patterns[i]);
+        if (m) {
+          var val = parseInt(m[1]);
+          if (val >= 20 && val <= 2000) return val;
+        }
+      }
+      return null;
+    }
+
+    function detectHeight(text) {
+      var m = text.match(/(\d)\s*(?:foot|ft\.?|')\s*(?:tall|high|height|fence)/i);
+      if (m) {
+        var h = parseInt(m[1]);
+        if (h === 4 || h === 6 || h === 8) return h;
+      }
+      m = text.match(/(?:height|tall|high)[:\s]*(\d)\s*(?:foot|ft\.?|')/i);
+      if (m) {
+        var h2 = parseInt(m[1]);
+        if (h2 === 4 || h2 === 6 || h2 === 8) return h2;
+      }
+      return null;
+    }
+
+    function detectGate(text) {
+      var t = text.toLowerCase();
+      if (/gate/i.test(t)) return true;
+      return null;
+    }
+
+    function detectFenceScopeSignals(text) {
+      var signals = {};
+      var t = text.toLowerCase();
+
+      var checks = {
+        postHoles: /post\s*hole|dig\s*hole|auger|bore\s*hole/i,
+        concreteFootings: /concrete|footing|cement|quick[- ]?crete|sakrete/i,
+        posts: /\bpost[s]?\b.*(?:4x4|6x6|steel|wood|metal|set)/i,
+        rails: /\brail[s]?\b|stringer|2x4|horizontal\s*board/i,
+        picketsPanels: /picket|panel|board|slat|infill/i,
+        gate: /gate/i,
+        hardware: /hardware|hinge|latch|screw|nail|bracket|fastener/i,
+        removalOldFence: /remov|demo|tear\s*down|haul\s*away|dispos|old\s*fence/i,
+        permits: /permit|inspection|code|compliance/i,
+        grading: /grad|level|ground\s*prep|clear|slope/i,
+        stainingSealing: /stain|seal|paint|treat|finish|coat/i,
+        warranty: /warrant|guarant/i
+      };
+
+      for (var key in checks) {
+        if (checks[key].test(t)) {
+          signals[key] = { status: "included" };
+        }
+      }
+
+      return signals;
+    }
+
     // ── Render functions ──
     function render() {
       switch (state.step) {
@@ -452,43 +531,43 @@
     // ── Address / Upload Step ──
     function renderAddress() {
       appRoot.innerHTML = '\
-        <div class="kit-hero">\
-          <img src="/images/trudy-kitchen.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
-          <h1>Is your kitchen remodel quote fair?</h1>\
-          <p>Upload your contractor quote. We'll check the price, scope, and red flags in 30 seconds.</p>\
-          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to kitchen pricing? Read our <a href="/kitchen-remodel-cost-guide.html" style="color:#16a34a;">Kitchen Remodel Cost Guide</a></p>\
+        <div class="fence-hero">\
+          <img src="/images/trudy-fencing.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>How much will your fence cost?</h1>\
+          <p>Free city-level estimate. No email, no phone, no lead-selling.</p>\
+          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to fence pricing? Read our <a href="/fencing-cost-guide.html" style="color:#16a34a;">Fencing Cost Guide</a></p>\
         </div>\
-        <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;"><span style="font-weight:700; color:#0f172a;">You are analyzing a quote.</span><a href="/kitchen-estimate.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Want a free estimate first? &rarr;</a><a href="/compare-kitchen-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a></div>\
-        <div class="kit-card">\
-          <div class="kit-upload-zone" id="uploadZone">\
-            <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
-            <p><strong>Analyze a Quote</strong></p>\
-            <p class="hint">Upload a contractor quote (PDF or image) to check the price</p>\
-            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+        <div class="fence-card">\
+          <div class="fence-address-form">\
+            <div style="position:relative">\
+              <input type="text" id="addrStreet" autofocus placeholder="Start typing your address..." autocomplete="off" />\
+              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
+            </div>\
+            <div class="fence-row">\
+              <input type="text" id="addrCity" placeholder="City" />\
+              <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
+            </div>\
+            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
+            <button class="fence-btn fence-btn-primary fence-btn-full" id="btnEstimate">Get Fence Estimate</button>\
           </div>\
-          <div style="text-align:center; margin-top:16px; padding:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">\
-            <span style="font-size:13px; color:#64748b;">Have multiple quotes? </span>\
-            <a href="/compare-kitchen-quotes.html" style="font-size:13px; font-weight:600; color:#1d4ed8; text-decoration:none;">Compare 2-3 kitchen quotes side by side &rarr;</a>\
-          </div>\
-          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
-\
         </div>';
 
-      // Events
+      // Events (upload zone removed on estimate page)
       var zone = document.getElementById("uploadZone");
       var fileInput = document.getElementById("fileInput");
-
-      zone.addEventListener("click", function() { fileInput.click(); });
-      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; });
-      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; });
-      zone.addEventListener("drop", function(e) {
-        e.preventDefault();
-        zone.style.borderColor = "#cbd5e1";
-        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-      });
-      fileInput.addEventListener("change", function() {
-        if (fileInput.files.length) handleFile(fileInput.files[0]);
-      });
+      if (zone && fileInput) {
+        zone.addEventListener("click", function() { fileInput.click(); });
+        zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; });
+        zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; });
+        zone.addEventListener("drop", function(e) {
+          e.preventDefault();
+          zone.style.borderColor = "#cbd5e1";
+          if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener("change", function() {
+          if (fileInput.files.length) handleFile(fileInput.files[0]);
+        });
+      }
 
       // Address autocomplete
       (function() {
@@ -534,7 +613,7 @@
       })();
 
       document.getElementById("btnEstimate").addEventListener("click", function() {
-        if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "kitchen" });
+        if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "fencing" });
         state.address.street = document.getElementById("addrStreet").value.trim();
         state.address.city = document.getElementById("addrCity").value.trim();
         var rawState = document.getElementById("addrState").value.trim();
@@ -557,7 +636,7 @@
 
     // ── Upload / Processing ──
     function handleFile(file) {
-      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "kitchen" });
+      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "fencing" });
       state.uploadedFile = file;
       // capture address before leaving
       var streetEl = document.getElementById("addrStreet");
@@ -579,13 +658,13 @@
 
     function renderUploading() {
       appRoot.innerHTML = '\
-        <div class="kit-hero">\
-          <h1>Analyzing your kitchen remodel quote...</h1>\
+        <div class="fence-hero">\
+          <h1>Analyzing your fence quote...</h1>\
         </div>\
-        <div class="kit-card">\
-          <div class="kit-progress">\
-            <div class="kit-progress-bar"><div class="kit-progress-fill" id="progFill" style="width:10%"></div></div>\
-            <p class="kit-progress-text" id="progText">Loading document...</p>\
+        <div class="fence-card">\
+          <div class="fence-progress">\
+            <div class="fence-progress-bar"><div class="fence-progress-fill" id="progFill" style="width:10%"></div></div>\
+            <p class="fence-progress-text" id="progText">Loading document...</p>\
           </div>\
         </div>';
     }
@@ -625,7 +704,7 @@
             });
             apiPayload.images = [imgData];
           }
-          var apiResp = await fetch("/api/kitchen-estimate", {
+          var apiResp = await fetch("/api/fencing-estimate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(apiPayload)
@@ -656,7 +735,7 @@
         // Fallback price extraction if parser fails or returns nothing
         if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
           var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
-          var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v >= 3000 && v <= 250000; });
+          var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v >= 500 && v <= 100000; });
           if (prices.length) {
             prices.sort(function(a, b) { return b - a; });
             parsed = parsed || {};
@@ -665,10 +744,12 @@
           }
         }
 
-        // Detect kitchen-specific signals from text
-        var scopeSignals = detectKitchenScopeSignals(text);
-        var detectedTier = detectKitchenTier(text, parsed ? parsed.finalPrice : 0);
-        var detectedCountertop = detectCountertopMaterial(text);
+        // Fence-specific detection
+        var fenceType = detectFenceType(text);
+        var length = detectLength(text);
+        var height = detectHeight(text);
+        var hasGate = detectGate(text);
+        var scopeSignals = detectFenceScopeSignals(text);
 
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
@@ -680,29 +761,30 @@
 
         // Determine price
         var quotePrice = 0;
-        if (parsed && parsed.finalPrice && parsed.finalPrice > 500) {
+        if (parsed && parsed.finalPrice && parsed.finalPrice > 300) {
           quotePrice = parsed.finalPrice;
         } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
-          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 3000 && c.value <= 250000; });
+          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 500 && c.value <= 100000; });
           candidates.sort(function(a, b) { return b.score - a.score; });
           if (candidates.length) quotePrice = candidates[0].value;
         }
 
         setProgress(85, "Calculating verdict...");
 
-        // Default to midrange, average size, granite if not detected
-        var tier = detectedTier || "midrange";
-        var sizeIdx = 1; // average
-        var countertopKey = detectedCountertop || "granite";
+        // Defaults if not detected
+        var effectiveLength = length || 150;
+        var effectiveHeight = height || 6;
+        var effectiveGate = hasGate !== null ? hasGate : true;
 
-        var benchmark = calcBenchmark(tier, sizeIdx, countertopKey);
+        var benchmark = calcBenchmark(fenceType.value, effectiveLength, effectiveHeight, effectiveGate);
 
         var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
 
-        setProgress(100, "Done!");
+        // Per linear foot cost
+        var perLF = quotePrice > 0 && effectiveLength > 0 ? (quotePrice / effectiveLength) : null;
 
-        var tierData = KIT_PRICING.basePriceByTier[tier];
+        setProgress(100, "Done!");
 
         state.result = {
           source: "upload",
@@ -710,38 +792,39 @@
           benchmark: benchmark,
           ratio: ratio,
           verdict: verdict,
-          tier: tier,
-          tierLabel: tierData ? tierData.label : "Mid-Range Remodel",
-          sizeIdx: sizeIdx,
-          countertopKey: countertopKey,
+          fenceType: fenceType,
+          length: effectiveLength,
+          height: effectiveHeight,
+          gate: effectiveGate,
+          perLF: perLF,
           scopeSignals: scopeSignals,
           region: getRegionFromState(state.address.stateCode),
           location: location,
           parsed: parsed
         };
 
-        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "kitchen" });
+        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "fencing" });
         state.step = "result";
         setTimeout(render, 400);
 
       } catch (err) {
-        console.error("Kitchen analysis error:", err);
+        console.error("Fence analysis error:", err);
         appRoot.innerHTML = '\
-          <div class="kit-hero"><h1>We couldn\'t read that file</h1></div>\
-          <div class="kit-card" style="text-align:center;">\
+          <div class="fence-hero"><h1>We couldn\'t read that file</h1></div>\
+          <div class="fence-card" style="text-align:center;">\
             <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
             <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
             <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
               <span style="font-size:20px;font-weight:700;">$</span>\
-              <input type="number" id="manualPrice" placeholder="e.g. 45000" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+              <input type="number" id="manualPrice" placeholder="e.g. 5400" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
             </div>\
-            <button class="kit-btn kit-btn-primary" id="manualPriceBtn">Analyze this price</button>\
-            <div style="margin-top:14px;"><button class="kit-btn kit-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
+            <button class="fence-btn fence-btn-primary" id="manualPriceBtn">Analyze this price</button>\
+            <div style="margin-top:14px;"><button class="fence-btn fence-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
           </div>';
         document.getElementById("manualPriceBtn").addEventListener("click", function() {
           var price = parseFloat(document.getElementById("manualPrice").value);
-          if (!price || price < 1000) { alert("Please enter a valid price."); return; }
-          var benchmark = calcBenchmark("midrange", 1, "granite");
+          if (!price || price < 200) { alert("Please enter a valid price."); return; }
+          var benchmark = calcBenchmark("wood_privacy", 150, 6, true);
           var ratio = price / benchmark;
           state.result = {
             source: "manual",
@@ -749,72 +832,14 @@
             benchmark: benchmark,
             ratio: ratio,
             verdict: verdictFromRatio(ratio),
-            tier: "midrange",
-            tierLabel: "Mid-Range Remodel",
-            sizeIdx: 1,
-            countertopKey: "granite",
-            scopeSignals: {},
-            region: getRegionFromState(state.address.stateCode),
-            location: null,
-            parsed: null
+            fenceType: { value: "wood_privacy", label: "Wood Privacy (6ft)" },
+            length: 150, height: 6, gate: true, perLF: price / 150,
+            scopeSignals: {}, region: getRegionFromState(state.address.stateCode), location: null, parsed: null
           };
           state.step = "result";
           render();
         });
       }
-    }
-
-    // ── Kitchen-specific text detection ──
-    function detectKitchenTier(text, price) {
-      var t = (text || "").toLowerCase();
-      if (/\b(cabinet\s*refac|reface|refacing)\b/.test(t)) return "cabinet_refacing";
-      if (/\b(custom|luxury|upscale|high[\s-]?end|premium|wolf|sub[\s-]?zero|thermador|viking)\b/.test(t)) return "major";
-      if (/\b(cosmetic|paint|hardware|minor|refresh)\b/.test(t) && !/\b(gut|full|major)\b/.test(t)) return "minor";
-      // price-based fallback
-      if (price) {
-        if (price < 15000) return "cabinet_refacing";
-        if (price < 32000) return "minor";
-        if (price < 65000) return "midrange";
-        return "major";
-      }
-      return null;
-    }
-
-    function detectCountertopMaterial(text) {
-      var t = (text || "").toLowerCase();
-      if (/\bmarble\b/.test(t)) return "marble";
-      if (/\bquartz\b/.test(t)) return "quartz";
-      if (/\bgranite\b/.test(t)) return "granite";
-      if (/\b(laminate|formica)\b/.test(t)) return "laminate";
-      return null;
-    }
-
-    function detectKitchenScopeSignals(text) {
-      var t = (text || "").toLowerCase();
-      var signals = {};
-      var patterns = {
-        demo:        [/\b(demo|demolition|tear[\s-]?out|removal|gut|strip)\b/],
-        cabinets:    [/\b(cabinet|cabinetry|cupboard)\b/],
-        countertops: [/\b(counter\s*top|granite|quartz|marble|laminate|butcher\s*block|surface)\b/],
-        flooring:    [/\b(floor|tile|hardwood|vinyl|lvp|lvt|linoleum)\b/],
-        backsplash:  [/\b(backsplash|back\s*splash|tile\s*splash)\b/],
-        plumbing:    [/\b(plumb|sink|faucet|drain|disposal|dishwasher\s*line|water\s*line)\b/],
-        electrical:  [/\b(electri|wiring|outlet|gfci|circuit|panel)\b/],
-        appliances:  [/\b(appliance|refrigerator|fridge|dishwasher|range|oven|stove|microwave|hood|vent)\b/],
-        lighting:    [/\b(light|lighting|under[\s-]?cabinet|recessed|pendant|fixture)\b/],
-        painting:    [/\b(paint|primer|finish|trim|wall\s*prep)\b/],
-        permits:     [/\b(permit|inspection|code\s*compliance)\b/],
-        design:      [/\b(design|plan|layout|render|3d|blueprint|architect)\b/],
-        warranty:    [/\b(warrant|guarantee|coverage)\b/]
-      };
-      for (var key in patterns) {
-        var found = false;
-        for (var i = 0; i < patterns[key].length; i++) {
-          if (patterns[key][i].test(t)) { found = true; break; }
-        }
-        signals[key] = { status: found ? "included" : "unclear" };
-      }
-      return signals;
     }
 
     async function extractPdfText(file) {
@@ -896,68 +921,95 @@
       var stepNum = getEstimatorStep();
 
       appRoot.innerHTML = '\
-        <div class="kit-hero">\
-          <h1>Kitchen Remodel Estimator</h1>\
+        <div class="fence-hero">\
+          <h1>Fence Cost Estimator</h1>\
           <p>' + (state.address.city ? state.address.city + ", " + state.address.stateCode : "Get a quick estimate") + '</p>\
         </div>\
-        <div class="kit-card" id="estCard"></div>';
+        <div class="fence-card" id="estCard"></div>';
 
       var card = document.getElementById("estCard");
 
       if (stepNum === 1) {
         card.innerHTML = '\
-          <div class="kit-step">\
-            <h3>What level of kitchen remodel are you planning?</h3>\
-            <div class="kit-options" id="optTier">\
-              <div class="kit-option' + (est.tier === "minor" ? " selected" : "") + '" data-val="minor">Minor (Cosmetic)</div>\
-              <div class="kit-option' + (est.tier === "midrange" ? " selected" : "") + '" data-val="midrange">Mid-Range</div>\
-              <div class="kit-option' + (est.tier === "major" ? " selected" : "") + '" data-val="major">Major / Upscale</div>\
-              <div class="kit-option' + (est.tier === "cabinet_refacing" ? " selected" : "") + '" data-val="cabinet_refacing">Cabinet Refacing</div>\
+          <div class="fence-step">\
+            <h3>What type of fence do you need?</h3>\
+            <div class="fence-options" id="optType">\
+              <div class="fence-option' + (est.fenceType === "wood_privacy" ? " selected" : "") + '" data-val="wood_privacy">Wood Privacy</div>\
+              <div class="fence-option' + (est.fenceType === "vinyl_privacy" ? " selected" : "") + '" data-val="vinyl_privacy">Vinyl Privacy</div>\
+              <div class="fence-option' + (est.fenceType === "chain_link" ? " selected" : "") + '" data-val="chain_link">Chain Link</div>\
+              <div class="fence-option' + (est.fenceType === "aluminum" ? " selected" : "") + '" data-val="aluminum">Aluminum</div>\
+              <div class="fence-option' + (est.fenceType === "wrought_iron" ? " selected" : "") + '" data-val="wrought_iron">Wrought Iron</div>\
             </div>\
           </div>';
-        bindOptions("optTier", "tier");
+        bindOptions("optType", "fenceType");
       } else if (stepNum === 2) {
         card.innerHTML = '\
-          <div class="kit-step">\
-            <h3>How large is your kitchen?</h3>\
-            <div class="kit-options" id="optSize">';
-        KIT_PRICING.kitchenSizes.forEach(function(sz, i) {
-          card.querySelector("#optSize").insertAdjacentHTML("beforeend",
-            '<div class="kit-option' + (est.kitchenSize === String(i) ? " selected" : "") + '" data-val="' + i + '">' + sz.label + '</div>'
-          );
+          <div class="fence-step">\
+            <h3>How many linear feet of fence?</h3>\
+            <div class="fence-options" id="optLength">\
+              <div class="fence-option' + (est.length === "100" ? " selected" : "") + '" data-val="100">100 ft</div>\
+              <div class="fence-option' + (est.length === "150" ? " selected" : "") + '" data-val="150">150 ft</div>\
+              <div class="fence-option' + (est.length === "200" ? " selected" : "") + '" data-val="200">200 ft</div>\
+              <div class="fence-option' + (est.length === "250" ? " selected" : "") + '" data-val="250">250 ft</div>\
+              <div class="fence-option' + (est.length === "300" ? " selected" : "") + '" data-val="300">300+ ft</div>\
+            </div>\
+            <div style="margin-top:1rem;">\
+              <label style="font-size:0.9rem;color:#64748b;">Or enter exact length:</label>\
+              <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem;">\
+                <input type="number" class="fence-lf-input" id="lfInput" placeholder="e.g. 175" value="" min="20" max="2000" />\
+                <span style="color:#64748b;">linear feet</span>\
+                <button class="fence-btn fence-btn-primary" id="lfNext" style="padding:0.5rem 1rem;font-size:0.9rem;">Continue</button>\
+              </div>\
+            </div>\
+          </div>';
+        bindOptions("optLength", "length");
+        document.getElementById("lfNext").addEventListener("click", function() {
+          var val = document.getElementById("lfInput").value.trim();
+          if (val && Number(val) >= 20) {
+            est.length = val;
+            render();
+          }
         });
-        card.innerHTML += '</div></div>';
-        // Re-render to ensure options are in DOM
-        var sizeHtml = '<div class="kit-step"><h3>How large is your kitchen?</h3><div class="kit-options" id="optSize">';
-        KIT_PRICING.kitchenSizes.forEach(function(sz, i) {
-          sizeHtml += '<div class="kit-option' + (est.kitchenSize === String(i) ? " selected" : "") + '" data-val="' + i + '">' + sz.label + '</div>';
+        document.getElementById("lfInput").addEventListener("keydown", function(e) {
+          if (e.key === "Enter") document.getElementById("lfNext").click();
         });
-        sizeHtml += '</div></div>';
-        card.innerHTML = sizeHtml;
-        bindOptions("optSize", "kitchenSize");
       } else if (stepNum === 3) {
-        var matHtml = '<div class="kit-step"><h3>What countertop material?</h3><div class="kit-options" id="optCounter">';
-        KIT_PRICING.countertopMaterials.forEach(function(mat) {
-          matHtml += '<div class="kit-option' + (est.countertop === mat.key ? " selected" : "") + '" data-val="' + mat.key + '">' + mat.label + '</div>';
-        });
-        matHtml += '</div></div>';
-        card.innerHTML = matHtml;
-        bindOptions("optCounter", "countertop");
+        card.innerHTML = '\
+          <div class="fence-step">\
+            <h3>How tall will the fence be?</h3>\
+            <div class="fence-options" id="optHeight">\
+              <div class="fence-option' + (est.height === "4" ? " selected" : "") + '" data-val="4">4 ft</div>\
+              <div class="fence-option' + (est.height === "6" ? " selected" : "") + '" data-val="6">6 ft</div>\
+              <div class="fence-option' + (est.height === "8" ? " selected" : "") + '" data-val="8">8 ft</div>\
+            </div>\
+          </div>';
+        bindOptions("optHeight", "height");
+      } else if (stepNum === 4) {
+        card.innerHTML = '\
+          <div class="fence-step">\
+            <h3>Does the project include a gate?</h3>\
+            <div class="fence-options" id="optGate">\
+              <div class="fence-option' + (est.gate === "yes" ? " selected" : "") + '" data-val="yes">Yes</div>\
+              <div class="fence-option' + (est.gate === "no" ? " selected" : "") + '" data-val="no">No</div>\
+            </div>\
+          </div>';
+        bindOptions("optGate", "gate");
       }
 
       // Show progress dots
       var dots = '';
-      for (var d = 1; d <= 3; d++) {
+      for (var d = 1; d <= 4; d++) {
         dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px;background:' + (d <= stepNum ? "#2563eb" : "#e2e8f0") + ';"></span>';
       }
       card.insertAdjacentHTML("afterbegin", '<div style="text-align:center;margin-bottom:1rem;">' + dots + '</div>');
 
       // Back button (except step 1)
       if (stepNum > 1) {
-        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="kit-btn kit-btn-secondary" id="estBack">Back</button></div>');
+        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="fence-btn fence-btn-secondary" id="estBack">Back</button></div>');
         document.getElementById("estBack").addEventListener("click", function() {
-          if (stepNum === 3) est.countertop = null;
-          else if (stepNum === 2) est.kitchenSize = null;
+          if (stepNum === 4) est.gate = null;
+          else if (stepNum === 3) est.height = null;
+          else if (stepNum === 2) est.length = null;
           render();
         });
       }
@@ -965,22 +1017,23 @@
 
     function getEstimatorStep() {
       var e = state.est;
-      if (!e.tier) return 1;
-      if (e.kitchenSize === null || e.kitchenSize === undefined) return 2;
-      if (!e.countertop) return 3;
-      return 4; // all done
+      if (!e.fenceType) return 1;
+      if (!e.length) return 2;
+      if (!e.height) return 3;
+      if (!e.gate) return 4;
+      return 5; // all done
     }
 
     function bindOptions(containerId, field) {
       var container = document.getElementById(containerId);
       if (!container) return;
       container.addEventListener("click", function(e) {
-        var opt = e.target.closest(".kit-option");
+        var opt = e.target.closest(".fence-option");
         if (!opt) return;
         state.est[field] = opt.getAttribute("data-val");
 
         // Check if estimator is complete
-        if (getEstimatorStep() > 3) {
+        if (getEstimatorStep() > 4) {
           calculateEstimate();
         } else {
           render();
@@ -990,13 +1043,19 @@
 
     function calculateEstimate() {
       var est = state.est;
-      var sizeIdx = parseInt(est.kitchenSize, 10);
+      var linearFeet = Number(est.length) || 150;
+      var height = Number(est.height) || 6;
+      var includesGate = est.gate === "yes";
 
-      var benchmark = calcBenchmark(est.tier, sizeIdx, est.countertop);
+      var benchmark = calcBenchmark(est.fenceType, linearFeet, height, includesGate);
 
-      var tierData = KIT_PRICING.basePriceByTier[est.tier];
       var low = roundTo50(benchmark * 0.88);
       var high = roundTo50(benchmark * 1.15);
+
+      var typeData = FENCE_PRICING.basePricePerLinearFoot[est.fenceType];
+      var typeLabel = typeData ? typeData.label : est.fenceType;
+
+      var perLF = benchmark / linearFeet;
 
       state.result = {
         source: "estimator",
@@ -1006,12 +1065,11 @@
         high: high,
         ratio: 1.0,
         verdict: { label: "Estimated Cost", css: "fair", emoji: "" },
-        tier: est.tier,
-        tierLabel: tierData ? tierData.label : est.tier,
-        sizeIdx: sizeIdx,
-        sizeLabel: KIT_PRICING.kitchenSizes[sizeIdx] ? KIT_PRICING.kitchenSizes[sizeIdx].label : "",
-        countertopKey: est.countertop,
-        countertopLabel: (KIT_PRICING.countertopMaterials.find(function(m) { return m.key === est.countertop; }) || {}).label || est.countertop,
+        fenceType: { value: est.fenceType, label: typeLabel },
+        length: linearFeet,
+        height: height,
+        gate: includesGate,
+        perLF: perLF,
         scopeSignals: {},
         region: getRegionFromState(state.address.stateCode),
         location: null,
@@ -1027,53 +1085,42 @@
       var r = state.result;
       if (!r) { state.step = "address"; render(); return; }
 
-      var isUpload = r.source === "upload" || r.source === "manual";
+      var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
       var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
       var rangeText = "";
 
-      if (isUpload && r.source !== "manual") {
+      if (isUpload) {
         rangeText = "Market benchmark: " + fmt(r.benchmark);
         if (r.quotePrice > 0) {
           var pct = Math.round((r.ratio - 1) * 100);
           var dir = pct > 0 ? "above" : "below";
           rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
         }
-      } else if (r.source === "manual") {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        var pct = Math.round((r.ratio - 1) * 100);
-        var dir = pct > 0 ? "above" : "below";
-        rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
       } else {
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
       }
 
       // Build details
-      var detailsHtml = '<div class="kit-details">';
-      detailsHtml += '<div class="kit-detail"><div class="label">Remodel Tier</div><div class="value">' + r.tierLabel + '</div></div>';
+      var detailsHtml = '<div class="fence-details">';
+      detailsHtml += '<div class="fence-detail"><div class="label">Fence Type</div><div class="value">' + r.fenceType.label + '</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Length</div><div class="value">' + r.length + ' linear feet</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Height</div><div class="value">' + r.height + ' ft</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Gate</div><div class="value">' + (r.gate ? "Yes" : "No") + '</div></div>';
 
-      if (r.sizeLabel) {
-        detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + r.sizeLabel + '</div></div>';
-      } else if (r.sizeIdx !== null && r.sizeIdx !== undefined && KIT_PRICING.kitchenSizes[r.sizeIdx]) {
-        detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + KIT_PRICING.kitchenSizes[r.sizeIdx].label + '</div></div>';
-      }
-
-      if (r.countertopLabel) {
-        detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + r.countertopLabel + '</div></div>';
-      } else if (r.countertopKey) {
-        var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === r.countertopKey; });
-        if (mat) detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + mat.label + '</div></div>';
+      if (r.perLF) {
+        detailsHtml += '<div class="fence-detail"><div class="label">Per Linear Foot Cost</div><div class="value">' + fmt(r.perLF) + '/lf</div></div>';
       }
 
       var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
-      detailsHtml += '<div class="kit-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Pricing Source</div><div class="value">' + pricingLabel + '</div></div>';
       detailsHtml += '</div>';
 
       // Scope checklist (upload only)
       var scopeHtml = "";
       if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
-        scopeHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="kit-scope">';
-        KIT_PRICING.scopeItems.forEach(function(item) {
+        scopeHtml = '<div class="fence-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="fence-scope">';
+        FENCE_PRICING.scopeItems.forEach(function(item) {
           var sig = r.scopeSignals[item.key];
           var status = sig ? sig.status : "unclear";
           var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
@@ -1083,11 +1130,11 @@
         });
         scopeHtml += '</ul>';
         // Missing cost estimate
-        var kitScopeCosts = { demo: [500,2000], cabinets: [3000,15000], countertops: [1500,8000], flooring: [1000,5000], backsplash: [500,2500], plumbing: [800,4000], electrical: [500,3000], appliances: [2000,12000], lighting: [300,2000], painting: [300,1500], permits: [200,800], design: [500,3000], warranty: [0,0] };
-        var missingItems = KIT_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        var fenceScopeCosts = { postHoles: [100,400], concreteFootings: [150,500], posts: [200,800], rails: [100,400], picketsPanels: [300,1500], gate: [300,800], hardware: [50,200], removalOldFence: [200,800], permits: [50,300], grading: [100,500], stainingSealing: [200,800], warranty: [0,0] };
+        var missingItems = FENCE_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
         if (missingItems.length > 0) {
           var mLow = 0, mHigh = 0;
-          missingItems.forEach(function(item) { var c = kitScopeCosts[item.key]; if (c) { mLow += c[0]; mHigh += c[1]; } });
+          missingItems.forEach(function(item) { var c = fenceScopeCosts[item.key]; if (c) { mLow += c[0]; mHigh += c[1]; } });
           if (mLow > 0) {
             scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;"><strong>' + missingItems.length + ' missing item' + (missingItems.length !== 1 ? 's' : '') + '</strong> could add <strong>$' + mLow.toLocaleString() + ' to $' + mHigh.toLocaleString() + '</strong> in change orders if not included.</div>';
           }
@@ -1097,15 +1144,16 @@
 
       // Estimator scope info
       if (!isUpload) {
-        scopeHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="kit-scope">';
-        var typicalItems = ["demo", "cabinets", "countertops", "flooring", "backsplash", "plumbing", "electrical", "painting", "permits", "warranty"];
+        scopeHtml = '<div class="fence-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="fence-scope">';
+        var typicalItems = ["postHoles", "concreteFootings", "posts", "rails", "picketsPanels", "hardware", "permits"];
+        if (r.gate) typicalItems.push("gate");
         typicalItems.forEach(function(key) {
-          var item = KIT_PRICING.scopeItems.find(function(s) { return s.key === key; });
+          var item = FENCE_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
             scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
           }
         });
-        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Appliances, structural changes, or custom cabinetry may add cost.</p></div>';
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation on level ground. Old fence removal, grading, staining, or difficult terrain may add cost.</p></div>';
       }
 
       // Market context
@@ -1113,39 +1161,38 @@
       if (isUpload && r.quotePrice > 0) {
         var tip = "";
         if (r.verdict.css === "high") {
-          tip = "This quote is higher than typical market rates for a " + r.tierLabel.toLowerCase() + ". Consider getting 2-3 additional quotes to compare.";
+          tip = "This quote is higher than typical market rates. Consider getting 2-3 additional quotes to compare.";
         } else if (r.verdict.css === "low") {
-          tip = "This quote is lower than expected. Verify the scope includes all necessary items like permits, appliances, and quality materials.";
+          tip = "This quote is lower than expected. Verify the scope includes concrete footings, proper post depth, and all hardware.";
         } else {
-          tip = "This quote appears to be within the typical market range for a " + r.tierLabel.toLowerCase() + " in your area.";
+          tip = "This quote appears to be within the typical market range for your area and fence specifications.";
         }
-        contextHtml = '<div class="kit-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
+        contextHtml = '<div class="fence-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
       // Next Steps tips
-      var tipsHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      tipsHtml += '<li>Ask for a detailed, itemized breakdown of materials and labor</li>';
-      tipsHtml += '<li>Confirm what\'s included: cabinets, countertops, flooring, appliances, and plumbing</li>';
-      tipsHtml += '<li>Ask about the timeline and whether the kitchen will be fully unusable during work</li>';
-      tipsHtml += '<li>Verify permits are included and the contractor handles inspections</li>';
+      var tipsHtml = '<div class="fence-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Confirm post spacing (6-8 ft typical) and post depth (minimum 1/3 of above-ground height)</li>';
+      tipsHtml += '<li>Verify concrete footings are included for every post</li>';
+      tipsHtml += '<li>Ask about the warranty on materials and labor separately</li>';
+      tipsHtml += '<li>Check if permits and property survey/line marking are included</li>';
       if (r.verdict.css === "high") {
-        tipsHtml += '<li>Get 2-3 additional quotes from local contractors for comparison</li>';
-        tipsHtml += '<li>Ask if you can save by keeping the existing layout (no plumbing/electrical moves)</li>';
+        tipsHtml += '<li>Get 2-3 additional quotes from local fence contractors</li>';
+        tipsHtml += '<li>Ask if there are material alternatives that could lower the cost</li>';
       }
       if (r.verdict.css === "low") {
-        tipsHtml += '<li>Verify cabinet and countertop brands/grades are specified, not just "builder grade"</li>';
-        tipsHtml += '<li>Confirm labor warranty duration (industry standard is 1-2 years minimum)</li>';
+        tipsHtml += '<li>Verify the lumber grade and post material (pressure-treated vs untreated)</li>';
+        tipsHtml += '<li>Confirm old fence removal and disposal are included if needed</li>';
       }
       tipsHtml += '</ul></div>';
 
       // Savings tips
-      var savingsHtml = '<div class="kit-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      var savingsHtml = '<div class="fence-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
       savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
       savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      savingsHtml += '<li>Keep the existing layout to avoid moving plumbing and electrical (saves $3,000-8,000)</li>';
-      savingsHtml += '<li>Consider cabinet refacing instead of full replacement (saves 30-50%)</li>';
-      savingsHtml += '<li>Schedule in fall or winter when contractors are less busy (5-10% savings)</li>';
-      savingsHtml += '<li>Choose quartz over marble for a similar look at lower cost and maintenance</li>';
+      savingsHtml += '<li>Schedule in fall or winter when demand is lower (save 5-10%)</li>';
+      savingsHtml += '<li>Remove the old fence yourself to save $200-$800 in labor</li>';
+      savingsHtml += '<li>Consider staining/sealing the fence yourself for wood fences</li>';
       savingsHtml += '</ul></div>';
 
       // Feedback prompt
@@ -1160,49 +1207,51 @@
 </div>';
 
       // Email report
-      var emailSubject = encodeURIComponent("My Kitchen Remodel Quote Analysis from TruePrice");
+      var emailSubject = encodeURIComponent("My Fence Quote Analysis from TruePrice");
       var emailBody = encodeURIComponent(
-        "Kitchen Remodel Quote Analysis\n" +
-        "Remodel Tier: " + r.tierLabel + "\n" +
-        (r.countertopLabel ? "Countertop: " + r.countertopLabel + "\n" : "") +
+        "Fence Quote Analysis\n" +
+        "Fence Type: " + r.fenceType.label + "\n" +
+        "Length: " + r.length + " linear feet\n" +
+        "Height: " + r.height + " ft\n" +
+        "Gate: " + (r.gate ? "Yes" : "No") + "\n" +
         (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
         "Benchmark: " + fmt(r.benchmark) + "\n" +
         "Verdict: " + r.verdict.label + "\n" +
         "Region: " + capitalize(r.region) + "\n\n" +
-        "Analyzed by TruePrice - https://truepricehq.com/kitchen-quote-analyzer.html"
+        "Analyzed by TruePrice - https://truepricehq.com/fencing-quote-analyzer.html"
       );
 
       appRoot.innerHTML = '\
-        <div class="kit-hero">\
-          <h1>' + (isUpload ? "Kitchen Remodel Quote Analysis" : "Your Kitchen Remodel Estimate") + '</h1>\
+        <div class="fence-hero">\
+          <h1>' + (isUpload ? "Fence Quote Analysis" : "Your Fence Estimate") + '</h1>\
         </div>\
-        <div class="kit-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-kitchen.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Kitchen Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+        <div class="fence-verdict ' + verdictCss + '">\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-fencing.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Fencing Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\
-        <div class="kit-card">\
-          <h3 style="margin-bottom:0.75rem;">Project Details</h3>\
+        <div class="fence-card">\
+          <h3 style="margin-bottom:0.75rem;">Fence Details</h3>\
           ' + detailsHtml + '\
         </div>\
         ' + scopeHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
         ' + savingsHtml + '\
-        <div class="kit-actions">\
-          <a class="kit-btn kit-btn-primary kit-btn-full" href="/find-contractors.html?service=kitchen">Find Kitchen Contractors</a>\
-          <a class="kit-btn kit-btn-secondary kit-btn-full" href="/kitchen-remodel-cost.html">Kitchen Remodel Cost Guide</a>\
-          <a class="kit-btn kit-btn-secondary kit-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
+        <div class="fence-actions">\
+          <a class="fence-btn fence-btn-primary fence-btn-full" href="/find-contractors.html?service=fencing">Find Fence Contractors</a>\
+          <a class="fence-btn fence-btn-secondary fence-btn-full" href="/fence-cost.html">Fence Cost Guide</a>\
+          <a class="fence-btn fence-btn-secondary fence-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
         </div>\
         ' + feedbackHtml;
 
-      window.kitchenStartOver = function() {
+      window.fencingStartOver = function() {
         state = {
           step: "address",
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { tier: null, kitchenSize: null, countertop: null },
+          est: { fenceType: null, length: null, height: null, gate: null },
           result: null
         };
         render();
@@ -1210,9 +1259,9 @@
 
       if (window.tpRenderResultFooter) {
         appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
-          vertical: "kitchen",
-          verticalLabel: "Kitchen",
-          onStartOver: "kitchenStartOver"
+          vertical: "fencing",
+          verticalLabel: "Fencing",
+          onStartOver: "fencingStartOver"
         }));
       }
     }
@@ -1222,7 +1271,7 @@
     }
 
     // ── Init ──
-    if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "kitchen" });
+    if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "fencing" });
     render();
 
   })();
@@ -1233,7 +1282,7 @@
 <script>
 (function applyPathFilter() {
   try {
-    var path = (new URLSearchParams(location.search).get('path') || '').toLowerCase();
+    var path = (new URLSearchParams(location.search).get('path') || 'quote').toLowerCase();
     if (path !== 'estimate' && path !== 'quote') return;
     function hide(el) { if (el) el.style.display = 'none'; }
     function tryFilter() {

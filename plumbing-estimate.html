@@ -7,28 +7,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
-  <title>Kitchen Remodel Quote Analyzer - Is Your Kitchen Quote Fair? | TruePrice</title>
+  <title>Free Plumbing Cost Estimate | TruePrice</title>
   <meta
     name="description"
-    content="Upload any kitchen contractor quote and get a free price check, scope analysis, and red flag detection."
+    content="Get a free city-level plumbing cost estimate. No email, no phone, no lead-selling."
   />
-  <link rel="canonical" href="https://truepricehq.com/kitchen-quote-analyzer.html" />
+  <link rel="canonical" href="https://truepricehq.com/plumbing-estimate.html" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="Kitchen Remodel Quote Analyzer | TruePrice" />
+  <meta property="og:title" content="Free Plumbing Cost Estimate | TruePrice" />
   <meta
     property="og:description"
-    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+    content="Get a free city-level plumbing cost estimate. No email, no phone, no lead-selling."
   />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://truepricehq.com/kitchen-quote-analyzer.html" />
+  <meta property="og:url" content="https://truepricehq.com/plumbing-estimate.html" />
   <meta property="og:site_name" content="TruePrice" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Kitchen Remodel Quote Analyzer | TruePrice" />
+  <meta name="twitter:title" content="Free Plumbing Cost Estimate | TruePrice" />
   <meta
     name="twitter:description"
-    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+    content="Upload your plumbing quote to see if the price is fair. Covers water heaters, repipes, sewer lines, drain cleaning, bathroom plumbing, and gas lines."
   />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
@@ -39,108 +39,113 @@
   <link rel="stylesheet" href="/css/analyzer.min.css" />
 
   <style>
-    .kit-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
-    .kit-hero { text-align: center; margin-bottom: 2rem; }
-    .kit-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
-    .kit-hero p { color: #64748b; font-size: 1.1rem; }
+    .plumb-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .plumb-hero { text-align: center; margin-bottom: 2rem; }
+    .plumb-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .plumb-hero p { color: #64748b; font-size: 1.1rem; }
 
-    .kit-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+    .plumb-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
 
-    .kit-upload-zone {
+    .plumb-upload-zone {
       border: 2px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem 1.5rem;
       text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
       background: #f8fafc;
     }
-    .kit-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
-    .kit-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
-    .kit-upload-zone p { margin: 0.25rem 0; color: #475569; }
-    .kit-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
+    .plumb-upload-zone:hover { border-color: #3b82f6; background: #eff6ff; }
+    .plumb-upload-zone svg { width: 48px; height: 48px; color: #3b82f6; margin-bottom: 0.75rem; }
+    .plumb-upload-zone p { margin: 0.25rem 0; color: #475569; }
+    .plumb-upload-zone .hint { font-size: 0.85rem; color: #94a3b8; }
 
-    .kit-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
-    .kit-divider::before, .kit-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
+    .plumb-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
+    .plumb-divider::before, .plumb-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
 
-    .kit-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
-    .kit-address-form input {
+    .plumb-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .plumb-address-form input {
       padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
       font-size: 1rem; width: 100%; box-sizing: border-box;
     }
-    .kit-address-form input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    .plumb-address-form input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
 
-    .kit-row { display: flex; gap: 0.75rem; }
-    .kit-row > * { flex: 1; }
+    .plumb-row { display: flex; gap: 0.75rem; }
+    .plumb-row > * { flex: 1; }
 
-    .kit-btn {
+    .plumb-btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
       padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
       border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
     }
-    .kit-btn-primary { background: #2563eb; color: #fff; }
-    .kit-btn-primary:hover { background: #1d4ed8; }
-    .kit-btn-secondary { background: #f1f5f9; color: #334155; }
-    .kit-btn-secondary:hover { background: #e2e8f0; }
-    .kit-btn-full { width: 100%; }
+    .plumb-btn-primary { background: #2563eb; color: #fff; }
+    .plumb-btn-primary:hover { background: #1d4ed8; }
+    .plumb-btn-secondary { background: #f1f5f9; color: #334155; }
+    .plumb-btn-secondary:hover { background: #e2e8f0; }
+    .plumb-btn-full { width: 100%; }
 
-    .kit-progress { margin: 1.5rem 0; }
-    .kit-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
-    .kit-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
-    .kit-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+    .plumb-progress { margin: 1.5rem 0; }
+    .plumb-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .plumb-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .plumb-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
 
     /* Estimator steps */
-    .kit-step { margin-bottom: 1.5rem; }
-    .kit-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
-    .kit-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .kit-option {
+    .plumb-step { margin-bottom: 1.5rem; }
+    .plumb-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
+    .plumb-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .plumb-option {
       padding: 0.6rem 1.2rem; border: 2px solid #e2e8f0; border-radius: 8px;
       background: #fff; cursor: pointer; font-size: 0.95rem; color: #334155;
       transition: all 0.15s;
     }
-    .kit-option:hover { border-color: #93c5fd; background: #eff6ff; }
-    .kit-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+    .plumb-option:hover { border-color: #93c5fd; background: #eff6ff; }
+    .plumb-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+
+    .plumb-num-input {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 200px;
+    }
 
     /* Verdict card */
-    .kit-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
-    .kit-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
-    .kit-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
-    .kit-verdict.low { background: #fefce8; border: 2px solid #fde047; }
-    .kit-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
-    .kit-verdict.fair .verdict-label { color: #16a34a; }
-    .kit-verdict.high .verdict-label { color: #dc2626; }
-    .kit-verdict.low .verdict-label { color: #ca8a04; }
-    .kit-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
-    .kit-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+    .plumb-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .plumb-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .plumb-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
+    .plumb-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    .plumb-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
+    .plumb-verdict.fair .verdict-label { color: #16a34a; }
+    .plumb-verdict.high .verdict-label { color: #dc2626; }
+    .plumb-verdict.low .verdict-label { color: #ca8a04; }
+    .plumb-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .plumb-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
 
     /* Scope checklist */
-    .kit-scope { list-style: none; padding: 0; margin: 0; }
-    .kit-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
-    .kit-scope li:last-child { border-bottom: none; }
+    .plumb-scope { list-style: none; padding: 0; margin: 0; }
+    .plumb-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .plumb-scope li:last-child { border-bottom: none; }
     .scope-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
     .scope-included { background: #dcfce7; color: #16a34a; }
     .scope-missing { background: #fee2e2; color: #dc2626; }
     .scope-unclear { background: #f1f5f9; color: #94a3b8; }
 
     /* Details grid */
-    .kit-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
-    .kit-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
-    .kit-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
-    .kit-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+    .plumb-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .plumb-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .plumb-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .plumb-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
 
-    .kit-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
-    .kit-actions a, .kit-actions button { text-align: center; }
+    .plumb-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .plumb-actions a, .plumb-actions button { text-align: center; }
 
-    .kit-hidden { display: none !important; }
+    .plumb-hidden { display: none !important; }
 
     @media (max-width: 600px) {
-      .kit-hero h1 { font-size: 1.5rem; }
-      .kit-row { flex-direction: column; }
-      .kit-details { grid-template-columns: 1fr; }
-      .kit-options { flex-direction: column; }
+      .plumb-hero h1 { font-size: 1.5rem; }
+      .plumb-row { flex-direction: column; }
+      .plumb-details { grid-template-columns: 1fr; }
+      .plumb-options { flex-direction: column; }
     }
   </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice Kitchen Remodel Quote Analyzer","url":"https://truepricehq.com/kitchen-quote-analyzer.html","description":"Free analyzer for kitchen remodel contractor quotes. Get an estimate, upload a quote to check the price, or compare 2-3 quotes side by side. No email, no phone, no lead-selling.","applicationCategory":"UtilityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
+{"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice Plumbing Quote Analyzer","url":"https://truepricehq.com/plumbing-quote-analyzer.html","description":"Free analyzer for plumbing contractor quotes. Get an estimate, upload a quote to check the price, or compare 2-3 quotes side by side. No email, no phone, no lead-selling.","applicationCategory":"UtilityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Kitchen Remodel","item":"https://truepricehq.com/kitchen-quote-analyzer.html"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Plumbing","item":"https://truepricehq.com/plumbing-quote-analyzer.html"}]}
 </script>
 </head>
 <body>
@@ -154,7 +159,12 @@
   </header>
 
   <main class="analyzer-wrap">
-    <div class="kit-app" id="kitApp">
+    <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;">
+      <span style="font-weight:700; color:#0f172a;">You are getting an estimate.</span>
+      <a href="/plumbing-quote-analyzer.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Already have a quote? Analyze it &rarr;</a>
+      <a href="/compare-plumbing-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a>
+    </div>
+    <div class="plumb-app" id="plumbApp">
       <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
         <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
         <div style="font-size:16px; color:#475569;">Loading analyzer...</div>
@@ -166,7 +176,6 @@
     <div style="display:flex; flex-wrap:wrap; gap:8px;">
       <a href="/roofing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Roofing</a>
       <a href="/hvac-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">HVAC</a>
-      <a href="/plumbing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Plumbing</a>
       <a href="/electrical-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Electrical</a>
       <a href="/solar-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Solar</a>
       <a href="/window-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Windows</a>
@@ -177,6 +186,7 @@
       <a href="/landscaping-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Landscaping</a>
       <a href="/garage-door-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Garage Doors</a>
       <a href="/foundation-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Foundation</a>
+      <a href="/kitchen-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Kitchen</a>
       <a href="/insulation-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Insulation</a>
       <a href="/gutters-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Gutters</a>
       <a href="/auto-repair-quote-analyzer.html" style="padding:6px 14px; background:#eff6ff; border:1px solid #93c5fd; border-radius:999px; font-size:13px; color:#1d4ed8; text-decoration:none; font-weight:600;">Auto Repair</a>
@@ -222,11 +232,12 @@
   </div>
 </div>
 
-      <p>TruePrice helps homeowners analyze kitchen remodel quotes, compare contractor bids, and estimate renovation costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+      <p>TruePrice helps homeowners analyze plumbing quotes, compare contractor bids, and estimate plumbing project costs. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
     </div>
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/plumbing-parser.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -250,43 +261,132 @@
   (function() {
     "use strict";
 
-    // ── Kitchen Pricing Model ──
-    var KIT_PRICING = {
-      basePriceByTier: {
-        minor:            { label: "Minor Remodel (Cosmetic)",  low: 15000, high: 30000,  base: 22500 },
-        midrange:         { label: "Mid-Range Remodel",         low: 30000, high: 60000,  base: 45000 },
-        major:            { label: "Major/Upscale Remodel",     low: 60000, high: 120000, base: 90000 },
-        cabinet_refacing: { label: "Cabinet Refacing",          low: 5000,  high: 12000,  base: 8500  }
+    // ── Plumbing Pricing Model (embedded from plumbing-pricing-model.json) ──
+    var PLUMBING_PRICING = {
+      basePriceByService: {
+        water_heater: {
+          label: "Water Heater Replacement",
+          priceByType: {
+            tank_40_gas: 1800, tank_50_gas: 2200, tank_40_electric: 1500,
+            tank_50_electric: 1800, tankless_gas: 4200, tankless_electric: 3200,
+            hybrid_heat_pump: 3800
+          }
+        },
+        repipe: {
+          label: "Whole House Repipe",
+          priceByMaterial: { copper: 8500, pex: 5500, cpvc: 4800 }
+        },
+        sewer_line: {
+          label: "Sewer Line Replacement",
+          priceByMethod: { traditional_dig: 5500, trenchless: 7500, pipe_lining: 6500 }
+        },
+        drain_cleaning: {
+          label: "Drain Cleaning",
+          priceByType: { simple_clog: 200, main_line: 450, hydro_jet: 650, camera_inspection: 350 }
+        },
+        bathroom_rough_in: {
+          label: "Bathroom Plumbing Rough-In",
+          priceByScope: { half_bath: 2800, full_bath: 4500, master_bath: 6200 }
+        },
+        gas_line: {
+          label: "Gas Line Installation",
+          priceByLength: { short_under_20ft: 800, medium_20_50ft: 1500, long_over_50ft: 2500 }
+        }
       },
-      kitchenSizes: [
-        { label: "Small (< 100 sq ft)",      multiplier: 0.75 },
-        { label: "Average (100-150 sq ft)",   multiplier: 1.0  },
-        { label: "Large (150-200 sq ft)",     multiplier: 1.30 },
-        { label: "Expansive (200+ sq ft)",    multiplier: 1.65 }
+      laborMultiplierByRegion: { south: 1.00, southeast: 1.05, northeast: 1.20, midwest: 1.08, mountain: 1.12, west: 1.25 },
+      overheadMultiplier: 1.15,
+      roundTo: 25,
+      homeSizes: [
+        { label: "1000", bathrooms: 1, fixtures: 6 },
+        { label: "1500", bathrooms: 1.5, fixtures: 8 },
+        { label: "2000", bathrooms: 2, fixtures: 10 },
+        { label: "2500", bathrooms: 2.5, fixtures: 12 },
+        { label: "3000", bathrooms: 3, fixtures: 14 },
+        { label: "3500", bathrooms: 3.5, fixtures: 16 },
+        { label: "4000", bathrooms: 4, fixtures: 18 }
       ],
-      countertopMaterials: [
-        { key: "laminate", label: "Laminate",  multiplier: 0.85 },
-        { key: "granite",  label: "Granite",   multiplier: 1.0  },
-        { key: "quartz",   label: "Quartz",    multiplier: 1.10 },
-        { key: "marble",   label: "Marble",    multiplier: 1.25 }
-      ],
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      roundTo: 50,
       scopeItems: [
-        { key: "demo",         label: "Demolition and removal",       weight: 8  },
-        { key: "cabinets",     label: "Cabinets (supply and install)", weight: 20 },
-        { key: "countertops",  label: "Countertops",                   weight: 14 },
-        { key: "flooring",     label: "Flooring",                      weight: 8  },
-        { key: "backsplash",   label: "Backsplash",                    weight: 6  },
-        { key: "plumbing",     label: "Plumbing (sink, faucet, lines)", weight: 8  },
-        { key: "electrical",   label: "Electrical (outlets, wiring)",  weight: 8  },
-        { key: "appliances",   label: "Appliances",                    weight: 12 },
-        { key: "lighting",     label: "Lighting (under-cabinet, recessed)", weight: 5 },
-        { key: "painting",     label: "Painting and trim",            weight: 4  },
-        { key: "permits",      label: "Permits and inspections",      weight: 3  },
-        { key: "design",       label: "Design and planning",          weight: 5  },
-        { key: "warranty",     label: "Warranty (labor and materials)", weight: 5  }
-      ]
+        { key: "permits", label: "Permits and inspections", weight: 8 },
+        { key: "shutoff", label: "Shut-off valves", weight: 6 },
+        { key: "cleanup", label: "Cleanup and debris removal", weight: 4 },
+        { key: "drywall", label: "Drywall repair / patching", weight: 10 },
+        { key: "testing", label: "Pressure testing", weight: 8 },
+        { key: "warranty", label: "Warranty (parts + labor)", weight: 10 },
+        { key: "disposal", label: "Old equipment disposal", weight: 4 },
+        { key: "codeCompliance", label: "Code compliance upgrades", weight: 8 },
+        { key: "expansion_tank", label: "Expansion tank", weight: 6 },
+        { key: "supply_lines", label: "New supply lines", weight: 8 },
+        { key: "drain_pan", label: "Drain pan", weight: 4 },
+        { key: "venting", label: "Venting / flue work", weight: 8 }
+      ],
+      brands: {
+        premium: ["Rinnai", "Navien", "Noritz", "Kohler"],
+        mid: ["Rheem", "A.O. Smith", "Bradford White", "State"],
+        value: ["Whirlpool", "GE", "Kenmore", "Reliance"]
+      }
+    };
+
+    // ── Sub-type option definitions per service ──
+    var SUB_TYPE_OPTIONS = {
+      water_heater: {
+        question: "What type of water heater?",
+        field: "subType",
+        options: [
+          { value: "tank_40_gas", label: "40-Gal Gas Tank" },
+          { value: "tank_50_gas", label: "50-Gal Gas Tank" },
+          { value: "tank_40_electric", label: "40-Gal Electric Tank" },
+          { value: "tank_50_electric", label: "50-Gal Electric Tank" },
+          { value: "tankless_gas", label: "Tankless Gas" },
+          { value: "tankless_electric", label: "Tankless Electric" },
+          { value: "hybrid_heat_pump", label: "Hybrid / Heat Pump" }
+        ]
+      },
+      repipe: {
+        question: "What pipe material?",
+        field: "subType",
+        options: [
+          { value: "copper", label: "Copper" },
+          { value: "pex", label: "PEX" },
+          { value: "cpvc", label: "CPVC" }
+        ]
+      },
+      sewer_line: {
+        question: "What replacement method?",
+        field: "subType",
+        options: [
+          { value: "traditional_dig", label: "Traditional Dig" },
+          { value: "trenchless", label: "Trenchless" },
+          { value: "pipe_lining", label: "Pipe Lining" }
+        ]
+      },
+      drain_cleaning: {
+        question: "What type of drain service?",
+        field: "subType",
+        options: [
+          { value: "simple_clog", label: "Simple Clog" },
+          { value: "main_line", label: "Main Line" },
+          { value: "hydro_jet", label: "Hydro Jetting" },
+          { value: "camera_inspection", label: "Camera Inspection" }
+        ]
+      },
+      bathroom_rough_in: {
+        question: "What scope of bathroom plumbing?",
+        field: "subType",
+        options: [
+          { value: "half_bath", label: "Half Bath" },
+          { value: "full_bath", label: "Full Bath" },
+          { value: "master_bath", label: "Master Bath" }
+        ]
+      },
+      gas_line: {
+        question: "How long is the gas line run?",
+        field: "subType",
+        options: [
+          { value: "short_under_20ft", label: "Short (under 20 ft)" },
+          { value: "medium_20_50ft", label: "Medium (20-50 ft)" },
+          { value: "long_over_50ft", label: "Long (over 50 ft)" }
+        ]
+      }
     };
 
     var STATE_REGIONS = {
@@ -316,14 +416,14 @@
     };
 
     // ── State ──
-    var appRoot = document.getElementById("kitApp");
+    var appRoot = document.getElementById("plumbApp");
     var state = {
       step: "address",        // address | uploading | estimator | result
       address: { street: "", city: "", stateCode: "", zip: "" },
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { tier: null, kitchenSize: null, countertop: null },
+      est: { serviceType: null, subType: null, bathrooms: "", homeAge: null, urgency: null },
       // result
       result: null
     };
@@ -331,19 +431,19 @@
     // ── Helpers ──
     function $(sel, el) { return (el || document).querySelector(sel); }
     function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
-    function roundTo50(n) { return Math.round(n / 50) * 50; }
+    function roundTo25(n) { return Math.round(n / 25) * 25; }
 
     function getRegionFromState(sc) {
       return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
     }
 
-    // City-level multiplier
+    // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
       if (cityMultCache[key]) return;
-      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=kitchen")
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=plumbing")
         .then(function(r) { return r.json(); })
         .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
         .catch(function() {});
@@ -352,37 +452,41 @@
       var key = city + "|" + stateCode;
       return cityMultCache[key] || null;
     }
-
-    // Inflation: 3% annual from 2025
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: kitchen remodels peak in spring/summer
-    var SEASONAL_MULTS = { 1:0.94, 2:0.95, 3:0.98, 4:1.02, 5:1.06, 6:1.08, 7:1.08, 8:1.06, 9:1.02, 10:0.98, 11:0.94, 12:0.92 };
+    var SEASONAL_MULTS = { 1:0.97, 2:0.97, 3:0.98, 4:0.99, 5:1.01, 6:1.02, 7:1.03, 8:1.03, 9:1.01, 10:1.00, 11:0.99, 12:0.97 };
     var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
-    function calcBenchmark(tier, sizeIdx, countertopKey) {
-      var tierData = KIT_PRICING.basePriceByTier[tier];
-      if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
-      var base = tierData.base;
+    function getBasePrice(serviceType, subType) {
+      var svc = PLUMBING_PRICING.basePriceByService[serviceType];
+      if (!svc) return 2000;
+      // Each service stores sub-prices under a different key
+      var priceMap = svc.priceByType || svc.priceByMaterial || svc.priceByMethod || svc.priceByScope || svc.priceByLength || {};
+      return priceMap[subType] || 2000;
+    }
 
-      var sizeMult = 1.0;
-      if (sizeIdx !== null && sizeIdx !== undefined && KIT_PRICING.kitchenSizes[sizeIdx]) {
-        sizeMult = KIT_PRICING.kitchenSizes[sizeIdx].multiplier;
-      }
-
-      var countertopMult = 1.0;
-      if (countertopKey) {
-        var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === countertopKey; });
-        if (mat) countertopMult = mat.multiplier;
-      }
+    function calcBenchmark(serviceType, subType, region, bathrooms, homeAge) {
+      var basePrice = getBasePrice(serviceType, subType);
 
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var region = getRegionFromState(state.address.stateCode);
-      var laborMult = cityMult || (KIT_PRICING.laborMultiplierByRegion[region] || 1.0);
+      var regionMult = cityMult || (PLUMBING_PRICING.laborMultiplierByRegion[region] || 1.0);
+      var overheadMult = PLUMBING_PRICING.overheadMultiplier;
 
-      var total = base * sizeMult * countertopMult * laborMult * INFLATION_MULT * SEASONAL_MULT;
+      var total = basePrice * regionMult * overheadMult * INFLATION_MULT * SEASONAL_MULT;
 
-      return roundTo50(total);
+      // Bathroom count adjustment for repipe and bathroom_rough_in
+      if (serviceType === "repipe" && bathrooms) {
+        var baths = Number(bathrooms) || 2;
+        if (baths >= 3) total *= 1.15;
+        else if (baths >= 2) total *= 1.05;
+      }
+
+      // Home age adjustment: older homes often cost more
+      if (homeAge === "pre_1970") total *= 1.18;
+      else if (homeAge === "1970_1990") total *= 1.08;
+      // 1990+ no adjustment
+
+      return roundTo25(total);
     }
 
     function verdictFromRatio(ratio) {
@@ -399,7 +503,7 @@
       fetch("/api/analytics", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "kitchen", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "plumbing", verdict: state.result ? state.result.verdict.label : "" }, path: window.location.pathname })
       }).catch(function() {});
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
     };
@@ -452,43 +556,43 @@
     // ── Address / Upload Step ──
     function renderAddress() {
       appRoot.innerHTML = '\
-        <div class="kit-hero">\
-          <img src="/images/trudy-kitchen.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
-          <h1>Is your kitchen remodel quote fair?</h1>\
-          <p>Upload your contractor quote. We'll check the price, scope, and red flags in 30 seconds.</p>\
-          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to kitchen pricing? Read our <a href="/kitchen-remodel-cost-guide.html" style="color:#16a34a;">Kitchen Remodel Cost Guide</a></p>\
+        <div class="plumb-hero">\
+          <img src="/images/trudy-plumbing.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>How much will your plumbing project cost?</h1>\
+          <p>Free city-level estimate. No email, no phone, no lead-selling.</p>\
+          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to plumbing pricing? Read our <a href="/plumbing-cost-guide.html" style="color:#16a34a;">Plumbing Cost Guide</a></p>\
         </div>\
-        <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;"><span style="font-weight:700; color:#0f172a;">You are analyzing a quote.</span><a href="/kitchen-estimate.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Want a free estimate first? &rarr;</a><a href="/compare-kitchen-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a></div>\
-        <div class="kit-card">\
-          <div class="kit-upload-zone" id="uploadZone">\
-            <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
-            <p><strong>Analyze a Quote</strong></p>\
-            <p class="hint">Upload a contractor quote (PDF or image) to check the price</p>\
-            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+        <div class="plumb-card">\
+          <div class="plumb-address-form">\
+            <div style="position:relative">\
+              <input type="text" id="addrStreet" placeholder="Start typing your address..." autocomplete="off" autofocus />\
+              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
+            </div>\
+            <div class="plumb-row">\
+              <input type="text" id="addrCity" placeholder="City" />\
+              <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
+            </div>\
+            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
+            <button class="plumb-btn plumb-btn-primary plumb-btn-full" id="btnEstimate">Get Plumbing Estimate</button>\
           </div>\
-          <div style="text-align:center; margin-top:16px; padding:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">\
-            <span style="font-size:13px; color:#64748b;">Have multiple quotes? </span>\
-            <a href="/compare-kitchen-quotes.html" style="font-size:13px; font-weight:600; color:#1d4ed8; text-decoration:none;">Compare 2-3 kitchen quotes side by side &rarr;</a>\
-          </div>\
-          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
-\
         </div>';
 
       // Events
       var zone = document.getElementById("uploadZone");
       var fileInput = document.getElementById("fileInput");
-
-      zone.addEventListener("click", function() { fileInput.click(); });
-      zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; });
-      zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; });
-      zone.addEventListener("drop", function(e) {
-        e.preventDefault();
-        zone.style.borderColor = "#cbd5e1";
-        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-      });
-      fileInput.addEventListener("change", function() {
-        if (fileInput.files.length) handleFile(fileInput.files[0]);
-      });
+      if (zone && fileInput) {
+        zone.addEventListener("click", function() { fileInput.click(); });
+        zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; });
+        zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; });
+        zone.addEventListener("drop", function(e) {
+          e.preventDefault();
+          zone.style.borderColor = "#cbd5e1";
+          if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener("change", function() {
+          if (fileInput.files.length) handleFile(fileInput.files[0]);
+        });
+      }
 
       // Address autocomplete
       (function() {
@@ -534,7 +638,7 @@
       })();
 
       document.getElementById("btnEstimate").addEventListener("click", function() {
-        if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "kitchen" });
+        if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "plumbing" });
         state.address.street = document.getElementById("addrStreet").value.trim();
         state.address.city = document.getElementById("addrCity").value.trim();
         var rawState = document.getElementById("addrState").value.trim();
@@ -557,7 +661,7 @@
 
     // ── Upload / Processing ──
     function handleFile(file) {
-      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "kitchen" });
+      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "plumbing" });
       state.uploadedFile = file;
       // capture address before leaving
       var streetEl = document.getElementById("addrStreet");
@@ -579,13 +683,13 @@
 
     function renderUploading() {
       appRoot.innerHTML = '\
-        <div class="kit-hero">\
-          <h1>Analyzing your kitchen remodel quote...</h1>\
+        <div class="plumb-hero">\
+          <h1>Analyzing your plumbing quote...</h1>\
         </div>\
-        <div class="kit-card">\
-          <div class="kit-progress">\
-            <div class="kit-progress-bar"><div class="kit-progress-fill" id="progFill" style="width:10%"></div></div>\
-            <p class="kit-progress-text" id="progText">Loading document...</p>\
+        <div class="plumb-card">\
+          <div class="plumb-progress">\
+            <div class="plumb-progress-bar"><div class="plumb-progress-fill" id="progFill" style="width:10%"></div></div>\
+            <p class="plumb-progress-text" id="progText">Loading document...</p>\
           </div>\
         </div>';
     }
@@ -613,9 +717,11 @@
 
         setProgress(50, "Sending to AI for analysis...");
         
+        // Try API-first approach
         var apiResult = null;
         try {
           var apiPayload = { text: text };
+          // Add image if available
           if (file.type && file.type.startsWith("image/")) {
             var reader = new FileReader();
             var imgData = await new Promise(function(resolve, reject) {
@@ -625,7 +731,7 @@
             });
             apiPayload.images = [imgData];
           }
-          var apiResp = await fetch("/api/kitchen-estimate", {
+          var apiResp = await fetch("/api/plumbing-estimate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(apiPayload)
@@ -645,30 +751,39 @@
 
         // Use analyzer-parser.js for price extraction
         var parsed = null;
-        try {
-          if (typeof parseExtractedText === "function") {
-            parsed = parseExtractedText(text);
-          }
-        } catch (parseErr) {
-          console.warn("Parser error, falling back to regex:", parseErr);
+        if (typeof parseExtractedText === "function") {
+          parsed = parseExtractedText(text);
         }
 
-        // Fallback price extraction if parser fails or returns nothing
-        if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
-          var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
-          var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v >= 3000 && v <= 250000; });
-          if (prices.length) {
-            prices.sort(function(a, b) { return b - a; });
-            parsed = parsed || {};
-            parsed.finalPrice = prices[0];
-            parsed.priceCandidates = prices.map(function(v) { return { value: v, score: 50 }; });
-          }
-        }
+        // Use plumbing parser for service-specific detection
+        var serviceType = (typeof detectPlumbingServiceType === "function") ? detectPlumbingServiceType(text) : { value: "water_heater", label: "Water Heater Replacement" };
+        var brand = (typeof detectPlumbingBrand === "function") ? detectPlumbingBrand(text) : null;
+        var scopeSignals = (typeof detectPlumbingScopeSignals === "function") ? detectPlumbingScopeSignals(text) : {};
 
-        // Detect kitchen-specific signals from text
-        var scopeSignals = detectKitchenScopeSignals(text);
-        var detectedTier = detectKitchenTier(text, parsed ? parsed.finalPrice : 0);
-        var detectedCountertop = detectCountertopMaterial(text);
+        // Detect sub-type based on service
+        var subType = null;
+        if (serviceType.value === "water_heater" && typeof detectWaterHeaterType === "function") {
+          subType = detectWaterHeaterType(text);
+        } else if (serviceType.value === "repipe" && typeof detectPipeMaterial === "function") {
+          subType = detectPipeMaterial(text) || "pex";
+        } else if (serviceType.value === "sewer_line") {
+          if (/trenchless/i.test(text)) subType = "trenchless";
+          else if (/pipe lining|lining/i.test(text)) subType = "pipe_lining";
+          else subType = "traditional_dig";
+        } else if (serviceType.value === "drain_cleaning") {
+          if (/hydro jet|jetting/i.test(text)) subType = "hydro_jet";
+          else if (/main line|main sewer/i.test(text)) subType = "main_line";
+          else if (/camera/i.test(text)) subType = "camera_inspection";
+          else subType = "simple_clog";
+        } else if (serviceType.value === "bathroom_rough_in") {
+          if (/master/i.test(text)) subType = "master_bath";
+          else if (/half bath/i.test(text)) subType = "half_bath";
+          else subType = "full_bath";
+        } else if (serviceType.value === "gas_line") {
+          if (/over 50|long/i.test(text)) subType = "long_over_50ft";
+          else if (/20.*50|medium/i.test(text)) subType = "medium_20_50ft";
+          else subType = "short_under_20ft";
+        }
 
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
@@ -680,29 +795,29 @@
 
         // Determine price
         var quotePrice = 0;
-        if (parsed && parsed.finalPrice && parsed.finalPrice > 500) {
+        if (parsed && parsed.finalPrice && parsed.finalPrice > 100) {
           quotePrice = parsed.finalPrice;
         } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
-          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 3000 && c.value <= 250000; });
+          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 100 && c.value <= 50000; });
           candidates.sort(function(a, b) { return b.score - a.score; });
           if (candidates.length) quotePrice = candidates[0].value;
         }
 
         setProgress(85, "Calculating verdict...");
 
-        // Default to midrange, average size, granite if not detected
-        var tier = detectedTier || "midrange";
-        var sizeIdx = 1; // average
-        var countertopKey = detectedCountertop || "granite";
-
-        var benchmark = calcBenchmark(tier, sizeIdx, countertopKey);
+        var region = getRegionFromState(state.address.stateCode);
+        var benchmark = calcBenchmark(serviceType.value, subType, region, null, null);
 
         var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
 
-        setProgress(100, "Done!");
+        // Brand tier note
+        var brandNote = "";
+        if (brand) {
+          brandNote = brand.brand + " (" + brand.tier + " tier)";
+        }
 
-        var tierData = KIT_PRICING.basePriceByTier[tier];
+        setProgress(100, "Done!");
 
         state.result = {
           source: "upload",
@@ -710,111 +825,51 @@
           benchmark: benchmark,
           ratio: ratio,
           verdict: verdict,
-          tier: tier,
-          tierLabel: tierData ? tierData.label : "Mid-Range Remodel",
-          sizeIdx: sizeIdx,
-          countertopKey: countertopKey,
+          serviceType: serviceType,
+          subType: subType,
+          brand: brand,
+          brandNote: brandNote,
           scopeSignals: scopeSignals,
-          region: getRegionFromState(state.address.stateCode),
+          region: region,
           location: location,
           parsed: parsed
         };
 
-        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "kitchen" });
+        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "plumbing" });
         state.step = "result";
         setTimeout(render, 400);
 
       } catch (err) {
-        console.error("Kitchen analysis error:", err);
+        console.error("Plumbing analysis error:", err);
         appRoot.innerHTML = '\
-          <div class="kit-hero"><h1>We couldn\'t read that file</h1></div>\
-          <div class="kit-card" style="text-align:center;">\
+          <div class="plumb-hero"><h1>We couldn\'t read that file</h1></div>\
+          <div class="plumb-card" style="text-align:center;">\
             <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
             <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
             <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
               <span style="font-size:20px;font-weight:700;">$</span>\
-              <input type="number" id="manualPrice" placeholder="e.g. 45000" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+              <input type="number" id="manualPrice" placeholder="e.g. 4500" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
             </div>\
-            <button class="kit-btn kit-btn-primary" id="manualPriceBtn">Analyze this price</button>\
-            <div style="margin-top:14px;"><button class="kit-btn kit-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
+            <button class="plumb-btn plumb-btn-primary" id="manualPriceBtn">Analyze this price</button>\
+            <div style="margin-top:14px;"><button class="plumb-btn plumb-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
           </div>';
         document.getElementById("manualPriceBtn").addEventListener("click", function() {
           var price = parseFloat(document.getElementById("manualPrice").value);
-          if (!price || price < 1000) { alert("Please enter a valid price."); return; }
-          var benchmark = calcBenchmark("midrange", 1, "granite");
+          if (!price || price < 100) { alert("Please enter a valid price."); return; }
+          var region = getRegionFromState(state.address.stateCode);
+          var benchmark = calcBenchmark("water_heater", "tank_50_gas", region, null, null);
           var ratio = price / benchmark;
           state.result = {
-            source: "manual",
-            quotePrice: price,
-            benchmark: benchmark,
-            ratio: ratio,
-            verdict: verdictFromRatio(ratio),
-            tier: "midrange",
-            tierLabel: "Mid-Range Remodel",
-            sizeIdx: 1,
-            countertopKey: "granite",
-            scopeSignals: {},
-            region: getRegionFromState(state.address.stateCode),
-            location: null,
-            parsed: null
+            source: "manual", quotePrice: price, benchmark: benchmark,
+            ratio: ratio, verdict: verdictFromRatio(ratio),
+            serviceType: { value: "water_heater", label: "Water Heater Replacement" },
+            subType: "tank_50_gas", brand: null,
+            scopeSignals: {}, region: region, location: null, parsed: null
           };
           state.step = "result";
           render();
         });
       }
-    }
-
-    // ── Kitchen-specific text detection ──
-    function detectKitchenTier(text, price) {
-      var t = (text || "").toLowerCase();
-      if (/\b(cabinet\s*refac|reface|refacing)\b/.test(t)) return "cabinet_refacing";
-      if (/\b(custom|luxury|upscale|high[\s-]?end|premium|wolf|sub[\s-]?zero|thermador|viking)\b/.test(t)) return "major";
-      if (/\b(cosmetic|paint|hardware|minor|refresh)\b/.test(t) && !/\b(gut|full|major)\b/.test(t)) return "minor";
-      // price-based fallback
-      if (price) {
-        if (price < 15000) return "cabinet_refacing";
-        if (price < 32000) return "minor";
-        if (price < 65000) return "midrange";
-        return "major";
-      }
-      return null;
-    }
-
-    function detectCountertopMaterial(text) {
-      var t = (text || "").toLowerCase();
-      if (/\bmarble\b/.test(t)) return "marble";
-      if (/\bquartz\b/.test(t)) return "quartz";
-      if (/\bgranite\b/.test(t)) return "granite";
-      if (/\b(laminate|formica)\b/.test(t)) return "laminate";
-      return null;
-    }
-
-    function detectKitchenScopeSignals(text) {
-      var t = (text || "").toLowerCase();
-      var signals = {};
-      var patterns = {
-        demo:        [/\b(demo|demolition|tear[\s-]?out|removal|gut|strip)\b/],
-        cabinets:    [/\b(cabinet|cabinetry|cupboard)\b/],
-        countertops: [/\b(counter\s*top|granite|quartz|marble|laminate|butcher\s*block|surface)\b/],
-        flooring:    [/\b(floor|tile|hardwood|vinyl|lvp|lvt|linoleum)\b/],
-        backsplash:  [/\b(backsplash|back\s*splash|tile\s*splash)\b/],
-        plumbing:    [/\b(plumb|sink|faucet|drain|disposal|dishwasher\s*line|water\s*line)\b/],
-        electrical:  [/\b(electri|wiring|outlet|gfci|circuit|panel)\b/],
-        appliances:  [/\b(appliance|refrigerator|fridge|dishwasher|range|oven|stove|microwave|hood|vent)\b/],
-        lighting:    [/\b(light|lighting|under[\s-]?cabinet|recessed|pendant|fixture)\b/],
-        painting:    [/\b(paint|primer|finish|trim|wall\s*prep)\b/],
-        permits:     [/\b(permit|inspection|code\s*compliance)\b/],
-        design:      [/\b(design|plan|layout|render|3d|blueprint|architect)\b/],
-        warranty:    [/\b(warrant|guarantee|coverage)\b/]
-      };
-      for (var key in patterns) {
-        var found = false;
-        for (var i = 0; i < patterns[key].length; i++) {
-          if (patterns[key][i].test(t)) { found = true; break; }
-        }
-        signals[key] = { status: found ? "included" : "unclear" };
-      }
-      return signals;
     }
 
     async function extractPdfText(file) {
@@ -878,86 +933,127 @@
       var worker = await Tesseract.createWorker("eng");
       var result = await worker.recognize(softImage);
       var text = (result.data.text || "").trim();
-
       if (text.length < 50) {
         var strongImage = await preprocessImage(file, "strong");
         var result2 = await worker.recognize(strongImage);
         var text2 = (result2.data.text || "").trim();
         if (text2.length > text.length) text = text2;
       }
-
       await worker.terminate();
       return text;
     }
 
     // ── Estimator Flow ──
+    var TOTAL_STEPS = 4;
+
     function renderEstimator() {
       var est = state.est;
       var stepNum = getEstimatorStep();
 
       appRoot.innerHTML = '\
-        <div class="kit-hero">\
-          <h1>Kitchen Remodel Estimator</h1>\
+        <div class="plumb-hero">\
+          <h1>Plumbing Cost Estimator</h1>\
           <p>' + (state.address.city ? state.address.city + ", " + state.address.stateCode : "Get a quick estimate") + '</p>\
         </div>\
-        <div class="kit-card" id="estCard"></div>';
+        <div class="plumb-card" id="estCard"></div>';
 
       var card = document.getElementById("estCard");
 
       if (stepNum === 1) {
         card.innerHTML = '\
-          <div class="kit-step">\
-            <h3>What level of kitchen remodel are you planning?</h3>\
-            <div class="kit-options" id="optTier">\
-              <div class="kit-option' + (est.tier === "minor" ? " selected" : "") + '" data-val="minor">Minor (Cosmetic)</div>\
-              <div class="kit-option' + (est.tier === "midrange" ? " selected" : "") + '" data-val="midrange">Mid-Range</div>\
-              <div class="kit-option' + (est.tier === "major" ? " selected" : "") + '" data-val="major">Major / Upscale</div>\
-              <div class="kit-option' + (est.tier === "cabinet_refacing" ? " selected" : "") + '" data-val="cabinet_refacing">Cabinet Refacing</div>\
+          <div class="plumb-step">\
+            <h3>What type of plumbing service do you need?</h3>\
+            <div class="plumb-options" id="optService">\
+              <div class="plumb-option' + (est.serviceType === "water_heater" ? " selected" : "") + '" data-val="water_heater">Water Heater</div>\
+              <div class="plumb-option' + (est.serviceType === "repipe" ? " selected" : "") + '" data-val="repipe">Repipe</div>\
+              <div class="plumb-option' + (est.serviceType === "sewer_line" ? " selected" : "") + '" data-val="sewer_line">Sewer Line</div>\
+              <div class="plumb-option' + (est.serviceType === "drain_cleaning" ? " selected" : "") + '" data-val="drain_cleaning">Drain Cleaning</div>\
+              <div class="plumb-option' + (est.serviceType === "bathroom_rough_in" ? " selected" : "") + '" data-val="bathroom_rough_in">Bathroom Plumbing</div>\
+              <div class="plumb-option' + (est.serviceType === "gas_line" ? " selected" : "") + '" data-val="gas_line">Gas Line</div>\
             </div>\
           </div>';
-        bindOptions("optTier", "tier");
+        bindOptions("optService", "serviceType");
       } else if (stepNum === 2) {
+        // Dynamic sub-type based on service selection
+        var subDef = SUB_TYPE_OPTIONS[est.serviceType];
+        if (!subDef) { est.subType = "default"; render(); return; }
+        var optionsHtml = subDef.options.map(function(o) {
+          return '<div class="plumb-option' + (est.subType === o.value ? " selected" : "") + '" data-val="' + o.value + '">' + o.label + '</div>';
+        }).join("");
         card.innerHTML = '\
-          <div class="kit-step">\
-            <h3>How large is your kitchen?</h3>\
-            <div class="kit-options" id="optSize">';
-        KIT_PRICING.kitchenSizes.forEach(function(sz, i) {
-          card.querySelector("#optSize").insertAdjacentHTML("beforeend",
-            '<div class="kit-option' + (est.kitchenSize === String(i) ? " selected" : "") + '" data-val="' + i + '">' + sz.label + '</div>'
-          );
-        });
-        card.innerHTML += '</div></div>';
-        // Re-render to ensure options are in DOM
-        var sizeHtml = '<div class="kit-step"><h3>How large is your kitchen?</h3><div class="kit-options" id="optSize">';
-        KIT_PRICING.kitchenSizes.forEach(function(sz, i) {
-          sizeHtml += '<div class="kit-option' + (est.kitchenSize === String(i) ? " selected" : "") + '" data-val="' + i + '">' + sz.label + '</div>';
-        });
-        sizeHtml += '</div></div>';
-        card.innerHTML = sizeHtml;
-        bindOptions("optSize", "kitchenSize");
+          <div class="plumb-step">\
+            <h3>' + subDef.question + '</h3>\
+            <div class="plumb-options" id="optSubType">' + optionsHtml + '</div>\
+          </div>';
+        bindOptions("optSubType", "subType");
       } else if (stepNum === 3) {
-        var matHtml = '<div class="kit-step"><h3>What countertop material?</h3><div class="kit-options" id="optCounter">';
-        KIT_PRICING.countertopMaterials.forEach(function(mat) {
-          matHtml += '<div class="kit-option' + (est.countertop === mat.key ? " selected" : "") + '" data-val="' + mat.key + '">' + mat.label + '</div>';
+        card.innerHTML = '\
+          <div class="plumb-step">\
+            <h3>Home details</h3>\
+            <div style="margin-bottom:1rem;">\
+              <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;">Number of bathrooms</label>\
+              <input type="number" class="plumb-num-input" id="bathroomInput" placeholder="e.g. 2" value="' + (est.bathrooms || "") + '" min="1" max="10" />\
+            </div>\
+            <div>\
+              <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;">Home age</label>\
+              <div class="plumb-options" id="optAge">\
+                <div class="plumb-option' + (est.homeAge === "pre_1970" ? " selected" : "") + '" data-val="pre_1970">Pre-1970</div>\
+                <div class="plumb-option' + (est.homeAge === "1970_1990" ? " selected" : "") + '" data-val="1970_1990">1970&ndash;1990</div>\
+                <div class="plumb-option' + (est.homeAge === "1990_plus" ? " selected" : "") + '" data-val="1990_plus">1990+</div>\
+              </div>\
+            </div>\
+            <div style="margin-top:1rem;">\
+              <button class="plumb-btn plumb-btn-primary" id="detailsNext">Continue</button>\
+            </div>\
+          </div>';
+        // Home age options click
+        var ageContainer = document.getElementById("optAge");
+        if (ageContainer) {
+          ageContainer.addEventListener("click", function(e) {
+            var opt = e.target.closest(".plumb-option");
+            if (!opt) return;
+            est.homeAge = opt.getAttribute("data-val");
+            ageContainer.querySelectorAll(".plumb-option").forEach(function(el) { el.classList.remove("selected"); });
+            opt.classList.add("selected");
+          });
+        }
+        document.getElementById("detailsNext").addEventListener("click", function() {
+          var val = document.getElementById("bathroomInput").value.trim();
+          if (val && Number(val) >= 1) {
+            est.bathrooms = val;
+          } else {
+            est.bathrooms = "2";
+          }
+          if (!est.homeAge) est.homeAge = "1990_plus";
+          render();
         });
-        matHtml += '</div></div>';
-        card.innerHTML = matHtml;
-        bindOptions("optCounter", "countertop");
+      } else if (stepNum === 4) {
+        card.innerHTML = '\
+          <div class="plumb-step">\
+            <h3>How soon do you need this done?</h3>\
+            <div class="plumb-options" id="optUrg">\
+              <div class="plumb-option' + (est.urgency === "asap" ? " selected" : "") + '" data-val="asap">ASAP</div>\
+              <div class="plumb-option' + (est.urgency === "this_season" ? " selected" : "") + '" data-val="this_season">This season</div>\
+              <div class="plumb-option' + (est.urgency === "planning" ? " selected" : "") + '" data-val="planning">Planning ahead</div>\
+            </div>\
+          </div>';
+        bindOptions("optUrg", "urgency");
       }
 
       // Show progress dots
       var dots = '';
-      for (var d = 1; d <= 3; d++) {
+      for (var d = 1; d <= TOTAL_STEPS; d++) {
         dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px;background:' + (d <= stepNum ? "#2563eb" : "#e2e8f0") + ';"></span>';
       }
       card.insertAdjacentHTML("afterbegin", '<div style="text-align:center;margin-bottom:1rem;">' + dots + '</div>');
 
       // Back button (except step 1)
       if (stepNum > 1) {
-        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="kit-btn kit-btn-secondary" id="estBack">Back</button></div>');
+        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="plumb-btn plumb-btn-secondary" id="estBack">Back</button></div>');
         document.getElementById("estBack").addEventListener("click", function() {
-          if (stepNum === 3) est.countertop = null;
-          else if (stepNum === 2) est.kitchenSize = null;
+          if (stepNum === 4) est.urgency = null;
+          else if (stepNum === 3) { est.bathrooms = ""; est.homeAge = null; }
+          else if (stepNum === 2) est.subType = null;
           render();
         });
       }
@@ -965,22 +1061,28 @@
 
     function getEstimatorStep() {
       var e = state.est;
-      if (!e.tier) return 1;
-      if (e.kitchenSize === null || e.kitchenSize === undefined) return 2;
-      if (!e.countertop) return 3;
-      return 4; // all done
+      if (!e.serviceType) return 1;
+      if (!e.subType) return 2;
+      if (!e.bathrooms) return 3;
+      if (!e.urgency) return 4;
+      return 5; // all done
     }
 
     function bindOptions(containerId, field) {
       var container = document.getElementById(containerId);
       if (!container) return;
       container.addEventListener("click", function(e) {
-        var opt = e.target.closest(".kit-option");
+        var opt = e.target.closest(".plumb-option");
         if (!opt) return;
         state.est[field] = opt.getAttribute("data-val");
 
+        // When changing service type, reset sub-type
+        if (field === "serviceType") {
+          state.est.subType = null;
+        }
+
         // Check if estimator is complete
-        if (getEstimatorStep() > 3) {
+        if (getEstimatorStep() > TOTAL_STEPS) {
           calculateEstimate();
         } else {
           render();
@@ -990,13 +1092,26 @@
 
     function calculateEstimate() {
       var est = state.est;
-      var sizeIdx = parseInt(est.kitchenSize, 10);
+      var region = getRegionFromState(state.address.stateCode);
 
-      var benchmark = calcBenchmark(est.tier, sizeIdx, est.countertop);
+      var benchmark = calcBenchmark(est.serviceType, est.subType, region, est.bathrooms, est.homeAge);
 
-      var tierData = KIT_PRICING.basePriceByTier[est.tier];
-      var low = roundTo50(benchmark * 0.88);
-      var high = roundTo50(benchmark * 1.15);
+      // Urgency adjustment
+      var urgMult = est.urgency === "asap" ? 1.08 : est.urgency === "this_season" ? 1.02 : 1.0;
+      benchmark = roundTo25(benchmark * urgMult);
+
+      var low = roundTo25(benchmark * 0.85);
+      var high = roundTo25(benchmark * 1.18);
+
+      var svcLabel = PLUMBING_PRICING.basePriceByService[est.serviceType] ? PLUMBING_PRICING.basePriceByService[est.serviceType].label : est.serviceType;
+
+      // Find sub-type label
+      var subLabel = est.subType;
+      var subDef = SUB_TYPE_OPTIONS[est.serviceType];
+      if (subDef) {
+        var found = subDef.options.find(function(o) { return o.value === est.subType; });
+        if (found) subLabel = found.label;
+      }
 
       state.result = {
         source: "estimator",
@@ -1006,16 +1121,18 @@
         high: high,
         ratio: 1.0,
         verdict: { label: "Estimated Cost", css: "fair", emoji: "" },
-        tier: est.tier,
-        tierLabel: tierData ? tierData.label : est.tier,
-        sizeIdx: sizeIdx,
-        sizeLabel: KIT_PRICING.kitchenSizes[sizeIdx] ? KIT_PRICING.kitchenSizes[sizeIdx].label : "",
-        countertopKey: est.countertop,
-        countertopLabel: (KIT_PRICING.countertopMaterials.find(function(m) { return m.key === est.countertop; }) || {}).label || est.countertop,
+        serviceType: { value: est.serviceType, label: svcLabel },
+        subType: est.subType,
+        subLabel: subLabel,
+        brand: null,
+        brandNote: "",
         scopeSignals: {},
-        region: getRegionFromState(state.address.stateCode),
+        region: region,
         location: null,
-        parsed: null
+        parsed: null,
+        bathrooms: est.bathrooms,
+        homeAge: est.homeAge,
+        urgency: est.urgency
       };
 
       state.step = "result";
@@ -1027,53 +1144,50 @@
       var r = state.result;
       if (!r) { state.step = "address"; render(); return; }
 
-      var isUpload = r.source === "upload" || r.source === "manual";
+      var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
       var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
       var rangeText = "";
 
-      if (isUpload && r.source !== "manual") {
+      if (isUpload) {
         rangeText = "Market benchmark: " + fmt(r.benchmark);
         if (r.quotePrice > 0) {
           var pct = Math.round((r.ratio - 1) * 100);
           var dir = pct > 0 ? "above" : "below";
-          rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+          rangeText += " &mdash; " + Math.abs(pct) + "% " + dir + " average";
         }
-      } else if (r.source === "manual") {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        var pct = Math.round((r.ratio - 1) * 100);
-        var dir = pct > 0 ? "above" : "below";
-        rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
       } else {
-        rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
+        rangeText = "Expected range: " + fmt(r.low) + " &ndash; " + fmt(r.high);
       }
 
       // Build details
-      var detailsHtml = '<div class="kit-details">';
-      detailsHtml += '<div class="kit-detail"><div class="label">Remodel Tier</div><div class="value">' + r.tierLabel + '</div></div>';
+      var detailsHtml = '<div class="plumb-details">';
+      detailsHtml += '<div class="plumb-detail"><div class="label">Service Type</div><div class="value">' + r.serviceType.label + '</div></div>';
 
-      if (r.sizeLabel) {
-        detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + r.sizeLabel + '</div></div>';
-      } else if (r.sizeIdx !== null && r.sizeIdx !== undefined && KIT_PRICING.kitchenSizes[r.sizeIdx]) {
-        detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + KIT_PRICING.kitchenSizes[r.sizeIdx].label + '</div></div>';
+      if (r.subLabel || r.subType) {
+        var subDisplay = r.subLabel || r.subType;
+        detailsHtml += '<div class="plumb-detail"><div class="label">Details</div><div class="value">' + subDisplay + '</div></div>';
       }
-
-      if (r.countertopLabel) {
-        detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + r.countertopLabel + '</div></div>';
-      } else if (r.countertopKey) {
-        var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === r.countertopKey; });
-        if (mat) detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + mat.label + '</div></div>';
+      if (r.brandNote) {
+        detailsHtml += '<div class="plumb-detail"><div class="label">Brand</div><div class="value">' + r.brandNote + '</div></div>';
       }
-
       var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
-      detailsHtml += '<div class="kit-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      detailsHtml += '<div class="plumb-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+
+      if (r.bathrooms) {
+        detailsHtml += '<div class="plumb-detail"><div class="label">Bathrooms</div><div class="value">' + r.bathrooms + '</div></div>';
+      }
+      if (r.homeAge) {
+        var ageLabels = { pre_1970: "Pre-1970", "1970_1990": "1970\u20131990", "1990_plus": "1990+" };
+        detailsHtml += '<div class="plumb-detail"><div class="label">Home Age</div><div class="value">' + (ageLabels[r.homeAge] || r.homeAge) + '</div></div>';
+      }
       detailsHtml += '</div>';
 
       // Scope checklist (upload only)
       var scopeHtml = "";
       if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
-        scopeHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="kit-scope">';
-        KIT_PRICING.scopeItems.forEach(function(item) {
+        scopeHtml = '<div class="plumb-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="plumb-scope">';
+        PLUMBING_PRICING.scopeItems.forEach(function(item) {
           var sig = r.scopeSignals[item.key];
           var status = sig ? sig.status : "unclear";
           var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
@@ -1082,12 +1196,11 @@
           scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
         });
         scopeHtml += '</ul>';
-        // Missing cost estimate
-        var kitScopeCosts = { demo: [500,2000], cabinets: [3000,15000], countertops: [1500,8000], flooring: [1000,5000], backsplash: [500,2500], plumbing: [800,4000], electrical: [500,3000], appliances: [2000,12000], lighting: [300,2000], painting: [300,1500], permits: [200,800], design: [500,3000], warranty: [0,0] };
-        var missingItems = KIT_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        var plumbScopeCosts = { permits: [100,400], shutoff: [50,200], cleanup: [75,250], drywall: [200,800], testing: [100,300], warranty: [0,0], disposal: [75,300], codeCompliance: [100,500], expansion_tank: [75,250], supply_lines: [50,200], drain_pan: [50,150], venting: [100,400] };
+        var missingItems = PLUMBING_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
         if (missingItems.length > 0) {
           var mLow = 0, mHigh = 0;
-          missingItems.forEach(function(item) { var c = kitScopeCosts[item.key]; if (c) { mLow += c[0]; mHigh += c[1]; } });
+          missingItems.forEach(function(item) { var c = plumbScopeCosts[item.key]; if (c) { mLow += c[0]; mHigh += c[1]; } });
           if (mLow > 0) {
             scopeHtml += '<div style="font-size:14px;padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-top:12px;color:#991b1b;"><strong>' + missingItems.length + ' missing item' + (missingItems.length !== 1 ? 's' : '') + '</strong> could add <strong>$' + mLow.toLocaleString() + ' to $' + mHigh.toLocaleString() + '</strong> in change orders if not included.</div>';
           }
@@ -1097,15 +1210,15 @@
 
       // Estimator scope info
       if (!isUpload) {
-        scopeHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="kit-scope">';
-        var typicalItems = ["demo", "cabinets", "countertops", "flooring", "backsplash", "plumbing", "electrical", "painting", "permits", "warranty"];
+        scopeHtml = '<div class="plumb-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="plumb-scope">';
+        var typicalItems = ["permits", "shutoff", "cleanup", "testing", "disposal", "warranty", "codeCompliance"];
         typicalItems.forEach(function(key) {
-          var item = KIT_PRICING.scopeItems.find(function(s) { return s.key === key; });
+          var item = PLUMBING_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
             scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
           }
         });
-        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Appliances, structural changes, or custom cabinetry may add cost.</p></div>';
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Drywall repair, structural modifications, or code upgrades may add cost.</p></div>';
       }
 
       // Market context
@@ -1113,40 +1226,39 @@
       if (isUpload && r.quotePrice > 0) {
         var tip = "";
         if (r.verdict.css === "high") {
-          tip = "This quote is higher than typical market rates for a " + r.tierLabel.toLowerCase() + ". Consider getting 2-3 additional quotes to compare.";
+          tip = "This quote is higher than typical market rates for this plumbing service. Consider getting 2-3 additional quotes to compare.";
         } else if (r.verdict.css === "low") {
-          tip = "This quote is lower than expected. Verify the scope includes all necessary items like permits, appliances, and quality materials.";
+          tip = "This quote is lower than expected. Verify the scope includes all necessary items like permits, warranty, and proper materials.";
         } else {
-          tip = "This quote appears to be within the typical market range for a " + r.tierLabel.toLowerCase() + " in your area.";
+          tip = "This quote appears to be within the typical market range for your area and service specifications.";
         }
-        contextHtml = '<div class="kit-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
+        contextHtml = '<div class="plumb-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
       // Next Steps tips
-      var tipsHtml = '<div class="kit-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      tipsHtml += '<li>Ask for a detailed, itemized breakdown of materials and labor</li>';
-      tipsHtml += '<li>Confirm what\'s included: cabinets, countertops, flooring, appliances, and plumbing</li>';
-      tipsHtml += '<li>Ask about the timeline and whether the kitchen will be fully unusable during work</li>';
-      tipsHtml += '<li>Verify permits are included and the contractor handles inspections</li>';
+      var tipsHtml = '<div class="plumb-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Verify the quote specifies material type (PEX, copper, PVC) for any pipe work</li>';
+      tipsHtml += '<li>Ask if the price includes drywall repair for any wall/floor access</li>';
+      tipsHtml += '<li>Confirm permit costs and inspection requirements are included</li>';
+      tipsHtml += '<li>Check warranty duration on parts AND labor</li>';
       if (r.verdict.css === "high") {
-        tipsHtml += '<li>Get 2-3 additional quotes from local contractors for comparison</li>';
-        tipsHtml += '<li>Ask if you can save by keeping the existing layout (no plumbing/electrical moves)</li>';
+        tipsHtml += '<li>Get 2-3 additional quotes - plumbing prices vary widely by contractor</li>';
+        tipsHtml += '<li>Ask if the work can be done without opening walls (trenchless, etc.)</li>';
       }
       if (r.verdict.css === "low") {
-        tipsHtml += '<li>Verify cabinet and countertop brands/grades are specified, not just "builder grade"</li>';
-        tipsHtml += '<li>Confirm labor warranty duration (industry standard is 1-2 years minimum)</li>';
+        tipsHtml += '<li>Verify all cleanup and disposal is included</li>';
+        tipsHtml += '<li>Ask about the contractor\'s license and insurance</li>';
       }
       tipsHtml += '</ul></div>';
 
-      // Savings tips
-      var savingsHtml = '<div class="kit-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
-      savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
-      savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      savingsHtml += '<li>Keep the existing layout to avoid moving plumbing and electrical (saves $3,000-8,000)</li>';
-      savingsHtml += '<li>Consider cabinet refacing instead of full replacement (saves 30-50%)</li>';
-      savingsHtml += '<li>Schedule in fall or winter when contractors are less busy (5-10% savings)</li>';
-      savingsHtml += '<li>Choose quartz over marble for a similar look at lower cost and maintenance</li>';
-      savingsHtml += '</ul></div>';
+      // Rebate/savings tips
+      var rebateHtml = '<div class="plumb-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
+      rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      rebateHtml += '<li>Bundle multiple plumbing jobs together for volume discounts</li>';
+      rebateHtml += '<li>Ask about PEX instead of copper for repipes (30-40% cheaper, faster install)</li>';
+      rebateHtml += '<li>Schedule non-emergency work during weekdays for standard rates</li>';
+      rebateHtml += '</ul></div>';
 
       // Feedback prompt
       var feedbackHtml = '\
@@ -1160,49 +1272,48 @@
 </div>';
 
       // Email report
-      var emailSubject = encodeURIComponent("My Kitchen Remodel Quote Analysis from TruePrice");
+      var emailSubject = encodeURIComponent("My Plumbing Quote Analysis from TruePrice");
       var emailBody = encodeURIComponent(
-        "Kitchen Remodel Quote Analysis\n" +
-        "Remodel Tier: " + r.tierLabel + "\n" +
-        (r.countertopLabel ? "Countertop: " + r.countertopLabel + "\n" : "") +
+        "Plumbing Quote Analysis\n" +
+        "Service: " + r.serviceType.label + "\n" +
+        (r.subLabel ? "Details: " + r.subLabel + "\n" : "") +
+        (r.brandNote ? "Brand: " + r.brandNote + "\n" : "") +
         (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
         "Benchmark: " + fmt(r.benchmark) + "\n" +
         "Verdict: " + r.verdict.label + "\n" +
         "Region: " + capitalize(r.region) + "\n\n" +
-        "Analyzed by TruePrice - https://truepricehq.com/kitchen-quote-analyzer.html"
+        "Analyzed by TruePrice - https://truepricehq.com/plumbing-quote-analyzer.html"
       );
 
       appRoot.innerHTML = '\
-        <div class="kit-hero">\
-          <h1>' + (isUpload ? "Kitchen Remodel Quote Analysis" : "Your Kitchen Remodel Estimate") + '</h1>\
+        <div class="plumb-hero">\
+          <h1>' + (isUpload ? "Plumbing Quote Analysis" : "Your Plumbing Estimate") + '</h1>\
         </div>\
-        <div class="kit-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-kitchen.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Kitchen Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+        <div class="plumb-verdict ' + verdictCss + '">\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-plumbing.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Plumbing Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\
-        <div class="kit-card">\
-          <h3 style="margin-bottom:0.75rem;">Project Details</h3>\
+        <div class="plumb-card">\
+          <h3 style="margin-bottom:0.75rem;">Service Details</h3>\
           ' + detailsHtml + '\
         </div>\
         ' + scopeHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
-        ' + savingsHtml + '\
-        <div class="kit-actions">\
-          <a class="kit-btn kit-btn-primary kit-btn-full" href="/find-contractors.html?service=kitchen">Find Kitchen Contractors</a>\
-          <a class="kit-btn kit-btn-secondary kit-btn-full" href="/kitchen-remodel-cost.html">Kitchen Remodel Cost Guide</a>\
-          <a class="kit-btn kit-btn-secondary kit-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
-        </div>\
-        ' + feedbackHtml;
+        ' + rebateHtml + '\
+        <div class="plumb-actions">\
+          <a class="plumb-btn plumb-btn-primary plumb-btn-full" href="/find-contractors.html?service=plumbing">Find Plumbing Contractors</a>\
+          <a class="plumb-btn plumb-btn-secondary plumb-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
+        </div>';
 
-      window.kitchenStartOver = function() {
+      window.plumbingStartOver = function() {
         state = {
           step: "address",
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { tier: null, kitchenSize: null, countertop: null },
+          est: { serviceType: null, subType: null, bathrooms: "", homeAge: null, urgency: null },
           result: null
         };
         render();
@@ -1210,9 +1321,9 @@
 
       if (window.tpRenderResultFooter) {
         appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
-          vertical: "kitchen",
-          verticalLabel: "Kitchen",
-          onStartOver: "kitchenStartOver"
+          vertical: "plumbing",
+          verticalLabel: "Plumbing",
+          onStartOver: "plumbingStartOver"
         }));
       }
     }
@@ -1222,7 +1333,7 @@
     }
 
     // ── Init ──
-    if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "kitchen" });
+    if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "plumbing" });
     render();
 
   })();

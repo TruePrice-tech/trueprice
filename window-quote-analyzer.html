@@ -10,7 +10,7 @@
   <title>Window Quote Analyzer - Is Your Window Quote Fair? | TruePrice</title>
   <meta
     name="description"
-    content="Upload your window replacement quote to instantly see if the price is fair. Analyzes vinyl, wood, and fiberglass window quotes against local market data."
+    content="Upload any window contractor quote and get a free price check, scope analysis, and red flag detection."
   />
   <link rel="canonical" href="https://truepricehq.com/window-quote-analyzer.html" />
   <meta name="robots" content="index,follow" />
@@ -530,8 +530,13 @@
         <div class="win-hero">\
           <img src="/images/trudy-windows.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
           <h1>Is your window quote fair?</h1>\
-          <p>Upload your quote or get an instant estimate for your window replacement project.</p>\
+          <p>Upload your contractor quote. We\'ll check the price, scope, and red flags in 30 seconds.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to window pricing? Read our <a href="/window-replacement-cost-guide.html" style="color:#16a34a;">Window Replacement Cost Guide</a></p>\
+        </div>\
+        <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;">\
+          <span style="font-weight:700; color:#0f172a;">You are analyzing a quote.</span>\
+          <a href="/window-estimate.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Want a free estimate first? &rarr;</a>\
+          <a href="/compare-windows-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a>\
         </div>\
         <div class="win-card">\
           <style>.tp-dual-opts{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:600px){.tp-dual-opts{grid-template-columns:1fr}}</style>\
@@ -552,19 +557,6 @@
           <div style="text-align:center; margin-top:16px; padding:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">\
             <span style="font-size:13px; color:#64748b;">Have multiple quotes? </span>\
             <a href="/compare-windows-quotes.html" style="font-size:13px; font-weight:600; color:#1d4ed8; text-decoration:none;">Compare 2-3 windows quotes side by side &rarr;</a>\
-          </div>\
-          <div class="win-divider">or enter your address for an estimate</div>\
-          <div class="win-address-form">\
-            <div style="position:relative">\
-              <input type="text" id="addrStreet" placeholder="Start typing your address..." autocomplete="off" />\
-              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
-            </div>\
-            <div class="win-row">\
-              <input type="text" id="addrCity" placeholder="City" />\
-              <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
-            </div>\
-            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
-            <button class="win-btn win-btn-primary win-btn-full" id="btnEstimate">Get Window Estimate</button>\
           </div>\
         </div>';
 
@@ -627,7 +619,8 @@
         });
       })();
 
-      document.getElementById("btnEstimate").addEventListener("click", function() {
+      var btnEst = document.getElementById("btnEstimate");
+      if (btnEst) btnEst.addEventListener("click", function() {
         if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "window" });
         state.address.street = document.getElementById("addrStreet").value.trim();
         state.address.city = document.getElementById("addrCity").value.trim();

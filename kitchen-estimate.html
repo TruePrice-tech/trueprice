@@ -7,28 +7,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
-  <title>Kitchen Remodel Quote Analyzer - Is Your Kitchen Quote Fair? | TruePrice</title>
+  <title>Free Kitchen Remodel Cost Estimate | TruePrice</title>
   <meta
     name="description"
-    content="Upload any kitchen contractor quote and get a free price check, scope analysis, and red flag detection."
+    content="Free kitchen cost estimate by city. No email, no phone, no lead-selling. Instant results."
   />
-  <link rel="canonical" href="https://truepricehq.com/kitchen-quote-analyzer.html" />
+  <link rel="canonical" href="https://truepricehq.com/kitchen-estimate.html" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="Kitchen Remodel Quote Analyzer | TruePrice" />
+  <meta property="og:title" content="Free Kitchen Remodel Cost Estimate | TruePrice" />
   <meta
     property="og:description"
-    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+    content="Free kitchen cost estimate by city. No email, no phone, no lead-selling."
   />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/kitchen-quote-analyzer.html" />
   <meta property="og:site_name" content="TruePrice" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Kitchen Remodel Quote Analyzer | TruePrice" />
+  <meta name="twitter:title" content="Free Kitchen Remodel Cost Estimate | TruePrice" />
   <meta
     name="twitter:description"
-    content="Upload your kitchen remodel quote to instantly see if the price is fair. Analyzes minor, mid-range, and major kitchen renovation quotes against local market data."
+    content="Free kitchen cost estimate by city. No email, no phone, no lead-selling."
   />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
@@ -454,24 +454,24 @@
       appRoot.innerHTML = '\
         <div class="kit-hero">\
           <img src="/images/trudy-kitchen.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
-          <h1>Is your kitchen remodel quote fair?</h1>\
-          <p>Upload your contractor quote. We'll check the price, scope, and red flags in 30 seconds.</p>\
+          <h1>How much will your kitchen remodel cost?</h1>\
+          <p>Free city-level estimate. No email, no phone, no lead-selling.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to kitchen pricing? Read our <a href="/kitchen-remodel-cost-guide.html" style="color:#16a34a;">Kitchen Remodel Cost Guide</a></p>\
         </div>\
-        <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;"><span style="font-weight:700; color:#0f172a;">You are analyzing a quote.</span><a href="/kitchen-estimate.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Want a free estimate first? &rarr;</a><a href="/compare-kitchen-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a></div>\
+        <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;"><span style="font-weight:700; color:#0f172a;">You are getting an estimate.</span><a href="/kitchen-quote-analyzer.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Already have a quote? Analyze it &rarr;</a><a href="/compare-kitchen-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a></div>\
         <div class="kit-card">\
-          <div class="kit-upload-zone" id="uploadZone">\
-            <div style="font-size:36px; margin-bottom:8px;">&#128196;</div>\
-            <p><strong>Analyze a Quote</strong></p>\
-            <p class="hint">Upload a contractor quote (PDF or image) to check the price</p>\
-            <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
+          <div class="kit-address-form">\
+            <div style="position:relative">\
+              <input type="text" id="addrStreet" placeholder="Start typing your address..." autocomplete="off" autofocus />\
+              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
+            </div>\
+            <div class="kit-row">\
+              <input type="text" id="addrCity" placeholder="City" />\
+              <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
+            </div>\
+            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
+            <button class="kit-btn kit-btn-primary kit-btn-full" id="btnEstimate">Get Kitchen Estimate</button>\
           </div>\
-          <div style="text-align:center; margin-top:16px; padding:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">\
-            <span style="font-size:13px; color:#64748b;">Have multiple quotes? </span>\
-            <a href="/compare-kitchen-quotes.html" style="font-size:13px; font-weight:600; color:#1d4ed8; text-decoration:none;">Compare 2-3 kitchen quotes side by side &rarr;</a>\
-          </div>\
-          <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
-\
         </div>';
 
       // Events
