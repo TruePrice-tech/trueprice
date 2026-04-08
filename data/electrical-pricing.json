@@ -357,17 +357,16 @@
   "iraPrograms": {
     "25C": {
       "section": "25C Energy Efficient Home Improvement Credit",
-      "rate": 0.30,
-      "annualCaps": {
+      "status": "EXPIRED",
+      "expirationDate": "2025-12-31",
+      "expirationNote": "The 25C credit expired Dec 31 2025. Panel upgrades, heat pump enabling work, and similar 25C-eligible electrical scopes do NOT qualify for the federal credit on installs on or after Jan 1 2026. State utility rebates and IRA HEAR (income-qualified) programs may still apply.",
+      "historicalRate": 0.30,
+      "historicalAnnualCaps": {
         "panelboard_subpanel_branch_feeder": 600,
         "heat_pump_heat_pump_water_heater_biomass": 2000,
-        "total_annual_cap": 3200,
-        "notes": "Panel box upgrade qualifies for $600/yr when the upgrade is required to add, and is placed in service in the same year as, a qualified energy-efficient improvement (heat pump, HPWH, EV charger, etc.)."
+        "total_annual_cap": 3200
       },
-      "effectiveDate": "2023-01-01",
-      "expirationDate": "2032-12-31",
-      "excludesLabor": false,
-      "notes": "Unlike windows, the 25C panelboard credit INCLUDES labor and materials for the panel/subpanel/branch/feeder upgrade. Requires IRS Form 5695 Part II. Qualified Manufacturer PIN required for heat pump starting 2025."
+      "lastClaimableTaxYear": 2025
     },
     "25D": {
       "section": "25D Residential Clean Energy Credit",

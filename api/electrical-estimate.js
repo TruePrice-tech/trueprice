@@ -432,12 +432,12 @@ Rules:
         }
       } catch (_e) { /* optional */ }
 
-      // --- IRA 25C / 30C awareness ---
+      // --- IRA 25C EXPIRED Dec 31 2025; 30C still active for EV chargers (verify per current IRS guidance) ---
       try {
         const iraApplicable = [];
         if (jobType && jobType.startsWith("panel_upgrade")) {
           iraApplicable.push({
-            program: "25C Panelboard Credit",
+            program: "25C Panelboard Credit (EXPIRED Dec 31 2025)",
             amount: "30% up to $600/yr",
             condition: "Panel must be upgraded to enable a heat pump, HPWH, EV charger, or similar electrification upgrade placed in service same tax year",
             form: "IRS Form 5695 Part II"
@@ -453,7 +453,7 @@ Rules:
         }
         if (jobType === "heat_pump_circuit") {
           iraApplicable.push({
-            program: "25C Heat Pump Credit",
+            program: "25C Heat Pump Credit (EXPIRED Dec 31 2025)",
             amount: "30% up to $2,000/yr",
             condition: "Electrical work bundled with qualified heat pump install",
             form: "IRS Form 5695 Part II"

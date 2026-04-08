@@ -119,9 +119,11 @@
     }
   },
   "taxCredit": {
-    "amount": "up to $1,200",
+    "status": "EXPIRED",
+    "amount": "EXPIRED",
     "program": "IRA 25C",
-    "notes": "30% of cost up to $1,200/year for insulation materials. Does not include labor."
+    "expirationDate": "2025-12-31",
+    "notes": "The 25C federal tax credit (30% of insulation materials, up to $1,200/year) EXPIRED Dec 31 2025. Insulation installs on or after Jan 1 2026 do NOT qualify for the federal credit. State utility rebates ($200-$1,500 typical) and IRA HEAR (income-qualified) programs may still apply — check dsireusa.org."
   },
   "commonUpsells": [
     {

@@ -287,9 +287,9 @@ Rules:
         }
       }
 
-      // IRA 25C tax credit for insulation
+      // IRA 25C tax credit for insulation — EXPIRED Dec 31 2025; commenting out user-facing surfacing
       const taxCreditInfo = {
-        program: "IRA Section 25C - Energy Efficient Home Improvement Credit",
+        program: "IRA Section 25C - Energy Efficient Home Improvement Credit (EXPIRED Dec 31 2025)",
         maxCredit: 1200,
         percentage: 30,
         description: "30% of project cost up to $1,200 for insulation and air sealing materials (not labor). Applies to insulation that meets IECC prescriptive criteria.",
@@ -349,7 +349,7 @@ Rules:
         expectedRange: expectedRange,
         brandTier: brandTier,
         taxCredit: taxCreditInfo,
-        source: "DOE, ENERGY STAR, IRA 25C credits, RSMeans insulation data"
+        source: "DOE, ENERGY STAR, RSMeans insulation data (note: IRA 25C credit expired Dec 31 2025)"
       };
 
     } catch (e) {

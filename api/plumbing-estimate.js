@@ -486,7 +486,7 @@ Rules:
           if (!(parsed.redFlags || []).some(f => /25c|tax credit|ira/i.test(f))) {
             parsed.redFlags = parsed.redFlags || [];
             parsed.redFlags.push(
-              `This heat pump water heater likely qualifies for the federal 25C tax credit (30% up to $2,000, including labor). Estimated credit: $${estimatedCredit}. Ask the contractor for the manufacturer's Qualified Manufacturer PIN for IRS Form 5695.`
+              `Note: the federal 25C tax credit for heat pump water heaters EXPIRED Dec 31 2025 and is not available for 2026 installs. Check state utility rebates and IRA HEAR (income-qualified) programs at dsireusa.org.`
             );
           }
         }
