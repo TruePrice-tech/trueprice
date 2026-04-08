@@ -123,36 +123,43 @@
     .tp-hero-section { position: relative; z-index: 1; padding: 88px 0 48px; background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); color: #fff; overflow: hidden; }
     .tp-hero-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.08) 0%, transparent 50%); pointer-events: none; }
     .tp-hero-section .container { position: relative; z-index: 1; }
-    .tp-slogan { font-size: 56px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; color: #fff; text-align: center; margin: 0 auto 36px; max-width: 900px; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
+    .tp-slogan { font-size: 56px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; color: #fff; text-align: center; margin: 0 auto 18px; max-width: 900px; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
+    .tp-subhead { text-align: center; max-width: 760px; margin: 0 auto 56px; font-size: 18px; line-height: 1.5; color: rgba(255,255,255,0.82); }
     .tp-intent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
-    .tp-intent-card { background: #fff; border-radius: 16px; padding: 22px 18px 20px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; position: relative; }
+    .tp-intent-card { background: #fff; border-radius: 16px; padding: 18px 16px 18px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; position: relative; }
     .tp-intent-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.24); text-decoration: none; }
-    .tp-intent-card h2 { font-size: 19px; margin: 0 0 4px; color: #0f172a; line-height: 1.2; }
-    .tp-intent-card p.tp-sub { font-size: 14px; color: #475569; margin: 0 0 12px; line-height: 1.4; }
-    .tp-intent-card img { max-height: 160px; width: auto; height: auto; object-fit: contain; margin: 0 0 14px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18)); }
+    .tp-intent-card h2 { font-size: 20px; margin: 0 0 4px; color: #0f172a; line-height: 1.2; }
+    .tp-intent-card p.tp-sub { font-size: 14px; color: #475569; margin: 0 0 10px; line-height: 1.4; }
+    .tp-intent-card img { max-height: 200px; width: auto; height: auto; object-fit: contain; margin: 0 0 14px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18)); }
     .tp-intent-cta { display: inline-block; background: var(--accent, #1d4ed8); color: #fff; font-weight: 700; font-size: 14px; padding: 10px 18px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: filter 0.15s, transform 0.15s; pointer-events: none; }
     .tp-intent-cta:hover { filter: brightness(1.08); transform: translateY(-1px); text-decoration: none; }
     /* Subtle compare card emphasis */
     .tp-intent-card.tp-card-compare { border-top-width: 7px; transform: translateY(-4px); box-shadow: 0 14px 36px rgba(234,179,8,0.22); }
     .tp-intent-card.tp-card-compare:hover { transform: translateY(-8px); }
-    .tp-intent-card.tp-card-compare::before { content: 'Most popular'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #eab308; color: #1f1300; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; box-shadow: 0 4px 12px rgba(234,179,8,0.4); }
-    .tp-trust-line { text-align: center; margin: 32px auto 4px; font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 600; }
-    .tp-counter-line { text-align: center; font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+    .tp-intent-card.tp-card-compare::before { content: 'Most popular'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #eab308; color: #1f1300; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; box-shadow: 0 4px 12px rgba(234,179,8,0.4); }
+    .tp-counter { text-align: center; margin: 40px auto 8px; }
+    .tp-counter-num { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.01em; line-height: 1; }
+    .tp-counter-label { font-size: 14px; color: rgba(255,255,255,0.7); margin-left: 8px; }
+    .tp-trust-line { text-align: center; margin: 4px auto 0; font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 600; }
 
     @media (max-width: 700px) {
       .tp-hero-section { padding: 56px 0 32px; }
-      .tp-slogan { font-size: 36px; margin-bottom: 24px; }
+      .tp-slogan { font-size: 36px; margin-bottom: 12px; }
+      .tp-subhead { font-size: 15px; max-width: 92%; margin-bottom: 32px; }
       .tp-intent-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .tp-intent-card { padding: 18px 12px 16px; border-top-width: 5px; }
+      .tp-intent-card { padding: 14px 12px 14px; border-top-width: 5px; }
       .tp-intent-card.tp-card-compare { border-top-width: 7px; }
-      .tp-intent-card img { max-height: 130px; margin-bottom: 10px; }
+      .tp-intent-card img { max-height: 150px; margin-bottom: 10px; }
       .tp-intent-card h2 { font-size: 17px; }
-      .tp-intent-card p.tp-sub { font-size: 13px; margin-bottom: 12px; }
+      .tp-intent-card p.tp-sub { font-size: 13px; margin-bottom: 10px; }
       .tp-intent-cta { font-size: 14px; padding: 10px 16px; }
       .tp-intent-card.tp-card-compare { grid-column: 1 / -1; }
+      .tp-counter { margin-top: 28px; }
+      .tp-counter-num { font-size: 26px; }
     }
     @media (max-width: 480px) {
       .tp-slogan { font-size: 30px; }
+      .tp-subhead { font-size: 14px; }
     }
     @media (max-width: 700px) {
       .hp-hero { padding: 40px 0 36px; }
@@ -211,6 +218,7 @@
     <div class="container" style="text-align:center;">
 
       <h1 class="tp-slogan anim-1">Don't guess. Know.</h1>
+      <p class="tp-subhead anim-1">Get a free estimate, compare contractor quotes, or check the one you already have.</p>
 
       <div class="tp-intent-grid anim-2">
         <a class="tp-intent-card tp-card-estimate" href="/get-an-estimate.html" style="--accent:#ec4899;">
@@ -233,8 +241,10 @@
         </a>
       </div>
 
+      <div class="tp-counter anim-3">
+        <span class="tp-counter-num"><span id="liveCounter">3,895</span></span><span class="tp-counter-label">quotes analyzed and counting</span>
+      </div>
       <div class="tp-trust-line anim-3">We don't sell leads. Ever.</div>
-      <div class="tp-counter-line anim-3"><span id="liveCounter">Thousands of</span> quotes analyzed</div>
 
     </div>
     <!-- Smooth dark-to-light transition into the demo card below -->
