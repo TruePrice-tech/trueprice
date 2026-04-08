@@ -61,10 +61,57 @@ async function checkRateLimit(ip) {
 export default async function handler(req, res) {
   const allowedOrigin = "https://truepricehq.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") return res.status(204).end();
+
+  // GET: lightweight ZIP -> {state, region, multiplier, hardinessZone, drought rebates,
+  // smart controller rebates, tree rebates, licensing, permits}. Lets the estimate
+  // page resolve climate and incentive context without paying for a Claude call.
+  if (req.method === "GET") {
+    try {
+      const zip = String(req.query?.zip || "").replace(/[^0-9]/g, "").substring(0, 5);
+      if (!zip || zip.length !== 5) return res.status(400).json({ error: "zip required (5 digits)" });
+      const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "landscaping-pricing.json"), "utf-8"));
+      // Cheap ZIP1 -> state bucket fallback; upstream geocoder can override.
+      const ZIP1_TO_STATE = { "0":"MA","1":"NY","2":"VA","3":"FL","4":"OH","5":"TX","6":"IL","7":"TX","8":"CO","9":"CA" };
+      const state = ZIP1_TO_STATE[zip[0]] || null;
+      let region = null, multiplier = 1.0;
+      if (state && pricingData.regionMultipliers) {
+        for (const [name, info] of Object.entries(pricingData.regionMultipliers)) {
+          if (info && Array.isArray(info.states) && info.states.includes(state)) {
+            region = name; multiplier = info.multiplier || 1.0; break;
+          }
+        }
+      }
+      if (state && pricingData.stateMultipliers && pricingData.stateMultipliers[state]) {
+        multiplier = pricingData.stateMultipliers[state];
+      }
+      let hardinessZone = null;
+      if (state && pricingData.hardinessZones) {
+        for (const [zname, zinfo] of Object.entries(pricingData.hardinessZones)) {
+          if (zinfo && Array.isArray(zinfo.states) && zinfo.states.includes(state)) {
+            hardinessZone = { zone: zname, tempRangeF: zinfo.tempRangeF, notes: zinfo.notes };
+            break;
+          }
+        }
+      }
+      const filterByState = (arr) => (arr || []).filter(r => r && r.active2026 !== false && Array.isArray(r.states) && state && r.states.includes(state));
+      return res.status(200).json({
+        zip, state, region, multiplier, hardinessZone,
+        droughtRebates: filterByState(pricingData.droughtRebates),
+        smartControllerRebates: filterByState(pricingData.sprinklerSmartControllerRebates),
+        treeRebates: filterByState(pricingData.treePlantingRebates),
+        licensing: (state && pricingData.stateLicensing) ? (pricingData.stateLicensing[state] || null) : null,
+        permitTriggers: pricingData.permitTriggers || []
+      });
+    } catch (e) {
+      console.error("[landscaping-estimate GET]", e.message);
+      return res.status(500).json({ error: "Lookup failed" });
+    }
+  }
+
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
@@ -77,7 +124,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "landscaping", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "landscaping", imageBytes: _imageBuf, cacheNamespace: "landscaping:v2-deepdive" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -133,68 +180,103 @@ ${text ? "EXTRACTED TEXT FROM QUOTE:\n" + text.substring(0, 8000) + "\n\n" : ""}
 Return this exact JSON structure:
 {
   "totalPrice": <number or null - the total quoted price>,
-  "laborTotal": <number or null - total labor cost>,
-  "materialsTotal": <number or null - total materials cost>,
-  "jobType": <"sod" | "pavers" | "retaining_wall" | "irrigation" | "tree_removal" | "grading" | "landscape_design" | "french_drain" | "mixed" | null>,
+  "laborTotal": <number or null>,
+  "materialsTotal": <number or null>,
+  "jobType": <"sod" | "pavers" | "retaining_wall" | "irrigation" | "tree_removal" | "tree_pruning" | "planting" | "mulch" | "lighting" | "grading" | "landscape_design" | "french_drain" | "mixed" | null>,
+  "subScope": <string or null - more specific sub-scope e.g. "bermuda sod", "belgard paver patio", "6-zone sprinkler", "2.5 inch caliper oak">,
   "squareFootage": <number or null - area in square feet>,
   "linearFeet": <number or null - linear feet for walls/drains>,
-  "materialType": <string or null - primary material (e.g. "bluestone pavers", "natural stone", "concrete block")>,
-  "brand": <string or null - material brand if mentioned>,
-  "city": <string or null - city from the quote>,
+  "irrigationZones": <number or null - count of sprinkler zones>,
+  "treeCount": <number or null - number of trees involved>,
+  "treeCalipers": <string or null - list of trunk calipers like "2.5 inch, 3 inch">,
+  "hardscapeMaterial": <"belgard"|"techo-bloc"|"pavestone"|"unilock"|"stamped_concrete"|"natural_stone"|"boulder"|null>,
+  "hardscapeArea": <number or null - sq ft of hardscape>,
+  "retainingWallHeightFt": <number or null - if a retaining wall, the specified height in feet>,
+  "drainageType": <"french_drain"|"dry_well"|"dry_creek_bed"|"swale"|"none"|null>,
+  "plantWarrantyMonths": <number or null - plant warranty duration>,
+  "controllerBrand": <string or null - irrigation controller brand (Rachio, Hunter Hydrawise, Rain Bird ESP)>,
+  "backflowPreventer": <boolean or null - backflow RPZ/PVB mentioned>,
+  "rainSensor": <boolean or null - rain sensor or smart controller>,
+  "licenseNumber": <string or null - CSLB/TCEQ/LCB/etc contractor license number listed on quote>,
+  "isaCertified": <boolean or null - ISA Certified Arborist mentioned>,
+  "depositPercent": <number or null - deposit % required>,
+  "materialType": <string or null - primary material>,
+  "brand": <string or null>,
+  "city": <string or null>,
   "stateCode": <string or null - 2-letter state code>,
   "lineItems": [
-    {
-      "description": <string - line item description>,
-      "laborCost": <number or null>,
-      "materialCost": <number or null>,
-      "lineTotal": <number or null>
-    }
+    { "description": <string>, "laborCost": <number or null>, "materialCost": <number or null>, "lineTotal": <number or null> }
   ],
   "scopeItems": {
-    "designPlan": <"yes" | "no" | "unclear" - design/layout plan included>,
-    "excavation": <"yes" | "no" | "unclear" - site excavation>,
-    "drainage": <"yes" | "no" | "unclear" - drainage plan/French drain>,
-    "baseMaterial": <"yes" | "no" | "unclear" - gravel/base layer>,
-    "edging": <"yes" | "no" | "unclear" - border/edging>,
-    "mulchRock": <"yes" | "no" | "unclear" - mulch or rock cover>,
-    "plants": <"yes" | "no" | "unclear" - plants/shrubs/trees>,
-    "irrigation": <"yes" | "no" | "unclear" - irrigation/sprinkler system>,
-    "lighting": <"yes" | "no" | "unclear" - landscape lighting>,
-    "sealing": <"yes" | "no" | "unclear" - paver/stone sealing>,
-    "permits": <"yes" | "no" | "unclear" - permits>,
-    "cleanup": <"yes" | "no" | "unclear" - cleanup and debris removal>,
-    "warranty": <"yes" | "no" | "unclear" - warranty on work>
+    "writtenScope":      <"yes"|"no"|"unclear">,
+    "soilPrep":          <"yes"|"no"|"unclear" - till depth, amendment, starter fert for sod/planting>,
+    "baseSpec":          <"yes"|"no"|"unclear" - base depth in inches, compaction for hardscape>,
+    "edgeRestraint":     <"yes"|"no"|"unclear" - paver edge restraint + geotextile>,
+    "drainagePlan":      <"yes"|"no"|"unclear" - slope away from house / drain>,
+    "zoneCount":         <"yes"|"no"|"unclear" - zone count + head layout>,
+    "backflow":          <"yes"|"no"|"unclear" - backflow preventer>,
+    "rainSensor":        <"yes"|"no"|"unclear" - rain sensor / smart controller>,
+    "winterization":     <"yes"|"no"|"unclear" - winterization plan>,
+    "plantList":         <"yes"|"no"|"unclear" - species + sizes listed>,
+    "plantWarranty":     <"yes"|"no"|"unclear" - plant warranty terms>,
+    "isaCertified":      <"yes"|"no"|"unclear" - ISA Certified Arborist on tree work>,
+    "licenseNumber":     <"yes"|"no"|"unclear" - state license number on quote>,
+    "insuranceCOI":      <"yes"|"no"|"unclear" - COI available>,
+    "depositReasonable": <"yes"|"no"|"unclear" - deposit <=33%>,
+    "permitsAddressed":  <"yes"|"no"|"unclear">,
+    "timeline":          <"yes"|"no"|"unclear" - committed start + end dates>
   },
-  "gradingAssessment": <boolean - whether grading/slope assessment is mentioned>,
-  "drainagePlan": <boolean - whether a drainage plan is included>,
-  "possibleUpsells": [<string - descriptions of potential upsell items>],
-  "redFlags": [<string - any concerning items found in the quote>],
-  "summary": <string - brief plain-English summary of the quote and value assessment>
+  "gradingAssessment": <boolean>,
+  "drainagePlan": <boolean>,
+  "possibleUpsells": [<string>],
+  "redFlags": [<string>],
+  "redFlagDetails": [
+    { "name": <string>, "severity": <"critical"|"high"|"medium">, "evidence": <string>, "explanation": <string> }
+  ],
+  "summary": <string - 2-4 sentence verdict that ALWAYS references the actual price and explains WHY it's fair, high, or low vs typical 2026 ranges for that sub-scope and region>
 }
 
 CRITICAL EXTRACTION RULES:
-- ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
-- If you cannot find an explicit total, SUM the individual line item amounts.
-- redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
-- Never return null for a price field if there are dollar amounts visible anywhere in the document.
+- ALWAYS extract dollar amounts. Never return null if any numbers appear on the quote.
+- If no explicit total, SUM the line items.
+- jobType: pick the best match; use "mixed" if multiple major scopes.
+- For irrigation, always attempt to extract irrigationZones (zone count).
+- For retaining walls, extract retainingWallHeightFt when possible.
+- For pavers, recognize Belgard, Techo-Bloc, Pavestone, Unilock, Cambridge, and "stamped concrete" as brand signals.
 
-- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.
+RED FLAG CATALOG - scan for each of these 20 patterns and add an entry to redFlagDetails with name, severity, exact evidence phrase, and one-sentence explanation:
 
-Rules:
-- totalPrice: Use the grand total / bottom line
-- jobType: Pick the best match. Use "mixed" if multiple major scopes
-- redFlags: Include if any of the following are detected:
-  * No drainage plan for hardscaping (pavers, retaining walls)
-  * No grading/slope assessment before work begins
-  * No base material specified for paver/patio install
-  * No compaction mentioned for base layers
-  * Retaining wall over 4 feet with no engineering/permit
-  * No erosion control plan for grading work
-  * No root protection plan for work near mature trees
-  * Irrigation without backflow preventer
-  * Any other suspicious or concerning items
-- possibleUpsells: Flag landscape lighting, premium sealer, extended warranty, decorative edging, smart irrigation controller
-- Return ONLY the JSON object, nothing else`
+CRITICAL severity:
+- "tree_topping": any mention of "topping", "hat-racking", "round over", "heading back" on a live tree (exclude "topsoil"/"top dressing") — ANSI A300 prohibited, arboricultural malpractice
+- "retaining_wall_over4_no_engineering": retaining wall height >=4 ft with no stamped engineering, geogrid, or permit mentioned
+
+HIGH severity:
+- "door_to_door_pitch": "working in the neighborhood", "leftover material", "today only", "storm special"
+- "climbing_spikes_on_pruning": spikes/spurs/gaffs mentioned on a pruning job (not removal)
+- "no_isa_no_insurance_for_tree_work": tree work with no ISA cert, no COI, no policy number
+- "cash_only_or_large_deposit": "cash only", "cash discount", or deposit >33%
+- "no_written_scope_no_cap": the word "estimate" with no "not to exceed", "fixed price", or line items
+- "sod_missing_prep_and_watering": sod quoted with no tilling, soil amendment, starter fert, or watering schedule
+- "sprinkler_missing_zones_backflow_sensor": irrigation quoted with no zone count, backflow preventer, or rain sensor
+- "hardscape_missing_base_geotextile_edge": paver/patio/driveway with no base depth, geotextile, edge restraint, or slope
+- "unlicensed_pesticide_application": pesticide/herbicide/pre-emergent/Roundup/grub control mentioned with no applicator license #
+- "sod_install_during_drought": sod install in CA/AZ/NV/CO/UT/NM/TX with no drought/restriction/waiver/native/xeriscape language
+- "uninsured_subcontracted_tree_work": tree work subcontracted with no COI naming homeowner
+- "prepay_for_materials": "pay for plants/sod/pavers before we order"
+- "unrealistically_low_bid": if multiple peer bids known, flag any >25% below median
+
+MEDIUM severity:
+- "plant_warranty_fine_print": "no plant warranty" or voids on "any pest/drought/mulch"
+- "free_design_ip_grab": "design remains property of [contractor], may not use with other"
+- "no_permit_in_protected_district": tree removal or wall/patio with no permit/HOA language in tree-ordinance cities
+- "cold_climate_no_winterization": irrigation in a cold state (MN/WI/MI/IA/IL/IN/OH/PA/NY/NJ/CT/MA/RI/NH/VT/ME/ND/SD/MT/WY/CO/UT/ID) with no winterization/blow-out plan
+- "vague_licensed_and_insured": "licensed and insured" language with no actual license or policy number
+
+For each red flag found, populate redFlagDetails with name, severity, the exact evidence phrase from the quote, and a one-sentence explanation. Only include flags actually found in the quote.
+
+- summary: always reference the actual price, sub-scope, and 2026 range. Example good summary: "The $8,400 6-zone sprinkler quote in TX works out to ~$1,400/zone which lands at the top of the mid range — justified because the quote includes a Rain Bird ESP-TM2 smart controller and RPZ backflow. Missing: TCEQ Licensed Irrigator # is not shown on the quote; verify it before signing." Never just say "above average" — explain WHY.
+
+- Return ONLY the JSON object, nothing else.`
     });
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -239,80 +321,107 @@ Rules:
 
     // --- Server-side enrichment from pricing data ---
     try {
-      const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'landscaping-pricing-model.json'), 'utf-8'));
+      const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'landscaping-pricing.json'), 'utf-8'));
 
       const jobType = parsed.jobType || null;
+      const subScope = parsed.subScope || null;
       const sqft = parsed.squareFootage || null;
-
-      // Map job types to pricing keys
-      const jobTypeMap = {
-        "pavers": "paver_patio",
-        "retaining_wall": "retaining_wall",
-        "sod": "sod_installation",
-        "landscape_design": "landscape_design_install",
-        "french_drain": "french_drain",
-        "grading": "grading_leveling"
-      };
-
-      const pricingKey = jobTypeMap[jobType] || null;
-      const basePricing = pricingKey ? pricingData.basePricing?.[pricingKey] : null;
-
-      // Determine region multiplier from state
       const stateCode = parsed.stateCode || null;
-      const stateToRegion = {
-        "AL":"south","AK":"west","AZ":"mountain","AR":"south","CA":"west","CO":"mountain",
-        "CT":"northeast","DE":"northeast","FL":"southeast","GA":"southeast","HI":"west",
-        "ID":"mountain","IL":"midwest","IN":"midwest","IA":"midwest","KS":"midwest",
-        "KY":"southeast","LA":"south","ME":"northeast","MD":"northeast","MA":"northeast",
-        "MI":"midwest","MN":"midwest","MS":"south","MO":"midwest","MT":"mountain",
-        "NE":"midwest","NV":"mountain","NH":"northeast","NJ":"northeast","NM":"mountain",
-        "NY":"northeast","NC":"southeast","ND":"midwest","OH":"midwest","OK":"south",
-        "OR":"west","PA":"northeast","RI":"northeast","SC":"southeast","SD":"midwest",
-        "TN":"southeast","TX":"south","UT":"mountain","VT":"northeast","VA":"southeast",
-        "WA":"west","WV":"southeast","WI":"midwest","WY":"mountain","DC":"northeast"
+      const stateMult = (stateCode && pricingData.stateMultipliers?.[stateCode]) || 1.0;
+
+      // Resolve region for display
+      let region = null;
+      if (stateCode && pricingData.regionMultipliers) {
+        for (const [name, info] of Object.entries(pricingData.regionMultipliers)) {
+          if (info && Array.isArray(info.states) && info.states.includes(stateCode)) { region = name; break; }
+        }
+      }
+
+      // Map jobType / subScope to a representative commonJobs key
+      const jobKeyMap = {
+        "sod": "sod_fescue_per_sqft",
+        "pavers": "paver_patio_midgrade",
+        "retaining_wall": "retaining_wall_under3",
+        "irrigation": "sprinkler_zone_mid",
+        "french_drain": "french_drain_exterior",
+        "tree_removal": "tree_large",
+        "landscape_design": "design_package_full",
+        "grading": "drainage_swale"
       };
-      const region = stateToRegion[stateCode] || "south";
-      const regionMult = pricingData.laborMultiplierByRegion?.[region] || 1.0;
+      const matchKey = jobKeyMap[jobType] || null;
+      const job = matchKey ? pricingData.commonJobs?.[matchKey] : null;
 
       let expectedRange = null;
-      if (basePricing && sqft && basePricing.unit !== "project") {
-        expectedRange = {
-          low: Math.round((basePricing.low * sqft * regionMult) / (pricingData.roundTo || 50)) * (pricingData.roundTo || 50),
-          high: Math.round((basePricing.high * sqft * regionMult) / (pricingData.roundTo || 50)) * (pricingData.roundTo || 50)
-        };
-      } else if (basePricing && basePricing.unit === "project") {
-        expectedRange = {
-          low: Math.round(basePricing.low * regionMult),
-          high: Math.round(basePricing.high * regionMult)
-        };
-      } else if (basePricing && parsed.linearFeet) {
-        expectedRange = {
-          low: Math.round((basePricing.low * parsed.linearFeet * regionMult) / (pricingData.roundTo || 50)) * (pricingData.roundTo || 50),
-          high: Math.round((basePricing.high * parsed.linearFeet * regionMult) / (pricingData.roundTo || 50)) * (pricingData.roundTo || 50)
-        };
+      if (job) {
+        const unit = job.unit;
+        const qty =
+          unit === "per_sqft"        ? (sqft || 0) :
+          unit === "per_lf"          ? (parsed.linearFeet || 0) :
+          unit === "per_zone"        ? (parsed.irrigationZones || 0) :
+          unit === "per_tree"        ? (parsed.treeCount || 0) :
+          unit === "per_sqft_face"   ? (parsed.hardscapeArea || 0) :
+          unit === "flat"            ? 1 :
+          unit === "per_hour"        ? 0 : 0;
+        if (qty > 0) {
+          expectedRange = {
+            low: Math.round(job.low * qty * stateMult),
+            mid: Math.round(job.mid * qty * stateMult),
+            high: Math.round(job.high * qty * stateMult)
+          };
+        } else if (unit === "flat") {
+          expectedRange = {
+            low: Math.round(job.low * stateMult),
+            mid: Math.round(job.mid * stateMult),
+            high: Math.round(job.high * stateMult)
+          };
+        }
       }
 
-      // Server-side red flag checks
-      if (!parsed.redFlags) parsed.redFlags = [];
-      if (!parsed.drainagePlan && (jobType === "pavers" || jobType === "retaining_wall")) {
-        if (!parsed.redFlags.some(f => f.toLowerCase().includes("drainage"))) {
-          parsed.redFlags.push("No drainage plan included for hardscaping project. Water management is critical for longevity.");
+      // Scope score
+      let scopeScore = 0, scopeMax = 0;
+      if (pricingData.scopeCheckItems && parsed.scopeItems) {
+        for (const item of pricingData.scopeCheckItems) {
+          scopeMax += item.weight;
+          if (parsed.scopeItems[item.key] === "yes") scopeScore += item.weight;
         }
       }
-      if (!parsed.gradingAssessment && (jobType === "pavers" || jobType === "sod" || jobType === "grading")) {
-        if (!parsed.redFlags.some(f => f.toLowerCase().includes("grading"))) {
-          parsed.redFlags.push("No grading/slope assessment mentioned. Improper grading can cause water pooling and damage.");
+
+      // Server-side red flag backstop for common gaps Claude may miss
+      if (!parsed.redFlags) parsed.redFlags = [];
+      const pushFlag = (msg) => {
+        if (!parsed.redFlags.some(f => String(f).toLowerCase().includes(msg.slice(0,20).toLowerCase()))) {
+          parsed.redFlags.push(msg);
         }
+      };
+      if ((jobType === "pavers" || jobType === "retaining_wall") && !parsed.drainagePlan) {
+        pushFlag("No drainage plan for hardscape. ICPI Tech Spec 2 requires slope away from structures; missing drainage is a leading cause of paver failure.");
+      }
+      if ((jobType === "sod" || jobType === "pavers" || jobType === "grading") && !parsed.gradingAssessment) {
+        pushFlag("No grading or slope assessment. Improper grading causes water pooling, paver settlement, and sod failure.");
+      }
+      // Drought-zone sod flag
+      const droughtStates = ["CA","AZ","NV","CO","UT","NM","TX"];
+      if (jobType === "sod" && droughtStates.includes(stateCode)) {
+        pushFlag(`Sod install in a drought-prone state (${stateCode}). Verify local watering restrictions and check cash-for-grass rebates before proceeding.`);
+      }
+      // Licensing missing for regulated states
+      const regulatedLicense = pricingData.stateLicensing?.[stateCode];
+      if (regulatedLicense && parsed.scopeItems?.licenseNumber !== "yes") {
+        pushFlag(`In ${stateCode} the contractor must show a ${regulatedLicense.license}. Verify the license number on the quote before signing.`);
       }
 
       parsed.pricingContext = {
         state: stateCode,
         region: region,
-        regionMultiplier: regionMult,
+        stateMultiplier: stateMult,
         jobType: jobType,
-        jobLabel: basePricing?.label || null,
+        subScope: subScope,
+        jobLabel: job?.label || null,
         expectedRange: expectedRange,
-        source: "HomeAdvisor, Angi, RSMeans residential landscaping data"
+        scopeScore: scopeScore,
+        scopeMax: scopeMax,
+        scopeGrade: scopeMax > 0 ? (scopeScore / scopeMax >= 0.8 ? "A" : scopeScore / scopeMax >= 0.6 ? "B" : scopeScore / scopeMax >= 0.4 ? "C" : "D") : null,
+        source: pricingData.metadata?.sources || "competitor-research landscaping"
       };
 
     } catch (e) {

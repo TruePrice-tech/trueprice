@@ -1,203 +1,388 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, landscaping surveys",
-    "baseYear": 2026
+    "sources": "competitor-research/lawn-pricing.md, lawn-redflags-and-ux.md, lawn-regulations-rebates.md",
+    "baseYear": 2026,
+    "notes": "Install-only landscape pricing. Excludes recurring maintenance and fence installs. All figures 2026 nationally-blended installed unless noted. Apply stateMultipliers OR regionMultipliers (not both) when localizing."
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.90, "AK": 1.15, "AZ": 0.95, "AR": 0.88, "CA": 1.22,
+    "CO": 1.05, "CT": 1.18, "DE": 1.05, "FL": 0.92, "GA": 0.90,
+    "HI": 1.25, "ID": 1.00, "IL": 1.00, "IN": 0.95, "IA": 0.92,
+    "KS": 0.90, "KY": 0.90, "LA": 0.90, "ME": 1.05, "MD": 1.10,
+    "MA": 1.20, "MI": 0.98, "MN": 1.00, "MS": 0.85, "MO": 0.92,
+    "MT": 1.00, "NE": 0.92, "NV": 1.05, "NH": 1.10, "NJ": 1.20,
+    "NM": 0.95, "NY": 1.22, "NC": 0.92, "ND": 0.95, "OH": 0.98,
+    "OK": 0.90, "OR": 1.10, "PA": 1.08, "RI": 1.12, "SC": 0.90,
+    "SD": 0.92, "TN": 0.90, "TX": 0.95, "UT": 1.00, "VT": 1.05,
+    "VA": 1.00, "WA": 1.12, "WV": 0.88, "WI": 0.98, "WY": 0.95,
+    "DC": 1.22
+  },
+  "regionMultipliers": {
+    "northeast": { "states": ["NY","NJ","CT","MA","PA","RI","NH","VT","ME"], "multiplier": 1.20, "notes": "Short season, high labor, permit-heavy" },
+    "west_coast": { "states": ["CA","OR","WA"], "multiplier": 1.20, "notes": "CA highest; drought premium for natives, smart irrigation pushed by code" },
+    "mountain":   { "states": ["CO","UT","ID","MT","WY","NV","AZ","NM"], "multiplier": 1.05, "notes": "Short season, expensive plants" },
+    "midwest":    { "states": ["OH","IL","IN","MI","MN","WI","IA","MO","KS","NE","ND","SD"], "multiplier": 1.00, "notes": "Competitive baseline" },
+    "southeast":  { "states": ["GA","SC","NC","FL","AL","TN","KY","VA","WV","MS"], "multiplier": 0.92, "notes": "Year-round work, cheaper labor, cheap sod" },
+    "texas":      { "states": ["TX"], "multiplier": 0.95, "notes": "Summer slowdown, cheap sod, expensive irrigation (TCEQ licensing)" },
+    "south_central": { "states": ["OK","AR","LA"], "multiplier": 0.90, "notes": "Lowest labor rates" }
+  },
+  "hardinessZones": {
+    "zone3": { "tempRangeF": "-40 to -30", "states": ["AK","ND","MN","ME"], "notes": "Short growing season; install size matters more" },
+    "zone4": { "tempRangeF": "-30 to -20", "states": ["MN","WI","MT","VT","NH","ME","NY"], "notes": "Cool-season lawns (fescue, KBG)" },
+    "zone5": { "tempRangeF": "-20 to -10", "states": ["IA","IL","IN","OH","MA","CT","NY","WI","MI","CO"], "notes": "Most national plant lists target zone 5-6" },
+    "zone6": { "tempRangeF": "-10 to 0",   "states": ["MO","KY","WV","PA","NJ","OH","KS"], "notes": "Fescue/KBG lawn sweet spot" },
+    "zone7": { "tempRangeF": "0 to 10",    "states": ["VA","NC","TN","AR","OK","NM","WA","OR"], "notes": "Transition zone; fescue and bermuda both work" },
+    "zone8": { "tempRangeF": "10 to 20",   "states": ["NC","SC","GA","FL","TX","AZ","OR","WA"], "notes": "Zoysia / centipede lawn; zoysia install ~30% more than fescue" },
+    "zone9": { "tempRangeF": "20 to 30",   "states": ["FL","TX","LA","CA","AZ"], "notes": "Bermuda, St. Augustine; irrigation costs spike" },
+    "zone10":{ "tempRangeF": "30 to 40",   "states": ["FL","CA","HI","TX"], "notes": "Tropical; St. Augustine" },
+    "zone11":{ "tempRangeF": "40 to 50",   "states": ["FL","HI","PR"], "notes": "Keys / Hawaii lowlands" }
   },
   "commonJobs": {
-    "sod_install": {
-      "label": "Sod Installation",
-      "total": [
-        1000,
-        3000
-      ],
-      "per_sqft": [
-        1,
-        3
-      ],
-      "urgency": "can_wait"
-    },
-    "landscape_design": {
-      "label": "Landscape Design + Install",
-      "total": [
-        3000,
-        15000
-      ],
-      "urgency": "can_wait"
-    },
-    "paver_patio": {
-      "label": "Paver Patio",
-      "total": [
-        2000,
-        8000
-      ],
-      "per_sqft": [
-        10,
-        25
-      ],
-      "urgency": "can_wait"
-    },
-    "retaining_wall_landscape": {
-      "label": "Retaining Wall (landscape block)",
-      "total": [
-        2000,
-        8000
-      ],
-      "per_sqft_face": [
-        15,
-        40
-      ],
-      "urgency": "can_wait"
-    },
-    "french_drain_yard": {
-      "label": "French Drain (yard)",
-      "total": [
-        1000,
-        4000
-      ],
-      "per_foot": [
-        15,
-        40
-      ],
-      "urgency": "soon"
-    },
-    "irrigation_system": {
-      "label": "Irrigation/Sprinkler System",
-      "total": [
-        2000,
-        5000
-      ],
-      "urgency": "can_wait"
-    },
-    "tree_removal_large": {
-      "label": "Large Tree Removal",
-      "total": [
-        1000,
-        3000
-      ],
-      "urgency": "varies"
-    },
-    "grading_drainage": {
-      "label": "Yard Grading/Drainage",
-      "total": [
-        1000,
-        5000
-      ],
-      "urgency": "soon"
-    }
+    "sod_bermuda_per_sqft": { "label": "Sod, Bermuda", "unit": "per_sqft", "low": 1.10, "mid": 1.85, "high": 2.75, "notes": "Warm-season, most common", "urgency": "can_wait" },
+    "sod_st_augustine_per_sqft": { "label": "Sod, St Augustine", "unit": "per_sqft", "low": 1.30, "mid": 2.00, "high": 3.00, "notes": "Shade-tolerant warm-season, FL/TX/Gulf", "urgency": "can_wait" },
+    "sod_zoysia_per_sqft": { "label": "Sod, Zoysia", "unit": "per_sqft", "low": 1.50, "mid": 2.25, "high": 3.40, "notes": "Premium warm-season, slow grower", "urgency": "can_wait" },
+    "sod_fescue_per_sqft": { "label": "Sod, Tall Fescue", "unit": "per_sqft", "low": 1.10, "mid": 1.75, "high": 2.60, "notes": "Cool-season transition zone", "urgency": "can_wait" },
+    "sod_kbg_per_sqft": { "label": "Sod, Kentucky Bluegrass", "unit": "per_sqft", "low": 1.25, "mid": 1.90, "high": 2.85, "notes": "Cool-season, North", "urgency": "can_wait" },
+    "hydroseeding_per_sqft": { "label": "Hydroseeding", "unit": "per_sqft", "low": 0.10, "mid": 0.18, "high": 0.35, "notes": "60-80% cheaper than sod; 3-6 wk germination", "urgency": "can_wait" },
+    "sprinkler_zone_small":  { "label": "Sprinkler per zone (small system 4-6 zones)", "unit": "per_zone", "low": 550, "mid": 850, "high": 1200, "urgency": "can_wait" },
+    "sprinkler_zone_mid":    { "label": "Sprinkler per zone (mid system 6-9 zones)", "unit": "per_zone", "low": 650, "mid": 1000, "high": 1500, "urgency": "can_wait" },
+    "sprinkler_zone_large":  { "label": "Sprinkler per zone (large 10+ zones)", "unit": "per_zone", "low": 900, "mid": 1400, "high": 2200, "urgency": "can_wait" },
+    "smart_controller_add":  { "label": "Smart controller upgrade (Rachio/Hydrawise/Rain Bird ESP)", "unit": "flat", "low": 180, "mid": 325, "high": 550, "urgency": "can_wait" },
+    "drip_zone_add":         { "label": "Drip irrigation per zone", "unit": "per_zone", "low": 300, "mid": 475, "high": 750, "notes": "WaterSense-friendly", "urgency": "can_wait" },
+    "tree_small":    { "label": "Tree, small (1-2\" caliper / 5-8 ft)", "unit": "per_tree", "low": 150,  "mid": 260,  "high": 425, "urgency": "can_wait" },
+    "tree_medium":   { "label": "Tree, medium (2-3\" cal)", "unit": "per_tree", "low": 350,  "mid": 560,  "high": 800, "urgency": "can_wait" },
+    "tree_large":    { "label": "Tree, large (3-4\" cal)", "unit": "per_tree", "low": 650,  "mid": 1100, "high": 1800, "urgency": "can_wait" },
+    "tree_specimen": { "label": "Tree, specimen (4-6\" cal)", "unit": "per_tree", "low": 1400, "mid": 2400, "high": 4500, "notes": "May need crane/auger", "urgency": "can_wait" },
+    "tree_xl":       { "label": "Tree, XL specimen (6\"+ cal / 20+ ft)", "unit": "per_tree", "low": 3500, "mid": 6000, "high": 12000, "notes": "Crane required", "urgency": "can_wait" },
+    "shrub_3_5gal":  { "label": "Shrub, 3-5 gal", "unit": "per_shrub", "low": 35, "mid": 65, "high": 110, "urgency": "can_wait" },
+    "shrub_7_15gal": { "label": "Shrub, 7-15 gal", "unit": "per_shrub", "low": 85, "mid": 145, "high": 240, "urgency": "can_wait" },
+    "perennial_1gal":{ "label": "Perennial, 1 gal", "unit": "per_plant", "low": 14, "mid": 22, "high": 35, "urgency": "can_wait" },
+    "annual_flat":   { "label": "Annual flat", "unit": "per_flat", "low": 30, "mid": 45, "high": 70, "urgency": "can_wait" },
+    "paver_patio_midgrade": { "label": "Concrete pavers (Belgard/Pavestone mid tier)", "unit": "per_sqft", "low": 18, "mid": 26, "high": 38, "notes": "Basic pattern, mid-grade brand", "urgency": "can_wait" },
+    "paver_patio_premium":  { "label": "Concrete pavers (Techo-Bloc / premium)", "unit": "per_sqft", "low": 24, "mid": 38, "high": 62, "notes": "Large format / herringbone", "urgency": "can_wait" },
+    "stamped_concrete_patio": { "label": "Stamped concrete patio", "unit": "per_sqft", "low": 14, "mid": 20, "high": 32, "notes": "Cracks within 5-10 years, hard to repair", "urgency": "can_wait" },
+    "paver_walkway": { "label": "Paver walkway", "unit": "per_sqft", "low": 20, "mid": 30, "high": 45, "notes": "20-30% premium over patio per sf", "urgency": "can_wait" },
+    "retaining_wall_under3": { "label": "Retaining wall, segmental <3 ft", "unit": "per_lf", "low": 50, "mid": 90, "high": 140, "notes": "Gravity wall, no engineering", "urgency": "can_wait" },
+    "retaining_wall_3_4":    { "label": "Retaining wall, segmental 3-4 ft + geogrid", "unit": "per_lf", "low": 160, "mid": 230, "high": 320, "notes": "Geogrid + drainage", "urgency": "can_wait" },
+    "retaining_wall_4_6":    { "label": "Retaining wall, engineered 4-6 ft", "unit": "per_lf", "low": 380, "mid": 510, "high": 700, "notes": "Permits + stamped plans required", "urgency": "can_wait" },
+    "retaining_wall_boulder":{ "label": "Retaining wall, boulder", "unit": "per_sqft_face", "low": 25, "mid": 38, "high": 55, "notes": "Excludes excavation", "urgency": "can_wait" },
+    "french_drain_exterior": { "label": "French drain (exterior)", "unit": "per_lf", "low": 25, "mid": 45, "high": 80, "notes": "Standard 18-24\" depth", "urgency": "soon" },
+    "dry_well":              { "label": "Dry well", "unit": "per_unit", "low": 800, "mid": 1800, "high": 3500, "notes": "Soil-dependent", "urgency": "soon" },
+    "dry_creek_bed":         { "label": "Dry creek bed", "unit": "per_lf", "low": 30, "mid": 55, "high": 95, "urgency": "can_wait" },
+    "drainage_swale":        { "label": "Drainage swale (graded)", "unit": "per_lf", "low": 8, "mid": 14, "high": 25, "urgency": "soon" },
+    "design_hourly":         { "label": "Landscape designer, hourly", "unit": "per_hour", "low": 75, "mid": 135, "high": 250, "urgency": "can_wait" },
+    "architect_hourly":      { "label": "Landscape architect, hourly", "unit": "per_hour", "low": 125, "mid": 200, "high": 350, "notes": "Stamped plans", "urgency": "can_wait" },
+    "design_package_full":   { "label": "Full residential design package", "unit": "flat", "low": 1500, "mid": 4200, "high": 9500, "notes": "Plan + plant list + hardscape detail", "urgency": "can_wait" },
+    "lighting_per_fixture":  { "label": "Outdoor lighting per fixture (low-voltage LED)", "unit": "per_fixture", "low": 135, "mid": 235, "high": 385, "urgency": "can_wait" },
+    "lighting_transformer":  { "label": "Lighting transformer + smart controller", "unit": "flat", "low": 375, "mid": 625, "high": 1400, "urgency": "can_wait" },
+    "mulch_hardwood":        { "label": "Mulch (hardwood) installed", "unit": "per_cuyd", "low": 70, "mid": 95, "high": 135, "urgency": "can_wait" },
+    "mulch_premium":         { "label": "Mulch (premium dyed/cedar/cypress) installed", "unit": "per_cuyd", "low": 90, "mid": 125, "high": 180, "urgency": "can_wait" }
   },
-  "commonUpsells": [
+  "scopeCheckItems": [
+    { "key": "writtenScope",     "label": "Written, line-itemed scope (not verbal)", "weight": 12 },
+    { "key": "soilPrep",         "label": "Soil prep / amendment / grade (sod, planting)", "weight": 10 },
+    { "key": "baseSpec",         "label": "Base depth + compaction spec (hardscape)", "weight": 10 },
+    { "key": "edgeRestraint",    "label": "Edge restraint + geotextile (pavers)", "weight": 8 },
+    { "key": "drainagePlan",     "label": "Drainage plan / slope away from house", "weight": 10 },
+    { "key": "zoneCount",        "label": "Zone count and head layout (irrigation)", "weight": 10 },
+    { "key": "backflow",         "label": "Backflow preventer (RPZ/PVB) on irrigation", "weight": 8 },
+    { "key": "rainSensor",       "label": "Rain sensor / smart controller on irrigation", "weight": 6 },
+    { "key": "winterization",    "label": "Winterization plan (cold climates)", "weight": 5 },
+    { "key": "plantList",        "label": "Plant species + sizes listed", "weight": 8 },
+    { "key": "plantWarranty",    "label": "Plant warranty terms in writing", "weight": 8 },
+    { "key": "isaCertified",     "label": "ISA Certified Arborist (tree work)", "weight": 10 },
+    { "key": "licenseNumber",    "label": "State license number listed (CA C-27, TX LI, OR LCB, NV C-10)", "weight": 10 },
+    { "key": "insuranceCOI",     "label": "Proof of insurance / COI available", "weight": 8 },
+    { "key": "depositReasonable","label": "Deposit <=33% of project value", "weight": 6 },
+    { "key": "permitsAddressed", "label": "Permits addressed (walls >4 ft, tree ordinance, backflow)", "weight": 6 },
+    { "key": "timeline",         "label": "Committed start + completion dates", "weight": 4 }
+  ],
+  "redFlagPatterns": [
     {
-      "item": "Landscape lighting",
-      "cost": [
-        500,
-        2000
-      ],
-      "necessary": "rarely",
-      "notes": "Aesthetic. DIY kits $100-300."
+      "name": "door_to_door_pitch",
+      "regex": "\\b(working in (the |your )?(neighborhood|area)|leftover (material|asphalt|mulch|sealcoat)|today only|same.?day (start|discount)|storm (damage|special))\\b",
+      "severity": "high",
+      "explanation": "Door-to-door pitches and 'leftover material' offers are the #1 vector for tree-service and driveway-sealing fraud per BBB and AARP. Legitimate landscapers do not canvass door-to-door, especially after storms.",
+      "action": "Never sign or pay same-day. Get the company name, check BBB and the state contractor license board."
     },
     {
-      "item": "Mulch delivery/spread",
-      "cost": [
-        200,
-        600
-      ],
-      "necessary": "sometimes",
-      "notes": "Should be included with planting."
+      "name": "tree_topping",
+      "regex": "\\b(top(ping|ped)?|hat[- ]?rack(ing)?|round[- ]?over|head(ing)? back|stub(bing)? cut)\\b",
+      "negativeRegex": "\\b(topsoil|top dressing|topping (off|up))\\b",
+      "severity": "critical",
+      "explanation": "ANSI A300 and ISA standards explicitly prohibit tree topping. It is arboricultural malpractice, kills the tree, creates hazard regrowth, and voids any reputable warranty.",
+      "action": "Disqualify the bidder. Hire an ISA Certified Arborist for proper crown reduction or removal."
+    },
+    {
+      "name": "climbing_spikes_on_pruning",
+      "regex": "\\b(climbing )?(spikes|spurs|gaffs)\\b",
+      "secondaryRegex": "\\b(prune|pruning|trim|trimming)\\b",
+      "negativeRegex": "\\b(removal|remove|take down)\\b",
+      "severity": "high",
+      "explanation": "ANSI A300 forbids spikes on pruning jobs. Spikes puncture the cambium and invite decay. Allowed only on removals.",
+      "action": "Reject spike use on any pruning job. Walk away if the bidder insists."
+    },
+    {
+      "name": "no_isa_no_insurance_for_tree_work",
+      "regex": "\\b(tree (work|service|pruning|removal)|prune|climb|arborist)\\b",
+      "requiresAbsenceOf": "\\b(ISA|certified arborist|TCIA|COI|certificate of insurance|workers.?comp|general liability|policy ?#)\\b",
+      "severity": "high",
+      "explanation": "Uninsured climber falling on your property makes your homeowners insurance the payer. A real arborist will provide an ISA cert number and name you as additional insured.",
+      "action": "Demand ISA cert number and a COI naming you as additional insured before any work begins."
+    },
+    {
+      "name": "cash_only_or_large_deposit",
+      "regex": "\\b(cash only|cash discount|payable to [A-Z][a-z]+ [A-Z][a-z]+\\b)\\b",
+      "secondaryRegex": "(\\d{1,3})\\s*%\\s*(deposit|down|to (start|schedule))",
+      "depositThresholdPct": 33,
+      "severity": "high",
+      "explanation": "BBB rule of thumb: deposits over ~33% are a red flag. CA caps residential deposits at 10% or $1,000, whichever is less. Cash leaves no chargeback trail.",
+      "action": "Refuse deposits over 33%. Pay by credit card or check made to a business, never to an individual."
+    },
+    {
+      "name": "no_written_scope_no_cap",
+      "regex": "\\bestimate\\b",
+      "requiresAbsenceOf": "\\b(not to exceed|fixed price|firm price|guaranteed price|line item)\\b",
+      "severity": "high",
+      "explanation": "70%+ of failed irrigation installs came from verbal-only 'estimates' with no line items. Final invoices routinely land 30-80% over the verbal quote.",
+      "action": "Require a written, line-itemed, 'not to exceed' quote before signing."
+    },
+    {
+      "name": "sod_missing_prep_and_watering",
+      "regex": "\\bsod\\b",
+      "requiresAbsenceOf": "\\b(till|amend|topsoil|grade|level|starter (fert|fertilizer)|water(ing)? schedule)\\b",
+      "severity": "high",
+      "explanation": "Sod laid on compacted, unprepped soil dies in weeks and voids the warranty. NALP best practice: 4-6\" of tilled and amended soil + starter fert + first-30-days watering schedule in writing.",
+      "action": "Demand tilling depth, soil amendment, starter fertilizer, and a written 30-day watering schedule."
+    },
+    {
+      "name": "sprinkler_missing_zones_backflow_sensor",
+      "regex": "\\b(irrigation|sprinkler)\\b",
+      "requiresAbsenceOf": "\\b(zone|station|head.to.head|smart controller|wifi controller|rain sensor|backflow|RPZ|PVB|winterize|winterization)\\b",
+      "severity": "high",
+      "explanation": "Without head-to-head spacing you get permanent brown spots. Without backflow you can contaminate the potable supply (code violation). Rain sensors are legally required in FL, NJ, MN, and parts of TX.",
+      "action": "Require zone count, head layout, backflow preventer, rain sensor, and (in cold climates) a winterization plan in writing."
+    },
+    {
+      "name": "hardscape_missing_base_geotextile_edge",
+      "regex": "\\b(paver|patio|walkway|driveway)\\b",
+      "requiresAbsenceOf": "\\b(\\d+\\s*(\"|in(ch)?)?\\s*(compacted )?base|road base|class ?ii|geotextile|fabric|edge restraint|paver edge|compact(or|ed|ion)|slope|drain)\\b",
+      "severity": "high",
+      "explanation": "ICPI Tech Spec 2: pedestrian patios need 4\" compacted base minimum, driveways 6\", cold climates +2-4\". Missing edge restraint = pavers spread within one season. Missing geotextile over weak subgrade = pumping and settlement.",
+      "action": "Require base depth in inches, geotextile callout, edge restraint, compactor passes, and slope away from the house."
+    },
+    {
+      "name": "retaining_wall_over4_no_engineering",
+      "regex": "(retaining wall|seg(mental)? wall)[^.]{0,80}?(\\d+(\\.\\d+)?)\\s?(ft|feet|')",
+      "heightThresholdFt": 4,
+      "requiresAbsenceOf": "\\b(engineer|stamped|geogrid|permit|drainage)\\b",
+      "severity": "critical",
+      "explanation": "Almost every jurisdiction requires a stamped engineer drawing and a permit for walls >4 ft (some >3 ft). Failure = the wall blows out in 1-3 freeze cycles and the homeowner owns the liability.",
+      "action": "Require stamped engineered drawings, a building permit, geogrid, and a drainage detail."
+    },
+    {
+      "name": "plant_warranty_fine_print",
+      "regex": "\\b(no (plant )?warranty|warranty (void|excluded)[^.]{0,80}(water|pest|drought|mulch|fertiliz))\\b",
+      "severity": "medium",
+      "explanation": "NALP standard is 1-year on plant material with reasonable homeowner maintenance. Voids on 'any pest' or 'any drought' give the contractor a 100% out.",
+      "action": "Require a 1-year plant warranty in writing with reasonable-maintenance language, not open-ended voids."
+    },
+    {
+      "name": "unlicensed_pesticide_application",
+      "regex": "\\b(pesticide|herbicide|pre.?emergent|round.?up|glyphosate|grub control|weed.?and.?feed|fungicide)\\b",
+      "requiresAbsenceOf": "\\b(applicator (license|cert)|state cert(ified|ification) ?#|QAL|QAC)\\b",
+      "severity": "high",
+      "explanation": "Every state requires a separate Commercial Pesticide Applicator license for chemical apps, independent of landscape install license. Unlicensed application is a misdemeanor and can harm kids, pets, and wells.",
+      "action": "Require the applicator license number on the quote. Verify with your state Department of Agriculture."
+    },
+    {
+      "name": "free_design_ip_grab",
+      "regex": "(design[^.]{0,40}(remain|property of|may not)[^.]{0,40}(use|share|other))",
+      "severity": "medium",
+      "explanation": "'Free design with install' plus a clause that the documents remain the contractor's property locks you to one bidder. NALP recommends design fees be itemized and transferable.",
+      "action": "Strike the IP clause or pay a modest itemized design fee for transferable plans."
+    },
+    {
+      "name": "sod_install_during_drought",
+      "regex": "\\b(sod|turf|fescue|kentucky blue)\\b",
+      "requiresAbsenceOf": "\\b(drought|restriction|waiver|native|xeriscape|drip)\\b",
+      "droughtStates": ["CA","AZ","NV","CO","UT","NM","TX"],
+      "severity": "high",
+      "explanation": "Sod install during Stage 2+ drought voids warranty and may violate local watering ordinances. SNWA (Las Vegas) bans non-functional turf by 2027. CA prohibits new non-functional turf at commercial sites.",
+      "action": "Verify your local watering stage and check cash-for-grass rebates before installing thirsty turf."
+    },
+    {
+      "name": "uninsured_subcontracted_tree_work",
+      "regex": "\\b(sub[- ]?contract(ed|or)?|guys I bring in|day labor)\\b",
+      "secondaryRegex": "\\b(tree|climb|prune|removal)\\b",
+      "severity": "high",
+      "explanation": "If the climber isn't named on the bidder's COI, you own the liability for any injury on your property.",
+      "action": "Require the sub's Certificate of Insurance naming you as additional insured, or disqualify the bidder."
+    },
+    {
+      "name": "prepay_for_materials",
+      "regex": "(pay|payment)[^.]{0,40}(material|plants|sod|pavers)[^.]{0,40}(before|prior to|order)",
+      "severity": "high",
+      "explanation": "Classic disappearance scam. Reputable nurseries extend trade credit; the contractor should not need your money to order plants.",
+      "action": "Refuse to pre-pay for materials. Pay on delivery or completion milestones."
+    },
+    {
+      "name": "no_permit_in_protected_district",
+      "regex": "\\b(tree removal|stump|wall|patio|driveway|expand)\\b",
+      "requiresAbsenceOf": "\\b(permit|HOA|approval|jurisdiction)\\b",
+      "severity": "medium",
+      "explanation": "Atlanta, Seattle, Portland, Austin, Tampa, Sacramento, DC and others have tree-protection ordinances. Atlanta charges $500/inch DBH for unpermitted tree removal. Homeowner gets the fine, not the contractor.",
+      "action": "Verify tree ordinance and HOA rules before signing. Require the contractor to pull any required permits."
+    },
+    {
+      "name": "cold_climate_no_winterization",
+      "regex": "\\b(irrigation|sprinkler)\\b",
+      "requiresAbsenceOf": "\\b(winterize|winterization|blow.?out|compressor)\\b",
+      "coldStates": ["MN","WI","MI","IA","IL","IN","OH","PA","NY","NJ","CT","MA","RI","NH","VT","ME","ND","SD","MT","WY","CO","UT","ID"],
+      "severity": "medium",
+      "explanation": "In cold-climate states, an irrigation system without an annual blow-out plan will freeze and crack within the first winter.",
+      "action": "Require a winterization plan in writing before installation."
+    },
+    {
+      "name": "vague_licensed_and_insured",
+      "regex": "\\blicensed and insured\\b",
+      "requiresAbsenceOf": "\\b(lic ?#|license ?#|policy ?#|\\d{5,})\\b",
+      "severity": "medium",
+      "explanation": "'Fully licensed and insured' with no actual license or policy number is unverifiable and frequently false.",
+      "action": "Require the state license number and policy number on the written quote."
+    },
+    {
+      "name": "unrealistically_low_bid",
+      "externalSignal": "bid > 25% below median of peer bids on same scope",
+      "severity": "high",
+      "explanation": "A bid >25% below peers on the same scope is either missing scope (change orders will eat the savings), using uninsured labor, or substituting down a material grade.",
+      "action": "Ask the bidder to match the peer scope line-by-line in writing. If they can't or won't, skip them."
     }
   ],
-  "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "plantList",
-      "label": "Plant species/materials listed",
-      "weight": 10
-    },
-    {
-      "key": "grading",
-      "label": "Grading/drainage addressed",
-      "weight": 8
-    }
+  "recommendedScopeItems": {
+    "sod": [
+      "4-6 inches of tilled, amended topsoil",
+      "Starter fertilizer applied day-of-install",
+      "Roll and water on install day",
+      "Written 30-day watering schedule",
+      "1-year warranty contingent on following watering schedule"
+    ],
+    "irrigation": [
+      "Zone count and head layout diagram",
+      "Head-to-head spacing per manufacturer spec",
+      "Backflow preventer (RPZ or PVB) per code",
+      "EPA WaterSense smart controller (Rachio 3, Hunter Hydrawise HC, Rain Bird ESP-TM2 LNK)",
+      "Rain sensor (required in FL, NJ, MN, parts of TX)",
+      "Winterization plan in cold climates",
+      "As-built diagram on completion"
+    ],
+    "hardscape_paver": [
+      "4 inch compacted base minimum for patios (6 inch for driveways)",
+      "Geotextile fabric over subgrade",
+      "Plate compactor passes spelled out",
+      "Edge restraint (PVC or steel)",
+      "1-2 percent slope away from structures",
+      "ICPI-certified installer preferred"
+    ],
+    "retaining_wall": [
+      "Stamped engineered drawings for walls >4 ft",
+      "Geogrid reinforcement layers specified",
+      "Drainage rock + perforated pipe behind wall",
+      "Building permit pulled by contractor",
+      "Compaction in 8 inch lifts"
+    ],
+    "tree_work": [
+      "ISA Certified Arborist on site",
+      "COI naming homeowner as additional insured",
+      "ANSI A300 pruning standards referenced",
+      "No spikes on live tree pruning",
+      "Permit in tree-ordinance cities"
+    ]
+  },
+  "questionsToAsk": [
+    "What is your state license number and can I verify it with the state board?",
+    "Can you name me as additional insured on your COI for this job?",
+    "Is this a firm, not-to-exceed quote or an estimate that can change?",
+    "What is the deposit percentage and is it 33% or less?",
+    "For sod: what tilling depth, soil amendment, and starter fertilizer are included?",
+    "For irrigation: how many zones, what controller, is a backflow preventer and rain sensor included?",
+    "For pavers: what is the base depth, is geotextile and edge restraint included, and what slope is spec'd?",
+    "For retaining walls over 4 ft: do you have stamped engineering drawings and is a permit pulled?",
+    "For tree work: are you ISA certified, and will the climber use spikes on pruning?",
+    "For chemical applications: what is your pesticide applicator license number?",
+    "What plant warranty do you offer and what voids it?",
+    "Is design work transferable to me if I don't hire you for installation?",
+    "In a drought zone: are there local cash-for-grass or WaterSense rebates I qualify for?",
+    "Will the same company on this contract do the work, or is any of it subcontracted?",
+    "What is your committed start date and expected completion date?"
+  ],
+  "droughtRebates": [
+    { "program": "SoCal WaterSmart Turf Replacement", "agency": "MWD of Southern California", "states": ["CA"], "counties": ["Los Angeles","Orange","San Diego","Riverside","San Bernardino","Ventura"], "rebatePerSqFt": [3,5], "minSqFt": 250, "url": "https://socalwatersmart.com/", "active2026": true, "notes": "LADWP tops at $5/sf. 3 plants per 100 sf, no invasives, no synthetic turf. Pre-approval required." },
+    { "program": "SNWA Water Smart Landscapes", "agency": "Southern Nevada Water Authority", "states": ["NV"], "rebatePerSqFt": [1.5,3], "url": "https://www.snwa.com/rebates/wsl/", "active2026": true, "notes": "$3/sf first 10,000 sf, $1.50/sf above. Non-functional turf banned 2027. Pre-approval mandatory." },
+    { "program": "AMWUA / Phoenix Water Landscape Rebate", "agency": "Arizona Municipal Water Users Assoc", "states": ["AZ"], "rebatePerSqFt": [0.25,2], "url": "https://www.amwua.org/", "active2026": true, "notes": "Varies by city. Mesa $0.50/sf. Tempe up to $1,500." },
+    { "program": "Tucson Water Rainwater & Turf", "agency": "Tucson Water", "states": ["AZ"], "rebateMax": 2000, "url": "https://www.tucsonaz.gov/water/conservation", "active2026": true },
+    { "program": "ABCWUA Xeriscape", "agency": "Albuquerque Bernalillo Water Authority", "states": ["NM"], "rebatePerSqFt": [2,2], "rebateMax": 5000, "url": "https://www.abcwua.org/xeriscape-rebate/", "active2026": true },
+    { "program": "Santa Fe Water Conservation", "agency": "City of Santa Fe", "states": ["NM"], "rebatePerSqFt": [1.25,1.25], "url": "https://www.santafenm.gov/", "active2026": true },
+    { "program": "Resource Central Garden in a Box", "agency": "Front Range CO Utilities", "states": ["CO"], "url": "https://resourcecentral.org/gardens/", "active2026": true, "notes": "Pre-designed kits $130-170 subsidized ~$25-50; many utilities add $1-2/sf turf rebate" },
+    { "program": "Denver Water Turf Replacement", "agency": "Denver Water", "states": ["CO"], "rebatePerSqFt": [1.5,1.5], "url": "https://www.denverwater.org/residential/rebates", "active2026": true },
+    { "program": "Utah Water Savers / Slow the Flow", "agency": "Utah statewide", "states": ["UT"], "rebatePerSqFt": [1.25,3], "url": "https://utahwatersavers.com/", "active2026": true },
+    { "program": "Austin Water WaterWise", "agency": "Austin Water", "states": ["TX"], "rebatePerSqFt": [0.35,0.35], "url": "https://www.austintexas.gov/department/water-conservation", "active2026": true },
+    { "program": "SAWS WaterSaver", "agency": "San Antonio Water System", "states": ["TX"], "rebatePerSqFt": [1,1.25], "url": "https://www.saws.org/conservation/", "active2026": true },
+    { "program": "El Paso Water Conservation", "agency": "El Paso Water", "states": ["TX"], "rebatePerSqFt": [1,1], "url": "https://www.epwater.org/", "active2026": true }
+  ],
+  "sprinklerSmartControllerRebates": [
+    { "program": "SoCal WaterSmart", "states": ["CA"], "rebate": 80, "approvedDevices": ["Rachio 3","Hunter Hydrawise HC","Rain Bird ESP-TM2 LNK","Hunter Pro-C with Solar Sync"], "note": "Must be EPA WaterSense listed" },
+    { "program": "SNWA",             "states": ["NV"], "rebate": 300, "approvedDevices": ["Rachio 3","Hunter Hydrawise HC","Rain Bird ESP-TM2 LNK"], "note": "Up to free smart controller" },
+    { "program": "AMWUA cities",     "states": ["AZ"], "rebate": 250, "approvedDevices": ["Rachio 3","Hunter Hydrawise HC","Rain Bird ESP-TM2 LNK"] },
+    { "program": "Austin Water",     "states": ["TX"], "rebate": 200, "approvedDevices": ["Rachio 3","Hunter Hydrawise HC","Rain Bird ESP-TM2 LNK"], "note": "Includes free WaterMyYard sensor" },
+    { "program": "SAWS",             "states": ["TX"], "rebate": 250, "approvedDevices": ["Rachio 3","Hunter Hydrawise HC","Rain Bird ESP-TM2 LNK"] },
+    { "program": "Denver Water via Resource Central", "states": ["CO"], "rebate": 150, "approvedDevices": ["Rachio 3","Hunter Hydrawise HC","Rain Bird ESP-TM2 LNK"] }
+  ],
+  "treePlantingRebates": [
+    { "program": "SMUD Sacramento Shade Tree (w/ Sacramento Tree Foundation)", "states": ["CA"], "benefit": "Up to 10 free shade trees + planting consultation", "url": "https://www.smud.org/sacshade" },
+    { "program": "LADWP City Plants / TreePeople", "states": ["CA"], "benefit": "Up to 7 free trees delivered and planted", "url": "https://www.cityplants.org/" },
+    { "program": "Friends of Trees Portland", "states": ["OR"], "benefit": "Subsidized $35-45 trees + planting", "url": "https://friendsoftrees.org/" },
+    { "program": "Casey Trees DC", "states": ["DC"], "benefit": "Up to $100 rebate per tree", "url": "https://caseytrees.org/" },
+    { "program": "Phoenix Shade Tree Program", "states": ["AZ"], "benefit": "2 free desert trees per household" },
+    { "program": "Denver Be A Smart Ash", "states": ["CO"], "benefit": "Free EAB-resistant replacement trees" }
+  ],
+  "stateLicensing": {
+    "CA": { "license": "CSLB C-27 Landscaping Contractor", "threshold": 500, "url": "https://www.cslb.ca.gov/", "notes": "Required for any job >$500 labor+material. Separate C-61/D-12 for synthetic turf. DPR QAL/QAC for any commercial pesticide app." },
+    "TX": { "license": "TCEQ Licensed Irrigator (any irrigation work)", "threshold": 0, "url": "https://www.tceq.texas.gov/licensing/licenses/lic_irrigators", "notes": "No statewide landscape license but irrigation requires TCEQ LI. Backflow tester separate license." },
+    "OR": { "license": "OR LCB Landscape Contracting Business + Landscape Construction Professional", "threshold": 500, "url": "https://www.oregon.gov/lcb/", "notes": "Most rigorous after CA" },
+    "NV": { "license": "NV State Contractors Board C-10 Landscape Contractor", "threshold": 1000, "url": "https://nvcontractorsboard.com/", "notes": "SNWA also requires Water Smart Contractor cert for rebate eligibility in LV" },
+    "AZ": { "license": "ROC C-21 Landscaping (or L-21 limited)", "threshold": 1000, "notes": "Bond required. AZ Dept of Ag QA/QP for pesticides." },
+    "LA": { "license": "LA Horticulture Commission license", "threshold": 0, "url": "https://www.ldaf.state.la.us/horticulture/", "notes": "Separate licenses for landscape architect, horticulturist, arborist, utility arborist. Landscape Horticulturist exam required." },
+    "NC": { "license": "NC Landscape Contractors Licensing Board (NCLCLB)", "threshold": 30000, "url": "https://nclclb.com/", "notes": "NC Irrigation Contractor separate board" },
+    "FL": { "license": "No statewide landscape license. Certified Pest Control Operator for chemical apps. County-level irrigation cert in Miami-Dade, Broward.", "threshold": 0, "notes": "FFL BMP certification mandatory in many counties for fertilizer" },
+    "GA": { "license": "GA Landscape Contractor registration with state board", "threshold": 0, "notes": "Atlanta tree ordinance - heritage tree fees" },
+    "HI": { "license": "HI Contractor C-27 Landscaping", "threshold": 0 },
+    "MD": { "license": "MHIC for any home improvement + MD Tree Expert license for tree care", "threshold": 0, "url": "https://dnr.maryland.gov/forests/Pages/programs/lte.aspx", "notes": "MD Tree Expert is one of the strictest in US" },
+    "CT": { "license": "HIC >$200 + CT Arborist license for tree work", "threshold": 200, "notes": "CT Arborist is one of 4 statutory tree licenses in US" },
+    "NJ": { "license": "NJ HIC registration + NJ Certified Tree Expert for tree work", "threshold": 0, "url": "https://www.nj.gov/dep/parksandforests/forest/community/cte_overview.html" },
+    "NH": { "license": "NH Arborist license (statutory)", "threshold": 0 },
+    "RI": { "license": "RI Contractor Registration + RI Arborist license", "threshold": 0 },
+    "MN": { "license": "MN Tree Care Registration; MN Irrigation Contractor required", "threshold": 0 },
+    "WA": { "license": "WA L&I Contractor Registration (bond + insurance)", "threshold": 0 }
+  },
+  "permitTriggers": [
+    { "trigger": "Retaining wall >4 ft (measured from bottom of footing)", "requires": "Building permit + stamped engineering", "notes": "Some jurisdictions trigger at 3 ft if surcharged" },
+    { "trigger": "Pool / spa install", "requires": "Building, electrical, plumbing, barrier inspection; sometimes seismic" },
+    { "trigger": "Water feature >50-100 gallons", "requires": "Plumbing/building permit varies by jurisdiction" },
+    { "trigger": "Grading >50 cubic yards cut or fill", "requires": "Grading permit + possibly drainage plan" },
+    { "trigger": "Tree removal in tree-ordinance city", "cities": ["Atlanta","Seattle","Portland","Austin","Tampa","Sacramento","DC","Charlotte","Nashville","Knoxville","Coral Gables"], "requires": "Tree removal permit + possibly mitigation fee" },
+    { "trigger": "Backflow preventer on new irrigation tied to municipal water", "requires": "Required universally; annual testing by certified tester" },
+    { "trigger": "Pesticide/herbicide near schools, wells, wetlands, surface water", "requires": "Federal WPS + state buffer zones" },
+    { "trigger": "Fertilizer summer-N ban counties (FL: Pinellas, Sarasota, Manatee, Lee)", "requires": "No summer N application" },
+    { "trigger": "Curb cuts / right-of-way work", "requires": "ROW permit" },
+    { "trigger": "HOA architectural review (FL FFL plants preempted by statute 373.185)", "requires": "HOA ARB approval" },
+    { "trigger": "Irrigation install permit (FL county, TX any, some CA cities, NC)", "requires": "Irrigation permit" },
+    { "trigger": "Line-voltage outdoor lighting or >60V systems", "requires": "Electrical permit; dark sky compliance in AZ, NM, parts of UT, HI" },
+    { "trigger": "Erosion / sediment control for disturbance >1 acre (NPDES) or per state (DE/MD 5,000 sf)", "requires": "ESC plan + NPDES CGP" },
+    { "trigger": "Wetland / shoreline alteration", "requires": "State wetland permit (coastal + Great Lakes states)" },
+    { "trigger": "Septic drain field protection", "requires": "No deep-rooted plantings within X ft; permit to alter" },
+    { "trigger": "811 Call Before You Dig", "requires": "Mandatory pre-dig call; failure is criminal in many states" },
+    { "trigger": "Burn permit for vegetation disposal in fire-prone counties", "states": ["CA","OR","CO","NM","AZ"] },
+    { "trigger": "Tree protection ordinance during construction", "requires": "Tree protection fencing at drip line" }
   ]
 }
