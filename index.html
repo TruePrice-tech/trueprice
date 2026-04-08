@@ -120,32 +120,35 @@
     .hp-why-icon { font-size: 24px; }
 
     /* New three-intent hero */
+    .tp-slogan { font-size: 56px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; color: #fff; text-align: center; margin: 0 auto 36px; max-width: 900px; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
     .tp-intent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
-    .tp-intent-card { background: #fff; border-radius: 16px; padding: 22px 18px 18px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; }
+    .tp-intent-card { background: #fff; border-radius: 16px; padding: 22px 18px 20px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; position: relative; }
     .tp-intent-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.24); text-decoration: none; }
     .tp-intent-card h2 { font-size: 19px; margin: 0 0 4px; color: #0f172a; line-height: 1.2; }
     .tp-intent-card p.tp-sub { font-size: 14px; color: #475569; margin: 0 0 12px; line-height: 1.4; }
     .tp-intent-card img { max-height: 160px; width: auto; height: auto; object-fit: contain; margin: 0 0 14px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18)); }
     .tp-intent-cta { display: inline-block; background: var(--accent, #1d4ed8); color: #fff; font-weight: 700; font-size: 14px; padding: 10px 18px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: filter 0.15s, transform 0.15s; pointer-events: none; }
     .tp-intent-cta:hover { filter: brightness(1.08); transform: translateY(-1px); text-decoration: none; }
-    .tp-trust-line { text-align: center; margin: 28px auto 4px; font-size: 14px; color: rgba(255,255,255,0.75); }
+    /* Subtle compare card emphasis */
+    .tp-intent-card.tp-card-compare { border-top-width: 7px; transform: translateY(-4px); box-shadow: 0 14px 36px rgba(234,179,8,0.22); }
+    .tp-intent-card.tp-card-compare:hover { transform: translateY(-8px); }
+    .tp-intent-card.tp-card-compare::before { content: 'Most popular'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #eab308; color: #1f1300; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; box-shadow: 0 4px 12px rgba(234,179,8,0.4); }
+    .tp-trust-line { text-align: center; margin: 32px auto 4px; font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 600; }
     .tp-counter-line { text-align: center; font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
-    .tp-trades { max-width: 980px; margin: 22px auto 0; text-align: center; }
-    .tp-trades-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 10px; }
-    .tp-trades-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 18px; }
-    .tp-trades-row a { font-size: 13px; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.15s; }
-    .tp-trades-row a:hover { color: #93c5fd; text-decoration: none; }
 
     @media (max-width: 700px) {
+      .tp-slogan { font-size: 36px; margin-bottom: 24px; }
       .tp-intent-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
       .tp-intent-card { padding: 18px 12px 16px; border-top-width: 5px; }
+      .tp-intent-card.tp-card-compare { border-top-width: 7px; }
       .tp-intent-card img { max-height: 130px; margin-bottom: 10px; }
       .tp-intent-card h2 { font-size: 17px; }
       .tp-intent-card p.tp-sub { font-size: 13px; margin-bottom: 12px; }
       .tp-intent-cta { font-size: 14px; padding: 10px 16px; }
       .tp-intent-card.tp-card-compare { grid-column: 1 / -1; }
-      .tp-trades-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; }
-      .tp-trades-row a { padding: 4px 0; }
+    }
+    @media (max-width: 480px) {
+      .tp-slogan { font-size: 30px; }
     }
     @media (max-width: 700px) {
       .hp-hero { padding: 40px 0 36px; }
@@ -191,69 +194,47 @@
   <header class="site-header" style="background:transparent; border-bottom:none; position:absolute; width:100%; z-index:10;">
     <div class="container">
       <a class="logo" href="/" style="color:#fff;">TruePrice</a>
-      <nav>
-        <a href="/guides.html" style="color:rgba(255,255,255,0.7);">Guides</a>
+      <nav style="display:flex; gap:24px; align-items:center;">
+        <a href="/guides.html" style="color:rgba(255,255,255,0.78);">Guides</a>
+        <a href="/about.html" style="color:rgba(255,255,255,0.78);">About</a>
+        <a href="mailto:hello@truepricehq.com" style="color:rgba(255,255,255,0.78);">Contact</a>
       </nav>
     </div>
   </header>
 
   <!-- HERO: three-intent funnel -->
-  <section class="hp-hero" style="position:relative; z-index:1; padding:96px 0 56px;">
+  <section class="hp-hero" style="position:relative; z-index:1; padding:88px 0 48px;">
     <div class="container" style="text-align:center;">
 
-      <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">TruePrice — Free Contractor Quote Analyzer for 20 Trades</h1>
+      <h1 class="tp-slogan anim-1">Don't guess. Know.</h1>
 
-      <div class="tp-intent-grid anim-1">
+      <div class="tp-intent-grid anim-2">
         <a class="tp-intent-card tp-card-estimate" href="/get-an-estimate.html" style="--accent:#ec4899;">
           <h2>How much will you spend?</h2>
           <p class="tp-sub">Shop before you buy.</p>
           <img src="/images/trudy-estimate-hero.webp" alt="Trudy with arms out asking what you need" width="533" height="800" loading="eager" />
-          <span class="tp-intent-cta">Give me an estimate</span>
+          <span class="tp-intent-cta">Get my estimate &rarr;</span>
         </a>
         <a class="tp-intent-card tp-card-compare" href="/compare-quotes-picker.html" style="--accent:#eab308;">
           <h2>Got multiple quotes?</h2>
           <p class="tp-sub">Side-by-side check on each.</p>
           <img src="/images/trudy-compare-hero.webp" alt="Trudy holding two quotes for comparison" width="533" height="800" loading="eager" />
-          <span class="tp-intent-cta">Compare quotes</span>
+          <span class="tp-intent-cta">Compare my quotes &rarr;</span>
         </a>
         <a class="tp-intent-card tp-card-analyze" href="/analyze-my-quote.html" style="--accent:#1d4ed8;">
           <h2>Already got a quote?</h2>
           <p class="tp-sub">Don't sign till Trudy checks it.</p>
           <img src="/images/trudy-analyze-hero.webp" alt="Trudy holding up a single quote, confident" width="533" height="800" loading="eager" />
-          <span class="tp-intent-cta">Analyze my quote</span>
+          <span class="tp-intent-cta">Check my quote &rarr;</span>
         </a>
       </div>
 
-      <div class="tp-trust-line anim-3">Free &middot; No email &middot; No phone &middot; No lead-selling</div>
+      <div class="tp-trust-line anim-3">We don't sell leads. Ever.</div>
       <div class="tp-counter-line anim-3"><span id="liveCounter">Thousands of</span> quotes analyzed</div>
 
-      <div class="tp-trades anim-4">
-        <div class="tp-trades-label">Browse by trade</div>
-        <div class="tp-trades-row">
-          <a href="/roofing-quote-analyzer.html">Roofing</a>
-          <a href="/hvac-quote-analyzer.html">HVAC</a>
-          <a href="/plumbing-quote-analyzer.html">Plumbing</a>
-          <a href="/electrical-quote-analyzer.html">Electrical</a>
-          <a href="/solar-quote-analyzer.html">Solar</a>
-          <a href="/windows-quote-analyzer.html">Windows</a>
-          <a href="/siding-quote-analyzer.html">Siding</a>
-          <a href="/painting-quote-analyzer.html">Painting</a>
-          <a href="/concrete-quote-analyzer.html">Concrete</a>
-          <a href="/foundation-quote-analyzer.html">Foundation</a>
-          <a href="/fencing-quote-analyzer.html">Fencing</a>
-          <a href="/gutters-quote-analyzer.html">Gutters</a>
-          <a href="/insulation-quote-analyzer.html">Insulation</a>
-          <a href="/kitchen-quote-analyzer.html">Kitchen</a>
-          <a href="/landscaping-quote-analyzer.html">Landscaping</a>
-          <a href="/garage-door-quote-analyzer.html">Garage Door</a>
-          <a href="/auto-repair-quote-analyzer.html">Auto Repair</a>
-          <a href="/moving-quote-analyzer.html">Moving</a>
-          <a href="/medical-bill-analyzer.html">Medical</a>
-          <a href="/legal-fee-analyzer.html">Legal</a>
-        </div>
-      </div>
-
     </div>
+    <!-- Smooth dark-to-light transition into the demo card below -->
+    <div aria-hidden="true" style="position:absolute; left:0; right:0; bottom:0; height:64px; background:linear-gradient(to bottom, rgba(255,255,255,0), #ffffff); pointer-events:none;"></div>
   </section>
 
   <main class="container" style="padding-top:16px;">
