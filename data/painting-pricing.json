@@ -1,350 +1,296 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, painting contractor surveys, Sherwin-Williams/Benjamin Moore",
-    "baseYear": 2026
+    "sources": "PCA labor surveys 2025-2026, Sherwin-Williams trade pricing, Benjamin Moore trade pricing, PPG/Behr/Valspar contractor pricing, RSMeans residential 2026, Painting Contractor Magazine cost surveys",
+    "baseYear": 2026,
+    "cacheNamespace": "painting:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.84, "AK": 1.22, "AZ": 0.95, "AR": 0.82, "CA": 1.24, "CO": 1.06,
+    "CT": 1.14, "DE": 1.04, "FL": 0.92, "GA": 0.88, "HI": 1.30, "ID": 0.90,
+    "IL": 1.02, "IN": 0.90, "IA": 0.88, "KS": 0.88, "KY": 0.86, "LA": 0.88,
+    "ME": 1.00, "MD": 1.08, "MA": 1.18, "MI": 0.92, "MN": 0.98, "MS": 0.80,
+    "MO": 0.88, "MT": 0.94, "NE": 0.88, "NV": 1.00, "NH": 1.04, "NJ": 1.14,
+    "NM": 0.90, "NY": 1.22, "NC": 0.90, "ND": 0.90, "OH": 0.92, "OK": 0.86,
+    "OR": 1.06, "PA": 1.00, "RI": 1.08, "SC": 0.86, "SD": 0.88, "TN": 0.86,
+    "TX": 0.92, "UT": 0.94, "VT": 1.02, "VA": 0.96, "WA": 1.12, "WV": 0.82,
+    "WI": 0.92, "WY": 0.94, "DC": 1.22
   },
+  "paintTiers": [
+    {
+      "tier": "builder",
+      "label": "Builder / contractor grade",
+      "perGallon": [22, 38],
+      "examples": ["Behr Pro", "Sherwin-Williams ProMar 200", "Valspar Pro", "Glidden Premium"],
+      "notes": "Acceptable for low-traffic interior. Limited washability. Used for flips and rentals."
+    },
+    {
+      "tier": "midrange",
+      "label": "Mid-range",
+      "perGallon": [38, 60],
+      "examples": ["Behr Premium Plus", "Sherwin-Williams SuperPaint", "Benjamin Moore Ben", "Valspar Signature", "PPG Diamond"],
+      "notes": "100% acrylic, washable, good hide. Standard for most residential repaints."
+    },
+    {
+      "tier": "premium",
+      "label": "Premium",
+      "perGallon": [60, 90],
+      "examples": ["Sherwin-Williams Duration", "Benjamin Moore Regal Select", "Behr Marquee", "PPG Manor Hall"],
+      "notes": "Ceramic-microsphere or hybrid resins. Excellent washability and stain resistance. Lifetime warranty common."
+    },
+    {
+      "tier": "ultra",
+      "label": "Ultra-premium / specialty",
+      "perGallon": [80, 130],
+      "examples": ["Sherwin-Williams Emerald (and Emerald Urethane Trim)", "Benjamin Moore Aura", "Farrow & Ball", "Fine Paints of Europe", "C2 Paint"],
+      "notes": "Best hide (often 1-coat coverage), best washability, longest fade resistance. Required for deep saturated colors and luxury finishes."
+    },
+    {
+      "tier": "exterior_premium",
+      "label": "Exterior premium (UV / weather)",
+      "perGallon": [55, 110],
+      "examples": ["Sherwin-Williams Duration Exterior", "Benjamin Moore Aura Exterior", "Behr Marquee Exterior", "PPG Timeless Exterior"],
+      "notes": "Designed for full sun and freeze-thaw. Lifetime warranty common."
+    },
+    {
+      "tier": "exterior_elastomeric",
+      "label": "Exterior elastomeric (stucco)",
+      "perGallon": [55, 110],
+      "examples": ["Sherwin-Williams Loxon XP", "Behr Premium Plus Elastomeric", "Dunn-Edwards EVERSHIELD"],
+      "notes": "Bridges hairline cracks in stucco. Long life on Mediterranean/Southwest homes."
+    }
+  ],
   "laborRates": {
-    "low": 25,
-    "mid": 50,
-    "high": 75,
-    "per_sqft_interior": [
-      2,
-      6
-    ],
-    "per_sqft_exterior": [
-      1.5,
-      4
-    ]
+    "national_low": 32,
+    "national_mid": 55,
+    "national_high": 85,
+    "perSqftInteriorWalls": [1.50, 4.00],
+    "perSqftInteriorWallsCeilings": [2.00, 5.50],
+    "perSqftExteriorBody": [1.25, 3.50],
+    "perSqftExteriorBodyTrim": [1.75, 4.50],
+    "trimPerLinearFoot": [2.50, 7.00],
+    "doorSlabEachSide": [40, 110],
+    "windowEach": [60, 180],
+    "shutterEach": [25, 75],
+    "notes": "Labor rates assume full prep (light scrape, spot prime, caulk, mask). Heavy prep (full strip, lead abatement, repair) is billed separately. Spray-and-back-roll on exterior is 2-3x faster than brush-and-roll but adds masking time."
   },
   "commonJobs": {
-    "interior_room": {
-      "label": "Interior Room (avg 12x12)",
-      "total": [
-        300,
-        800
-      ],
-      "labor_hrs": [
-        4,
-        8
-      ],
-      "parts": [
-        50,
-        150
-      ],
+    "interior_single_room": {
+      "label": "Interior single room (12x12 walls only, mid-tier paint)",
+      "total": [400, 950],
+      "perSqft": [1.50, 4.00],
+      "scope": "Walls 2 coats, light prep, 1 accent wall optional. Trim and ceiling not included.",
+      "urgency": "can_wait"
+    },
+    "interior_room_full": {
+      "label": "Interior single room (walls + trim + ceiling)",
+      "total": [600, 1500],
+      "perSqft": [2.00, 5.50],
       "urgency": "can_wait"
     },
     "interior_whole_house": {
-      "label": "Interior Whole House (2000 sqft)",
-      "total": [
-        2000,
-        6000
-      ],
-      "labor_hrs": [
-        30,
-        60
-      ],
-      "parts": [
-        400,
-        1200
-      ],
+      "label": "Interior whole house (1,500-2,500 sqft, walls + trim)",
+      "total": [4500, 12500],
+      "scope": "All living rooms, bedrooms, halls. 2 coats. Standard prep.",
       "urgency": "can_wait"
     },
-    "exterior_whole_house": {
-      "label": "Exterior Whole House",
-      "total": [
-        2500,
-        7000
-      ],
-      "labor_hrs": [
-        40,
-        80
-      ],
-      "parts": [
-        500,
-        1500
-      ],
+    "interior_whole_house_with_ceilings": {
+      "label": "Interior whole house with ceilings",
+      "total": [6000, 16000],
       "urgency": "can_wait"
     },
-    "cabinet_painting": {
-      "label": "Kitchen Cabinet Painting",
-      "total": [
-        1500,
-        4000
-      ],
-      "labor_hrs": [
-        20,
-        40
-      ],
-      "parts": [
-        200,
-        600
-      ],
+    "exterior_body_only": {
+      "label": "Exterior body only (1,500-2,500 sqft wall area)",
+      "total": [3500, 9000],
+      "perSqft": [1.25, 3.50],
+      "scope": "Body only. Trim, doors, shutters separate.",
       "urgency": "can_wait"
     },
-    "deck_staining": {
-      "label": "Deck Staining/Sealing",
-      "total": [
-        500,
-        2000
-      ],
-      "labor_hrs": [
-        6,
-        15
-      ],
-      "parts": [
-        100,
-        400
-      ],
-      "urgency": "can_wait"
-    },
-    "trim_painting": {
-      "label": "Trim/Baseboards (whole house)",
-      "total": [
-        800,
-        2500
-      ],
-      "labor_hrs": [
-        10,
-        25
-      ],
-      "parts": [
-        100,
-        400
-      ],
-      "urgency": "can_wait"
-    },
-    "ceiling_painting": {
-      "label": "Ceiling Painting (per room)",
-      "total": [
-        150,
-        400
-      ],
-      "labor_hrs": [
-        2,
-        4
-      ],
-      "parts": [
-        30,
-        80
-      ],
-      "urgency": "can_wait"
-    },
-    "accent_wall": {
-      "label": "Accent Wall",
-      "total": [
-        100,
-        300
-      ],
-      "labor_hrs": [
-        2,
-        4
-      ],
-      "parts": [
-        30,
-        80
-      ],
-      "urgency": "can_wait"
-    },
-    "popcorn_removal": {
-      "label": "Popcorn Ceiling Removal (per room)",
-      "total": [
-        300,
-        800
-      ],
-      "labor_hrs": [
-        4,
-        8
-      ],
-      "parts": [
-        20,
-        50
-      ],
+    "exterior_full": {
+      "label": "Exterior whole house (body + trim + doors + shutters)",
+      "total": [5500, 16000],
+      "perSqft": [1.75, 4.50],
       "urgency": "can_wait",
-      "notes": "Pre-1980 homes may contain asbestos. Test before removal."
+      "notes": "Spray-and-back-roll on body, brush trim. Light scrape and prime over peeling areas."
     },
-    "pressure_washing": {
-      "label": "Pressure Washing (before exterior)",
-      "total": [
-        200,
-        600
-      ],
-      "labor_hrs": [
-        2,
-        5
-      ],
-      "parts": [
-        20,
-        50
-      ],
+    "exterior_full_heavy_prep": {
+      "label": "Exterior whole house with heavy prep (peeling, repairs, lead abatement)",
+      "total": [9000, 28000],
+      "urgency": "soon",
+      "notes": "Pre-1978 homes need RRP-certified contractor. Full strip on areas with widespread peeling can double the labor."
+    },
+    "cabinet_repaint": {
+      "label": "Cabinet repaint (15-25 doors)",
+      "total": [2200, 6500],
+      "scope": "Sand, prime, 2 coats. Brush-and-roll or sprayed in shop. Spraying gives factory finish.",
+      "urgency": "can_wait"
+    },
+    "deck_stain": {
+      "label": "Deck strip and re-stain (300-500 sqft)",
+      "total": [800, 2400],
+      "perSqft": [3.50, 7.50],
       "urgency": "can_wait"
     }
   },
-  "paintQuality": {
-    "economy": {
-      "label": "Economy (Glidden, Valspar)",
-      "per_gallon": [
-        25,
-        40
-      ],
-      "coverage": "350 sqft/gal",
-      "coats_needed": 2,
-      "lifespan_interior": "3-5 years",
-      "lifespan_exterior": "3-5 years"
-    },
-    "mid": {
-      "label": "Mid-Range (Behr, PPG)",
-      "per_gallon": [
-        35,
-        55
-      ],
-      "coverage": "400 sqft/gal",
-      "coats_needed": 2,
-      "lifespan_interior": "5-8 years",
-      "lifespan_exterior": "5-7 years"
-    },
-    "premium": {
-      "label": "Premium (Sherwin-Williams, Benjamin Moore)",
-      "per_gallon": [
-        50,
-        80
-      ],
-      "coverage": "400 sqft/gal",
-      "coats_needed": "1-2",
-      "lifespan_interior": "8-12 years",
-      "lifespan_exterior": "7-10 years"
-    }
+  "supportingComponents": [
+    { "item": "Drywall repair (light)", "perJob": [150, 800], "necessary": "often" },
+    { "item": "Crack repair / mud and tape", "perLinearFoot": [3, 12], "necessary": "sometimes" },
+    { "item": "Caulking (interior trim)", "perLinearFoot": [1, 3], "necessary": "always" },
+    { "item": "Caulking (exterior trim)", "perLinearFoot": [1.50, 4], "necessary": "always" },
+    { "item": "Power wash (exterior)", "perJob": [200, 600], "necessary": "always", "notes": "Required prep before exterior painting." },
+    { "item": "Lead test + RRP work plan (pre-1978)", "perJob": [200, 700], "necessary": "by law" },
+    { "item": "Lead abatement (heavy)", "perJob": [800, 8000], "necessary": "by law if scraping" },
+    { "item": "Stripping multiple layers (heat or chemical)", "perSqft": [4, 12], "necessary": "sometimes" },
+    { "item": "Wallpaper removal", "perSqft": [1.50, 5], "necessary": "sometimes" },
+    { "item": "Primer (oil or stain-blocking)", "perGallon": [25, 60], "necessary": "often" }
+  ],
+  "permitCosts": {
+    "notes": "Painting itself rarely requires a permit. Pre-1978 lead RRP work requires a certified firm and lead-safe work practices but not a building permit in most jurisdictions.",
+    "buildingPermit": [0, 0],
+    "leadRRPCertCheckRequired": true
   },
-  "commonUpsells": [
+  "stateLicensing": {
+    "notes": "Painting contractors are licensed in some states under the general contractor license; in others under a specialty home improvement license; in some, no license is required.",
+    "requiresGCLicense": ["AL", "AZ", "AR", "CA", "CT", "DE", "FL", "GA", "HI", "LA", "MD", "MA", "MI", "MN", "MS", "MT", "NV", "NJ", "NM", "NC", "OR", "RI", "SC", "TN", "UT", "VA", "WA", "WV"],
+    "homeImprovementLicense": ["MD", "NJ", "CT", "RI", "MA"],
+    "licenseExempt": ["IN", "IL", "MO", "OH", "PA", "TX", "VT", "WI", "WY"],
+    "epaRRPRequired": "ALL states for pre-1978 paint disturbance"
+  },
+  "codeReferences": {
+    "leadRRP": "EPA RRP rule (40 CFR 745) — required for paid renovations on pre-1978 homes that disturb more than 6 sqft interior or 20 sqft exterior. Fines up to $37,500/day per violation.",
+    "vocLimits": "EPA AIM rule and CARB SCM in CA limit VOC content. Most consumer paints are now compliant.",
+    "encapsulation": "Pre-1978 homes can use lead-encapsulant paints (Fiberlock LBC) where abatement is impractical."
+  },
+  "redFlagPatterns": [
     {
-      "item": "Primer coat (separate)",
-      "cost": [
-        200,
-        500
-      ],
-      "necessary": "sometimes",
-      "notes": "Needed for dark-to-light color changes or bare drywall. Premium paints include primer."
+      "key": "lead_pre1978_no_rrp",
+      "severity": "critical",
+      "regex": "\\b(pre[- ]?1978|1950s|1960s|1970s|older home|original paint|peeling)\\b",
+      "secondaryRegex": "\\b(rrp|epa certified|lead test|lead safe|abatement|certified firm)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Pre-1978 home or peeling paint mentioned with no EPA RRP certification. Federal law requires RRP-certified contractors for paint-disturbing work on pre-1978 homes. Fines start at $37,500/day per violation. Verify the firm at epa.gov/lead."
     },
     {
-      "item": "Color consultation",
-      "cost": [
-        100,
-        300
-      ],
-      "necessary": "rarely",
-      "notes": "Many paint stores offer this free. Sherwin-Williams has free color matching."
+      "key": "no_brand_named",
+      "severity": "high",
+      "regex": "\\b(paint|primer|coating)\\b",
+      "secondaryRegex": "\\b(sherwin|sherwin[- ]?williams|benjamin moore|behr|ppg|valspar|emerald|duration|aura|marquee|regal|brand)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Paint line item with no brand/line specified. Same square footage costs $400-$1,200/room depending on whether the painter uses ProMar 200 ($28/gal) or Emerald ($90/gal). Always specify brand AND product line."
     },
     {
-      "item": "Lead paint testing",
-      "cost": [
-        200,
-        500
-      ],
-      "necessary": "verify",
-      "notes": "Required for pre-1978 homes. Federal law (EPA RRP Rule)."
+      "key": "one_coat_only",
+      "severity": "high",
+      "regex": "\\b(one coat|1 coat|single coat)\\b",
+      "explanation": "Quote specifies a single coat. Acceptable only with ultra-premium 1-coat-coverage products (Emerald, Aura) and only over a similar existing color. For color changes, dark-to-light, or any production work, 2 coats is the standard."
     },
     {
-      "item": "Wallpaper removal",
-      "cost": [
-        300,
-        800
-      ],
-      "necessary": "if_applicable",
-      "notes": "Per room. Necessary if painting over wallpaper."
+      "key": "no_prep_described",
+      "severity": "high",
+      "regex": "\\b(prep|preparation|sanding|caulking|patch|repair|prime|priming)\\b",
+      "matchInverse": true,
+      "explanation": "No mention of prep. Painting is 70% prep, 30% paint. Quotes that don't describe prep are either lowballing (the prep happens later as a 'change order') or planning to skip it (paint will fail in 1-2 years)."
+    },
+    {
+      "key": "no_powerwash_exterior",
+      "severity": "high",
+      "regex": "\\b(exterior|siding|outside|whole house exterior)\\b",
+      "secondaryRegex": "\\b(power wash|pressure wash|wash|clean|surface clean)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Exterior paint job with no power wash mentioned. Mandatory prep step. Paint over dirt, mildew, or chalk fails within a year. Skipping it is grounds to walk away."
+    },
+    {
+      "key": "spray_only_exterior",
+      "severity": "medium",
+      "regex": "\\b(spray only|sprayed|sprayer)\\b",
+      "secondaryRegex": "\\b(back roll|back[- ]?roll|brush|hand)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Exterior spray only with no back-rolling mentioned. Spray-only on exterior surfaces deposits paint on top rather than working it into the surface; lifespan is 50-70% shorter. Reputable exterior crews always back-roll behind the sprayer."
+    },
+    {
+      "key": "labor_rate_below_25",
+      "severity": "medium",
+      "regex": "\\b(\\$1[0-9]/hr|\\$2[0-4]/hr|labor rate|hourly)\\b",
+      "explanation": "Labor rate below $25/hr is well below 2026 prevailing wage for licensed painters in nearly every market. Suggests undocumented labor, no insurance, or no taxes paid."
+    },
+    {
+      "key": "no_warranty",
+      "severity": "medium",
+      "regex": "\\b(warranty|guarantee)\\b",
+      "matchInverse": true,
+      "explanation": "No workmanship warranty stated. Reputable painters offer 2-7 year workmanship warranties depending on tier. No warranty signals no confidence in the work."
+    },
+    {
+      "key": "no_insurance_disclosure",
+      "severity": "high",
+      "regex": "\\b(insurance|liability|workers comp|workers' comp|certificate of insurance|coi)\\b",
+      "matchInverse": true,
+      "explanation": "No mention of liability insurance or workers' comp. Painters fall off ladders. Without workers' comp the homeowner can be liable for injuries on their property. Always require a Certificate of Insurance naming you as additional insured."
+    },
+    {
+      "key": "deposit_above_25",
+      "severity": "high",
+      "regex": "\\b(deposit|down payment|upfront)\\b",
+      "explanation": "Deposits above 25% on residential painting are high risk. Reputable painters take 10-25% deposit and stage payments by completed area or phase."
+    },
+    {
+      "key": "labor_warranty_under_1yr",
+      "severity": "medium",
+      "regex": "\\b(30 day|60 day|90 day|6 month)\\b",
+      "secondaryRegex": "\\bwarranty\\b",
+      "explanation": "Workmanship warranty shorter than 1 year. Industry minimum at the legitimate end is 1 year, with 2-7 years standard at the mid-tier."
+    },
+    {
+      "key": "exterior_ambient_too_cold",
+      "severity": "medium",
+      "regex": "\\b(november|december|january|february|march|fall|winter|cold)\\b",
+      "secondaryRegex": "\\b(exterior|outside|outdoor)\\b",
+      "explanation": "Exterior paint scheduled in cold months. Most consumer paints fail to cure below 50F (some 'cold weather' formulations work to 35F). Avoid scheduling exteriors November-March in northern climates unless using a verified cold-weather product."
+    },
+    {
+      "key": "elastomeric_on_wood",
+      "severity": "high",
+      "regex": "\\belastomeric\\b",
+      "secondaryRegex": "\\b(stucco|masonry|cmu|cinder block|concrete)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Elastomeric coating quoted on a non-stucco surface. Elastomeric is designed for masonry and traps moisture in wood, leading to rot. Wrong product for the substrate."
+    },
+    {
+      "key": "no_color_consultation",
+      "severity": "low",
+      "regex": "\\b(color match|color consultation|color selection|sample)\\b",
+      "matchInverse": true,
+      "explanation": "No color matching or consultation noted. Reputable painters provide sample boards or in-place color drawdowns before committing to gallons."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate or per-sqft price stated",
-      "weight": 12
-    },
-    {
-      "key": "paintBrand",
-      "label": "Paint brand/quality specified",
-      "weight": 12
-    },
-    {
-      "key": "coats",
-      "label": "Number of coats specified",
-      "weight": 10
-    },
-    {
-      "key": "prepWork",
-      "label": "Prep work included (sanding, patching, caulking)",
-      "weight": 15
-    },
-    {
-      "key": "primerIncluded",
-      "label": "Primer included or noted",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty on workmanship",
-      "weight": 10
-    },
-    {
-      "key": "furniture",
-      "label": "Furniture moving/covering included",
-      "weight": 6
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup and touch-up included",
-      "weight": 8
-    }
+    { "key": "brandSpec",      "label": "Paint brand AND product line specified",       "weight": 14 },
+    { "key": "coats",          "label": "Two coats explicitly stated",                  "weight": 12 },
+    { "key": "prep",           "label": "Prep work described in detail",                "weight": 13 },
+    { "key": "rrp",            "label": "EPA RRP certified for pre-1978 homes",         "weight": 11 },
+    { "key": "powerwash",      "label": "Power wash before exterior",                   "weight": 9 },
+    { "key": "warranty",       "label": "Workmanship warranty 1+ year",                 "weight": 9 },
+    { "key": "insurance",      "label": "Liability + workers comp insurance disclosed", "weight": 10 },
+    { "key": "labor",          "label": "Labor rate stated",                            "weight": 6 },
+    { "key": "backroll",       "label": "Back-rolling on exterior spray",               "weight": 7 },
+    { "key": "deposit",        "label": "Deposit ≤25%",                                 "weight": 5 }
+  ],
+  "iraCredit": {
+    "section": "N/A",
+    "status": "NOT_APPLICABLE",
+    "notes": "Painting does not qualify for federal energy credits."
+  },
+  "utilityRebates": [],
+  "questionsToAskContractor": [
+    "What brand and product line of paint will you use, and how many coats?",
+    "What does prep include — sanding, caulking, patching, priming?",
+    "Is the home pre-1978? If so, are you EPA RRP certified?",
+    "For exterior, do you power wash first and back-roll behind the sprayer?",
+    "What is your workmanship warranty?",
+    "Can you provide a Certificate of Insurance naming me as additional insured?",
+    "What is the deposit and payment schedule?",
+    "Will you provide a sample board or test patch before final color commitment?",
+    "What is your plan for adjacent floors, furniture, and landscaping protection?",
+    "How many painters will be on site and how many days?"
   ]
 }

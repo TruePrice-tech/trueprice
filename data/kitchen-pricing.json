@@ -1,204 +1,324 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, NKBA, kitchen contractor surveys",
-    "baseYear": 2026
+    "sources": "NKBA 2025 cost vs value report, HomeAdvisor 2026 kitchen surveys, KBIS, RSMeans residential 2026, Houzz Kitchen Trends 2026, manufacturer MSRP and trade pricing",
+    "baseYear": 2026,
+    "cacheNamespace": "kitchen:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.20, "AZ": 0.96, "AR": 0.82, "CA": 1.24, "CO": 1.06,
+    "CT": 1.14, "DE": 1.04, "FL": 0.94, "GA": 0.90, "HI": 1.32, "ID": 0.92,
+    "IL": 1.02, "IN": 0.90, "IA": 0.88, "KS": 0.88, "KY": 0.86, "LA": 0.88,
+    "ME": 1.00, "MD": 1.10, "MA": 1.18, "MI": 0.92, "MN": 0.98, "MS": 0.82,
+    "MO": 0.88, "MT": 0.96, "NE": 0.88, "NV": 1.02, "NH": 1.06, "NJ": 1.14,
+    "NM": 0.92, "NY": 1.24, "NC": 0.92, "ND": 0.92, "OH": 0.92, "OK": 0.86,
+    "OR": 1.08, "PA": 1.00, "RI": 1.10, "SC": 0.86, "SD": 0.88, "TN": 0.86,
+    "TX": 0.92, "UT": 0.94, "VT": 1.02, "VA": 0.96, "WA": 1.12, "WV": 0.82,
+    "WI": 0.92, "WY": 0.94, "DC": 1.22
   },
-  "commonJobs": {
-    "minor_remodel": {
-      "label": "Minor Kitchen Remodel",
-      "total": [
-        10000,
-        20000
-      ],
-      "urgency": "can_wait",
-      "notes": "Refinish cabinets, new counters, backsplash, paint."
+  "tierDefinitions": {
+    "minor": {
+      "label": "Minor (cosmetic refresh, no layout change)",
+      "totalNational": [12000, 22000],
+      "scope": "Cabinet refacing or repainting, new counters, new sink/faucet, refreshed backsplash, new lighting fixtures. Same layout, same appliances.",
+      "durationDays": [10, 18],
+      "permitTypically": false
     },
-    "mid_remodel": {
-      "label": "Mid-Range Kitchen Remodel",
-      "total": [
-        20000,
-        40000
-      ],
-      "urgency": "can_wait",
-      "notes": "New cabinets, counters, appliances, flooring. Same layout."
+    "midRange": {
+      "label": "Mid-range (full replacement, same footprint)",
+      "totalNational": [28000, 55000],
+      "scope": "All-new semi-custom cabinets, new quartz/granite counters, new mid-range stainless appliance package, new flooring, new lighting, fresh paint. No wall removal, no plumbing relocation, no electrical service change.",
+      "durationDays": [30, 50],
+      "permitTypically": true,
+      "ratioBenchmark": "NKBA 2025: midrange remodel averaged $77K nationally for upper-mid; $30-55K is the realistic 2026 range for typical homes."
     },
-    "major_remodel": {
-      "label": "Major Kitchen Remodel",
-      "total": [
-        40000,
-        80000
-      ],
-      "urgency": "can_wait",
-      "notes": "Layout change, custom cabinets, premium materials."
+    "major": {
+      "label": "Major (layout change, structural)",
+      "totalNational": [60000, 120000],
+      "scope": "Custom or premium semi-custom cabinets, layout reconfiguration, wall removal (often load-bearing requiring beam), plumbing and electrical relocation, premium appliances, hardwood or premium tile, new windows.",
+      "durationDays": [60, 110],
+      "permitTypically": true
     },
-    "cabinet_reface": {
-      "label": "Cabinet Refacing",
-      "total": [
-        5000,
-        12000
-      ],
-      "urgency": "can_wait"
-    },
-    "countertop_granite": {
-      "label": "Granite Countertops",
-      "total": [
-        2000,
-        5000
-      ],
-      "per_sqft": [
-        40,
-        100
-      ],
-      "urgency": "can_wait"
-    },
-    "countertop_quartz": {
-      "label": "Quartz Countertops",
-      "total": [
-        2500,
-        6000
-      ],
-      "per_sqft": [
-        50,
-        120
-      ],
-      "urgency": "can_wait"
-    },
-    "backsplash": {
-      "label": "Tile Backsplash",
-      "total": [
-        800,
-        2500
-      ],
-      "urgency": "can_wait"
+    "luxury": {
+      "label": "Luxury (gut + designer)",
+      "totalNational": [120000, 350000],
+      "scope": "Full custom cabinetry, professional appliance package (Sub-Zero / Wolf / Miele), natural stone or specialty surfaces, designer-led project, full plumbing and electrical rework, custom millwork, often whole-room rework including windows and structural changes.",
+      "durationDays": [90, 180],
+      "permitTypically": true
     }
   },
-  "commonUpsells": [
+  "componentBudgetSplit": {
+    "notes": "NKBA 2025 typical mid-range remodel cost share. Use as a sanity check — quotes that deviate significantly should be questioned.",
+    "cabinets": 0.29,
+    "labor": 0.20,
+    "appliances": 0.14,
+    "countertops": 0.10,
+    "flooring": 0.07,
+    "lighting": 0.05,
+    "plumbing": 0.04,
+    "designFees": 0.04,
+    "fixtures": 0.03,
+    "doorsAndWindows": 0.02,
+    "other": 0.02
+  },
+  "cabinetTiers": [
     {
-      "item": "Under-cabinet lighting",
-      "cost": [
-        200,
-        800
-      ],
-      "necessary": "sometimes",
-      "notes": "Nice upgrade. LED strips DIY $50-100."
+      "tier": "value_rta",
+      "label": "Value (RTA / stock)",
+      "perLinearFoot": [80, 200],
+      "examples": ["IKEA SEKTION", "Cabinets To Go", "Lily Ann", "RTA Cabinet Store", "Home Depot Hampton Bay stock"],
+      "notes": "Ready-to-assemble or stock from box stores. 1-2 week lead time. Limited sizes and finishes. Particleboard boxes typical. Best for rentals, flips, or budget-driven first homes."
     },
     {
-      "item": "Soft-close hinges",
-      "cost": [
-        200,
-        500
-      ],
-      "necessary": "sometimes",
-      "notes": "For all cabinets. Adds quality feel."
+      "tier": "stock",
+      "label": "Stock (in-stock at lumberyard)",
+      "perLinearFoot": [150, 350],
+      "examples": ["KraftMaid Vantage stock", "Diamond NOW", "American Woodmark stock", "Shenandoah", "Aristokraft"],
+      "notes": "Pre-built, fixed sizes (3-inch increments), basic finishes. 2-3 week lead. Plywood box upgrade often available. Good value for rectangular layouts."
     },
     {
-      "item": "Pull-out trash/recycling",
-      "cost": [
-        200,
-        400
-      ],
-      "necessary": "rarely",
-      "notes": "Convenience. Not essential."
+      "tier": "semi_custom",
+      "label": "Semi-custom",
+      "perLinearFoot": [300, 700],
+      "examples": ["KraftMaid", "Schrock", "Medallion", "Decora", "Thomasville Custom", "Waypoint", "Mid Continent"],
+      "notes": "Wider size range, more finishes, modifications available, plywood box standard. 6-10 week lead. The dominant tier in mid-range remodels and the right baseline for most homeowners."
+    },
+    {
+      "tier": "premium_semi_custom",
+      "label": "Premium semi-custom",
+      "perLinearFoot": [550, 1100],
+      "examples": ["KraftMaid Vantage premium", "Crystal", "Wood-Mode 1894", "Plain & Fancy", "Brighton", "Bellmont 1900"],
+      "notes": "Furniture-grade joinery, dovetailed drawer boxes standard, custom-color matching, soft-close standard, glazes and distressing options. 10-14 week lead."
+    },
+    {
+      "tier": "custom",
+      "label": "Custom",
+      "perLinearFoot": [900, 2500],
+      "examples": ["Wood-Mode", "Christopher Peacock", "Bilotta", "Plain English", "deVOL", "Henrybuilt", "local custom shops"],
+      "notes": "Built to order, no size restrictions, any wood species, hand-finished. 16-26 week lead. Required for layouts with non-standard dimensions or showpiece kitchens."
+    }
+  ],
+  "countertopTiers": [
+    { "material": "laminate",          "perSqftInstalled": [25, 60],   "notes": "Wilsonart, Formica. 8-12 sqft minimum. Modern patterns mimic stone." },
+    { "material": "solid_surface",     "perSqftInstalled": [55, 110],  "notes": "Corian, Avonite, LG HI-MACS. Seamless, repairable, no heat tolerance." },
+    { "material": "tile",              "perSqftInstalled": [25, 70],   "notes": "Porcelain or ceramic. Grout maintenance is the trade-off." },
+    { "material": "butcher_block",     "perSqftInstalled": [40, 110],  "notes": "Oak, walnut, maple. Requires sealing every 6 months." },
+    { "material": "granite",           "perSqftInstalled": [55, 175],  "notes": "Natural stone. Sealing required. Pricing depends heavily on slab origin and edge profile." },
+    { "material": "quartz",            "perSqftInstalled": [70, 200],  "notes": "Engineered stone (Caesarstone, Cambria, Silestone, MSI Q, LG Viatera). Most popular choice in 2026 mid-range remodels." },
+    { "material": "marble",            "perSqftInstalled": [85, 250],  "notes": "Carrara, Calacatta, Statuario. Stains and etches; not recommended for daily-use kitchens unless homeowner accepts patina." },
+    { "material": "soapstone",         "perSqftInstalled": [80, 200],  "notes": "Heat- and stain-resistant; darkens over time." },
+    { "material": "quartzite",         "perSqftInstalled": [100, 280], "notes": "Natural stone (NOT quartz). Harder than granite. Often confused with marble visually." },
+    { "material": "porcelain_slab",    "perSqftInstalled": [85, 220],  "notes": "Dekton, Neolith, Lapitec. Highest durability; minimal seams." },
+    { "material": "concrete",          "perSqftInstalled": [85, 200],  "notes": "Custom-poured. Hairline cracks expected." },
+    { "material": "stainless",         "perSqftInstalled": [100, 250], "notes": "Commercial look. Scratches show patina." }
+  ],
+  "appliancePackageTiers": [
+    {
+      "tier": "builder",
+      "label": "Builder-grade (4-piece)",
+      "totalRange": [2400, 4500],
+      "examples": ["Whirlpool standard", "Frigidaire Gallery", "GE base", "LG entry"],
+      "notes": "Range, fridge, dishwasher, microwave/hood. The minimum NKBA-compliant package."
+    },
+    {
+      "tier": "midrange",
+      "label": "Mid-range stainless",
+      "totalRange": [4500, 9000],
+      "examples": ["Whirlpool premium", "Maytag", "LG mid", "Samsung", "GE Profile"],
+      "notes": "Larger capacities, smart features, French-door fridge, convection range."
+    },
+    {
+      "tier": "premium",
+      "label": "Premium",
+      "totalRange": [9000, 18000],
+      "examples": ["Bosch 800", "KitchenAid", "GE Cafe", "Jenn-Air", "Samsung Bespoke"],
+      "notes": "Counter-depth fridge, gas or induction range, true convection, panel-ready dishwashers."
+    },
+    {
+      "tier": "professional",
+      "label": "Pro / luxury",
+      "totalRange": [22000, 75000],
+      "examples": ["Sub-Zero", "Wolf", "Thermador", "Miele", "Viking", "La Cornue", "Gaggenau"],
+      "notes": "True 'pro' BTUs, integrated fridges, steam ovens, dual-fuel ranges. Lead times often 12-24 weeks. Required for the 'designer kitchen' aesthetic."
+    }
+  ],
+  "flooringTiers": [
+    { "material": "vinyl_lvp",     "perSqftInstalled": [4, 9],   "notes": "Luxury vinyl plank. Waterproof. The dominant 2026 mid-range choice." },
+    { "material": "porcelain_tile","perSqftInstalled": [9, 22],  "notes": "Best for water resistance and longevity." },
+    { "material": "engineered_wood","perSqftInstalled": [10, 25],"notes": "Better moisture stability than solid wood for kitchens." },
+    { "material": "solid_hardwood","perSqftInstalled": [12, 28], "notes": "Oak, maple, walnut. Avoid in heavy-water-spill kitchens." },
+    { "material": "stone",         "perSqftInstalled": [20, 60], "notes": "Slate, travertine, marble. High-end only." }
+  ],
+  "permitCosts": {
+    "notes": "Most major remodels need a building permit, plus electrical and plumbing permits when those scopes are touched. Mechanical permit if range hood is added or relocated.",
+    "buildingPermit": [200, 1500],
+    "electricalPermit": [75, 400],
+    "plumbingPermit": [75, 400],
+    "mechanicalPermit": [75, 300],
+    "designReviewIfHistoric": [150, 800],
+    "highCostJurisdictions": ["CA", "NY", "NJ", "MA", "DC", "WA", "HI"],
+    "lowCostJurisdictions": ["TX", "FL", "TN", "NC", "AZ"]
+  },
+  "stateLicensing": {
+    "notes": "Kitchen remodelers are typically licensed under the state general contractor license. Specialty trades (electrical, plumbing) always require their own state license — verify both.",
+    "requiresGCLicense": ["AL", "AK", "AZ", "AR", "CA", "CT", "DE", "FL", "GA", "HI", "ID", "LA", "MD", "MA", "MI", "MN", "MS", "MT", "NV", "NJ", "NM", "NC", "ND", "OR", "RI", "SC", "TN", "UT", "VA", "WA", "WV"],
+    "licenseExempt": ["IN", "IL", "MO", "OH", "PA", "TX", "VT", "WI", "WY"],
+    "designBuildLicensingNote": "Some states (CA, FL, NV) require an additional B-2 or design-build license for remodels involving structural changes."
+  },
+  "codeReferences": {
+    "iccCode": "2024 IRC / IBC where adopted; 2021 IRC in lagging states",
+    "electrical": "NEC 2023 (or state-adopted version): 20A small appliance branch circuits required, GFCI required at all kitchen receptacles, AFCI required at most lighting and receptacle circuits, dishwasher must be on dedicated 20A circuit, range needs dedicated 240V/40-50A.",
+    "plumbing": "UPC or IPC depending on state. Dishwasher needs air gap or high loop in some jurisdictions (CA mandates air gap). Garbage disposal requires its own switch.",
+    "ventilation": "IRC M1503: range hoods venting more than 400 CFM require makeup air provisions in tight homes.",
+    "egress": "Layout changes affecting windows must maintain egress in adjacent rooms.",
+    "loadBearing": "Wall removal between kitchen and adjacent room requires structural engineer letter or stamped beam plan in nearly all jurisdictions."
+  },
+  "redFlagPatterns": [
+    {
+      "key": "missing_design_plan",
+      "severity": "high",
+      "regex": "\\b(design plan|cabinet layout|elevation|3D rendering|cad)\\b",
+      "matchInverse": true,
+      "explanation": "No design plan, elevation, or layout drawing referenced. Kitchen remodels without a documented plan are the #1 cause of mid-project change orders. Reputable remodelers always provide a design before contract."
+    },
+    {
+      "key": "tbd_allowance_trap",
+      "severity": "critical",
+      "regex": "\\b(tbd|to be determined|allowance|by owner|by homeowner)\\b",
+      "explanation": "Critical line items marked TBD or as 'allowance' usually balloon. A common scam is pricing cabinets at a low allowance ($5,000 for a 25-foot kitchen) so the headline number looks competitive, then upcharging during selection. Demand fixed pricing with brand and model named on every major component."
+    },
+    {
+      "key": "no_brand_named",
+      "severity": "high",
+      "regex": "\\b(cabinet|countertop|appliance)\\b",
+      "secondaryRegex": "\\b(kraftmaid|wood-mode|ikea|caesarstone|cambria|silestone|sub-zero|wolf|thermador|bosch|samsung|whirlpool|ge|jenn-air|miele|viking|brand)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Cabinet, countertop, or appliance line items with no brand or model named. Without brand/model you cannot verify quality tier or price-fairness. Legitimate quotes always specify."
+    },
+    {
+      "key": "missing_permit",
+      "severity": "critical",
+      "regex": "\\b(permit|building permit|electrical permit|plumbing permit|inspection)\\b",
+      "matchInverse": true,
+      "explanation": "Any major remodel with no mention of permits is a critical red flag. Unpermitted work voids homeowner insurance, creates liability at sale, and means no inspection caught code violations. Reputable contractors always pull and reference permits."
+    },
+    {
+      "key": "structural_no_engineer",
+      "severity": "critical",
+      "regex": "\\b(remove wall|wall removal|open up|open concept|knock out wall|load bearing|load-bearing)\\b",
+      "secondaryRegex": "\\b(structural engineer|engineer letter|beam|lvl|stamped|engineered drawing)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Wall removal or layout opening with no structural engineer letter or beam specification. This is unsafe and won't pass inspection. Walk away."
+    },
+    {
+      "key": "no_itemization",
+      "severity": "critical",
+      "regex": "\\b(turn[- ]?key|all[- ]?inclusive|complete remodel|kitchen package)\\b",
+      "secondaryRegex": "\\b(line item|itemized|breakdown)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Single lump-sum 'turnkey' kitchen quote with no line-item breakdown. You cannot evaluate price fairness, you cannot challenge a single line, and you cannot detect upcharges. Demand an itemized quote."
+    },
+    {
+      "key": "deposit_above_25",
+      "severity": "high",
+      "regex": "\\b(deposit|down payment|upfront)\\b",
+      "explanation": "Deposits above 25% on residential remodels are high risk. Many states cap deposits by law (CA: $1,000 or 10% whichever is less, MD: 33%, FL: 10% on roofing). Reputable kitchen remodelers stage payments tied to completed work."
+    },
+    {
+      "key": "no_lien_release",
+      "severity": "high",
+      "regex": "\\b(lien|lien release|lien waiver|mechanic's lien)\\b",
+      "matchInverse": true,
+      "explanation": "Quote with no mention of lien releases from subs and suppliers. If your contractor doesn't pay them, the lien attaches to YOUR home. Always require unconditional lien releases at each payment stage."
+    },
+    {
+      "key": "no_warranty",
+      "severity": "medium",
+      "regex": "\\b(warranty|guarantee)\\b",
+      "matchInverse": true,
+      "explanation": "No warranty stated. Reputable remodelers offer at least 1 year on workmanship; 2-5 years is common at the mid-tier. Cabinet manufacturers separately warranty their product."
+    },
+    {
+      "key": "no_timeline",
+      "severity": "medium",
+      "regex": "\\b(timeline|schedule|start date|completion|substantial completion|days)\\b",
+      "matchInverse": true,
+      "explanation": "No project timeline or completion date. Mid-range remodels typically run 30-50 days; major remodels 60-110. Without a written schedule you have no leverage when delays drag on."
+    },
+    {
+      "key": "subcontractor_undisclosed",
+      "severity": "medium",
+      "regex": "\\b(subcontractor|sub[- ]?contractor|subs|trades)\\b",
+      "matchInverse": true,
+      "explanation": "No mention of which trades will be subcontracted. Most mid-range remodels involve 4-8 subs (electrical, plumbing, drywall, tile, flooring, paint, countertop fab, appliance install). Demand to know who's responsible and that they're licensed."
+    },
+    {
+      "key": "appliance_install_excluded",
+      "severity": "medium",
+      "regex": "\\b(appliance install|appliance hookup|appliance delivery|appliance excluded)\\b",
+      "explanation": "Appliance installation excluded from the quote (or vague). Gas ranges, built-in fridges, and integrated dishwashers all require trade-licensed install. Confirm in writing what the contractor handles vs what you handle."
+    },
+    {
+      "key": "design_change_fees",
+      "severity": "medium",
+      "regex": "\\b(change order|change[- ]?order|design change|revision)\\b",
+      "secondaryRegex": "\\b(fee|cost|charge|markup|percent|%|dollar amount)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Quote mentions change orders without specifying the fee structure. Industry standard is 10-20% markup on change orders; some contractors charge flat $250-500 per change. Get this in writing up front."
+    },
+    {
+      "key": "labor_hidden_in_materials",
+      "severity": "medium",
+      "regex": "\\b(materials|materials and labor|labor and materials|all[- ]?in)\\b",
+      "secondaryRegex": "\\b(labor|labor cost|labor rate|installation cost)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Materials and labor not separately stated. Without seeing labor as a line item you cannot benchmark the contractor against the local market or verify the markup on materials."
+    },
+    {
+      "key": "trash_disposal_excluded",
+      "severity": "low",
+      "regex": "\\b(disposal|dumpster|debris removal|haul away|cleanup)\\b",
+      "matchInverse": true,
+      "explanation": "Demolition disposal not included. Kitchen demos generate 2-4 cubic yards of debris. Dumpster rental runs $400-900. Confirm who handles it."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "designPlan",
-      "label": "Design plan/layout included",
-      "weight": 12
-    },
-    {
-      "key": "cabinetSpec",
-      "label": "Cabinet grade/brand specified",
-      "weight": 10
-    },
-    {
-      "key": "appliances",
-      "label": "Appliances included or excluded",
-      "weight": 10
-    }
+    { "key": "designPlan",      "label": "Design plan / cabinet elevations included",     "weight": 14 },
+    { "key": "cabinetSpec",     "label": "Cabinet brand, line, and finish specified",     "weight": 13 },
+    { "key": "countertopSpec",  "label": "Countertop material, brand, and edge profile specified", "weight": 11 },
+    { "key": "applianceSpec",   "label": "Appliance brand and model specified",            "weight": 10 },
+    { "key": "permits",         "label": "Permits identified and pulled by contractor",   "weight": 12 },
+    { "key": "lienReleases",    "label": "Lien releases at each draw",                    "weight": 9 },
+    { "key": "warranty",        "label": "Workmanship warranty in writing",               "weight": 9 },
+    { "key": "timeline",        "label": "Schedule with start and completion dates",      "weight": 7 },
+    { "key": "changeOrderFees", "label": "Change order fee schedule disclosed",           "weight": 6 },
+    { "key": "subcontractors",  "label": "Subcontractor list with trade licenses",        "weight": 5 },
+    { "key": "trashDisposal",   "label": "Demolition and disposal included",              "weight": 4 }
+  ],
+  "iraCredit": {
+    "section": "N/A",
+    "status": "NOT_APPLICABLE",
+    "notes": "Kitchen remodels do not qualify for the federal 25C or 25D credits as a category. Individual sub-scopes might: a heat pump water heater under the kitchen sink (25C — EXPIRED Dec 31 2025), induction-driven full electrification of a previously gas kitchen as part of an IRA HEAR program (income-qualified, still active), or solar power for the kitchen circuit (25D — active through 2032, claim under solar)."
+  },
+  "utilityRebates": [
+    { "utility": "ComEd", "states": ["IL"], "measure": "induction_range", "amount": 250, "notes": "Electrification rebate for converting gas to induction.", "active2026": true },
+    { "utility": "BayREN / BAAQMD", "states": ["CA"], "measure": "induction_range", "amount": 750, "notes": "Bay Area gas-to-induction conversion. Stacks with TECH Clean California.", "active2026": true },
+    { "utility": "Mass Save", "states": ["MA"], "measure": "induction_range", "amount": 500, "notes": "Part of whole-home electrification rebate stack.", "active2026": true },
+    { "utility": "Efficiency Maine", "states": ["ME"], "measure": "induction_range", "amount": 500, "notes": "Heat pump water heater rebates also stack.", "active2026": true },
+    { "utility": "NYSERDA", "states": ["NY"], "measure": "induction_range", "amount": 200, "notes": "Through participating retailers.", "active2026": true }
+  ],
+  "questionsToAskContractor": [
+    "Will you provide a design plan with elevations and a 3D rendering before I sign?",
+    "Cabinet brand, line, finish, and box construction (plywood vs particleboard)?",
+    "Countertop slab origin, edge profile, and warranty?",
+    "Exact appliance brand and model on every line — no allowances?",
+    "Who pulls the permits and which permits are needed?",
+    "Are subcontractor lien releases provided at each draw?",
+    "What is the change-order markup and process?",
+    "What is the deposit and payment schedule, and what state law caps the deposit?",
+    "What is the workmanship warranty and what does it cover?",
+    "Who handles appliance installation and gas/electric hookups?",
+    "Is there a stamped beam drawing if any walls are coming out?",
+    "How is dust contained from adjacent living spaces?"
   ]
 }

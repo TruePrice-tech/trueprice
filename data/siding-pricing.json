@@ -1,191 +1,358 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, siding contractor surveys",
-    "baseYear": 2026
+    "sources": "Remodeling Magazine 2026 Cost vs Value, James Hardie installer pricing, LP SmartSide installer pricing, CertainTeed/Mastic/Royal vinyl distributor pricing, RSMeans residential 2026, manufacturer warranty docs",
+    "baseYear": 2026,
+    "cacheNamespace": "siding:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.20, "AZ": 0.95, "AR": 0.82, "CA": 1.22, "CO": 1.06,
+    "CT": 1.14, "DE": 1.04, "FL": 0.93, "GA": 0.90, "HI": 1.30, "ID": 0.92,
+    "IL": 1.02, "IN": 0.90, "IA": 0.88, "KS": 0.88, "KY": 0.86, "LA": 0.88,
+    "ME": 1.00, "MD": 1.10, "MA": 1.18, "MI": 0.92, "MN": 0.98, "MS": 0.82,
+    "MO": 0.88, "MT": 0.96, "NE": 0.88, "NV": 1.00, "NH": 1.06, "NJ": 1.14,
+    "NM": 0.92, "NY": 1.22, "NC": 0.92, "ND": 0.92, "OH": 0.92, "OK": 0.86,
+    "OR": 1.08, "PA": 1.00, "RI": 1.10, "SC": 0.86, "SD": 0.88, "TN": 0.86,
+    "TX": 0.92, "UT": 0.94, "VT": 1.02, "VA": 0.96, "WA": 1.12, "WV": 0.82,
+    "WI": 0.92, "WY": 0.94, "DC": 1.22
   },
+  "materialTiers": [
+    {
+      "tier": "vinyl",
+      "label": "Vinyl",
+      "perSqftInstalled": [4.50, 9.50],
+      "lifespanYears": [25, 40],
+      "brands": [
+        { "brand": "CertainTeed", "lines": ["Mainstreet", "Monogram", "CedarBoards Insulated"], "tier": "value-mid", "warranty": "Lifetime limited" },
+        { "brand": "Mastic (Ply Gem)", "lines": ["Carvedwood", "Ovation", "Quest"], "tier": "value-mid", "warranty": "Lifetime limited" },
+        { "brand": "Royal Building Products", "lines": ["Estate", "Haven", "Woodland"], "tier": "value-mid", "warranty": "Lifetime limited" },
+        { "brand": "Alside", "lines": ["Charter Oak", "Prodigy Insulated"], "tier": "value-mid", "warranty": "Lifetime limited" },
+        { "brand": "Norandex", "lines": ["Polar Wall", "Sagebrush"], "tier": "value", "warranty": "Lifetime limited" },
+        { "brand": "Crane (CraneBoard)", "lines": ["6-inch Solid Core insulated"], "tier": "premium-vinyl", "warranty": "Lifetime limited transferable" }
+      ],
+      "climateFitness": "Best in mild and cold climates. Warps under direct south/west sun in hot climates above ~95F sustained. Color fade typical after 12-18 years.",
+      "insulationOption": "Insulated vinyl (foam-backed) adds R-2 to R-3.5 and reduces oil-canning. Adds $1.50-$3/sqft."
+    },
+    {
+      "tier": "fiber_cement",
+      "label": "Fiber cement",
+      "perSqftInstalled": [9, 18],
+      "lifespanYears": [40, 75],
+      "brands": [
+        { "brand": "James Hardie", "lines": ["HardiePlank Select Cedarmill", "HardieShingle", "HardiePanel", "Aspyre Artisan", "Statement Collection"], "tier": "premium", "warranty": "30 yr substrate / 15 yr ColorPlus finish" },
+        { "brand": "Allura (Plycem)", "lines": ["Lap Siding", "Vertical Panel", "Shingle"], "tier": "mid", "warranty": "50 yr limited" },
+        { "brand": "Nichiha", "lines": ["IllumiNation", "ArchitecturalBlock", "VintageWood"], "tier": "premium", "warranty": "15 yr finish" },
+        { "brand": "Cemplank", "lines": ["Cemplank lap"], "tier": "mid", "warranty": "30 yr" }
+      ],
+      "climateFitness": "Best all-around: handles heat, cold, freeze-thaw, and salt air. The 2026 default for hot-humid and coastal regions. Heavy (250 lb per square) so requires sturdy framing.",
+      "insulationOption": "Rainscreen detail (1/4 to 3/4 inch furring) significantly extends life and improves drying. Adds $1-$2/sqft."
+    },
+    {
+      "tier": "engineered_wood",
+      "label": "Engineered wood",
+      "perSqftInstalled": [6, 13],
+      "lifespanYears": [30, 50],
+      "brands": [
+        { "brand": "LP SmartSide", "lines": ["ExpertFinish", "SmartSide Strand", "Cedar Texture Trim & Siding"], "tier": "mid-premium", "warranty": "5 yr labor / 50 yr substrate (prorated)" },
+        { "brand": "Diamond Kote (LP)", "lines": ["Pre-finished LP SmartSide"], "tier": "premium", "warranty": "30 yr no-fade finish" },
+        { "brand": "TruWood", "lines": ["Lap Siding", "Sturdy Panel"], "tier": "mid", "warranty": "30 yr" }
+      ],
+      "climateFitness": "Best in mixed and cold climates. Treated for termites and moisture. Looks closer to real wood than vinyl. Less brittle than fiber cement in cold installs.",
+      "insulationOption": "Most installs are over rigid foam or rainscreen for moisture management."
+    },
+    {
+      "tier": "wood",
+      "label": "Real wood (cedar, redwood, pine)",
+      "perSqftInstalled": [9, 22],
+      "lifespanYears": [20, 40],
+      "brands": [
+        { "brand": "Western Red Cedar (clear grade)", "lines": ["Bevel/Lap", "Channel rustic", "Tongue & groove"], "tier": "premium", "warranty": "Material only — install warranty varies" },
+        { "brand": "Eastern White Pine", "lines": ["Cottage style", "Shiplap"], "tier": "mid", "warranty": "Material only" },
+        { "brand": "Redwood (clear all heart)", "lines": ["Bevel", "Board-and-batten"], "tier": "luxury", "warranty": "Material only" },
+        { "brand": "Thermally modified ash/pine (Thermory, Cambia)", "lines": ["Cladding"], "tier": "luxury", "warranty": "25 yr" }
+      ],
+      "climateFitness": "Requires re-staining or sealing every 3-5 years. Not recommended in coastal high-humidity unless you accept aggressive maintenance.",
+      "insulationOption": "Often paired with rainscreen for the look while extending lifespan."
+    },
+    {
+      "tier": "stucco",
+      "label": "Stucco (3-coat traditional)",
+      "perSqftInstalled": [9, 16],
+      "lifespanYears": [50, 80],
+      "brands": [
+        { "brand": "Quikrete / Spec Mix", "lines": ["Traditional 3-coat"], "tier": "standard", "warranty": "Workmanship only" },
+        { "brand": "ParexLahabra", "lines": ["Acrylic finish coat"], "tier": "premium", "warranty": "5 yr finish" }
+      ],
+      "climateFitness": "Best in hot-dry and Mediterranean climates. Cracks track foundation movement so expansive-soil regions require control joints every 144 sqft."
+    },
+    {
+      "tier": "synthetic_stucco_eifs",
+      "label": "Synthetic stucco / EIFS",
+      "perSqftInstalled": [10, 18],
+      "lifespanYears": [25, 50],
+      "brands": [
+        { "brand": "Dryvit", "lines": ["Outsulation", "TerraNeo"], "tier": "premium", "warranty": "10 yr system" },
+        { "brand": "Sto", "lines": ["StoTherm ci"], "tier": "premium", "warranty": "10 yr system" }
+      ],
+      "climateFitness": "Drainage-grade EIFS only — old face-sealed EIFS is the source of widespread moisture damage and many class actions. Verify drainage assembly."
+    },
+    {
+      "tier": "metal",
+      "label": "Metal (steel, aluminum)",
+      "perSqftInstalled": [9, 22],
+      "lifespanYears": [40, 75],
+      "brands": [
+        { "brand": "Quality Edge / Tru-Cedar steel", "lines": ["TruCedar shake"], "tier": "premium", "warranty": "40 yr substrate" },
+        { "brand": "ABC Seamless steel", "lines": ["Seamless"], "tier": "premium", "warranty": "Lifetime" }
+      ],
+      "climateFitness": "Excellent for hail-prone and wildfire areas. Heat-soaked in deep south. Quiet with proper underlayment."
+    },
+    {
+      "tier": "stone_veneer",
+      "label": "Stone or brick veneer (manufactured)",
+      "perSqftInstalled": [16, 38],
+      "lifespanYears": [50, 100],
+      "brands": [
+        { "brand": "Eldorado Stone", "lines": ["Cliffstone", "Mountain Ledge"], "tier": "premium" },
+        { "brand": "Cultured Stone", "lines": ["Drystack Ledgestone", "Country Ledgestone"], "tier": "premium" },
+        { "brand": "Boral", "lines": ["Versetta Stone (mortarless)"], "tier": "mid-premium" }
+      ],
+      "climateFitness": "Best as accent (front facade, water table). Full wraps are expensive and require integral flashing."
+    }
+  ],
   "commonJobs": {
-    "vinyl_siding": {
-      "label": "Vinyl Siding (whole house)",
-      "total": [
-        5000,
-        12000
-      ],
-      "per_sqft": [
-        3,
-        7
-      ],
-      "urgency": "can_wait"
+    "vinyl_full_house": {
+      "label": "Vinyl siding (whole house, ~1,500-2,200 sqft of wall area)",
+      "total": [9000, 22000],
+      "perSqft": [4.50, 9.50],
+      "urgency": "can_wait",
+      "notes": "Includes tear-off, house wrap, J-channel, soffit and fascia where same-material. Insulated vinyl adds 25-40%."
     },
-    "fiber_cement": {
-      "label": "Fiber Cement (HardiePlank)",
-      "total": [
-        8000,
-        18000
-      ],
-      "per_sqft": [
-        5,
-        11
-      ],
-      "urgency": "can_wait"
+    "fiber_cement_full_house": {
+      "label": "Fiber cement (HardiePlank) whole house",
+      "total": [16000, 38000],
+      "perSqft": [9, 18],
+      "urgency": "can_wait",
+      "notes": "Heavy material, more labor. ColorPlus pre-finished saves field-paint cost. Lap is the standard plank profile."
     },
-    "wood_siding": {
-      "label": "Wood Siding",
-      "total": [
-        10000,
-        20000
-      ],
-      "per_sqft": [
-        6,
-        12
-      ],
-      "urgency": "can_wait"
+    "engineered_wood_full_house": {
+      "label": "Engineered wood (LP SmartSide) whole house",
+      "total": [12000, 28000],
+      "perSqft": [6, 13],
+      "urgency": "can_wait",
+      "notes": "Most homes go pre-finished (Diamond Kote / ExpertFinish) to lock the warranty."
     },
-    "engineered_wood": {
-      "label": "Engineered Wood (LP SmartSide)",
-      "total": [
-        7000,
-        15000
-      ],
-      "per_sqft": [
-        4,
-        9
-      ],
-      "urgency": "can_wait"
+    "wood_full_house": {
+      "label": "Real cedar or redwood whole house",
+      "total": [18000, 45000],
+      "perSqft": [9, 22],
+      "urgency": "can_wait",
+      "notes": "Cedar shingles and shakes carry a premium over bevel siding."
     },
-    "stone_veneer": {
-      "label": "Stone Veneer (accent)",
-      "total": [
-        5000,
-        15000
-      ],
-      "per_sqft": [
-        15,
-        35
-      ],
-      "urgency": "can_wait"
+    "stucco_full_house": {
+      "label": "Traditional stucco whole house",
+      "total": [16000, 35000],
+      "perSqft": [9, 16],
+      "urgency": "can_wait",
+      "notes": "3-coat application over wire lath. Color in finish coat is the long-life choice."
+    },
+    "stone_veneer_accent": {
+      "label": "Manufactured stone veneer (accent wall, ~250 sqft)",
+      "total": [4500, 12000],
+      "perSqft": [16, 38],
+      "urgency": "can_wait",
+      "notes": "Front facade or water table accent. Requires drainage plane and weep screed."
     },
     "partial_repair": {
-      "label": "Partial Siding Repair",
-      "total": [
-        500,
-        3000
-      ],
-      "urgency": "soon"
+      "label": "Partial siding repair (storm or rot)",
+      "total": [500, 4000],
+      "urgency": "soon",
+      "notes": "Match-finding is the hard part on aged vinyl — weathered colors rarely match factory-new pieces."
+    },
+    "remove_and_install_premium": {
+      "label": "Remove asbestos siding and replace with new",
+      "total": [12000, 30000],
+      "urgency": "soon",
+      "notes": "Asbestos abatement adds $3-$6/sqft on top of new siding cost. Must be done by licensed abatement contractor with disposal manifest."
     }
   },
-  "commonUpsells": [
+  "supportingComponents": [
+    { "item": "House wrap (Tyvek HomeWrap, ZIP System tape, or equivalent)", "perSqft": [0.40, 1.10], "necessary": "always", "notes": "Code-required when siding comes off. Skipping is grounds to walk away." },
+    { "item": "Rigid foam insulation (1/2 to 1 inch)", "perSqft": [0.80, 2.50], "necessary": "often", "notes": "Adds R-3 to R-6 plus thermal break. Required by IECC in some climate zones." },
+    { "item": "Rainscreen (1/4 to 3/4 inch furring strips)", "perSqft": [1.00, 2.50], "necessary": "best practice", "notes": "Doubles drying capacity behind cladding. Required by some manufacturer warranties (James Hardie HZ5 in some climates)." },
+    { "item": "Soffit and fascia replacement", "perLinearFoot": [9, 22], "necessary": "often", "notes": "Aluminum or vented vinyl. Almost always needed when redoing siding." },
+    { "item": "Window and door trim wrap", "perLinearFoot": [12, 28], "necessary": "always", "notes": "Aluminum capping or PVC trim around openings." },
+    { "item": "Flashing kit (windows, doors, kick-out, head)", "perOpening": [35, 110], "necessary": "always", "notes": "Skipping kick-out flashing where roof meets wall is the #1 cause of post-install rot." },
+    { "item": "Lead paint test and abatement (pre-1978 homes)", "perJob": [400, 8000], "necessary": "by law", "notes": "EPA RRP rule. Verify the contractor is RRP-certified before starting work on a pre-1978 home." }
+  ],
+  "permitCosts": {
+    "notes": "Many jurisdictions require a building permit for re-siding. Almost all require one if any structural work is involved.",
+    "buildingPermit": [100, 800],
+    "lowCostJurisdictions": ["TX", "FL", "TN", "NC", "AZ", "MS", "AL"],
+    "highCostJurisdictions": ["CA", "NY", "NJ", "MA", "DC", "WA"]
+  },
+  "stateLicensing": {
+    "notes": "Siding installers are typically state-licensed under the general contractor license. A few states have a specialty home improvement license.",
+    "requiresGCLicense": ["AL", "AK", "AZ", "AR", "CA", "CT", "DE", "FL", "GA", "HI", "ID", "LA", "MD", "MA", "MI", "MN", "MS", "MT", "NV", "NJ", "NM", "NC", "ND", "OR", "RI", "SC", "TN", "UT", "VA", "WA", "WV"],
+    "homeImprovementLicense": ["MD", "NJ", "CT", "RI", "MA", "NY"],
+    "licenseExempt": ["IN", "IL", "MO", "OH", "PA", "TX", "VT", "WI", "WY"]
+  },
+  "codeReferences": {
+    "iccCode": "2024 IRC where adopted; 2021 IRC in lagging states",
+    "weatherResistiveBarrier": "IRC R703.1 — water-resistive barrier (house wrap or equivalent) required behind siding except for vinyl in some jurisdictions",
+    "flashing": "IRC R703.4 — kick-out, head, and pan flashing at all penetrations",
+    "fireRatedSiding": "IBC Chapter 7 — non-combustible cladding required in WUI zones (CA Title 24 Chapter 7A is the strictest)",
+    "energyCode": "2021 IECC requires continuous insulation in many climate zones; rigid foam under siding is the common path",
+    "leadPaint": "EPA RRP rule — pre-1978 homes require RRP-certified contractor for any siding work that disturbs paint",
+    "windRating": "ASCE 7 wind zones — coastal counties often require Miami-Dade or TDI windborne-debris-rated installations"
+  },
+  "redFlagPatterns": [
     {
-      "item": "House wrap replacement",
-      "cost": [
-        500,
-        1500
-      ],
-      "necessary": "sometimes",
-      "notes": "Needed if existing wrap is damaged or missing."
+      "key": "no_house_wrap",
+      "severity": "critical",
+      "regex": "\\b(siding|tear[- ]?off|new siding)\\b",
+      "secondaryRegex": "\\b(house wrap|tyvek|weather[- ]?resistive|wrb|building wrap|zip system)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Siding tear-off without explicit mention of new house wrap (WRB). Code requires it (IRC R703.1). Skipping it leads to wall rot within 5-10 years. Walk away or demand it in writing."
     },
     {
-      "item": "Soffit/fascia replacement",
-      "cost": [
-        1000,
-        3000
-      ],
-      "necessary": "often",
-      "notes": "Usually done with siding. Check condition."
+      "key": "no_flashing",
+      "severity": "critical",
+      "regex": "\\b(flashing|kick[- ]?out|window flashing|head flashing|pan flashing)\\b",
+      "matchInverse": true,
+      "explanation": "No mention of flashing at windows, doors, and roof-wall intersections. Missing kick-out flashing is the #1 cause of post-install moisture damage. Reputable installers always document the flashing detail."
+    },
+    {
+      "key": "lead_paint_pre1978",
+      "severity": "critical",
+      "regex": "\\b(pre[- ]?1978|1950s|1960s|1970s|older home|original siding|asbestos)\\b",
+      "secondaryRegex": "\\b(rrp|epa certified|lead test|lead safe|abatement|certified)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Pre-1978 home or asbestos mentioned with no EPA RRP certification or lead-safe protocol. Federal law requires RRP-certified contractors for paint-disturbing work on pre-1978 homes. Fines run $37,000+ per violation per day. Verify certification at epa.gov."
+    },
+    {
+      "key": "asbestos_no_disclosure",
+      "severity": "critical",
+      "regex": "\\b(asbestos|cement asbestos|transite)\\b",
+      "secondaryRegex": "\\b(licensed abatement|abatement contractor|disposal manifest|encapsulation|certified)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Asbestos siding mentioned but no licensed abatement contractor or disposal protocol. Asbestos siding removal requires a licensed abatement contractor in nearly every state. DIY removal violates EPA rules."
+    },
+    {
+      "key": "no_rainscreen_hardie_hz5",
+      "severity": "high",
+      "regex": "\\b(james hardie|hardiplank|hardie plank|hardiboard|fiber cement)\\b",
+      "secondaryRegex": "\\b(rainscreen|furring|drainage gap|hz5|installation guide|continuous insulation)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "James Hardie fiber cement quote with no mention of rainscreen or furring. The current James Hardie HZ5 installation requirements (in many climates) require a drainage gap behind the siding to maintain warranty. Without it the warranty may be voided."
+    },
+    {
+      "key": "no_brand_named",
+      "severity": "high",
+      "regex": "\\b(siding|cladding|panels)\\b",
+      "secondaryRegex": "\\b(james hardie|hardie|certainteed|mastic|royal|alside|lp smartside|smartside|truwood|cedar|western red cedar|nichiha|allura|stucco)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Siding line items with no brand or material grade named. Vinyl ranges $4-$10/sqft; fiber cement $9-$18; cedar $9-$22 — without a brand you cannot benchmark fairness. Reputable quotes always specify."
+    },
+    {
+      "key": "missing_permit",
+      "severity": "high",
+      "regex": "\\b(permit|building permit|inspection)\\b",
+      "matchInverse": true,
+      "explanation": "Quote with no mention of permits. Many jurisdictions require a building permit for full re-siding. Unpermitted work voids homeowner insurance and creates liability at sale."
+    },
+    {
+      "key": "tear_off_or_overlay",
+      "severity": "high",
+      "regex": "\\b(overlay|over existing|over old siding|second layer|cover[- ]?up)\\b",
+      "explanation": "Quote installs new siding over existing siding without tear-off. Overlay traps moisture, hides rot, and voids most manufacturer warranties. Always specify full tear-off."
+    },
+    {
+      "key": "unlicensed_contractor",
+      "severity": "critical",
+      "regex": "\\b(contractor|installer|company)\\b",
+      "secondaryRegex": "\\b(license|licensed|state license|contractor's license|cslb|tdlr|gc license)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "No mention of contractor license number. Most states require a state license for siding work above a dollar threshold. Verify at your state's contractor board before signing."
+    },
+    {
+      "key": "no_insulation_in_cold_zone",
+      "severity": "high",
+      "regex": "\\b(insulation|continuous insulation|rigid foam|R[- ]?value)\\b",
+      "matchInverse": true,
+      "explanation": "Re-siding in a cold climate with no continuous insulation. The IECC requires continuous insulation in zones 4-8. This is the moment to add R-5+ rigid foam — it will not be cheaper at any other time."
+    },
+    {
+      "key": "no_warranty",
+      "severity": "medium",
+      "regex": "\\b(warranty|guarantee|labor warranty|workmanship)\\b",
+      "matchInverse": true,
+      "explanation": "No workmanship warranty stated. Reputable siding installers offer 5-25 year workmanship warranties separate from the manufacturer material warranty."
+    },
+    {
+      "key": "color_match_repair",
+      "severity": "medium",
+      "regex": "\\b(repair|partial|patch|spot)\\b",
+      "secondaryRegex": "\\b(color match|match|weathered|sun[- ]?faded|color difference)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Partial siding repair with no color-match disclosure. Aged vinyl and painted wood do not match factory-fresh replacement pieces. Reputable installers disclose this up front and offer alternatives like blending."
+    },
+    {
+      "key": "deposit_above_25",
+      "severity": "high",
+      "regex": "\\b(deposit|down payment|upfront)\\b",
+      "explanation": "Deposits above 25% on siding work are high risk. Many states cap deposits by law. Reputable installers stage payments with material delivery and substantial completion milestones."
+    },
+    {
+      "key": "no_disposal",
+      "severity": "low",
+      "regex": "\\b(disposal|dumpster|debris removal|haul away|cleanup|tear off disposal)\\b",
+      "matchInverse": true,
+      "explanation": "Tear-off disposal not mentioned. A whole-house siding tear-off generates 4-8 cubic yards of debris. Dumpster rental adds $400-$900."
+    },
+    {
+      "key": "wpi8_coastal_missing",
+      "severity": "high",
+      "regex": "\\b(coastal|hurricane|windborne|miami[- ]?dade|wpi[- ]?8|tdi)\\b",
+      "matchInverse": true,
+      "explanation": "Coastal location implied but no Miami-Dade / TDI / WPI-8 windborne-debris assembly mentioned. Coastal counties require windborne-rated installations or insurance won't cover wind damage."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "materialType",
-      "label": "Siding material specified",
-      "weight": 12
-    },
-    {
-      "key": "insulation",
-      "label": "Insulation board included",
-      "weight": 8
-    }
+    { "key": "materialSpec",   "label": "Siding brand and product line specified",         "weight": 14 },
+    { "key": "houseWrap",      "label": "House wrap / WRB explicitly included",            "weight": 13 },
+    { "key": "flashing",       "label": "Flashing detail at all penetrations",             "weight": 12 },
+    { "key": "tearOff",        "label": "Tear-off (not overlay) explicitly stated",        "weight": 11 },
+    { "key": "permit",         "label": "Permits identified and pulled by contractor",    "weight": 10 },
+    { "key": "leadRRP",        "label": "RRP-certified for pre-1978 homes",                "weight": 10 },
+    { "key": "warranty",       "label": "Workmanship warranty (separate from material)",  "weight": 9 },
+    { "key": "soffitFascia",   "label": "Soffit / fascia / trim wrap included",            "weight": 8 },
+    { "key": "insulation",     "label": "Continuous insulation in cold zones",             "weight": 7 },
+    { "key": "disposal",       "label": "Tear-off disposal included",                      "weight": 6 }
+  ],
+  "iraCredit": {
+    "section": "N/A",
+    "status": "NOT_APPLICABLE",
+    "notes": "Siding is not a federal-credit-eligible category. Continuous insulation added during a re-side could have qualified under 25C in 2025; that credit expired Dec 31 2025. Some state utility rebates still apply to insulation upgrades — check dsireusa.org."
+  },
+  "utilityRebates": [
+    { "utility": "Mass Save", "states": ["MA"], "measure": "continuous_exterior_insulation", "amount": 1000, "notes": "Stacks during re-side projects with R-5+ continuous insulation.", "active2026": true },
+    { "utility": "Efficiency Vermont", "states": ["VT"], "measure": "continuous_exterior_insulation", "amount": 750, "notes": "Whole-home assessment required.", "active2026": true },
+    { "utility": "Focus on Energy", "states": ["WI"], "measure": "continuous_exterior_insulation", "amount": 500, "notes": "Income-qualified bonus available.", "active2026": true },
+    { "utility": "NYSERDA Comfort Home", "states": ["NY"], "measure": "continuous_exterior_insulation", "amount": 1500, "notes": "BPI-certified contractor required.", "active2026": true }
+  ],
+  "questionsToAskContractor": [
+    "What brand and product line of siding are you quoting? Show me the spec sheet.",
+    "Is this a tear-off or overlay? (Walk away if overlay.)",
+    "What house wrap / WRB are you installing and how is it lapped at openings?",
+    "Where will you install kick-out flashing where the roof meets the wall?",
+    "Is the home pre-1978? If so, are you EPA RRP certified?",
+    "Does the quote include rainscreen or furring strips for fiber cement?",
+    "What is the workmanship warranty separate from the material warranty?",
+    "Are you adding continuous rigid foam insulation? Why or why not for my climate zone?",
+    "What state contractor license number do you carry, and when does it expire?",
+    "What permits are required and who pulls them?",
+    "How is soffit and fascia replacement handled and at what cost?",
+    "What is the disposal plan for tear-off debris?"
   ]
 }
