@@ -197,17 +197,15 @@
       .lf-table th, .lf-table td { padding: 0.4rem 0.5rem; }
     }
   </style>
+  <script src="/js/result-footer.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <a class="logo" href="/">TruePrice</a>
       <nav>
-        <a href="/all-cities.html">Cities</a>
-        <a href="/guides.html">Guides</a>
-        <a href="/auto-repair-quote-analyzer.html">Auto Repair</a>
-        <a class="nav-cta" href="/analyze-quote.html">Check My Price</a>
-      </nav>
+<a href="/guides.html">Guides</a>
+</nav>
     </div>
   </header>
 
@@ -1231,15 +1229,20 @@
 
       // Actions
       html += '<div class="lf-actions">';
-      html += '<button class="lf-btn lf-btn-primary lf-btn-full" onclick="downloadAnalysisReport()">Download Analysis Report</button>';
-      html += '<button class="lf-btn lf-btn-secondary lf-btn-full" onclick="emailReport()">Email Me This Report</button>';
-      html += '<button class="lf-btn lf-btn-secondary lf-btn-full" onclick="startOver()">Start Over</button>';
       html += '<a href="/legal-billing-calculator.html" class="lf-btn lf-btn-secondary lf-btn-full" style="color:#7c3aed;">Billing Increment Calculator</a>';
       html += '<a href="/compare-legal-quotes.html" class="lf-btn lf-btn-secondary lf-btn-full" style="color:#7c3aed;">Compare Multiple Attorney Quotes</a>';
       html += '<a href="/legal-cost-guide.html" class="lf-btn lf-btn-secondary lf-btn-full" style="color:#16a34a;">Read Legal Cost Guide</a>';
       html += '</div>';
 
       appRoot.innerHTML = html;
+      window.legalStartOver = window.legalStartOver || (typeof startOver === "function" ? startOver : function(){ location.reload(); });
+      if (window.tpRenderResultFooter) {
+        appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
+          vertical: "legal",
+          verticalLabel: "Legal",
+          onStartOver: "legalStartOver"
+        }));
+      }
       window.scrollTo(0, 0);
 
       // Track analysis
@@ -1270,21 +1273,6 @@
 
   })();
   </script>
-<div id="tpFeedback" style="position:fixed;bottom:16px;right:16px;z-index:999;display:none;">
-<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);max-width:280px;font-family:system-ui,sans-serif;">
-<div style="font-size:14px;font-weight:600;margin-bottom:8px;">Was this helpful?</div>
-<div style="display:flex;gap:8px;margin-bottom:8px;">
-<button onclick="tpFb('yes')" style="flex:1;padding:8px;border:1px solid #bbf7d0;border-radius:8px;background:#f0fdf4;cursor:pointer;font-size:13px;">Yes</button>
-<button onclick="tpFb('no')" style="flex:1;padding:8px;border:1px solid #fecaca;border-radius:8px;background:#fef2f2;cursor:pointer;font-size:13px;">Not really</button>
-</div>
-<a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:12px;color:#64748b;text-decoration:none;">Tell us more &rarr;</a>
-<button onclick="document.getElementById('tpFeedback').style.display='none'" style="position:absolute;top:8px;right:10px;background:none;border:none;color:#94a3b8;cursor:pointer;font-size:16px;">&times;</button>
-</div>
-</div>
-<script>
-function tpFb(r){if(typeof tpTrack==="function")tpTrack("feedback_quick",{response:r,page:location.pathname});var el=document.getElementById("tpFeedback");el.innerHTML='<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);font-size:14px;color:#16a34a;text-align:center;">Thanks for the feedback!</div>';setTimeout(function(){el.style.display="none";},2000);}
-setTimeout(function(){var el=document.getElementById("tpFeedback");if(el)el.style.display="block";},15000);
-</script>
 <script src="/js/feedback-modal.js" defer></script>
 </body>
 </html>

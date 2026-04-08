@@ -225,12 +225,8 @@
     <div class="container">
       <a class="logo" href="/">TruePrice</a>
       <nav>
-        <a href="/all-cities.html">Cities</a>
-        <a href="/guides.html">Guides</a>
-        <a href="/find-contractors.html">Contractors</a>
-        <a href="/photo-estimate.html">Photo Estimate</a>
-        <a class="nav-cta" href="/analyze-quote.html">Analyze Quote</a>
-      </nav>
+<a href="/guides.html">Guides</a>
+</nav>
     </div>
   </header>
 
@@ -1680,32 +1676,6 @@
       rebateHtml += '<li>Off-season scheduling: HVAC installs in spring or fall can be 5-10% cheaper</li>';
       rebateHtml += '</ul></div>';
 
-      // Feedback prompt
-      var feedbackHtml = '\
-<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
-  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this estimate close to your actual quote?</div>\
-  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
-    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, accurate</button>\
-    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
-    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
-  </div>\
-</div>';
-
-      // Email report
-      var emailSubject = encodeURIComponent("My HVAC Quote Analysis from TruePrice");
-      var emailBody = encodeURIComponent(
-        "HVAC Quote Analysis\n" +
-        "System: " + r.systemType.label + "\n" +
-        (r.seer ? "SEER: " + r.seer + "\n" : "") +
-        (r.tonnage ? "Size: " + r.tonnage + " ton\n" : "") +
-        (r.brandNote ? "Brand: " + r.brandNote + "\n" : "") +
-        (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
-        "Benchmark: " + fmt(r.benchmark) + "\n" +
-        "Verdict: " + r.verdict.label + "\n" +
-        "Region: " + capitalize(r.region) + "\n\n" +
-        "Analyzed by TruePrice - https://truepricehq.com/hvac-quote-analyzer.html"
-      );
-
       appRoot.innerHTML = '\
         <div class="hvac-hero">\
           <h1>' + (isUpload ? "HVAC Quote Analysis" : "Your HVAC Estimate") + '</h1>\
@@ -1732,14 +1702,10 @@
         ' + rebateHtml + '\
         <div class="hvac-actions">\
           <a class="hvac-btn hvac-btn-primary hvac-btn-full" href="/find-contractors.html?service=hvac">Find HVAC Contractors</a>\
-          <a class="hvac-btn hvac-btn-secondary hvac-btn-full" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">Email Me This Report</a>\
-          <button class="hvac-btn hvac-btn-secondary hvac-btn-full" onclick="downloadAnalysisReport()">Download Analysis Report</button>\
           <a class="hvac-btn hvac-btn-secondary hvac-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
-          <button class="hvac-btn hvac-btn-secondary hvac-btn-full" id="btnStartOver">Start Over</button>\
-        </div>\
-        ' + feedbackHtml;
+        </div>';
 
-      document.getElementById("btnStartOver").addEventListener("click", function() {
+      window.hvacStartOver = function() {
         state = {
           step: "address",
           address: { street: "", city: "", stateCode: "", zip: "" },
@@ -1749,7 +1715,15 @@
           result: null
         };
         render();
-      });
+      };
+
+      if (window.tpRenderResultFooter) {
+        appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
+          vertical: "hvac",
+          verticalLabel: "HVAC",
+          onStartOver: "hvacStartOver"
+        }));
+      }
     }
 
     function capitalize(s) {
@@ -1763,21 +1737,7 @@
   })();
   </script>
 <script src="/js/tp-analytics.min.js" async></script>
-<div id="tpFeedback" style="position:fixed;bottom:16px;right:16px;z-index:999;display:none;">
-<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);max-width:280px;font-family:system-ui,sans-serif;">
-<div style="font-size:14px;font-weight:600;margin-bottom:8px;">Was this helpful?</div>
-<div style="display:flex;gap:8px;margin-bottom:8px;">
-<button onclick="tpFb('yes')" style="flex:1;padding:8px;border:1px solid #bbf7d0;border-radius:8px;background:#f0fdf4;cursor:pointer;font-size:13px;">Yes</button>
-<button onclick="tpFb('no')" style="flex:1;padding:8px;border:1px solid #fecaca;border-radius:8px;background:#fef2f2;cursor:pointer;font-size:13px;">Not really</button>
-</div>
-<a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:12px;color:#64748b;text-decoration:none;">Tell us more &rarr;</a>
-<button onclick="document.getElementById('tpFeedback').style.display='none'" style="position:absolute;top:8px;right:10px;background:none;border:none;color:#94a3b8;cursor:pointer;font-size:16px;">&times;</button>
-</div>
-</div>
-<script>
-function tpFb(r){if(typeof tpTrack==="function")tpTrack("feedback_quick",{response:r,page:location.pathname});var el=document.getElementById("tpFeedback");el.innerHTML='<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);font-size:14px;color:#16a34a;text-align:center;">Thanks for the feedback!</div>';setTimeout(function(){el.style.display="none";},2000);}
-setTimeout(function(){var el=document.getElementById("tpFeedback");if(el)el.style.display="block";},15000);
-</script>
+<script src="/js/result-footer.js" defer></script>
 <script src="/js/feedback-modal.js" defer></script>
 </body>
 </html>

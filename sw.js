@@ -1,8 +1,13 @@
-const CACHE_NAME = "trueprice-v1";
+// Bumped to v2 on 2026-04-07 for the three-intent homepage restructure.
+// Bumping the version invalidates every returning visitor's stale cache and
+// forces them to fetch the new homepage on next load.
+const CACHE_NAME = "trueprice-v2";
 const PRECACHE = [
   "/",
   "/css/trueprice.min.css",
-  "/images/trudy-hero-investigator.png",
+  "/images/trudy-estimate-hero.webp",
+  "/images/trudy-compare-hero.webp",
+  "/images/trudy-analyze-hero.webp",
   "/images/trudy.png",
   "/favicon-trudy.svg"
 ];

@@ -250,7 +250,9 @@
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container"><a class="logo" href="/">TruePrice</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
+<header class="site-header"><div class="container"><a class="logo" href="/">TruePrice</a><nav>
+<a href="/guides.html">Guides</a>
+</nav></div></header>
 
 <main class="ar-wrap">
 
@@ -1302,16 +1304,15 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   // Append the shared Trudy footer at the bottom for consistent cross-vertical UX
   var sharedFooterHtml = (typeof window.tpRenderResultFooter === "function")
     ? window.tpRenderResultFooter({
-        vertical: "auto",
-        trudyImage: "/images/trudy-auto.png",
-        onStartOver: "arStartOver",
-        shareTitle: "My TruePrice auto repair report"
+        vertical: "auto-repair",
+        verticalLabel: "Auto Repair",
+        onStartOver: "autoRepairStartOver"
       })
     : "";
   resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml)+sharedFooterHtml;
-  // Define arStartOver as a window fn so the shared footer's Start Over button works
-  if (!window.arStartOver) {
-    window.arStartOver = function() {
+  // Define autoRepairStartOver as a window fn so the shared footer's Start Over button works
+  if (!window.autoRepairStartOver) {
+    window.autoRepairStartOver = function() {
       lastEstimateInputs = null;
       window._calibCache = null;
       var resultEl = document.getElementById("estimateResult");
@@ -2092,15 +2093,20 @@ function initQuoteApp(){
       <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem;">\
         <button class="ar-btn-q ar-btn-primary ar-btn-full" onclick="switchPath(\'estimate\')">Get a Fresh Estimate for This Repair</button>\
         <a class="ar-btn-q ar-btn-secondary ar-btn-full" href="/repair-check.html" style="text-align:center;">Is This Repair Actually Needed?</a>\
-        <button class="ar-btn-q ar-btn-secondary ar-btn-full" onclick="downloadAnalysisReport()">Download Analysis Report</button>\
-        <button class="ar-btn-q ar-btn-secondary ar-btn-full" id="btnStartOver">Start Over</button>\
       </div>\
       '+feedbackHtml;
 
-    document.getElementById("btnStartOver").addEventListener("click",function(){
+    window.autoRepairStartOver = function(){
       qState={step:"upload",stateCode:"",shopType:"independent",uploadedFile:null,extractedText:"",result:null};
       qRender();
-    });
+    };
+    if (window.tpRenderResultFooter) {
+      appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
+        vertical: "auto-repair",
+        verticalLabel: "Auto Repair",
+        onStartOver: "autoRepairStartOver"
+      }));
+    }
   }
 
   // init
@@ -2109,24 +2115,8 @@ function initQuoteApp(){
 }
 </script>
 
-<!-- Feedback widget -->
-<div id="tpFeedback" style="position:fixed;bottom:16px;right:16px;z-index:999;display:none;">
-<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);max-width:280px;font-family:system-ui,sans-serif;">
-<div style="font-size:14px;font-weight:600;margin-bottom:8px;">Was this helpful?</div>
-<div style="display:flex;gap:8px;margin-bottom:8px;">
-<button onclick="tpFb('yes')" style="flex:1;padding:8px;border:1px solid #bbf7d0;border-radius:8px;background:#f0fdf4;cursor:pointer;font-size:13px;">Yes</button>
-<button onclick="tpFb('no')" style="flex:1;padding:8px;border:1px solid #fecaca;border-radius:8px;background:#fef2f2;cursor:pointer;font-size:13px;">Not really</button>
-</div>
-<a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:12px;color:#64748b;text-decoration:none;">Tell us more &rarr;</a>
-<button onclick="document.getElementById('tpFeedback').style.display='none'" style="position:absolute;top:8px;right:10px;background:none;border:none;color:#94a3b8;cursor:pointer;font-size:16px;">&times;</button>
-</div>
-</div>
-<script>
-function tpFb(r){if(typeof tpTrack==="function")tpTrack("feedback_quick",{response:r,page:location.pathname});var el=document.getElementById("tpFeedback");el.innerHTML='<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);font-size:14px;color:#16a34a;text-align:center;">Thanks for the feedback!</div>';setTimeout(function(){el.style.display="none";},2000);}
-setTimeout(function(){var el=document.getElementById("tpFeedback");if(el)el.style.display="block";},15000);
-</script>
 <script src="/js/tp-analytics.min.js" async></script>
 <script src="/js/feedback-modal.js" defer></script>
-<script src="/js/trudy-footer.js" defer></script>
+<script src="/js/result-footer.js" defer></script>
 </body>
 </html>

@@ -295,12 +295,8 @@
     <div class="container">
       <a class="logo" href="/">TruePrice</a>
       <nav>
-        <a href="/all-cities.html">Cities</a>
-        <a href="/guides.html">Guides</a>
-        <a href="/find-contractors.html">Contractors</a>
-        <a href="/photo-estimate.html">Photo Estimate</a>
-        <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
-      </nav>
+<a href="/guides.html">Guides</a>
+</nav>
     </div>
   </header>
 
@@ -2108,9 +2104,8 @@
       var footerHtml = (typeof window.tpRenderResultFooter === "function")
         ? window.tpRenderResultFooter({
             vertical: "moving",
-            trudyImage: "/images/trudy-moving.png",
-            onStartOver: "mvStartOver",
-            shareTitle: "My TruePrice moving analysis"
+            verticalLabel: "Moving",
+            onStartOver: "movingStartOver"
           })
         : "";
 
@@ -2164,8 +2159,8 @@
         ' + methodologyHtml + '\
         ' + footerHtml;
 
-      // Define mvStartOver as a window fn so the shared footer's Start Over button can call it
-      window.mvStartOver = function() {
+      // Define movingStartOver as a window fn so the shared footer's Start Over button can call it
+      window.movingStartOver = function() {
         state = {
           step: "upload", fromCity: "", fromState: "", toCity: "", toState: "",
           homeSize: "2br", distance: null, moveType: "local",
@@ -2226,22 +2221,7 @@
   })();
   </script>
 <script src="/js/tp-analytics.min.js" async></script>
-<div id="tpFeedback" style="position:fixed;bottom:16px;right:16px;z-index:999;display:none;">
-<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);max-width:280px;font-family:system-ui,sans-serif;">
-<div style="font-size:14px;font-weight:600;margin-bottom:8px;">Was this helpful?</div>
-<div style="display:flex;gap:8px;margin-bottom:8px;">
-<button onclick="tpFb('yes')" style="flex:1;padding:8px;border:1px solid #bbf7d0;border-radius:8px;background:#f0fdf4;cursor:pointer;font-size:13px;">Yes</button>
-<button onclick="tpFb('no')" style="flex:1;padding:8px;border:1px solid #fecaca;border-radius:8px;background:#fef2f2;cursor:pointer;font-size:13px;">Not really</button>
-</div>
-<a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:12px;color:#64748b;text-decoration:none;">Tell us more &rarr;</a>
-<button onclick="document.getElementById('tpFeedback').style.display='none'" style="position:absolute;top:8px;right:10px;background:none;border:none;color:#94a3b8;cursor:pointer;font-size:16px;">&times;</button>
-</div>
-</div>
-<script>
-function tpFb(r){if(typeof tpTrack==="function")tpTrack("feedback_quick",{response:r,page:location.pathname});var el=document.getElementById("tpFeedback");el.innerHTML='<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);font-size:14px;color:#16a34a;text-align:center;">Thanks for the feedback!</div>';setTimeout(function(){el.style.display="none";},2000);}
-setTimeout(function(){var el=document.getElementById("tpFeedback");if(el)el.style.display="block";},15000);
-</script>
 <script src="/js/feedback-modal.js" defer></script>
-<script src="/js/trudy-footer.js" defer></script>
+<script src="/js/result-footer.js" defer></script>
 </body>
 </html>

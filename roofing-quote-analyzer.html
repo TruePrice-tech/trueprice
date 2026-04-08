@@ -40,18 +40,15 @@
   <meta name="theme-color" content="#1d4ed8" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
   <link rel="stylesheet" href="/css/analyzer.min.css" />
+  <script src="/js/result-footer.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <a class="logo" href="/">TruePrice</a>
       <nav>
-        <a href="/all-cities.html">Cities</a>
-        <a href="/guides.html">Guides</a>
-        <a href="/find-contractors.html">Contractors</a>
-        <a href="/photo-estimate.html">Photo Estimate</a>
-        <a class="nav-cta" href="/analyze-quote.html">Analyze Quote</a>
-      </nav>
+<a href="/guides.html">Guides</a>
+</nav>
     </div>
   </header>
 
@@ -123,20 +120,34 @@
 
   <script src="js/analyzer-ocr.min.js"></script>
   <script src="js/analyzer-ui.min.js"></script>
-<div id="tpFeedback" style="position:fixed;bottom:16px;right:16px;z-index:999;display:none;">
-<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);max-width:280px;font-family:system-ui,sans-serif;">
-<div style="font-size:14px;font-weight:600;margin-bottom:8px;">Was this helpful?</div>
-<div style="display:flex;gap:8px;margin-bottom:8px;">
-<button onclick="tpFb('yes')" style="flex:1;padding:8px;border:1px solid #bbf7d0;border-radius:8px;background:#f0fdf4;cursor:pointer;font-size:13px;">Yes</button>
-<button onclick="tpFb('no')" style="flex:1;padding:8px;border:1px solid #fecaca;border-radius:8px;background:#fef2f2;cursor:pointer;font-size:13px;">Not really</button>
-</div>
-<a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:12px;color:#64748b;text-decoration:none;">Tell us more &rarr;</a>
-<button onclick="document.getElementById('tpFeedback').style.display='none'" style="position:absolute;top:8px;right:10px;background:none;border:none;color:#94a3b8;cursor:pointer;font-size:16px;">&times;</button>
-</div>
-</div>
 <script>
-function tpFb(r){if(typeof tpTrack==="function")tpTrack("feedback_quick",{response:r,page:location.pathname});var el=document.getElementById("tpFeedback");el.innerHTML='<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,0.12);font-size:14px;color:#16a34a;text-align:center;">Thanks for the feedback!</div>';setTimeout(function(){el.style.display="none";},2000);}
-setTimeout(function(){var el=document.getElementById("tpFeedback");if(el)el.style.display="block";},15000);
+(function(){
+  // Inject shared result footer once analyzer-ui renders a verdict
+  window.roofingStartOver = window.roofingStartOver || function(){ location.reload(); };
+  var injected = false;
+  function tryInject(){
+    if (injected || !window.tpRenderResultFooter) return;
+    var root = document.getElementById("appRoot");
+    if (!root) return;
+    // Heuristic: result rendered when a verdict element exists
+    var hasResult = root.querySelector('[class*="verdict"], [data-verdict], .analyzer-result, .result-card');
+    if (!hasResult) return;
+    injected = true;
+    root.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
+      vertical: "roofing",
+      verticalLabel: "Roofing",
+      onStartOver: "roofingStartOver"
+    }));
+  }
+  var obs = new MutationObserver(function(){ tryInject(); });
+  function start(){
+    var root = document.getElementById("appRoot");
+    if (root) obs.observe(root, { childList: true, subtree: true });
+    tryInject();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+})();
 </script>
 <script src="/js/feedback-modal.js" defer></script>
 </body>

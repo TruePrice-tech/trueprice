@@ -10,21 +10,21 @@
   <link rel="dns-prefetch" href="https://utt.impactcdn.com" />
   <link rel="dns-prefetch" href="https://api.producthunt.com" />
 
-  <title>TruePrice | Is Your Contractor Quote Fair?</title>
-  <meta name="description" content="Upload your contractor quote, mechanic quote, or medical bill and find out if the price is fair in 30 seconds. Home services, auto repair, and medical bills. Free." />
+  <title>TruePrice — Get an estimate, compare quotes, or analyze a contractor quote</title>
+  <meta name="description" content="Free contractor quote analyzer. Get an estimate, compare 2-3 quotes side by side, or upload a single quote to check the price. No email, no phone, no lead-selling." />
   <link rel="canonical" href="https://truepricehq.com/" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="TruePrice | Is Your Contractor Quote Fair?" />
-  <meta property="og:description" content="Upload your contractor quote, mechanic quote, or medical bill. We check the price, flag errors, and tell you what to ask. Free." />
+  <meta property="og:title" content="TruePrice — Get an estimate, compare quotes, or analyze a contractor quote" />
+  <meta property="og:description" content="Free contractor quote analyzer. Get an estimate, compare 2-3 quotes side by side, or upload a single quote to check the price. No email, no phone, no lead-selling." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://truepricehq.com/" />
   <meta property="og:site_name" content="TruePrice" />
   <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="TruePrice | Is Your Contractor Quote Fair?" />
-  <meta name="twitter:description" content="Upload your contractor quote. We check the price, flag missing items, and tell you what to ask. Free, no signup." />
+  <meta name="twitter:title" content="TruePrice — Get an estimate, compare quotes, or analyze a contractor quote" />
+  <meta name="twitter:description" content="Free contractor quote analyzer. Get an estimate, compare 2-3 quotes side by side, or upload a single quote to check the price. No email, no phone, no lead-selling." />
   <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
 
   <link rel="stylesheet" href="/css/trueprice.min.css" />
@@ -117,6 +117,34 @@
     .hp-why-card p { font-size: 14px; color: var(--text-secondary); margin: 0; line-height: 1.6; }
     .hp-why-icon { font-size: 24px; }
 
+    /* New three-intent hero */
+    .tp-intent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
+    .tp-intent-card { background: #fff; border-radius: 18px; padding: 28px 22px 26px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 6px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; }
+    .tp-intent-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.24); }
+    .tp-intent-card img { max-height: 360px; width: auto; height: auto; object-fit: contain; margin-bottom: 14px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18)); }
+    .tp-intent-card h2 { font-size: 22px; margin: 0 0 6px; color: #0f172a; line-height: 1.2; }
+    .tp-intent-card p.tp-sub { font-size: 15px; color: #475569; margin: 0 0 18px; line-height: 1.4; }
+    .tp-intent-cta { display: inline-block; background: var(--accent, #1d4ed8); color: #fff; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: filter 0.15s, transform 0.15s; }
+    .tp-intent-cta:hover { filter: brightness(1.08); transform: translateY(-1px); text-decoration: none; }
+    .tp-trust-line { text-align: center; margin: 28px auto 4px; font-size: 14px; color: rgba(255,255,255,0.75); }
+    .tp-counter-line { text-align: center; font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+    .tp-trades { max-width: 980px; margin: 22px auto 0; text-align: center; }
+    .tp-trades-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 10px; }
+    .tp-trades-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 18px; }
+    .tp-trades-row a { font-size: 13px; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.15s; }
+    .tp-trades-row a:hover { color: #93c5fd; text-decoration: none; }
+
+    @media (max-width: 700px) {
+      .tp-intent-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .tp-intent-card { padding: 18px 12px 18px; border-top-width: 5px; }
+      .tp-intent-card img { max-height: 180px; margin-bottom: 10px; }
+      .tp-intent-card h2 { font-size: 17px; }
+      .tp-intent-card p.tp-sub { font-size: 13px; margin-bottom: 12px; }
+      .tp-intent-cta { font-size: 14px; padding: 10px 16px; }
+      .tp-intent-card.tp-card-compare { grid-column: 1 / -1; }
+      .tp-trades-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; }
+      .tp-trades-row a { padding: 4px 0; }
+    }
     @media (max-width: 700px) {
       .hp-hero { padding: 40px 0 36px; }
       .hp-hero .container { flex-direction: column !important; }
@@ -145,10 +173,13 @@
   {"@context":"https://schema.org","@type":"WebSite","name":"TruePrice","url":"https://truepricehq.com","potentialAction":{"@type":"SearchAction","target":"https://truepricehq.com/all-cities.html?q={search_term_string}","query-input":"required name=search_term_string"}}
   </script>
   <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice","url":"https://truepricehq.com","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free contractor quote analyzer with three intents: get an estimate before you buy, compare multiple quotes side by side, or analyze a single contractor quote.","featureList":["Get an estimate for any home service before requesting quotes","Compare 2-3 contractor quotes side by side","Analyze a single contractor quote for fairness and missing scope"]}
+  </script>
+  <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Organization","name":"TruePrice","url":"https://truepricehq.com","logo":"https://truepricehq.com/images/trudy.png","description":"Free quote and bill analysis for home services, auto repair, and medical bills.","sameAs":[]}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does TruePrice work?","acceptedAnswer":{"@type":"Answer","text":"Upload a contractor quote, take a photo of your house, or compare up to 3 quotes side by side. TruePrice uses AI to extract prices, materials, and scope items, then compares against local pricing benchmarks for your city."}},{"@type":"Question","name":"What services does TruePrice cover?","acceptedAnswer":{"@type":"Answer","text":"16 home services (roofing, HVAC, plumbing, electrical, windows, siding, insulation, painting, fencing, concrete, landscaping, garage doors, solar, foundation repair, kitchen remodeling, and gutters) plus auto repair. Each has a dedicated quote analyzer and pricing guides across 14,000+ U.S. cities."}},{"@type":"Question","name":"Is TruePrice free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The quote analyzer, photo estimator, comparison tool, and all pricing guides are completely free with no signup required."}},{"@type":"Question","name":"What does the scope check do?","acceptedAnswer":{"@type":"Answer","text":"Every quote is checked against a 12-point scope checklist covering items like tear-off, underlayment, flashing, ventilation, and disposal. TruePrice also scans the fine print for red flags like high deposits and liability disclaimers."}},{"@type":"Question","name":"Can I compare multiple quotes?","acceptedAnswer":{"@type":"Answer","text":"Yes. Upload up to 3 quotes and TruePrice compares them side by side on price, scope, warranty, and transparency. It scores each quote, highlights the best value, and generates questions to ask each contractor."}},{"@type":"Question","name":"Do you sell my data?","acceptedAnswer":{"@type":"Answer","text":"No. Your quote stays in your browser. No account, email, or phone number required. TruePrice does not sell leads to contractors."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does TruePrice work?","acceptedAnswer":{"@type":"Answer","text":"Three ways: get an estimate before you buy, compare 2-3 quotes side by side, or analyze a single contractor quote you already have. TruePrice uses AI to extract prices, materials, and scope items, then compares against local pricing benchmarks for your city. No email, no phone, no lead-selling."}},{"@type":"Question","name":"What services does TruePrice cover?","acceptedAnswer":{"@type":"Answer","text":"16 home services (roofing, HVAC, plumbing, electrical, windows, siding, insulation, painting, fencing, concrete, landscaping, garage doors, solar, foundation repair, kitchen remodeling, and gutters) plus auto repair. Each has a dedicated quote analyzer and pricing guides across 14,000+ U.S. cities."}},{"@type":"Question","name":"Is TruePrice free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The estimate tool, quote analyzer, comparison tool, and all pricing guides are completely free with no signup required."}},{"@type":"Question","name":"What does the scope check do?","acceptedAnswer":{"@type":"Answer","text":"Every quote is checked against a 12-point scope checklist covering items like tear-off, underlayment, flashing, ventilation, and disposal. TruePrice also scans the fine print for red flags like high deposits and liability disclaimers."}},{"@type":"Question","name":"Can I compare multiple quotes?","acceptedAnswer":{"@type":"Answer","text":"Yes. Upload up to 3 quotes and TruePrice compares them side by side on price, scope, warranty, and transparency. It scores each quote, highlights the best value, and generates questions to ask each contractor."}},{"@type":"Question","name":"Do you sell my data?","acceptedAnswer":{"@type":"Answer","text":"No. Your quote stays in your browser. No account, email, or phone number required. TruePrice does not sell leads to contractors."}}]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"}]}
@@ -160,87 +191,69 @@
       <a class="logo" href="/" style="color:#fff;">TruePrice</a>
       <nav>
         <a href="/guides.html" style="color:rgba(255,255,255,0.7);">Guides</a>
-        <a href="/just-browsing.html" style="color:rgba(255,255,255,0.7);">Just Browsing</a>
-        <a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a>
       </nav>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hp-hero" style="position:relative; z-index:1; padding-bottom:64px;">
-    <div class="container" style="padding-top:48px; text-align:center; max-width:820px;">
+  <!-- HERO: three-intent funnel -->
+  <section class="hp-hero" style="position:relative; z-index:1; padding:96px 0 56px;">
+    <div class="container" style="text-align:center;">
 
-      <!-- Headline -->
-      <h1 class="anim-1" style="margin:0 0 12px; font-size:42px; white-space:nowrap;">Don't sign until Trudy checks it.</h1>
-
-      <!-- Subheadline -->
-      <p class="hp-sub anim-3" style="margin:0 auto 24px; font-size:18px; color:rgba(255,255,255,0.8); max-width:700px; line-height:1.5; white-space:nowrap;">Upload any quote or bill. Find out in 30 seconds if the price is fair.</p>
-
-      <!-- Four vertical cards -->
-      <div class="anim-4" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; max-width:820px; margin:0 auto 24px;">
-        <a href="/analyze-quote.html" style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:16px 10px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:14px; text-decoration:none; transition:all 0.15s;">
-          <img src="/images/trudy-roofing.png" alt="Home Services" style="height:50px; width:auto; max-width:59px; margin:-1px 0; object-fit:contain; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />
-          <span style="color:#fff; font-size:13px; font-weight:700;">Home Services</span>
-          <span style="color:rgba(255,255,255,0.5); font-size:10px;">16 services</span>
-        </a>
-        <a href="/auto-repair.html" style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:16px 10px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:14px; text-decoration:none; transition:all 0.15s;">
-          <img src="/images/trudy-auto.png" alt="Auto Repair" style="height:100px; width:auto; max-width:118px; margin:-26px 0; object-fit:contain; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />
-          <span style="color:#fff; font-size:13px; font-weight:700;">Auto Repair</span>
-          <span style="color:rgba(255,255,255,0.5); font-size:10px;">Estimates & quotes</span>
-        </a>
-        <a href="/medical-bill-analyzer.html" style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:16px 10px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:14px; text-decoration:none; transition:all 0.15s;">
-          <img src="/images/trudy-medical.png" alt="Medical Bills" style="height:50px; width:auto; max-width:59px; margin:-1px 0; object-fit:contain; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />
-          <span style="color:#fff; font-size:13px; font-weight:700;">Medical Bills</span>
-          <span style="color:rgba(255,255,255,0.5); font-size:10px;">Hospital bills</span>
-        </a>
-        <a href="/legal-fee-analyzer.html" style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:16px 10px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:14px; text-decoration:none; transition:all 0.15s;">
-          <img src="/images/trudy-legal.png" alt="Legal Fees" style="height:50px; width:auto; max-width:59px; margin:-1px 0; object-fit:contain; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />
-          <span style="color:#fff; font-size:13px; font-weight:700;">Legal Fees</span>
-          <span style="color:rgba(255,255,255,0.5); font-size:10px;">Attorney bills</span>
-        </a>
-        <a href="/moving-quote-analyzer.html" style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:16px 10px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:14px; text-decoration:none; transition:all 0.15s;">
-          <img src="/images/trudy-moving.png" alt="Moving" style="height:96px; width:auto; margin:-24px 0; position:relative; top:3px; object-fit:contain; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />
-          <span style="color:#fff; font-size:13px; font-weight:700;">Moving</span>
-          <span style="color:rgba(255,255,255,0.5); font-size:10px;">Moving quotes</span>
-        </a>
+      <div class="tp-intent-grid anim-1">
+        <div class="tp-intent-card tp-card-estimate" style="--accent:#ec4899;">
+          <img src="/images/trudy-estimate-hero.webp" alt="Trudy with arms out asking what you need" width="533" height="800" loading="eager" />
+          <h2>How much will you spend?</h2>
+          <p class="tp-sub">Shop before you buy.</p>
+          <a class="tp-intent-cta" href="/get-an-estimate.html">Give me an estimate</a>
+        </div>
+        <div class="tp-intent-card tp-card-compare" style="--accent:#eab308;">
+          <img src="/images/trudy-compare-hero.webp" alt="Trudy holding two quotes for comparison" width="533" height="800" loading="eager" />
+          <h2>Got multiple quotes?</h2>
+          <p class="tp-sub">Side-by-side check on each.</p>
+          <a class="tp-intent-cta" href="/compare-quotes-picker.html">Compare quotes</a>
+        </div>
+        <div class="tp-intent-card tp-card-analyze" style="--accent:#1d4ed8;">
+          <img src="/images/trudy-analyze-hero.webp" alt="Trudy holding up a single quote, confident" width="533" height="800" loading="eager" />
+          <h2>Already got a quote?</h2>
+          <p class="tp-sub">Don't sign till Trudy checks it.</p>
+          <a class="tp-intent-cta" href="/analyze-my-quote.html">Analyze my quote</a>
+        </div>
       </div>
 
-      <!-- Trust row -->
-      <div class="anim-5" style="display:flex; justify-content:center; gap:20px; font-size:13px; color:rgba(255,255,255,0.4);">
-        <span>&#10003; Free forever</span>
-        <span>&#10003; No signup</span>
-        <span>&#10003; We never sell your data</span>
-        <span>&#10003; <span id="liveCounter" style="color:rgba(255,255,255,0.6); font-weight:600;">3,400</span>+ quotes analyzed</span>
+      <div class="tp-trust-line anim-3">Free &middot; No email &middot; No phone &middot; No lead-selling</div>
+      <div class="tp-counter-line anim-3"><span id="liveCounter">Thousands of</span> quotes analyzed</div>
+
+      <div class="tp-trades anim-4">
+        <div class="tp-trades-label">Browse by trade</div>
+        <div class="tp-trades-row">
+          <a href="/roofing-quote-analyzer.html">Roofing</a>
+          <a href="/hvac-quote-analyzer.html">HVAC</a>
+          <a href="/plumbing-quote-analyzer.html">Plumbing</a>
+          <a href="/electrical-quote-analyzer.html">Electrical</a>
+          <a href="/solar-quote-analyzer.html">Solar</a>
+          <a href="/windows-quote-analyzer.html">Windows</a>
+          <a href="/siding-quote-analyzer.html">Siding</a>
+          <a href="/painting-quote-analyzer.html">Painting</a>
+          <a href="/concrete-quote-analyzer.html">Concrete</a>
+          <a href="/foundation-quote-analyzer.html">Foundation</a>
+          <a href="/fencing-quote-analyzer.html">Fencing</a>
+          <a href="/gutters-quote-analyzer.html">Gutters</a>
+          <a href="/insulation-quote-analyzer.html">Insulation</a>
+          <a href="/kitchen-quote-analyzer.html">Kitchen</a>
+          <a href="/landscaping-quote-analyzer.html">Landscaping</a>
+          <a href="/garage-door-quote-analyzer.html">Garage Door</a>
+          <a href="/auto-repair-quote-analyzer.html">Auto Repair</a>
+          <a href="/moving-quote-analyzer.html">Moving</a>
+          <a href="/medical-bill-analyzer.html">Medical</a>
+          <a href="/legal-fee-analyzer.html">Legal</a>
+        </div>
       </div>
 
-    </div>
-    <!-- Trudy peeking over the edge -->
-    <div style="text-align:center; margin-top:24px; position:relative; z-index:2;">
-      <img src="/images/trudy-hero-investigator.png" alt="Trudy checking your quote" width="260" class="anim-5" style="filter:drop-shadow(0 4px 16px rgba(0,0,0,0.2)); margin-bottom:-77px; display:block; margin-left:auto; margin-right:auto;" />
     </div>
   </section>
 
-  <main class="container" style="padding-top:16px;">
+  <main class="container" style="padding-top:32px;">
 
-    <!-- DEMO: Toggleable example results -->
-    <section class="hp-section">
-      <h2>What Trudy finds in 30 seconds</h2>
-      <!-- Toggle tabs -->
-      <div style="display:flex; justify-content:center; gap:6px; margin:16px 0 20px; flex-wrap:wrap;" id="demoTabs">
-        <button class="demo-tab active" data-demo="roofing" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:var(--brand); color:#fff;">Roofing</button>
-        <button class="demo-tab" data-demo="hvac" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">HVAC</button>
-        <button class="demo-tab" data-demo="auto" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Auto Repair</button>
-        <button class="demo-tab" data-demo="medical" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Medical Bill</button>
-        <button class="demo-tab" data-demo="legal" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Legal Fees</button>
-        <button class="demo-tab" data-demo="moving" style="padding:7px 16px; border:1px solid var(--border); border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; background:#fff; color:var(--text-secondary);">Moving</button>
-      </div>
-
-      <div class="hp-demo-card" style="max-width:860px; padding:36px; margin:0 auto;" id="demoCard">
-        <!-- JS populates this -->
-      </div>
-    </section>
-
-    <!-- TESTIMONIALS (moved up) -->
     <!-- WHY TRUEPRICE -->
     <section class="hp-section">
       <h2 style="text-align:center;">Why people trust Trudy</h2>
@@ -277,72 +290,23 @@
       <div class="hp-steps">
         <div class="hp-step">
           <div class="hp-step-num">1</div>
-          <h3>Upload a quote or bill</h3>
-          <p>Contractor quote, mechanic invoice, hospital bill, or EOB. PDF, photo, or screenshot. Drop it in.</p>
-          <div class="hp-step-example">Home services, auto repair, and medical bills. One tool for all of them.</div>
+          <h3>Pick what you need</h3>
+          <p>Get an estimate before you buy, compare 2-3 quotes side by side, or analyze a single quote you already have.</p>
+          <div class="hp-step-example">Estimate &bull; Compare &bull; Analyze</div>
         </div>
         <div class="hp-step">
           <div class="hp-step-num">2</div>
-          <h3>AI reads every line</h3>
-          <p>Prices compared against local benchmarks and published rates. Scope items verified. Errors and red flags flagged.</p>
-          <div class="hp-step-example">Roofing: 10/12 scope items &bull; Auto: labor rate vs market &bull; Medical: CPT codes vs benchmarks</div>
+          <h3>Tell us a little about your project</h3>
+          <p>A few quick details, or drop in a PDF, photo, or screenshot of your quote. No account, no email, no phone number.</p>
+          <div class="hp-step-example">Home services, auto repair, medical bills, legal fees, and moving</div>
         </div>
         <div class="hp-step">
           <div class="hp-step-num">3</div>
-          <h3>Get your verdict</h3>
-          <p>Fair or overpriced. What's missing. What to ask or dispute. Save or share your result.</p>
-          <div class="hp-step-example">Fair price &bull; 2 items to verify &bull; Save as image or email yourself the report</div>
+          <h3>Get a free, AI-powered breakdown</h3>
+          <p>Fair or overpriced, what's missing, what to ask. No email, no phone, no lead-selling. Ever.</p>
+          <div class="hp-step-example">Verdict &bull; Local benchmark &bull; Questions to ask</div>
         </div>
       </div>
-    </section>
-
-    <!-- COST GUIDES -->
-    <section class="hp-section">
-      <h2>What should it cost?</h2>
-      <p class="hp-section-intro">National averages for the most common projects. Your city price may differ.</p>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-top:20px;">
-        <a class="hp-cost-card" href="/roof-replacement-cost-calculator.html" style="padding:20px; background:var(--bg); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.15s;">
-          <div style="font-size:13px; color:var(--text-muted); font-weight:600;">Roof Replacement</div>
-          <div style="font-size:22px; font-weight:800; margin:4px 0;">$8,500 - $16,100</div>
-          <div style="font-size:12px; color:var(--text-muted);">Architectural shingles, avg home</div>
-        </a>
-        <a class="hp-cost-card" href="/hvac-cost.html" style="padding:20px; background:var(--bg); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.15s;">
-          <div style="font-size:13px; color:var(--text-muted); font-weight:600;">HVAC System</div>
-          <div style="font-size:22px; font-weight:800; margin:4px 0;">$4,200 - $9,500</div>
-          <div style="font-size:12px; color:var(--text-muted);">Central AC or heat pump</div>
-        </a>
-        <a class="hp-cost-card" href="/auto-repair-cost-guide.html" style="padding:20px; background:var(--bg); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.15s;">
-          <div style="font-size:13px; color:var(--text-muted); font-weight:600;">Brake Job (All 4)</div>
-          <div style="font-size:22px; font-weight:800; margin:4px 0;">$450 - $1,100</div>
-          <div style="font-size:12px; color:var(--text-muted);">Pads and rotors, both axles</div>
-        </a>
-        <a class="hp-cost-card" href="/medical-cost-guide.html" style="padding:20px; background:var(--bg); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.15s;">
-          <div style="font-size:13px; color:var(--text-muted); font-weight:600;">ER Visit (moderate)</div>
-          <div style="font-size:22px; font-weight:800; margin:4px 0;">$1,500 - $5,000</div>
-          <div style="font-size:12px; color:var(--text-muted);">Benchmark rate: $450</div>
-        </a>
-        <a class="hp-cost-card" href="/window-replacement-cost.html" style="padding:20px; background:var(--bg); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--text); transition:all 0.15s;">
-          <div style="font-size:13px; color:var(--text-muted); font-weight:600;">Window Replacement</div>
-          <div style="font-size:22px; font-weight:800; margin:4px 0;">$300 - $800</div>
-          <div style="font-size:12px; color:var(--text-muted);">Per window, installed</div>
-        </a>
-        <a href="/guides.html" style="padding:20px; background:var(--bg-subtle); border:1px solid var(--border); border-radius:12px; text-decoration:none; color:var(--brand); transition:all 0.15s; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px;">
-          Browse all guides &rarr;
-        </a>
-      </div>
-    </section>
-
-    <!-- EMAIL SIGNUP -->
-    <section class="hp-section" style="text-align:center; border-bottom:none; padding-bottom:0;">
-      <img src="/images/trudy-clipboard.png" alt="Trudy the TruePrice fennec fox with clipboard" width="240" loading="lazy" style="margin-bottom:12px;" />
-      <h2>Ask Trudy to keep you posted</h2>
-      <p style="color:var(--text-secondary); max-width:480px; margin:0 auto 20px;">Get notified when we add new tools and guides. No spam, unsubscribe anytime.</p>
-      <form id="emailSignup" style="display:flex; gap:8px; max-width:420px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
-        <label for="signupEmail" class="sr-only">Email address</label>
-        <input type="email" id="signupEmail" placeholder="your@email.com" required aria-label="Email address" style="flex:1; min-width:200px; padding:12px 16px; border:1px solid var(--border); border-radius:10px; font-size:15px; font-family:inherit;" />
-        <button type="submit" class="btn" style="padding:12px 24px;">Subscribe</button>
-      </form>
-      <div id="signupStatus" role="status" aria-live="polite" style="margin-top:10px; font-size:14px;"></div>
     </section>
 
     <!-- FAQ -->
@@ -352,7 +316,7 @@
         <details class="faq-item">
           <summary>How does TruePrice work?</summary>
           <div class="faq-answer">
-            <p>Three ways to use it: upload a contractor quote (PDF or image), take a photo of your house for an instant roof estimate, or compare up to 3 quotes side by side. TruePrice uses AI to extract prices, materials, and scope items, then compares against local pricing benchmarks for your city and tells you if the price is fair, what's missing, and what to ask your contractor.</p>
+            <p>Three ways to use it: get an estimate before you buy, compare 2-3 quotes side by side, or analyze a single contractor quote you already have. TruePrice uses AI to extract prices, materials, and scope items, then compares against local pricing benchmarks for your city and tells you if the price is fair, what's missing, and what to ask your contractor. No email, no phone, no lead-selling.</p>
           </div>
         </details>
         <details class="faq-item">
@@ -364,7 +328,7 @@
         <details class="faq-item">
           <summary>Is TruePrice free?</summary>
           <div class="faq-answer">
-            <p>Yes. The quote analyzer, photo estimator, comparison tool, and all pricing guides are completely free with no signup required.</p>
+            <p>Yes. The estimate tool, quote analyzer, comparison tool, and all pricing guides are completely free with no signup required.</p>
           </div>
         </details>
         <details class="faq-item">
@@ -418,180 +382,9 @@ fetch("/api/analytics?counter=1").then(r=>r.json()).then(d=>{
   var el=document.getElementById("liveCounter");
   if(el&&d.count)el.textContent=d.count.toLocaleString();
 }).catch(function(){});
+
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
-<script>
-// Demo card toggle
-(function() {
-  var demos = {
-    roofing: {
-      verdictLabel: "TruePrice Roofing Verdict",
-      verdict: "This quote looks fair",
-      verdictColor: "#166534",
-      verdictBg: "#f0fdf4",
-      verdictBorder: "#86efac",
-      delta: "$14,500 quote is within expected range for a 2,200 sq ft architectural roof in Dallas, TX",
-      stats: [
-        { label: "Your quote", value: "$14,500", color: "var(--brand)" },
-        { label: "Expected range", value: "$12,800 \u2013 $16,100", color: "" },
-        { label: "Scope", value: "10/12", color: "#166534" }
-      ],
-      pills: [
-        { text: "Tear off", ok: true }, { text: "Underlayment", ok: true },
-        { text: "Flashing", ok: true }, { text: "Ventilation", ok: true },
-        { text: "Disposal", ok: true }, { text: "Permit", ok: true },
-        { text: "Starter strip", ok: false }, { text: "Ridge cap", ok: false }
-      ],
-      cta: { text: "Check your roofing quote", href: "/analyze-quote.html" },
-      img: "/images/trudy-roofing.png"
-    },
-    hvac: {
-      verdictLabel: "TruePrice HVAC Verdict",
-      verdict: "Above average",
-      verdictColor: "#dc2626",
-      verdictBg: "#fef2f2",
-      verdictBorder: "#fca5a5",
-      delta: "$9,800 quote is 18% above average for a 3-ton 16 SEER heat pump in Austin, TX",
-      stats: [
-        { label: "Your quote", value: "$9,800", color: "#dc2626" },
-        { label: "Expected range", value: "$7,200 \u2013 $8,900", color: "" },
-        { label: "Scope", value: "9/12", color: "#ca8a04" }
-      ],
-      pills: [
-        { text: "Equipment", ok: true }, { text: "Line set", ok: true },
-        { text: "Thermostat", ok: true }, { text: "Electrical", ok: true },
-        { text: "Permit", ok: true }, { text: "Disposal", ok: true },
-        { text: "Load calc", ok: false }, { text: "Ductwork", ok: false },
-        { text: "Drain line", ok: false }
-      ],
-      cta: { text: "Check your HVAC quote", href: "/hvac-quote-analyzer.html" },
-      img: "/images/trudy-hvac.png"
-    },
-    auto: {
-      verdictLabel: "TruePrice Auto Repair Verdict",
-      verdict: "Fair price",
-      verdictColor: "#166534",
-      verdictBg: "#f0fdf4",
-      verdictBorder: "#86efac",
-      delta: "$1,850 brake job (all 4 wheels) at independent shop in AZ. Aftermarket parts save $280. 1 upsell flagged.",
-      stats: [
-        { label: "Your quote", value: "$1,850", color: "var(--brand)" },
-        { label: "AZ market avg", value: "$1,680", color: "" },
-        { label: "Labor rate", value: "$110/hr", color: "#166534" }
-      ],
-      pills: [
-        { text: "Parts itemized", ok: true }, { text: "Labor rate stated", ok: true },
-        { text: "Urgency: Repair Soon", ok: true }, { text: "OEM parts", ok: true },
-        { text: "Brake fluid flush", ok: false }, { text: "No shop supplies", ok: false }
-      ],
-      cta: { text: "Check your mechanic quote", href: "/auto-repair.html" },
-      img: "/images/trudy-auto.png"
-    },
-    medical: {
-      verdictLabel: "TruePrice Medical Bill Analysis",
-      verdict: "Potential issues found",
-      verdictColor: "#dc2626",
-      verdictBg: "#fef2f2",
-      verdictBorder: "#fca5a5",
-      delta: "3 charges flagged on a $4,200 ER visit at Memorial Hospital, Denver, CO. Save $1,680 at freestanding imaging center.",
-      stats: [
-        { label: "Total billed", value: "$4,200", color: "#dc2626" },
-        { label: "CO benchmark", value: "$1,450", color: "" },
-        { label: "Red flags", value: "3 found", color: "#dc2626" }
-      ],
-      pills: [
-        { text: "CPT codes listed", ok: true }, { text: "NCCI bundle check", ok: true },
-        { text: "Insurance applied", ok: true }, { text: "Duplicate charge", ok: false },
-        { text: "Possible upcoding", ok: false }, { text: "No Surprises Act", ok: false }
-      ],
-      cta: { text: "Check your medical bill", href: "/medical-bill-analyzer.html" },
-      img: "/images/trudy-medical.png"
-    },
-    legal: {
-      verdictLabel: "TruePrice Legal Fee Analysis",
-      verdict: "Higher than typical range",
-      verdictColor: "#dc2626",
-      verdictBg: "#fef2f2",
-      verdictBorder: "#fca5a5",
-      delta: "$450/hr for family law in NC. NC average: $287/hr. Block billing detected on 3 entries.",
-      stats: [
-        { label: "Attorney rate", value: "$450/hr", color: "#dc2626" },
-        { label: "NC market avg", value: "$287/hr", color: "" },
-        { label: "Agreement score", value: "62/100", color: "#ca8a04" }
-      ],
-      pills: [
-        { text: "Scope defined", ok: true }, { text: "Rate stated", ok: true },
-        { text: "Block billing", ok: false }, { text: "15-min increments", ok: false },
-        { text: "Non-refundable retainer", ok: false }, { text: "Flat fee available", ok: true }
-      ],
-      cta: { text: "Check your legal fees", href: "/legal-fee-analyzer.html" },
-      img: "/images/trudy-legal.png"
-    },
-    moving: {
-      verdictLabel: "TruePrice Moving Verdict",
-      verdict: "Higher than expected",
-      verdictColor: "#b45309",
-      verdictBg: "#fffbeb",
-      verdictBorder: "#fde68a",
-      delta: "$4,800 local move (3BR) in Charlotte, NC with full packing",
-      stats: [
-        { label: "Your quote", value: "$4,800", color: "#b45309" },
-        { label: "Expected range", value: "$2,400 \u2013 $3,600", color: "" },
-        { label: "Scope", value: "6/10", color: "#b45309" }
-      ],
-      pills: [
-        { text: "Inventory list", ok: true }, { text: "Hourly rate", ok: true },
-        { text: "Insurance", ok: true }, { text: "USDOT #", ok: true },
-        { text: "Stair fees", ok: false }, { text: "Cancellation policy", ok: false },
-        { text: "Delivery window", ok: true }, { text: "Packing costs", ok: true },
-        { text: "Fuel surcharge", ok: false }, { text: "Weight estimate", ok: false }
-      ],
-      cta: { text: "Check your moving quote", href: "/moving-quote-analyzer.html" },
-      img: "/images/trudy-moving.png"
-    }
-  };
-
-  function renderDemo(key) {
-    var d = demos[key];
-    if (!d) return;
-    var card = document.getElementById("demoCard");
-    var html = '<div style="display:flex; align-items:center; gap:16px; margin-bottom:12px;">';
-    html += '<img src="' + d.img + '" alt="Trudy" width="56" loading="lazy" />';
-    html += '<div><div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">' + d.verdictLabel + '</div>';
-    html += '<div style="font-size:26px; font-weight:800; color:' + d.verdictColor + ';">' + d.verdict + '</div></div></div>';
-    html += '<div style="font-size:15px; color:var(--text-secondary); margin-bottom:16px;">' + d.delta + '</div>';
-    html += '<div class="hp-demo-stats" style="gap:28px;">';
-    d.stats.forEach(function(s) {
-      html += '<div class="hp-demo-stat"><span class="hp-demo-stat-label">' + s.label + '</span>';
-      html += '<span class="hp-demo-stat-value" style="font-size:20px;' + (s.color ? ' color:' + s.color + ';' : '') + '">' + s.value + '</span></div>';
-    });
-    html += '</div><div class="hp-demo-scope" style="margin-top:14px;">';
-    d.pills.forEach(function(p) {
-      var cls = p.ok ? "hp-demo-pill--green" : "hp-demo-pill--amber";
-      var icon = p.ok ? "&#10003; " : "? ";
-      html += '<span class="hp-demo-pill ' + cls + '">' + icon + p.text + '</span>';
-    });
-    html += '</div>';
-    html += '<div style="text-align:center; margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">';
-    html += '<a href="' + d.cta.href + '" class="btn" style="font-size:15px; padding:12px 28px;">' + d.cta.text + ' &rarr;</a></div>';
-    card.innerHTML = html;
-  }
-
-  // Tab clicks
-  document.getElementById("demoTabs").addEventListener("click", function(e) {
-    var tab = e.target.closest(".demo-tab");
-    if (!tab) return;
-    document.querySelectorAll(".demo-tab").forEach(function(t) {
-      t.style.background = "#fff"; t.style.color = "var(--text-secondary)";
-    });
-    tab.style.background = "var(--brand)"; tab.style.color = "#fff";
-    renderDemo(tab.getAttribute("data-demo"));
-  });
-
-  // Init
-  renderDemo("roofing");
-})();
-</script>
 <script src="/js/feedback-modal.js" defer></script>
 </body>
 </html>
