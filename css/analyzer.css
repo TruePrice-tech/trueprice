@@ -575,10 +575,10 @@ input[type="file"]::file-selector-button:hover {
 /* --- Journey Start --- */
 
 .journey-start {
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* Was min-height: 70vh + flex centering, which produced ~200px of dead
+     space above the first card on the roofing analyzer. Layout now flows
+     naturally from the top of <main>. */
+  padding: 24px 0 48px;
 }
 
 .journey-start-card {

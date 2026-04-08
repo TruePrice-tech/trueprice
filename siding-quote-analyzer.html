@@ -1321,5 +1321,42 @@
 <script src="/js/tp-analytics.min.js" async></script>
 <script src="/js/result-footer.js" defer></script>
 <script src="/js/feedback-modal.js" defer></script>
+<script>
+(function applyPathFilter() {
+  try {
+    var path = (new URLSearchParams(location.search).get('path') || '').toLowerCase();
+    if (path !== 'estimate' && path !== 'quote') return;
+    function hide(el) { if (el) el.style.display = 'none'; }
+    function tryFilter() {
+      var uploadZone = document.getElementById('uploadZone') || document.querySelector('[class*="upload-zone"]');
+      var addressForm = document.querySelector('[class*="-address-form"]');
+      var divider = document.querySelector('[class*="-divider"]');
+      var compareBox = null;
+      document.querySelectorAll('div').forEach(function(d) {
+        if (compareBox) return;
+        var t = (d.textContent || '').toLowerCase();
+        if (t.indexOf('have multiple quotes') > -1 && t.length < 200) compareBox = d;
+      });
+      if (path === 'estimate') {
+        hide(uploadZone); hide(divider); hide(compareBox);
+        document.querySelectorAll('div').forEach(function(d) {
+          var t = (d.textContent || '');
+          if (t.indexOf('Your quote stays private') > -1 && t.length < 150) hide(d);
+        });
+      } else if (path === 'quote') {
+        hide(addressForm); hide(divider);
+      }
+      return !!(uploadZone && addressForm);
+    }
+    if (!tryFilter()) {
+      var attempts = 0;
+      var poll = setInterval(function() {
+        attempts++;
+        if (tryFilter() || attempts > 50) clearInterval(poll);
+      }, 100);
+    }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
