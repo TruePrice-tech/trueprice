@@ -1,20 +1,20 @@
 # Electrical Test Results
 
-Run: 2026-04-07 16:55:04
+Run: 2026-04-08 12:18:22
 Endpoint: https://truepricehq.com/api/electrical-estimate
-Samples tested: 13
+Samples tested: 16
 
 **Counter at start:** 3895
 **Counter at end:** 3895
-**Counter delta:** +0 (expected +7)
+**Counter delta:** +0 (expected +10)
 
-**Parse success:** 13/13
-**Detected price:** 7/13
+**Parse success:** 16/16
+**Detected price:** 10/16
 
 ## 01-what-are-your-guys-thoughts-on-this.jpeg
 
 - Total: $None
-- Time: 5.4s
+- Time: 0.5s
 - redFlags: 7
   - This is not an electrical quote or estimate - it is a motivational quote attributed to NVIDIA CEO Jensen Huang about career opportunities in skilled trades
   - No pricing information present
@@ -23,7 +23,7 @@ Samples tested: 13
 ## 02-not-getting-quotes-to-replace-this-panel-what-is-s.jpg
 
 - Total: $None
-- Time: 7.3s
+- Time: 1.0s
 - redFlags: 8
   - This is a Siemens load center/breaker panel specification sheet, not an actual quote with pricing
   - No total price provided
@@ -32,7 +32,7 @@ Samples tested: 13
 ## 03-my-electrician-gave-me-a-fantastic-quote-for-new-m.jpg
 
 - Total: $10
-- Time: 6.0s
+- Time: 0.4s
 - redFlags: 8
   - Unlicensed/handyman work - described as casual text conversation, not professional quote
   - No labor rate disclosed - only fixture cost of $10 mentioned, unclear if labor is included
@@ -42,7 +42,7 @@ Samples tested: 13
 ## 04-nj-usapurchasing-home-with-double-taps-in-main-ele.png
 
 - Total: $None
-- Time: 8.1s
+- Time: 0.6s
 - redFlags: 9
   - Image shows electrical panel interior with double-tap wiring configuration highlighted - double-tapping (two breakers in one slot) is a serious code violation under NEC that creates fire and safety hazards
   - No pricing information visible in either image
@@ -51,7 +51,7 @@ Samples tested: 13
 ## 05-gave-a-quote-to-a-long-time-commercial-customer.png
 
 - Total: $None
-- Time: 6.3s
+- Time: 0.3s
 - redFlags: 8
   - No pricing information provided - this is not a formal estimate
   - Unlicensed electrician mentioned ('bootleg electrician') - safety and code compliance concern
@@ -60,7 +60,7 @@ Samples tested: 13
 ## 06-another-contractor-beat-my-price.jpg
 
 - Total: $20635
-- Time: 5.1s
+- Time: 0.4s
 - redFlags: 8
   - No breakdown of labor vs. materials provided - quote lacks transparency
   - No warranty mentioned for workmanship or parts
@@ -69,7 +69,7 @@ Samples tested: 13
 ## 07-did-i-lowball-myself-on-this-side-job.jpeg
 
 - Total: $4588.94
-- Time: 16.9s
+- Time: 1.9s
 - redFlags: 7
   - No permit mentioned for panel upgrade and electrical service work - required for most jurisdictions
   - Licensed electrician status not explicitly stated
@@ -79,7 +79,7 @@ Samples tested: 13
 ## 08-did-my-first-residential-job-on-my-own-panel-swaps.jpg
 
 - Total: $None
-- Time: 6.2s
+- Time: 0.7s
 - redFlags: 9
   - This is a photograph of an electrical panel, not a quote or estimate document
   - No pricing information visible
@@ -88,8 +88,8 @@ Samples tested: 13
 ## 09-can-someone-explain-to-me-how-this-saves-you-money.jpg
 
 - Total: $600
-- Time: 5.3s
-- redFlags: 9
+- Time: 0.3s
+- redFlags: 8
   - This is a government tax credit promotion, not a contractor quote - no actual pricing for the panel upgrade itself
   - No labor costs, material costs, or total installation price provided
   - No licensed electrician information disclosed
@@ -98,8 +98,8 @@ Samples tested: 13
 ## 10-as-an-electrical-estimator-ive-seen-many-ugly-pane.jpg
 
 - Total: $None
-- Time: 8.3s
-- redFlags: 10
+- Time: 1.1s
+- redFlags: 9
   - This is a photograph of deteriorated electrical infrastructure, not a quote or estimate
   - Visible knob-and-tube wiring present (cream/tan colored cloth-insulated wires) - major fire hazard and code violation
   - Extremely old fuse panel visible on left side, indicating outdated electrical system requiring replacement
@@ -119,7 +119,7 @@ Samples tested: 13
 ## comparison-panel-02-mid.png
 
 - Total: $3425
-- Time: 0.3s
+- Time: 0.2s
 - city: Spartanburg
 - stateCode: SC
 - redFlags: 4
@@ -131,7 +131,7 @@ Samples tested: 13
 ## comparison-panel-03-high.png
 
 - Total: $8798
-- Time: 0.3s
+- Time: 0.2s
 - city: Boiling Springs
 - stateCode: SC
 - redFlags: 5
@@ -139,4 +139,40 @@ Samples tested: 13
   - Span smart panel system listed as 'optional' but included in quote at $1,895 - unclear if customer actually wants this premium feature
   - Labor cost breakdown shows 3 electricians for 16 hours but no explanation for why 3 technicians are necessary for this scope
 - lineItems: 9
+
+## messy-comparison-panel-01-low.jpg
+
+- Total: $1660
+- Time: 0.2s
+- city: Spartanburg
+- stateCode: SC
+- redFlags: 4
+  - NEC code compliance not explicitly mentioned for this major service upgrade work
+  - Cleanup/site restoration not mentioned in scope
+  - Warranty limited to labor only (1 year); no parts warranty specified
+- lineItems: 7
+
+## messy-comparison-panel-02-mid.jpg
+
+- Total: $3425
+- Time: 0.2s
+- city: Spartanburg
+- stateCode: SC
+- redFlags: 4
+  - Whole-house surge protector is included as an add-on item that may not be essential for basic panel upgrade functionality
+  - No explicit NEC code compliance statement mentioned for this major electrical work
+  - No specific cleanup or site restoration mentioned in scope
+- lineItems: 10
+
+## messy-comparison-panel-03-high.jpg
+
+- Total: $8798
+- Time: 0.3s
+- city: Boiling Springs
+- stateCode: SC
+- redFlags: 5
+  - NEC code compliance not explicitly mentioned for major panel upgrade work
+  - Smart energy monitoring system (Span panel) marked as 'optional' but included in quote - potential confusion about what is actually included vs. what is optional
+  - Parts warranty duration not specified - only 10-year labor warranty mentioned; unclear if materials are covered
+- lineItems: 10
 

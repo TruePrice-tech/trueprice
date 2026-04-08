@@ -1,20 +1,20 @@
 # Legal Test Results
 
-Run: 2026-04-07 17:01:50
+Run: 2026-04-08 12:22:15
 Endpoint: https://truepricehq.com/api/legal-fee-estimate
-Samples tested: 11
+Samples tested: 14
 
 **Counter at start:** 3895
 **Counter at end:** 3895
-**Counter delta:** +0 (expected +11)
+**Counter delta:** +0 (expected +14)
 
-**Parse success:** 11/11
-**Detected price:** 11/11
+**Parse success:** 14/14
+**Detected price:** 14/14
 
 ## 01-estate-planning-flat-fee.png
 
 - Total: $1250
-- Time: 0.5s
+- Time: 0.6s
 - city: Asheville
 - stateCode: NC
 - redFlags: 7
@@ -98,7 +98,7 @@ Samples tested: 11
 ## 08-bankruptcy-ch7-flat-fee.png
 
 - Total: $1495
-- Time: 0.3s
+- Time: 0.4s
 - city: Phoenix
 - stateCode: AZ
 - redFlags: 7
@@ -110,7 +110,7 @@ Samples tested: 11
 ## comparison-pi-01-firm-a-low.png
 
 - Total: $16500
-- Time: 0.6s
+- Time: 0.3s
 - city: Charlotte
 - stateCode: NC
 - redFlags: 7
@@ -141,5 +141,41 @@ Samples tested: 11
   - No termination clause specified
   - No conflict of interest check mentioned
   - No communication protocol or billing dispute resolution process defined
+- lineItems: 4
+
+## messy-comparison-pi-01-firm-a-low.jpg
+
+- Total: $16665
+- Time: 0.3s
+- city: Charlotte
+- stateCode: NC
+- redFlags: 7
+  - No termination clause provided
+  - No conflict-of-interest check documented
+  - No fee dispute resolution mechanism specified
+- lineItems: 2
+
+## messy-comparison-pi-02-firm-b-mid.jpg
+
+- Total: $17500
+- Time: 0.3s
+- city: Charlotte
+- stateCode: NC
+- redFlags: 7
+  - Multiple contingency tiers (35%, 40%, 45%) create ambiguity about which rate applies
+  - No termination clause or exit provisions specified
+  - No communication or billing dispute resolution policy
+- lineItems: 4
+
+## messy-comparison-pi-03-firm-c-high.jpg
+
+- Total: $20000
+- Time: 0.2s
+- city: Charlotte
+- stateCode: NC
+- redFlags: 8
+  - No termination clause specified
+  - No conflict of interest check mentioned
+  - Appellate work fee structure vague (5% additional but relative to what base?)
 - lineItems: 4
 
