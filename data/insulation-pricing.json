@@ -1,195 +1,211 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, DOE, insulation contractor surveys",
-    "baseYear": 2026
+    "sources": "DOE Building America, ENERGY STAR, RSMeans residential 2026, NAIMA, SPFA, RESNET, BPI, manufacturer pricing",
+    "baseYear": 2026,
+    "cacheNamespace": "insulation:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.20, "AZ": 0.92, "AR": 0.82, "CA": 1.20, "CO": 0.96,
+    "CT": 1.14, "DE": 1.04, "FL": 0.92, "GA": 0.88, "HI": 1.30, "ID": 0.92,
+    "IL": 1.02, "IN": 0.90, "IA": 0.90, "KS": 0.88, "KY": 0.86, "LA": 0.88,
+    "ME": 1.04, "MD": 1.10, "MA": 1.18, "MI": 0.94, "MN": 0.98, "MS": 0.82,
+    "MO": 0.90, "MT": 0.96, "NE": 0.90, "NV": 0.96, "NH": 1.06, "NJ": 1.14,
+    "NM": 0.92, "NY": 1.20, "NC": 0.92, "ND": 0.92, "OH": 0.92, "OK": 0.86,
+    "OR": 1.06, "PA": 1.00, "RI": 1.10, "SC": 0.86, "SD": 0.90, "TN": 0.86,
+    "TX": 0.92, "UT": 0.94, "VT": 1.04, "VA": 0.96, "WA": 1.10, "WV": 0.84,
+    "WI": 0.94, "WY": 0.94, "DC": 1.20
   },
+  "materialTiers": [
+    { "material": "fiberglass_batt",      "perSqftInstalled": [0.80, 2.00],  "rPerInch": 3.2,  "examples": ["Owens Corning EcoTouch", "Johns Manville Formaldehyde-Free", "CertainTeed Sustainable"], "notes": "Cheapest option. Performance depends entirely on install quality — gaps and compression cut effective R 30-50%." },
+    { "material": "fiberglass_blown",     "perSqftInstalled": [0.90, 2.20],  "rPerInch": 2.5,  "examples": ["Owens Corning ProPink L77", "Johns Manville Climate Pro"], "notes": "Standard for attic re-insulation. Settles 5-10% over 20 years." },
+    { "material": "cellulose_blown",      "perSqftInstalled": [1.00, 2.30],  "rPerInch": 3.5,  "examples": ["GreenFiber", "Applegate", "National Fiber"], "notes": "Recycled paper + borate. Better air-sealing properties than fiberglass blown. Wets and clumps if roof leaks." },
+    { "material": "rockwool_batt",        "perSqftInstalled": [1.40, 3.20],  "rPerInch": 4.0,  "examples": ["Rockwool ComfortBatt", "Rockwool Safe'n'Sound"], "notes": "Mineral wool. Fire-resistant, sound-deadening, doesn't sag. ~2x cost of fiberglass batt." },
+    { "material": "open_cell_spray_foam", "perSqftInstalled": [1.50, 3.50],  "rPerInch": 3.7,  "examples": ["Icynene LD-R-50", "Demilec Sealection 500"], "notes": "Half-pound foam. Good air seal. Vapor permeable — must be installed correctly in cold climates." },
+    { "material": "closed_cell_spray_foam","perSqftInstalled": [2.50, 5.50], "rPerInch": 6.5,  "examples": ["Demilec Heatlok HFO", "Icynene ProSeal", "BASF Walltite"], "notes": "Two-pound foam. Air + vapor barrier in one. Highest R per inch. Most expensive. Required for crawlspace encapsulation." },
+    { "material": "rigid_foam_xps",       "perSqftInstalled": [1.20, 2.80],  "rPerInch": 5.0,  "examples": ["Owens Corning Foamular", "Dow STYROFOAM"], "notes": "Pink/blue board. Used on basements, slabs, exterior walls." },
+    { "material": "rigid_foam_polyiso",   "perSqftInstalled": [1.40, 3.20],  "rPerInch": 6.5,  "examples": ["Atlas EnergyShield", "Hunter Panels", "Rmax"], "notes": "Highest R per inch on rigid. R-value drops in deep cold — derate for climate zones 6+." }
+  ],
   "commonJobs": {
-    "blown_in_attic": {
-      "label": "Blown-In Attic Insulation",
-      "total": [
-        1000,
-        2500
-      ],
-      "per_sqft": [
-        1,
-        3
-      ],
+    "attic_top_off": {
+      "label": "Attic top-off (existing R-19/R-30 to R-49+)",
+      "total": [800, 2400],
+      "perSqft": [0.50, 1.50],
+      "scope": "Blow additional R-30 of fiberglass or cellulose over existing insulation in a 1,200-1,800 sqft attic.",
+      "urgency": "soon"
+    },
+    "attic_full_install": {
+      "label": "Attic full insulation (R-49+)",
+      "total": [1500, 4500],
+      "perSqft": [1.00, 2.50],
+      "urgency": "soon"
+    },
+    "wall_dense_pack": {
+      "label": "Wall dense-pack (drill and fill)",
+      "total": [3500, 9000],
+      "perSqft": [2.00, 4.50],
+      "scope": "1,500-2,000 sqft wall area, dense-pack cellulose blown into existing wall cavities through drilled holes.",
       "urgency": "can_wait"
     },
-    "spray_foam_attic": {
-      "label": "Spray Foam Attic (closed cell)",
-      "total": [
-        3000,
-        7000
-      ],
-      "per_sqft": [
-        3,
-        7
-      ],
+    "crawlspace_encapsulation": {
+      "label": "Crawlspace encapsulation with closed cell foam",
+      "total": [4500, 14000],
+      "perSqft": [4.50, 9.00],
+      "scope": "Vapor barrier on floor + closed-cell spray foam on rim joist and walls. Optional dehumidifier add-on.",
+      "urgency": "soon"
+    },
+    "rim_joist_seal": {
+      "label": "Rim joist sealing with closed cell foam",
+      "total": [600, 2200],
+      "scope": "200-400 linear feet of rim joist, 2 inches closed-cell spray foam.",
+      "urgency": "soon"
+    },
+    "basement_walls": {
+      "label": "Basement wall insulation (rigid foam + framing)",
+      "total": [4000, 12000],
+      "perSqft": [3.50, 7.50],
       "urgency": "can_wait"
     },
-    "batt_walls": {
-      "label": "Batt Insulation (walls)",
-      "total": [
-        1500,
-        4000
-      ],
-      "per_sqft": [
-        1,
-        3
-      ],
-      "urgency": "can_wait"
-    },
-    "blown_in_walls": {
-      "label": "Blown-In Wall Insulation",
-      "total": [
-        2000,
-        5000
-      ],
-      "urgency": "can_wait"
-    },
-    "crawlspace": {
-      "label": "Crawl Space Insulation",
-      "total": [
-        1500,
-        4000
-      ],
-      "urgency": "can_wait"
-    },
-    "rim_joist": {
-      "label": "Rim Joist Spray Foam",
-      "total": [
-        500,
-        1500
-      ],
-      "urgency": "can_wait"
+    "garage_door_insulation": {
+      "label": "Garage door insulation kit",
+      "total": [200, 700],
+      "urgency": "can_wait",
+      "notes": "Limited benefit unless garage is conditioned."
     }
   },
-  "taxCredit": {
+  "iraCredit": {
+    "section": "25C Energy Efficient Home Improvement Credit",
     "status": "EXPIRED",
-    "amount": "EXPIRED",
-    "program": "IRA 25C",
     "expirationDate": "2025-12-31",
-    "notes": "The 25C federal tax credit (30% of insulation materials, up to $1,200/year) EXPIRED Dec 31 2025. Insulation installs on or after Jan 1 2026 do NOT qualify for the federal credit. State utility rebates ($200-$1,500 typical) and IRA HEAR (income-qualified) programs may still apply — check dsireusa.org."
+    "expirationNote": "The 25C federal tax credit (30% of insulation materials, $1,200/year cap) EXPIRED Dec 31 2025. Insulation installs on or after Jan 1 2026 do NOT qualify for the federal credit. State utility rebates and IRA HEAR (income-qualified) programs are still active.",
+    "historicalRate": 0.30,
+    "historicalAnnualCap": 1200,
+    "lastClaimableTaxYear": 2025
   },
-  "commonUpsells": [
+  "iraHearProgram": {
+    "section": "IRA Section 50122 — Home Electrification and Appliance Rebate (HEAR)",
+    "status": "ACTIVE (rolling state-by-state through 2026)",
+    "amounts": {
+      "insulation_air_sealing": 1600,
+      "income_under_80_pct_ami": "100% coverage up to caps",
+      "income_80_to_150_pct_ami": "50% coverage up to caps"
+    },
+    "notes": "HEAR is income-qualified and runs through state energy offices. Cannot be combined with the (now-expired) 25C on the same expenditure. Check your state energy office for HEAR rollout status."
+  },
+  "utilityRebates": [
+    { "utility": "Mass Save", "states": ["MA"], "measure": "attic_insulation", "amount": 1500, "notes": "Subsidized to as low as $0 for eligible homes after audit.", "active2026": true },
+    { "utility": "NYSERDA Comfort Home", "states": ["NY"], "measure": "envelope_insulation", "amount": 4000, "notes": "BPI-certified contractor required.", "active2026": true },
+    { "utility": "Efficiency Vermont", "states": ["VT"], "measure": "envelope_insulation", "amount": 1500, "active2026": true },
+    { "utility": "Efficiency Maine", "states": ["ME"], "measure": "envelope_insulation", "amount": 1200, "active2026": true },
+    { "utility": "Focus on Energy", "states": ["WI"], "measure": "envelope_insulation", "amount": 1500, "active2026": true },
+    { "utility": "Xcel Energy", "states": ["CO", "MN"], "measure": "envelope_insulation", "amount": 600, "active2026": true },
+    { "utility": "ComEd", "states": ["IL"], "measure": "envelope_insulation", "amount": 1700, "active2026": true },
+    { "utility": "DTE Energy", "states": ["MI"], "measure": "envelope_insulation", "amount": 1200, "active2026": true }
+  ],
+  "redFlagPatterns": [
     {
-      "item": "Air sealing",
-      "cost": [
-        500,
-        1500
-      ],
-      "necessary": "recommended",
-      "notes": "Should be done before adding insulation. Biggest energy impact."
+      "key": "no_air_sealing",
+      "severity": "critical",
+      "regex": "\\b(insulation|attic|blown|spray foam)\\b",
+      "secondaryRegex": "\\b(air seal|air sealing|caulk|foam gun|can foam|bypass|penetration)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Insulation work with no air-sealing mentioned. Insulation without air sealing loses 30-50% of its R-value. Reputable insulators always seal top plates, can lights, plumbing chases, and bath fans BEFORE adding insulation. Walk away if not addressed."
     },
     {
-      "item": "Radiant barrier",
-      "cost": [
-        500,
-        1500
-      ],
-      "necessary": "sometimes",
-      "notes": "Useful in hot climates. Less value in cold climates."
+      "key": "no_r_value",
+      "severity": "high",
+      "regex": "\\b(insulation|insulate|adding insulation)\\b",
+      "secondaryRegex": "\\b(r[- ]?\\d+|r value|r[- ]?value|inches|depth)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "No R-value or depth specified. R-value is the only meaningful measure. Refuse any quote without specific R-value and depth — 'add insulation' without a target is meaningless."
+    },
+    {
+      "key": "spray_foam_no_thermal_barrier",
+      "severity": "critical",
+      "regex": "\\b(spray foam|polyurethane foam|closed cell|open cell)\\b",
+      "secondaryRegex": "\\b(thermal barrier|ignition barrier|drywall|intumescent|fire barrier)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Spray foam in habitable space without thermal barrier. IRC R316 requires a 15-minute thermal barrier (typically 1/2 inch drywall) over spray foam in habitable spaces. Skipping this is a fire-code violation."
+    },
+    {
+      "key": "no_blower_door",
+      "severity": "high",
+      "regex": "\\b(envelope|whole house|comprehensive|home performance|deep retrofit)\\b",
+      "secondaryRegex": "\\b(blower door|ach50|infiltration test|test in test out)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Whole-home envelope work with no blower door test. Without before/after blower door numbers you cannot prove the work improved performance. Reputable home performance contractors always test in / test out."
+    },
+    {
+      "key": "asbestos_vermiculite",
+      "severity": "critical",
+      "regex": "\\b(vermiculite|loose fill|granular|zonolite|chunky insulation|silver flakes)\\b",
+      "explanation": "Vermiculite (Zonolite brand) attic insulation is potentially asbestos-contaminated. Never disturb without licensed asbestos abatement testing first. Sweeping it aside or blowing over it can release fibers."
+    },
+    {
+      "key": "no_ventilation_attic",
+      "severity": "high",
+      "regex": "\\b(attic|attic floor|ridge vent|soffit vent|venting)\\b",
+      "matchInverse": true,
+      "explanation": "Attic insulation work with no ventilation review. Code requires 1 sqft net free vent area per 150-300 sqft of attic. Adding insulation without verifying vent area causes moisture buildup and ice dams."
+    },
+    {
+      "key": "no_brand_named",
+      "severity": "medium",
+      "regex": "\\b(insulation material|product|insulation type)\\b",
+      "secondaryRegex": "\\b(owens corning|johns manville|certainteed|rockwool|icynene|demilec|greenfiber|brand)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "No brand named for the insulation material. Brand and product line determine warranty and performance characteristics."
+    },
+    {
+      "key": "spray_foam_unlicensed",
+      "severity": "critical",
+      "regex": "\\b(spray foam|closed cell|open cell|polyurethane)\\b",
+      "secondaryRegex": "\\b(spfa certified|spray foam certified|licensed installer|certified)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Spray foam quote with no installer certification. Bad spray foam installs (wrong ratios, off-ratio chemistry, contaminated tanks) cause permanent off-gassing and structural damage. Always verify SPFA Professional Certification or manufacturer training."
+    },
+    {
+      "key": "no_warranty",
+      "severity": "medium",
+      "regex": "\\b(warranty|guarantee)\\b",
+      "matchInverse": true,
+      "explanation": "No workmanship warranty. Reputable insulation contractors offer 5-10 year workmanship warranties. Manufacturer material warranties are separate."
+    },
+    {
+      "key": "ira_25c_misinfo",
+      "severity": "medium",
+      "regex": "\\b(25c|tax credit|federal credit)\\b",
+      "secondaryRegex": "\\b(still available|still active|claim|qualify)\\b",
+      "explanation": "Sales rep claiming the 25C credit is still available. False — 25C expired Dec 31 2025. State utility rebates and IRA HEAR (income-qualified) may still apply but federal credit is gone."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "rValue",
-      "label": "R-value specified",
-      "weight": 15
-    },
-    {
-      "key": "materialType",
-      "label": "Insulation type specified",
-      "weight": 10
-    },
-    {
-      "key": "airSealing",
-      "label": "Air sealing included",
-      "weight": 10
-    }
+    { "key": "rValue",         "label": "Target R-value and material specified",       "weight": 14 },
+    { "key": "airSealing",     "label": "Air sealing in scope (BEFORE insulation)",    "weight": 13 },
+    { "key": "ventilation",    "label": "Attic ventilation reviewed",                  "weight": 11 },
+    { "key": "blowerDoor",     "label": "Blower door test in/out (envelope work)",     "weight": 10 },
+    { "key": "thermalBarrier", "label": "Thermal barrier over spray foam",             "weight": 11 },
+    { "key": "asbestosCheck",  "label": "Vermiculite/asbestos checked on older homes", "weight": 10 },
+    { "key": "permits",        "label": "Permits identified",                          "weight": 8 },
+    { "key": "warranty",       "label": "Workmanship warranty",                        "weight": 8 },
+    { "key": "brandNamed",     "label": "Brand and product line specified",            "weight": 8 },
+    { "key": "moistureControl","label": "Vapor barrier strategy for climate zone",     "weight": 7 }
+  ],
+  "stateLicensing": {
+    "notes": "Insulation contractors are typically licensed under the state general contractor license. Spray foam often requires additional certification.",
+    "requiresGCLicense": ["AL", "AZ", "CA", "CT", "DE", "FL", "GA", "HI", "LA", "MD", "MA", "MN", "MS", "NV", "NJ", "NM", "NC", "OR", "RI", "SC", "TN", "VA", "WA", "WV"],
+    "specialtyInsulationLicense": ["CA C-2", "FL CIC"]
+  },
+  "questionsToAskContractor": [
+    "What target R-value and what material?",
+    "What air-sealing work happens BEFORE insulation goes in?",
+    "What is the existing attic ventilation and is it adequate?",
+    "Are you doing a blower door test before and after?",
+    "Is there any chance of vermiculite (Zonolite) in this attic? When was the home built?",
+    "What is the workmanship warranty?",
+    "If spray foam: are you SPFA certified? How will the thermal barrier be addressed?",
+    "What is the vapor barrier strategy for my climate zone?",
+    "Do I qualify for HEAR or any state utility rebates?",
+    "What brand and product line are you using?"
   ]
 }

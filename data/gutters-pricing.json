@@ -1,204 +1,146 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, gutter contractor surveys",
-    "baseYear": 2026
+    "sources": "RSMeans residential 2026, Remodeling Magazine Cost vs Value, manufacturer pricing, BBB gutter complaint patterns, gutter contractor surveys",
+    "baseYear": 2026,
+    "cacheNamespace": "gutters:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.20, "AZ": 0.92, "AR": 0.82, "CA": 1.20, "CO": 0.96,
+    "CT": 1.14, "DE": 1.04, "FL": 0.92, "GA": 0.88, "HI": 1.30, "ID": 0.92,
+    "IL": 1.02, "IN": 0.90, "IA": 0.88, "KS": 0.88, "KY": 0.86, "LA": 0.88,
+    "ME": 1.02, "MD": 1.10, "MA": 1.18, "MI": 0.92, "MN": 0.98, "MS": 0.82,
+    "MO": 0.88, "MT": 0.96, "NE": 0.88, "NV": 0.96, "NH": 1.04, "NJ": 1.14,
+    "NM": 0.92, "NY": 1.20, "NC": 0.92, "ND": 0.92, "OH": 0.92, "OK": 0.86,
+    "OR": 1.06, "PA": 1.00, "RI": 1.10, "SC": 0.86, "SD": 0.88, "TN": 0.86,
+    "TX": 0.92, "UT": 0.94, "VT": 1.02, "VA": 0.96, "WA": 1.10, "WV": 0.84,
+    "WI": 0.94, "WY": 0.94, "DC": 1.20
   },
+  "materialTiers": [
+    { "material": "vinyl", "perLinearFootInstalled": [4, 8], "lifespanYears": [10, 20], "notes": "Cheapest. Brittle in deep cold. Budget patch only." },
+    { "material": "aluminum_seamless_5", "perLinearFootInstalled": [9, 18], "lifespanYears": [20, 30], "notes": "The 2026 standard. Made on-site from coil." },
+    { "material": "aluminum_seamless_6", "perLinearFootInstalled": [11, 22], "lifespanYears": [20, 30], "notes": "40% more capacity than 5-inch. Required for steep roofs and heavy-rain climates." },
+    { "material": "aluminum_half_round", "perLinearFootInstalled": [13, 28], "lifespanYears": [25, 35], "notes": "Architectural look on historic and craftsman homes." },
+    { "material": "copper", "perLinearFootInstalled": [25, 60], "lifespanYears": [50, 100], "notes": "Premium. Patinas. 3-5x cost but best lifetime value." },
+    { "material": "galvalume_steel", "perLinearFootInstalled": [12, 22], "lifespanYears": [20, 50], "notes": "Stronger than aluminum. Common in coastal/high-wind." },
+    { "material": "zinc", "perLinearFootInstalled": [22, 50], "lifespanYears": [80, 100], "notes": "European standard. Excellent longevity." }
+  ],
+  "guardTiers": [
+    { "type": "screen_metal", "perLinearFoot": [3, 8], "examples": ["LeafBlaster Pro"] },
+    { "type": "micro_mesh", "perLinearFoot": [9, 25], "examples": ["LeafFilter", "LeafGuard", "Gutter Helmet", "MasterShield", "Raptor"], "notes": "Stainless micro-mesh. LeafFilter is heavily marketed at premium pricing — $15-$25/ft installed." },
+    { "type": "reverse_curve", "perLinearFoot": [10, 22], "examples": ["Gutter Helmet", "Englert LeafGuard"] },
+    { "type": "foam_insert", "perLinearFoot": [3, 6], "notes": "Cheapest. Degrades in 5-10 years." },
+    { "type": "brush", "perLinearFoot": [3, 7], "examples": ["GutterBrush"] }
+  ],
   "commonJobs": {
-    "aluminum_seamless": {
-      "label": "Seamless Aluminum Gutters",
-      "total": [
-        1000,
-        2500
-      ],
-      "per_foot": [
-        6,
-        12
-      ],
-      "urgency": "soon"
-    },
-    "aluminum_sectional": {
-      "label": "Sectional Aluminum Gutters",
-      "total": [
-        800,
-        2000
-      ],
-      "per_foot": [
-        4,
-        9
-      ],
-      "urgency": "soon"
-    },
-    "copper_gutters": {
-      "label": "Copper Gutters",
-      "total": [
-        3000,
-        8000
-      ],
-      "per_foot": [
-        15,
-        30
-      ],
-      "urgency": "can_wait"
-    },
-    "steel_gutters": {
-      "label": "Steel Gutters",
-      "total": [
-        1500,
-        3500
-      ],
-      "per_foot": [
-        8,
-        15
-      ],
-      "urgency": "soon"
-    },
-    "gutter_guards": {
-      "label": "Gutter Guards/Covers",
-      "total": [
-        1000,
-        3000
-      ],
-      "per_foot": [
-        5,
-        15
-      ],
-      "urgency": "can_wait"
-    },
-    "gutter_repair": {
-      "label": "Gutter Repair (section)",
-      "total": [
-        150,
-        500
-      ],
-      "urgency": "soon"
-    },
-    "downspout_install": {
-      "label": "Downspout Install/Reroute",
-      "total": [
-        100,
-        300
-      ],
-      "urgency": "soon"
-    }
+    "removal_only": { "label": "Tear-off existing gutters", "total": [200, 600], "perLinearFoot": [1.50, 4.00] },
+    "single_story_5inch": { "label": "Single-story home, 5-inch aluminum (~150 LF)", "total": [1400, 2700] },
+    "single_story_6inch": { "label": "Single-story home, 6-inch aluminum (~150 LF)", "total": [1700, 3300] },
+    "two_story_5inch": { "label": "Two-story home, 5-inch (~200 LF)", "total": [2000, 4500] },
+    "two_story_6inch": { "label": "Two-story home, 6-inch (~200 LF)", "total": [2400, 5500] },
+    "copper_full_house": { "label": "Full copper (~200 LF)", "total": [5500, 14000] },
+    "guards_only": { "label": "Gutter guards on existing gutters (~200 LF)", "total": [600, 5000], "notes": "LeafFilter and similar premium brands $15-$25/ft installed; big-box guards $3-$8/ft." },
+    "downspout_extensions": { "label": "Downspout extensions or buried drainage", "total": [200, 1500] },
+    "fascia_repair": { "label": "Fascia/soffit repair revealed under old gutters", "total": [400, 2500] }
   },
-  "commonUpsells": [
+  "supportingComponents": [
+    { "item": "Drip edge install (if missing)", "perLinearFoot": [3, 7], "necessary": "always", "notes": "Code-required if gutters added to a roof without it." },
+    { "item": "Hidden hangers every 24-32 inches", "perEach": [2, 5], "necessary": "always", "notes": "Spike-and-ferrule installs are obsolete — refuse them." },
+    { "item": "Splash blocks or downspout extensions", "perEach": [10, 50], "necessary": "always" },
+    { "item": "Kickout flashing where roof meets wall", "perEach": [25, 90], "necessary": "always" }
+  ],
+  "redFlagPatterns": [
     {
-      "item": "Gutter guards",
-      "cost": [
-        5,
-        15
-      ],
-      "necessary": "sometimes",
-      "notes": "Per foot. Reduces cleaning but not maintenance-free."
+      "key": "spike_and_ferrule",
+      "severity": "high",
+      "regex": "\\b(spike|ferrule|spike[- ]?and[- ]?ferrule|nailed)\\b",
+      "explanation": "Spike-and-ferrule hangers are obsolete since the 1990s. Spikes back out, gutters sag. Demand hidden hangers every 24-32 inches."
     },
     {
-      "item": "Heat cables",
-      "cost": [
-        500,
-        1500
-      ],
-      "necessary": "rarely",
-      "notes": "Only in heavy ice dam areas. High electricity cost."
+      "key": "no_kickout_flashing",
+      "severity": "critical",
+      "regex": "\\b(roof line|wall|sidewall|abutment|where roof meets wall|stair[- ]?step)\\b",
+      "secondaryRegex": "\\b(kickout|kick[- ]?out|diverter|flashing)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Kickout flashing is required by IRC 2009+ where the gutter meets a wall. Missing kickouts are the #1 cause of post-install wall rot."
+    },
+    {
+      "key": "no_drip_edge",
+      "severity": "high",
+      "regex": "\\b(no drip edge|missing drip edge)\\b",
+      "explanation": "Drip edge is code-required (IRC R905.2.8.5) and must be installed before gutters. Skipping it leads to fascia rot."
+    },
+    {
+      "key": "5_inch_in_heavy_rain",
+      "severity": "medium",
+      "regex": "\\b(5[- ]?inch|five inch|5\")\\b",
+      "secondaryRegex": "\\b(steep|two[- ]?story|2[- ]?story|heavy rain|tropical|monsoon)\\b",
+      "explanation": "5-inch on a steep two-story or heavy-rain home. 6-inch handles 40% more flow. Worth the upgrade."
+    },
+    {
+      "key": "leaffilter_high_pressure",
+      "severity": "medium",
+      "regex": "\\b(leaffilter|leaf filter)\\b",
+      "secondaryRegex": "\\b(today only|today's price|expires|sign now|special|discount)\\b",
+      "explanation": "LeafFilter is known for high-pressure today-only sales tactics with prices often 2-3x competitive micro-mesh. Get a competitive local quote before signing."
+    },
+    {
+      "key": "no_downspout_drainage",
+      "severity": "medium",
+      "regex": "\\b(downspout|leader)\\b",
+      "secondaryRegex": "\\b(splash block|extension|drainage|away from foundation|buried)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Quote installs downspouts but no extensions or drainage. Water dumped at the foundation causes basement leaks."
+    },
+    {
+      "key": "fascia_rot_ignored",
+      "severity": "high",
+      "regex": "\\b(fascia|rotted|wood damage|soffit damage)\\b",
+      "secondaryRegex": "\\b(replace|repair|fix|carpentry|extra)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Fascia/soffit damage mentioned but no repair scope. Hanging new gutters on rotted fascia means they'll fall off within a year."
+    },
+    {
+      "key": "no_warranty",
+      "severity": "low",
+      "regex": "\\b(warranty|guarantee)\\b",
+      "matchInverse": true,
+      "explanation": "No workmanship warranty. Reputable gutter companies offer 2-10 year warranties."
+    },
+    {
+      "key": "deposit_above_25",
+      "severity": "high",
+      "regex": "\\b(deposit|down payment|upfront)\\b",
+      "explanation": "Deposit above 25% on a small gutter job is unusual. Most reputable gutter companies bill on completion."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "materialType",
-      "label": "Gutter material specified",
-      "weight": 12
-    },
-    {
-      "key": "size",
-      "label": "Gutter size (5\" vs 6\")",
-      "weight": 8
-    },
-    {
-      "key": "downspouts",
-      "label": "Downspout count/placement",
-      "weight": 8
-    }
+    { "key": "material",      "label": "Material and gauge specified",                 "weight": 12 },
+    { "key": "size",          "label": "5-inch vs 6-inch noted",                       "weight": 11 },
+    { "key": "hangerType",    "label": "Hidden hangers (not spike-and-ferrule)",       "weight": 13 },
+    { "key": "kickout",       "label": "Kickout flashing where roof meets wall",       "weight": 13 },
+    { "key": "dripEdge",      "label": "Drip edge present or installed",               "weight": 10 },
+    { "key": "downspoutDrain","label": "Downspouts extended away from foundation",     "weight": 10 },
+    { "key": "fasciaCheck",   "label": "Underlying fascia/soffit assessed",            "weight": 10 },
+    { "key": "warranty",      "label": "Workmanship warranty",                         "weight": 8 },
+    { "key": "guards",        "label": "Gutter guard brand/type if included",          "weight": 7 },
+    { "key": "cleanup",       "label": "Cleanup and old gutter disposal included",    "weight": 6 }
+  ],
+  "iraCredit": { "section": "N/A", "status": "NOT_APPLICABLE", "notes": "Gutters do not qualify for federal energy credits." },
+  "utilityRebates": [],
+  "stateLicensing": {
+    "notes": "Gutter installers are typically licensed under the state general contractor license.",
+    "requiresGCLicense": ["AL", "AZ", "CA", "CT", "FL", "GA", "HI", "LA", "MA", "MN", "NV", "NJ", "NC", "OR", "RI", "SC", "TN", "VA", "WA"]
+  },
+  "questionsToAskContractor": [
+    "What material and gauge are you quoting?",
+    "5-inch or 6-inch — and why for my home?",
+    "Hidden hangers every 24-32 inches (not spike-and-ferrule)?",
+    "Where will you install kickout flashing?",
+    "Is drip edge present? Will you add it if missing?",
+    "How will downspouts be extended away from the foundation?",
+    "Any fascia or soffit repair needed before install?",
+    "What is the workmanship warranty?",
+    "If guards are included: which brand and product line?"
   ]
 }

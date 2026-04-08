@@ -1,221 +1,204 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, concrete contractor surveys",
-    "baseYear": 2026
+    "sources": "ACI 318 / ACI 332, RSMeans residential 2026, NRMCA 2026 ready-mix pricing, BBB concrete complaint patterns, ICRI concrete contractor surveys",
+    "baseYear": 2026,
+    "cacheNamespace": "concrete:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.25, "AZ": 0.95, "AR": 0.82, "CA": 1.20, "CO": 1.00,
+    "CT": 1.14, "DE": 1.04, "FL": 0.94, "GA": 0.88, "HI": 1.40, "ID": 0.92,
+    "IL": 1.04, "IN": 0.92, "IA": 0.90, "KS": 0.88, "KY": 0.88, "LA": 0.90,
+    "ME": 1.02, "MD": 1.10, "MA": 1.16, "MI": 0.94, "MN": 0.98, "MS": 0.84,
+    "MO": 0.90, "MT": 0.96, "NE": 0.90, "NV": 1.00, "NH": 1.04, "NJ": 1.14,
+    "NM": 0.92, "NY": 1.20, "NC": 0.92, "ND": 0.92, "OH": 0.94, "OK": 0.86,
+    "OR": 1.06, "PA": 1.02, "RI": 1.10, "SC": 0.86, "SD": 0.90, "TN": 0.86,
+    "TX": 0.92, "UT": 0.94, "VT": 1.04, "VA": 0.96, "WA": 1.10, "WV": 0.84,
+    "WI": 0.94, "WY": 0.96, "DC": 1.20
   },
+  "mixDesigns": [
+    { "psi": 2500, "use": "Sidewalks, light residential walks", "perCubicYard": [165, 220] },
+    { "psi": 3000, "use": "Driveways (warm climates), patios, light foundations", "perCubicYard": [180, 240] },
+    { "psi": 3500, "use": "Driveways (mixed climates), garage slabs, residential foundations", "perCubicYard": [195, 260] },
+    { "psi": 4000, "use": "Driveways (cold climates), heavy foundations, structural slabs — required by most modern residential codes", "perCubicYard": [210, 285] },
+    { "psi": 4500, "use": "Stamped/decorative, exposed aggregate, structural", "perCubicYard": [230, 320] },
+    { "psi": 5000, "use": "Heavy commercial, ICF foundations, post-tensioned", "perCubicYard": [255, 360] }
+  ],
+  "additives": [
+    { "additive": "air_entrainment", "perCubicYardAdd": [3, 8], "necessary": "always in freeze-thaw climates", "notes": "5-7% air content. Required for ANY concrete exposed to freeze-thaw. Skipping it in cold climates causes spalling within 5-10 years." },
+    { "additive": "fiber_mesh", "perCubicYardAdd": [4, 12], "notes": "Synthetic fibers reduce surface cracking. Common on residential slabs." },
+    { "additive": "color_integral", "perCubicYardAdd": [25, 90] },
+    { "additive": "accelerator", "perCubicYardAdd": [5, 18], "notes": "For cold-weather pours." },
+    { "additive": "retarder", "perCubicYardAdd": [5, 18], "notes": "For hot-weather pours." },
+    { "additive": "water_reducer", "perCubicYardAdd": [5, 15] }
+  ],
   "commonJobs": {
-    "driveway_plain": {
-      "label": "Plain Concrete Driveway",
-      "total": [
-        3000,
-        7000
-      ],
-      "per_sqft": [
-        6,
-        12
-      ],
-      "urgency": "can_wait"
+    "driveway_replacement_2car": {
+      "label": "2-car driveway replacement (~600 sqft, 4-inch slab, 4000 PSI air-entrained)",
+      "total": [4500, 11000],
+      "perSqft": [7.50, 18],
+      "scope": "Tear-out, haul-off, base prep, rebar/wire, control joints every 10 feet, broom finish, sealing.",
+      "urgency": "soon"
     },
-    "driveway_stamped": {
-      "label": "Stamped Concrete Driveway",
-      "total": [
-        5000,
-        12000
-      ],
-      "per_sqft": [
-        10,
-        18
-      ],
-      "urgency": "can_wait"
+    "driveway_new_2car": {
+      "label": "2-car driveway new install on prepared subgrade",
+      "total": [3500, 9000],
+      "perSqft": [6, 15]
     },
-    "patio_plain": {
-      "label": "Concrete Patio",
-      "total": [
-        1500,
-        4000
-      ],
-      "per_sqft": [
-        6,
-        12
-      ],
-      "urgency": "can_wait"
+    "patio_400sqft": {
+      "label": "Patio (~400 sqft, 4-inch slab)",
+      "total": [3000, 7000],
+      "perSqft": [7, 17]
     },
-    "patio_stamped": {
-      "label": "Stamped Concrete Patio",
-      "total": [
-        2500,
-        7000
-      ],
-      "per_sqft": [
-        10,
-        18
-      ],
-      "urgency": "can_wait"
+    "stamped_concrete_patio": {
+      "label": "Stamped concrete patio (~400 sqft)",
+      "total": [4500, 12000],
+      "perSqft": [11, 28],
+      "notes": "Pattern, color, sealer. ~50-80% premium over plain."
     },
-    "sidewalk": {
-      "label": "Sidewalk (50 ft)",
-      "total": [
-        1000,
-        3000
-      ],
-      "per_sqft": [
-        6,
-        12
-      ],
-      "urgency": "can_wait"
+    "exposed_aggregate": {
+      "label": "Exposed aggregate driveway (~600 sqft)",
+      "total": [5500, 13000],
+      "perSqft": [9, 22]
     },
-    "slab_foundation": {
-      "label": "Concrete Slab (garage/shed)",
-      "total": [
-        3000,
-        8000
-      ],
-      "per_sqft": [
-        5,
-        10
-      ],
-      "urgency": "can_wait"
+    "sidewalk_replacement": {
+      "label": "Sidewalk replacement (50 LF)",
+      "total": [800, 2500],
+      "perLinearFoot": [16, 50]
     },
-    "retaining_wall": {
-      "label": "Retaining Wall",
-      "total": [
-        3000,
-        10000
-      ],
-      "per_sqft_face": [
-        20,
-        50
-      ],
-      "urgency": "can_wait"
+    "garage_slab": {
+      "label": "Garage slab replacement (~400 sqft)",
+      "total": [3500, 9000]
+    },
+    "foundation_slab_new_construction": {
+      "label": "New construction monolithic slab foundation (~1,500 sqft)",
+      "total": [9000, 22000],
+      "perSqft": [6, 14]
+    },
+    "stamped_pool_deck": {
+      "label": "Stamped pool deck (~600 sqft)",
+      "total": [7000, 18000],
+      "perSqft": [12, 30]
+    },
+    "concrete_repair": {
+      "label": "Concrete repair (crack/spall fill)",
+      "total": [400, 2500]
     }
   },
-  "commonUpsells": [
+  "supportingComponents": [
+    { "item": "Subgrade prep + 4-inch compacted gravel base", "perSqft": [1.50, 4.00], "necessary": "always", "notes": "Skipping the base is the #1 cause of cracking. Required for any slab on grade." },
+    { "item": "Rebar (#3 or #4 grid)", "perSqft": [0.40, 1.20], "necessary": "always for driveway", "notes": "Wire mesh is acceptable for sidewalks; rebar required for driveways and structural slabs." },
+    { "item": "Control joints every 10-12 feet", "perLinearFoot": [1, 3], "necessary": "always" },
+    { "item": "Vapor barrier (under interior slabs)", "perSqft": [0.30, 0.80], "necessary": "always for interior" },
+    { "item": "Sealing (initial cure + sealer)", "perSqft": [0.30, 1.20], "necessary": "always", "notes": "Salt-resistant sealer in northern climates extends life 2-3x." },
+    { "item": "Tear-off and haul-off", "perSqft": [1.50, 4.00], "necessary": "for replacement" }
+  ],
+  "redFlagPatterns": [
     {
-      "item": "Colored concrete",
-      "cost": [
-        2,
-        5
-      ],
-      "necessary": "rarely",
-      "notes": "Per sqft. Aesthetic only."
+      "key": "no_air_entrainment_cold",
+      "severity": "critical",
+      "regex": "\\b(driveway|patio|exterior slab|walkway|sidewalk)\\b",
+      "secondaryRegex": "\\b(air entrain|air[- ]?entrained|5%|6%|7%|6 percent|freeze[- ]?thaw)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Exterior concrete in a freeze-thaw climate with no air-entrained mix specified. Required by ACI 332 for any exterior residential concrete. Skipping it causes surface spalling within 5-10 winters."
     },
     {
-      "item": "Rebar reinforcement",
-      "cost": [
-        1,
-        3
-      ],
-      "necessary": "recommended",
-      "notes": "Per sqft. Prevents cracking. Should be standard for driveways."
+      "key": "psi_too_low",
+      "severity": "high",
+      "regex": "\\b(2[0-4]\\d{2}\\s?psi|2500\\s?psi|3000\\s?psi)\\b",
+      "secondaryRegex": "\\b(driveway|garage slab|foundation)\\b",
+      "explanation": "Mix specified below 3500 PSI for a driveway, garage slab, or foundation. Modern residential codes require 4000 PSI minimum for these applications in most climates."
     },
     {
-      "item": "Sealer application",
-      "cost": [
-        1,
-        3
-      ],
-      "necessary": "recommended",
-      "notes": "Per sqft. Protects finish. Reapply every 2-3 years."
+      "key": "no_rebar_or_wire",
+      "severity": "high",
+      "regex": "\\b(driveway|garage slab|patio|structural slab)\\b",
+      "secondaryRegex": "\\b(rebar|reinforcement|reinforcing steel|wire mesh|wwm|#[34])\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Slab with no reinforcement specified. Driveways need #3 or #4 rebar grid; sidewalks at minimum need wire mesh. Without it, the slab cracks and shifts within 1-3 years."
+    },
+    {
+      "key": "no_control_joints",
+      "severity": "high",
+      "regex": "\\b(slab|driveway|patio|walkway|concrete pour)\\b",
+      "secondaryRegex": "\\b(control joint|expansion joint|saw cut|joint spacing|crack control)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "No control joints specified. Concrete WILL crack — control joints determine where. Without joints every 10-12 feet, the slab cracks randomly across visible areas."
+    },
+    {
+      "key": "no_subgrade_prep",
+      "severity": "critical",
+      "regex": "\\b(driveway|patio|slab)\\b",
+      "secondaryRegex": "\\b(base|subgrade|gravel|compact|crushed stone|aggregate base)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Slab pour with no base preparation. 4-inch compacted gravel base is mandatory under any slab. Pouring on dirt or unprepared subgrade guarantees cracking within 1-2 years."
+    },
+    {
+      "key": "no_vapor_barrier_interior",
+      "severity": "high",
+      "regex": "\\b(interior slab|garage slab|basement slab|new construction slab)\\b",
+      "secondaryRegex": "\\b(vapor barrier|vapor retarder|6 mil|10 mil|polyethylene|stego)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Interior or finished-space slab with no vapor barrier. Required by IRC for interior slabs."
+    },
+    {
+      "key": "hot_weather_pour_no_curing",
+      "severity": "high",
+      "regex": "\\b(hot weather|summer|over 90|95|100|hot pour)\\b",
+      "secondaryRegex": "\\b(curing|cure|wet cure|burlap|spray|moisture)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Hot-weather pour without curing protocol. Concrete poured in 90F+ needs continuous moisture for 7 days minimum or it shrinks and cracks. Reputable contractors specify wet curing or cure compound."
+    },
+    {
+      "key": "deposit_above_25",
+      "severity": "high",
+      "regex": "\\b(deposit|down payment|upfront)\\b",
+      "explanation": "Deposit above 25% on residential concrete is high risk. Material is delivered same-day and contractor pays at delivery. Most reputable contractors ask 10-25% deposit."
+    },
+    {
+      "key": "no_warranty",
+      "severity": "medium",
+      "regex": "\\b(warranty|guarantee)\\b",
+      "matchInverse": true,
+      "explanation": "No workmanship warranty. Reputable contractors offer 1-5 years on workmanship. Hairline cracks are normal and typically excluded."
+    },
+    {
+      "key": "no_brand_or_supplier",
+      "severity": "medium",
+      "regex": "\\b(ready[- ]?mix|concrete|psi)\\b",
+      "secondaryRegex": "\\b(supplier|ready[- ]?mix supplier|nrmca|cemex|holcim|martin marietta|local supplier)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "No ready-mix supplier or batch plant named. Concrete quality varies wildly between suppliers."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "thickness",
-      "label": "Concrete thickness specified",
-      "weight": 10
-    },
-    {
-      "key": "rebar",
-      "label": "Reinforcement (rebar/mesh) included",
-      "weight": 10
-    },
-    {
-      "key": "gradePrep",
-      "label": "Grading/base prep included",
-      "weight": 8
-    }
+    { "key": "psi",            "label": "Mix design PSI specified",                       "weight": 12 },
+    { "key": "airEntrainment", "label": "Air entrainment in freeze-thaw climates",        "weight": 14 },
+    { "key": "subgradePrep",   "label": "Base preparation specified",                     "weight": 12 },
+    { "key": "reinforcement",  "label": "Rebar or wire mesh specified",                   "weight": 12 },
+    { "key": "controlJoints",  "label": "Control joint spacing specified",                "weight": 11 },
+    { "key": "vaporBarrier",   "label": "Vapor barrier under interior slabs",             "weight": 9 },
+    { "key": "curing",         "label": "Curing protocol described",                      "weight": 8 },
+    { "key": "thickness",      "label": "Slab thickness specified",                       "weight": 8 },
+    { "key": "warranty",       "label": "Workmanship warranty",                           "weight": 7 },
+    { "key": "tearOff",        "label": "Tear-off and disposal included if replacement", "weight": 7 }
+  ],
+  "iraCredit": { "section": "N/A", "status": "NOT_APPLICABLE", "notes": "Concrete does not qualify for federal energy credits." },
+  "utilityRebates": [],
+  "stateLicensing": {
+    "notes": "Concrete contractors are typically licensed under the state general contractor license or a specialty concrete license.",
+    "requiresGCLicense": ["AL", "AZ", "CA", "CT", "FL", "GA", "HI", "LA", "MA", "MD", "MN", "MS", "NV", "NJ", "NC", "OR", "RI", "SC", "TN", "VA", "WA"],
+    "specialtyConcreteLicense": ["CA C-8", "AZ KE-08"]
+  },
+  "questionsToAskContractor": [
+    "What PSI mix and what's the supplier?",
+    "Air-entrained mix? (Critical in any freeze-thaw climate.)",
+    "Slab thickness and reinforcement (rebar grid or wire mesh)?",
+    "How will you prep the subgrade and what depth of compacted gravel base?",
+    "Where will control joints go and how often?",
+    "What's the curing protocol — wet cure or compound, and for how many days?",
+    "How will you handle weather conditions on pour day?",
+    "What's the workmanship warranty and what does it exclude?",
+    "What permits are needed?"
   ]
 }

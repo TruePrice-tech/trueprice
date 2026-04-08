@@ -1,187 +1,224 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, garage door manufacturer data",
-    "baseYear": 2026
+    "sources": "DASMA wind-load standards, IDA-C contractor surveys, manufacturer trade pricing (Clopay, Wayne Dalton, Amarr, CHI, Haas), RSMeans residential 2026, BBB garage door complaint patterns",
+    "baseYear": 2026,
+    "cacheNamespace": "garage-door:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.20, "AZ": 0.92, "AR": 0.82, "CA": 1.20, "CO": 0.96,
+    "CT": 1.14, "DE": 1.04, "FL": 0.94, "GA": 0.88, "HI": 1.30, "ID": 0.92,
+    "IL": 1.02, "IN": 0.90, "IA": 0.88, "KS": 0.88, "KY": 0.86, "LA": 0.90,
+    "ME": 1.02, "MD": 1.10, "MA": 1.16, "MI": 0.92, "MN": 0.96, "MS": 0.84,
+    "MO": 0.88, "MT": 0.96, "NE": 0.88, "NV": 0.96, "NH": 1.04, "NJ": 1.14,
+    "NM": 0.92, "NY": 1.20, "NC": 0.92, "ND": 0.92, "OH": 0.92, "OK": 0.86,
+    "OR": 1.06, "PA": 1.00, "RI": 1.10, "SC": 0.86, "SD": 0.88, "TN": 0.86,
+    "TX": 0.92, "UT": 0.94, "VT": 1.02, "VA": 0.96, "WA": 1.10, "WV": 0.84,
+    "WI": 0.94, "WY": 0.94, "DC": 1.20
   },
-  "commonJobs": {
-    "single_steel": {
-      "label": "Single Steel Door (8x7)",
-      "total": [
-        800,
-        1500
-      ],
-      "urgency": "soon"
+  "doorTiers": [
+    {
+      "tier": "value_steel_uninsulated",
+      "label": "Value steel, uninsulated",
+      "perDoor16x7": [600, 1100],
+      "examples": ["Clopay Classic Standard 4050", "Wayne Dalton 9100"],
+      "rValue": 0,
+      "windRating": "Standard, no DASMA rating",
+      "notes": "Single-layer 25-gauge steel. Cheap, lightweight, dent-prone. Acceptable for detached garages."
     },
-    "double_steel": {
-      "label": "Double Steel Door (16x7)",
-      "total": [
-        1000,
-        2500
-      ],
-      "urgency": "soon"
+    {
+      "tier": "midrange_steel_insulated",
+      "label": "Mid-range insulated steel",
+      "perDoor16x7": [1100, 2200],
+      "examples": ["Clopay Classic Premium 4050", "Wayne Dalton 9600", "Amarr Lincoln 1000"],
+      "rValue": 6.5,
+      "windRating": "Available with DASMA 110 wind rating",
+      "notes": "Two-layer with polystyrene foam. Standard for attached garages. Choose insulated whenever the garage shares a wall with conditioned space."
     },
-    "single_insulated": {
-      "label": "Single Insulated Door",
-      "total": [
-        1000,
-        2000
-      ],
-      "urgency": "soon"
+    {
+      "tier": "premium_steel_insulated",
+      "label": "Premium insulated steel",
+      "perDoor16x7": [2000, 3800],
+      "examples": ["Clopay Gallery Premium 4300", "Wayne Dalton 9800", "Amarr Hillcrest", "CHI Stratford"],
+      "rValue": 12.6,
+      "windRating": "DASMA 110-130 typical",
+      "notes": "Three-layer with polyurethane (better insulator than polystyrene). Quieter, stronger, less dent-prone."
     },
-    "double_insulated": {
-      "label": "Double Insulated Door",
-      "total": [
-        1500,
-        3000
-      ],
-      "urgency": "soon"
+    {
+      "tier": "carriage_house",
+      "label": "Carriage house faux-wood",
+      "perDoor16x7": [2500, 5500],
+      "examples": ["Clopay Coachman", "Clopay Canyon Ridge", "Wayne Dalton 6605", "Amarr Classica"],
+      "rValue": 12.6,
+      "notes": "Steel with composite overlays for wood look. The most popular premium upgrade in 2026 remodels. Adds significant curb appeal."
     },
-    "carriage_style": {
-      "label": "Carriage House Style",
-      "total": [
-        1500,
-        4000
-      ],
-      "urgency": "can_wait"
+    {
+      "tier": "real_wood",
+      "label": "Real wood",
+      "perDoor16x7": [3500, 12000],
+      "examples": ["Clopay Reserve Wood Custom", "Designer's Choice", "custom shops"],
+      "rValue": "varies",
+      "notes": "Custom-built. Hemlock, cedar, mahogany. Highest cost. Requires periodic refinishing."
     },
-    "opener_install": {
-      "label": "Opener Installation",
-      "total": [
-        300,
-        600
-      ],
-      "urgency": "can_wait"
-    },
-    "spring_replacement": {
-      "label": "Spring Replacement",
-      "total": [
-        200,
-        400
-      ],
-      "urgency": "critical"
-    },
-    "panel_replacement": {
-      "label": "Panel Replacement",
-      "total": [
-        250,
-        800
-      ],
-      "urgency": "soon"
+    {
+      "tier": "aluminum_glass",
+      "label": "Aluminum and glass (full view)",
+      "perDoor16x7": [3500, 9500],
+      "examples": ["Clopay Avante", "C.H.I. Overhead AVAA", "Northwest Door"],
+      "rValue": "Low",
+      "notes": "Modern look. Common for garage-to-living conversions and showroom doors."
     }
-  },
-  "commonUpsells": [
+  ],
+  "openerTiers": [
     {
-      "item": "Smart opener upgrade",
-      "cost": [
-        100,
-        200
-      ],
-      "necessary": "rarely",
-      "notes": "WiFi-enabled. Nice but not needed."
+      "tier": "chain_drive",
+      "label": "Chain drive (basic)",
+      "installedPrice": [320, 560],
+      "examples": ["LiftMaster 8160W", "Chamberlain B550", "Genie 7035"],
+      "notes": "Cheapest. Loudest. Acceptable for detached garages."
     },
     {
-      "item": "Weatherstripping",
-      "cost": [
-        100,
-        200
-      ],
-      "necessary": "recommended",
-      "notes": "Insulation and pest prevention."
+      "tier": "belt_drive",
+      "label": "Belt drive (quiet)",
+      "installedPrice": [400, 750],
+      "examples": ["LiftMaster 8550W (now 84501)", "Chamberlain B970", "Genie B6172H"],
+      "notes": "Quietest. Standard for attached garages."
+    },
+    {
+      "tier": "wall_mount_jackshaft",
+      "label": "Wall-mount jackshaft",
+      "installedPrice": [550, 1100],
+      "examples": ["LiftMaster 8500W", "LiftMaster 98022"],
+      "notes": "Mounts on the side wall — frees up ceiling space. Best for high-ceiling or storage garages."
+    },
+    {
+      "tier": "smart_mywq_or_homelink",
+      "label": "Smart connected (myQ, HomeLink)",
+      "installedPrice": [500, 950],
+      "examples": ["LiftMaster Secure View 84505R", "Chamberlain B6753T", "Genie StealthDrive Connect"],
+      "notes": "WiFi, smartphone control, package delivery integration. Standard on premium tier."
+    }
+  ],
+  "commonJobs": {
+    "single_door_replacement_value": { "label": "Single 9x7 value steel door + opener install", "total": [900, 1800] },
+    "single_door_replacement_mid": { "label": "Single 9x7 mid insulated steel door + opener install", "total": [1500, 3000] },
+    "double_door_replacement_value": { "label": "Double 16x7 value steel + opener install", "total": [1100, 2200] },
+    "double_door_replacement_mid": { "label": "Double 16x7 mid insulated steel + opener install", "total": [1700, 3500] },
+    "double_door_replacement_premium": { "label": "Double 16x7 premium insulated steel + smart belt drive", "total": [2800, 5500] },
+    "double_door_carriage_house": { "label": "Double 16x7 carriage house style + smart opener", "total": [3500, 8500] },
+    "double_door_real_wood": { "label": "Double 16x7 real wood custom + smart opener", "total": [4500, 14000] },
+    "spring_replacement_torsion": { "label": "Torsion spring replacement (pair)", "total": [200, 500] },
+    "panel_replacement_single": { "label": "Single panel replacement", "total": [200, 600] },
+    "opener_only_replacement": { "label": "Opener replacement only (existing door)", "total": [350, 950] },
+    "track_repair": { "label": "Track repair or replacement", "total": [200, 750] },
+    "cable_replacement": { "label": "Cable replacement", "total": [150, 400] }
+  },
+  "supportingComponents": [
+    { "item": "Old door tear-out and disposal", "perDoor": [50, 200], "necessary": "always for replacement" },
+    { "item": "Weatherstripping and bottom seal", "perDoor": [30, 120], "necessary": "always" },
+    { "item": "Insulation kit (added to existing door)", "perDoor": [150, 450], "notes": "DIY-friendly. Modest R-value benefit." },
+    { "item": "Smart opener add-on (if existing opener is dumb)", "perJob": [60, 200] },
+    { "item": "Permit", "perJob": [0, 250], "necessary": "sometimes" }
+  ],
+  "redFlagPatterns": [
+    {
+      "key": "spring_diy_dangerous",
+      "severity": "critical",
+      "regex": "\\b(spring|torsion spring|extension spring|spring replacement)\\b",
+      "secondaryRegex": "\\b(diy|customer install|provide your own|self[- ]?install)\\b",
+      "explanation": "Garage door springs store enormous tension. Improper handling kills people every year. Spring replacement is NEVER a DIY job. If a quote is encouraging you to DIY this, walk away."
+    },
+    {
+      "key": "no_door_brand",
+      "severity": "high",
+      "regex": "\\b(garage door|door panel|new door)\\b",
+      "secondaryRegex": "\\b(clopay|wayne dalton|amarr|chi|c\\.h\\.i|haas|northwest door|brand|model)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Garage door quoted with no brand or model. Quality varies wildly — same dimensions can be $600 or $5,500 depending on tier. Always specify."
+    },
+    {
+      "key": "no_opener_brand",
+      "severity": "medium",
+      "regex": "\\b(opener|operator|motor|drive)\\b",
+      "secondaryRegex": "\\b(liftmaster|chamberlain|genie|sommer|brand|model|hp|horsepower)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Opener with no brand or HP rating named."
+    },
+    {
+      "key": "no_wind_rating_coastal",
+      "severity": "critical",
+      "regex": "\\b(florida|coastal|hurricane|wind zone|miami[- ]?dade|texas coast)\\b",
+      "secondaryRegex": "\\b(wind rating|wind load|dasma|wind code|psf|miami[- ]?dade approved|tdi)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Coastal/hurricane-zone install with no wind rating specified. Coastal counties require DASMA 110-150+ wind ratings (Miami-Dade approved or TDI approved in coastal TX). Insurance won't pay wind claims on a non-rated door."
+    },
+    {
+      "key": "no_insulation_attached_garage",
+      "severity": "high",
+      "regex": "\\b(attached garage|garage with bedroom above|garage to house|conditioned garage|finished garage|living above)\\b",
+      "secondaryRegex": "\\b(insulated|polyurethane|polystyrene|r[- ]?value|r[- ]?6|r[- ]?12|r[- ]?13|r[- ]?18)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Attached garage door quote with no insulation specified. Uninsulated doors cause significant heat loss and freeze damage to garage plumbing. R-12+ is the right baseline for attached garages."
+    },
+    {
+      "key": "no_safety_sensors",
+      "severity": "high",
+      "regex": "\\b(opener|operator|installation)\\b",
+      "secondaryRegex": "\\b(safety sensor|photoeye|reverse|auto reverse|safety reverse)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Opener install with no mention of safety sensors. Photoelectric safety sensors are required by federal law (UL 325) on all garage door openers since 1993. Confirm in writing."
+    },
+    {
+      "key": "deposit_above_50",
+      "severity": "high",
+      "regex": "\\b(deposit|down payment|upfront|50%|60%|75%)\\b",
+      "explanation": "Deposit above 50% on a garage door is unusual. Most reputable installers cap at 25-50% with the balance on completion."
+    },
+    {
+      "key": "no_warranty_breakout",
+      "severity": "medium",
+      "regex": "\\b(warranty|guarantee)\\b",
+      "matchInverse": true,
+      "explanation": "No warranty stated. Reputable installers offer separate door, opener, and labor warranties. Doors typically 10-25 years (panel/finish), openers 1-15 years, labor 1-5 years."
+    },
+    {
+      "key": "spring_lifecycle_warning",
+      "severity": "low",
+      "regex": "\\b(spring|torsion)\\b",
+      "secondaryRegex": "\\b(cycle|cycles|lifecycle|10000|20000|30000|warranty)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Springs sold without cycle rating. Standard springs are 10,000 cycles (~7 years for typical use); high-cycle springs are 20,000-50,000 cycles. Worth the upgrade for 2-car families."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "doorType",
-      "label": "Door type/material specified",
-      "weight": 12
-    },
-    {
-      "key": "insulation",
-      "label": "Insulation R-value stated",
-      "weight": 8
-    }
+    { "key": "doorBrand",     "label": "Door brand and model specified",                "weight": 12 },
+    { "key": "doorRValue",    "label": "Insulation R-value specified",                  "weight": 11 },
+    { "key": "windRating",    "label": "Wind rating in coastal/hurricane zones",        "weight": 12 },
+    { "key": "openerBrand",   "label": "Opener brand, type, and HP rating",             "weight": 10 },
+    { "key": "safetySensors", "label": "Photoelectric safety sensors per UL 325",       "weight": 11 },
+    { "key": "springCycles",  "label": "Spring cycle rating",                           "weight": 9 },
+    { "key": "weatherSeal",   "label": "Bottom seal and weatherstripping included",     "weight": 8 },
+    { "key": "warranty",      "label": "Door + opener + labor warranties separate",     "weight": 9 },
+    { "key": "tearOff",       "label": "Old door tear-off and disposal included",       "weight": 8 },
+    { "key": "smartFeatures", "label": "Smart opener (myQ/HomeLink) if quoted",          "weight": 6 }
+  ],
+  "iraCredit": { "section": "N/A", "status": "NOT_APPLICABLE" },
+  "utilityRebates": [],
+  "stateLicensing": {
+    "notes": "Garage door installers are typically licensed under the state general contractor or specialty installer license.",
+    "requiresGCLicense": ["AL", "AZ", "CA", "CT", "FL", "GA", "HI", "LA", "MA", "MN", "NV", "NJ", "NC", "OR", "RI", "SC", "TN", "VA", "WA"],
+    "ida_certified": "Voluntary IDA International Door Association certification — strong quality signal."
+  },
+  "questionsToAskContractor": [
+    "What door brand and model are you quoting?",
+    "What's the insulation R-value? (Critical for attached garages.)",
+    "If coastal: what's the wind rating? (DASMA / Miami-Dade / TDI)",
+    "What opener brand, type (chain/belt/jackshaft), and horsepower?",
+    "Are photoelectric safety sensors per UL 325 included?",
+    "What spring cycle rating — standard 10K or high-cycle 20K+?",
+    "Is bottom seal and weatherstripping included?",
+    "What are the door, opener, and labor warranties separately?",
+    "Will you remove and dispose of the old door?",
+    "Is this a smart opener? (myQ, HomeLink, or compatible)"
   ]
 }

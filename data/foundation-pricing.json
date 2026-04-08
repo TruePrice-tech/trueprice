@@ -1,348 +1,227 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, structural engineer surveys, foundation contractor data",
-    "baseYear": 2026
+    "sources": "ACI 318 / ACI 332 / ACI 562 (repair), structural engineer surveys, FEMA P-1024, RSMeans residential 2026, BBB foundation contractor complaint patterns",
+    "baseYear": 2026,
+    "cacheNamespace": "foundation:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.30, "AZ": 0.94, "AR": 0.84, "CA": 1.22, "CO": 1.00,
+    "CT": 1.16, "DE": 1.04, "FL": 0.94, "GA": 0.88, "HI": 1.45, "ID": 0.94,
+    "IL": 1.04, "IN": 0.92, "IA": 0.92, "KS": 0.88, "KY": 0.88, "LA": 0.92,
+    "ME": 1.04, "MD": 1.10, "MA": 1.18, "MI": 0.94, "MN": 0.98, "MS": 0.84,
+    "MO": 0.90, "MT": 0.96, "NE": 0.90, "NV": 1.00, "NH": 1.04, "NJ": 1.16,
+    "NM": 0.92, "NY": 1.20, "NC": 0.92, "ND": 0.94, "OH": 0.94, "OK": 0.86,
+    "OR": 1.06, "PA": 1.02, "RI": 1.10, "SC": 0.86, "SD": 0.92, "TN": 0.86,
+    "TX": 0.94, "UT": 0.94, "VT": 1.04, "VA": 0.96, "WA": 1.10, "WV": 0.84,
+    "WI": 0.96, "WY": 0.96, "DC": 1.20
   },
-  "laborRates": {
-    "low": 100,
-    "mid": 150,
-    "high": 225
-  },
-  "commonJobs": {
-    "pier_push": {
-      "label": "Push Piers (per pier)",
-      "total": [
-        1000,
-        2500
-      ],
-      "labor_hrs": [
-        3,
-        6
-      ],
-      "parts": [
-        500,
-        1500
-      ],
-      "urgency": "critical"
-    },
-    "pier_helical": {
-      "label": "Helical Piers (per pier)",
-      "total": [
-        1500,
-        3500
-      ],
-      "labor_hrs": [
-        3,
-        6
-      ],
-      "parts": [
-        800,
-        2500
-      ],
-      "urgency": "critical"
-    },
-    "slabjacking": {
-      "label": "Slabjacking/Mudjacking",
-      "total": [
-        500,
-        1500
-      ],
-      "labor_hrs": [
-        2,
-        4
-      ],
-      "parts": [
-        200,
-        800
-      ],
-      "urgency": "soon"
-    },
-    "polyurethane_foam": {
-      "label": "Polyurethane Foam Injection",
-      "total": [
-        1000,
-        3000
-      ],
-      "labor_hrs": [
-        2,
-        5
-      ],
-      "parts": [
-        500,
-        2000
-      ],
-      "urgency": "soon"
-    },
-    "wall_anchors": {
-      "label": "Wall Anchors (per anchor)",
-      "total": [
-        500,
-        1500
-      ],
-      "labor_hrs": [
-        2,
-        4
-      ],
-      "parts": [
-        200,
-        800
-      ],
-      "urgency": "critical"
-    },
-    "carbon_fiber_straps": {
-      "label": "Carbon Fiber Wall Straps (per strap)",
-      "total": [
-        400,
-        1000
-      ],
-      "labor_hrs": [
-        1,
-        3
-      ],
-      "parts": [
-        200,
-        600
-      ],
-      "urgency": "soon"
-    },
-    "crack_injection": {
-      "label": "Foundation Crack Injection",
-      "total": [
-        300,
-        800
-      ],
-      "labor_hrs": [
-        1,
-        3
-      ],
-      "parts": [
-        50,
-        200
-      ],
-      "urgency": "soon"
-    },
-    "waterproofing_interior": {
-      "label": "Interior Waterproofing",
-      "total": [
-        3000,
-        8000
-      ],
-      "labor_hrs": [
-        15,
-        30
-      ],
-      "parts": [
-        1000,
-        3000
-      ],
-      "urgency": "soon"
-    },
-    "waterproofing_exterior": {
-      "label": "Exterior Waterproofing",
-      "total": [
-        5000,
-        15000
-      ],
-      "labor_hrs": [
-        20,
-        50
-      ],
-      "parts": [
-        2000,
-        5000
-      ],
-      "urgency": "can_wait"
-    },
-    "french_drain": {
-      "label": "French Drain (interior)",
-      "total": [
-        2000,
-        6000
-      ],
-      "labor_hrs": [
-        10,
-        20
-      ],
-      "parts": [
-        500,
-        2000
-      ],
-      "urgency": "soon"
-    },
-    "sump_pump_foundation": {
-      "label": "Sump Pump (with foundation work)",
-      "total": [
-        500,
-        1500
-      ],
-      "labor_hrs": [
-        2,
-        5
-      ],
-      "parts": [
-        200,
-        800
-      ],
-      "urgency": "soon"
-    },
-    "structural_engineer_report": {
-      "label": "Structural Engineer Report",
-      "total": [
-        300,
-        800
-      ],
-      "labor_hrs": [
-        2,
-        4
-      ],
-      "parts": [
-        0,
-        0
-      ],
-      "urgency": "critical",
-      "notes": "Get this BEFORE accepting any foundation repair quote."
-    }
-  },
-  "commonUpsells": [
+  "soilTypes": [
+    { "type": "expansive_clay", "states": ["TX", "OK", "MS", "LA", "AR", "AL", "GA", "SC", "NC", "CO", "NM", "WY", "MT", "ND", "SD", "NE", "KS"], "notes": "Heave/settle with moisture changes. The #1 driver of residential foundation problems in the US." },
+    { "type": "sandy_silt", "states": ["FL", "GA", "SC", "NC", "VA"], "notes": "Erodes under water flow. Drainage is the priority." },
+    { "type": "rocky", "states": ["AZ", "NV", "UT", "CO", "NH", "VT", "ME", "MA"], "notes": "Stable but expensive to excavate." },
+    { "type": "permafrost", "states": ["AK"], "notes": "Special foundation engineering required." },
+    { "type": "highly_organic", "states": ["LA", "FL", "MN", "WI"], "notes": "Settles continuously. Often requires deep piers or pilings." }
+  ],
+  "foundationTypes": [
+    { "type": "slab_on_grade", "perSqftBuildingFootprint": [6, 14], "notes": "Common in warm climates and Texas. Cheapest. Vulnerable to expansive clay heave." },
+    { "type": "crawlspace", "perSqftBuildingFootprint": [9, 18], "notes": "Common in humid regions. Encapsulation is common upgrade." },
+    { "type": "full_basement", "perSqftBuildingFootprint": [22, 50], "notes": "Standard in cold climates with deep frost lines. Most expensive." },
+    { "type": "pier_and_beam", "perSqftBuildingFootprint": [12, 28], "notes": "Common in expansive-clay regions. Easier to repair when issues occur." },
+    { "type": "frost_protected_shallow", "perSqftBuildingFootprint": [10, 20], "notes": "FPSF — alternative to deep frost-line foundation in cold climates. DOE approved." }
+  ],
+  "repairMethods": [
     {
-      "item": "Lifetime warranty",
-      "cost": [
-        500,
-        2000
-      ],
-      "necessary": "recommended",
-      "notes": "Foundation work should have transferable warranty. Worth it for resale value."
+      "method": "concrete_press_piers",
+      "label": "Concrete pressed piers",
+      "perPier": [350, 700],
+      "lifespan": "Permanent",
+      "notes": "Hydraulically pressed concrete cylinders. Common in expansive clay regions. Less depth than steel piers."
     },
     {
-      "item": "Cosmetic crack repair",
-      "cost": [
-        200,
-        500
-      ],
-      "necessary": "sometimes",
-      "notes": "Structural repair doesn't always include cosmetic finish. Clarify scope."
+      "method": "steel_push_piers",
+      "label": "Steel push piers",
+      "perPier": [1000, 2200],
+      "lifespan": "75+ years",
+      "notes": "Driven to load-bearing strata. Better than concrete in deep clay. The most common repair in serious settlement cases."
     },
     {
-      "item": "Grading/drainage improvement",
-      "cost": [
-        1000,
-        3000
-      ],
-      "necessary": "often",
-      "notes": "Poor drainage causes most foundation problems. Fixing the cause prevents recurrence."
+      "method": "helical_piers",
+      "label": "Helical piers (screw piles)",
+      "perPier": [1100, 2500],
+      "lifespan": "75+ years",
+      "notes": "Screwed in with hydraulic torque. Reach load-bearing strata. Best where soil makes push piers unreliable. Manufacturer-engineered (MagnumPiering, Earth Contact Products, Foundation Supportworks)."
     },
     {
-      "item": "Full basement waterproofing with repair",
-      "cost": [
-        5000,
-        15000
-      ],
-      "necessary": "verify",
-      "notes": "May not be needed if the foundation repair addresses the water issue."
+      "method": "slabjacking_polyurethane",
+      "label": "Slabjacking with polyurethane (foam)",
+      "perJob": [600, 3500],
+      "perSqft": [3, 12],
+      "notes": "Injects expanding foam under settled slab to lift it. Best for slabs and walks, NOT for true foundation settlement. Don't let a contractor sell you slabjacking when piers are needed."
+    },
+    {
+      "method": "mudjacking_traditional",
+      "label": "Mudjacking with cementitious slurry",
+      "perJob": [500, 2500],
+      "notes": "Older technique. Heavy slurry. Cheaper than poly but compresses over time."
+    },
+    {
+      "method": "wall_anchors",
+      "label": "Wall anchors / tieback for bowing walls",
+      "perAnchor": [550, 1500],
+      "notes": "Earth anchors installed in yard, tied to bowing basement wall. Best for moderate bowing."
+    },
+    {
+      "method": "carbon_fiber_straps",
+      "label": "Carbon fiber straps for cracked walls",
+      "perStrap": [400, 950],
+      "notes": "Bonded to interior wall. Best for hairline-to-moderate cracks. Doesn't address the cause."
+    },
+    {
+      "method": "i_beam_bracing",
+      "label": "Steel I-beam bracing",
+      "perBeam": [550, 1500],
+      "notes": "Vertical steel beams against bowing basement walls."
+    },
+    {
+      "method": "interior_drain_tile",
+      "label": "Interior drain tile + sump pump",
+      "perLinearFoot": [50, 110],
+      "notes": "Perimeter drain inside basement floor. Routes water to sump. The standard fix for chronic basement leaks."
+    },
+    {
+      "method": "exterior_excavation_waterproof",
+      "label": "Exterior excavation + waterproofing membrane",
+      "perLinearFoot": [180, 500],
+      "notes": "Dig down to footing, apply waterproofing, install drain tile. Most thorough but most expensive."
+    },
+    {
+      "method": "epoxy_crack_injection",
+      "label": "Epoxy crack injection",
+      "perCrack": [400, 1500],
+      "notes": "Best for non-structural cracks where water is seeping through. Doesn't fix structural movement."
     }
   ],
-  "redFlags": [
-    "No structural engineer assessment before recommending repairs",
-    "Quoting over the phone without inspecting the foundation",
-    "Recommending piers when crack injection would suffice",
-    "No permit mentioned (required in most jurisdictions)",
-    "Pressure to sign immediately (scare tactics about house collapsing)",
-    "No warranty or non-transferable warranty",
-    "Not addressing the root cause (drainage, grading)"
+  "commonJobs": {
+    "minor_settlement_4_piers": { "label": "Minor settlement repair (4-6 piers)", "total": [4500, 14000] },
+    "moderate_settlement_8_piers": { "label": "Moderate settlement repair (8-12 piers)", "total": [9000, 26000] },
+    "major_settlement_15_piers": { "label": "Major settlement repair (15-25 piers)", "total": [18000, 55000] },
+    "basement_waterproof_interior": { "label": "Interior basement waterproofing (200 LF)", "total": [10000, 22000] },
+    "basement_waterproof_exterior": { "label": "Exterior basement waterproofing (200 LF)", "total": [22000, 60000] },
+    "bowing_wall_repair_3_anchors": { "label": "Bowing wall repair, 3 wall anchors", "total": [3500, 8500] },
+    "bowing_wall_repair_carbon_fiber": { "label": "Bowing wall repair, 6 carbon fiber straps", "total": [3500, 7500] },
+    "crawl_encap_full": { "label": "Crawlspace encapsulation (1,500 sqft)", "total": [8000, 22000] },
+    "sinkhole_remediation": { "label": "Sinkhole stabilization with grouting", "total": [12000, 65000] },
+    "epoxy_crack_repair_minor": { "label": "Minor epoxy crack injection (2-3 cracks)", "total": [800, 3500] }
+  },
+  "supportingComponents": [
+    { "item": "Structural engineer evaluation", "perJob": [400, 1500], "necessary": "always for serious work", "notes": "Required for any structural foundation repair. Independent of the contractor — never accept a contractor's own engineer letter without verifying credentials." },
+    { "item": "Permits", "perJob": [200, 1500], "necessary": "always", "notes": "Foundation work always requires a permit." },
+    { "item": "Drainage improvement (gutters, grading)", "perJob": [800, 5000], "necessary": "often", "notes": "60% of foundation problems trace back to water management. Fix the source first." },
+    { "item": "Plumbing leak detection", "perJob": [200, 800], "necessary": "often", "notes": "Slab leaks are the #1 cause of foundation movement in slab homes. Test before piering." },
+    { "item": "Tree root removal/barrier", "perJob": [500, 4000], "necessary": "sometimes" }
+  ],
+  "redFlagPatterns": [
+    {
+      "key": "no_engineer_letter",
+      "severity": "critical",
+      "regex": "\\b(pier|piers|piering|underpin|wall anchor|structural repair|foundation repair)\\b",
+      "secondaryRegex": "\\b(structural engineer|engineer letter|pe stamp|stamped drawing|engineering|engineering report)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Structural foundation repair with no independent structural engineer evaluation. ALWAYS get an independent PE evaluation BEFORE accepting any foundation repair quote. Foundation contractors who skip the engineer step are upselling unnecessary repairs."
+    },
+    {
+      "key": "lifetime_warranty_too_good",
+      "severity": "high",
+      "regex": "\\b(lifetime warranty|lifetime guarantee|forever warranty|transferable lifetime)\\b",
+      "explanation": "Lifetime warranties on foundation repair are common but often have major fine-print exclusions ('further settlement of more than 1 inch', 'only on the exact piers installed', 'voided if any other work occurs'). Read the actual warranty document, not the marketing."
+    },
+    {
+      "key": "slabjacking_for_settlement",
+      "severity": "critical",
+      "regex": "\\b(slabjack|polyurethane|foam injection|polylevel)\\b",
+      "secondaryRegex": "\\b(settlement|sinking|foundation|piering|piers)\\b",
+      "explanation": "Slabjacking sold as a foundation repair. Slabjacking lifts settled SLABS (driveways, walks, garage floors) — it does NOT fix structural foundation settlement. A contractor selling slabjacking for true foundation work is either ignorant or scamming."
+    },
+    {
+      "key": "no_drainage_assessment",
+      "severity": "high",
+      "regex": "\\b(foundation|settlement|crack|leak|movement)\\b",
+      "secondaryRegex": "\\b(drainage|gutters|downspout|grading|moisture|water|french drain)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Foundation work proposed with no drainage assessment. 60% of foundation problems trace to water management. Fixing piers without fixing drainage means the new piers will fail too."
+    },
+    {
+      "key": "no_pier_count_or_depth",
+      "severity": "high",
+      "regex": "\\b(pier|piers|piering|underpinning)\\b",
+      "secondaryRegex": "\\b(\\d+\\s?(piers|inches deep|feet|ft|depth))\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Pier work quoted with no pier count, depth, or load capacity. These are the fundamental specs of a piering job. Without them you cannot benchmark or compare quotes."
+    },
+    {
+      "key": "deposit_above_25",
+      "severity": "high",
+      "regex": "\\b(deposit|down payment|upfront|50%|33%)\\b",
+      "explanation": "Deposit above 25% on foundation work is high risk. Many foundation companies have gone out of business with deposits in hand. Stage payments to milestones."
+    },
+    {
+      "key": "pressure_today_only",
+      "severity": "critical",
+      "regex": "\\b(today only|sign today|valid today|expires tonight|special price if you sign|drop in price|manager approved)\\b",
+      "explanation": "High-pressure sales tactic on a major repair. NO foundation problem requires same-day signing. Walk away from any contractor using urgency tactics."
+    },
+    {
+      "key": "no_warranty",
+      "severity": "high",
+      "regex": "\\b(warranty|guarantee)\\b",
+      "matchInverse": true,
+      "explanation": "No warranty stated. Reputable foundation contractors offer at least 25-year warranties on piering work and 5-10 years on waterproofing."
+    },
+    {
+      "key": "single_quote_no_alternatives",
+      "severity": "medium",
+      "regex": "\\b(only option|only solution|must be done|the only way)\\b",
+      "explanation": "Quote claims theirs is the only option. Foundation problems usually have multiple valid repair methods (push piers vs helical, interior vs exterior waterproofing). Get 3 quotes from independent companies."
+    },
+    {
+      "key": "no_load_capacity_spec",
+      "severity": "medium",
+      "regex": "\\b(pier|helical|push pier)\\b",
+      "secondaryRegex": "\\b(load capacity|tons|kip|kips|engineered load|ultimate capacity|allowable load)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Piers quoted with no load capacity. Properly engineered piers are sized for the load they need to carry."
+    }
   ],
   "scopeCheckItems": [
-    {
-      "key": "engineerReport",
-      "label": "Structural engineer report referenced",
-      "weight": 15
-    },
-    {
-      "key": "repairMethod",
-      "label": "Repair method clearly specified",
-      "weight": 12
-    },
-    {
-      "key": "numPiers",
-      "label": "Number of piers/anchors specified",
-      "weight": 10
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 10
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty (transferable, lifetime preferred)",
-      "weight": 15
-    },
-    {
-      "key": "drainage",
-      "label": "Drainage/root cause addressed",
-      "weight": 10
-    },
-    {
-      "key": "timeline",
-      "label": "Project timeline stated",
-      "weight": 5
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup and restoration included",
-      "weight": 8
-    }
+    { "key": "engineerEval",   "label": "Independent PE structural engineer evaluation",  "weight": 14 },
+    { "key": "drainageReview", "label": "Drainage and water source assessment",           "weight": 12 },
+    { "key": "method",         "label": "Repair method specified (push pier, helical, etc)", "weight": 12 },
+    { "key": "pierCount",      "label": "Pier count, depth, and load capacity",           "weight": 11 },
+    { "key": "warranty",       "label": "Long-term warranty (25 yr+ on piering)",          "weight": 11 },
+    { "key": "permits",        "label": "Permits identified",                             "weight": 10 },
+    { "key": "alternatives",   "label": "Alternative methods considered",                 "weight": 8 },
+    { "key": "plumbingCheck",  "label": "Plumbing leak detection on slab homes",          "weight": 8 },
+    { "key": "deposit",        "label": "Deposit ≤25%",                                   "weight": 7 },
+    { "key": "monitoring",     "label": "Post-repair monitoring plan",                    "weight": 7 }
+  ],
+  "iraCredit": { "section": "N/A", "status": "NOT_APPLICABLE", "notes": "Foundation work does not qualify for federal energy credits." },
+  "utilityRebates": [],
+  "stateLicensing": {
+    "notes": "Foundation contractors are typically licensed under the state general contractor license, often with a structural specialty endorsement.",
+    "requiresGCLicense": ["AL", "AZ", "CA", "CT", "FL", "GA", "HI", "LA", "MD", "MA", "MN", "NV", "NJ", "NC", "OR", "RI", "SC", "TN", "VA", "WA"],
+    "specialtyStructuralLicense": ["CA C-50", "FL CGC"]
+  },
+  "questionsToAskContractor": [
+    "Have you obtained an independent structural engineer's evaluation? Can I see it?",
+    "What is causing the movement — drainage, plumbing leak, expansive clay, tree roots?",
+    "What repair methods did you consider, and why is this one best?",
+    "How many piers, what type, what depth, what load capacity?",
+    "What permits are needed and who pulls them?",
+    "What is the warranty and what specifically does it exclude?",
+    "What is the deposit and payment milestone schedule?",
+    "Will you fix the underlying cause (drainage, leak) too, or just the symptoms?",
+    "Are you using engineered manufacturer pier products (MagnumPiering, ECP, Foundation Supportworks)?",
+    "What is the post-repair monitoring plan?"
   ]
 }

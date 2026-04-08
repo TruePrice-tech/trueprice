@@ -1,190 +1,219 @@
 {
   "metadata": {
-    "sources": "HomeAdvisor, Angi, fencing contractor surveys",
-    "baseYear": 2026
+    "sources": "RSMeans residential 2026, AFA contractor surveys, manufacturer pricing, BBB fencing complaint patterns",
+    "baseYear": 2026,
+    "cacheNamespace": "fencing:v2-deepdive",
+    "lastReview": "2026-04-08"
   },
   "stateMultipliers": {
-    "AL": 0.85,
-    "AK": 1.15,
-    "AZ": 0.95,
-    "AR": 0.8,
-    "CA": 1.22,
-    "CO": 1.05,
-    "CT": 1.15,
-    "DE": 1.05,
-    "FL": 0.92,
-    "GA": 0.88,
-    "HI": 1.18,
-    "ID": 0.9,
-    "IL": 1.02,
-    "IN": 0.9,
-    "IA": 0.88,
-    "KS": 0.88,
-    "KY": 0.85,
-    "LA": 0.88,
-    "ME": 1.0,
-    "MD": 1.08,
-    "MA": 1.15,
-    "MI": 0.92,
-    "MN": 0.98,
-    "MS": 0.82,
-    "MO": 0.88,
-    "MT": 0.95,
-    "NE": 0.88,
-    "NV": 1.0,
-    "NH": 1.05,
-    "NJ": 1.12,
-    "NM": 0.9,
-    "NY": 1.18,
-    "NC": 0.9,
-    "ND": 0.9,
-    "OH": 0.92,
-    "OK": 0.85,
-    "OR": 1.05,
-    "PA": 1.0,
-    "RI": 1.08,
-    "SC": 0.85,
-    "SD": 0.88,
-    "TN": 0.85,
-    "TX": 0.9,
-    "UT": 0.92,
-    "VT": 1.0,
-    "VA": 0.95,
-    "WA": 1.1,
-    "WV": 0.8,
-    "WI": 0.92,
-    "WY": 0.92,
-    "DC": 1.2
+    "AL": 0.85, "AK": 1.20, "AZ": 0.92, "AR": 0.82, "CA": 1.20, "CO": 0.96,
+    "CT": 1.14, "DE": 1.04, "FL": 0.92, "GA": 0.88, "HI": 1.30, "ID": 0.92,
+    "IL": 1.02, "IN": 0.90, "IA": 0.88, "KS": 0.88, "KY": 0.86, "LA": 0.88,
+    "ME": 1.02, "MD": 1.10, "MA": 1.16, "MI": 0.92, "MN": 0.96, "MS": 0.82,
+    "MO": 0.88, "MT": 0.96, "NE": 0.88, "NV": 0.96, "NH": 1.04, "NJ": 1.14,
+    "NM": 0.92, "NY": 1.20, "NC": 0.92, "ND": 0.92, "OH": 0.92, "OK": 0.86,
+    "OR": 1.06, "PA": 1.00, "RI": 1.10, "SC": 0.86, "SD": 0.88, "TN": 0.86,
+    "TX": 0.92, "UT": 0.94, "VT": 1.02, "VA": 0.96, "WA": 1.10, "WV": 0.84,
+    "WI": 0.94, "WY": 0.94, "DC": 1.20
   },
-  "commonJobs": {
-    "wood_privacy_6ft": {
-      "label": "Wood Privacy Fence (6ft)",
-      "total": [
-        15,
-        30
-      ],
-      "per_foot": true,
-      "urgency": "can_wait"
+  "materialTiers": [
+    {
+      "material": "chain_link_4ft",
+      "label": "Chain link 4-foot galvanized",
+      "perLinearFoot": [11, 22],
+      "lifespanYears": [15, 25],
+      "examples": ["Master Halco", "Stephens Pipe & Steel"],
+      "notes": "Cheapest. Galvanized steel mesh. Vinyl-coated upgrade available (+25%)."
     },
-    "vinyl_privacy": {
-      "label": "Vinyl Privacy Fence",
-      "total": [
-        20,
-        40
-      ],
-      "per_foot": true,
-      "urgency": "can_wait"
+    {
+      "material": "chain_link_6ft",
+      "label": "Chain link 6-foot galvanized",
+      "perLinearFoot": [16, 32],
+      "lifespanYears": [15, 25]
     },
-    "chain_link_4ft": {
-      "label": "Chain Link (4ft)",
-      "total": [
-        10,
-        20
-      ],
-      "per_foot": true,
-      "urgency": "can_wait"
+    {
+      "material": "wood_pressure_treated_pine",
+      "label": "Pressure-treated pine (6-foot privacy)",
+      "perLinearFoot": [22, 45],
+      "lifespanYears": [10, 20],
+      "notes": "Most common privacy fence. UC4A ground-contact rated posts mandatory."
     },
-    "aluminum_ornamental": {
-      "label": "Aluminum Ornamental",
-      "total": [
-        25,
-        45
-      ],
-      "per_foot": true,
-      "urgency": "can_wait"
+    {
+      "material": "wood_cedar",
+      "label": "Western red cedar (6-foot privacy)",
+      "perLinearFoot": [30, 60],
+      "lifespanYears": [15, 30],
+      "notes": "Naturally rot-resistant. Premium look. Stain every 2-3 years for max life."
     },
-    "wrought_iron": {
-      "label": "Wrought Iron",
-      "total": [
-        25,
-        50
-      ],
-      "per_foot": true,
-      "urgency": "can_wait"
+    {
+      "material": "wood_redwood",
+      "label": "Redwood (6-foot privacy)",
+      "perLinearFoot": [38, 75],
+      "lifespanYears": [20, 35],
+      "notes": "Most rot-resistant wood option. Premium pricing, especially outside CA."
     },
-    "composite": {
-      "label": "Composite/Trex Fencing",
-      "total": [
-        25,
-        50
-      ],
-      "per_foot": true,
-      "urgency": "can_wait"
+    {
+      "material": "vinyl_pvc",
+      "label": "Vinyl/PVC privacy",
+      "perLinearFoot": [35, 80],
+      "lifespanYears": [25, 40],
+      "examples": ["CertainTeed Bufftech", "Veranda", "Activeyards"],
+      "notes": "No staining, no maintenance. Brittle in deep cold. Hollow rails can flex in high winds."
     },
-    "gate_install": {
-      "label": "Gate Installation",
-      "total": [
-        200,
-        800
-      ],
-      "urgency": "can_wait"
+    {
+      "material": "aluminum_ornamental",
+      "label": "Aluminum ornamental",
+      "perLinearFoot": [32, 75],
+      "lifespanYears": [25, 50],
+      "examples": ["Ameristar", "Jerith", "Specrail"],
+      "notes": "Looks like wrought iron without rust. Common for pool fencing (with self-closing gates per code)."
+    },
+    {
+      "material": "wrought_iron",
+      "label": "Wrought iron / steel ornamental",
+      "perLinearFoot": [42, 100],
+      "lifespanYears": [40, 80],
+      "notes": "Custom-fabricated. Periodic rust treatment required."
+    },
+    {
+      "material": "composite",
+      "label": "Composite (Trex Seclusions, etc)",
+      "perLinearFoot": [45, 95],
+      "lifespanYears": [25, 40],
+      "examples": ["Trex Seclusions", "Bufftech", "BarretteOutdoor"],
+      "notes": "Wood-look without maintenance. Newer category — long-term performance still being established."
+    },
+    {
+      "material": "horizontal_modern_cedar",
+      "label": "Horizontal modern cedar / hardwood",
+      "perLinearFoot": [55, 130],
+      "lifespanYears": [15, 30],
+      "notes": "Architectural/contemporary look. Higher labor cost due to leveling and post spacing precision."
+    },
+    {
+      "material": "stone_masonry",
+      "label": "Stone or masonry wall",
+      "perLinearFoot": [80, 250],
+      "lifespanYears": [80, 100],
+      "notes": "Highest cost. Permanent. May trigger HOA and zoning review."
     }
+  ],
+  "commonJobs": {
+    "wood_priv_150ft": { "label": "150 LF wood privacy fence (6-ft pressure-treated pine)", "total": [3500, 7000] },
+    "wood_priv_cedar_150ft": { "label": "150 LF cedar privacy fence (6-ft)", "total": [4500, 9500] },
+    "vinyl_priv_150ft": { "label": "150 LF vinyl privacy fence", "total": [5500, 12500] },
+    "chain_link_150ft": { "label": "150 LF chain link 4-ft galvanized", "total": [1700, 3500] },
+    "aluminum_orn_150ft": { "label": "150 LF aluminum ornamental 4-ft", "total": [4800, 11500] },
+    "pool_fence_150ft": { "label": "150 LF aluminum pool fence with self-closing gate (code compliant)", "total": [5500, 13000] },
+    "single_gate_4ft": { "label": "4-ft single gate (drop-in)", "total": [200, 600] },
+    "double_drive_gate_12ft": { "label": "12-ft double drive gate", "total": [1200, 4500] },
+    "fence_repair_section": { "label": "Fence repair (single section + post)", "total": [200, 800] }
   },
-  "commonUpsells": [
+  "supportingComponents": [
+    { "item": "Post depth (frost line + 6 inches)", "perPost": [25, 75], "necessary": "always", "notes": "Posts set below frost line: 36-48 in cold climates, 24+ in warm. Skipping this means heave damage in 1 year." },
+    { "item": "Concrete post setting", "perPost": [15, 50], "necessary": "always for permanent installs" },
+    { "item": "UC4A ground-contact rated posts", "perPost": [10, 30], "necessary": "always for wood", "notes": "Standard PT pine posts often rated UC3 (above-ground) — wrong for ground contact. Demand UC4A." },
+    { "item": "Tear-out and disposal of existing fence", "perLinearFoot": [3, 10] },
+    { "item": "Stain or seal (wood)", "perLinearFoot": [3, 9] },
+    { "item": "Permit", "perJob": [25, 400] }
+  ],
+  "redFlagPatterns": [
     {
-      "item": "Concrete post footings",
-      "cost": [
-        10,
-        25
-      ],
-      "necessary": "recommended",
-      "notes": "Per post. Much more durable than gravel set."
+      "key": "post_depth_too_shallow",
+      "severity": "critical",
+      "regex": "\\b(post|fence post|post depth|set post)\\b",
+      "secondaryRegex": "\\b(frost line|24|30|36|42|48 in|inches deep|ft deep|below frost)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Post depth not specified. Posts must be set below the local frost line — 36-48 inches in cold climates. Shallow posts heave with the first freeze. The single biggest cause of premature fence failure."
     },
     {
-      "item": "Stain/seal (wood)",
-      "cost": [
-        2,
-        5
-      ],
-      "necessary": "recommended",
-      "notes": "Per linear foot. Extends life 5-10 years."
+      "key": "no_uc4a",
+      "severity": "high",
+      "regex": "\\b(pressure[- ]?treated|pt|treated lumber|pine post|treated post)\\b",
+      "secondaryRegex": "\\b(uc4a|uc4|ground contact|ground[- ]?contact rated|.40 retention)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Pressure-treated wood posts without UC4A (ground contact) rating specified. Standard PT pine posts are often UC3 (above-ground) — wrong for ground contact. Posts will rot in 5-7 years instead of 20+. Demand UC4A in writing."
+    },
+    {
+      "key": "no_concrete_setting",
+      "severity": "high",
+      "regex": "\\b(post|set post|set posts)\\b",
+      "secondaryRegex": "\\b(concrete|set in concrete|footing|sonotube|gravel only)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "No concrete post setting mentioned. Permanent fences need posts set in concrete. Gravel-only is acceptable only in sandy well-drained soils — not the default."
+    },
+    {
+      "key": "no_pool_code",
+      "severity": "critical",
+      "regex": "\\b(pool|swimming pool|pool fence|backyard pool)\\b",
+      "secondaryRegex": "\\b(code|self[- ]?closing gate|self[- ]?latching|48[- ]?inch|4[- ]?ft|isba|model code)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Pool fence with no mention of code compliance. Most jurisdictions require 48-inch minimum, self-closing self-latching gates, and 4-inch maximum vertical gap. Non-compliant pool fencing creates liability and won't pass inspection."
+    },
+    {
+      "key": "no_property_line_check",
+      "severity": "high",
+      "regex": "\\b(property line|survey|property boundary|setback|easement|hoa)\\b",
+      "matchInverse": true,
+      "explanation": "No mention of property line verification or survey. Building over the line creates legal disputes. HOA approval often required even for replacement fences."
+    },
+    {
+      "key": "no_locate_call",
+      "severity": "critical",
+      "regex": "\\b(811|call before you dig|utility locate|locate request|underground utilities)\\b",
+      "matchInverse": true,
+      "explanation": "No mention of 811/utility locate before digging. Federal law requires it. Hitting a gas or electric line during post digging can be fatal and contractor liable."
+    },
+    {
+      "key": "no_warranty",
+      "severity": "medium",
+      "regex": "\\b(warranty|guarantee)\\b",
+      "matchInverse": true,
+      "explanation": "No workmanship warranty. Reputable fence companies offer 1-5 year workmanship warranties."
+    },
+    {
+      "key": "deposit_above_50",
+      "severity": "high",
+      "regex": "\\b(deposit|down payment|upfront|50%|60%)\\b",
+      "explanation": "Deposit above 50% on a fence is high risk. Material is the largest cost and is delivered up front, but reputable installers cap deposit at 25-50%."
+    },
+    {
+      "key": "no_brand_named",
+      "severity": "low",
+      "regex": "\\b(vinyl|aluminum|composite)\\b",
+      "secondaryRegex": "\\b(certainteed|bufftech|trex|veranda|ameristar|jerith|brand)\\b",
+      "matchInverseSecondary": true,
+      "explanation": "Vinyl/aluminum/composite fence with no brand named. Quality varies wildly."
     }
   ],
   "scopeCheckItems": [
-    {
-      "key": "laborRate",
-      "label": "Labor rate stated",
-      "weight": 12
-    },
-    {
-      "key": "partsItemized",
-      "label": "Parts/materials itemized",
-      "weight": 15
-    },
-    {
-      "key": "permit",
-      "label": "Permits included",
-      "weight": 8
-    },
-    {
-      "key": "warranty",
-      "label": "Warranty stated",
-      "weight": 12
-    },
-    {
-      "key": "cleanup",
-      "label": "Cleanup included",
-      "weight": 6
-    },
-    {
-      "key": "timeline",
-      "label": "Timeline/schedule stated",
-      "weight": 5
-    },
-    {
-      "key": "materialType",
-      "label": "Fence material specified",
-      "weight": 12
-    },
-    {
-      "key": "height",
-      "label": "Fence height specified",
-      "weight": 8
-    },
-    {
-      "key": "postType",
-      "label": "Post setting method (concrete vs gravel)",
-      "weight": 8
-    }
+    { "key": "material",      "label": "Material and grade specified",                "weight": 12 },
+    { "key": "postDepth",     "label": "Post depth below frost line specified",       "weight": 14 },
+    { "key": "uc4aPosts",     "label": "UC4A ground-contact rated wood posts",         "weight": 12 },
+    { "key": "concreteSet",   "label": "Posts set in concrete",                        "weight": 11 },
+    { "key": "propertyLine",  "label": "Property line verified",                       "weight": 10 },
+    { "key": "utilityLocate", "label": "811 utility locate scheduled",                 "weight": 11 },
+    { "key": "permit",        "label": "Permit pulled if required",                    "weight": 9 },
+    { "key": "warranty",      "label": "Workmanship warranty",                         "weight": 8 },
+    { "key": "gateHardware",  "label": "Gate hardware spec'd (hinges, latch, closer)", "weight": 7 },
+    { "key": "tearOff",       "label": "Old fence tear-off and disposal",              "weight": 6 }
+  ],
+  "iraCredit": { "section": "N/A", "status": "NOT_APPLICABLE" },
+  "utilityRebates": [],
+  "stateLicensing": {
+    "notes": "Fence installers are typically licensed under the state general contractor or home improvement license. Many states exempt small jobs.",
+    "requiresGCLicense": ["AL", "AZ", "CA", "CT", "FL", "GA", "HI", "LA", "MA", "MD", "MN", "NV", "NJ", "NC", "OR", "RI", "SC", "TN", "VA", "WA"]
+  },
+  "questionsToAskContractor": [
+    "What material and grade are you quoting?",
+    "How deep will the posts go? (Below frost line for my area?)",
+    "If wood, are the posts UC4A ground-contact rated?",
+    "Will posts be set in concrete?",
+    "Have you verified my property line and HOA requirements?",
+    "Have you scheduled an 811 utility locate?",
+    "Is a permit required and who pulls it?",
+    "What is the workmanship warranty?",
+    "If this is a pool fence, does it meet local code (height, self-closing gate, gap)?",
+    "What gate hardware is included — hinges, latch, closer?"
   ]
 }
