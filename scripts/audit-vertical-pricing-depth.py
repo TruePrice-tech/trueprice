@@ -59,30 +59,42 @@ def score_vertical(name, data_path, api_path):
 
     s = {}
 
-    # 1. Brand tiers
+    # 1. Brand tiers — score by structural presence + count of branded examples
     flat = json.dumps(data).lower()
-    bt_keys = ("brandtier","brand_tier","brand tiers","tier","value","mid","premium","luxury")
-    bt_count = sum(flat.count(k) for k in bt_keys)
-    s["brandTiers"] = min(10, bt_count // 8)
+    bt_obj = data.get("brandTiers") or data.get("materialTiers") or data.get("paintTiers") or data.get("panelTiers") or data.get("doorTiers") or data.get("cabinetTiers") or data.get("countertopTiers") or data.get("appliancePackageTiers") or data.get("inverterTiers") or data.get("flooringTiers")
+    bt_score = 0
+    if bt_obj:
+        bt_score += 4
+        bt_score += min(6, len(bt_obj) if isinstance(bt_obj, (list, dict)) else 0)
+    # Bonus for having multiple tier groups (kitchen has cabinet+countertop+appliance+flooring)
+    extra_groups = sum(1 for k in ("cabinetTiers","countertopTiers","appliancePackageTiers","flooringTiers","panelTiers","inverterTiers","batteryTiers","materialTiers","doorTiers","openerTiers","guardTiers") if data.get(k))
+    if extra_groups >= 2: bt_score = min(10, bt_score + 2)
+    s["brandTiers"] = min(10, bt_score)
 
-    # 2. Red flag depth (in pricing JSON)
-    rf_keys_count = flat.count('"redflag') + flat.count('"red_flag')
-    rf_severity = flat.count('severity')
-    rf_evidence = flat.count('evidence') + flat.count('regex')
-    s["redFlagDepth"] = min(10, (rf_keys_count // 2) + (1 if rf_severity > 2 else 0) + (1 if rf_evidence > 2 else 0))
+    # 2. Red flag depth (count actual entries in redFlagPatterns array)
+    rfp = data.get("redFlagPatterns") or []
+    rf_count = len(rfp) if isinstance(rfp, list) else 0
+    has_severity = any(isinstance(x, dict) and "severity" in x for x in rfp[:3]) if rfp else False
+    has_regex = any(isinstance(x, dict) and ("regex" in x or "pattern" in x) for x in rfp[:3]) if rfp else False
+    s["redFlagDepth"] = min(10, (rf_count // 2) + (1 if has_severity else 0) + (1 if has_regex else 0))
 
     # 3. Rebate coverage
-    rebate_count = flat.count('"utility"') + flat.count('"rebate"')
-    active_2026 = flat.count('active2026')
-    s["rebateCoverage"] = min(10, (rebate_count // 4) + (2 if active_2026 > 4 else 0))
+    rebates = data.get("utilityRebates") or []
+    rebate_count = len(rebates) if isinstance(rebates, list) else 0
+    s["rebateCoverage"] = min(10, rebate_count)
 
-    # 4. Licensing depth
-    license_keys = flat.count('licens') + flat.count('"state":') + flat.count('statelicens')
-    s["licensingDepth"] = min(10, license_keys // 6)
+    # 4. Licensing depth — structural check
+    sl = data.get("stateLicensing") or {}
+    s["licensingDepth"] = 0
+    if sl:
+        s["licensingDepth"] += 4
+        gc = sl.get("requiresGCLicense") or []
+        s["licensingDepth"] += min(6, len(gc) // 4)
 
     # 5. Code awareness
-    code_count = flat.count('code') + flat.count('permit') + flat.count('nec') + flat.count('ibc') + flat.count('upc')
-    s["codeAwareness"] = min(10, code_count // 8)
+    cr = data.get("codeReferences") or {}
+    code_count = (1 if cr else 0) * 5 + (len(cr) if isinstance(cr, dict) else 0)
+    s["codeAwareness"] = min(10, code_count)
 
     # 6. API red flag patterns
     api_lower = api_text.lower()
