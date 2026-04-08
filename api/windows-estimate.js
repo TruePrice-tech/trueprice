@@ -78,7 +78,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "windows", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "windows", imageBytes: _imageBuf, cacheNamespace: "windows:v2-deepdive" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -127,7 +127,7 @@ export default async function handler(req, res) {
 
     content.push({
       type: "text",
-      text: `Analyze this window replacement/installation quote or estimate. Extract the following information and return ONLY valid JSON (no markdown, no explanation):
+      text: `Analyze this window replacement quote. Extract the following information and return ONLY valid JSON (no markdown, no explanation outside the JSON object):
 
 ${text ? "EXTRACTED TEXT FROM QUOTE:\n" + text.substring(0, 8000) + "\n\n" : ""}
 
@@ -136,16 +136,27 @@ Return this exact JSON structure:
   "totalPrice": <number or null - the total quoted price>,
   "laborTotal": <number or null - total labor cost>,
   "materialsTotal": <number or null - total materials/window cost>,
-  "windowType": <"double_hung" | "casement" | "sliding" | "bay" | "bow" | "picture" | "awning" | "hopper" | null>,
-  "material": <"vinyl" | "fiberglass" | "wood" | "aluminum" | "composite" | null>,
+  "perWindowPrice": <number or null - total divided by window count if both known>,
+  "windowType": <"double_hung" | "casement" | "sliding" | "bay" | "bow" | "picture" | "awning" | "hopper" | "mixed" | null>,
+  "material": <"vinyl" | "fiberglass" | "wood_clad" | "aluminum" | "composite" | null>,
   "windowCount": <number or null - how many windows>,
-  "energyStarRated": <boolean or null - ENERGY STAR certified windows>,
-  "brand": <string or null - window brand name>,
-  "modelNumber": <string or null - model if mentioned>,
-  "glassType": <"double_pane" | "triple_pane" | "single_pane" | null>,
+  "installMethod": <"pocket" | "full_frame" | "new_construction" | null - pocket means insert into existing frame, full_frame means complete tear-out and reframe>,
+  "brand": <string or null - exact brand name like "Andersen" "Pella" "Marvin" "Renewal by Andersen" "Window World" "Champion" "Milgard" "Simonton" "Jeld-Wen" "ProVia" "Soft-Lite" "Alside" "Atrium">,
+  "brandLine": <string or null - product line like "100 Series" "250" "Lifestyle" "Tuscany" "5500">,
+  "brandTier": <"value" | "mid" | "premium" | "luxury" | null - infer from brand+line>,
+  "energyStarRated": <boolean or null - ENERGY STAR certified>,
+  "energyStarMostEfficient": <boolean or null - ENERGY STAR Most Efficient tier - this is what qualifies for the IRA tax credit>,
+  "uFactor": <number or null - U-factor if listed (lower is better, e.g. 0.20)>,
+  "shgc": <number or null - Solar Heat Gain Coefficient if listed>,
+  "glassPackage": <"single_pane" | "double_pane" | "triple_pane" | null>,
   "lowE": <boolean or null - Low-E coating included>,
+  "argonFill": <boolean or null - argon gas fill mentioned>,
+  "manufacturerPin": <string or null - the QM/PIN code required for IRA tax credit claims starting 2025>,
   "city": <string or null - city from the quote>,
   "stateCode": <string or null - 2-letter state code>,
+  "depositPercent": <number or null - deposit % required up front>,
+  "warrantyTransferable": <boolean or null - is warranty transferable to next owner>,
+  "warrantyTransferLimit": <number or null - max number of transfers (1 = once only, which is a red flag)>,
   "lineItems": [
     {
       "description": <string - line item description>,
@@ -155,45 +166,81 @@ Return this exact JSON structure:
     }
   ],
   "scopeItems": {
-    "laborRate": <"yes" | "no" | "unclear" - labor rate clearly stated>,
-    "partsItemized": <"yes" | "no" | "unclear" - windows and parts listed individually>,
-    "permit": <"yes" | "no" | "unclear" - permits included>,
-    "warranty": <"yes" | "no" | "unclear" - warranty terms stated>,
-    "cleanup": <"yes" | "no" | "unclear" - debris removal/cleanup>,
+    "windowSpec": <"yes" | "no" | "unclear" - exact brand/model/line specified, NOT just "premium vinyl">,
+    "uFactorListed": <"yes" | "no" | "unclear" - U-factor explicitly stated>,
+    "shgcListed": <"yes" | "no" | "unclear" - SHGC explicitly stated>,
+    "energyStar": <"yes" | "no" | "unclear" - ENERGY STAR rating noted>,
+    "installMethod": <"yes" | "no" | "unclear" - pocket vs full-frame explicitly stated>,
+    "permit": <"yes" | "no" | "unclear" - permit fee included or noted>,
+    "disposal": <"yes" | "no" | "unclear" - old window haul-off included>,
+    "capping": <"yes" | "no" | "unclear" - exterior aluminum capping included>,
+    "trimWrap": <"yes" | "no" | "unclear" - interior trim restoration included>,
+    "warranty": <"yes" | "no" | "unclear" - warranty terms stated in writing>,
+    "warrantyTransferable": <"yes" | "no" | "unclear">,
+    "laborWarranty": <"yes" | "no" | "unclear" - labor covered, not just glass/parts>,
     "timeline": <"yes" | "no" | "unclear" - project schedule stated>,
-    "windowType": <"yes" | "no" | "unclear" - window type/material specified>,
-    "energyStar": <"yes" | "no" | "unclear" - ENERGY STAR rating noted>
+    "writtenScope": <"yes" | "no" | "unclear" - all scope items in writing on the quote>
   },
   "warrantyFrame": <string or null - frame warranty duration>,
   "warrantyGlass": <string or null - glass warranty duration>,
   "warrantyLabor": <string or null - labor warranty duration>,
-  "possibleUpsells": [<string - potential upsell items>],
-  "redFlags": [<string - concerning items found>],
-  "summary": <string - brief plain-English summary of the quote>
+  "possibleUpsells": [<string - potential upsell items found in line items>],
+  "redFlags": [<string - concerning items found, see RED FLAG CATALOG below>],
+  "redFlagDetails": [
+    {
+      "name": <string - red flag short name from catalog below>,
+      "severity": <"critical" | "high" | "medium">,
+      "evidence": <string - the exact phrase from the quote that triggered it>,
+      "explanation": <string - one sentence why this is a problem>
+    }
+  ],
+  "summary": <string - 2 to 4 sentence plain-English verdict that ALWAYS references the actual price and explains WHY it's fair, high, or low. Compare against typical ranges for the brand tier, frame, and region. Never just say "above average" - say "above average for vinyl in this region, likely because the quote includes Renewal by Andersen which carries a premium markup">
 }
 
 CRITICAL EXTRACTION RULES:
 - ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
 - If you cannot find an explicit total, SUM the individual line item amounts.
-- redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
+- perWindowPrice: compute totalPrice / windowCount when both are known. This is the single most useful comparison number.
+- brandTier rules: Window World, Atrium, Alside Sheffield, Jeld-Wen Builders Vinyl = "value". Simonton, Milgard Style/Trinsic/Tuscany, Pella 250/350, Andersen 100, Alside Mezzo = "mid". Marvin Essential/Elevate, Pella Lifestyle, Andersen 200/400, ProVia, Soft-Lite Imperial, Milgard Ultra = "premium". Andersen A-Series, Pella Reserve/Architect, Marvin Signature, Renewal by Andersen = "luxury".
+- energyStarMostEfficient: this is the FEDERAL TAX CREDIT qualifying tier. Most quotes will say "ENERGY STAR" but not "Most Efficient". Only mark true if explicitly stated.
+- installMethod: look for "pocket" / "insert" / "retrofit" (= pocket) vs "full frame" / "new construction" / "tear-out" / "complete reframe" (= full_frame). Full-frame is +40 to +100% more.
 - Never return null for a price field if there are dollar amounts visible anywhere in the document.
 
-- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.
+RED FLAG CATALOG (scan for these specific patterns and add a redFlagDetails entry with the exact evidence quote):
 
-Rules:
-- totalPrice: Use the grand total / bottom line, not sum of line items
-- Mark scopeItems "yes" only if clearly present in the quote
-- redFlags: Include if any of the following are detected:
-  * No ENERGY STAR certification for new windows
-  * No permit mentioned for structural window changes (resizing, new openings)
-  * Single-pane glass quoted (outdated, poor insulation)
-  * No Low-E coating on replacement windows
-  * No cleanup/disposal of old windows included
-  * Warranty is manufacturer-only with no labor coverage
-  * Price per window seems unusually high or low for the material type
-  * Any other suspicious or concerning items
-- possibleUpsells: Flag triple-pane upgrades, argon gas fill, custom grids, exterior capping, smart glass
-- Return ONLY the JSON object, nothing else`
+CRITICAL severity:
+- "today_only_pressure": phrases like "today only" "valid today" "expires tonight" "if you sign now" "good only if signed today" "drop down to" "manager-approved discount" — high-pressure sales tactic, never real urgency
+- "deferred_interest_balloon": "no interest for 24 months" / "interest accrues from day one" / promotional financing with retroactive interest
+- "lifetime_voids_on_maintenance": warranty fine print like "voids if not cleaned annually" / "voids if painted" / "void if any modification"
+- "warranty_one_transfer": "transferable once" / "one transfer only" / "limited to original owner plus one transfer" — second owner gets nothing
+- "missing_window_spec": no brand name, no model number, just "premium vinyl" or "high quality windows" — buyer cannot verify what they're getting
+- "missing_u_factor": quote does not list U-factor or SHGC anywhere — these are federally required label values
+
+HIGH severity:
+- "free_install_inversion": "free installation when you buy 5 windows" / "$0 install" — windows are marked up to cover labor, total often higher
+- "subcontractor_handoff": company will assign install to a different crew or partner — quality control gap
+- "surprise_disposal_fee": disposal listed as a separate or "additional" fee, not in base price
+- "permit_excluded": "permit not included" / "permit fees by owner"
+- "excessive_deposit": deposit > 33% of total before any work
+- "vague_timeline": "we'll get to you in a few weeks" / "schedule TBD" — no committed start date
+- "unwritten_scope": verbal promises mentioned but not on the quote sheet
+- "out_of_state_company": address out of state with no local presence, or door-to-door
+- "not_energy_star": no ENERGY STAR mention for windows installed in 2026
+- "single_pane_quoted": quote includes any single-pane windows
+- "brand_premium_markup": Renewal by Andersen, Champion, or known premium-markup brands quoted at 2x+ the equivalent installer price for similar specs
+
+MEDIUM severity:
+- "missing_install_method": doesn't specify pocket vs full-frame replacement
+- "missing_capping": exterior trim capping not mentioned (especially for vinyl over wood)
+- "no_low_e": no Low-E coating mentioned for any window
+- "no_argon_fill": no gas fill mentioned (modest energy impact)
+- "no_labor_warranty": warranty covers parts/glass only, not labor
+
+For each red flag found, populate redFlagDetails with the name, severity, the exact evidence phrase from the quote, and a one-sentence explanation. If a red flag from the catalog above is NOT found, do not include it.
+
+- redFlags: ALWAYS identify at least one concern. Even good quotes usually have something to flag.
+- summary: 2 to 4 sentences. Reference the actual price, the brand tier you identified, and the most important takeaway.
+- Return ONLY the JSON object, nothing else.`
     });
 
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -228,7 +275,7 @@ Rules:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("windows", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("windows:v2-deepdive", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
