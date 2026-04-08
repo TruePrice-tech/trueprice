@@ -101,14 +101,145 @@ var rEl=document.getElementById("results"),cEl=document.getElementById("resultCo
 function fmt(n){return "$"+Math.round(n).toLocaleString();}
 function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
 
+// Lay-term synonym map. When a user types a layperson phrase that doesn't
+// match any procedure description directly, we expand to these keywords
+// and re-search. Curated for the most common queries; the AI fallback can
+// come later if usage justifies it (see /api/analytics events).
+var SYNONYMS = {
+  "broken arm":["x-ray","wound repair","fracture","er visit"],
+  "broken leg":["x-ray","wound repair","er visit"],
+  "broken bone":["x-ray","wound repair","er visit"],
+  "fracture":["x-ray","wound repair"],
+  "stitches":["wound repair"],
+  "cut":["wound repair","skin biopsy"],
+  "laceration":["wound repair"],
+  "checkup":["preventive","established visit"],
+  "annual":["preventive"],
+  "physical":["preventive","established visit"],
+  "wellness":["preventive"],
+  "blood work":["cbc","metabolic","lipid","comprehensive"],
+  "blood test":["cbc","metabolic","lipid","tsh"],
+  "cholesterol":["lipid"],
+  "thyroid":["tsh"],
+  "diabetes":["a1c","glucose"],
+  "sugar":["glucose","a1c"],
+  "vitamin d":["vitamin d"],
+  "iron":["ferritin"],
+  "prostate":["psa"],
+  "uti":["urinalysis","urine culture"],
+  "bladder":["urinalysis","cystoscopy"],
+  "urine":["urinalysis"],
+  "pregnancy":["pregnant","ob","prenatal"],
+  "ultrasound":["ultrasound","us "],
+  "mri":["mri"],
+  "ct scan":["ct "],
+  "x-ray":["x-ray"],
+  "xray":["x-ray"],
+  "mammogram":["mammo"],
+  "colonoscopy":["colonoscopy"],
+  "endoscopy":["egd"],
+  "knee":["knee"],
+  "hip":["hip"],
+  "back pain":["mri lumbar","epidural"],
+  "back surgery":["lumbar","cervical fusion"],
+  "neck":["mri cervical"],
+  "shoulder":["shoulder"],
+  "ankle":["ankle"],
+  "wrist":["hand x-ray"],
+  "heart attack":["er visit","cardiac","ekg"],
+  "chest pain":["ekg","chest x-ray"],
+  "ekg":["ekg"],
+  "echo":["echocardiogram"],
+  "stress test":["nuclear stress"],
+  "covid":["covid"],
+  "flu test":["influenza"],
+  "strep":["urine culture"],
+  "therapy":["psychotherapy"],
+  "counseling":["psychotherapy"],
+  "depression":["psychotherapy","psychiatric"],
+  "anxiety":["psychotherapy","psychiatric"],
+  "physical therapy":["pt eval","therapeutic","manual therapy"],
+  "pt":["pt eval","therapeutic"],
+  "cataract":["cataract"],
+  "appendicitis":["appendectomy","er visit"],
+  "appendix":["appendectomy"],
+  "gallbladder":["cholecystectomy"],
+  "hernia":["hernia"],
+  "knee replacement":["knee replacement"],
+  "hip replacement":["hip replacement"],
+  "c-section":["cesarean"],
+  "csection":["cesarean"],
+  "epidural":["epidural"],
+  "delivery":["delivery","ob care","cesarean"],
+  "baby":["delivery","ob care","fetal"],
+  "labor":["epidural anesthesia","delivery"],
+  "biopsy":["biopsy"],
+  "skin tag":["skin biopsy"],
+  "mole":["skin biopsy"],
+  "shot":["injection"],
+  "iv":["iv "],
+  "infusion":["iv infusion"],
+  "anesthesia":["anesthesia"],
+  "telehealth":["phone e&m"],
+  "video visit":["phone e&m"],
+  "tooth":["crown","root canal","extraction"],
+  "dental":["crown","root canal","extraction"],
+  "root canal":["root canal"]
+};
+
+function expandWithSynonyms(q){
+  var ql=q.toLowerCase().trim();
+  if(SYNONYMS[ql])return SYNONYMS[ql];
+  for(var k in SYNONYMS){
+    if(ql.indexOf(k)>-1)return SYNONYMS[k];
+  }
+  return null;
+}
+
+// Lightweight usage metrics. Pings /api/analytics so we can see how
+// often this page (and pages like it) are actually used and what users
+// search for. Read with: redis.lrange("tp:events", 0, -1)
+function trackEvent(event, meta){
+  try{
+    fetch("/api/analytics",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({type:"event",event:event,meta:meta||{},path:"/medical-cost-lookup.html"}),
+      keepalive:true}).catch(function(){});
+  }catch(e){}
+}
+trackEvent("medical_lookup_view");
+
 function doSearch(){
   var q=sEl.value.trim().toLowerCase(),st=stEl.value,fc=fEl.value;
   if(q.length<2){rEl.innerHTML='<div class="mcl-empty">Type at least 2 characters to search 146 procedures.</div>';cEl.textContent="";return;}
   var sm=st&&STATES[st]?STATES[st]:1.0,cm=st&&COM[st]?COM[st]:2.54,fm=typeof FAC[fc]==="number"?FAC[fc]:1.0;
-  var matches=[];
+  var matches=[],usedSynonym=null;
   for(var code in CPT){var c=CPT[code];if(c.description.toLowerCase().indexOf(q)>-1||code.indexOf(q)>-1)matches.push({code:code,d:c});}
-  if(!matches.length){rEl.innerHTML='<div class="mcl-empty">No procedures found.</div>';cEl.textContent="";return;}
-  cEl.textContent=matches.length+" procedure"+(matches.length!==1?"s":"")+" found";
+  // Synonym fallback for lay-term queries (e.g. "broken arm" -> X-ray + wound repair)
+  if(!matches.length){
+    var syns=expandWithSynonyms(q);
+    if(syns&&syns.length){
+      usedSynonym=syns;
+      var seen={};
+      for(var code2 in CPT){
+        var c2=CPT[code2];
+        for(var i=0;i<syns.length;i++){
+          if(c2.description.toLowerCase().indexOf(syns[i])>-1&&!seen[code2]){
+            matches.push({code:code2,d:c2});
+            seen[code2]=1;
+            break;
+          }
+        }
+      }
+    }
+  }
+  // Track every search so we can see what people actually type
+  trackEvent("medical_lookup_search",{q:q.substring(0,100),matches:matches.length,synonym:!!usedSynonym});
+  if(!matches.length){rEl.innerHTML='<div class="mcl-empty">No procedures found. Try a CPT code or a procedure name like "MRI brain" or "colonoscopy".</div>';cEl.textContent="";return;}
+  if(usedSynonym){
+    cEl.innerHTML='<span style="color:#0d9488;font-weight:600;">We think you mean...</span> '+matches.length+" procedure"+(matches.length!==1?"s":"")+' that may match "'+esc(q)+'"';
+  } else {
+    cEl.textContent=matches.length+" procedure"+(matches.length!==1?"s":"")+" found";
+  }
   var h="";
   matches.slice(0,30).forEach(function(m){
     var c=m.d,med=Math.round(c.medicareRate*sm*fm),com=Math.round(c.medicareRate*cm),lo=med,hi=Math.round(com*1.1);
