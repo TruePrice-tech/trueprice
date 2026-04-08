@@ -55,11 +55,15 @@
       gap: 18px;
     }
     .cqp-card {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 22px 18px;
+      padding: 20px 16px 18px;
       text-decoration: none;
       color: inherit;
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
@@ -71,9 +75,9 @@
       text-decoration: none;
     }
     .cqp-card, .cqp-card * { text-decoration: none !important; }
-    .cqp-icon { font-size: 30px; line-height: 1; margin-bottom: 10px; }
-    .cqp-name { font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--text); }
-    .cqp-desc { font-size: 13px; color: var(--text-secondary); margin: 0; }
+    .cqp-icon { width: 72px; height: 72px; object-fit: contain; display: block; margin: 0 auto 6px; background: transparent; }
+    .cqp-name { font-size: 16px; font-weight: 700; margin: 0 0 2px; color: #0f172a; }
+    .cqp-desc { font-size: 13px; color: #64748b; margin: 0; line-height: 1.4; }
 
     @media (max-width: 1024px) {
       .cqp-grid { grid-template-columns: repeat(3, 1fr); }
@@ -108,102 +112,102 @@
 
       <div class="cqp-grid">
         <a class="cqp-card" href="/compare-roofing-quotes.html">
-          <div class="cqp-icon">&#127968;</div>
+          <img class="cqp-icon" src="/images/trudy-roofing.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Roofing</p>
           <p class="cqp-desc">Compare roofing quotes</p>
         </a>
         <a class="cqp-card" href="/compare-hvac-quotes.html">
-          <div class="cqp-icon">&#10052;&#65039;</div>
+          <img class="cqp-icon" src="/images/trudy-hvac.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">HVAC</p>
           <p class="cqp-desc">Compare HVAC quotes</p>
         </a>
         <a class="cqp-card" href="/compare-plumbing-quotes.html">
-          <div class="cqp-icon">&#128688;</div>
+          <img class="cqp-icon" src="/images/trudy-plumbing.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Plumbing</p>
           <p class="cqp-desc">Compare plumbing quotes</p>
         </a>
         <a class="cqp-card" href="/compare-electrical-quotes.html">
-          <div class="cqp-icon">&#9889;</div>
+          <img class="cqp-icon" src="/images/trudy-electrical.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Electrical</p>
           <p class="cqp-desc">Compare electrical quotes</p>
         </a>
         <a class="cqp-card" href="/compare-solar-quotes.html">
-          <div class="cqp-icon">&#9728;&#65039;</div>
+          <img class="cqp-icon" src="/images/trudy-solar.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Solar</p>
           <p class="cqp-desc">Compare solar quotes</p>
         </a>
         <a class="cqp-card" href="/compare-windows-quotes.html">
-          <div class="cqp-icon">&#129683;</div>
+          <img class="cqp-icon" src="/images/trudy-windows.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Windows</p>
           <p class="cqp-desc">Compare window quotes</p>
         </a>
         <a class="cqp-card" href="/compare-siding-quotes.html">
-          <div class="cqp-icon">&#127969;</div>
+          <img class="cqp-icon" src="/images/trudy-siding.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Siding</p>
           <p class="cqp-desc">Compare siding quotes</p>
         </a>
         <a class="cqp-card" href="/compare-painting-quotes.html">
-          <div class="cqp-icon">&#127912;</div>
+          <img class="cqp-icon" src="/images/trudy-painting.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Painting</p>
           <p class="cqp-desc">Compare painting quotes</p>
         </a>
         <a class="cqp-card" href="/compare-concrete-quotes.html">
-          <div class="cqp-icon">&#129683;</div>
+          <img class="cqp-icon" src="/images/trudy-concrete.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Concrete</p>
           <p class="cqp-desc">Compare concrete quotes</p>
         </a>
         <a class="cqp-card" href="/compare-foundation-quotes.html">
-          <div class="cqp-icon">&#127959;&#65039;</div>
+          <img class="cqp-icon" src="/images/trudy-foundation.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Foundation</p>
           <p class="cqp-desc">Compare foundation quotes</p>
         </a>
         <a class="cqp-card" href="/compare-fencing-quotes.html">
-          <div class="cqp-icon">&#129687;</div>
+          <img class="cqp-icon" src="/images/trudy-fencing.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Fencing</p>
           <p class="cqp-desc">Compare fencing quotes</p>
         </a>
         <a class="cqp-card" href="/compare-gutters-quotes.html">
-          <div class="cqp-icon">&#128167;</div>
+          <img class="cqp-icon" src="/images/trudy-gutters.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Gutters</p>
           <p class="cqp-desc">Compare gutter quotes</p>
         </a>
         <a class="cqp-card" href="/compare-insulation-quotes.html">
-          <div class="cqp-icon">&#129532;</div>
+          <img class="cqp-icon" src="/images/trudy-insulation.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Insulation</p>
           <p class="cqp-desc">Compare insulation quotes</p>
         </a>
         <a class="cqp-card" href="/compare-kitchen-quotes.html">
-          <div class="cqp-icon">&#127859;</div>
+          <img class="cqp-icon" src="/images/trudy-kitchen.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Kitchen</p>
           <p class="cqp-desc">Compare kitchen remodel quotes</p>
         </a>
         <a class="cqp-card" href="/compare-landscaping-quotes.html">
-          <div class="cqp-icon">&#127795;</div>
+          <img class="cqp-icon" src="/images/trudy-landscaping.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Landscaping</p>
           <p class="cqp-desc">Compare landscaping quotes</p>
         </a>
         <a class="cqp-card" href="/compare-garage-door-quotes.html">
-          <div class="cqp-icon">&#128663;</div>
+          <img class="cqp-icon" src="/images/trudy-garage.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Garage Door</p>
           <p class="cqp-desc">Compare garage door quotes</p>
         </a>
         <a class="cqp-card" href="/compare-auto-quotes.html">
-          <div class="cqp-icon">&#128295;</div>
+          <img class="cqp-icon" src="/images/trudy-auto.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Auto Repair</p>
           <p class="cqp-desc">Compare mechanic quotes</p>
         </a>
         <a class="cqp-card" href="/compare-moving-quotes.html">
-          <div class="cqp-icon">&#128230;</div>
+          <img class="cqp-icon" src="/images/trudy-moving.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Moving</p>
           <p class="cqp-desc">Compare moving quotes</p>
         </a>
         <a class="cqp-card" href="/compare-medical-quotes.html">
-          <div class="cqp-icon">&#129658;</div>
+          <img class="cqp-icon" src="/images/trudy-medical.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Medical</p>
           <p class="cqp-desc">Compare medical bills</p>
         </a>
         <a class="cqp-card" href="/compare-legal-quotes.html">
-          <div class="cqp-icon">&#9878;&#65039;</div>
+          <img class="cqp-icon" src="/images/trudy-legal.png?v=3" alt="" loading="lazy" />
           <p class="cqp-name">Legal</p>
           <p class="cqp-desc">Compare attorney fees</p>
         </a>

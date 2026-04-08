@@ -63,8 +63,10 @@
     .est-card {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      padding: 1.25rem 1.1rem;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+      padding: 20px 16px 18px;
       background: #fff;
       border: 1px solid #e2e8f0;
       border-radius: 16px;
@@ -79,9 +81,9 @@
       text-decoration: none;
     }
     .est-card, .est-card * { text-decoration: none !important; }
-    .est-card .est-icon { font-size: 1.75rem; line-height: 1; }
-    .est-card .est-name { font-size: 1.05rem; font-weight: 600; color: #0f172a; }
-    .est-card .est-desc { font-size: 0.875rem; color: #64748b; line-height: 1.35; }
+    .est-card .est-icon { width: 72px; height: 72px; object-fit: contain; margin: 0 auto 6px; display: block; background: transparent; }
+    .est-card .est-name { font-size: 16px; font-weight: 700; color: #0f172a; margin: 0 0 2px; }
+    .est-card .est-desc { font-size: 13px; color: #64748b; line-height: 1.4; margin: 0; }
 
     @media (max-width: 1000px) {
       .est-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -118,104 +120,104 @@
 
       <div class="est-grid">
         <a class="est-card" href="/photo-estimate.html">
-          <div class="est-icon">🏠</div>
-          <div class="est-name">Roofing</div>
-          <div class="est-desc">Replace, repair, or new roof</div>
+          <img class="est-icon" src="/images/trudy-roofing.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Roofing</p>
+          <p class="est-desc">Replace, repair, or new roof</p>
         </a>
         <a class="est-card" href="/hvac-estimate.html">
-          <div class="est-icon">❄️</div>
-          <div class="est-name">HVAC</div>
-          <div class="est-desc">Furnace, AC, heat pump install</div>
+          <img class="est-icon" src="/images/trudy-hvac.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">HVAC</p>
+          <p class="est-desc">Furnace, AC, heat pump install</p>
         </a>
         <a class="est-card" href="/plumbing-estimate.html">
-          <div class="est-icon">🔧</div>
-          <div class="est-name">Plumbing</div>
-          <div class="est-desc">Water heater, pipes, fixtures</div>
+          <img class="est-icon" src="/images/trudy-plumbing.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Plumbing</p>
+          <p class="est-desc">Water heater, pipes, fixtures</p>
         </a>
         <a class="est-card" href="/electrical-estimate.html">
-          <div class="est-icon">⚡</div>
-          <div class="est-name">Electrical</div>
-          <div class="est-desc">Panel, wiring, outlets</div>
+          <img class="est-icon" src="/images/trudy-electrical.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Electrical</p>
+          <p class="est-desc">Panel, wiring, outlets</p>
         </a>
         <a class="est-card" href="/solar-estimate.html">
-          <div class="est-icon">☀️</div>
-          <div class="est-name">Solar</div>
-          <div class="est-desc">Solar panel install</div>
+          <img class="est-icon" src="/images/trudy-solar.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Solar</p>
+          <p class="est-desc">Solar panel install</p>
         </a>
         <a class="est-card" href="/window-estimate.html">
-          <div class="est-icon">🪟</div>
-          <div class="est-name">Windows</div>
-          <div class="est-desc">Replacement windows</div>
+          <img class="est-icon" src="/images/trudy-windows.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Windows</p>
+          <p class="est-desc">Replacement windows</p>
         </a>
         <a class="est-card" href="/siding-estimate.html">
-          <div class="est-icon">🏘️</div>
-          <div class="est-name">Siding</div>
-          <div class="est-desc">Vinyl, fiber cement, wood</div>
+          <img class="est-icon" src="/images/trudy-siding.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Siding</p>
+          <p class="est-desc">Vinyl, fiber cement, wood</p>
         </a>
         <a class="est-card" href="/painting-estimate.html">
-          <div class="est-icon">🎨</div>
-          <div class="est-name">Painting</div>
-          <div class="est-desc">Interior or exterior paint</div>
+          <img class="est-icon" src="/images/trudy-painting.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Painting</p>
+          <p class="est-desc">Interior or exterior paint</p>
         </a>
         <a class="est-card" href="/concrete-estimate.html">
-          <div class="est-icon">🧱</div>
-          <div class="est-name">Concrete</div>
-          <div class="est-desc">Driveway, patio, slab</div>
+          <img class="est-icon" src="/images/trudy-concrete.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Concrete</p>
+          <p class="est-desc">Driveway, patio, slab</p>
         </a>
         <a class="est-card" href="/foundation-estimate.html">
-          <div class="est-icon">🏗️</div>
-          <div class="est-name">Foundation</div>
-          <div class="est-desc">Settling, cracks, piers</div>
+          <img class="est-icon" src="/images/trudy-foundation.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Foundation</p>
+          <p class="est-desc">Settling, cracks, piers</p>
         </a>
         <a class="est-card" href="/fencing-estimate.html">
-          <div class="est-icon">🚧</div>
-          <div class="est-name">Fencing</div>
-          <div class="est-desc">Wood, vinyl, chain link</div>
+          <img class="est-icon" src="/images/trudy-fencing.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Fencing</p>
+          <p class="est-desc">Wood, vinyl, chain link</p>
         </a>
         <a class="est-card" href="/gutters-estimate.html">
-          <div class="est-icon">🌧️</div>
-          <div class="est-name">Gutters</div>
-          <div class="est-desc">Seamless gutter install</div>
+          <img class="est-icon" src="/images/trudy-gutters.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Gutters</p>
+          <p class="est-desc">Seamless gutter install</p>
         </a>
         <a class="est-card" href="/insulation-estimate.html">
-          <div class="est-icon">🧊</div>
-          <div class="est-name">Insulation</div>
-          <div class="est-desc">Attic, walls, blown-in</div>
+          <img class="est-icon" src="/images/trudy-insulation.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Insulation</p>
+          <p class="est-desc">Attic, walls, blown-in</p>
         </a>
         <a class="est-card" href="/kitchen-estimate.html">
-          <div class="est-icon">🍳</div>
-          <div class="est-name">Kitchen</div>
-          <div class="est-desc">Remodel or refresh</div>
+          <img class="est-icon" src="/images/trudy-kitchen.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Kitchen</p>
+          <p class="est-desc">Remodel or refresh</p>
         </a>
         <a class="est-card" href="/landscaping-estimate.html">
-          <div class="est-icon">🌿</div>
-          <div class="est-name">Landscaping</div>
-          <div class="est-desc">Sod, plants, hardscape</div>
+          <img class="est-icon" src="/images/trudy-landscaping.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Landscaping</p>
+          <p class="est-desc">Sod, plants, hardscape</p>
         </a>
         <a class="est-card" href="/garage-door-estimate.html">
-          <div class="est-icon">🚪</div>
-          <div class="est-name">Garage Door</div>
-          <div class="est-desc">Door + opener install</div>
+          <img class="est-icon" src="/images/trudy-garage.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Garage Door</p>
+          <p class="est-desc">Door + opener install</p>
         </a>
         <a class="est-card" href="/auto-repair.html?path=estimate">
-          <div class="est-icon">🚗</div>
-          <div class="est-name">Auto Repair</div>
-          <div class="est-desc">Mechanic shop estimate</div>
+          <img class="est-icon" src="/images/trudy-auto.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Auto Repair</p>
+          <p class="est-desc">Mechanic shop estimate</p>
         </a>
         <a class="est-card" href="/moving-quote-analyzer.html?path=estimate">
-          <div class="est-icon">📦</div>
-          <div class="est-name">Moving</div>
-          <div class="est-desc">Local or long distance</div>
+          <img class="est-icon" src="/images/trudy-moving.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Moving</p>
+          <p class="est-desc">Local or long distance</p>
         </a>
         <a class="est-card" href="/medical-cost-lookup.html">
-          <div class="est-icon">&#129658;</div>
-          <div class="est-name">Medical</div>
-          <div class="est-desc">Look up procedure cost by CPT</div>
+          <img class="est-icon" src="/images/trudy-medical.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Medical</p>
+          <p class="est-desc">Look up procedure cost by CPT</p>
         </a>
         <a class="est-card" href="/legal-fee-analyzer.html?path=estimate">
-          <div class="est-icon">⚖️</div>
-          <div class="est-name">Legal</div>
-          <div class="est-desc">Attorney fee estimate</div>
+          <img class="est-icon" src="/images/trudy-legal.png?v=3" alt="" loading="lazy" />
+          <p class="est-name">Legal</p>
+          <p class="est-desc">Attorney fee estimate</p>
         </a>
       </div>
     </div>

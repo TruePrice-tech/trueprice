@@ -50,11 +50,15 @@
       gap:16px;
     }
     .amq-card {
-      display:block;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap:4px;
       background:#fff;
       border:1px solid #e2e8f0;
       border-radius:16px;
-      padding:20px 18px;
+      padding:20px 16px 18px;
       text-decoration:none;
       color:inherit;
       transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
@@ -66,8 +70,8 @@
       text-decoration: none;
     }
     .amq-card, .amq-card * { text-decoration: none !important; }
-    .amq-icon { font-size:28px; line-height:1; margin-bottom:10px; }
-    .amq-name { font-size:16px; font-weight:700; color:#0f172a; margin:0 0 4px; }
+    .amq-icon { width:72px; height:72px; object-fit:contain; display:block; margin:0 auto 6px; background:transparent; }
+    .amq-name { font-size:16px; font-weight:700; color:#0f172a; margin:0 0 2px; }
     .amq-desc { font-size:13px; color:#64748b; margin:0; line-height:1.4; }
     @media (max-width: 1024px) {
       .amq-grid { grid-template-columns: repeat(3, 1fr); }
@@ -102,102 +106,102 @@
     <section class="amq-grid-wrap">
       <div class="amq-grid">
         <a class="amq-card" href="/roofing-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🏠</div>
+          <img class="amq-icon" src="/images/trudy-roofing.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Roofing</p>
           <p class="amq-desc">Upload a roofing quote</p>
         </a>
         <a class="amq-card" href="/hvac-quote-analyzer.html?path=quote">
-          <div class="amq-icon">❄️</div>
+          <img class="amq-icon" src="/images/trudy-hvac.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">HVAC</p>
           <p class="amq-desc">Upload an HVAC quote</p>
         </a>
         <a class="amq-card" href="/plumbing-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🚰</div>
+          <img class="amq-icon" src="/images/trudy-plumbing.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Plumbing</p>
           <p class="amq-desc">Upload a plumbing quote</p>
         </a>
         <a class="amq-card" href="/electrical-quote-analyzer.html?path=quote">
-          <div class="amq-icon">⚡</div>
+          <img class="amq-icon" src="/images/trudy-electrical.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Electrical</p>
           <p class="amq-desc">Upload an electrical quote</p>
         </a>
         <a class="amq-card" href="/solar-quote-analyzer.html?path=quote">
-          <div class="amq-icon">☀️</div>
+          <img class="amq-icon" src="/images/trudy-solar.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Solar</p>
           <p class="amq-desc">Upload a solar quote</p>
         </a>
         <a class="amq-card" href="/window-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🪟</div>
+          <img class="amq-icon" src="/images/trudy-windows.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Windows</p>
           <p class="amq-desc">Upload a window quote</p>
         </a>
         <a class="amq-card" href="/siding-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🧱</div>
+          <img class="amq-icon" src="/images/trudy-siding.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Siding</p>
           <p class="amq-desc">Upload a siding quote</p>
         </a>
         <a class="amq-card" href="/painting-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🎨</div>
+          <img class="amq-icon" src="/images/trudy-painting.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Painting</p>
           <p class="amq-desc">Upload a painting quote</p>
         </a>
         <a class="amq-card" href="/concrete-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🪨</div>
+          <img class="amq-icon" src="/images/trudy-concrete.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Concrete</p>
           <p class="amq-desc">Upload a concrete quote</p>
         </a>
         <a class="amq-card" href="/foundation-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🏗️</div>
+          <img class="amq-icon" src="/images/trudy-foundation.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Foundation</p>
           <p class="amq-desc">Upload a foundation quote</p>
         </a>
         <a class="amq-card" href="/fencing-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🪵</div>
+          <img class="amq-icon" src="/images/trudy-fencing.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Fencing</p>
           <p class="amq-desc">Upload a fence quote</p>
         </a>
         <a class="amq-card" href="/gutters-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🌧️</div>
+          <img class="amq-icon" src="/images/trudy-gutters.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Gutters</p>
           <p class="amq-desc">Upload a gutter quote</p>
         </a>
         <a class="amq-card" href="/insulation-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🧊</div>
+          <img class="amq-icon" src="/images/trudy-insulation.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Insulation</p>
           <p class="amq-desc">Upload an insulation quote</p>
         </a>
         <a class="amq-card" href="/kitchen-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🍳</div>
+          <img class="amq-icon" src="/images/trudy-kitchen.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Kitchen</p>
           <p class="amq-desc">Upload a kitchen remodel quote</p>
         </a>
         <a class="amq-card" href="/landscaping-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🌿</div>
+          <img class="amq-icon" src="/images/trudy-landscaping.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Landscaping</p>
           <p class="amq-desc">Upload a landscaping quote</p>
         </a>
         <a class="amq-card" href="/garage-door-quote-analyzer.html?path=quote">
-          <div class="amq-icon">🚪</div>
+          <img class="amq-icon" src="/images/trudy-garage.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Garage Door</p>
           <p class="amq-desc">Upload a garage door quote</p>
         </a>
         <a class="amq-card" href="/auto-repair.html?path=quote">
-          <div class="amq-icon">🔧</div>
+          <img class="amq-icon" src="/images/trudy-auto.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Auto Repair</p>
           <p class="amq-desc">Upload a mechanic quote</p>
         </a>
         <a class="amq-card" href="/moving-quote-analyzer.html?path=quote">
-          <div class="amq-icon">📦</div>
+          <img class="amq-icon" src="/images/trudy-moving.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Moving</p>
           <p class="amq-desc">Upload a moving quote or paste URL</p>
         </a>
         <a class="amq-card" href="/medical-bill-analyzer.html?path=quote">
-          <div class="amq-icon">🩺</div>
+          <img class="amq-icon" src="/images/trudy-medical.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Medical</p>
           <p class="amq-desc">Upload a medical bill or GFE</p>
         </a>
         <a class="amq-card" href="/legal-fee-analyzer.html?path=quote">
-          <div class="amq-icon">⚖️</div>
+          <img class="amq-icon" src="/images/trudy-legal.png?v=3" alt="" loading="lazy" />
           <p class="amq-name">Legal</p>
           <p class="amq-desc">Upload an attorney fee agreement</p>
         </a>
