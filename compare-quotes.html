@@ -1114,6 +1114,27 @@
       html += '<a class="cq-cta-btn cq-cta-secondary" href="/find-contractors.html">&#128269; Get more quotes from local contractors</a>';
       html += '<button class="cq-cta-btn cq-cta-outline" onclick="startOver()">&#8634; Start over</button>';
       html += '</div>';
+
+      // Standardized: Next Steps before signing
+      html += '<section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">';
+      html += '<h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>';
+      html += '<ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">';
+      html += '<li>Match scope line-by-line &mdash; "$2K cheaper" usually means missing items, not better value</li>';
+      html += '<li>Confirm warranty terms (materials, workmanship, length) on each quote</li>';
+      html += '<li>Check the contractor\'s license, insurance, and recent reviews before signing</li>';
+      html += '<li>Ask the lower-priced contractor to match the higher\'s scope &mdash; or explain the gap</li>';
+      html += '<li>Get every promised inclusion in writing before paying a deposit</li>';
+      html += '</ul>';
+      html += '</section>';
+
+      // Standardized: How we calculate
+      html += '<details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; margin:16px 0;">';
+      html += '<summary style="cursor:pointer; font-size:14px; font-weight:600; color:#475569;">How we compare these quotes</summary>';
+      html += '<div style="margin-top:10px; font-size:13px; color:#64748b; line-height:1.6;">';
+      html += 'We extract price, scope, material, and warranty from each quote, then compare them against TruePrice\'s pricing model covering 1,000+ U.S. cities. The "best value" recommendation factors in scope completeness, not just headline price. <a href="/methodology.html" style="color:#1d4ed8;">Read the full methodology &rarr;</a>';
+      html += '</div>';
+      html += '</details>';
+
       html += '<div style="text-align:center; margin-top:24px; padding:20px 16px; border-top:2px solid #e2e8f0; background:#f8fafc; border-radius:0 0 16px 16px;">';
       html += '<a href="https://truepricehq.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px; color:#64748b; font-size:14px;">';
       html += '<img src="/images/trudy-peeking.png" alt="Trudy" width="32" /> Powered by <strong style="color:#1e3a5f;">TruePrice</strong> <span style="color:#94a3b8;">|</span> <span style="color:#3b82f6;">truepricehq.com</span>';
@@ -1124,6 +1145,21 @@
       document.getElementById("uploadStep").style.display = "none";
       document.getElementById("resultsStep").classList.add("visible");
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Standardized: silent benchmark capture + opt-out footnote (Option C)
+      try {
+        var bestQuote = active.find(function(a) { return a.data && a.data.price > 0; }) || (active[0] || {});
+        if (bestQuote && bestQuote.data && typeof tpCaptureCommunity === "function") {
+          tpCaptureCommunity({
+            service: (window.SERVICE || "roofing"),
+            price: bestQuote.data.price,
+            city: bestQuote.data.city || "",
+            stateCode: bestQuote.data.stateCode || "",
+            material: bestQuote.data.material || "",
+            verdict: "compared"
+          });
+        }
+      } catch (e) {}
 
       // Auto-submit compare quotes to calibration
       active.forEach(function(a) {
@@ -1218,6 +1254,7 @@
     }
   })();
   </script>
+<script src="/js/community-capture.js" defer></script>
 <script src="/js/feedback-modal.js" defer></script>
 </body>
 </html>

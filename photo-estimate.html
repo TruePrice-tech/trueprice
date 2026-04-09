@@ -1225,6 +1225,22 @@
       try { window.scrollTo({ top: 0, behavior: "instant" }); } catch (e) { window.scrollTo(0, 0); }
       var svc = state.service;
 
+      // Standardized: silent benchmark capture + opt-out footnote (Option C)
+      try {
+        if (typeof tpCaptureCommunity === "function") {
+          var midPrice = (r.estimatedTotalLow && r.estimatedTotalHigh) ? Math.round((Number(r.estimatedTotalLow) + Number(r.estimatedTotalHigh)) / 2) : (r.estimatedTotal || r.totalPrice || 0);
+          tpCaptureCommunity({
+            service: svc || "roofing",
+            price: midPrice,
+            city: state.city || c.city || "",
+            stateCode: state.stateCode || c.stateCode || "",
+            material: c.material || r.material || "",
+            roofSize: c.roofSqFt || r.estimatedRoofSqFt || 0,
+            verdict: "photo_estimate"
+          });
+        }
+      } catch (e) {}
+
       var region = STATE_REGIONS[c.stateCode] || "south";
       var laborMult = state.cityMult || LABOR_MULT_BY_REGION[region] || 1.0;
       var rangeLow = state.cityRange ? state.cityRange.low : 0.82;
@@ -1594,6 +1610,7 @@
     render();
   })();
   </script>
+<script src="/js/community-capture.js" defer></script>
 <script src="/js/feedback-modal.js" defer></script>
 </body>
 </html>

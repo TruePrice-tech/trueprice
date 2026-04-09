@@ -10023,6 +10023,21 @@ function buildComparisonWinnerHtml(summary) {
       const r = window.__latestEstimatorResult;
       if (!r) return `<div style="max-width:800px; margin:40px auto; text-align:center;"><p>No estimate available.</p></div>`;
 
+      // Standardized: silent benchmark capture + opt-out footnote (Option C)
+      try {
+        if (typeof window.tpCaptureCommunity === "function") {
+          window.tpCaptureCommunity({
+            service: "roofing",
+            price: Number(r.mid || r.midpoint || ((Number(r.low||0) + Number(r.high||0))/2) || 0),
+            city: r.city || "",
+            stateCode: r.stateCode || "",
+            material: r.material || r.materialLabel || "",
+            roofSize: r.estimatedRoofSize || 0,
+            verdict: "estimate"
+          });
+        }
+      } catch (e) {}
+
       const fmtPrice = (n) => "$" + Number(n).toLocaleString();
       const cityState = [r.city, r.stateCode].filter(Boolean).join(", ");
       const isMultiStory = r.propertyType === "two_story" || r.propertyType === "townhome";
@@ -10185,6 +10200,26 @@ function buildComparisonWinnerHtml(summary) {
               Email me this estimate
             </a>
           </div>
+
+          <!-- Standardized: Next Steps before signing -->
+          <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
+            <h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>
+            <ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">
+              <li>Confirm tear-off scope &mdash; old shingles fully removed, not layered over</li>
+              <li>Ask for a written decking replacement allowance (e.g. "first 2 sheets included")</li>
+              <li>Verify drip edge, ice &amp; water shield, and starter strip are itemized</li>
+              <li>Ask if the warranty covers materials AND workmanship, and for how long</li>
+              <li>Confirm permit and disposal are included in the price</li>
+            </ul>
+          </section>
+
+          <!-- Standardized: How we calculate -->
+          <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; margin:16px 0;">
+            <summary style="cursor:pointer; font-size:14px; font-weight:600; color:#475569;">How we calculate this estimate</summary>
+            <div style="margin-top:10px; font-size:13px; color:#64748b; line-height:1.6;">
+              We measure your roof from satellite building data and compare against TruePrice's pricing model covering 1,000+ U.S. cities. Local benchmarks adjust for material, complexity, pitch, and condition. <a href="/methodology.html" style="color:#1d4ed8;">Read the full methodology &rarr;</a>
+            </div>
+          </details>
 
           <!-- CTAs -->
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
