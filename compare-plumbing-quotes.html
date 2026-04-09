@@ -447,7 +447,25 @@
       var spread = bestValue.score.total - Math.min.apply(null, active.map(function(a) { return a.score.total; }));
       var isTight = spread <= 5;
 
+      // Apples-to-oranges check: detect when uploaded quotes are for different
+      // job types (e.g. drain cleaning vs water heater install) and warn the
+      // user that the comparison is not directly meaningful.
+      var jobTypes = active.map(function(a) { return (a.data && a.data.jobType) || ""; }).filter(Boolean);
+      var uniqueJobTypes = jobTypes.filter(function(v, i, arr) { return arr.indexOf(v) === i; });
+      var mixedJobs = uniqueJobTypes.length >= 2;
+
       var html = "";
+      if (mixedJobs) {
+        html += '<div style="background:#fffbeb; border:2px solid #f59e0b; border-radius:14px; padding:18px 22px; margin-bottom:20px;">';
+        html += '<div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">';
+        html += '<span style="font-size:22px;">&#9888;&#65039;</span>';
+        html += '<strong style="color:#78350f; font-size:16px;">These quotes are for different jobs</strong>';
+        html += '</div>';
+        html += '<p style="margin:0; color:#78350f; font-size:14px; line-height:1.5;">';
+        html += 'We detected ' + uniqueJobTypes.length + ' different job types in your quotes (' + uniqueJobTypes.map(function(j) { return j.replace(/_/g, " "); }).join(", ") + '). A side-by-side comparison may not be apples-to-apples &mdash; the cheapest quote may be the cheapest because it covers a smaller scope of work. Re-upload quotes that cover the same job for a meaningful comparison.';
+        html += '</p>';
+        html += '</div>';
+      }
       html += '<div class="cmp-winner-banner">';
       html += '<img src="' + TRUDY + '" alt="Trudy" />';
       html += '<div>';
