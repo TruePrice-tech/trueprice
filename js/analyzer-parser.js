@@ -1177,6 +1177,47 @@ function titleCase(value) {
     .replace(/\b\w/g, ch => ch.toUpperCase());
 }
 
+// Extract a full property/job-site street address from a quote.
+// Conservative: only matches when an explicit label is present (Property
+// Information, Job Site, Service Address, etc.) so we don't accidentally
+// pick up the contractor's letterhead address.
+function extractPropertyAddress(text) {
+  const source = String(text || "");
+  if (!source) return null;
+
+  const streetSuffix = "(?:st|street|rd|road|ave|avenue|blvd|boulevard|dr|drive|ln|lane|ct|court|cir|circle|way|pkwy|parkway|pl|place|ter|terrace|hwy|highway|trl|trail|cv|cove|loop|run|row|sq|square)";
+  const stateAbbr = "(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)";
+
+  // Address core: number + street name + suffix, optional unit, then city, ST zip
+  const addressCore =
+    "(\\d{1,6}\\s+[A-Za-z0-9 .'#\\-]{2,60}?\\s+" + streetSuffix + "\\.?(?:\\s+(?:apt|unit|ste|suite|#)\\s*[A-Za-z0-9\\-]+)?)" +
+    "[\\s,]+([A-Za-z][A-Za-z .'\\-]{1,40}?)" +
+    "[\\s,]+" + stateAbbr +
+    "\\s+(\\d{5}(?:-\\d{4})?)";
+
+  const labelGroup = "(?:property\\s*(?:information|address|info|location)|job\\s*site|job\\s*address|service\\s*address|site\\s*address|project\\s*address|work\\s*site|work\\s*address|jobsite|job\\s*location|property)";
+  const labeledRe = new RegExp(labelGroup + "[\\s:\\-]*(?:[\\r\\n]+\\s*)?" + addressCore, "i");
+
+  const match = source.match(labeledRe);
+  if (!match) return null;
+
+  const street = String(match[1] || "").replace(/\s+/g, " ").trim();
+  const city = titleCase(String(match[2] || "").replace(/\s+/g, " ").trim());
+  const stateCode = String(match[3] || "").toUpperCase().trim();
+  const postalCode = String(match[4] || "").trim();
+
+  if (!street || !city || !stateCode || !postalCode) return null;
+  if (street.length < 6 || street.length > 100) return null;
+
+  return {
+    street,
+    city,
+    stateCode,
+    postalCode,
+    fullAddress: street + ", " + city + ", " + stateCode + " " + postalCode
+  };
+}
+
 function detectLocation(text) {
   const source = String(text || "");
   const compact = normalizeWhitespace(source);
@@ -2224,6 +2265,7 @@ function parseExtractedText(extractedText, options = {}) {
   const warrantyResult = detectWarranty(normalizedText);
   const roofSizeResult = detectRoofSize(normalizedText);
   const locationResult = detectLocation(normalizedText);
+  const propertyAddressResult = extractPropertyAddress(normalizedText);
   const signals = detectScopeSignals(normalizedText);
   const includedSignals = buildIncludedSignalList(signals);
   const missingSignals = buildMissingSignalList(signals);
@@ -2328,6 +2370,7 @@ function parseExtractedText(extractedText, options = {}) {
     contractor: detectContractor(normalizedText),
     city: locationResult?.city || "",
     stateCode: locationResult?.stateCode || "",
+    propertyAddress: propertyAddressResult || null,
     roofSize:
       roofSizeResult?.value !== undefined &&
       roofSizeResult?.value !== null &&

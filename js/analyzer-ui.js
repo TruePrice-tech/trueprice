@@ -4640,6 +4640,59 @@ function buildComparisonWinnerHtml(summary) {
         `;
       }
 
+      function renderRoofSizeAccuracyPrompt(a) {
+        if (!a) return "";
+        const src = String(a.roofSizeSource || "").toLowerCase();
+        const needsBetterSize = src === "price_based_estimate" || src === "unavailable" || src === "";
+        if (!needsBetterSize) return "";
+        // Don't show if user already gave us an address or roof size
+        if (a.roofSize && Number(a.roofSize) > 0 && src !== "price_based_estimate") return "";
+        if (localStorage.getItem("tp_dismissed_accuracy_prompt")) return "";
+
+        return `
+          <div id="roofAccuracyPrompt" style="padding:20px; background:#fffbeb; border:1px solid #fcd34d; border-radius:12px; margin-bottom:16px;">
+            <div style="font-size:16px; font-weight:700; margin-bottom:6px; color:#78350f;">Want a more accurate price check?</div>
+            <div style="font-size:14px; color:#78350f; margin-bottom:14px;">
+              We couldn&#39;t find your property address in the quote, so we estimated roof size from price. Enter your address (we&#39;ll measure your roof from satellite data) or your known roof size.
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+              <input id="accPromptAddress" type="text" placeholder="Property street address" style="flex:1; min-width:200px; padding:10px 12px; border:1px solid #fcd34d; border-radius:8px; font-size:14px; font-family:inherit;" />
+              <input id="accPromptZip" type="text" placeholder="ZIP" maxlength="10" style="width:90px; padding:10px 12px; border:1px solid #fcd34d; border-radius:8px; font-size:14px; font-family:inherit;" />
+            </div>
+            <div style="font-size:12px; color:#92400e; margin-bottom:10px; text-align:center;">&mdash; or &mdash;</div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+              <input id="accPromptRoofSize" type="number" placeholder="Roof size in sq ft (e.g. 1800)" min="100" max="20000" style="flex:1; min-width:200px; padding:10px 12px; border:1px solid #fcd34d; border-radius:8px; font-size:14px; font-family:inherit;" />
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn" onclick="submitAccuracyPrompt()" style="font-size:14px; padding:10px 18px;">Re-check my quote</button>
+              <button class="btn secondary" onclick="dismissAccuracyPrompt()" style="font-size:14px; padding:10px 18px;">No thanks</button>
+            </div>
+          </div>
+        `;
+      }
+
+      window.dismissAccuracyPrompt = function dismissAccuracyPrompt() {
+        try { localStorage.setItem("tp_dismissed_accuracy_prompt", "1"); } catch (e) {}
+        const el = document.getElementById("roofAccuracyPrompt");
+        if (el) el.remove();
+      };
+
+      window.submitAccuracyPrompt = function submitAccuracyPrompt() {
+        const addr = (document.getElementById("accPromptAddress")?.value || "").trim();
+        const zip = (document.getElementById("accPromptZip")?.value || "").trim();
+        const sz = Number(document.getElementById("accPromptRoofSize")?.value || 0);
+        if (!addr && !sz) {
+          alert("Please enter either a street address or a roof size.");
+          return;
+        }
+        // Stash into the hidden form fields analyzeQuote() reads from
+        const setVal = function(id, val) { const el = document.getElementById(id); if (el) el.value = val; };
+        if (addr) setVal("streetAddress", addr);
+        if (zip) setVal("zipCode", zip);
+        if (sz) setVal("roofSize", String(sz));
+        if (typeof analyzeQuote === "function") analyzeQuote();
+      };
+
       window.submitCommunityQuote = function submitCommunityQuote() {
         const a = window.__latestAnalysis;
         if (!a || !a.quotePrice) return;
@@ -5247,10 +5300,20 @@ function buildComparisonWinnerHtml(summary) {
         if (analyzingEl) analyzingEl.innerHTML = "";
         track("analysis_started");
 
-        const city = (byId("cityName")?.value || "").trim();
-        const stateCode = (byId("stateCode")?.value || "").trim().toUpperCase();
-        const streetAddress = (byId("streetAddress")?.value || "").trim();
-        const zipCode = (byId("zipCode")?.value || "").trim();
+        let city = (byId("cityName")?.value || "").trim();
+        let stateCode = (byId("stateCode")?.value || "").trim().toUpperCase();
+        let streetAddress = (byId("streetAddress")?.value || "").trim();
+        let zipCode = (byId("zipCode")?.value || "").trim();
+
+        // Fall back to address extracted from the quote text itself when the
+        // user is on the upload-quote path and didn't fill in any form fields.
+        const parsedPropertyAddress = latestParsed?.propertyAddress || null;
+        if (parsedPropertyAddress && !streetAddress) {
+          streetAddress = parsedPropertyAddress.street || "";
+          if (!city) city = parsedPropertyAddress.city || "";
+          if (!stateCode) stateCode = (parsedPropertyAddress.stateCode || "").toUpperCase();
+          if (!zipCode) zipCode = parsedPropertyAddress.postalCode || "";
+        }
         const roofSize = Number(byId("roofSize")?.value || 0);
         const quotePrice = Number(byId("quotePrice")?.value || 0);
         const material = byId("materialType")?.value || "architectural";
@@ -9198,6 +9261,7 @@ function buildComparisonWinnerHtml(summary) {
             ${renderRedFlags(latestExtractedText)}
             ${renderMarketContext(a)}
             ${renderCommunityStats(a)}
+            ${renderRoofSizeAccuracyPrompt(a)}
             ${renderCommunityContribution(a)}
             ${renderEmailCapture(a)}
             ${renderShareModule(a)}
