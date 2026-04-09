@@ -219,9 +219,110 @@
     window.loadVendorLibs = function() {
       if (window._vendorLibsLoaded) return Promise.resolve();
       window._vendorLibsLoaded = true;
-      return new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }).then(function() {
+      function loadScript(src) {
+        return new Promise(function(r) { var s = document.createElement("script"); s.src = src; s.onload = r; document.head.appendChild(s); });
+      }
+      return Promise.all([
+        loadScript("https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"),
+        loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"),
+        loadScript("/js/analyzer-parser.js")
+      ]).then(function() {
         if (window.pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"; }
       });
+    };
+
+    // Plumbing-specific preprocessing (soft/strong/sharp) for compare flow.
+    async function preprocessImageForPlumbing(file, mode) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement("canvas");
+            var scale = Math.max(1.5, Math.min(2.5, 2400 / Math.max(img.width, img.height)));
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            var ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            var w = canvas.width, h = canvas.height;
+            if (mode === "strong") {
+              for (var i = 0; i < data.length; i += 4) {
+                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+                gray = (gray - 128) * 1.6 + 128;
+                gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
+                gray = Math.max(0, Math.min(255, gray));
+                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              }
+              ctx.putImageData(imageData, 0, 0);
+            } else if (mode === "sharp") {
+              var gray1 = new Uint8ClampedArray(w * h);
+              for (var j = 0, k = 0; j < data.length; j += 4, k++) {
+                gray1[k] = 0.299 * data[j] + 0.587 * data[j+1] + 0.114 * data[j+2];
+              }
+              var out = new Uint8ClampedArray(w * h);
+              for (var y = 1; y < h - 1; y++) {
+                for (var x = 1; x < w - 1; x++) {
+                  var idx = y * w + x;
+                  var v = 5 * gray1[idx] - gray1[idx-1] - gray1[idx+1] - gray1[idx-w] - gray1[idx+w];
+                  out[idx] = v < 0 ? 0 : v > 255 ? 255 : v;
+                }
+              }
+              for (var b = 0; b < w; b++) { out[b] = gray1[b]; out[(h-1)*w + b] = gray1[(h-1)*w + b]; }
+              for (var b2 = 0; b2 < h; b2++) { out[b2*w] = gray1[b2*w]; out[b2*w + (w-1)] = gray1[b2*w + (w-1)]; }
+              for (var p = 0, q = 0; p < data.length; p += 4, q++) {
+                data[p] = out[q]; data[p+1] = out[q]; data[p+2] = out[q];
+              }
+              ctx.putImageData(imageData, 0, 0);
+            } else {
+              for (var i2 = 0; i2 < data.length; i2 += 4) {
+                var g2 = 0.299 * data[i2] + 0.587 * data[i2+1] + 0.114 * data[i2+2];
+                g2 = (g2 - 128) * 1.3 + 128;
+                g2 = Math.max(0, Math.min(255, g2));
+                data[i2] = g2; data[i2+1] = g2; data[i2+2] = g2;
+              }
+              ctx.putImageData(imageData, 0, 0);
+            }
+            resolve(canvas.toDataURL("image/png"));
+          };
+          img.onerror = reject;
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+    window.preprocessImageForPlumbing = preprocessImageForPlumbing;
+
+    // Multi-pass Tesseract for compare flow.
+    window.extractImageTextMultiPass = async function(file, onProgress) {
+      var passes = [
+        { mode: "soft",   psm: 6 },
+        { mode: "strong", psm: 6 },
+        { mode: "soft",   psm: 4 },
+        { mode: "strong", psm: 11 },
+        { mode: "sharp",  psm: 3 },
+        { mode: "soft",   psm: 3 }
+      ];
+      var worker = await Tesseract.createWorker("eng");
+      var best = "", bestHasDollar = false;
+      for (var p = 0; p < passes.length; p++) {
+        try {
+          if (typeof onProgress === "function") onProgress(p + 1, passes.length);
+          try { await worker.setParameters({ tessedit_pageseg_mode: String(passes[p].psm) }); } catch(e) {}
+          var img = await preprocessImageForPlumbing(file, passes[p].mode);
+          var res = await worker.recognize(img);
+          var t = (res && res.data && res.data.text || "").trim();
+          var hasDollar = /\$/.test(t);
+          if (hasDollar && !bestHasDollar) { best = t; bestHasDollar = true; }
+          else if (hasDollar === bestHasDollar && t.length > best.length) { best = t; }
+        } catch (passErr) { console.warn("compare Tesseract pass failed", passes[p], passErr); }
+      }
+      try { await worker.terminate(); } catch(e) {}
+      return best;
     };
   </script>
   <script>
@@ -301,18 +402,31 @@
       });
     }
 
-    window.handleUpload = function(idx, input) {
-      var file = input.files && input.files[0];
-      if (!file) return;
-      if (file.size > 20 * 1024 * 1024) { alert("File too large. Max 20MB."); input.value = ""; return; }
-      var fileSig = file.name + "|" + file.size;
-      for (var d = 0; d < 3; d++) {
-        if (d !== idx && uploadedFiles[d] === fileSig) {
-          alert("This file is already uploaded as Quote " + (d + 1) + ".");
-          input.value = ""; return;
-        }
+    // Per-slot cache so opt-in AI can reuse extracted text.
+    var slotState = [null, null, null];
+
+    window.handleUpload = function(idx, input, opts) {
+      opts = opts || {};
+      var useAI = !!opts.useAI;
+      var file;
+      if (useAI && slotState[idx] && slotState[idx].file) {
+        file = slotState[idx].file;
+      } else {
+        file = input && input.files && input.files[0];
       }
-      uploadedFiles[idx] = fileSig;
+      if (!file) return;
+      if (file.size > 20 * 1024 * 1024) { alert("File too large. Max 20MB."); if (input) input.value = ""; return; }
+      var fileSig = file.name + "|" + file.size;
+      if (!useAI) {
+        for (var d = 0; d < 3; d++) {
+          if (d !== idx && uploadedFiles[d] === fileSig) {
+            alert("This file is already uploaded as Quote " + (d + 1) + ".");
+            input.value = ""; return;
+          }
+        }
+        uploadedFiles[idx] = fileSig;
+        slotState[idx] = { file: file, text: "" };
+      }
 
       var slot = document.getElementById("slot" + idx);
       slot.classList.add("uploading");
@@ -321,13 +435,52 @@
       slot.innerHTML =
         '<img src="' + TRUDY + '" alt="Trudy" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
-        '<span class="slot-hint">This may take a moment</span>' +
+        '<span class="slot-hint" id="slotHint' + idx + '">' + (useAI ? "Running AI analysis..." : "Reading text...") + '</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
       loadVendorLibs().then(function() {
         var isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-        if (isPdf) return extractPdfText(file).then(function(text) { return sendToApi({ text: text }); });
-        return fileToBase64(file).then(function(b64) { return sendToApi({ images: [b64] }); });
+
+        // ── Free-layer path (default): OCR/PDF text -> multi-strategy regex ──
+        if (!useAI) {
+          var textPromise;
+          if (isPdf) {
+            textPromise = extractPdfText(file);
+          } else {
+            textPromise = window.extractImageTextMultiPass(file, function(step, total) {
+              var hint = document.getElementById("slotHint" + idx);
+              if (hint) hint.textContent = "Reading text (" + step + " of " + total + ")...";
+            });
+          }
+          return textPromise.then(function(text) {
+            slotState[idx].text = text || "";
+            var parsed = (typeof parseExtractedTextMultiStrategy === "function")
+              ? parseExtractedTextMultiStrategy(text || "", "plumbing")
+              : (typeof parseExtractedText === "function" ? parseExtractedText(text || "") : null);
+            var price = parsed && parsed.finalPrice && parsed.finalPrice > 100
+              ? Number(parsed.finalPrice)
+              : (parsed && Number(parsed.finalBestPrice) > 100 ? Number(parsed.finalBestPrice) : 0);
+            var confidence = (parsed && parsed.priceConfidence) || "low";
+            // Return an api-shaped object so downstream rendering works.
+            return {
+              data: {
+                totalPrice: price,
+                confidence: confidence,
+                jobType: null,
+                contractor: null,
+                _parsed: parsed,
+                _freeLayer: true
+              }
+            };
+          });
+        }
+
+        // ── Opt-in AI path: call Claude with text + (if image) base64 ──
+        var textForAi = (slotState[idx] && slotState[idx].text) || "";
+        if (isPdf) {
+          return sendToApi({ text: textForAi });
+        }
+        return fileToBase64(file).then(function(b64) { return sendToApi({ text: textForAi, images: [b64] }); });
       }).then(function(raw) {
         // Endpoints either return { data: {...} } or the data directly
         var api = (raw && raw.data) || raw || {};
@@ -347,11 +500,18 @@
         slot.classList.remove("uploading");
         slot.classList.add("uploaded");
         var nameDefault = name === (NOUN_SHORT + " " + (idx + 1));
+        // Show opt-in AI button when free-layer parse returned low confidence / no price
+        // and the user hasn't already escalated to AI.
+        var showAiOptIn = !useAI && api && api._freeLayer && (price <= 0 || api.confidence === "low");
+        var aiBtnHtml = showAiOptIn
+          ? '<button class="slot-try-ai" onclick="event.stopPropagation(); handleUpload(' + idx + ', null, {useAI:true})" style="margin-top:6px;font-size:11px;padding:4px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;color:#334155;cursor:pointer;">Try AI analysis &rarr;</button>'
+          : '';
         slot.innerHTML =
           '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
           '<span class="slot-check">&#10003;</span>' +
           '<input type="text" class="slot-edit-name" value="' + escHtml(name) + '" data-idx="' + idx + '" placeholder="' + NOUN_SHORT + ' name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid ' + (nameDefault ? '#fde68a' : '#e2e8f0') + '; border-radius:6px; padding:4px 8px; width:90%; background:' + (nameDefault ? '#fffbeb' : '#fff') + ';" />' +
           '<input type="text" class="slot-edit-price" value="' + (price > 0 ? '$' + Math.round(price).toLocaleString() : '') + '" data-idx="' + idx + '" placeholder="Enter price" style="font-size:16px; font-weight:700; text-align:center; color:#0284c7; border:1px solid ' + (price > 0 ? '#e2e8f0' : '#fde68a') + '; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:' + (price > 0 ? '#fff' : '#fffbeb') + ';" />' +
+          aiBtnHtml +
           '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
         slot.querySelector(".slot-edit-name").addEventListener("change", function() {
@@ -380,7 +540,7 @@
     };
 
     window.removeQuote = function(idx) {
-      quotes[idx] = null; uploadedFiles[idx] = null;
+      quotes[idx] = null; uploadedFiles[idx] = null; slotState[idx] = null;
       var slot = document.getElementById("slot" + idx);
       slot.classList.remove("uploaded", "uploading");
       slot.innerHTML =
