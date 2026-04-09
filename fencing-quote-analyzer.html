@@ -764,14 +764,21 @@
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 
-        // Determine price
+        // Determine price — prefer Claude API result (server-side, structured)
+        // over local regex parser (analyzer-parser.js often misreads on sparse OCR).
         var quotePrice = 0;
-        if (parsed && parsed.finalPrice && parsed.finalPrice > 300) {
+        if (apiResult && Number(apiResult.totalPrice) > 100) {
+          quotePrice = Number(apiResult.totalPrice);
+        } else if (parsed && parsed.finalPrice && parsed.finalPrice > 300) {
           quotePrice = parsed.finalPrice;
         } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
           var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 500 && c.value <= 100000; });
           candidates.sort(function(a, b) { return b.score - a.score; });
           if (candidates.length) quotePrice = candidates[0].value;
+        }
+        // If Claude returned low confidence with no price, refuse to fabricate
+        if (apiResult && apiResult.confidence === "low" && !apiResult.totalPrice) {
+          quotePrice = 0;
         }
 
         setProgress(85, "Calculating verdict...");
