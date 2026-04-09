@@ -1,7 +1,7 @@
-// Bumped to v2 on 2026-04-07 for the three-intent homepage restructure.
-// Bumping the version invalidates every returning visitor's stale cache and
-// forces them to fetch the new homepage on next load.
-const CACHE_NAME = "trueprice-v2";
+// Bumped to v3 on 2026-04-09 to fix POST/API interception breaking
+// /api/property-signals and other dynamic endpoints. Bumping the version
+// invalidates every returning visitor's stale cache.
+const CACHE_NAME = "trueprice-v3";
 const PRECACHE = [
   "/",
   "/css/trueprice.min.css",
@@ -29,17 +29,24 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-  // Network first for API calls, cache first for static assets
+  // Never intercept non-GET requests (POST/PUT/DELETE etc) — POST bodies
+  // can't be cached and intercepting them breaks API calls.
+  if (e.request.method !== "GET") return;
+  // Never intercept API calls — they need fresh network responses.
   if (e.request.url.includes("/api/")) return;
+  // Never intercept cross-origin requests (CDNs, analytics, etc.)
+  if (new URL(e.request.url).origin !== self.location.origin) return;
+
   e.respondWith(
     caches.match(e.request).then((cached) => {
       const fetched = fetch(e.request).then((response) => {
-        if (response.ok) {
+        if (response && response.ok) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
         }
         return response;
-      }).catch(() => cached);
+      }).catch(() => cached || Response.error());
+      // Always return a Promise that resolves to a Response, never undefined
       return cached || fetched;
     })
   );
