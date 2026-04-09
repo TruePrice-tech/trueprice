@@ -949,6 +949,38 @@ img[alt*="trudy"]:focus {
   outline: none;
 }
 
+/* Site footer columns (used on most pages — never had a CSS rule before) */
+.tp-footer-links {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto 24px;
+  padding: 0 24px;
+}
+.tp-footer-col h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 12px;
+}
+.tp-footer-col a {
+  display: block;
+  font-size: 14px;
+  color: #475569;
+  text-decoration: none;
+  padding: 4px 0;
+}
+.tp-footer-col a:hover { color: #1d4ed8; }
+@media (max-width: 720px) {
+  .tp-footer-links { grid-template-columns: 1fr 1fr; gap: 20px; }
+}
+@media (max-width: 420px) {
+  .tp-footer-links { grid-template-columns: 1fr; }
+}
+
 /* Prevent text-selection caret from appearing when users click Trudy images */
 img[src*="trudy"],
 img[alt*="Trudy"],
