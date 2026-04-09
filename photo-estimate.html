@@ -525,12 +525,14 @@
         .catch(handleApiError);
       }
 
-      // If browser geolocation is still pending, wait up to 8 seconds for it before sending
+      // If browser geolocation is still pending, wait briefly for it before sending
+      // (was 8s — too long, made first upload feel frozen). EXIF GPS in the photo
+      // is usually present anyway; browser GPS is just a fallback.
       if (state.locationStatus === "pending" && !state.browserLat) {
         var geoWaitTimeout = setTimeout(function() {
           console.log("[photo-estimate] Geolocation wait timed out, sending without GPS");
           sendToApi();
-        }, 8000);
+        }, 2500);
         // Also request geolocation again in case it wasn't triggered
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -547,7 +549,7 @@
               clearTimeout(geoWaitTimeout);
               sendToApi();
             },
-            { timeout: 7000, maximumAge: 600000, enableHighAccuracy: false }
+            { timeout: 2500, maximumAge: 600000, enableHighAccuracy: false }
           );
         } else {
           clearTimeout(geoWaitTimeout);
