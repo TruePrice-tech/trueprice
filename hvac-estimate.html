@@ -1201,6 +1201,7 @@
           var val = document.getElementById("sqftInput").value.trim();
           if (val && Number(val) >= 400) {
             est.homeSqFt = val;
+            est.homeSqFtConfirmed = true;
             render();
           }
         });
@@ -1256,7 +1257,10 @@
       var e = state.est;
       if (!e.systemType) return 1;
       if (!e.efficiency) return 2;
-      if (!e.homeSqFt) return 3;
+      // Always show home-size step until user explicitly confirms via Continue,
+      // even if we pre-filled the value from OSM. Otherwise the user gets
+      // jumped past the step without seeing the pre-fill.
+      if (!e.homeSqFt || !e.homeSqFtConfirmed) return 3;
       if (!e.ductwork) return 4;
       if (!e.urgency) return 5;
       return 6; // all done
