@@ -1,7 +1,10 @@
 // Bumped to v3 on 2026-04-09 to fix POST/API interception breaking
 // /api/property-signals and other dynamic endpoints. Bumping the version
 // invalidates every returning visitor's stale cache.
-const CACHE_NAME = "trueprice-v3";
+// v4 (2026-04-09): plumbing analyzer accuracy overhaul (multi-pass Tesseract,
+// multi-strategy regex, opt-in AI). Bump invalidates returning visitors' caches
+// so they get the new plumbing-quote-analyzer.html and compare-plumbing-quotes.html.
+const CACHE_NAME = "trueprice-v4";
 const PRECACHE = [
   "/",
   "/css/trueprice.min.css",
