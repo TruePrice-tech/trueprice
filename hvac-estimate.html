@@ -654,10 +654,10 @@
               <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
             </div>\
             <div class="hvac-row">\
-              <input type="text" id="addrCity" placeholder="City" />\
-              <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
+              <input type="text" id="addrCity" placeholder="City" autocomplete="off" />\
+              <input type="text" id="addrState" placeholder="State" style="max-width:100px" autocomplete="off" />\
             </div>\
-            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
+            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" autocomplete="off" />\
             <button class="hvac-btn hvac-btn-primary hvac-btn-full" id="btnEstimate">Get HVAC Estimate</button>\
           </div>\
         </div>';
@@ -739,6 +739,35 @@
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
+
+        // Try to pre-fill home size from OSM building footprint so we don't
+        // ask the user something we can already derive from their address.
+        try {
+          fetch("/api/property-signals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              street: state.address.street,
+              city: state.address.city,
+              stateCode: state.address.stateCode,
+              zip: state.address.zip
+            })
+          })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(payload) {
+              if (!payload || !payload.success || !payload.data) return;
+              var d = payload.data;
+              // Prefer livingArea if available, else use footprint as a 1-story proxy
+              var sqft = Number(d.livingAreaSqFt || d.footprintSqFt || 0);
+              if (sqft >= 500 && sqft <= 10000 && !est.homeSqFt) {
+                est.homeSqFt = String(Math.round(sqft));
+                // Re-render if user is sitting on the home-size step
+                if (state.step === "estimator") render();
+              }
+            })
+            .catch(function() {});
+        } catch (err) {}
+
         state.step = "estimator";
         render();
       });
@@ -1156,6 +1185,7 @@
         card.innerHTML = '\
           <div class="hvac-step">\
             <h3>How large is your home?</h3>\
+            ' + (est.homeSqFt ? '<p style="font-size:13px; color:#16a34a; margin:0 0 8px;">&#10003; Pre-filled from your address &mdash; edit if not accurate</p>' : '') + '\
             <div style="display:flex;align-items:center;gap:0.75rem;">\
               <input type="number" class="hvac-sqft-input" id="sqftInput" placeholder="e.g. 2000" value="' + (est.homeSqFt || "") + '" min="500" max="10000" />\
               <span style="color:#64748b;">sq ft</span>\
