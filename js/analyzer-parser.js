@@ -2611,8 +2611,141 @@ window.__TP_PARSER_TESTS__ = function () {
   return results;
 };
 
+// ── Multi-strategy parser with confidence scoring ──
+// Added for plumbing analyzer accuracy pilot (Apr 2026).
+// Runs 3 parse strategies and cross-validates the price:
+//   A) default parser (existing behavior)
+//   B) strict: only accept prices on lines labeled TOTAL / Grand Total / Amount Due / Subtotal / Total Due
+//   C) loose: any dollar amount > $100, bottom-of-doc scored higher
+// Returns a base parsed object (from Strategy A, so all callers still get the
+// same shape) plus finalPrice / priceConfidence / priceCandidates / strategiesAgreed.
+function parseExtractedTextMultiStrategy(extractedText, vertical) {
+  const rawText = String(extractedText || "");
+  const baseParsed = parseExtractedText(rawText, { extractionMethod: "multi_strategy" });
+
+  // Strategy A price: whatever the default parser picked
+  const strategyA = {
+    name: "default",
+    price: Number(baseParsed.finalBestPrice) || null,
+    candidates: Array.isArray(baseParsed.priceCandidates) ? baseParsed.priceCandidates.slice() : []
+  };
+
+  // ── Strategy B: strict labeled-total patterns only ──
+  const strategyB = { name: "strict_labeled", price: null, candidates: [] };
+  const labelPatterns = [
+    /(?:grand\s*total|total\s*due|amount\s*due|balance\s*due|final\s*total|contract\s*total|project\s*total|invoice\s*total|quote\s*total|total)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
+    /sub\s*total\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi
+  ];
+  const textForB = rawText.replace(/\r\n/g, "\n");
+  labelPatterns.forEach((re, idx) => {
+    let m;
+    while ((m = re.exec(textForB)) !== null) {
+      const raw = m[1];
+      const val = Number(String(raw).replace(/,/g, ""));
+      if (!Number.isFinite(val) || val < 50 || val > 500000) continue;
+      const isSubtotal = idx === 1;
+      strategyB.candidates.push({
+        value: val,
+        display: String(raw),
+        score: isSubtotal ? 60 : 100,
+        sourceType: isSubtotal ? "strict_subtotal" : "strict_labeled_total",
+        context: m[0]
+      });
+    }
+  });
+  strategyB.candidates.sort((a, b) => b.score - a.score || b.value - a.value);
+  if (strategyB.candidates.length) {
+    // prefer the highest-scoring labeled total (non-subtotal wins over subtotal)
+    const nonSub = strategyB.candidates.find(c => c.sourceType === "strict_labeled_total");
+    strategyB.price = nonSub ? nonSub.value : strategyB.candidates[0].value;
+  }
+
+  // ── Strategy C: loose — any $ amount > 100, bottom-of-doc wins ties ──
+  const strategyC = { name: "loose_positional", price: null, candidates: [] };
+  const moneyRe = /\$\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/g;
+  const totalLen = Math.max(1, textForB.length);
+  let mm;
+  while ((mm = moneyRe.exec(textForB)) !== null) {
+    const val = Number(String(mm[1]).replace(/,/g, ""));
+    if (!Number.isFinite(val) || val < 100 || val > 500000) continue;
+    const positionFrac = mm.index / totalLen; // 0 = top, 1 = bottom
+    // bottom-of-doc scores 50..100, top 20..50
+    const score = Math.round(20 + positionFrac * 80);
+    strategyC.candidates.push({
+      value: val,
+      display: String(mm[1]),
+      score,
+      sourceType: "loose_positional",
+      context: textForB.slice(Math.max(0, mm.index - 20), Math.min(textForB.length, mm.index + 20))
+    });
+  }
+  strategyC.candidates.sort((a, b) => b.score - a.score || b.value - a.value);
+  if (strategyC.candidates.length) strategyC.price = strategyC.candidates[0].value;
+
+  // ── Cross-validate ──
+  const allCandidates = [
+    ...strategyA.candidates.map(c => Object.assign({}, c, { strategy: "A" })),
+    ...strategyB.candidates.map(c => Object.assign({}, c, { strategy: "B" })),
+    ...strategyC.candidates.map(c => Object.assign({}, c, { strategy: "C" }))
+  ];
+
+  const strategyPrices = [strategyA.price, strategyB.price, strategyC.price].filter(p => Number.isFinite(p) && p > 0);
+
+  // Agreement: count how many strategies picked the same price
+  const agreementMap = {};
+  strategyPrices.forEach(p => { agreementMap[p] = (agreementMap[p] || 0) + 1; });
+
+  let finalPrice = null;
+  let strategiesAgreed = 0;
+  let priceConfidence = "low";
+
+  // Pick the price with the most agreement; break ties by preferring Strategy A (default)
+  const sortedByAgreement = Object.keys(agreementMap)
+    .map(k => ({ price: Number(k), count: agreementMap[k] }))
+    .sort((a, b) => b.count - a.count);
+
+  if (sortedByAgreement.length) {
+    const top = sortedByAgreement[0];
+    finalPrice = top.price;
+    strategiesAgreed = top.count;
+  }
+
+  // Prefer Strategy A value if it ties with another
+  if (sortedByAgreement.length > 1 && sortedByAgreement[0].count === sortedByAgreement[1].count) {
+    if (Number.isFinite(strategyA.price) && strategyA.price > 0) {
+      finalPrice = strategyA.price;
+      strategiesAgreed = agreementMap[strategyA.price] || 1;
+    }
+  }
+
+  if (strategiesAgreed >= 3) priceConfidence = "high";
+  else if (strategiesAgreed === 2) priceConfidence = "medium";
+  else priceConfidence = "low";
+
+  // If nothing found at all
+  if (!Number.isFinite(finalPrice) || finalPrice <= 0) {
+    finalPrice = null;
+    priceConfidence = "low";
+    strategiesAgreed = 0;
+  }
+
+  return Object.assign({}, baseParsed, {
+    finalPrice,
+    priceConfidence,
+    priceCandidates: allCandidates,
+    strategiesAgreed,
+    strategyResults: {
+      A: { price: strategyA.price, count: strategyA.candidates.length },
+      B: { price: strategyB.price, count: strategyB.candidates.length },
+      C: { price: strategyC.price, count: strategyC.candidates.length }
+    },
+    vertical: vertical || null
+  });
+}
+
 window.extractPriceCandidates = extractPriceCandidates;
 window.parseExtractedText = parseExtractedText;
+window.parseExtractedTextMultiStrategy = parseExtractedTextMultiStrategy;
 window.detectMaterial = detectMaterial;
 window.detectRoofSize = detectRoofSize;
 window.detectWarranty = detectWarranty;
