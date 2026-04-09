@@ -78,6 +78,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Windows","item":"https://truepricehq.com/window-quote-analyzer.html"}]}
 </script>
+<script src="/js/community-capture.js" defer></script>
 </head>
 <body>
 <!-- TP-TRUST-BANNER -->
@@ -456,6 +457,7 @@
     }
 
     function renderResult(r) {
+      if(typeof tpCaptureCommunity==="function"){try{tpCaptureCommunity({service:"windows",price:(r&&(r.totalMid||r.totalLow||0))||0,city:"",stateCode:(r&&r.stateCode)||"",material:"",verdict:""});}catch(e){}}
       var frameLabel = FRAME[form.frame].label;
       var typeText = form.types.length ? form.types.join(", ") : "standard double-hung";
       var tierLabels = { value:"Value", mid:"Mid-range", premium:"Premium", luxury:"Luxury" };

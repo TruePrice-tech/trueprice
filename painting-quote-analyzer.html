@@ -147,6 +147,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Painting","item":"https://truepricehq.com/painting-quote-analyzer.html"}]}
 </script>
+<script src="/js/community-capture.js" defer></script>
 </head>
 <body>
 <!-- TP-TRUST-BANNER -->
@@ -1119,6 +1120,7 @@
     function renderResult() {
       var r = state.result;
       if (!r) { state.step = "address"; render(); return; }
+      if(typeof tpCaptureCommunity==="function"){try{var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);var _a=state.address||{};var _m=r.systemType?(typeof r.systemType==="object"?(r.systemType.label||r.systemType.value):r.systemType):(r.material||"");var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";tpCaptureCommunity({service:"painting",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_m,verdict:_v});}catch(e){}}
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
