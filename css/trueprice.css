@@ -948,3 +948,15 @@ img[alt*="Trudy"]:focus,
 img[alt*="trudy"]:focus {
   outline: none;
 }
+
+/* Prevent text-selection caret from appearing when users click Trudy images */
+img[src*="trudy"],
+img[alt*="Trudy"],
+img[alt*="trudy"] {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: transparent;
+}
+body { caret-color: transparent; }
+input, textarea, [contenteditable="true"] { caret-color: auto; }
