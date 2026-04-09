@@ -101,7 +101,10 @@ export default async function handler(req, res) {
       }
 
       const data = req.body;
-      if (!data || !data.price || !data.material) {
+      // Only price is strictly required. Material defaults to "unknown" below
+      // for verticals that don't extract a material field (HVAC, plumbing,
+      // electrical, etc.) — the schema previously rejected those entirely.
+      if (!data || !data.price) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
