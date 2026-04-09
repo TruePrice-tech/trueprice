@@ -417,7 +417,10 @@
       try { savedEstimates = JSON.parse(localStorage.getItem("tp_photo_estimates") || "[]"); } catch(e) {}
       if (savedEstimates.length > 0) {
         var pastHtml = '<div style="margin-top:24px; padding-top:20px; border-top:1px solid #e2e8f0;">' +
-          '<div style="font-size:14px; font-weight:600; color:#475569; margin-bottom:10px; text-align:center;">Your past estimates</div>';
+          '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">' +
+            '<div style="font-size:14px; font-weight:600; color:#475569;">Your past estimates</div>' +
+            '<a href="#" id="clearPastEstimates" style="font-size:12px; color:#94a3b8; text-decoration:none;">Clear history</a>' +
+          '</div>';
         savedEstimates.slice(0, 5).forEach(function(est) {
           var date = new Date(est.timestamp);
           var dateStr = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
@@ -430,6 +433,15 @@
         });
         pastHtml += '</div>';
         app.innerHTML += pastHtml;
+        var clearLink = document.getElementById("clearPastEstimates");
+        if (clearLink) {
+          clearLink.addEventListener("click", function(e) {
+            e.preventDefault();
+            if (!confirm("Clear all past estimates from this device?")) return;
+            try { localStorage.removeItem("tp_photo_estimates"); } catch(err) {}
+            renderCapture();
+          });
+        }
       }
 
       // Bind events
