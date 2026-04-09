@@ -687,6 +687,77 @@
       return html;
     }
 
+    function attachAddressAutocomplete(input) {
+      if (!input || input._tpAcAttached) return;
+      input._tpAcAttached = true;
+
+      // Build the suggestions dropdown right after the input
+      var wrap = document.createElement("div");
+      wrap.style.cssText = "position:absolute; left:0; right:0; top:100%; background:#fff; border:1px solid #cbd5e1; border-top:none; border-radius:0 0 10px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.08); max-height:240px; overflow:auto; z-index:50; display:none;";
+      // Make the parent positionable
+      var parent = input.parentNode;
+      if (parent && getComputedStyle(parent).position === "static") parent.style.position = "relative";
+      parent.appendChild(wrap);
+
+      var debounceTimer = null;
+      var lastQuery = "";
+
+      function hide() { wrap.style.display = "none"; wrap.innerHTML = ""; }
+      function show() { wrap.style.display = "block"; }
+
+      function applySuggestion(s) {
+        input.value = s.street || s.label || "";
+        var cityEl = document.getElementById("confirmCity");
+        var stEl = document.getElementById("confirmState");
+        var zipEl = document.getElementById("confirmZip");
+        if (cityEl) cityEl.value = s.city || "";
+        if (stEl) stEl.value = (s.state || "").toUpperCase();
+        if (zipEl) zipEl.value = s.zip || "";
+        // Also update the inline "City, ST Zip" line if present
+        var inlineLoc = parent.querySelector("span");
+        if (inlineLoc && (s.city || s.state)) {
+          inlineLoc.textContent = (s.city || "") + ", " + ((s.state || "").toUpperCase()) + (s.zip ? " " + s.zip : "");
+        }
+        hide();
+      }
+
+      input.addEventListener("input", function() {
+        var q = (input.value || "").trim();
+        if (q === lastQuery) return;
+        lastQuery = q;
+        clearTimeout(debounceTimer);
+        if (q.length < 3) { hide(); return; }
+        debounceTimer = setTimeout(function() {
+          fetch("/api/geocode-suggest?q=" + encodeURIComponent(q))
+            .then(function(r) { return r.ok ? r.json() : { suggestions: [] }; })
+            .then(function(data) {
+              var list = (data && data.suggestions) || [];
+              if (!list.length) { hide(); return; }
+              wrap.innerHTML = list.map(function(s, i) {
+                return '<div class="tp-ac-item" data-i="' + i + '" style="padding:10px 14px; cursor:pointer; font-size:14px; border-bottom:1px solid #f1f5f9;">' +
+                  '<div style="font-weight:600; color:#0f172a;">' + (s.street || "").replace(/</g, "&lt;") + '</div>' +
+                  '<div style="font-size:12px; color:#64748b;">' + ((s.city || "") + (s.state ? ", " + s.state : "") + (s.zip ? " " + s.zip : "")).replace(/</g, "&lt;") + '</div>' +
+                '</div>';
+              }).join("");
+              Array.prototype.forEach.call(wrap.querySelectorAll(".tp-ac-item"), function(el) {
+                el.addEventListener("mousedown", function(ev) {
+                  ev.preventDefault();
+                  var i = Number(el.getAttribute("data-i"));
+                  applySuggestion(list[i]);
+                });
+                el.addEventListener("mouseover", function() { el.style.background = "#f1f5f9"; });
+                el.addEventListener("mouseout", function() { el.style.background = "#fff"; });
+              });
+              show();
+            })
+            .catch(function() { hide(); });
+        }, 220);
+      });
+
+      input.addEventListener("blur", function() { setTimeout(hide, 150); });
+      input.addEventListener("focus", function() { if (wrap.innerHTML) show(); });
+    }
+
     function renderConfirm() {
       var r = state.result;
       if (!r) { state.step = "capture"; render(); return; }
@@ -960,6 +1031,9 @@
           fields.style.display = fields.style.display === "none" ? "block" : "none";
         });
       }
+
+      // Address autocomplete (Mapbox via /api/geocode-suggest)
+      attachAddressAutocomplete(document.getElementById("confirmAddress"));
 
       // Retake link
       document.getElementById("retakeLink").addEventListener("click", function(e) {
