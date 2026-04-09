@@ -4647,7 +4647,8 @@ function buildComparisonWinnerHtml(summary) {
         if (!needsBetterSize) return "";
         // Don't show if user already gave us an address or roof size
         if (a.roofSize && Number(a.roofSize) > 0 && src !== "price_based_estimate") return "";
-        if (localStorage.getItem("tp_dismissed_accuracy_prompt")) return "";
+        // Hard-block scenarios always show — dismiss flag only suppresses the soft yellow prompt
+        // (when verdict is rendered alongside it).
 
         return `
           <div id="roofAccuracyPrompt" style="padding:20px; background:#fffbeb; border:1px solid #fcd34d; border-radius:12px; margin-bottom:16px;">
@@ -9250,6 +9251,28 @@ function buildComparisonWinnerHtml(summary) {
         const sideBySideBtn = (!a._isSample && window.__uploadedQuoteFile)
           ? `<div style="text-align:center; margin:16px 0;"><button id="toggleSideBySide" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:10px 20px; font-size:14px; font-weight:600; color:#2563eb; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">View quote side-by-side</button></div>`
           : "";
+
+        // If roof size came from price (circular) or is unavailable, suppress
+        // the verdict and downstream cards entirely. We refuse to fake-judge a
+        // quote without a real roof size.
+        const _rsSrc = String(a.roofSizeSource || "").toLowerCase();
+        const _verdictBlocked = (_rsSrc === "price_based_estimate" || _rsSrc === "unavailable" || _rsSrc === "");
+
+        if (_verdictBlocked) {
+          return `
+            <div id="resultContainer" style="max-width:800px; margin:40px auto; padding:0 24px;">
+              ${sampleBanner}
+              <div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:16px; margin-bottom:16px; text-align:center;">
+                <div style="font-size:20px; font-weight:700; color:#0f172a; margin-bottom:8px;">We need your roof size to check this quote</div>
+                <div style="font-size:14px; color:#475569; max-width:520px; margin:0 auto;">
+                  Roofing prices depend almost entirely on roof area. Without it, any verdict would be a guess. Enter your address (we&#39;ll measure it from satellite data) or your known roof size below and we&#39;ll re-check instantly.
+                </div>
+              </div>
+              ${renderRoofSizeAccuracyPrompt(Object.assign({}, a, { roofSizeSource: "price_based_estimate" }))}
+              ${sideBySideBtn}
+            </div>
+          `;
+        }
 
         return `
           <div id="resultContainer" style="max-width:800px; margin:40px auto; padding:0 24px;">
