@@ -137,7 +137,8 @@ export default async function handler(req, res) {
       }
     });
   } catch (e) {
-    return res.status(200).json({ success: false, error: "Lookup failed" });
+    console.error("[property-signals] lookup failed:", e && e.message, e && e.stack);
+    return res.status(200).json({ success: false, error: "Lookup failed", detail: (e && e.message) || String(e) });
   }
 }
 
