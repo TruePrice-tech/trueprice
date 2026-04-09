@@ -719,6 +719,30 @@
           inlineLoc.textContent = (s.city || "") + ", " + ((s.state || "").toUpperCase()) + (s.zip ? " " + s.zip : "");
         }
         hide();
+        // Visual confirmation: green check + verified message + pulse the CTA
+        showVerified(s);
+      }
+
+      function showVerified(s) {
+        input.style.borderColor = "#16a34a";
+        input.style.background = "#f0fdf4";
+        var existing = parent.querySelector(".tp-ac-verified");
+        if (existing) existing.remove();
+        var msg = document.createElement("div");
+        msg.className = "tp-ac-verified";
+        msg.style.cssText = "margin-top:8px; font-size:13px; color:#166534; font-weight:600; display:flex; align-items:center; gap:6px;";
+        msg.innerHTML = '<span style="display:inline-flex; width:18px; height:18px; background:#16a34a; color:#fff; border-radius:50%; align-items:center; justify-content:center; font-size:12px;">&#10003;</span> Address verified &mdash; ready to get your estimate';
+        parent.appendChild(msg);
+        // Pulse the CTA button so the user knows where to go next
+        var cta = document.querySelector(".pe-btn-primary, button.pe-btn[type=\"button\"]");
+        if (!cta) cta = Array.prototype.find && Array.prototype.find.call(document.querySelectorAll("button"), function(b){ return /get my estimate/i.test(b.textContent || ""); });
+        if (cta) {
+          cta.style.transition = "box-shadow 0.4s, transform 0.4s";
+          cta.style.boxShadow = "0 0 0 6px rgba(22,163,74,0.25)";
+          cta.style.transform = "scale(1.02)";
+          setTimeout(function(){ cta.style.boxShadow = ""; cta.style.transform = ""; }, 1400);
+          cta.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }
 
       input.addEventListener("input", function() {
