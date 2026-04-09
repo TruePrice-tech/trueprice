@@ -1133,6 +1133,18 @@
       }
       tipsHtml += '</ul></div>';
 
+      // Ways to save / rebates card (standardized)
+      var savingsHtml = '<div class="gd-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
+      savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      savingsHtml += '<li>Manufacturer rebates &mdash; Clopay, Wayne Dalton, Amarr, and CHI run seasonal promotions ($50-$200 off)</li>';
+      savingsHtml += '<li>Bundle door + opener install for crew-day discount (often $100-$200 off vs separate visits)</li>';
+      savingsHtml += '<li>Off-season scheduling: late fall and winter pricing is often 10-15% lower than spring/summer peak</li>';
+      savingsHtml += '<li>Insulated doors (R-12 or higher) may qualify for utility rebates in some states &mdash; check <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">dsireusa.org</a></li>';
+      savingsHtml += '<li>Smart openers (myQ, LiftMaster WiFi) may qualify for home automation/security discounts via your insurance</li>';
+      savingsHtml += '<li>Ask about cash discount &mdash; many garage door companies offer 3-5% off for check or cash payment</li>';
+      savingsHtml += '</ul></div>';
+
       // Safety tips (garage door specific)
       var safetyHtml = '<div class="gd-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
       safetyHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Safety Reminders</h3>';
@@ -1182,6 +1194,7 @@
         ' + scopeHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
+        ' + savingsHtml + '\
         ' + safetyHtml + '\
         <div class="gd-actions">\
           <a class="gd-btn gd-btn-primary gd-btn-full" href="/find-contractors.html?service=garage-doors">Find Garage Door Contractors</a>\

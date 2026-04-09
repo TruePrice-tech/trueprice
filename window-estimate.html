@@ -489,6 +489,21 @@
         +   '<div style="margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;font-size:14px;color:#475569;">Per window: <strong>' + fmt(r.perLow) + ' &ndash; ' + fmt(r.perHigh) + '</strong> installed (mid ' + fmt(r.perMid) + ')</div>'
         + '</div>'
 
+        // What this estimate includes (standardized)
+        + '<div class="win-card">'
+        +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">What this estimate includes</h3>'
+        +   '<ul style="margin:0;padding-left:20px;color:#475569;font-size:14px;line-height:1.7;">'
+        +     '<li>New windows (frame + glass package)</li>'
+        +     '<li>' + (form.install === "fullframe" ? "Full-frame removal and replacement" : "Pocket / insert installation") + '</li>'
+        +     '<li>Interior trim and exterior capping (basic)</li>'
+        +     '<li>Caulking, sealing, and weatherstripping</li>'
+        +     '<li>Old window disposal and haul-away</li>'
+        +     '<li>Standard manufacturer + workmanship warranties</li>'
+        +     '<li>Permit (where required by local code)</li>'
+        +   '</ul>'
+        +   '<p style="margin-top:10px;font-size:12px;color:#94a3b8;">Estimate assumes standard installation. Lead paint abatement, structural repairs, or custom millwork may add cost.</p>'
+        + '</div>'
+
         // 3. What drives this estimate + 4. City-level context line
         + '<div class="win-card">'
         +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">What drives this estimate</h3>'
@@ -552,8 +567,10 @@
         + '<div class="win-card" style="background:#f8fafc;">'
         +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">Have quotes already?</h3>'
         +   '<div style="display:flex;flex-direction:column;gap:10px;">'
-        +     '<a href="/window-quote-analyzer.html" class="win-btn win-btn-primary win-btn-full">Analyze a quote you have &rarr;</a>'
+        +     '<a href="/find-contractors.html?service=windows' + (r.st ? '&state=' + r.st : '') + '" class="win-btn win-btn-primary win-btn-full">Find window contractors near you &rarr;</a>'
+        +     '<a href="/window-quote-analyzer.html" class="win-btn win-btn-secondary win-btn-full">Analyze a quote you have &rarr;</a>'
         +     '<a href="/compare-windows-quotes.html" class="win-btn win-btn-secondary win-btn-full">Compare 2+ quotes side-by-side &rarr;</a>'
+        +     '<a href="/methodology.html" class="win-btn win-btn-secondary win-btn-full" style="font-size:0.9rem;">How we calculate estimates</a>'
         +     '<button type="button" class="win-btn win-btn-secondary win-btn-full" onclick="window.__winStartOver()">Start over</button>'
         +   '</div>'
         + '</div>';
