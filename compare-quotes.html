@@ -238,6 +238,51 @@
 
       </div>
     </div>
+
+    <!-- SEO content (shown when service=roofing; harmless on other verticals) -->
+    <div id="cqRoofingSeo" class="container" style="max-width:800px; margin:32px auto; padding:0 24px; display:none;">
+      <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin-bottom:16px;">
+        <h2 style="margin:0 0 12px; font-size:20px;">How to compare roofing quotes correctly</h2>
+        <p style="line-height:1.7; color:#475569; margin:0 0 12px;">Homeowners often compare quotes by headline price alone. That is the fastest way to make a costly mistake. The better approach is to compare the exact scope of work. Ask whether each quote includes tear off, disposal, underlayment, flashing replacement, ridge ventilation, drip edge, permit assumptions, and any decking replacement terms.</p>
+        <p style="line-height:1.7; color:#475569; margin:0 0 12px;">One contractor may price lower simply because they omitted critical items that will show up later as change orders. Another may look expensive at first but include stronger materials, better workmanship coverage, and more complete flashing and ventilation work.</p>
+        <p style="line-height:1.7; color:#475569; margin:0;">Use this page to compare contractors side by side, then use the roofing quote analyzer to review specific estimates in more detail.</p>
+      </section>
+      <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin-bottom:16px;">
+        <h2 style="margin:0 0 12px; font-size:20px;">Most important fields to compare</h2>
+        <ul style="line-height:1.8; color:#475569; margin:0; padding-left:20px;">
+          <li>Total project cost</li>
+          <li>Price per square foot</li>
+          <li>Exact roofing material and brand</li>
+          <li>Underlayment type</li>
+          <li>Flashing and drip edge scope</li>
+          <li>Ventilation upgrades</li>
+          <li>Workmanship warranty length</li>
+          <li>Change order language</li>
+          <li>Decking replacement assumptions</li>
+        </ul>
+      </section>
+      <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin-bottom:16px;">
+        <h2 style="margin:0 0 12px; font-size:20px;">Helpful Roofing Guides</h2>
+        <ul style="line-height:1.8; margin:0; padding-left:20px;">
+          <li><a href="/roofing-quote-analyzer.html">Roofing Quote Analyzer</a></li>
+          <li><a href="/how-to-compare-roofing-quotes.html">How to Compare Roofing Quotes</a></li>
+          <li><a href="/what-should-a-roofing-quote-include.html">What Should a Roofing Quote Include</a></li>
+          <li><a href="/roof-replacement-cost-calculator.html">Roof Replacement Cost Calculator</a></li>
+          <li><a href="/roof-replacement-cost-per-square-foot.html">Roof Replacement Cost Per Square Foot</a></li>
+        </ul>
+      </section>
+    </div>
+    <script>
+      (function() {
+        try {
+          var p = new URLSearchParams(window.location.search);
+          if ((p.get("service") || "").toLowerCase() === "roofing") {
+            var el = document.getElementById("cqRoofingSeo");
+            if (el) el.style.display = "block";
+          }
+        } catch (e) {}
+      })();
+    </script>
   </main>
 
   <footer class="site-footer">
