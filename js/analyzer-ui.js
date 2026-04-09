@@ -4614,28 +4614,16 @@ function buildComparisonWinnerHtml(summary) {
       // ============================================================
 
       function renderCommunityContribution(a) {
+        // Option C: silent auto-capture replaces the opt-in card.
+        // Show a small transparent footnote so users know it happened
+        // and can opt out if they want.
         if (!a || !a.quotePrice) return "";
-
-        // Check if already contributed this analysis
-        const contributed = localStorage.getItem("tp_contributed_" + Math.round(a.quotePrice));
-        if (contributed) {
-          return `
-            <div style="padding:16px; background:var(--bg-subtle, #f8fafc); border:1px solid var(--border, #e2e8f0); border-radius:12px; margin-bottom:16px; text-align:center;">
-              <div style="font-size:13px; color:#166534;">&#10003; You contributed this quote to improve local pricing data. Thank you.</div>
-            </div>
-          `;
-        }
-
+        if (localStorage.getItem("tp_benchmark_optout") === "1") return "";
+        const cityLabel = a.city ? escapeHtml(a.city) : "your area";
         return `
-          <div id="communityContributeCard" style="padding:20px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; margin-bottom:16px;">
-            <div style="font-size:16px; font-weight:700; margin-bottom:6px;">Help improve pricing in your area</div>
-            <div style="font-size:14px; color:var(--text-secondary, #4b5563); margin-bottom:14px;">
-              Allow TruePrice to use your quote data anonymously to improve pricing accuracy for homeowners in your city. No personal information is shared &mdash; only price, material, and scope data.
-            </div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-              <button class="btn" onclick="submitCommunityQuote()" style="font-size:14px; padding:10px 18px;">Yes, contribute my data</button>
-              <button class="btn secondary" onclick="dismissCommunityContribute()" style="font-size:14px; padding:10px 18px;">No thanks</button>
-            </div>
+          <div style="padding:8px 14px; margin:8px 0 16px; font-size:12px; color:#94a3b8; text-align:center;">
+            &#10003; Added to our anonymized local benchmark for ${cityLabel}. No personal info shared.
+            <a href="#" onclick="event.preventDefault();if(confirm('Exclude future analyses from anonymized benchmarks?')){localStorage.setItem('tp_benchmark_optout','1');this.parentNode.innerHTML='&#10003; You have opted out. Future analyses will not be added to benchmarks.';}" style="color:#94a3b8; text-decoration:underline; margin-left:6px;">opt out</a>
           </div>
         `;
       }
@@ -5810,6 +5798,41 @@ function buildComparisonWinnerHtml(summary) {
 
         window.__latestAnalysis = latestAnalysis;
         setJourneyStep("result");
+
+        // Auto-contribute anonymized benchmark data (Option C: silent capture
+        // unless user has opted out). Skips if no price, already contributed
+        // for this exact price, or user opted out.
+        try {
+          const _optOut = localStorage.getItem("tp_benchmark_optout") === "1";
+          const _key = "tp_contributed_" + Math.round(latestAnalysis.quotePrice || 0);
+          const _alreadySent = localStorage.getItem(_key) === "true";
+          if (!_optOut && !_alreadySent && latestAnalysis.quotePrice) {
+            const _parsed = latestParsed || {};
+            const _signals = _parsed.signals || {};
+            const _scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking","disposal","permit"];
+            const _scopeConfirmed = _scopeKeys.filter(function(k) {
+              return (typeof scopeReviewState !== "undefined" && scopeReviewState[k]) || (_signals[k] && _signals[k].status === "included");
+            }).length;
+            fetch("/api/community-quote", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                price: latestAnalysis.quotePrice,
+                material: latestAnalysis.material || "",
+                city: latestAnalysis.city || "",
+                stateCode: latestAnalysis.stateCode || "",
+                roofSize: latestAnalysis.roofSize || 0,
+                serviceType: "roofing",
+                scopeConfirmed: _scopeConfirmed,
+                scopeTotal: _scopeKeys.length,
+                verdict: latestAnalysis.verdict || "",
+                source: "auto"
+              })
+            }).then(function(res) {
+              if (res && res.ok) localStorage.setItem(_key, "true");
+            }).catch(function() {});
+          }
+        } catch (e) {}
 
         const session = getTrackingSession();
         session.analysesRun = (session.analysesRun || 0) + 1;
