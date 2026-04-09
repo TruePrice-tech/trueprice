@@ -1005,20 +1005,33 @@ function detectContractor(text) {
     if (looksLikeCompanyName(cleaned)) return cleaned;
   }
 
-   const fallbackMatch = source.match(
-    /\b([A-Z][A-Za-z0-9&.' -]{2,70}?(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration|Builders))\b/
-  );
-
-  if (fallbackMatch && fallbackMatch[1]) {
-    const cleaned = cleanCompanyName(fallbackMatch[1]);
+  // Fallback: scan ALL company-name matches and pick the longest valid one.
+  // (Was: non-greedy regex returning the first/shortest match, which made
+  // different OCR passes of the same quote produce different substrings like
+  // "PEAKPRO ROOFING" vs "E ROOFING" vs "A E ROOFING".)
+  const fallbackRegex = /\b([A-Z][A-Za-z0-9&.' -]{2,70}?(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration|Builders))\b/g;
+  const candidates = [];
+  let m;
+  while ((m = fallbackRegex.exec(source)) !== null) {
+    const raw = m[1];
+    const cleaned = cleanCompanyName(raw);
     if (
       cleaned &&
       !/\$|,\d{3}|\.\d{2}\b/.test(cleaned) &&
       !/\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|underlayment|shingles|permit|sales tax)\b/i.test(cleaned) &&
       looksLikeCompanyName(cleaned)
     ) {
-      return cleaned;
+      candidates.push(cleaned);
     }
+  }
+  if (candidates.length) {
+    // Prefer longest, with a small bonus for known company suffixes
+    candidates.sort(function(a, b) {
+      const sufA = /\b(llc|inc|co|corp|company)\b/i.test(a) ? 5 : 0;
+      const sufB = /\b(llc|inc|co|corp|company)\b/i.test(b) ? 5 : 0;
+      return (b.length + sufB) - (a.length + sufA);
+    });
+    return candidates[0];
   }
 
   return "Not detected";
