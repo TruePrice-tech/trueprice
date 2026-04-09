@@ -1,68 +1,31 @@
 // /api/_ocr.js
 //
-// Shared server-side OCR helper. Frontline text extraction for every
-// analyzer endpoint that processes uploaded images, so Claude is only
-// used as a structured-extraction backup instead of the primary parser.
+// Shared server-side OCR shim.
 //
-// Cost impact: cuts Claude per-request from ~$0.005 (vision call) to
-// ~$0.0005 (text-only call) when OCR succeeds. ~90% reduction.
+// IMPORTANT: As of the Tesseract-first migration, the canonical OCR layer
+// is **client-side Tesseract.js** running in the user's browser. The
+// frontend extracts text BEFORE calling any /api/X-estimate endpoint and
+// sends `{ text, images }` in the POST body.
 //
-// OCR provider: OCR.space free tier (25,000 calls/month, no credit card
-// required). We previously had a Google Vision fallback but the account
-// is permanently unavailable, so OCR.space is the only OCR layer.
+// This file used to call OCR.space (a free third-party OCR service) as a
+// server-side fallback when the client text was sparse. That added a
+// privacy concern (image leaving the user's device through a third party)
+// and a redundant OCR layer that didn't meaningfully improve accuracy
+// over Claude vision.
 //
-// Usage in any analyzer endpoint:
-//   import { runOcr, ocrTextLooksGood } from "./_ocr.js";
+// Architecture is now: Tesseract first → Claude vision fallback (sequential).
+// runOcr() is kept as a no-op stub so existing imports don't break, and so
+// every endpoint's `if (!text || text < threshold) → image to Claude vision`
+// fallback path remains intact.
 //
-//   const ocrResult = await runOcr(base64Image, mediaType);
-//   if (ocrResult && ocrTextLooksGood(ocrResult.text)) {
-//     // OCR succeeded — send TEXT only to Claude (cheap path)
-//     content.push({ type: "text", text: prompt + "\n\nOCR TEXT:\n" + ocrResult.text });
-//   } else {
-//     // OCR failed or text is poor — fall back to Claude vision (expensive)
-//     content.push({ type: "image", source: { type: "base64", media_type: mime, data: cleanBase64 } });
-//     content.push({ type: "text", text: prompt });
-//   }
+// Removing OCR.space entirely keeps user images on Tesseract (browser) +
+// Claude vision (Anthropic) only — no third-party OCR vendor in the loop.
 
-const OCR_SPACE_FALLBACK_KEY = "K84200508188957"; // public free-tier key from /api/ocr-vision.js
-
-export async function runOcr(base64, mediaType) {
-  if (!base64) return null;
-
-  // Strip data URL prefix if present
-  const cleanBase64 = base64.startsWith("data:")
-    ? base64.replace(/^data:[^;]+;base64,/, "")
-    : base64;
-  const mime = mediaType || "image/png";
-
-  // OCR.space (frontline, free)
-  try {
-    const formBody = new URLSearchParams();
-    formBody.append("base64Image", `data:${mime};base64,${cleanBase64}`);
-    formBody.append("language", "eng");
-    formBody.append("isOverlayRequired", "false");
-    formBody.append("OCREngine", "2");
-    formBody.append("isTable", "true");
-    formBody.append("scale", "true");
-
-    const res = await fetch("https://api.ocr.space/parse/image", {
-      method: "POST",
-      headers: { apikey: process.env.OCR_SPACE_API_KEY || OCR_SPACE_FALLBACK_KEY },
-      body: formBody
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (!data.IsErroredOnProcessing && data.ParsedResults && data.ParsedResults.length > 0) {
-        const text = data.ParsedResults.map(r => r.ParsedText || "").join("\n");
-        if (text.length > 30) {
-          return { text, source: "ocr_space", confidence: "medium" };
-        }
-      }
-    }
-  } catch (e) {
-    console.warn("[_ocr] OCR.space failed:", e.message);
-  }
-
+export async function runOcr(/* base64, mediaType */) {
+  // No-op: server-side OCR is no longer performed. Tesseract on the client
+  // is the only OCR layer; Claude vision is the only fallback. Returning
+  // null here causes the caller's existing image-to-Claude-vision fallback
+  // path to fire, which is the desired behavior.
   return null;
 }
 
