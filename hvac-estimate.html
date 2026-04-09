@@ -1593,7 +1593,8 @@
           brandCompHtml += '</div>';
         }
         brandCompHtml += '<h3 style="margin:0 0 8px;">Total Cost of Ownership Calculator</h3>';
-        brandCompHtml += '<p style="font-size:13px;color:#64748b;margin-bottom:4px;">' + detectedSeer + ' SEER, ' + detectedTonnage + '-ton ' + (r.systemType || "system").replace(/_/g, " ") + (stateCode ? ' in ' + stateCode : '') + '. Energy at $' + elecRate.toFixed(2) + '/kWh.</p>';
+        var _sysTypeStr = (r.systemType && typeof r.systemType === "object") ? (r.systemType.value || r.systemType.label || "system") : (r.systemType || "system");
+        brandCompHtml += '<p style="font-size:13px;color:#64748b;margin-bottom:4px;">' + detectedSeer + ' SEER, ' + detectedTonnage + '-ton ' + String(_sysTypeStr).replace(/_/g, " ") + (stateCode ? ' in ' + stateCode : '') + '. Energy at $' + elecRate.toFixed(2) + '/kWh.</p>';
         if (climateNote) brandCompHtml += '<p style="font-size:12px;color:#d97706;margin-bottom:8px;">' + climateNote + '</p>';
 
         // Adjustable assumptions
