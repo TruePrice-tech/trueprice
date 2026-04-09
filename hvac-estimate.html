@@ -755,20 +755,15 @@
           })
             .then(function(r) { return r.ok ? r.json() : null; })
             .then(function(payload) {
-              console.log("[hvac-estimate] property-signals response:", payload);
-              if (!payload || !payload.success || !payload.data) { console.log("[hvac-estimate] no usable data, skipping pre-fill"); return; }
+              if (!payload || !payload.success || !payload.data) return;
               var d = payload.data;
               var sqft = Number(d.livingAreaSqFt || d.footprintSqFt || 0);
-              console.log("[hvac-estimate] derived sqft:", sqft, "current est.homeSqFt:", est.homeSqFt, "state.step:", state.step);
-              if (sqft >= 500 && sqft <= 10000 && !est.homeSqFt) {
-                est.homeSqFt = String(Math.round(sqft));
-                console.log("[hvac-estimate] pre-filled est.homeSqFt =", est.homeSqFt, "; re-rendering");
+              if (sqft >= 500 && sqft <= 10000 && !state.est.homeSqFt) {
+                state.est.homeSqFt = String(Math.round(sqft));
                 if (state.step === "estimator") render();
-              } else {
-                console.log("[hvac-estimate] skipped pre-fill (out of range or already set)");
               }
             })
-            .catch(function(err) { console.log("[hvac-estimate] property-signals fetch failed:", err); });
+            .catch(function() {});
         } catch (err) {}
 
         state.step = "estimator";
