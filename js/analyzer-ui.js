@@ -9129,6 +9129,39 @@ function buildComparisonWinnerHtml(summary) {
       };
       prefetchCityMultiplier(city, state);
 
+      // Fire OSM building footprint lookup early so the home-size input on
+      // the estimator step is pre-filled by the time the user gets there.
+      // 6s timeout fallback to manual entry. Silent on failure.
+      try {
+        const _ctrl = ("AbortController" in window) ? new AbortController() : null;
+        const _t = setTimeout(function() { if (_ctrl) _ctrl.abort(); }, 6000);
+        fetch("/api/property-signals", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ street: street, city: city, stateCode: state, zip: zip }),
+          signal: _ctrl ? _ctrl.signal : undefined
+        })
+          .then(function(r) { return r.ok ? r.json() : null; })
+          .then(function(payload) {
+            clearTimeout(_t);
+            if (!payload || !payload.success || !payload.data) return;
+            const d = payload.data;
+            const sqft = Number(d.livingAreaSqFt || d.footprintSqFt || 0);
+            if (sqft >= 500 && sqft <= 15000) {
+              journeyState.osmHomeSize = Math.round(sqft);
+              // If user is already on the estimator step, populate the input now
+              const _input = document.getElementById("estHomeSize");
+              if (_input && !_input.value) {
+                _input.value = String(journeyState.osmHomeSize);
+                const _hint = document.getElementById("estHomeSizeHint");
+                if (_hint) _hint.textContent = "\u2713 Pre-filled from your address — edit if not accurate";
+                if (_hint) _hint.style.color = "#16a34a";
+              }
+            }
+          })
+          .catch(function() { clearTimeout(_t); });
+      } catch (e) {}
+
       journeyState.propertyLookupAttempted = true;
       journeyState.propertyLookupFailed = false;
       journeyState.propertyLookupMessage = "";
@@ -9700,10 +9733,10 @@ function buildComparisonWinnerHtml(summary) {
             <div class="est-section">
               <div class="est-section-label">How big is your home? (optional but improves accuracy)</div>
               <div style="display:flex; gap:10px; align-items:center;">
-                <input type="number" id="estHomeSize" placeholder="e.g. 2400" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
+                <input type="number" id="estHomeSize" placeholder="e.g. 2400" value="${journeyState.osmHomeSize ? String(journeyState.osmHomeSize) : ""}" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
                 <span style="font-size:14px; color:#64748b;">sq ft</span>
               </div>
-              <div style="font-size:12px; color:#94a3b8; margin-top:4px;">Check your listing, tax records, or Zillow. This overrides satellite estimates.</div>
+              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from your address — edit if not accurate' : 'Check your listing, tax records, or Zillow. This overrides satellite estimates.'}</div>
             </div>
 
             <!-- Ownership -->
