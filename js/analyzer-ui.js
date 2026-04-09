@@ -8560,19 +8560,10 @@ function buildComparisonWinnerHtml(summary) {
         ? `<div style="margin:0 0 18px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; font-size:14px; color:#166534; font-weight:500;">Showing local pricing for ${escapeHtml(prefillCity)}, ${escapeHtml(prefillState)}</div>`
         : "";
 
-      // Check for previous analysis to show resume prompt
+      // (Was: separate "Previous analysis found" card from tp_last_analysis.
+      // Removed — the "Welcome back" card below covers the same info from
+      // tp_quote_history without duplicating it.)
       let resumeHtml = "";
-      try {
-        const lastAnalysis = JSON.parse(localStorage.getItem("tp_last_analysis") || "null");
-        if (lastAnalysis && lastAnalysis.timestamp && (Date.now() - lastAnalysis.timestamp) < 7 * 24 * 60 * 60 * 1000) {
-          const fmtPrice = function(p) { return "$" + Number(p).toLocaleString("en-US", { maximumFractionDigits: 0 }); };
-          const cityLabel = lastAnalysis.city ? " in " + escapeHtml(lastAnalysis.city) : "";
-          resumeHtml = '<div style="margin-bottom:20px; padding:16px 20px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:14px;">'
-            + '<div style="font-size:14px; font-weight:600; color:#1d4ed8; margin-bottom:6px;">Previous analysis found</div>'
-            + '<div style="font-size:14px; color:#475569;">Your last quote' + cityLabel + (lastAnalysis.price ? ' for ' + fmtPrice(lastAnalysis.price) : '') + ' was <strong>' + escapeHtml(lastAnalysis.verdict || 'analyzed') + '</strong>. Upload a new quote to compare.</div>'
-            + '</div>';
-        }
-      } catch(e) {}
 
       // Build returning-user welcome section
       let returningUserHtml = "";
