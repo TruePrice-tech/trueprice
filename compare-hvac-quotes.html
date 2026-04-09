@@ -635,6 +635,27 @@
       html += '<button class="cmp-cta-btn cmp-cta-outline" onclick="startOver()">Start over</button>';
       html += '</div>';
 
+      // Standardized: Next Steps before signing (HVAC-specific bullets)
+      html += '<section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:24px 0 16px;">';
+      html += '<h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>';
+      html += '<ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">';
+      html += '<li>Match scope line-by-line &mdash; a $5K cheaper quote usually means missing equipment, not better value</li>';
+      html += '<li>Confirm warranty terms (parts AND labor years) on each quote &mdash; labor warranty is the bigger gap</li>';
+      html += '<li>Ask for a Manual J load calculation if any contractor didn&#39;t perform one</li>';
+      html += '<li>Verify R-410A compliance &mdash; do not accept R-410A in new 2026+ installs (EPA AIM Act)</li>';
+      html += '<li>Check the contractor&#39;s license, insurance, EPA 608 certification, and recent reviews</li>';
+      html += '<li>Get every promised inclusion (thermostat, pad, drain line, haul-off) in writing before deposit</li>';
+      html += '</ul>';
+      html += '</section>';
+
+      // Standardized: How we calculate
+      html += '<details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; margin:16px 0;">';
+      html += '<summary style="cursor:pointer; font-size:14px; font-weight:600; color:#475569;">How we compare these quotes</summary>';
+      html += '<div style="margin-top:10px; font-size:13px; color:#64748b; line-height:1.6;">';
+      html += 'We extract equipment brand, tonnage, SEER, warranty, scope, and red flags from each quote, then compare against TruePrice&#39;s HVAC pricing model. The "best value" recommendation factors in scope completeness and warranty quality, not just headline price. <a href="/methodology.html" style="color:#1d4ed8;">Read the full methodology &rarr;</a>';
+      html += '</div>';
+      html += '</details>';
+
       document.getElementById("resultsContent").innerHTML = html;
       document.getElementById("uploadStep").style.display = "none";
       document.getElementById("resultsStep").classList.add("visible");
