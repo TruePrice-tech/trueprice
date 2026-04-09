@@ -1,0 +1,997 @@
+[
+  {
+    "vertical": "hvac",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/hvac-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [],
+    "screenshot": "hvac-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "hvac",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/hvac-quote-analyzer.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "console.error: Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "screenshot": "hvac-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
+  },
+  {
+    "vertical": "hvac",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-hvac-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "hvac-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "plumbing",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/plumbing-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "plumbing-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "plumbing",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/plumbing-quote-analyzer.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "plumbing-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
+  },
+  {
+    "vertical": "plumbing",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-plumbing-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "plumbing-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "electrical",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/electrical-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "electrical-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "electrical",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/electrical-quote-analyzer.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "electrical-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
+  },
+  {
+    "vertical": "electrical",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-electrical-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "electrical-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "roofing",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/photo-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "roofing-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 1,
+      "hasAddrInput": false,
+      "hasUploadButton": false,
+      "hasPhotoBtn": true
+    }
+  },
+  {
+    "vertical": "roofing",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/roofing-quote-analyzer.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "roofing-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
+  },
+  {
+    "vertical": "roofing",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-roofing-quotes.html"
+    ],
+    "pass": false,
+    "notes": [
+      "compare page has fewer than 2 file inputs (got 0)"
+    ],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "roofing-compare.png",
+    "visualState": {
+      "fileInputCount": 0
+    },
+    "fourButtonFooter": {
+      "count": 1,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": true,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "solar",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/solar-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "solar-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "solar",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/solar-quote-analyzer.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "solar-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
+  },
+  {
+    "vertical": "solar",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-solar-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "solar-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "concrete",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/concrete-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "concrete-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "concrete",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/concrete-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "concrete",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-concrete-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "concrete-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "window",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/window-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "window-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "window",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/window-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "window",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-windows-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "window-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "siding",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/siding-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "siding-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "siding",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/siding-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "siding",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-siding-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "siding-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "painting",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/painting-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "painting-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "painting",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/painting-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "painting",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-painting-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "painting-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "foundation",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/foundation-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "foundation-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "foundation",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/foundation-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "foundation",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-foundation-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "foundation-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "fencing",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/fencing-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "fencing-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "fencing",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/fencing-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "fencing",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-fencing-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "fencing-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "gutters",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/gutters-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "gutters-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "gutters",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/gutters-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "gutters",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-gutters-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "gutters-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "insulation",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/insulation-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "insulation-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "insulation",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/insulation-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "insulation",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-insulation-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "insulation-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "kitchen",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/kitchen-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "kitchen-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "kitchen",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/kitchen-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "kitchen",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-kitchen-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "kitchen-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "landscaping",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/landscaping-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "landscaping-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "landscaping",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/landscaping-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "landscaping",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-landscaping-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "landscaping-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  },
+  {
+    "vertical": "garage-door",
+    "journey": "estimate",
+    "steps": [
+      "loaded home",
+      "clicked Estimate card -> https://truepricehq.com/get-an-estimate.html",
+      "clicked vertical -> https://truepricehq.com/garage-door-estimate.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
+    ],
+    "screenshot": "garage-door-estimate.png",
+    "visualState": {
+      "visibleFileInputs": 0,
+      "hasAddrInput": true,
+      "hasUploadButton": false,
+      "hasPhotoBtn": false
+    }
+  },
+  {
+    "vertical": "garage-door",
+    "journey": "analyze",
+    "steps": [
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+    ],
+    "pass": false,
+    "notes": [
+      "no card with href=/garage-door-quote-analyzer.html"
+    ],
+    "errors": [],
+    "screenshot": null
+  },
+  {
+    "vertical": "garage-door",
+    "journey": "compare",
+    "steps": [
+      "clicked Compare -> https://truepricehq.com/compare-quotes-picker.html",
+      "clicked vertical -> https://truepricehq.com/compare-garage-door-quotes.html"
+    ],
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshot": "garage-door-compare.png",
+    "visualState": {
+      "fileInputCount": 3
+    },
+    "fourButtonFooter": {
+      "count": 0,
+      "found": {
+        "back": false,
+        "savePdf": false,
+        "home": false,
+        "feedback": false
+      }
+    }
+  }
+]

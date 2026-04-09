@@ -1,0 +1,314 @@
+[
+  {
+    "vertical": "hvac",
+    "fixture": "01-estimator-said-the-capacitor-would-be-700-not-incl.jpeg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "console.error: HVAC analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "hvac-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "plumbing",
+    "fixture": "01-did-i-get-ripped-off.jpeg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 90,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "console.error: Plumbing analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "plumbing-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "electrical",
+    "fixture": "01-what-are-your-guys-thoughts-on-this.jpeg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "console.error: Electrical analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "electrical-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "roofing",
+    "fixture": "01-can-this-be-done-for-8500.png",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [],
+    "screenshot": "roofing-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "solar",
+    "fixture": "01-first-bill-with-solar-not-too-bad.jpg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "console.error: Solar analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "solar-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "concrete",
+    "fixture": "01-crew-chipped-neighbors-driveway.jpeg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Concrete analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "concrete-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "window",
+    "fixture": "real-01-new-windows-update-estimate-kinda-cool.png",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "console.error: Window analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "window-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "siding",
+    "fixture": "real-01-how-to-modernizeadd-curb-appeal-to-70s-split-level.jpg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Siding analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "siding-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "painting",
+    "fixture": "real-01-jennifer-coolidge-painting-is-complete-what-is-you.jpg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Painting analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "painting-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "foundation",
+    "fixture": "mock-01.png",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Foundation analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "foundation-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "fencing",
+    "fixture": "real-01-any-other-quotes-i-should-keep-in-my-fencing-noteb.jpg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 90,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Fence analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "fencing-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "gutters",
+    "fixture": "real-01-asked-about-getting-a-quote-for-6-inch-gutters-for.jpeg",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Gutter analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "gutters-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "insulation",
+    "fixture": "mock-01.png",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Insulation analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "insulation-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "kitchen",
+    "fixture": "mock-01.png",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Kitchen analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "kitchen-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "landscaping",
+    "fixture": "mock-01.png",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Landscaping analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "landscaping-result.png",
+    "notes": []
+  },
+  {
+    "vertical": "garage-door",
+    "fixture": "mock-01.png",
+    "fixtureSource": "real",
+    "httpStatus": 200,
+    "pageLoaded": true,
+    "fileInputFound": true,
+    "uploaded": true,
+    "waitedSeconds": 91,
+    "verdictRendered": false,
+    "totalPriceExtracted": null,
+    "verdictText": "",
+    "pass": false,
+    "consoleErrors": [
+      "pageerror: Cannot read properties of null (reading 'addEventListener')",
+      "console.error: Garage door analysis error: ReferenceError: Tesseract is not defined"
+    ],
+    "screenshot": "garage-door-result.png",
+    "notes": []
+  }
+]
