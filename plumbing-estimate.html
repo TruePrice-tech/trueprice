@@ -302,6 +302,18 @@
         gas_line: {
           label: "Gas Line Installation",
           priceByLength: { short_under_20ft: 800, medium_20_50ft: 1500, long_over_50ft: 2500 }
+        },
+        toilet: {
+          label: "Toilet Install",
+          priceByType: { standard: 450, comfort_height: 550, dual_flush: 650, smart_bidet: 1400 }
+        },
+        sump_pump: {
+          label: "Sump Pump",
+          priceByType: { pedestal_replace: 650, submersible_replace: 950, new_install_with_pit: 2200, battery_backup_add: 850 }
+        },
+        water_softener: {
+          label: "Water Softener / Filtration",
+          priceByType: { whole_house_softener: 2400, softener_plus_filter: 3200, ro_under_sink: 600, iron_filter: 1800 }
         }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.05, northeast: 1.20, midwest: 1.08, mountain: 1.12, west: 1.25 },
@@ -381,7 +393,7 @@
         ]
       },
       bathroom_rough_in: {
-        question: "What scope of bathroom plumbing?",
+        question: "What scope of bathroom rough-in?",
         field: "subType",
         options: [
           { value: "half_bath", label: "Half Bath" },
@@ -396,6 +408,36 @@
           { value: "short_under_20ft", label: "Short (under 20 ft)" },
           { value: "medium_20_50ft", label: "Medium (20-50 ft)" },
           { value: "long_over_50ft", label: "Long (over 50 ft)" }
+        ]
+      },
+      toilet: {
+        question: "What type of toilet?",
+        field: "subType",
+        options: [
+          { value: "standard", label: "Standard" },
+          { value: "comfort_height", label: "Comfort Height" },
+          { value: "dual_flush", label: "Dual Flush" },
+          { value: "smart_bidet", label: "Smart / Bidet Seat" }
+        ]
+      },
+      sump_pump: {
+        question: "What sump pump work?",
+        field: "subType",
+        options: [
+          { value: "pedestal_replace", label: "Replace Pedestal" },
+          { value: "submersible_replace", label: "Replace Submersible" },
+          { value: "new_install_with_pit", label: "New Install + Pit" },
+          { value: "battery_backup_add", label: "Add Battery Backup" }
+        ]
+      },
+      water_softener: {
+        question: "What type of system?",
+        field: "subType",
+        options: [
+          { value: "whole_house_softener", label: "Whole-House Softener" },
+          { value: "softener_plus_filter", label: "Softener + Filter" },
+          { value: "ro_under_sink", label: "RO Under-Sink" },
+          { value: "iron_filter", label: "Iron Filter" }
         ]
       }
     };
@@ -976,10 +1018,13 @@
             <h3>What type of plumbing service do you need?</h3>\
             <div class="plumb-options" id="optService">\
               <div class="plumb-option' + (est.serviceType === "water_heater" ? " selected" : "") + '" data-val="water_heater">Water Heater</div>\
-              <div class="plumb-option' + (est.serviceType === "repipe" ? " selected" : "") + '" data-val="repipe">Repipe</div>\
-              <div class="plumb-option' + (est.serviceType === "sewer_line" ? " selected" : "") + '" data-val="sewer_line">Sewer Line</div>\
+              <div class="plumb-option' + (est.serviceType === "toilet" ? " selected" : "") + '" data-val="toilet">Toilet</div>\
+              <div class="plumb-option' + (est.serviceType === "sump_pump" ? " selected" : "") + '" data-val="sump_pump">Sump Pump</div>\
+              <div class="plumb-option' + (est.serviceType === "water_softener" ? " selected" : "") + '" data-val="water_softener">Water Softener</div>\
               <div class="plumb-option' + (est.serviceType === "drain_cleaning" ? " selected" : "") + '" data-val="drain_cleaning">Drain Cleaning</div>\
-              <div class="plumb-option' + (est.serviceType === "bathroom_rough_in" ? " selected" : "") + '" data-val="bathroom_rough_in">Bathroom Plumbing</div>\
+              <div class="plumb-option' + (est.serviceType === "sewer_line" ? " selected" : "") + '" data-val="sewer_line">Sewer Line</div>\
+              <div class="plumb-option' + (est.serviceType === "repipe" ? " selected" : "") + '" data-val="repipe">Repipe</div>\
+              <div class="plumb-option' + (est.serviceType === "bathroom_rough_in" ? " selected" : "") + '" data-val="bathroom_rough_in">Bathroom Rough-In</div>\
               <div class="plumb-option' + (est.serviceType === "gas_line" ? " selected" : "") + '" data-val="gas_line">Gas Line</div>\
             </div>\
           </div>';
