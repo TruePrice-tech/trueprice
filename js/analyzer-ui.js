@@ -8551,12 +8551,17 @@ function buildComparisonWinnerHtml(summary) {
       return `
         <style></style>
         <div class="journey-start">
-          <div class="journey-start-card" style="max-width:720px; margin:48px auto; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
 
-            ${localContext}
-
+          ${(resumeHtml || returningUserHtml) ? `
+          <div style="max-width:720px; margin:24px auto 0;">
             ${resumeHtml}
             ${returningUserHtml}
+          </div>
+          ` : ''}
+
+          <div class="journey-start-card" style="max-width:720px; margin:24px auto 48px; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
+
+            ${localContext}
 
             ${(isEstimatorMode || isUploadMode) ? '' : `
             <h1 style="margin:0 0 10px; font-size:38px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">
