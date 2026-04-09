@@ -8646,7 +8646,7 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isEstimatorMode ? `
             <div style="text-align:center; margin-bottom:20px;">
-              <img src="/images/trudy-working.png" alt="Trudy" width="100" style="margin-bottom:8px;" />
+              <img src="/images/trudy-typing.png" alt="Trudy" width="100" style="margin-bottom:8px;" />
               <h2 style="margin:0 0 6px; font-size:22px;">Enter your address</h2>
               <p style="margin:0; font-size:14px; color:#64748b;">We'll look up your property and estimate your roof size from satellite data.</p>
             </div>
