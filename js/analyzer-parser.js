@@ -813,6 +813,102 @@ function detectWarranty(text) {
   return winner;
 }
 
+// Roofing material patterns for detectMaterial. Was referenced but never
+// defined — likely removed by a previous console-cleanup commit. Restored
+// here so the parser doesn't ReferenceError on every analyze call.
+const MATERIAL_PATTERNS = [
+  {
+    value: "architectural",
+    label: "Architectural shingles",
+    score: 90,
+    patterns: [
+      /\barchitectural\b/i,
+      /\bdimensional\s+shingle/i,
+      /\blaminate\s+shingle/i,
+      /\btimberline\b/i,
+      /\blandmark\b/i,
+      /\bduration\b/i
+    ]
+  },
+  {
+    value: "asphalt",
+    label: "Asphalt shingles",
+    score: 70,
+    patterns: [
+      /\basphalt\s+shingle/i,
+      /\b3[- ]tab\b/i,
+      /\bthree[- ]tab\b/i,
+      /\bcomposition\s+shingle/i,
+      /\bcomp\s+shingle/i
+    ]
+  },
+  {
+    value: "metal",
+    label: "Metal roofing",
+    score: 90,
+    patterns: [
+      /\bmetal\s+roof/i,
+      /\bmetal\s+roofing/i,
+      /\bstanding\s+seam/i,
+      /\bmetal\s+panel/i,
+      /\bcorrugated\s+metal/i,
+      /\bsteel\s+roof/i,
+      /\baluminum\s+roof/i
+    ]
+  },
+  {
+    value: "tile",
+    label: "Tile roofing",
+    score: 90,
+    patterns: [
+      /\bclay\s+tile/i,
+      /\bconcrete\s+tile/i,
+      /\bspanish\s+tile/i,
+      /\bbarrel\s+tile/i,
+      /\btile\s+roof/i
+    ]
+  },
+  {
+    value: "slate",
+    label: "Slate roofing",
+    score: 95,
+    patterns: [
+      /\bslate\s+roof/i,
+      /\bslate\s+shingle/i,
+      /\bnatural\s+slate/i,
+      /\bsynthetic\s+slate/i
+    ]
+  },
+  {
+    value: "wood_shake",
+    label: "Wood shake / shingle",
+    score: 90,
+    patterns: [
+      /\bcedar\s+shake/i,
+      /\bcedar\s+shingle/i,
+      /\bwood\s+shake/i,
+      /\bwood\s+shingle/i,
+      /\bshake\s+roof/i
+    ]
+  },
+  {
+    value: "flat",
+    label: "Flat / membrane roof",
+    score: 85,
+    patterns: [
+      /\bTPO\b/i,
+      /\bEPDM\b/i,
+      /\bPVC\s+membrane/i,
+      /\bmodified\s+bitumen/i,
+      /\bmod[- ]bit\b/i,
+      /\bbuilt[- ]up\s+roof/i,
+      /\bflat\s+roof/i,
+      /\bmembrane\s+roof/i,
+      /\brubber\s+roof/i
+    ]
+  }
+];
+
 function detectMaterial(text) {
   const source = String(text || "");
 
