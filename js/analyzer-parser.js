@@ -270,6 +270,14 @@ function normalizeEvidence(value) {
   return String(value).replace(/\s+/g, " ").trim().slice(0, 240);
 }
 
+// Collapse all whitespace runs to single spaces and trim. Was referenced
+// in detectLocation, detectContractor, detectMaterial etc but never defined
+// — same root cause as normalizeEvidence and MATERIAL_PATTERNS missing.
+function normalizeWhitespace(value) {
+  if (value == null) return "";
+  return String(value).replace(/\s+/g, " ").trim();
+}
+
 function extractPriceCandidates(text) {
   const candidates = [];
   const seen = new Set();
