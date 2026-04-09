@@ -742,7 +742,17 @@
 
         // Try to pre-fill home size from OSM building footprint so we don't
         // ask the user something we can already derive from their address.
+        // 6s timeout in case Overpass hangs — falls back to manual entry.
+        state.est.lookupInFlight = true;
         try {
+          var ctrl = ("AbortController" in window) ? new AbortController() : null;
+          var timeoutId = setTimeout(function() {
+            if (ctrl) ctrl.abort();
+            if (state.est.lookupInFlight) {
+              state.est.lookupInFlight = false;
+              if (state.step === "estimator") render();
+            }
+          }, 6000);
           fetch("/api/property-signals", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -751,20 +761,30 @@
               city: state.address.city,
               stateCode: state.address.stateCode,
               zip: state.address.zip
-            })
+            }),
+            signal: ctrl ? ctrl.signal : undefined
           })
             .then(function(r) { return r.ok ? r.json() : null; })
             .then(function(payload) {
-              if (!payload || !payload.success || !payload.data) return;
+              clearTimeout(timeoutId);
+              state.est.lookupInFlight = false;
+              if (!payload || !payload.success || !payload.data) {
+                if (state.step === "estimator") render();
+                return;
+              }
               var d = payload.data;
               var sqft = Number(d.livingAreaSqFt || d.footprintSqFt || 0);
               if (sqft >= 500 && sqft <= 10000 && !state.est.homeSqFt) {
                 state.est.homeSqFt = String(Math.round(sqft));
-                if (state.step === "estimator") render();
               }
+              if (state.step === "estimator") render();
             })
-            .catch(function() {});
-        } catch (err) {}
+            .catch(function() {
+              clearTimeout(timeoutId);
+              state.est.lookupInFlight = false;
+              if (state.step === "estimator") render();
+            });
+        } catch (err) { state.est.lookupInFlight = false; }
 
         state.step = "estimator";
         render();
@@ -1183,7 +1203,7 @@
         card.innerHTML = '\
           <div class="hvac-step">\
             <h3>How large is your home?</h3>\
-            ' + (est.homeSqFt ? '<p style="font-size:13px; color:#16a34a; margin:0 0 8px;">&#10003; Pre-filled from your address &mdash; edit if not accurate</p>' : '') + '\
+            ' + (est.homeSqFt ? '<p style="font-size:13px; color:#16a34a; margin:0 0 8px;">&#10003; Pre-filled from your address &mdash; edit if not accurate</p>' : (est.lookupInFlight ? '<p style="font-size:13px; color:#64748b; margin:0 0 8px; display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:12px; height:12px; border:2px solid #cbd5e1; border-top-color:#1d4ed8; border-radius:50%; animation:tpSpin 0.8s linear infinite;"></span>Looking up your home from satellite data...</p><style>@keyframes tpSpin{to{transform:rotate(360deg)}}</style>' : '')) + '\
             <div style="display:flex;align-items:center;gap:0.75rem;">\
               <input type="number" class="hvac-sqft-input" id="sqftInput" placeholder="e.g. 2000" value="' + (est.homeSqFt || "") + '" min="500" max="10000" />\
               <span style="color:#64748b;">sq ft</span>\
