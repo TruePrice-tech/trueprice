@@ -98,9 +98,14 @@
     .plumb-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
 
     .plumb-num-input {
-      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
-      font-size: 1rem; width: 200px;
+      padding: 0.75rem 1rem; border: 2px solid #cbd5e1; border-radius: 10px;
+      font-size: 1rem; width: 200px; font-family: inherit; color: #0f172a;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
+    .plumb-num-input:focus {
+      outline: none; border-color: #1d4ed8; box-shadow: 0 0 0 3px rgba(29,78,216,0.15);
+    }
+    .plumb-num-input::placeholder { color: #94a3b8; }
 
     /* Verdict card */
     .plumb-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
