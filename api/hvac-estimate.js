@@ -149,20 +149,26 @@ ${text ? "EXTRACTED TEXT FROM QUOTE:\n" + text.substring(0, 8000) + "\n\n" : ""}
 
 Return this exact JSON structure:
 {
+  "contractor": <string or null - HVAC contracting company name. Look at the top of the quote (letterhead), header, footer, signature line, or "from"/"prepared by" sections. Extract the company name even if it's in a logo image. This is REQUIRED whenever a name is visible.>,
   "totalPrice": <number or null - the total quoted price>,
   "laborTotal": <number or null - total labor cost>,
+  "laborCost": <number or null - same as laborTotal, alias for compatibility>,
   "equipmentTotal": <number or null - total equipment/materials cost>,
+  "equipmentCost": <number or null - same as equipmentTotal, alias for compatibility>,
   "systemType": <"central_ac" | "heat_pump" | "gas_furnace" | "mini_split" | "full_system" | "geothermal" | null>,
-  "brand": <string or null - equipment brand name>,
+  "brand": <string or null - equipment brand name (Carrier, Trane, Lennox, Goodman, Rheem, York, Mitsubishi, Daikin, etc.) - look in line item descriptions and equipment lists>,
   "modelNumber": <string or null - equipment model number>,
   "seer": <number or null - SEER or SEER2 efficiency rating>,
   "afue": <number or null - furnace efficiency percentage>,
   "tonnage": <number or null - system tonnage/capacity>,
+  "btu": <number or null - BTU rating if tonnage not given>,
   "zones": <number or null - number of zones for mini-splits>,
   "refrigerantType": <string or null - R410A, R32, R454B, R22, etc.>,
   "city": <string or null - city from the quote>,
   "stateCode": <string or null - 2-letter state code>,
   "homeSqFt": <number or null - home square footage if mentioned>,
+  "warrantyPartsYears": <number or null - parts warranty in YEARS as a number, e.g. 10 for "10 years">,
+  "warrantyLaborYears": <number or null - labor warranty in YEARS as a number, e.g. 2 for "2 years">,
   "lineItems": [
     {
       "description": <string - line item description>,
