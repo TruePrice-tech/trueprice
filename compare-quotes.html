@@ -337,6 +337,29 @@
     var quotes = [null, null, null]; // parsed data per slot
     var uploadCount = 0;
 
+    // Honor ?slot=N from deep links (e.g. compare-roofing-quotes.html cards):
+    // auto-open the requested file picker on page load so the user doesn't
+    // have to click twice.
+    function autoOpenSlotFromQueryString() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var slot = params.get("slot");
+        if (slot === null || slot === "") return;
+        var n = parseInt(slot, 10);
+        if (!(n >= 0 && n <= 2)) return;
+        var fire = function() {
+          var input = document.getElementById("file" + n);
+          if (input) input.click();
+        };
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", function() { setTimeout(fire, 50); });
+        } else {
+          setTimeout(fire, 50);
+        }
+      } catch (e) {}
+    }
+    autoOpenSlotFromQueryString();
+
     var SCOPE_BY_SERVICE = {
       roofing: [
         { key: "tearOff", label: "Tear-off" }, { key: "underlayment", label: "Underlayment" },
