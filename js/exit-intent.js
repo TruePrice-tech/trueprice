@@ -123,10 +123,25 @@
         if (!ctaClicked && !shouldSuppress()) createModal();
       }, MOBILE_DELAY);
     } else {
-      // Desktop: mouse leaves viewport from the top
+      // Desktop: mouse leaves viewport from the top — but only after the user
+      // has had a chance to read the page. Require BOTH a minimum dwell time
+      // (15s) AND some real engagement (scroll or click) before arming.
+      var armed = false;
       var fired = false;
+      var engaged = false;
+      var DWELL_MS = 15000;
+
+      function tryArm() {
+        if (engaged && Date.now() - pageStart >= DWELL_MS) armed = true;
+      }
+      var pageStart = Date.now();
+
+      window.addEventListener("scroll", function () { engaged = true; tryArm(); }, { passive: true });
+      document.addEventListener("click", function () { engaged = true; tryArm(); }, true);
+      setTimeout(tryArm, DWELL_MS + 100);
+
       document.addEventListener("mouseout", function (e) {
-        if (fired) return;
+        if (fired || !armed) return;
         if (e.clientY <= 0 && e.relatedTarget == null) {
           fired = true;
           createModal();
