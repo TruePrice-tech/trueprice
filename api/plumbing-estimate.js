@@ -192,17 +192,21 @@ Return this exact JSON structure:
   "summary": <string - brief plain-English summary of the quote and value assessment>
 }
 
-CRITICAL EXTRACTION RULES:
-- ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
-- If you cannot find an explicit total, SUM the individual line item amounts.
-- redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
-- Never return null for a price field if there are dollar amounts visible anywhere in the document.
+CRITICAL EXTRACTION RULES — NULL IS BETTER THAN WRONG:
+- NEVER fabricate or guess. If you cannot read a value clearly from the document, return null.
+- DO NOT default jobType to "water_heater" or any common type when uncertain — use "other" or null instead.
+- DO NOT invent a totalPrice when none is visible. Return null and let the UI prompt the user.
+- If you can read SOME dollar amounts but cannot identify the grand total with confidence, prefer summing visible line items only when the line items clearly add up; otherwise return null.
+- If the OCR text is sparse, garbled, or missing key fields (no contractor letterhead, no clear job description, no clear total), return null for the uncertain fields and set "confidence": "low" at the top level.
+- redFlags: identify concerns ONLY when actually visible in the source. Do not invent transparency gaps to fill the array. An empty redFlags array is acceptable.
+- summary: if you don't have enough data to explain WHY a price is high, low, or fair, write "Insufficient data to assess this quote — please verify the extracted fields manually." Do not invent reasoning.
 
-- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.
+Add this top-level field to your JSON output:
+  "confidence": <"high" | "medium" | "low" - your confidence in the overall extraction. Use "low" if more than 2 fields are null/uncertain.>
 
 Rules:
-- totalPrice: Use the grand total / bottom line, not sum of line items
-- jobType: Match to the closest category. Use "other" if none fit
+- totalPrice: Use the grand total / bottom line, not sum of line items. Return null if not clearly visible.
+- jobType: Match to the closest category from the visible job description. Use "other" if unclear, null if no job description visible.
 - pipeType: Extract the pipe material if mentioned (PEX, copper, PVC, CPVC, cast_iron, galvanized)
 - scopeItems: Mark "yes" only if clearly present in the quote
 - redFlags: Include if any of the following are detected:
