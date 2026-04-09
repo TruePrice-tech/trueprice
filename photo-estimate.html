@@ -1158,6 +1158,10 @@
         state.stateCode = stateVal;
         state.address = addressVal;
         state.zip = zipVal;
+        // Mark this address as user-entered so we don't show "Wrong address?
+        // Pick yours" alternates on the result page (the user just typed it)
+        state.addressSource = "manual";
+        state.nearbyAddresses = [];
         var needsFootprint = hasAddress;
 
         function finishConfirm() {
