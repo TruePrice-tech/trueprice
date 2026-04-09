@@ -620,32 +620,77 @@ async function extractTextFromUploadedFile(file) {
 
     const imageDataUrl = await fileToImageDataUrl(file);
 
-    // Try Google Cloud Vision API first (95%+ accuracy, $0.0015/call)
+    // Tesseract.js client-side OCR pipeline. Same approach the PDF path
+    // already uses: preprocess the image in 3 modes, slice into regions,
+    // run all variants, pick the best result.
     try {
-      const base64Data = imageDataUrl.split(",")[1];
-      if (base64Data) {
-        const visionRes = await fetch("/api/ocr-vision", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ base64: base64Data })
-        });
-        if (visionRes.ok) {
-          const visionData = await visionRes.json();
-          if (visionData.success && visionData.text && visionData.text.length > 50) {
-            console.log("[OCR] Google Vision extracted " + visionData.text.length + " chars");
-            return {
-              text: visionData.text,
-              method: "google_vision",
-              images: [imageDataUrl]
-            };
-          }
-        }
+      if (typeof loadVendorLibs === "function") {
+        await loadVendorLibs();
       }
-    } catch (visionErr) {
-      console.warn("[OCR] Cloud OCR failed:", visionErr.message);
+      if (typeof Tesseract === "undefined") {
+        throw new Error("Tesseract failed to load");
+      }
+
+      const softImage = await preprocessImageForOcr(imageDataUrl, "soft");
+      const strongImage = await preprocessImageForOcr(imageDataUrl, "strong");
+
+      const originalRegions = await createImageRegionsForOcr(imageDataUrl);
+      const softRegions = await createImageRegionsForOcr(softImage);
+
+      // Quick pass: middle body + bottom total area on original + soft
+      const fastVariants = [
+        { label: "original image", src: imageDataUrl, psm: 6 },
+        { label: "enhanced image", src: softImage, psm: 6 },
+        ...originalRegions
+          .filter(r => r.label === "middle body" || r.label === "bottom total area")
+          .map(r => ({ label: "original " + r.label, src: r.src, psm: r.psm || 6 })),
+        ...softRegions
+          .filter(r => r.label === "middle body" || r.label === "bottom total area")
+          .map(r => ({ label: "enhanced " + r.label, src: r.src, psm: r.psm || 6 }))
+      ];
+      const fastResult = await runBestOcrFromVariants(
+        fastVariants,
+        "Identifying key details from your quote",
+        { startPercent: 35, endPercent: 68 }
+      );
+      const fastText = normalizeOcrWhitespace(
+        fastResult.best.text || fastResult.mergedText || ""
+      );
+
+      // Accept fast text if it looks decent
+      if (typeof shouldAcceptFastOcrText === "function" && shouldAcceptFastOcrText(fastText)) {
+        console.log("[OCR] Tesseract fast pass extracted " + fastText.length + " chars");
+        return { text: fastText, method: "tesseract_fast", images: [imageDataUrl] };
+      }
+
+      // Slow pass: high-contrast + remaining regions
+      const slowVariants = [
+        { label: "high contrast image", src: strongImage, psm: 6 },
+        ...originalRegions
+          .filter(r => r.label !== "middle body" && r.label !== "bottom total area")
+          .map(r => ({ label: "original " + r.label, src: r.src, psm: r.psm || 6 })),
+        ...softRegions
+          .filter(r => r.label !== "middle body" && r.label !== "bottom total area")
+          .map(r => ({ label: "enhanced " + r.label, src: r.src, psm: r.psm || 6 }))
+      ];
+      const slowResult = await runBestOcrFromVariants(
+        slowVariants,
+        "Identifying key details from your quote",
+        { startPercent: 68, endPercent: 88 }
+      );
+      const finalText = normalizeOcrWhitespace(
+        slowResult.best.text || fastText || slowResult.mergedText || fastResult.mergedText || ""
+      );
+      console.log("[OCR] Tesseract full pass extracted " + finalText.length + " chars");
+      if (finalText && finalText.length > 0) {
+        return { text: finalText, method: "tesseract_full", images: [imageDataUrl] };
+      }
+    } catch (ocrErr) {
+      console.warn("[OCR] Tesseract pipeline failed:", ocrErr.message);
     }
 
-    // Cloud OCR failed - return empty with original image for AI fallback
+    // Tesseract failed entirely - return empty so the analyzer can fall back
+    // to AI vision analysis on the raw image
     return {
       text: "",
       method: "ocr_failed",

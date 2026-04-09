@@ -13,7 +13,8 @@
     "verdictText": "",
     "pass": false,
     "consoleErrors": [
-      "console.error: HVAC analysis error: ReferenceError: Tesseract is not defined"
+      "console.error: Failed to load resource: the server responded with a status of 413 ()",
+      "pageerror: (r.systemType || \"system\").replace is not a function"
     ],
     "screenshot": "hvac-result.png",
     "notes": []
@@ -32,7 +33,8 @@
     "verdictText": "",
     "pass": false,
     "consoleErrors": [
-      "console.error: Plumbing analysis error: ReferenceError: Tesseract is not defined"
+      "console.error: Failed to load resource: the server responded with a status of 413 ()",
+      "console.error: Plumbing analysis error: ReferenceError: MATERIAL_PATTERNS is not defined"
     ],
     "screenshot": "plumbing-result.png",
     "notes": []
@@ -45,14 +47,12 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
-    "consoleErrors": [
-      "console.error: Electrical analysis error: ReferenceError: Tesseract is not defined"
-    ],
+    "waitedSeconds": 3,
+    "verdictRendered": true,
+    "totalPriceExtracted": 3250,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\n⚡ Electrical Quote Analysis\nTRUEPRICE ELECTRICAL VERDICT\nFAIR PRICE\n$0\nMarket benchmark: $3,250\nProject Details\nSERVICE TYPE\nPanel Upgrade (100A to 200A)\nPRICING\nSouth regional pricing\nNext Steps\nVerify the electrician is licensed and insured in your state\nConfirm all work will be permitted and inspected by the local auth",
+    "pass": true,
+    "consoleErrors": [],
     "screenshot": "electrical-result.png",
     "notes": []
   },
@@ -87,7 +87,7 @@
     "verdictText": "",
     "pass": false,
     "consoleErrors": [
-      "console.error: Solar analysis error: ReferenceError: Tesseract is not defined"
+      "console.error: Solar analysis error: ReferenceError: normalizeEvidence is not defined"
     ],
     "screenshot": "solar-result.png",
     "notes": []
@@ -100,14 +100,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 30,
+    "verdictRendered": true,
+    "totalPriceExtracted": 4750,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nConcrete Quote Analysis\nTRUEPRICE CONCRETE VERDICT\nFAIR PRICE\n$0\nMarket benchmark: $4,750\nProject Details\nPROJECT TYPE\nStandard Driveway\nDEMOLITION\nNot mentioned\nPRICING SOURCE\nSouth regional pricing\nScope Review\n?\nDemolition of existing surface\nNot mentioned\n?\nGrading and leveling\nNot mentioned\n?\nBase preparation (gravel",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Concrete analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "concrete-result.png",
     "notes": []
@@ -120,14 +119,12 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
-    "consoleErrors": [
-      "console.error: Window analysis error: ReferenceError: Tesseract is not defined"
-    ],
+    "waitedSeconds": 10,
+    "verdictRendered": true,
+    "totalPriceExtracted": 6350,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nWindow Quote Analysis\nTRUEPRICE WINDOWS VERDICT\nFAIR PRICE\n$0\nMarket benchmark: $6,350\nProject Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n10 (estimated)\nSIZE CATEGORY\nStandard\nPRICING SOURCE\nSouth regional pricing\nScope Review\n?\nOld window/door removal\nNot mentioned\n✓\nWindow installation\nIncluded\n?\nFlashing\nNot mentioned\n?\nCaulking and sealing\nNot mentioned\n?\nInterior trim\nNot mentioned\n?\nExterior trim / ca",
+    "pass": true,
+    "consoleErrors": [],
     "screenshot": "window-result.png",
     "notes": []
   },
@@ -139,14 +136,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 8,
+    "verdictRendered": true,
+    "totalPriceExtracted": 11450,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nSiding Quote Analysis\nTRUEPRICE SIDING VERDICT\nFAIR PRICE\n$0\nMarket benchmark: $11,450\nSiding Details\nSIDING TYPE\nVinyl Siding\nWALL AREA\n1,800 sq ft\nSTORIES\n1 Story\nCONDITION\nGood\nPRICING SOURCE\nSouth regional pricing\nScope Review\n?\nOld siding removal\nNot mentioned\n?\nHouse wrap / weather barrier\nNot mentioned\n?\nFlashing (",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Siding analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "siding-result.png",
     "notes": []
@@ -159,14 +155,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 9,
+    "verdictRendered": true,
+    "totalPriceExtracted": 6250,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nPainting Quote Analysis\nTRUEPRICE PAINTING VERDICT\nFAIR PRICE\n$0\nMarket benchmark: $6,250\nProject Details\nPROJECT TYPE\nExterior Painting\nHOME SIZE\n2,000 sq ft\nPAINT QUALITY\nStandard (1 coat)\nCONDITION\nGood (repaint)\nPRICING SOURCE\nSouth regional pricing\nScope Review\n?\nPower washing / surface cleaning\nNot mentioned\n?\nScrap",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Painting analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "painting-result.png",
     "notes": []
@@ -179,14 +174,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 11,
+    "verdictRendered": true,
+    "totalPriceExtracted": 21115,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nFoundation Repair Quote Analysis\nTRUEPRICE FOUNDATION VERDICT\nOVERPRICED\n$21,115\nMarket benchmark: $10,750 -- 96% above average\nRepair Details\nREPAIR TYPE\nPier Installation\nPRICING\nSouth regional pricing\nScope Review\n✓\nStructural inspection / engineering report\nIncluded\n✓\nPiers (steel push piers or helical piers)\nIncluded",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Foundation analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "foundation-result.png",
     "notes": []
@@ -199,14 +193,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 90,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 13,
+    "verdictRendered": true,
+    "totalPriceExtracted": 6550,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nFence Quote Analysis\nTRUEPRICE FENCING VERDICT\nFAIR PRICE\n$0\nMarket benchmark: $6,550\nFence Details\nFENCE TYPE\nWood Privacy (6ft)\nLENGTH\n150 linear feet\nHEIGHT\n6 ft\nGATE\nYes\nPRICING SOURCE\nSouth regional pricing\nNext Steps\nConfirm post spacing (6-8 ft typical) and post depth (minimum 1/3 of above-ground height)\nVerify con",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Fence analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "fencing-result.png",
     "notes": []
@@ -219,14 +212,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 8,
+    "verdictRendered": true,
+    "totalPriceExtracted": 1750,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nGutter Quote Analysis\nTRUEPRICE GUTTERS VERDICT\nFAIR PRICE\n$0\nMarket benchmark: $1,750\nProject Details\nGUTTER TYPE\nAluminum Seamless (6\")\nLENGTH\n150 linear feet\nSTORIES\n1-story home\nGUTTER GUARDS\nNo\nPRICING SOURCE\nSouth regional pricing\nScope Review\n?\nOld gutter removal & disposal\nNot mentioned\n✓\nGutter installation\nIncluded\n?\nDownspouts\nNot mentioned\n?\nHidden hangers / brackets\nNot mentioned\n?\nEnd caps ",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Gutter analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "gutters-result.png",
     "notes": []
@@ -239,14 +231,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 10,
+    "verdictRendered": true,
+    "totalPriceExtracted": 5475,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nInsulation Quote Analysis\nTRUEPRICE INSULATION VERDICT\nABOVE AVERAGE\n$5,475\nMarket benchmark: $4,750 -- 15% above average\nProject Details\nINSULATION TYPE\nBlown-In (Attic)\nR-VALUE\nR-19\nLOCATION\nAttic\nPRICING\nSouth regional pricing\nScope Review\n✓\nAir sealing\nIncluded\n?\nVapor barrier\nNot mentioned\n✓\nVent baffles / rafter vents\nIncluded\n✓\nOld insulation removal\nIncluded\n?\nAccess creation (hatches, panels)\nNo",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Insulation analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "insulation-result.png",
     "notes": []
@@ -259,14 +250,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 16,
+    "verdictRendered": true,
+    "totalPriceExtracted": 50228,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nKitchen Remodel Quote Analysis\nTRUEPRICE KITCHEN VERDICT\nUNUSUALLY LOW\n$50,228\nMarket benchmark: $104,800 -- 52% below average\nProject Details\nREMODEL TIER\nMajor/Upscale Remodel\nKITCHEN SIZE\nAverage (100-150 sq ft)\nCOUNTERTOP\nQuartz\nPRICING\nSouth regional pricing\nScope Review\n✓\nDemolition and removal\nIncluded\n✓\nCabinets (supply and install)\nIncluded\n✓\nCountertops\nIncluded\n✓\nFlooring\nIncluded\n✓\nBacksplash",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Kitchen analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "kitchen-result.png",
     "notes": []
@@ -279,14 +269,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 18,
+    "verdictRendered": true,
+    "totalPriceExtracted": 17495,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nLandscaping Quote Analysis\nTRUEPRICE LANDSCAPING VERDICT\nUNUSUALLY LOW\n$17,495\nMarket benchmark: $23,100 -- 24% below average\nProject Details\nPROJECT TYPE\nRetaining Wall\nPRICING\nSouth regional pricing\nScope Review\n✓\nDesign plan / layout\nIncluded\n✓\nExcavation / grading\nIncluded\n✓\nDrainage solution\nIncluded\n?\nBase material (gravel/sand)\nNot mentioned\n✓\nEdging / borders\nIncluded\n✓\nMulch / decorative rock\nIn",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Landscaping analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "landscaping-result.png",
     "notes": []
@@ -299,14 +288,13 @@
     "pageLoaded": true,
     "fileInputFound": true,
     "uploaded": true,
-    "waitedSeconds": 91,
-    "verdictRendered": false,
-    "totalPriceExtracted": null,
-    "verdictText": "",
-    "pass": false,
+    "waitedSeconds": 14,
+    "verdictRendered": true,
+    "totalPriceExtracted": 3599,
+    "verdictText": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nGarage Door Quote Analysis\nTRUEPRICE GARAGE DOOR VERDICT\nBELOW AVERAGE\n$3,599\nMarket benchmark: $4,050 — 11% below average\nProject Details\nSERVICE TYPE\nCustom/Carriage\nMATERIAL\nBasic Steel\nOPENER\nIncluded\nPRICING\nSouth regional pricing\nScope Review\n✓\nOld door removal and disposal\nIncluded\n✓\nTracks and hardware\nIncluded\n?\nTorsion/extension springs\nNot mentioned\n✓\nGarage door opener\nIncluded\n?\nRemote contr",
+    "pass": true,
     "consoleErrors": [
-      "pageerror: Cannot read properties of null (reading 'addEventListener')",
-      "console.error: Garage door analysis error: ReferenceError: Tesseract is not defined"
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
     "screenshot": "garage-door-result.png",
     "notes": []

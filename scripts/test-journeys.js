@@ -130,7 +130,8 @@ async function testEstimateJourney(browser, v) {
     const verticalClicked = await page.evaluate((expectedHref) => {
       const links = [...document.querySelectorAll('a[href]')];
       for (const a of links) {
-        if (a.getAttribute('href') === expectedHref) {
+        const h = a.getAttribute('href') || '';
+        if (h === expectedHref || h.indexOf(expectedHref + '?') === 0 || h.indexOf(expectedHref + '#') === 0) {
           a.click(); return true;
         }
       }
@@ -209,7 +210,11 @@ async function testAnalyzeJourney(browser, v) {
     const verticalClicked = await page.evaluate((expectedHref) => {
       const links = [...document.querySelectorAll('a[href]')];
       for (const a of links) {
-        if (a.getAttribute('href') === expectedHref) { a.click(); return true; }
+        const h = a.getAttribute('href') || '';
+        // Match either exact href or href with query string (e.g. ?path=quote)
+        if (h === expectedHref || h.indexOf(expectedHref + '?') === 0 || h.indexOf(expectedHref + '#') === 0) {
+          a.click(); return true;
+        }
       }
       return false;
     }, expected);
@@ -272,7 +277,10 @@ async function testCompareJourney(browser, v) {
     const verticalClicked = await page.evaluate((expectedHref) => {
       const links = [...document.querySelectorAll('a[href]')];
       for (const a of links) {
-        if (a.getAttribute('href') === expectedHref) { a.click(); return true; }
+        const h = a.getAttribute('href') || '';
+        if (h === expectedHref || h.indexOf(expectedHref + '?') === 0 || h.indexOf(expectedHref + '#') === 0) {
+          a.click(); return true;
+        }
       }
       return false;
     }, expected);

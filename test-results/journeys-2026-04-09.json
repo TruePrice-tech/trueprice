@@ -23,7 +23,7 @@
     "journey": "analyze",
     "steps": [
       "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
-      "clicked vertical -> https://truepricehq.com/hvac-quote-analyzer.html"
+      "clicked vertical -> https://truepricehq.com/hvac-quote-analyzer.html?path=quote"
     ],
     "pass": true,
     "notes": [],
@@ -89,7 +89,7 @@
     "journey": "analyze",
     "steps": [
       "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
-      "clicked vertical -> https://truepricehq.com/plumbing-quote-analyzer.html"
+      "clicked vertical -> https://truepricehq.com/plumbing-quote-analyzer.html?path=quote"
     ],
     "pass": true,
     "notes": [],
@@ -154,7 +154,7 @@
     "journey": "analyze",
     "steps": [
       "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
-      "clicked vertical -> https://truepricehq.com/electrical-quote-analyzer.html"
+      "clicked vertical -> https://truepricehq.com/electrical-quote-analyzer.html?path=quote"
     ],
     "pass": true,
     "notes": [],
@@ -219,7 +219,7 @@
     "journey": "analyze",
     "steps": [
       "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
-      "clicked vertical -> https://truepricehq.com/roofing-quote-analyzer.html"
+      "clicked vertical -> https://truepricehq.com/roofing-quote-analyzer.html?path=quote"
     ],
     "pass": true,
     "notes": [],
@@ -286,7 +286,7 @@
     "journey": "analyze",
     "steps": [
       "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
-      "clicked vertical -> https://truepricehq.com/solar-quote-analyzer.html"
+      "clicked vertical -> https://truepricehq.com/solar-quote-analyzer.html?path=quote"
     ],
     "pass": true,
     "notes": [],
@@ -351,14 +351,20 @@
     "vertical": "concrete",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/concrete-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/concrete-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "concrete-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "concrete",
@@ -411,14 +417,19 @@
     "vertical": "window",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/window-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/window-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "window-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "window",
@@ -472,14 +483,20 @@
     "vertical": "siding",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/siding-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/siding-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "siding-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "siding",
@@ -533,14 +550,20 @@
     "vertical": "painting",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/painting-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/painting-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "painting-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "painting",
@@ -594,14 +617,20 @@
     "vertical": "foundation",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/foundation-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/foundation-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "foundation-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "foundation",
@@ -654,14 +683,20 @@
     "vertical": "fencing",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/fencing-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/fencing-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "fencing-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "fencing",
@@ -715,14 +750,20 @@
     "vertical": "gutters",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/gutters-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/gutters-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "gutters-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "gutters",
@@ -776,14 +817,20 @@
     "vertical": "insulation",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/insulation-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/insulation-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "insulation-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "insulation",
@@ -837,14 +884,20 @@
     "vertical": "kitchen",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/kitchen-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/kitchen-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "kitchen-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "kitchen",
@@ -898,14 +951,20 @@
     "vertical": "landscaping",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/landscaping-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/landscaping-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "landscaping-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "landscaping",
@@ -959,14 +1018,20 @@
     "vertical": "garage-door",
     "journey": "analyze",
     "steps": [
-      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html"
+      "clicked Analyze -> https://truepricehq.com/analyze-my-quote.html",
+      "clicked vertical -> https://truepricehq.com/garage-door-quote-analyzer.html?path=quote"
     ],
-    "pass": false,
-    "notes": [
-      "no card with href=/garage-door-quote-analyzer.html"
+    "pass": true,
+    "notes": [],
+    "errors": [
+      "console.error: Failed to load resource: the server responded with a status of 403 ()",
+      "pageerror: Cannot read properties of null (reading 'addEventListener')"
     ],
-    "errors": [],
-    "screenshot": null
+    "screenshot": "garage-door-analyze.png",
+    "visualState": {
+      "hasFileInput": true,
+      "showsLoadingForever": false
+    }
   },
   {
     "vertical": "garage-door",
