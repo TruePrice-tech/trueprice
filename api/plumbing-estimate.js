@@ -147,17 +147,26 @@ ${text ? "EXTRACTED TEXT FROM QUOTE:\n" + text.substring(0, 8000) + "\n\n" : ""}
 
 Return this exact JSON structure:
 {
+  "contractor": <string or null - plumbing company name. Look at the top of the quote (letterhead), header, footer, signature line, or "from"/"prepared by" sections. Extract the company name even if it's in a logo image. This is REQUIRED whenever a name is visible.>,
   "totalPrice": <number or null - the total quoted price>,
   "jobType": <"water_heater_tank" | "water_heater_tankless" | "whole_house_repipe" | "sewer_line_repair" | "sewer_line_replace" | "drain_cleaning" | "toilet_install" | "faucet_install" | "garbage_disposal" | "sump_pump" | "gas_line_install" | "leak_repair" | "water_softener" | "backflow_preventer" | "other" | null>,
+  "fixture": <string or null - the specific fixture or equipment being installed/replaced (e.g. "50-gal gas water heater", "tankless water heater", "kitchen faucet", "toilet")>,
+  "brand": <string or null - manufacturer brand name (Bradford White, Rheem, A.O. Smith, Navien, Rinnai, Kohler, Moen, Delta, Bosch, etc.) - look in line item descriptions and equipment lists>,
+  "modelNumber": <string or null - equipment model number>,
+  "fixtureSize": <string or null - size/capacity (e.g. "50 gal", "75 gal", "9.8 GPM", "1.5 hp")>,
   "pipeType": <"PEX" | "copper" | "PVC" | "CPVC" | "cast_iron" | "galvanized" | null - pipe material specified>,
   "laborRate": <number or null - hourly labor rate>,
   "laborHours": <number or null - estimated labor hours>,
   "laborTotal": <number or null - total labor cost>,
+  "laborCost": <number or null - same as laborTotal, alias for compatibility>,
   "partsTotal": <number or null - total parts/materials cost>,
+  "materialsTotal": <number or null - same as partsTotal, alias for compatibility>,
   "diagnosticFee": <number or null - diagnostic or service call fee>,
   "emergencyFee": <number or null - emergency/after-hours surcharge>,
   "city": <string or null - city from the quote>,
   "stateCode": <string or null - 2-letter state code>,
+  "warrantyPartsYears": <number or null - parts warranty in YEARS as a number, e.g. 6 for "6 year tank warranty">,
+  "warrantyLaborYears": <number or null - labor warranty in YEARS as a number, e.g. 1 for "1 year on installation labor">,
   "lineItems": [
     {
       "description": <string - line item description>,
