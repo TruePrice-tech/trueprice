@@ -9333,9 +9333,28 @@ function buildComparisonWinnerHtml(summary) {
             ${renderMarketContext(a)}
             ${renderCommunityStats(a)}
             ${renderRoofSizeAccuracyPrompt(a)}
+
+            <!-- Next Steps (standardized: roofing-specific actionable bullets) -->
+            <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
+              <h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>
+              <ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">
+                <li>Confirm tear-off scope &mdash; old shingles fully removed, not layered over</li>
+                <li>Ask for a written decking replacement allowance (e.g. "first 2 sheets included")</li>
+                <li>Verify drip edge, ice &amp; water shield, and starter strip are itemized</li>
+                <li>Ask if the warranty covers materials AND workmanship, and for how long</li>
+                <li>Confirm permit and disposal are included in the price</li>
+              </ul>
+            </section>
+
+            <!-- How we calculate this estimate (standardized trust signal) -->
+            <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; margin:16px 0;">
+              <summary style="cursor:pointer; font-size:14px; font-weight:600; color:#475569;">How we calculate this estimate</summary>
+              <div style="margin-top:10px; font-size:13px; color:#64748b; line-height:1.6;">
+                We compare your quote against TruePrice's pricing model covering 1,000+ U.S. cities, built from 5,000+ real homeowner quotes. Local benchmarks adjust for market, material grade, roof size, and complexity. <a href="/methodology.html" style="color:#1d4ed8;">Read the full methodology &rarr;</a>
+              </div>
+            </details>
+
             ${renderCommunityContribution(a)}
-            ${renderEmailCapture(a)}
-            ${renderShareModule(a)}
             <div style="text-align:center; margin:20px 0 10px;">
               <a class="btn-outline" href="/find-contractors.html${a.stateCode ? '?state=' + encodeURIComponent(a.stateCode) + '&service=roof' : ''}" style="text-decoration:none;">
                 Find contractors${a.city ? ' in ' + escapeHtml(a.city) : ''}
