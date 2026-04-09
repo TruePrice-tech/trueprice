@@ -742,6 +742,7 @@
 
         // Try to pre-fill home size from OSM building footprint so we don't
         // ask the user something we can already derive from their address.
+        console.log("[hvac-estimate] firing property-signals for", state.address);
         try {
           fetch("/api/property-signals", {
             method: "POST",
@@ -753,18 +754,23 @@
               zip: state.address.zip
             })
           })
-            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(r) { console.log("[hvac-estimate] response status", r.status); return r.ok ? r.json() : null; })
             .then(function(payload) {
-              if (!payload || !payload.success || !payload.data) return;
+              console.log("[hvac-estimate] payload", payload);
+              if (!payload || !payload.success || !payload.data) { console.log("[hvac-estimate] no usable data"); return; }
               var d = payload.data;
               var sqft = Number(d.livingAreaSqFt || d.footprintSqFt || 0);
+              console.log("[hvac-estimate] sqft", sqft, "current state.est.homeSqFt", state.est.homeSqFt, "state.step", state.step);
               if (sqft >= 500 && sqft <= 10000 && !state.est.homeSqFt) {
                 state.est.homeSqFt = String(Math.round(sqft));
+                console.log("[hvac-estimate] set homeSqFt =", state.est.homeSqFt, "; triggering re-render");
                 if (state.step === "estimator") render();
+              } else {
+                console.log("[hvac-estimate] skipped (out of range or already set)");
               }
             })
-            .catch(function() {});
-        } catch (err) {}
+            .catch(function(err) { console.log("[hvac-estimate] fetch failed", err); });
+        } catch (err) { console.log("[hvac-estimate] try/catch err", err); }
 
         state.step = "estimator";
         render();
