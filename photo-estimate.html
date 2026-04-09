@@ -1217,6 +1217,8 @@
       var r = state.result;
       var c = state.confirmed;
       if (!r || !c) { state.step = "capture"; render(); return; }
+      // Always start at the top of the result so the user sees the house image first
+      try { window.scrollTo({ top: 0, behavior: "instant" }); } catch (e) { window.scrollTo(0, 0); }
       var svc = state.service;
 
       var region = STATE_REGIONS[c.stateCode] || "south";
