@@ -382,30 +382,35 @@
     /* ── STEP 1: CAPTURE ── */
     function renderCapture() {
       var isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-      var photoLabels = {
-        roofing: { title: "Take a photo of your house", desc: "We'll estimate your roof size, material, and replacement price", addressLink: "/roofing-quote-analyzer.html?mode=estimator" }
-      };
-      var labels = photoLabels.roofing;
-
-      var tipText = "Stand 20-30ft back so the full roof is visible. Daytime works best.";
+      var addressLink = "/roofing-quote-analyzer.html?mode=estimator";
 
       app.innerHTML =
-        '<div style="text-align:center; margin-bottom:16px;">' +
-          '<img src="/images/trudy-takes-photo.png" alt="Trudy" width="120" style="margin-bottom:8px;" />' +
-          '<h1 style="font-size:24px; margin:0 0 6px; color:#0f172a;">' + labels.title + '</h1>' +
-          '<p style="font-size:14px; color:#94a3b8; margin:0;">' + tipText + '</p>' +
+        '<div style="text-align:center; margin-bottom:20px;">' +
+          '<img src="/images/trudy-takes-photo.png" alt="Trudy" width="110" style="margin-bottom:8px;" />' +
+          '<h1 style="font-size:24px; margin:0 0 6px; color:#0f172a;">Get a free roof estimate</h1>' +
+          '<p style="font-size:14px; color:#64748b; margin:0;">Pick whichever is easier &mdash; both give you the same instant verdict.</p>' +
         '</div>' +
 
-        '<div class="pe-capture-zone" id="captureZone" style="padding:2.5rem 1.5rem; cursor:pointer; transition:border-color 0.2s, background 0.2s;" onmouseover="this.style.borderColor=\'#3b82f6\';this.style.background=\'#eff6ff\'" onmouseout="this.style.borderColor=\'#cbd5e1\';this.style.background=\'#f8fafc\'">' +
-          '<div style="font-size:48px; margin-bottom:8px;">&#128247;</div>' +
-          '<p style="font-size:18px; font-weight:600; color:#1e293b; margin:0 0 4px;">' + (isMobile ? "Tap to open camera" : "Click to upload a photo") + '</p>' +
-          '<p style="font-size:12px; color:#94a3b8; margin:0;">Free, 30 seconds, never stored</p>' +
+        '<div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;" class="pe-choice-grid">' +
+
+          '<div class="pe-capture-zone" id="captureZone" style="padding:24px 16px; cursor:pointer; text-align:center; border:2px dashed #cbd5e1; border-radius:14px; background:#f8fafc; transition:border-color 0.2s, background 0.2s;" onmouseover="this.style.borderColor=\'#3b82f6\';this.style.background=\'#eff6ff\'" onmouseout="this.style.borderColor=\'#cbd5e1\';this.style.background=\'#f8fafc\'">' +
+            '<div style="font-size:42px; margin-bottom:8px;">&#128247;</div>' +
+            '<p style="font-size:16px; font-weight:700; color:#1e293b; margin:0 0 4px;">' + (isMobile ? "Take a photo" : "Upload a photo") + '</p>' +
+            '<p style="font-size:12px; color:#64748b; margin:0 0 10px;">Best if you&#39;re standing outside your house</p>' +
+            '<span style="display:inline-block; padding:8px 14px; background:#1d4ed8; color:#fff; border-radius:8px; font-size:13px; font-weight:600;">' + (isMobile ? "Open camera" : "Choose file") + '</span>' +
+          '</div>' +
+
+          '<a href="' + addressLink + '" id="addressZone" style="padding:24px 16px; cursor:pointer; text-align:center; border:2px dashed #cbd5e1; border-radius:14px; background:#f8fafc; text-decoration:none; color:inherit; transition:border-color 0.2s, background 0.2s; display:block;" onmouseover="this.style.borderColor=\'#3b82f6\';this.style.background=\'#eff6ff\'" onmouseout="this.style.borderColor=\'#cbd5e1\';this.style.background=\'#f8fafc\'">' +
+            '<div style="font-size:42px; margin-bottom:8px;">&#128205;</div>' +
+            '<p style="font-size:16px; font-weight:700; color:#1e293b; margin:0 0 4px;">Enter your address</p>' +
+            '<p style="font-size:12px; color:#64748b; margin:0 0 10px;">We measure your roof from satellite data</p>' +
+            '<span style="display:inline-block; padding:8px 14px; background:#1d4ed8; color:#fff; border-radius:8px; font-size:13px; font-weight:600;">Type address</span>' +
+          '</a>' +
+
         '</div>' +
         '<input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none;" />' +
-
-        (labels.addressLink
-          ? '<div style="text-align:center; margin-top:12px;"><a href="' + labels.addressLink + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">or enter address manually &rarr;</a></div>'
-          : '<div style="text-align:center; margin-top:12px;"><a href="/analyze-my-quote.html#' + esc(state.service) + '" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a></div>');
+        '<p style="text-align:center; font-size:12px; color:#94a3b8; margin:14px 0 0;">Free &middot; 30 seconds &middot; never stored</p>' +
+        '<style>@media (max-width:560px){.pe-choice-grid{grid-template-columns:1fr !important;}}</style>';
 
       // Show past estimates if any
       var savedEstimates = [];
