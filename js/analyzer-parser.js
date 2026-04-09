@@ -2632,9 +2632,12 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
 
   // ── Strategy B: strict labeled-total patterns only ──
   const strategyB = { name: "strict_labeled", price: null, candidates: [] };
+  // Note: \b before "total" prevents matching "subtotal" as "total".
+  // The bare "total" alternation must come LAST so longer alternates like
+  // "grand total" win first.
   const labelPatterns = [
-    /(?:grand\s*total|total\s*due|amount\s*due|balance\s*due|final\s*total|contract\s*total|project\s*total|invoice\s*total|quote\s*total|total)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
-    /sub\s*total\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi
+    /(?:grand\s*total|total\s*due|amount\s*due|balance\s*due|final\s*total|contract\s*total|project\s*total|invoice\s*total|quote\s*total|total\s*estimate|total\s*price|\btotal)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
+    /\bsub\s*total\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi
   ];
   const textForB = rawText.replace(/\r\n/g, "\n");
   labelPatterns.forEach((re, idx) => {
@@ -2643,7 +2646,10 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
       const raw = m[1];
       const val = Number(String(raw).replace(/,/g, ""));
       if (!Number.isFinite(val) || val < 50 || val > 500000) continue;
-      const isSubtotal = idx === 1;
+      // Defensive check: if the matched context contains "sub" right before
+      // the word "total", it's actually a subtotal even if pattern 0 caught it.
+      const ctx = m[0].toLowerCase();
+      const isSubtotal = idx === 1 || /\bsub\s*total/.test(ctx);
       strategyB.candidates.push({
         value: val,
         display: String(raw),
