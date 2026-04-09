@@ -9293,13 +9293,6 @@ function buildComparisonWinnerHtml(summary) {
                 Find contractors${a.city ? ' in ' + escapeHtml(a.city) : ''}
               </a>
             </div>
-            <div id="feedbackWidget" style="padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:16px 0; text-align:center;">
-              <div style="font-size:15px; font-weight:600; margin-bottom:8px;">Was this helpful?</div>
-              <div style="display:flex; gap:10px; justify-content:center;">
-                <button onclick="submitFeedback('yes')" style="padding:8px 24px; border:1px solid #a7f3d0; background:#ecfdf5; border-radius:8px; font-size:14px; font-weight:600; color:#166534; cursor:pointer; font-family:inherit;">Yes</button>
-                <button onclick="submitFeedback('no')" style="padding:8px 24px; border:1px solid #fecaca; background:#fef2f2; border-radius:8px; font-size:14px; font-weight:600; color:#991b1b; cursor:pointer; font-family:inherit;">No</button>
-              </div>
-            </div>
             ${(a.contractor && a.contractor !== "Not detected" && a.contractor.length > 2) ? `
             <div id="contractorReviewSection" style="padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:16px 0;">
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
@@ -9349,18 +9342,6 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
             ` : ""}
-            <div style="text-align:center; margin-top:10px;">
-              <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
-            </div>
-            <div style="text-align:center; margin-top:8px;">
-              <a href="mailto:hello@truepricehq.com?subject=TruePrice Feedback" style="font-size:13px; color:#94a3b8; text-decoration:none;">Have a suggestion? Email hello@truepricehq.com</a>
-            </div>
-            <div style="text-align:center; margin-top:20px; padding-top:16px; border-top:1px solid #e2e8f0;">
-              <a href="/" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;">
-                <img src="/images/trudy-peeking.png" alt="" width="28" style="vertical-align:middle;" />
-                Powered by <strong style="color:#1e3a5f;">TruePrice</strong>
-              </a>
-            </div>
           </div>
         `;
       };
