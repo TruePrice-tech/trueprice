@@ -13,7 +13,8 @@ function detectScopeItems(text) {
     { key: "valley_metal", label: "Valley metal", costLow: 100, costHigh: 400, patterns: [/valley metal/, /metal valley/, /valley/, /open valley/, /woven valley/] },
     { key: "deck_repair", label: "Deck repair allowance", costLow: 200, costHigh: 1000, patterns: [/deck(?:ing)?\s*repair/, /replace plywood/, /replace osb/, /rotten.*(?:wood|deck|board|plywood|sheet)/, /damaged.*(?:wood|deck|board|framework|roof)/, /repair.*(?:wood|deck|framework|plywood|board|roof\s*framework)/, /(?:wood|deck|plywood|osb)\s*repair/, /per\s*sheet/, /roof\s*(?:deck|sheathing)/, /roof\s*framework/, /framework/, /damag.*framework/, /damag.*roof/] },
     { key: "disposal", label: "Debris disposal", costLow: 150, costHigh: 500, patterns: [/dumpster/, /debris remov/, /haul away/, /disposal/, /clean.?up/, /dispose/, /waste remov/, /dump fee/] },
-    { key: "permit", label: "Permit included", costLow: 100, costHigh: 400, patterns: [/permit/, /inspection/, /building permit/, /code complian/] }
+    { key: "permit", label: "Permit included", costLow: 100, costHigh: 400, patterns: [/permit/, /inspection/, /building permit/, /code complian/] },
+    { key: "power_attic_fan", label: "Power attic fan (incl. electrician)", costLow: 450, costHigh: 1000, patterns: [/power\s*attic\s*fan/, /powered\s*attic\s*(?:fan|vent)/, /attic\s*fan/, /power\s*vent/, /powered\s*vent/, /solar\s*attic\s*fan/] }
   ];
 
   const detected = [];
