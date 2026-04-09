@@ -99,75 +99,31 @@
     </p>
 
     <section class="card">
-      <h2>Compare up to 3 roofing quotes</h2>
+      <h2>Upload up to 3 roofing quotes</h2>
       <p>
-        Enter the key details from each quote below. The tool will compare total price, price per square foot, materials, and warranty side by side.
+        Skip the typing &mdash; upload your quote PDFs (or photos of paper estimates) and TruePrice will read each one, extract price, scope, material, and warranty, then compare them side by side.
       </p>
 
-      <div class="compare-grid">
-        <div>
-          <h3>Quote A</h3>
-          <label for="contractorA">Contractor</label>
-          <input id="contractorA" type="text" placeholder="Contractor A" />
-
-          <label for="priceA">Quote total ($)</label>
-          <input id="priceA" type="number" placeholder="14500" />
-
-          <label for="sizeA">Roof size (sq ft)</label>
-          <input id="sizeA" type="number" placeholder="2400" />
-
-          <label for="materialA">Material</label>
-          <input id="materialA" type="text" placeholder="Architectural shingles" />
-
-          <label for="warrantyA">Warranty</label>
-          <input id="warrantyA" type="text" placeholder="10 year workmanship" />
-        </div>
-
-        <div>
-          <h3>Quote B</h3>
-          <label for="contractorB">Contractor</label>
-          <input id="contractorB" type="text" placeholder="Contractor B" />
-
-          <label for="priceB">Quote total ($)</label>
-          <input id="priceB" type="number" placeholder="16200" />
-
-          <label for="sizeB">Roof size (sq ft)</label>
-          <input id="sizeB" type="number" placeholder="2400" />
-
-          <label for="materialB">Material</label>
-          <input id="materialB" type="text" placeholder="Architectural shingles" />
-
-          <label for="warrantyB">Warranty</label>
-          <input id="warrantyB" type="text" placeholder="15 year workmanship" />
-        </div>
-
-        <div>
-          <h3>Quote C</h3>
-          <label for="contractorC">Contractor</label>
-          <input id="contractorC" type="text" placeholder="Contractor C" />
-
-          <label for="priceC">Quote total ($)</label>
-          <input id="priceC" type="number" placeholder="17800" />
-
-          <label for="sizeC">Roof size (sq ft)</label>
-          <input id="sizeC" type="number" placeholder="2400" />
-
-          <label for="materialC">Material</label>
-          <input id="materialC" type="text" placeholder="Architectural shingles" />
-
-          <label for="warrantyC">Warranty</label>
-          <input id="warrantyC" type="text" placeholder="20 year workmanship" />
-        </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:20px 0;" class="cqr-slots">
+        <a href="/compare-quotes.html?service=roofing&slot=0" style="display:block; padding:28px 16px; border:2px dashed #cbd5e1; border-radius:14px; background:#f8fafc; text-decoration:none; color:inherit; text-align:center; transition:border-color 0.15s, background 0.15s;" onmouseover="this.style.borderColor='#1d4ed8';this.style.background='#eff6ff'" onmouseout="this.style.borderColor='#cbd5e1';this.style.background='#f8fafc'">
+          <div style="font-size:32px; margin-bottom:6px;">&#128206;</div>
+          <div style="font-weight:700; color:#0f172a; margin-bottom:4px;">Quote A</div>
+          <div style="font-size:12px; color:#64748b;">Upload PDF or photo</div>
+        </a>
+        <a href="/compare-quotes.html?service=roofing&slot=1" style="display:block; padding:28px 16px; border:2px dashed #cbd5e1; border-radius:14px; background:#f8fafc; text-decoration:none; color:inherit; text-align:center; transition:border-color 0.15s, background 0.15s;" onmouseover="this.style.borderColor='#1d4ed8';this.style.background='#eff6ff'" onmouseout="this.style.borderColor='#cbd5e1';this.style.background='#f8fafc'">
+          <div style="font-size:32px; margin-bottom:6px;">&#128206;</div>
+          <div style="font-weight:700; color:#0f172a; margin-bottom:4px;">Quote B</div>
+          <div style="font-size:12px; color:#64748b;">Upload PDF or photo</div>
+        </a>
+        <a href="/compare-quotes.html?service=roofing&slot=2" style="display:block; padding:28px 16px; border:2px dashed #cbd5e1; border-radius:14px; background:#f8fafc; text-decoration:none; color:inherit; text-align:center; transition:border-color 0.15s, background 0.15s;" onmouseover="this.style.borderColor='#1d4ed8';this.style.background='#eff6ff'" onmouseout="this.style.borderColor='#cbd5e1';this.style.background='#f8fafc'">
+          <div style="font-size:32px; margin-bottom:6px;">&#128206;</div>
+          <div style="font-weight:700; color:#0f172a; margin-bottom:4px;">Quote C</div>
+          <div style="font-size:12px; color:#64748b;">Upload PDF or photo</div>
+        </a>
       </div>
 
-      <button class="btn" type="button" onclick="compareQuotes()">Compare Quotes</button>
-    </section>
-
-    <section class="card">
-      <h2>Comparison Result</h2>
-      <div id="comparisonOutput">
-        Enter at least 2 quotes above to compare contractor bids.
-      </div>
+      <p style="text-align:center; font-size:13px; color:#94a3b8; margin:0;">Free &middot; 30 seconds &middot; never stored</p>
+      <style>@media (max-width:640px){.cqr-slots{grid-template-columns:1fr !important;}}</style>
     </section>
 
     <section class="card">
