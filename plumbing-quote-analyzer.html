@@ -669,6 +669,8 @@
     function handleFile(file) {
       if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "plumbing" });
       state.uploadedFile = file;
+      state.pendingFile = file;
+      state.extractedText = "";
       // capture address before leaving
       var streetEl = document.getElementById("addrStreet");
       var cityEl = document.getElementById("addrCity");
@@ -707,59 +709,112 @@
       if (txt) txt.textContent = msg;
     }
 
-    async function processFile(file) {
+    // Manual-entry-primary screen. Shown when free layers return no/low-confidence price.
+    // Manual entry is the headline action; AI opt-in is a small secondary button.
+    function renderManualEntryPrimary(info) {
+      info = info || {};
+      var detectedNote = info.lowConfidencePrice && info.lowConfidencePrice > 0
+        ? '<p style="color:#64748b;font-size:13px;margin-bottom:16px;">We detected a possible total of <strong>$' + Math.round(info.lowConfidencePrice).toLocaleString() + '</strong> but we\'re not confident. Please enter it manually to be sure.</p>'
+        : '<p style="color:#475569;margin-bottom:16px;">We couldn\'t reliably read a total from that file. The fastest way to get an accurate analysis is to type it in:</p>';
+      appRoot.innerHTML = '\
+        <div class="plumb-hero"><h1>Enter your quote total</h1></div>\
+        <div class="plumb-card" style="text-align:center;max-width:520px;margin:0 auto;">\
+          ' + detectedNote + '\
+          <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;">\
+            <span style="font-size:22px;font-weight:700;">$</span>\
+            <input type="number" id="manualPrice" placeholder="e.g. 4500" style="padding:12px 16px;border:1px solid #e2e8f0;border-radius:10px;font-size:20px;width:200px;" autofocus />\
+          </div>\
+          <button class="plumb-btn plumb-btn-primary" id="manualPriceBtn" style="font-size:16px;padding:12px 28px;">Analyze this price</button>\
+          <div style="margin-top:28px;padding-top:20px;border-top:1px solid #e2e8f0;">\
+            <button class="plumb-btn plumb-btn-secondary" id="tryAiBtn" style="font-size:14px;">Or try AI analysis &rarr;</button>\
+            <p style="color:#94a3b8;font-size:12px;margin-top:8px;">Sends your image to Anthropic\'s AI service. Slower, but better at messy photos.</p>\
+          </div>\
+          <div style="margin-top:14px;"><button class="plumb-btn plumb-btn-secondary" onclick="state.step=\'address\';state.extractedText=\'\';state.pendingFile=null;render();">Start over</button></div>\
+        </div>';
+      document.getElementById("manualPriceBtn").addEventListener("click", function() {
+        var price = parseFloat(document.getElementById("manualPrice").value);
+        if (!price || price < 100) { alert("Please enter a valid price."); return; }
+        var region = getRegionFromState(state.address.stateCode);
+        var benchmark = calcBenchmark("water_heater", "tank_50_gas", region, null, null);
+        var ratio = price / benchmark;
+        state.result = {
+          source: "manual", quotePrice: price, benchmark: benchmark,
+          ratio: ratio, verdict: verdictFromRatio(ratio),
+          serviceType: { value: "water_heater", label: "Water Heater Replacement" },
+          subType: "tank_50_gas", brand: null,
+          scopeSignals: {}, region: region, location: null, parsed: null
+        };
+        state.step = "result";
+        render();
+      });
+      document.getElementById("tryAiBtn").addEventListener("click", function() {
+        if (!state.pendingFile) return;
+        state.step = "uploading";
+        render();
+        processFile(state.pendingFile, { useAI: true });
+      });
+    }
+
+    async function processFile(file, opts) {
+      opts = opts || {};
+      var useAI = !!opts.useAI;
       try {
         setProgress(15, "Loading parsing libraries...");
         await window.loadVendorLibs();
 
-        var text = "";
-        if (file.type === "application/pdf") {
-          setProgress(30, "Extracting text from PDF...");
-          text = await extractPdfText(file);
-        } else {
-          setProgress(30, "Running OCR on image...");
-          text = await extractImageText(file);
+        var text = state.extractedText || "";
+        // Skip re-OCR if we already extracted the text in a prior pass (e.g. AI opt-in)
+        if (!text) {
+          if (file.type === "application/pdf") {
+            setProgress(30, "Extracting text from PDF...");
+            text = await extractPdfText(file);
+          } else {
+            setProgress(30, "Running OCR on image...");
+            text = await extractImageText(file);
+          }
+          state.extractedText = text;
         }
 
-        setProgress(50, "Sending to AI for analysis...");
-        
-        // Try API-first approach
-        var apiResult = null;
-        try {
-          var apiPayload = { text: text };
-          // Add image if available
-          if (file.type && file.type.startsWith("image/")) {
-            var reader = new FileReader();
-            var imgData = await new Promise(function(resolve, reject) {
-              reader.onload = function() { resolve(reader.result); };
-              reader.onerror = reject;
-              reader.readAsDataURL(file);
-            });
-            apiPayload.images = [imgData];
-          }
-          var apiResp = await fetch("/api/plumbing-estimate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(apiPayload)
-          });
-          if (apiResp.ok) {
-            var apiData = await apiResp.json();
-            if (apiData.success && apiData.data) {
-              apiResult = apiData.data;
-            }
-          }
-        } catch(apiErr) {
-          console.warn("API unavailable, using local parsing:", apiErr);
-        }
-        
-        setProgress(70, "Building analysis...");
-        state.extractedText = text;
+        setProgress(60, "Parsing quote text...");
 
-        // Use analyzer-parser.js for price extraction
+        // ── Multi-strategy regex parse (Tesseract/PDF text only, no network) ──
         var parsed = null;
-        if (typeof parseExtractedText === "function") {
+        if (typeof parseExtractedTextMultiStrategy === "function") {
+          parsed = parseExtractedTextMultiStrategy(text, "plumbing");
+        } else if (typeof parseExtractedText === "function") {
           parsed = parseExtractedText(text);
         }
+
+        // ── Opt-in Claude escalation (only fires if user clicked "Try AI analysis") ──
+        var apiResult = null;
+        if (useAI) {
+          setProgress(75, "Sending to AI for analysis...");
+          try {
+            var apiPayload = { text: text };
+            if (file.type && file.type.startsWith("image/")) {
+              var reader = new FileReader();
+              var imgData = await new Promise(function(resolve, reject) {
+                reader.onload = function() { resolve(reader.result); };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+              });
+              apiPayload.images = [imgData];
+            }
+            var apiResp = await fetch("/api/plumbing-estimate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(apiPayload)
+            });
+            if (apiResp.ok) {
+              var apiData = await apiResp.json();
+              if (apiData.success && apiData.data) apiResult = apiData.data;
+            }
+          } catch(apiErr) {
+            console.warn("AI API unavailable:", apiErr);
+          }
+        }
+
+        setProgress(70, "Building analysis...");
 
         // Use plumbing parser for service-specific detection (local fallback)
         var serviceType = (typeof detectPlumbingServiceType === "function") ? detectPlumbingServiceType(text) : { value: "water_heater", label: "Water Heater Replacement" };
@@ -804,21 +859,34 @@
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 
-        // Determine price — prefer Claude API result (server-side, structured)
-        // over local regex parser (analyzer-parser.js often misreads on sparse OCR).
+        // Determine price. Free-layers first (regex multi-strategy); Claude only on opt-in.
         var quotePrice = 0;
-        if (apiResult && Number(apiResult.totalPrice) > 100) {
-          quotePrice = Number(apiResult.totalPrice);
-        } else if (parsed && parsed.finalPrice && parsed.finalPrice > 100) {
-          quotePrice = parsed.finalPrice;
+        var priceConfidence = (parsed && parsed.priceConfidence) || "low";
+        if (parsed && parsed.finalPrice && parsed.finalPrice > 100) {
+          quotePrice = Number(parsed.finalPrice);
+        } else if (parsed && Number(parsed.finalBestPrice) > 100) {
+          quotePrice = Number(parsed.finalBestPrice);
         } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
           var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 100 && c.value <= 50000; });
           candidates.sort(function(a, b) { return b.score - a.score; });
           if (candidates.length) quotePrice = candidates[0].value;
         }
-        // If Claude returned low confidence with no price, refuse to fabricate
-        if (apiResult && apiResult.confidence === "low" && !apiResult.totalPrice) {
+        // Opt-in Claude overrides regex when confidence is higher
+        if (useAI && apiResult && Number(apiResult.totalPrice) > 100) {
+          quotePrice = Number(apiResult.totalPrice);
+          priceConfidence = apiResult.confidence === "low" ? "low" : "high";
+        }
+        if (useAI && apiResult && apiResult.confidence === "low" && !apiResult.totalPrice) {
           quotePrice = 0;
+        }
+
+        // If free-layers returned nothing or low confidence and user hasn't opted into AI,
+        // bail out of processFile and render the manual-entry-primary screen instead.
+        if (!useAI && (quotePrice <= 0 || priceConfidence === "low")) {
+          state.step = "needs_manual";
+          state.pendingFile = file;
+          renderManualEntryPrimary({ lowConfidencePrice: quotePrice });
+          return;
         }
 
         setProgress(85, "Calculating verdict...");
@@ -859,34 +927,9 @@
 
       } catch (err) {
         console.error("Plumbing analysis error:", err);
-        appRoot.innerHTML = '\
-          <div class="plumb-hero"><h1>We couldn\'t read that file</h1></div>\
-          <div class="plumb-card" style="text-align:center;">\
-            <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
-            <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
-            <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
-              <span style="font-size:20px;font-weight:700;">$</span>\
-              <input type="number" id="manualPrice" placeholder="e.g. 4500" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
-            </div>\
-            <button class="plumb-btn plumb-btn-primary" id="manualPriceBtn">Analyze this price</button>\
-            <div style="margin-top:14px;"><button class="plumb-btn plumb-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
-          </div>';
-        document.getElementById("manualPriceBtn").addEventListener("click", function() {
-          var price = parseFloat(document.getElementById("manualPrice").value);
-          if (!price || price < 100) { alert("Please enter a valid price."); return; }
-          var region = getRegionFromState(state.address.stateCode);
-          var benchmark = calcBenchmark("water_heater", "tank_50_gas", region, null, null);
-          var ratio = price / benchmark;
-          state.result = {
-            source: "manual", quotePrice: price, benchmark: benchmark,
-            ratio: ratio, verdict: verdictFromRatio(ratio),
-            serviceType: { value: "water_heater", label: "Water Heater Replacement" },
-            subType: "tank_50_gas", brand: null,
-            scopeSignals: {}, region: region, location: null, parsed: null
-          };
-          state.step = "result";
-          render();
-        });
+        state.pendingFile = file;
+        state.step = "needs_manual";
+        renderManualEntryPrimary({});
       }
     }
 
@@ -903,7 +946,9 @@
       return allText.join("\n");
     }
 
-    async function preprocessImage(file, mode) {
+    // Plumbing-specific preprocessing: soft / strong / sharp modes.
+    // Returns a PNG data URL. Used by multi-pass Tesseract below.
+    async function preprocessImageForPlumbing(file, mode) {
       return new Promise(function(resolve, reject) {
         var reader = new FileReader();
         reader.onload = function() {
@@ -919,6 +964,7 @@
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             var data = imageData.data;
+            var w = canvas.width, h = canvas.height;
             if (mode === "strong") {
               for (var i = 0; i < data.length; i += 4) {
                 var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
@@ -927,15 +973,41 @@
                 gray = Math.max(0, Math.min(255, gray));
                 data[i] = gray; data[i+1] = gray; data[i+2] = gray;
               }
-            } else {
-              for (var i = 0; i < data.length; i += 4) {
-                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
-                gray = (gray - 128) * 1.3 + 128;
-                gray = Math.max(0, Math.min(255, gray));
-                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
+              ctx.putImageData(imageData, 0, 0);
+            } else if (mode === "sharp") {
+              // Unsharp mask: grayscale then apply 3x3 sharpen kernel.
+              var gray1 = new Uint8ClampedArray(w * h);
+              for (var j = 0, k = 0; j < data.length; j += 4, k++) {
+                gray1[k] = 0.299 * data[j] + 0.587 * data[j+1] + 0.114 * data[j+2];
               }
+              var out = new Uint8ClampedArray(w * h);
+              // kernel: 0,-1,0, -1,5,-1, 0,-1,0
+              for (var y = 1; y < h - 1; y++) {
+                for (var x = 1; x < w - 1; x++) {
+                  var idx = y * w + x;
+                  var v = 5 * gray1[idx]
+                    - gray1[idx - 1] - gray1[idx + 1]
+                    - gray1[idx - w] - gray1[idx + w];
+                  out[idx] = v < 0 ? 0 : v > 255 ? 255 : v;
+                }
+              }
+              // copy borders
+              for (var b = 0; b < w; b++) { out[b] = gray1[b]; out[(h-1)*w + b] = gray1[(h-1)*w + b]; }
+              for (var b2 = 0; b2 < h; b2++) { out[b2*w] = gray1[b2*w]; out[b2*w + (w-1)] = gray1[b2*w + (w-1)]; }
+              for (var p = 0, q = 0; p < data.length; p += 4, q++) {
+                data[p] = out[q]; data[p+1] = out[q]; data[p+2] = out[q];
+              }
+              ctx.putImageData(imageData, 0, 0);
+            } else {
+              // "soft" — light grayscale + 1.3x contrast
+              for (var i2 = 0; i2 < data.length; i2 += 4) {
+                var g2 = 0.299 * data[i2] + 0.587 * data[i2+1] + 0.114 * data[i2+2];
+                g2 = (g2 - 128) * 1.3 + 128;
+                g2 = Math.max(0, Math.min(255, g2));
+                data[i2] = g2; data[i2+1] = g2; data[i2+2] = g2;
+              }
+              ctx.putImageData(imageData, 0, 0);
             }
-            ctx.putImageData(imageData, 0, 0);
             resolve(canvas.toDataURL("image/png"));
           };
           img.onerror = reject;
@@ -945,20 +1017,43 @@
         reader.readAsDataURL(file);
       });
     }
+    // Back-compat alias
+    var preprocessImage = preprocessImageForPlumbing;
 
+    // Multi-pass Tesseract across (preprocessing x PSM) combos.
+    // Picks the result with the most characters that also contains a "$".
     async function extractImageText(file) {
-      var softImage = await preprocessImage(file, "soft");
+      var passes = [
+        { mode: "soft",   psm: 6, label: "1 of 6" },
+        { mode: "strong", psm: 6, label: "2 of 6" },
+        { mode: "soft",   psm: 4, label: "3 of 6" },
+        { mode: "strong", psm: 11, label: "4 of 6" },
+        { mode: "sharp",  psm: 3, label: "5 of 6" },
+        { mode: "soft",   psm: 3, label: "6 of 6" }
+      ];
       var worker = await Tesseract.createWorker("eng");
-      var result = await worker.recognize(softImage);
-      var text = (result.data.text || "").trim();
-      if (text.length < 50) {
-        var strongImage = await preprocessImage(file, "strong");
-        var result2 = await worker.recognize(strongImage);
-        var text2 = (result2.data.text || "").trim();
-        if (text2.length > text.length) text = text2;
+      var best = "";
+      var bestHasDollar = false;
+      for (var p = 0; p < passes.length; p++) {
+        var pass = passes[p];
+        try {
+          if (typeof setProgress === "function") {
+            setProgress(30 + Math.round((p / passes.length) * 20), "Reading text (" + pass.label + ")...");
+          }
+          try { await worker.setParameters({ tessedit_pageseg_mode: String(pass.psm) }); } catch (e) {}
+          var img = await preprocessImageForPlumbing(file, pass.mode);
+          var res = await worker.recognize(img);
+          var t = (res && res.data && res.data.text || "").trim();
+          var hasDollar = /\$/.test(t);
+          // Prefer results that contain $; among those, pick longest. Otherwise longest overall.
+          if (hasDollar && !bestHasDollar) { best = t; bestHasDollar = true; }
+          else if (hasDollar === bestHasDollar && t.length > best.length) { best = t; }
+        } catch (passErr) {
+          console.warn("Tesseract pass failed", pass, passErr);
+        }
       }
-      await worker.terminate();
-      return text;
+      try { await worker.terminate(); } catch (e) {}
+      return best;
     }
 
     // ── Estimator Flow ──
