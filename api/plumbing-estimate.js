@@ -84,7 +84,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "plumbing", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "plumbing", cacheNamespace: "plumbing-v2-nullbetter", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
