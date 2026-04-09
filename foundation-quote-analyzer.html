@@ -498,7 +498,7 @@
         <div class="found-hero">\
           <img src="/images/trudy-foundation.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
           <h1>Is your foundation repair quote fair?</h1>\
-          <p>Upload your contractor quote. We'll check the price, scope, and red flags in 30 seconds.</p>\
+          <p>Upload your contractor quote. We&#39;ll check the price, scope, and red flags in 30 seconds.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to foundation pricing? Read our <a href="/foundation-repair-cost-guide.html" style="color:#16a34a;">Foundation Repair Cost Guide</a></p>\
         </div>\
         <div class="found-card">\
@@ -509,7 +509,6 @@
             <input type="file" id="fileInput" accept=".pdf,image/*" style="display:none" />\
           </div>\
           <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
-        
         </div>';
 
       // Events
@@ -1190,7 +1189,6 @@
           <a class="found-btn found-btn-secondary found-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
         </div>\
         ' + feedbackHtml;
-
       window.foundationStartOver = function() {
         state = {
           step: "address",
@@ -1202,7 +1200,6 @@
         };
         render();
       };
-
       if (window.tpRenderResultFooter) {
         appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
           vertical: "foundation",
@@ -1211,17 +1208,13 @@
         }));
       }
     }
-
     function capitalize(s) {
       return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
     }
-
     // ── Init ──
     if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "foundation" });
     render();
-
-  })();
-  </script>
+  })();</script>
 <script src="/js/tp-analytics.min.js" async></script>
 <script src="/js/result-footer.js" defer></script>
 <script src="/js/feedback-modal.js" defer></script>
