@@ -1495,7 +1495,7 @@
       if (r.systemType && r.systemType !== "geothermal") {
         var detectedTonnage = r.tonnage || 3;
         var detectedSeer = r.seer || 16;
-        var detectedBrand = (r.brand || "").toLowerCase();
+        var detectedBrand = String(r.brand || "").toLowerCase();
         var stateMult = (r.pricingContext && r.pricingContext.stateMultiplier) || 1.0;
         var stateCode = (r.pricingContext && r.pricingContext.state) || "";
 

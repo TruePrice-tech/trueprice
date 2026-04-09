@@ -261,6 +261,15 @@ function parseMoneyLikeValue(raw, contextText = "") {
   return NaN;
 }
 
+// Defensive helper: normalize evidence/context strings before storing on
+// candidates. Was referenced 6 times below but never defined — likely
+// removed by an earlier console.log cleanup commit. Stub it back so the
+// parser doesn't ReferenceError on any extraction call.
+function normalizeEvidence(value) {
+  if (value == null) return "";
+  return String(value).replace(/\s+/g, " ").trim().slice(0, 240);
+}
+
 function extractPriceCandidates(text) {
   const candidates = [];
   const seen = new Set();
