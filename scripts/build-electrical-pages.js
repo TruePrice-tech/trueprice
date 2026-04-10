@@ -98,7 +98,7 @@ function main() {
       .replaceAll("{{STATE_NAME}}", stateName)
       .replaceAll("{{CITY_STATE}}", cityState)
       .replaceAll("{{SLUG}}", filename)
-      .replaceAll("{{STATE_PAGE_FILENAME}}", `${slugifyState(stateName)}-roof-cost.html`)
+      .replaceAll("{{STATE_PAGE_FILENAME}}", `electrical-cost.html`)
       .replaceAll("{{AVG_LOW}}", avgLow)
       .replaceAll("{{AVG_HIGH}}", avgHigh)
       .replaceAll("{{RATE_PANEL}}", panelMid)

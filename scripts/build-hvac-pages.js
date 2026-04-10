@@ -76,40 +76,48 @@ function main() {
     const cityName = city.city;
     const stateCode = city.state_code;
     const stateName = city.state;
-    const region = stateRegions[stateName] || stateRegions[stateCode] || "south";
     const cityKey = cityName + "|" + stateCode;
     const cityMult = cityMultipliers[cityKey] ? cityMultipliers[cityKey].multiplier : null;
-    const laborMult = cityMult || (pricingModel.laborMultiplierByRegion[region] || 1.0);
-    const overheadMult = pricingModel.overheadMultiplier || 1.15;
+    const stateMult = pricingModel.stateMultipliers[stateCode] || 1.0;
+    const mult = cityMult || stateMult;
 
     const filename = buildHvacPageFilename(cityName, stateCode);
     const cityState = `${cityName}, ${stateCode}`;
 
-    // Calculate prices for each system type and home size
-    const acBase = pricingModel.basePriceBySystem.central_ac.pricePerTon["16_seer"];
-    const hpBase = pricingModel.basePriceBySystem.heat_pump.pricePerTon["16_seer"];
-    const furnaceBase = pricingModel.basePriceBySystem.furnace.priceByEfficiency["90_afue"];
-    const fullBase = pricingModel.basePriceBySystem.full_system.pricePerTon["16_seer_90_afue"];
+    // Price ranges from systemTypes.[type].pricingByEfficiency.[tier].total = [low, high]
+    const acRange = pricingModel.systemTypes.central_ac.pricingByEfficiency["16_seer"].total;
+    const hpRange = pricingModel.systemTypes.heat_pump.pricingByEfficiency["16_seer"].total;
+    const furnaceRange = pricingModel.systemTypes.gas_furnace.pricingByEfficiency["90_afue"].total;
+    const fullRange = pricingModel.systemTypes.full_system.pricingByEfficiency["16_90"].total;
 
-    // Average home = 2.5 tons
-    const avgTons = 2.5;
-    const acAvg = Math.round(acBase * avgTons * laborMult * overheadMult / 50) * 50;
-    const hpAvg = Math.round(hpBase * avgTons * laborMult * overheadMult / 50) * 50;
-    const furnaceAvg = Math.round(furnaceBase * laborMult * overheadMult / 50) * 50;
-    const fullAvg = Math.round(fullBase * avgTons * laborMult * overheadMult / 50) * 50;
+    function mid(range) { return Math.round((range[0] + range[1]) / 2); }
+    const acAvg = Math.round(mid(acRange) * mult / 50) * 50;
+    const hpAvg = Math.round(mid(hpRange) * mult / 50) * 50;
+    const furnaceAvg = Math.round(mid(furnaceRange) * mult / 50) * 50;
+    const fullAvg = Math.round(mid(fullRange) * mult / 50) * 50;
 
-    const avgLowRaw = String(Math.round(acAvg * 0.85));
-    const avgHighRaw = String(Math.round(fullAvg * 1.15));
-    const avgLow = formatCurrency(acAvg * 0.85);
-    const avgHigh = formatCurrency(fullAvg * 1.15);
+    const avgLowRaw = String(Math.round(acRange[0] * mult));
+    const avgHighRaw = String(Math.round(fullRange[1] * mult));
+    const avgLow = formatCurrency(acRange[0] * mult);
+    const avgHigh = formatCurrency(fullRange[1] * mult);
     const slugLC = slugifyCity(cityName) + "-" + stateCode.toLowerCase();
 
-    // Build price rows
-    const priceRows = pricingModel.homeSizes.map(size => {
-      const tons = size.tons;
-      const ac = formatCurrency(Math.round(acBase * tons * laborMult * overheadMult / 50) * 50);
-      const hp = formatCurrency(Math.round(hpBase * tons * laborMult * overheadMult / 50) * 50);
-      const full = formatCurrency(Math.round(fullBase * tons * laborMult * overheadMult / 50) * 50);
+    // Build price rows from tonnageByHomeSqFt
+    const tonMap = pricingModel.tonnageByHomeSqFt;
+    const homeSizes = [
+      { label: "1,000", sqft: "1000" },
+      { label: "1,500", sqft: "1500" },
+      { label: "2,000", sqft: "2000" },
+      { label: "2,500", sqft: "2500" },
+      { label: "3,000", sqft: "3000" },
+      { label: "3,500", sqft: "3500" }
+    ];
+    const priceRows = homeSizes.map(size => {
+      const tons = tonMap[size.sqft] || 3;
+      const scale = tons / 3; // normalize to 3-ton baseline
+      const ac = formatCurrency(Math.round(mid(acRange) * scale * mult / 50) * 50);
+      const hp = formatCurrency(Math.round(mid(hpRange) * scale * mult / 50) * 50);
+      const full = formatCurrency(Math.round(mid(fullRange) * scale * mult / 50) * 50);
       return `<tr><td>${size.label} sq ft (${tons} ton)</td><td>${ac}</td><td>${hp}</td><td>${full}</td></tr>`;
     }).join("\n");
 
@@ -119,7 +127,7 @@ function main() {
       .replaceAll("{{STATE_NAME}}", stateName)
       .replaceAll("{{CITY_STATE}}", cityState)
       .replaceAll("{{SLUG}}", filename)
-      .replaceAll("{{STATE_PAGE_FILENAME}}", `${slugifyState(stateName)}-roof-cost.html`)
+      .replaceAll("{{STATE_PAGE_FILENAME}}", `hvac-cost.html`)
       .replaceAll("{{AVG_LOW}}", avgLow)
       .replaceAll("{{AVG_HIGH}}", avgHigh)
       .replaceAll("{{RATE_CENTRAL_AC}}", formatCurrency(acAvg))
