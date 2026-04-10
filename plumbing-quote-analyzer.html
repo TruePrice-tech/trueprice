@@ -1053,6 +1053,7 @@
         }
       }
       try { await worker.terminate(); } catch (e) {}
+      try { window.__TP_LAST_OCR_TEXT = best; } catch (e) {}
       return best;
     }
 

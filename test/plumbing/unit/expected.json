@@ -1,0 +1,8 @@
+{
+  "wh-tank-labeled-low.txt":     { "price": 1380, "minConfidence": "medium" },
+  "wh-tank-labeled-mid.txt":     { "price": 2553, "minConfidence": "medium" },
+  "wh-tankless-labeled-high.txt":{ "price": 7571, "minConfidence": "medium" },
+  "subtotal-trap.txt":           { "price": 324,  "minConfidence": "medium" },
+  "repipe-no-label.txt":         { "price": 1800, "minConfidence": "low" },
+  "ocr-garbled-comma.txt":       { "price": 7571, "minConfidence": "low" }
+}
