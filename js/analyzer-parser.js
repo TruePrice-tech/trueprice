@@ -2640,7 +2640,12 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
     /\bsub\s*total\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
     // Insurance EOB: "Replacement Cost Value (RCV): $X" is the authoritative
     // pre-depreciation total. Bare "RCV: $X" also appears on Xactimate sheets.
-    /(?:replacement\s*cost\s*value\s*(?:\(rcv\))?|\brcv)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi
+    /(?:replacement\s*cost\s*value\s*(?:\(rcv\))?|\brcv)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
+    // Auto insurance / dealer estimate: "Total Cost of Repairs: $X" is the
+    // gross repair cost line on Mitchell/CCC/Xactimate auto estimates.
+    // "Net Cost of Repairs" is post-deductible — explicitly NOT matched here
+    // because the gross is what compares to the market benchmark.
+    /\btotal\s*cost\s*of\s*repairs?\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi
   ];
   const textForB = rawText.replace(/\r\n/g, "\n");
   labelPatterns.forEach((re, idx) => {
@@ -2654,10 +2659,11 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
       const ctx = m[0].toLowerCase();
       const isSubtotal = idx === 1 || /\bsub\s*total/.test(ctx);
       const isRcv = idx === 2;
+      const isAutoTcr = idx === 3;
       strategyB.candidates.push({
         value: val,
         display: String(raw),
-        score: isSubtotal ? 60 : (isRcv ? 110 : 100),
+        score: isSubtotal ? 60 : ((isRcv || isAutoTcr) ? 110 : 100),
         sourceType: isSubtotal ? "strict_subtotal" : "strict_labeled_total",
         context: m[0]
       });
