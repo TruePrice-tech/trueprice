@@ -2725,8 +2725,24 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
   }
 
   if (strategiesAgreed >= 3) priceConfidence = "high";
-  else if (strategiesAgreed === 2) priceConfidence = "medium";
+  else if (strategiesAgreed === 2) priceConfidence = "high"; // 2 of 3 is still strong agreement
   else priceConfidence = "low";
+
+  // BOOST: a strict labeled "TOTAL: $X" match is the highest-quality price
+  // signal we can extract. If Strategy B found one and the picked finalPrice
+  // matches it, treat as at least medium confidence even if A and C picked
+  // different things (Tesseract often introduces noise that breaks A/C scoring
+  // but leaves the labeled-total intact).
+  const labeledTotalMatch = strategyB.candidates.find(c => c.sourceType === "strict_labeled_total");
+  if (labeledTotalMatch && Number.isFinite(finalPrice) && Math.abs(finalPrice - labeledTotalMatch.value) < 1) {
+    if (priceConfidence === "low") priceConfidence = "medium";
+  }
+  // If finalPrice wasn't picked yet but Strategy B has a labeled total, use it.
+  if ((!Number.isFinite(finalPrice) || finalPrice <= 0) && labeledTotalMatch) {
+    finalPrice = labeledTotalMatch.value;
+    priceConfidence = "medium";
+    strategiesAgreed = Math.max(strategiesAgreed, 1);
+  }
 
   // If nothing found at all
   if (!Number.isFinite(finalPrice) || finalPrice <= 0) {
