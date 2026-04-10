@@ -419,7 +419,11 @@ window.loadVendorLibs=function(){
   window._vendorLibsLoaded=true;
   return Promise.all([
     new Promise(function(r){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";s.onload=r;document.head.appendChild(s);}),
-    new Promise(function(r){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";s.onload=r;document.head.appendChild(s);})
+    new Promise(function(r){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";s.onload=r;document.head.appendChild(s);}),
+    // Tesseract.js — required for OCR on uploaded image quotes. Without this,
+    // every image upload silently returns 0 chars → API gets empty payload →
+    // user sees "FAIR PRICE $0". Was missing since launch. (2026-04-09)
+    new Promise(function(r){var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";s.onload=r;document.head.appendChild(s);})
   ]).then(function(){
     if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";}
   });
