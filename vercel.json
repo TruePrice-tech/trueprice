@@ -140,6 +140,30 @@
       "source": "/:path*-cost.html-:suffix*-cost.html",
       "destination": "/:path*-cost.html",
       "permanent": true
+    },
+    {
+      "source": "/715-roof-cost.html",
+      "destination": "/architectural-roof-cost-charleston-wv.html",
+      "permanent": true
+    },
+    {
+      "source": "/716-roof-cost.html",
+      "destination": "/architectural-roof-cost-huntington-wv.html",
+      "permanent": true
+    },
+    {
+      "source": "/gable-roof-cost-:city-:state.html",
+      "destination": "/architectural-roof-cost-:city-:state.html",
+      "permanent": true
+    },
+    {
+      "source": "/fake-roof-cost-:rest*.html",
+      "statusCode": 410
+    },
+    {
+      "source": "/concrete-roof-cost-hattiesburg-ok.html",
+      "destination": "/concrete-roof-cost-hattiesburg-ms.html",
+      "permanent": true
     }
   ]
 }
