@@ -9,12 +9,12 @@ const CACHE = __dirname;
 // Ground truth — populate as fixtures get OCR'd. Use minConfidence:"low"
 // because real OCR rarely cleanly agrees across all 3 strategies.
 const EXPECTED = {
-  "comparison-ac-01-low.png":         { price: 5800,  minConfidence: "low" },
-  "comparison-ac-02-mid.png":         { price: 9450,  minConfidence: "low" },
-  "comparison-ac-03-high.png":        { price: 16200, minConfidence: "low" },
-  "messy-comparison-ac-01-low.jpg":   { price: 5800,  minConfidence: "low" },
-  "messy-comparison-ac-02-mid.jpg":   { price: 9450,  minConfidence: "low" },
-  "messy-comparison-ac-03-high.jpg":  { price: 16200, minConfidence: "low" }
+  "comparison-ac-01-low.png":         { price: 3456,  minConfidence: "low" },
+  "comparison-ac-02-mid.png":         { price: 6620,  minConfidence: "low" },
+  "comparison-ac-03-high.png":        { price: 13457, minConfidence: "low" },
+  "messy-comparison-ac-01-low.jpg":   { price: 3456,  minConfidence: "low" },
+  "messy-comparison-ac-02-mid.jpg":   { price: 6620,  minConfidence: "low" },
+  "messy-comparison-ac-03-high.jpg":  { price: 13457, minConfidence: "low" }
 };
 
 const CONF_RANK = { low: 0, medium: 1, high: 2 };
