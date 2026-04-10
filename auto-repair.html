@@ -1578,8 +1578,11 @@ if(p.get("zip")) {
 window._urlYear=p.get("year")||"";
 window._urlMake=p.get("make")||"";
 window._urlModel=p.get("model")||"";
-if(p.get("path")==="quote") switchPath("quote", true);
-else if(p.get("path")==="estimate") switchPath("estimate", true);
+// NOTE: switchPath is deferred via _tpApplyUrlPath at script top — do not
+// call it inline here. Calling switchPath('quote') at this point in the
+// script crashes because qState (line ~1632) hasn't been declared yet,
+// so initQuoteApp → qRender → qState.step throws TypeError. The deferred
+// handler runs after DOMContentLoaded + setTimeout(0) when qState exists.
 
 // =============================================
 // QUOTE PATH: FULL ANALYZER
