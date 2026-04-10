@@ -430,6 +430,7 @@ window.loadVendorLibs=function(){
 };
 </script>
 <script src="/js/affiliate-links.min.js"></script>
+<script src="/js/price-confirm.min.js"></script>
 <script src="/js/analyzer-parser.min.js" defer></script>
 <script src="/js/analyzer-ocr.js" defer></script>
 
@@ -1811,14 +1812,35 @@ function initQuoteApp(){
       var result=null;
       if(apiResult&&apiResult.quoteTotal){result=buildResultFromAPI(apiResult);}
       else{result=buildResultFromLocal(text);}
-      setProgress(100,"Done!");
-      qState.result=result;
-      if(typeof tpTrack==="function") tpTrack("funnel_analysis_complete",{service:"auto-repair"});
-      qState.step="result";
-      setTimeout(qRender,400);
+      setProgress(90,"Almost done...");
+      var _extractedTotal=result?result.quoteTotal:0;
+      renderPriceConfirmation(appRoot,_extractedTotal,"ar",function(confirmedPrice){
+        if(result&&confirmedPrice!==_extractedTotal){
+          result.quoteTotal=confirmedPrice;
+          result.ratio=result.benchmark>0?confirmedPrice/result.benchmark:1.0;
+          result.verdict=verdictFromRatio(result.ratio);
+          result.source="confirmed";
+        }
+        if(!result){
+          var region=getRegionFromState(qState.stateCode);
+          var regionalRates=getRegionalLaborRate(qState.shopType,region);
+          result={source:"manual",quoteTotal:confirmedPrice,benchmark:confirmedPrice,ratio:1.0,verdict:verdictFromRatio(1.0),lineItems:[],laborRate:null,laborHours:null,partsTotal:null,laborTotal:null,shopType:qState.shopType,partsType:null,region:region,regionalRates:regionalRates,laborFlag:null,scopeSignals:{},parsed:null};
+        }
+        qState.result=result;
+        if(typeof tpTrack==="function") tpTrack("funnel_analysis_complete",{service:"auto-repair",source:_extractedTotal>0?"confirmed":"manual"});
+        qState.step="result";
+        qRender();
+      });
+      return;
     }catch(err){
       console.error("Auto repair analysis error:",err);
-      renderErrorFallback();
+      renderPriceConfirmation(appRoot,0,"ar",function(price){
+        var region=getRegionFromState(qState.stateCode);
+        var regionalRates=getRegionalLaborRate(qState.shopType,region);
+        qState.result={source:"manual",quoteTotal:price,benchmark:price,ratio:1.0,verdict:verdictFromRatio(1.0),lineItems:[],laborRate:null,laborHours:null,partsTotal:null,laborTotal:null,shopType:qState.shopType,partsType:null,region:region,regionalRates:regionalRates,laborFlag:null,scopeSignals:{},parsed:null};
+        qState.step="result";qRender();
+      });
+      return;
     }
   }
 

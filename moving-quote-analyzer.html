@@ -379,6 +379,7 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/price-confirm.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
   <script src="/js/analyzer-ocr.js" defer></script>
 
@@ -1486,15 +1487,58 @@
           result = await buildResultFromLocal(text);
         }
 
-        setProgress(100, "Done!");
-        state.result = result;
-        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "moving" });
-        state.step = "result";
-        setTimeout(render, 400);
+        setProgress(90, "Almost done...");
+        var _extractedTotal = result ? result.quoteTotal : 0;
+        renderPriceConfirmation(appRoot, _extractedTotal, "mv", function(confirmedPrice) {
+          if (result && confirmedPrice !== _extractedTotal) {
+            result.quoteTotal = confirmedPrice;
+            result.ratio = result.benchmark > 0 ? confirmedPrice / result.benchmark : 1.0;
+            result.verdict = verdictFromRatio(result.ratio);
+            result.source = "confirmed";
+          }
+          if (!result) {
+            var cityMult = getWeightedMult();
+            var expected = getExpectedRange(state.moveType || "local", state.homeSize || "2bed", cityMult, state.distance || 0);
+            result = {
+              source: "manual", quoteTotal: confirmedPrice, benchmark: expected.mid,
+              expectedRange: expected, ratio: expected.mid > 0 ? confirmedPrice / expected.mid : 1.0,
+              verdict: verdictFromRatio(expected.mid > 0 ? confirmedPrice / expected.mid : 1.0),
+              lineItems: [], hourlyRate: null, crewSize: null, estimatedHours: null,
+              weight: null, distance: state.distance, moveDate: null,
+              moveType: state.moveType, homeSize: state.homeSize, cityMult: cityMult,
+              fromCity: state.fromCity, fromState: state.fromState,
+              toCity: state.toCity, toState: state.toState,
+              isInterstate: state.fromState && state.toState && state.fromState !== state.toState,
+              rateFlag: null, scopeSignals: {}, redFlags: [],
+              comparison: getComparisonEstimates(state.moveType || "local", state.homeSize || "2bed", cityMult, state.distance || 0),
+              parsed: null, transitDays: getTransitDays(state.moveType || "local", state.distance || 0)
+            };
+          }
+          state.result = result;
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "moving", source: _extractedTotal > 0 ? "confirmed" : "manual" });
+          state.step = "result";
+          render();
+        });
+        return;
 
       } catch (err) {
         console.error("Moving analysis error:", err);
-        renderErrorFallback();
+        renderPriceConfirmation(appRoot, 0, "mv", function(price) {
+          var cityMult = getWeightedMult();
+          var expected = getExpectedRange("local", "2bed", cityMult, 0);
+          state.result = {
+            source: "manual", quoteTotal: price, benchmark: expected.mid,
+            expectedRange: expected, ratio: expected.mid > 0 ? price / expected.mid : 1.0,
+            verdict: verdictFromRatio(expected.mid > 0 ? price / expected.mid : 1.0),
+            lineItems: [], hourlyRate: null, crewSize: null, estimatedHours: null,
+            weight: null, distance: 0, moveDate: null, moveType: "local", homeSize: "2bed",
+            cityMult: cityMult, fromCity: "", fromState: "", toCity: "", toState: "",
+            isInterstate: false, rateFlag: null, scopeSignals: {}, redFlags: [],
+            comparison: [], parsed: null, transitDays: null
+          };
+          state.step = "result"; render();
+        });
+        return;
       }
     }
 

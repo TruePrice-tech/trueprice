@@ -13,7 +13,8 @@
     "client-side-ocr": "^2.1.0",
     "onnxruntime-node": "^1.24.3",
     "paddleocr": "^1.1.1",
-    "ppu-paddle-ocr": "^5.0.0"
+    "ppu-paddle-ocr": "^5.0.0",
+    "puppeteer": "^24.40.0"
   },
   "devDependencies": {
     "sharp": "^0.34.5"
