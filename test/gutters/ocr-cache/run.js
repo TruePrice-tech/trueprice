@@ -4,7 +4,32 @@ const path = require("path");
 const parser = require("../load-parser");
 
 const CACHE = __dirname;
-const EXPECTED = {};
+const EXPECTED = {
+  "comparison-gutters-low.png": {
+    "price": 1260,
+    "minConfidence": "low"
+  },
+  "comparison-gutters-mid.png": {
+    "price": 2380,
+    "minConfidence": "low"
+  },
+  "comparison-gutters-high.png": {
+    "price": 5520,
+    "minConfidence": "low"
+  },
+  "messy-comparison-gutters-low.jpg": {
+    "price": 1260,
+    "minConfidence": "low"
+  },
+  "messy-comparison-gutters-mid.jpg": {
+    "price": 2380,
+    "minConfidence": "low"
+  },
+  "messy-comparison-gutters-high.jpg": {
+    "price": 5520,
+    "minConfidence": "low"
+  }
+};
 
 const CONF_RANK = { low: 0, medium: 1, high: 2 };
 function pricesMatch(exp, act) {
