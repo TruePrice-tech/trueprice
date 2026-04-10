@@ -8,7 +8,14 @@ const CACHE = __dirname;
 // NOTE: the "real-*" Reddit fixtures are about Microsoft Windows the OS,
 // not window replacements (Reddit search false positive). They are NOT
 // included here — only the 6 synthetic comparison-windows fixtures count.
-const EXPECTED = {};
+const EXPECTED = {
+  "comparison-windows-low.png":         { price: 5640,  minConfidence: "low" },
+  "comparison-windows-mid.png":         { price: 9500,  minConfidence: "low" },
+  "comparison-windows-high.png":        { price: 19520, minConfidence: "low" },
+  "messy-comparison-windows-low.jpg":   { price: 5640,  minConfidence: "low" },
+  "messy-comparison-windows-mid.jpg":   { price: 9500,  minConfidence: "low" },
+  "messy-comparison-windows-high.jpg":  { price: 19520, minConfidence: "low" }
+};
 
 const CONF_RANK = { low: 0, medium: 1, high: 2 };
 function pricesMatch(exp, act) {
