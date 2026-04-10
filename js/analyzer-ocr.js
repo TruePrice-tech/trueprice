@@ -660,6 +660,7 @@ async function extractTextFromUploadedFile(file) {
       // Accept fast text if it looks decent
       if (typeof shouldAcceptFastOcrText === "function" && shouldAcceptFastOcrText(fastText)) {
         console.log("[OCR] Tesseract fast pass extracted " + fastText.length + " chars");
+        try { window.__TP_LAST_OCR_TEXT = fastText; } catch (e) {}
         return { text: fastText, method: "tesseract_fast", images: [imageDataUrl] };
       }
 
@@ -683,6 +684,7 @@ async function extractTextFromUploadedFile(file) {
       );
       console.log("[OCR] Tesseract full pass extracted " + finalText.length + " chars");
       if (finalText && finalText.length > 0) {
+        try { window.__TP_LAST_OCR_TEXT = finalText; } catch (e) {}
         return { text: finalText, method: "tesseract_full", images: [imageDataUrl] };
       }
     } catch (ocrErr) {

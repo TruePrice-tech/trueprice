@@ -1,0 +1,18 @@
+{
+  "01-3tab-basic-low.txt":            { "price": 7000,  "minConfidence": "medium" },
+  "02-architectural-mid.txt":         { "price": 13409, "minConfidence": "medium" },
+  "03-luxury-designer-high.txt":      { "price": 44766, "minConfidence": "medium" },
+  "04-metal-standing-seam.txt":       { "price": 26500, "minConfidence": "medium" },
+  "05-tile-clay.txt":                 { "price": 38894, "minConfidence": "medium" },
+  "06-insurance-eob-rcv-acv.txt":     { "price": 17012, "minConfidence": "low" },
+  "07-repair-only.txt":               { "price": 600,   "minConfidence": "medium" },
+  "08-bare-price-no-label.txt":       { "price": 11500, "minConfidence": "low" },
+  "09-supplement-claim.txt":          { "price": 15346, "minConfidence": "low" },
+  "10-multi-line-total.txt":          { "price": 12264, "minConfidence": "low" },
+  "11-subtotal-trap.txt":             { "price": 8667,  "minConfidence": "medium" },
+  "12-deposit-balance.txt":           { "price": 9840,  "minConfidence": "low" },
+  "13-flat-rubber-tpo.txt":           { "price": 10480, "minConfidence": "medium" },
+  "14-cedar-shake.txt":               { "price": 38988, "minConfidence": "medium" },
+  "15-decking-replacement-extra.txt": { "price": 9720,  "minConfidence": "low" },
+  "16-financing-monthly.txt":         { "price": 11800, "minConfidence": "low" }
+}

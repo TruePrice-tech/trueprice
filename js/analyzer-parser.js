@@ -2637,7 +2637,10 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
   // "grand total" win first.
   const labelPatterns = [
     /(?:grand\s*total|total\s*due|amount\s*due|balance\s*due|final\s*total|contract\s*total|project\s*total|invoice\s*total|quote\s*total|total\s*estimate|total\s*price|\btotal)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
-    /\bsub\s*total\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi
+    /\bsub\s*total\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
+    // Insurance EOB: "Replacement Cost Value (RCV): $X" is the authoritative
+    // pre-depreciation total. Bare "RCV: $X" also appears on Xactimate sheets.
+    /(?:replacement\s*cost\s*value\s*(?:\(rcv\))?|\brcv)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi
   ];
   const textForB = rawText.replace(/\r\n/g, "\n");
   labelPatterns.forEach((re, idx) => {
@@ -2650,10 +2653,11 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
       // the word "total", it's actually a subtotal even if pattern 0 caught it.
       const ctx = m[0].toLowerCase();
       const isSubtotal = idx === 1 || /\bsub\s*total/.test(ctx);
+      const isRcv = idx === 2;
       strategyB.candidates.push({
         value: val,
         display: String(raw),
-        score: isSubtotal ? 60 : 100,
+        score: isSubtotal ? 60 : (isRcv ? 110 : 100),
         sourceType: isSubtotal ? "strict_subtotal" : "strict_labeled_total",
         context: m[0]
       });
@@ -2721,6 +2725,20 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
     if (Number.isFinite(strategyA.price) && strategyA.price > 0) {
       finalPrice = strategyA.price;
       strategiesAgreed = agreementMap[strategyA.price] || 1;
+    }
+  }
+
+  // No-agreement override: when no two strategies agree (each picked a
+  // different value), defer to Strategy B's strict labeled total if one
+  // exists. A "TOTAL: $X" / "RCV: $X" line is a stronger signal than
+  // Strategy A's heuristic line-item picking. This is what fixes insurance
+  // EOBs where the largest line item (a single shingle SKU) outscores the
+  // actual project total.
+  if (strategiesAgreed <= 1 && Number.isFinite(strategyB.price) && strategyB.price > 0) {
+    const bIsLabeled = strategyB.candidates.some(c => c.sourceType === "strict_labeled_total" && c.value === strategyB.price);
+    if (bIsLabeled && strategyB.price !== finalPrice) {
+      finalPrice = strategyB.price;
+      strategiesAgreed = agreementMap[strategyB.price] || 1;
     }
   }
 
