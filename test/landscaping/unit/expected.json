@@ -1,0 +1,10 @@
+{
+  "01-sod-install-basic.txt":       { "price": 3100,  "minConfidence": "medium" },
+  "02-paver-patio.txt":             { "price": 6800,  "minConfidence": "medium" },
+  "03-retaining-wall.txt":          { "price": 6000,  "minConfidence": "medium" },
+  "04-irrigation-system.txt":       { "price": 4260,  "minConfidence": "medium" },
+  "05-full-backyard-redesign.txt":  { "price": 34200, "minConfidence": "medium" },
+  "06-bare-price.txt":              { "price": 2850,  "minConfidence": "low" },
+  "07-subtotal-trap.txt":           { "price": 10350, "minConfidence": "medium" },
+  "08-commercial-property.txt":     { "price": 55600, "minConfidence": "medium" }
+}

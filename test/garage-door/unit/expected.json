@@ -1,0 +1,10 @@
+{
+  "single-car-steel-basic.txt":  { "price": 1285,  "minConfidence": "medium" },
+  "double-car-insulated.txt":    { "price": 3090,  "minConfidence": "medium" },
+  "custom-wood-carriage.txt":    { "price": 8720,  "minConfidence": "medium" },
+  "opener-replacement.txt":      { "price": 688,   "minConfidence": "medium" },
+  "spring-replacement.txt":      { "price": 425,   "minConfidence": "medium" },
+  "bare-price.txt":              { "price": 2450,  "minConfidence": "low" },
+  "subtotal-trap.txt":           { "price": 1822,  "minConfidence": "medium" },
+  "commercial-roll-up.txt":      { "price": 4515,  "minConfidence": "medium" }
+}

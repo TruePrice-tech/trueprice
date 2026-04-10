@@ -1,0 +1,10 @@
+{
+  "basic-6kw.txt": { "price": 16000, "minConfidence": "low" },
+  "premium-10kw-battery.txt": { "price": 41265, "minConfidence": "low" },
+  "roof-mount-8kw.txt": { "price": 19949, "minConfidence": "medium" },
+  "ground-mount-7kw.txt": { "price": 25325, "minConfidence": "medium" },
+  "battery-only-powerwall.txt": { "price": 14000, "minConfidence": "medium" },
+  "bare-price.txt": { "price": 17550, "minConfidence": "low" },
+  "subtotal-trap.txt": { "price": 20340, "minConfidence": "low" },
+  "commercial-50kw.txt": { "price": 118209.50, "minConfidence": "low" }
+}

@@ -1,0 +1,10 @@
+{
+  "01-flat-fee-llc.txt":     { "price": 1100,  "minConfidence": "medium" },
+  "02-hourly-retainer.txt":  { "price": 5000,  "minConfidence": "low" },
+  "03-contingency-pi.txt":   { "price": 4500,  "minConfidence": "low" },
+  "04-divorce-flat.txt":     { "price": 1825,  "minConfidence": "medium" },
+  "05-criminal-defense.txt": { "price": 6000,  "minConfidence": "medium" },
+  "06-estate-planning.txt":  { "price": 4000,  "minConfidence": "medium" },
+  "07-bare-price.txt":       { "price": 800,   "minConfidence": "low" },
+  "08-subtotal-trap.txt":    { "price": 1450,  "minConfidence": "medium" }
+}

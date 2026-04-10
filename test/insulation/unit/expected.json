@@ -1,0 +1,10 @@
+{
+  "01-blown-in-attic.txt":         { "price": 2200,  "minConfidence": "medium" },
+  "02-spray-foam-closed-cell.txt": { "price": 4675,  "minConfidence": "medium" },
+  "03-batt-insulation-walls.txt":  { "price": 1875,  "minConfidence": "medium" },
+  "04-crawlspace-insulation.txt":  { "price": 3200,  "minConfidence": "medium" },
+  "05-radiant-barrier.txt":        { "price": 1200,  "minConfidence": "medium" },
+  "06-bare-price.txt":             { "price": 1650,  "minConfidence": "low" },
+  "07-subtotal-trap.txt":          { "price": 1374,  "minConfidence": "medium" },
+  "08-commercial-warehouse.txt":   { "price": 24680, "minConfidence": "medium" }
+}

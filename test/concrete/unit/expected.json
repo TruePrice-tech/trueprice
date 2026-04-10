@@ -1,0 +1,10 @@
+{
+  "bare-price.txt":          { "price": 4650,  "minConfidence": "medium" },
+  "commercial-parking.txt":  { "price": 50500, "minConfidence": "high" },
+  "driveway-pour.txt":       { "price": 5900,  "minConfidence": "high" },
+  "foundation-slab.txt":     { "price": 18666, "minConfidence": "high" },
+  "patio.txt":               { "price": 3200,  "minConfidence": "high" },
+  "sidewalk-repair.txt":     { "price": 1925,  "minConfidence": "high" },
+  "stamped-decorative.txt":  { "price": 11000, "minConfidence": "high" },
+  "subtotal-trap.txt":       { "price": 5500,  "minConfidence": "high" }
+}

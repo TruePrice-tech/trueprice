@@ -1,0 +1,10 @@
+{
+  "budget-cosmetic-remodel.txt": { "price": 17869, "minConfidence": "medium" },
+  "midrange-ikea-granite.txt":   { "price": 37552, "minConfidence": "medium" },
+  "highend-custom.txt":          { "price": 113736, "minConfidence": "medium" },
+  "countertop-only.txt":         { "price": 4747, "minConfidence": "medium" },
+  "cabinet-refacing.txt":        { "price": 9068, "minConfidence": "medium" },
+  "bare-price-no-label.txt":     { "price": 26500, "minConfidence": "low" },
+  "subtotal-trap.txt":           { "price": 32392, "minConfidence": "medium" },
+  "commercial-restaurant.txt":   { "price": 114975, "minConfidence": "medium" }
+}

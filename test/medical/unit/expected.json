@@ -1,0 +1,10 @@
+{
+  "01-er-visit.txt":         { "price": 3625,    "minConfidence": "low" },
+  "02-mri.txt":              { "price": 2750,    "minConfidence": "medium" },
+  "03-surgery.txt":          { "price": 5181,    "minConfidence": "low" },
+  "04-dental-crown.txt":     { "price": 805,     "minConfidence": "medium" },
+  "05-eob-insurance.txt":    { "price": 811,     "minConfidence": "low" },
+  "06-physical-therapy.txt": { "price": 1794,    "minConfidence": "low" },
+  "07-bare-price.txt":       { "price": 4200,    "minConfidence": "low" },
+  "08-subtotal-trap.txt":    { "price": 287.50,  "minConfidence": "low" }
+}

@@ -1,0 +1,10 @@
+{
+  "01-local-2bed-apt.txt":        { "price": 995,      "minConfidence": "high"   },
+  "02-long-distance-interstate.txt": { "price": 5274.44, "minConfidence": "high"   },
+  "03-large-home-packing.txt":    { "price": 5120,     "minConfidence": "high"   },
+  "04-storage-plus-move.txt":     { "price": 2345,     "minConfidence": "high"   },
+  "05-piano-specialty.txt":       { "price": 605,      "minConfidence": "high"   },
+  "06-bare-price.txt":            { "price": 875,      "minConfidence": "medium" },
+  "07-subtotal-trap.txt":         { "price": 2500,     "minConfidence": "high"   },
+  "08-commercial-office.txt":     { "price": 17864.75, "minConfidence": "high"   }
+}
