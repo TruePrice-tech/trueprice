@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "test:harness": "node test/harness.js",
     "test:parser": "node test/plumbing/unit/run.js",
     "test:ocr": "node test/plumbing/ocr-cache/run.js",
     "test:ocr:refresh": "node test/plumbing/ocr-cache/refresh.js",

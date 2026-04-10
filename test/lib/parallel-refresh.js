@@ -69,14 +69,21 @@ module.exports = async function parallelRefresh(opts) {
         await page.waitForSelector('input[type="file"]', { timeout: 30000 });
         const [input] = await page.$$('input[type="file"]');
         await input.uploadFile(path.join(fixturesDir, name));
+        // Wait specifically for OCR text. Don't fall back to body-text matching
+        // for "verdict|fair" because some analyzer pages (e.g. auto-repair.html)
+        // pre-render the result template containing those words before OCR runs,
+        // causing the wait to fire instantly with 0 captured text. Only allow
+        // manualPrice as an early-out — that's an explicit "OCR pipeline failed,
+        // user must enter manually" signal.
         await page.waitForFunction(
           () => {
             if (window.__TP_LAST_OCR_TEXT) return true;
+            // Only treat manual fallback as success if we've actually waited a bit —
+            // the manualPrice element might also appear in the upload form template.
             const m = document.getElementById("manualPrice");
-            const body = document.body.innerText || "";
-            return !!m || /verdict|fair|overpri|underpri|your\s+quote/i.test(body);
+            return !!m && document.body.innerText && document.body.innerText.length > 100;
           },
-          { timeout: timeoutMs }
+          { timeout: timeoutMs, polling: 500 }
         );
         const text = await page.evaluate(() => window.__TP_LAST_OCR_TEXT || "");
         fs.writeFileSync(path.join(cacheDir, name + ".txt"), text);
