@@ -559,10 +559,20 @@ function switchPath(path, silent){
   if(typeof tpTrack==="function") tpTrack("path_switch",{path:path,page:"/auto-repair.html",silent:!!silent});
 }
 
-// Handle URL param — open the panel but leave both buttons in neutral (light) state
-var _urlPath = new URLSearchParams(window.location.search).get("path");
-if(_urlPath === "quote") switchPath("quote", true);
-else if(_urlPath === "estimate") switchPath("estimate", true);
+// Handle URL param — open the panel but leave both buttons in neutral (light) state.
+// Defer until DOMContentLoaded AND until qState is defined further down the script,
+// otherwise switchPath('quote') triggers initQuoteApp → qRender → qState.step crash
+// because qState is declared ~1000 lines below.
+function _tpApplyUrlPath(){
+  var _urlPath = new URLSearchParams(window.location.search).get("path");
+  if(_urlPath === "quote") switchPath("quote", true);
+  else if(_urlPath === "estimate") switchPath("estimate", true);
+}
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", function(){ setTimeout(_tpApplyUrlPath, 0); });
+} else {
+  setTimeout(_tpApplyUrlPath, 0);
+}
 
 // =============================================
 // ESTIMATE PATH: DATA + LOGIC
