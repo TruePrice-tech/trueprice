@@ -709,50 +709,54 @@
       if (txt) txt.textContent = msg;
     }
 
-    // Manual-entry-primary screen. Shown when free layers return no/low-confidence price.
-    // Manual entry is the headline action; AI opt-in is a small secondary button.
-    function renderManualEntryPrimary(info) {
+    // Option C: Price confirmation screen. Shows extracted price for user to confirm or edit.
+    // If no price was found, shows manual entry instead.
+    function renderPriceConfirmation(info, onConfirm) {
       info = info || {};
-      var detectedNote = info.lowConfidencePrice && info.lowConfidencePrice > 0
-        ? '<p style="color:#64748b;font-size:13px;margin-bottom:16px;">We detected a possible total of <strong>$' + Math.round(info.lowConfidencePrice).toLocaleString() + '</strong> but we\'re not confident. Please enter it manually to be sure.</p>'
-        : '<p style="color:#475569;margin-bottom:16px;">We couldn\'t reliably read a total from that file. The fastest way to get an accurate analysis is to type it in:</p>';
-      appRoot.innerHTML = '\
-        <div class="plumb-hero"><h1>Enter your quote total</h1></div>\
-        <div class="plumb-card" style="text-align:center;max-width:520px;margin:0 auto;">\
-          ' + detectedNote + '\
-          <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;">\
-            <span style="font-size:22px;font-weight:700;">$</span>\
-            <input type="number" id="manualPrice" placeholder="e.g. 4500" style="padding:12px 16px;border:1px solid #e2e8f0;border-radius:10px;font-size:20px;width:200px;" autofocus />\
-          </div>\
-          <button class="plumb-btn plumb-btn-primary" id="manualPriceBtn" style="font-size:16px;padding:12px 28px;">Analyze this price</button>\
-          <div style="margin-top:28px;padding-top:20px;border-top:1px solid #e2e8f0;">\
-            <button class="plumb-btn plumb-btn-secondary" id="tryAiBtn" style="font-size:14px;">Or try AI analysis &rarr;</button>\
-            <p style="color:#94a3b8;font-size:12px;margin-top:8px;">Sends your image to Anthropic\'s AI service. Slower, but better at messy photos.</p>\
-          </div>\
-          <div style="margin-top:14px;"><button class="plumb-btn plumb-btn-secondary" onclick="state.step=\'address\';state.extractedText=\'\';state.pendingFile=null;render();">Start over</button></div>\
-        </div>';
-      document.getElementById("manualPriceBtn").addEventListener("click", function() {
-        var price = parseFloat(document.getElementById("manualPrice").value);
-        if (!price || price < 100) { alert("Please enter a valid price."); return; }
-        var region = getRegionFromState(state.address.stateCode);
-        var benchmark = calcBenchmark("water_heater", "tank_50_gas", region, null, null);
-        var ratio = price / benchmark;
-        state.result = {
-          source: "manual", quotePrice: price, benchmark: benchmark,
-          ratio: ratio, verdict: verdictFromRatio(ratio),
-          serviceType: { value: "water_heater", label: "Water Heater Replacement" },
-          subType: "tank_50_gas", brand: null,
-          scopeSignals: {}, region: region, location: null, parsed: null
-        };
-        state.step = "result";
-        render();
-      });
-      document.getElementById("tryAiBtn").addEventListener("click", function() {
-        if (!state.pendingFile) return;
-        state.step = "uploading";
-        render();
-        processFile(state.pendingFile, { useAI: true });
-      });
+      var price = info.extractedPrice || 0;
+      if (price > 0) {
+        appRoot.innerHTML = '\
+          <div class="plumb-hero"><h1>We found your quote total</h1></div>\
+          <div class="plumb-card" style="text-align:center;max-width:520px;margin:0 auto;">\
+            <img src="/images/trudy.png" alt="Trudy" width="80" style="margin-bottom:12px;" />\
+            <div style="font-size:36px;font-weight:800;color:#166534;margin-bottom:8px;">$' + Math.round(price).toLocaleString() + '</div>\
+            <p style="color:#475569;margin-bottom:20px;">Is this your quote total?</p>\
+            <button class="plumb-btn plumb-btn-primary" id="confirmPriceBtn" style="font-size:16px;padding:14px 32px;margin-bottom:16px;">Yes, analyze this price</button>\
+            <div style="padding-top:16px;border-top:1px solid #e2e8f0;">\
+              <p style="color:#64748b;font-size:14px;margin-bottom:8px;">Not right? Enter the correct amount:</p>\
+              <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:12px;">\
+                <span style="font-size:20px;font-weight:700;">$</span>\
+                <input type="number" id="editPrice" placeholder="e.g. 4500" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
+              </div>\
+              <button class="plumb-btn plumb-btn-secondary" id="editPriceBtn" style="font-size:14px;">Analyze corrected price</button>\
+            </div>\
+            <div style="margin-top:14px;"><button class="plumb-btn plumb-btn-secondary" onclick="state.step=\'address\';state.extractedText=\'\';state.pendingFile=null;render();">Start over</button></div>\
+          </div>';
+        document.getElementById("confirmPriceBtn").addEventListener("click", function() { onConfirm(price); });
+        document.getElementById("editPriceBtn").addEventListener("click", function() {
+          var edited = parseFloat(document.getElementById("editPrice").value);
+          if (!edited || edited < 50) { alert("Please enter a valid price."); return; }
+          onConfirm(edited);
+        });
+      } else {
+        appRoot.innerHTML = '\
+          <div class="plumb-hero"><h1>Enter your quote total</h1></div>\
+          <div class="plumb-card" style="text-align:center;max-width:520px;margin:0 auto;">\
+            <img src="/images/trudy.png" alt="Trudy" width="80" style="margin-bottom:12px;" />\
+            <p style="color:#475569;margin-bottom:16px;">We couldn\'t read a price from your image. Enter your quote total:</p>\
+            <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;">\
+              <span style="font-size:22px;font-weight:700;">$</span>\
+              <input type="number" id="manualPrice" placeholder="e.g. 4500" style="padding:12px 16px;border:1px solid #e2e8f0;border-radius:10px;font-size:20px;width:200px;" autofocus />\
+            </div>\
+            <button class="plumb-btn plumb-btn-primary" id="manualPriceBtn" style="font-size:16px;padding:12px 28px;">Analyze this price</button>\
+            <div style="margin-top:14px;"><button class="plumb-btn plumb-btn-secondary" onclick="state.step=\'address\';state.extractedText=\'\';state.pendingFile=null;render();">Start over</button></div>\
+          </div>';
+        document.getElementById("manualPriceBtn").addEventListener("click", function() {
+          var manual = parseFloat(document.getElementById("manualPrice").value);
+          if (!manual || manual < 50) { alert("Please enter a valid price."); return; }
+          onConfirm(manual);
+        });
+      }
     }
 
     async function processFile(file, opts) {
@@ -880,63 +884,61 @@
           quotePrice = 0;
         }
 
-        // If free-layers returned nothing or low confidence and user hasn't opted into AI,
-        // bail out of processFile and render the manual-entry-primary screen instead.
-        // Exception: if Strategy B found a strict labeled "TOTAL: $X" that matches the
-        // picked price, we trust it even at low confidence — labeled totals are the
-        // highest-quality signal in real OCR (other strategies often miss them on
-        // noisy images, leaving "low" confidence even when the answer is correct).
-        var hasLabeledTotal = parsed && parsed.priceCandidates && parsed.priceCandidates.some(function(c) {
-          return c.sourceType === "strict_labeled_total" && Math.abs(c.value - quotePrice) < 1;
+        // Option C: show extracted price for confirmation, or manual entry if nothing found.
+        // No more confidence gate -- every extracted price gets shown to the user.
+        setProgress(90, "Almost done...");
+
+        var _serviceType = serviceType;
+        var _subType = subType;
+        var _brand = brand;
+        var _scopeSignals = scopeSignals;
+        var _location = location;
+        var _parsed = parsed;
+
+        renderPriceConfirmation({ extractedPrice: quotePrice }, function(confirmedPrice) {
+          var region = getRegionFromState(state.address.stateCode);
+          var benchmark = calcBenchmark(_serviceType.value, _subType, region, null, null);
+          var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
+          var verdict = verdictFromRatio(ratio);
+          var brandNote = "";
+          if (_brand) brandNote = _brand.brand + " (" + _brand.tier + " tier)";
+
+          state.result = {
+            source: quotePrice > 0 ? "upload" : "manual",
+            quotePrice: confirmedPrice,
+            benchmark: benchmark,
+            ratio: ratio,
+            verdict: verdict,
+            serviceType: _serviceType,
+            subType: _subType,
+            brand: _brand,
+            brandNote: brandNote,
+            scopeSignals: _scopeSignals,
+            region: region,
+            location: _location,
+            parsed: _parsed
+          };
+
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "plumbing", source: quotePrice > 0 ? "confirmed" : "manual" });
+          state.step = "result";
+          render();
         });
-        if (!useAI && (quotePrice <= 0 || (priceConfidence === "low" && !hasLabeledTotal))) {
-          state.step = "needs_manual";
-          state.pendingFile = file;
-          renderManualEntryPrimary({ lowConfidencePrice: quotePrice });
-          return;
-        }
-
-        setProgress(85, "Calculating verdict...");
-
-        var region = getRegionFromState(state.address.stateCode);
-        var benchmark = calcBenchmark(serviceType.value, subType, region, null, null);
-
-        var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
-
-        // Brand tier note
-        var brandNote = "";
-        if (brand) {
-          brandNote = brand.brand + " (" + brand.tier + " tier)";
-        }
-
-        setProgress(100, "Done!");
-
-        state.result = {
-          source: "upload",
-          quotePrice: quotePrice,
-          benchmark: benchmark,
-          ratio: ratio,
-          verdict: verdict,
-          serviceType: serviceType,
-          subType: subType,
-          brand: brand,
-          brandNote: brandNote,
-          scopeSignals: scopeSignals,
-          region: region,
-          location: location,
-          parsed: parsed
-        };
-
-        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "plumbing" });
-        state.step = "result";
-        setTimeout(render, 400);
 
       } catch (err) {
         console.error("Plumbing analysis error:", err);
         state.pendingFile = file;
-        state.step = "needs_manual";
-        renderManualEntryPrimary({});
+        renderPriceConfirmation({ extractedPrice: 0 }, function(price) {
+          var region = getRegionFromState(state.address.stateCode);
+          var benchmark = calcBenchmark("water_heater", "tank_50_gas", region, null, null);
+          state.result = {
+            source: "manual", quotePrice: price, benchmark: benchmark,
+            ratio: price / benchmark, verdict: verdictFromRatio(price / benchmark),
+            serviceType: { value: "water_heater", label: "Water Heater" },
+            subType: "tank_50_gas", brand: null, scopeSignals: {}, region: region, location: null, parsed: null
+          };
+          state.step = "result";
+          render();
+        });
       }
     }
 

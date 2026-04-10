@@ -243,6 +243,7 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/price-confirm.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -735,19 +736,22 @@
           quotePrice = 0;
         }
 
-        setProgress(85, "Calculating verdict...");
+        setProgress(90, "Almost done...");
+        var _origPrice = quotePrice;
+        renderPriceConfirmation(appRoot, quotePrice, "fdn", function(confirmedPrice) {
+
 
         var region = getRegionFromState(state.address.stateCode);
         var benchmark = calcBenchmark(repairType.value, "moderate", "1990_plus", region);
 
-        var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
+        var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
 
         setProgress(100, "Done!");
 
         state.result = {
-          source: "upload",
-          quotePrice: quotePrice,
+          source: _origPrice > 0 ? "confirmed" : "manual",
+          quotePrice: confirmedPrice,
           benchmark: benchmark,
           ratio: ratio,
           verdict: verdict,
@@ -759,8 +763,13 @@
         };
 
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "foundation" });
-        state.step = "result";
-        setTimeout(render, 400);
+        
+        
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"foundation", source: _origPrice > 0 ? "confirmed" : "manual"});
+          state.step = "result";
+          render();
+        });
+        return;
 
       } catch (err) {
         console.error("Foundation analysis error:", err);

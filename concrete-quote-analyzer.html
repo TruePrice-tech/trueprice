@@ -243,6 +243,7 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/price-confirm.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -754,7 +755,10 @@
           quotePrice = 0;
         }
 
-        setProgress(85, "Calculating verdict...");
+        setProgress(90, "Almost done...");
+        var _origPrice = quotePrice;
+        renderPriceConfirmation(appRoot, quotePrice, "conc", function(confirmedPrice) {
+
 
         var effectiveArea = area || 400;
         var thicknessMult = (thickness && thickness.value >= 6) ? 1.30 : 1.0;
@@ -763,7 +767,7 @@
 
         var benchmark = calcBenchmark(concreteType.value, effectiveArea, thicknessMult, demoMult);
 
-        var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
+        var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
 
         // Per sqft cost
@@ -772,8 +776,8 @@
         setProgress(100, "Done!");
 
         state.result = {
-          source: "upload",
-          quotePrice: quotePrice,
+          source: _origPrice > 0 ? "confirmed" : "manual",
+          quotePrice: confirmedPrice,
           benchmark: benchmark,
           ratio: ratio,
           verdict: verdict,
@@ -789,8 +793,13 @@
         };
 
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "concrete" });
-        state.step = "result";
-        setTimeout(render, 400);
+        
+        
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"concrete", source: _origPrice > 0 ? "confirmed" : "manual"});
+          state.step = "result";
+          render();
+        });
+        return;
 
       } catch (err) {
         console.error("Concrete analysis error:", err);

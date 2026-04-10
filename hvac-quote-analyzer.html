@@ -322,6 +322,7 @@
 
   <script src="/js/affiliate-links.min.js"></script>
   <script src="/js/hvac-parser.min.js"></script>
+  <script src="/js/price-confirm.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -883,7 +884,10 @@
           if (candidates.length) quotePrice = candidates[0].value;
         }
 
-        setProgress(85, "Calculating verdict...");
+        setProgress(90, "Almost done...");
+        var _origPrice = quotePrice;
+        renderPriceConfirmation(appRoot, quotePrice, "hvac", function(confirmedPrice) {
+
 
         // Determine effective SEER / efficiency
         var effectiveSeer = seer || 14;
@@ -892,7 +896,7 @@
 
         var benchmark = calcBenchmark(systemType.value, effectiveSeer, effectiveTons, region, "good");
 
-        var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
+        var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
 
         // Brand tier adjustment context
@@ -904,8 +908,8 @@
         setProgress(100, "Done!");
 
         state.result = {
-          source: "upload",
-          quotePrice: quotePrice,
+          source: _origPrice > 0 ? "confirmed" : "manual",
+          quotePrice: confirmedPrice,
           benchmark: benchmark,
           ratio: ratio,
           verdict: verdict,
@@ -922,8 +926,13 @@
         };
 
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "hvac" });
-        state.step = "result";
-        setTimeout(render, 400);
+        
+        
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"hvac", source: _origPrice > 0 ? "confirmed" : "manual"});
+          state.step = "result";
+          render();
+        });
+        return;
 
       } catch (err) {
         console.error("HVAC analysis error:", err);
