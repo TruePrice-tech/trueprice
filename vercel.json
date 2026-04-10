@@ -158,6 +158,7 @@
     },
     {
       "source": "/fake-roof-cost-:rest*.html",
+      "destination": "/404.html",
       "statusCode": 410
     },
     {
