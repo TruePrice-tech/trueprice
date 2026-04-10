@@ -57,7 +57,7 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
     score += 140;
   } else if (/subtotal/.test(ctx)) {
     score -= 20;
-  } else if (/\btotal\b/.test(ctx) && value >= 3000 && value <= 100000) {
+  } else if (/\btotal\b/.test(ctx) && value >= 3000 && value <= 500000) {
     // Standalone "TOTAL" near a plausible roof price — strong signal
     score += 120;
   } else if (/total|price|cost|amount|proposal|contract|investment/.test(ctx)) {
@@ -124,7 +124,7 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
   if (value < 500) score -= 60;
   if (value >= 500 && value < 1500) score -= 40;
   else if (value < 2000) score -= 20;
-  else if (value >= 3000 && value <= 100000) score += 20;
+  else if (value >= 3000 && value <= 500000) score += 20;
 
   if (value > 250000) score -= 80;
 
@@ -2636,7 +2636,7 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
   // The bare "total" alternation must come LAST so longer alternates like
   // "grand total" win first.
   const labelPatterns = [
-    /(?:grand\s*total|total\s*due|amount\s*due|balance\s*due|final\s*total|contract\s*total|project\s*total|invoice\s*total|quote\s*total|total\s*estimate|total\s*price|\btotal)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
+    /(?:grand\s*total|total\s*due|amount\s*due|balance\s*due|final\s*total|contract\s*total|project\s*total|invoice\s*total|quote\s*total|total\s*estimate|total\s*price|total\s*contract\s*price|total\s*installation\s*cost|total\s*repair\s*cost|\btotal)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
     /\bsub\s*total\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
     // Insurance EOB: "Replacement Cost Value (RCV): $X" is the authoritative
     // pre-depreciation total. Bare "RCV: $X" also appears on Xactimate sheets.
