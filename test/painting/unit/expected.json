@@ -1,0 +1,10 @@
+{
+  "01-interior-small.txt":    { "price": 1965,  "minConfidence": "medium" },
+  "02-exterior-mid.txt":      { "price": 7069,  "minConfidence": "medium" },
+  "03-whole-house-high.txt":  { "price": 21038, "minConfidence": "medium" },
+  "04-single-room.txt":       { "price": 435,   "minConfidence": "medium" },
+  "05-cabinets-kitchen.txt":  { "price": 4622,  "minConfidence": "medium" },
+  "06-bare-price.txt":        { "price": 2800,  "minConfidence": "low" },
+  "07-subtotal-trap.txt":     { "price": 1750,  "minConfidence": "medium" },
+  "08-commercial-office.txt": { "price": 13932, "minConfidence": "medium" }
+}

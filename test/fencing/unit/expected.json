@@ -1,0 +1,10 @@
+{
+  "01-wood-privacy.txt":   { "price": 4853,  "minConfidence": "medium" },
+  "02-chain-link.txt":     { "price": 2465,  "minConfidence": "medium" },
+  "03-wrought-iron.txt":   { "price": 15606, "minConfidence": "medium" },
+  "04-vinyl-privacy.txt":  { "price": 8035,  "minConfidence": "medium" },
+  "05-repair-only.txt":    { "price": 380,   "minConfidence": "medium" },
+  "06-bare-price.txt":     { "price": 6200,  "minConfidence": "low" },
+  "07-subtotal-trap.txt":  { "price": 1836,  "minConfidence": "medium" },
+  "08-aluminum-pool.txt":  { "price": 4680,  "minConfidence": "medium" }
+}

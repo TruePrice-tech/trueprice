@@ -1,0 +1,12 @@
+{
+  "01-vinyl-low.txt":          { "price": 9560,  "minConfidence": "medium" },
+  "02-fiber-cement-mid.txt":   { "price": 19251, "minConfidence": "medium" },
+  "03-cedar-shake-high.txt":   { "price": 33167, "minConfidence": "medium" },
+  "04-partial-repair.txt":     { "price": 800,   "minConfidence": "medium" },
+  "05-bare-price.txt":         { "price": 11500, "minConfidence": "low" },
+  "06-subtotal-trap.txt":      { "price": 5724,  "minConfidence": "medium" },
+  "07-stucco.txt":             { "price": 18980, "minConfidence": "medium" },
+  "08-lp-smartside.txt":       { "price": 14195, "minConfidence": "medium" },
+  "09-insurance-hail.txt":     { "price": 9408,  "minConfidence": "low" },
+  "10-deposit-balance.txt":    { "price": 12800, "minConfidence": "low" }
+}
