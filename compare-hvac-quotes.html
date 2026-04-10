@@ -215,17 +215,19 @@
     </div>
   </footer>
   <script src="/js/tp-analytics.min.js" async></script>
+  <script src="/js/analyzer-parser.min.js" defer></script>
   <script>
     window._vendorLibsLoaded = false;
+    window._vendorLibsPromise = null;
     window.loadVendorLibs = function() {
-      if (window._vendorLibsLoaded) return Promise.resolve();
-      window._vendorLibsLoaded = true;
-      return Promise.all([
+      if (window._vendorLibsPromise) return window._vendorLibsPromise;
+      window._vendorLibsPromise = Promise.all([
         new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
         new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"; s.onload = r; document.head.appendChild(s); })
       ]).then(function() {
         if (window.pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"; }
       });
+      return window._vendorLibsPromise;
     };
   </script>
   <script>
@@ -316,6 +318,7 @@
         if (text2.length > text.length) text = text2;
       }
       await worker.terminate();
+      try { window.__TP_LAST_OCR_TEXT = text; } catch(e) {}
       return text;
     }
 
@@ -400,6 +403,20 @@
         // Endpoints either return { data: {...} } or the data directly
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
+        // Fallback: if API returned no price, try client-side parser
+        if (!(price > 0) && typeof parseExtractedTextMultiStrategy === "function") {
+          try {
+            var ocrText = window.__TP_LAST_OCR_TEXT || "";
+            if (ocrText.length > 20) {
+              var parsed = parseExtractedTextMultiStrategy(ocrText, "hvac");
+              if (parsed && parsed.finalPrice > 0) {
+                price = parsed.finalPrice;
+                api.totalPrice = price;
+                api._source = "client-side-parser";
+              }
+            }
+          } catch(pe) { console.warn("Parser fallback error:", pe); }
+        }
         var name = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || (NOUN_SHORT + " " + (idx + 1));
 
         // Compute derived fields
@@ -435,15 +452,50 @@
         updateBtn();
       }).catch(function(err) {
         console.error("[compare-hvac] parse error:", err);
-        slot.classList.remove("uploading");
-        slot.innerHTML =
-          '<span class="slot-icon">&#128196;</span>' +
-          '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
-          '<span class="slot-error">Could not parse. Try another file.</span>' +
-          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
-        slot.onclick = function() { document.getElementById("file" + idx).click(); };
-        quotes[idx] = null; uploadedFiles[idx] = null;
-        updateBtn();
+        // Fallback: try client-side parser even if API completely failed
+        var fallbackPrice = 0;
+        if (typeof parseExtractedTextMultiStrategy === "function") {
+          try {
+            var ocrText = window.__TP_LAST_OCR_TEXT || "";
+            if (ocrText.length > 20) {
+              var parsed = parseExtractedTextMultiStrategy(ocrText, "hvac");
+              if (parsed && parsed.finalPrice > 0) fallbackPrice = parsed.finalPrice;
+            }
+          } catch(pe) {}
+        }
+        if (fallbackPrice > 0) {
+          // Parser found a price even though API failed
+          quotes[idx] = { name: NOUN_SHORT + " " + (idx + 1), price: fallbackPrice, api: {totalPrice: fallbackPrice, _source: "client-side-parser"}, scopeItems: {}, redFlags: [] };
+          slot.classList.remove("uploading");
+          slot.classList.add("uploaded");
+          slot.innerHTML =
+            '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
+            '<span class="slot-check">&#10003;</span>' +
+            '<input type="text" class="slot-edit-name" value="' + NOUN_SHORT + ' ' + (idx + 1) + '" data-idx="' + idx + '" placeholder="' + NOUN_SHORT + ' name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid #fde68a; border-radius:6px; padding:4px 8px; width:90%; background:#fffbeb;" />' +
+            '<input type="text" class="slot-edit-price" value="$' + Math.round(fallbackPrice).toLocaleString() + '" data-idx="' + idx + '" placeholder="Enter price" style="font-size:16px; font-weight:700; text-align:center; color:#0891b2; border:1px solid #e2e8f0; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:#fff;" />' +
+            '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
+          slot.querySelector(".slot-edit-name").addEventListener("change", function() {
+            quotes[idx].name = this.value.trim() || (NOUN_SHORT + " " + (idx + 1));
+            this.style.borderColor = "#e2e8f0"; this.style.background = "#fff";
+          });
+          slot.querySelector(".slot-edit-price").addEventListener("change", function() {
+            var v = parseFloat(this.value.replace(/[^0-9.]/g, "")) || 0;
+            quotes[idx].price = v;
+            if (v > 0) { this.value = "$" + v.toLocaleString(); this.style.borderColor = "#e2e8f0"; this.style.background = "#fff"; }
+            updateBtn();
+          });
+          updateBtn();
+        } else {
+          slot.classList.remove("uploading");
+          slot.innerHTML =
+            '<span class="slot-icon">&#128196;</span>' +
+            '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
+            '<span class="slot-error">Could not parse. Try another file.</span>' +
+            '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
+          slot.onclick = function() { document.getElementById("file" + idx).click(); };
+          quotes[idx] = null; uploadedFiles[idx] = null;
+          updateBtn();
+        }
       });
     };
 
