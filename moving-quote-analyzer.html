@@ -1835,6 +1835,7 @@
           if (text2.length > text.length) text = text2;
         }
         await worker.terminate();
+        try { window.__TP_LAST_OCR_TEXT = text; } catch (e) {}
         return text;
       }
 

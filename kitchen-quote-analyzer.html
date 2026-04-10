@@ -901,6 +901,7 @@
       }
 
       await worker.terminate();
+      try { window.__TP_LAST_OCR_TEXT = text; } catch (e) {}
       return text;
     }
 
