@@ -8,17 +8,42 @@
 //   cssPrefix:  vertical CSS class prefix (e.g. "plumb", "hvac", "roof")
 //   onConfirm:  callback(confirmedPrice) called when user confirms or enters
 
-function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm) {
+function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, currentVertical) {
   var prefix = cssPrefix || "tp";
   var heroClass = prefix + "-hero";
   var cardClass = prefix + "-card";
   var btnPrimary = prefix + "-btn " + prefix + "-btn-primary";
   var btnSecondary = prefix + "-btn " + prefix + "-btn-secondary";
 
+  // Vertical detection: warn if quote doesn't match current page.
+  // Auto-detects OCR text from window.__TP_LAST_OCR_TEXT and current vertical from URL.
+  var _ocrText = ocrText || (typeof window !== "undefined" && window.__TP_LAST_OCR_TEXT) || "";
+  var _curVert = currentVertical || "";
+  if (!_curVert && typeof window !== "undefined") {
+    var _pm = window.location.pathname.match(/\/([a-z-]+)-quote-analyzer/);
+    if (_pm) _curVert = _pm[1];
+    else if (window.location.pathname.indexOf("auto-repair") >= 0) _curVert = "auto";
+    else if (window.location.pathname.indexOf("moving") >= 0) _curVert = "moving";
+  }
+  var verticalWarning = "";
+  if (_ocrText && _curVert && typeof detectVerticalFromText === "function") {
+    var detected = detectVerticalFromText(_ocrText);
+    if (detected.vertical && detected.vertical !== _curVert && detected.score >= 3) {
+      verticalWarning = '\
+        <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:14px 18px;margin-bottom:16px;text-align:left;">\
+          <p style="margin:0 0 8px;font-weight:600;color:#92400e;">This looks like a ' + detected.label + ' quote</p>\
+          <p style="margin:0 0 10px;font-size:14px;color:#78350f;">Want to analyze it with our ' + detected.label + ' tool instead?</p>\
+          <a href="' + detected.url + '" style="display:inline-block;background:#f59e0b;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">Go to ' + detected.label + ' Analyzer</a>\
+          <span style="margin-left:12px;font-size:13px;color:#92400e;cursor:pointer;" id="tpIgnoreVertical">Continue here anyway</span>\
+        </div>';
+    }
+  }
+
   if (price && price > 0) {
     appRoot.innerHTML = '\
       <div class="' + heroClass + '" style="padding:24px 16px;"><h1 style="font-size:22px;">We found your quote total</h1></div>\
       <div class="' + cardClass + '" style="text-align:center;max-width:520px;margin:0 auto;padding:32px 24px;">\
+        ' + verticalWarning + '\
         <img src="/images/trudy.png" alt="Trudy" width="80" style="margin-bottom:12px;" />\
         <div style="font-size:36px;font-weight:800;color:#166534;margin-bottom:8px;">$' + Math.round(price).toLocaleString() + '</div>\
         <p style="color:#475569;margin-bottom:20px;">Is this your quote total?</p>\
@@ -44,6 +69,7 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm) {
     appRoot.innerHTML = '\
       <div class="' + heroClass + '" style="padding:24px 16px;"><h1 style="font-size:22px;">Enter your quote total</h1></div>\
       <div class="' + cardClass + '" style="text-align:center;max-width:520px;margin:0 auto;padding:32px 24px;">\
+        ' + verticalWarning + '\
         <img src="/images/trudy.png" alt="Trudy" width="80" style="margin-bottom:12px;" />\
         <p style="color:#475569;margin-bottom:16px;">We couldn\'t read a price from your image. Enter your quote total:</p>\
         <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;">\
