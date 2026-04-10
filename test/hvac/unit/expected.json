@@ -1,0 +1,8 @@
+{
+  "central-ac-labeled-low.txt":   { "price": 3980,  "minConfidence": "medium" },
+  "full-system-labeled-mid.txt":  { "price": 11448, "minConfidence": "medium" },
+  "mini-split-high.txt":          { "price": 15320, "minConfidence": "medium" },
+  "capacitor-repair-small.txt":   { "price": 389,   "minConfidence": "medium" },
+  "furnace-subtotal-trap.txt":    { "price": 3164,  "minConfidence": "medium" },
+  "heat-pump-no-label.txt":       { "price": 8900,  "minConfidence": "low" }
+}
