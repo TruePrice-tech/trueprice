@@ -1,0 +1,14 @@
+{
+  "01-vinyl-double-hung-low.txt":     { "price": 4800,  "minConfidence": "medium" },
+  "02-fiberglass-mid.txt":            { "price": 14924, "minConfidence": "medium" },
+  "03-pella-wood-high.txt":           { "price": 43740, "minConfidence": "medium" },
+  "04-single-window-replacement.txt": { "price": 660,   "minConfidence": "medium" },
+  "05-bay-window.txt":                { "price": 7209,  "minConfidence": "medium" },
+  "06-energy-rebate.txt":             { "price": 10746, "minConfidence": "medium" },
+  "07-bare-price-no-label.txt":       { "price": 3400,  "minConfidence": "low" },
+  "08-subtotal-trap.txt":             { "price": 2754,  "minConfidence": "medium" },
+  "09-financing.txt":                 { "price": 9800,  "minConfidence": "low" },
+  "10-deposit-balance.txt":           { "price": 13500, "minConfidence": "low" },
+  "11-aluminum-commercial.txt":       { "price": 24840, "minConfidence": "medium" },
+  "12-egress-basement.txt":           { "price": 3685,  "minConfidence": "medium" }
+}
