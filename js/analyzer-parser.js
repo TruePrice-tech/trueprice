@@ -2744,6 +2744,17 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
     strategiesAgreed = Math.max(strategiesAgreed, 1);
   }
 
+  // OCR GARBLE RECOVERY: if a labeled TOTAL exists but is implausibly smaller
+  // than a labeled SUBTOTAL, Tesseract likely dropped a digit/comma from the
+  // total line (e.g. "$7,571" misread as "$7.57"). In that case the subtotal
+  // is the more trustworthy floor — use it instead of the garbled total.
+  const subtotalMatch = strategyB.candidates.find(c => c.sourceType === "strict_subtotal");
+  if (subtotalMatch && labeledTotalMatch && labeledTotalMatch.value < subtotalMatch.value * 0.5) {
+    finalPrice = subtotalMatch.value;
+    priceConfidence = "low"; // explicit: OCR was corrupted, user should verify
+    strategiesAgreed = 1;
+  }
+
   // If nothing found at all
   if (!Number.isFinite(finalPrice) || finalPrice <= 0) {
     finalPrice = null;

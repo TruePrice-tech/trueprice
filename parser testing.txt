@@ -1,0 +1,38 @@
+Plumbing accuracy harness v2
+  Target:   https://truepricehq.com
+  Fixtures: 7 in C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\test-quotes\plumbing-images
+  Labeled:  7
+  Discovery: 0
+
+[1/7] 02-contractor-says-1800-to-move-water-supply-into-the.jpeg (labeled)
+[2/7] comparison-wh-01-low.png (labeled)
+[3/7] comparison-wh-02-mid.png (labeled)
+[4/7] comparison-wh-03-high.png (labeled)
+[5/7] messy-comparison-wh-01-low.jpg (labeled)
+[6/7] messy-comparison-wh-02-mid.jpg (labeled)
+[7/7] messy-comparison-wh-03-high.jpg (labeled)
+
+── Per-fixture results ──
+STATUS       FIXTURE                                                      EXPECTED     GOT          CONF     TIME    
+---------------------------------------------------------------------------------------------------------------------
+FAIL         02-contractor-says-1800-to-move-water-supply-into-the.jpeg   $1800        (manual)     low      88.2s   
+PASS         comparison-wh-01-low.png                                     $1380        $1380        unknown  7.8s    
+PASS         comparison-wh-02-mid.png                                     $2553        $2553        unknown  8.1s    
+FAIL         comparison-wh-03-high.png                                    $7571        (manual)     low      7.7s    
+PASS         messy-comparison-wh-01-low.jpg                               $1380        $1380        unknown  6.8s    
+PASS         messy-comparison-wh-02-mid.jpg                               $2553        $2553        unknown  9.3s    
+FAIL         messy-comparison-wh-03-high.jpg                              $7571        $7115        unknown  9.0s    
+
+── Coverage ──
+  Total fixtures:       7
+  Labeled (PASS/FAIL):  7  →  4 PASS, 3 FAIL
+  Discovery:            0  →  0 parsed, 0 fell to manual
+  Errors:               0
+  Parse rate:           71%  (5/7 returned a price)
+  Manual fallback rate: 29%  (2/7)
+  Labeled accuracy:     57%  (4/7)
+  Confidence breakdown: high=0, medium=0, low=2
+  Avg time per fixture: 20s
+
+Saved: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\test-results\plumbing\2026-04-10T00-12-14.json
+Saved: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\test-results\plumbing\latest.json

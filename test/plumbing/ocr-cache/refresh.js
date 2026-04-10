@@ -18,12 +18,19 @@ const puppeteer = require("puppeteer");
 const BASE_URL = process.env.BASE_URL || "https://truepricehq.com";
 const FIXTURES = path.resolve(__dirname, "..", "..", "..", "test-quotes", "plumbing-images");
 const CACHE = __dirname;
-const ONLY = process.argv[2] || null;
+const ONLY = (process.argv[2] && !process.argv[2].startsWith("--")) ? process.argv[2] : null;
+const FAILING_ONLY = process.argv.includes("--failing");
+const FAILING_SET = new Set([
+  "comparison-wh-03-high.png",
+  "messy-comparison-wh-03-high.jpg",
+  "02-contractor-says-1800-to-move-water-supply-into-the.jpeg"
+]);
 
 (async () => {
   const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
   let files = fs.readdirSync(FIXTURES).filter(n => /\.(jpe?g|png|webp)$/i.test(n)).sort();
   if (ONLY) files = files.filter(n => n === ONLY);
+  if (FAILING_ONLY) files = files.filter(n => FAILING_SET.has(n));
 
   for (const name of files) {
     const outPath = path.join(CACHE, name + ".txt");

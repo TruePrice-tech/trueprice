@@ -1,0 +1,113 @@
+{
+  "timestamp": "2026-04-10T00:02:20.082Z",
+  "baseUrl": "https://truepricehq.com",
+  "fixtureCount": 7,
+  "labeled": 7,
+  "pass": 4,
+  "fail": 3,
+  "errored": 0,
+  "discovered": 0,
+  "needsManual": 0,
+  "parseRate": 71,
+  "manualRate": 29,
+  "accuracy": 57,
+  "confidence": {
+    "high": 0,
+    "medium": 0,
+    "low": 2
+  },
+  "avgElapsedMs": 22582,
+  "rows": [
+    {
+      "status": "FAIL",
+      "name": "02-contractor-says-1800-to-move-water-supply-into-the.jpeg",
+      "expectedPrice": 1800,
+      "expectedJobType": "repipe",
+      "actualPrice": null,
+      "actualJobType": null,
+      "confidence": "low",
+      "kind": "manual_entry",
+      "elapsedMs": 101946,
+      "consoleErrorCount": 0,
+      "notes": "Title says $1800 to move water supply"
+    },
+    {
+      "status": "PASS",
+      "name": "comparison-wh-01-low.png",
+      "expectedPrice": 1380,
+      "expectedJobType": "water_heater_tank",
+      "actualPrice": 1380,
+      "actualJobType": "water_heater_replacement",
+      "confidence": "unknown",
+      "kind": "result",
+      "elapsedMs": 8903,
+      "consoleErrorCount": 0,
+      "notes": "Budget Plumbing, 50-gal gas tank"
+    },
+    {
+      "status": "PASS",
+      "name": "comparison-wh-02-mid.png",
+      "expectedPrice": 2553,
+      "expectedJobType": "water_heater_tank",
+      "actualPrice": 2553,
+      "actualJobType": "water_heater_replacement",
+      "confidence": "unknown",
+      "kind": "result",
+      "elapsedMs": 10233,
+      "consoleErrorCount": 0,
+      "notes": "Westside Plumbing, Bradford White 50-gal"
+    },
+    {
+      "status": "FAIL",
+      "name": "comparison-wh-03-high.png",
+      "expectedPrice": 7571,
+      "expectedJobType": "water_heater_tankless",
+      "actualPrice": null,
+      "actualJobType": null,
+      "confidence": "low",
+      "kind": "manual_entry",
+      "elapsedMs": 9457,
+      "consoleErrorCount": 0,
+      "notes": "Premier Home, Rinnai tankless premium"
+    },
+    {
+      "status": "PASS",
+      "name": "messy-comparison-wh-01-low.jpg",
+      "expectedPrice": 1380,
+      "expectedJobType": "water_heater_tank",
+      "actualPrice": 1380,
+      "actualJobType": "water_heater_replacement",
+      "confidence": "unknown",
+      "kind": "result",
+      "elapsedMs": 7799,
+      "consoleErrorCount": 0,
+      "notes": "Budget — degraded version"
+    },
+    {
+      "status": "PASS",
+      "name": "messy-comparison-wh-02-mid.jpg",
+      "expectedPrice": 2553,
+      "expectedJobType": "water_heater_tank",
+      "actualPrice": 2553,
+      "actualJobType": "water_heater_replacement",
+      "confidence": "unknown",
+      "kind": "result",
+      "elapsedMs": 9560,
+      "consoleErrorCount": 0,
+      "notes": "Westside — degraded version"
+    },
+    {
+      "status": "FAIL",
+      "name": "messy-comparison-wh-03-high.jpg",
+      "expectedPrice": 7571,
+      "expectedJobType": "water_heater_tankless",
+      "actualPrice": 7115,
+      "actualJobType": "water_heater_replacement",
+      "confidence": "unknown",
+      "kind": "result",
+      "elapsedMs": 10173,
+      "consoleErrorCount": 0,
+      "notes": "Premier — degraded version"
+    }
+  ]
+}
