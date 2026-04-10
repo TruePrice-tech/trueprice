@@ -2742,6 +2742,18 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
     }
   }
 
+  // Year-vs-price override: if finalPrice is a bare integer in the model-year
+  // range (1980-2030) AND Strategy C has a different $-prefixed candidate,
+  // Strategy A almost certainly grabbed a vehicle model year ("2018 Ford
+  // Focus") instead of a price. Defer to Strategy C's dollar-prefixed value.
+  const looksLikeYear = Number.isFinite(finalPrice) &&
+    finalPrice >= 1980 && finalPrice <= 2030 &&
+    Number.isInteger(finalPrice);
+  if (looksLikeYear && Number.isFinite(strategyC.price) && strategyC.price > 0 && strategyC.price !== finalPrice) {
+    finalPrice = strategyC.price;
+    strategiesAgreed = agreementMap[strategyC.price] || 1;
+  }
+
   if (strategiesAgreed >= 3) priceConfidence = "high";
   else if (strategiesAgreed === 2) priceConfidence = "high"; // 2 of 3 is still strong agreement
   else priceConfidence = "low";

@@ -1961,14 +1961,16 @@ function initQuoteApp(){
   }
 
   async function extractImageText(file){
-    if(typeof window.runAnalyzerOCR==="function"){try{var ocrResult=await window.runAnalyzerOCR(file);if(ocrResult&&ocrResult.length>30)return ocrResult;}catch(e){console.warn("OCR helper failed:",e);}}
+    if(typeof window.runAnalyzerOCR==="function"){try{var ocrResult=await window.runAnalyzerOCR(file);if(ocrResult&&ocrResult.length>30){try{window.__TP_LAST_OCR_TEXT=ocrResult;}catch(e){}return ocrResult;}}catch(e){console.warn("OCR helper failed:",e);}}
     if(typeof Tesseract!=="undefined"){
       var softImage=await preprocessImage(file,"soft");
       var worker=await Tesseract.createWorker("eng");
       var result=await worker.recognize(softImage);
       var text=(result.data.text||"").trim();
       if(text.length<50){var strongImage=await preprocessImage(file,"strong");var result2=await worker.recognize(strongImage);var text2=(result2.data.text||"").trim();if(text2.length>text.length) text=text2;}
-      await worker.terminate();return text;
+      await worker.terminate();
+      try{window.__TP_LAST_OCR_TEXT=text;}catch(e){}
+      return text;
     }
     return"";
   }

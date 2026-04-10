@@ -1,0 +1,16 @@
+{
+  "01-brake-pads-rotors.txt":       { "price": 626.94, "minConfidence": "medium" },
+  "02-oil-change-basic.txt":        { "price": 85.30,  "minConfidence": "medium" },
+  "03-transmission-rebuild.txt":    { "price": 5832,   "minConfidence": "medium" },
+  "04-diagnostic-fee-only.txt":     { "price": 150,    "minConfidence": "medium" },
+  "05-dealership-inflated.txt":     { "price": 966.60, "minConfidence": "medium" },
+  "06-timing-belt-water-pump.txt":  { "price": 2257.20,"minConfidence": "medium" },
+  "07-alternator-replacement.txt":  { "price": 639.36, "minConfidence": "medium" },
+  "08-tire-replacement-4.txt":      { "price": 1032.48,"minConfidence": "medium" },
+  "09-bodywork-collision.txt":      { "price": 7635.60,"minConfidence": "medium" },
+  "10-engine-replacement.txt":      { "price": 11826,  "minConfidence": "medium" },
+  "11-ac-compressor.txt":           { "price": 1350,   "minConfidence": "medium" },
+  "12-ev-battery.txt":              { "price": 696.60, "minConfidence": "medium" },
+  "13-bare-price-no-label.txt":     { "price": 485,    "minConfidence": "low" },
+  "14-subtotal-trap.txt":           { "price": 185.50, "minConfidence": "medium" }
+}
