@@ -221,17 +221,17 @@
     window._vendorLibsPromise = null;
     window.loadVendorLibs = function() {
       if (window._vendorLibsPromise) return window._vendorLibsPromise;
-      window._vendorLibsPromise =
       function loadScript(src) {
         return new Promise(function(r) { var s = document.createElement("script"); s.src = src; s.onload = r; document.head.appendChild(s); });
       }
-      return Promise.all([
+      window._vendorLibsPromise = Promise.all([
         loadScript("https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"),
         loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"),
         loadScript("/js/analyzer-parser.js")
       ]).then(function() {
         if (window.pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"; }
       });
+      return window._vendorLibsPromise;
     };
 
     // Plumbing-specific preprocessing (soft/strong/sharp) for compare flow.

@@ -1037,12 +1037,18 @@
         bindOptions("optUrg", "urgency");
       }
 
-      // Show progress dots
-      var dots = '';
+      // Show progress indicator
+      var progressBar = '<div style="text-align:center;margin-bottom:1.25rem;">';
+      progressBar += '<div style="font-size:13px;color:#64748b;margin-bottom:8px;font-weight:600;">Step ' + stepNum + ' of ' + TOTAL_STEPS + '</div>';
+      progressBar += '<div style="display:flex;gap:6px;justify-content:center;align-items:center;">';
       for (var d = 1; d <= TOTAL_STEPS; d++) {
-        dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px;background:' + (d <= stepNum ? "#2563eb" : "#e2e8f0") + ';"></span>';
+        var dotSize = d === stepNum ? '14px' : '10px';
+        var dotColor = d < stepNum ? '#16a34a' : d === stepNum ? '#2563eb' : '#e2e8f0';
+        var dotBorder = d === stepNum ? '2px solid #1d4ed8' : 'none';
+        progressBar += '<span style="display:inline-block;width:' + dotSize + ';height:' + dotSize + ';border-radius:50%;background:' + dotColor + ';border:' + dotBorder + ';transition:all 0.2s;"></span>';
       }
-      card.insertAdjacentHTML("afterbegin", '<div style="text-align:center;margin-bottom:1rem;">' + dots + '</div>');
+      progressBar += '</div></div>';
+      card.insertAdjacentHTML("afterbegin", progressBar);
 
       // Back button (except step 1)
       if (stepNum > 1) {
