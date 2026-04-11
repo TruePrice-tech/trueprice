@@ -8,7 +8,15 @@
 //   cssPrefix:  vertical CSS class prefix (e.g. "plumb", "hvac", "roof")
 //   onConfirm:  callback(confirmedPrice) called when user confirms or enters
 
-function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, currentVertical) {
+function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, currentVertical, confidence) {
+  // Auto-detect confidence from last parser result if not passed
+  var _conf = confidence || (typeof window !== "undefined" && window.__TP_LAST_CONFIDENCE) || "";
+  // Skip confirmation and go straight to analysis when confidence is high
+  if (price && price > 0 && _conf === "high") {
+    onConfirm(price);
+    return;
+  }
+
   var prefix = cssPrefix || "tp";
   var heroClass = prefix + "-hero";
   var cardClass = prefix + "-card";
