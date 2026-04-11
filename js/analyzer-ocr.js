@@ -704,89 +704,84 @@ async function extractTextFromUploadedFile(file) {
   throw new Error("Unsupported file type. Please upload a PDF or image.");
 }
 
+  // Compare-path file parsing now delegates to the shared TP_Engine.
+  // AI is backup-only (fires when regex fails to find a price).
   async function parseUploadedComparisonFile(file) {
     if (!file) return null;
 
-    // Lazy-load vendor libs (pdfjs, tesseract, html2canvas) on first upload
-    if (typeof loadVendorLibs === "function") {
-      await loadVendorLibs();
-    }
+    // Use shared engine if available, fall back to legacy flow
+    if (typeof TP_Engine !== "undefined" && TP_Engine.analyzeQuote) {
+      const engineResult = await TP_Engine.analyzeQuote(file, {
+        vertical: "roofing",  // compare pages detect vertical from context
+        apiEndpoint: "/api/parse-quote",
+      });
 
-    const extractionResult = await extractTextFromUploadedFile(file);
-    const rawText = extractionResult && extractionResult.text ? extractionResult.text : "";
-    const normalizedText = normalizeWhitespace(rawText);
-    const parsed = parseExtractedText(normalizedText || "", {
-      extractionMethod: extractionResult ? extractionResult.method : "ocr_cache"
-    });
+      // Map engine result to the shape compare pages expect
+      const parsed = engineResult.parsed || {};
 
-    // Log parse results for debugging (visible in browser console)
-    console.log("[PARSE] Method:", extractionResult ? extractionResult.method : "none");
-    console.log("[PARSE] Text length:", normalizedText.length);
-    console.log("[PARSE] Price found:", parsed.price || parsed.finalPrice || "NONE");
-    console.log("[PARSE] Contractor:", parsed.contractor || "NONE");
-    console.log("[PARSE] Material:", parsed.material || parsed.materialLabel || "NONE");
-    console.log("[PARSE] Signals:", parsed.signals ? Object.keys(parsed.signals).filter(k => parsed.signals[k]?.status === "included").join(", ") : "NONE");
-    console.log("[PARSE] Scope detected:", typeof detectScopeItems === "function" ? detectScopeItems(normalizedText).filter(i => i.detected).map(i => i.key).join(", ") : "N/A");
+      // Merge engine-level fields into parsed
+      if (engineResult.price && !parsed.price) {
+        parsed.price = String(engineResult.price);
+        parsed.finalBestPrice = engineResult.price;
+      }
+      if (engineResult.contractor) parsed.contractor = engineResult.contractor;
+      if (engineResult.material) parsed.material = engineResult.material;
+      if (engineResult.materialLabel) parsed.materialLabel = engineResult.materialLabel;
+      if (engineResult.city) parsed.city = engineResult.city;
+      if (engineResult.stateCode) parsed.stateCode = engineResult.stateCode;
+      if (engineResult.warranty) parsed.warranty = engineResult.warranty;
+      if (engineResult.warrantyYears) parsed.warrantyYears = engineResult.warrantyYears;
+      if (engineResult.roofSize) parsed.roofSize = engineResult.roofSize;
 
-    // TEST MODE: Set window._SKIP_CLAUDE_AI = true in console to test without AI
-    const skipAi = (typeof window !== "undefined" && window._SKIP_CLAUDE_AI) || false;
-
-    // Try Claude AI enhancement (non-blocking — falls back to regex if fails)
-    if (skipAi) {
-      console.log("[PARSE] *** CLAUDE AI SKIPPED (test mode) ***");
-      // Still run scope detection from analyzer-scope.js
-      if (typeof detectScopeItems === "function") {
-        const scopeDetected = detectScopeItems(normalizedText);
+      // Merge scope from engine
+      if (engineResult.scope) {
         if (!parsed.signals) parsed.signals = {};
-        scopeDetected.forEach(function(item) {
-          if (item.detected) {
-            var nk = item.key;
-            parsed.signals[nk] = { label: item.label, status: "included", evidence: "regex" };
+        Object.entries(engineResult.scope).forEach(function(entry) {
+          var key = entry[0], val = entry[1];
+          if (val && val.status === "included") {
+            parsed.signals[key] = val;
           }
         });
       }
-    }
 
-    if (!skipAi) try {
-      const images = extractionResult && Array.isArray(extractionResult.images) ? extractionResult.images : [];
-      const aiResult = await callClaudeParseQuote(normalizedText, images);
-      if (aiResult && aiResult.success && aiResult.data) {
-        const ai = aiResult.data;
-        // AI overrides regex when AI has a value and regex doesn't (or regex has low confidence)
-        if (ai.price && (!parsed.price || parsed.confidenceScore < 60)) {
-          parsed.price = String(ai.price);
-          parsed.finalBestPrice = String(ai.price);
-        }
-        if (ai.material && ai.material !== "null") {
-          parsed.material = ai.material;
-          parsed.materialLabel = ai.materialLabel || ai.material;
-        }
-        if (ai.contractor) parsed.contractor = ai.contractor;
-        if (ai.city) parsed.city = ai.city;
-        if (ai.stateCode) parsed.stateCode = ai.stateCode;
-        if (ai.roofSize) parsed.roofSize = String(ai.roofSize);
-        if (ai.warrantyYears) parsed.warrantyYears = String(ai.warrantyYears);
-        if (ai.warranty) parsed.warranty = ai.warranty;
-        // Merge scope items — AI overrides "unclear" with "included" or "excluded"
+      // Scope items from regex
+      if (engineResult.scopeItems && engineResult.scopeItems.length) {
         if (!parsed.signals) parsed.signals = {};
-        if (ai.scopeItems) {
-          Object.entries(ai.scopeItems).forEach(function(entry) {
-            var key = entry[0], status = entry[1];
-            if (status === "included" || status === "excluded") {
-              if (!parsed.signals[key] || parsed.signals[key].status === "unclear") {
-                parsed.signals[key] = { label: key, status: status, evidence: "AI detected" };
-              }
-            }
-          });
-        }
-        // Also store scopeItems directly for compare page access
-        if (ai.scopeItems) parsed.scopeItems = ai.scopeItems;
-        parsed.aiEnhanced = true;
+        engineResult.scopeItems.forEach(function(item) {
+          if (item.detected) {
+            parsed.signals[item.key] = { label: item.label, status: "included", evidence: "regex" };
+          }
+        });
       }
-    } catch (aiErr) {
-      console.warn("AI parse enhancement failed (using regex fallback):", aiErr.message);
+
+      // AI scope merge
+      if (engineResult.aiData && engineResult.aiData.scopeItems) {
+        parsed.scopeItems = engineResult.aiData.scopeItems;
+      }
+
+      parsed.aiEnhanced = engineResult.aiCalled && !!engineResult.aiData;
+
+      console.log("[PARSE] Engine: price=" + (engineResult.price || "NONE") +
+        " source=" + engineResult.source +
+        " contractor=" + (engineResult.contractor || "NONE") +
+        " aiCalled=" + engineResult.aiCalled);
+
+      return {
+        fileName: file.name || "",
+        method: engineResult.source || "engine",
+        rawText: engineResult.ocrText || "",
+        normalizedText: engineResult.ocrText || "",
+        parsed: parsed
+      };
     }
 
+    // Legacy fallback (should not reach here if engine is loaded)
+    console.warn("[PARSE] TP_Engine not available, using legacy flow");
+    if (typeof loadVendorLibs === "function") await loadVendorLibs();
+    const extractionResult = await extractTextFromUploadedFile(file);
+    const rawText = extractionResult && extractionResult.text ? extractionResult.text : "";
+    const normalizedText = normalizeWhitespace(rawText);
+    const parsed = parseExtractedText(normalizedText || "", {});
     return {
       fileName: file.name || "",
       method: extractionResult ? extractionResult.method : "",
@@ -794,25 +789,6 @@ async function extractTextFromUploadedFile(file) {
       normalizedText: normalizedText || "",
       parsed: parsed || {}
     };
-  }
-
-  async function callClaudeParseQuote(text, images) {
-    try {
-      const body = { text: (text || "").substring(0, 8000) };
-      // Include up to 2 page images for vision
-      if (images && images.length > 0) {
-        body.images = images.slice(0, 2);
-      }
-      const res = await fetch("/api/parse-quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      });
-      if (!res.ok) return null;
-      return await res.json();
-    } catch (e) {
-      return null;
-    }
   }
 
 async function parseQuote() {

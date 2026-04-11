@@ -325,6 +325,7 @@
   <script src="/js/price-confirm.min.js"></script>
   <script src="/js/vertical-detect.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-engine.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
   <script>
@@ -811,37 +812,7 @@
         setProgress(70, "Analyzing HVAC quote...");
         state.extractedText = text;
 
-        // Try HVAC-specific API first for better parsing
-        var apiResult = null;
-        try {
-          setProgress(60, "Checking quote against HVAC market data...");
-          var apiPayload = { text: text };
-          if (file.type !== "application/pdf") {
-            apiPayload.images = [await fileToBase64(file)];
-          }
-          var apiResponse = await fetch("/api/hvac-estimate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(apiPayload)
-          });
-          if (apiResponse.ok) {
-            apiResult = await apiResponse.json();
-          }
-        } catch (apiErr) {
-          console.warn("HVAC API unavailable, falling back to local parsing:", apiErr);
-        }
-
-        // If API returned good data, use it
-        if (apiResult && (apiResult.quoteTotal || apiResult.finalPrice)) {
-          setProgress(100, "Done!");
-          state.result = buildResultFromAPI(apiResult);
-          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "hvac", source: "api" });
-          state.step = "result";
-          setTimeout(render, 400);
-          return;
-        }
-
-        // Use analyzer-parser.js for price extraction
+        // ── Regex parser first (no network cost) ──
         var parsed = null;
         try {
           if (typeof parseExtractedText === "function") {
@@ -849,6 +820,41 @@
           }
         } catch (parseErr) {
           console.warn("Parser error, falling back to regex:", parseErr);
+        }
+
+        // ── AI backup: only fires when regex fails to find a price ──
+        var _regexFoundPrice = (parsed && (Number(parsed.finalPrice) > 100 || Number(parsed.finalBestPrice) > 100 || Number(parsed.price) > 100));
+        var apiResult = null;
+        if (!_regexFoundPrice) {
+          try {
+            setProgress(60, "Getting a second opinion...");
+            var apiPayload = { text: text };
+            if (file.type !== "application/pdf") {
+              apiPayload.images = [await fileToBase64(file)];
+            }
+            var apiResponse = await fetch("/api/hvac-estimate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(apiPayload)
+            });
+            if (apiResponse.ok) {
+              apiResult = await apiResponse.json();
+            }
+            // Track AI backup call
+            try { fetch("/api/ai-counter", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({vertical:"hvac",action:"increment"}) }).catch(function(){}); } catch(e){}
+          } catch (apiErr) {
+            console.warn("HVAC API unavailable, falling back to local parsing:", apiErr);
+          }
+
+          // If API returned good data, use it
+          if (apiResult && (apiResult.quoteTotal || apiResult.finalPrice)) {
+            setProgress(100, "Done!");
+            state.result = buildResultFromAPI(apiResult);
+            if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "hvac", source: "api" });
+            state.step = "result";
+            setTimeout(render, 400);
+            return;
+          }
         }
 
         // Fallback price extraction if parser fails or returns nothing

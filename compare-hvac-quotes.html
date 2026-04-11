@@ -216,6 +216,7 @@
   </footer>
   <script src="/js/tp-analytics.min.js" async></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-engine.min.js" defer></script>
   <script>
     window._vendorLibsLoaded = false;
     window._vendorLibsPromise = null;
@@ -358,6 +359,7 @@
     }
 
     function sendToApi(payload) {
+      try{fetch("/api/ai-counter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({vertical:"hvac",action:"increment"})}).catch(function(){});}catch(e){}
       return fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

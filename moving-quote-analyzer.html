@@ -382,6 +382,7 @@
   <script src="/js/price-confirm.min.js"></script>
   <script src="/js/vertical-detect.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-engine.min.js" defer></script>
   <script src="/js/analyzer-ocr.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -1461,32 +1462,37 @@
         setProgress(50, "Analyzing moving quote...");
         state.extractedText = text;
 
-        // Try API first
+        // ── Regex parser first ──
+        setProgress(60, "Parsing quote...");
+        var result = await buildResultFromLocal(text);
+        var _regexFoundPrice = result && result.quoteTotal > 100;
+
+        // ── AI backup: only fires when regex fails ──
         var apiResult = null;
-        try {
-          setProgress(60, "Checking quote against market data...");
-          var apiPayload = { text: text };
-          if (imageData) apiPayload.images = [imageData];
-          var apiResponse = await fetch("/api/moving-estimate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(apiPayload)
-          });
-          if (apiResponse.ok) {
-            apiResult = await apiResponse.json();
+        if (!_regexFoundPrice) {
+          try {
+            setProgress(65, "Getting a second opinion...");
+            var apiPayload = { text: text };
+            if (imageData) apiPayload.images = [imageData];
+            var apiResponse = await fetch("/api/moving-estimate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(apiPayload)
+            });
+            if (apiResponse.ok) {
+              apiResult = await apiResponse.json();
+            }
+            try { fetch("/api/ai-counter", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({vertical:"moving",action:"increment"}) }).catch(function(){}); } catch(e){}
+          } catch (apiErr) {
+            console.warn("API unavailable, falling back to local parsing:", apiErr);
           }
-        } catch (apiErr) {
-          console.warn("API unavailable, falling back to local parsing:", apiErr);
+
+          if (apiResult && apiResult.quoteTotal) {
+            result = await buildResultFromAPI(apiResult);
+          }
         }
 
         setProgress(75, "Calculating verdict...");
-
-        var result = null;
-        if (apiResult && apiResult.quoteTotal) {
-          result = await buildResultFromAPI(apiResult);
-        } else {
-          result = await buildResultFromLocal(text);
-        }
 
         setProgress(90, "Almost done...");
         var _extractedTotal = result ? result.quoteTotal : 0;

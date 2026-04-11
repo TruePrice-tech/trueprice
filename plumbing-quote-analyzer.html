@@ -245,22 +245,19 @@
   <script src="/js/affiliate-links.min.js"></script>
   <script src="/js/plumbing-parser.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-engine.min.js" defer></script>
   <script src="/js/vertical-detect.min.js"></script>
 
-  <!-- Vendor libs loaded on-demand when user uploads a quote -->
+  <!-- html2canvas loaded on-demand for PDF export -->
   <script>
     window._vendorLibsLoaded = false;
     window.loadVendorLibs = function() {
       if (window._vendorLibsLoaded) return Promise.resolve();
       window._vendorLibsLoaded = true;
-      return Promise.all([
-        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
-        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); }),
-        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"; s.onload = r; document.head.appendChild(s); })
-      ]).then(function() {
-        if (window.pdfjsLib) {
-          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
-        }
+      return new Promise(function(r) {
+        var s = document.createElement("script");
+        s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+        s.onload = r; document.head.appendChild(s);
       });
     };
   </script>
@@ -760,73 +757,25 @@
       }
     }
 
-    async function processFile(file, opts) {
-      opts = opts || {};
-      var useAI = !!opts.useAI;
+    async function processFile(file) {
       try {
-        setProgress(15, "Loading parsing libraries...");
-        await window.loadVendorLibs();
+        // ── Shared engine handles: resize, OCR, regex parse, AI backup ──
+        var engineResult = await TP_Engine.analyzeQuote(file, {
+          vertical: "plumbing",
+          apiEndpoint: "/api/plumbing-estimate",
+          onProgress: setProgress
+        });
 
-        var text = state.extractedText || "";
-        // Skip re-OCR if we already extracted the text in a prior pass (e.g. AI opt-in)
-        if (!text) {
-          if (file.type === "application/pdf") {
-            setProgress(30, "Extracting text from PDF...");
-            text = await extractPdfText(file);
-          } else {
-            setProgress(30, "Running OCR on image...");
-            text = await extractImageText(file);
-          }
-          state.extractedText = text;
-        }
+        var text = engineResult.ocrText || "";
+        state.extractedText = text;
+        var parsed = engineResult.parsed;
 
-        setProgress(60, "Parsing quote text...");
-
-        // ── Multi-strategy regex parse (Tesseract/PDF text only, no network) ──
-        var parsed = null;
-        if (typeof parseExtractedTextMultiStrategy === "function") {
-          parsed = parseExtractedTextMultiStrategy(text, "plumbing");
-        } else if (typeof parseExtractedText === "function") {
-          parsed = parseExtractedText(text);
-        }
-
-        // ── Opt-in Claude escalation (only fires if user clicked "Try AI analysis") ──
-        var apiResult = null;
-        if (useAI) {
-          setProgress(75, "Sending to AI for analysis...");
-          try {
-            var apiPayload = { text: text };
-            if (file.type && file.type.startsWith("image/")) {
-              var reader = new FileReader();
-              var imgData = await new Promise(function(resolve, reject) {
-                reader.onload = function() { resolve(reader.result); };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-              });
-              apiPayload.images = [imgData];
-            }
-            var apiResp = await fetch("/api/plumbing-estimate", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(apiPayload)
-            });
-            if (apiResp.ok) {
-              var apiData = await apiResp.json();
-              if (apiData.success && apiData.data) apiResult = apiData.data;
-            }
-          } catch(apiErr) {
-            console.warn("AI API unavailable:", apiErr);
-          }
-        }
-
-        setProgress(70, "Building analysis...");
-
-        // Use plumbing parser for service-specific detection (local fallback)
+        // ── Plumbing-specific detection (runs on OCR text) ──
         var serviceType = (typeof detectPlumbingServiceType === "function") ? detectPlumbingServiceType(text) : { value: "water_heater", label: "Water Heater Replacement" };
-        // Prefer Claude API jobType when present — it's typically more accurate than regex
-        if (apiResult && apiResult.jobType && apiResult.jobType !== "other") {
-          var apiJobLabel = String(apiResult.jobType).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
-          serviceType = { value: apiResult.jobType, label: apiJobLabel };
+        // If AI backup fired and returned a jobType, prefer it
+        if (engineResult.aiData && engineResult.aiData.jobType && engineResult.aiData.jobType !== "other") {
+          var apiJobLabel = String(engineResult.aiData.jobType).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+          serviceType = { value: engineResult.aiData.jobType, label: apiJobLabel };
         }
         var brand = (typeof detectPlumbingBrand === "function") ? detectPlumbingBrand(text) : null;
         var scopeSignals = (typeof detectPlumbingScopeSignals === "function") ? detectPlumbingScopeSignals(text) : {};
@@ -856,44 +805,22 @@
           else subType = "short_under_20ft";
         }
 
-        // Location detection from parser
-        var location = (parsed && parsed.location) ? parsed.location : null;
-        if (location && location.stateCode && !state.address.stateCode) {
-          state.address.stateCode = location.stateCode;
-          if (location.city) state.address.city = location.city;
+        // Location from engine result
+        if (engineResult.stateCode && !state.address.stateCode) {
+          state.address.stateCode = engineResult.stateCode;
+          if (engineResult.city) state.address.city = engineResult.city;
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 
-        // Determine price. Free-layers first (regex multi-strategy); Claude only on opt-in.
-        var quotePrice = 0;
-        var priceConfidence = (parsed && parsed.priceConfidence) || "low";
-        if (parsed && parsed.finalPrice && parsed.finalPrice > 100) {
-          quotePrice = Number(parsed.finalPrice);
-        } else if (parsed && Number(parsed.finalBestPrice) > 100) {
-          quotePrice = Number(parsed.finalBestPrice);
-        } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
-          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 100 && c.value <= 50000; });
-          candidates.sort(function(a, b) { return b.score - a.score; });
-          if (candidates.length) quotePrice = candidates[0].value;
-        }
-        // Opt-in Claude overrides regex when confidence is higher
-        if (useAI && apiResult && Number(apiResult.totalPrice) > 100) {
-          quotePrice = Number(apiResult.totalPrice);
-          priceConfidence = apiResult.confidence === "low" ? "low" : "high";
-        }
-        if (useAI && apiResult && apiResult.confidence === "low" && !apiResult.totalPrice) {
-          quotePrice = 0;
-        }
+        // Price from engine (regex-first, AI backup if regex failed)
+        var quotePrice = engineResult.price || 0;
 
-        // Option C: show extracted price for confirmation, or manual entry if nothing found.
-        // No more confidence gate -- every extracted price gets shown to the user.
-        setProgress(90, "Almost done...");
+        setProgress(95, "Almost done...");
 
         var _serviceType = serviceType;
         var _subType = subType;
         var _brand = brand;
         var _scopeSignals = scopeSignals;
-        var _location = location;
         var _parsed = parsed;
 
         renderPriceConfirmation({ extractedPrice: quotePrice }, function(confirmedPrice) {
@@ -916,7 +843,7 @@
             brandNote: brandNote,
             scopeSignals: _scopeSignals,
             region: region,
-            location: _location,
+            location: { city: engineResult.city, stateCode: engineResult.stateCode },
             parsed: _parsed
           };
 
@@ -943,129 +870,8 @@
       }
     }
 
-    async function extractPdfText(file) {
-      var arrayBuffer = await file.arrayBuffer();
-      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      var allText = [];
-      for (var i = 1; i <= pdf.numPages; i++) {
-        var page = await pdf.getPage(i);
-        var content = await page.getTextContent();
-        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
-        allText.push(pageText);
-      }
-      return allText.join("\n");
-    }
-
-    // Plumbing-specific preprocessing: soft / strong / sharp modes.
-    // Returns a PNG data URL. Used by multi-pass Tesseract below.
-    async function preprocessImageForPlumbing(file, mode) {
-      return new Promise(function(resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function() {
-          var img = new Image();
-          img.onload = function() {
-            var canvas = document.createElement("canvas");
-            var scale = Math.max(1.5, Math.min(2.5, 2400 / Math.max(img.width, img.height)));
-            canvas.width = Math.round(img.width * scale);
-            canvas.height = Math.round(img.height * scale);
-            var ctx = canvas.getContext("2d");
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = "high";
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            var data = imageData.data;
-            var w = canvas.width, h = canvas.height;
-            if (mode === "strong") {
-              for (var i = 0; i < data.length; i += 4) {
-                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
-                gray = (gray - 128) * 1.6 + 128;
-                gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
-                gray = Math.max(0, Math.min(255, gray));
-                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
-              }
-              ctx.putImageData(imageData, 0, 0);
-            } else if (mode === "sharp") {
-              // Unsharp mask: grayscale then apply 3x3 sharpen kernel.
-              var gray1 = new Uint8ClampedArray(w * h);
-              for (var j = 0, k = 0; j < data.length; j += 4, k++) {
-                gray1[k] = 0.299 * data[j] + 0.587 * data[j+1] + 0.114 * data[j+2];
-              }
-              var out = new Uint8ClampedArray(w * h);
-              // kernel: 0,-1,0, -1,5,-1, 0,-1,0
-              for (var y = 1; y < h - 1; y++) {
-                for (var x = 1; x < w - 1; x++) {
-                  var idx = y * w + x;
-                  var v = 5 * gray1[idx]
-                    - gray1[idx - 1] - gray1[idx + 1]
-                    - gray1[idx - w] - gray1[idx + w];
-                  out[idx] = v < 0 ? 0 : v > 255 ? 255 : v;
-                }
-              }
-              // copy borders
-              for (var b = 0; b < w; b++) { out[b] = gray1[b]; out[(h-1)*w + b] = gray1[(h-1)*w + b]; }
-              for (var b2 = 0; b2 < h; b2++) { out[b2*w] = gray1[b2*w]; out[b2*w + (w-1)] = gray1[b2*w + (w-1)]; }
-              for (var p = 0, q = 0; p < data.length; p += 4, q++) {
-                data[p] = out[q]; data[p+1] = out[q]; data[p+2] = out[q];
-              }
-              ctx.putImageData(imageData, 0, 0);
-            } else {
-              // "soft" — light grayscale + 1.3x contrast
-              for (var i2 = 0; i2 < data.length; i2 += 4) {
-                var g2 = 0.299 * data[i2] + 0.587 * data[i2+1] + 0.114 * data[i2+2];
-                g2 = (g2 - 128) * 1.3 + 128;
-                g2 = Math.max(0, Math.min(255, g2));
-                data[i2] = g2; data[i2+1] = g2; data[i2+2] = g2;
-              }
-              ctx.putImageData(imageData, 0, 0);
-            }
-            resolve(canvas.toDataURL("image/png"));
-          };
-          img.onerror = reject;
-          img.src = reader.result;
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
-    // Back-compat alias
-    var preprocessImage = preprocessImageForPlumbing;
-
-    // Multi-pass Tesseract across (preprocessing x PSM) combos.
-    // Picks the result with the most characters that also contains a "$".
-    async function extractImageText(file) {
-      var passes = [
-        { mode: "soft",   psm: 6, label: "1 of 6" },
-        { mode: "strong", psm: 6, label: "2 of 6" },
-        { mode: "soft",   psm: 4, label: "3 of 6" },
-        { mode: "strong", psm: 11, label: "4 of 6" },
-        { mode: "sharp",  psm: 3, label: "5 of 6" },
-        { mode: "soft",   psm: 3, label: "6 of 6" }
-      ];
-      var worker = await Tesseract.createWorker("eng");
-      var best = "";
-      var bestHasDollar = false;
-      for (var p = 0; p < passes.length; p++) {
-        var pass = passes[p];
-        try {
-          if (typeof setProgress === "function") {
-            setProgress(30 + Math.round((p / passes.length) * 20), "Reading text (" + pass.label + ")...");
-          }
-          try { await worker.setParameters({ tessedit_pageseg_mode: String(pass.psm) }); } catch (e) {}
-          var img = await preprocessImageForPlumbing(file, pass.mode);
-          var res = await worker.recognize(img);
-          var t = (res && res.data && res.data.text || "").trim();
-          var hasDollar = /\$/.test(t);
-          // Prefer results that contain $; among those, pick longest. Otherwise longest overall.
-          if (hasDollar && !bestHasDollar) { best = t; bestHasDollar = true; }
-          else if (hasDollar === bestHasDollar && t.length > best.length) { best = t; }
-        } catch (passErr) {
-          console.warn("Tesseract pass failed", pass, passErr);
-        }
-      }
-      try { await worker.terminate(); } catch (e) {}
-      try { window.__TP_LAST_OCR_TEXT = best; } catch (e) {}
-      return best;
-    }
+    // OCR, PDF extraction, image preprocessing, and AI backup are all handled
+    // by the shared TP_Engine (js/analyzer-engine.js). No inline OCR code needed.
 
     // ── Estimator Flow ──
     var TOTAL_STEPS = 4;

@@ -241,6 +241,7 @@
   <script src="/js/price-confirm.min.js"></script>
   <script src="/js/vertical-detect.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/analyzer-engine.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
   <script>
@@ -692,7 +693,11 @@
           text = await extractImageText(file);
         }
 
-        setProgress(50, "Sending to AI for analysis...");
+        // ── AI backup: only fires when regex fails to find a price ──
+        var _regexFoundPrice = (parsed && (Number(parsed.finalPrice) > 100 || Number(parsed.finalBestPrice) > 100 || Number(parsed.price) > 100));
+        if (_regexFoundPrice) {
+          setProgress(70, "Quote parsed successfully...");
+        }
         
         var apiResult = null;
         try {
