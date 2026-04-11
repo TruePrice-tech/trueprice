@@ -460,8 +460,8 @@
             return sendToApi({ text: arr[0] || "", images: [arr[1]] });
           });
         }
-      }).then(function(data) {
-        var p = data || {};
+      }).then(function(raw) {
+        var p = (raw && raw.data) || raw || {};
 
         // Build scope items from API response
         var scopeItems = {};
