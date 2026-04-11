@@ -1,0 +1,640 @@
+// vertical-scope-all.js
+// Regex-based structured field extraction for all 20 verticals.
+// Each vertical has: scope catalog, brand list, job types, and shared
+// extractors for warranty, labor rate, location, line items.
+
+(function () {
+  "use strict";
+
+  // ══════════════════════════════════════════════════════════════
+  // SHARED EXTRACTORS (used by all verticals)
+  // ══════════════════════════════════════════════════════════════
+
+  function extractWarranty(text) {
+    var result = { parts: null, labor: null, text: null };
+    var t = String(text || "").replace(/\n/g, " ").replace(/\s+/g, " ");
+
+    var partsMatch = t.match(/(\d+)\s*(?:yr|year)s?\s*(?:manufacturer|tank|parts?|equipment|compressor|heat exchanger|material|shingle|panel|product)\s*(?:warranty|guarantee)/i) ||
+                     t.match(/(\d+)\s*(?:yr|year)s?\s*(?:warranty|guarantee)\s*(?:on\s+)?(?:tank|parts?|manufacturer|equipment|material|shingle|product)/i) ||
+                     t.match(/(\d+)\s*(?:yr|year)s?\s+(?:tank|manufacturer|parts?|material|shingle|non.?prorated)\b/i);
+    if (partsMatch) result.parts = parseInt(partsMatch[1]);
+
+    var laborMatch = t.match(/(\d+)\s*(?:yr|year)s?\s*(?:labor|workmanship|installation|craftsmanship)\s*(?:warranty|guarantee)/i) ||
+                     t.match(/(\d+)\s*(?:yr|year)s?\s*(?:warranty|guarantee)\s*(?:on\s+)?(?:labor|workmanship|installation)/i) ||
+                     t.match(/(\d+)\s*(?:yr|year)s?\s+labor\b/i);
+    if (laborMatch) result.labor = parseInt(laborMatch[1]);
+
+    var onMatch = t.match(/(\d+)\s*(?:yr|year)s?\s*(?:warranty|guarantee)\s+on\s+\w+/i);
+    if (onMatch && !result.parts) result.parts = parseInt(onMatch[1]);
+
+    if (!result.parts && !result.labor) {
+      var genericMatch = t.match(/(\d+)\s*(?:yr|year)s?\s*(?:warranty|guarantee)/i);
+      if (genericMatch) { result.parts = parseInt(genericMatch[1]); result.text = genericMatch[0]; }
+    }
+
+    if (/lifetime\s*(?:warranty|guarantee|transferable)/i.test(t)) {
+      if (!result.parts) { result.parts = 99; result.text = "Lifetime warranty"; }
+    }
+
+    if (!result.labor) {
+      var monthMatch = t.match(/(\d+)\s*(?:month|mo)\s*(?:labor|workmanship|installation)?\s*(?:warranty|guarantee)/i);
+      if (monthMatch) result.labor = parseInt(monthMatch[1]) >= 12 ? Math.round(parseInt(monthMatch[1]) / 12) : 0;
+    }
+
+    return result;
+  }
+
+  function extractLaborRate(text) {
+    var t = String(text || "").replace(/\n/g, " ");
+    var match = t.match(/\$\s*(\d+(?:\.\d{2})?)\s*\/\s*h(?:ou)?r/i) ||
+                t.match(/\$\s*(\d+(?:\.\d{2})?)\s*per\s*hour/i);
+    if (match) return parseFloat(match[1]);
+    var atMatch = t.match(/(\d+(?:\.\d+)?)\s*hrs?\s*@\s*\$?\s*(\d+(?:\.\d{2})?)/i);
+    if (atMatch) return parseFloat(atMatch[2]);
+    var laborMatch = t.match(/labor.*?(\d+(?:\.\d+)?)\s*hrs?\s*@\s*\$?\s*(\d+)/i);
+    if (laborMatch) return parseFloat(laborMatch[2]);
+    return null;
+  }
+
+  function extractLaborHours(text) {
+    var t = String(text || "").replace(/\n/g, " ");
+    var match = t.match(/(\d+(?:\.\d+)?)\s*hrs?\s*(?:@|\bat\b)/i) ||
+                t.match(/labor.*?(\d+(?:\.\d+)?)\s*(?:hrs?|hours?)/i) ||
+                t.match(/(\d+)\s*(?:techs?|crew|painters?|movers?|plumbers?|electricians?)\s*x\s*(\d+(?:\.\d+)?)\s*(?:hrs?|hours?)/i);
+    return match ? parseFloat(match[2] || match[1]) : null;
+  }
+
+  function extractLocation(text) {
+    var t = String(text || "").replace(/\n/g, " ");
+    var match = t.match(/([A-Z][a-zA-Z\s.]+),\s*([A-Z]{2})\s*(\d{5})?/);
+    if (match && match[1].trim().length > 2 && !/total|subtotal|amount|price|estimate|plumbing|electric|roofing|heating|service|repair|master|drain/i.test(match[1])) {
+      return { city: match[1].trim(), stateCode: match[2], zip: match[3] || null };
+    }
+    var noComma = t.match(/([A-Z][a-zA-Z]+(?:\s[A-Z][a-zA-Z]+)?)\s+([A-Z]{2})\s+(\d{5})/);
+    if (noComma && noComma[1].trim().length > 2 && !/total|subtotal|amount|plumbing|electric|roofing/i.test(noComma[1])) {
+      return { city: noComma[1].trim(), stateCode: noComma[2], zip: noComma[3] };
+    }
+    return null;
+  }
+
+  function extractLineItems(text) {
+    var lines = String(text || "").split("\n");
+    var items = [];
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (!line) continue;
+      var priceMatch = line.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+      if (!priceMatch) continue;
+      var amount = parseFloat(priceMatch[1].replace(/,/g, ""));
+      if (amount < 1 || amount > 200000) continue;
+      if (/^\s*(?:total|subtotal|tax|grand total|balance|amount due)/i.test(line)) continue;
+      var desc = line.replace(/\$\s*[\d,.]+/, "").replace(/\s+/g, " ").trim();
+      if (desc.length < 3) continue;
+      items.push({ description: desc, amount: amount });
+    }
+    return items;
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // PER-VERTICAL SCOPE CATALOGS
+  // ══════════════════════════════════════════════════════════════
+
+  var VERTICALS = {
+
+    plumbing: {
+      scope: [
+        { key: "permit", label: "Permit included", patterns: [/permit/i, /inspection fee/i] },
+        { key: "warranty_parts", label: "Parts warranty", patterns: [/warranty.*(?:part|tank|manufacturer)/i, /manufacturer.*warranty/i] },
+        { key: "warranty_labor", label: "Labor warranty", patterns: [/labor.*warranty/i, /workmanship.*warranty/i] },
+        { key: "disposal", label: "Old unit disposal", patterns: [/disposal/i, /haul away/i, /remove.*old/i, /dispose/i] },
+        { key: "labor_rate", label: "Labor rate disclosed", patterns: [/\$\s*\d+\s*\/\s*h/i, /hrs?\s*@\s*\$/i] },
+        { key: "code_compliance", label: "Code compliance", patterns: [/code req/i, /to code/i, /code complian/i] },
+        { key: "camera_inspection", label: "Camera inspection", patterns: [/camera inspect/i, /video inspect/i, /sewer camera/i] },
+        { key: "expansion_tank", label: "Expansion tank", patterns: [/expansion tank/i, /thermal expansion/i] },
+        { key: "shutoff_valve", label: "Shut-off valve", patterns: [/shut.?off/i, /ball valve/i] },
+        { key: "cleanup", label: "Cleanup included", patterns: [/clean.?up/i, /backfill/i, /restoration/i, /sod patch/i] },
+      ],
+      brands: [
+        { pattern: /rheem/i, brand: "Rheem", tier: "mid" },
+        { pattern: /bradford\s*white/i, brand: "Bradford White", tier: "premium" },
+        { pattern: /a\.?\s*o\.?\s*smith/i, brand: "A.O. Smith", tier: "mid" },
+        { pattern: /rinnai/i, brand: "Rinnai", tier: "premium" },
+        { pattern: /navien/i, brand: "Navien", tier: "premium" },
+        { pattern: /roto.?rooter/i, brand: "Roto-Rooter", tier: "franchise" },
+        { pattern: /moen/i, brand: "Moen", tier: "mid" },
+        { pattern: /kohler/i, brand: "Kohler", tier: "premium" },
+        { pattern: /delta/i, brand: "Delta", tier: "mid" },
+      ],
+      jobTypes: [
+        { pattern: /water\s*heater.*(?:replac|install|swap)/i, value: "water_heater", label: "Water Heater" },
+        { pattern: /tankless/i, value: "tankless", label: "Tankless Water Heater" },
+        { pattern: /sewer\s*line/i, value: "sewer_line", label: "Sewer Line" },
+        { pattern: /trenchless/i, value: "sewer_trenchless", label: "Trenchless Sewer" },
+        { pattern: /drain\s*clean/i, value: "drain_cleaning", label: "Drain Cleaning" },
+        { pattern: /repipe|re-pipe/i, value: "repipe", label: "Repipe" },
+        { pattern: /gas\s*line/i, value: "gas_line", label: "Gas Line" },
+        { pattern: /leak\s*repair/i, value: "leak_repair", label: "Leak Repair" },
+      ],
+    },
+
+    roofing: {
+      scope: [
+        { key: "tear_off", label: "Tear-off existing", patterns: [/tear.?off/i, /remove existing/i, /strip existing/i] },
+        { key: "underlayment", label: "Underlayment", patterns: [/underlayment/i, /felt paper/i, /synthetic underlayment/i, /tiger\s*paw/i] },
+        { key: "ice_shield", label: "Ice & water shield", patterns: [/ice.*water/i, /ice barrier/i, /weatherwatch/i, /storm\s*guard/i] },
+        { key: "drip_edge", label: "Drip edge", patterns: [/drip edge/i, /drip\s*edge/i] },
+        { key: "flashing", label: "Flashing", patterns: [/flashing/i, /step flash/i, /counter flash/i] },
+        { key: "ridge_vent", label: "Ridge vent", patterns: [/ridge vent/i, /ventilation/i, /continuous.*vent/i] },
+        { key: "ridge_cap", label: "Ridge cap", patterns: [/ridge cap/i, /hip.*cap/i, /timbertex/i] },
+        { key: "starter", label: "Starter strip", patterns: [/starter shingle/i, /starter strip/i, /prostart/i] },
+        { key: "pipe_boots", label: "Pipe boots/vents", patterns: [/pipe boot/i, /attic vent/i, /roof vent/i] },
+        { key: "decking", label: "Deck repair", patterns: [/deck(?:ing)?\s*repair/i, /replace.*(?:plywood|osb)/i, /rotten.*wood/i, /damaged.*deck/i] },
+        { key: "disposal", label: "Debris disposal", patterns: [/dumpster/i, /debris/i, /haul away/i, /disposal/i, /dump/i] },
+        { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /magnetic sweep/i, /yard clean/i] },
+      ],
+      brands: [
+        { pattern: /gaf/i, brand: "GAF", tier: "premium" },
+        { pattern: /owens\s*corning/i, brand: "Owens Corning", tier: "premium" },
+        { pattern: /certainteed/i, brand: "CertainTeed", tier: "premium" },
+        { pattern: /iko/i, brand: "IKO", tier: "mid" },
+        { pattern: /tamko/i, brand: "TAMKO", tier: "budget" },
+        { pattern: /atlas/i, brand: "Atlas", tier: "mid" },
+        { pattern: /malarkey/i, brand: "Malarkey", tier: "premium" },
+      ],
+      jobTypes: [
+        { pattern: /(?:full|complete)?\s*(?:roof|re-roof)\s*replac/i, value: "full_replacement", label: "Full Replacement" },
+        { pattern: /tear.?off.*replac/i, value: "full_replacement", label: "Tear-off & Replace" },
+        { pattern: /roof\s*repair/i, value: "repair", label: "Roof Repair" },
+        { pattern: /metal\s*roof/i, value: "metal", label: "Metal Roof" },
+        { pattern: /flat\s*roof/i, value: "flat", label: "Flat Roof" },
+      ],
+    },
+
+    hvac: {
+      scope: [
+        { key: "permit", label: "Permit", patterns: [/permit/i, /mechanical permit/i] },
+        { key: "disposal", label: "Old unit disposal", patterns: [/disposal/i, /remove.*old/i, /dispose/i] },
+        { key: "thermostat", label: "Thermostat", patterns: [/thermostat/i, /ecobee/i, /nest/i, /honeywell/i] },
+        { key: "ductwork", label: "Ductwork", patterns: [/duct/i, /plenum/i, /transition/i] },
+        { key: "refrigerant", label: "Refrigerant", patterns: [/refrigerant/i, /r-410a/i, /r-22/i, /r-32/i, /freon/i] },
+        { key: "electrical", label: "Electrical work", patterns: [/disconnect/i, /whip/i, /electrical/i, /wiring/i] },
+        { key: "concrete_pad", label: "Concrete pad", patterns: [/concrete pad/i, /equipment pad/i] },
+        { key: "flue", label: "Flue/venting", patterns: [/flue/i, /b-vent/i, /venting/i, /exhaust/i] },
+        { key: "filter", label: "Filter included", patterns: [/filter/i, /media filter/i] },
+        { key: "load_calc", label: "Load calculation", patterns: [/load calc/i, /manual j/i, /sizing/i] },
+      ],
+      brands: [
+        { pattern: /carrier/i, brand: "Carrier", tier: "premium" },
+        { pattern: /trane/i, brand: "Trane", tier: "premium" },
+        { pattern: /lennox/i, brand: "Lennox", tier: "premium" },
+        { pattern: /rheem|ruud/i, brand: "Rheem/Ruud", tier: "mid" },
+        { pattern: /goodman|amana/i, brand: "Goodman/Amana", tier: "budget" },
+        { pattern: /daikin/i, brand: "Daikin", tier: "premium" },
+        { pattern: /mitsubishi/i, brand: "Mitsubishi", tier: "premium" },
+        { pattern: /york/i, brand: "York", tier: "mid" },
+        { pattern: /american\s*standard/i, brand: "American Standard", tier: "mid" },
+      ],
+      jobTypes: [
+        { pattern: /ac\s*(?:system|unit)?\s*replac/i, value: "ac_replace", label: "AC Replacement" },
+        { pattern: /furnace\s*replac/i, value: "furnace_replace", label: "Furnace Replacement" },
+        { pattern: /heat\s*pump/i, value: "heat_pump", label: "Heat Pump" },
+        { pattern: /mini\s*split/i, value: "mini_split", label: "Mini Split" },
+        { pattern: /boiler/i, value: "boiler", label: "Boiler" },
+        { pattern: /duct\s*clean/i, value: "duct_cleaning", label: "Duct Cleaning" },
+        { pattern: /tune.?up|maintenance/i, value: "tune_up", label: "Tune-Up" },
+      ],
+    },
+
+    electrical: {
+      scope: [
+        { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i] },
+        { key: "grounding", label: "Grounding", patterns: [/grounding/i, /ground rod/i, /bonding/i] },
+        { key: "afci_gfci", label: "AFCI/GFCI", patterns: [/afci/i, /gfci/i, /arc fault/i, /ground fault/i] },
+        { key: "panel", label: "Panel work", patterns: [/panel/i, /breaker box/i, /load center/i] },
+        { key: "wiring", label: "New wiring", patterns: [/wiring/i, /wire run/i, /romex/i, /nm-b/i, /conduit/i] },
+        { key: "utility_coord", label: "Utility coordination", patterns: [/utility/i, /power company/i, /meter pull/i, /fpl|duke|dominion/i] },
+        { key: "code_upgrade", label: "Code upgrade", patterns: [/code upgrade/i, /code complian/i, /nec/i] },
+      ],
+      brands: [
+        { pattern: /square\s*d/i, brand: "Square D", tier: "premium" },
+        { pattern: /siemens/i, brand: "Siemens", tier: "premium" },
+        { pattern: /eaton/i, brand: "Eaton", tier: "mid" },
+        { pattern: /ge\b/i, brand: "GE", tier: "mid" },
+        { pattern: /leviton/i, brand: "Leviton", tier: "mid" },
+        { pattern: /chargepoint/i, brand: "ChargePoint", tier: "premium" },
+        { pattern: /tesla/i, brand: "Tesla", tier: "premium" },
+      ],
+      jobTypes: [
+        { pattern: /panel\s*(?:upgrade|replac)/i, value: "panel_upgrade", label: "Panel Upgrade" },
+        { pattern: /ev\s*charger|level\s*2|charging\s*station/i, value: "ev_charger", label: "EV Charger" },
+        { pattern: /rewire|whole\s*house\s*wire/i, value: "rewire", label: "Rewire" },
+        { pattern: /outlet|receptacle/i, value: "outlets", label: "Outlet Work" },
+        { pattern: /lighting|light\s*fixture/i, value: "lighting", label: "Lighting" },
+        { pattern: /generator/i, value: "generator", label: "Generator" },
+      ],
+    },
+
+    auto: {
+      scope: [
+        { key: "parts_warranty", label: "Parts warranty", patterns: [/(?:part|warranty).*(?:\d+\s*(?:month|yr|year|mile))/i] },
+        { key: "labor_warranty", label: "Labor warranty", patterns: [/labor.*warranty/i, /workmanship/i] },
+        { key: "diagnostic", label: "Diagnostic fee", patterns: [/diagnostic/i, /inspection fee/i, /check.*fee/i] },
+        { key: "fluid_change", label: "Fluid service", patterns: [/fluid/i, /flush/i, /oil change/i] },
+        { key: "tax_shown", label: "Tax itemized", patterns: [/tax\s*[:$]/i, /sales\s*tax/i] },
+        { key: "shop_supplies", label: "Shop supplies", patterns: [/shop supplies/i, /shop fee/i, /environmental/i] },
+      ],
+      brands: [
+        { pattern: /honda/i, brand: "Honda", tier: "mid" },
+        { pattern: /toyota/i, brand: "Toyota", tier: "mid" },
+        { pattern: /ford/i, brand: "Ford", tier: "mid" },
+        { pattern: /chevy|chevrolet/i, brand: "Chevrolet", tier: "mid" },
+        { pattern: /bmw/i, brand: "BMW", tier: "premium" },
+        { pattern: /mercedes|benz/i, brand: "Mercedes-Benz", tier: "premium" },
+        { pattern: /jiffy\s*lube/i, brand: "Jiffy Lube", tier: "franchise" },
+        { pattern: /midas/i, brand: "Midas", tier: "franchise" },
+        { pattern: /firestone/i, brand: "Firestone", tier: "franchise" },
+      ],
+      jobTypes: [
+        { pattern: /brake.*(?:pad|rotor|service|replac)/i, value: "brakes", label: "Brake Service" },
+        { pattern: /transmission.*(?:rebuild|replac|repair|service)/i, value: "transmission", label: "Transmission" },
+        { pattern: /engine.*(?:repair|replac|rebuild)/i, value: "engine", label: "Engine Work" },
+        { pattern: /oil\s*change/i, value: "oil_change", label: "Oil Change" },
+        { pattern: /tire.*(?:replac|rotation|balance)/i, value: "tires", label: "Tires" },
+        { pattern: /a\/?c.*(?:repair|recharge|service)/i, value: "ac", label: "A/C Service" },
+      ],
+    },
+
+    solar: {
+      scope: [
+        { key: "permit", label: "Permit", patterns: [/permit/i, /interconnection/i] },
+        { key: "monitoring", label: "Monitoring", patterns: [/monitor/i, /enphase/i, /solaredge/i] },
+        { key: "critter_guard", label: "Critter guard", patterns: [/critter guard/i, /pigeon guard/i, /animal guard/i] },
+        { key: "panel_upgrade", label: "Panel upgrade", patterns: [/panel upgrade/i, /main panel/i, /electrical upgrade/i] },
+        { key: "tax_credit", label: "Tax credit noted", patterns: [/tax credit/i, /itc/i, /federal.*30%/i, /federal credit/i] },
+        { key: "battery", label: "Battery storage", patterns: [/battery/i, /powerwall/i, /encharge/i, /storage/i] },
+        { key: "racking", label: "Racking/mounting", patterns: [/racking/i, /mounting/i, /ironridge/i, /unirac/i] },
+      ],
+      brands: [
+        { pattern: /q\s*cells/i, brand: "Q Cells", tier: "mid" },
+        { pattern: /rec\b/i, brand: "REC", tier: "premium" },
+        { pattern: /lg\b/i, brand: "LG", tier: "premium" },
+        { pattern: /sunpower/i, brand: "SunPower", tier: "premium" },
+        { pattern: /canadian\s*solar/i, brand: "Canadian Solar", tier: "budget" },
+        { pattern: /enphase/i, brand: "Enphase", tier: "premium" },
+        { pattern: /solaredge/i, brand: "SolarEdge", tier: "mid" },
+        { pattern: /tesla/i, brand: "Tesla", tier: "premium" },
+      ],
+      jobTypes: [
+        { pattern: /solar\s*(?:panel|system|install)/i, value: "solar_install", label: "Solar Installation" },
+        { pattern: /battery/i, value: "battery", label: "Battery Storage" },
+      ],
+    },
+
+    moving: {
+      scope: [
+        { key: "packing", label: "Packing service", patterns: [/packing/i, /pack.*service/i, /full pack/i] },
+        { key: "materials", label: "Packing materials", patterns: [/packing material/i, /boxes/i, /tape.*wrap/i, /blanket/i] },
+        { key: "insurance", label: "Insurance/valuation", patterns: [/valuation/i, /insurance/i, /coverage/i, /full replacement/i] },
+        { key: "stair_fee", label: "Stair fee", patterns: [/stair/i, /elevator/i, /floor.*fee/i, /carry.*fee/i] },
+        { key: "fuel", label: "Fuel charge", patterns: [/fuel/i, /gas.*charge/i, /mileage/i] },
+        { key: "storage", label: "Storage available", patterns: [/storage/i, /warehouse/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /local\s*mov/i, value: "local", label: "Local Move" },
+        { pattern: /long\s*distance|interstate/i, value: "long_distance", label: "Long Distance" },
+        { pattern: /office|commercial/i, value: "commercial", label: "Commercial Move" },
+      ],
+    },
+
+    painting: {
+      scope: [
+        { key: "power_wash", label: "Power wash", patterns: [/power wash/i, /pressure wash/i] },
+        { key: "scraping", label: "Scrape/sand prep", patterns: [/scrap/i, /sand/i, /prep/i] },
+        { key: "priming", label: "Primer", patterns: [/prim/i, /prime/i] },
+        { key: "caulking", label: "Caulk", patterns: [/caulk/i, /seal/i] },
+        { key: "trim", label: "Trim painting", patterns: [/trim/i, /baseboard/i, /crown/i, /molding/i] },
+        { key: "ceiling", label: "Ceiling included", patterns: [/ceiling/i] },
+        { key: "two_coats", label: "Two coats", patterns: [/2\s*coat/i, /two coat/i, /double coat/i] },
+        { key: "furniture_move", label: "Furniture moved", patterns: [/furniture/i, /move.*furniture/i] },
+      ],
+      brands: [
+        { pattern: /sherwin.?williams|sw\s+duration/i, brand: "Sherwin-Williams", tier: "premium" },
+        { pattern: /benjamin\s*moore/i, brand: "Benjamin Moore", tier: "premium" },
+        { pattern: /behr/i, brand: "Behr", tier: "mid" },
+        { pattern: /ppg/i, brand: "PPG", tier: "mid" },
+        { pattern: /valspar/i, brand: "Valspar", tier: "budget" },
+      ],
+      jobTypes: [
+        { pattern: /interior.*paint/i, value: "interior", label: "Interior Painting" },
+        { pattern: /exterior.*paint|exterior.*repaint/i, value: "exterior", label: "Exterior Painting" },
+        { pattern: /cabinet/i, value: "cabinets", label: "Cabinet Painting" },
+      ],
+    },
+
+    fencing: {
+      scope: [
+        { key: "old_removal", label: "Old fence removal", patterns: [/remov.*(?:old|existing|fence)/i, /tear.*(?:out|down)/i] },
+        { key: "concrete_posts", label: "Concrete posts", patterns: [/concrete/i, /post.*set/i, /post.*hole/i] },
+        { key: "gates", label: "Gates included", patterns: [/gate/i, /walk gate/i, /drive gate/i] },
+        { key: "utility_locate", label: "Utility locate", patterns: [/utility locate/i, /811/i, /call before/i] },
+        { key: "survey", label: "Property survey", patterns: [/survey/i, /property line/i] },
+        { key: "stain_seal", label: "Stain/seal", patterns: [/stain/i, /seal/i, /treat/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /wood.*(?:fence|privacy)/i, value: "wood_privacy", label: "Wood Privacy Fence" },
+        { pattern: /cedar/i, value: "cedar", label: "Cedar Fence" },
+        { pattern: /chain\s*link/i, value: "chain_link", label: "Chain Link" },
+        { pattern: /vinyl.*fence/i, value: "vinyl", label: "Vinyl Fence" },
+        { pattern: /aluminum.*fence/i, value: "aluminum", label: "Aluminum Fence" },
+        { pattern: /iron.*fence|wrought/i, value: "iron", label: "Iron Fence" },
+      ],
+    },
+
+    concrete: {
+      scope: [
+        { key: "demo", label: "Demo/removal", patterns: [/demo/i, /remov.*(?:existing|old|concrete)/i, /tear out/i] },
+        { key: "grading", label: "Grading/compaction", patterns: [/grad/i, /compact/i, /subbase/i, /gravel base/i] },
+        { key: "rebar", label: "Rebar/reinforcement", patterns: [/rebar/i, /reinforc/i, /wire mesh/i, /fiber mesh/i] },
+        { key: "forms", label: "Forms", patterns: [/form/i, /forming/i] },
+        { key: "sealer", label: "Sealer", patterns: [/seal/i, /sealer/i, /acrylic seal/i] },
+        { key: "expansion_joints", label: "Expansion joints", patterns: [/expansion joint/i, /control joint/i, /cut joint/i] },
+        { key: "stamped", label: "Stamped/decorative", patterns: [/stamp/i, /decorative/i, /pattern/i, /color/i, /stain/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /driveway/i, value: "driveway", label: "Driveway" },
+        { pattern: /patio/i, value: "patio", label: "Patio" },
+        { pattern: /sidewalk/i, value: "sidewalk", label: "Sidewalk" },
+        { pattern: /foundation/i, value: "foundation", label: "Foundation" },
+        { pattern: /stamp/i, value: "stamped", label: "Stamped Concrete" },
+      ],
+    },
+
+    foundation: {
+      scope: [
+        { key: "piers", label: "Piers/pilings", patterns: [/pier/i, /piling/i, /push pier/i, /helical/i] },
+        { key: "lift", label: "Hydraulic lift", patterns: [/hydraulic/i, /lift/i, /level/i, /raise/i] },
+        { key: "crack_repair", label: "Crack repair", patterns: [/crack.*repair/i, /epoxy.*inject/i, /carbon fiber/i] },
+        { key: "waterproof", label: "Waterproofing", patterns: [/waterproof/i, /membrane/i, /drainage/i, /french drain/i] },
+        { key: "engineering", label: "Engineering report", patterns: [/engineer/i, /structural.*report/i, /inspection.*report/i] },
+        { key: "transferable", label: "Transferable warranty", patterns: [/transferable/i, /transfer.*warranty/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /pier|piling|underpinning/i, value: "piering", label: "Pier Installation" },
+        { pattern: /crack.*repair/i, value: "crack_repair", label: "Crack Repair" },
+        { pattern: /waterproof/i, value: "waterproofing", label: "Waterproofing" },
+        { pattern: /mudjack|slab.*jack|polyjack/i, value: "mudjacking", label: "Mudjacking" },
+      ],
+    },
+
+    gutters: {
+      scope: [
+        { key: "old_removal", label: "Old gutter removal", patterns: [/remov.*(?:old|existing|gutter)/i] },
+        { key: "downspouts", label: "Downspouts", patterns: [/downspout/i, /leader/i] },
+        { key: "guards", label: "Gutter guards", patterns: [/guard/i, /leaf guard/i, /screen/i, /helmet/i] },
+        { key: "fascia", label: "Fascia inspection", patterns: [/fascia/i, /fascia.*inspect/i, /fascia.*repair/i] },
+        { key: "seamless", label: "Seamless", patterns: [/seamless/i, /on-site.*fabrica/i] },
+        { key: "hangers", label: "Hidden hangers", patterns: [/hanger/i, /hidden hanger/i, /bracket/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /gutter.*(?:install|replac)/i, value: "install", label: "Gutter Installation" },
+        { pattern: /gutter.*repair/i, value: "repair", label: "Gutter Repair" },
+        { pattern: /gutter.*clean/i, value: "cleaning", label: "Gutter Cleaning" },
+      ],
+    },
+
+    insulation: {
+      scope: [
+        { key: "air_sealing", label: "Air sealing", patterns: [/air seal/i, /seal.*penetrat/i, /foam.*seal/i] },
+        { key: "baffles", label: "Baffles", patterns: [/baffle/i, /soffit vent/i, /rafter vent/i] },
+        { key: "vapor_barrier", label: "Vapor barrier", patterns: [/vapor barrier/i, /moisture barrier/i] },
+        { key: "removal", label: "Old insulation removal", patterns: [/remov.*(?:old|existing).*insul/i] },
+        { key: "rebate", label: "Rebate eligible", patterns: [/rebate/i, /incentive/i, /tax credit/i, /utility rebate/i] },
+      ],
+      brands: [
+        { pattern: /owens\s*corning/i, brand: "Owens Corning", tier: "premium" },
+        { pattern: /johns\s*manville/i, brand: "Johns Manville", tier: "mid" },
+        { pattern: /knauf/i, brand: "Knauf", tier: "mid" },
+        { pattern: /certainteed/i, brand: "CertainTeed", tier: "premium" },
+      ],
+      jobTypes: [
+        { pattern: /attic.*insul/i, value: "attic", label: "Attic Insulation" },
+        { pattern: /wall.*insul/i, value: "wall", label: "Wall Insulation" },
+        { pattern: /spray\s*foam/i, value: "spray_foam", label: "Spray Foam" },
+        { pattern: /blown.?in/i, value: "blown_in", label: "Blown-In" },
+      ],
+    },
+
+    kitchen: {
+      scope: [
+        { key: "demo", label: "Demo included", patterns: [/demo/i, /demolition/i, /tear.*out/i] },
+        { key: "cabinets", label: "Cabinets", patterns: [/cabinet/i] },
+        { key: "countertops", label: "Countertops", patterns: [/counter/i, /granite/i, /quartz/i, /marble/i] },
+        { key: "backsplash", label: "Backsplash", patterns: [/backsplash/i, /tile.*splash/i] },
+        { key: "flooring", label: "Flooring", patterns: [/floor/i, /lvp/i, /tile.*floor/i, /hardwood/i] },
+        { key: "plumbing", label: "Plumbing work", patterns: [/plumbing/i, /sink.*install/i, /dishwasher/i] },
+        { key: "electrical", label: "Electrical work", patterns: [/electrical/i, /outlet/i, /lighting/i, /led/i] },
+        { key: "permit", label: "Permit", patterns: [/permit/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /kitchen.*remodel/i, value: "full_remodel", label: "Full Kitchen Remodel" },
+        { pattern: /cabinet.*(?:replac|refac)/i, value: "cabinets", label: "Cabinet Work" },
+        { pattern: /counter.*(?:replac|install)/i, value: "countertops", label: "Countertop Installation" },
+      ],
+    },
+
+    siding: {
+      scope: [
+        { key: "old_removal", label: "Old siding removal", patterns: [/remov.*(?:old|existing).*siding/i, /tear.*(?:off|out).*siding/i] },
+        { key: "insulation", label: "Insulation board", patterns: [/insulation board/i, /fanfold/i, /foam board/i] },
+        { key: "soffit_fascia", label: "Soffit/fascia", patterns: [/soffit/i, /fascia/i] },
+        { key: "trim_wrap", label: "Trim wrap", patterns: [/trim.*wrap/i, /window.*wrap/i, /aluminum.*wrap/i, /j.?channel/i] },
+        { key: "housewrap", label: "House wrap", patterns: [/house\s*wrap/i, /tyvek/i, /weather.*barrier/i] },
+      ],
+      brands: [
+        { pattern: /certainteed/i, brand: "CertainTeed", tier: "premium" },
+        { pattern: /james\s*hardie/i, brand: "James Hardie", tier: "premium" },
+        { pattern: /lp\s*smartside/i, brand: "LP SmartSide", tier: "mid" },
+      ],
+      jobTypes: [
+        { pattern: /vinyl\s*siding/i, value: "vinyl", label: "Vinyl Siding" },
+        { pattern: /fiber\s*cement|hardie/i, value: "fiber_cement", label: "Fiber Cement" },
+        { pattern: /wood\s*siding/i, value: "wood", label: "Wood Siding" },
+      ],
+    },
+
+    windows: {
+      scope: [
+        { key: "trim", label: "Trim included", patterns: [/trim/i, /casing/i, /molding/i] },
+        { key: "caulk", label: "Caulk/insulation", patterns: [/caulk/i, /foam.*insul/i, /spray foam/i] },
+        { key: "haul_away", label: "Old window removal", patterns: [/haul away/i, /remov.*old/i, /dispos/i] },
+        { key: "low_e", label: "Low-E glass", patterns: [/low.?e/i, /low emissivity/i] },
+        { key: "argon", label: "Argon filled", patterns: [/argon/i, /gas.?fill/i] },
+        { key: "energy_star", label: "Energy Star", patterns: [/energy\s*star/i] },
+      ],
+      brands: [
+        { pattern: /pella/i, brand: "Pella", tier: "premium" },
+        { pattern: /andersen/i, brand: "Andersen", tier: "premium" },
+        { pattern: /marvin/i, brand: "Marvin", tier: "premium" },
+        { pattern: /milgard/i, brand: "Milgard", tier: "mid" },
+        { pattern: /jeld.?wen/i, brand: "JELD-WEN", tier: "mid" },
+        { pattern: /simonton/i, brand: "Simonton", tier: "budget" },
+      ],
+      jobTypes: [
+        { pattern: /window.*replac/i, value: "replacement", label: "Window Replacement" },
+        { pattern: /new.*construct/i, value: "new_construction", label: "New Construction" },
+      ],
+    },
+
+    "garage-door": {
+      scope: [
+        { key: "old_removal", label: "Old door removal", patterns: [/remov.*(?:old|existing)/i] },
+        { key: "opener", label: "Opener included", patterns: [/opener/i, /liftmaster/i, /chamberlain/i, /genie/i] },
+        { key: "tracks", label: "New tracks", patterns: [/track/i, /hardware/i, /roller/i, /hinge/i] },
+        { key: "weather_seal", label: "Weather seal", patterns: [/weather.*seal/i, /bottom seal/i, /threshold/i] },
+        { key: "insulated", label: "Insulated door", patterns: [/insulat/i, /r-value/i, /r-\d+/i] },
+        { key: "wifi", label: "WiFi/smart", patterns: [/wifi/i, /smart/i, /myq/i, /app/i] },
+      ],
+      brands: [
+        { pattern: /clopay/i, brand: "Clopay", tier: "premium" },
+        { pattern: /amarr/i, brand: "Amarr", tier: "mid" },
+        { pattern: /wayne\s*dalton/i, brand: "Wayne Dalton", tier: "mid" },
+        { pattern: /liftmaster/i, brand: "LiftMaster", tier: "premium" },
+        { pattern: /chamberlain/i, brand: "Chamberlain", tier: "mid" },
+      ],
+      jobTypes: [
+        { pattern: /garage.*door.*(?:replac|install)/i, value: "replacement", label: "Door Replacement" },
+        { pattern: /opener.*(?:replac|install)/i, value: "opener", label: "Opener Installation" },
+        { pattern: /spring.*(?:replac|repair)/i, value: "spring", label: "Spring Repair" },
+      ],
+    },
+
+    medical: {
+      scope: [
+        { key: "insurance_adj", label: "Insurance adjustment", patterns: [/adjust/i, /allowed amount/i, /negotiated rate/i] },
+        { key: "copay", label: "Copay shown", patterns: [/copay/i, /co-pay/i] },
+        { key: "deductible", label: "Deductible", patterns: [/deductible/i] },
+        { key: "itemized", label: "Itemized charges", patterns: [/itemiz/i, /line item/i, /breakdown/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /emergency|er\s*visit/i, value: "er", label: "Emergency Room" },
+        { pattern: /surgery|surgical/i, value: "surgery", label: "Surgery" },
+        { pattern: /lab|blood\s*work/i, value: "lab", label: "Lab Work" },
+        { pattern: /imaging|ct\s*scan|mri|x-ray/i, value: "imaging", label: "Imaging" },
+      ],
+    },
+
+    legal: {
+      scope: [
+        { key: "hourly_rate", label: "Hourly rate stated", patterns: [/\$\s*\d+\s*\/\s*h/i, /per\s*hour/i, /hourly.*rate/i] },
+        { key: "retainer", label: "Retainer", patterns: [/retainer/i, /deposit/i] },
+        { key: "filing_fees", label: "Filing fees", patterns: [/filing fee/i, /court fee/i, /filing cost/i] },
+        { key: "itemized_time", label: "Time entries itemized", patterns: [/\d+\.\d+\s*(?:hrs?|hours?)/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /estate\s*plan/i, value: "estate_planning", label: "Estate Planning" },
+        { pattern: /trust/i, value: "trust", label: "Trust Administration" },
+        { pattern: /divorce|family\s*law/i, value: "family_law", label: "Family Law" },
+        { pattern: /personal\s*injury/i, value: "personal_injury", label: "Personal Injury" },
+        { pattern: /real\s*estate|closing/i, value: "real_estate", label: "Real Estate" },
+        { pattern: /criminal|defense/i, value: "criminal", label: "Criminal Defense" },
+      ],
+    },
+
+    landscaping: {
+      scope: [
+        { key: "mowing", label: "Mowing", patterns: [/mow/i, /cutting/i] },
+        { key: "edging", label: "Edging", patterns: [/edg/i, /trimming/i] },
+        { key: "fertilization", label: "Fertilization", patterns: [/fertil/i, /feed/i, /nutrient/i] },
+        { key: "weed_control", label: "Weed control", patterns: [/weed/i, /herbicide/i, /pre.?emergent/i] },
+        { key: "aeration", label: "Aeration", patterns: [/aerat/i, /core.*aerat/i] },
+        { key: "overseeding", label: "Overseeding", patterns: [/overseed/i, /seed/i] },
+        { key: "cleanup", label: "Seasonal cleanup", patterns: [/clean.?up/i, /leaf.*remov/i, /debris/i] },
+        { key: "mulch", label: "Mulch", patterns: [/mulch/i] },
+      ],
+      brands: [],
+      jobTypes: [
+        { pattern: /maintenance|weekly.*mow/i, value: "maintenance", label: "Lawn Maintenance" },
+        { pattern: /landscape.*(?:design|install)/i, value: "install", label: "Landscape Installation" },
+        { pattern: /hardscape|patio|walkway|retaining/i, value: "hardscape", label: "Hardscaping" },
+        { pattern: /irrigation|sprinkler/i, value: "irrigation", label: "Irrigation" },
+        { pattern: /tree.*(?:remov|trim|service)/i, value: "tree_service", label: "Tree Service" },
+      ],
+    },
+  };
+
+  // ══════════════════════════════════════════════════════════════
+  // UNIFIED EXTRACTION FUNCTION
+  // ══════════════════════════════════════════════════════════════
+
+  function extractFields(text, vertical) {
+    var config = VERTICALS[vertical] || VERTICALS["plumbing"];
+    var t = String(text || "");
+
+    // Scope detection
+    var scope = [];
+    if (config.scope) {
+      var tLower = t.toLowerCase();
+      for (var i = 0; i < config.scope.length; i++) {
+        var item = config.scope[i];
+        var found = item.patterns.some(function (p) { return p.test(tLower); });
+        scope.push({ key: item.key, label: item.label, detected: found });
+      }
+    }
+
+    // Brand detection
+    var brand = null;
+    if (config.brands) {
+      for (var b = 0; b < config.brands.length; b++) {
+        if (config.brands[b].pattern.test(t)) {
+          brand = { brand: config.brands[b].brand, tier: config.brands[b].tier };
+          break;
+        }
+      }
+    }
+
+    // Job type detection
+    var jobType = { value: "other", label: "Service" };
+    if (config.jobTypes) {
+      for (var j = 0; j < config.jobTypes.length; j++) {
+        if (config.jobTypes[j].pattern.test(t)) {
+          jobType = { value: config.jobTypes[j].value, label: config.jobTypes[j].label };
+          break;
+        }
+      }
+    }
+
+    return {
+      warranty: extractWarranty(t),
+      laborRate: extractLaborRate(t),
+      laborHours: extractLaborHours(t),
+      brand: brand,
+      jobType: jobType,
+      lineItems: extractLineItems(t),
+      location: extractLocation(t),
+      scope: scope,
+      scopeDetected: scope.filter(function (s) { return s.detected; }).length,
+      scopeTotal: scope.length,
+    };
+  }
+
+  // Public API
+  window.TP_VerticalScope = {
+    extractFields: extractFields,
+    extractWarranty: extractWarranty,
+    extractLaborRate: extractLaborRate,
+    extractLocation: extractLocation,
+    extractLineItems: extractLineItems,
+    VERTICALS: VERTICALS,
+    VERSION: "1.0.0",
+  };
+
+})();
