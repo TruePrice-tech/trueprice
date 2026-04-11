@@ -215,17 +215,10 @@
   <script src="/js/analyzer-parser.min.js" defer></script>
   <script>
     window._vendorLibsLoaded = false;
-    window._vendorLibsPromise = null;
     window.loadVendorLibs = function() {
-      if (window._vendorLibsPromise) return window._vendorLibsPromise;
-      window._vendorLibsPromise = Promise.all([
-        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
-        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"; s.onload = r; document.head.appendChild(s); })
-      ]).then(function() {
-        if (window.pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js"; }
-      });
-      return window._vendorLibsPromise;
-    };
+      if (window._vendorLibsLoaded) return Promise.resolve();
+      window._vendorLibsLoaded = true;
+      return new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }).then
     function preprocessImage(file, mode) {
       return new Promise(function(resolve, reject) {
         var reader = new FileReader(); reader.onload = function() {
