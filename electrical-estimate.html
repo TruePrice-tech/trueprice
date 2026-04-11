@@ -335,7 +335,7 @@
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { serviceType: null, homeSqFt: null, homeAge: null, urgency: null },
+      est: { serviceType: null, homeSqFt: null, stories: null, homeSqFtManual: null, homeAge: null, urgency: null },
       // result
       result: null
     };
@@ -632,6 +632,33 @@
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
+
+        // Fetch building footprint from satellite data
+        try {
+          var _street = state.address.street, _city = state.address.city, _st = state.address.stateCode, _zip = state.address.zip;
+          fetch("/api/property-signals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ street: _street, city: _city, stateCode: _st, zip: _zip })
+          })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(payload) {
+              if (!payload || !payload.success || !payload.data) return;
+              var sqft = Number(payload.data.livingAreaSqFt || payload.data.footprintSqFt || 0);
+              if (sqft >= 500 && sqft <= 10000) {
+                state.osmFootprint = Math.round(sqft);
+                // If user is already on the estimator step, update the input
+                var _input = document.getElementById("sqftInput");
+                if (_input && !_input.value) {
+                  var stories = state.est.stories || "1";
+                  var mult = stories === "2" ? 1.25 : stories === "3" ? 1.5 : 1.0;
+                  _input.value = Math.round(sqft * mult);
+                }
+              }
+            })
+            .catch(function() {});
+        } catch(e) {}
+
         state.step = "estimator";
         render();
       });
@@ -942,20 +969,78 @@
           </div>';
         bindOptions("optService", "serviceType");
       } else if (stepNum === 2) {
+        var osmFp = state.osmFootprint || 0;
+        var stories = est.stories || "1";
+        var estimatedSqFt = est.homeSqFtManual || (osmFp > 0 ? Math.round(osmFp * (stories === "2" ? 1.25 : stories === "3" ? 1.5 : 1.0)) : "");
+
         card.innerHTML = '\
           <div class="elec-step">\
-            <h3>How large is your home?</h3>\
-            <div class="elec-options" id="optSqFt">\
-              <div class="elec-option' + (est.homeSqFt === "1000" ? " selected" : "") + '" data-val="1000">~1,000 sq ft</div>\
-              <div class="elec-option' + (est.homeSqFt === "1500" ? " selected" : "") + '" data-val="1500">~1,500 sq ft</div>\
-              <div class="elec-option' + (est.homeSqFt === "2000" ? " selected" : "") + '" data-val="2000">~2,000 sq ft</div>\
-              <div class="elec-option' + (est.homeSqFt === "2500" ? " selected" : "") + '" data-val="2500">~2,500 sq ft</div>\
-              <div class="elec-option' + (est.homeSqFt === "3000" ? " selected" : "") + '" data-val="3000">~3,000 sq ft</div>\
-              <div class="elec-option' + (est.homeSqFt === "3500" ? " selected" : "") + '" data-val="3500">~3,500 sq ft</div>\
-              <div class="elec-option' + (est.homeSqFt === "4000" ? " selected" : "") + '" data-val="4000">~4,000 sq ft</div>\
+            <h3>Describe your home</h3>\
+            ' + (osmFp > 0 ? '<p style="font-size:13px; color:#16a34a; margin:0 0 12px;">&#10003; We measured your building from satellite data</p>' : '') + '\
+            <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;font-weight:600;">How many stories?</label>\
+            <div class="elec-options" id="optStories" style="margin-bottom:16px;">\
+              <div class="elec-option' + (stories === "1" ? " selected" : "") + '" data-val="1">1 story</div>\
+              <div class="elec-option' + (stories === "2" ? " selected" : "") + '" data-val="2">2 stories</div>\
+              <div class="elec-option' + (stories === "3" ? " selected" : "") + '" data-val="3">3+ stories</div>\
+            </div>\
+            <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;font-weight:600;">Total living area (sq ft)</label>\
+            <div style="display:flex;align-items:center;gap:0.75rem;">\
+              <input type="number" class="elec-sqft-input" id="sqftInput" placeholder="e.g. 2400" value="' + (estimatedSqFt || "") + '" min="500" max="10000" />\
+              <span style="color:#64748b;">sq ft</span>\
+            </div>\
+            <div class="elec-options" style="margin-top:8px;" id="sqftPresets">\
+              <div class="elec-option" data-val="1500">1,500</div>\
+              <div class="elec-option" data-val="2000">2,000</div>\
+              <div class="elec-option" data-val="2500">2,500</div>\
+              <div class="elec-option" data-val="3000">3,000</div>\
+              <div class="elec-option" data-val="3500">3,500</div>\
+            </div>\
+            <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">Check your listing, tax records, or Zillow if unsure.</p>\
+            <div style="margin-top:1rem;">\
+              <button class="elec-btn elec-btn-primary" id="sqftNext">Continue</button>\
             </div>\
           </div>';
-        bindOptions("optSqFt", "homeSqFt");
+
+        // Stories selection
+        var storiesContainer = document.getElementById("optStories");
+        if (storiesContainer) {
+          storiesContainer.addEventListener("click", function(e) {
+            var opt = e.target.closest(".elec-option");
+            if (!opt) return;
+            est.stories = opt.getAttribute("data-val");
+            storiesContainer.querySelectorAll(".elec-option").forEach(function(el) { el.classList.remove("selected"); });
+            opt.classList.add("selected");
+            if (osmFp > 0 && !est.homeSqFtManual) {
+              var mult = est.stories === "2" ? 1.25 : est.stories === "3" ? 1.5 : 1.0;
+              document.getElementById("sqftInput").value = Math.round(osmFp * mult);
+            }
+          });
+        }
+
+        // Preset clicks
+        var presetContainer = document.getElementById("sqftPresets");
+        if (presetContainer) {
+          presetContainer.addEventListener("click", function(e) {
+            var opt = e.target.closest(".elec-option");
+            if (!opt) return;
+            document.getElementById("sqftInput").value = opt.getAttribute("data-val");
+            est.homeSqFtManual = Number(opt.getAttribute("data-val"));
+          });
+        }
+
+        document.getElementById("sqftNext").addEventListener("click", function() {
+          var val = document.getElementById("sqftInput").value.trim();
+          if (val && Number(val) >= 400) {
+            est.homeSqFt = Number(val);
+            render();
+          }
+        });
+        document.getElementById("sqftInput").addEventListener("keydown", function(e) {
+          if (e.key === "Enter") document.getElementById("sqftNext").click();
+        });
+        document.getElementById("sqftInput").addEventListener("input", function() {
+          est.homeSqFtManual = Number(this.value) || 0;
+        });
       } else if (stepNum === 3) {
         card.innerHTML = '\
           <div class="elec-step">\
@@ -993,7 +1078,7 @@
         document.getElementById("estBack").addEventListener("click", function() {
           if (stepNum === 4) est.urgency = null;
           else if (stepNum === 3) est.homeAge = null;
-          else if (stepNum === 2) est.homeSqFt = null;
+          else if (stepNum === 2) { est.homeSqFt = null; est.stories = null; est.homeSqFtManual = null; }
           render();
         });
       }
@@ -1246,7 +1331,7 @@
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { serviceType: null, homeSqFt: null, homeAge: null, urgency: null },
+          est: { serviceType: null, homeSqFt: null, stories: null, homeSqFtManual: null, homeAge: null, urgency: null },
           result: null
         };
         render();
