@@ -353,15 +353,18 @@
       basePriceBySystem: {
         central_ac: {
           label: "Central Air Conditioning",
-          pricePerTon: { "14_seer": 2800, "16_seer": 3400, "18_seer": 4200, "20_seer": 5200 }
+          basePrice: { "14_seer": 4400, "16_seer": 5000, "18_seer": 6400, "20_seer": 8000 },
+          tonScale: 0.12
         },
         heat_pump: {
           label: "Heat Pump",
-          pricePerTon: { "14_seer": 3200, "16_seer": 3900, "18_seer": 4800, "20_seer": 6000 }
+          basePrice: { "14_seer": 5500, "16_seer": 6400, "18_seer": 8000, "20_seer": 10500 },
+          tonScale: 0.12
         },
         furnace: {
           label: "Gas Furnace",
-          priceByEfficiency: { "80_afue": 3200, "90_afue": 4000, "95_afue": 4800, "98_afue": 5800 }
+          basePrice: { "80_afue": 3200, "90_afue": 4000, "95_afue": 4800, "98_afue": 5800 },
+          tonScale: 0
         },
         mini_split: {
           label: "Ductless Mini-Split",
@@ -369,7 +372,8 @@
         },
         full_system: {
           label: "Full HVAC System (AC + Furnace)",
-          pricePerTon: { "14_seer_80_afue": 5500, "16_seer_90_afue": 7200, "18_seer_95_afue": 9500, "20_seer_98_afue": 12000 }
+          basePrice: { "14_seer_80_afue": 7500, "16_seer_90_afue": 9400, "18_seer_95_afue": 11750, "20_seer_98_afue": 15000 },
+          tonScale: 0.12
         }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
@@ -510,24 +514,25 @@
       if (!sys) sys = HVAC_PRICING.basePriceBySystem.central_ac;
 
       var basePrice = 0;
-      if (systemType === "furnace") {
-        var afueKey = afueToKey(seer); // for furnace, seer param holds AFUE
-        basePrice = (sys.priceByEfficiency && sys.priceByEfficiency[afueKey]) || 3200;
-        // furnace is flat price, no per-ton
-      } else if (systemType === "mini_split") {
-        // derive zones from tons
+      if (systemType === "mini_split") {
         var zones = Math.max(1, Math.round(tons));
         var zoneKey = zones >= 4 ? "four_zone" : zones === 3 ? "three_zone" : zones === 2 ? "two_zone" : "single_zone";
         basePrice = (sys.pricePerZone && sys.pricePerZone[zoneKey]) || 3500;
+      } else if (systemType === "furnace") {
+        var afueKey = afueToKey(seer);
+        var fBase = (sys.basePrice && sys.basePrice[afueKey]) || 4000;
+        basePrice = fBase;
       } else if (systemType === "full_system") {
         var fKey = fullSystemEffKey(seer);
-        basePrice = (sys.pricePerTon && sys.pricePerTon[fKey]) || 5500;
-        basePrice = basePrice * tons;
+        var fsBase = (sys.basePrice && sys.basePrice[fKey]) || 9400;
+        var fsTonAdj = 1 + ((tons - 3) * (sys.tonScale || 0.12));
+        basePrice = fsBase * fsTonAdj;
       } else {
         // central_ac or heat_pump
         var sk = seerToKey(seer);
-        basePrice = (sys.pricePerTon && sys.pricePerTon[sk]) || 2800;
-        basePrice = basePrice * tons;
+        var acBase = (sys.basePrice && sys.basePrice[sk]) || 5000;
+        var acTonAdj = 1 + ((tons - 3) * (sys.tonScale || 0.12));
+        basePrice = acBase * acTonAdj;
       }
 
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
