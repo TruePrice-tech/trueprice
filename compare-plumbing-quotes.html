@@ -442,14 +442,47 @@
         '<span class="slot-hint" id="slotHint' + idx + '">' + (useAI ? "Running AI analysis..." : "Reading text...") + '</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
-      TP_Engine.analyzeQuote(file, {
-          vertical: "plumbing",
-          apiEndpoint: "/api/plumbing-estimate"
-        }).then(function(engineResult) {
-          var payload = { text: engineResult.ocrText || "" };
-          if (engineResult.imageDataUrl) payload.images = [engineResult.imageDataUrl];
-          return sendToApi(payload);
-        });
+      loadVendorLibs().then(function() {
+        var isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+
+        // ── Free-layer path (default): OCR/PDF text -> multi-strategy regex ──
+        if (!useAI) {
+          var textPromise;
+          if (isPdf) {
+            textPromise = extractPdfText(file);
+          } else {
+            textPromise = window.extractImageTextMultiPass(file, function(step, total) {
+              var hint = document.getElementById("slotHint" + idx);
+              if (hint) hint.textContent = "Reading text (" + step + " of " + total + ")...";
+            });
+          }
+          return textPromise.then(function(text) {
+            slotState[idx].text = text || "";
+            var parsed = (typeof parseExtractedTextMultiStrategy === "function")
+              ? parseExtractedTextMultiStrategy(text || "", "plumbing")
+              : (typeof parseExtractedText === "function" ? parseExtractedText(text || "") : null);
+            var price = parsed && parsed.finalPrice && parsed.finalPrice > 100
+              ? Number(parsed.finalPrice)
+              : (parsed && Number(parsed.finalBestPrice) > 100 ? Number(parsed.finalBestPrice) : 0);
+            var confidence = (parsed && parsed.priceConfidence) || "low";
+            // Return an api-shaped object so downstream rendering works.
+            return {
+              data: {
+                totalPrice: price,
+                confidence: confidence,
+                jobType: null,
+                contractor: null,
+                _parsed: parsed,
+                _freeLayer: true
+              }
+            };
+          });
+        }
+
+        // ── Opt-in AI path: call Claude with text + (if image) base64 ──
+        var textForAi = (slotState[idx] && slotState[idx].text) || "";
+        if (isPdf) {
+          return sendToApi({ text: textForAi });
         }
         return fileToBase64(file).then(function(b64) { return sendToApi({ text: textForAi, images: [b64] }); });
       }).then(function(raw) {

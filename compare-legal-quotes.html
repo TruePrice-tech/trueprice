@@ -471,15 +471,19 @@
 
     // ── Process a single file ──
     async function processFile(file) {
-      // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
-      var engineResult = await TP_Engine.analyzeQuote(file, {
-        vertical: "legal",
-        apiEndpoint: "/api/legal-fee-estimate"
-      });
+      await window.loadVendorLibs();
 
-      var text = engineResult.ocrText || "";
+      var text = "";
+      var imageData = null;
+      if (file.type === "application/pdf") {
+        text = await extractPdfText(file);
+      } else {
+        imageData = await fileToBase64(file);
+        text = await extractImageText(file);
+      }
+
       var apiPayload = { text: text };
-      if (engineResult.imageDataUrl) apiPayload.images = [engineResult.imageDataUrl];
+      if (imageData) apiPayload.images = [imageData];
 
       try{fetch("/api/ai-counter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({vertical:"legal",action:"increment"})}).catch(function(){});}catch(e){}
       var apiResponse = await fetch("/api/legal-fee-estimate", {
