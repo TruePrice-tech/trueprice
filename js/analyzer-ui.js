@@ -8832,7 +8832,7 @@ function buildComparisonWinnerHtml(summary) {
                   Step 2
                 </div>
                 <div style="font-size:14px; font-weight:600; color:#0f172a;">
-                  Scan your quote
+                  ${new URLSearchParams(window.location.search).get("mode") === "estimator" ? "Answer a few questions" : "Scan your quote"}
                 </div>
               </div>
 
@@ -8841,7 +8841,7 @@ function buildComparisonWinnerHtml(summary) {
                   Step 3
                 </div>
                 <div style="font-size:14px; font-weight:600; color:#0f172a;">
-                  Get decision
+                  ${new URLSearchParams(window.location.search).get("mode") === "estimator" ? "Get your estimate" : "Get decision"}
                 </div>
               </div>
             </div>
