@@ -1179,7 +1179,7 @@
         document.getElementById("sqftNext").addEventListener("click", function() {
           var val = document.getElementById("sqftInput").value.trim();
           if (val && Number(val) >= 400) {
-            est.homeSqFt = val;
+            est.homeSqFt = Number(val);
             render();
           }
         });
