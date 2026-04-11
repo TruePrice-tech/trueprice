@@ -8671,9 +8671,7 @@ function buildComparisonWinnerHtml(summary) {
               <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
             </div>
 
-            <div style="text-align:center; margin-top:16px;">
-              <a href="/photo-estimate.html?service=roofing" style="font-size:14px; color:#64748b; text-decoration:none; padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">or snap a photo of your house &rarr;</a>
-            </div>
+            <!-- photo option removed -->
 
             <div style="text-align:center; margin-top:12px;">
               <a href="/analyze-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a>
@@ -8760,10 +8758,7 @@ function buildComparisonWinnerHtml(summary) {
 
               ${isEstimatorMode ? `
               <div style="text-align:center; margin-top:16px;">
-                <a href="/photo-estimate.html?service=roofing" style="font-size:13px; color:#64748b; text-decoration:none;">Prefer to take a photo instead? &rarr;</a>
-              </div>
-              <div style="text-align:center; margin-top:8px;">
-                <a href="/analyze-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a>
+                <a href="/roofing-quote-analyzer.html" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back to quote analyzer</a>
               </div>
               ` : ''}
             </div>
