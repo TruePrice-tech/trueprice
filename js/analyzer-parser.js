@@ -821,10 +821,9 @@ function detectWarranty(text) {
   return winner;
 }
 
-// Roofing material patterns for detectMaterial. Was referenced but never
-// defined — likely removed by a previous console-cleanup commit. Restored
-// here so the parser doesn't ReferenceError on every analyze call.
-const MATERIAL_PATTERNS = [
+// Roofing material patterns for detectMaterial. Primary definition lives in
+// analyzer-core.js. Only define here if not already present (standalone use).
+if (typeof MATERIAL_PATTERNS === "undefined") var MATERIAL_PATTERNS = [
   {
     value: "architectural",
     label: "Architectural shingles",
@@ -1046,7 +1045,7 @@ function detectContractor(text) {
     );
 
     name = name
-      .replace(/^\s*(contractor|company|roofing company|proposal by|prepared by)\s*[:\-]\s*/i, "")
+      .replace(/^\s*(contractor|company|roofing company|proposal by|prepared by|submitted by|from|provider|shop|business)\s*[:\-]\s*/i, "")
       .replace(/[:\-|,\s]+$/g, "")
       .trim();
 
@@ -1087,7 +1086,7 @@ function detectContractor(text) {
 
     if (
   /\b(roof replacement|replacement estimate|roof estimate|estimate|proposal)\b/i.test(normalizedForMatch) &&
-  !/(roofing|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement)/i.test(normalizedForMatch)
+  !/(roofing|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement|plumbing|electric|hvac|fencing|foundation|concrete|gutters|insulation|landscaping|moving|movers|painting|solar|siding|windows|garage|auto|repair|services|solutions|pros|specialists|experts|group|brothers|team)/i.test(normalizedForMatch)
 ) {
   return false;
 }
@@ -1098,11 +1097,11 @@ function detectContractor(text) {
     const wordCount = name.split(/\s+/).filter(Boolean).length;
     if (wordCount > 8) return false;
 
-    return /(roofing|roof|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement)/i.test(normalizedForMatch);
+    return /(roofing|roof|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement|plumbing|plumber|electric|electrical|electrician|hvac|heating|cooling|air conditioning|fencing|fence|foundation|concrete|masonry|gutters|gutter|insulation|kitchen|remodel|remodeling|landscaping|landscape|lawn|moving|movers|mover|painting|painter|painters|solar|energy|siding|windows|window|glass|garage|door|doors|auto|repair|mechanic|body shop|services|solutions|pros|professionals|enterprises|industries|works|specialists|experts|group|brothers|sons|associates|partners|team)/i.test(normalizedForMatch);
   }
 
   const labeledPatterns = [
-    /(?:contractor|company|roofing company|proposal by|prepared by)[:\s]+([A-Za-z0-9&.,' -]{4,100})/i
+    /(?:contractor|company|roofing company|proposal by|prepared by|submitted by|from|provider|shop|business)[:\s]+([A-Za-z0-9&.,' -]{4,100})/i
   ];
 
   for (const pattern of labeledPatterns) {
@@ -1122,7 +1121,7 @@ function detectContractor(text) {
   // (Was: non-greedy regex returning the first/shortest match, which made
   // different OCR passes of the same quote produce different substrings like
   // "PEAKPRO ROOFING" vs "E ROOFING" vs "A E ROOFING".)
-  const fallbackRegex = /\b([A-Z][A-Za-z0-9&.' -]{2,70}?(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration|Builders))\b/g;
+  const fallbackRegex = /\b([A-Z][A-Za-z0-9&.' -]{2,70}?(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration|Builders|Plumbing|Plumber|Electric|Electrical|Electrician|HVAC|Heating|Cooling|Fencing|Fence|Foundation|Concrete|Masonry|Gutters|Gutter|Insulation|Kitchen|Remodel|Remodeling|Landscaping|Landscape|Moving|Movers|Mover|Painting|Painter|Solar|Energy|Siding|Windows|Window|Garage|Auto|Repair|Mechanic|Services|Solutions|Pros|Professionals|Enterprises|Industries|Works|Specialists|Experts|Group|Brothers|Sons|Associates|Partners|Team))\b/g;
   const candidates = [];
   let m;
   while ((m = fallbackRegex.exec(source)) !== null) {
