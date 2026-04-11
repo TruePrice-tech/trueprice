@@ -431,7 +431,7 @@
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { serviceType: null, subType: null, bathrooms: "", homeAge: null, urgency: null },
+      est: { serviceType: null, subType: null, detailsDone: false, location: null, lineLength: null, bathType: null, gasLength: null, homeSize: null, stories: null, urgency: null },
       // result
       result: null
     };
@@ -1111,46 +1111,112 @@
           </div>';
         bindOptions("optSubType", "subType");
       } else if (stepNum === 3) {
-        card.innerHTML = '\
-          <div class="plumb-step">\
-            <h3>Home details</h3>\
+        // Service-specific details step
+        var detailHtml = '';
+        if (est.serviceType === "water_heater") {
+          detailHtml = '\
+            <h3>Where is the water heater located?</h3>\
+            <div class="plumb-options" id="optLocation">\
+              <div class="plumb-option' + (est.location === "garage" ? " selected" : "") + '" data-val="garage">Garage</div>\
+              <div class="plumb-option' + (est.location === "basement" ? " selected" : "") + '" data-val="basement">Basement</div>\
+              <div class="plumb-option' + (est.location === "attic" ? " selected" : "") + '" data-val="attic">Attic</div>\
+              <div class="plumb-option' + (est.location === "utility_closet" ? " selected" : "") + '" data-val="utility_closet">Utility closet</div>\
+              <div class="plumb-option' + (est.location === "outdoor" ? " selected" : "") + '" data-val="outdoor">Outdoor / exterior</div>\
+              <div class="plumb-option' + (est.location === "unknown" ? " selected" : "") + '" data-val="unknown">Not sure</div>\
+            </div>';
+        } else if (est.serviceType === "repipe") {
+          detailHtml = '\
+            <h3>Tell us about your home</h3>\
             <div style="margin-bottom:1rem;">\
-              <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;">Number of bathrooms</label>\
-              <input type="number" class="plumb-num-input" id="bathroomInput" placeholder="e.g. 2" value="' + (est.bathrooms || "") + '" min="1" max="10" />\
+              <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;">Home size (sq ft)</label>\
+              <input type="number" class="plumb-num-input" id="homeSizeInput" placeholder="e.g. 2000" value="' + (est.homeSize || "") + '" min="500" max="10000" />\
             </div>\
-            <div>\
-              <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;">Home age</label>\
-              <div class="plumb-options" id="optAge">\
-                <div class="plumb-option' + (est.homeAge === "pre_1970" ? " selected" : "") + '" data-val="pre_1970">Pre-1970</div>\
-                <div class="plumb-option' + (est.homeAge === "1970_1990" ? " selected" : "") + '" data-val="1970_1990">1970&ndash;1990</div>\
-                <div class="plumb-option' + (est.homeAge === "1990_plus" ? " selected" : "") + '" data-val="1990_plus">1990+</div>\
-              </div>\
+            <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;">Number of stories</label>\
+            <div class="plumb-options" id="optStories">\
+              <div class="plumb-option' + (est.stories === "1" ? " selected" : "") + '" data-val="1">1 story</div>\
+              <div class="plumb-option' + (est.stories === "2" ? " selected" : "") + '" data-val="2">2 stories</div>\
+              <div class="plumb-option' + (est.stories === "3" ? " selected" : "") + '" data-val="3">3+ stories</div>\
             </div>\
             <div style="margin-top:1rem;">\
               <button class="plumb-btn plumb-btn-primary" id="detailsNext">Continue</button>\
-            </div>\
-          </div>';
-        // Home age options click
-        var ageContainer = document.getElementById("optAge");
-        if (ageContainer) {
-          ageContainer.addEventListener("click", function(e) {
+            </div>';
+        } else if (est.serviceType === "sewer_line") {
+          detailHtml = '\
+            <h3>How long is the sewer line run?</h3>\
+            <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem;">Distance from house to street connection. Estimate is fine.</p>\
+            <div class="plumb-options" id="optLineLength">\
+              <div class="plumb-option' + (est.lineLength === "short" ? " selected" : "") + '" data-val="short">Short (under 50 ft)</div>\
+              <div class="plumb-option' + (est.lineLength === "medium" ? " selected" : "") + '" data-val="medium">Medium (50-100 ft)</div>\
+              <div class="plumb-option' + (est.lineLength === "long" ? " selected" : "") + '" data-val="long">Long (100+ ft)</div>\
+              <div class="plumb-option' + (est.lineLength === "unknown" ? " selected" : "") + '" data-val="unknown">Not sure</div>\
+            </div>';
+        } else if (est.serviceType === "drain_cleaning") {
+          // Drain cleaning doesn't need extra details -- skip to urgency
+          est.detailsDone = true;
+          render();
+          return;
+        } else if (est.serviceType === "bathroom_rough_in") {
+          detailHtml = '\
+            <h3>What type of bathroom?</h3>\
+            <div class="plumb-options" id="optBathType">\
+              <div class="plumb-option' + (est.bathType === "full_bath" ? " selected" : "") + '" data-val="full_bath">Full bathroom</div>\
+              <div class="plumb-option' + (est.bathType === "half_bath" ? " selected" : "") + '" data-val="half_bath">Half bath (no shower/tub)</div>\
+              <div class="plumb-option' + (est.bathType === "master_bath" ? " selected" : "") + '" data-val="master_bath">Master bath (dual vanity, large shower)</div>\
+            </div>';
+        } else if (est.serviceType === "gas_line") {
+          detailHtml = '\
+            <h3>How far from the gas meter?</h3>\
+            <p style="font-size:0.85rem;color:#64748b;margin:0 0 1rem;">Approximate distance from the meter to the appliance.</p>\
+            <div class="plumb-options" id="optGasLength">\
+              <div class="plumb-option' + (est.gasLength === "short" ? " selected" : "") + '" data-val="short">Short (under 20 ft)</div>\
+              <div class="plumb-option' + (est.gasLength === "medium" ? " selected" : "") + '" data-val="medium">Medium (20-50 ft)</div>\
+              <div class="plumb-option' + (est.gasLength === "long" ? " selected" : "") + '" data-val="long">Long (50+ ft)</div>\
+            </div>';
+        } else {
+          // Fallback: skip details
+          est.detailsDone = true;
+          render();
+          return;
+        }
+
+        card.innerHTML = '<div class="plumb-step">' + detailHtml + '</div>';
+
+        // Bind the appropriate options
+        var optContainers = ["optLocation", "optLineLength", "optBathType", "optGasLength"];
+        var optFields = { optLocation: "location", optLineLength: "lineLength", optBathType: "bathType", optGasLength: "gasLength" };
+        optContainers.forEach(function(id) {
+          var container = document.getElementById(id);
+          if (!container) return;
+          container.addEventListener("click", function(e) {
             var opt = e.target.closest(".plumb-option");
             if (!opt) return;
-            est.homeAge = opt.getAttribute("data-val");
-            ageContainer.querySelectorAll(".plumb-option").forEach(function(el) { el.classList.remove("selected"); });
+            est[optFields[id]] = opt.getAttribute("data-val");
+            est.detailsDone = true;
+            if (getEstimatorStep() > TOTAL_STEPS) { calculateEstimate(); } else { render(); }
+          });
+        });
+
+        // Repipe: stories selector + continue button
+        var storiesContainer = document.getElementById("optStories");
+        if (storiesContainer) {
+          storiesContainer.addEventListener("click", function(e) {
+            var opt = e.target.closest(".plumb-option");
+            if (!opt) return;
+            est.stories = opt.getAttribute("data-val");
+            storiesContainer.querySelectorAll(".plumb-option").forEach(function(el) { el.classList.remove("selected"); });
             opt.classList.add("selected");
           });
         }
-        document.getElementById("detailsNext").addEventListener("click", function() {
-          var val = document.getElementById("bathroomInput").value.trim();
-          if (val && Number(val) >= 1) {
-            est.bathrooms = val;
-          } else {
-            est.bathrooms = "2";
-          }
-          if (!est.homeAge) est.homeAge = "1990_plus";
-          render();
-        });
+        var detailsNextBtn = document.getElementById("detailsNext");
+        if (detailsNextBtn) {
+          detailsNextBtn.addEventListener("click", function() {
+            var sizeVal = document.getElementById("homeSizeInput")?.value?.trim();
+            est.homeSize = sizeVal && Number(sizeVal) >= 400 ? Number(sizeVal) : 2000;
+            if (!est.stories) est.stories = "1";
+            est.detailsDone = true;
+            render();
+          });
+        }
       } else if (stepNum === 4) {
         card.innerHTML = '\
           <div class="plumb-step">\
@@ -1176,7 +1242,7 @@
         card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="plumb-btn plumb-btn-secondary" id="estBack">Back</button></div>');
         document.getElementById("estBack").addEventListener("click", function() {
           if (stepNum === 4) est.urgency = null;
-          else if (stepNum === 3) { est.bathrooms = ""; est.homeAge = null; }
+          else if (stepNum === 3) { est.detailsDone = false; est.location = null; est.lineLength = null; est.bathType = null; est.gasLength = null; est.homeSize = null; est.stories = null; }
           else if (stepNum === 2) est.subType = null;
           render();
         });
@@ -1187,7 +1253,7 @@
       var e = state.est;
       if (!e.serviceType) return 1;
       if (!e.subType) return 2;
-      if (!e.bathrooms) return 3;
+      if (!e.detailsDone) return 3;
       if (!e.urgency) return 4;
       return 5; // all done
     }
@@ -1438,7 +1504,7 @@
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { serviceType: null, subType: null, bathrooms: "", homeAge: null, urgency: null },
+          est: { serviceType: null, subType: null, detailsDone: false, location: null, lineLength: null, bathType: null, gasLength: null, homeSize: null, stories: null, urgency: null },
           result: null
         };
         render();
