@@ -40,7 +40,7 @@
 
   <style>
     .win-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
-    .win-hero { text-align: center; margin-bottom: 2rem; }
+    .win-hero { text-align: center; margin-bottom: 2rem; user-select: none; cursor: default; }
     .win-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
     .win-hero p { color: #64748b; font-size: 1.1rem; }
 
@@ -49,12 +49,15 @@
     .win-divider { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0; color: #94a3b8; font-size: 0.9rem; }
     .win-divider::before, .win-divider::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
 
-    .win-address-form { display: flex; flex-direction: column; gap: 0.55rem; }
-    .win-address-form input, .win-address-form select {
+    .win-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .win-address-form input {
       padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
-      font-size: 1rem; width: 100%; box-sizing: border-box; background:#fff;
+      font-size: 1rem; width: 100%; box-sizing: border-box;
     }
-    .win-address-form input:focus, .win-address-form select:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    .win-address-form input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+    .win-row { display: flex; gap: 0.75rem; }
+    .win-row > * { flex: 1; }
 
     .win-btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
@@ -63,13 +66,57 @@
     }
     .win-btn-primary { background: #2563eb; color: #fff; }
     .win-btn-primary:hover { background: #1d4ed8; }
-    .win-btn-primary:disabled { background: #93c5fd; cursor: wait; }
     .win-btn-secondary { background: #f1f5f9; color: #334155; }
     .win-btn-secondary:hover { background: #e2e8f0; }
     .win-btn-full { width: 100%; }
 
+    .win-progress { margin: 1.5rem 0; }
+    .win-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .win-progress-fill { height: 100%; background: #3b82f6; border-radius: 3px; transition: width 0.4s ease; }
+    .win-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; text-align: center; }
+
+    /* Estimator steps */
+    .win-step { margin-bottom: 1.5rem; }
+    .win-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
+    .win-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .win-option {
+      padding: 0.6rem 1.2rem; border: 2px solid #e2e8f0; border-radius: 8px;
+      background: #fff; cursor: pointer; font-size: 0.95rem; color: #334155;
+      transition: all 0.15s;
+    }
+    .win-option:hover { border-color: #93c5fd; background: #eff6ff; }
+    .win-option.selected { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; font-weight: 600; }
+
+    /* Verdict card */
+    .win-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; }
+    .win-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
+    .win-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; color: #16a34a; }
+    .win-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .win-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+
+    /* Details grid */
+    .win-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .win-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .win-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .win-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+
+    /* Scope checklist */
+    .win-scope { list-style: none; padding: 0; margin: 0; }
+    .win-scope li { padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .win-scope li:last-child { border-bottom: none; }
+    .scope-icon { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
+    .scope-included { background: #dcfce7; color: #16a34a; }
+
+    .win-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .win-actions a, .win-actions button { text-align: center; }
+
+    .win-hidden { display: none !important; }
+
     @media (max-width: 600px) {
       .win-hero h1 { font-size: 1.5rem; }
+      .win-row { flex-direction: column; }
+      .win-details { grid-template-columns: 1fr; }
+      .win-options { flex-direction: column; }
     }
   </style>
 <script type="application/ld+json">
@@ -77,6 +124,46 @@
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Windows","item":"https://truepricehq.com/window-quote-analyzer.html"}]}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does window replacement cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Window replacement costs range from $400 to $1,500+ per window installed depending on frame material, glass package, and installation type. Vinyl double-hung windows average $400-$800, fiberglass $600-$1,200, and wood-clad $800-$1,500. Bay and bow windows run $1,500-$3,500. Full-frame replacement adds 30-50% over pocket/insert installs. TruePrice adjusts for your state, city, and project specs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between pocket and full-frame window replacement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pocket (insert) replacement reuses your existing window frame and installs a new window inside it. It is faster, less expensive, and causes minimal disruption. Full-frame replacement tears out everything down to the rough opening, allowing inspection and repair of the surrounding structure. Full-frame costs 30-50% more but is necessary when the existing frame is rotted, damaged, or out of square."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do windows still qualify for the federal tax credit in 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The IRA Section 25C window tax credit ($600 max) EXPIRED on December 31, 2025. As of 2026, there is no federal income tax credit for replacement windows. State and utility rebates through IRA HEAR and DSIRE programs are still active in some states - check dsireusa.org for your area."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is triple-pane glass worth the extra cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Triple-pane glass adds 20-30% to the cost of each window but provides better insulation (lower U-factor), reduced noise, and less condensation. It pays back faster in cold Northern climates and is often required for ENERGY STAR Most Efficient certification. In mild Southern climates, double-pane Low-E is usually sufficient."
+      }
+    }
+  ]
+}
 </script>
 <script src="/js/community-capture.js" defer></script>
 </head>
@@ -181,19 +268,38 @@
 
     // ── Pricing model (per-window installed $) ──
     var FRAME = {
-      vinyl:      { label: "Vinyl",      value:{low:300,mid:575,high:900},   mid:{low:450,mid:775,high:1200}, premium:{low:700,mid:1150,high:1800}, luxury:{low:1000,mid:1400,high:2500} },
-      fiberglass: { label: "Fiberglass", value:{low:600,mid:800,high:1000},  mid:{low:800,mid:1100,high:1500}, premium:{low:1000,mid:1500,high:2100}, luxury:{low:1400,mid:2000,high:2800} },
-      "wood-clad":{ label: "Wood-clad",  value:{low:500,mid:800,high:1100},  mid:{low:700,mid:1200,high:1800}, premium:{low:1000,mid:1700,high:2800}, luxury:{low:1500,mid:2400,high:3800} },
-      composite:  { label: "Composite",  value:{low:700,mid:1000,high:1400}, mid:{low:1000,mid:1500,high:2200}, premium:{low:1300,mid:1900,high:3000}, luxury:{low:1800,mid:2600,high:4000} },
-      aluminum:   { label: "Aluminum",   value:{low:400,mid:650,high:900},   mid:{low:550,mid:850,high:1250}, premium:{low:800,mid:1100,high:1600}, luxury:{low:1100,mid:1500,high:2200} }
+      vinyl:      { label: "Vinyl",      low: 400, mid: 600,  high: 800 },
+      fiberglass: { label: "Fiberglass", low: 600, mid: 900,  high: 1200 },
+      "wood-clad":{ label: "Wood-clad",  low: 800, mid: 1150, high: 1500 },
+      composite:  { label: "Composite",  low: 700, mid: 1000, high: 1400 },
+      aluminum:   { label: "Aluminum",   low: 400, mid: 650,  high: 900 }
     };
 
-    var SIZE_MULT    = { small:0.80, standard:1.00, large:1.28, xlarge:1.55 };
-    var INSTALL_MULT = { pocket:1.00, fullframe:1.55, unsure:1.20 };
-    var GLASS_MULT   = { standard:0.92, lowe:1.00, triple:1.18 };
-    var AGE_MULT     = { under10:0.98, "10to20":1.00, "20plus":1.05 };
-    var HIST_MULT    = { yes:1.18, unsure:1.05, no:1.00 };
-    var TRIM_MULT    = { yes:1.07, no:1.00 };
+    var STYLE_MULT = {
+      "double-hung": 1.00,
+      casement:      1.08,
+      sliding:       0.95,
+      picture:       0.90,
+      "bay-bow":     2.60
+    };
+
+    var GLASS_MULT = {
+      "double-standard": 0.92,
+      "double-lowe":     1.00,
+      "triple":          1.25
+    };
+
+    var INSTALL_MULT = {
+      pocket:    1.00,
+      fullframe: 1.40
+    };
+
+    var COUNT_MID = {
+      "1-3":   2,
+      "4-8":   6,
+      "9-15":  12,
+      "16+":   20
+    };
 
     var STATE_REGION = {
       CT:1.18,MA:1.18,ME:1.15,NH:1.15,NJ:1.18,NY:1.20,PA:1.15,RI:1.15,VT:1.15,
@@ -205,7 +311,7 @@
       AK:1.22,HI:1.30,DC:1.18,DE:1.10,MD:1.10
     };
 
-    // ZIP prefix (first 3) → state
+    // ZIP prefix (first 3) -> state
     var ZIP_STATE = (function(){
       var m = {};
       function add(range, st){ for (var i=range[0]; i<=range[1]; i++){ var k=String(i); while(k.length<3) k="0"+k; m[k]=st; } }
@@ -223,7 +329,7 @@
       return m;
     })();
 
-    // State → ENERGY STAR zone (dominant). N/NC/SC/S
+    // State -> ENERGY STAR zone (dominant). N/NC/SC/S
     var STATE_ZONE = {
       AK:"N",ME:"N",VT:"N",NH:"N",MA:"N",NY:"N",MI:"N",MN:"N",WI:"N",ND:"N",SD:"N",MT:"N",ID:"N",WY:"N",
       WA:"N",OR:"N",RI:"N",CT:"N",
@@ -234,10 +340,10 @@
     };
 
     var ZONE_SPECS = {
-      N:  { label:"Northern",      uMax:0.20, shgcText:"≥ 0.20 (passive solar)", uFactorEs:0.22 },
-      NC: { label:"North-Central", uMax:0.20, shgcText:"≤ 0.40",                 uFactorEs:0.25 },
-      SC: { label:"South-Central", uMax:0.20, shgcText:"≤ 0.23",                 uFactorEs:0.28 },
-      S:  { label:"Southern",      uMax:0.25, shgcText:"≤ 0.23",                 uFactorEs:0.32 }
+      N:  { label:"Northern",      uMax:0.20, shgcText:"\u2265 0.20 (passive solar)", uFactorEs:0.22 },
+      NC: { label:"North-Central", uMax:0.20, shgcText:"\u2264 0.40",                 uFactorEs:0.25 },
+      SC: { label:"South-Central", uMax:0.20, shgcText:"\u2264 0.23",                 uFactorEs:0.28 },
+      S:  { label:"Southern",      uMax:0.25, shgcText:"\u2264 0.23",                 uFactorEs:0.32 }
     };
 
     // Per-window utility rebates by state
@@ -252,7 +358,7 @@
       MI:{name:"DTE Energy",              perWindow:50, note:"ENERGY STAR Northern; single-pane replacement"},
       CT:{name:"Eversource CT",           perWindow:50, note:"Electric-heat home; ENERGY STAR"},
       RI:{name:"Rhode Island Energy",     perWindow:50, note:"Replacing single-pane"},
-      WA:{name:"Puget Sound Energy",      perWindow:50, note:"ENERGY STAR Northern, U ≤ 0.22"},
+      WA:{name:"Puget Sound Energy",      perWindow:50, note:"ENERGY STAR Northern, U \u2264 0.22"},
       OR:{name:"Energy Trust of Oregon",  perWindow:55, note:"ENERGY STAR Northern; Trade Ally contractor"},
       IL:{name:"Ameren Illinois",         perWindow:40, note:"Replacing single-pane"},
       NH:{name:"NHSaves",                 perWindow:40, note:"ENERGY STAR Northern"}
@@ -261,324 +367,498 @@
     var CONTRACTOR_QS = [
       "Is this pocket/insert or full-frame replacement? (big price difference)",
       "What is the exact manufacturer, series, and model number of each window?",
-      "What are the NFRC U-factor and SHGC ratings? (needed for state utility rebate eligibility — note: 25C federal credit expired Dec 31 2025)",
+      "What are the NFRC U-factor and SHGC ratings? (needed for state utility rebate eligibility -- note: 25C federal credit expired Dec 31 2025)",
       "Is exterior capping, interior trim, drywall repair, and haul-away included in this price?",
-      "Who performs the install — W-2 employees or subcontractors? License number?",
+      "Who performs the install -- W-2 employees or subcontractors? License number?",
       "Does the warranty transfer to future owners? How many times? What voids it?",
       "What is the deposit, and is it capped at 33% or less?"
     ];
 
-    var appRoot = document.getElementById("winApp");
-    var form = {
-      zip:"", count:10, size:"standard", frame:"vinyl", install:"pocket",
-      tier:"mid", glass:"lowe", types:[], historic:"no", age:"10to20", trim:"no"
+    var US_STATES = {
+      "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
+      "colorado":"CO","connecticut":"CT","delaware":"DE","florida":"FL","georgia":"GA",
+      "hawaii":"HI","idaho":"ID","illinois":"IL","indiana":"IN","iowa":"IA","kansas":"KS",
+      "kentucky":"KY","louisiana":"LA","maine":"ME","maryland":"MD","massachusetts":"MA",
+      "michigan":"MI","minnesota":"MN","mississippi":"MS","missouri":"MO","montana":"MT",
+      "nebraska":"NE","nevada":"NV","new hampshire":"NH","new jersey":"NJ","new mexico":"NM",
+      "new york":"NY","north carolina":"NC","north dakota":"ND","ohio":"OH","oklahoma":"OK",
+      "oregon":"OR","pennsylvania":"PA","rhode island":"RI","south carolina":"SC",
+      "south dakota":"SD","tennessee":"TN","texas":"TX","utah":"UT","vermont":"VT",
+      "virginia":"VA","washington":"WA","west virginia":"WV","wisconsin":"WI","wyoming":"WY",
+      "district of columbia":"DC"
     };
 
-    function fmt(n){ return "$" + Math.round(n).toLocaleString("en-US"); }
-    function round50(n){ return Math.round(n/50)*50; }
-    function zipToState(zip){ if(!zip||zip.length<3) return null; return ZIP_STATE[zip.substring(0,3)] || null; }
-    function stateToZone(st){ return STATE_ZONE[st] || "NC"; }
-    function stateMult(st){ return STATE_REGION[st] || 1.00; }
+    // ── State ──
+    var appRoot = document.getElementById("winApp");
+    var wState = {
+      step: "address",        // address | estimator | result
+      address: { street: "", city: "", stateCode: "", zip: "" },
+      // estimator answers
+      est: { count: null, material: null, style: null, glass: null, install: null },
+      // result
+      result: null
+    };
 
-    function renderForm() {
-      var typeBoxes = ['double-hung','casement','sliding','picture','bay/bow','awning'].map(function(t){
-        return '<label style="display:inline-flex;align-items:center;gap:4px;background:#f8fafc;padding:6px 10px;border-radius:6px;border:1px solid #e2e8f0;font-weight:400;"><input type="checkbox" name="f_types" value="'+t+'" /> '+t+'</label>';
-      }).join('');
+    // ── Helpers ──
+    function fmt(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+    function roundTo50(n) { return Math.round(n / 50) * 50; }
+    function zipToState(zip) { if (!zip || zip.length < 3) return null; return ZIP_STATE[zip.substring(0, 3)] || null; }
+    function stateToZone(st) { return STATE_ZONE[st] || "NC"; }
+    function stateMult(st) { return STATE_REGION[st] || 1.00; }
 
-      appRoot.innerHTML = ''
-        + '<div class="win-hero">'
-        +   '<h1>Free Window Cost Estimate</h1>'
-        +   '<p>City-level pricing. Climate zone and state utility rebates surfaced automatically. (The 25C federal tax credit expired Dec 31 2025.)</p>'
-        +   '<p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to window pricing? Read our <a href="/window-replacement-cost-guide.html" style="color:#16a34a;">Window Replacement Cost Guide</a></p>'
-        + '</div>'
-        + '<div class="win-card">'
-        +   '<form id="winForm" class="win-address-form">'
-        +     '<label style="font-size:13px;font-weight:600;color:#334155;">ZIP code</label>'
-        +     '<input type="text" id="f_zip" inputmode="numeric" maxlength="5" placeholder="e.g. 02139" autofocus required />'
+    // City-level multiplier
+    var cityMultCache = {};
+    function fetchCityMult(city, stateCode) {
+      if (!city || !stateCode) return;
+      var key = city + "|" + stateCode;
+      if (cityMultCache[key]) return;
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=windows")
+        .then(function(r) { return r.json(); })
+        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .catch(function() {});
+    }
+    function getCityMult(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityMultCache[key] || null;
+    }
 
-        +     '<label style="font-size:13px;font-weight:600;color:#334155;margin-top:6px;">How many windows?</label>'
-        +     '<input type="number" id="f_count" min="1" max="50" value="10" required />'
+    // Inflation: 3% annual from 2025
+    var _now = new Date();
+    var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
 
-        +     '<label style="font-size:13px;font-weight:600;color:#334155;margin-top:6px;">Window size (most of them)</label>'
-        +     '<select id="f_size">'
-        +       '<option value="small">Small (under 12 sq ft)</option>'
-        +       '<option value="standard" selected>Standard (12 – 20 sq ft)</option>'
-        +       '<option value="large">Large (20 – 30 sq ft)</option>'
-        +       '<option value="xlarge">Extra-large (30+ sq ft, bay/bow/picture)</option>'
-        +     '</select>'
-
-        +     '<label style="font-size:13px;font-weight:600;color:#334155;margin-top:6px;">Frame material</label>'
-        +     '<select id="f_frame">'
-        +       '<option value="vinyl" selected>Vinyl</option>'
-        +       '<option value="fiberglass">Fiberglass</option>'
-        +       '<option value="wood-clad">Wood-clad</option>'
-        +       '<option value="composite">Composite (Fibrex, etc.)</option>'
-        +       '<option value="aluminum">Aluminum</option>'
-        +     '</select>'
-
-        +     '<label style="font-size:13px;font-weight:600;color:#334155;margin-top:6px;">Install method</label>'
-        +     '<select id="f_install">'
-        +       '<option value="pocket" selected>Pocket / insert replacement (reuse frame)</option>'
-        +       '<option value="fullframe">Full-frame replacement (tear out to rough opening)</option>'
-        +       '<option value="unsure">Not sure yet</option>'
-        +     '</select>'
-
-        +     '<details style="margin-top:14px;border-top:1px solid #e2e8f0;padding-top:12px;">'
-        +       '<summary style="cursor:pointer;font-size:14px;font-weight:600;color:#1d4ed8;">Refine your estimate (optional)</summary>'
-        +       '<div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">'
-
-        +         '<label style="font-size:13px;font-weight:600;color:#334155;">Brand tier preference</label>'
-        +         '<select id="f_tier">'
-        +           '<option value="value">Value (builder-grade, big-box)</option>'
-        +           '<option value="mid" selected>Mid (mainstream vinyl / entry fiberglass)</option>'
-        +           '<option value="premium">Premium (heavy vinyl / fiberglass / wood-clad)</option>'
-        +           '<option value="luxury">Luxury (architectural wood-clad)</option>'
-        +         '</select>'
-
-        +         '<label style="font-size:13px;font-weight:600;color:#334155;">Glass package</label>'
-        +         '<select id="f_glass">'
-        +           '<option value="standard">Standard double-pane</option>'
-        +           '<option value="lowe" selected>Low-E double-pane (ENERGY STAR)</option>'
-        +           '<option value="triple">Triple-pane</option>'
-        +         '</select>'
-
-        +         '<div id="uFactorTarget" style="font-size:12px;color:#64748b;"></div>'
-
-        +         '<label style="font-size:13px;font-weight:600;color:#334155;">Window types involved (check all that apply)</label>'
-        +         '<div style="display:flex;flex-wrap:wrap;gap:8px;font-size:13px;">' + typeBoxes + '</div>'
-
-        +         '<label style="font-size:13px;font-weight:600;color:#334155;">Historic district / HOA approval?</label>'
-        +         '<select id="f_historic"><option value="no" selected>No</option><option value="yes">Yes</option><option value="unsure">Not sure</option></select>'
-
-        +         '<label style="font-size:13px;font-weight:600;color:#334155;">Existing window age</label>'
-        +         '<select id="f_age"><option value="under10">Under 10 yr</option><option value="10to20" selected>10 – 20 yr</option><option value="20plus">20+ yr</option></select>'
-
-        +         '<label style="font-size:13px;font-weight:600;color:#334155;">Need new trim / exterior capping?</label>'
-        +         '<select id="f_trim"><option value="no" selected>No</option><option value="yes">Yes</option></select>'
-        +       '</div>'
-        +     '</details>'
-
-        +     '<button type="submit" class="win-btn win-btn-primary win-btn-full" id="f_submit" style="margin-top:18px;">Get my estimate &rarr;</button>'
-        +   '</form>'
-        + '</div>';
-
-      var zipEl = document.getElementById('f_zip');
-      var uEl   = document.getElementById('uFactorTarget');
-      function updateUTarget(){
-        var st = zipToState(zipEl.value);
-        if (st) {
-          var z = ZONE_SPECS[stateToZone(st)];
-          uEl.innerHTML = '<strong>ENERGY STAR target for your zone (' + z.label + '):</strong> U-factor ≤ ' + z.uFactorEs + ', SHGC ' + z.shgcText + '. Most Efficient U-factor ≤ ' + z.uMax + ' = state-rebate eligible (25C federal credit expired Dec 31 2025).';
-        } else {
-          uEl.innerHTML = '';
-        }
+    // ── Render functions ──
+    function render() {
+      switch (wState.step) {
+        case "address": renderAddress(); break;
+        case "estimator": renderEstimator(); break;
+        case "result": renderResult(); break;
       }
-      zipEl.addEventListener('input', updateUTarget);
+    }
 
-      document.getElementById('winForm').addEventListener('submit', function(e){
-        e.preventDefault();
-        var zip = zipEl.value.trim();
-        if (!/^\d{5}$/.test(zip)) { zipEl.focus(); zipEl.style.borderColor='#dc2626'; return; }
-        form.zip      = zip;
-        form.count    = parseInt(document.getElementById('f_count').value, 10) || 10;
-        form.size     = document.getElementById('f_size').value;
-        form.frame    = document.getElementById('f_frame').value;
-        form.install  = document.getElementById('f_install').value;
-        form.tier     = document.getElementById('f_tier').value;
-        form.glass    = document.getElementById('f_glass').value;
-        form.historic = document.getElementById('f_historic').value;
-        form.age      = document.getElementById('f_age').value;
-        form.trim     = document.getElementById('f_trim').value;
-        form.types    = Array.prototype.slice.call(document.querySelectorAll('input[name=f_types]:checked')).map(function(el){ return el.value; });
+    // ── Address Step ──
+    function renderAddress() {
+      appRoot.innerHTML = '\
+        <div class="win-hero">\
+          <img src="/images/trudy-windows.png" alt="Trudy" width="160" style="margin-bottom:12px;" onerror="this.style.display=\'none\'" />\
+          <h1>How much will your window project cost?</h1>\
+          <p>Free city-level estimate. No email, no phone, no lead-selling.</p>\
+          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to window pricing? Read our <a href="/window-replacement-cost-guide.html" style="color:#16a34a;">Window Replacement Cost Guide</a></p>\
+        </div>\
+        <div class="win-card">\
+          <div class="win-address-form">\
+            <div style="position:relative">\
+              <input type="text" id="addrStreet" placeholder="Start typing your address..." autocomplete="off" autofocus />\
+              <div id="addrSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 10px 10px;box-shadow:0 8px 24px rgba(0,0,0,0.1);max-height:220px;overflow-y:auto;"></div>\
+            </div>\
+            <div class="win-row">\
+              <input type="text" id="addrCity" placeholder="City" autocomplete="off" />\
+              <input type="text" id="addrState" placeholder="State" style="max-width:100px" autocomplete="off" />\
+            </div>\
+            <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" autocomplete="off" />\
+            <button class="win-btn win-btn-primary win-btn-full" id="btnEstimate">Get Window Estimate</button>\
+          </div>\
+        </div>';
 
-        var btn = document.getElementById('f_submit');
-        btn.disabled = true;
-        btn.textContent = 'Crunching numbers...';
-        if (typeof tpTrack === "function") tpTrack("funnel_estimate_submit", { service: "windows" });
+      // Address autocomplete
+      (function() {
+        var addrInput = document.getElementById("addrStreet");
+        var sugBox = document.getElementById("addrSuggestions");
+        if (!addrInput || !sugBox) return;
+        var timer = null;
+        addrInput.addEventListener("input", function() {
+          clearTimeout(timer);
+          var q = addrInput.value.trim();
+          if (q.length < 4) { sugBox.style.display = "none"; return; }
+          timer = setTimeout(function() {
+            fetch("/api/geocode-suggest?q=" + encodeURIComponent(q))
+              .then(function(r) { return r.json(); })
+              .then(function(data) {
+                if (!data.suggestions || !data.suggestions.length) { sugBox.style.display = "none"; return; }
+                sugBox.innerHTML = data.suggestions.map(function(s, i) {
+                  return '<div data-idx="' + i + '" style="padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">' + s.label + '</div>';
+                }).join("");
+                sugBox.style.display = "block";
+                sugBox.querySelectorAll("[data-idx]").forEach(function(el) {
+                  el.addEventListener("click", function() {
+                    var idx = parseInt(el.dataset.idx);
+                    var s = data.suggestions[idx];
+                    if (!s) return;
+                    addrInput.value = s.street || s.label.split(",")[0] || "";
+                    var c = document.getElementById("addrCity");
+                    var st = document.getElementById("addrState");
+                    var z = document.getElementById("addrZip");
+                    if (c) c.value = s.city || "";
+                    if (st) st.value = s.state || "";
+                    if (z) z.value = s.zip || "";
+                    sugBox.style.display = "none";
+                  });
+                });
+              })
+              .catch(function() { sugBox.style.display = "none"; });
+          }, 300);
+        });
+        document.addEventListener("click", function(e) {
+          if (!addrInput.contains(e.target) && !sugBox.contains(e.target)) sugBox.style.display = "none";
+        });
+      })();
 
-        fetch("/api/windows-estimate?zip=" + encodeURIComponent(zip), { method: "GET" })
-          .then(function(r){ return r.ok ? r.json() : null; })
-          .catch(function(){ return null; })
-          .then(function(apiData){ setTimeout(function(){ computeAndRender(apiData); }, 350); });
+      document.getElementById("btnEstimate").addEventListener("click", function() {
+        if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "windows" });
+        wState.address.street = document.getElementById("addrStreet").value.trim();
+        wState.address.city = document.getElementById("addrCity").value.trim();
+        var rawState = document.getElementById("addrState").value.trim();
+        wState.address.zip = document.getElementById("addrZip").value.trim();
+
+        // Normalize state
+        var upper = rawState.toUpperCase();
+        if (STATE_REGION[upper]) {
+          wState.address.stateCode = upper;
+        } else {
+          var lookup = US_STATES[rawState.toLowerCase()];
+          wState.address.stateCode = lookup || "TX";
+        }
+
+        fetchCityMult(wState.address.city, wState.address.stateCode);
+
+        wState.step = "estimator";
+        render();
       });
     }
 
-    function computeAndRender(apiData) {
-      var zip        = form.zip;
-      var st         = (apiData && apiData.state)      || zipToState(zip) || "TX";
-      var city       = (apiData && apiData.city)       || "";
-      var regionMult = (apiData && apiData.multiplier) || stateMult(st);
-      var zone       = (apiData && apiData.zone)       || stateToZone(st);
-      var zoneSpec   = ZONE_SPECS[zone];
+    // ── Estimator Flow ──
+    function renderEstimator() {
+      var est = wState.est;
+      var stepNum = getEstimatorStep();
 
-      var frame = FRAME[form.frame];
-      var band  = frame[form.tier];
+      appRoot.innerHTML = '\
+        <div class="win-hero">\
+          <h1>Window Cost Estimator</h1>\
+          <p>' + (wState.address.city ? wState.address.city + ", " + wState.address.stateCode : "Get a quick estimate") + '</p>\
+        </div>\
+        <div class="win-card" id="estCard"></div>';
 
-      var baseMult = SIZE_MULT[form.size] * INSTALL_MULT[form.install] * GLASS_MULT[form.glass]
-                   * AGE_MULT[form.age] * HIST_MULT[form.historic] * TRIM_MULT[form.trim] * regionMult;
+      var card = document.getElementById("estCard");
 
-      var perLow  = round50(band.low  * baseMult);
-      var perMid  = round50(band.mid  * baseMult);
-      var perHigh = round50(band.high * baseMult);
+      if (stepNum === 1) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>How many windows are you replacing?</h3>\
+            <div class="win-options" id="optCount">\
+              <div class="win-option' + (est.count === "1-3" ? " selected" : "") + '" data-val="1-3">1 - 3 windows</div>\
+              <div class="win-option' + (est.count === "4-8" ? " selected" : "") + '" data-val="4-8">4 - 8 windows</div>\
+              <div class="win-option' + (est.count === "9-15" ? " selected" : "") + '" data-val="9-15">9 - 15 windows</div>\
+              <div class="win-option' + (est.count === "16+" ? " selected" : "") + '" data-val="16+">16+ (whole house)</div>\
+            </div>\
+          </div>';
+        bindOptions("optCount", "count");
+      } else if (stepNum === 2) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>What frame material?</h3>\
+            <div class="win-options" id="optMaterial">\
+              <div class="win-option' + (est.material === "vinyl" ? " selected" : "") + '" data-val="vinyl">Vinyl</div>\
+              <div class="win-option' + (est.material === "fiberglass" ? " selected" : "") + '" data-val="fiberglass">Fiberglass</div>\
+              <div class="win-option' + (est.material === "wood-clad" ? " selected" : "") + '" data-val="wood-clad">Wood-clad</div>\
+              <div class="win-option' + (est.material === "composite" ? " selected" : "") + '" data-val="composite">Composite</div>\
+              <div class="win-option' + (est.material === "aluminum" ? " selected" : "") + '" data-val="aluminum">Aluminum</div>\
+            </div>\
+          </div>';
+        bindOptions("optMaterial", "material");
+      } else if (stepNum === 3) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>What window style?</h3>\
+            <div class="win-options" id="optStyle">\
+              <div class="win-option' + (est.style === "double-hung" ? " selected" : "") + '" data-val="double-hung">Double-hung</div>\
+              <div class="win-option' + (est.style === "casement" ? " selected" : "") + '" data-val="casement">Casement</div>\
+              <div class="win-option' + (est.style === "sliding" ? " selected" : "") + '" data-val="sliding">Sliding</div>\
+              <div class="win-option' + (est.style === "picture" ? " selected" : "") + '" data-val="picture">Picture</div>\
+              <div class="win-option' + (est.style === "bay-bow" ? " selected" : "") + '" data-val="bay-bow">Bay / Bow</div>\
+            </div>\
+          </div>';
+        bindOptions("optStyle", "style");
+      } else if (stepNum === 4) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>What glass package?</h3>\
+            <div class="win-options" id="optGlass">\
+              <div class="win-option' + (est.glass === "double-standard" ? " selected" : "") + '" data-val="double-standard">Double-pane standard</div>\
+              <div class="win-option' + (est.glass === "double-lowe" ? " selected" : "") + '" data-val="double-lowe">Double-pane Low-E</div>\
+              <div class="win-option' + (est.glass === "triple" ? " selected" : "") + '" data-val="triple">Triple-pane</div>\
+            </div>\
+          </div>';
+        bindOptions("optGlass", "glass");
+      } else if (stepNum === 5) {
+        card.innerHTML = '\
+          <div class="win-step">\
+            <h3>Installation type?</h3>\
+            <div class="win-options" id="optInstall">\
+              <div class="win-option' + (est.install === "pocket" ? " selected" : "") + '" data-val="pocket">Pocket / insert replacement</div>\
+              <div class="win-option' + (est.install === "fullframe" ? " selected" : "") + '" data-val="fullframe">Full-frame replacement</div>\
+            </div>\
+          </div>';
+        bindOptions("optInstall", "install");
+      }
 
-      var totalLow  = perLow  * form.count;
-      var totalMid  = perMid  * form.count;
-      var totalHigh = perHigh * form.count;
+      // Show progress dots
+      var dots = '';
+      for (var d = 1; d <= 5; d++) {
+        dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px;background:' + (d <= stepNum ? "#2563eb" : "#e2e8f0") + ';"></span>';
+      }
+      card.insertAdjacentHTML("afterbegin", '<div style="text-align:center;margin-bottom:1rem;">' + dots + '</div>');
 
-      var tiers = ["value","mid","premium","luxury"];
-      var tierRows = tiers.map(function(t){
-        var b = frame[t];
-        return {
-          tier: t,
-          perMid:    round50(b.mid * baseMult),
-          totalLow:  round50(b.low  * baseMult) * form.count,
-          totalHigh: round50(b.high * baseMult) * form.count
-        };
+      // Back button (except step 1)
+      if (stepNum > 1) {
+        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="win-btn win-btn-secondary" id="estBack">Back</button></div>');
+        document.getElementById("estBack").addEventListener("click", function() {
+          if (stepNum === 5) est.install = null;
+          else if (stepNum === 4) est.glass = null;
+          else if (stepNum === 3) est.style = null;
+          else if (stepNum === 2) est.material = null;
+          render();
+        });
+      }
+    }
+
+    function getEstimatorStep() {
+      var e = wState.est;
+      if (!e.count) return 1;
+      if (!e.material) return 2;
+      if (!e.style) return 3;
+      if (!e.glass) return 4;
+      if (!e.install) return 5;
+      return 6; // all done
+    }
+
+    function bindOptions(containerId, field) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      container.addEventListener("click", function(e) {
+        var opt = e.target.closest(".win-option");
+        if (!opt) return;
+        wState.est[field] = opt.getAttribute("data-val");
+
+        // Check if estimator is complete
+        if (getEstimatorStep() > 5) {
+          calculateEstimate();
+        } else {
+          render();
+        }
       });
+    }
 
-      // Product-only cost ≈ 60% of installed. Note: 25C federal tax credit EXPIRED Dec 31 2025 - no longer surfaced.
-      var productEst = totalMid * 0.60;
-      var taxCredit  = 0;
+    function calculateEstimate() {
+      var est = wState.est;
+      var st = wState.address.stateCode || zipToState(wState.address.zip) || "TX";
+      var zone = stateToZone(st);
+      var zoneSpec = ZONE_SPECS[zone];
+
+      var cityMult = getCityMult(wState.address.city, st);
+      var regionMult = cityMult || stateMult(st);
+
+      var frame = FRAME[est.material] || FRAME.vinyl;
+      var styleMult = STYLE_MULT[est.style] || 1.00;
+      var glassMult = GLASS_MULT[est.glass] || 1.00;
+      var installMult = INSTALL_MULT[est.install] || 1.00;
+      var count = COUNT_MID[est.count] || 10;
+
+      var baseMult = styleMult * glassMult * installMult * regionMult * INFLATION_MULT;
+
+      var perLow  = roundTo50(frame.low  * baseMult);
+      var perMid  = roundTo50(frame.mid  * baseMult);
+      var perHigh = roundTo50(frame.high * baseMult);
+
+      var totalLow  = perLow  * count;
+      var totalMid  = perMid  * count;
+      var totalHigh = perHigh * count;
 
       var rebate = REBATES[st] || null;
-      var rebateTotal = rebate ? rebate.perWindow * form.count : 0;
+      var rebateTotal = rebate ? rebate.perWindow * count : 0;
 
+      var city = wState.address.city || "";
       var locationLabel = city ? (city + ", " + st) : st;
 
-      renderResult({
-        st: st, city: city, zip: zip, locationLabel: locationLabel,
-        zone: zone, zoneSpec: zoneSpec, regionMult: regionMult,
-        perLow: perLow, perMid: perMid, perHigh: perHigh,
-        totalLow: totalLow, totalMid: totalMid, totalHigh: totalHigh,
-        tierRows: tierRows,
-        taxCredit: taxCredit, productEst: productEst,
-        rebate: rebate, rebateTotal: rebateTotal
-      });
+      wState.result = {
+        source: "estimator",
+        st: st,
+        city: city,
+        zip: wState.address.zip,
+        locationLabel: locationLabel,
+        zone: zone,
+        zoneSpec: zoneSpec,
+        regionMult: regionMult,
+        count: count,
+        countLabel: est.count,
+        material: est.material,
+        materialLabel: frame.label,
+        style: est.style,
+        styleLabel: est.style === "bay-bow" ? "Bay/Bow" : est.style.charAt(0).toUpperCase() + est.style.slice(1),
+        glass: est.glass,
+        glassLabel: est.glass === "double-standard" ? "Double-pane standard" : est.glass === "double-lowe" ? "Double-pane Low-E" : "Triple-pane",
+        install: est.install,
+        installLabel: est.install === "fullframe" ? "Full-frame replacement" : "Pocket/insert replacement",
+        perLow: perLow,
+        perMid: perMid,
+        perHigh: perHigh,
+        totalLow: totalLow,
+        totalMid: totalMid,
+        totalHigh: totalHigh,
+        rebate: rebate,
+        rebateTotal: rebateTotal
+      };
+
+      wState.step = "result";
+      render();
     }
 
-    function renderResult(r) {
-      if(typeof tpCaptureCommunity==="function"){try{tpCaptureCommunity({service:"windows",price:(r&&(r.totalMid||r.totalLow||0))||0,city:"",stateCode:(r&&r.stateCode)||"",material:"",verdict:""});}catch(e){}}
-      var frameLabel = FRAME[form.frame].label;
-      var typeText = form.types.length ? form.types.join(", ") : "standard double-hung";
-      var tierLabels = { value:"Value", mid:"Mid-range", premium:"Premium", luxury:"Luxury" };
+    // ── Result Step ──
+    function renderResult() {
+      var r = wState.result;
+      if (!r) { wState.step = "address"; render(); return; }
 
+      if (typeof tpCaptureCommunity === "function") {
+        try {
+          tpCaptureCommunity({ service: "windows", price: r.totalMid || 0, city: r.city || "", stateCode: r.st || "", material: r.materialLabel || "", verdict: "Estimated Cost" });
+        } catch (e) {}
+      }
+
+      // Build details
+      var detailsHtml = '<div class="win-details">';
+      detailsHtml += '<div class="win-detail"><div class="label">Windows</div><div class="value">' + r.countLabel + ' (' + r.count + ' est.)</div></div>';
+      detailsHtml += '<div class="win-detail"><div class="label">Frame Material</div><div class="value">' + r.materialLabel + '</div></div>';
+      detailsHtml += '<div class="win-detail"><div class="label">Window Style</div><div class="value">' + r.styleLabel + '</div></div>';
+      detailsHtml += '<div class="win-detail"><div class="label">Glass Package</div><div class="value">' + r.glassLabel + '</div></div>';
+      detailsHtml += '<div class="win-detail"><div class="label">Installation</div><div class="value">' + r.installLabel + '</div></div>';
+      var pricingLabel = getCityMult(wState.address.city, r.st) ? (wState.address.city + " local pricing") : (r.locationLabel + " regional pricing");
+      detailsHtml += '<div class="win-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      detailsHtml += '</div>';
+
+      // Scope checklist
+      var scopeHtml = '<div class="win-card"><h3 style="margin-bottom:0.75rem;">What a Typical Window Replacement Includes</h3><ul class="win-scope">';
+      var scopeItems = [
+        "New windows (frame + glass package)",
+        r.install === "fullframe" ? "Full-frame removal and replacement" : "Pocket / insert installation",
+        "Interior trim and exterior capping (basic)",
+        "Caulking, sealing, and weatherstripping",
+        "Old window disposal and haul-away",
+        "Standard manufacturer + workmanship warranties",
+        "Permit (where required by local code)"
+      ];
+      scopeItems.forEach(function(item) {
+        scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item + '</span></li>';
+      });
+      scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Lead paint abatement, structural repairs, or custom millwork may add cost.</p></div>';
+
+      // What drives this estimate
       var drivers = [];
-      drivers.push(form.count + " " + frameLabel.toLowerCase() + " windows");
-      drivers.push(form.size.replace("xlarge","extra-large") + " size");
-      drivers.push(form.install === "fullframe" ? "full-frame replacement (+55% over pocket)"
-                 : form.install === "pocket"   ? "pocket/insert install"
-                 : "install method TBD (+20% contingency)");
-      if (form.glass === "triple")   drivers.push("triple-pane glass (+18%)");
-      if (form.glass === "standard") drivers.push("standard double-pane (-8%)");
-      if (form.historic === "yes")   drivers.push("historic district approval premium (+18%)");
-      if (form.age === "20plus")     drivers.push("20+ year old frames (may push to full-frame)");
-      if (form.trim === "yes")       drivers.push("trim and exterior capping included (+7%)");
+      drivers.push(r.count + " " + r.materialLabel.toLowerCase() + " " + r.styleLabel.toLowerCase() + " windows");
+      drivers.push(r.installLabel + (r.install === "fullframe" ? " (+40% over pocket)" : ""));
+      if (r.glass === "triple") drivers.push("Triple-pane glass (+25% over Low-E double)");
+      if (r.glass === "double-standard") drivers.push("Standard double-pane (-8% vs Low-E)");
+      if (r.style === "bay-bow") drivers.push("Bay/bow style (+160% vs standard)");
+      if (r.style === "casement") drivers.push("Casement style (+8%)");
       drivers.push(r.locationLabel + " region multiplier " + r.regionMult.toFixed(2) + "x");
 
-      var html = ''
-        + '<div class="win-hero"><h1>Your Window Estimate</h1>'
-        +   '<p>' + r.locationLabel + ' &middot; ZIP ' + r.zip + ' &middot; Climate Zone ' + r.zoneSpec.label + '</p>'
-        + '</div>'
+      var driversHtml = '<div class="win-card">';
+      driversHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">What drives this estimate</h3>';
+      driversHtml += '<ul style="margin:0;padding-left:20px;color:#475569;font-size:14px;line-height:1.7;">';
+      drivers.forEach(function(d) { driversHtml += '<li>' + d + '</li>'; });
+      driversHtml += '</ul>';
+      driversHtml += '<p style="margin-top:12px;font-size:13px;color:#64748b;">' + fmt(r.totalMid) + ' is the typical ' + r.locationLabel + ' price for ' + r.count + ' ' + r.materialLabel.toLowerCase() + ' ' + r.styleLabel.toLowerCase() + ' windows.</p>';
+      driversHtml += '</div>';
 
-        // 1. Headline range
-        + '<div class="win-card" style="text-align:center;">'
-        +   '<div style="font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:#64748b;font-weight:700;">Estimated total installed</div>'
-        +   '<div style="font-size:2.2rem;font-weight:800;color:#1d4ed8;margin:8px 0;">' + fmt(r.totalLow) + ' &ndash; ' + fmt(r.totalHigh) + '</div>'
-        +   '<div style="font-size:1.1rem;color:#334155;">Midpoint: <strong>' + fmt(r.totalMid) + '</strong></div>'
-        // 2. Per-window breakdown
-        +   '<div style="margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;font-size:14px;color:#475569;">Per window: <strong>' + fmt(r.perLow) + ' &ndash; ' + fmt(r.perHigh) + '</strong> installed (mid ' + fmt(r.perMid) + ')</div>'
-        + '</div>'
+      // ENERGY STAR climate zone
+      var energyHtml = '<div class="win-card" style="border-left:4px solid #10b981;">';
+      energyHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">ENERGY STAR Climate Zone: ' + r.zoneSpec.label + '</h3>';
+      energyHtml += '<p style="margin:0 0 8px;color:#475569;font-size:14px;">In your zone, ENERGY STAR certified windows need U-factor \u2264 <strong>' + r.zoneSpec.uFactorEs + '</strong> with SHGC <strong>' + r.zoneSpec.shgcText + '</strong>.</p>';
+      energyHtml += '<p style="margin:0 0 12px;color:#475569;font-size:14px;"><strong>ENERGY STAR Most Efficient</strong> (state-rebate tier) requires U-factor \u2264 <strong>' + r.zoneSpec.uMax + '</strong>.</p>';
+      energyHtml += '<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;">';
+      energyHtml += '<div style="font-weight:700;color:#991b1b;margin-bottom:4px;">25C federal tax credit: EXPIRED Dec 31 2025</div>';
+      energyHtml += '<div style="font-size:13px;color:#991b1b;">The $600 federal credit for windows is no longer available for installs on or after Jan 1 2026. State utility rebates (below) are now the only stackable savings.</div>';
+      energyHtml += '</div></div>';
 
-        // What this estimate includes (standardized)
-        + '<div class="win-card">'
-        +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">What this estimate includes</h3>'
-        +   '<ul style="margin:0;padding-left:20px;color:#475569;font-size:14px;line-height:1.7;">'
-        +     '<li>New windows (frame + glass package)</li>'
-        +     '<li>' + (form.install === "fullframe" ? "Full-frame removal and replacement" : "Pocket / insert installation") + '</li>'
-        +     '<li>Interior trim and exterior capping (basic)</li>'
-        +     '<li>Caulking, sealing, and weatherstripping</li>'
-        +     '<li>Old window disposal and haul-away</li>'
-        +     '<li>Standard manufacturer + workmanship warranties</li>'
-        +     '<li>Permit (where required by local code)</li>'
-        +   '</ul>'
-        +   '<p style="margin-top:10px;font-size:12px;color:#94a3b8;">Estimate assumes standard installation. Lead paint abatement, structural repairs, or custom millwork may add cost.</p>'
-        + '</div>'
+      // Utility rebates
+      var rebateHtml = '<div class="win-card">';
+      rebateHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Utility rebates in ' + r.st + '</h3>';
+      if (r.rebate) {
+        rebateHtml += '<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:8px;padding:12px;">';
+        rebateHtml += '<div style="font-weight:700;color:#1d4ed8;">' + r.rebate.name + ': ' + fmt(r.rebate.perWindow) + '/window</div>';
+        rebateHtml += '<div style="font-size:13px;color:#334155;margin-top:4px;">' + r.rebate.note + '</div>';
+        rebateHtml += '<div style="font-size:14px;color:#1d4ed8;margin-top:6px;"><strong>With ' + r.count + ' windows, potential savings: ' + fmt(r.rebateTotal) + '</strong></div>';
+        rebateHtml += '</div>';
+      } else {
+        rebateHtml += '<div style="font-size:14px;color:#64748b;">No standalone utility rebate in your state. Check <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">DSIRE</a> for the latest programs.</div>';
+      }
+      rebateHtml += '</div>';
 
-        // 3. What drives this estimate + 4. City-level context line
-        + '<div class="win-card">'
-        +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">What drives this estimate</h3>'
-        +   '<ul style="margin:0;padding-left:20px;color:#475569;font-size:14px;line-height:1.7;">'
-        +     drivers.map(function(d){ return '<li>' + d + '</li>'; }).join('')
-        +   '</ul>'
-        +   '<p style="margin-top:12px;font-size:13px;color:#64748b;">' + fmt(r.totalMid) + ' is the typical ' + r.locationLabel + ' price for ' + form.count + ' ' + frameLabel.toLowerCase() + ' ' + typeText + ' windows at the ' + tierLabels[form.tier].toLowerCase() + ' tier.</p>'
-        + '</div>'
+      // Next Steps
+      var tipsHtml = '<div class="win-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      tipsHtml += '<li>Get 2-3 quotes from local window contractors for accurate pricing</li>';
+      tipsHtml += '<li>Ask for NFRC-rated U-factor and SHGC numbers to verify ENERGY STAR eligibility</li>';
+      tipsHtml += '<li>Confirm whether exterior capping and interior trim are included</li>';
+      tipsHtml += '<li>Check if the contractor uses W-2 installers or subcontractors</li>';
+      tipsHtml += '<li>Ask about warranty transfer terms and what voids coverage</li>';
+      if (r.install === "fullframe") {
+        tipsHtml += '<li>Full-frame jobs may uncover rot or structural issues -- ask about per-window change-order rates</li>';
+      }
+      if (r.glass === "triple") {
+        tipsHtml += '<li>Verify triple-pane U-factor meets ENERGY STAR Most Efficient for maximum rebate eligibility</li>';
+      }
+      tipsHtml += '</ul></div>';
 
-        // 5. ENERGY STAR climate zone + (expired) federal credit notice
-        + '<div class="win-card" style="border-left:4px solid #10b981;">'
-        +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">ENERGY STAR Climate Zone: ' + r.zoneSpec.label + '</h3>'
-        +   '<p style="margin:0 0 8px;color:#475569;font-size:14px;">In your zone, ENERGY STAR certified windows need U-factor ≤ <strong>' + r.zoneSpec.uFactorEs + '</strong> with SHGC <strong>' + r.zoneSpec.shgcText + '</strong>.</p>'
-        +   '<p style="margin:0 0 12px;color:#475569;font-size:14px;"><strong>ENERGY STAR Most Efficient</strong> (state-rebate tier) requires U-factor ≤ <strong>' + r.zoneSpec.uMax + '</strong>.</p>'
-        +   '<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;">'
-        +     '<div style="font-weight:700;color:#991b1b;margin-bottom:4px;">25C federal tax credit: EXPIRED Dec 31 2025</div>'
-        +     '<div style="font-size:13px;color:#991b1b;">The $600 federal credit for windows is no longer available for installs on or after Jan 1 2026. State utility rebates (below) are now the only stackable savings.</div>'
-        +   '</div>'
-        + '</div>'
+      // Contractor questions
+      var qsHtml = '<div class="win-card">';
+      qsHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Ask any contractor before signing</h3>';
+      qsHtml += '<ol style="margin:0;padding-left:22px;color:#334155;font-size:14px;line-height:1.7;">';
+      CONTRACTOR_QS.forEach(function(q) { qsHtml += '<li>' + q + '</li>'; });
+      qsHtml += '</ol></div>';
 
-        // 7. Utility rebates
-        + '<div class="win-card">'
-        +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">Utility rebates in ' + r.st + '</h3>'
-        + (r.rebate
-          ? '<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:8px;padding:12px;">'
-            + '<div style="font-weight:700;color:#1d4ed8;">' + r.rebate.name + ': ' + fmt(r.rebate.perWindow) + '/window</div>'
-            + '<div style="font-size:13px;color:#334155;margin-top:4px;">' + r.rebate.note + '</div>'
-            + '<div style="font-size:14px;color:#1d4ed8;margin-top:6px;"><strong>With ' + form.count + ' windows, potential savings: ' + fmt(r.rebateTotal) + '</strong></div>'
-            + '</div>'
-          : '<div style="font-size:14px;color:#64748b;">No standalone utility rebate in your state. Check <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">DSIRE</a> for the latest programs.</div>')
-        + '</div>'
+      // CTAs
+      var ctaHtml = '<div class="win-card" style="background:#f8fafc;">';
+      ctaHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Have quotes already?</h3>';
+      ctaHtml += '<div style="display:flex;flex-direction:column;gap:10px;">';
+      ctaHtml += '<a href="/find-contractors.html?service=windows' + (r.st ? '&state=' + r.st : '') + '" class="win-btn win-btn-primary win-btn-full">Find window contractors near you &rarr;</a>';
+      ctaHtml += '<a href="/window-quote-analyzer.html" class="win-btn win-btn-secondary win-btn-full">Analyze a quote you have &rarr;</a>';
+      ctaHtml += '<a href="/compare-windows-quotes.html" class="win-btn win-btn-secondary win-btn-full">Compare 2+ quotes side-by-side &rarr;</a>';
+      ctaHtml += '<a href="/methodology.html" class="win-btn win-btn-secondary win-btn-full" style="font-size:0.9rem;">How we calculate estimates</a>';
+      ctaHtml += '</div></div>';
 
-        // 8. Brand tier comparison
-        + '<div class="win-card">'
-        +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">Same job, different tiers</h3>'
-        +   '<p style="margin:0 0 10px;font-size:13px;color:#64748b;">Your ' + form.count + ' ' + frameLabel.toLowerCase() + ' windows at each tier:</p>'
-        +   '<table style="width:100%;border-collapse:collapse;font-size:14px;">'
-        +     '<thead><tr style="background:#f8fafc;"><th style="padding:8px;text-align:left;">Tier</th><th style="padding:8px;text-align:right;">Per window</th><th style="padding:8px;text-align:right;">Total project</th></tr></thead>'
-        +     '<tbody>'
-        +       r.tierRows.map(function(tr){
-                  var cur = tr.tier === form.tier;
-                  return '<tr style="border-top:1px solid #e2e8f0;' + (cur ? 'background:#eff6ff;font-weight:700;' : '') + '">'
-                    + '<td style="padding:8px;">' + tierLabels[tr.tier] + (cur ? ' (you)' : '') + '</td>'
-                    + '<td style="padding:8px;text-align:right;">' + fmt(tr.perMid) + '</td>'
-                    + '<td style="padding:8px;text-align:right;">' + fmt(tr.totalLow) + ' – ' + fmt(tr.totalHigh) + '</td>'
-                    + '</tr>';
-                }).join('')
-        +     '</tbody>'
-        +   '</table>'
-        + '</div>'
+      appRoot.innerHTML = '\
+        <div class="win-hero"><h1>Your Window Estimate</h1>\
+          <p>' + r.locationLabel + ' &middot; ZIP ' + (r.zip || "") + ' &middot; Climate Zone ' + r.zoneSpec.label + '</p>\
+        </div>\
+        <div class="win-verdict fair">\
+          <div class="verdict-label">Estimated Total Installed</div>\
+          <div class="verdict-price">' + fmt(r.totalLow) + ' &ndash; ' + fmt(r.totalHigh) + '</div>\
+          <div class="verdict-range">Midpoint: <strong>' + fmt(r.totalMid) + '</strong></div>\
+          <div style="margin-top:14px;padding:12px;background:#f8fafc;border-radius:8px;font-size:14px;color:#475569;">Per window: <strong>' + fmt(r.perLow) + ' &ndash; ' + fmt(r.perHigh) + '</strong> installed (mid ' + fmt(r.perMid) + ')</div>\
+        </div>\
+        <div class="win-card">\
+          <h3 style="margin-bottom:0.75rem;">Window Details</h3>\
+          ' + detailsHtml + '\
+        </div>\
+        ' + scopeHtml + '\
+        ' + driversHtml + '\
+        ' + energyHtml + '\
+        ' + rebateHtml + '\
+        ' + tipsHtml + '\
+        ' + qsHtml + '\
+        ' + ctaHtml;
 
-        // Questions to ask
-        + '<div class="win-card">'
-        +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">Ask any contractor before signing</h3>'
-        +   '<ol style="margin:0;padding-left:22px;color:#334155;font-size:14px;line-height:1.7;">'
-        +     CONTRACTOR_QS.map(function(q){ return '<li>' + q + '</li>'; }).join('')
-        +   '</ol>'
-        + '</div>'
-
-        // CTAs
-        + '<div class="win-card" style="background:#f8fafc;">'
-        +   '<h3 style="margin:0 0 10px;font-size:1.05rem;">Have quotes already?</h3>'
-        +   '<div style="display:flex;flex-direction:column;gap:10px;">'
-        +     '<a href="/find-contractors.html?service=windows' + (r.st ? '&state=' + r.st : '') + '" class="win-btn win-btn-primary win-btn-full">Find window contractors near you &rarr;</a>'
-        +     '<a href="/window-quote-analyzer.html" class="win-btn win-btn-secondary win-btn-full">Analyze a quote you have &rarr;</a>'
-        +     '<a href="/compare-windows-quotes.html" class="win-btn win-btn-secondary win-btn-full">Compare 2+ quotes side-by-side &rarr;</a>'
-        +     '<a href="/methodology.html" class="win-btn win-btn-secondary win-btn-full" style="font-size:0.9rem;">How we calculate estimates</a>'
-        +     '<button type="button" class="win-btn win-btn-secondary win-btn-full" onclick="window.__winStartOver()">Start over</button>'
-        +   '</div>'
-        + '</div>';
-
-      appRoot.innerHTML = html;
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (typeof tpTrack === "function") tpTrack("funnel_estimate_complete", { service: "windows" });
+
+      window.__winStartOver = function() {
+        wState = {
+          step: "address",
+          address: { street: "", city: "", stateCode: "", zip: "" },
+          est: { count: null, material: null, style: null, glass: null, install: null },
+          result: null
+        };
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
 
       if (window.tpRenderResultFooter) {
         appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
@@ -589,15 +869,9 @@
       }
     }
 
-    window.__winStartOver = function() {
-      form = { zip:"", count:10, size:"standard", frame:"vinyl", install:"pocket", tier:"mid", glass:"lowe", types:[], historic:"no", age:"10to20", trim:"no" };
-      renderForm();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
     // ── Init ──
     if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "windows" });
-    renderForm();
+    render();
 
   })();
   </script>

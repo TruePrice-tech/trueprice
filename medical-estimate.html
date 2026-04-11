@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <title>Free Medical Cost Estimate | TruePrice</title>
+  <meta
+    name="description"
+    content="Get a free medical cost estimate based on your procedure, insurance, and location. No email, no phone, no lead-selling."
+  />
+  <link rel="canonical" href="https://truepricehq.com/medical-estimate.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Free Medical Cost Estimate | TruePrice" />
+  <meta
+    property="og:description"
+    content="Get a free medical cost estimate based on your procedure, insurance, and location. No email, no phone, no lead-selling."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/medical-estimate.html" />
+  <meta property="og:site_name" content="TruePrice" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free Medical Cost Estimate | TruePrice" />
+  <meta
+    name="twitter:description"
+    content="Estimate your out-of-pocket medical costs by procedure, insurance type, and location. Free, private, no data selling."
+  />
+  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/analyzer.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much does an ER visit cost without insurance?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An emergency room visit without insurance typically costs $800 to $3,000 for a basic visit. Complex cases involving imaging, labs, or specialist consultations can exceed $5,000. Self-pay patients can often negotiate 40-60% discounts by asking for the cash-pay rate upfront or requesting financial assistance after the visit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does an MRI cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MRI costs range from $500 to $3,000 depending on the body part, whether contrast dye is used, and the facility type. Freestanding imaging centers are typically 40-60% cheaper than hospital-based facilities. With insurance, your out-of-pocket cost depends on your deductible and coinsurance. Self-pay patients should always ask for the cash rate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does knee replacement surgery cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Knee replacement surgery costs $20,000 to $50,000 before insurance. With insurance, your out-of-pocket cost depends on your deductible, coinsurance, and out-of-pocket maximum. Medicare typically covers 80% after the deductible. Costs vary significantly by facility, surgeon, and geographic region."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I reduce my medical bills?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can reduce medical bills by: (1) requesting an itemized bill and checking for errors, (2) negotiating a cash-pay discount (often 30-60% off), (3) asking about financial assistance or charity care programs, (4) setting up a payment plan to avoid collections, (5) comparing prices between facilities before the procedure, and (6) using in-network providers whenever possible."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    .med-app { max-width: 680px; margin: 0 auto; padding: 2rem 1rem; }
+    .med-hero { text-align: center; margin-bottom: 2rem; user-select: none; cursor: default; }
+    .med-hero h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #1e293b; }
+    .med-hero p { color: #64748b; font-size: 1.1rem; }
+
+    .med-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 1.5rem; }
+
+    .med-address-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .med-address-form input {
+      padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 8px;
+      font-size: 1rem; width: 100%; box-sizing: border-box;
+    }
+    .med-address-form input:focus { outline: none; border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,0.15); }
+
+    .med-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 1rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .med-btn-primary { background: #0d9488; color: #fff; }
+    .med-btn-primary:hover { background: #0f766e; }
+    .med-btn-secondary { background: #f1f5f9; color: #334155; }
+    .med-btn-secondary:hover { background: #e2e8f0; }
+    .med-btn-full { width: 100%; }
+
+    .med-progress { margin: 1.5rem 0; }
+    .med-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+    .med-progress-fill { height: 100%; background: #0d9488; border-radius: 3px; transition: width 0.4s ease; }
+
+    /* Estimator steps */
+    .med-step { margin-bottom: 1.5rem; }
+    .med-step h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: #1e293b; }
+    .med-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .med-option {
+      padding: 0.6rem 1.2rem; border: 2px solid #e2e8f0; border-radius: 8px;
+      background: #fff; cursor: pointer; font-size: 0.95rem; color: #334155;
+      transition: all 0.15s;
+    }
+    .med-option:hover { border-color: #5eead4; background: #f0fdfa; }
+    .med-option.selected { border-color: #0d9488; background: #f0fdfa; color: #0f766e; font-weight: 600; }
+
+    /* Result verdict */
+    .med-verdict { border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1.5rem; background: #f0fdfa; border: 2px solid #5eead4; }
+    .med-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; color: #0d9488; }
+    .med-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
+    .med-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
+
+    /* Details grid */
+    .med-details { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .med-detail { background: #f8fafc; border-radius: 8px; padding: 0.75rem 1rem; }
+    .med-detail .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+    .med-detail .value { font-size: 1.05rem; font-weight: 600; color: #1e293b; }
+
+    /* Info cards */
+    .med-info-card { border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+    .med-info-card h3 { margin-bottom: 0.5rem; font-size: 1rem; }
+    .med-info-card ul { margin: 0; padding-left: 1.25rem; }
+    .med-info-card li { font-size: 0.95rem; margin: 0.35rem 0; }
+
+    .med-cost-factors { background: #eff6ff; border: 1px solid #bfdbfe; }
+    .med-cost-factors h3 { color: #1e40af; }
+    .med-cost-factors li { color: #1e3a5f; }
+
+    .med-reduce-costs { background: #f0fdf4; border: 1px solid #86efac; }
+    .med-reduce-costs h3 { color: #166534; }
+    .med-reduce-costs li { color: #14532d; }
+
+    .med-next-steps { background: #fffbeb; border: 1px solid #fcd34d; }
+    .med-next-steps h3 { color: #92400e; }
+    .med-next-steps li { color: #78350f; }
+
+    .med-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .med-actions a, .med-actions button { text-align: center; }
+
+    .med-hidden { display: none !important; }
+
+    .med-disclaimer { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem 1.25rem; margin-top: 1.5rem; font-size: 0.85rem; color: #64748b; }
+
+    @media (max-width: 600px) {
+      .med-hero h1 { font-size: 1.5rem; }
+      .med-details { grid-template-columns: 1fr; }
+      .med-options { flex-direction: column; }
+    }
+  </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice Medical Cost Estimator","url":"https://truepricehq.com/medical-estimate.html","description":"Free medical cost estimator. Estimate your out-of-pocket costs by procedure, insurance status, and location. No email, no phone, no lead-selling.","applicationCategory":"UtilityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Medical","item":"https://truepricehq.com/medical-bill-analyzer.html"},{"@type":"ListItem","position":3,"name":"Estimate","item":"https://truepricehq.com/medical-estimate.html"}]}
+</script>
+<script src="/js/community-capture.js" defer></script>
+</head>
+<body>
+<!-- TP-TRUST-BANNER -->
+<div style="background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf4 100%);border-bottom:1px solid #bbf7d0;padding:8px 16px;text-align:center;font-size:13px;color:#166534;font-weight:600;">
+&#10003; Free &middot; No email &middot; No phone &middot; No signup &middot; We never sell or share your data
+</div>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">TruePrice</a>
+      <nav>
+<a href="/guides.html">Guides</a>
+</nav>
+    </div>
+  </header>
+
+  <main class="analyzer-wrap">
+    <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;">
+      <span style="font-weight:700; color:#0f172a;">You are getting an estimate.</span>
+      <a href="/medical-bill-analyzer.html" style="color:#0d9488; font-weight:600; text-decoration:none;">Already have a bill? Analyze it &rarr;</a>
+    </div>
+    <div class="med-app" id="medApp">
+      <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+        <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#0d9488; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
+        <div style="font-size:16px; color:#475569;">Loading estimator...</div>
+        <style>@keyframes tpspin{to{transform:rotate(360deg)}}</style>
+      </div>
+    </div>
+  <section style="margin-top:32px; padding:24px 0; border-top:1px solid var(--border,#e2e8f0);">
+    <h3 style="font-size:16px; color:var(--text-muted,#6b7280); margin:0 0 12px;">Analyze quotes for other services</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+      <a href="/roofing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Roofing</a>
+      <a href="/hvac-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">HVAC</a>
+      <a href="/plumbing-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Plumbing</a>
+      <a href="/electrical-quote-analyzer.html" style="padding:6px 14px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:999px; font-size:13px; color:var(--brand,#1d4ed8); text-decoration:none;">Electrical</a>
+      <a href="/auto-repair-quote-analyzer.html" style="padding:6px 14px; background:#eff6ff; border:1px solid #93c5fd; border-radius:999px; font-size:13px; color:#1d4ed8; text-decoration:none; font-weight:600;">Auto Repair</a>
+      <a href="/legal-fee-analyzer.html" style="padding:6px 14px; background:#f5f3ff; border:1px solid #c4b5fd; border-radius:999px; font-size:13px; color:#7c3aed; text-decoration:none; font-weight:600;">Legal Fees</a>
+      <a href="/moving-quote-analyzer.html" style="padding:6px 14px; background:#fffbeb; border:1px solid #fcd34d; border-radius:999px; font-size:13px; color:#d97706; text-decoration:none; font-weight:600;">Moving</a>
+    </div>
+  </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+<div class="tp-footer-links">
+  <div class="tp-footer-col">
+    <h4>Get a Price</h4>
+    <a href="/get-an-estimate.html">Get an estimate</a>
+    <a href="/analyze-my-quote.html">Analyze a quote</a>
+    <a href="/compare-quotes-picker.html">Compare quotes</a>
+    <a href="/photo-estimate.html">Roof photo estimate</a>
+  </div>
+  <div class="tp-footer-col">
+    <h4>Browse</h4>
+    <a href="/all-cities.html">All cities</a>
+    <a href="/guides.html">Cost guides</a>
+    <a href="/find-contractors.html">Find contractors</a>
+    <a href="/medical-cost-lookup.html">Medical cost lookup</a>
+  </div>
+  <div class="tp-footer-col">
+    <h4>Top Trades</h4>
+    <a href="/roofing-quote-analyzer.html">Roofing</a>
+    <a href="/hvac-quote-analyzer.html">HVAC</a>
+    <a href="/plumbing-quote-analyzer.html">Plumbing</a>
+    <a href="/electrical-quote-analyzer.html">Electrical</a>
+    <a href="/solar-quote-analyzer.html">Solar</a>
+    <a href="/auto-repair.html">Auto repair</a>
+  </div>
+  <div class="tp-footer-col">
+    <h4>About</h4>
+    <a href="/about.html">About TruePrice</a>
+    <a href="/methodology.html">Methodology</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+  </div>
+</div>
+
+      <p>TruePrice helps you understand medical costs, compare healthcare prices, and estimate out-of-pocket expenses. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // ── Medical Pricing Model ──
+    var MEDICAL_PRICING = {
+      services: {
+        er: {
+          label: "Emergency Room Visit",
+          subtypes: {
+            basic: { label: "Basic ER visit (minor injury/illness)", baseLow: 800, baseHigh: 2000 },
+            moderate: { label: "Moderate ER visit (stitches, fracture)", baseLow: 1500, baseHigh: 4000 },
+            complex: { label: "Complex ER visit (chest pain, trauma)", baseLow: 3000, baseHigh: 8000 },
+            pediatric: { label: "Pediatric ER visit", baseLow: 800, baseHigh: 3000 }
+          }
+        },
+        surgery: {
+          label: "Surgery",
+          subtypes: {
+            knee_replacement: { label: "Knee replacement", baseLow: 20000, baseHigh: 50000 },
+            hip_replacement: { label: "Hip replacement", baseLow: 22000, baseHigh: 55000 },
+            appendectomy: { label: "Appendectomy", baseLow: 10000, baseHigh: 35000 },
+            hernia: { label: "Hernia repair", baseLow: 6000, baseHigh: 20000 },
+            gallbladder: { label: "Gallbladder removal", baseLow: 8000, baseHigh: 25000 },
+            c_section: { label: "C-section delivery", baseLow: 15000, baseHigh: 35000 },
+            acl: { label: "ACL reconstruction", baseLow: 15000, baseHigh: 40000 },
+            cataract: { label: "Cataract surgery (per eye)", baseLow: 3500, baseHigh: 7000 }
+          }
+        },
+        imaging: {
+          label: "Imaging (MRI/CT/X-ray)",
+          subtypes: {
+            mri_brain: { label: "MRI - Brain", baseLow: 1000, baseHigh: 3000 },
+            mri_knee: { label: "MRI - Knee/Joint", baseLow: 500, baseHigh: 2500 },
+            mri_spine: { label: "MRI - Spine", baseLow: 1000, baseHigh: 3500 },
+            ct_scan: { label: "CT scan", baseLow: 500, baseHigh: 2500 },
+            xray: { label: "X-ray", baseLow: 100, baseHigh: 500 },
+            ultrasound: { label: "Ultrasound", baseLow: 200, baseHigh: 800 },
+            mammogram: { label: "Mammogram", baseLow: 150, baseHigh: 600 }
+          }
+        },
+        lab: {
+          label: "Lab Work",
+          subtypes: {
+            blood_panel: { label: "Complete blood panel (CBC + CMP)", baseLow: 50, baseHigh: 300 },
+            lipid: { label: "Lipid panel (cholesterol)", baseLow: 30, baseHigh: 150 },
+            thyroid: { label: "Thyroid panel", baseLow: 50, baseHigh: 200 },
+            a1c: { label: "Hemoglobin A1C (diabetes)", baseLow: 30, baseHigh: 120 },
+            urinalysis: { label: "Urinalysis", baseLow: 20, baseHigh: 100 },
+            std: { label: "STD panel", baseLow: 50, baseHigh: 500 },
+            allergy: { label: "Allergy testing", baseLow: 150, baseHigh: 500 }
+          }
+        },
+        office_visit: {
+          label: "Office Visit",
+          subtypes: {
+            new_patient: { label: "New patient visit", baseLow: 200, baseHigh: 400 },
+            follow_up: { label: "Follow-up visit", baseLow: 100, baseHigh: 250 },
+            specialist: { label: "Specialist consultation", baseLow: 250, baseHigh: 600 },
+            urgent_care: { label: "Urgent care visit", baseLow: 150, baseHigh: 350 },
+            telehealth: { label: "Telehealth visit", baseLow: 50, baseHigh: 150 }
+          }
+        },
+        physical_therapy: {
+          label: "Physical Therapy",
+          subtypes: {
+            eval: { label: "Initial evaluation", baseLow: 150, baseHigh: 400 },
+            session: { label: "Per session (follow-up)", baseLow: 75, baseHigh: 250 },
+            package_12: { label: "12-session package", baseLow: 900, baseHigh: 3000 },
+            package_24: { label: "24-session package", baseLow: 1800, baseHigh: 5500 }
+          }
+        },
+        childbirth: {
+          label: "Childbirth",
+          subtypes: {
+            vaginal: { label: "Vaginal delivery (uncomplicated)", baseLow: 8000, baseHigh: 20000 },
+            vaginal_epidural: { label: "Vaginal delivery with epidural", baseLow: 10000, baseHigh: 25000 },
+            c_section: { label: "C-section (scheduled)", baseLow: 15000, baseHigh: 35000 },
+            c_section_emergency: { label: "C-section (emergency)", baseLow: 20000, baseHigh: 45000 },
+            prenatal_care: { label: "Full prenatal care package", baseLow: 2000, baseHigh: 5000 }
+          }
+        },
+        dental: {
+          label: "Dental",
+          subtypes: {
+            cleaning: { label: "Routine cleaning & exam", baseLow: 100, baseHigh: 300 },
+            filling: { label: "Filling (per tooth)", baseLow: 150, baseHigh: 400 },
+            crown: { label: "Crown (per tooth)", baseLow: 800, baseHigh: 2000 },
+            root_canal: { label: "Root canal", baseLow: 700, baseHigh: 1800 },
+            extraction: { label: "Tooth extraction", baseLow: 150, baseHigh: 600 },
+            wisdom_teeth: { label: "Wisdom teeth removal (all 4)", baseLow: 1000, baseHigh: 3500 },
+            implant: { label: "Dental implant (per tooth)", baseLow: 2000, baseHigh: 5000 }
+          }
+        }
+      },
+      // Insurance adjustments: multiplier applied to base cost to get patient responsibility
+      insuranceMultipliers: {
+        insured_in: { label: "Insured (in-network)", mult: 0.25, desc: "In-network with insurance" },
+        insured_out: { label: "Insured (out-of-network)", mult: 0.50, desc: "Out-of-network with insurance" },
+        insured_unsure: { label: "Insured (network unknown)", mult: 0.35, desc: "Insurance, network status unknown" },
+        self_pay: { label: "Self-pay (no insurance)", mult: 0.60, desc: "Self-pay / uninsured" },
+        medicare: { label: "Medicare", mult: 0.20, desc: "Medicare coverage" },
+        medicaid: { label: "Medicaid", mult: 0.05, desc: "Medicaid coverage" }
+      },
+      // Regional cost multipliers
+      regionMultipliers: {
+        northeast: 1.22, southeast: 1.00, midwest: 0.95, south: 0.98, mountain: 1.05, west: 1.28
+      }
+    };
+
+    var STATE_REGIONS = {
+      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+      WY:"mountain",DC:"northeast"
+    };
+
+    // ZIP code to state lookup (first 3 digits)
+    var ZIP_TO_STATE = {
+      "006":"PR","007":"PR","008":"PR","009":"PR",
+      "010":"MA","011":"MA","012":"MA","013":"MA","014":"MA","015":"MA","016":"MA","017":"MA","018":"MA","019":"MA",
+      "020":"MA","021":"MA","022":"MA","023":"MA","024":"MA","025":"MA","026":"MA","027":"MA",
+      "028":"RI","029":"RI",
+      "030":"NH","031":"NH","032":"NH","033":"NH","034":"NH","035":"NH","036":"NH","037":"NH","038":"NH",
+      "039":"ME","040":"ME","041":"ME","042":"ME","043":"ME","044":"ME","045":"ME","046":"ME","047":"ME","048":"ME","049":"ME",
+      "050":"VT","051":"VT","052":"VT","053":"VT","054":"VT","055":"VT","056":"VT","057":"VT","058":"VT","059":"VT",
+      "060":"CT","061":"CT","062":"CT","063":"CT","064":"CT","065":"CT","066":"CT","067":"CT","068":"CT","069":"CT",
+      "070":"NJ","071":"NJ","072":"NJ","073":"NJ","074":"NJ","075":"NJ","076":"NJ","077":"NJ","078":"NJ","079":"NJ","080":"NJ","081":"NJ","082":"NJ","083":"NJ","084":"NJ","085":"NJ","086":"NJ","087":"NJ","088":"NJ","089":"NJ",
+      "100":"NY","101":"NY","102":"NY","103":"NY","104":"NY","105":"NY","106":"NY","107":"NY","108":"NY","109":"NY","110":"NY","111":"NY","112":"NY","113":"NY","114":"NY","115":"NY","116":"NY","117":"NY","118":"NY","119":"NY","120":"NY","121":"NY","122":"NY","123":"NY","124":"NY","125":"NY","126":"NY","127":"NY","128":"NY","129":"NY","130":"NY","131":"NY","132":"NY","133":"NY","134":"NY","135":"NY","136":"NY","137":"NY","138":"NY","139":"NY","140":"NY","141":"NY","142":"NY","143":"NY","144":"NY","145":"NY","146":"NY","147":"NY","148":"NY","149":"NY",
+      "150":"PA","151":"PA","152":"PA","153":"PA","154":"PA","155":"PA","156":"PA","157":"PA","158":"PA","159":"PA","160":"PA","161":"PA","162":"PA","163":"PA","164":"PA","165":"PA","166":"PA","167":"PA","168":"PA","169":"PA","170":"PA","171":"PA","172":"PA","173":"PA","174":"PA","175":"PA","176":"PA","177":"PA","178":"PA","179":"PA","180":"PA","181":"PA","182":"PA","183":"PA","184":"PA","185":"PA","186":"PA","187":"PA","188":"PA","189":"PA","190":"PA","191":"PA","192":"PA","193":"PA","194":"PA","195":"PA","196":"PA",
+      "197":"DE","198":"DE","199":"DE",
+      "200":"DC","201":"VA","202":"DC","203":"DC","204":"DC","205":"DC",
+      "206":"MD","207":"MD","208":"MD","209":"MD","210":"MD","211":"MD","212":"MD","213":"MD","214":"MD","215":"MD","216":"MD","217":"MD","218":"MD","219":"MD",
+      "220":"VA","221":"VA","222":"VA","223":"VA","224":"VA","225":"VA","226":"VA","227":"VA","228":"VA","229":"VA","230":"VA","231":"VA","232":"VA","233":"VA","234":"VA","235":"VA","236":"VA","237":"VA","238":"VA","239":"VA","240":"VA","241":"VA","242":"VA","243":"VA","244":"VA","245":"VA","246":"WV",
+      "247":"WV","248":"WV","249":"WV","250":"WV","251":"WV","252":"WV","253":"WV","254":"WV","255":"WV","256":"WV","257":"WV","258":"WV","259":"WV","260":"WV","261":"WV","262":"WV","263":"WV","264":"WV","265":"WV","266":"WV","267":"WV","268":"WV",
+      "270":"NC","271":"NC","272":"NC","273":"NC","274":"NC","275":"NC","276":"NC","277":"NC","278":"NC","279":"NC","280":"NC","281":"NC","282":"NC","283":"NC","284":"NC","285":"NC","286":"NC","287":"NC","288":"NC","289":"NC",
+      "290":"SC","291":"SC","292":"SC","293":"SC","294":"SC","295":"SC","296":"SC","297":"SC","298":"SC","299":"SC",
+      "300":"GA","301":"GA","302":"GA","303":"GA","304":"GA","305":"GA","306":"GA","307":"GA","308":"GA","309":"GA","310":"GA","311":"GA","312":"GA","313":"GA","314":"GA","315":"GA","316":"GA","317":"GA","318":"GA","319":"GA",
+      "320":"FL","321":"FL","322":"FL","323":"FL","324":"FL","325":"FL","326":"FL","327":"FL","328":"FL","329":"FL","330":"FL","331":"FL","332":"FL","333":"FL","334":"FL","335":"FL","336":"FL","337":"FL","338":"FL","339":"FL",
+      "340":"AA",
+      "350":"AL","351":"AL","352":"AL","353":"AL","354":"AL","355":"AL","356":"AL","357":"AL","358":"AL","359":"AL","360":"AL","361":"AL","362":"AL","363":"AL","364":"AL","365":"AL","366":"AL","367":"AL","368":"AL","369":"AL",
+      "370":"TN","371":"TN","372":"TN","373":"TN","374":"TN","375":"TN","376":"TN","377":"TN","378":"TN","379":"TN","380":"TN","381":"TN","382":"TN","383":"TN","384":"TN","385":"TN",
+      "386":"MS","387":"MS","388":"MS","389":"MS","390":"MS","391":"MS","392":"MS","393":"MS","394":"MS","395":"MS","396":"MS","397":"MS",
+      "398":"GA","399":"GA",
+      "400":"KY","401":"KY","402":"KY","403":"KY","404":"KY","405":"KY","406":"KY","407":"KY","408":"KY","409":"KY","410":"KY","411":"KY","412":"KY","413":"KY","414":"KY","415":"KY","416":"KY","417":"KY","418":"KY",
+      "420":"KY","421":"KY","422":"KY","423":"KY","424":"KY","425":"KY","426":"KY","427":"KY",
+      "430":"OH","431":"OH","432":"OH","433":"OH","434":"OH","435":"OH","436":"OH","437":"OH","438":"OH","439":"OH","440":"OH","441":"OH","442":"OH","443":"OH","444":"OH","445":"OH","446":"OH","447":"OH","448":"OH","449":"OH","450":"OH","451":"OH","452":"OH","453":"OH","454":"OH","455":"OH","456":"OH","457":"OH","458":"OH","459":"OH",
+      "460":"IN","461":"IN","462":"IN","463":"IN","464":"IN","465":"IN","466":"IN","467":"IN","468":"IN","469":"IN","470":"IN","471":"IN","472":"IN","473":"IN","474":"IN","475":"IN","476":"IN","477":"IN","478":"IN","479":"IN",
+      "480":"MI","481":"MI","482":"MI","483":"MI","484":"MI","485":"MI","486":"MI","487":"MI","488":"MI","489":"MI","490":"MI","491":"MI","492":"MI","493":"MI","494":"MI","495":"MI","496":"MI","497":"MI","498":"MI","499":"MI",
+      "500":"IA","501":"IA","502":"IA","503":"IA","504":"IA","505":"IA","506":"IA","507":"IA","508":"IA","509":"IA","510":"IA","511":"IA","512":"IA","513":"IA","514":"IA","515":"IA","516":"IA","520":"IA","521":"IA","522":"IA","523":"IA","524":"IA","525":"IA","526":"IA","527":"IA","528":"IA",
+      "530":"WI","531":"WI","532":"WI","534":"WI","535":"WI","537":"WI","538":"WI","539":"WI","540":"WI","541":"WI","542":"WI","543":"WI","544":"WI","545":"WI","546":"WI","547":"WI","548":"WI","549":"WI",
+      "550":"MN","551":"MN","553":"MN","554":"MN","555":"MN","556":"MN","557":"MN","558":"MN","559":"MN","560":"MN","561":"MN","562":"MN","563":"MN","564":"MN","565":"MN","566":"MN","567":"MN",
+      "570":"SD","571":"SD","572":"SD","573":"SD","574":"SD","575":"SD","576":"SD","577":"SD",
+      "580":"ND","581":"ND","582":"ND","583":"ND","584":"ND","585":"ND","586":"ND","587":"ND","588":"ND",
+      "590":"MT","591":"MT","592":"MT","593":"MT","594":"MT","595":"MT","596":"MT","597":"MT","598":"MT","599":"MT",
+      "600":"IL","601":"IL","602":"IL","603":"IL","604":"IL","605":"IL","606":"IL","607":"IL","608":"IL","609":"IL","610":"IL","611":"IL","612":"IL","613":"IL","614":"IL","615":"IL","616":"IL","617":"IL","618":"IL","619":"IL","620":"IL","621":"IL","622":"IL","623":"IL","624":"IL","625":"IL","626":"IL","627":"IL","628":"IL","629":"IL",
+      "630":"MO","631":"MO","633":"MO","634":"MO","635":"MO","636":"MO","637":"MO","638":"MO","639":"MO","640":"MO","641":"MO","644":"MO","645":"MO","646":"MO","647":"MO","648":"MO","649":"MO","650":"MO","651":"MO","652":"MO","653":"MO","654":"MO","655":"MO","656":"MO","657":"MO","658":"MO","659":"MO",
+      "660":"KS","661":"KS","662":"KS","664":"KS","665":"KS","666":"KS","667":"KS","668":"KS","669":"KS","670":"KS","671":"KS","672":"KS","673":"KS","674":"KS","675":"KS","676":"KS","677":"KS","678":"KS","679":"KS",
+      "680":"NE","681":"NE","683":"NE","684":"NE","685":"NE","686":"NE","687":"NE","688":"NE","689":"NE","690":"NE","691":"NE","692":"NE","693":"NE",
+      "700":"LA","701":"LA","703":"LA","704":"LA","705":"LA","706":"LA","707":"LA","708":"LA","710":"LA","711":"LA","712":"LA","713":"LA","714":"LA",
+      "716":"AR","717":"AR","718":"AR","719":"AR","720":"AR","721":"AR","722":"AR","723":"AR","724":"AR","725":"AR","726":"AR","727":"AR","728":"AR","729":"AR",
+      "730":"OK","731":"OK","734":"OK","735":"OK","736":"OK","737":"OK","738":"OK","739":"OK","740":"OK","741":"OK","743":"OK","744":"OK","745":"OK","746":"OK","747":"OK","748":"OK","749":"OK",
+      "750":"TX","751":"TX","752":"TX","753":"TX","754":"TX","755":"TX","756":"TX","757":"TX","758":"TX","759":"TX","760":"TX","761":"TX","762":"TX","763":"TX","764":"TX","765":"TX","766":"TX","767":"TX","768":"TX","769":"TX","770":"TX","771":"TX","772":"TX","773":"TX","774":"TX","775":"TX","776":"TX","777":"TX","778":"TX","779":"TX","780":"TX","781":"TX","782":"TX","783":"TX","784":"TX","785":"TX","786":"TX","787":"TX","788":"TX","789":"TX","790":"TX","791":"TX","792":"TX","793":"TX","794":"TX","795":"TX","796":"TX","797":"TX","798":"TX","799":"TX",
+      "800":"CO","801":"CO","802":"CO","803":"CO","804":"CO","805":"CO","806":"CO","807":"CO","808":"CO","809":"CO","810":"CO","811":"CO","812":"CO","813":"CO","814":"CO","815":"CO","816":"CO",
+      "820":"WY","821":"WY","822":"WY","823":"WY","824":"WY","825":"WY","826":"WY","827":"WY","828":"WY","829":"WY","830":"WY","831":"WY",
+      "832":"ID","833":"ID","834":"ID","835":"ID","836":"ID","837":"ID","838":"ID",
+      "840":"UT","841":"UT","842":"UT","843":"UT","844":"UT","845":"UT","846":"UT","847":"UT",
+      "850":"AZ","851":"AZ","852":"AZ","853":"AZ","855":"AZ","856":"AZ","857":"AZ","859":"AZ","860":"AZ",
+      "863":"AZ","864":"AZ","865":"AZ",
+      "870":"NM","871":"NM","873":"NM","874":"NM","875":"NM","877":"NM","878":"NM","879":"NM","880":"NM","881":"NM","882":"NM","883":"NM","884":"NM",
+      "889":"NV","890":"NV","891":"NV","893":"NV","894":"NV","895":"NV","896":"NV","897":"NV","898":"NV",
+      "900":"CA","901":"CA","902":"CA","903":"CA","904":"CA","905":"CA","906":"CA","907":"CA","908":"CA","909":"CA","910":"CA","911":"CA","912":"CA","913":"CA","914":"CA","915":"CA","916":"CA","917":"CA","918":"CA","919":"CA","920":"CA","921":"CA","922":"CA","923":"CA","924":"CA","925":"CA","926":"CA","927":"CA","928":"CA","930":"CA","931":"CA","932":"CA","933":"CA","934":"CA","935":"CA","936":"CA","937":"CA","938":"CA","939":"CA","940":"CA","941":"CA","942":"CA","943":"CA","944":"CA","945":"CA","946":"CA","947":"CA","948":"CA","949":"CA","950":"CA","951":"CA","952":"CA","953":"CA","954":"CA","955":"CA","956":"CA","957":"CA","958":"CA","959":"CA","960":"CA","961":"CA",
+      "967":"HI","968":"HI",
+      "970":"OR","971":"OR","972":"OR","973":"OR","974":"OR","975":"OR","976":"OR","977":"OR","978":"OR","979":"OR",
+      "980":"WA","981":"WA","982":"WA","983":"WA","984":"WA","985":"WA","986":"WA","988":"WA","989":"WA","990":"WA","991":"WA","992":"WA","993":"WA","994":"WA",
+      "995":"AK","996":"AK","997":"AK","998":"AK","999":"AK"
+    };
+
+    // ── State ──
+    var appRoot = document.getElementById("medApp");
+    var state = {
+      step: "address",        // address | estimator | result
+      zip: "",
+      stateCode: "",
+      region: "south",
+      // estimator answers
+      est: { serviceType: null, subType: null, insurance: null, network: null },
+      // result
+      result: null
+    };
+
+    // ── Helpers ──
+    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+    function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
+
+    function getRegionFromState(sc) {
+      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+    }
+
+    function stateFromZip(zip) {
+      if (!zip || zip.length < 3) return null;
+      return ZIP_TO_STATE[zip.substring(0, 3)] || null;
+    }
+
+    // ── Render functions ──
+    function render() {
+      switch (state.step) {
+        case "address": renderAddress(); break;
+        case "estimator": renderEstimator(); break;
+        case "result": renderResult(); break;
+      }
+    }
+
+    // ── Address Step (ZIP only for medical) ──
+    function renderAddress() {
+      appRoot.innerHTML = '\
+        <div class="med-hero">\
+          <img src="/images/trudy-medical.png" alt="Trudy" width="160" style="margin-bottom:12px;" />\
+          <h1>How much will your medical procedure cost?</h1>\
+          <p>Free cost estimate by procedure, insurance, and location. No email, no phone, no lead-selling.</p>\
+          <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to medical pricing? Read our <a href="/medical-cost-guide.html" style="color:#0d9488;">Medical Cost Guide</a></p>\
+        </div>\
+        <div class="med-card">\
+          <div class="med-address-form">\
+            <label style="font-size:0.95rem; font-weight:600; color:#334155;">Enter your ZIP code for regional pricing</label>\
+            <input type="text" id="medZip" placeholder="ZIP code (e.g. 90210)" maxlength="5" style="max-width:200px" autocomplete="off" autofocus />\
+            <button class="med-btn med-btn-primary med-btn-full" id="btnEstimate" style="max-width:300px;">Get Medical Estimate</button>\
+          </div>\
+        </div>';
+
+      document.getElementById("medZip").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") document.getElementById("btnEstimate").click();
+      });
+
+      document.getElementById("btnEstimate").addEventListener("click", function() {
+        var zip = document.getElementById("medZip").value.trim();
+        state.zip = zip;
+        var sc = stateFromZip(zip);
+        if (sc) {
+          state.stateCode = sc;
+          state.region = getRegionFromState(sc);
+        } else {
+          state.stateCode = "";
+          state.region = "south"; // default
+        }
+        state.step = "estimator";
+        render();
+      });
+    }
+
+    // ── Estimator Flow ──
+    function getEstimatorStep() {
+      var e = state.est;
+      if (!e.serviceType) return 1;
+      if (!e.subType) return 2;
+      if (!e.insurance) return 3;
+      // Step 4: network question, only if insured (not self-pay, not medicare, not medicaid)
+      if (e.insurance === "insured" && !e.network) return 4;
+      return 5; // all done
+    }
+
+    function getTotalSteps() {
+      var e = state.est;
+      // 3 steps for self-pay/medicare/medicaid, 4 for insured
+      if (e.insurance && e.insurance !== "insured") return 3;
+      return 4;
+    }
+
+    function renderEstimator() {
+      var est = state.est;
+      var stepNum = getEstimatorStep();
+      var totalSteps = getTotalSteps();
+
+      var locationText = state.stateCode ? state.stateCode + " regional pricing" : "National average pricing";
+
+      appRoot.innerHTML = '\
+        <div class="med-hero">\
+          <h1>Medical Cost Estimator</h1>\
+          <p>' + locationText + '</p>\
+        </div>\
+        <div class="med-card" id="estCard"></div>';
+
+      var card = document.getElementById("estCard");
+
+      if (stepNum === 1) {
+        var svcKeys = Object.keys(MEDICAL_PRICING.services);
+        var optionsHtml = svcKeys.map(function(key) {
+          var svc = MEDICAL_PRICING.services[key];
+          return '<div class="med-option' + (est.serviceType === key ? ' selected' : '') + '" data-val="' + key + '">' + svc.label + '</div>';
+        }).join("");
+
+        card.innerHTML = '\
+          <div class="med-step">\
+            <h3>What type of medical service?</h3>\
+            <div class="med-options" id="optService">' + optionsHtml + '</div>\
+          </div>';
+        bindOptions("optService", "serviceType", function() {
+          // Reset subtype when service changes
+          est.subType = null;
+          est.insurance = null;
+          est.network = null;
+        });
+
+      } else if (stepNum === 2) {
+        var svc = MEDICAL_PRICING.services[est.serviceType];
+        if (!svc) { est.serviceType = null; render(); return; }
+        var subKeys = Object.keys(svc.subtypes);
+        var subOptionsHtml = subKeys.map(function(key) {
+          var sub = svc.subtypes[key];
+          return '<div class="med-option' + (est.subType === key ? ' selected' : '') + '" data-val="' + key + '">' + sub.label + '</div>';
+        }).join("");
+
+        card.innerHTML = '\
+          <div class="med-step">\
+            <h3>What specific procedure or service?</h3>\
+            <div class="med-options" id="optSubtype">' + subOptionsHtml + '</div>\
+          </div>';
+        bindOptions("optSubtype", "subType", function() {
+          est.insurance = null;
+          est.network = null;
+        });
+
+      } else if (stepNum === 3) {
+        card.innerHTML = '\
+          <div class="med-step">\
+            <h3>Do you have insurance?</h3>\
+            <div class="med-options" id="optInsurance">\
+              <div class="med-option' + (est.insurance === "insured" ? ' selected' : '') + '" data-val="insured">Yes, insured</div>\
+              <div class="med-option' + (est.insurance === "self_pay" ? ' selected' : '') + '" data-val="self_pay">No, self-pay</div>\
+              <div class="med-option' + (est.insurance === "medicare" ? ' selected' : '') + '" data-val="medicare">Medicare</div>\
+              <div class="med-option' + (est.insurance === "medicaid" ? ' selected' : '') + '" data-val="medicaid">Medicaid</div>\
+            </div>\
+          </div>';
+        bindOptions("optInsurance", "insurance", function() {
+          est.network = null;
+        });
+
+      } else if (stepNum === 4) {
+        card.innerHTML = '\
+          <div class="med-step">\
+            <h3>Is this provider in your insurance network?</h3>\
+            <div class="med-options" id="optNetwork">\
+              <div class="med-option' + (est.network === "in" ? ' selected' : '') + '" data-val="in">Yes, in-network</div>\
+              <div class="med-option' + (est.network === "out" ? ' selected' : '') + '" data-val="out">No, out-of-network</div>\
+              <div class="med-option' + (est.network === "unsure" ? ' selected' : '') + '" data-val="unsure">Not sure</div>\
+            </div>\
+          </div>';
+        bindOptions("optNetwork", "network");
+      }
+
+      // Progress dots
+      var dots = '';
+      var displayTotal = totalSteps;
+      var displayStep = stepNum;
+      for (var d = 1; d <= displayTotal; d++) {
+        dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 3px;background:' + (d <= displayStep ? '#0d9488' : '#e2e8f0') + ';"></span>';
+      }
+      card.insertAdjacentHTML("afterbegin", '<div style="text-align:center;margin-bottom:1rem;">' + dots + '</div>');
+
+      // Back button (except step 1)
+      if (stepNum > 1) {
+        card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="med-btn med-btn-secondary" id="estBack">Back</button></div>');
+        document.getElementById("estBack").addEventListener("click", function() {
+          if (stepNum === 4) est.network = null;
+          else if (stepNum === 3) est.insurance = null;
+          else if (stepNum === 2) est.subType = null;
+          render();
+        });
+      }
+    }
+
+    function bindOptions(containerId, field, onSelect) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      container.addEventListener("click", function(e) {
+        var opt = e.target.closest(".med-option");
+        if (!opt) return;
+        state.est[field] = opt.getAttribute("data-val");
+        if (onSelect) onSelect();
+
+        // Check if estimator is complete
+        if (getEstimatorStep() > 4) {
+          calculateEstimate();
+        } else {
+          render();
+        }
+      });
+    }
+
+    function calculateEstimate() {
+      var est = state.est;
+      var svc = MEDICAL_PRICING.services[est.serviceType];
+      if (!svc) { state.step = "address"; render(); return; }
+      var sub = svc.subtypes[est.subType];
+      if (!sub) { est.subType = null; render(); return; }
+
+      var regionMult = MEDICAL_PRICING.regionMultipliers[state.region] || 1.0;
+
+      // Base cost (facility billed amount)
+      var baseLow = Math.round(sub.baseLow * regionMult);
+      var baseHigh = Math.round(sub.baseHigh * regionMult);
+
+      // Determine insurance key
+      var insKey;
+      if (est.insurance === "insured") {
+        if (est.network === "in") insKey = "insured_in";
+        else if (est.network === "out") insKey = "insured_out";
+        else insKey = "insured_unsure";
+      } else if (est.insurance === "medicare") {
+        insKey = "medicare";
+      } else if (est.insurance === "medicaid") {
+        insKey = "medicaid";
+      } else {
+        insKey = "self_pay";
+      }
+
+      var insData = MEDICAL_PRICING.insuranceMultipliers[insKey];
+      var insMult = insData ? insData.mult : 0.60;
+      var insLabel = insData ? insData.desc : "Self-pay";
+
+      // Patient responsibility
+      var patientLow = Math.round(baseLow * insMult);
+      var patientHigh = Math.round(baseHigh * insMult);
+
+      // For self-pay, show note about cash discount
+      var selfPayNote = (insKey === "self_pay");
+
+      state.result = {
+        source: "estimator",
+        serviceLabel: svc.label,
+        subTypeLabel: sub.label,
+        baseLow: baseLow,
+        baseHigh: baseHigh,
+        patientLow: patientLow,
+        patientHigh: patientHigh,
+        insuranceKey: insKey,
+        insuranceLabel: insLabel,
+        insuranceMult: insMult,
+        region: state.region,
+        stateCode: state.stateCode,
+        selfPayNote: selfPayNote,
+        serviceType: est.serviceType,
+        subType: est.subType
+      };
+
+      state.step = "result";
+      render();
+    }
+
+    // ── Result Step ──
+    function renderResult() {
+      var r = state.result;
+      if (!r) { state.step = "address"; render(); return; }
+
+      // Community capture
+      if (typeof tpCaptureCommunity === "function") {
+        try {
+          tpCaptureCommunity({
+            service: "medical",
+            price: Math.round((r.patientLow + r.patientHigh) / 2),
+            city: "",
+            stateCode: r.stateCode || "",
+            material: r.subTypeLabel || "",
+            verdict: "Estimated Cost"
+          });
+        } catch(e) {}
+      }
+
+      var midEstimate = Math.round((r.patientLow + r.patientHigh) / 2);
+      var rangeText = fmt(r.patientLow) + " &ndash; " + fmt(r.patientHigh);
+
+      // Details grid
+      var detailsHtml = '<div class="med-details">';
+      detailsHtml += '<div class="med-detail"><div class="label">Service</div><div class="value">' + r.serviceLabel + '</div></div>';
+      detailsHtml += '<div class="med-detail"><div class="label">Procedure</div><div class="value">' + r.subTypeLabel + '</div></div>';
+      detailsHtml += '<div class="med-detail"><div class="label">Coverage</div><div class="value">' + r.insuranceLabel + '</div></div>';
+      detailsHtml += '<div class="med-detail"><div class="label">Region</div><div class="value">' + (r.stateCode ? r.stateCode + ' (' + capitalize(r.region) + ')' : capitalize(r.region)) + '</div></div>';
+      detailsHtml += '<div class="med-detail"><div class="label">Facility Cost</div><div class="value">' + fmt(r.baseLow) + ' &ndash; ' + fmt(r.baseHigh) + '</div></div>';
+      detailsHtml += '<div class="med-detail"><div class="label">Your Est. Share</div><div class="value">' + Math.round(r.insuranceMult * 100) + '%</div></div>';
+      detailsHtml += '</div>';
+
+      // Self-pay discount note
+      var selfPayHtml = "";
+      if (r.selfPayNote) {
+        selfPayHtml = '<div class="med-info-card" style="background:#f0fdfa; border:1px solid #5eead4;">';
+        selfPayHtml += '<h3 style="color:#0f766e;">Self-Pay Discount</h3>';
+        selfPayHtml += '<p style="font-size:0.95rem; color:#134e4a;">This estimate already reflects a typical self-pay / cash discount (about 40% off billed charges). Many facilities offer additional discounts of 10-30% if you pay upfront or ask about their uninsured rate. <strong>Always ask for the cash-pay price before your visit.</strong></p>';
+        selfPayHtml += '</div>';
+      }
+
+      // Medicare/Medicaid note
+      var govInsNote = "";
+      if (r.insuranceKey === "medicare") {
+        govInsNote = '<div class="med-info-card" style="background:#eff6ff; border:1px solid #bfdbfe;">';
+        govInsNote += '<h3 style="color:#1e40af;">Medicare Coverage Note</h3>';
+        govInsNote += '<p style="font-size:0.95rem; color:#1e3a5f;">Medicare typically covers 80% of approved charges after you meet your deductible ($240/year for Part B in 2026). Your actual cost depends on whether you have a Medigap supplement or Medicare Advantage plan. This estimate assumes original Medicare without supplemental coverage.</p>';
+        govInsNote += '</div>';
+      } else if (r.insuranceKey === "medicaid") {
+        govInsNote = '<div class="med-info-card" style="background:#f0fdf4; border:1px solid #86efac;">';
+        govInsNote += '<h3 style="color:#166534;">Medicaid Coverage Note</h3>';
+        govInsNote += '<p style="font-size:0.95rem; color:#14532d;">Medicaid generally covers most medically necessary services with minimal out-of-pocket costs. Copays are typically $1-$5 for office visits and prescriptions. Some states charge small premiums. Your actual cost depends on your state\'s Medicaid program.</p>';
+        govInsNote += '</div>';
+      }
+
+      // Cost factors
+      var costFactorsHtml = '<div class="med-info-card med-cost-factors">';
+      costFactorsHtml += '<h3>What Affects Your Cost</h3>';
+      costFactorsHtml += '<ul>';
+      costFactorsHtml += '<li><strong>Facility type:</strong> Hospital-based facilities charge 2-3x more than freestanding clinics or surgery centers</li>';
+      costFactorsHtml += '<li><strong>Location:</strong> Costs vary significantly by state and metro area. Urban hospitals typically charge more than rural ones</li>';
+      costFactorsHtml += '<li><strong>Insurance plan:</strong> Your deductible, coinsurance rate, and out-of-pocket maximum directly affect your share</li>';
+      costFactorsHtml += '<li><strong>Provider:</strong> Different doctors and facilities negotiate different rates with insurers</li>';
+      costFactorsHtml += '<li><strong>Complications:</strong> Unexpected complications during procedures can significantly increase the final bill</li>';
+      costFactorsHtml += '</ul></div>';
+
+      // Ways to reduce cost
+      var reduceHtml = '<div class="med-info-card med-reduce-costs">';
+      reduceHtml += '<h3>Common Ways to Reduce Your Cost</h3>';
+      reduceHtml += '<ul>';
+      reduceHtml += '<li><strong>Negotiate upfront:</strong> Ask for a cash-pay or prompt-pay discount before the procedure</li>';
+      reduceHtml += '<li><strong>Request a payment plan:</strong> Most facilities offer 0% interest payment plans if you ask</li>';
+      reduceHtml += '<li><strong>Apply for financial assistance:</strong> Nonprofit hospitals are required to have charity care programs</li>';
+      reduceHtml += '<li><strong>Compare facilities:</strong> Prices for the same procedure can vary 5-10x between facilities in the same city</li>';
+      reduceHtml += '<li><strong>Use freestanding centers:</strong> Outpatient surgery centers and imaging centers are typically 40-60% cheaper than hospitals</li>';
+      reduceHtml += '<li><strong>Check for errors:</strong> Medical billing errors are common. Always request an itemized bill and review every charge</li>';
+      reduceHtml += '</ul></div>';
+
+      // Next steps
+      var nextStepsHtml = '<div class="med-info-card med-next-steps">';
+      nextStepsHtml += '<h3>Recommended Next Steps</h3>';
+      nextStepsHtml += '<ul>';
+      nextStepsHtml += '<li><strong>Request an itemized bill:</strong> Always ask for a detailed breakdown of every charge, not just a summary</li>';
+      nextStepsHtml += '<li><strong>Compare facilities:</strong> Call 2-3 facilities and ask for their cash price or your insurance-negotiated rate</li>';
+      nextStepsHtml += '<li><strong>Check for billing errors:</strong> Review CPT codes, look for duplicate charges, and verify dates of service</li>';
+      nextStepsHtml += '<li><strong>Know your out-of-pocket max:</strong> If you\'re close to your annual out-of-pocket maximum, your share may be lower than estimated</li>';
+      nextStepsHtml += '<li><strong>Get a pre-authorization:</strong> For planned procedures, get written confirmation of coverage from your insurer</li>';
+      nextStepsHtml += '</ul></div>';
+
+      // Feedback
+      var feedbackHtml = '<div id="estimateFeedback" style="text-align:center; margin-top:1.5rem; padding:1rem; background:#f8fafc; border-radius:10px;">';
+      feedbackHtml += '<p style="font-size:0.9rem; color:#64748b; margin-bottom:8px;">Was this estimate helpful?</p>';
+      feedbackHtml += '<div style="display:flex; gap:8px; justify-content:center;">';
+      feedbackHtml += '<button onclick="submitFeedback(\'helpful\')" class="med-btn med-btn-secondary" style="font-size:0.85rem; padding:6px 16px;">Yes, helpful</button>';
+      feedbackHtml += '<button onclick="submitFeedback(\'too_high\')" class="med-btn med-btn-secondary" style="font-size:0.85rem; padding:6px 16px;">Seems too high</button>';
+      feedbackHtml += '<button onclick="submitFeedback(\'too_low\')" class="med-btn med-btn-secondary" style="font-size:0.85rem; padding:6px 16px;">Seems too low</button>';
+      feedbackHtml += '</div></div>';
+
+      // Disclaimer
+      var disclaimerHtml = '<div class="med-disclaimer">';
+      disclaimerHtml += '<strong>Disclaimer:</strong> This is an informational estimate only and not a guarantee of actual costs. Medical pricing varies widely by facility, provider, individual insurance plan details, and clinical circumstances. This tool does not constitute medical or financial advice. Always verify costs directly with your provider and insurance company before any procedure.';
+      disclaimerHtml += '</div>';
+
+      appRoot.innerHTML = '\
+        <div class="med-hero">\
+          <h1>Your Medical Cost Estimate</h1>\
+          <p>' + r.subTypeLabel + '</p>\
+        </div>\
+        <div class="med-verdict">\
+          <div class="verdict-label">Estimated Patient Responsibility</div>\
+          <div class="verdict-price">' + rangeText + '</div>\
+          <div class="verdict-range">Facility billed amount: ' + fmt(r.baseLow) + ' &ndash; ' + fmt(r.baseHigh) + '</div>\
+        </div>\
+        <div class="med-card">\
+          <h3 style="margin-bottom:0.75rem;">Estimate Details</h3>\
+          ' + detailsHtml + '\
+        </div>\
+        ' + selfPayHtml + '\
+        ' + govInsNote + '\
+        ' + costFactorsHtml + '\
+        ' + reduceHtml + '\
+        ' + nextStepsHtml + '\
+        <div class="med-actions">\
+          <a href="/medical-bill-analyzer.html" class="med-btn med-btn-primary med-btn-full">Already have a bill? Analyze it</a>\
+          <a href="/medical-cost-guide.html" class="med-btn med-btn-secondary med-btn-full">Read our Medical Cost Guide</a>\
+          <button class="med-btn med-btn-secondary med-btn-full" id="btnStartOver">Start over with a new estimate</button>\
+        </div>\
+        ' + feedbackHtml + '\
+        ' + disclaimerHtml;
+
+      document.getElementById("btnStartOver").addEventListener("click", function() {
+        state.est = { serviceType: null, subType: null, insurance: null, network: null };
+        state.result = null;
+        state.step = "address";
+        render();
+      });
+    }
+
+    window.submitFeedback = function(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "event", event: "estimate_feedback", meta: { response: response, service: "medical", procedure: state.est.subType || "" }, path: window.location.pathname })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
+    // ── Boot ──
+    render();
+
+  })();
+  </script>
+
+</body>
+</html>
