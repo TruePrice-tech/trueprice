@@ -429,6 +429,11 @@
 
     onProgress(95, "Finalizing...");
 
+    // Set confidence for price-confirm auto-skip
+    try {
+      window.__TP_LAST_CONFIDENCE = result.confidenceScore >= 70 ? "high" : "low";
+    } catch (e) {}
+
     // Log for debugging
     console.log("[TP_Engine] vertical=" + (options.vertical || "?") +
       " price=" + (result.price || "NONE") +
