@@ -780,8 +780,9 @@
               }
               var d = payload.data;
               var sqft = Number(d.livingAreaSqFt || d.footprintSqFt || 0);
+              state.osmFootprint = Math.round(sqft);
               if (sqft >= 500 && sqft <= 10000 && !state.est.homeSqFt) {
-                state.est.homeSqFt = String(Math.round(sqft));
+                state.est.homeSqFt = Math.round(sqft);
               }
               if (state.step === "estimator") render();
             })
@@ -1206,28 +1207,80 @@
           </div>';
         bindOptions("optEff", "efficiency");
       } else if (stepNum === 3) {
+        // Calculate estimated living area from footprint + stories
+        var osmFootprint = state.osmFootprint || est.homeSqFt || 0;
+        var stories = est.stories || "1";
+        var estimatedSqFt = est.homeSqFtManual || (osmFootprint > 0 ? Math.round(osmFootprint * (stories === "2" ? 1.25 : stories === "3" ? 1.5 : 1.0)) : "");
+
         card.innerHTML = '\
           <div class="hvac-step">\
-            <h3>How large is your home?</h3>\
-            ' + (est.homeSqFt ? '<p style="font-size:13px; color:#16a34a; margin:0 0 8px;">&#10003; Pre-filled from your address &mdash; edit if not accurate</p>' : (est.lookupInFlight ? '<p style="font-size:13px; color:#64748b; margin:0 0 8px; display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:12px; height:12px; border:2px solid #cbd5e1; border-top-color:#1d4ed8; border-radius:50%; animation:tpSpin 0.8s linear infinite;"></span>Looking up your home from satellite data...</p><style>@keyframes tpSpin{to{transform:rotate(360deg)}}</style>' : '')) + '\
+            <h3>Describe your home</h3>\
+            ' + (osmFootprint > 0 ? '<p style="font-size:13px; color:#16a34a; margin:0 0 12px;">&#10003; We measured your building footprint from satellite data</p>' : '') + '\
+            <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;font-weight:600;">How many stories?</label>\
+            <div class="hvac-options" id="optStories" style="margin-bottom:16px;">\
+              <div class="hvac-option' + (stories === "1" ? " selected" : "") + '" data-val="1">1 story</div>\
+              <div class="hvac-option' + (stories === "2" ? " selected" : "") + '" data-val="2">2 stories</div>\
+              <div class="hvac-option' + (stories === "3" ? " selected" : "") + '" data-val="3">3+ stories</div>\
+            </div>\
+            <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;font-weight:600;">Total living area (sq ft)</label>\
             <div style="display:flex;align-items:center;gap:0.75rem;">\
-              <input type="number" class="hvac-sqft-input" id="sqftInput" placeholder="e.g. 2000" value="' + (est.homeSqFt || "") + '" min="500" max="10000" />\
+              <input type="number" class="hvac-sqft-input" id="sqftInput" placeholder="e.g. 2400" value="' + (estimatedSqFt || "") + '" min="500" max="10000" />\
               <span style="color:#64748b;">sq ft</span>\
             </div>\
+            <div class="hvac-options" style="margin-top:8px;" id="sqftPresets">\
+              <div class="hvac-option" data-val="1500">1,500</div>\
+              <div class="hvac-option" data-val="2000">2,000</div>\
+              <div class="hvac-option" data-val="2500">2,500</div>\
+              <div class="hvac-option" data-val="3000">3,000</div>\
+              <div class="hvac-option" data-val="3500">3,500</div>\
+            </div>\
+            <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">Check your listing, tax records, or Zillow if unsure.</p>\
             <div style="margin-top:1rem;">\
               <button class="hvac-btn hvac-btn-primary" id="sqftNext">Continue</button>\
             </div>\
           </div>';
+
+        // Stories selection updates estimated sq ft
+        var storiesContainer = document.getElementById("optStories");
+        if (storiesContainer) {
+          storiesContainer.addEventListener("click", function(e) {
+            var opt = e.target.closest(".hvac-option");
+            if (!opt) return;
+            est.stories = opt.getAttribute("data-val");
+            storiesContainer.querySelectorAll(".hvac-option").forEach(function(el) { el.classList.remove("selected"); });
+            opt.classList.add("selected");
+            // Recalculate from footprint
+            if (osmFootprint > 0 && !est.homeSqFtManual) {
+              var mult = est.stories === "2" ? 1.25 : est.stories === "3" ? 1.5 : 1.0;
+              document.getElementById("sqftInput").value = Math.round(osmFootprint * mult);
+            }
+          });
+        }
+
+        // Preset clicks
+        var presetContainer = document.getElementById("sqftPresets");
+        if (presetContainer) {
+          presetContainer.addEventListener("click", function(e) {
+            var opt = e.target.closest(".hvac-option");
+            if (!opt) return;
+            document.getElementById("sqftInput").value = opt.getAttribute("data-val");
+            est.homeSqFtManual = Number(opt.getAttribute("data-val"));
+          });
+        }
+
         document.getElementById("sqftNext").addEventListener("click", function() {
           var val = document.getElementById("sqftInput").value.trim();
           if (val && Number(val) >= 400) {
-            est.homeSqFt = val;
+            est.homeSqFt = Number(val);
             est.homeSqFtConfirmed = true;
             render();
           }
         });
         document.getElementById("sqftInput").addEventListener("keydown", function(e) {
           if (e.key === "Enter") document.getElementById("sqftNext").click();
+        });
+        document.getElementById("sqftInput").addEventListener("input", function() {
+          est.homeSqFtManual = Number(this.value) || 0;
         });
       } else if (stepNum === 4) {
         card.innerHTML = '\
