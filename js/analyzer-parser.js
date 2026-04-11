@@ -2706,6 +2706,40 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
     strategiesAgreed = 0;
   }
 
+  // ── Vertical-aware price sanity bounds ──
+  // Reject prices that are implausibly high or low for a given vertical.
+  // Better to say "we couldn't read your price" than show $133k for plumbing.
+  if (finalPrice && vertical) {
+    var VERTICAL_PRICE_BOUNDS = {
+      plumbing:    { min: 75,  max: 50000 },
+      hvac:        { min: 100, max: 60000 },
+      electrical:  { min: 75,  max: 50000 },
+      roofing:     { min: 500, max: 100000 },
+      fencing:     { min: 100, max: 40000 },
+      concrete:    { min: 100, max: 80000 },
+      foundation:  { min: 500, max: 60000 },
+      "garage-door": { min: 100, max: 15000 },
+      gutters:     { min: 100, max: 15000 },
+      insulation:  { min: 100, max: 25000 },
+      kitchen:     { min: 500, max: 150000 },
+      landscaping: { min: 100, max: 60000 },
+      painting:    { min: 100, max: 40000 },
+      siding:      { min: 200, max: 50000 },
+      solar:       { min: 500, max: 80000 },
+      windows:     { min: 200, max: 60000 },
+      moving:      { min: 100, max: 35000 },
+      auto:        { min: 50,  max: 30000 },
+      medical:     { min: 50,  max: 500000 },
+      legal:       { min: 100, max: 200000 }
+    };
+    var bounds = VERTICAL_PRICE_BOUNDS[vertical];
+    if (bounds && (finalPrice < bounds.min || finalPrice > bounds.max)) {
+      finalPrice = null;
+      priceConfidence = "low";
+      strategiesAgreed = 0;
+    }
+  }
+
   return Object.assign({}, baseParsed, {
     finalPrice,
     priceConfidence,
