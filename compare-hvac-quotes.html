@@ -394,9 +394,14 @@
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
-      loadVendorLibs().then(function() {
-        var isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-        if (isPdf) return extractPdfText(file).then(function(text) { return sendToApi({ text: text }); });
+      TP_Engine.analyzeQuote(file, {
+          vertical: "hvac",
+          apiEndpoint: "/api/hvac-estimate"
+        }).then(function(engineResult) {
+          var payload = { text: engineResult.ocrText || "" };
+          if (engineResult.imageDataUrl) payload.images = [engineResult.imageDataUrl];
+          return sendToApi(payload);
+        }); });
         // Image: run Tesseract first, send {text, images} so the API uses
         // text-only when good and falls back to Claude vision when sparse.
         return Promise.all([extractImageText(file), fileToBase64(file)]).then(function(arr) {

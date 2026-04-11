@@ -708,54 +708,23 @@
 
     async function processFile(file) {
       try {
-        setProgress(15, "Loading parsing libraries...");
-        await window.loadVendorLibs();
+        // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+        var engineResult = await TP_Engine.analyzeQuote(file, {
+          vertical: "painting",
+          apiEndpoint: "/api/painting-estimate",
+          onProgress: setProgress
+        });
 
-        var text = "";
-        if (file.type === "application/pdf") {
-          setProgress(30, "Extracting text from PDF...");
-          text = await extractPdfText(file);
-        } else {
-          setProgress(30, "Running OCR on image...");
-          text = await extractImageText(file);
-        }
+        var text = engineResult.ocrText || "";
+        state.extractedText = text;
+        var parsed = engineResult.parsed;
+        var apiResult = engineResult.aiData || null;
 
-        // ── AI backup: only fires when regex fails to find a price ──
-        var _regexFoundPrice = (parsed && (Number(parsed.finalPrice) > 100 || Number(parsed.finalBestPrice) > 100 || Number(parsed.price) > 100));
-        if (_regexFoundPrice) {
-          setProgress(70, "Quote parsed successfully...");
-        }
-        
-        // Try API-first approach
-        var apiResult = null;
-        try {
-          var apiPayload = { text: text };
-          // Add image if available
-          if (file.type && file.type.startsWith("image/")) {
-            var reader = new FileReader();
-            var imgData = await new Promise(function(resolve, reject) {
-              reader.onload = function() { resolve(reader.result); };
-              reader.onerror = reject;
-              reader.readAsDataURL(file);
-            });
-            apiPayload.images = [imgData];
-          }
-          var apiResp = await fetch("/api/painting-estimate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(apiPayload)
-          });
-          if (apiResp.ok) {
-            var apiData = await apiResp.json();
-            if (apiData.success && apiData.data) {
-              apiResult = apiData.data;
-            }
-          }
-        } catch(apiErr) {
-          console.warn("API unavailable, using local parsing:", apiErr);
-        }
-        
+        // Price from engine (regex-first, AI backup if regex failed)
+        var quotePrice = engineResult.price || 0;
+
         setProgress(70, "Building analysis...");
+
         state.extractedText = text;
 
         // Use analyzer-parser.js for price extraction
@@ -797,22 +766,7 @@
 
         // Determine price — prefer Claude API result (server-side, structured)
         // over local regex parser (analyzer-parser.js often misreads on sparse OCR).
-        var quotePrice = 0;
-        if (apiResult && Number(apiResult.totalPrice) > 100) {
-          quotePrice = Number(apiResult.totalPrice);
-        } else if (parsed && parsed.finalPrice && parsed.finalPrice > 300) {
-          quotePrice = parsed.finalPrice;
-        } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
-          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 500 && c.value <= 50000; });
-          candidates.sort(function(a, b) { return b.score - a.score; });
-          if (candidates.length) quotePrice = candidates[0].value;
-        }
-        // If Claude returned low confidence with no price, refuse to fabricate
-        if (apiResult && apiResult.confidence === "low" && !apiResult.totalPrice) {
-          quotePrice = 0;
-        }
-
-        setProgress(90, "Almost done...");
+setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.priceConfidence) || "low"; } catch(e) {}
         renderPriceConfirmation(appRoot, quotePrice, "paint", function(confirmedPrice) {

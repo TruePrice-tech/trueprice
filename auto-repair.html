@@ -1790,27 +1790,17 @@ function initQuoteApp(){
 
   async function processFile(file){
     try{
-      setProgress(15,"Loading parsing libraries...");
-      await window.loadVendorLibs();
-      var text="";var imageData=null;
-      if(file.type==="application/pdf"){
-        setProgress(30,"Extracting text from PDF...");
-        text=await extractPdfText(file);
-      }else{
-        setProgress(30,"Processing image...");
-        imageData=await fileToBase64(file);
-        text=await extractImageText(file);
-      }
-      setProgress(50,"Analyzing auto repair quote...");
-      qState.extractedText=text;
-      var apiResult=null;
-      try{
-        setProgress(60,"Checking quote against market data...");
-        var apiPayload={text:text};
-        if(imageData) apiPayload.images=[imageData];
-        var apiResponse=await fetch("/api/auto-repair-estimate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(apiPayload)});
-        if(apiResponse.ok) apiResult=await apiResponse.json();
-      }catch(apiErr){console.warn("API unavailable, falling back to local parsing:",apiErr);}
+      // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+      var engineResult = await TP_Engine.analyzeQuote(file, {
+        vertical: "auto",
+        apiEndpoint: "/api/auto-repair-estimate",
+        onProgress: setProgress
+      });
+
+      var text = engineResult.ocrText || "";
+      qState.extractedText = text;
+      var apiResult = engineResult.aiData || null;
+
       setProgress(75,"Calculating verdict...");
       var result=null;
       if(apiResult&&apiResult.quoteTotal){result=buildResultFromAPI(apiResult);}

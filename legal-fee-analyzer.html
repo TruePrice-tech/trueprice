@@ -617,39 +617,16 @@
 
     async function processFile(file) {
       try {
-        setProgress(10, "Loading document...");
-        await window.loadVendorLibs();
+        // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+        var engineResult = await TP_Engine.analyzeQuote(file, {
+          vertical: "legal",
+          apiEndpoint: "/api/legal-fee-estimate",
+          onProgress: setProgress
+        });
 
-        var text = "";
-        var imageData = null;
-        if (file.type === "application/pdf") {
-          setProgress(25, "Reading fee terms...");
-          text = await extractPdfText(file);
-        } else {
-          setProgress(25, "Reading fee terms...");
-          imageData = await fileToBase64(file);
-          text = await extractImageText(file);
-        }
-
-        setProgress(45, "Checking rates against market data...");
+        var text = engineResult.ocrText || "";
         state.extractedText = text;
-
-        var apiResult = null;
-        try {
-          setProgress(55, "Reviewing agreement terms...");
-          var apiPayload = { text: text };
-          if (imageData) apiPayload.images = [imageData];
-          var apiResponse = await fetch("/api/legal-fee-estimate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(apiPayload)
-          });
-          if (apiResponse.ok) {
-            apiResult = await apiResponse.json();
-          }
-        } catch (apiErr) {
-          console.warn("API unavailable, falling back to local parsing:", apiErr);
-        }
+        var apiResult = engineResult.aiData || null;
 
         setProgress(80, "Reviewing agreement terms...");
 

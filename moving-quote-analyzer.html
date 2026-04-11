@@ -1446,21 +1446,23 @@
 
     async function processFile(file) {
       try {
-        setProgress(15, "Loading parsing libraries...");
-        await window.loadVendorLibs();
+        // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+        var engineResult = await TP_Engine.analyzeQuote(file, {
+          vertical: "moving",
+          apiEndpoint: "/api/moving-estimate",
+          onProgress: setProgress
+        });
 
-        var text = "";
-        var imageData = null;
-        if (file.type === "application/pdf") {
-          setProgress(30, "Extracting text from PDF...");
-          text = await extractPdfText(file);
-        } else {
-          setProgress(30, "Processing image...");
-          imageData = await fileToBase64(file);
-          text = await extractImageText(file);
-        }
+        var text = engineResult.ocrText || "";
+        state.extractedText = text;
+        var parsed = engineResult.parsed;
+        var apiResult = engineResult.aiData || null;
 
-        setProgress(50, "Analyzing moving quote...");
+        // Price from engine (regex-first, AI backup if regex failed)
+        var quotePrice = engineResult.price || 0;
+
+        setProgress(70, "Building analysis...");
+
         state.extractedText = text;
 
         // ── Regex parser first ──
