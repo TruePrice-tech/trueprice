@@ -637,6 +637,35 @@
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
+
+        // Fetch building footprint from satellite data
+        try {
+          var _street = state.address.street, _city = state.address.city, _st = state.address.stateCode, _zip = state.address.zip;
+          fetch("/api/property-signals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ street: _street, city: _city, stateCode: _st, zip: _zip })
+          })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(payload) {
+              if (!payload || !payload.success || !payload.data) return;
+              var sqft = Number(payload.data.livingAreaSqFt || payload.data.footprintSqFt || 0);
+              if (sqft >= 500 && sqft <= 10000) {
+                state.osmFootprint = Math.round(sqft);
+                // Pre-fill wall sq ft (rough estimate: perimeter * height)
+                // Footprint perimeter ~= 4 * sqrt(footprint), wall height ~= 9ft per story
+                var perimeter = 4 * Math.sqrt(sqft);
+                var wallHeight = 9;
+                var wallSqFt = Math.round(perimeter * wallHeight);
+                var _input = document.getElementById("sqftInput");
+                if (_input && !_input.value && wallSqFt >= 500) {
+                  _input.value = wallSqFt;
+                }
+              }
+            })
+            .catch(function() {});
+        } catch(e) {}
+
         state.step = "estimator";
         render();
       });
