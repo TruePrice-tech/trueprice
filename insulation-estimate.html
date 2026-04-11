@@ -329,7 +329,8 @@
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { insType: null, areaSqFt: null, oldRemoval: null, location: null },
+      est: { insType: null, stories: null, areaSqFt: null, areaSqFtManual: null, oldRemoval: null, location: null },
+      osmFootprint: null,
       // result
       result: null
     };
@@ -629,6 +630,32 @@
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
+
+        // Fetch building footprint from satellite data
+        try {
+          var _street = state.address.street, _city = state.address.city, _st = state.address.stateCode, _zip = state.address.zip;
+          fetch("/api/property-signals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ street: _street, city: _city, stateCode: _st, zip: _zip })
+          })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(payload) {
+              if (!payload || !payload.success || !payload.data) return;
+              var sqft = Number(payload.data.livingAreaSqFt || payload.data.footprintSqFt || 0);
+              if (sqft >= 500 && sqft <= 10000) {
+                state.osmFootprint = Math.round(sqft);
+                var _input = document.getElementById("sizeInput");
+                if (_input && !_input.value) {
+                  var stories = state.est.stories || "1";
+                  var mult = stories === "2" ? 1.25 : stories === "3" ? 1.5 : 1.0;
+                  _input.value = Math.round(sqft * mult);
+                }
+              }
+            })
+            .catch(function() {});
+        } catch(e) {}
+
         state.step = "estimator";
         render();
       });
@@ -942,17 +969,54 @@
       } else if (stepNum === 2) {
         card.innerHTML = '\
           <div class="ins-step">\
-            <h3>How large is the area to insulate?</h3>\
-            <div class="ins-options" id="optArea">\
-              <div class="ins-option' + (est.areaSqFt === "800" ? " selected" : "") + '" data-val="800">800 sq ft</div>\
-              <div class="ins-option' + (est.areaSqFt === "1000" ? " selected" : "") + '" data-val="1000">1,000 sq ft</div>\
-              <div class="ins-option' + (est.areaSqFt === "1500" ? " selected" : "") + '" data-val="1500">1,500 sq ft</div>\
-              <div class="ins-option' + (est.areaSqFt === "2000" ? " selected" : "") + '" data-val="2000">2,000 sq ft</div>\
-              <div class="ins-option' + (est.areaSqFt === "2500" ? " selected" : "") + '" data-val="2500">2,500 sq ft</div>\
+            <h3>How many stories is your home?</h3>\
+            <div class="ins-options" id="optStories">\
+              <div class="ins-option' + (est.stories === "1" ? " selected" : "") + '" data-val="1">1 story</div>\
+              <div class="ins-option' + (est.stories === "2" ? " selected" : "") + '" data-val="2">2 stories</div>\
+              <div class="ins-option' + (est.stories === "3" ? " selected" : "") + '" data-val="3">3+ stories</div>\
             </div>\
+            <p style="font-size:0.85rem;color:#94a3b8;margin-top:0.75rem;">Used to estimate insulation area from your home\'s footprint.</p>\
           </div>';
-        bindOptions("optArea", "areaSqFt");
+        bindOptions("optStories", "stories");
       } else if (stepNum === 3) {
+        var prefill = est.areaSqFtManual || "";
+        if (!prefill && state.osmFootprint) {
+          var sMult = est.stories === "2" ? 1.25 : est.stories === "3" ? 1.5 : 1.0;
+          prefill = Math.round(state.osmFootprint * sMult);
+        }
+        card.innerHTML = '\
+          <div class="ins-step">\
+            <h3>How large is the area to insulate?</h3>\
+            ' + (state.osmFootprint ? '<p style="font-size:0.85rem;color:#16a34a;margin-bottom:0.75rem;">Pre-filled from satellite data for your address.</p>' : '') + '\
+            <input type="number" id="sizeInput" class="ins-sqft-input" placeholder="e.g. 1500" value="' + prefill + '" min="100" max="20000" style="width:100%;margin-bottom:0.75rem;" />\
+            <div class="ins-options" id="presetSizes">\
+              <div class="ins-option" data-val="800">800</div>\
+              <div class="ins-option" data-val="1000">1,000</div>\
+              <div class="ins-option" data-val="1500">1,500</div>\
+              <div class="ins-option" data-val="2000">2,000</div>\
+              <div class="ins-option" data-val="2500">2,500</div>\
+            </div>\
+            <p style="font-size:0.85rem;color:#94a3b8;margin-top:0.75rem;">Enter total square footage of the area to insulate (attic floor, walls, etc.).</p>\
+            <button class="ins-btn ins-btn-primary ins-btn-full" id="btnSizeContinue" style="margin-top:1rem;">Continue</button>\
+          </div>';
+        var _presets = document.getElementById("presetSizes");
+        if (_presets) {
+          _presets.addEventListener("click", function(e) {
+            var opt = e.target.closest(".ins-option");
+            if (!opt) return;
+            document.getElementById("sizeInput").value = opt.getAttribute("data-val");
+            _presets.querySelectorAll(".ins-option").forEach(function(o) { o.classList.remove("selected"); });
+            opt.classList.add("selected");
+          });
+        }
+        document.getElementById("btnSizeContinue").addEventListener("click", function() {
+          var val = parseInt(document.getElementById("sizeInput").value);
+          if (!val || val < 100 || val > 20000) { alert("Please enter a valid area (100 - 20,000 sq ft)."); return; }
+          est.areaSqFt = String(val);
+          est.areaSqFtManual = String(val);
+          if (getEstimatorStep() > 5) { calculateEstimate(); } else { render(); }
+        });
+      } else if (stepNum === 4) {
         card.innerHTML = '\
           <div class="ins-step">\
             <h3>Does this include removal of old insulation?</h3>\
@@ -962,7 +1026,7 @@
             </div>\
           </div>';
         bindOptions("optRemoval", "oldRemoval");
-      } else if (stepNum === 4) {
+      } else if (stepNum === 5) {
         card.innerHTML = '\
           <div class="ins-step">\
             <h3>Where is the insulation being installed?</h3>\
@@ -998,10 +1062,11 @@
     function getEstimatorStep() {
       var e = state.est;
       if (!e.insType) return 1;
-      if (!e.areaSqFt) return 2;
-      if (!e.oldRemoval) return 3;
-      if (!e.location) return 4;
-      return 5; // all done
+      if (!e.stories) return 2;
+      if (!e.areaSqFt) return 3;
+      if (!e.oldRemoval) return 4;
+      if (!e.location) return 5;
+      return 6; // all done
     }
 
     function bindOptions(containerId, field) {
