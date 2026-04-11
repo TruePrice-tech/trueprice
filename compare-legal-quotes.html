@@ -485,6 +485,7 @@
       var apiPayload = { text: text };
       if (imageData) apiPayload.images = [imageData];
 
+      try{fetch("/api/ai-counter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({vertical:"legal",action:"increment"})}).catch(function(){});}catch(e){}
       var apiResponse = await fetch("/api/legal-fee-estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

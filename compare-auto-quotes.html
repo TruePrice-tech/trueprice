@@ -307,14 +307,7 @@
       return window._vendorLibsPromise;
     };
   </script>
-  <script>
-    // Stub functions required by analyzer-ocr.js when used outside the main analyzer
-    if (typeof window.setUploadStatus === "undefined") window.setUploadStatus = function() {};
-    if (typeof window.setSmartUploadStatus === "undefined") window.setSmartUploadStatus = function() {};
-    if (typeof window.renderAnalyzingState === "undefined") window.renderAnalyzingState = function() {};
-    if (typeof window.renderInlineAnalyzingState === "undefined") window.renderInlineAnalyzingState = function() {};
-  </script>
-  <script src="/js/analyzer-ocr.js"></script>
+  <!-- analyzer-ocr.js removed: compare-auto now uses shared engine pattern -->
 
   <script>
   (function() {
@@ -384,6 +377,7 @@
     }
 
     function sendToApi(payload) {
+      try{fetch("/api/ai-counter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({vertical:"auto",action:"increment"})}).catch(function(){});}catch(e){}
       return fetch("/api/auto-repair-estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

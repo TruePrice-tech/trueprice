@@ -8684,27 +8684,17 @@ function buildComparisonWinnerHtml(summary) {
               Upload your quote. Get your answer in 30 seconds. Free, private, no signup.
             </p>
 
-            <!-- TWO OPTIONS: Photo of house (primary) OR Upload quote (secondary) -->
+            <!-- Upload quote (primary action) -->
             <div style="margin:0 0 24px;">
 
-              <a href="/photo-estimate.html" style="border:2px solid #bbf7d0; border-radius:18px; padding:28px; text-align:center; background:#f0fdf4; text-decoration:none; display:block; margin-bottom:12px;">
-                <div style="font-size:42px; margin-bottom:8px;">&#128247;</div>
-                <div style="font-size:19px; font-weight:700; margin-bottom:6px; color:#0f172a;">Snap a Photo of Your House</div>
-                <div class="small muted" style="margin-bottom:14px; font-size:14px;">Point, shoot, and get an instant roof estimate</div>
-                <div class="btn" style="font-size:16px; padding:14px 28px; width:100%; box-sizing:border-box; background:#16a34a;">
-                  Take photo
-                </div>
-              </a>
-
-              <div style="border:1px solid #e2e8f0; border-radius:14px; padding:16px 20px; text-align:center; background:#f8fafc; display:flex; align-items:center; gap:14px;">
-                <div style="font-size:28px; flex-shrink:0;">&#128196;</div>
-                <div style="flex:1; text-align:left;">
-                  <div style="font-size:14px; color:#475569;">Already have a quote?</div>
-                  <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
-                  <button type="button" class="btn" id="uploadQuoteBtn" style="font-size:14px; padding:8px 18px; margin-top:6px;">
-                    Upload it here
-                  </button>
-                </div>
+              <div style="border:2px solid #dbeafe; border-radius:18px; padding:28px; text-align:center; background:#eff6ff;">
+                <div style="font-size:42px; margin-bottom:8px;">&#128196;</div>
+                <div style="font-size:19px; font-weight:700; margin-bottom:6px; color:#0f172a;">Upload Your Roofing Quote</div>
+                <div class="small muted" style="margin-bottom:14px; font-size:14px;">Photo, screenshot, or PDF of your contractor quote</div>
+                <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
+                <button type="button" class="btn" id="uploadQuoteBtn" style="font-size:16px; padding:14px 28px; width:100%; box-sizing:border-box;">
+                  Upload it here
+                </button>
               </div>
 
             </div>
