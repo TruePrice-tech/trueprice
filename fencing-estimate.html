@@ -618,7 +618,7 @@
         });
       })();
 
-      document.getElementById("btnEstimate").addEventListener("click", function() {
+      var _btnEst = document.getElementById("btnEstimate"); if (_btnEst) _btnEst.addEventListener("click", function() {
         if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "fencing" });
         state.address.street = document.getElementById("addrStreet").value.trim();
         state.address.city = document.getElementById("addrCity").value.trim();
