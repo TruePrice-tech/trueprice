@@ -1316,7 +1316,7 @@
       if (!r) { state.step = "address"; render(); return; }
       if(typeof tpCaptureCommunity==="function"){try{var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);var _a=state.address||{};var _m=r.systemType?(typeof r.systemType==="object"?(r.systemType.label||r.systemType.value):r.systemType):(r.material||"");var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";tpCaptureCommunity({service:"hvac",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_m,verdict:_v});}catch(e){}}
 
-      var isUpload = r.source === "upload";
+      var isUpload = r.source === "upload" || r.source === "confirmed" || r.source === "manual";
       var verdictCss = r.verdict.css;
       var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
       var rangeText = "";
