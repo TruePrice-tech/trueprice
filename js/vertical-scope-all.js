@@ -106,16 +106,17 @@
 
     plumbing: {
       scope: [
-        { key: "permit", label: "Permit included", patterns: [/permit/i, /inspection fee/i] },
-        { key: "warranty_parts", label: "Parts warranty", patterns: [/warranty.*(?:part|tank|manufacturer)/i, /manufacturer.*warranty/i] },
-        { key: "warranty_labor", label: "Labor warranty", patterns: [/labor.*warranty/i, /workmanship.*warranty/i] },
-        { key: "disposal", label: "Old unit disposal", patterns: [/disposal/i, /haul away/i, /remove.*old/i, /dispose/i] },
-        { key: "labor_rate", label: "Labor rate disclosed", patterns: [/\$\s*\d+\s*\/\s*h/i, /hrs?\s*@\s*\$/i] },
-        { key: "code_compliance", label: "Code compliance", patterns: [/code req/i, /to code/i, /code complian/i] },
+        { key: "permit", label: "Permit included", patterns: [/permit/i, /inspection fee/i, /code complian/i] },
+        { key: "warranty_parts", label: "Parts warranty", patterns: [/warranty.*(?:part|tank|manufacturer)/i, /manufacturer.*warranty/i, /\d+[- ]*year.*warranty/i] },
+        { key: "warranty_labor", label: "Labor warranty", patterns: [/labor.*warranty/i, /workmanship.*warranty/i, /warranty.*workmanship/i, /warranty.*labor/i] },
+        { key: "disposal", label: "Old unit disposal", patterns: [/disposal/i, /haul.?(?:away|off)/i, /remove.*old/i, /dispose/i, /old.*(?:remov|haul)/i] },
+        { key: "labor_rate", label: "Labor rate disclosed", patterns: [/\$\s*\d+\s*\/\s*h/i, /hrs?\s*@\s*\$/i, /per\s*hour/i] },
+        { key: "code_compliance", label: "Code compliance", patterns: [/code req/i, /to code/i, /code complian/i, /up to code/i] },
         { key: "camera_inspection", label: "Camera inspection", patterns: [/camera inspect/i, /video inspect/i, /sewer camera/i] },
         { key: "expansion_tank", label: "Expansion tank", patterns: [/expansion tank/i, /thermal expansion/i] },
-        { key: "shutoff_valve", label: "Shut-off valve", patterns: [/shut.?off/i, /ball valve/i] },
-        { key: "cleanup", label: "Cleanup included", patterns: [/clean.?up/i, /backfill/i, /restoration/i, /sod patch/i] },
+        { key: "shutoff_valve", label: "Shut-off valve", patterns: [/shut.?off/i, /ball valve/i, /isolation valve/i] },
+        { key: "cleanup", label: "Cleanup included", patterns: [/clean.?up/i, /backfill/i, /restoration/i, /sod patch/i, /site.*clean/i] },
+        { key: "pressure_test", label: "Pressure test", patterns: [/pressure test/i, /leak test/i, /air test/i] },
       ],
       brands: [
         { pattern: /rheem/i, brand: "Rheem", tier: "mid" },
@@ -142,19 +143,19 @@
 
     roofing: {
       scope: [
-        { key: "tear_off", label: "Tear-off existing", patterns: [/tear.?off/i, /remove existing/i, /strip existing/i] },
-        { key: "underlayment", label: "Underlayment", patterns: [/underlayment/i, /felt paper/i, /synthetic underlayment/i, /tiger\s*paw/i] },
-        { key: "ice_shield", label: "Ice & water shield", patterns: [/ice.*water/i, /ice barrier/i, /weatherwatch/i, /storm\s*guard/i] },
-        { key: "drip_edge", label: "Drip edge", patterns: [/drip edge/i, /drip\s*edge/i] },
-        { key: "flashing", label: "Flashing", patterns: [/flashing/i, /step flash/i, /counter flash/i] },
-        { key: "ridge_vent", label: "Ridge vent", patterns: [/ridge vent/i, /ventilation/i, /continuous.*vent/i] },
-        { key: "ridge_cap", label: "Ridge cap", patterns: [/ridge cap/i, /hip.*cap/i, /timbertex/i] },
-        { key: "starter", label: "Starter strip", patterns: [/starter shingle/i, /starter strip/i, /prostart/i] },
-        { key: "pipe_boots", label: "Pipe boots/vents", patterns: [/pipe boot/i, /attic vent/i, /roof vent/i] },
-        { key: "decking", label: "Deck repair", patterns: [/deck(?:ing)?\s*repair/i, /replace.*(?:plywood|osb)/i, /rotten.*wood/i, /damaged.*deck/i] },
-        { key: "disposal", label: "Debris disposal", patterns: [/dumpster/i, /debris/i, /haul away/i, /disposal/i, /dump/i] },
+        { key: "tear_off", label: "Tear-off existing", patterns: [/tear.?off/i, /remove existing/i, /strip existing/i, /old.*remov/i] },
+        { key: "underlayment", label: "Underlayment", patterns: [/underlayment/i, /felt paper/i, /synthetic underlayment/i, /tiger\s*paw/i, /deck armor/i] },
+        { key: "ice_shield", label: "Ice & water shield", patterns: [/ice.*water/i, /ice barrier/i, /weatherwatch/i, /storm\s*guard/i, /leak barrier/i] },
+        { key: "drip_edge", label: "Drip edge", patterns: [/drip edge/i, /drip\s*edge/i, /eave.*metal/i] },
+        { key: "flashing", label: "Flashing", patterns: [/flashing/i, /step flash/i, /counter flash/i, /wall flash/i, /chimney flash/i] },
+        { key: "ridge_vent", label: "Ridge vent", patterns: [/ridge vent/i, /ventilation/i, /continuous.*vent/i, /attic vent/i, /soffit vent/i] },
+        { key: "ridge_cap", label: "Ridge cap", patterns: [/ridge cap/i, /hip.*cap/i, /timbertex/i, /hip and ridge/i] },
+        { key: "starter", label: "Starter strip", patterns: [/starter shingle/i, /starter strip/i, /prostart/i, /starter/i] },
+        { key: "pipe_boots", label: "Pipe boots/vents", patterns: [/pipe boot/i, /attic vent/i, /roof vent/i, /pipe jack/i, /pipe collar/i, /vent boot/i] },
+        { key: "decking", label: "Deck repair", patterns: [/deck(?:ing)?\s*repair/i, /replace.*(?:plywood|osb)/i, /rotten.*wood/i, /damaged.*deck/i, /wood.*repair/i] },
+        { key: "disposal", label: "Debris disposal", patterns: [/dumpster/i, /debris/i, /haul.?(?:away|off)/i, /disposal/i, /dump/i] },
         { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i] },
-        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /magnetic sweep/i, /yard clean/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /magnetic sweep/i, /yard clean/i, /site.*clean/i] },
       ],
       brands: [
         { pattern: /gaf/i, brand: "GAF", tier: "premium" },
@@ -176,16 +177,18 @@
 
     hvac: {
       scope: [
-        { key: "permit", label: "Permit", patterns: [/permit/i, /mechanical permit/i] },
-        { key: "disposal", label: "Old unit disposal", patterns: [/disposal/i, /remove.*old/i, /dispose/i] },
-        { key: "thermostat", label: "Thermostat", patterns: [/thermostat/i, /ecobee/i, /nest/i, /honeywell/i] },
-        { key: "ductwork", label: "Ductwork", patterns: [/duct/i, /plenum/i, /transition/i] },
-        { key: "refrigerant", label: "Refrigerant", patterns: [/refrigerant/i, /r-410a/i, /r-22/i, /r-32/i, /freon/i] },
-        { key: "electrical", label: "Electrical work", patterns: [/disconnect/i, /whip/i, /electrical/i, /wiring/i] },
-        { key: "concrete_pad", label: "Concrete pad", patterns: [/concrete pad/i, /equipment pad/i] },
-        { key: "flue", label: "Flue/venting", patterns: [/flue/i, /b-vent/i, /venting/i, /exhaust/i] },
-        { key: "filter", label: "Filter included", patterns: [/filter/i, /media filter/i] },
-        { key: "load_calc", label: "Load calculation", patterns: [/load calc/i, /manual j/i, /sizing/i] },
+        { key: "permit", label: "Permit", patterns: [/permit/i, /mechanical permit/i, /inspection/i] },
+        { key: "disposal", label: "Old unit disposal", patterns: [/disposal/i, /remove.*old/i, /dispose/i, /old.*remov/i, /haul.?(?:away|off)/i, /reclaim/i] },
+        { key: "thermostat", label: "Thermostat", patterns: [/thermostat/i, /ecobee/i, /nest/i, /honeywell/i, /smart.*stat/i] },
+        { key: "ductwork", label: "Ductwork", patterns: [/duct/i, /plenum/i, /transition/i, /return air/i, /supply air/i] },
+        { key: "refrigerant", label: "Refrigerant", patterns: [/refrigerant/i, /r-?410a/i, /r-?22/i, /r-?32/i, /r-?454b/i, /freon/i, /charge/i] },
+        { key: "electrical", label: "Electrical work", patterns: [/disconnect/i, /whip/i, /electrical/i, /wiring/i, /breaker/i] },
+        { key: "concrete_pad", label: "Concrete pad", patterns: [/concrete pad/i, /equipment pad/i, /composite pad/i] },
+        { key: "flue", label: "Flue/venting", patterns: [/flue/i, /b-vent/i, /venting/i, /exhaust/i, /intake/i] },
+        { key: "filter", label: "Filter included", patterns: [/filter/i, /media filter/i, /merv/i] },
+        { key: "load_calc", label: "Load calculation", patterns: [/load calc/i, /manual j/i, /sizing/i, /heat loss/i] },
+        { key: "line_set", label: "Line set", patterns: [/line set/i, /lineset/i, /refrigerant line/i, /copper line/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /haul.?off/i, /site.*clean/i] },
       ],
       brands: [
         { pattern: /carrier/i, brand: "Carrier", tier: "premium" },
@@ -212,12 +215,14 @@
     electrical: {
       scope: [
         { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i] },
-        { key: "grounding", label: "Grounding", patterns: [/grounding/i, /ground rod/i, /bonding/i] },
+        { key: "grounding", label: "Grounding", patterns: [/grounding/i, /ground rod/i, /bonding/i, /ground.*bar/i] },
         { key: "afci_gfci", label: "AFCI/GFCI", patterns: [/afci/i, /gfci/i, /arc fault/i, /ground fault/i] },
-        { key: "panel", label: "Panel work", patterns: [/panel/i, /breaker box/i, /load center/i] },
-        { key: "wiring", label: "New wiring", patterns: [/wiring/i, /wire run/i, /romex/i, /nm-b/i, /conduit/i] },
-        { key: "utility_coord", label: "Utility coordination", patterns: [/utility/i, /power company/i, /meter pull/i, /fpl|duke|dominion/i] },
-        { key: "code_upgrade", label: "Code upgrade", patterns: [/code upgrade/i, /code complian/i, /nec/i] },
+        { key: "panel", label: "Panel work", patterns: [/panel/i, /breaker box/i, /load center/i, /main.*break/i] },
+        { key: "wiring", label: "New wiring", patterns: [/wiring/i, /wire run/i, /romex/i, /nm-b/i, /conduit/i, /circuit/i] },
+        { key: "utility_coord", label: "Utility coordination", patterns: [/utility/i, /power company/i, /meter pull/i, /fpl|duke|dominion/i, /meter.*base/i] },
+        { key: "code_upgrade", label: "Code upgrade", patterns: [/code upgrade/i, /code complian/i, /nec/i, /to code/i, /code.*req/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /haul.?off/i, /site.*clean/i, /patch.*drywall/i] },
+        { key: "labeling", label: "Panel labeling", patterns: [/label/i, /directory/i, /circuit.*label/i] },
       ],
       brands: [
         { pattern: /square\s*d/i, brand: "Square D", tier: "premium" },
@@ -240,12 +245,14 @@
 
     auto: {
       scope: [
-        { key: "parts_warranty", label: "Parts warranty", patterns: [/(?:part|warranty).*(?:\d+\s*(?:month|yr|year|mile))/i] },
-        { key: "labor_warranty", label: "Labor warranty", patterns: [/labor.*warranty/i, /workmanship/i] },
-        { key: "diagnostic", label: "Diagnostic fee", patterns: [/diagnostic/i, /inspection fee/i, /check.*fee/i] },
-        { key: "fluid_change", label: "Fluid service", patterns: [/fluid/i, /flush/i, /oil change/i] },
-        { key: "tax_shown", label: "Tax itemized", patterns: [/tax\s*[:$]/i, /sales\s*tax/i] },
-        { key: "shop_supplies", label: "Shop supplies", patterns: [/shop supplies/i, /shop fee/i, /environmental/i] },
+        { key: "parts_warranty", label: "Parts warranty", patterns: [/(?:part|warranty).*(?:\d+\s*(?:month|yr|year|mile))/i, /\d+[- ]*(?:month|yr|year).*warranty/i] },
+        { key: "labor_warranty", label: "Labor warranty", patterns: [/labor.*warranty/i, /workmanship/i, /warranty.*labor/i] },
+        { key: "diagnostic", label: "Diagnostic fee", patterns: [/diagnostic/i, /inspection fee/i, /check.*fee/i, /diag.*fee/i] },
+        { key: "fluid_change", label: "Fluid service", patterns: [/fluid/i, /flush/i, /oil change/i, /coolant/i, /brake fluid/i] },
+        { key: "tax_shown", label: "Tax itemized", patterns: [/tax\s*[:$]/i, /sales\s*tax/i, /tax.*\$/i] },
+        { key: "shop_supplies", label: "Shop supplies", patterns: [/shop supplies/i, /shop fee/i, /environmental/i, /hazardous/i, /disposal fee/i] },
+        { key: "oem_parts", label: "OEM parts", patterns: [/oem/i, /original.*equipment/i, /genuine.*part/i, /dealer.*part/i] },
+        { key: "aftermarket", label: "Aftermarket parts", patterns: [/aftermarket/i, /reman/i, /remanufact/i, /rebuilt/i] },
       ],
       brands: [
         { pattern: /honda/i, brand: "Honda", tier: "mid" },
@@ -270,13 +277,16 @@
 
     solar: {
       scope: [
-        { key: "permit", label: "Permit", patterns: [/permit/i, /interconnection/i] },
-        { key: "monitoring", label: "Monitoring", patterns: [/monitor/i, /enphase/i, /solaredge/i] },
-        { key: "critter_guard", label: "Critter guard", patterns: [/critter guard/i, /pigeon guard/i, /animal guard/i] },
-        { key: "panel_upgrade", label: "Panel upgrade", patterns: [/panel upgrade/i, /main panel/i, /electrical upgrade/i] },
-        { key: "tax_credit", label: "Tax credit noted", patterns: [/tax credit/i, /itc/i, /federal.*30%/i, /federal credit/i] },
-        { key: "battery", label: "Battery storage", patterns: [/battery/i, /powerwall/i, /encharge/i, /storage/i] },
-        { key: "racking", label: "Racking/mounting", patterns: [/racking/i, /mounting/i, /ironridge/i, /unirac/i] },
+        { key: "permit", label: "Permit", patterns: [/permit/i, /interconnection/i, /utility.*connect/i] },
+        { key: "monitoring", label: "Monitoring", patterns: [/monitor/i, /enphase/i, /solaredge/i, /app/i, /portal/i] },
+        { key: "critter_guard", label: "Critter guard", patterns: [/critter guard/i, /pigeon guard/i, /animal guard/i, /mesh.*guard/i] },
+        { key: "panel_upgrade", label: "Panel upgrade", patterns: [/panel upgrade/i, /main panel/i, /electrical upgrade/i, /200.?amp/i] },
+        { key: "tax_credit", label: "Tax credit noted", patterns: [/tax credit/i, /itc/i, /federal.*30%/i, /federal credit/i, /30%.*credit/i] },
+        { key: "battery", label: "Battery storage", patterns: [/battery/i, /powerwall/i, /encharge/i, /storage/i, /backup/i] },
+        { key: "racking", label: "Racking/mounting", patterns: [/racking/i, /mounting/i, /ironridge/i, /unirac/i, /roof.*attach/i] },
+        { key: "roof_warranty", label: "Roof penetration warranty", patterns: [/roof.*warranty/i, /penetration.*warranty/i, /leak.*warranty/i, /workmanship.*roof/i] },
+        { key: "production", label: "Production guarantee", patterns: [/production.*guarant/i, /kwh.*guarant/i, /annual.*production/i, /performance.*guarant/i] },
+        { key: "net_metering", label: "Net metering", patterns: [/net meter/i, /net.*meter/i, /sell.*back/i, /grid.*tied/i] },
       ],
       brands: [
         { pattern: /q\s*cells/i, brand: "Q Cells", tier: "mid" },
@@ -296,12 +306,15 @@
 
     moving: {
       scope: [
-        { key: "packing", label: "Packing service", patterns: [/packing/i, /pack.*service/i, /full pack/i] },
-        { key: "materials", label: "Packing materials", patterns: [/packing material/i, /boxes/i, /tape.*wrap/i, /blanket/i] },
-        { key: "insurance", label: "Insurance/valuation", patterns: [/valuation/i, /insurance/i, /coverage/i, /full replacement/i] },
-        { key: "stair_fee", label: "Stair fee", patterns: [/stair/i, /elevator/i, /floor.*fee/i, /carry.*fee/i] },
-        { key: "fuel", label: "Fuel charge", patterns: [/fuel/i, /gas.*charge/i, /mileage/i] },
+        { key: "packing", label: "Packing service", patterns: [/packing/i, /pack.*service/i, /full pack/i, /wrap/i] },
+        { key: "materials", label: "Packing materials", patterns: [/packing material/i, /boxes/i, /tape.*wrap/i, /blanket/i, /wardrobe box/i, /moving pad/i] },
+        { key: "insurance", label: "Insurance/valuation", patterns: [/valuation/i, /insurance/i, /coverage/i, /full replacement/i, /liability/i, /released value/i] },
+        { key: "stair_fee", label: "Stair fee", patterns: [/stair/i, /elevator/i, /floor.*fee/i, /carry.*fee/i, /flight/i] },
+        { key: "fuel", label: "Fuel charge", patterns: [/fuel/i, /gas.*charge/i, /mileage/i, /travel.*fee/i, /trip.*charge/i] },
         { key: "storage", label: "Storage available", patterns: [/storage/i, /warehouse/i] },
+        { key: "disassembly", label: "Disassembly/reassembly", patterns: [/disassembl/i, /reassembl/i, /take apart/i, /put.*together/i] },
+        { key: "heavy_items", label: "Heavy item fee", patterns: [/heavy item/i, /piano/i, /safe/i, /bulky/i, /oversize/i] },
+        { key: "hourly_rate", label: "Hourly rate disclosed", patterns: [/\$\s*\d+\s*\/\s*h/i, /per\s*hour/i, /hourly.*rate/i, /\$\d+.*hr/i] },
       ],
       brands: [],
       jobTypes: [
@@ -314,13 +327,16 @@
     painting: {
       scope: [
         { key: "power_wash", label: "Power wash", patterns: [/power wash/i, /pressure wash/i] },
-        { key: "scraping", label: "Scrape/sand prep", patterns: [/scrap/i, /sand/i, /prep/i] },
+        { key: "scraping", label: "Scrape/sand prep", patterns: [/scrap/i, /sand/i, /surface prep/i, /prep.*paint/i] },
         { key: "priming", label: "Primer", patterns: [/prim/i, /prime/i] },
-        { key: "caulking", label: "Caulk", patterns: [/caulk/i, /seal/i] },
-        { key: "trim", label: "Trim painting", patterns: [/trim/i, /baseboard/i, /crown/i, /molding/i] },
+        { key: "caulking", label: "Caulk/wood repair", patterns: [/caulk/i, /wood repair/i, /wood rot/i, /putty/i, /filler/i] },
+        { key: "trim", label: "Trim painting", patterns: [/trim/i, /baseboard/i, /crown/i, /molding/i, /trim color/i] },
         { key: "ceiling", label: "Ceiling included", patterns: [/ceiling/i] },
         { key: "two_coats", label: "Two coats", patterns: [/2\s*coat/i, /two coat/i, /double coat/i] },
         { key: "furniture_move", label: "Furniture moved", patterns: [/furniture/i, /move.*furniture/i] },
+        { key: "drop_cloth", label: "Drop cloths/protection", patterns: [/drop cloth/i, /protection/i, /masking/i, /tape/i, /cover.*floor/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /daily clean/i, /site.*clean/i] },
+        { key: "paint_brand", label: "Paint brand specified", patterns: [/sherwin/i, /benjamin/i, /behr/i, /ppg/i, /valspar/i, /duration/i, /regal/i, /marquee/i] },
       ],
       brands: [
         { pattern: /sherwin.?williams|sw\s+duration/i, brand: "Sherwin-Williams", tier: "premium" },
@@ -338,12 +354,15 @@
 
     fencing: {
       scope: [
-        { key: "old_removal", label: "Old fence removal", patterns: [/remov.*(?:old|existing|fence)/i, /tear.*(?:out|down)/i] },
-        { key: "concrete_posts", label: "Concrete posts", patterns: [/concrete/i, /post.*set/i, /post.*hole/i] },
+        { key: "old_removal", label: "Old fence removal", patterns: [/remov.*(?:old|existing|fence)/i, /tear.*(?:out|down)/i, /old.*(?:remov|haul|demo)/i, /haul.?off/i] },
+        { key: "concrete_posts", label: "Concrete posts", patterns: [/concrete/i, /post.*set/i, /post.*hole/i, /dig.*post/i, /auger/i] },
         { key: "gates", label: "Gates included", patterns: [/gate/i, /walk gate/i, /drive gate/i] },
-        { key: "utility_locate", label: "Utility locate", patterns: [/utility locate/i, /811/i, /call before/i] },
-        { key: "survey", label: "Property survey", patterns: [/survey/i, /property line/i] },
-        { key: "stain_seal", label: "Stain/seal", patterns: [/stain/i, /seal/i, /treat/i] },
+        { key: "utility_locate", label: "Utility locate", patterns: [/utility locate/i, /811/i, /call before/i, /underground/i] },
+        { key: "survey", label: "Property survey", patterns: [/survey/i, /property line/i, /stake/i, /boundary/i] },
+        { key: "stain_seal", label: "Stain/seal", patterns: [/stain/i, /seal/i, /treat/i, /preserv/i] },
+        { key: "hardware", label: "Hardware/hinges", patterns: [/hardware/i, /hinge/i, /latch/i, /lock/i] },
+        { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /haul.?off/i, /debris/i, /site.*clean/i] },
       ],
       brands: [],
       jobTypes: [
@@ -358,13 +377,15 @@
 
     concrete: {
       scope: [
-        { key: "demo", label: "Demo/removal", patterns: [/demo/i, /remov.*(?:existing|old|concrete)/i, /tear out/i] },
-        { key: "grading", label: "Grading/compaction", patterns: [/grad/i, /compact/i, /subbase/i, /gravel base/i] },
+        { key: "demo", label: "Demo/removal", patterns: [/demo/i, /remov.*(?:existing|old|concrete)/i, /tear out/i, /old.*(?:remov|haul)/i, /haul.?off/i] },
+        { key: "grading", label: "Grading/compaction", patterns: [/grad/i, /compact/i, /subbase/i, /gravel base/i, /base prep/i, /level/i] },
         { key: "rebar", label: "Rebar/reinforcement", patterns: [/rebar/i, /reinforc/i, /wire mesh/i, /fiber mesh/i] },
-        { key: "forms", label: "Forms", patterns: [/form/i, /forming/i] },
-        { key: "sealer", label: "Sealer", patterns: [/seal/i, /sealer/i, /acrylic seal/i] },
-        { key: "expansion_joints", label: "Expansion joints", patterns: [/expansion joint/i, /control joint/i, /cut joint/i] },
-        { key: "stamped", label: "Stamped/decorative", patterns: [/stamp/i, /decorative/i, /pattern/i, /color/i, /stain/i] },
+        { key: "forms", label: "Forms", patterns: [/form/i, /forming/i, /formwork/i] },
+        { key: "sealer", label: "Sealer", patterns: [/seal/i, /sealer/i, /acrylic seal/i, /curing.*compound/i, /cur.*seal/i] },
+        { key: "expansion_joints", label: "Expansion joints", patterns: [/expansion joint/i, /control joint/i, /cut joint/i, /saw cut/i] },
+        { key: "stamped", label: "Stamped/decorative", patterns: [/stamp/i, /decorative/i, /pattern/i, /color/i, /stain/i, /broom finish/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /haul.?off/i, /site.*clean/i] },
+        { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i] },
       ],
       brands: [],
       jobTypes: [
@@ -462,11 +483,14 @@
 
     siding: {
       scope: [
-        { key: "old_removal", label: "Old siding removal", patterns: [/remov.*(?:old|existing).*siding/i, /tear.*(?:off|out).*siding/i] },
-        { key: "insulation", label: "Insulation board", patterns: [/insulation board/i, /fanfold/i, /foam board/i] },
+        { key: "old_removal", label: "Old siding removal", patterns: [/remov.*(?:old|existing|siding)/i, /tear.*(?:off|out)/i, /old.*(?:remov|haul)/i, /haul.?off/i, /demo/i] },
+        { key: "insulation", label: "Insulation board", patterns: [/insulation board/i, /fanfold/i, /foam board/i, /rigid insul/i] },
         { key: "soffit_fascia", label: "Soffit/fascia", patterns: [/soffit/i, /fascia/i] },
-        { key: "trim_wrap", label: "Trim wrap", patterns: [/trim.*wrap/i, /window.*wrap/i, /aluminum.*wrap/i, /j.?channel/i] },
-        { key: "housewrap", label: "House wrap", patterns: [/house\s*wrap/i, /tyvek/i, /weather.*barrier/i] },
+        { key: "trim_wrap", label: "Trim wrap", patterns: [/trim.*wrap/i, /window.*wrap/i, /aluminum.*wrap/i, /j.?channel/i, /capping/i] },
+        { key: "housewrap", label: "House wrap", patterns: [/house\s*wrap/i, /tyvek/i, /weather.*barrier/i, /moisture.*barrier/i] },
+        { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /haul.?off/i, /site.*clean/i, /debris/i] },
+        { key: "flashing", label: "Flashing", patterns: [/flashing/i, /z.?flash/i, /kickout/i] },
       ],
       brands: [
         { pattern: /certainteed/i, brand: "CertainTeed", tier: "premium" },
@@ -482,12 +506,15 @@
 
     windows: {
       scope: [
-        { key: "trim", label: "Trim included", patterns: [/trim/i, /casing/i, /molding/i] },
-        { key: "caulk", label: "Caulk/insulation", patterns: [/caulk/i, /foam.*insul/i, /spray foam/i] },
-        { key: "haul_away", label: "Old window removal", patterns: [/haul away/i, /remov.*old/i, /dispos/i] },
+        { key: "trim", label: "Trim/capping", patterns: [/trim/i, /casing/i, /molding/i, /capping/i, /wrap/i, /j.?channel/i] },
+        { key: "caulk", label: "Caulk/insulation", patterns: [/caulk/i, /foam.*insul/i, /spray foam/i, /seal/i] },
+        { key: "haul_away", label: "Old window removal", patterns: [/haul.?(?:away|off)/i, /remov.*old/i, /dispos/i, /old.*remov/i, /demo/i] },
         { key: "low_e", label: "Low-E glass", patterns: [/low.?e/i, /low emissivity/i] },
-        { key: "argon", label: "Argon filled", patterns: [/argon/i, /gas.?fill/i] },
-        { key: "energy_star", label: "Energy Star", patterns: [/energy\s*star/i] },
+        { key: "argon", label: "Argon filled", patterns: [/argon/i, /gas.?fill/i, /krypton/i] },
+        { key: "energy_star", label: "Energy Star", patterns: [/energy\s*star/i, /u.?factor/i, /shgc/i] },
+        { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i] },
+        { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /site.*clean/i, /haul.?off/i] },
+        { key: "screens", label: "Screens included", patterns: [/screen/i, /bug screen/i] },
       ],
       brands: [
         { pattern: /pella/i, brand: "Pella", tier: "premium" },
