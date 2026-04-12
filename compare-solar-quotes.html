@@ -463,6 +463,7 @@
         else if (ratio <= 1) priceScore = 35 + (1 - ratio) * 30;
         else priceScore = Math.max(10, 35 - (ratio - 1) * 35);
       } else if (q.price > 0) priceScore = 30;
+      else priceScore = 0; // no price = can't evaluate
 
       var confirmed = 0;
       SCOPE_ITEMS.forEach(function(it) {
@@ -511,6 +512,10 @@
       } else {
         html += '<p class="cmp-winner-title">' + escHtml(bestValue.data.name) + ' shows the best overall value</p>';
         html += '<p class="cmp-winner-sub">Based on price, scope transparency, and red flags.</p>';
+      }
+      var hasMissingPrice = active.some(function(a) { return !a.data.price || a.data.price <= 0; });
+      if (hasMissingPrice) {
+        html += '<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:14px;color:#92400e;"><strong>Note:</strong> One or more quotes are missing a price. Enter the missing price above for a more accurate comparison.</div>';
       }
       var priced = active.filter(function(a) { return a.data.price > 0; });
       if (priced.length >= 2) {
