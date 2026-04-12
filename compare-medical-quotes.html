@@ -364,11 +364,21 @@
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
       TP_Engine.analyzeQuote(file, { vertical: "medical", apiEndpoint: "/api/medical-bill-estimate" }).then(function(engineResult) {
-        return sendToApi({ text: engineResult.ocrText || "", images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] });
-      }).then(function(raw) {
-        // Endpoints either return { data: {...} } or the data directly
+        return sendToApi({ text: engineResult.ocrText || "", images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) {
+          return { raw: raw, ocrText: engineResult.ocrText || "" };
+        });
+      }).then(function(combined) {
+        var raw = combined.raw;
+        var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
+
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+          var extracted = TP_VerticalScope.extractFields(_engOcrText, "medical");
+          if (!api.serviceType && extracted.jobType && extracted.jobType.value !== "other") api.serviceType = extracted.jobType.label;
+          if (!api.scopeItems) { api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; }); }
+        }
+
         var name = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || (NOUN_SHORT + " " + (idx + 1));
 
         // Compute derived fields

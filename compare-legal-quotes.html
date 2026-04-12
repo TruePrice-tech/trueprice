@@ -494,6 +494,16 @@
       }
 
       var apiResult = await apiResponse.json();
+
+      // Enrich with regex scope extraction
+      if (typeof TP_VerticalScope !== "undefined" && engineResult.ocrText) {
+        var extracted = TP_VerticalScope.extractFields(engineResult.ocrText, "legal");
+        var d = apiResult.data || apiResult;
+        if (!d.practiceArea && extracted.jobType && extracted.jobType.value !== "other") d.practiceArea = extracted.jobType.label;
+        if (!d.hourlyRate && extracted.laborRate) d.hourlyRate = extracted.laborRate;
+        if (!d.scopeItems) { d.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) d.scopeItems[s.key] = "included"; }); }
+      }
+
       return buildResultFromAPI(apiResult);
     }
 
