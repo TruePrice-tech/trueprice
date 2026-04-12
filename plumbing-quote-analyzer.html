@@ -827,6 +827,12 @@
         var _scopeSignals = scopeSignals;
         var _parsed = parsed;
 
+        // Set confidence so price-confirm can auto-skip on high confidence
+        try {
+          var _apiConf = (engineResult.aiData && engineResult.aiData.confidence) || "";
+          window.__TP_LAST_CONFIDENCE = _apiConf === "high" ? "high" : (parsed.confidence === "high" ? "high" : "low");
+        } catch(e) {}
+
         renderPriceConfirmation({ extractedPrice: quotePrice }, function(confirmedPrice) {
           var region = getRegionFromState(state.address.stateCode);
           var benchmark = calcBenchmark(_serviceType.value, _subType, region, null, null);

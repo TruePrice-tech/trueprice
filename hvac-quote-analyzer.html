@@ -903,7 +903,7 @@
 
         setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
-        try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.priceConfidence) || "low"; } catch(e) {}
+        try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
         renderPriceConfirmation(appRoot, quotePrice, "hvac", function(confirmedPrice) {
 
 
