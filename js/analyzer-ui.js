@@ -9740,7 +9740,7 @@ function buildComparisonWinnerHtml(summary) {
 
             <!-- Home size -->
             <div class="est-section">
-              <div class="est-section-label">How big is your home? (optional but improves accuracy)</div>
+              <div class="est-section-label">How big is your home?</div>
               <div style="display:flex; gap:10px; align-items:center;">
                 <input type="number" id="estHomeSize" placeholder="e.g. 2400" value="${journeyState.osmHomeSize ? String(journeyState.osmHomeSize) : ""}" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
                 <span style="font-size:14px; color:#64748b;">sq ft</span>
@@ -9806,6 +9806,19 @@ function buildComparisonWinnerHtml(summary) {
           errEl.style.display = "block";
           errEl.textContent = "Please answer all questions before continuing.";
         }
+        return;
+      }
+
+      // Require home size — can't estimate roof cost without knowing the size
+      const _homeSizeVal = Number(document.getElementById("estHomeSize")?.value || 0);
+      if (!_homeSizeVal || _homeSizeVal < 400) {
+        const errEl = document.getElementById("estError");
+        if (errEl) {
+          errEl.style.display = "block";
+          errEl.textContent = "Please enter your home's square footage. We need this to estimate your roof size.";
+        }
+        const _hsInput = document.getElementById("estHomeSize");
+        if (_hsInput) { _hsInput.style.borderColor = "#f59e0b"; _hsInput.focus(); }
         return;
       }
 
@@ -9933,10 +9946,19 @@ function buildComparisonWinnerHtml(summary) {
         baseArea = footprintSqFt * pitchFact;
         footprintSource = "osm_footprint";
       } else {
-        // No data — use regional average
-        const avgHome = 1800;
-        baseArea = avgHome * storyMult * ROOF_AREA_RATIO;
-        footprintSource = "regional_average";
+        // No footprint data — ask user for home size instead of guessing
+        const userSize = prompt("We couldn't detect your roof size from satellite data.\n\nEnter your home's square footage (e.g. 2000):");
+        const parsedSize = parseInt(userSize);
+        if (parsedSize && parsedSize >= 400 && parsedSize <= 20000) {
+          const footprint = parsedSize * storyMult;
+          baseArea = footprint * ROOF_AREA_RATIO;
+          footprintSource = "user_home_size";
+        } else {
+          // User cancelled or invalid — use conservative estimate
+          const avgHome = 1800;
+          baseArea = avgHome * storyMult * ROOF_AREA_RATIO;
+          footprintSource = "regional_average";
+        }
       }
 
       // Apply complexity on top (dormers, valleys add area)
