@@ -56,8 +56,8 @@ VERTICALS = {
         "queries": ["concrete quote", "driveway quote", "concrete estimate"]
     },
     "foundation": {
-        "subs": ["HomeImprovement", "Renovations"],
-        "queries": ["foundation repair quote", "foundation estimate"]
+        "subs": ["HomeImprovement", "HomeMaintenance", "Renovations"],
+        "queries": ["foundation repair quote", "foundation estimate", "foundation crack quote", "pier and beam quote", "underpinning quote", "foundation contractor"]
     },
     "landscaping": {
         "subs": ["landscaping", "lawncare", "HomeImprovement"],
@@ -72,16 +72,16 @@ VERTICALS = {
         "queries": ["moving quote", "mover quote", "moving estimate", "moving company quote", "is this a fair moving"]
     },
     "fencing": {
-        "subs": ["Fencing", "HomeImprovement"],
-        "queries": ["fence quote", "fencing quote", "fence estimate", "fence bid"]
+        "subs": ["HomeImprovement", "HomeMaintenance"],
+        "queries": ["fence quote", "fence estimate", "fence bid", "fence contractor quote", "privacy fence quote", "chain link fence quote"]
     },
     "windows": {
-        "subs": ["HomeImprovement", "windows", "Renovations"],
-        "queries": ["window quote", "window replacement quote", "window estimate", "renewal by andersen quote"]
+        "subs": ["HomeImprovement", "HomeMaintenance", "Renovations"],
+        "queries": ["window replacement quote", "window estimate", "renewal by andersen quote", "pella quote", "window contractor", "window install quote"]
     },
     "siding": {
-        "subs": ["HomeImprovement", "Renovations"],
-        "queries": ["siding quote", "siding estimate", "vinyl siding quote", "james hardie quote"]
+        "subs": ["HomeImprovement", "HomeMaintenance", "Renovations"],
+        "queries": ["siding quote", "siding estimate", "vinyl siding quote", "james hardie quote", "siding contractor quote", "siding replacement quote"]
     },
     "gutters": {
         "subs": ["HomeImprovement", "Roofing"],
@@ -137,13 +137,27 @@ REJECT_KEYWORDS = [
     "my setup", "my new", "my old", "update:", "show off",
     "appreciation", "shout out", "hiring", "career", "job posting",
     "for sale", "selling", "wtb", "wts", "deals", "coupon",
-    "pet", "cat", "dog", "selfie", "halloween", "christmas"
+    "pet", "cat", "dog", "selfie", "halloween", "christmas",
+    "windows 10", "windows 11", "windows 7", "windows xp", "microsoft",
+    "taskbar", "start menu", "blue screen", "bsod", "update",
+    "foil", "epee", "sabre", "bout", "tournament", "fencing club",
+    "weight class", "sparring", "coach", "training",
+    "curb appeal", "paint color", "color palette", "choosing color",
+    "what color", "hideous", "ugly house"
 ]
+
+def has_price_in_title(title):
+    """Check if the title contains a dollar amount -- strongest signal of a quote post."""
+    import re
+    return bool(re.search(r'\$[\d,]+|(?:\d+[kK]\b)', title or ""))
 
 def is_quote_post(title):
     t = (title or "").lower()
     if any(k in t for k in REJECT_KEYWORDS):
         return False
+    # Posts with dollar amounts in the title are almost always real quotes
+    if has_price_in_title(title):
+        return True
     if any(k in t for k in QUOTE_KEYWORDS):
         return True
     return False
@@ -180,13 +194,15 @@ def search_vertical(vertical, config):
                     else:
                         other_candidates.append(cand)
             time.sleep(0.5)  # be polite
-    quote_candidates.sort(key=lambda x: -x["score"])
+    # Sort: prioritize posts with $ in title, then by Reddit score
+    quote_candidates.sort(key=lambda x: (1 if has_price_in_title(x["title"]) else 0, x["score"]), reverse=True)
     print(f"  found {len(quote_candidates)} quote-keyword matches "
           f"({len(other_candidates)} non-matching also found)")
     # Prefer quote-keyword matches; fall back to top-scored other if too few
     result = quote_candidates[:TARGET_PER_VERTICAL]
     if len(result) < TARGET_PER_VERTICAL:
-        other_candidates.sort(key=lambda x: -x["score"])
+        # Also prioritize $ in title for fallback candidates
+        other_candidates.sort(key=lambda x: (1 if has_price_in_title(x["title"]) else 0, x["score"]), reverse=True)
         result += other_candidates[:TARGET_PER_VERTICAL - len(result)]
     return result
 

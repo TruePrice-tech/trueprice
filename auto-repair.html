@@ -1366,7 +1366,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
         onStartOver: "autoRepairStartOver"
       })
     : "";
-  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml)+sharedFooterHtml;
+  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml)+renderReportActions()+sharedFooterHtml;
   // Define autoRepairStartOver as a window fn so the shared footer's Start Over button works
   if (!window.autoRepairStartOver) {
     window.autoRepairStartOver = function() {
