@@ -108,7 +108,7 @@ async function storeShopQuote(shopData, isTestMode = false) {
         if (cityLc) await bump(`cal:${cityLc}:${st}:${service}:${repairKey}`);
         await bump(`cal:metro:${st}:${service}`);
         await bump(`cal:metro:${st}:${service}:${repairKey}`);
-        await redis.incr("tp:total_quotes").catch(() => {});
+
       }
     } catch (calErr) {
       console.log("[shop-store] calibration bridge error:", calErr.message);

@@ -371,7 +371,7 @@ CRITICAL ANALYSIS RULES:
         (parsed && parsed.patientResponsibility)
       ) || 0;
       if (totalPrice > 0 && !_isTestMode) {
-        await redis.incr("tp:total_quotes").catch(() => {});
+
         const cityLc = String((parsed && (parsed.city || parsed.cityName || parsed.facilityCity)) || "")
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String((parsed && (parsed.stateCode || parsed.state || parsed.facilityState)) || "").toUpperCase();

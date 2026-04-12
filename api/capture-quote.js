@@ -31,6 +31,7 @@ export default async function handler(req, res) {
   try {
     await redis.lpush("tp:pricing_data", JSON.stringify(record));
     await redis.ltrim("tp:pricing_data", 0, 49999);
+    await redis.incr("tp:total_quotes");
     return res.status(200).json({ ok: true });
   } catch (e) {
     console.error("[capture-quote] Redis error:", e.message);

@@ -273,7 +273,7 @@ export default async function handler(req, res) {
     await redis.set(quoteKey, JSON.stringify(quote), { ex: 365 * 24 * 60 * 60 }); // 1 year TTL
 
     // Increment global quote counter (used by public counter endpoint)
-    await redis.incr("tp:total_quotes").catch(() => {});
+
 
     // Update the city calibration aggregate.
     // Threshold: score >= 30 (lower than before so scraped data with score 35 still flows in,

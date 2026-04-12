@@ -383,7 +383,7 @@ Return ONLY the JSON object, no markdown, no explanation.`
         totalPrice = Number(_p.hourlyRate) * 10;
       }
       if (totalPrice > 0 && !_isTestMode) {
-        await redis.incr("tp:total_quotes").catch(() => {});
+
         const cityLc = String((parsed && (parsed.city || parsed.cityName || parsed.firmCity)) || "")
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String((parsed && (parsed.stateCode || parsed.state || parsed.firmState)) || "").toUpperCase();

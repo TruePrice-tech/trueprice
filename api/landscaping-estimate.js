@@ -447,7 +447,7 @@ For each red flag found, populate redFlagDetails with name, severity, the exact 
     try {
       const totalPrice = Number(parsed && parsed.totalPrice) || 0;
       if (totalPrice > 0 && !_isTestMode) {
-        await redis.incr("tp:total_quotes").catch(() => {});
+
         const cityLc = String((parsed && (parsed.city || parsed.cityName)) || "")
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String((parsed && (parsed.stateCode || parsed.state)) || "").toUpperCase();

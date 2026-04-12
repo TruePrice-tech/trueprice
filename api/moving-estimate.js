@@ -289,7 +289,7 @@ OTHER RULES:
     try {
       const totalPrice = Number(parsed && parsed.totalPrice) || 0;
       if (totalPrice > 0 && !_isTestMode) {
-        await redis.incr("tp:total_quotes").catch(() => {});
+
 
         const cityLc = String((parsed && parsed.pickupCity) || "").toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String((parsed && parsed.pickupState) || "").toUpperCase();
