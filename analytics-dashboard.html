@@ -186,7 +186,7 @@
       var analyzerViews = 0, photoViews = 0, analysisCompleted = 0, photoCompleted = 0;
       (d.topPages || []).forEach(function(p) {
         if (p.path === "/analyze-my-quote.html" || p.path.indexOf("quote-analyzer") > -1) analyzerViews += p.count;
-        if (p.path === "/roofing-quote-analyzer.html?mode=estimator") photoViews += p.count;
+        if (p.path === "/home-estimate.html#roofing") photoViews += p.count;
       });
       (d.topEvents || []).forEach(function(e) {
         if (e.event === "analysis_completed" || e.event === "funnel_analysis_complete") analysisCompleted += e.count;
