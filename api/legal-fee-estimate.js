@@ -350,8 +350,8 @@ Return ONLY the JSON object, no markdown, no explanation.`
     delete parsed.attorneyName;
 
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
-    const _calCity = parsed.city || parsed.cityName || "";
-    const _calState = parsed.stateCode || parsed.state || "";
+    const _calCity = parsed.city || parsed.cityName || parsed.firmCity || "";
+    const _calState = parsed.stateCode || parsed.state || parsed.firmState || "";
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "legal" });
 
     if (req.headers["x-trueprice-test"] !== "1") captureAnonymizedData("legal", parsed); // fire and forget

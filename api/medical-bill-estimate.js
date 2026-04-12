@@ -351,8 +351,8 @@ CRITICAL ANALYSIS RULES:
     delete parsed.patientName;
 
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
-    const _calCity = parsed.city || parsed.cityName || "";
-    const _calState = parsed.stateCode || parsed.state || "";
+    const _calCity = parsed.city || parsed.cityName || parsed.facilityCity || "";
+    const _calState = parsed.stateCode || parsed.state || parsed.facilityState || "";
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "medical" });
 
     if (req.headers["x-trueprice-test"] !== "1") captureAnonymizedData("medical", parsed); // fire and forget
