@@ -9172,6 +9172,14 @@ function buildComparisonWinnerHtml(summary) {
         return;
       }
 
+      // In estimate mode (?mode=estimator), skip the confirm step and go
+      // straight to the estimator. User already typed their address.
+      var _isEstimateMode = (new URLSearchParams(window.location.search)).get("mode") === "estimator";
+      if (_isEstimateMode) {
+        journeyState.propertyConfirmed = true;
+        confirmProperty();
+        return;
+      }
       setJourneyStep("confirm");
     };
 

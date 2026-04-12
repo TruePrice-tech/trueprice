@@ -10720,6 +10720,16 @@ function buildComparisonWinnerHtml(summary) {
         setJourneyStep("property_not_found");
         return;
       }
+      // In estimate mode (?mode=estimator), skip the confirm step and go
+      // straight to the estimator questions. The user already typed their
+      // address -- asking them to re-confirm is unnecessary friction.
+      // The analyzer/upload path keeps the confirm step for property context.
+      var _isEstimateMode = (new URLSearchParams(window.location.search)).get("mode") === "estimator";
+      if (_isEstimateMode) {
+        journeyState.propertyConfirmed = true;
+        confirmProperty();
+        return;
+      }
       setJourneyStep("confirm");
     };
     window.confirmProperty = function confirmProperty() {
