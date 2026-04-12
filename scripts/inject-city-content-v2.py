@@ -253,7 +253,8 @@ def get_vertical_tip(climate_zone, vertical_slug, hvac_extra=None, plumb_extra=N
 def build_local_grid_html(city, state, ctx, mult, vlabel, climate_zone, hvac_extra, plumb_extra, vslug):
     vert_tip = get_vertical_tip(climate_zone, vslug, hvac_extra, plumb_extra)
     weather = ctx.get("weatherNote") or ""
-    permit = ctx.get("permitNote") or ""
+    # permitNote in city-context.json is roofing-specific; only use it for roofing
+    permit = ctx.get("permitNote") or "" if vslug == "roof" else ""
     insight = ctx.get("localInsight") or ""
     home_age = ctx.get("avgHomeAge")
     age_phrase = f"The local housing stock averages around {home_age} years old, " if home_age else "Local housing varies widely in age, "
@@ -288,9 +289,12 @@ def build_about_section_html(city, state, ctx, mult, vlabel, climate_zone, hvac_
     labor_mult = mult.get("laborMult")
     pop = mult.get("population")
     vert_tip = get_vertical_tip(climate_zone, vslug, hvac_extra, plumb_extra)
-    permit = ctx.get("permitNote") or ""
+    # permitNote and materialTip in city-context.json are roofing-specific
+    # (e.g. "roof replacement project", "impact-resistant shingles");
+    # only use them for roofing pages to prevent cross-vertical contamination
+    permit = ctx.get("permitNote") or "" if vslug == "roof" else ""
     weather = ctx.get("weatherNote") or ""
-    material_tip = ctx.get("materialTip") or ""
+    material_tip = ctx.get("materialTip") or "" if vslug == "roof" else ""
     home_age = ctx.get("avgHomeAge")
     hail = ctx.get("hailRisk")
     snow = ctx.get("snowLoad")
