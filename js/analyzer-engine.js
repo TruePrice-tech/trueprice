@@ -442,6 +442,40 @@
       " ocrConf=" + Math.round(result.ocrConfidence) + "%" +
       " aiCalled=" + result.aiCalled);
 
+    // Capture anonymized pricing data for flywheel (fires on EVERY quote, not just AI)
+    if (result.price && result.price > 0) {
+      try {
+        var captureData = {
+          vertical: options.vertical || "unknown",
+          price: result.price,
+          state: result.stateCode || null,
+          jobType: null,
+          brand: null,
+          scope: 0,
+          source: result.source || "regex"
+        };
+        // Pull structured fields from scope extraction if available
+        if (typeof TP_VerticalScope !== "undefined" && result.ocrText) {
+          try {
+            var _ext = TP_VerticalScope.extractFields(result.ocrText, options.vertical || "plumbing");
+            if (_ext.jobType && _ext.jobType.value !== "other") captureData.jobType = _ext.jobType.value;
+            if (_ext.brand) captureData.brand = _ext.brand.brand;
+            captureData.scope = _ext.scopeDetected || 0;
+          } catch (e) {}
+        }
+        // Also capture from AI result if available
+        if (result.aiData) {
+          if (result.aiData.jobType) captureData.jobType = result.aiData.jobType;
+          if (result.aiData.contractor) captureData.contractor = undefined; // never store PII
+        }
+        fetch("/api/capture-quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(captureData)
+        }).catch(function () {});
+      } catch (e) {}
+    }
+
     onProgress(100, "Done");
     return result;
   }
