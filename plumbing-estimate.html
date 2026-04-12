@@ -483,7 +483,7 @@
 
     // ── Helpers ──
     function $(sel, el) { return (el || document).querySelector(sel); }
-    function fmt(n) { return "$" + Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 }); }
+    function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo25(n) { return Math.round(n / 25) * 25; }
 
     function getRegionFromState(sc) {
