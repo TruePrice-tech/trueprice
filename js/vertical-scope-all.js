@@ -14,17 +14,20 @@
     var result = { parts: null, labor: null, text: null };
     var t = String(text || "").replace(/\n/g, " ").replace(/\s+/g, " ");
 
-    var partsMatch = t.match(/(\d+)\s*(?:yr|year)s?\s*(?:manufacturer|tank|parts?|equipment|compressor|heat exchanger|material|shingle|panel|product)\s*(?:warranty|guarantee)/i) ||
-                     t.match(/(\d+)\s*(?:yr|year)s?\s*(?:warranty|guarantee)\s*(?:on\s+)?(?:tank|parts?|manufacturer|equipment|material|shingle|product)/i) ||
-                     t.match(/(\d+)\s*(?:yr|year)s?\s+(?:tank|manufacturer|parts?|material|shingle|non.?prorated)\b/i);
+    var partsMatch = t.match(/(\d+)[- ]*(?:yr|year)s?[- ]*(?:manufacturer|tank|parts?|equipment|compressor|heat exchanger|material|shingle|panel|product|finish|door)\s*(?:warranty|guarantee)/i) ||
+                     t.match(/(\d+)[- ]*(?:yr|year)s?[- ]*(?:warranty|guarantee)\s*(?:on\s+)?(?:tank|parts?|manufacturer|equipment|material|shingle|product|door|finish)/i) ||
+                     t.match(/(\d+)[- ]*(?:yr|year)s?\s+(?:tank|manufacturer|parts?|material|shingle|non.?prorated)\b/i) ||
+                     t.match(/warranty.*?(\d+)\s*(?:yr|year)s?\s*(?:on\s+)?(?:door|parts?|material|product|finish)/i);
     if (partsMatch) result.parts = parseInt(partsMatch[1]);
 
-    var laborMatch = t.match(/(\d+)\s*(?:yr|year)s?\s*(?:labor|workmanship|installation|craftsmanship)\s*(?:warranty|guarantee)/i) ||
-                     t.match(/(\d+)\s*(?:yr|year)s?\s*(?:warranty|guarantee)\s*(?:on\s+)?(?:labor|workmanship|installation)/i) ||
-                     t.match(/(\d+)\s*(?:yr|year)s?\s+labor\b/i);
+    var laborMatch = t.match(/(\d+)[- ]*(?:yr|year)s?[- ]*(?:labor|workmanship|installation|craftsmanship)\s*(?:warranty|guarantee)/i) ||
+                     t.match(/(\d+)[- ]*(?:yr|year)s?[- ]*(?:warranty|guarantee)\s*(?:on\s+)?(?:labor|workmanship|installation|opener)/i) ||
+                     t.match(/(\d+)[- ]*(?:yr|year)s?\s+(?:labor|workmanship)\b/i) ||
+                     t.match(/(?:labor|workmanship)\s*(?:warranty|guarantee)\s*:?\s*(\d+)/i) ||
+                     t.match(/warranty.*?(\d+)\s*(?:yr|year)s?\s*(?:on\s+)?(?:labor|workmanship|installation|opener)/i);
     if (laborMatch) result.labor = parseInt(laborMatch[1]);
 
-    var onMatch = t.match(/(\d+)\s*(?:yr|year)s?\s*(?:warranty|guarantee)\s+on\s+\w+/i);
+    var onMatch = t.match(/(\d+)[- ]*(?:yr|year)s?[- ]*(?:warranty|guarantee)\s+on\s+\w+/i);
     if (onMatch && !result.parts) result.parts = parseInt(onMatch[1]);
 
     if (!result.parts && !result.labor) {
@@ -375,12 +378,15 @@
 
     foundation: {
       scope: [
-        { key: "piers", label: "Piers/pilings", patterns: [/pier/i, /piling/i, /push pier/i, /helical/i] },
-        { key: "lift", label: "Hydraulic lift", patterns: [/hydraulic/i, /lift/i, /level/i, /raise/i] },
+        { key: "piers", label: "Piers/pilings", patterns: [/pier/i, /piling/i, /push pier/i, /helical/i, /underpinning/i] },
+        { key: "lift", label: "Hydraulic lift", patterns: [/hydraulic/i, /lift/i, /re.?level/i, /raise/i] },
+        { key: "excavation", label: "Excavation", patterns: [/excavat/i, /dig/i, /trench/i] },
+        { key: "cleanup", label: "Cleanup/grading", patterns: [/cleanup/i, /clean.?up/i, /haul.?off/i, /grade.*restor/i, /backfill/i, /site.*clean/i] },
         { key: "crack_repair", label: "Crack repair", patterns: [/crack.*repair/i, /epoxy.*inject/i, /carbon fiber/i] },
-        { key: "waterproof", label: "Waterproofing", patterns: [/waterproof/i, /membrane/i, /drainage/i, /french drain/i] },
+        { key: "waterproof", label: "Waterproofing", patterns: [/waterproof/i, /membrane/i, /drainage/i, /french drain/i, /drain.*assess/i] },
         { key: "engineering", label: "Engineering report", patterns: [/engineer/i, /structural.*report/i, /inspection.*report/i] },
         { key: "transferable", label: "Transferable warranty", patterns: [/transferable/i, /transfer.*warranty/i] },
+        { key: "permit", label: "Permit included", patterns: [/permit/i, /inspection.*coord/i] },
       ],
       brands: [],
       jobTypes: [
@@ -393,12 +399,14 @@
 
     gutters: {
       scope: [
-        { key: "old_removal", label: "Old gutter removal", patterns: [/remov.*(?:old|existing|gutter)/i] },
-        { key: "downspouts", label: "Downspouts", patterns: [/downspout/i, /leader/i] },
-        { key: "guards", label: "Gutter guards", patterns: [/guard/i, /leaf guard/i, /screen/i, /helmet/i] },
-        { key: "fascia", label: "Fascia inspection", patterns: [/fascia/i, /fascia.*inspect/i, /fascia.*repair/i] },
-        { key: "seamless", label: "Seamless", patterns: [/seamless/i, /on-site.*fabrica/i] },
-        { key: "hangers", label: "Hidden hangers", patterns: [/hanger/i, /hidden hanger/i, /bracket/i] },
+        { key: "old_removal", label: "Old gutter removal", patterns: [/remov.*(?:old|existing|gutter)/i, /old.*(?:gutter|removal|haul)/i, /gutter.*remov/i, /haul.?off/i, /tear.?off/i, /demo/i] },
+        { key: "downspouts", label: "Downspouts", patterns: [/downspout/i, /leader/i, /elbow/i] },
+        { key: "guards", label: "Gutter guards", patterns: [/guard/i, /leaf guard/i, /screen/i, /helmet/i, /cover/i, /micro.?mesh/i] },
+        { key: "fascia", label: "Fascia inspection", patterns: [/fascia/i, /fascia.*inspect/i, /fascia.*repair/i, /soffit/i] },
+        { key: "seamless", label: "Seamless", patterns: [/seamless/i, /on.?site.*fabrica/i, /formed on.?site/i, /continuous/i] },
+        { key: "hangers", label: "Hidden hangers", patterns: [/hanger/i, /hidden hanger/i, /bracket/i, /every\s+\d+/i] },
+        { key: "splash_blocks", label: "Splash blocks/extensions", patterns: [/splash/i, /extension/i, /diverter/i] },
+        { key: "gauge", label: "Gauge specified", patterns: [/0\.0\d+.*gauge/i, /gauge.*0\.0\d+/i, /\d+\s*gauge/i] },
       ],
       brands: [],
       jobTypes: [
@@ -410,11 +418,14 @@
 
     insulation: {
       scope: [
-        { key: "air_sealing", label: "Air sealing", patterns: [/air seal/i, /seal.*penetrat/i, /foam.*seal/i] },
-        { key: "baffles", label: "Baffles", patterns: [/baffle/i, /soffit vent/i, /rafter vent/i] },
+        { key: "air_sealing", label: "Air sealing", patterns: [/air seal/i, /seal.*penetrat/i, /foam.*seal/i, /top plate/i, /can light/i] },
+        { key: "baffles", label: "Baffles", patterns: [/baffle/i, /soffit vent/i, /rafter vent/i, /ventilation.*\d+/i] },
         { key: "vapor_barrier", label: "Vapor barrier", patterns: [/vapor barrier/i, /moisture barrier/i] },
-        { key: "removal", label: "Old insulation removal", patterns: [/remov.*(?:old|existing).*insul/i] },
-        { key: "rebate", label: "Rebate eligible", patterns: [/rebate/i, /incentive/i, /tax credit/i, /utility rebate/i] },
+        { key: "removal", label: "Old insulation removal", patterns: [/remov.*(?:old|existing).*insul/i, /existing.*insul.*not.*remov/i, /NOT.*remov/i] },
+        { key: "rebate", label: "Rebate eligible", patterns: [/rebate/i, /incentive/i, /tax credit/i, /utility rebate/i, /eligible/i] },
+        { key: "cleanup", label: "Cleanup/disposal", patterns: [/cleanup/i, /clean.?up/i, /disposal/i, /haul/i] },
+        { key: "hatch", label: "Hatch insulation", patterns: [/hatch/i, /attic.*access/i, /attic.*door/i] },
+        { key: "energy_audit", label: "Energy audit", patterns: [/energy.*audit/i, /energy.*assess/i, /blower.*door/i] },
       ],
       brands: [
         { pattern: /owens\s*corning/i, brand: "Owens Corning", tier: "premium" },
@@ -494,12 +505,14 @@
 
     "garage-door": {
       scope: [
-        { key: "old_removal", label: "Old door removal", patterns: [/remov.*(?:old|existing)/i] },
+        { key: "old_removal", label: "Old door removal", patterns: [/remov.*(?:old|existing|door)/i, /old.*(?:remov|haul|door)/i, /haul.?off/i, /demo/i, /dispos/i] },
         { key: "opener", label: "Opener included", patterns: [/opener/i, /liftmaster/i, /chamberlain/i, /genie/i] },
-        { key: "tracks", label: "New tracks", patterns: [/track/i, /hardware/i, /roller/i, /hinge/i] },
-        { key: "weather_seal", label: "Weather seal", patterns: [/weather.*seal/i, /bottom seal/i, /threshold/i] },
-        { key: "insulated", label: "Insulated door", patterns: [/insulat/i, /r-value/i, /r-\d+/i] },
-        { key: "wifi", label: "WiFi/smart", patterns: [/wifi/i, /smart/i, /myq/i, /app/i] },
+        { key: "tracks", label: "New tracks/hardware", patterns: [/track/i, /hardware/i, /roller/i, /hinge/i, /install.*\(/i] },
+        { key: "springs", label: "Springs", patterns: [/spring/i, /torsion/i, /cycle/i] },
+        { key: "weather_seal", label: "Weather seal", patterns: [/weather.*sea/i, /bottom seal/i, /threshold/i, /weather\s+se/i] },
+        { key: "insulated", label: "Insulated door", patterns: [/insulat/i, /r.?value/i, /r.?\d+/i] },
+        { key: "wifi", label: "WiFi/smart", patterns: [/wi.?fi/i, /smart/i, /myq/i, /app.*control/i, /keypad/i, /remote/i] },
+        { key: "safety", label: "Safety inspection", patterns: [/safety.*inspect/i, /tune.?up/i, /safety.*test/i] },
       ],
       brands: [
         { pattern: /clopay/i, brand: "Clopay", tier: "premium" },
