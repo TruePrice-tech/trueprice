@@ -364,26 +364,39 @@
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
       TP_Engine.analyzeQuote(file, { vertical: "electrical", apiEndpoint: "/api/electrical-estimate" }).then(function(engineResult) {
-        return sendToApi({ text: engineResult.ocrText || "", images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) {
-          return { raw: raw, ocrText: engineResult.ocrText || "" };
+        var _engOcrText = engineResult.ocrText || "";
+        var regexPrice = engineResult.price || 0;
+
+        if (regexPrice > 0) {
+          var api = { totalPrice: regexPrice, _source: "regex" };
+          if (engineResult.contractor) api.contractor = engineResult.contractor;
+          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+            var extracted = TP_VerticalScope.extractFields(_engOcrText, "electrical");
+            if (extracted.jobType && extracted.jobType.value !== "other") api.serviceType = extracted.jobType.label;
+            if (extracted.brand) api.brand = extracted.brand.brand;
+            if (extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+            api.scopeItems = {};
+            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
+          }
+          return { raw: { data: api }, ocrText: _engOcrText };
+        }
+
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) {
+          return { raw: raw, ocrText: _engOcrText };
         });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
-        // Endpoints either return { data: {...} } or the data directly
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
 
-        // Enrich with regex scope extraction
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "electrical");
           if (!api.serviceType && extracted.jobType && extracted.jobType.value !== "other") api.serviceType = extracted.jobType.label;
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyYears && extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
-          if (!api.scopeItems) {
-            api.scopeItems = {};
-            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
-          }
+          api.scopeItems = {};
+          extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
         }
 
         var name = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || (NOUN_SHORT + " " + (idx + 1));

@@ -419,18 +419,29 @@
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
       TP_Engine.analyzeQuote(file, { vertical: "auto", apiEndpoint: "/api/auto-repair-estimate" }).then(function(engineResult) {
-        return sendToApi({ text: engineResult.ocrText || "", images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(data) {
-          return { data: data, ocrText: engineResult.ocrText || "" };
+        var _engOcrText = engineResult.ocrText || "";
+        var regexPrice = engineResult.price || 0;
+        if (regexPrice > 0) {
+          var p = { quoteTotal: regexPrice, _source: "regex" };
+          if (engineResult.contractor) p.shopName = engineResult.contractor;
+          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+            var extracted = TP_VerticalScope.extractFields(_engOcrText, "auto");
+            if (extracted.jobType && extracted.jobType.value !== "other") p.repairType = extracted.jobType.label;
+            if (extracted.brand) p.brand = extracted.brand.brand;
+          }
+          return { data: p, ocrText: _engOcrText };
+        }
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(data) {
+          return { data: data, ocrText: _engOcrText };
         });
       }).then(function(combined) {
         var data = combined.data;
         var _engOcrText = combined.ocrText;
         var p = data || {};
 
-        // Enrich with regex scope extraction
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !p.repairType) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "auto");
-          if (!p.repairType && extracted.jobType && extracted.jobType.value !== "other") p.repairType = extracted.jobType.label;
+          if (extracted.jobType && extracted.jobType.value !== "other") p.repairType = extracted.jobType.label;
           if (!p.brand && extracted.brand) p.brand = extracted.brand.brand;
         }
 

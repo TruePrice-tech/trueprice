@@ -472,7 +472,33 @@
     // ── Process a single file ──
     async function processFile(file) {
       var engineResult = await TP_Engine.analyzeQuote(file, { vertical: "legal", apiEndpoint: "/api/legal-fee-estimate" });
+      var regexPrice = engineResult.price || 0;
 
+      // Regex found price: skip API call
+      if (regexPrice > 0) {
+        var regexApi = { totalPrice: regexPrice, _source: "regex" };
+        if (engineResult.contractor) regexApi.firmName = engineResult.contractor;
+        if (typeof TP_VerticalScope !== "undefined" && engineResult.ocrText) {
+          var extracted = TP_VerticalScope.extractFields(engineResult.ocrText, "legal");
+          if (extracted.jobType && extracted.jobType.value !== "other") regexApi.practiceArea = extracted.jobType.label;
+          if (extracted.laborRate) regexApi.hourlyRate = extracted.laborRate;
+          regexApi.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) regexApi.scopeItems[s.key] = "included"; });
+        }
+        var apiResult = { data: regexApi };
+
+        // Enrich with regex scope extraction
+        if (typeof TP_VerticalScope !== "undefined" && engineResult.ocrText) {
+          var extracted2 = TP_VerticalScope.extractFields(engineResult.ocrText, "legal");
+          var d = apiResult.data || apiResult;
+          if (!d.practiceArea && extracted2.jobType && extracted2.jobType.value !== "other") d.practiceArea = extracted2.jobType.label;
+          if (!d.hourlyRate && extracted2.laborRate) d.hourlyRate = extracted2.laborRate;
+          if (!d.scopeItems) { d.scopeItems = {}; extracted2.scope.forEach(function(s) { if (s.detected) d.scopeItems[s.key] = "included"; }); }
+        }
+
+        return buildResultFromAPI(apiResult);
+      }
+
+      // Regex failed: call API as backup
       var apiPayload = { text: engineResult.ocrText || "" };
       if (engineResult.imageDataUrl) apiPayload.images = [engineResult.imageDataUrl];
 
