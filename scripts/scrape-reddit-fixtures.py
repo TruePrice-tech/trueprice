@@ -59,6 +59,46 @@ VERTICALS = {
         "subs": ["HomeImprovement", "Renovations"],
         "queries": ["foundation repair quote", "foundation estimate"]
     },
+    "landscaping": {
+        "subs": ["landscaping", "lawncare", "HomeImprovement"],
+        "queries": ["landscaping quote", "landscaping estimate", "patio quote", "hardscape quote", "retaining wall quote"]
+    },
+    "painting": {
+        "subs": ["HomeImprovement", "paint", "Renovations"],
+        "queries": ["painting quote", "painter quote", "painting estimate", "exterior paint quote", "interior paint quote"]
+    },
+    "moving": {
+        "subs": ["moving", "MovingDay", "personalfinance"],
+        "queries": ["moving quote", "mover quote", "moving estimate", "moving company quote", "is this a fair moving"]
+    },
+    "fencing": {
+        "subs": ["Fencing", "HomeImprovement"],
+        "queries": ["fence quote", "fencing quote", "fence estimate", "fence bid"]
+    },
+    "windows": {
+        "subs": ["HomeImprovement", "windows", "Renovations"],
+        "queries": ["window quote", "window replacement quote", "window estimate", "renewal by andersen quote"]
+    },
+    "siding": {
+        "subs": ["HomeImprovement", "Renovations"],
+        "queries": ["siding quote", "siding estimate", "vinyl siding quote", "james hardie quote"]
+    },
+    "gutters": {
+        "subs": ["HomeImprovement", "Roofing"],
+        "queries": ["gutter quote", "gutter estimate", "gutter guard quote", "leaffilter quote"]
+    },
+    "insulation": {
+        "subs": ["HomeImprovement", "Renovations", "energyefficiency"],
+        "queries": ["insulation quote", "spray foam quote", "attic insulation estimate"]
+    },
+    "kitchen": {
+        "subs": ["HomeImprovement", "Renovations", "kitchenremodel"],
+        "queries": ["kitchen remodel quote", "kitchen estimate", "kitchen contractor quote", "kitchen renovation quote"]
+    },
+    "garage-door": {
+        "subs": ["HomeImprovement", "garagedoors"],
+        "queries": ["garage door quote", "garage door estimate", "garage door replacement quote"]
+    },
 }
 
 def fetch_json(url, retries=2):
@@ -92,7 +132,12 @@ REJECT_KEYWORDS = [
     "vent", "frustrating", "tutorial", "how do i", "newbie",
     "first day", "first time", "what is this", "identify this",
     "what kind of", "is this safe", "to remove", "joke", "funny",
-    "lol", "haha", "lmao"
+    "lol", "haha", "lmao", "before and after", "transformation",
+    "just finished", "completed", "project complete", "diy",
+    "my setup", "my new", "my old", "update:", "show off",
+    "appreciation", "shout out", "hiring", "career", "job posting",
+    "for sale", "selling", "wtb", "wts", "deals", "coupon",
+    "pet", "cat", "dog", "selfie", "halloween", "christmas"
 ]
 
 def is_quote_post(title):

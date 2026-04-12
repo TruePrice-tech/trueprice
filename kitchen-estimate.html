@@ -272,9 +272,22 @@
       ],
       countertopMaterials: [
         { key: "laminate", label: "Laminate",  multiplier: 0.85 },
+        { key: "butcher_block", label: "Butcher Block", multiplier: 0.90 },
         { key: "granite",  label: "Granite",   multiplier: 1.0  },
         { key: "quartz",   label: "Quartz",    multiplier: 1.10 },
-        { key: "marble",   label: "Marble",    multiplier: 1.25 }
+        { key: "marble",   label: "Marble",    multiplier: 1.25 },
+        { key: "quartzite", label: "Quartzite", multiplier: 1.30 }
+      ],
+      cabinetQuality: [
+        { key: "stock", label: "Stock Cabinets", tag: "Pre-made, limited sizes. Hampton Bay, In-Stock.", multiplier: 0.85 },
+        { key: "semicustom", label: "Semi-Custom Cabinets", tag: "More options, 2-4 week lead. KraftMaid, Thomasville, Diamond.", multiplier: 1.00 },
+        { key: "custom", label: "Custom Cabinets", tag: "Built to spec, 6-12 week lead. Local shops, high-end brands.", multiplier: 1.40 }
+      ],
+      applianceTier: [
+        { key: "existing", label: "Keep Existing Appliances", tag: "Reuse what you have. No appliance cost.", multiplier: 0.80 },
+        { key: "basic", label: "Basic / Builder Grade", tag: "Whirlpool, Frigidaire, Amana. $3K-$5K for a set.", multiplier: 0.90 },
+        { key: "midrange", label: "Mid-Range", tag: "KitchenAid, Bosch, Samsung. $5K-$10K for a set.", multiplier: 1.00 },
+        { key: "premium", label: "Premium", tag: "Sub-Zero, Wolf, Viking, Thermador. $15K-$30K+ for a set.", multiplier: 1.25 }
       ],
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       roundTo: 50,
@@ -329,7 +342,7 @@
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { tier: null, kitchenSize: null, countertop: null },
+      est: { tier: null, kitchenSize: null, cabinetQuality: null, countertop: null, applianceTier: null },
       // result
       result: null
     };
@@ -366,7 +379,7 @@
     var SEASONAL_MULTS = { 1:0.94, 2:0.95, 3:0.98, 4:1.02, 5:1.06, 6:1.08, 7:1.08, 8:1.06, 9:1.02, 10:0.98, 11:0.94, 12:0.92 };
     var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
-    function calcBenchmark(tier, sizeIdx, countertopKey) {
+    function calcBenchmark(tier, sizeIdx, countertopKey, cabinetKey, applianceKey) {
       var tierData = KIT_PRICING.basePriceByTier[tier];
       if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
       var base = tierData.base;
@@ -382,11 +395,23 @@
         if (mat) countertopMult = mat.multiplier;
       }
 
+      var cabinetMult = 1.0;
+      if (cabinetKey) {
+        var cab = KIT_PRICING.cabinetQuality.find(function(c) { return c.key === cabinetKey; });
+        if (cab) cabinetMult = cab.multiplier;
+      }
+
+      var applianceMult = 1.0;
+      if (applianceKey) {
+        var app = KIT_PRICING.applianceTier.find(function(a) { return a.key === applianceKey; });
+        if (app) applianceMult = app.multiplier;
+      }
+
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
       var region = getRegionFromState(state.address.stateCode);
       var laborMult = cityMult || (KIT_PRICING.laborMultiplierByRegion[region] || 1.0);
 
-      var total = base * sizeMult * countertopMult * laborMult * INFLATION_MULT * SEASONAL_MULT;
+      var total = base * sizeMult * countertopMult * cabinetMult * applianceMult * laborMult * INFLATION_MULT * SEASONAL_MULT;
 
       return roundTo50(total);
     }
@@ -702,7 +727,7 @@
         var sizeIdx = 1; // average
         var countertopKey = detectedCountertop || "granite";
 
-        var benchmark = calcBenchmark(tier, sizeIdx, countertopKey);
+        var benchmark = calcBenchmark(tier, sizeIdx, countertopKey, "semicustom", "midrange");
 
         var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
@@ -748,7 +773,7 @@
         document.getElementById("manualPriceBtn").addEventListener("click", function() {
           var price = parseFloat(document.getElementById("manualPrice").value);
           if (!price || price < 1000) { alert("Please enter a valid price."); return; }
-          var benchmark = calcBenchmark("midrange", 1, "granite");
+          var benchmark = calcBenchmark("midrange", 1, "granite", "semicustom", "midrange");
           var ratio = price / benchmark;
           state.result = {
             source: "manual",
@@ -943,6 +968,20 @@
         card.innerHTML = sizeHtml;
         bindOptions("optSize", "kitchenSize");
       } else if (stepNum === 3) {
+        var cabHtml = '<div class="kit-step"><h3>What cabinet quality?</h3>';
+        cabHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">Cabinets are 30-40% of a kitchen remodel cost.</p>';
+        cabHtml += '<div style="display:flex;flex-direction:column;gap:10px;" id="optCabinet">';
+        KIT_PRICING.cabinetQuality.forEach(function(cab) {
+          var sel = est.cabinetQuality === cab.key ? " selected" : "";
+          cabHtml += '<div class="kit-option' + sel + '" data-val="' + cab.key + '" style="display:flex;flex-direction:column;padding:12px 16px;">';
+          cabHtml += '<strong>' + cab.label + '</strong>';
+          cabHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">' + cab.tag + '</div>';
+          cabHtml += '</div>';
+        });
+        cabHtml += '</div></div>';
+        card.innerHTML = cabHtml;
+        bindOptions("optCabinet", "cabinetQuality");
+      } else if (stepNum === 4) {
         var matHtml = '<div class="kit-step"><h3>What countertop material?</h3><div class="kit-options" id="optCounter">';
         KIT_PRICING.countertopMaterials.forEach(function(mat) {
           matHtml += '<div class="kit-option' + (est.countertop === mat.key ? " selected" : "") + '" data-val="' + mat.key + '">' + mat.label + '</div>';
@@ -950,10 +989,23 @@
         matHtml += '</div></div>';
         card.innerHTML = matHtml;
         bindOptions("optCounter", "countertop");
+      } else if (stepNum === 5) {
+        var appHtml = '<div class="kit-step"><h3>What appliance tier?</h3>';
+        appHtml += '<div style="display:flex;flex-direction:column;gap:10px;" id="optAppliance">';
+        KIT_PRICING.applianceTier.forEach(function(app) {
+          var sel = est.applianceTier === app.key ? " selected" : "";
+          appHtml += '<div class="kit-option' + sel + '" data-val="' + app.key + '" style="display:flex;flex-direction:column;padding:12px 16px;">';
+          appHtml += '<strong>' + app.label + '</strong>';
+          appHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">' + app.tag + '</div>';
+          appHtml += '</div>';
+        });
+        appHtml += '</div></div>';
+        card.innerHTML = appHtml;
+        bindOptions("optAppliance", "applianceTier");
       }
 
       // Show progress indicator
-      var _ts = 3;
+      var _ts = 5;
       var progressBar = '<div style="text-align:center;margin-bottom:1.25rem;">';
       progressBar += '<div style="font-size:13px;color:#64748b;margin-bottom:8px;font-weight:600;">Step ' + stepNum + ' of ' + _ts + '</div>';
       progressBar += '<div style="display:flex;gap:6px;justify-content:center;align-items:center;">';
@@ -970,7 +1022,9 @@
       if (stepNum > 1) {
         card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="kit-btn kit-btn-secondary" id="estBack">Back</button></div>');
         document.getElementById("estBack").addEventListener("click", function() {
-          if (stepNum === 3) est.countertop = null;
+          if (stepNum === 5) est.applianceTier = null;
+          else if (stepNum === 4) est.countertop = null;
+          else if (stepNum === 3) est.cabinetQuality = null;
           else if (stepNum === 2) est.kitchenSize = null;
           render();
         });
@@ -981,8 +1035,10 @@
       var e = state.est;
       if (!e.tier) return 1;
       if (e.kitchenSize === null || e.kitchenSize === undefined) return 2;
-      if (!e.countertop) return 3;
-      return 4; // all done
+      if (!e.cabinetQuality) return 3;
+      if (!e.countertop) return 4;
+      if (!e.applianceTier) return 5;
+      return 6; // all done
     }
 
     function bindOptions(containerId, field) {
@@ -994,7 +1050,7 @@
         state.est[field] = opt.getAttribute("data-val");
 
         // Check if estimator is complete
-        if (getEstimatorStep() > 3) {
+        if (getEstimatorStep() > 5) {
           calculateEstimate();
         } else {
           render();
@@ -1006,7 +1062,7 @@
       var est = state.est;
       var sizeIdx = parseInt(est.kitchenSize, 10);
 
-      var benchmark = calcBenchmark(est.tier, sizeIdx, est.countertop);
+      var benchmark = calcBenchmark(est.tier, sizeIdx, est.countertop, est.cabinetQuality, est.applianceTier);
 
       var tierData = KIT_PRICING.basePriceByTier[est.tier];
       var low = roundTo50(benchmark * 0.88);
@@ -1026,6 +1082,10 @@
         sizeLabel: KIT_PRICING.kitchenSizes[sizeIdx] ? KIT_PRICING.kitchenSizes[sizeIdx].label : "",
         countertopKey: est.countertop,
         countertopLabel: (KIT_PRICING.countertopMaterials.find(function(m) { return m.key === est.countertop; }) || {}).label || est.countertop,
+        cabinetQuality: est.cabinetQuality,
+        cabinetLabel: (KIT_PRICING.cabinetQuality.find(function(c) { return c.key === est.cabinetQuality; }) || {}).label || est.cabinetQuality,
+        applianceTier: est.applianceTier,
+        applianceLabel: (KIT_PRICING.applianceTier.find(function(a) { return a.key === est.applianceTier; }) || {}).label || est.applianceTier,
         scopeSignals: {},
         region: getRegionFromState(state.address.stateCode),
         location: null,
@@ -1073,11 +1133,18 @@
         detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + KIT_PRICING.kitchenSizes[r.sizeIdx].label + '</div></div>';
       }
 
+      if (r.cabinetLabel) {
+        detailsHtml += '<div class="kit-detail"><div class="label">Cabinets</div><div class="value">' + r.cabinetLabel + '</div></div>';
+      }
       if (r.countertopLabel) {
         detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + r.countertopLabel + '</div></div>';
       } else if (r.countertopKey) {
         var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === r.countertopKey; });
         if (mat) detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + mat.label + '</div></div>';
+      }
+
+      if (r.applianceLabel) {
+        detailsHtml += '<div class="kit-detail"><div class="label">Appliances</div><div class="value">' + r.applianceLabel + '</div></div>';
       }
 
       var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
@@ -1121,6 +1188,36 @@
           }
         });
         scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Appliances, structural changes, or custom cabinetry may add cost.</p></div>';
+      }
+
+      // Remodel tier comparison (estimator only)
+      var kitCompHtml = '';
+      if (!isUpload && r.tier && r.sizeIdx !== undefined) {
+        kitCompHtml = '<div class="kit-card">';
+        kitCompHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Same kitchen, different remodel levels</h3>';
+        kitCompHtml += '<div style="display:flex;flex-direction:column;gap:8px;">';
+        var _compTiers = ["minor", "midrange", "major"];
+        for (var cti = 0; cti < _compTiers.length; cti++) {
+          var _ctk = _compTiers[cti];
+          var _ctd = KIT_PRICING.basePriceByTier[_ctk];
+          if (!_ctd) continue;
+          var _ctBench = calcBenchmark(_ctk, r.sizeIdx, r.countertopKey, r.cabinetQuality, r.applianceTier);
+          var _ctLow = roundTo50(_ctBench * 0.88);
+          var _ctHigh = roundTo50(_ctBench * 1.15);
+          var _ctSel = r.tier === _ctk;
+          var _ctBg = _ctSel ? "#eff6ff" : "#f8fafc";
+          var _ctBorder = _ctSel ? "2px solid #2563eb" : "1px solid #e2e8f0";
+          kitCompHtml += '<div style="background:' + _ctBg + ';border:' + _ctBorder + ';border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">';
+          kitCompHtml += '<div>';
+          kitCompHtml += '<strong>' + _ctd.label + '</strong>';
+          if (_ctSel) kitCompHtml += ' <span style="font-size:11px;color:#2563eb;font-weight:600;vertical-align:middle;">YOUR PICK</span>';
+          kitCompHtml += '</div>';
+          kitCompHtml += '<div style="text-align:right;">';
+          kitCompHtml += '<div style="font-size:1.05rem;color:#1e293b;font-weight:700;">' + fmt(_ctBench) + '</div>';
+          kitCompHtml += '<div style="font-size:11px;color:#64748b;">' + fmt(_ctLow) + ' \u2013 ' + fmt(_ctHigh) + '</div>';
+          kitCompHtml += '</div></div>';
+        }
+        kitCompHtml += '</div></div>';
       }
 
       // Market context
@@ -1201,6 +1298,7 @@
           ' + detailsHtml + '\
         </div>\
         ' + scopeHtml + '\
+        ' + kitCompHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
         ' + savingsHtml + '\
@@ -1217,7 +1315,7 @@
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { tier: null, kitchenSize: null, countertop: null },
+          est: { tier: null, kitchenSize: null, cabinetQuality: null, countertop: null, applianceTier: null },
           result: null
         };
         render();

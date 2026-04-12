@@ -294,6 +294,50 @@
       fullframe: 1.40
     };
 
+    // Brand quality tiers with per-material pricing (per window installed $)
+    // Derived from windows-pricing.json brand data (13 manufacturers, 40+ lines)
+    var BRAND_TIER = {
+      value: {
+        label: "Value / Budget",
+        tag: "Reliable basics. Best for rentals, flips, or budget-first.",
+        perMat: {
+          vinyl:      { low: 250, mid: 375, high: 550, brands: "Window World, Jeld-Wen Builders, Alside Sheffield" },
+          aluminum:   { low: 350, mid: 500, high: 700, brands: "Jeld-Wen Builders Aluminum" }
+        }
+      },
+      mid: {
+        label: "Mid-Range",
+        tag: "Most popular. Solid performance at a fair price.",
+        perMat: {
+          vinyl:      { low: 400, mid: 675, high: 1000, brands: "Simonton 5500, Pella 250, Milgard Tuscany, Alside Mezzo" },
+          fiberglass: { low: 700, mid: 1050, high: 1600, brands: "Milgard Ultra" },
+          "wood-clad":{ low: 600, mid: 1000, high: 1500, brands: "Jeld-Wen Siteline" },
+          composite:  { low: 400, mid: 650, high: 1500, brands: "Andersen 100 Series" },
+          aluminum:   { low: 400, mid: 650, high: 900, brands: "Standard aluminum frames" }
+        }
+      },
+      premium: {
+        label: "Premium",
+        tag: "Better performance, stronger warranties, proven names.",
+        perMat: {
+          vinyl:      { low: 700, mid: 1200, high: 1800, brands: "ProVia Endure, Soft-Lite Imperial, Pella 350" },
+          fiberglass: { low: 900, mid: 1300, high: 2400, brands: "Marvin Essential, Marvin Elevate" },
+          "wood-clad":{ low: 500, mid: 1200, high: 3000, brands: "Andersen 400 Series, Pella Lifestyle, ProVia Aeris" },
+          composite:  { low: 650, mid: 1000, high: 1800, brands: "Andersen 200 Series" },
+          aluminum:   { low: 600, mid: 900, high: 1400, brands: "Jeld-Wen Premium Atlantic (impact-rated)" }
+        }
+      },
+      luxury: {
+        label: "Luxury / Architectural",
+        tag: "Top-of-line. Custom options, architectural-grade.",
+        perMat: {
+          vinyl:      { low: 1000, mid: 1700, high: 3500, brands: "Renewal by Andersen" },
+          "wood-clad":{ low: 1100, mid: 2000, high: 4000, brands: "Andersen A-Series, Pella Reserve, Marvin Signature" },
+          composite:  { low: 1100, mid: 2200, high: 4000, brands: "Andersen A-Series" }
+        }
+      }
+    };
+
     var COUNT_MID = {
       "1-3":   2,
       "4-8":   6,
@@ -394,7 +438,7 @@
       step: "address",        // address | estimator | result
       address: { street: "", city: "", stateCode: "", zip: "" },
       // estimator answers
-      est: { count: null, material: null, style: null, glass: null, install: null },
+      est: { count: null, material: null, brandTier: null, style: null, glass: null, install: null },
       // result
       result: null
     };
@@ -520,6 +564,40 @@
 
         fetchCityMult(wState.address.city, wState.address.stateCode);
 
+        // OSM footprint fetch: estimate home sqft to suggest window count
+        // ~1 window per 100-130 sqft of living space
+        try {
+          var _osmCtrl = ("AbortController" in window) ? new AbortController() : null;
+          var _osmTimer = setTimeout(function() { if (_osmCtrl) _osmCtrl.abort(); }, 6000);
+          fetch("/api/property-signals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              street: wState.address.street,
+              city: wState.address.city,
+              stateCode: wState.address.stateCode,
+              zip: wState.address.zip
+            }),
+            signal: _osmCtrl ? _osmCtrl.signal : undefined
+          })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(payload) {
+              clearTimeout(_osmTimer);
+              if (!payload || !payload.success || !payload.data) return;
+              var sqft = Number(payload.data.livingAreaSqFt || payload.data.footprintSqFt || 0);
+              if (sqft >= 500 && sqft <= 10000) {
+                wState.osmSqFt = Math.round(sqft);
+                // Auto-suggest window count range if user hasn't picked yet
+                var estWindows = Math.round(sqft / 115);
+                if (!wState.est.count) {
+                  if (estWindows <= 3) wState.est.count = null; // let user pick
+                  // Just store the suggestion; step 1 will show it
+                }
+              }
+            })
+            .catch(function() { clearTimeout(_osmTimer); });
+        } catch (e) {}
+
         wState.step = "estimator";
         render();
       });
@@ -540,9 +618,16 @@
       var card = document.getElementById("estCard");
 
       if (stepNum === 1) {
+        var _osmHint = '';
+        if (wState.osmSqFt) {
+          var _estWin = Math.round(wState.osmSqFt / 115);
+          var _sugRange = _estWin <= 3 ? "1-3" : _estWin <= 8 ? "4-8" : _estWin <= 15 ? "9-15" : "16+";
+          _osmHint = '<p style="font-size:13px;color:#16a34a;margin:0 0 12px;">&#10003; Based on your home (' + wState.osmSqFt.toLocaleString() + ' sq ft), we estimate ~' + _estWin + ' windows</p>';
+        }
         card.innerHTML = '\
           <div class="win-step">\
             <h3>How many windows are you replacing?</h3>\
+            ' + _osmHint + '\
             <div class="win-options" id="optCount">\
               <div class="win-option' + (est.count === "1-3" ? " selected" : "") + '" data-val="1-3">1 - 3 windows</div>\
               <div class="win-option' + (est.count === "4-8" ? " selected" : "") + '" data-val="4-8">4 - 8 windows</div>\
@@ -565,6 +650,30 @@
           </div>';
         bindOptions("optMaterial", "material");
       } else if (stepNum === 3) {
+        var mat = est.material || "vinyl";
+        var tierHtml = '<div class="win-step"><h3>What brand quality tier?</h3>';
+        tierHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">Prices are per window installed for ' + (FRAME[mat] ? FRAME[mat].label.toLowerCase() : mat) + ' frame.</p>';
+        tierHtml += '<div style="display:flex;flex-direction:column;gap:10px;" id="optBrandTier">';
+        var tierKeys = ["value","mid","premium","luxury"];
+        for (var ti = 0; ti < tierKeys.length; ti++) {
+          var tk = tierKeys[ti];
+          var td = BRAND_TIER[tk];
+          var matData = td.perMat[mat];
+          if (!matData) continue;
+          var sel = est.brandTier === tk ? " selected" : "";
+          tierHtml += '<div class="win-option' + sel + '" data-val="' + tk + '" style="display:flex;flex-direction:column;padding:12px 16px;">';
+          tierHtml += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+          tierHtml += '<strong>' + td.label + '</strong>';
+          tierHtml += '<span style="color:#2563eb;font-weight:700;font-size:0.95rem;">$' + matData.low.toLocaleString() + ' \u2013 $' + matData.high.toLocaleString() + '</span>';
+          tierHtml += '</div>';
+          tierHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">' + td.tag + '</div>';
+          tierHtml += '<div style="font-size:0.8rem;color:#94a3b8;margin-top:2px;">e.g. ' + matData.brands + '</div>';
+          tierHtml += '</div>';
+        }
+        tierHtml += '</div></div>';
+        card.innerHTML = tierHtml;
+        bindOptions("optBrandTier", "brandTier");
+      } else if (stepNum === 4) {
         card.innerHTML = '\
           <div class="win-step">\
             <h3>What window style?</h3>\
@@ -577,7 +686,7 @@
             </div>\
           </div>';
         bindOptions("optStyle", "style");
-      } else if (stepNum === 4) {
+      } else if (stepNum === 5) {
         card.innerHTML = '\
           <div class="win-step">\
             <h3>What glass package?</h3>\
@@ -588,7 +697,7 @@
             </div>\
           </div>';
         bindOptions("optGlass", "glass");
-      } else if (stepNum === 5) {
+      } else if (stepNum === 6) {
         card.innerHTML = '\
           <div class="win-step">\
             <h3>Installation type?</h3>\
@@ -601,7 +710,7 @@
       }
 
       // Show progress indicator
-      var _ts = 5;
+      var _ts = 6;
       var progressBar = '<div style="text-align:center;margin-bottom:1.25rem;">';
       progressBar += '<div style="font-size:13px;color:#64748b;margin-bottom:8px;font-weight:600;">Step ' + stepNum + ' of ' + _ts + '</div>';
       progressBar += '<div style="display:flex;gap:6px;justify-content:center;align-items:center;">';
@@ -618,9 +727,10 @@
       if (stepNum > 1) {
         card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="win-btn win-btn-secondary" id="estBack">Back</button></div>');
         document.getElementById("estBack").addEventListener("click", function() {
-          if (stepNum === 5) est.install = null;
-          else if (stepNum === 4) est.glass = null;
-          else if (stepNum === 3) est.style = null;
+          if (stepNum === 6) est.install = null;
+          else if (stepNum === 5) est.glass = null;
+          else if (stepNum === 4) est.style = null;
+          else if (stepNum === 3) est.brandTier = null;
           else if (stepNum === 2) est.material = null;
           render();
         });
@@ -631,10 +741,11 @@
       var e = wState.est;
       if (!e.count) return 1;
       if (!e.material) return 2;
-      if (!e.style) return 3;
-      if (!e.glass) return 4;
-      if (!e.install) return 5;
-      return 6; // all done
+      if (!e.brandTier) return 3;
+      if (!e.style) return 4;
+      if (!e.glass) return 5;
+      if (!e.install) return 6;
+      return 7; // all done
     }
 
     function bindOptions(containerId, field) {
@@ -646,7 +757,7 @@
         wState.est[field] = opt.getAttribute("data-val");
 
         // Check if estimator is complete
-        if (getEstimatorStep() > 5) {
+        if (getEstimatorStep() > 6) {
           calculateEstimate();
         } else {
           render();
@@ -663,7 +774,10 @@
       var cityMult = getCityMult(wState.address.city, st);
       var regionMult = cityMult || stateMult(st);
 
-      var frame = FRAME[est.material] || FRAME.vinyl;
+      var _baseFrame = FRAME[est.material] || FRAME.vinyl;
+      var _tierData = BRAND_TIER[est.brandTier];
+      var _tierMat = _tierData && _tierData.perMat && _tierData.perMat[est.material];
+      var frame = _tierMat ? { low: _tierMat.low, mid: _tierMat.mid, high: _tierMat.high, label: _baseFrame.label } : _baseFrame;
       var styleMult = STYLE_MULT[est.style] || 1.00;
       var glassMult = GLASS_MULT[est.glass] || 1.00;
       var installMult = INSTALL_MULT[est.install] || 1.00;
@@ -698,6 +812,9 @@
         countLabel: est.count,
         material: est.material,
         materialLabel: frame.label,
+        brandTier: est.brandTier,
+        brandTierLabel: _tierData ? _tierData.label : "Mid-Range",
+        brandExamples: _tierMat ? _tierMat.brands : "",
         style: est.style,
         styleLabel: est.style === "bay-bow" ? "Bay/Bow" : est.style.charAt(0).toUpperCase() + est.style.slice(1),
         glass: est.glass,
@@ -733,6 +850,7 @@
       var detailsHtml = '<div class="win-details">';
       detailsHtml += '<div class="win-detail"><div class="label">Windows</div><div class="value">' + r.countLabel + ' (' + r.count + ' est.)</div></div>';
       detailsHtml += '<div class="win-detail"><div class="label">Frame Material</div><div class="value">' + r.materialLabel + '</div></div>';
+      detailsHtml += '<div class="win-detail"><div class="label">Brand Tier</div><div class="value">' + r.brandTierLabel + '</div></div>';
       detailsHtml += '<div class="win-detail"><div class="label">Window Style</div><div class="value">' + r.styleLabel + '</div></div>';
       detailsHtml += '<div class="win-detail"><div class="label">Glass Package</div><div class="value">' + r.glassLabel + '</div></div>';
       detailsHtml += '<div class="win-detail"><div class="label">Installation</div><div class="value">' + r.installLabel + '</div></div>';
@@ -759,6 +877,7 @@
       // What drives this estimate
       var drivers = [];
       drivers.push(r.count + " " + r.materialLabel.toLowerCase() + " " + r.styleLabel.toLowerCase() + " windows");
+      if (r.brandTierLabel) drivers.push(r.brandTierLabel + " brand tier" + (r.brandExamples ? " (e.g. " + r.brandExamples.split(",")[0].trim() + ")" : ""));
       drivers.push(r.installLabel + (r.install === "fullframe" ? " (+40% over pocket)" : ""));
       if (r.glass === "triple") drivers.push("Triple-pane glass (+25% over Low-E double)");
       if (r.glass === "double-standard") drivers.push("Standard double-pane (-8% vs Low-E)");
@@ -773,6 +892,41 @@
       driversHtml += '</ul>';
       driversHtml += '<p style="margin-top:12px;font-size:13px;color:#64748b;">' + fmt(r.totalMid) + ' is the typical ' + r.locationLabel + ' price for ' + r.count + ' ' + r.materialLabel.toLowerCase() + ' ' + r.styleLabel.toLowerCase() + ' windows.</p>';
       driversHtml += '</div>';
+
+      // Brand tier comparison
+      var compHtml = '<div class="win-card">';
+      compHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Same project, different brand tiers</h3>';
+      compHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">All prices for ' + r.count + ' ' + r.materialLabel.toLowerCase() + ' ' + r.styleLabel.toLowerCase() + ' windows in ' + r.locationLabel + '.</p>';
+      compHtml += '<div style="display:flex;flex-direction:column;gap:8px;">';
+      var _compKeys = ["value","mid","premium","luxury"];
+      var _compMat = r.material || "vinyl";
+      var _compStyleMult = STYLE_MULT[r.style] || 1.00;
+      var _compGlassMult = GLASS_MULT[r.glass] || 1.00;
+      var _compInstMult = INSTALL_MULT[r.install] || 1.00;
+      var _compBase = _compStyleMult * _compGlassMult * _compInstMult * r.regionMult * INFLATION_MULT;
+      for (var ci = 0; ci < _compKeys.length; ci++) {
+        var _ck = _compKeys[ci];
+        var _cd = BRAND_TIER[_ck];
+        var _cm = _cd && _cd.perMat && _cd.perMat[_compMat];
+        if (!_cm) continue;
+        var _cLow = roundTo50(_cm.low * _compBase) * r.count;
+        var _cHigh = roundTo50(_cm.high * _compBase) * r.count;
+        var _cMid = roundTo50(_cm.mid * _compBase) * r.count;
+        var _isSelected = r.brandTier === _ck;
+        var _bg = _isSelected ? "#eff6ff" : "#f8fafc";
+        var _border = _isSelected ? "2px solid #2563eb" : "1px solid #e2e8f0";
+        compHtml += '<div style="background:' + _bg + ';border:' + _border + ';border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">';
+        compHtml += '<div>';
+        compHtml += '<strong>' + _cd.label + '</strong>';
+        if (_isSelected) compHtml += ' <span style="font-size:11px;color:#2563eb;font-weight:600;vertical-align:middle;">YOUR PICK</span>';
+        compHtml += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + _cm.brands + '</div>';
+        compHtml += '</div>';
+        compHtml += '<div style="text-align:right;">';
+        compHtml += '<div style="font-size:1.05rem;color:#1e293b;font-weight:700;">' + fmt(_cMid) + '</div>';
+        compHtml += '<div style="font-size:11px;color:#64748b;">' + fmt(_cLow) + ' \u2013 ' + fmt(_cHigh) + '</div>';
+        compHtml += '</div></div>';
+      }
+      compHtml += '</div></div>';
 
       // ENERGY STAR climate zone
       var energyHtml = '<div class="win-card" style="border-left:4px solid #10b981;">';
@@ -846,6 +1000,7 @@
         </div>\
         ' + scopeHtml + '\
         ' + driversHtml + '\
+        ' + compHtml + '\
         ' + energyHtml + '\
         ' + rebateHtml + '\
         ' + tipsHtml + '\
@@ -860,7 +1015,7 @@
         wState = {
           step: "address",
           address: { street: "", city: "", stateCode: "", zip: "" },
-          est: { count: null, material: null, style: null, glass: null, install: null },
+          est: { count: null, material: null, brandTier: null, style: null, glass: null, install: null },
           result: null
         };
         render();

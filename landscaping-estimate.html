@@ -269,7 +269,15 @@
         sod_installation: { label: "Sod Installation", unit: "sqft", low: 1, high: 2, mid: 1.50 },
         landscape_design_install: { label: "Landscape Design + Install", unit: "project", low: 5000, high: 15000, mid: 10000 },
         french_drain: { label: "French Drain", unit: "LF", low: 25, high: 50, mid: 37.50 },
-        grading_leveling: { label: "Grading/Leveling", unit: "project", low: 1000, high: 3000, mid: 2000 }
+        grading_leveling: { label: "Grading/Leveling", unit: "project", low: 1000, high: 3000, mid: 2000 },
+        artificial_turf: { label: "Artificial Turf", unit: "sqft", low: 8, high: 16, mid: 12 },
+        walkway_path: { label: "Walkway / Path", unit: "sqft", low: 15, high: 35, mid: 25 },
+        outdoor_kitchen: { label: "Outdoor Kitchen", unit: "project", low: 8000, high: 25000, mid: 16000 },
+        fire_pit: { label: "Fire Pit / Fireplace", unit: "project", low: 1500, high: 5000, mid: 3000 },
+        tree_removal: { label: "Tree / Stump Removal", unit: "project", low: 500, high: 2000, mid: 1200 },
+        irrigation_system: { label: "Irrigation System", unit: "project", low: 2500, high: 5000, mid: 3750 },
+        pergola_gazebo: { label: "Pergola / Gazebo", unit: "project", low: 3500, high: 12000, mid: 7500 },
+        planting_beds: { label: "Planting Beds / Garden", unit: "sqft", low: 10, high: 25, mid: 17 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       overheadMultiplier: 1.15,
@@ -290,6 +298,34 @@
         { key: "warranty", label: "Warranty (materials + labor)", weight: 6 }
       ],
       complexityMultipliers: { basic: 1.0, moderate: 1.20, complex: 1.50 }
+    };
+
+    // Quality / material tier (consistent with windows brand tier pattern)
+    var QUALITY_TIER = {
+      budget: {
+        label: "Budget",
+        tag: "Basic materials, minimal design. Best for functional projects.",
+        mult: 0.70,
+        examples: "Concrete pavers, basic sod, gravel borders, no lighting"
+      },
+      mid: {
+        label: "Mid-Range",
+        tag: "Most popular. Quality materials with some design elements.",
+        mult: 1.00,
+        examples: "Interlocking pavers, native plants, basic edging, mulch beds"
+      },
+      premium: {
+        label: "Premium",
+        tag: "Natural stone, specimen plants, lighting, and water features.",
+        mult: 1.55,
+        examples: "Flagstone/bluestone, curated plantings, low-voltage lighting, drip irrigation"
+      },
+      luxury: {
+        label: "Luxury / Custom",
+        tag: "Architect-designed. Premium everything, outdoor living spaces.",
+        mult: 2.30,
+        examples: "Custom stonework, mature trees, smart irrigation, outdoor kitchen integration"
+      }
     };
 
     var STATE_REGIONS = {
@@ -326,7 +362,7 @@
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { projectType: null, projectSize: "", complexity: null },
+      est: { projectType: null, projectSize: "", qualityTier: null, complexity: null },
       // result
       result: null
     };
@@ -362,21 +398,20 @@
     var SEASONAL_MULTS = { 1:0.90, 2:0.92, 3:0.98, 4:1.06, 5:1.10, 6:1.12, 7:1.10, 8:1.06, 9:1.00, 10:0.95, 11:0.90, 12:0.88 };
     var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
-    function calcBenchmark(projectType, size, region, complexity) {
+    function calcBenchmark(projectType, size, region, complexity, qualityTier) {
       var proj = LAND_PRICING.basePricing[projectType];
       if (!proj) proj = LAND_PRICING.basePricing.paver_patio;
 
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
       var laborMult = cityMult || (LAND_PRICING.laborMultiplierByRegion[region] || 1.0);
       var complexityMult = LAND_PRICING.complexityMultipliers[complexity] || 1.0;
+      var tierMult = (QUALITY_TIER[qualityTier] && QUALITY_TIER[qualityTier].mult) || 1.0;
 
       var total = 0;
       if (proj.unit === "project") {
-        // flat project price, not multiplied by size
-        total = proj.mid * laborMult * complexityMult;
+        total = proj.mid * laborMult * complexityMult * tierMult;
       } else {
-        // sqft, sqft face, or LF -- multiply by size
-        total = proj.mid * size * laborMult * complexityMult;
+        total = proj.mid * size * laborMult * complexityMult * tierMult;
       }
 
       total = total * LAND_PRICING.overheadMultiplier * INFLATION_MULT * SEASONAL_MULT;
@@ -898,18 +933,16 @@
       var card = document.getElementById("estCard");
 
       if (stepNum === 1) {
-        card.innerHTML = '\
-          <div class="land-step">\
-            <h3>What type of landscaping project?</h3>\
-            <div class="land-options" id="optProject">\
-              <div class="land-option' + (est.projectType === "paver_patio" ? " selected" : "") + '" data-val="paver_patio">Paver Patio</div>\
-              <div class="land-option' + (est.projectType === "retaining_wall" ? " selected" : "") + '" data-val="retaining_wall">Retaining Wall</div>\
-              <div class="land-option' + (est.projectType === "sod_installation" ? " selected" : "") + '" data-val="sod_installation">Sod Installation</div>\
-              <div class="land-option' + (est.projectType === "landscape_design_install" ? " selected" : "") + '" data-val="landscape_design_install">Full Landscape Design</div>\
-              <div class="land-option' + (est.projectType === "french_drain" ? " selected" : "") + '" data-val="french_drain">French Drain</div>\
-              <div class="land-option' + (est.projectType === "grading_leveling" ? " selected" : "") + '" data-val="grading_leveling">Grading</div>\
-            </div>\
-          </div>';
+        var projKeys = Object.keys(LAND_PRICING.basePricing);
+        var projHtml = '<div class="land-step"><h3>What type of landscaping project?</h3><div class="land-options" id="optProject" style="flex-direction:column;">';
+        for (var pi = 0; pi < projKeys.length; pi++) {
+          var pk = projKeys[pi];
+          var pv = LAND_PRICING.basePricing[pk];
+          var sel = est.projectType === pk ? " selected" : "";
+          projHtml += '<div class="land-option' + sel + '" data-val="' + pk + '">' + pv.label + '</div>';
+        }
+        projHtml += '</div></div>';
+        card.innerHTML = projHtml;
         bindOptions("optProject", "projectType");
       } else if (stepNum === 2) {
         var proj = LAND_PRICING.basePricing[est.projectType];
@@ -956,6 +989,30 @@
           if (e.key === "Enter") document.getElementById("sizeNext").click();
         });
       } else if (stepNum === 3) {
+        var tierHtml = '<div class="land-step"><h3>What material / quality tier?</h3>';
+        tierHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">Affects material costs, plant quality, and design detail.</p>';
+        tierHtml += '<div style="display:flex;flex-direction:column;gap:10px;" id="optQualityTier">';
+        var tierKeys = ["budget","mid","premium","luxury"];
+        var proj = LAND_PRICING.basePricing[est.projectType] || LAND_PRICING.basePricing.paver_patio;
+        var size = Number(est.projectSize) || 500;
+        for (var ti = 0; ti < tierKeys.length; ti++) {
+          var tk = tierKeys[ti];
+          var td = QUALITY_TIER[tk];
+          var sel = est.qualityTier === tk ? " selected" : "";
+          var estPrice = proj.unit === "project" ? Math.round(proj.mid * td.mult) : Math.round(proj.mid * size * td.mult);
+          tierHtml += '<div class="land-option' + sel + '" data-val="' + tk + '" style="display:flex;flex-direction:column;padding:12px 16px;">';
+          tierHtml += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+          tierHtml += '<strong>' + td.label + '</strong>';
+          tierHtml += '<span style="color:#2563eb;font-weight:700;font-size:0.95rem;">~' + fmt(estPrice) + '</span>';
+          tierHtml += '</div>';
+          tierHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">' + td.tag + '</div>';
+          tierHtml += '<div style="font-size:0.8rem;color:#94a3b8;margin-top:2px;">e.g. ' + td.examples + '</div>';
+          tierHtml += '</div>';
+        }
+        tierHtml += '</div></div>';
+        card.innerHTML = tierHtml;
+        bindOptions("optQualityTier", "qualityTier");
+      } else if (stepNum === 4) {
         card.innerHTML = '\
           <div class="land-step">\
             <h3>How complex is the project?</h3>\
@@ -969,7 +1026,7 @@
       }
 
       // Show progress indicator
-      var totalSteps = (LAND_PRICING.basePricing[est.projectType] && LAND_PRICING.basePricing[est.projectType].unit === "project") ? 2 : 3;
+      var totalSteps = (LAND_PRICING.basePricing[est.projectType] && LAND_PRICING.basePricing[est.projectType].unit === "project") ? 3 : 4;
       var progressBar = '<div style="text-align:center;margin-bottom:1.25rem;">';
       progressBar += '<div style="font-size:13px;color:#64748b;margin-bottom:8px;font-weight:600;">Step ' + stepNum + ' of ' + totalSteps + '</div>';
       progressBar += '<div style="display:flex;gap:6px;justify-content:center;align-items:center;">';
@@ -986,7 +1043,8 @@
       if (stepNum > 1) {
         card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="land-btn land-btn-secondary" id="estBack">Back</button></div>');
         document.getElementById("estBack").addEventListener("click", function() {
-          if (stepNum === 3) est.complexity = null;
+          if (stepNum === 4) est.complexity = null;
+          else if (stepNum === 3) est.qualityTier = null;
           else if (stepNum === 2) {
             est.projectSize = "";
             // If it was a project type that auto-skipped, go back to step 1
@@ -1002,8 +1060,9 @@
       var e = state.est;
       if (!e.projectType) return 1;
       if (!e.projectSize) return 2;
-      if (!e.complexity) return 3;
-      return 4; // all done
+      if (!e.qualityTier) return 3;
+      if (!e.complexity) return 4;
+      return 5; // all done
     }
 
     function bindOptions(containerId, field) {
@@ -1015,7 +1074,7 @@
         state.est[field] = opt.getAttribute("data-val");
 
         // Check if estimator is complete
-        if (getEstimatorStep() > 3) {
+        if (getEstimatorStep() > 4) {
           calculateEstimate();
         } else {
           render();
@@ -1028,13 +1087,14 @@
       var region = getRegionFromState(state.address.stateCode);
       var size = Number(est.projectSize) || 500;
 
-      var benchmark = calcBenchmark(est.projectType, size, region, est.complexity);
+      var benchmark = calcBenchmark(est.projectType, size, region, est.complexity, est.qualityTier);
 
       var low = roundTo50(benchmark * 0.85);
       var high = roundTo50(benchmark * 1.18);
 
       var projLabel = LAND_PRICING.basePricing[est.projectType] ? LAND_PRICING.basePricing[est.projectType].label : est.projectType;
       var projUnit = LAND_PRICING.basePricing[est.projectType] ? LAND_PRICING.basePricing[est.projectType].unit : "sqft";
+      var _qTier = QUALITY_TIER[est.qualityTier];
 
       state.result = {
         source: "estimator",
@@ -1047,6 +1107,9 @@
         projectType: { value: est.projectType, label: projLabel },
         projectSize: size,
         projectUnit: projUnit,
+        qualityTier: est.qualityTier,
+        qualityTierLabel: _qTier ? _qTier.label : "Mid-Range",
+        qualityTierExamples: _qTier ? _qTier.examples : "",
         complexity: est.complexity,
         scopeSignals: {},
         region: region,
@@ -1086,6 +1149,9 @@
 
       if (r.projectSize && r.projectUnit && r.projectUnit !== "project") {
         detailsHtml += '<div class="land-detail"><div class="label">Project Size</div><div class="value">' + Number(r.projectSize).toLocaleString() + ' ' + r.projectUnit + '</div></div>';
+      }
+      if (r.qualityTierLabel) {
+        detailsHtml += '<div class="land-detail"><div class="label">Quality Tier</div><div class="value">' + r.qualityTierLabel + '</div></div>';
       }
       if (r.complexity) {
         var complexLabels = { basic: "Basic", moderate: "Moderate (curves/patterns)", complex: "Complex (multi-level/water features)" };
@@ -1132,6 +1198,37 @@
           }
         });
         scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Irrigation, lighting, and complex drainage may add cost.</p></div>';
+      }
+
+      // Quality tier comparison (estimator only)
+      var compHtml = '';
+      if (!isUpload) {
+        compHtml = '<div class="land-card">';
+        compHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Same project, different quality tiers</h3>';
+        compHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">' + r.projectType.label + (r.projectUnit !== "project" ? ' (' + Number(r.projectSize).toLocaleString() + ' ' + r.projectUnit + ')' : '') + ' in ' + capitalize(r.region) + '.</p>';
+        compHtml += '<div style="display:flex;flex-direction:column;gap:8px;">';
+        var _tKeys = ["budget","mid","premium","luxury"];
+        for (var ci = 0; ci < _tKeys.length; ci++) {
+          var _ck = _tKeys[ci];
+          var _cd = QUALITY_TIER[_ck];
+          var _cMid = calcBenchmark(r.projectType.value, r.projectSize, r.region, r.complexity, _ck);
+          var _cLow = roundTo50(_cMid * 0.85);
+          var _cHigh = roundTo50(_cMid * 1.18);
+          var _isSelected = r.qualityTier === _ck;
+          var _bg = _isSelected ? "#eff6ff" : "#f8fafc";
+          var _border = _isSelected ? "2px solid #2563eb" : "1px solid #e2e8f0";
+          compHtml += '<div style="background:' + _bg + ';border:' + _border + ';border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">';
+          compHtml += '<div>';
+          compHtml += '<strong>' + _cd.label + '</strong>';
+          if (_isSelected) compHtml += ' <span style="font-size:11px;color:#2563eb;font-weight:600;vertical-align:middle;">YOUR PICK</span>';
+          compHtml += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + _cd.examples + '</div>';
+          compHtml += '</div>';
+          compHtml += '<div style="text-align:right;">';
+          compHtml += '<div style="font-size:1.05rem;color:#1e293b;font-weight:700;">' + fmt(_cMid) + '</div>';
+          compHtml += '<div style="font-size:11px;color:#64748b;">' + fmt(_cLow) + ' \u2013 ' + fmt(_cHigh) + '</div>';
+          compHtml += '</div></div>';
+        }
+        compHtml += '</div></div>';
       }
 
       // Market context
@@ -1212,6 +1309,7 @@
           ' + detailsHtml + '\
         </div>\
         ' + scopeHtml + '\
+        ' + compHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
         ' + savingsHtml + '\
@@ -1228,7 +1326,7 @@
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { projectType: null, projectSize: "", complexity: null },
+          est: { projectType: null, projectSize: "", qualityTier: null, complexity: null },
           result: null
         };
         render();
