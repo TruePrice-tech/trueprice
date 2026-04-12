@@ -67,6 +67,7 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
           </div>\
           <button class="' + btnSecondary + '" id="tpEditPriceBtn" style="font-size:14px;">Analyze corrected price</button>\
         </div>\
+        <div style="margin-top:16px;"><a href="javascript:void(0)" id="tpStartOver" style="font-size:13px;color:#94a3b8;text-decoration:none;">Start over with a different file</a></div>\
       </div>';
     document.getElementById("tpConfirmPriceBtn").addEventListener("click", function() {
       onConfirm(price);
@@ -75,6 +76,9 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
       var edited = parseFloat(document.getElementById("tpEditPrice").value);
       if (!edited || edited < 50) { alert("Please enter a valid price."); return; }
       onConfirm(edited);
+    });
+    document.getElementById("tpStartOver").addEventListener("click", function() {
+      window.location.reload();
     });
   } else {
     appRoot.innerHTML = '\
@@ -88,11 +92,15 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
           <input type="number" id="tpManualPrice" placeholder="e.g. 4500" style="padding:12px 16px;border:1px solid #e2e8f0;border-radius:10px;font-size:20px;width:200px;" autofocus />\
         </div>\
         <button class="' + btnPrimary + '" id="tpManualPriceBtn" style="font-size:16px;padding:12px 28px;">Analyze this price</button>\
+        <div style="margin-top:16px;"><a href="javascript:void(0)" id="tpStartOverManual" style="font-size:13px;color:#94a3b8;text-decoration:none;">Start over with a different file</a></div>\
       </div>';
     document.getElementById("tpManualPriceBtn").addEventListener("click", function() {
       var manual = parseFloat(document.getElementById("tpManualPrice").value);
       if (!manual || manual < 50) { alert("Please enter a valid price."); return; }
       onConfirm(manual);
+    });
+    document.getElementById("tpStartOverManual").addEventListener("click", function() {
+      window.location.reload();
     });
   }
 }
