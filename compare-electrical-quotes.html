@@ -576,6 +576,13 @@
 
       // Per-vertical rows
       ROWS.forEach(function(row) {
+        // Skip row if all quotes have no data for this field
+        var allEmpty = active.every(function(a) {
+          var v = readField(a.data.api, row.field);
+          if ((v == null || v === "") && row.alt_field) v = readField(a.data.api, row.alt_field);
+          return v == null || v === "" || v === "Unknown" || v === "unknown";
+        });
+        if (allEmpty) return;
         html += '<tr><td class="row-label">' + escHtml(row.label) + '</td>';
         active.forEach(function(a) {
           var v = readField(a.data.api, row.field);
