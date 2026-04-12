@@ -267,6 +267,38 @@
     "use strict";
 
     // ── Painting Pricing Model ──
+    // Paint brand tiers with per-gallon cost and quality multiplier
+    var PAINT_BRAND_TIER = {
+      builder: {
+        label: "Builder Grade",
+        tag: "Basic coverage. Best for rentals, flips, or pre-sale touch-ups.",
+        mult: 0.80,
+        examples: "Behr Pro, SW ProMar 200, Valspar Pro, Glidden Premium",
+        perGallon: "$22 - $38"
+      },
+      mid: {
+        label: "Mid-Range",
+        tag: "Most popular. Good coverage and durability for lived-in homes.",
+        mult: 1.00,
+        examples: "Behr Premium Plus, SW SuperPaint, Benjamin Moore Ben, PPG Diamond",
+        perGallon: "$38 - $60"
+      },
+      premium: {
+        label: "Premium",
+        tag: "Excellent coverage, 1-coat hide, 10-15 year exterior durability.",
+        mult: 1.25,
+        examples: "SW Duration, BM Regal Select, Behr Marquee, PPG Manor Hall",
+        perGallon: "$60 - $90"
+      },
+      ultra: {
+        label: "Ultra-Premium",
+        tag: "Top-of-line. Maximum durability, stain resistance, and color depth.",
+        mult: 1.55,
+        examples: "SW Emerald, BM Aura, Farrow & Ball, Fine Paints of Europe",
+        perGallon: "$80 - $130"
+      }
+    };
+
     var PAINT_PRICING = {
       basePricePerSqft: {
         exterior_standard: { label: "Exterior - Standard (1 Coat)", low: 2.00, high: 4.00, mid: 3.00 },
@@ -336,7 +368,7 @@
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { projectType: null, stories: null, homeSqFt: "", homeSqFtManual: null, paintQuality: null, condition: null },
+      est: { projectType: null, stories: null, homeSqFt: "", homeSqFtManual: null, paintQuality: null, brandTier: null, condition: null },
       osmFootprint: null,
       // result
       result: null
@@ -384,25 +416,25 @@
       return base + "_" + (paintQuality === "premium" ? "premium" : "standard");
     }
 
-    function calcBenchmark(projectType, sqft, paintQuality, condition, region) {
+    function calcBenchmark(projectType, sqft, paintQuality, condition, region, brandTier) {
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
       var laborMult = cityMult || (PAINT_PRICING.laborMultiplierByRegion[region] || 1.0);
       var conditionMult = CONDITION_MULTS[condition] || 1.0;
+      var tierMult = (PAINT_BRAND_TIER[brandTier] && PAINT_BRAND_TIER[brandTier].mult) || 1.0;
 
       if (projectType === "cabinets") {
         var cabData = PAINT_PRICING.basePricePerSqft.cabinet_painting;
-        var mid = cabData.flatMid * laborMult * INFLATION_MULT;
+        var mid = cabData.flatMid * laborMult * tierMult * INFLATION_MULT;
         return roundTo50(mid);
       }
 
       if (projectType === "both") {
-        // Exterior + Interior combined
         var extKey = "exterior_" + (paintQuality === "premium" ? "premium" : "standard");
         var intKey = "interior_" + (paintQuality === "premium" ? "premium" : "standard");
         var extMid = PAINT_PRICING.basePricePerSqft[extKey].mid;
         var intMid = PAINT_PRICING.basePricePerSqft[intKey].mid;
         var combinedPerSqft = extMid + intMid;
-        var total = combinedPerSqft * sqft * laborMult * conditionMult * INFLATION_MULT * SEASONAL_MULT;
+        var total = combinedPerSqft * sqft * laborMult * conditionMult * tierMult * INFLATION_MULT * SEASONAL_MULT;
         return roundTo50(total);
       }
 
@@ -411,7 +443,7 @@
       if (!pricing) pricing = PAINT_PRICING.basePricePerSqft.exterior_standard;
 
       var midPerSqft = pricing.mid;
-      var total = midPerSqft * sqft * laborMult * conditionMult * INFLATION_MULT * SEASONAL_MULT;
+      var total = midPerSqft * sqft * laborMult * conditionMult * tierMult * INFLATION_MULT * SEASONAL_MULT;
       return roundTo50(total);
     }
 
@@ -837,7 +869,7 @@
         if (brand && brand.tier === "premium") paintQuality = "premium";
         var region = getRegionFromState(state.address.stateCode);
 
-        var benchmark = calcBenchmark(paintType.value, effectiveSqft, paintQuality, "good", region);
+        var benchmark = calcBenchmark(paintType.value, effectiveSqft, paintQuality, "good", region, "mid");
 
         var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
@@ -895,7 +927,7 @@
           var price = parseFloat(document.getElementById("manualPrice").value);
           if (!price || price < 200) { alert("Please enter a valid price."); return; }
           var region = getRegionFromState(state.address.stateCode);
-          var benchmark = calcBenchmark("exterior", 2000, "standard", "good", region);
+          var benchmark = calcBenchmark("exterior", 2000, "standard", "good", region, "mid");
           var ratio = price / benchmark;
           state.result = {
             source: "manual",
@@ -1087,7 +1119,7 @@
             var val = inp ? inp.value.trim() : "";
             if (!val || Number(val) < 200) { inp.focus(); return; }
             est.homeSqFt = val;
-            if (getEstimatorStep() > 4) {
+            if (getEstimatorStep() > 5) {
               calculateEstimate();
             } else {
               render();
@@ -1097,14 +1129,41 @@
       } else if (stepNum === 3) {
         card.innerHTML = '\
           <div class="paint-step">\
-            <h3>What paint quality?</h3>\
+            <h3>How many coats?</h3>\
             <div class="paint-options" id="optQuality">\
-              <div class="paint-option' + (est.paintQuality === "standard" ? " selected" : "") + '" data-val="standard">Standard (1 coat)</div>\
-              <div class="paint-option' + (est.paintQuality === "premium" ? " selected" : "") + '" data-val="premium">Premium (2 coats, name brand)</div>\
+              <div class="paint-option' + (est.paintQuality === "standard" ? " selected" : "") + '" data-val="standard">1 coat (repaint, same color)</div>\
+              <div class="paint-option' + (est.paintQuality === "premium" ? " selected" : "") + '" data-val="premium">2 coats (color change or fresh start)</div>\
             </div>\
           </div>';
         bindOptions("optQuality", "paintQuality");
       } else if (stepNum === 4) {
+        var sqft = Number(est.homeSqFt) || 2000;
+        var isExt = est.projectType === "exterior" || est.projectType === "both";
+        var baseKey = isExt ? "exterior" : "interior";
+        var qualKey = baseKey + "_" + (est.paintQuality === "premium" ? "premium" : "standard");
+        var basePerSqft = PAINT_PRICING.basePricePerSqft[qualKey] ? PAINT_PRICING.basePricePerSqft[qualKey].mid : 3.00;
+        var tierHtml = '<div class="paint-step"><h3>What paint brand tier?</h3>';
+        tierHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">Paint is 15-30% of total cost. Better paint = fewer coats, longer life.</p>';
+        tierHtml += '<div style="display:flex;flex-direction:column;gap:10px;" id="optBrandTier">';
+        var _tierKeys = ["builder", "mid", "premium", "ultra"];
+        for (var ti = 0; ti < _tierKeys.length; ti++) {
+          var tk = _tierKeys[ti];
+          var td = PAINT_BRAND_TIER[tk];
+          var sel = est.brandTier === tk ? " selected" : "";
+          var estTotal = fmt(roundTo50(basePerSqft * td.mult * sqft));
+          tierHtml += '<div class="paint-option' + sel + '" data-val="' + tk + '" style="display:flex;flex-direction:column;padding:12px 16px;">';
+          tierHtml += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+          tierHtml += '<strong>' + td.label + '</strong>';
+          tierHtml += '<span style="color:#2563eb;font-weight:700;font-size:0.95rem;">~' + estTotal + '</span>';
+          tierHtml += '</div>';
+          tierHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">' + td.tag + '</div>';
+          tierHtml += '<div style="font-size:0.8rem;color:#94a3b8;margin-top:2px;">' + td.perGallon + '/gal -- e.g. ' + td.examples + '</div>';
+          tierHtml += '</div>';
+        }
+        tierHtml += '</div></div>';
+        card.innerHTML = tierHtml;
+        bindOptions("optBrandTier", "brandTier");
+      } else if (stepNum === 5) {
         card.innerHTML = '\
           <div class="paint-step">\
             <h3>What is the current condition of the surfaces?</h3>\
@@ -1118,7 +1177,7 @@
       }
 
       // Show progress indicator
-      var totalSteps = est.projectType === "cabinets" ? 2 : 4;
+      var totalSteps = est.projectType === "cabinets" ? 3 : 5;
       var progressBar = '<div style="text-align:center;margin-bottom:1.25rem;">';
       progressBar += '<div style="font-size:13px;color:#64748b;margin-bottom:8px;font-weight:600;">Step ' + stepNum + ' of ' + totalSteps + '</div>';
       progressBar += '<div style="display:flex;gap:6px;justify-content:center;align-items:center;">';
@@ -1135,7 +1194,8 @@
       if (stepNum > 1) {
         card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="paint-btn paint-btn-secondary" id="estBack">Back</button></div>');
         document.getElementById("estBack").addEventListener("click", function() {
-          if (stepNum === 4) est.condition = null;
+          if (stepNum === 5) est.condition = null;
+          else if (stepNum === 4) est.brandTier = null;
           else if (stepNum === 3) est.paintQuality = null;
           else if (stepNum === 2) { est.homeSqFt = ""; est.stories = null; est.homeSqFtManual = null; }
           render();
@@ -1148,12 +1208,14 @@
       if (!e.projectType) return 1;
       // Cabinets skip size/quality/condition steps
       if (e.projectType === "cabinets") {
-        return 5; // done immediately after selecting cabinets
+        if (!e.brandTier) return 3; // jump to brand tier for cabinets
+        return 6; // done
       }
       if (!e.homeSqFt) return 2;
       if (!e.paintQuality) return 3;
-      if (!e.condition) return 4;
-      return 5; // all done
+      if (!e.brandTier) return 4;
+      if (!e.condition) return 5;
+      return 6; // all done
     }
 
     function bindOptions(containerId, field) {
@@ -1165,7 +1227,7 @@
         state.est[field] = opt.getAttribute("data-val");
 
         // Check if estimator is complete
-        if (getEstimatorStep() > 4) {
+        if (getEstimatorStep() > 5) {
           calculateEstimate();
         } else {
           render();
@@ -1180,7 +1242,8 @@
       var paintQuality = est.paintQuality || "standard";
       var condition = est.condition || "good";
 
-      var benchmark = calcBenchmark(est.projectType, sqft, paintQuality, condition, region);
+      var brandTier = est.brandTier || "mid";
+      var benchmark = calcBenchmark(est.projectType, sqft, paintQuality, condition, region, brandTier);
 
       var low = roundTo50(benchmark * 0.80);
       var high = roundTo50(benchmark * 1.25);
@@ -1193,6 +1256,7 @@
       };
 
       var perSqft = (est.projectType !== "cabinets" && sqft > 0) ? (benchmark / sqft) : null;
+      var _bt = PAINT_BRAND_TIER[brandTier];
 
       state.result = {
         source: "estimator",
@@ -1205,6 +1269,9 @@
         paintType: { value: est.projectType, label: projectLabels[est.projectType] || est.projectType },
         coats: paintQuality === "premium" ? 2 : 1,
         paintQuality: paintQuality,
+        brandTier: brandTier,
+        brandTierLabel: _bt ? _bt.label : "Mid-Range",
+        brandExamples: _bt ? _bt.examples : "",
         sqft: sqft,
         brand: null,
         brandNote: "",
@@ -1253,6 +1320,9 @@
 
       var qualityLabel = r.paintQuality === "premium" ? "Premium (2 coats, name brand)" : "Standard (1 coat)";
       detailsHtml += '<div class="paint-detail"><div class="label">Paint Quality</div><div class="value">' + qualityLabel + '</div></div>';
+      if (r.brandTierLabel) {
+        detailsHtml += '<div class="paint-detail"><div class="label">Brand Tier</div><div class="value">' + r.brandTierLabel + '</div></div>';
+      }
 
       if (r.coats) {
         detailsHtml += '<div class="paint-detail"><div class="label">Coats</div><div class="value">' + r.coats + ' coat' + (r.coats > 1 ? 's' : '') + '</div></div>';
@@ -1315,6 +1385,37 @@
       }
 
       // Market context
+      // Brand tier comparison (estimator only)
+      var paintCompHtml = '';
+      if (!isUpload && r.paintType && r.sqft) {
+        paintCompHtml = '<div class="paint-card">';
+        paintCompHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Same project, different paint tiers</h3>';
+        paintCompHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">' + r.paintType.label + ', ' + Number(r.sqft).toLocaleString() + ' sq ft, ' + (r.coats > 1 ? '2 coats' : '1 coat') + '.</p>';
+        paintCompHtml += '<div style="display:flex;flex-direction:column;gap:8px;">';
+        var _ptKeys = ["builder", "mid", "premium", "ultra"];
+        for (var pci = 0; pci < _ptKeys.length; pci++) {
+          var _pk = _ptKeys[pci];
+          var _pd = PAINT_BRAND_TIER[_pk];
+          var _pBench = calcBenchmark(r.paintType.value, r.sqft, r.paintQuality, r.condition, r.region, _pk);
+          var _pLow = roundTo50(_pBench * 0.80);
+          var _pHigh = roundTo50(_pBench * 1.25);
+          var _pSel = r.brandTier === _pk;
+          var _pBg = _pSel ? "#eff6ff" : "#f8fafc";
+          var _pBorder = _pSel ? "2px solid #2563eb" : "1px solid #e2e8f0";
+          paintCompHtml += '<div style="background:' + _pBg + ';border:' + _pBorder + ';border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">';
+          paintCompHtml += '<div>';
+          paintCompHtml += '<strong>' + _pd.label + '</strong>';
+          if (_pSel) paintCompHtml += ' <span style="font-size:11px;color:#2563eb;font-weight:600;vertical-align:middle;">YOUR PICK</span>';
+          paintCompHtml += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + _pd.examples + '</div>';
+          paintCompHtml += '</div>';
+          paintCompHtml += '<div style="text-align:right;">';
+          paintCompHtml += '<div style="font-size:1.05rem;color:#1e293b;font-weight:700;">' + fmt(_pBench) + '</div>';
+          paintCompHtml += '<div style="font-size:11px;color:#64748b;">' + fmt(_pLow) + ' \u2013 ' + fmt(_pHigh) + '</div>';
+          paintCompHtml += '</div></div>';
+        }
+        paintCompHtml += '</div></div>';
+      }
+
       var contextHtml = '';
       if (isUpload && r.quotePrice > 0) {
         var tip = "";
@@ -1397,6 +1498,7 @@
           ' + detailsHtml + '\
         </div>\
         ' + scopeHtml + '\
+        ' + paintCompHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
         ' + paintTipsHtml + '\
@@ -1412,7 +1514,7 @@
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { projectType: null, stories: null, homeSqFt: "", homeSqFtManual: null, paintQuality: null, condition: null },
+          est: { projectType: null, stories: null, homeSqFt: "", homeSqFtManual: null, paintQuality: null, brandTier: null, condition: null },
           result: null
         };
         render();
