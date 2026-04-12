@@ -185,7 +185,7 @@
       // Calculate conversion metrics
       var analyzerViews = 0, photoViews = 0, analysisCompleted = 0, photoCompleted = 0;
       (d.topPages || []).forEach(function(p) {
-        if (p.path === "/analyze-quote.html" || p.path.indexOf("quote-analyzer") > -1) analyzerViews += p.count;
+        if (p.path === "/analyze-my-quote.html" || p.path.indexOf("quote-analyzer") > -1) analyzerViews += p.count;
         if (p.path === "/photo-estimate.html") photoViews += p.count;
       });
       (d.topEvents || []).forEach(function(e) {
