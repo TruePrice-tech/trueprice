@@ -759,7 +759,7 @@ setProgress(90, "Almost done...");
         setProgress(100, "Done!");
 
         state.result = {
-          source: _origPrice > 0 ? "confirmed" : "manual",
+          source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
           benchmark: benchmark,
           ratio: ratio,
@@ -777,7 +777,7 @@ setProgress(90, "Almost done...");
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "insulation" });
         
         
-          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"insulation", source: _origPrice > 0 ? "confirmed" : "manual"});
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"insulation", source: _origPrice > 0 ? "upload" : "manual"});
           state.step = "result";
           render();
         });

@@ -926,7 +926,7 @@
         setProgress(100, "Done!");
 
         state.result = {
-          source: _origPrice > 0 ? "confirmed" : "manual",
+          source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
           benchmark: benchmark,
           ratio: ratio,
@@ -946,7 +946,7 @@
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "hvac" });
         
         
-          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"hvac", source: _origPrice > 0 ? "confirmed" : "manual"});
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"hvac", source: _origPrice > 0 ? "upload" : "manual"});
           state.step = "result";
           render();
         });
