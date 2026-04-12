@@ -365,6 +365,22 @@
       return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
     }
 
+    // City-level multiplier
+    var cityMultCache = {};
+    function fetchCityMult(city, stateCode) {
+      if (!city || !stateCode) return;
+      var key = city + "|" + stateCode;
+      if (cityMultCache[key]) return;
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=solar")
+        .then(function(r) { return r.json(); })
+        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .catch(function() {});
+    }
+    function getCityMult(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityMultCache[key] || null;
+    }
+
     function kwFromSize(sizeKey, customKw) {
       if (customKw && Number(customKw) > 0) return Number(customKw);
       var map = { small: 5, medium: 8, large: 11, very_large: 14 };
@@ -505,8 +521,9 @@
       var bat = SOLAR_PRICING.batteryAdder[batteryType] || SOLAR_PRICING.batteryAdder.none;
       baseCost += bat.cost;
 
-      // Regional labor multiplier
-      var regionMult = SOLAR_PRICING.laborMultiplierByRegion[region] || 1.0;
+      // Regional labor multiplier (city-level if available)
+      var _cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var regionMult = _cityMult || (SOLAR_PRICING.laborMultiplierByRegion[region] || 1.0);
       var overheadMult = SOLAR_PRICING.overheadMultiplier;
 
       var total = baseCost * regionMult * overheadMult;
@@ -648,6 +665,42 @@
           var lookup = US_STATES[rawState.toLowerCase()];
           state.address.stateCode = lookup || "TX";
         }
+
+        fetchCityMult(state.address.city, state.address.stateCode);
+
+        // OSM roof footprint: estimate usable roof area for system sizing
+        // Rule of thumb: ~60% of roof faces suitable directions, 18 sqft per panel, ~400W per panel
+        try {
+          var _osmCtrl = ("AbortController" in window) ? new AbortController() : null;
+          var _osmTimer = setTimeout(function() { if (_osmCtrl) _osmCtrl.abort(); }, 6000);
+          fetch("/api/property-signals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              street: state.address.street,
+              city: state.address.city,
+              stateCode: state.address.stateCode,
+              zip: state.address.zip
+            }),
+            signal: _osmCtrl ? _osmCtrl.signal : undefined
+          })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(payload) {
+              clearTimeout(_osmTimer);
+              if (!payload || !payload.success || !payload.data) return;
+              var sqft = Number(payload.data.footprintSqFt || payload.data.livingAreaSqFt || 0);
+              if (sqft >= 400 && sqft <= 10000) {
+                state.osmRoofSqFt = Math.round(sqft);
+                // Usable solar area: ~60% of roof, 18 sqft per 400W panel
+                var usableSqFt = sqft * 0.60;
+                var maxPanels = Math.floor(usableSqFt / 18);
+                var maxKw = Math.round(maxPanels * 0.4 * 10) / 10;
+                state.osmSuggestedKw = maxKw;
+                if (state.step === "estimator") render();
+              }
+            })
+            .catch(function() { clearTimeout(_osmTimer); });
+        } catch (e) {}
 
         state.step = "estimator";
         render();
@@ -957,9 +1010,14 @@
       var card = document.getElementById("estCard");
 
       if (stepNum === 1) {
+        var _osmHint = '';
+        if (state.osmRoofSqFt && state.osmSuggestedKw) {
+          _osmHint = '<p style="font-size:13px;color:#16a34a;margin:0 0 12px;">&#10003; Based on your roof (~' + state.osmRoofSqFt.toLocaleString() + ' sq ft), your roof can fit up to ~' + state.osmSuggestedKw + ' kW of solar panels</p>';
+        }
         card.innerHTML = '\
           <div class="solar-step">\
             <h3>What system size do you need?</h3>\
+            ' + _osmHint + '\
             <div class="solar-options" id="optSize">\
               <div class="solar-option' + (est.systemSize === "small" ? " selected" : "") + '" data-val="small">Small (4&ndash;6 kW)</div>\
               <div class="solar-option' + (est.systemSize === "medium" ? " selected" : "") + '" data-val="medium">Medium (7&ndash;9 kW)</div>\
@@ -988,15 +1046,31 @@
           if (e.key === "Enter") document.getElementById("kwNext").click();
         });
       } else if (stepNum === 2) {
-        card.innerHTML = '\
-          <div class="solar-step">\
-            <h3>What panel tier do you prefer?</h3>\
-            <div class="solar-options" id="optTier">\
-              <div class="solar-option' + (est.panelTier === "budget" ? " selected" : "") + '" data-val="budget">Budget (Jinko, Trina, Canadian Solar)</div>\
-              <div class="solar-option' + (est.panelTier === "mid" ? " selected" : "") + '" data-val="mid">Mid-Tier (Q Cells, LONGi, REC, Silfab)</div>\
-              <div class="solar-option' + (est.panelTier === "premium" ? " selected" : "") + '" data-val="premium">Premium (SunPower, LG, Panasonic)</div>\
-            </div>\
-          </div>';
+        var systemKw = kwFromSize(est.systemSize, est.customKw);
+        var tierDetailHtml = '<div class="solar-step"><h3>What panel tier do you prefer?</h3>';
+        tierDetailHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">Prices are total installed for a ' + systemKw + ' kW system (before 30% tax credit).</p>';
+        tierDetailHtml += '<div style="display:flex;flex-direction:column;gap:10px;" id="optTier">';
+        var _tierKeys = ["budget", "mid", "premium"];
+        for (var ti = 0; ti < _tierKeys.length; ti++) {
+          var _tk = _tierKeys[ti];
+          var _td = SOLAR_PRICING.pricePerWatt[_tk];
+          var sel = est.panelTier === _tk ? " selected" : "";
+          var _estLow = fmt(roundTo100(_td.low * systemKw * 1000));
+          var _estHigh = fmt(roundTo100(_td.high * systemKw * 1000));
+          tierDetailHtml += '<div class="solar-option' + sel + '" data-val="' + _tk + '" style="display:flex;flex-direction:column;padding:12px 16px;">';
+          tierDetailHtml += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+          tierDetailHtml += '<strong>' + _td.label.split("(")[0].trim() + '</strong>';
+          tierDetailHtml += '<span style="color:#2563eb;font-weight:700;font-size:0.95rem;">' + _estLow + ' \u2013 ' + _estHigh + '</span>';
+          tierDetailHtml += '</div>';
+          tierDetailHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">$' + _td.low.toFixed(2) + ' \u2013 $' + _td.high.toFixed(2) + ' per watt installed</div>';
+          tierDetailHtml += '<div style="font-size:0.8rem;color:#94a3b8;margin-top:2px;">e.g. ' + _td.label.split("(")[1].replace(")", "").trim() + '</div>';
+          tierDetailHtml += '</div>';
+        }
+        tierDetailHtml += '</div></div>';
+        card.innerHTML = tierDetailHtml;
+        // Remove the old static options below since we replaced the entire card
+        // (the old code after this block set innerHTML again for steps 2)
+        // DO NOT add old innerHTML below
         bindOptions("optTier", "panelTier");
       } else if (stepNum === 3) {
         card.innerHTML = '\
@@ -1285,6 +1359,36 @@
       }
 
       // Market context
+      // Panel tier comparison (estimator only)
+      var solarCompHtml = '';
+      if (!isUpload && r.systemKw) {
+        solarCompHtml = '<div class="solar-card">';
+        solarCompHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Same system size, different panel tiers</h3>';
+        solarCompHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">' + r.systemKw + ' kW system, ' + (r.inverterInfo ? r.inverterInfo.label : "string inverter") + (r.batteryInfo ? " + " + r.batteryInfo.label : "") + '. Before 30% tax credit.</p>';
+        solarCompHtml += '<div style="display:flex;flex-direction:column;gap:8px;">';
+        var _stKeys = ["budget", "mid", "premium"];
+        for (var sci = 0; sci < _stKeys.length; sci++) {
+          var _sk = _stKeys[sci];
+          var _sd = SOLAR_PRICING.pricePerWatt[_sk];
+          var _sBench = calcSolarBenchmark(r.systemKw, _sk, r.inverterType || "string", r.batteryType || "none", r.region, r.roofCondition || "good");
+          var _sAfter = roundTo100(_sBench * (1 - SOLAR_PRICING.federalTaxCredit));
+          var _sSel = r.panelTier === _sk;
+          var _sBg = _sSel ? "#eff6ff" : "#f8fafc";
+          var _sBorder = _sSel ? "2px solid #2563eb" : "1px solid #e2e8f0";
+          solarCompHtml += '<div style="background:' + _sBg + ';border:' + _sBorder + ';border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">';
+          solarCompHtml += '<div>';
+          solarCompHtml += '<strong>' + _sd.label.split("(")[0].trim() + '</strong>';
+          if (_sSel) solarCompHtml += ' <span style="font-size:11px;color:#2563eb;font-weight:600;vertical-align:middle;">YOUR PICK</span>';
+          solarCompHtml += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + _sd.label.split("(")[1].replace(")", "").trim() + '</div>';
+          solarCompHtml += '</div>';
+          solarCompHtml += '<div style="text-align:right;">';
+          solarCompHtml += '<div style="font-size:1.05rem;color:#1e293b;font-weight:700;">' + fmt(_sBench) + '</div>';
+          solarCompHtml += '<div style="font-size:11px;color:#16a34a;">' + fmt(_sAfter) + ' after ITC</div>';
+          solarCompHtml += '</div></div>';
+        }
+        solarCompHtml += '</div></div>';
+      }
+
       var contextHtml = '';
       if (isUpload && r.quotePrice > 0) {
         var tip = "";
@@ -1342,6 +1446,7 @@
           ' + detailsHtml + '\
         </div>\
         ' + scopeHtml + '\
+        ' + solarCompHtml + '\
         ' + contextHtml + '\
         ' + paybackHtml + '\
         <div class="solar-card">\

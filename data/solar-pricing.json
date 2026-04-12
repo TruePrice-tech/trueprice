@@ -242,5 +242,16 @@
     "What is the deposit and payment milestone schedule?",
     "Are there any UCC-1 or fixture filings tied to the financing?",
     "How will the federal 25D credit be reflected (purchase) or assigned (PPA/lease)?"
+  ],
+  "commonUpsells": [
+    { "item": "Battery storage", "necessary": false, "cost": "$9,000 - $17,000", "notes": "Not needed for grid-tied savings. Valuable if you have frequent outages or time-of-use rates." },
+    { "item": "Critter guard / mesh skirting", "necessary": true, "cost": "$500 - $1,500", "notes": "Prevents squirrels, birds, and pests from nesting under panels and chewing wiring." },
+    { "item": "EV charger bundle", "necessary": false, "cost": "$500 - $1,200", "notes": "Often discounted when bundled with solar install. NEMA 14-50 outlet or hardwired L2 charger." },
+    { "item": "Electrical panel upgrade (200A)", "necessary": false, "cost": "$1,500 - $4,000", "notes": "Required if existing panel is 100A or 150A. Most solar installs on 200A panels don't need this." },
+    { "item": "Extended roof penetration warranty", "necessary": true, "cost": "$200 - $600", "notes": "Standard is 10 years. Some installers offer 25-year roof warranty for a small upcharge." },
+    { "item": "Panel-level monitoring upgrade", "necessary": false, "cost": "$200 - $500", "notes": "Microinverters include this free. String inverters need add-on optimizers or monitoring devices." },
+    { "item": "Roof repair / underlayment replacement", "necessary": false, "cost": "$2,000 - $8,000", "notes": "If roof has <10 years remaining, better to re-roof before solar to avoid removing and re-mounting later." },
+    { "item": "Ground mount racking", "necessary": false, "cost": "$3,000 - $10,000", "notes": "For homes with unsuitable roofs. Adds ~$0.50-$1.00/watt over standard roof mount." },
+    { "item": "Whole-home backup panel (critical loads)", "necessary": false, "cost": "$1,000 - $2,500", "notes": "Subpanel that battery backs up during outages. Without it, battery only runs a few circuits." }
   ]
 }
