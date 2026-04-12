@@ -1,0 +1,92 @@
+{
+  "metadata": {
+    "sources": "RoofingCalc.com, This Old House 2026, Angi, NerdWallet, GAF/OC/CertainTeed spec sheets, contractor surveys",
+    "baseYear": 2026,
+    "notes": "Prices are per roofing square (100 sqft) installed, including tear-off of one layer, underlayment, and standard accessories."
+  },
+  "stateMultipliers": {
+    "AL": 0.88, "AK": 1.20, "AZ": 0.92, "AR": 0.85, "CA": 1.18,
+    "CO": 1.00, "CT": 1.18, "DE": 1.05, "FL": 1.10, "GA": 0.90,
+    "HI": 1.30, "ID": 0.92, "IL": 1.02, "IN": 0.94, "IA": 0.92,
+    "KS": 0.90, "KY": 0.88, "LA": 0.90, "ME": 1.05, "MD": 1.10,
+    "MA": 1.20, "MI": 0.96, "MN": 1.00, "MS": 0.85, "MO": 0.92,
+    "MT": 0.95, "NE": 0.90, "NV": 0.98, "NH": 1.08, "NJ": 1.18,
+    "NM": 0.90, "NY": 1.22, "NC": 0.92, "ND": 0.92, "OH": 0.96,
+    "OK": 0.88, "OR": 1.06, "PA": 1.05, "RI": 1.10, "SC": 0.88,
+    "SD": 0.90, "TN": 0.90, "TX": 0.92, "UT": 0.95, "VT": 1.02,
+    "VA": 0.98, "WA": 1.08, "WV": 0.86, "WI": 0.96, "WY": 0.92,
+    "DC": 1.20
+  },
+  "materialTiers": {
+    "three_tab": {
+      "label": "3-Tab Asphalt Shingles",
+      "tag": "Budget option. 15-20 year lifespan. Flat appearance.",
+      "perSquare": { "low": 260, "mid": 330, "high": 400 },
+      "brands": "IKO Marathon, Atlas StormMaster, TAMKO Heritage"
+    },
+    "architectural": {
+      "label": "Architectural Shingles",
+      "tag": "Most popular. 25-30 year warranty. Dimensional look.",
+      "perSquare": { "low": 400, "mid": 525, "high": 650 },
+      "brands": "GAF Timberline HDZ, OC Duration, CertainTeed Landmark, Malarkey Vista"
+    },
+    "designer": {
+      "label": "Designer / Luxury Shingles",
+      "tag": "Premium appearance. 40-50 year warranty. Slate/cedar look.",
+      "perSquare": { "low": 650, "mid": 825, "high": 1000 },
+      "brands": "GAF Grand Canyon, OC Berkshire, CertainTeed Grand Manor, Malarkey Windsor"
+    },
+    "metal_standing_seam": {
+      "label": "Standing Seam Metal",
+      "tag": "50+ year lifespan. Energy efficient. Premium look.",
+      "perSquare": { "low": 1000, "mid": 1300, "high": 1600 },
+      "brands": "Drexel Metals, Berridge, McElroy Metal, ATAS"
+    },
+    "metal_corrugated": {
+      "label": "Corrugated / Exposed Fastener Metal",
+      "tag": "Affordable metal option. 30-40 year lifespan.",
+      "perSquare": { "low": 700, "mid": 950, "high": 1200 },
+      "brands": "Mueller, Fabral, ABC Supply"
+    },
+    "tile_concrete": {
+      "label": "Concrete Tile",
+      "tag": "50+ year lifespan. Heavy -- requires structural assessment.",
+      "perSquare": { "low": 900, "mid": 1350, "high": 1800 },
+      "brands": "Eagle Roofing, Boral, Entegra"
+    }
+  },
+  "pitchMultipliers": {
+    "low": { "label": "Low pitch (3/12 - 5/12)", "mult": 1.00 },
+    "standard": { "label": "Standard pitch (6/12 - 8/12)", "mult": 1.00 },
+    "steep": { "label": "Steep pitch (9/12 - 12/12)", "mult": 1.20 },
+    "very_steep": { "label": "Very steep (>12/12)", "mult": 1.40 }
+  },
+  "complexityMultipliers": {
+    "simple": { "label": "Simple (minimal cuts, few penetrations)", "mult": 1.00 },
+    "moderate": { "label": "Moderate (hips, valleys, 1-2 dormers)", "mult": 1.15 },
+    "complex": { "label": "Complex (multiple levels, many dormers, steep pitch)", "mult": 1.35 }
+  },
+  "layerMultipliers": {
+    "one": { "label": "1 layer tear-off", "mult": 1.00 },
+    "two": { "label": "2 layer tear-off", "mult": 1.10 },
+    "overlay": { "label": "Overlay (no tear-off)", "mult": 0.85 }
+  },
+  "commonJobs": {
+    "small_asphalt": { "label": "Small home (1,000-1,500 sqft)", "squares": 15, "total": [6000, 10000] },
+    "average_asphalt": { "label": "Average home (1,500-2,500 sqft)", "squares": 22, "total": [8500, 14500] },
+    "large_asphalt": { "label": "Large home (2,500-3,500 sqft)", "squares": 30, "total": [12000, 20000] },
+    "metal_average": { "label": "Average home, standing seam metal", "squares": 22, "total": [22000, 36000] }
+  },
+  "questionsToAskContractor": [
+    "What shingle brand, product line, and color are you proposing?",
+    "Is this a full tear-off or an overlay? How many layers currently?",
+    "What underlayment -- 15lb felt, 30lb felt, or synthetic?",
+    "Is ice and water shield included at eaves, valleys, and penetrations?",
+    "What type of ventilation -- ridge vent, box vents, or power vent?",
+    "Are all flashings being replaced (chimney, pipe boots, valleys, step)?",
+    "What is the per-sheet price for decking repair if needed?",
+    "Is the permit included? Who pulls it?",
+    "What are the manufacturer warranty and workmanship warranty separately?",
+    "How will you protect my property (tarps, magnetic nail sweep, yard protection)?"
+  ]
+}
