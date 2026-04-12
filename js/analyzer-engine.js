@@ -328,8 +328,14 @@
         ocrInput = imageDataUrl;
       } catch (e) {
         console.warn("[TP_Engine] Image resize failed:", e.message);
-        // Fall back to original file
-        ocrInput = file;
+        // Fall back to reading original file as data URL
+        ocrInput = await new Promise(function(resolve) {
+          var reader = new FileReader();
+          reader.onload = function() { resolve(reader.result); };
+          reader.onerror = function() { resolve(null); };
+          reader.readAsDataURL(file);
+        });
+        if (ocrInput) imageDataUrl = ocrInput;
       }
 
       // Step 2: Tesseract OCR (multi-pass with preprocessing)
