@@ -395,30 +395,47 @@
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
       TP_Engine.analyzeQuote(file, { vertical: "hvac", apiEndpoint: "/api/hvac-estimate" }).then(function(engineResult) {
-        return sendToApi({ text: engineResult.ocrText || "", images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) {
-          return { raw: raw, ocrText: engineResult.ocrText || "" };
+        var _engOcrText = engineResult.ocrText || "";
+        var regexPrice = engineResult.price || 0;
+
+        // Regex found a price: skip API call (save cost), build result from regex + scope
+        if (regexPrice > 0) {
+          var api = { totalPrice: regexPrice, _source: "regex" };
+          if (engineResult.contractor) api.contractor = engineResult.contractor;
+          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+            var extracted = TP_VerticalScope.extractFields(_engOcrText, "hvac");
+            if (extracted.jobType && extracted.jobType.value !== "other") api.systemType = extracted.jobType.label;
+            if (extracted.brand) api.brand = extracted.brand.brand;
+            if (extracted.warranty && extracted.warranty.parts) api.warrantyPartsYears = extracted.warranty.parts;
+            if (extracted.warranty && extracted.warranty.labor) api.warrantyLaborYears = extracted.warranty.labor;
+            api.scopeItems = {};
+            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
+          }
+          return { raw: { data: api }, ocrText: _engOcrText };
+        }
+
+        // Regex failed: call API as backup
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) {
+          return { raw: raw, ocrText: _engOcrText };
         });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
-        // Endpoints either return { data: {...} } or the data directly
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
 
         // Enrich with regex scope extraction when API fields are missing
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "hvac");
           if (!api.systemType && extracted.jobType && extracted.jobType.value !== "other") api.systemType = extracted.jobType.label;
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyPartsYears && extracted.warranty && extracted.warranty.parts) api.warrantyPartsYears = extracted.warranty.parts;
           if (!api.warrantyLaborYears && extracted.warranty && extracted.warranty.labor) api.warrantyLaborYears = extracted.warranty.labor;
-          if (!api.scopeItems) {
-            api.scopeItems = {};
-            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
-          }
+          api.scopeItems = {};
+          extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
         }
 
-        // Fallback: if API returned no price, try client-side parser
+        // Fallback: if still no price, try client-side parser
         if (!(price > 0) && typeof parseExtractedTextMultiStrategy === "function") {
           try {
             var ocrText = _engOcrText || window.__TP_LAST_OCR_TEXT || "";
