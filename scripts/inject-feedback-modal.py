@@ -1,5 +1,5 @@
 """
-Inject /js/feedback-modal.js script tag into every HTML file that contains
+Inject /js/feedback-modal.min.js script tag into every HTML file that contains
 a mailto:hello@truepricehq.com link, so the modal hijacks the link.
 
 Idempotent: skips files that already have the tag.
@@ -13,8 +13,8 @@ import os, glob, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-SCRIPT_TAG = '<script src="/js/feedback-modal.js" defer></script>'
-MARKER = "feedback-modal.js"
+SCRIPT_TAG = '<script src="/js/feedback-modal.min.js" defer></script>'
+MARKER = "feedback-modal.min.js"
 
 added = 0
 skipped_already = 0
