@@ -33,6 +33,9 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
     else if (window.location.pathname.indexOf("auto-repair") >= 0) _curVert = "auto";
     else if (window.location.pathname.indexOf("moving") >= 0) _curVert = "moving";
   }
+  // Normalize singular/plural so "window" page matches "windows" detector
+  var _vertAliases = { "window": "windows", "gutter": "gutters" };
+  if (_vertAliases[_curVert]) _curVert = _vertAliases[_curVert];
   var verticalWarning = "";
   if (_ocrText && _curVert && typeof detectVerticalFromText === "function") {
     var detected = detectVerticalFromText(_ocrText);
