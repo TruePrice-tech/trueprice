@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
+import { enrichWithCalibration } from "./_flywheel-read.js";
 
 const redis = Redis.fromEnv();
 
@@ -328,6 +329,11 @@ Rules:
     // Strip PII before returning or storing
     delete parsed.city;
 
+    // FLYWHEEL READ: blend real-world calibration data into the model estimate
+    const _calCity = parsed.city || parsed.cityName || "";
+    const _calState = parsed.stateCode || parsed.state || "";
+    await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "painting" });
+
     if (req.headers["x-trueprice-test"] !== "1") captureAnonymizedData("painting", parsed); // fire and forget
     // Test-mode skip: synthetic test fixtures (X-TruePrice-Test: 1)
     // do NOT count toward the public counter or feed pricing aggregates.
@@ -345,9 +351,9 @@ Rules:
       const totalPrice = Number(parsed && parsed.totalPrice) || 0;
       if (totalPrice > 0 && !_isTestMode) {
 
-        const cityLc = String((parsed && (parsed.city || parsed.cityName)) || "")
+        const cityLc = String(_calCity)
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
-        const st = String((parsed && (parsed.stateCode || parsed.state)) || "").toUpperCase();
+        const st = String(_calState).toUpperCase();
         const service = "painting";
         const weight = 0.3;
         if (st) {

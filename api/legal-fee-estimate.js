@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
+import { enrichWithCalibration } from "./_flywheel-read.js";
 
 const redis = Redis.fromEnv();
 
@@ -347,6 +348,11 @@ Return ONLY the JSON object, no markdown, no explanation.`
 
     // Strip PII before returning or storing
     delete parsed.attorneyName;
+
+    // FLYWHEEL READ: blend real-world calibration data into the model estimate
+    const _calCity = parsed.city || parsed.cityName || "";
+    const _calState = parsed.stateCode || parsed.state || "";
+    await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "legal" });
 
     if (req.headers["x-trueprice-test"] !== "1") captureAnonymizedData("legal", parsed); // fire and forget
     // Test-mode skip: synthetic test fixtures (X-TruePrice-Test: 1)

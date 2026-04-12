@@ -2,6 +2,7 @@ import { Redis } from "@upstash/redis";
 import fs from "fs";
 import path from "path";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
+import { enrichWithCalibration } from "./_flywheel-read.js";
 
 const redis = Redis.fromEnv();
 
@@ -250,7 +251,39 @@ CRITICAL EXTRACTION RULES:
       // Enrichment failed, continue without it
     }
 
+    // FLYWHEEL READ: blend real-world calibration data into the model estimate
+    const _calCity = parsed.city || "";
+    const _calState = (parsed.stateCode || "").toUpperCase();
+    await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "roofing" });
+
     captureAnonymizedData("home", parsed); // fire and forget
+
+    // FLYWHEEL BRIDGE: write to cal:* aggregates so compare-flow quotes
+    // improve future estimates (parse-quote previously only wrote to tp:pricing_data)
+    try {
+      const totalPrice = Number(parsed.price) || 0;
+      if (totalPrice > 0 && req.headers["x-trueprice-test"] !== "1") {
+        const cityLc = _calCity.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
+        const st = _calState;
+        const weight = 0.3;
+        const bump = async (k) => {
+          try {
+            const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+            const e = typeof ex === "string" ? JSON.parse(ex) : ex;
+            e.quotes += 1;
+            e.weightedSum += totalPrice * weight;
+            e.totalWeight += weight;
+            e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+            e.lastUpdated = Date.now();
+            await redis.set(k, JSON.stringify(e));
+          } catch (_) { /* best-effort */ }
+        };
+        if (st) {
+          if (cityLc) await bump(`cal:${cityLc}:${st}:roofing`);
+          await bump(`cal:metro:${st}:roofing`);
+        }
+      }
+    } catch (_) { /* flywheel bridge is best-effort */ }
 
     return res.status(200).json({
       success: true,

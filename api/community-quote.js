@@ -1,6 +1,11 @@
 // Community quote data endpoint
 // Stores anonymized quote data to improve pricing models
-// Uses in-memory storage (replace with Vercel KV or database for persistence)
+// Bridges to Redis cal:* aggregates for flywheel feedback
+
+import { Redis } from "@upstash/redis";
+
+let redis;
+try { redis = Redis.fromEnv(); } catch (_) { redis = null; }
 
 const quotes = [];
 const rateLimits = {}; // IP -> { count, resetTime }
@@ -164,6 +169,29 @@ export default async function handler(req, res) {
 
       // Keep only last 10,000 in memory
       if (quotes.length > 10000) quotes.shift();
+
+      // FLYWHEEL BRIDGE: write to Redis cal:* aggregates so community
+      // quotes feed into calibration. Low weight (0.15) since these are
+      // self-reported without document verification.
+      if (redis && stateCode) {
+        try {
+          const svc = serviceType || "roofing";
+          const weight = 0.15;
+          const bump = async (k) => {
+            const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+            const e = typeof ex === "string" ? JSON.parse(ex) : ex;
+            e.quotes += 1;
+            e.weightedSum += price * weight;
+            e.totalWeight += weight;
+            e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+            e.lastUpdated = Date.now();
+            await redis.set(k, JSON.stringify(e));
+          };
+          const cityLc = city.replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
+          if (cityLc) await bump(`cal:${cityLc}:${stateCode}:${svc}`);
+          await bump(`cal:metro:${stateCode}:${svc}`);
+        } catch (_) { /* flywheel bridge is best-effort */ }
+      }
 
       return res.status(200).json({ ok: true, accepted: true, count: quotes.length });
     } catch (e) {

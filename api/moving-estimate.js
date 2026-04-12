@@ -1,6 +1,7 @@
 import { Redis } from "@upstash/redis";
 import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
+import { enrichWithCalibration } from "./_flywheel-read.js";
 
 const redis = Redis.fromEnv();
 
@@ -272,6 +273,11 @@ OTHER RULES:
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
     }
+
+    // FLYWHEEL READ: blend real-world calibration data into the model estimate
+    const _calCity = parsed.city || parsed.cityName || "";
+    const _calState = parsed.stateCode || parsed.state || "";
+    await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "moving" });
 
     if (req.headers["x-trueprice-test"] !== "1") captureAnonymizedData("moving", parsed); // fire and forget — older tp:pricing_data list
     // Test-mode skip: synthetic test fixtures (X-TruePrice-Test: 1)

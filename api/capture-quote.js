@@ -32,6 +32,28 @@ export default async function handler(req, res) {
     await redis.lpush("tp:pricing_data", JSON.stringify(record));
     await redis.ltrim("tp:pricing_data", 0, 49999);
     await redis.incr("tp:total_quotes");
+
+    // FLYWHEEL BRIDGE: also write to cal:* aggregates so captured
+    // quotes feed back into future estimate calibration
+    const totalPrice = Number(price);
+    const st = (state || "").toUpperCase();
+    if (totalPrice > 0 && st) {
+      const weight = 0.3;
+      const bump = async (k) => {
+        try {
+          const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+          const e = typeof ex === "string" ? JSON.parse(ex) : ex;
+          e.quotes += 1;
+          e.weightedSum += totalPrice * weight;
+          e.totalWeight += weight;
+          e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+          e.lastUpdated = Date.now();
+          await redis.set(k, JSON.stringify(e));
+        } catch (_) { /* best-effort */ }
+      };
+      await bump(`cal:metro:${st}:${vertical}`);
+    }
+
     return res.status(200).json({ ok: true });
   } catch (e) {
     console.error("[capture-quote] Redis error:", e.message);

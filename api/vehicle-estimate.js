@@ -288,11 +288,35 @@ Be specific to the exact year/make/model. A 1984 Nissan Sentra is very different
           localShops = await searchShops(city, state, repair.toLowerCase().replace(/[^a-z0-9]/g, "_"));
         }
 
+        // FLYWHEEL READ: blend calibration data into the AI estimate
+        let calibration = null;
+        try {
+          const repairKey = repair.toLowerCase().replace(/[^a-z0-9_]/g, "_");
+          const cityLc = (city || "").toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
+          const st = (state || "").toUpperCase();
+          const keysToTry = [];
+          if (cityLc && st) keysToTry.push(`cal:${cityLc}:${st}:auto:${repairKey}`);
+          if (st) keysToTry.push(`cal:metro:${st}:auto:${repairKey}`);
+          if (cityLc && st) keysToTry.push(`cal:${cityLc}:${st}:auto`);
+          if (st) keysToTry.push(`cal:metro:${st}:auto`);
+          for (const k of keysToTry) {
+            const raw = await redis.get(k);
+            if (raw) {
+              const d = typeof raw === "string" ? JSON.parse(raw) : raw;
+              if (d && d.quotes > 0 && d.avgPrice > 0) {
+                calibration = { avgPrice: d.avgPrice, quotes: d.quotes, source: k, lastUpdated: d.lastUpdated };
+                break;
+              }
+            }
+          }
+        } catch (_) { /* best-effort */ }
+
         return res.status(200).json({
           success: true,
           vehicle: vehicleDesc,
           repair,
           estimate: parsed,
+          calibration,
           localShops: localShops.slice(0, 5)
         });
 
