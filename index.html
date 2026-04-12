@@ -131,12 +131,12 @@
     .tp-slogan { font-size: 56px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; color: #fff; text-align: center; margin: 0 auto 18px; max-width: 900px; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
     .tp-subhead { text-align: center; max-width: 760px; margin: 0 auto 56px; font-size: 18px; line-height: 1.5; color: rgba(255,255,255,0.82); }
     .tp-intent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
-    .tp-intent-card { background: #fff; border-radius: 16px; padding: 18px 16px 18px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; position: relative; }
-    .tp-intent-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.24); text-decoration: none; }
+    .tp-intent-card { background: #fff; border-radius: 16px; padding: 18px 16px 18px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border: 2px solid rgba(255,255,255,0.15); border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; position: relative; }
+    .tp-intent-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.24); border-color: var(--accent, #1d4ed8); text-decoration: none; }
     .tp-intent-card h2 { font-size: 20px; margin: 0 0 4px; color: #0f172a; line-height: 1.2; }
     .tp-intent-card p.tp-sub { font-size: 14px; color: #475569; margin: 0 0 10px; line-height: 1.4; }
     .tp-intent-card img { max-height: 200px; width: auto; height: auto; object-fit: contain; margin: 0 0 14px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18)); flex: 1; display: flex; align-items: center; }
-    .tp-intent-cta { display: inline-block; background: var(--accent, #1d4ed8); color: #fff; font-weight: 700; font-size: 14px; padding: 10px 18px; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; margin-top: auto; }
+    .tp-intent-cta { display: inline-block; background: var(--accent, #1d4ed8); color: #fff; font-weight: 700; font-size: 16px; padding: 13px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; margin-top: auto; letter-spacing: -0.01em; transition: transform 0.15s, box-shadow 0.15s; }
     /* Subtle compare card emphasis */
     .tp-intent-card.tp-card-popular { border-top-width: 7px; transform: translateY(-4px); box-shadow: 0 14px 36px rgba(29,78,216,0.22); }
     .tp-intent-card.tp-card-popular:hover { transform: translateY(-8px); }
@@ -222,33 +222,37 @@
     <div class="container" style="text-align:center;">
 
       <h1 class="tp-slogan anim-1">Don't guess. Know.</h1>
-      <p class="tp-subhead anim-1">Get a free estimate, compare contractor quotes, or check the one you already have.</p>
+      <p class="tp-subhead anim-1">Free price checks for 20 trades. No email, no phone, no lead-selling.</p>
+
+      <div class="tp-counter anim-1" style="margin:0 auto 36px;">
+        <span class="tp-counter-num"><span id="liveCounterTop">3,895</span></span><span class="tp-counter-label">quotes checked and counting</span>
+      </div>
 
       <div class="tp-intent-grid anim-2">
         <a class="tp-intent-card tp-card-estimate" href="/get-an-estimate.html" style="--accent:#ec4899;">
           <h2>Don't have a quote yet?</h2>
           <p class="tp-sub">Get a fair-price estimate first.</p>
           <img src="/images/trudy-estimate-hero.webp" alt="Trudy with arms out asking what you need" width="533" height="800" loading="eager" />
-          <span class="tp-intent-cta">Get my estimate &rarr;</span>
+          <span class="tp-intent-cta">Get my estimate</span>
         </a>
         <a class="tp-intent-card" href="/compare-quotes-picker.html" style="--accent:#eab308;">
           <h2>Got multiple quotes?</h2>
           <p class="tp-sub">Side-by-side check on each.</p>
           <img src="/images/trudy-compare-hero.png?v=3" alt="Trudy holding two quotes for comparison" width="533" height="800" loading="eager" />
-          <span class="tp-intent-cta">Compare my quotes &rarr;</span>
+          <span class="tp-intent-cta">Compare my quotes</span>
         </a>
         <a class="tp-intent-card tp-card-analyze tp-card-popular" href="/analyze-my-quote.html" style="--accent:#1d4ed8;">
           <h2>Already got a quote?</h2>
           <p class="tp-sub">Don't sign till Trudy checks it.</p>
           <img src="/images/trudy-analyze-hero.webp" alt="Trudy holding up a single quote, confident" width="533" height="800" loading="eager" />
-          <span class="tp-intent-cta">Check my quote &rarr;</span>
+          <span class="tp-intent-cta">Check my quote</span>
         </a>
       </div>
 
-      <div class="tp-counter anim-3">
-        <span class="tp-counter-num"><span id="liveCounter">3,895</span></span><span class="tp-counter-label">quotes analyzed and counting</span>
+      <div class="anim-3" style="max-width:600px; margin:32px auto 0; padding:20px 24px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:14px; text-align:left;">
+        <div style="font-size:14px; color:rgba(255,255,255,0.9); line-height:1.6; font-style:italic;">"It's amazing and I've already shared it with some friends and that feedback was the same... it's something we all need especially in this economy."</div>
+        <div style="margin-top:8px; font-size:13px; color:rgba(255,255,255,0.55);">Zanga Frankfort, Charlotte, NC</div>
       </div>
-      <div class="tp-trust-line anim-3">We don't sell leads. Ever.</div>
 
     </div>
     <!-- Smooth dark-to-light transition into the demo card below -->
@@ -472,7 +476,7 @@
 // Fetches the latest tp:total_quotes value, then animates from 0 -> target
 // to draw the user's eye to the social proof number.
 (function() {
-  var el = document.getElementById("liveCounter");
+  var el = document.getElementById("liveCounterTop");
   if (!el) return;
 
   function animate(target) {
