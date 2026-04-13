@@ -9882,6 +9882,10 @@ function buildComparisonWinnerHtml(summary) {
         return;
       }
 
+      // Save home size BEFORE the loading screen replaces the DOM,
+      // so the pricing calculation can still access it.
+      journeyState._savedHomeSize = _homeSizeVal;
+
       // Show loading
       const root = document.getElementById("appRoot");
       if (!root) return;
@@ -9980,9 +9984,11 @@ function buildComparisonWinnerHtml(summary) {
       const ROOF_AREA_RATIO = 1.2; // Accounts for overhangs, pitch, waste
 
       let baseArea;
-      // Check estimator home size input first, then address step home size
-      const estHomeSizeVal = Number(document.getElementById("estHomeSize")?.value || 0);
+      // Check saved home size (saved before DOM was replaced by loading screen),
+      // then fallback to address step home size or OSM data
+      const estHomeSizeVal = journeyState._savedHomeSize || Number(document.getElementById("estHomeSize")?.value || 0);
       const homeSize = estHomeSizeVal > 0 ? estHomeSizeVal
+        : journeyState.osmHomeSize > 0 ? journeyState.osmHomeSize
         : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
 
       if (homeSize) {
