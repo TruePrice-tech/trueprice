@@ -336,6 +336,7 @@
       extractedText: "",
       // estimator answers
       est: { serviceType: null, homeSqFt: null, stories: null, homeSqFtManual: null, homeAge: null, urgency: null },
+      osmFootprint: null,
       // result
       result: null
     };
@@ -976,7 +977,7 @@
         card.innerHTML = '\
           <div class="elec-step">\
             <h3>Describe your home</h3>\
-            ' + (osmFp > 0 ? '<p style="font-size:13px; color:#16a34a; margin:0 0 12px;">&#10003; We measured your building from satellite data</p>' : '') + '\
+            ' + (osmFp > 0 ? '<p style="font-size:13px; color:#16a34a; margin:0 0 12px;">&#10003; ' + osmFp.toLocaleString() + ' sq ft footprint from satellite data. Select stories to calculate living area.</p>' : '') + '\
             <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;font-weight:600;">How many stories?</label>\
             <div class="elec-options" id="optStories" style="margin-bottom:16px;">\
               <div class="elec-option' + (stories === "1" ? " selected" : "") + '" data-val="1">1 story</div>\
@@ -988,14 +989,14 @@
               <input type="number" class="elec-sqft-input" id="sqftInput" placeholder="e.g. 2400" value="' + (estimatedSqFt || "") + '" min="500" max="10000" />\
               <span style="color:#64748b;">sq ft</span>\
             </div>\
-            <div class="elec-options" style="margin-top:8px;" id="sqftPresets">\
+            ' + (osmFp > 0 ? '' : '<div class="elec-options" style="margin-top:8px;" id="sqftPresets">\
               <div class="elec-option" data-val="1500">1,500</div>\
               <div class="elec-option" data-val="2000">2,000</div>\
               <div class="elec-option" data-val="2500">2,500</div>\
               <div class="elec-option" data-val="3000">3,000</div>\
               <div class="elec-option" data-val="3500">3,500</div>\
-            </div>\
-            <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">Check your listing, tax records, or Zillow if unsure.</p>\
+            </div>') + '\
+            <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">' + (osmFp > 0 ? 'Calculated from satellite footprint. Edit if not accurate.' : 'Check your listing, tax records, or Zillow if unsure.') + '</p>\
             <div style="margin-top:1rem;">\
               <button class="elec-btn elec-btn-primary" id="sqftNext">Continue</button>\
             </div>\
@@ -1041,6 +1042,25 @@
         document.getElementById("sqftInput").addEventListener("input", function() {
           est.homeSqFtManual = Number(this.value) || 0;
         });
+
+        // Poll for OSM data if it hasn't arrived yet (timing race fix)
+        if (!state.osmFootprint) {
+          var _pollCount = 0;
+          var _poll = setInterval(function() {
+            _pollCount++;
+            if (state.osmFootprint || _pollCount > 12) {
+              clearInterval(_poll);
+              if (state.osmFootprint) {
+                var inp = document.getElementById("sqftInput");
+                var stories = est.stories || "1";
+                var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
+                var calc = Math.round(state.osmFootprint * mult);
+                if (inp && !inp.value) inp.value = String(calc);
+                render(); // Re-render to show satellite message and hide presets
+              }
+            }
+          }, 500);
+        }
       } else if (stepNum === 3) {
         card.innerHTML = '\
           <div class="elec-step">\
@@ -1339,6 +1359,7 @@
           uploadedFile: null,
           extractedText: "",
           est: { serviceType: null, homeSqFt: null, stories: null, homeSqFtManual: null, homeAge: null, urgency: null },
+          osmFootprint: null,
           result: null
         };
         render();

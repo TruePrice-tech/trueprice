@@ -1053,9 +1053,11 @@
           _prefill = String(Math.round(state.osmFootprint * _sMult));
         }
         if (est.homeSqFtManual) _prefill = est.homeSqFtManual;
+        var _osmFp = state.osmFootprint || 0;
         card.innerHTML = '\
           <div class="paint-step">\
             <h3>How many stories is your home?</h3>\
+            ' + (_osmFp > 0 ? '<p style="font-size:13px; color:#16a34a; margin:0 0 12px;">&#10003; ' + _osmFp.toLocaleString() + ' sq ft footprint from satellite data. Select stories to calculate living area.</p>' : '') + '\
             <div class="paint-options" id="optStories">\
               <div class="paint-option' + (est.stories === "1" ? " selected" : "") + '" data-val="1">1 Story</div>\
               <div class="paint-option' + (est.stories === "2" ? " selected" : "") + '" data-val="2">2 Stories</div>\
@@ -1065,14 +1067,14 @@
           <div class="paint-step" style="margin-top:1.25rem;">\
             <h3>Approximate square footage</h3>\
             <input type="number" id="sqftInput" class="paint-sqft-input" placeholder="e.g. 2000" value="' + _prefill + '" min="200" max="20000" style="width:100%;margin-bottom:0.75rem;" />\
-            <div class="paint-options" id="sqftPresets">\
+            ' + (_osmFp > 0 ? '' : '<div class="paint-options" id="sqftPresets">\
               <div class="paint-option" data-val="1500">1,500</div>\
               <div class="paint-option" data-val="2000">2,000</div>\
               <div class="paint-option" data-val="2500">2,500</div>\
               <div class="paint-option" data-val="3000">3,000</div>\
               <div class="paint-option" data-val="3500">3,500</div>\
-            </div>\
-            <p style="font-size:0.85rem;color:#64748b;margin-top:0.5rem;">' + (state.osmFootprint ? "Pre-filled from satellite data for your address. Adjust if needed." : "Enter your home size or pick a preset.") + '</p>\
+            </div>') + '\
+            <p style="font-size:0.85rem;color:#64748b;margin-top:0.5rem;">' + (_osmFp > 0 ? "Calculated from satellite footprint. Edit if not accurate." : "Enter your home size or pick a preset.") + '</p>\
           </div>\
           <button class="paint-btn paint-btn-primary paint-btn-full" id="sqftContinue" style="margin-top:1rem;">Continue</button>';
         // Stories selector
@@ -1125,6 +1127,25 @@
               render();
             }
           });
+        }
+
+        // Poll for OSM data if it hasn't arrived yet (timing race fix)
+        if (!state.osmFootprint) {
+          var _pollCount = 0;
+          var _poll = setInterval(function() {
+            _pollCount++;
+            if (state.osmFootprint || _pollCount > 12) {
+              clearInterval(_poll);
+              if (state.osmFootprint) {
+                var inp = document.getElementById("sqftInput");
+                var stories = est.stories || "1";
+                var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
+                var calc = Math.round(state.osmFootprint * mult);
+                if (inp && !inp.value) inp.value = String(calc);
+                render(); // Re-render to show satellite message and hide presets
+              }
+            }
+          }, 500);
         }
       } else if (stepNum === 3) {
         card.innerHTML = '\
@@ -1515,6 +1536,7 @@
           uploadedFile: null,
           extractedText: "",
           est: { projectType: null, stories: null, homeSqFt: "", homeSqFtManual: null, paintQuality: null, brandTier: null, condition: null },
+          osmFootprint: null,
           result: null
         };
         render();

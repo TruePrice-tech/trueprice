@@ -967,9 +967,11 @@
           </div>';
         bindOptions("optType", "insType");
       } else if (stepNum === 2) {
+        var _osmFp = state.osmFootprint || 0;
         card.innerHTML = '\
           <div class="ins-step">\
             <h3>How many stories is your home?</h3>\
+            ' + (_osmFp > 0 ? '<p style="font-size:13px; color:#16a34a; margin:0 0 12px;">&#10003; ' + _osmFp.toLocaleString() + ' sq ft footprint from satellite data. Select stories to calculate living area.</p>' : '') + '\
             <div class="ins-options" id="optStories">\
               <div class="ins-option' + (est.stories === "1" ? " selected" : "") + '" data-val="1">1 story</div>\
               <div class="ins-option' + (est.stories === "2" ? " selected" : "") + '" data-val="2">2 stories</div>\
@@ -980,23 +982,24 @@
         bindOptions("optStories", "stories");
       } else if (stepNum === 3) {
         var prefill = est.areaSqFtManual || "";
-        if (!prefill && state.osmFootprint) {
+        var _insFp = state.osmFootprint || 0;
+        if (!prefill && _insFp > 0) {
           var sMult = est.stories === "2" ? 2.0 : est.stories === "3" ? 2.5 : 1.0;
-          prefill = Math.round(state.osmFootprint * sMult);
+          prefill = Math.round(_insFp * sMult);
         }
         card.innerHTML = '\
           <div class="ins-step">\
             <h3>How large is the area to insulate?</h3>\
-            ' + (state.osmFootprint ? '<p style="font-size:0.85rem;color:#16a34a;margin-bottom:0.75rem;">Pre-filled from satellite data for your address.</p>' : '') + '\
+            ' + (_insFp > 0 ? '<p style="font-size:0.85rem;color:#16a34a;margin-bottom:0.75rem;">&#10003; ' + _insFp.toLocaleString() + ' sq ft footprint from satellite data. Calculated from footprint. Edit if not accurate.</p>' : '') + '\
             <input type="number" id="sizeInput" class="ins-sqft-input" placeholder="e.g. 1500" value="' + prefill + '" min="100" max="20000" style="width:100%;margin-bottom:0.75rem;" />\
-            <div class="ins-options" id="presetSizes">\
+            ' + (_insFp > 0 ? '' : '<div class="ins-options" id="presetSizes">\
               <div class="ins-option" data-val="800">800</div>\
               <div class="ins-option" data-val="1000">1,000</div>\
               <div class="ins-option" data-val="1500">1,500</div>\
               <div class="ins-option" data-val="2000">2,000</div>\
               <div class="ins-option" data-val="2500">2,500</div>\
-            </div>\
-            <p style="font-size:0.85rem;color:#94a3b8;margin-top:0.75rem;">Enter total square footage of the area to insulate (attic floor, walls, etc.).</p>\
+            </div>') + '\
+            <p style="font-size:0.85rem;color:#94a3b8;margin-top:0.75rem;">' + (_insFp > 0 ? 'Calculated from satellite footprint. Edit if not accurate.' : 'Enter total square footage of the area to insulate (attic floor, walls, etc.).') + '</p>\
             <button class="ins-btn ins-btn-primary ins-btn-full" id="btnSizeContinue" style="margin-top:1rem;">Continue</button>\
           </div>';
         var _presets = document.getElementById("presetSizes");
@@ -1016,6 +1019,25 @@
           est.areaSqFtManual = String(val);
           if (getEstimatorStep() > 5) { calculateEstimate(); } else { render(); }
         });
+
+        // Poll for OSM data if it hasn't arrived yet (timing race fix)
+        if (!state.osmFootprint) {
+          var _pollCount = 0;
+          var _poll = setInterval(function() {
+            _pollCount++;
+            if (state.osmFootprint || _pollCount > 12) {
+              clearInterval(_poll);
+              if (state.osmFootprint) {
+                var inp = document.getElementById("sizeInput");
+                var stories = est.stories || "1";
+                var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
+                var calc = Math.round(state.osmFootprint * mult);
+                if (inp && !inp.value) inp.value = String(calc);
+                render(); // Re-render to show satellite message and hide presets
+              }
+            }
+          }, 500);
+        }
       } else if (stepNum === 4) {
         card.innerHTML = '\
           <div class="ins-step">\
@@ -1307,7 +1329,8 @@
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { insType: null, areaSqFt: null, oldRemoval: null, location: null },
+          est: { insType: null, stories: null, areaSqFt: null, areaSqFtManual: null, oldRemoval: null, location: null },
+          osmFootprint: null,
           result: null
         };
         render();
