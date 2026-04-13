@@ -1074,7 +1074,7 @@
               <div class="paint-option" data-val="3000">3,000</div>\
               <div class="paint-option" data-val="3500">3,500</div>\
             </div>') + '\
-            <p style="font-size:0.85rem;color:#64748b;margin-top:0.5rem;">' + (_osmFp > 0 ? "Calculated from satellite footprint. Edit if not accurate." : "Enter your home size or pick a preset.") + '</p>\
+            <p id="sqftHint" style="font-size:0.85rem;color:#64748b;margin-top:0.5rem;">' + (_osmFp > 0 ? "Calculated from satellite footprint. Edit if not accurate." : "Enter your home size or pick a preset.") + '</p>\
           </div>\
           <button class="paint-btn paint-btn-primary paint-btn-full" id="sqftContinue" style="margin-top:1rem;">Continue</button>';
         // Stories selector
@@ -1129,6 +1129,15 @@
           });
         }
 
+        // Show loading indicator while OSM fetches
+        if (!state.osmFootprint) {
+          var _sizeHint = document.getElementById("sqftHint");
+          if (_sizeHint) {
+            _sizeHint.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data for your address...</span>';
+            _sizeHint.style.color = "#3b82f6";
+          }
+        }
+
         // Poll for OSM data if it hasn't arrived yet (timing race fix)
         if (!state.osmFootprint) {
           var _pollCount = 0;
@@ -1143,6 +1152,12 @@
                 var calc = Math.round(state.osmFootprint * mult);
                 if (inp && !inp.value) inp.value = String(calc);
                 render(); // Re-render to show satellite message and hide presets
+              } else {
+                var _h = document.getElementById("sqftHint");
+                if (_h) {
+                  _h.textContent = "Enter your total living area. Check your listing, tax records, or Zillow if unsure.";
+                  _h.style.color = "#94a3b8";
+                }
               }
             }
           }, 500);

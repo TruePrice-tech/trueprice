@@ -9809,19 +9809,14 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
 
-            <!-- Home size + stories -->
+            <!-- Home size -->
             <div class="est-section">
               <div class="est-section-label">How big is your home?</div>
               <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
                 <input type="number" id="estHomeSize" placeholder="e.g. 2400" value="${journeyState.osmHomeSize ? String(journeyState.osmHomeSize) : ""}" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
                 <span style="font-size:14px; color:#64748b;">sq ft</span>
-                <select id="estStories" style="padding:10px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:14px; font-family:inherit; color:#334155; cursor:pointer;">
-                  <option value="1">1 story</option>
-                  <option value="2">2 stories</option>
-                  <option value="3">3+ stories</option>
-                </select>
               </div>
-              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data (' + (journeyState.osmFootprint || journeyState.osmHomeSize).toLocaleString() + ' sq ft footprint). Select your home type above to adjust for stories.' : 'Total living area. Select home type above and we\'ll adjust from satellite data if available.'}</div>
+              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data. Adjusted for home type selected above.' : 'Total living area. Check your listing, tax records, or Zillow if unsure.'}</div>
             </div>
 
             <!-- Ownership -->
@@ -9881,45 +9876,41 @@ function buildComparisonWinnerHtml(summary) {
           });
         });
 
+        // Show loading indicator in sqft field while OSM fetches
+        if (!journeyState.osmHomeSize) {
+          const _sizeHint = document.getElementById("estHomeSizeHint");
+          if (_sizeHint) {
+            _sizeHint.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data for your address...</span>';
+            _sizeHint.style.color = "#3b82f6";
+          }
+        }
+
         // Poll for OSM data if it hasn't arrived yet (timing race fix)
         if (!journeyState.osmHomeSize) {
           let _osmPollCount = 0;
           const _osmPoll = setInterval(() => {
             _osmPollCount++;
-            if (journeyState.osmHomeSize || _osmPollCount > 10) {
+            if (journeyState.osmHomeSize || _osmPollCount > 12) {
               clearInterval(_osmPoll);
+              const _hint = document.getElementById("estHomeSizeHint");
               if (journeyState.osmHomeSize) {
                 const _inp = document.getElementById("estHomeSize");
                 if (_inp && !_inp.value) {
                   _inp.value = String(journeyState.osmHomeSize);
-                  const _hint = document.getElementById("estHomeSizeHint");
-                  if (_hint) {
-                    _hint.textContent = "\u2713 Pre-filled from satellite data (" + (journeyState.osmFootprint || journeyState.osmHomeSize).toLocaleString() + " sq ft footprint). Select stories to adjust.";
-                    _hint.style.color = "#16a34a";
-                  }
+                }
+                if (_hint) {
+                  _hint.textContent = "\u2713 Pre-filled from satellite data. Select your home type above to adjust for stories.";
+                  _hint.style.color = "#16a34a";
+                }
+              } else {
+                // OSM timed out
+                if (_hint) {
+                  _hint.textContent = "Enter your total living area. Check your listing, tax records, or Zillow if unsure.";
+                  _hint.style.color = "#94a3b8";
                 }
               }
             }
           }, 500);
-        }
-
-        // Stories dropdown adjusts sqft from footprint
-        const storiesSelect = document.getElementById("estStories");
-        if (storiesSelect && journeyState.osmFootprint) {
-          storiesSelect.addEventListener("change", function() {
-            const stories = Number(this.value) || 1;
-            const storyMults = { 1: 1.0, 2: 2.0, 3: 2.5 };
-            const mult = storyMults[stories] || 1.0;
-            const adjusted = Math.round(journeyState.osmFootprint * mult);
-            journeyState.osmHomeSize = adjusted;
-            const _inp = document.getElementById("estHomeSize");
-            if (_inp) _inp.value = String(adjusted);
-            const _hint = document.getElementById("estHomeSizeHint");
-            if (_hint) {
-              _hint.textContent = "\u2713 " + journeyState.osmFootprint.toLocaleString() + " sq ft footprint \u00d7 " + stories + " stor" + (stories > 1 ? "ies" : "y") + " = " + adjusted.toLocaleString() + " sq ft";
-              _hint.style.color = "#16a34a";
-            }
-          });
         }
 
         // Submit
