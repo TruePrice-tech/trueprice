@@ -269,20 +269,24 @@
     // ── Fence Pricing Model ──
     var FENCE_PRICING = {
       basePricePerLinearFoot: {
-        wood_privacy: { label: "Wood Privacy (6ft)", low: 25, high: 50, mid: 37.50 },
-        vinyl_privacy: { label: "Vinyl Privacy", low: 30, high: 60, mid: 45.00 },
-        chain_link: { label: "Chain Link (4ft)", low: 15, high: 25, mid: 20.00 },
-        aluminum: { label: "Aluminum (4ft)", low: 30, high: 55, mid: 42.50 },
-        wrought_iron: { label: "Wrought Iron", low: 40, high: 75, mid: 57.50 }
+        chain_link: { label: "Chain Link", low: 15, high: 40, mid: 25.00 },
+        wood_privacy: { label: "Wood Privacy (PT Pine)", low: 22, high: 45, mid: 33.50 },
+        cedar: { label: "Cedar Privacy", low: 30, high: 60, mid: 45.00 },
+        vinyl_privacy: { label: "Vinyl / PVC Privacy", low: 35, high: 80, mid: 50.00 },
+        aluminum: { label: "Aluminum Ornamental", low: 32, high: 75, mid: 48.00 },
+        composite: { label: "Composite", low: 45, high: 95, mid: 65.00 },
+        wrought_iron: { label: "Wrought / Ornamental Iron", low: 42, high: 100, mid: 65.00 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       heightMultiplier: { "4": 0.85, "6": 1.00, "8": 1.25 },
       gateCost: {
-        wood_privacy: { low: 350, high: 600 },
+        chain_link: { low: 200, high: 500 },
+        wood_privacy: { low: 300, high: 600 },
+        cedar: { low: 400, high: 700 },
         vinyl_privacy: { low: 400, high: 700 },
-        chain_link: { low: 300, high: 500 },
         aluminum: { low: 450, high: 800 },
-        wrought_iron: { low: 500, high: 800 }
+        composite: { low: 500, high: 900 },
+        wrought_iron: { low: 500, high: 1000 }
       },
       scopeItems: [
         { key: "postHoles", label: "Post holes", weight: 12 },
@@ -334,7 +338,7 @@
       uploadedFile: null,
       extractedText: "",
       // estimator answers
-      est: { fenceType: null, length: null, height: null, gate: null },
+      est: { fenceType: null, length: null, height: null, gate: null, terrain: null, demo: null },
       // result
       result: null
     };
@@ -936,17 +940,32 @@
       var card = document.getElementById("estCard");
 
       if (stepNum === 1) {
-        card.innerHTML = '\
-          <div class="fence-step">\
-            <h3>What type of fence do you need?</h3>\
-            <div class="fence-options" id="optType">\
-              <div class="fence-option' + (est.fenceType === "wood_privacy" ? " selected" : "") + '" data-val="wood_privacy">Wood Privacy</div>\
-              <div class="fence-option' + (est.fenceType === "vinyl_privacy" ? " selected" : "") + '" data-val="vinyl_privacy">Vinyl Privacy</div>\
-              <div class="fence-option' + (est.fenceType === "chain_link" ? " selected" : "") + '" data-val="chain_link">Chain Link</div>\
-              <div class="fence-option' + (est.fenceType === "aluminum" ? " selected" : "") + '" data-val="aluminum">Aluminum</div>\
-              <div class="fence-option' + (est.fenceType === "wrought_iron" ? " selected" : "") + '" data-val="wrought_iron">Wrought Iron</div>\
-            </div>\
-          </div>';
+        var tierHtml = '<div class="fence-step"><h3>What type of fence?</h3>';
+        tierHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">Prices are per linear foot installed (150 ft typical backyard).</p>';
+        tierHtml += '<div style="display:flex;flex-direction:column;gap:10px;" id="optType">';
+        var tiers = [
+          { val: "chain_link", label: "Chain Link", tag: "Most affordable. 15-25 year lifespan.", range: "$15 - $40/ft", examples: "Galvanized or vinyl-coated" },
+          { val: "wood_privacy", label: "Wood Privacy (PT Pine)", tag: "Most popular. 10-20 year lifespan.", range: "$22 - $45/ft", examples: "Pressure-treated pine, dog-ear or flat-top" },
+          { val: "cedar", label: "Cedar Privacy", tag: "Natural beauty. 15-30 year lifespan.", range: "$30 - $60/ft", examples: "Western Red Cedar" },
+          { val: "vinyl_privacy", label: "Vinyl / PVC Privacy", tag: "Low maintenance. 25-40 year lifespan.", range: "$35 - $80/ft", examples: "CertainTeed Bufftech, Veranda, ActiveYards" },
+          { val: "aluminum", label: "Aluminum Ornamental", tag: "Elegant, no-rust. 25-50 year lifespan.", range: "$32 - $75/ft", examples: "Ameristar, Jerith, Specrail" },
+          { val: "composite", label: "Composite", tag: "Premium low-maintenance. 25-40 year lifespan.", range: "$45 - $95/ft", examples: "Trex Seclusions, Barrette, SimTek" },
+          { val: "wrought_iron", label: "Wrought / Ornamental Iron", tag: "Maximum durability. 40-80 year lifespan.", range: "$42 - $100+/ft", examples: "Custom fabrication" }
+        ];
+        for (var ti = 0; ti < tiers.length; ti++) {
+          var t = tiers[ti];
+          var sel = est.fenceType === t.val ? " selected" : "";
+          tierHtml += '<div class="fence-option' + sel + '" data-val="' + t.val + '" style="display:flex;flex-direction:column;padding:12px 16px;">';
+          tierHtml += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+          tierHtml += '<strong>' + t.label + '</strong>';
+          tierHtml += '<span style="color:#2563eb;font-weight:700;font-size:0.95rem;">' + t.range + '</span>';
+          tierHtml += '</div>';
+          tierHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">' + t.tag + '</div>';
+          tierHtml += '<div style="font-size:0.8rem;color:#94a3b8;margin-top:2px;">e.g. ' + t.examples + '</div>';
+          tierHtml += '</div>';
+        }
+        tierHtml += '</div></div>';
+        card.innerHTML = tierHtml;
         bindOptions("optType", "fenceType");
       } else if (stepNum === 2) {
         card.innerHTML = '\
@@ -1000,10 +1019,31 @@
             </div>\
           </div>';
         bindOptions("optGate", "gate");
+      } else if (stepNum === 5) {
+        card.innerHTML = '\
+          <div class="fence-step">\
+            <h3>What is the terrain like?</h3>\
+            <div class="fence-options" id="optTerrain">\
+              <div class="fence-option' + (est.terrain === "flat" ? " selected" : "") + '" data-val="flat">Flat / level ground</div>\
+              <div class="fence-option' + (est.terrain === "gentle" ? " selected" : "") + '" data-val="gentle">Gentle slope</div>\
+              <div class="fence-option' + (est.terrain === "steep" ? " selected" : "") + '" data-val="steep">Steep slope or rocky soil</div>\
+            </div>\
+          </div>';
+        bindOptions("optTerrain", "terrain");
+      } else if (stepNum === 6) {
+        card.innerHTML = '\
+          <div class="fence-step">\
+            <h3>Is there an old fence to remove?</h3>\
+            <div class="fence-options" id="optDemo">\
+              <div class="fence-option' + (est.demo === "yes" ? " selected" : "") + '" data-val="yes">Yes, remove old fence</div>\
+              <div class="fence-option' + (est.demo === "no" ? " selected" : "") + '" data-val="no">No old fence</div>\
+            </div>\
+          </div>';
+        bindOptions("optDemo", "demo");
       }
 
       // Show progress indicator
-      var _ts = 4;
+      var _ts = 6;
       var progressBar = '<div style="text-align:center;margin-bottom:1.25rem;">';
       progressBar += '<div style="font-size:13px;color:#64748b;margin-bottom:8px;font-weight:600;">Step ' + stepNum + ' of ' + _ts + '</div>';
       progressBar += '<div style="display:flex;gap:6px;justify-content:center;align-items:center;">';
@@ -1020,7 +1060,9 @@
       if (stepNum > 1) {
         card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="fence-btn fence-btn-secondary" id="estBack">Back</button></div>');
         document.getElementById("estBack").addEventListener("click", function() {
-          if (stepNum === 4) est.gate = null;
+          if (stepNum === 6) est.demo = null;
+          else if (stepNum === 5) est.terrain = null;
+          else if (stepNum === 4) est.gate = null;
           else if (stepNum === 3) est.height = null;
           else if (stepNum === 2) est.length = null;
           render();
@@ -1034,7 +1076,9 @@
       if (!e.length) return 2;
       if (!e.height) return 3;
       if (!e.gate) return 4;
-      return 5; // all done
+      if (!e.terrain) return 5;
+      if (!e.demo) return 6;
+      return 7; // all done
     }
 
     function bindOptions(containerId, field) {
@@ -1046,7 +1090,7 @@
         state.est[field] = opt.getAttribute("data-val");
 
         // Check if estimator is complete
-        if (getEstimatorStep() > 4) {
+        if (getEstimatorStep() > 6) {
           calculateEstimate();
         } else {
           render();
@@ -1054,13 +1098,20 @@
       });
     }
 
+    // Terrain and demo multipliers
+    var TERRAIN_MULTS = { flat: 1.00, gentle: 1.15, steep: 1.35 };
+    var DEMO_COSTS_PER_LF = { yes: 5, no: 0 }; // $5/LF for old fence removal
+
     function calculateEstimate() {
       var est = state.est;
       var linearFeet = Number(est.length) || 150;
       var height = Number(est.height) || 6;
       var includesGate = est.gate === "yes";
+      var terrainMult = TERRAIN_MULTS[est.terrain] || 1.00;
+      var demoCost = (DEMO_COSTS_PER_LF[est.demo] || 0) * linearFeet;
 
       var benchmark = calcBenchmark(est.fenceType, linearFeet, height, includesGate);
+      benchmark = roundTo50(benchmark * terrainMult + demoCost);
 
       var low = roundTo50(benchmark * 0.88);
       var high = roundTo50(benchmark * 1.15);
@@ -1082,6 +1133,8 @@
         length: linearFeet,
         height: height,
         gate: includesGate,
+        terrain: est.terrain,
+        demo: est.demo,
         perLF: perLF,
         scopeSignals: {},
         region: getRegionFromState(state.address.stateCode),
@@ -1171,6 +1224,39 @@
       }
 
       // Market context
+      // Material tier comparison (estimator only)
+      var compHtml = '';
+      if (!isUpload && r.length) {
+        compHtml = '<div class="fence-card">';
+        compHtml += '<h3 style="margin:0 0 10px;font-size:1.05rem;">Same fence, different materials</h3>';
+        compHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 12px;">' + r.length + ' linear feet, ' + r.height + ' ft tall.</p>';
+        compHtml += '<div style="display:flex;flex-direction:column;gap:8px;">';
+        var _compTypes = [
+          { key: "chain_link", label: "Chain Link", brands: "Galvanized or vinyl-coated" },
+          { key: "wood_privacy", label: "Wood (PT Pine)", brands: "Pressure-treated pine" },
+          { key: "cedar", label: "Cedar", brands: "Western Red Cedar" },
+          { key: "vinyl_privacy", label: "Vinyl / PVC", brands: "Bufftech, Veranda, ActiveYards" },
+          { key: "aluminum", label: "Aluminum", brands: "Ameristar, Jerith, Specrail" },
+          { key: "composite", label: "Composite", brands: "Trex, Barrette, SimTek" }
+        ];
+        for (var ci = 0; ci < _compTypes.length; ci++) {
+          var _ct = _compTypes[ci];
+          var _cBench = calcBenchmark(_ct.key, r.length, r.height, r.gate);
+          var _cLow = roundTo50(_cBench * 0.88);
+          var _cHigh = roundTo50(_cBench * 1.15);
+          var _cSel = r.fenceType && r.fenceType.value === _ct.key;
+          var _cBg = _cSel ? "#eff6ff" : "#f8fafc";
+          var _cBorder = _cSel ? "2px solid #2563eb" : "1px solid #e2e8f0";
+          compHtml += '<div style="background:' + _cBg + ';border:' + _cBorder + ';border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">';
+          compHtml += '<div><strong>' + _ct.label + '</strong>';
+          if (_cSel) compHtml += ' <span style="font-size:11px;color:#2563eb;font-weight:600;vertical-align:middle;">YOUR PICK</span>';
+          compHtml += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + _ct.brands + '</div></div>';
+          compHtml += '<div style="text-align:right;"><div style="font-size:1.05rem;color:#1e293b;font-weight:700;">' + fmt(_cBench) + '</div>';
+          compHtml += '<div style="font-size:11px;color:#64748b;">' + fmt(_cLow) + ' \u2013 ' + fmt(_cHigh) + '</div></div></div>';
+        }
+        compHtml += '</div></div>';
+      }
+
       var contextHtml = '';
       if (isUpload && r.quotePrice > 0) {
         var tip = "";
@@ -1249,6 +1335,7 @@
           ' + detailsHtml + '\
         </div>\
         ' + scopeHtml + '\
+        ' + compHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\
         ' + savingsHtml + '\
@@ -1265,7 +1352,7 @@
           address: { street: "", city: "", stateCode: "", zip: "" },
           uploadedFile: null,
           extractedText: "",
-          est: { fenceType: null, length: null, height: null, gate: null },
+          est: { fenceType: null, length: null, height: null, gate: null, terrain: null, demo: null },
           result: null
         };
         render();
