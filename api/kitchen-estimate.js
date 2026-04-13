@@ -4,6 +4,7 @@ import path from "path";
 import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 import { enrichWithCalibration } from "./_flywheel-read.js";
+import { guardedFlywheelBump } from "./_flywheel-guard.js";
 
 const redis = Redis.fromEnv();
 
@@ -356,33 +357,14 @@ Rules:
 
 
 
-    // FLYWHEEL BRIDGE: increment global counter + write to cal:* aggregates
-    // so this vertical's quotes feed the same systems as moving and auto.
+    // FLYWHEEL BRIDGE: guarded write to cal:* aggregates
     try {
       const totalPrice = Number(parsed && parsed.totalPrice) || 0;
       if (totalPrice > 0 && !_isTestMode) {
-
         const cityLc = String(_calCity)
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String(_calState).toUpperCase();
-        const service = "kitchen";
-        const weight = 0.3;
-        if (st) {
-          const bump = async (k) => {
-            try {
-              const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
-              const e = typeof ex === "string" ? JSON.parse(ex) : ex;
-              e.quotes += 1;
-              e.weightedSum += totalPrice * weight;
-              e.totalWeight += weight;
-              e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
-              e.lastUpdated = Date.now();
-              await redis.set(k, JSON.stringify(e));
-            } catch (e) { /* aggregates are best-effort */ }
-          };
-          if (cityLc) await bump(`cal:${cityLc}:${st}:kitchen`);
-          await bump(`cal:metro:${st}:kitchen`);
-        }
+        await guardedFlywheelBump(redis, "kitchen", totalPrice, cityLc, st);
       }
     } catch (calErr) {
       console.log("[kitchen-estimate] flywheel bridge error:", calErr.message);
