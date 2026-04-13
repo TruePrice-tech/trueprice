@@ -9809,12 +9809,17 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
 
-            <!-- Home size -->
+            <!-- Home size + stories -->
             <div class="est-section">
               <div class="est-section-label">How big is your home?</div>
-              <div style="display:flex; gap:10px; align-items:center;">
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
                 <input type="number" id="estHomeSize" placeholder="e.g. 2400" value="${journeyState.osmHomeSize ? String(journeyState.osmHomeSize) : ""}" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
                 <span style="font-size:14px; color:#64748b;">sq ft</span>
+                <select id="estStories" style="padding:10px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:14px; font-family:inherit; color:#334155; cursor:pointer;">
+                  <option value="1">1 story</option>
+                  <option value="2">2 stories</option>
+                  <option value="3">3+ stories</option>
+                </select>
               </div>
               <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data (' + (journeyState.osmFootprint || journeyState.osmHomeSize).toLocaleString() + ' sq ft footprint). Select your home type above to adjust for stories.' : 'Total living area. Select home type above and we\'ll adjust from satellite data if available.'}</div>
             </div>
@@ -9875,6 +9880,25 @@ function buildComparisonWinnerHtml(summary) {
             }
           });
         });
+
+        // Stories dropdown adjusts sqft from footprint
+        const storiesSelect = document.getElementById("estStories");
+        if (storiesSelect && journeyState.osmFootprint) {
+          storiesSelect.addEventListener("change", function() {
+            const stories = Number(this.value) || 1;
+            const storyMults = { 1: 1.0, 2: 2.0, 3: 2.5 };
+            const mult = storyMults[stories] || 1.0;
+            const adjusted = Math.round(journeyState.osmFootprint * mult);
+            journeyState.osmHomeSize = adjusted;
+            const _inp = document.getElementById("estHomeSize");
+            if (_inp) _inp.value = String(adjusted);
+            const _hint = document.getElementById("estHomeSizeHint");
+            if (_hint) {
+              _hint.textContent = "\u2713 " + journeyState.osmFootprint.toLocaleString() + " sq ft footprint \u00d7 " + stories + " stor" + (stories > 1 ? "ies" : "y") + " = " + adjusted.toLocaleString() + " sq ft";
+              _hint.style.color = "#16a34a";
+            }
+          });
+        }
 
         // Submit
         const submitBtn = document.getElementById("estSubmitBtn");
