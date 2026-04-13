@@ -9417,8 +9417,8 @@ function buildComparisonWinnerHtml(summary) {
 
             ${renderCommunityContribution(a)}
             <div style="text-align:center; margin:20px 0 10px;">
-              <a class="btn-outline" href="/find-contractors.html${a.stateCode ? '?state=' + encodeURIComponent(a.stateCode) + '&service=roof' : ''}" style="text-decoration:none;">
-                Find contractors${a.city ? ' in ' + escapeHtml(a.city) : ''}
+              <a class="btn-outline" href="/compare-roofing-quotes.html" style="text-decoration:none;">
+                Compare 2-3 roofing quotes side by side
               </a>
             </div>
             ${(a.contractor && a.contractor !== "Not detected" && a.contractor.length > 2) ? `
@@ -10419,8 +10419,8 @@ function buildComparisonWinnerHtml(summary) {
             <button class="btn" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px;" onclick="startQuoteUploadFromEstimator()">
               Upload a quote to compare
             </button>
-            <a class="btn-outline" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px; text-align:center; text-decoration:none;" href="/find-contractors.html${r.stateCode ? '?state=' + encodeURIComponent(r.stateCode) + '&service=roof' : ''}">
-              Find contractors${r.city ? ' in ' + escapeHtml(r.city) : ''}
+            <a class="btn-outline" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px; text-align:center; text-decoration:none;" href="/compare-roofing-quotes.html">
+              Compare 2-3 roofing quotes
             </a>
           </div>
 
