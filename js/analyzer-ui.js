@@ -9975,13 +9975,18 @@ function buildComparisonWinnerHtml(summary) {
 
       if (bar) bar.style.width = "65%";
 
-      // Calculate roof size
-      // For roof sizing: home sq ft / stories = footprint, then * pitch * complexity
-      // The pricing model uses: home size → roof squares (1 square = 100 sq ft)
-      // 1000 sqft home = 12 squares = 1200 sqft roof, ratio 1.2x
-      // 2000 sqft home = 24 squares = 2400 sqft roof, ratio 1.2x
-      // 3000 sqft home = 36 squares = 3600 sqft roof, ratio 1.2x
-      const ROOF_AREA_RATIO = 1.2; // Accounts for overhangs, pitch, waste
+      // Calculate roof size from footprint using proper pitch geometry.
+      // Pitch multiplier: sqrt(1 + (rise/12)^2) converts 2D footprint to sloped roof area.
+      // The user's steepness answer maps to approximate pitch values:
+      //   flat=2/12, normal=5.5/12, steep=9/12, very_steep=12/12
+      // Overhang adds ~8% for typical 1ft eave overhang.
+      const PITCH_TO_RISE = { flat: 2, normal: 5.5, steep: 9, very_steep: 12 };
+      const pitchRise = PITCH_TO_RISE[answers.steepness] || 5.5;
+      const pitchGeometry = Math.sqrt(1 + Math.pow(pitchRise / 12, 2)); // true slope multiplier
+      const OVERHANG_FACTOR = 1.08; // ~1ft overhang on typical perimeter
+      const COMPLEXITY_AREA = { normal: 1.0, complex: 1.07, very_complex: 1.15 };
+      const complexArea = COMPLEXITY_AREA[answers.complexity] || 1.0;
+      const ROOF_AREA_RATIO = pitchGeometry * OVERHANG_FACTOR * complexArea;
 
       let baseArea;
       // Check saved home size (saved before DOM was replaced by loading screen),
