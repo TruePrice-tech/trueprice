@@ -41,16 +41,36 @@ export default async function handler(req, res) {
     // Step 2: Query OSM Overpass for building footprints
     const radius = 60; // meters
     const overpassQuery = `[out:json][timeout:10];way["building"](around:${radius},${lat},${lon});out body;>;out skel qt;`;
-    const overpassUrl = "https://overpass-api.de/api/interpreter";
+    // Try multiple Overpass servers with retry (primary often rate-limits)
+    const overpassServers = [
+      "https://overpass-api.de/api/interpreter",
+      "https://overpass.kumi.systems/api/interpreter",
+      "https://maps.mail.ru/osm/tools/overpass/api/interpreter"
+    ];
 
-    const overpassRes = await fetch(overpassUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: "data=" + encodeURIComponent(overpassQuery)
-    });
+    let overpassData = null;
+    for (const overpassUrl of overpassServers) {
+      try {
+        const overpassRes = await fetch(overpassUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "data=" + encodeURIComponent(overpassQuery),
+          signal: AbortSignal.timeout(8000)
+        });
+        const text = await overpassRes.text();
+        // Overpass sometimes returns HTML/XML errors instead of JSON
+        if (text.startsWith("{")) {
+          overpassData = JSON.parse(text);
+          break;
+        } else {
+          console.log("[property-signals] Non-JSON from " + overpassUrl.split("/")[2] + ", trying next");
+        }
+      } catch (e) {
+        console.log("[property-signals] " + overpassUrl.split("/")[2] + " failed: " + e.message);
+      }
+    }
 
-    const overpassData = await overpassRes.json();
-    const elements = overpassData.elements || [];
+    const elements = overpassData?.elements || [];
 
     // Extract building footprints
     const nodes = {};

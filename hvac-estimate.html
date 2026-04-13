@@ -1215,7 +1215,7 @@
         card.innerHTML = '\
           <div class="hvac-step">\
             <h3>Describe your home</h3>\
-            ' + (osmFootprint > 0 ? '<p style="font-size:13px; color:#16a34a; margin:0 0 12px;">&#10003; We measured your building footprint from satellite data</p>' : '') + '\
+            ' + (osmFootprint > 0 ? '<p style="font-size:13px; color:#16a34a; margin:0 0 12px;">&#10003; ' + osmFootprint.toLocaleString() + ' sq ft footprint from satellite data. Select stories to calculate living area.</p>' : '') + '\
             <label style="display:block;font-size:0.95rem;color:#475569;margin-bottom:0.5rem;font-weight:600;">How many stories?</label>\
             <div class="hvac-options" id="optStories" style="margin-bottom:16px;">\
               <div class="hvac-option' + (stories === "1" ? " selected" : "") + '" data-val="1">1 story</div>\
@@ -1227,14 +1227,14 @@
               <input type="number" class="hvac-sqft-input" id="sqftInput" placeholder="e.g. 2400" value="' + (estimatedSqFt || "") + '" min="500" max="10000" />\
               <span style="color:#64748b;">sq ft</span>\
             </div>\
-            <div class="hvac-options" style="margin-top:8px;" id="sqftPresets">\
+            ' + (osmFootprint > 0 ? '' : '<div class="hvac-options" style="margin-top:8px;" id="sqftPresets">\
               <div class="hvac-option" data-val="1500">1,500</div>\
               <div class="hvac-option" data-val="2000">2,000</div>\
               <div class="hvac-option" data-val="2500">2,500</div>\
               <div class="hvac-option" data-val="3000">3,000</div>\
               <div class="hvac-option" data-val="3500">3,500</div>\
-            </div>\
-            <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">Check your listing, tax records, or Zillow if unsure.</p>\
+            </div>') + '\
+            <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">' + (osmFootprint > 0 ? 'Calculated from satellite footprint. Edit if not accurate.' : 'Check your listing, tax records, or Zillow if unsure.') + '</p>\
             <div style="margin-top:1rem;">\
               <button class="hvac-btn hvac-btn-primary" id="sqftNext">Continue</button>\
             </div>\
@@ -1282,6 +1282,25 @@
         document.getElementById("sqftInput").addEventListener("input", function() {
           est.homeSqFtManual = Number(this.value) || 0;
         });
+
+        // Poll for OSM data if it hasn't arrived yet (timing race fix)
+        if (!state.osmFootprint) {
+          var _pollCount = 0;
+          var _poll = setInterval(function() {
+            _pollCount++;
+            if (state.osmFootprint || _pollCount > 12) {
+              clearInterval(_poll);
+              if (state.osmFootprint) {
+                var inp = document.getElementById("sqftInput");
+                var stories = est.stories || "1";
+                var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
+                var calc = Math.round(state.osmFootprint * mult);
+                if (inp && !inp.value) inp.value = String(calc);
+                render(); // Re-render to show satellite message and hide presets
+              }
+            }
+          }, 500);
+        }
       } else if (stepNum === 4) {
         card.innerHTML = '\
           <div class="hvac-step">\
