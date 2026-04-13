@@ -183,7 +183,7 @@
       .cq-cta-btn { width: 100%; justify-content: center; }
     }
     @media print {
-      .site-header, .site-footer, .cq-cta-section, .cq-back, .cq-slots { display: none !important; }
+      .site-header, .site-footer, .cq-back, .cq-slots { display: none !important; }
       .cq-card { box-shadow: none; border: none; padding: 0; }
       .cq-wrap { margin: 0; padding: 0; }
       body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -1181,12 +1181,14 @@
         html += '</div>';
       }
 
-      // CTAs
-      html += '<div class="cq-cta-section">';
-      html += '<button class="cq-cta-btn cq-cta-primary" onclick="window.print()">&#128462; Save as PDF</button>';
-      html += '<a class="cq-cta-btn cq-cta-secondary" href="/' + compareService + '-quote-analyzer.html">&#128269; Analyze another quote</a>';
-      html += '<button class="cq-cta-btn cq-cta-outline" onclick="startOver()">&#8634; Start over</button>';
-      html += '</div>';
+      // Shared 4-button result footer (Back to vertical, Save PDF, Home, Feedback)
+      if (typeof window.tpRenderResultFooter === "function") {
+        html += window.tpRenderResultFooter({
+          vertical: compareService,
+          verticalLabel: serviceLabel,
+          onStartOver: "startOver"
+        });
+      }
 
       // Standardized: Next Steps before signing
       html += '<section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">';
@@ -1321,5 +1323,6 @@
   </script>
 <script src="/js/community-capture.min.js" defer></script>
 <script src="/js/feedback-modal.min.js" defer></script>
+<script src="/js/result-footer.min.js" defer></script>
 </body>
 </html>
