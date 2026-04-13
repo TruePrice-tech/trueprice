@@ -182,6 +182,12 @@
       .cq-cta-section { flex-direction: column; }
       .cq-cta-btn { width: 100%; justify-content: center; }
     }
+    @media print {
+      .site-header, .site-footer, .cq-cta-section, .cq-back, .cq-slots { display: none !important; }
+      .cq-card { box-shadow: none; border: none; padding: 0; }
+      .cq-wrap { margin: 0; padding: 0; }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
   </style>
 </head>
 <body>
@@ -1176,11 +1182,9 @@
       }
 
       // CTAs
-      var emailSubject = encodeURIComponent("My " + serviceLabel + " Quote Comparison - TruePrice");
-      var emailBody = encodeURIComponent(buildEmailSummary(active, bestValue, questions, allFlags));
       html += '<div class="cq-cta-section">';
-      html += '<a class="cq-cta-btn cq-cta-primary" href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '">&#9993; Email this comparison</a>';
-      html += '<a class="cq-cta-btn cq-cta-secondary" href="/find-contractors.html">&#128269; Get more quotes from local contractors</a>';
+      html += '<button class="cq-cta-btn cq-cta-primary" onclick="window.print()">&#128462; Save as PDF</button>';
+      html += '<a class="cq-cta-btn cq-cta-secondary" href="/' + compareService + '-quote-analyzer.html">&#128269; Analyze another quote</a>';
       html += '<button class="cq-cta-btn cq-cta-outline" onclick="startOver()">&#8634; Start over</button>';
       html += '</div>';
 

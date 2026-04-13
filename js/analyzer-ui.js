@@ -9856,19 +9856,17 @@ function buildComparisonWinnerHtml(summary) {
             if (!journeyState.estimatorAnswers) journeyState.estimatorAnswers = {};
             journeyState.estimatorAnswers[group] = value;
 
-            // When user selects stories (propertyType), recalculate sqft from footprint
+            // When user selects stories (propertyType), keep footprint as-is for roofing
+            // The roof covers the building footprint regardless of how many stories
             if (group === "propertyType" && journeyState.osmFootprint) {
-              const storyMults = { single: 1.0, two_story: 2.0, townhome: 1.5 };
-              const mult = storyMults[value] || 1.0;
-              const adjusted = Math.round(journeyState.osmFootprint * mult);
-              journeyState.osmHomeSize = adjusted;
+              journeyState.osmHomeSize = journeyState.osmFootprint;
               const _inp = document.getElementById("estHomeSize");
               if (_inp) {
-                _inp.value = String(adjusted);
+                _inp.value = String(journeyState.osmFootprint);
                 const _hint = document.getElementById("estHomeSizeHint");
                 if (_hint) {
                   var storyLabel = value === "two_story" ? "2-story" : value === "townhome" ? "townhome" : "single-story";
-                  _hint.textContent = "\u2713 " + journeyState.osmFootprint.toLocaleString() + " sq ft footprint \u00d7 " + storyLabel + " = " + adjusted.toLocaleString() + " sq ft living area";
+                  _hint.textContent = "\u2713 " + journeyState.osmFootprint.toLocaleString() + " sq ft building footprint from satellite data (" + storyLabel + ")";
                   _hint.style.color = "#16a34a";
                 }
               }
@@ -10073,12 +10071,12 @@ function buildComparisonWinnerHtml(summary) {
         : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
 
       if (homeSize) {
-        // User provided home size — use it as primary source
-        // For multi-story: footprint = homeSize / stories, but roof covers footprint
-        // However the ROOF_AREA_RATIO already includes pitch expansion
-        const footprint = homeSize * storyMult;
+        // If OSM footprint was used and user didn't manually override,
+        // the input already IS the footprint — don't apply story multiplier
+        const isOsmFootprint = journeyState.osmFootprint && homeSize === journeyState.osmFootprint;
+        const footprint = isOsmFootprint ? homeSize : homeSize * storyMult;
         baseArea = footprint * ROOF_AREA_RATIO;
-        footprintSource = "user_home_size";
+        footprintSource = isOsmFootprint ? "osm_footprint" : "user_home_size";
 
         // Cross-check with OSM if available — use larger of the two for safety
         if (footprintSqFt && footprintSqFt > footprint * 0.8) {
