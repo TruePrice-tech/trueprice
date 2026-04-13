@@ -9191,9 +9191,20 @@ function buildComparisonWinnerHtml(summary) {
             clearTimeout(_t);
             if (!payload || !payload.success || !payload.data) return;
             const d = payload.data;
-            const sqft = Number(d.livingAreaSqFt || d.footprintSqFt || 0);
-            if (sqft >= 500 && sqft <= 15000) {
-              journeyState.osmHomeSize = Math.round(sqft);
+            const livingArea = Number(d.livingAreaSqFt || 0);
+            const footprint = Number(d.footprintSqFt || 0);
+            // If we have living area, use it directly. Otherwise save
+            // raw footprint and multiply by stories when user selects.
+            if (livingArea >= 500 && livingArea <= 15000) {
+              journeyState.osmHomeSize = Math.round(livingArea);
+              journeyState.osmFootprint = Math.round(footprint || livingArea);
+            } else if (footprint >= 400 && footprint <= 15000) {
+              journeyState.osmFootprint = Math.round(footprint);
+              // Default to footprint as home size; will be adjusted when
+              // user selects stories (two_story = footprint * 2, etc.)
+              journeyState.osmHomeSize = Math.round(footprint);
+            }
+            if (journeyState.osmHomeSize) {
               // If user is already on the estimator step, populate the input now
               const _input = document.getElementById("estHomeSize");
               if (_input && !_input.value) {
@@ -9805,7 +9816,7 @@ function buildComparisonWinnerHtml(summary) {
                 <input type="number" id="estHomeSize" placeholder="e.g. 2400" value="${journeyState.osmHomeSize ? String(journeyState.osmHomeSize) : ""}" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
                 <span style="font-size:14px; color:#64748b;">sq ft</span>
               </div>
-              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from your address — edit if not accurate' : 'Check your listing, tax records, or Zillow. This overrides satellite estimates.'}</div>
+              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data (' + (journeyState.osmFootprint || journeyState.osmHomeSize).toLocaleString() + ' sq ft footprint). Select your home type above to adjust for stories.' : 'Total living area. Select home type above and we\'ll adjust from satellite data if available.'}</div>
             </div>
 
             <!-- Ownership -->
@@ -9844,6 +9855,24 @@ function buildComparisonWinnerHtml(summary) {
             this.classList.add("est-selected");
             if (!journeyState.estimatorAnswers) journeyState.estimatorAnswers = {};
             journeyState.estimatorAnswers[group] = value;
+
+            // When user selects stories (propertyType), recalculate sqft from footprint
+            if (group === "propertyType" && journeyState.osmFootprint) {
+              const storyMults = { single: 1.0, two_story: 2.0, townhome: 1.5 };
+              const mult = storyMults[value] || 1.0;
+              const adjusted = Math.round(journeyState.osmFootprint * mult);
+              journeyState.osmHomeSize = adjusted;
+              const _inp = document.getElementById("estHomeSize");
+              if (_inp) {
+                _inp.value = String(adjusted);
+                const _hint = document.getElementById("estHomeSizeHint");
+                if (_hint) {
+                  var storyLabel = value === "two_story" ? "2-story" : value === "townhome" ? "townhome" : "single-story";
+                  _hint.textContent = "\u2713 " + journeyState.osmFootprint.toLocaleString() + " sq ft footprint \u00d7 " + storyLabel + " = " + adjusted.toLocaleString() + " sq ft living area";
+                  _hint.style.color = "#16a34a";
+                }
+              }
+            }
           });
         });
 
