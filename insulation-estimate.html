@@ -648,7 +648,7 @@
                 var _input = document.getElementById("sizeInput");
                 if (_input && !_input.value) {
                   var stories = state.est.stories || "1";
-                  var mult = stories === "2" ? 1.25 : stories === "3" ? 1.5 : 1.0;
+                  var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
                   _input.value = Math.round(sqft * mult);
                 }
               }
@@ -981,7 +981,7 @@
       } else if (stepNum === 3) {
         var prefill = est.areaSqFtManual || "";
         if (!prefill && state.osmFootprint) {
-          var sMult = est.stories === "2" ? 1.25 : est.stories === "3" ? 1.5 : 1.0;
+          var sMult = est.stories === "2" ? 2.0 : est.stories === "3" ? 2.5 : 1.0;
           prefill = Math.round(state.osmFootprint * sMult);
         }
         card.innerHTML = '\

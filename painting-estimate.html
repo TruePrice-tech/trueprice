@@ -711,7 +711,7 @@
                 var _input = document.getElementById("sqftInput");
                 if (_input && !_input.value) {
                   var stories = state.est.stories || "1";
-                  var mult = stories === "2" ? 1.25 : stories === "3" ? 1.5 : 1.0;
+                  var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
                   _input.value = Math.round(sqft * mult);
                 }
               }
@@ -1049,7 +1049,7 @@
       } else if (stepNum === 2) {
         var _prefill = "";
         if (state.osmFootprint) {
-          var _sMult = est.stories === "2" ? 1.25 : est.stories === "3" ? 1.5 : 1.0;
+          var _sMult = est.stories === "2" ? 2.0 : est.stories === "3" ? 2.5 : 1.0;
           _prefill = String(Math.round(state.osmFootprint * _sMult));
         }
         if (est.homeSqFtManual) _prefill = est.homeSqFtManual;
@@ -1086,7 +1086,7 @@
             opt.classList.add("selected");
             // Recalc sqft from footprint
             if (state.osmFootprint && !est.homeSqFtManual) {
-              var m = est.stories === "2" ? 1.25 : est.stories === "3" ? 1.5 : 1.0;
+              var m = est.stories === "2" ? 2.0 : est.stories === "3" ? 2.5 : 1.0;
               var inp = document.getElementById("sqftInput");
               if (inp) inp.value = Math.round(state.osmFootprint * m);
             }

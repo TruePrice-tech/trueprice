@@ -1210,7 +1210,7 @@
         // Calculate estimated living area from footprint + stories
         var osmFootprint = state.osmFootprint || est.homeSqFt || 0;
         var stories = est.stories || "1";
-        var estimatedSqFt = est.homeSqFtManual || (osmFootprint > 0 ? Math.round(osmFootprint * (stories === "2" ? 1.25 : stories === "3" ? 1.5 : 1.0)) : "");
+        var estimatedSqFt = est.homeSqFtManual || (osmFootprint > 0 ? Math.round(osmFootprint * (stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0)) : "");
 
         card.innerHTML = '\
           <div class="hvac-step">\
@@ -1251,7 +1251,7 @@
             opt.classList.add("selected");
             // Recalculate from footprint
             if (osmFootprint > 0 && !est.homeSqFtManual) {
-              var mult = est.stories === "2" ? 1.25 : est.stories === "3" ? 1.5 : 1.0;
+              var mult = est.stories === "2" ? 2.0 : est.stories === "3" ? 2.5 : 1.0;
               document.getElementById("sqftInput").value = Math.round(osmFootprint * mult);
             }
           });
