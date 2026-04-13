@@ -9881,6 +9881,28 @@ function buildComparisonWinnerHtml(summary) {
           });
         });
 
+        // Poll for OSM data if it hasn't arrived yet (timing race fix)
+        if (!journeyState.osmHomeSize) {
+          let _osmPollCount = 0;
+          const _osmPoll = setInterval(() => {
+            _osmPollCount++;
+            if (journeyState.osmHomeSize || _osmPollCount > 10) {
+              clearInterval(_osmPoll);
+              if (journeyState.osmHomeSize) {
+                const _inp = document.getElementById("estHomeSize");
+                if (_inp && !_inp.value) {
+                  _inp.value = String(journeyState.osmHomeSize);
+                  const _hint = document.getElementById("estHomeSizeHint");
+                  if (_hint) {
+                    _hint.textContent = "\u2713 Pre-filled from satellite data (" + (journeyState.osmFootprint || journeyState.osmHomeSize).toLocaleString() + " sq ft footprint). Select stories to adjust.";
+                    _hint.style.color = "#16a34a";
+                  }
+                }
+              }
+            }
+          }, 500);
+        }
+
         // Stories dropdown adjusts sqft from footprint
         const storiesSelect = document.getElementById("estStories");
         if (storiesSelect && journeyState.osmFootprint) {
@@ -9929,6 +9951,16 @@ function buildComparisonWinnerHtml(summary) {
         if (errEl) {
           errEl.style.display = "block";
           errEl.textContent = "Please enter your home's square footage. We need this to estimate your roof size.";
+        }
+        const _hsInput = document.getElementById("estHomeSize");
+        if (_hsInput) { _hsInput.style.borderColor = "#f59e0b"; _hsInput.focus(); }
+        return;
+      }
+      if (_homeSizeVal > 15000) {
+        const errEl = document.getElementById("estError");
+        if (errEl) {
+          errEl.style.display = "block";
+          errEl.textContent = "That seems too large for a residential home. Please enter your home's total living area in square feet (typical range: 800 - 8,000).";
         }
         const _hsInput = document.getElementById("estHomeSize");
         if (_hsInput) { _hsInput.style.borderColor = "#f59e0b"; _hsInput.focus(); }
@@ -10288,6 +10320,35 @@ function buildComparisonWinnerHtml(summary) {
               `}
             </div>
           </div>
+
+          <!-- Material tier comparison -->
+          ${(function() {
+            if (!r.estimatedRoofSize) return "";
+            var tiers = [
+              { key: "asphalt", label: "3-Tab Budget", psq: 330, brands: "IKO, TAMKO, Atlas" },
+              { key: "architectural", label: "Architectural", psq: 525, brands: "GAF HDZ, OC Duration, CertainTeed" },
+              { key: "designer", label: "Designer / Luxury", psq: 825, brands: "GAF Grand Canyon, OC Berkshire" },
+              { key: "metal", label: "Standing Seam Metal", psq: 1300, brands: "Drexel, Berridge, McElroy" }
+            ];
+            var squares = r.estimatedRoofSize / 100;
+            var html = '<div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">';
+            html += '<h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">Same roof, different materials</h3>';
+            html += '<div style="display:flex; flex-direction:column; gap:8px;">';
+            tiers.forEach(function(t) {
+              var mid = Math.round(t.psq * squares * (r.laborMult || 1.0) / 50) * 50;
+              var low = Math.round(mid * 0.85 / 50) * 50;
+              var high = Math.round(mid * 1.15 / 50) * 50;
+              var isCurrent = (r.material || "").includes(t.key);
+              var bg = isCurrent ? "#eff6ff" : "#f8fafc";
+              var border = isCurrent ? "2px solid #2563eb" : "1px solid #e2e8f0";
+              html += '<div style="background:' + bg + '; border:' + border + '; border-radius:10px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">';
+              html += '<div><strong>' + t.label + '</strong>' + (isCurrent ? ' <span style="font-size:11px;color:#2563eb;font-weight:600;">YOURS</span>' : '') + '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + t.brands + '</div></div>';
+              html += '<div style="text-align:right;"><div style="font-size:1.05rem;color:#1e293b;font-weight:700;">$' + mid.toLocaleString() + '</div><div style="font-size:11px;color:#64748b;">$' + low.toLocaleString() + ' - $' + high.toLocaleString() + '</div></div>';
+              html += '</div>';
+            });
+            html += '</div></div>';
+            return html;
+          })()}
 
           ${r.insurance === "yes" || r.insurance === "maybe" ? `
           <!-- Insurance tip -->
