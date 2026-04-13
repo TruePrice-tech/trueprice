@@ -4517,6 +4517,43 @@ function buildComparisonWinnerHtml(summary) {
         }
       };
 
+      function renderMaterialTierComparison(a) {
+        if (!a || !a.roofSize) return "";
+        const rs = a.roofSize;
+        const tiers = [
+          { key: "asphalt", label: "3-Tab Budget", brands: "IKO, TAMKO, Atlas" },
+          { key: "architectural", label: "Architectural Mid", brands: "GAF HDZ, OC Duration, CertainTeed Landmark" },
+          { key: "architectural_premium", label: "Architectural Premium", brands: "Malarkey Vista, GAF AS II" },
+          { key: "designer", label: "Designer / Luxury", brands: "GAF Grand Canyon, OC Berkshire" },
+          { key: "metal", label: "Standing Seam Metal", brands: "Drexel, Berridge, McElroy" }
+        ];
+        let html = `<section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
+          <h2 style="margin:0 0 6px; font-size:18px; color:#0f172a;">Same roof, different materials</h2>
+          <p style="margin:0 0 14px; font-size:13px; color:#64748b;">${safeFormatNumber(rs)} sq ft roof. Prices include standard tear-off, underlayment, and accessories.</p>
+          <div style="display:flex; flex-direction:column; gap:8px;">`;
+        for (const t of tiers) {
+          const ppf = typeof getMaterialBenchmarkPerSqFt === "function" ? getMaterialBenchmarkPerSqFt(t.key) : 5.25;
+          const mid = Math.round(ppf * rs / 50) * 50;
+          const low = Math.round(mid * 0.88 / 50) * 50;
+          const high = Math.round(mid * 1.15 / 50) * 50;
+          const isCurrent = (a.material || "").includes(t.key.split("_")[0]);
+          const bg = isCurrent ? "#eff6ff" : "#f8fafc";
+          const border = isCurrent ? "2px solid #2563eb" : "1px solid #e2e8f0";
+          html += `<div style="background:${bg}; border:${border}; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong>${escapeHtml(t.label)}</strong>${isCurrent ? ' <span style="font-size:11px; color:#2563eb; font-weight:600; vertical-align:middle;">YOURS</span>' : ''}
+              <div style="font-size:12px; color:#94a3b8; margin-top:2px;">${escapeHtml(t.brands)}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:1.05rem; color:#1e293b; font-weight:700;">$${safeFormatNumber(mid)}</div>
+              <div style="font-size:11px; color:#64748b;">$${safeFormatNumber(low)} - $${safeFormatNumber(high)}</div>
+            </div>
+          </div>`;
+        }
+        html += `</div></section>`;
+        return html;
+      }
+
       function renderMarketContext(a) {
         if (!a) return "";
         const city = a?.city || "";
@@ -5308,6 +5345,7 @@ function buildComparisonWinnerHtml(summary) {
         const material = byId("materialType")?.value || "architectural";
         const complexityFactor = Number(byId("complexityFactor")?.value || 1.0);
         const tearOffFactor = Number(byId("tearOffIncluded")?.value || 1.0);
+        const pitchFactor = Number(byId("roofPitch")?.value || 1.0);
         const warrantyYears = Number(byId("warrantyYears")?.value || 0);
 
         const resultContainer = byId("analysisOutput");
@@ -5470,7 +5508,7 @@ function buildComparisonWinnerHtml(summary) {
         const signalCount = latestAnalysis?.signals ? Object.values(latestAnalysis.signals).filter(s => s?.status === "included").length : 0;
         const scopeComplexMult = signalCount >= 8 ? 1.15 : signalCount >= 5 ? 1.05 : 1.0;
 
-        const adjustedBenchmark = benchmarkPerSqFt * complexityFactor * tearOffFactor * brandTierMult * scopeComplexMult;
+        const adjustedBenchmark = benchmarkPerSqFt * complexityFactor * tearOffFactor * pitchFactor * brandTierMult * scopeComplexMult;
         const mid = adjustedBenchmark * effectiveRoofSize;
         const low = mid * 0.9;
         const high = mid * 1.12;
@@ -5697,7 +5735,7 @@ function buildComparisonWinnerHtml(summary) {
 
         const tearOffValue = byId("tearOffIncluded")?.value || "1.00";
         const tearOffLabel =
-          tearOffValue === "1.05" ? "yes" : tearOffValue === "0.97" ? "no" : "unknown";
+          tearOffValue === "1.00" ? "1 layer" : tearOffValue === "1.10" ? "2 layers" : tearOffValue === "0.85" ? "overlay" : "unknown";
 
         latestAnalysis = {
           verdict: displayVerdict,
@@ -7284,30 +7322,43 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div>
-              <label for="materialType"><strong>Material</strong></label>
+              <label for="materialType"><strong>Material / brand tier</strong></label>
               <select id="materialType">
-                <option value="architectural">Architectural shingles</option>
-                <option value="asphalt">Asphalt shingles</option>
-                <option value="metal">Metal roofing</option>
-                <option value="tile">Tile roofing</option>
+                <option value="asphalt">3-Tab budget (IKO, TAMKO, Atlas)</option>
+                <option value="architectural" selected>Architectural mid (GAF HDZ, OC Duration, CertainTeed Landmark)</option>
+                <option value="architectural_premium">Architectural premium (Malarkey Vista, GAF AS II)</option>
+                <option value="designer">Designer / luxury (GAF Grand Canyon, OC Berkshire)</option>
+                <option value="metal">Standing seam metal</option>
+                <option value="metal_corrugated">Corrugated metal</option>
+                <option value="tile">Concrete tile</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="roofPitch"><strong>Roof pitch</strong></label>
+              <select id="roofPitch">
+                <option value="1.00">Low (3/12 - 5/12)</option>
+                <option value="1.00" selected>Standard (6/12 - 8/12)</option>
+                <option value="1.20">Steep (9/12 - 12/12)</option>
+                <option value="1.40">Very steep (>12/12)</option>
               </select>
             </div>
 
             <div>
               <label for="complexityFactor"><strong>Complexity</strong></label>
               <select id="complexityFactor">
-                <option value="1.00">Standard</option>
-                <option value="1.08">Moderate</option>
-                <option value="1.15">Complex</option>
+                <option value="1.00">Simple (few cuts)</option>
+                <option value="1.08">Moderate (hips, valleys)</option>
+                <option value="1.15">Complex (dormers, multiple levels)</option>
               </select>
             </div>
 
             <div>
-              <label for="tearOffIncluded"><strong>Tear off</strong></label>
+              <label for="tearOffIncluded"><strong>Tear-off</strong></label>
               <select id="tearOffIncluded">
-                <option value="1.00">Unknown</option>
-                <option value="1.05">Included</option>
-                <option value="0.97">Not included</option>
+                <option value="1.00">1 layer tear-off (standard)</option>
+                <option value="1.10">2 layer tear-off (+10%)</option>
+                <option value="0.85">Overlay / no tear-off (-15%)</option>
               </select>
             </div>
 
@@ -9335,6 +9386,7 @@ function buildComparisonWinnerHtml(summary) {
             ${renderMarketContext(a)}
             ${renderCommunityStats(a)}
             ${renderRoofSizeAccuracyPrompt(a)}
+            ${renderMaterialTierComparison(a)}
 
             <!-- Next Steps (standardized: roofing-specific actionable bullets) -->
             <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">

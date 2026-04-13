@@ -203,14 +203,17 @@ function getNearestSizeLabel(cityPricing, roofSize) {
 
 function getMaterialBenchmarkPerSqFt(material) {
   const benchmarks = {
-    architectural: 6.35,
-    asphalt: 5.10,
-    metal: 10.50,
-    tile: 13.75,
+    asphalt: 3.30,              // 3-tab budget
+    architectural: 5.25,        // architectural mid (GAF HDZ, OC Duration, CertainTeed Landmark)
+    architectural_premium: 6.00, // architectural premium (Malarkey Vista, GAF AS II)
+    designer: 8.25,             // designer/luxury (GAF Grand Canyon, OC Berkshire)
+    metal: 13.00,               // standing seam metal
+    metal_corrugated: 9.50,     // corrugated/exposed fastener metal
+    tile: 13.50,                // concrete tile
     cedar: 8.50,
     flat: 6.00
   };
-  return benchmarks[material] || 6.35;
+  return benchmarks[material] || 5.25;
 }
 
 function getVerdictClass(verdict) {
