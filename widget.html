@@ -83,32 +83,26 @@
     <!-- Live Demo -->
     <section class="widget-section" id="demo">
       <h2>Live Demo</h2>
-      <p style="color:var(--text-secondary); margin-bottom:20px;">Choose a city, service, and theme to preview the widget. The embed code updates automatically.</p>
+      <p style="color:var(--text-secondary); margin-bottom:20px;">Choose a city, service, and theme to preview the widget. The embed code updates automatically. Pricing data covers <strong>700+ US cities</strong> -- type any city name below.</p>
 
       <div class="widget-controls">
         <label>City
-          <select id="widget-city">
-            <option value="Dallas">Dallas</option>
-            <option value="Houston">Houston</option>
-            <option value="Austin">Austin</option>
-            <option value="San Antonio">San Antonio</option>
-            <option value="Phoenix">Phoenix</option>
-            <option value="Los Angeles">Los Angeles</option>
-            <option value="Chicago">Chicago</option>
-            <option value="Miami">Miami</option>
-            <option value="Atlanta">Atlanta</option>
-            <option value="Denver">Denver</option>
-            <option value="Seattle">Seattle</option>
-            <option value="New York">New York</option>
-            <option value="Boston">Boston</option>
-            <option value="Charlotte">Charlotte</option>
-            <option value="Nashville">Nashville</option>
-            <option value="Portland">Portland</option>
-            <option value="Las Vegas">Las Vegas</option>
-            <option value="Minneapolis">Minneapolis</option>
-            <option value="Detroit">Detroit</option>
-            <option value="Tampa">Tampa</option>
-          </select>
+          <input type="text" id="widget-city" value="Dallas" placeholder="Type any US city..." list="widget-city-list" style="padding:8px 12px; border:1px solid var(--border); border-radius:8px; font-size:14px; min-width:160px;" />
+          <datalist id="widget-city-list">
+            <option value="Dallas"><option value="Houston"><option value="Austin"><option value="San Antonio">
+            <option value="Phoenix"><option value="Los Angeles"><option value="Chicago"><option value="Miami">
+            <option value="Atlanta"><option value="Denver"><option value="Seattle"><option value="New York">
+            <option value="Boston"><option value="Charlotte"><option value="Nashville"><option value="Portland">
+            <option value="Las Vegas"><option value="Minneapolis"><option value="Detroit"><option value="Tampa">
+            <option value="Fort Worth"><option value="San Diego"><option value="San Jose"><option value="Jacksonville">
+            <option value="Columbus"><option value="Indianapolis"><option value="San Francisco"><option value="Fort Mill">
+            <option value="Raleigh"><option value="Memphis"><option value="Louisville"><option value="Baltimore">
+            <option value="Milwaukee"><option value="Albuquerque"><option value="Tucson"><option value="Fresno">
+            <option value="Sacramento"><option value="Mesa"><option value="Kansas City"><option value="Omaha">
+            <option value="Colorado Springs"><option value="Virginia Beach"><option value="Oakland"><option value="Pittsburgh">
+            <option value="Cincinnati"><option value="St Louis"><option value="Orlando"><option value="Richmond">
+            <option value="Boise"><option value="Des Moines"><option value="Salt Lake City"><option value="Honolulu">
+          </datalist>
         </label>
         <label>State
           <select id="widget-state">
@@ -258,6 +252,56 @@
       </div>
     </section>
 
+    <!-- Why Embed This -->
+    <section class="widget-section">
+      <h2>Why Put This on Your Site</h2>
+      <div class="widget-features-grid">
+        <div class="widget-feature">
+          <h3>Free content your readers actually want</h3>
+          <p>Visitors searching for "how much does a roof cost" get an instant local answer without leaving your page. That's value you didn't have to write.</p>
+        </div>
+        <div class="widget-feature">
+          <h3>Keeps visitors on your site longer</h3>
+          <p>Interactive pricing data increases time-on-page. Readers explore different services and materials instead of bouncing.</p>
+        </div>
+        <div class="widget-feature">
+          <h3>No ads, no pop-ups, no lead capture</h3>
+          <p>We don't collect your visitors' emails or phone numbers. No pop-ups. No affiliate tracking. Just clean pricing data.</p>
+        </div>
+        <div class="widget-feature">
+          <h3>Always current</h3>
+          <p>Pricing updates automatically from our database of real contractor quotes across 700+ US cities. You embed once, the data stays fresh.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Example: How It Looks on a Blog -->
+    <section class="widget-section">
+      <h2>How It Looks on a Blog Post</h2>
+      <p style="color:var(--text-secondary); margin-bottom:20px;">Here's what the widget looks like embedded in a typical home improvement article.</p>
+      <div style="max-width:700px; margin:0 auto; padding:32px; background:#fff; border:1px solid var(--border); border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+        <div style="font-size:22px; font-weight:700; color:#1e293b; margin-bottom:8px;">How Much Does a New Roof Cost in 2026?</div>
+        <div style="font-size:14px; color:#94a3b8; margin-bottom:16px;">By Sarah Johnson | April 2026 | 8 min read</div>
+        <p style="font-size:15px; color:#475569; line-height:1.7; margin-bottom:16px;">If you're planning a roof replacement this year, the first question is always: how much will it cost? Prices vary significantly based on your location, materials, and roof complexity. Here's what homeowners in your area are actually paying:</p>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin-bottom:16px;">
+          <div id="blog-example-widget"></div>
+          <script>
+            setTimeout(function() {
+              var s = document.createElement('script');
+              s.src = '/widget/tp-widget.js';
+              s.setAttribute('data-city', 'Charlotte');
+              s.setAttribute('data-state', 'NC');
+              s.setAttribute('data-service', 'roofing');
+              s.setAttribute('data-theme', 'light');
+              s.async = true;
+              document.getElementById('blog-example-widget').appendChild(s);
+            }, 1000);
+          </script>
+        </div>
+        <p style="font-size:15px; color:#475569; line-height:1.7;">As you can see, architectural shingles are the most popular choice in this area. Keep reading for our breakdown of what to look for in your contractor's quote...</p>
+      </div>
+    </section>
+
     <!-- Who Should Use This -->
     <section class="widget-section">
       <h2>Who Should Use This</h2>
@@ -370,13 +414,30 @@
       var copyBtn = document.getElementById('widget-copy-btn');
 
       var cityStateMap = {
-        'Dallas': 'TX', 'Houston': 'TX', 'Austin': 'TX', 'San Antonio': 'TX',
-        'Phoenix': 'AZ', 'Los Angeles': 'CA', 'Chicago': 'IL', 'Miami': 'FL',
-        'Atlanta': 'GA', 'Denver': 'CO', 'Seattle': 'WA', 'New York': 'NY',
-        'Boston': 'MA', 'Charlotte': 'NC', 'Nashville': 'TN', 'Portland': 'OR',
-        'Las Vegas': 'NV', 'Minneapolis': 'MN', 'Detroit': 'MI', 'Tampa': 'FL'
+        'Dallas': 'TX', 'Houston': 'TX', 'Austin': 'TX', 'San Antonio': 'TX', 'Fort Worth': 'TX',
+        'Phoenix': 'AZ', 'Tucson': 'AZ', 'Mesa': 'AZ',
+        'Los Angeles': 'CA', 'San Diego': 'CA', 'San Jose': 'CA', 'San Francisco': 'CA', 'Sacramento': 'CA', 'Fresno': 'CA', 'Oakland': 'CA',
+        'Chicago': 'IL', 'Miami': 'FL', 'Tampa': 'FL', 'Orlando': 'FL', 'Jacksonville': 'FL',
+        'Atlanta': 'GA', 'Denver': 'CO', 'Colorado Springs': 'CO',
+        'Seattle': 'WA', 'New York': 'NY', 'Boston': 'MA',
+        'Charlotte': 'NC', 'Raleigh': 'NC', 'Fort Mill': 'SC',
+        'Nashville': 'TN', 'Memphis': 'TN', 'Portland': 'OR',
+        'Las Vegas': 'NV', 'Minneapolis': 'MN', 'Detroit': 'MI',
+        'Columbus': 'OH', 'Cincinnati': 'OH', 'Indianapolis': 'IN',
+        'Louisville': 'KY', 'Baltimore': 'MD', 'Milwaukee': 'WI',
+        'Albuquerque': 'NM', 'Kansas City': 'MO', 'St Louis': 'MO',
+        'Omaha': 'NE', 'Virginia Beach': 'VA', 'Richmond': 'VA',
+        'Pittsburgh': 'PA', 'Boise': 'ID', 'Des Moines': 'IA',
+        'Salt Lake City': 'UT', 'Honolulu': 'HI'
       };
 
+      var cityDebounce = null;
+      citySelect.addEventListener('input', function() {
+        clearTimeout(cityDebounce);
+        var defaultState = cityStateMap[citySelect.value];
+        if (defaultState) stateSelect.value = defaultState;
+        cityDebounce = setTimeout(updateWidget, 500);
+      });
       citySelect.addEventListener('change', function() {
         var defaultState = cityStateMap[citySelect.value];
         if (defaultState) stateSelect.value = defaultState;
