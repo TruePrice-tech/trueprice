@@ -252,8 +252,9 @@ def get_vertical_tip(climate_zone, vertical_slug, hvac_extra=None, plumb_extra=N
 
 def build_local_grid_html(city, state, ctx, mult, vlabel, climate_zone, hvac_extra, plumb_extra, vslug):
     vert_tip = get_vertical_tip(climate_zone, vslug, hvac_extra, plumb_extra)
-    weather = ctx.get("weatherNote") or ""
-    # permitNote in city-context.json is roofing-specific; only use it for roofing
+    # weatherNote and permitNote in city-context.json are roofing-specific;
+    # only use them for roofing pages
+    weather = ctx.get("weatherNote") or "" if vslug == "roof" else ""
     permit = ctx.get("permitNote") or "" if vslug == "roof" else ""
     insight = ctx.get("localInsight") or ""
     home_age = ctx.get("avgHomeAge")
@@ -289,11 +290,12 @@ def build_about_section_html(city, state, ctx, mult, vlabel, climate_zone, hvac_
     labor_mult = mult.get("laborMult")
     pop = mult.get("population")
     vert_tip = get_vertical_tip(climate_zone, vslug, hvac_extra, plumb_extra)
-    # permitNote and materialTip in city-context.json are roofing-specific
-    # (e.g. "roof replacement project", "impact-resistant shingles");
-    # only use them for roofing pages to prevent cross-vertical contamination
+    # permitNote, weatherNote, and materialTip in city-context.json are
+    # roofing-specific (e.g. "hail risk", "impact-resistant shingles");
+    # only use them for roofing pages to prevent cross-vertical contamination.
+    # Other verticals get their content from CLIMATE_TIPS[zone][vertical].
     permit = ctx.get("permitNote") or "" if vslug == "roof" else ""
-    weather = ctx.get("weatherNote") or ""
+    weather = ctx.get("weatherNote") or "" if vslug == "roof" else ""
     material_tip = ctx.get("materialTip") or "" if vslug == "roof" else ""
     home_age = ctx.get("avgHomeAge")
     hail = ctx.get("hailRisk")
@@ -301,11 +303,17 @@ def build_about_section_html(city, state, ctx, mult, vlabel, climate_zone, hvac_
     hurricane = ctx.get("hurricaneZone")
     growth = ctx.get("growthRate")
 
-    risk_bits = []
-    if hail and hail in ("moderate","high"): risk_bits.append(f"{hail} hail risk")
-    if snow and snow in ("moderate","high"): risk_bits.append(f"{snow} snow load")
-    if hurricane: risk_bits.append("hurricane exposure")
-    risk_phrase = (", ".join(risk_bits) + " — all of which contractors here have to plan for") if risk_bits else "stable weather conditions year-round"
+    # Hail/snow/hurricane risk phrases are most relevant for roofing;
+    # other verticals get a generic climate phrase
+    if vslug == "roof":
+        risk_bits = []
+        if hail and hail in ("moderate","high"): risk_bits.append(f"{hail} hail risk")
+        if snow and snow in ("moderate","high"): risk_bits.append(f"{snow} snow load")
+        if hurricane: risk_bits.append("hurricane exposure")
+        risk_phrase = (", ".join(risk_bits) + " — all of which contractors here have to plan for") if risk_bits else "stable weather conditions year-round"
+    else:
+        # For non-roofing verticals, use a generic climate reference
+        risk_phrase = "local climate conditions that affect project scheduling and material choices"
 
     if service_mult is not None:
         sm_pct = round((service_mult - 1.0) * 100)
@@ -331,7 +339,7 @@ def build_about_section_html(city, state, ctx, mult, vlabel, climate_zone, hvac_
 <h2>About {vlabel} in {city}, {state}</h2>
 <p><strong>Why pricing varies in {city}.</strong> {labor_phrase(labor_mult)} {price_phrase}</p>
 
-<p><strong>Local conditions.</strong> {weather or "Local weather is moderate enough that climate is not the dominant pricing factor here, but contractors still adjust scope for"} {city} sees {risk_phrase}. {vert_tip}</p>
+<p><strong>Local conditions.</strong> {weather + " " + city + " sees " + risk_phrase + "." if weather else city + " has " + risk_phrase + "."} {vert_tip}</p>
 
 <p><strong>Permits, codes, and licensing.</strong> {permit or f"Most {vlabel} projects in {city} require a permit; confirm with the local building department before signing."} {material_tip}</p>
 
