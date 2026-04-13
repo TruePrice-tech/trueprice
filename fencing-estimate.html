@@ -1296,7 +1296,9 @@
 <script>
 (function applyPathFilter() {
   try {
-    var path = (new URLSearchParams(location.search).get('path') || 'quote').toLowerCase();
+    var path = (new URLSearchParams(location.search).get('path') || '').toLowerCase();
+    // Estimate pages default to 'estimate' mode; only apply filter if explicitly set
+    if (!path && location.pathname.includes('-estimate')) path = 'estimate';
     if (path !== 'estimate' && path !== 'quote') return;
     function hide(el) { if (el) el.style.display = 'none'; }
     function tryFilter() {
