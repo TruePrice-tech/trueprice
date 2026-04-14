@@ -626,12 +626,14 @@
 
       html += '</tbody></table></div>';
 
-      // CTAs
-      html += '<div class="cmp-cta-section">';
-      html += '<a href="' + SINGLE_PAGE + '" class="cmp-cta-btn cmp-cta-primary">Analyze another quote</a>';
-      html += '<a href="' + GUIDE_PAGE + '" class="cmp-cta-btn cmp-cta-secondary">Cost guide</a>';
-      html += '<button class="cmp-cta-btn cmp-cta-outline" onclick="startOver()">Start over</button>';
-      html += '</div>';
+      // Shared 4-button result footer
+      if (typeof window.tpRenderResultFooter === "function") {
+        html += window.tpRenderResultFooter({
+          vertical: "kitchen",
+          verticalLabel: "Kitchen",
+          onStartOver: "startOver"
+        });
+      }
 
       document.getElementById("resultsContent").innerHTML = html;
       document.getElementById("uploadStep").style.display = "none";
@@ -664,5 +666,6 @@
   })();
   </script>
   <script src="/js/feedback-modal.min.js" defer></script>
+<script src="/js/result-footer.min.js" defer></script>
 </body>
 </html>

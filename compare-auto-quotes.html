@@ -849,12 +849,14 @@
 
       html += '</tbody></table></div>';
 
-      // CTAs
-      html += '<div class="caq-cta-section">';
-      html += '<a href="/auto-repair-quote-analyzer.html" class="caq-cta-btn caq-cta-primary">Analyze another quote</a>';
-      html += '<a href="/auto-repair-cost-guide.html" class="caq-cta-btn caq-cta-secondary">Auto Repair Cost Guide</a>';
-      html += '<button class="caq-cta-btn caq-cta-outline" onclick="startOver()">Start over</button>';
-      html += '</div>';
+      // Shared 4-button result footer
+      if (typeof window.tpRenderResultFooter === "function") {
+        html += window.tpRenderResultFooter({
+          vertical: "auto-repair",
+          verticalLabel: "Auto Repair",
+          onStartOver: "startOver"
+        });
+      }
 
       document.getElementById("resultsContent").innerHTML = html;
       document.getElementById("uploadStep").style.display = "none";
@@ -900,5 +902,6 @@
   })();
   </script>
 <script src="/js/feedback-modal.min.js" defer></script>
+<script src="/js/result-footer.min.js" defer></script>
 </body>
 </html>

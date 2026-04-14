@@ -825,11 +825,14 @@
       // ── Disclaimer ──
       h += '<div class="cq-disclaimer">This comparison is informational only. TruePrice does not recommend, endorse, or rank attorneys. Choosing legal representation is a personal decision. This is not legal advice.</div>';
 
-      // ── CTA ──
-      h += '<div class="cq-cta-section">';
-      h += '<button class="cq-cta-btn cq-cta-primary" onclick="downloadComparisonReport()">Download Comparison Report</button>';
-      h += '<a class="cq-cta-btn cq-cta-secondary" href="/legal-fee-analyzer.html">Analyze a single quote in detail</a>';
-      h += '</div>';
+      // Shared 4-button result footer
+      if (typeof window.tpRenderResultFooter === "function") {
+        h += window.tpRenderResultFooter({
+          vertical: "legal",
+          verticalLabel: "Legal",
+          onStartOver: "startOver"
+        });
+      }
 
       document.getElementById("resultsContent").innerHTML = h;
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1010,9 +1013,11 @@
       document.getElementById("uploadStep").style.display = "";
       window.scrollTo(0, 0);
     };
+    window.startOver = window.goBack;
 
   })();
   </script>
 <script src="/js/feedback-modal.min.js" defer></script>
+<script src="/js/result-footer.min.js" defer></script>
 </body>
 </html>
