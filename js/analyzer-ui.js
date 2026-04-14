@@ -4409,10 +4409,7 @@ function buildComparisonWinnerHtml(summary) {
             ${contextLine}
 
             <div class="action-buttons" style="margin-top:16px;">
-              ${emailCount > 0
-                ? `<button class="btn" id="emailContractorBtn" onclick="emailContractorQuestions()">Email ${escapeHtml(contractorName)} about ${emailCount} item${emailCount !== 1 ? "s" : ""}</button>`
-                : `<button class="btn" onclick="showShareScreen()">Share this result</button>`
-              }
+              <button class="btn" onclick="showShareScreen()">Share this result</button>
               <button class="btn secondary" onclick="showCompareScreen()">Upload another quote</button>
             </div>
           </div>
@@ -4440,56 +4437,8 @@ function buildComparisonWinnerHtml(summary) {
         }
       };
 
-      window.emailContractorQuestions = function emailContractorQuestions() {
-        const a = window.__latestAnalysis || {};
-        const parsed = latestParsed || {};
-        const contractorName = parsed.contractor && parsed.contractor !== "Not detected" ? repairDisplayText(parsed.contractor) : "your team";
-        const quotePrice = a.quotePrice ? safeFormatCurrency(a.quotePrice) : "my estimate";
-
-        const scopeItems = [
-          { key: "tearOff", label: "Tear off (removal of existing roof)" },
-          { key: "underlayment", label: "Underlayment (waterproofing layer)" },
-          { key: "flashing", label: "Flashing replacement (walls, pipes, valleys)" },
-          { key: "iceShield", label: "Ice and water shield" },
-          { key: "dripEdge", label: "Drip edge" },
-          { key: "ventilation", label: "Ventilation" },
-          { key: "ridgeVent", label: "Ridge vent" },
-          { key: "starterStrip", label: "Starter strip" },
-          { key: "ridgeCap", label: "Ridge cap" },
-          { key: "decking", label: "Decking repair allowance" }
-        ];
-
-        const missing = scopeItems.filter(i => !scopeReviewState[i.key]);
-        if (missing.length === 0) return;
-
-        const itemList = missing.map(i => "- " + i.label).join("\n");
-
-        const subject = encodeURIComponent("Questions about my roofing estimate (" + (a.quotePrice ? "$" + Number(a.quotePrice).toLocaleString() : "") + ")");
-        const body = encodeURIComponent(
-          "Hi " + contractorName + ",\n\n" +
-          "Before I move forward with the " + quotePrice + " estimate, can you confirm whether the following items are included?\n\n" +
-          itemList + "\n\n" +
-          "If any of these are not included, can you let me know what the additional cost would be?\n\n" +
-          "Also, can you provide the warranty terms in writing?\n\n" +
-          "Thank you"
-        );
-
-        window.open("mailto:?subject=" + subject + "&body=" + body, "_self");
-      };
-
-      window.emailReport = function emailReport() {
-        const a = window.__latestAnalysis || {};
-        const report = typeof buildShareableReportData === "function" ? buildShareableReportData() : null;
-        const reportText = report && typeof buildShareableReportText === "function" ? buildShareableReportText(report) : "";
-        if (!reportText) return;
-
-        const verdict = a.verdict || "Analysis";
-        const price = a.quotePrice ? "$" + Number(a.quotePrice).toLocaleString() : "";
-        const subject = encodeURIComponent("Roof Quote Analysis" + (price ? " (" + price + ")" : "") + " - TruePrice");
-        const body = encodeURIComponent(reportText);
-
-        window.open("mailto:?subject=" + subject + "&body=" + body, "_self");
-      };
+      window.emailContractorQuestions = function emailContractorQuestions() {};
+      window.emailReport = function emailReport() {};
 
       window.copyBeforeYouSignChecklist = function copyBeforeYouSignChecklist() {
         const scopeItems = [
@@ -4609,15 +4558,7 @@ function buildComparisonWinnerHtml(summary) {
         const subject = encodeURIComponent("My TruePrice " + (verdict || "Quote") + " Report" + (location ? " - " + location : ""));
         const body = encodeURIComponent(summaryLines.join("\n"));
 
-        return `
-          <div style="padding:20px 24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:16px;">
-            <div style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">Save your results</div>
-            <div style="font-size:14px; color:#475569; margin-bottom:14px;">Email yourself a summary to reference later or share with your spouse.</div>
-            <a href="mailto:?subject=${subject}&body=${body}" class="btn-outline" style="text-decoration:none; display:inline-block; font-size:14px; padding:10px 20px;">
-              Email me this report
-            </a>
-          </div>
-        `;
+        return ``;
       }
 
       function renderShareModule(a) {
@@ -8316,7 +8257,6 @@ function buildComparisonWinnerHtml(summary) {
           </div>
 
           <div class="action-buttons report-actions" style="margin-top:20px; justify-content:center;">
-            <button class="btn" onclick="emailReport()">Email this report</button>
             <button class="btn secondary" onclick="copyShareableReportText()">Copy as text</button>
             <button class="btn secondary" onclick="window.print()">Print / Save PDF</button>
             <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
@@ -10378,14 +10318,6 @@ function buildComparisonWinnerHtml(summary) {
             </div>
           </div>
 
-          <!-- Email capture -->
-          <div style="padding:20px 24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">
-            <div style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">Save your estimate</div>
-            <div style="font-size:14px; color:#475569; margin-bottom:14px;">Email yourself a summary to reference when talking to contractors.</div>
-            <a href="mailto:?subject=${encodeURIComponent("My Roof Cost Estimate" + (cityState ? " - " + cityState : ""))}&body=${encodeURIComponent("Estimated roof cost: " + fmtPrice(r.low) + " - " + fmtPrice(r.high) + "\nMidpoint: " + fmtPrice(r.mid) + "\nRoof size: " + Number(r.estimatedRoofSize).toLocaleString() + " sq ft\nMaterial: " + r.materialLabel + (cityState ? "\nLocation: " + cityState : "") + "\n\nGet your own estimate: https://truepricehq.com/roofing-quote-analyzer.html")}" class="btn-outline" style="text-decoration:none; display:inline-block; font-size:14px; padding:10px 20px;">
-              Email me this estimate
-            </a>
-          </div>
 
           <!-- Standardized: Next Steps before signing -->
           <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
