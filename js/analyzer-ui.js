@@ -34,6 +34,13 @@
       t = t.replace(/ ([a-z]) ([a-z])/g, ' $1$2');
       t = t.replace(/\b([A-Z]) ([a-z])/g, '$1$2');
     }
+    // All-caps letter splits like "E V Ans" or "E V A N S" -> "Evans"
+    // Match 2+ single uppercase letters separated by spaces, optionally followed
+    // by a remaining word fragment; collapse to one token and title-case it.
+    t = t.replace(/\b(?:[A-Z] ){2,}[A-Za-z]+/g, function(match) {
+      var collapsed = match.replace(/\s+/g, '');
+      return collapsed.charAt(0) + collapsed.slice(1).toLowerCase();
+    });
     // Clean up extra spaces
     t = t.replace(/\s{2,}/g, ' ').trim();
     return t;
@@ -2682,7 +2689,7 @@ function getRecommendationReasoningText(analysis) {
       const hasRange = isFinite(Number(low)) && isFinite(Number(high));
       if (!hasRange) return "Typical local pricing was not available.";
 
-      const locationLabel = [city, stateCode].filter(Boolean).join(", ") || "your area";
+      const locationLabel = [repairDisplayText(city), stateCode].filter(Boolean).join(", ") || "your area";
       const roofSizeLabel =
         isFinite(Number(roofSize)) && Number(roofSize) > 0
           ? `${safeFormatNumber(roofSize)} sq ft`
@@ -3964,7 +3971,7 @@ function buildComparisonWinnerHtml(summary) {
         const confidenceLabel = confidenceMeta?.overallTier || a?.confidenceLabel || "Low";
         const deltaFromMid = pricingMeta?.deltaFromMid ?? (a.quotePrice - a.mid);
         const deltaAbs = Math.abs(deltaFromMid);
-        const city = a?.city || journeyState?.propertyPreview?.city || "";
+        const city = repairDisplayText(a?.city || journeyState?.propertyPreview?.city || "");
         const state = a?.stateCode || journeyState?.propertyPreview?.state || "";
         const location = city && state ? `${city}, ${state}` : city || "your area";
 
@@ -4505,7 +4512,7 @@ function buildComparisonWinnerHtml(summary) {
 
       function renderMarketContext(a) {
         if (!a) return "";
-        const city = a?.city || "";
+        const city = repairDisplayText(a?.city || "");
         const state = a?.stateCode || "";
         const location = city && state ? `${escapeHtml(city)}, ${escapeHtml(state)}` : "your area";
         const roofMeta = a?.meta?.roofSize || {};
@@ -4540,7 +4547,7 @@ function buildComparisonWinnerHtml(summary) {
         const price = a.quotePrice ? "$" + Number(a.quotePrice).toLocaleString() : null;
         const verdict = a.verdict || "";
         const material = typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : (a.material || "roofing");
-        const city = a.city || "";
+        const city = repairDisplayText(a.city || "");
         const state = a.stateCode || "";
         const location = [city, state].filter(Boolean).join(", ");
 
@@ -8145,7 +8152,7 @@ function buildComparisonWinnerHtml(summary) {
       const signals = parsed.signals || {};
 
       const contractor = parsed.contractor && parsed.contractor !== "Not detected" ? repairDisplayText(parsed.contractor) : "";
-      const city = a.city || "";
+      const city = repairDisplayText(a.city || "");
       const state = a.stateCode || "";
       const location = city && state ? city + ", " + state : city || "your area";
       const materialLabel = a.material && typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : a.material || "Unknown";
