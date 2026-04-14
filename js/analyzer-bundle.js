@@ -3843,6 +3843,10 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
       t = t.replace(/ ([a-z]) ([a-z])/g, ' $1$2');
       t = t.replace(/\b([A-Z]) ([a-z])/g, '$1$2');
     }
+    t = t.replace(/\b(?:[A-Z] ){2,}[A-Za-z]+/g, function(match) {
+      var collapsed = match.replace(/\s+/g, '');
+      return collapsed.charAt(0) + collapsed.slice(1).toLowerCase();
+    });
     t = t.replace(/\s{2,}/g, ' ').trim();
     return t;
   }
@@ -5957,7 +5961,7 @@ function getRecommendationReasoningText(analysis) {
     function buildTypicalPriceSummary({ city, stateCode, roofSize, low, high, mid }) {
       const hasRange = isFinite(Number(low)) && isFinite(Number(high));
       if (!hasRange) return "Typical local pricing was not available.";
-      const locationLabel = [city, stateCode].filter(Boolean).join(", ") || "your area";
+      const locationLabel = [repairDisplayText(city), stateCode].filter(Boolean).join(", ") || "your area";
       const roofSizeLabel =
         isFinite(Number(roofSize)) && Number(roofSize) > 0
           ? `${safeFormatNumber(roofSize)} sq ft`
@@ -6986,7 +6990,7 @@ function buildComparisonWinnerHtml(summary) {
         const confidenceLabel = confidenceMeta?.overallTier || a?.confidenceLabel || "Low";
         const deltaFromMid = pricingMeta?.deltaFromMid ?? (a.quotePrice - a.mid);
         const deltaAbs = Math.abs(deltaFromMid);
-        const city = a?.city || journeyState?.propertyPreview?.city || "";
+        const city = repairDisplayText(a?.city || journeyState?.propertyPreview?.city || "");
         const state = a?.stateCode || journeyState?.propertyPreview?.state || "";
         const location = city && state ? `${city}, ${state}` : city || "your area";
         const roofSizeValue = roofMeta?.value ?? a?.roofSize ?? null;
@@ -7099,19 +7103,9 @@ function buildComparisonWinnerHtml(summary) {
               ${checkItems.map((item, i) => `<li><strong>${i + 1}</strong>${escapeHtml(item)}</li>`).join("")}
             </ol>
           `;
-          buttonsHtml = `
-            <div class="action-buttons">
-              <button class="btn" onclick="showShareScreen()">Share this result</button>
-              <button class="btn secondary" onclick="showCompareScreen()">Compare another quote</button>
-            </div>
-          `;
+          buttonsHtml = "";
         } else {
-          buttonsHtml = `
-            <div class="action-buttons">
-              <button class="btn" onclick="showCompareScreen()">Upload another quote</button>
-              <button class="btn secondary" onclick="showShareScreen()">Share this result</button>
-            </div>
-          `;
+          buttonsHtml = "";
         }
         return `
           <div class="action-card action-card--${mode}">
@@ -7304,10 +7298,6 @@ function buildComparisonWinnerHtml(summary) {
               <div style="padding:10px; text-align:center; color:#166534; font-weight:600; background:#ecfdf5; border-radius:8px; margin-top:8px;">All items confirmed. Quote looks complete.</div>
             `}
             ${contextLine}
-            <div class="action-buttons" style="margin-top:16px;">
-              <button class="btn" onclick="showShareScreen()">Share this result</button>
-              <button class="btn secondary" onclick="showCompareScreen()">Upload another quote</button>
-            </div>
           </div>
         `;
       }
@@ -7350,7 +7340,7 @@ function buildComparisonWinnerHtml(summary) {
       };
       function renderMarketContext(a) {
         if (!a) return "";
-        const city = a?.city || "";
+        const city = repairDisplayText(a?.city || "");
         const state = a?.stateCode || "";
         const location = city && state ? `${escapeHtml(city)}, ${escapeHtml(state)}` : "your area";
         const roofMeta = a?.meta?.roofSize || {};
@@ -10066,7 +10056,7 @@ function buildComparisonWinnerHtml(summary) {
       const parsed = latestParsed || {};
       const signals = parsed.signals || {};
       const contractor = parsed.contractor && parsed.contractor !== "Not detected" ? repairDisplayText(parsed.contractor) : "";
-      const city = a.city || "";
+      const city = repairDisplayText(a.city || "");
       const state = a.stateCode || "";
       const location = city && state ? city + ", " + state : city || "your area";
       const materialLabel = a.material && typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : a.material || "Unknown";

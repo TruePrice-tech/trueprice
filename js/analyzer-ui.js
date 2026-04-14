@@ -4106,19 +4106,9 @@ function buildComparisonWinnerHtml(summary) {
               ${checkItems.map((item, i) => `<li><strong>${i + 1}</strong>${escapeHtml(item)}</li>`).join("")}
             </ol>
           `;
-          buttonsHtml = `
-            <div class="action-buttons">
-              <button class="btn" onclick="showShareScreen()">Share this result</button>
-              <button class="btn secondary" onclick="showCompareScreen()">Compare another quote</button>
-            </div>
-          `;
+          buttonsHtml = "";
         } else {
-          buttonsHtml = `
-            <div class="action-buttons">
-              <button class="btn" onclick="showCompareScreen()">Upload another quote</button>
-              <button class="btn secondary" onclick="showShareScreen()">Share this result</button>
-            </div>
-          `;
+          buttonsHtml = "";
         }
 
         return `
@@ -4414,11 +4404,6 @@ function buildComparisonWinnerHtml(summary) {
 
             ${missingCostHtml}
             ${contextLine}
-
-            <div class="action-buttons" style="margin-top:16px;">
-              <button class="btn" onclick="showShareScreen()">Share this result</button>
-              <button class="btn secondary" onclick="showCompareScreen()">Upload another quote</button>
-            </div>
           </div>
         `;
       }
