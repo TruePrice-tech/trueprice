@@ -1,37 +1,63 @@
 #!/usr/bin/env node
 /**
- * Generate tweet drafts for @truepricehq.
+ * Generate and optionally post tweet drafts for @truepricehq.
  *
  * Sources (in priority order):
  *   1. Live calibration data from Upstash Redis (cal:* keys) — real quote aggregates
  *   2. Static pricing models (data/*-pricing-model.json) — baseline ranges
  *
  * Output:
- *   - Appends drafts to out/tweet-drafts.md (dated section) for manual review/pin/post
+ *   - Appends drafts to out/tweet-drafts.md (dated section) for manual review
+ *   - Writes structured drafts to out/latest-drafts.json (overwritten each run)
  *
  * Env (optional, for live Redis data):
  *   UPSTASH_REDIS_REST_URL
  *   UPSTASH_REDIS_REST_TOKEN
  *
- * Usage:
- *   node scripts/tweet-drafts.js                # generate 5 drafts
- *   node scripts/tweet-drafts.js --count 10     # generate 10
+ * Env (required for --verify / --post):
+ *   X_API_KEY, X_API_KEY_SECRET, X_ACCESS_TOKEN, X_ACCESS_TOKEN_SECRET
  *
- * Next step (not yet implemented): add `--post` that uses twitter-api-v2 once
- * Lane has X API credentials set in env.
+ * Usage:
+ *   node scripts/tweet-drafts.js                   # generate 5 drafts, write to files
+ *   node scripts/tweet-drafts.js --count 10        # generate 10 drafts
+ *   node scripts/tweet-drafts.js --verify          # test X credentials (no posting)
+ *   node scripts/tweet-drafts.js --post 2          # post draft #2 from latest batch
  */
 
 const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
+
+// Auto-load .env.local (created by `vercel env pull`) so local runs pick up
+// Vercel-managed env vars without requiring extra CLI flags.
+(function loadDotenvLocal() {
+  const envPath = path.join(ROOT, ".env.local");
+  if (!fs.existsSync(envPath)) return;
+  for (const rawLine of fs.readFileSync(envPath, "utf8").split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const eq = line.indexOf("=");
+    if (eq < 0) continue;
+    const key = line.slice(0, eq).trim();
+    let val = line.slice(eq + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = val;
+  }
+})();
 const DATA_DIR = path.join(ROOT, "data");
 const OUT_DIR = path.join(ROOT, "out");
 const OUT_FILE = path.join(OUT_DIR, "tweet-drafts.md");
+const LATEST_JSON = path.join(OUT_DIR, "latest-drafts.json");
 
 const args = process.argv.slice(2);
 const countIdx = args.indexOf("--count");
 const DRAFT_COUNT = countIdx >= 0 ? parseInt(args[countIdx + 1], 10) || 5 : 5;
+const VERIFY = args.includes("--verify");
+const postIdx = args.indexOf("--post");
+const POST_N = postIdx >= 0 ? parseInt(args[postIdx + 1], 10) : null;
 
 const TOP_METROS = [
   { city: "Austin", state: "TX" },
@@ -177,19 +203,59 @@ function pickDistinct(arr, n) {
   return out;
 }
 
-async function main() {
+function getXClient() {
+  const required = ["X_API_KEY", "X_API_KEY_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_TOKEN_SECRET"];
+  const missing = required.filter((k) => !process.env[k]);
+  if (missing.length) {
+    throw new Error(`Missing required env vars: ${missing.join(", ")}. Set them in Vercel or pull via 'vercel env pull .env.local' and re-run.`);
+  }
+  const { TwitterApi } = require("twitter-api-v2");
+  return new TwitterApi({
+    appKey: process.env.X_API_KEY,
+    appSecret: process.env.X_API_KEY_SECRET,
+    accessToken: process.env.X_ACCESS_TOKEN,
+    accessSecret: process.env.X_ACCESS_TOKEN_SECRET,
+  });
+}
+
+async function verifyCredentials() {
+  const client = getXClient();
+  const me = await client.v2.me();
+  console.log(`✓ X credentials valid. Authenticated as @${me.data.username} (${me.data.name}), id ${me.data.id}.`);
+}
+
+async function postDraftN(n) {
+  if (!fs.existsSync(LATEST_JSON)) {
+    throw new Error(`No drafts found. Run 'node scripts/tweet-drafts.js' first, then 'node scripts/tweet-drafts.js --post ${n}'.`);
+  }
+  const batch = JSON.parse(fs.readFileSync(LATEST_JSON, "utf8"));
+  if (!n || n < 1 || n > batch.drafts.length) {
+    throw new Error(`--post expects 1..${batch.drafts.length}. Got ${n}.`);
+  }
+  const draft = batch.drafts[n - 1];
+  console.log("\nAbout to post this tweet:");
+  console.log("\n" + "─".repeat(60));
+  console.log(draft.text);
+  console.log("─".repeat(60));
+  console.log(`(source: ${draft.source}, ${draft.text.length} chars)\n`);
+
+  const client = getXClient();
+  const res = await client.v2.tweet(draft.text);
+  const url = `https://x.com/truepricehq/status/${res.data.id}`;
+  console.log(`✓ Posted: ${url}`);
+}
+
+async function generate() {
   const drafts = [];
   const calData = await loadCalibrationData();
 
   if (calData && calData.length) {
-    // Prefer high-volume, recently-active cells
     calData.sort((a, b) => (b.quotes || 0) - (a.quotes || 0));
     for (const entry of calData.slice(0, DRAFT_COUNT)) {
       drafts.push({ source: "calibration", key: entry.key, text: draftFromCalibration(entry) });
     }
   }
 
-  // Fill with static drafts if calibration under-delivered
   if (drafts.length < DRAFT_COUNT) {
     const combos = [];
     for (const m of TOP_METROS) {
@@ -214,8 +280,16 @@ async function main() {
   });
 
   fs.appendFileSync(OUT_FILE, md, "utf8");
+  fs.writeFileSync(LATEST_JSON, JSON.stringify({ generatedAt: new Date().toISOString(), drafts }, null, 2), "utf8");
   console.log(`Wrote ${drafts.length} drafts to ${path.relative(ROOT, OUT_FILE)}`);
+  console.log(`Structured batch at ${path.relative(ROOT, LATEST_JSON)} (used for --post <n>)`);
   console.log(calData ? `  (${calData.length} calibration cells read from Redis)` : "  (Redis env not set; used static pricing models)");
+}
+
+async function main() {
+  if (VERIFY) return verifyCredentials();
+  if (POST_N !== null) return postDraftN(POST_N);
+  return generate();
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
