@@ -9108,10 +9108,10 @@ function buildComparisonWinnerHtml(summary) {
 
       // Fire OSM building footprint lookup early so the home-size input on
       // the estimator step is pre-filled by the time the user gets there.
-      // 6s timeout fallback to manual entry. Silent on failure.
+      // 18s timeout (OSM building lookups can be slow). Silent on failure.
       try {
         const _ctrl = ("AbortController" in window) ? new AbortController() : null;
-        const _t = setTimeout(function() { if (_ctrl) _ctrl.abort(); }, 6000);
+        const _t = setTimeout(function() { if (_ctrl) _ctrl.abort(); }, 18000);
         fetch("/api/property-signals", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -9142,9 +9142,16 @@ function buildComparisonWinnerHtml(summary) {
               if (_input && !_input.value) {
                 _input.value = String(journeyState.osmHomeSize);
                 const _hint = document.getElementById("estHomeSizeHint");
-                if (_hint) _hint.textContent = "\u2713 Pre-filled from your address — edit if not accurate";
+                if (_hint) _hint.textContent = "\u2713 Pre-filled from your address \u2014 edit if not accurate";
                 if (_hint) _hint.style.color = "#16a34a";
               }
+              // Fire a custom event so any other UI that depends on osmHomeSize
+              // can react (e.g. polling listeners that already gave up).
+              try {
+                window.dispatchEvent(new CustomEvent("tp:osm-resolved", {
+                  detail: { homeSize: journeyState.osmHomeSize, footprint: journeyState.osmFootprint }
+                }));
+              } catch (e) {}
             }
           })
           .catch(function() { clearTimeout(_t); });
@@ -9815,32 +9822,49 @@ function buildComparisonWinnerHtml(summary) {
           }
         }
 
-        // Poll for OSM data if it hasn't arrived yet (timing race fix)
+        // Poll for OSM data if it hasn't arrived yet (timing race fix).
+        // Extended to 40 iterations * 500ms = 20s to match the OSM fetch
+        // timeout. Plus listen for the tp:osm-resolved event so we update
+        // even if OSM resolves AFTER polling has given up.
+        const _populateFromOsm = () => {
+          if (!journeyState.osmHomeSize) return false;
+          const _hint = document.getElementById("estHomeSizeHint");
+          const _inp = document.getElementById("estHomeSize");
+          if (_inp && !_inp.value) _inp.value = String(journeyState.osmHomeSize);
+          if (_hint) {
+            _hint.textContent = "\u2713 Pre-filled from satellite data. Select your home type above to adjust for stories.";
+            _hint.style.color = "#16a34a";
+          }
+          return true;
+        };
+
+        // Listen for OSM-resolved events even after polling stops.
+        // Stored on the page so we can deduplicate and clean up.
+        if (!window.__tpOsmListenerInstalled) {
+          window.__tpOsmListenerInstalled = true;
+          window.addEventListener("tp:osm-resolved", _populateFromOsm);
+        }
+
         if (!journeyState.osmHomeSize) {
           let _osmPollCount = 0;
           const _osmPoll = setInterval(() => {
             _osmPollCount++;
-            if (journeyState.osmHomeSize || _osmPollCount > 12) {
+            if (journeyState.osmHomeSize) {
               clearInterval(_osmPoll);
+              _populateFromOsm();
+            } else if (_osmPollCount > 40) {
+              clearInterval(_osmPoll);
+              // OSM timed out — but the event listener above still catches
+              // a late OSM response if it eventually arrives.
               const _hint = document.getElementById("estHomeSizeHint");
-              if (journeyState.osmHomeSize) {
-                const _inp = document.getElementById("estHomeSize");
-                if (_inp && !_inp.value) {
-                  _inp.value = String(journeyState.osmHomeSize);
-                }
-                if (_hint) {
-                  _hint.textContent = "\u2713 Pre-filled from satellite data. Select your home type above to adjust for stories.";
-                  _hint.style.color = "#16a34a";
-                }
-              } else {
-                // OSM timed out
-                if (_hint) {
-                  _hint.textContent = "Enter your total living area. Check your listing, tax records, or Zillow if unsure.";
-                  _hint.style.color = "#94a3b8";
-                }
+              if (_hint) {
+                _hint.textContent = "Enter your total living area. (Satellite lookup is slow for this address.) Check your listing or tax records if unsure.";
+                _hint.style.color = "#94a3b8";
               }
             }
           }, 500);
+        } else {
+          _populateFromOsm();
         }
 
         // Submit
