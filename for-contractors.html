@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TruePrice Pro: AI Quote Tool for Contractors | Save Hours Per Estimate</title>
+  <meta name="description" content="AI-powered quote generator for home service contractors. Snap photos, get professional quotes in minutes. $49/mo. No lead-buying. Get discovered by TruePrice users." />
+  <link rel="canonical" href="https://truepricehq.com/for-contractors" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="TruePrice Pro: AI Quote Tool for Contractors" />
+  <meta property="og:description" content="Write professional quotes in minutes. Photos + voice memo → pro-grade estimate. Get discovered by TruePrice users." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://truepricehq.com/for-contractors" />
+  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.png" />
+
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="apple-touch-icon" href="/images/trudy.png" />
+
+  <style>
+    /* Hero */
+    .pro-hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); color: #fff; padding: 88px 0 64px; position: relative; overflow: hidden; }
+    .pro-hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.08) 0%, transparent 50%); pointer-events: none; }
+    .pro-hero .container { position: relative; z-index: 1; }
+    .pro-hero-eyebrow { display: inline-block; padding: 6px 14px; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); border-radius: 999px; font-size: 13px; font-weight: 600; color: #93c5fd; margin-bottom: 20px; }
+    .pro-hero h1 { font-size: 52px; letter-spacing: -0.03em; line-height: 1.05; margin: 0 0 20px; color: #fff; max-width: 900px; }
+    .pro-hero h1 .accent { color: #3b82f6; }
+    .pro-hero p.sub { font-size: 20px; color: rgba(255,255,255,0.78); max-width: 680px; line-height: 1.55; margin: 0 0 32px; }
+    .pro-hero-cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+    .pro-cta-primary { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: #1d4ed8; font-size: 17px; font-weight: 700; padding: 16px 32px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 24px rgba(0,0,0,0.25); transition: all 0.2s; }
+    .pro-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); text-decoration: none; color: #1d4ed8; }
+    .pro-cta-secondary { display: inline-flex; align-items: center; padding: 14px 26px; font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; text-decoration: none; transition: all 0.2s; }
+    .pro-cta-secondary:hover { background: rgba(255,255,255,0.14); text-decoration: none; color: #fff; }
+    .pro-hero-proof { display: flex; flex-wrap: wrap; gap: 24px; font-size: 14px; color: rgba(255,255,255,0.55); }
+    .pro-hero-proof strong { color: #fff; font-size: 18px; display: block; }
+
+    /* Problem/pain section */
+    .pro-section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+    .pro-section:last-of-type { border-bottom: none; }
+    .pro-section h2 { font-size: 34px; letter-spacing: -0.02em; margin: 0 0 12px; text-align: center; }
+    .pro-section-intro { text-align: center; color: var(--text-secondary); max-width: 680px; margin: 0 auto 40px; font-size: 17px; line-height: 1.6; }
+
+    .pro-pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 820px) { .pro-pain-grid { grid-template-columns: 1fr; } }
+    .pro-pain-card { padding: 28px; background: #fff; border: 1px solid var(--border); border-radius: 16px; }
+    .pro-pain-card-icon { font-size: 32px; margin-bottom: 12px; }
+    .pro-pain-card h3 { font-size: 18px; margin: 0 0 8px; }
+    .pro-pain-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.55; margin: 0; }
+    .pro-pain-card-stat { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+    .pro-pain-card-stat strong { color: #dc2626; font-size: 22px; display: block; margin-bottom: 2px; }
+
+    /* How it works */
+    .pro-how-bg { background: #f8fafc; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .pro-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    @media (max-width: 900px) { .pro-steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .pro-steps { grid-template-columns: 1fr; } }
+    .pro-step { padding: 24px; background: #fff; border: 1px solid var(--border); border-radius: 14px; position: relative; }
+    .pro-step-num { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: var(--brand); color: #fff; font-weight: 700; font-size: 16px; margin-bottom: 12px; }
+    .pro-step h3 { font-size: 16px; margin: 0 0 6px; }
+    .pro-step p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin: 0; }
+    .pro-step-detail { margin-top: 10px; padding: 10px 12px; background: #f1f5f9; border-radius: 8px; font-size: 13px; color: var(--text); font-family: 'Consolas', monospace; }
+
+    /* Pricing tiers */
+    .pro-tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    @media (max-width: 1000px) { .pro-tiers { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .pro-tiers { grid-template-columns: 1fr; } }
+    .pro-tier { padding: 28px 24px; background: #fff; border: 2px solid var(--border); border-radius: 18px; position: relative; display: flex; flex-direction: column; }
+    .pro-tier.featured { border-color: var(--brand); box-shadow: 0 10px 30px rgba(59,130,246,0.15); transform: translateY(-4px); }
+    .pro-tier-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); padding: 5px 16px; background: var(--brand); color: #fff; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+    .pro-tier-name { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px; }
+    .pro-tier-price { font-size: 42px; font-weight: 800; color: var(--text); margin: 4px 0 2px; letter-spacing: -0.02em; }
+    .pro-tier-price .pro-tier-period { font-size: 16px; font-weight: 500; color: var(--text-muted); }
+    .pro-tier-tagline { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; }
+    .pro-tier-features { list-style: none; padding: 0; margin: 0 0 24px; flex-grow: 1; }
+    .pro-tier-features li { position: relative; padding: 8px 0 8px 28px; font-size: 14px; color: var(--text); line-height: 1.5; border-bottom: 1px solid #f1f5f9; }
+    .pro-tier-features li:last-child { border-bottom: none; }
+    .pro-tier-features li::before { content: "\2713"; position: absolute; left: 0; top: 8px; color: #10b981; font-weight: 700; font-size: 16px; }
+    .pro-tier-features li.excluded { color: var(--text-muted); }
+    .pro-tier-features li.excluded::before { content: "\2014"; color: var(--text-muted); }
+    .pro-tier-cta { display: block; text-align: center; padding: 12px 20px; font-size: 15px; font-weight: 600; border-radius: 10px; text-decoration: none; transition: all 0.2s; }
+    .pro-tier-cta-primary { background: var(--brand); color: #fff; }
+    .pro-tier-cta-primary:hover { opacity: 0.92; text-decoration: none; color: #fff; }
+    .pro-tier-cta-secondary { background: transparent; color: var(--brand); border: 1px solid var(--brand); }
+    .pro-tier-cta-secondary:hover { background: #eff6ff; text-decoration: none; }
+
+    /* FAQ */
+    .pro-faq { max-width: 780px; margin: 0 auto; }
+    .pro-faq-item { padding: 20px 24px; background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; }
+    .pro-faq-item summary { font-size: 17px; font-weight: 600; cursor: pointer; list-style: none; position: relative; padding-right: 32px; }
+    .pro-faq-item summary::after { content: "+"; position: absolute; right: 0; top: 0; font-size: 24px; color: var(--brand); transition: transform 0.2s; }
+    .pro-faq-item[open] summary::after { content: "\2212"; }
+    .pro-faq-answer { padding-top: 14px; font-size: 15px; color: var(--text-secondary); line-height: 1.65; }
+
+    /* Final CTA */
+    .pro-final-cta { background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%); color: #fff; padding: 72px 0; text-align: center; }
+    .pro-final-cta h2 { color: #fff; font-size: 36px; margin: 0 0 14px; }
+    .pro-final-cta p { color: rgba(255,255,255,0.75); font-size: 18px; margin: 0 0 28px; }
+
+    /* Trust firewall note */
+    .pro-firewall { padding: 18px 24px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 12px; font-size: 14px; color: #0c4a6e; line-height: 1.6; max-width: 780px; margin: 24px auto 0; }
+    .pro-firewall strong { color: #075985; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" style="background:transparent; border-bottom:none; position:absolute; width:100%; z-index:10;">
+    <div class="container">
+      <a class="logo" href="/" style="color:#fff;">TruePrice</a>
+      <nav style="display:flex; gap:24px; align-items:center;">
+        <a href="/guides.html" style="color:rgba(255,255,255,0.78);">Guides</a>
+        <a href="/about.html" style="color:rgba(255,255,255,0.78);">About</a>
+        <a href="/contractor-signup.html" style="color:rgba(255,255,255,0.78);">Sign Up</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="pro-hero">
+    <div class="container">
+      <span class="pro-hero-eyebrow">NEW \u2014 TruePrice Pro for Contractors</span>
+      <h1>Write professional quotes in <span class="accent">minutes</span>, not hours.</h1>
+      <p class="sub">AI turns your photos and voice memo into a pro-grade quote with local pricing, e-sign, and automated follow-up. Built on TruePrice's data from 12,000 cities and 20 trades.</p>
+      <div class="pro-hero-cta-row">
+        <a href="/contractor-signup.html?tier=pro" class="pro-cta-primary">Start free \u2192</a>
+        <a href="#how-it-works" class="pro-cta-secondary">See how it works</a>
+      </div>
+      <div class="pro-hero-proof">
+        <div><strong>12,000+</strong>cities priced</div>
+        <div><strong>20 trades</strong>covered</div>
+        <div><strong>No leads sold</strong>ever</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIN POINTS -->
+  <section class="pro-section">
+    <div class="container">
+      <h2>Quotes are killing your margins</h2>
+      <p class="pro-section-intro">Every hour on paperwork is an hour not on the job. And every quote that never gets sent is money walking away.</p>
+      <div class="pro-pain-grid">
+        <div class="pro-pain-card">
+          <div class="pro-pain-card-icon">\u23F1</div>
+          <h3>Hours wasted per quote</h3>
+          <p>Measuring, pricing, typing up, emailing, formatting. Every bid takes 2\u20136 hours of admin.</p>
+          <div class="pro-pain-card-stat"><strong>4 hrs</strong>average time per quote</div>
+        </div>
+        <div class="pro-pain-card">
+          <div class="pro-pain-card-icon">\u2709</div>
+          <h3>Quotes that never get sent</h3>
+          <p>You plan to write the quote tonight. Then life happens. The lead goes cold.</p>
+          <div class="pro-pain-card-stat"><strong>40%</strong>of quotes never reach the customer</div>
+        </div>
+        <div class="pro-pain-card">
+          <div class="pro-pain-card-icon">\uD83D\uDCDE</div>
+          <h3>Forgotten follow-ups</h3>
+          <p>Customer doesn't respond. You move on. They go with someone who called back.</p>
+          <div class="pro-pain-card-stat"><strong>60%</strong>of sent quotes never get follow-up</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="pro-section pro-how-bg" id="how-it-works">
+    <div class="container">
+      <h2>From job site to signed quote in 5 minutes</h2>
+      <p class="pro-section-intro">Snap photos. Talk through the scope. Your quote is in the customer's inbox before you leave the driveway.</p>
+      <div class="pro-steps">
+        <div class="pro-step">
+          <div class="pro-step-num">1</div>
+          <h3>Snap photos</h3>
+          <p>Take 3\u20135 photos of the job site. Any angle. Any phone.</p>
+          <div class="pro-step-detail">\uD83D\uDCF7 Roof, water damage, electrical panel</div>
+        </div>
+        <div class="pro-step">
+          <div class="pro-step-num">2</div>
+          <h3>Talk it through</h3>
+          <p>Hit record. Describe the scope the way you'd tell a foreman.</p>
+          <div class="pro-step-detail">\uD83C\uDF99 "Full tear-off, 22 squares, 30-year architectural"</div>
+        </div>
+        <div class="pro-step">
+          <div class="pro-step-num">3</div>
+          <h3>AI drafts the quote</h3>
+          <p>TruePrice Pro uses local pricing data to create a professional line-itemized quote. Review, edit, done.</p>
+          <div class="pro-step-detail">\u2699\uFE0F Scope \u00b7 materials \u00b7 labor \u00b7 timeline \u00b7 terms</div>
+        </div>
+        <div class="pro-step">
+          <div class="pro-step-num">4</div>
+          <h3>Send + track</h3>
+          <p>SMS or email to the customer with e-sign. Auto-follow-up if they don't respond in 3 days.</p>
+          <div class="pro-step-detail">\u270F\uFE0F E-sign \u00b7 auto-remind \u00b7 analytics</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY TRUEPRICE PRO -->
+  <section class="pro-section">
+    <div class="container">
+      <h2>Why TruePrice Pro beats Angi, HomeAdvisor, and DIY</h2>
+      <div class="pro-pain-grid" style="margin-top:32px;">
+        <div class="pro-pain-card">
+          <div class="pro-pain-card-icon">\uD83D\uDCAF</div>
+          <h3>Real local pricing, not a template</h3>
+          <p>TruePrice has benchmark pricing for 12,000+ cities. Your quotes are accurate for your market automatically, down to the ZIP.</p>
+        </div>
+        <div class="pro-pain-card">
+          <div class="pro-pain-card-icon">\uD83D\uDEAB</div>
+          <h3>We never sell leads</h3>
+          <p>Angi charges you per lead. HomeAdvisor sells your info. TruePrice is flat-rate subscription \u2014 no percentage, no markup, no games.</p>
+        </div>
+        <div class="pro-pain-card">
+          <div class="pro-pain-card-icon">\uD83D\uDD0D</div>
+          <h3>Get discovered by TruePrice users</h3>
+          <p>Plus and Elite tiers appear on city pages where homeowners are comparing pricing. Built-in distribution, not another directory to pay for.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pro-section pro-how-bg" id="pricing">
+    <div class="container">
+      <h2>Simple pricing. Start free.</h2>
+      <p class="pro-section-intro">Flat-rate subscription, cancel anytime. No per-lead fees. No hidden costs. Upgrade as you grow.</p>
+
+      <div class="pro-tiers">
+        <div class="pro-tier">
+          <div class="pro-tier-name">Free</div>
+          <div class="pro-tier-price">$0<span class="pro-tier-period">/mo</span></div>
+          <div class="pro-tier-tagline">Try it risk-free</div>
+          <ul class="pro-tier-features">
+            <li>5 quotes per month</li>
+            <li>Basic templates</li>
+            <li>Directory listing (no badge)</li>
+            <li class="excluded">Verified badge</li>
+            <li class="excluded">Priority placement</li>
+            <li class="excluded">Team seats</li>
+          </ul>
+          <a href="/contractor-signup.html?tier=free" class="pro-tier-cta pro-tier-cta-secondary">Start free</a>
+        </div>
+
+        <div class="pro-tier featured">
+          <div class="pro-tier-badge">MOST POPULAR</div>
+          <div class="pro-tier-name">Pro</div>
+          <div class="pro-tier-price">$49<span class="pro-tier-period">/mo</span></div>
+          <div class="pro-tier-tagline">For solo contractors</div>
+          <ul class="pro-tier-features">
+            <li>Unlimited quotes</li>
+            <li>SMS + email delivery</li>
+            <li>E-sign on every quote</li>
+            <li>Auto follow-up</li>
+            <li>Verified badge</li>
+            <li>Quote tracking + analytics</li>
+          </ul>
+          <a href="/contractor-signup.html?tier=pro" class="pro-tier-cta pro-tier-cta-primary">Start Pro \u2192</a>
+        </div>
+
+        <div class="pro-tier">
+          <div class="pro-tier-name">Plus</div>
+          <div class="pro-tier-price">$99<span class="pro-tier-period">/mo</span></div>
+          <div class="pro-tier-tagline">For growing shops (2\u201310)</div>
+          <ul class="pro-tier-features">
+            <li>Everything in Pro</li>
+            <li>Priority directory placement</li>
+            <li>3 team seats included</li>
+            <li>Custom templates</li>
+            <li>Basic reporting</li>
+            <li>Priority support</li>
+          </ul>
+          <a href="/contractor-signup.html?tier=plus" class="pro-tier-cta pro-tier-cta-secondary">Start Plus</a>
+        </div>
+
+        <div class="pro-tier">
+          <div class="pro-tier-name">Elite</div>
+          <div class="pro-tier-price">$199<span class="pro-tier-period">/mo</span></div>
+          <div class="pro-tier-tagline">For multi-crew businesses</div>
+          <ul class="pro-tier-features">
+            <li>Everything in Plus</li>
+            <li>Featured on city pages</li>
+            <li>Review management</li>
+            <li>Multi-city coverage</li>
+            <li>API access</li>
+            <li>Dedicated account manager</li>
+          </ul>
+          <a href="/contractor-signup.html?tier=elite" class="pro-tier-cta pro-tier-cta-secondary">Talk to sales</a>
+        </div>
+      </div>
+
+      <div class="pro-firewall">
+        <strong>Our trust firewall:</strong> Contractor subscriptions <em>never</em> affect the pricing estimates TruePrice shows to homeowners. We don't upsell consumers on contractor tiers. Pricing stays unbiased, period. That's why consumers trust us, and that trust makes our directory valuable to you.
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="pro-section">
+    <div class="container">
+      <h2>Frequently asked questions</h2>
+      <div class="pro-faq">
+        <details class="pro-faq-item">
+          <summary>How is this different from ServiceTitan, Jobber, or Housecall Pro?</summary>
+          <div class="pro-faq-answer">
+            Those are full CRMs that cost $300\u2013500/mo and take weeks to set up. TruePrice Pro is focused: it writes accurate quotes from photos, fast. You can start today for $49/mo. Use it alongside your existing CRM or on its own.
+          </div>
+        </details>
+        <details class="pro-faq-item">
+          <summary>How accurate are the AI-generated prices?</summary>
+          <div class="pro-faq-answer">
+            We use TruePrice's benchmark pricing across 12,000 cities and 20 trades \u2014 the same data homeowners see when they check if a quote is fair. The AI drafts a price range based on your city, scope, and materials. You review and adjust before sending. You're the expert. The AI just handles the paperwork.
+          </div>
+        </details>
+        <details class="pro-faq-item">
+          <summary>Do you sell leads like Angi or HomeAdvisor?</summary>
+          <div class="pro-faq-answer">
+            Never. That's our whole point. Flat-rate subscription, you own your customer relationships, we don't resell your info. The Plus and Elite tiers include directory placement on TruePrice city pages, but homeowners see a transparent list of verified contractors \u2014 not a bidding war.
+          </div>
+        </details>
+        <details class="pro-faq-item">
+          <summary>What trades do you support?</summary>
+          <div class="pro-faq-answer">
+            Launch trades: roofing, HVAC, plumbing, electrical, windows, siding, insulation, painting, fencing, concrete, landscaping, garage doors, solar, foundation, kitchen remodeling, gutters, auto repair, moving, and medical billing. Same 20 trades TruePrice already has pricing data for.
+          </div>
+        </details>
+        <details class="pro-faq-item">
+          <summary>Can I cancel anytime?</summary>
+          <div class="pro-faq-answer">
+            Yes. Monthly subscription, cancel with one click. No long-term contracts. No cancellation fees. If you cancel in the first 30 days, you get a full refund.
+          </div>
+        </details>
+        <details class="pro-faq-item">
+          <summary>What do I need to get started?</summary>
+          <div class="pro-faq-answer">
+            A phone, a few photos, and 5 minutes. We'll set up your profile, your business logo on the quote template, and your preferred pricing. After that, every new quote takes just a few minutes.
+          </div>
+        </details>
+        <details class="pro-faq-item">
+          <summary>How fast can I send my first quote?</summary>
+          <div class="pro-faq-answer">
+            Most contractors send their first real quote within 10 minutes of signing up. The onboarding walks you through a practice quote using photos from a past job. By the time you're done, you'll be ready for live ones.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="pro-final-cta">
+    <div class="container">
+      <h2>Stop writing quotes at midnight.</h2>
+      <p>Start free. No credit card required. First quote in 10 minutes.</p>
+      <a href="/contractor-signup.html?tier=pro" class="pro-cta-primary">Start Free \u2192</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:32px; padding:32px 0;">
+        <div>
+          <a href="/" style="font-weight:700; font-size:18px; color:var(--text); text-decoration:none;">TruePrice</a>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:8px; line-height:1.5;">Unbiased pricing for homeowners. AI quote tools for contractors.</p>
+        </div>
+        <div>
+          <div style="font-weight:600; font-size:13px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;">For Contractors</div>
+          <a href="/for-contractors" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">TruePrice Pro</a>
+          <a href="/contractor-signup.html" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">Sign Up</a>
+          <a href="/find-contractors.html" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">Contractor Directory</a>
+        </div>
+        <div>
+          <div style="font-weight:600; font-size:13px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;">For Homeowners</div>
+          <a href="/" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">Home</a>
+          <a href="/guides.html" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">Price Guides</a>
+          <a href="/analyze-my-quote.html" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">Analyze My Quote</a>
+        </div>
+        <div>
+          <div style="font-weight:600; font-size:13px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;">Company</div>
+          <a href="/about.html" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">About</a>
+          <a href="/privacy.html" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">Privacy</a>
+          <a href="/terms.html" style="display:block; font-size:14px; color:var(--text); text-decoration:none; padding:3px 0;">Terms</a>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border); padding:20px 0; font-size:13px; color:var(--text-muted); text-align:center;">
+        &copy; 2026 TruePrice. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,1850 @@
+[
+  {
+    "label": "PLUMBING-06 Roto-Rooter invoice (phone photo of paper)",
+    "sizeKB": 822,
+    "elapsed": "6.2",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "contractor": "Roto-Rooter",
+        "totalPrice": 982.8,
+        "jobType": "drain_cleaning",
+        "fixture": null,
+        "brand": null,
+        "modelNumber": null,
+        "fixtureSize": null,
+        "pipeType": null,
+        "laborRate": null,
+        "laborHours": null,
+        "laborTotal": 560,
+        "laborCost": 560,
+        "partsTotal": null,
+        "materialsTotal": null,
+        "diagnosticFee": null,
+        "emergencyFee": null,
+        "stateCode": "IN",
+        "warrantyPartsYears": null,
+        "warrantyLaborYears": null,
+        "lineItems": [
+          {
+            "description": "Line item 1 - Grease and obstruction removal/testing",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": null
+          }
+        ],
+        "scopeItems": {
+          "laborRate": "no",
+          "partsItemized": "no",
+          "permit": "unclear",
+          "warranty": "yes",
+          "cleanup": "unclear",
+          "materialSpec": "no",
+          "codeCompliance": "unclear",
+          "diagnosticFee": "no"
+        },
+        "warrantyParts": null,
+        "warrantyLabor": null,
+        "possibleUpsells": [],
+        "redFlags": [
+          "Service date shown as 2/2/2/26 — illegible or incorrectly formatted date",
+          "Much of the invoice is redacted or obscured by purple highlighting, preventing full verification of scope and details",
+          "No hourly labor rate disclosed — only flat labor total visible",
+          "Line item descriptions partially illegible due to redaction",
+          "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category."
+        ],
+        "summary": "Roto-Rooter drain cleaning service in Indianapolis with a total invoice of $982.80 (labor $560.00). Significant portions of the invoice are redacted or obscured, limiting ability to verify the full scope of work, parts costs, and warranty details. The labor cost appears high for the described work (grease and obstruction removal), but without clear hourly rates or itemized parts, fairness cannot be assessed. Recommend requesting a clear, unredacted copy of the invoice to verify all charges.",
+        "confidence": "low",
+        "structuredRedFlags": [
+          {
+            "name": "no_license_number",
+            "severity": "high",
+            "explanation": "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+            "action": "Verify the state plumbing license number before any deposit. Most state boards have free online lookup."
+          }
+        ],
+        "stateLicensing": {
+          "state": "IN",
+          "statewide": true,
+          "board": "Indiana Plumbing Commission",
+          "notes": "Plumbing contractor license."
+        },
+        "pricingContext": {
+          "state": "IN",
+          "stateMultiplier": 0.9,
+          "jobType": "drain_cleaning",
+          "jobLabel": "Drain Cleaning/Unclog",
+          "urgency": "soon",
+          "expectedRange": {
+            "low": 135,
+            "high": 450
+          },
+          "laborBenchmark": null,
+          "laborHoursBenchmark": null,
+          "partsBenchmark": null,
+          "source": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys"
+        }
+      }
+    }
+  },
+  {
+    "label": "PLUMBING-10 Water heater swap (digital screenshot)",
+    "sizeKB": 132,
+    "elapsed": "8.3",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "contractor": null,
+        "totalPrice": 6950,
+        "jobType": "water_heater_tank",
+        "fixture": "60 Gallon Bradford white indirect water heater",
+        "brand": "Bradford",
+        "modelNumber": null,
+        "fixtureSize": "60 Gallon",
+        "pipeType": null,
+        "laborRate": null,
+        "laborHours": null,
+        "laborTotal": null,
+        "laborCost": null,
+        "partsTotal": null,
+        "materialsTotal": null,
+        "diagnosticFee": null,
+        "emergencyFee": null,
+        "stateCode": null,
+        "warrantyPartsYears": null,
+        "warrantyLaborYears": null,
+        "lineItems": [
+          {
+            "description": "Indirect Water heater swap",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": 6950
+          },
+          {
+            "description": "Drain and disconnect supply and return loop going from boiler to existing water heater",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": null
+          },
+          {
+            "description": "Disconnect domestic cold water and hot water connections from existing water heater",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": null
+          },
+          {
+            "description": "Clean and disposal of old water heater",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": null
+          },
+          {
+            "description": "Install 60 Gallon Bradford white indirect water heater",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": null
+          },
+          {
+            "description": "Repipe supply and return from boiler and also hot and cold domestic water connections",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": null
+          },
+          {
+            "description": "Flush and purge supply and return coil on new water heater to get the air out for proper heating",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": null
+          },
+          {
+            "description": "Wire aqua-stat for proper communication between tank and boiler",
+            "laborCost": null,
+            "partsCost": null,
+            "lineTotal": null
+          }
+        ],
+        "scopeItems": {
+          "laborRate": "no",
+          "partsItemized": "no",
+          "permit": "unclear",
+          "warranty": "unclear",
+          "cleanup": "yes",
+          "materialSpec": "no",
+          "codeCompliance": "unclear",
+          "diagnosticFee": "no"
+        },
+        "warrantyParts": null,
+        "warrantyLabor": null,
+        "possibleUpsells": [
+          "Expansion tank installation",
+          "Pressure reducing valve (PRV)",
+          "Additional boiler piping work"
+        ],
+        "redFlags": [
+          "No pipe material type specified for repipe work (supply/return and domestic connections)",
+          "No permit information mentioned",
+          "No warranty details provided",
+          "Labor and parts costs not separated or itemized",
+          "Page 1 of 3 — full quote details may be on subsequent pages and are not visible",
+          "Repipe quote without specifying PEX-A vs PEX-B vs copper Type L/M is unenforceable. PEX-A (expansion) has a 25-year warranty; PEX-B crimp can dezincify in aggressive water. Type M copper is the thinnest allowed and not ideal. Price difference is 2-3x between bottom and top spec.",
+          "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+          "Whole-house repipe requires opening 20-80 access holes in drywall. If drywall patch/texture/paint is not in the scope, the homeowner is stuck finding a separate drywall contractor for $1,500-$5,000 of additional work."
+        ],
+        "summary": "This is a water heater replacement quote for a 60-gallon Bradford indirect water heater at $6,950.00. The scope includes removal of old heater, installation of new unit, and complete repipe of supply/return and domestic hot/cold connections. However, the quote lacks critical details: no hourly labor rate, no itemized parts costs, no warranty information, no pipe material specification, and no permit mention. The all-inclusive subtotal obscures whether pricing is competitive. This appears to be page 1 of a 3-page document, so additional details may exist. Recommend requesting a detailed breakdown of labor hours, parts costs, material specifications, and warranty terms before accepting.",
+        "confidence": "medium",
+        "detectedUpsells": [
+          {
+            "item": "Whole-house water filter",
+            "necessary": "rarely",
+            "typicalCost": [
+              500,
+              2000
+            ],
+            "notes": "Only if water quality test shows issues."
+          },
+          {
+            "item": "Expansion tank",
+            "necessary": "sometimes",
+            "typicalCost": [
+              200,
+              400
+            ],
+            "notes": "Required by code in some areas with closed water systems."
+          }
+        ],
+        "structuredRedFlags": [
+          {
+            "name": "no_material_spec_repipe",
+            "severity": "high",
+            "explanation": "Repipe quote without specifying PEX-A vs PEX-B vs copper Type L/M is unenforceable. PEX-A (expansion) has a 25-year warranty; PEX-B crimp can dezincify in aggressive water. Type M copper is the thinnest allowed and not ideal. Price difference is 2-3x between bottom and top spec.",
+            "action": "Require: manufacturer + type (e.g., 'Uponor AquaPEX PEX-A, 1/2\" and 3/4\"') and total linear feet."
+          },
+          {
+            "name": "no_license_number",
+            "severity": "high",
+            "explanation": "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+            "action": "Verify the state plumbing license number before any deposit. Most state boards have free online lookup."
+          },
+          {
+            "name": "repipe_no_drywall_repair",
+            "severity": "high",
+            "explanation": "Whole-house repipe requires opening 20-80 access holes in drywall. If drywall patch/texture/paint is not in the scope, the homeowner is stuck finding a separate drywall contractor for $1,500-$5,000 of additional work.",
+            "action": "Scope must specify whether access-hole drywall repair is included, and to what finish level (patched only, textured, textured + painted)."
+          }
+        ],
+        "brandTier": {
+          "tier": "premium",
+          "brand": "Bradford White",
+          "tierData": {
+            "brands": [
+              "Bradford White",
+              "Rheem Professional",
+              "A.O. Smith ProLine XE"
+            ],
+            "low": 1100,
+            "mid": 1500,
+            "high": 2200,
+            "notes": "Contractor-exclusive (Bradford White is not sold to DIY). 10-year warranty, heavier steel, better anodes."
+          }
+        },
+        "pricingContext": {
+          "state": null,
+          "stateMultiplier": 1,
+          "jobType": "water_heater_tank",
+          "jobLabel": "Water Heater (Tank)",
+          "urgency": "soon",
+          "expectedRange": {
+            "low": 800,
+            "high": 2000
+          },
+          "laborBenchmark": null,
+          "laborHoursBenchmark": null,
+          "partsBenchmark": null,
+          "source": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys"
+        }
+      }
+    }
+  },
+  {
+    "label": "ROOFING-03 Metal roof estimate (digital screenshot)",
+    "sizeKB": 200,
+    "elapsed": "2.6",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "price": 136375,
+        "material": "metal",
+        "materialLabel": "Standing Seam Metal (26 ga steel, NRM-1000 Nu-Ray Metals)",
+        "contractor": null,
+        "city": null,
+        "stateCode": null,
+        "roofSize": null,
+        "warrantyYears": 10,
+        "warranty": "10 year installation warranty and 10 year leak warranty covering source of leak only, does not cover residual damage",
+        "scopeItems": {
+          "tearOff": "included",
+          "underlayment": "included",
+          "flashing": "included",
+          "iceShield": "unclear",
+          "dripEdge": "unclear",
+          "ventilation": "unclear",
+          "ridgeVent": "unclear",
+          "starterStrip": "unclear",
+          "ridgeCap": "unclear",
+          "decking": "included",
+          "disposal": "unclear",
+          "permit": "included"
+        }
+      }
+    }
+  },
+  {
+    "label": "ROOFING-07 Roof replacement form (phone photo of paper)",
+    "sizeKB": 199,
+    "elapsed": "1.7",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "price": 10500,
+        "material": "architectural",
+        "materialLabel": "30 year architectural asphalt shingles",
+        "contractor": null,
+        "city": null,
+        "stateCode": null,
+        "roofSize": null,
+        "warrantyYears": 30,
+        "warranty": "30 year architectural roof",
+        "scopeItems": {
+          "tearOff": "included",
+          "underlayment": "included",
+          "flashing": "included",
+          "iceShield": "included",
+          "dripEdge": "included",
+          "ventilation": "included",
+          "ridgeVent": "included",
+          "starterStrip": "unclear",
+          "ridgeCap": "unclear",
+          "decking": "unclear",
+          "disposal": "included",
+          "permit": "unclear"
+        }
+      }
+    }
+  },
+  {
+    "label": "PLUMBING-CMP-01 Budget clean (synthetic)",
+    "sizeKB": 34,
+    "elapsed": "8.0",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "contractor": "BUDGET PLUMBING SERVICES",
+        "totalPrice": 1380,
+        "jobType": "water_heater_tank",
+        "fixture": "50-gallon gas water heater replacement",
+        "brand": "Rheem",
+        "modelNumber": null,
+        "fixtureSize": "50 gal",
+        "pipeType": null,
+        "laborRate": 130,
+        "laborHours": 2.5,
+        "laborTotal": 325,
+        "laborCost": 325,
+        "partsTotal": 909,
+        "materialsTotal": 909,
+        "diagnosticFee": null,
+        "emergencyFee": null,
+        "stateCode": "CA",
+        "warrantyPartsYears": 6,
+        "warrantyLaborYears": null,
+        "warrantyParts": "6 year tank warranty (manufacturer)",
+        "warrantyLabor": "30-day labor",
+        "lineItems": [
+          {
+            "description": "Rheem Performance 50-gal natural gas water heater",
+            "laborCost": null,
+            "partsCost": 749,
+            "lineTotal": 749
+          },
+          {
+            "description": "New gas flex line, T&P valve, drain pan",
+            "laborCost": null,
+            "partsCost": 85,
+            "lineTotal": 85
+          },
+          {
+            "description": "Removal & disposal of old unit",
+            "laborCost": null,
+            "partsCost": 75,
+            "lineTotal": 75
+          },
+          {
+            "description": "Labor: 2.5 hours",
+            "laborCost": 325,
+            "partsCost": null,
+            "lineTotal": 325
+          },
+          {
+            "description": "Permit",
+            "laborCost": null,
+            "partsCost": 80,
+            "lineTotal": 80
+          },
+          {
+            "description": "Tax",
+            "laborCost": null,
+            "partsCost": 66,
+            "lineTotal": 66
+          }
+        ],
+        "scopeItems": {
+          "laborRate": "yes",
+          "partsItemized": "yes",
+          "permit": "yes",
+          "warranty": "yes",
+          "cleanup": "yes",
+          "materialSpec": "no",
+          "codeCompliance": "unclear",
+          "diagnosticFee": "no"
+        },
+        "possibleUpsells": [
+          "Expansion tank (often recommended for closed-loop systems)",
+          "Water heater strapping/seismic bracing (code requirement in some jurisdictions not mentioned)"
+        ],
+        "redFlags": [
+          "No mention of gas line inspection or safety testing",
+          "Pipe type not specified for new gas flex line connection",
+          "No warranty duration stated for labor (only 30-day mentioned, which is brief)",
+          "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category."
+        ],
+        "summary": "This is a straightforward 50-gallon gas water heater replacement quote totaling $1,380. The Rheem Performance model is a solid mid-range choice with a 6-year tank warranty. Labor is reasonably priced at $130/hour for 2.5 hours of work. Permit and disposal are included, which is good. However, the quote lacks specifics on gas line specifications and labor warranty duration. Overall, the pricing appears fair for the Los Angeles area, though getting a second opinion on the tank choice and any necessary upgrades (expansion tank, seismic bracing) would be prudent.",
+        "confidence": "high",
+        "detectedUpsells": [
+          {
+            "item": "Whole-house water filter",
+            "necessary": "rarely",
+            "typicalCost": [
+              500,
+              2000
+            ],
+            "notes": "Only if water quality test shows issues."
+          }
+        ],
+        "structuredRedFlags": [
+          {
+            "name": "no_license_number",
+            "severity": "high",
+            "explanation": "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+            "action": "Verify the state plumbing license number before any deposit. Most state boards have free online lookup."
+          },
+          {
+            "name": "no_line_item_breakdown",
+            "severity": "medium",
+            "explanation": "Single 'all-in' price with no parts/labor split. Prevents comparison shopping and hides markups on fixtures. Industry standard on any job over $500 is a line-item scope.",
+            "action": "Require parts list with quantities + labor hours + hourly rate as separate line items."
+          }
+        ],
+        "brandTier": {
+          "tier": "mid",
+          "brand": "Rheem",
+          "tierData": {
+            "brands": [
+              "Rheem",
+              "A.O. Smith",
+              "State"
+            ],
+            "low": 700,
+            "mid": 1100,
+            "high": 1600,
+            "notes": "Mainstream contractor-grade. 6-9 year tank warranty. Rheem Performance Plus / A.O. Smith ProLine sit here."
+          }
+        },
+        "stateLicensing": {
+          "state": "CA",
+          "statewide": true,
+          "board": "CSLB C-36 Plumbing Contractor",
+          "notes": "C-36 license; $25,000 bond; work over $500 requires license."
+        },
+        "utilityRebates": [
+          {
+            "utility": "SMUD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 3000,
+            "notes": "SMUD replaces gas-to-electric with $3k incentive.",
+            "active2026": true
+          },
+          {
+            "utility": "BayREN / BAAQMD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 2500,
+            "notes": "Gas-to-electric fuel-switch bonus in Bay Area.",
+            "active2026": true
+          },
+          {
+            "utility": "SoCalGas / SCE",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 1000,
+            "notes": "TECH Clean California program.",
+            "active2026": true
+          }
+        ],
+        "pricingContext": {
+          "state": "CA",
+          "stateMultiplier": 1.22,
+          "jobType": "water_heater_tank",
+          "jobLabel": "Water Heater (Tank)",
+          "urgency": "soon",
+          "expectedRange": {
+            "low": 976,
+            "high": 2440
+          },
+          "laborBenchmark": {
+            "quoted": 130,
+            "low": 75,
+            "mid": 110,
+            "high": 175,
+            "emergency": 200,
+            "assessment": "Above average"
+          },
+          "laborHoursBenchmark": {
+            "quoted": 2.5,
+            "expectedLow": 2,
+            "expectedHigh": 4,
+            "assessment": "Within typical range"
+          },
+          "partsBenchmark": {
+            "quoted": 909,
+            "expectedLow": 488,
+            "expectedHigh": 1464,
+            "assessment": "Within typical range"
+          },
+          "source": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys"
+        }
+      }
+    }
+  },
+  {
+    "label": "PLUMBING-CMP-02 Westside clean (synthetic)",
+    "sizeKB": 45,
+    "elapsed": "7.4",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "contractor": "WESTSIDE PLUMBING & DRAIN",
+        "totalPrice": 2553,
+        "jobType": "water_heater_tank",
+        "fixture": "Bradford White RG50T6N 50-gal gas water heater",
+        "brand": "Bradford White",
+        "modelNumber": "RG50T6N",
+        "fixtureSize": "50 gal",
+        "pipeType": null,
+        "laborRate": 135,
+        "laborHours": 4,
+        "laborTotal": 540,
+        "laborCost": 540,
+        "partsTotal": 1878,
+        "materialsTotal": 1878,
+        "diagnosticFee": null,
+        "emergencyFee": null,
+        "stateCode": "CA",
+        "warrantyPartsYears": 6,
+        "warrantyLaborYears": 1,
+        "warrantyParts": "6 years",
+        "warrantyLabor": "1 year on installation labor",
+        "lineItems": [
+          {
+            "description": "Bradford White RG250T6N 50-gal gas heater",
+            "laborCost": null,
+            "partsCost": 1295,
+            "lineTotal": 1295
+          },
+          {
+            "description": "Earthquake straps (CA code required)",
+            "laborCost": null,
+            "partsCost": 48,
+            "lineTotal": 48
+          },
+          {
+            "description": "Sediment trap, gas valve, T&P, drain pan",
+            "laborCost": null,
+            "partsCost": 145,
+            "lineTotal": 145
+          },
+          {
+            "description": "Expansion tank (5 gal)",
+            "laborCost": null,
+            "partsCost": 95,
+            "lineTotal": 95
+          },
+          {
+            "description": "New flex connectors and shutoff",
+            "laborCost": null,
+            "partsCost": 65,
+            "lineTotal": 65
+          },
+          {
+            "description": "Labor: 4 hours @ $135/hr",
+            "laborCost": 540,
+            "partsCost": null,
+            "lineTotal": 540
+          },
+          {
+            "description": "Disposal of old water heater",
+            "laborCost": null,
+            "partsCost": 85,
+            "lineTotal": 85
+          },
+          {
+            "description": "Permit and inspection",
+            "laborCost": null,
+            "partsCost": 135,
+            "lineTotal": 135
+          },
+          {
+            "description": "Sales tax",
+            "laborCost": null,
+            "partsCost": 145,
+            "lineTotal": 145
+          }
+        ],
+        "scopeItems": {
+          "laborRate": "yes",
+          "partsItemized": "yes",
+          "permit": "yes",
+          "warranty": "yes",
+          "cleanup": "yes",
+          "materialSpec": "no",
+          "codeCompliance": "yes",
+          "diagnosticFee": "no"
+        },
+        "possibleUpsells": [
+          "Expansion tank (5 gal) - included but often upsold",
+          "Sediment trap and T&P drain pan - standard but itemized separately"
+        ],
+        "redFlags": [
+          "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category."
+        ],
+        "summary": "Straightforward water heater replacement quote from an established LA contractor. All major components itemized: 50-gal Bradford White unit ($1,295), labor at $135/hr for 4 hours ($540), required CA earthquake straps, permit/inspection ($135), and old unit disposal ($85). Expansion tank and safety components included. Warranty solid: 6 years on tank, 1 year on labor. Price appears fair for the market and scope. No red flags; quote is transparent and complete.",
+        "confidence": "high",
+        "detectedUpsells": [
+          {
+            "item": "Camera inspection",
+            "necessary": "sometimes",
+            "typicalCost": [
+              100,
+              400
+            ],
+            "notes": "Useful for diagnosing hidden issues. Not needed for simple clogs."
+          },
+          {
+            "item": "Whole-house water filter",
+            "necessary": "rarely",
+            "typicalCost": [
+              500,
+              2000
+            ],
+            "notes": "Only if water quality test shows issues."
+          },
+          {
+            "item": "Expansion tank",
+            "necessary": "sometimes",
+            "typicalCost": [
+              200,
+              400
+            ],
+            "notes": "Required by code in some areas with closed water systems."
+          }
+        ],
+        "structuredRedFlags": [
+          {
+            "name": "no_license_number",
+            "severity": "high",
+            "explanation": "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+            "action": "Verify the state plumbing license number before any deposit. Most state boards have free online lookup."
+          },
+          {
+            "name": "no_line_item_breakdown",
+            "severity": "medium",
+            "explanation": "Single 'all-in' price with no parts/labor split. Prevents comparison shopping and hides markups on fixtures. Industry standard on any job over $500 is a line-item scope.",
+            "action": "Require parts list with quantities + labor hours + hourly rate as separate line items."
+          }
+        ],
+        "brandTier": {
+          "tier": "premium",
+          "brand": "Bradford White",
+          "tierData": {
+            "brands": [
+              "Bradford White",
+              "Rheem Professional",
+              "A.O. Smith ProLine XE"
+            ],
+            "low": 1100,
+            "mid": 1500,
+            "high": 2200,
+            "notes": "Contractor-exclusive (Bradford White is not sold to DIY). 10-year warranty, heavier steel, better anodes."
+          }
+        },
+        "stateLicensing": {
+          "state": "CA",
+          "statewide": true,
+          "board": "CSLB C-36 Plumbing Contractor",
+          "notes": "C-36 license; $25,000 bond; work over $500 requires license."
+        },
+        "utilityRebates": [
+          {
+            "utility": "SMUD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 3000,
+            "notes": "SMUD replaces gas-to-electric with $3k incentive.",
+            "active2026": true
+          },
+          {
+            "utility": "BayREN / BAAQMD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 2500,
+            "notes": "Gas-to-electric fuel-switch bonus in Bay Area.",
+            "active2026": true
+          },
+          {
+            "utility": "SoCalGas / SCE",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 1000,
+            "notes": "TECH Clean California program.",
+            "active2026": true
+          }
+        ],
+        "pricingContext": {
+          "state": "CA",
+          "stateMultiplier": 1.22,
+          "jobType": "water_heater_tank",
+          "jobLabel": "Water Heater (Tank)",
+          "urgency": "soon",
+          "expectedRange": {
+            "low": 976,
+            "high": 2440
+          },
+          "laborBenchmark": {
+            "quoted": 135,
+            "low": 75,
+            "mid": 110,
+            "high": 175,
+            "emergency": 200,
+            "assessment": "Above average"
+          },
+          "laborHoursBenchmark": {
+            "quoted": 4,
+            "expectedLow": 2,
+            "expectedHigh": 4,
+            "assessment": "Within typical range"
+          },
+          "partsBenchmark": {
+            "quoted": 1878,
+            "expectedLow": 488,
+            "expectedHigh": 1464,
+            "assessment": "Above typical range"
+          },
+          "source": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys"
+        }
+      }
+    }
+  },
+  {
+    "label": "PLUMBING-CMP-03 Premier clean (synthetic)",
+    "sizeKB": 45,
+    "elapsed": "8.6",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "contractor": "PREMIER HOME PLUMBING SOLUTIONS",
+        "totalPrice": 7571,
+        "jobType": "water_heater_tankless",
+        "fixture": "Rinnai RU199iN tankless water heater (gas)",
+        "brand": "Rinnai",
+        "modelNumber": "RU199iN",
+        "fixtureSize": null,
+        "pipeType": null,
+        "laborRate": 165,
+        "laborHours": 8,
+        "laborTotal": 1320,
+        "laborCost": 1320,
+        "partsTotal": 5410,
+        "materialsTotal": 5410,
+        "diagnosticFee": null,
+        "emergencyFee": null,
+        "stateCode": "CA",
+        "warrantyPartsYears": 12,
+        "warrantyLaborYears": 5,
+        "lineItems": [
+          {
+            "description": "Rinnai RU199iN tankless water heater (gas)",
+            "laborCost": null,
+            "partsCost": 2895,
+            "lineTotal": 2895
+          },
+          {
+            "description": "Stainless steel venting kit",
+            "laborCost": null,
+            "partsCost": 485,
+            "lineTotal": 485
+          },
+          {
+            "description": "New gas line upsizing (1/2 to 3/4)",
+            "laborCost": null,
+            "partsCost": 695,
+            "lineTotal": 695
+          },
+          {
+            "description": "Recirculation pump and dedicated return line",
+            "laborCost": null,
+            "partsCost": 895,
+            "lineTotal": 895
+          },
+          {
+            "description": "Earthquake straps and seismic bracing",
+            "laborCost": null,
+            "partsCost": 145,
+            "lineTotal": 145
+          },
+          {
+            "description": "Smart leak detection sensor",
+            "laborCost": null,
+            "partsCost": 295,
+            "lineTotal": 295
+          },
+          {
+            "description": "Labor: 8 hours, 2 plumbers @ $165/hr",
+            "laborCost": 1320,
+            "partsCost": null,
+            "lineTotal": 1320
+          },
+          {
+            "description": "Disposal, permit, gas inspection",
+            "laborCost": null,
+            "partsCost": 385,
+            "lineTotal": 385
+          }
+        ],
+        "scopeItems": {
+          "laborRate": "yes",
+          "partsItemized": "yes",
+          "permit": "yes",
+          "warranty": "yes",
+          "cleanup": "yes",
+          "materialSpec": "no",
+          "codeCompliance": "yes",
+          "diagnosticFee": "no"
+        },
+        "warrantyParts": "12 year tank warranty",
+        "warrantyLabor": "5 year labor warranty",
+        "possibleUpsells": [
+          "Recirculation pump and dedicated return line ($895) - adds convenience but increases complexity and cost",
+          "Smart leak detection sensor ($295) - optional advanced monitoring feature"
+        ],
+        "redFlags": [
+          "Gas line upsizing and gas inspection included, but no mention of pressure reducing valve (PRV) or backflow prevention",
+          "Recirculation system adds significant cost ($895) and complexity — confirm this is necessary for the home's layout",
+          "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category."
+        ],
+        "summary": "Comprehensive tankless water heater replacement estimate at $7,571 including equipment, installation labor (8 hours at $165/hr), gas line upsizing, venting kit, seismic bracing, smart leak detection, permits, and inspections. Rinnai RU199iN is a quality unit with strong 12-year parts and 5-year labor warranty. Price is on the higher end but reflects full-service scope with two plumbers, multiple upgrades (recirculation pump, smart sensor, seismic safety), and permits included. No red flags on transparency, though gas line safety features (PRV, backflow) not explicitly mentioned — confirm compliance before proceeding.",
+        "confidence": "high",
+        "detectedUpsells": [
+          {
+            "item": "Camera inspection",
+            "necessary": "sometimes",
+            "typicalCost": [
+              100,
+              400
+            ],
+            "notes": "Useful for diagnosing hidden issues. Not needed for simple clogs."
+          },
+          {
+            "item": "Whole-house water filter",
+            "necessary": "rarely",
+            "typicalCost": [
+              500,
+              2000
+            ],
+            "notes": "Only if water quality test shows issues."
+          },
+          {
+            "item": "Expansion tank",
+            "necessary": "sometimes",
+            "typicalCost": [
+              200,
+              400
+            ],
+            "notes": "Required by code in some areas with closed water systems."
+          }
+        ],
+        "structuredRedFlags": [
+          {
+            "name": "no_license_number",
+            "severity": "high",
+            "explanation": "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+            "action": "Verify the state plumbing license number before any deposit. Most state boards have free online lookup."
+          }
+        ],
+        "stateLicensing": {
+          "state": "CA",
+          "statewide": true,
+          "board": "CSLB C-36 Plumbing Contractor",
+          "notes": "C-36 license; $25,000 bond; work over $500 requires license."
+        },
+        "utilityRebates": [
+          {
+            "utility": "SMUD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 3000,
+            "notes": "SMUD replaces gas-to-electric with $3k incentive.",
+            "active2026": true
+          },
+          {
+            "utility": "BayREN / BAAQMD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 2500,
+            "notes": "Gas-to-electric fuel-switch bonus in Bay Area.",
+            "active2026": true
+          },
+          {
+            "utility": "SoCalGas / SCE",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 1000,
+            "notes": "TECH Clean California program.",
+            "active2026": true
+          }
+        ],
+        "pricingContext": {
+          "state": "CA",
+          "stateMultiplier": 1.22,
+          "jobType": "water_heater_tankless",
+          "jobLabel": "Water Heater (Tankless)",
+          "urgency": "soon",
+          "expectedRange": {
+            "low": 2440,
+            "high": 5490
+          },
+          "laborBenchmark": {
+            "quoted": 165,
+            "low": 75,
+            "mid": 110,
+            "high": 175,
+            "emergency": 200,
+            "assessment": "Above average"
+          },
+          "laborHoursBenchmark": {
+            "quoted": 8,
+            "expectedLow": 4,
+            "expectedHigh": 8,
+            "assessment": "Within typical range"
+          },
+          "partsBenchmark": {
+            "quoted": 5410,
+            "expectedLow": 1464,
+            "expectedHigh": 3660,
+            "assessment": "Above typical range"
+          },
+          "source": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys"
+        }
+      }
+    }
+  },
+  {
+    "label": "PLUMBING-MESSY-01 Budget messy (JPEG degraded)",
+    "sizeKB": 20,
+    "elapsed": "6.3",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "contractor": "BUDGET PLUMBING SERVICES",
+        "totalPrice": 1380,
+        "jobType": "water_heater_tank",
+        "fixture": "50-gallon gas water heater",
+        "brand": "Rheem",
+        "modelNumber": null,
+        "fixtureSize": "50 gal",
+        "pipeType": null,
+        "laborRate": null,
+        "laborHours": 2.5,
+        "laborTotal": 325,
+        "laborCost": 325,
+        "partsTotal": 909,
+        "materialsTotal": 909,
+        "diagnosticFee": null,
+        "emergencyFee": null,
+        "stateCode": "CA",
+        "warrantyPartsYears": 6,
+        "warrantyLaborYears": null,
+        "lineItems": [
+          {
+            "description": "Rheem Performance 50-gal natural gas water heater",
+            "laborCost": null,
+            "partsCost": 749,
+            "lineTotal": 749
+          },
+          {
+            "description": "New gas deck line, T&P valve, drain pan",
+            "laborCost": null,
+            "partsCost": 85,
+            "lineTotal": 85
+          },
+          {
+            "description": "Removal & disposal of old unit",
+            "laborCost": 75,
+            "partsCost": null,
+            "lineTotal": 75
+          },
+          {
+            "description": "Labor: 2.5 hours",
+            "laborCost": 325,
+            "partsCost": null,
+            "lineTotal": 325
+          },
+          {
+            "description": "Permit",
+            "laborCost": null,
+            "partsCost": 80,
+            "lineTotal": 80
+          },
+          {
+            "description": "Tax",
+            "laborCost": null,
+            "partsCost": 66,
+            "lineTotal": 66
+          }
+        ],
+        "scopeItems": {
+          "laborRate": "no",
+          "partsItemized": "yes",
+          "permit": "yes",
+          "warranty": "yes",
+          "cleanup": "yes",
+          "materialSpec": "no",
+          "codeCompliance": "unclear",
+          "diagnosticFee": "no"
+        },
+        "warrantyParts": "6 years",
+        "warrantyLabor": "30-day labor",
+        "possibleUpsells": [],
+        "redFlags": [
+          "No hourly labor rate disclosed; only total labor hours and cost shown",
+          "No pipe type specified for gas deck line installation",
+          "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category."
+        ],
+        "summary": "Straightforward 50-gallon gas water heater replacement quote from licensed Los Angeles plumber. Total of $1,380 includes Rheem unit ($749), materials ($85), labor ($325), permit ($80), and tax ($66). Includes 6-year tank warranty and 30-day labor warranty. Minor concern: hourly rate not disclosed and gas line pipe type not specified. Quote appears fair for the market and includes all essential items (permit, removal, disposal).",
+        "confidence": "high",
+        "detectedUpsells": [
+          {
+            "item": "Whole-house water filter",
+            "necessary": "rarely",
+            "typicalCost": [
+              500,
+              2000
+            ],
+            "notes": "Only if water quality test shows issues."
+          }
+        ],
+        "structuredRedFlags": [
+          {
+            "name": "no_license_number",
+            "severity": "high",
+            "explanation": "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+            "action": "Verify the state plumbing license number before any deposit. Most state boards have free online lookup."
+          },
+          {
+            "name": "expansion_tank_missing_closed_system",
+            "severity": "medium",
+            "explanation": "Water heater replacement on a closed system (PRV or backflow preventer present) requires a thermal expansion tank by code (IPC/UPC). Missing it will fail inspection and can rupture the tank under thermal expansion.",
+            "action": "Confirm whether home is on a closed system. If yes, require expansion tank line item ($200-$400 installed)."
+          },
+          {
+            "name": "no_line_item_breakdown",
+            "severity": "medium",
+            "explanation": "Single 'all-in' price with no parts/labor split. Prevents comparison shopping and hides markups on fixtures. Industry standard on any job over $500 is a line-item scope.",
+            "action": "Require parts list with quantities + labor hours + hourly rate as separate line items."
+          }
+        ],
+        "brandTier": {
+          "tier": "mid",
+          "brand": "Rheem",
+          "tierData": {
+            "brands": [
+              "Rheem",
+              "A.O. Smith",
+              "State"
+            ],
+            "low": 700,
+            "mid": 1100,
+            "high": 1600,
+            "notes": "Mainstream contractor-grade. 6-9 year tank warranty. Rheem Performance Plus / A.O. Smith ProLine sit here."
+          }
+        },
+        "stateLicensing": {
+          "state": "CA",
+          "statewide": true,
+          "board": "CSLB C-36 Plumbing Contractor",
+          "notes": "C-36 license; $25,000 bond; work over $500 requires license."
+        },
+        "utilityRebates": [
+          {
+            "utility": "SMUD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 3000,
+            "notes": "SMUD replaces gas-to-electric with $3k incentive.",
+            "active2026": true
+          },
+          {
+            "utility": "BayREN / BAAQMD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 2500,
+            "notes": "Gas-to-electric fuel-switch bonus in Bay Area.",
+            "active2026": true
+          },
+          {
+            "utility": "SoCalGas / SCE",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 1000,
+            "notes": "TECH Clean California program.",
+            "active2026": true
+          }
+        ],
+        "pricingContext": {
+          "state": "CA",
+          "stateMultiplier": 1.22,
+          "jobType": "water_heater_tank",
+          "jobLabel": "Water Heater (Tank)",
+          "urgency": "soon",
+          "expectedRange": {
+            "low": 976,
+            "high": 2440
+          },
+          "laborBenchmark": null,
+          "laborHoursBenchmark": {
+            "quoted": 2.5,
+            "expectedLow": 2,
+            "expectedHigh": 4,
+            "assessment": "Within typical range"
+          },
+          "partsBenchmark": {
+            "quoted": 909,
+            "expectedLow": 488,
+            "expectedHigh": 1464,
+            "assessment": "Within typical range"
+          },
+          "source": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys"
+        }
+      }
+    }
+  },
+  {
+    "label": "PLUMBING-MESSY-02 Westside messy (JPEG degraded)",
+    "sizeKB": 27,
+    "elapsed": "7.5",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "contractor": "Westside Plumbing & Drain",
+        "totalPrice": 2553,
+        "jobType": "water_heater_tank",
+        "fixture": "50-gal gas water heater",
+        "brand": "Bradford White",
+        "modelNumber": "RG250T6N",
+        "fixtureSize": "50 gal",
+        "pipeType": null,
+        "laborRate": 135,
+        "laborHours": 4,
+        "laborTotal": 540,
+        "laborCost": 540,
+        "partsTotal": 1878,
+        "materialsTotal": 1878,
+        "diagnosticFee": null,
+        "emergencyFee": null,
+        "stateCode": "CA",
+        "warrantyPartsYears": 6,
+        "warrantyLaborYears": 1,
+        "warrantyParts": "6 year tank warranty",
+        "warrantyLabor": "1 year on installation labor",
+        "lineItems": [
+          {
+            "description": "Bradford White RG250T6N 50-gal gas heater",
+            "laborCost": null,
+            "partsCost": 1295,
+            "lineTotal": 1295
+          },
+          {
+            "description": "Earthquake straps (CA code required)",
+            "laborCost": null,
+            "partsCost": 48,
+            "lineTotal": 48
+          },
+          {
+            "description": "Sediment trap, gas valve, T&P, drain pan",
+            "laborCost": null,
+            "partsCost": 145,
+            "lineTotal": 145
+          },
+          {
+            "description": "Expansion tank (5 gal)",
+            "laborCost": null,
+            "partsCost": 95,
+            "lineTotal": 95
+          },
+          {
+            "description": "New flex connectors and shutoff",
+            "laborCost": null,
+            "partsCost": 65,
+            "lineTotal": 65
+          },
+          {
+            "description": "Labor: 4 hours @ $135/hr",
+            "laborCost": 540,
+            "partsCost": null,
+            "lineTotal": 540
+          },
+          {
+            "description": "Disposal of old water heater",
+            "laborCost": null,
+            "partsCost": 85,
+            "lineTotal": 85
+          },
+          {
+            "description": "Permit and inspection",
+            "laborCost": null,
+            "partsCost": 135,
+            "lineTotal": 135
+          },
+          {
+            "description": "Sales tax",
+            "laborCost": null,
+            "partsCost": 145,
+            "lineTotal": 145
+          }
+        ],
+        "scopeItems": {
+          "laborRate": "yes",
+          "partsItemized": "yes",
+          "permit": "yes",
+          "warranty": "yes",
+          "cleanup": "yes",
+          "materialSpec": "no",
+          "codeCompliance": "yes",
+          "diagnosticFee": "no"
+        },
+        "possibleUpsells": [
+          "Expansion tank (5 gal) - already included but represents potential add-on value"
+        ],
+        "redFlags": [
+          "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category."
+        ],
+        "summary": "Standard gas water heater replacement quote for a 50-gallon Bradford White unit in Los Angeles. Quote is comprehensive and includes all necessary components (earthquake straps per CA code, sediment trap, expansion tank, new connectors, old unit disposal), permit and inspection, and warranty (6 years parts, 1 year labor). Labor rate of $135/hr is reasonable and 4-hour estimate is appropriate for standard installation. Total of $2,553 is mid-to-high range but justified by parts quality, full permitting, code compliance, and inclusion of all accessories. No red flags detected.",
+        "confidence": "high",
+        "detectedUpsells": [
+          {
+            "item": "Camera inspection",
+            "necessary": "sometimes",
+            "typicalCost": [
+              100,
+              400
+            ],
+            "notes": "Useful for diagnosing hidden issues. Not needed for simple clogs."
+          },
+          {
+            "item": "Whole-house water filter",
+            "necessary": "rarely",
+            "typicalCost": [
+              500,
+              2000
+            ],
+            "notes": "Only if water quality test shows issues."
+          },
+          {
+            "item": "Expansion tank",
+            "necessary": "sometimes",
+            "typicalCost": [
+              200,
+              400
+            ],
+            "notes": "Required by code in some areas with closed water systems."
+          }
+        ],
+        "structuredRedFlags": [
+          {
+            "name": "no_license_number",
+            "severity": "high",
+            "explanation": "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+            "action": "Verify the state plumbing license number before any deposit. Most state boards have free online lookup."
+          },
+          {
+            "name": "vague_scope_language",
+            "severity": "medium",
+            "explanation": "Verbal promises without written scope detail are unenforceable. 'Per standard installation' means nothing when the $600 change order arrives.",
+            "action": "Every promise goes on the contract or walk away."
+          }
+        ],
+        "brandTier": {
+          "tier": "premium",
+          "brand": "Bradford White",
+          "tierData": {
+            "brands": [
+              "Bradford White",
+              "Rheem Professional",
+              "A.O. Smith ProLine XE"
+            ],
+            "low": 1100,
+            "mid": 1500,
+            "high": 2200,
+            "notes": "Contractor-exclusive (Bradford White is not sold to DIY). 10-year warranty, heavier steel, better anodes."
+          }
+        },
+        "stateLicensing": {
+          "state": "CA",
+          "statewide": true,
+          "board": "CSLB C-36 Plumbing Contractor",
+          "notes": "C-36 license; $25,000 bond; work over $500 requires license."
+        },
+        "utilityRebates": [
+          {
+            "utility": "SMUD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 3000,
+            "notes": "SMUD replaces gas-to-electric with $3k incentive.",
+            "active2026": true
+          },
+          {
+            "utility": "BayREN / BAAQMD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 2500,
+            "notes": "Gas-to-electric fuel-switch bonus in Bay Area.",
+            "active2026": true
+          },
+          {
+            "utility": "SoCalGas / SCE",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 1000,
+            "notes": "TECH Clean California program.",
+            "active2026": true
+          }
+        ],
+        "pricingContext": {
+          "state": "CA",
+          "stateMultiplier": 1.22,
+          "jobType": "water_heater_tank",
+          "jobLabel": "Water Heater (Tank)",
+          "urgency": "soon",
+          "expectedRange": {
+            "low": 976,
+            "high": 2440
+          },
+          "laborBenchmark": {
+            "quoted": 135,
+            "low": 75,
+            "mid": 110,
+            "high": 175,
+            "emergency": 200,
+            "assessment": "Above average"
+          },
+          "laborHoursBenchmark": {
+            "quoted": 4,
+            "expectedLow": 2,
+            "expectedHigh": 4,
+            "assessment": "Within typical range"
+          },
+          "partsBenchmark": {
+            "quoted": 1878,
+            "expectedLow": 488,
+            "expectedHigh": 1464,
+            "assessment": "Above typical range"
+          },
+          "source": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys"
+        }
+      }
+    }
+  },
+  {
+    "label": "PLUMBING-MESSY-03 Premier messy (JPEG degraded)",
+    "sizeKB": 28,
+    "elapsed": "9.1",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "contractor": "Premier Home Plumbing Solutions",
+        "totalPrice": 7571,
+        "jobType": "water_heater_tankless",
+        "fixture": "Rinnai RU199iN tankless water heater (gas)",
+        "brand": "Rinnai",
+        "modelNumber": "RU199iN",
+        "fixtureSize": null,
+        "pipeType": null,
+        "laborRate": 165,
+        "laborHours": 8,
+        "laborTotal": 1320,
+        "laborCost": 1320,
+        "partsTotal": 6235,
+        "materialsTotal": 6235,
+        "diagnosticFee": null,
+        "emergencyFee": null,
+        "stateCode": "CA",
+        "warrantyPartsYears": 12,
+        "warrantyLaborYears": 5,
+        "lineItems": [
+          {
+            "description": "Rinnai RU199iN tankless water heater (gas)",
+            "laborCost": null,
+            "partsCost": 2895,
+            "lineTotal": 2895
+          },
+          {
+            "description": "Stainless steel venting kit",
+            "laborCost": null,
+            "partsCost": 485,
+            "lineTotal": 485
+          },
+          {
+            "description": "New gas line upsize (1/2 to 3/4)",
+            "laborCost": null,
+            "partsCost": 695,
+            "lineTotal": 695
+          },
+          {
+            "description": "Recirculation pump and dedicated return line",
+            "laborCost": null,
+            "partsCost": 895,
+            "lineTotal": 895
+          },
+          {
+            "description": "Earthquake straps and seismic bracing",
+            "laborCost": null,
+            "partsCost": 145,
+            "lineTotal": 145
+          },
+          {
+            "description": "Smart leak detection sensor",
+            "laborCost": null,
+            "partsCost": 295,
+            "lineTotal": 295
+          },
+          {
+            "description": "Labor: 8 hours, 2 plumbers @ $165/hr",
+            "laborCost": 1320,
+            "partsCost": null,
+            "lineTotal": 1320
+          },
+          {
+            "description": "Disposal, permit, gas inspection",
+            "laborCost": null,
+            "partsCost": 385,
+            "lineTotal": 385
+          }
+        ],
+        "scopeItems": {
+          "laborRate": "yes",
+          "partsItemized": "yes",
+          "permit": "yes",
+          "warranty": "yes",
+          "cleanup": "yes",
+          "materialSpec": "no",
+          "codeCompliance": "yes",
+          "diagnosticFee": "no"
+        },
+        "warrantyParts": "12 years",
+        "warrantyLabor": "5 years",
+        "possibleUpsells": [
+          "Smart leak detection sensor ($295) - may be unnecessary depending on existing water monitoring",
+          "Recirculation pump ($895) - increases cost and energy use; necessary only if hot water delivery distance is problematic",
+          "Earthquake straps and seismic bracing ($145) - required in CA but should be standard; verify if code-mandated"
+        ],
+        "redFlags": [
+          "Pipe type for gas line upsize not specified (should verify if copper, PEX, or CSST)",
+          "No mention of expansion tank, which is typically required for tankless water heater installations",
+          "No specification of venting materials beyond 'stainless steel' — appropriate vent sizing and routing should be confirmed",
+          "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category."
+        ],
+        "summary": "Tankless water heater replacement quote totaling $7,571 for a Rinnai RU199iN unit with comprehensive installation including gas line upsize, venting, recirculation pump, and smart leak detection. Labor rate of $165/hr for 8 hours (2 plumbers) is reasonable for the Los Angeles area. Quote includes permits and gas inspection. Strong warranty coverage (12 years parts, 5 years labor). However, several best-practice items are not explicitly addressed (expansion tank, detailed pipe/vent specifications, backflow prevention). The recirculation pump and leak detection sensor may be upsells rather than necessities depending on customer needs. Overall pricing appears in line with premium tankless installations in West Hollywood, but recommend verifying all code-required safety items are included.",
+        "confidence": "high",
+        "detectedUpsells": [
+          {
+            "item": "Camera inspection",
+            "necessary": "sometimes",
+            "typicalCost": [
+              100,
+              400
+            ],
+            "notes": "Useful for diagnosing hidden issues. Not needed for simple clogs."
+          },
+          {
+            "item": "Whole-house water filter",
+            "necessary": "rarely",
+            "typicalCost": [
+              500,
+              2000
+            ],
+            "notes": "Only if water quality test shows issues."
+          },
+          {
+            "item": "Expansion tank",
+            "necessary": "sometimes",
+            "typicalCost": [
+              200,
+              400
+            ],
+            "notes": "Required by code in some areas with closed water systems."
+          }
+        ],
+        "structuredRedFlags": [
+          {
+            "name": "no_license_number",
+            "severity": "high",
+            "explanation": "No state plumbing license number on the quote. Plumbing is licensed statewide in 45+ states. Unlicensed plumbing work voids insurance claims and can't be permitted or inspected. AARP lists unlicensed home services as a top-5 elder fraud category.",
+            "action": "Verify the state plumbing license number before any deposit. Most state boards have free online lookup."
+          }
+        ],
+        "stateLicensing": {
+          "state": "CA",
+          "statewide": true,
+          "board": "CSLB C-36 Plumbing Contractor",
+          "notes": "C-36 license; $25,000 bond; work over $500 requires license."
+        },
+        "utilityRebates": [
+          {
+            "utility": "SMUD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 3000,
+            "notes": "SMUD replaces gas-to-electric with $3k incentive.",
+            "active2026": true
+          },
+          {
+            "utility": "BayREN / BAAQMD",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 2500,
+            "notes": "Gas-to-electric fuel-switch bonus in Bay Area.",
+            "active2026": true
+          },
+          {
+            "utility": "SoCalGas / SCE",
+            "states": [
+              "CA"
+            ],
+            "measure": "heat_pump_water_heater",
+            "amount": 1000,
+            "notes": "TECH Clean California program.",
+            "active2026": true
+          }
+        ],
+        "pricingContext": {
+          "state": "CA",
+          "stateMultiplier": 1.22,
+          "jobType": "water_heater_tankless",
+          "jobLabel": "Water Heater (Tankless)",
+          "urgency": "soon",
+          "expectedRange": {
+            "low": 2440,
+            "high": 5490
+          },
+          "laborBenchmark": {
+            "quoted": 165,
+            "low": 75,
+            "mid": 110,
+            "high": 175,
+            "emergency": 200,
+            "assessment": "Above average"
+          },
+          "laborHoursBenchmark": {
+            "quoted": 8,
+            "expectedLow": 4,
+            "expectedHigh": 8,
+            "assessment": "Within typical range"
+          },
+          "partsBenchmark": {
+            "quoted": 6235,
+            "expectedLow": 1464,
+            "expectedHigh": 3660,
+            "assessment": "Above typical range"
+          },
+          "source": "HomeAdvisor, Angi, BLS SOC 47-2152, contractor surveys"
+        }
+      }
+    }
+  },
+  {
+    "label": "ROOFING-CMP-01 Budget clean (synthetic)",
+    "sizeKB": 49,
+    "elapsed": "1.9",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "price": 7565,
+        "material": "architectural",
+        "materialLabel": "Owens Corning Oakridge Architectural Shingles",
+        "contractor": "Budget Roofing Co",
+        "city": "Greensboro",
+        "stateCode": "NC",
+        "roofSize": 2200,
+        "warrantyYears": 25,
+        "warranty": "Owens Corning 25-yr shingle warranty, 1-yr labor",
+        "scopeItems": {
+          "tearOff": "included",
+          "underlayment": "included",
+          "flashing": "included",
+          "iceShield": "unclear",
+          "dripEdge": "included",
+          "ventilation": "unclear",
+          "ridgeVent": "included",
+          "starterStrip": "included",
+          "ridgeCap": "included",
+          "decking": "unclear",
+          "disposal": "included",
+          "permit": "included"
+        },
+        "pricingContext": {
+          "city": "Greensboro",
+          "state": "NC",
+          "multiplier": 0.928,
+          "laborMult": 0.896,
+          "materialsMult": 0.929,
+          "population": 279639,
+          "source": "city_direct"
+        }
+      }
+    }
+  },
+  {
+    "label": "ROOFING-CMP-02 Heritage clean (synthetic)",
+    "sizeKB": 52,
+    "elapsed": "1.9",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "price": 11895,
+        "material": "architectural",
+        "materialLabel": "CertainTeed Landmark Pro Architectural Shingles",
+        "contractor": "Heritage Roofing & Exteriors",
+        "city": null,
+        "stateCode": null,
+        "roofSize": null,
+        "warrantyYears": 50,
+        "warranty": "CertainTeed SureStart Plus 50-yr warranty + 5-yr labor",
+        "scopeItems": {
+          "tearOff": "included",
+          "underlayment": "included",
+          "flashing": "included",
+          "iceShield": "included",
+          "dripEdge": "included",
+          "ventilation": "included",
+          "ridgeVent": "included",
+          "starterStrip": "included",
+          "ridgeCap": "included",
+          "decking": "included",
+          "disposal": "included",
+          "permit": "included"
+        }
+      }
+    }
+  },
+  {
+    "label": "ROOFING-CMP-03 Pinnacle clean (synthetic)",
+    "sizeKB": 58,
+    "elapsed": "2.1",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "price": 17500,
+        "material": "architectural",
+        "materialLabel": "GAF Timberline HDZ Lifetime architectural shingles",
+        "contractor": "Pinnacle Premium Roofing",
+        "city": null,
+        "stateCode": null,
+        "roofSize": null,
+        "warrantyYears": 50,
+        "warranty": "GAF Golden Pledge 50-year non-prorated + 25-yr labor; includes Master Elite quality assurance audit",
+        "scopeItems": {
+          "tearOff": "included",
+          "underlayment": "included",
+          "flashing": "included",
+          "iceShield": "included",
+          "dripEdge": "included",
+          "ventilation": "included",
+          "ridgeVent": "included",
+          "starterStrip": "included",
+          "ridgeCap": "included",
+          "decking": "included",
+          "disposal": "included",
+          "permit": "included"
+        }
+      }
+    }
+  },
+  {
+    "label": "ROOFING-MESSY-01 Budget messy (JPEG degraded)",
+    "sizeKB": 29,
+    "elapsed": "2.7",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "price": 7565,
+        "material": "architectural",
+        "materialLabel": "Owens Corning Oakridge Architectural Shingles",
+        "contractor": "Budget Roofing Co",
+        "city": "Greensboro",
+        "stateCode": "NC",
+        "roofSize": 2200,
+        "warrantyYears": 25,
+        "warranty": "Owens Corning 25-year shingle warranty, 1-year labor",
+        "scopeItems": {
+          "tearOff": "included",
+          "underlayment": "included",
+          "flashing": "included",
+          "iceShield": "unclear",
+          "dripEdge": "included",
+          "ventilation": "included",
+          "ridgeVent": "included",
+          "starterStrip": "included",
+          "ridgeCap": "included",
+          "decking": "unclear",
+          "disposal": "included",
+          "permit": "included"
+        },
+        "pricingContext": {
+          "city": "Greensboro",
+          "state": "NC",
+          "multiplier": 0.928,
+          "laborMult": 0.896,
+          "materialsMult": 0.929,
+          "population": 279639,
+          "source": "city_direct"
+        }
+      }
+    }
+  },
+  {
+    "label": "ROOFING-MESSY-02 Heritage messy (JPEG degraded)",
+    "sizeKB": 31,
+    "elapsed": "2.1",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "price": 11895,
+        "material": "architectural",
+        "materialLabel": "CertainTeed Landmark Pro Architectural Shingles",
+        "contractor": "Heritage Roofing & Exteriors",
+        "city": null,
+        "stateCode": null,
+        "roofSize": null,
+        "warrantyYears": 50,
+        "warranty": "CertainTeed SureStart Plus 50-yr warranty = 5-yr labor",
+        "scopeItems": {
+          "tearOff": "included",
+          "underlayment": "included",
+          "flashing": "included",
+          "iceShield": "included",
+          "dripEdge": "included",
+          "ventilation": "included",
+          "ridgeVent": "included",
+          "starterStrip": "included",
+          "ridgeCap": "included",
+          "decking": "included",
+          "disposal": "included",
+          "permit": "included"
+        }
+      }
+    }
+  },
+  {
+    "label": "ROOFING-MESSY-03 Pinnacle messy (JPEG degraded)",
+    "sizeKB": 35,
+    "elapsed": "1.8",
+    "data": {
+      "success": true,
+      "source": "claude-haiku",
+      "data": {
+        "price": 17500,
+        "material": "architectural",
+        "materialLabel": "GAF Timberline HDZ Lifetime Architectural Shingles",
+        "contractor": "Pinnacle Premium Roofing",
+        "city": null,
+        "stateCode": null,
+        "roofSize": null,
+        "warrantyYears": 50,
+        "warranty": "GAF Golden Pledge 50-year non-prorated warranty + 25-yr labor",
+        "scopeItems": {
+          "tearOff": "included",
+          "underlayment": "included",
+          "flashing": "included",
+          "iceShield": "included",
+          "dripEdge": "included",
+          "ventilation": "included",
+          "ridgeVent": "included",
+          "starterStrip": "included",
+          "ridgeCap": "included",
+          "decking": "included",
+          "disposal": "included",
+          "permit": "included"
+        }
+      }
+    }
+  }
+]

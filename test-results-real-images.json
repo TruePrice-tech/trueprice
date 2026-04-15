@@ -1,0 +1,222 @@
+[
+  {
+    "vertical": "plumbing",
+    "file": "01-did-i-get-ripped-off.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "Did i get ripped off?",
+    "status": "NO PRICE",
+    "elapsed": 39.2,
+    "ocrLen": 2103,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "02-contractor-says-1800-to-move-water-supply-into-the.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": 1800,
+    "title": "Contractor says $1800 to move water supply into the wall, plumber says should be",
+    "status": "NO PRICE",
+    "elapsed": 80.6,
+    "ocrLen": 6526,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "03-did-i-get-a-i-dont-want-to-do-this-quote.jpeg",
+    "extractedPrice": 133553,
+    "hintPrice": null,
+    "title": "Did I get a “I don’t want to do this” quote?",
+    "status": "FOUND",
+    "elapsed": 55.5,
+    "ocrLen": 3959,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "04-is-this-normal.jpeg",
+    "extractedPrice": 5515,
+    "hintPrice": null,
+    "title": "Is this normal?",
+    "status": "FOUND",
+    "elapsed": 74.7,
+    "ocrLen": 5366,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "05-plumber-has-refused-to-quote-to-fix-this-shower-ta.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "Plumber has refused to quote to fix this shower tap that’s become stiff to opera",
+    "status": "NO PRICE",
+    "elapsed": 10.1,
+    "ocrLen": 202,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "06-help-me-understand-the-invoicenote-from-a-plumber.jpeg",
+    "extractedPrice": 581,
+    "hintPrice": null,
+    "title": "Help me understand the invoice/note from a plumber",
+    "status": "FOUND",
+    "elapsed": 37.4,
+    "ocrLen": 3349,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "07-my-water-bill-in-the-past-few-months-has-doubled-f.jpg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "My water bill in the past few months has doubled from a leak somewhere. Ive had ",
+    "status": "TIMEOUT",
+    "elapsed": 91.3,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "08-4-plumber-quotes---2-say-abs-2-say-pvc--why.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "4 plumber quotes - 2 say ABS, 2 say PVC- why?",
+    "status": "TIMEOUT",
+    "elapsed": 91.6,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "09-is-she-right-is-this-an-absurd-quote.jpg",
+    "extractedPrice": 881,
+    "hintPrice": null,
+    "title": "Is she right? Is this an absurd quote?",
+    "status": "FOUND",
+    "elapsed": 13.1,
+    "ocrLen": 955,
+    "jsErrors": []
+  },
+  {
+    "vertical": "plumbing",
+    "file": "10-is-this-estimate-crazy-or-am-i.jpeg",
+    "extractedPrice": 6950,
+    "hintPrice": null,
+    "title": "Is This Estimate Crazy or Am I?",
+    "status": "FOUND",
+    "elapsed": 10,
+    "ocrLen": 574,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "01-can-this-be-done-for-8500.png",
+    "extractedPrice": 0,
+    "hintPrice": 8500,
+    "title": "Can this be done for $8500 ?",
+    "status": "NO PRICE",
+    "elapsed": 31.1,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "02-is-it-normal-for-roofers-to-remove-shingles-as-par.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "Is it normal for roofers to remove shingles as part of an 'inspection' before gi",
+    "status": "NO PRICE",
+    "elapsed": 31.1,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "03-how-over-priced-is-this-estimate-for-a-metal-roof.jpeg",
+    "extractedPrice": 136375,
+    "hintPrice": null,
+    "title": "How over priced is this estimate for a metal roof ",
+    "status": "FOUND",
+    "elapsed": 12.8,
+    "ocrLen": 1142,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "04-just-got-a-quote-for-105k-for-new-roof.png",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "Just got a quote for 105k for new roof ...",
+    "status": "NO PRICE",
+    "elapsed": 31.1,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "05-does-this-quote-seem-reasonable-i-know-nothing-abo.jpeg",
+    "extractedPrice": 7,
+    "hintPrice": null,
+    "title": "Does this quote seem reasonable? I know nothing about roofing. Seems high",
+    "status": "FOUND",
+    "elapsed": 16,
+    "ocrLen": 125,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "06-is-decking-gonna-be-ok.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "Is decking gonna be ok?",
+    "status": "NO PRICE",
+    "elapsed": 31.1,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "07-2000sqft-home-roof-estimate-is-this-a-decent-price.jpg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "2000sqft Home Roof Estimate, is this a decent price?",
+    "status": "NO PRICE",
+    "elapsed": 31.1,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "08-tariffs.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "Tariffs",
+    "status": "NO PRICE",
+    "elapsed": 30.9,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "09-advice---roofers-quoted-2k-to-fix-their-mistake.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": null,
+    "title": "Advice - Roofers quoted 2K to fix their mistake (?)",
+    "status": "NO PRICE",
+    "elapsed": 31.4,
+    "ocrLen": 0,
+    "jsErrors": []
+  },
+  {
+    "vertical": "roofing",
+    "file": "10-7100-later-you-guys-were-right-this-was-the-least.jpeg",
+    "extractedPrice": 0,
+    "hintPrice": 7100,
+    "title": "$7,100 later... You guys were right this was the least satisfying purchase I eve",
+    "status": "NO PRICE",
+    "elapsed": 31.1,
+    "ocrLen": 0,
+    "jsErrors": []
+  }
+]
