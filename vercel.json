@@ -152,6 +152,11 @@
       "permanent": true
     },
     {
+      "source": "/:id(\\d+)-roof-cost.html",
+      "destination": "/roofing-estimate.html",
+      "permanent": true
+    },
+    {
       "source": "/gable-roof-cost-:city-:state.html",
       "destination": "/architectural-roof-cost-:city-:state.html",
       "permanent": true
