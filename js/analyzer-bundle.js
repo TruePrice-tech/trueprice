@@ -1,3 +1,4 @@
+// === js/analyzer-core.js ===
 let cityPricingData = [];
 let cityPricingIndex = new Map();
 let latestAnalysis = null;
@@ -32,11 +33,15 @@ let lastParsedData = {
   rawText: "",
   extractionMethod: "",
   extractedTextLength: 0
+
 };
+
 function setUploadStatus(message, type = "info", percent = null) {
   const el = document.getElementById("uploadStatus");
   if (!el) return;
+
   let progressHtml = "";
+
   if (typeof percent === "number") {
     progressHtml = `
       <div class="upload-progress">
@@ -44,17 +49,20 @@ function setUploadStatus(message, type = "info", percent = null) {
       </div>
     `;
   }
+
   el.className = `upload-status ${type}`;
   el.innerHTML = `
     <div>${message}</div>
     ${progressHtml}
   `;
 }
+
 const STATE_CODES = [
   "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
   "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","DC"
 ];
+
 const CITY_ALIASES = {
   "st louis": "saint louis",
   "st. louis": "saint louis",
@@ -69,6 +77,7 @@ const CITY_ALIASES = {
   "oklahoma city city": "oklahoma city",
   "kansas city city": "kansas city"
 };
+
 const MATERIAL_PATTERNS = [
   {
     value: "metal",
@@ -101,12 +110,15 @@ const MATERIAL_PATTERNS = [
     patterns: [/\bmetal\s+(?:roof|roofing|panel|system)\b/]
   }
 ];
+
 if (typeof window !== "undefined") window.MATERIAL_PATTERNS = MATERIAL_PATTERNS;
+
 function formatCurrency(value) {
   const num = Number(value);
   if (!isFinite(num)) return "$0";
   return "$" + Math.round(num).toLocaleString();
 }
+
 function escapeHtml(text) {
   return String(text)
     .replaceAll("&", "&amp;")
@@ -115,18 +127,21 @@ function escapeHtml(text) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
 function titleCase(value) {
   return String(value || "")
     .toLowerCase()
     .replace(/\b\w/g, c => c.toUpperCase())
     .replace(/\bUsa\b/g, "USA");
 }
+
 function normalizeWhitespace(text) {
   return String(text || "")
     .replace(/\s+/g, " ")
     .replace(/[|]+/g, " ")
     .trim();
 }
+
 function normalizeCityName(city) {
   let value = String(city || "").toLowerCase().trim();
   value = value.replace(/[.,]/g, " ");
@@ -140,16 +155,20 @@ function normalizeCityName(city) {
   }
   return value;
 }
+
 function buildCityKey(city, stateCode) {
   return `${normalizeCityName(city)}|${String(stateCode || "").trim().toUpperCase()}`;
 }
+
 function findCityPricing(city, stateCode) {
   const normalizedState = String(stateCode || "").trim().toUpperCase();
   if (!normalizedState) return null;
+
   const exactKey = buildCityKey(city, normalizedState);
   if (cityPricingIndex.has(exactKey)) {
     return cityPricingIndex.get(exactKey);
   }
+
   const cityNormalized = normalizeCityName(city);
   for (const [key, value] of cityPricingIndex.entries()) {
     const [cityKey, stateKey] = key.split("|");
@@ -160,44 +179,60 @@ function findCityPricing(city, stateCode) {
       return value;
     }
   }
+
   return null;
 }
+
 function getNearestSizeLabel(cityPricing, roofSize) {
   const sizeLabels = Object.keys(cityPricing.sizes || {});
   let bestLabel = sizeLabels[0] || "";
   let smallestDiff = Infinity;
+
   for (const label of sizeLabels) {
     const numericSize = parseInt(String(label).replace(/[^\d]/g, ""), 10);
     if (!numericSize) continue;
+
     const diff = Math.abs(numericSize - roofSize);
     if (diff < smallestDiff) {
       smallestDiff = diff;
       bestLabel = label;
     }
   }
+
   return bestLabel;
 }
+
 function getMaterialBenchmarkPerSqFt(material) {
   const benchmarks = {
-    architectural: 6.35,
-    asphalt: 5.10,
-    metal: 10.50,
-    tile: 13.75
+    asphalt: 3.30,              // 3-tab budget
+    architectural: 5.25,        // architectural mid (GAF HDZ, OC Duration, CertainTeed Landmark)
+    architectural_premium: 6.00, // architectural premium (Malarkey Vista, GAF AS II)
+    designer: 8.25,             // designer/luxury (GAF Grand Canyon, OC Berkshire)
+    metal: 13.00,               // standing seam metal
+    metal_corrugated: 9.50,     // corrugated/exposed fastener metal
+    tile: 13.50,                // concrete tile
+    cedar: 8.50,
+    flat: 6.00
   };
-  return benchmarks[material] || 6.35;
+  return benchmarks[material] || 5.25;
 }
+
 function getVerdictClass(verdict) {
   return String(verdict || "unknown").toLowerCase().replace(/\s+/g, "-");
 }
+
 function getMaterialLabel(material) {
   const materialLabelMap = {
     architectural: "architectural shingles",
     asphalt: "asphalt shingles",
     metal: "metal roofing",
-    tile: "tile roofing"
+    tile: "tile roofing",
+    cedar: "cedar shake",
+    flat: "flat / TPO roofing"
   };
   return materialLabelMap[material] || "roofing";
 }
+
 function getSignalHtml(status) {
   if (status === "included") {
     return '<span class="good-text">✓ Included</span>';
@@ -207,34 +242,41 @@ function getSignalHtml(status) {
   }
   return '<span class="warn-text">⚠ Unclear</span>';
 }
+
 function buildPill(text) {
   return `<span class="pill">${escapeHtml(text)}</span>`;
 }
+
 function getConfidenceLabel(score) {
   if (score >= 75) return "High";
   if (score >= 45) return "Medium";
   return "Low";
 }
+
 function getConfidenceClass(score) {
   if (score >= 75) return "high";
   if (score >= 45) return "medium";
   return "low";
 }
+
 function formatNumber(value) {
   const num = Number(value);
   if (!isFinite(num)) return "";
   return num.toLocaleString();
 }
+
 function toFiniteNumber(value) {
   if (value === null || value === undefined || value === "") return null;
   const num = Number(String(value).replace(/,/g, "").trim());
   return Number.isFinite(num) ? num : null;
 }
+
 function normalizeRoofSizeValue(value) {
   const num = toFiniteNumber(value);
   if (!num || num <= 0) return null;
   return Math.round(num);
 }
+
 function normalizeAddressInput(address = {}) {
   const street = String(address?.street || "").trim();
   const city = String(address?.city || "").trim();
@@ -243,6 +285,7 @@ function normalizeAddressInput(address = {}) {
   const fullAddress =
     String(address?.fullAddress || "").trim() ||
     [street, city, stateCode, zip].filter(Boolean).join(", ");
+
   return {
     street,
     city,
@@ -251,16 +294,20 @@ function normalizeAddressInput(address = {}) {
     fullAddress
   };
 }
+
 function hasUsableAddress(address = {}) {
   const normalized = normalizeAddressInput(address);
+
   return !!(
     (normalized.street && normalized.city && normalized.stateCode) ||
     (normalized.street && normalized.zip) ||
     (normalized.city && normalized.stateCode && normalized.zip)
   );
 }
+
 function buildPropertyAddressKey(address = {}) {
   const normalized = normalizeAddressInput(address);
+
   return [
     String(normalized.street || "").toLowerCase().trim(),
     String(normalized.city || "").toLowerCase().trim(),
@@ -268,29 +315,37 @@ function buildPropertyAddressKey(address = {}) {
     String(normalized.zip || "").trim()
   ].join("|");
 }
+
 function getCachedPropertyRoofSignals(address = {}) {
   try {
     const key = buildPropertyAddressKey(address);
     if (!key) return null;
+
     const raw = localStorage.getItem(`tp_property_signals:${key}`);
     if (!raw) return null;
+
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object") return null;
+
     const createdAt = Number(parsed.createdAt || 0);
-    const maxAgeMs = 1000 * 60 * 60 * 24 * 30; 
+    const maxAgeMs = 1000 * 60 * 60 * 24 * 30; // 30 days
+
     if (!createdAt || Date.now() - createdAt > maxAgeMs) {
       localStorage.removeItem(`tp_property_signals:${key}`);
       return null;
     }
+
     return parsed.data || null;
   } catch {
     return null;
   }
 }
+
 function setCachedPropertyRoofSignals(address = {}, data = null) {
   try {
     const key = buildPropertyAddressKey(address);
     if (!key || !data) return;
+
     localStorage.setItem(
       `tp_property_signals:${key}`,
       JSON.stringify({
@@ -299,13 +354,17 @@ function setCachedPropertyRoofSignals(address = {}, data = null) {
       })
     );
   } catch {
+    // ignore cache failures
   }
 }
+
 async function fetchPropertyRoofSignalsFromApi(address = {}) {
   const normalized = normalizeAddressInput(address);
+
   if (!hasUsableAddress(normalized)) {
     return null;
   }
+
   try {
     const response = await fetch("/api/property-signals", {
       method: "POST",
@@ -314,29 +373,38 @@ async function fetchPropertyRoofSignalsFromApi(address = {}) {
       },
       body: JSON.stringify(normalized)
     });
+
     if (!response.ok) {
       return null;
     }
+
     const payload = await response.json();
+
     if (!payload || !payload.success || !payload.data) {
       return null;
     }
+
     return payload.data;
   } catch {
     return null;
   }
 }
+
 function clampNumber(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
+
 function getRoofSizeMaterialBenchmark(material) {
   const normalized = String(material || "").toLowerCase().trim();
+
   if (normalized.includes("architectural")) return getMaterialBenchmarkPerSqFt("architectural");
   if (normalized.includes("asphalt")) return getMaterialBenchmarkPerSqFt("asphalt");
   if (normalized.includes("metal")) return getMaterialBenchmarkPerSqFt("metal");
   if (normalized.includes("tile")) return getMaterialBenchmarkPerSqFt("tile");
+
   return getMaterialBenchmarkPerSqFt("architectural");
 }
+
 function getRoofSizeEstimateBenchmark({
   city,
   stateCode,
@@ -345,25 +413,31 @@ function getRoofSizeEstimateBenchmark({
   tearOffFactor = 1
 }) {
   let benchmarkPerSqFt = getRoofSizeMaterialBenchmark(material);
+
   if (typeof findCityPricing === "function" && city && stateCode) {
     const cityPricing = findCityPricing(city, stateCode);
+
     if (cityPricing?.sizes) {
      const sizeKeys = Object.keys(cityPricing.sizes || {});
      const mids = [];
+
      const normalizedMaterial =
        String(material || "").toLowerCase().includes("architectural") ? "architectural" :
        String(material || "").toLowerCase().includes("asphalt") ? "asphalt" :
        String(material || "").toLowerCase().includes("metal") ? "metal" :
        String(material || "").toLowerCase().includes("tile") ? "tile" :
        "architectural";
+
       sizeKeys.forEach(sizeKey => {
         const bucket = cityPricing.sizes?.[sizeKey];
         const numericSize = Number(String(sizeKey).replace(/[^\d]/g, ""));
         const bucketMid = Number(bucket?.[normalizedMaterial]?.mid || 0);
+
         if (numericSize > 0 && bucketMid > 0) {
           mids.push(bucketMid / numericSize);
         }
       });
+
       if (mids.length) {
         const avg = mids.reduce((sum, value) => sum + value, 0) / mids.length;
         if (isFinite(avg) && avg > 0) {
@@ -372,12 +446,15 @@ function getRoofSizeEstimateBenchmark({
       }
     }
   }
+
   const adjustedBenchmark = benchmarkPerSqFt * Number(complexityFactor || 1) * Number(tearOffFactor || 1);
+
   return {
     baseBenchmarkPerSqFt: benchmarkPerSqFt,
     adjustedBenchmarkPerSqFt: adjustedBenchmark > 0 ? adjustedBenchmark : benchmarkPerSqFt
   };
 }
+
 function calculateRoofSizeEstimateConfidence({
     estimatedRoofSize,
     parsedRoofSize,
@@ -389,6 +466,7 @@ function calculateRoofSizeEstimateConfidence({
   }) {
     let score = 68;
     const reasons = [];
+
     if (!estimatedRoofSize || estimatedRoofSize <= 0) {
       return {
         confidence: "Low",
@@ -396,6 +474,7 @@ function calculateRoofSizeEstimateConfidence({
         reasons: ["Roof size estimate could not be generated."]
       };
     }
+
     if (city && stateCode) {
       score += 8;
     } else if (stateCode) {
@@ -404,16 +483,20 @@ function calculateRoofSizeEstimateConfidence({
     } else {
       reasons.push("No location data was available, so general pricing benchmarks were used.");
     }
+
     if (!quotePrice || quotePrice <= 0) {
       score -= 30;
       reasons.push("Quote price was missing or invalid.");
     }
+
     if (!benchmarkPerSqFt || benchmarkPerSqFt <= 0) {
       score -= 20;
       reasons.push("Benchmark pricing was unavailable.");
     }
+
     if (parsedRoofSize && parsedRoofSize > 0) {
       const diffPct = Math.abs(parsedRoofSize - estimatedRoofSize) / parsedRoofSize;
+
       if (diffPct <= 0.1) {
         score += 12;
       } else if (diffPct <= 0.2) {
@@ -428,21 +511,25 @@ function calculateRoofSizeEstimateConfidence({
     } else {
       reasons.push("No parsed roof size was available for cross-checking.");
     }
+
     const validation = validateRoofSizeCandidate({
       roofSize: estimatedRoofSize,
       price: quotePrice,
       material
     });
+
     score = Math.min(score, validation.confidenceScore + 8);
     score = Math.max(score, 20);
     score = Math.min(score, 92);
     score = Math.round(score);
+
     return {
       confidence: getConfidenceLabel(score),
       confidenceScore: score,
       reasons: [...reasons, ...(validation.reasons || [])]
     };
   }
+
   function estimateRoofSizeFromPrice({
     price,
     material,
@@ -453,6 +540,7 @@ function calculateRoofSizeEstimateConfidence({
   }) {
     const numericPrice = toFiniteNumber(price);
     if (!numericPrice || numericPrice <= 0) return null;
+
     const benchmarkInfo = getRoofSizeEstimateBenchmark({
       city,
       stateCode,
@@ -460,20 +548,25 @@ function calculateRoofSizeEstimateConfidence({
       complexityFactor,
       tearOffFactor
     });
+
     const benchmarkPerSqFt = benchmarkInfo.adjustedBenchmarkPerSqFt;
     if (!benchmarkPerSqFt || benchmarkPerSqFt <= 0) return null;
+
     const estimated = numericPrice / benchmarkPerSqFt;
     if (!isFinite(estimated) || estimated <= 0) return null;
+
     return {
       roofSize: Math.round(estimated),
       benchmarkPerSqFt,
       baseBenchmarkPerSqFt: benchmarkInfo.baseBenchmarkPerSqFt
     };
   }
+
 function validateRoofSizeCandidate({ roofSize, price, material }) {
   const numericRoofSize = normalizeRoofSizeValue(roofSize);
   const numericPrice = toFiniteNumber(price);
   const benchmarkPerSqFt = getRoofSizeMaterialBenchmark(material);
+
   if (!numericRoofSize) {
     return {
       isValid: false,
@@ -484,8 +577,10 @@ function validateRoofSizeCandidate({ roofSize, price, material }) {
       reasons: ["Roof size was not available."]
     };
   }
+
   const reasons = [];
   let confidenceScore = 70;
+
   if (numericRoofSize < 600) {
     reasons.push("Roof size is below the normal range for a full roof replacement.");
     confidenceScore -= 30;
@@ -493,6 +588,7 @@ function validateRoofSizeCandidate({ roofSize, price, material }) {
     reasons.push("Roof size is on the small side and may need review.");
     confidenceScore -= 12;
   }
+
   if (numericRoofSize > 8000) {
     reasons.push("Roof size is above the normal range and may need review.");
     confidenceScore -= 30;
@@ -500,9 +596,12 @@ function validateRoofSizeCandidate({ roofSize, price, material }) {
     reasons.push("Roof size is unusually large and should be sanity checked.");
     confidenceScore -= 12;
   }
+
   let pricePerSqFt = null;
+
   if (numericPrice && numericPrice > 0) {
     pricePerSqFt = numericPrice / numericRoofSize;
+
     if (pricePerSqFt < 2) {
       reasons.push("Implied price per sq ft is extremely low.");
       confidenceScore -= 28;
@@ -510,6 +609,7 @@ function validateRoofSizeCandidate({ roofSize, price, material }) {
       reasons.push("Implied price per sq ft is somewhat low.");
       confidenceScore -= 14;
     }
+
     if (pricePerSqFt > 30) {
       reasons.push("Implied price per sq ft is extremely high.");
       confidenceScore -= 28;
@@ -517,8 +617,10 @@ function validateRoofSizeCandidate({ roofSize, price, material }) {
       reasons.push("Implied price per sq ft is somewhat high.");
       confidenceScore -= 14;
     }
+
     if (benchmarkPerSqFt && benchmarkPerSqFt > 0) {
       const ratio = pricePerSqFt / benchmarkPerSqFt;
+
       if (ratio < 0.55) {
         reasons.push("Implied price is far below expected benchmark pricing.");
         confidenceScore -= 18;
@@ -526,6 +628,7 @@ function validateRoofSizeCandidate({ roofSize, price, material }) {
         reasons.push("Implied price is somewhat below expected benchmark pricing.");
         confidenceScore -= 8;
       }
+
       if (ratio > 2.2) {
         reasons.push("Implied price is far above expected benchmark pricing.");
         confidenceScore -= 18;
@@ -538,7 +641,9 @@ function validateRoofSizeCandidate({ roofSize, price, material }) {
     reasons.push("Quote price was not available for validation.");
     confidenceScore -= 10;
   }
+
   confidenceScore = Math.round(clampNumber(confidenceScore, 0, 100));
+
   return {
     isValid: confidenceScore >= 45,
     confidenceScore,
@@ -548,6 +653,7 @@ function validateRoofSizeCandidate({ roofSize, price, material }) {
     reasons
   };
 }
+
 function getRoofSizeReasoning({
   usedUserInput,
   usedParsedValue,
@@ -560,23 +666,30 @@ function getRoofSizeReasoning({
   if (usedUserInput) {
     return `Using user-provided roof size of ${formatNumber(roofSize)} sq ft.`;
   }
+
   if (usedParsedValue) {
     return `Using roof size detected from the uploaded quote: ${formatNumber(roofSize)} sq ft.`;
   }
+
   if (usedEstimatedValue) {
     const priceText = toFiniteNumber(price) ? formatCurrency(price) : "the quote price";
     const materialText = getMaterialLabel(material);
     let base = `Estimated roof size at ${formatNumber(roofSize)} sq ft from ${priceText} using typical ${materialText} benchmark pricing.`;
+
     if (validation?.reasons?.length) {
       base += ` Validation notes: ${validation.reasons.join(" ")}`;
     }
+
     return base;
   }
+
   if (validation?.reasons?.length) {
     return validation.reasons.join(" ");
   }
+
   return "No reliable roof size was available from user input, parsed quote data, or estimation fallback.";
 }
+
 function evaluateRoofSizeDisagreement({
   parsedRoofSize,
   estimatedRoofSize,
@@ -585,6 +698,7 @@ function evaluateRoofSizeDisagreement({
 }) {
   const parsedValue = normalizeRoofSizeValue(parsedRoofSize);
   const estimatedValue = normalizeRoofSizeValue(estimatedRoofSize);
+
   if (!parsedValue || !estimatedValue) {
     return {
       hasDisagreement: false,
@@ -593,9 +707,12 @@ function evaluateRoofSizeDisagreement({
       message: ""
     };
   }
+
   const diffPct = Math.abs(parsedValue - estimatedValue) / parsedValue;
+
   let severity = "none";
   let message = "";
+
   if (diffPct > 0.35) {
     severity = "high";
     message = "Detected roof size differs materially from the modeled estimate and may need review.";
@@ -603,6 +720,7 @@ function evaluateRoofSizeDisagreement({
     severity = "medium";
     message = "Detected roof size differs somewhat from the modeled estimate.";
   }
+
   if (!severity || severity === "none") {
     return {
       hasDisagreement: false,
@@ -611,11 +729,13 @@ function evaluateRoofSizeDisagreement({
       message: ""
     };
   }
+
   const parsedValidation = validateRoofSizeCandidate({
     roofSize: parsedValue,
     price: quotePrice,
     material
   });
+
   return {
     hasDisagreement: true,
     severity,
@@ -624,15 +744,18 @@ function evaluateRoofSizeDisagreement({
     parsedValidation
   };
 }
+
 function buildRoofSizeConsistencySummary(signals = {}) {
   const parsed = normalizeRoofSizeValue(signals.parsed);
   const property = normalizeRoofSizeValue(signals.property);
   const priceImplied = normalizeRoofSizeValue(signals.priceImplied);
+
   const available = [
     { key: "parsed", label: "Quote", value: parsed },
     { key: "property", label: "Property", value: property },
     { key: "priceImplied", label: "Price model", value: priceImplied }
   ].filter(item => item.value);
+
   if (available.length < 2) {
     return {
       hasConflict: false,
@@ -641,14 +764,17 @@ function buildRoofSizeConsistencySummary(signals = {}) {
       details: []
     };
   }
+
   const details = [];
   let maxDiffPct = 0;
+
   for (let i = 0; i < available.length; i++) {
     for (let j = i + 1; j < available.length; j++) {
       const a = available[i];
       const b = available[j];
       const diffPct = Math.abs(a.value - b.value) / Math.max(a.value, b.value);
       maxDiffPct = Math.max(maxDiffPct, diffPct);
+
       details.push({
         pair: `${a.key}_vs_${b.key}`,
         label: `${a.label} vs ${b.label}`,
@@ -658,8 +784,10 @@ function buildRoofSizeConsistencySummary(signals = {}) {
       });
     }
   }
+
   let severity = "none";
   let summary = "";
+
   if (maxDiffPct > 0.3) {
     severity = "high";
     summary = "Roof size signals differ materially and should be reviewed before relying on the result.";
@@ -670,6 +798,7 @@ function buildRoofSizeConsistencySummary(signals = {}) {
     severity = "low";
     summary = "Available roof size signals are reasonably aligned.";
   }
+
   return {
     hasConflict: severity === "medium" || severity === "high",
     severity,
@@ -677,12 +806,16 @@ function buildRoofSizeConsistencySummary(signals = {}) {
     details
   };
 }
+
 async function lookupPropertyRoofSignals(address = {}) {
   const normalized = normalizeAddressInput(address);
+
   if (!hasUsableAddress(normalized)) {
     return null;
   }
+
   const key = buildPropertyAddressKey(normalized);
+
   const cached = getCachedPropertyRoofSignals(normalized);
   if (cached) {
     return {
@@ -692,6 +825,7 @@ async function lookupPropertyRoofSignals(address = {}) {
       cacheHit: true
     };
   }
+
   const apiResult = await fetchPropertyRoofSignalsFromApi(normalized);
   if (apiResult) {
     const normalizedApiResult = {
@@ -700,35 +834,44 @@ async function lookupPropertyRoofSignals(address = {}) {
       fullAddress: normalized.fullAddress,
       source: apiResult.source || "property_api"
     };
+
     setCachedPropertyRoofSignals(normalized, normalizedApiResult);
     return normalizedApiResult;
   }
+
     return null;
 }
+
 function estimateRoofSizeFromLivingAreaFallback({
     propertySignals,
     complexityFactor = 1,
     tearOffFactor = 1
   }) {
     if (!propertySignals) return null;
+
     const livingAreaSqFt = normalizeRoofSizeValue(
       propertySignals?.livingAreaSqFt || propertySignals?.livingArea || null
     );
+
     if (!livingAreaSqFt || livingAreaSqFt <= 0) {
       return null;
     }
+
     const estimatedRoofSize = Math.round(
       livingAreaSqFt * 1.3 * Number(complexityFactor || 1) * Number(tearOffFactor || 1)
     );
+
     if (!estimatedRoofSize || estimatedRoofSize <= 0) {
       return null;
     }
+
     return {
       roofSize: estimatedRoofSize,
       livingAreaSqFt,
       method: "living_area_x_1_3"
     };
   }
+
 function estimateRoofSizeFromPropertySignals({
   propertySignals,
   quotePrice,
@@ -737,13 +880,16 @@ function estimateRoofSizeFromPropertySignals({
   tearOffFactor = 1
 }) {
   if (!propertySignals) return null;
+
   const footprintSqFt = toFiniteNumber(propertySignals?.footprintSqFt);
   const livingAreaSqFt = toFiniteNumber(propertySignals?.livingAreaSqFt);
   const stories = toFiniteNumber(propertySignals?.stories) || 1;
   const propertyType = String(propertySignals?.propertyType || "").toLowerCase().trim();
+
   let baseArea = null;
   let method = "";
   let sourceQuality = String(propertySignals?.sourceQuality || "unknown").toLowerCase();
+
   if (footprintSqFt && footprintSqFt > 0) {
     baseArea = footprintSqFt;
     method = "footprint";
@@ -751,12 +897,15 @@ function estimateRoofSizeFromPropertySignals({
     baseArea = livingAreaSqFt / Math.max(stories, 1);
     method = "living_area_proxy";
   }
+
   if (!baseArea || baseArea <= 0) {
     return null;
   }
+
   let pitchFactor = 1.12;
   let complexityMultiplier = Number(complexityFactor || 1);
   let tearOffMultiplier = Number(tearOffFactor || 1);
+
   if (
     propertyType.includes("townhome") ||
     propertyType.includes("condo") ||
@@ -765,12 +914,15 @@ function estimateRoofSizeFromPropertySignals({
     pitchFactor = 1.08;
     sourceQuality = "low";
   }
+
   const estimatedRoofSize = Math.round(
     baseArea * pitchFactor * complexityMultiplier * tearOffMultiplier
   );
+
   if (!estimatedRoofSize || estimatedRoofSize <= 0) {
     return null;
   }
+
   const benchmarkInfo = getRoofSizeEstimateBenchmark({
     city: propertySignals?.city || "",
     stateCode: propertySignals?.stateCode || "",
@@ -778,6 +930,7 @@ function estimateRoofSizeFromPropertySignals({
     complexityFactor,
     tearOffFactor
   });
+
   const candidateCount = Number(
     propertySignals?.candidateCount ||
     propertySignals?.buildingCandidateCount ||
@@ -785,6 +938,7 @@ function estimateRoofSizeFromPropertySignals({
     propertySignals?.buildings?.length ||
     0
   );
+
   const buildingMatchQuality =
     String(
       propertySignals?.buildingMatchQuality ||
@@ -792,23 +946,28 @@ function estimateRoofSizeFromPropertySignals({
       propertySignals?.sourceQuality ||
       "unknown"
     ).toLowerCase();
+
   const geocodeMatchQuality =
     String(
       propertySignals?.geocodeMatchQuality ||
       propertySignals?.geocodeQuality ||
       "unknown"
     ).toLowerCase();
+
   const ambiguousBuildingMatch =
     !!propertySignals?.ambiguousBuildingMatch ||
     !!propertySignals?.ambiguous ||
     candidateCount > 1;
+
   const confidenceModifier =
     Number(propertySignals?.confidenceModifier || 0);
+
   const selectedBuilding =
     propertySignals?.selectedBuilding ||
     propertySignals?.matchedBuilding ||
     propertySignals?.building ||
     null;
+
   return {
     roofSize: estimatedRoofSize,
     benchmarkPerSqFt: benchmarkInfo.adjustedBenchmarkPerSqFt,
@@ -829,23 +988,28 @@ function estimateRoofSizeFromPropertySignals({
     }
   };
 }
+
 async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
   const normalizedAddress = normalizeAddressInput(address);
   const userRoofSize = normalizeRoofSizeValue(userInput?.roofSize);
   const parsedRoofSize = normalizeRoofSizeValue(parsed?.roofSize);
   const quotePrice = toFiniteNumber(userInput?.quotePrice || parsed?.price);
   const material = userInput?.material || parsed?.material || "architectural";
+
   const city = normalizedAddress?.city || parsed?.city || "";
   const stateCode = normalizedAddress?.stateCode || parsed?.stateCode || "";
   const complexityFactor = Number(userInput?.complexityFactor || 1);
   const tearOffFactor = Number(userInput?.tearOffFactor || 1);
+
   if (userRoofSize) {
     const validation = validateRoofSizeCandidate({
       roofSize: userRoofSize,
       price: quotePrice,
       material
     });
+
     const confidenceScore = Math.max(validation.confidenceScore, 88);
+
     return {
       roofSize: userRoofSize,
       confidence: getConfidenceLabel(confidenceScore),
@@ -869,12 +1033,14 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
       }
     };
   }
+
   if (parsedRoofSize) {
     const validation = validateRoofSizeCandidate({
       roofSize: parsedRoofSize,
       price: quotePrice,
       material
     });
+
     const estimatedCrossCheck = estimateRoofSizeFromPrice({
       price: quotePrice,
       material,
@@ -883,13 +1049,16 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
       complexityFactor,
       tearOffFactor
     });
+
     const disagreement = evaluateRoofSizeDisagreement({
       parsedRoofSize,
       estimatedRoofSize: estimatedCrossCheck?.roofSize || null,
       quotePrice,
       material
     });
+
     let confidenceScore = Math.max(validation.confidenceScore, 62);
+
     if (disagreement.hasDisagreement) {
       if (disagreement.severity === "high") {
         confidenceScore = Math.min(confidenceScore, 52);
@@ -897,6 +1066,7 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
         confidenceScore = Math.min(confidenceScore, 64);
       }
     }
+
     const reasoningValidation = {
       ...validation,
       reasons: [
@@ -904,6 +1074,7 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
         ...(disagreement?.message ? [disagreement.message] : [])
       ]
     };
+
     return {
       roofSize: parsedRoofSize,
       confidence: getConfidenceLabel(confidenceScore),
@@ -939,9 +1110,12 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
       }
     };
   }
+
     const hasAddressSignal = hasUsableAddress(normalizedAddress);
+
       if (hasAddressSignal) {
         const propertySignals = await lookupPropertyRoofSignals(normalizedAddress);
+
         const propertyEstimate = estimateRoofSizeFromPropertySignals({
           propertySignals,
           quotePrice,
@@ -949,17 +1123,21 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
           complexityFactor,
           tearOffFactor
         });
+
         if (propertyEstimate?.roofSize) {
           const validation = validateRoofSizeCandidate({
             roofSize: propertyEstimate.roofSize,
             price: quotePrice,
             material
           });
+
           const propertySignalsMeta = propertyEstimate?.meta?.propertySignals || {};
           const livingAreaSqFt = normalizeRoofSizeValue(
             propertySignals?.livingAreaSqFt || propertySignals?.livingArea || null
           );
+
           let confidenceScore = Math.max(validation.confidenceScore, 54);
+
           if (propertyEstimate.sourceQuality === "high") {
             confidenceScore = Math.max(confidenceScore, 78);
           } else if (propertyEstimate.sourceQuality === "medium") {
@@ -967,6 +1145,7 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
           } else {
             confidenceScore = Math.max(confidenceScore, 54);
           }
+
           if (propertySignalsMeta.buildingMatchQuality === "high") {
             confidenceScore += 10;
           } else if (
@@ -975,13 +1154,17 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
           ) {
             confidenceScore -= 8;
           }
+
           if (propertySignalsMeta.ambiguous) {
             confidenceScore -= 20;
           }
+
           if (isFinite(Number(propertySignalsMeta.confidenceModifier))) {
             confidenceScore += Number(propertySignalsMeta.confidenceModifier);
           }
+
           confidenceScore = Math.round(clampNumber(confidenceScore, 0, 88));
+
           return {
             roofSize: propertyEstimate.roofSize,
             confidence: getConfidenceLabel(confidenceScore),
@@ -1029,20 +1212,25 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
              }
             };
            }
+
+          // ---------- LIVING AREA FALLBACK ----------
           const livingAreaFallback = estimateRoofSizeFromLivingAreaFallback({
             propertySignals,
             complexityFactor,
             tearOffFactor
           });
+
           if (livingAreaFallback?.roofSize) {
             const validation = validateRoofSizeCandidate({
               roofSize: livingAreaFallback.roofSize,
               price: quotePrice,
               material
             });
+
             const confidenceScore = Math.round(
               clampNumber(Math.max(validation.confidenceScore, 58), 50, 72)
             );
+
             return {
               roofSize: livingAreaFallback.roofSize,
               confidence: getConfidenceLabel(confidenceScore),
@@ -1105,6 +1293,8 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
             };
           }
         }
+
+        // ---------- PRICE BASED FALLBACK ----------
         const priceBasedEstimate = estimateRoofSizeFromPrice({
           price: quotePrice,
           material,
@@ -1113,12 +1303,14 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
           complexityFactor,
           tearOffFactor
         });
+
         if (priceBasedEstimate?.roofSize) {
           const validation = validateRoofSizeCandidate({
             roofSize: priceBasedEstimate.roofSize,
             price: quotePrice,
             material
           });
+
           const estimateConfidence = calculateRoofSizeEstimateConfidence({
             estimatedRoofSize: priceBasedEstimate.roofSize,
             parsedRoofSize,
@@ -1128,6 +1320,7 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
             city,
             stateCode
           });
+
           return {
             roofSize: priceBasedEstimate.roofSize,
             confidence: estimateConfidence.confidence,
@@ -1163,11 +1356,14 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
             }
           };
         }
+
+          // ---------- FINAL FALLBACK ----------
         const validation = validateRoofSizeCandidate({
           roofSize: null,
           price: quotePrice,
           material
         });
+
         return {
           roofSize: null,
           confidence: validation.confidence,
@@ -1193,6 +1389,8 @@ async function estimateRoofSize({ address = {}, parsed = {}, userInput = {} }) {
           }
         };
       }
+ 
+
 window.estimateRoofSizeFromPropertySignals = estimateRoofSizeFromPropertySignals;
 window.estimateRoofSizeFromLivingAreaFallback = estimateRoofSizeFromLivingAreaFallback;
 window.buildPropertyAddressKey = buildPropertyAddressKey;
@@ -1200,6 +1398,8 @@ window.getCachedPropertyRoofSignals = getCachedPropertyRoofSignals;
 window.setCachedPropertyRoofSignals = setCachedPropertyRoofSignals;
 window.fetchPropertyRoofSignalsFromApi = fetchPropertyRoofSignalsFromApi;
 window.buildRoofSizeConsistencySummary = buildRoofSizeConsistencySummary;
+
+
 function normalizeEvidence(text) {
   return normalizeWhitespace(text).slice(0, 120);
 }
@@ -1211,79 +1411,109 @@ function shouldPromoteAddress(parsed) {
     addr.stateCode
   );
 }
+// === js/analyzer-parser.js ===
 function classifyMoneyLine(lineText = "") {
   const line = String(lineText || "").toLowerCase();
+
   if (/grand total|final total|proposal total|contract total|project total|total estimated cost|estimate total|total estimate/.test(line)) {
     return "strong_total";
   }
+
   if (/amount due|total due|contract price|total cost|project amount|total investment/.test(line)) {
     return "medium_total";
   }
+
   if (/balance due|remaining balance|balance at completion/.test(line)) {
     return "balance";
   }
+
   if (/subtotal/.test(line)) {
     return "subtotal";
   }
+
   if (/deductible|deductible credit|deposit|down payment|rebate|discount|coupon|allowance|actual cash value|acv|depreciation/.test(line)) {
     return "non_total_money";
   }
+
   if (/qty|quantity|unit price|unit cost|per square|per sq|per sheet|per bundle|per item|sales tax|tax amount/.test(line)) {
     return "table_money";
   }
+
   return "generic";
 }
+
 function scoreMoneyCandidate(value, contextText, lineText = "") {
   let score = 50;
+
   const ctx = String(contextText || "").toLowerCase();
   const line = String(lineText || "").toLowerCase();
   const lineClass = classifyMoneyLine(line);
+
   const totalPhraseRegex =
     /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|final total|final amount|amount due|amount owed|total due|total estimated cost|totol estimated cost|project amount|total investment|total cost/;
+
   const datePhraseRegex =
     /invoice date|due date|payment due date|proposal date|issue date|issued|date issued|expires|expiration date|valid through|valid until|date|signed on|customer signature date/;
+
   const lineItemRegex =
     /qty|quantity|unit price|unit cost|per square|per sq|per sheet|per bundle|per item|sales tax|tax amount/;
+
   const nonTotalMoneyRegex =
     /deductible|deposit|down payment|monthly|finance|payment|allowance|rebate|coupon|discount|remaining balance|balance at completion|balance due|actual cash value|acv|depreciation/;
+
   const roofSizeRegex =
     /roof size|roof area|sq\.?\s*f[tf]|square feet|square foot|\bsf\b|\bsquares\b/;
+
   const datePatternRegex =
     /\b\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{2,4}\b|\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\b/;
+
   if (totalPhraseRegex.test(ctx)) {
     score += 140;
   } else if (/subtotal/.test(ctx)) {
     score -= 20;
-  } else if (/\btotal\b/.test(ctx) && value >= 3000 && value <= 100000) {
+  } else if (/\btotal\b/.test(ctx) && value >= 3000 && value <= 500000) {
+    // Standalone "TOTAL" near a plausible roof price — strong signal
     score += 120;
   } else if (/total|price|cost|amount|proposal|contract|investment/.test(ctx)) {
     score += 25;
   }
+
   if (totalPhraseRegex.test(line)) score += 180;
   if (/grand total|contract total|proposal total|final total|amount due|total due/.test(line)) score += 80;
+
   if (/subtotal/.test(line)) score -= 40;
+
   const hasStrongTotalContext =
     totalPhraseRegex.test(ctx) ||
     totalPhraseRegex.test(line) ||
     /total estimate|estimate total/.test(ctx) ||
     /total estimate|estimate total/.test(line);
+
   if (roofSizeRegex.test(ctx) && !hasStrongTotalContext) score -= 180;
   if (roofSizeRegex.test(line) && !hasStrongTotalContext) score -= 260;
+
   if (/phone|tel|fax|mobile|call/.test(ctx)) score -= 80;
   if (/\b(zip|zipcode|zip code|address|property address|mailing address)\b/.test(ctx)) score -= 180;
   if (/\b(account|claim number|policy number)\b/.test(ctx)) score -= 40;
   if (/license|lic #|license #|proposal number|estimate number|invoice number|reference number|check number/.test(ctx)) score -= 160;
   if (/license|lic #|license #|proposal number|estimate number|invoice number|reference number|check number/.test(line)) score -= 220;
+
+  // DocuSign envelope IDs, UUIDs, and hex strings should never be prices
   if (/envelope\s*id|docusign|[0-9a-f]{8}-[0-9a-f]{4}/i.test(ctx)) score -= 300;
   if (/envelope\s*id|docusign|[0-9a-f]{8}-[0-9a-f]{4}/i.test(line)) score -= 300;
+
   if (nonTotalMoneyRegex.test(ctx)) score -= 70;
   if (nonTotalMoneyRegex.test(line)) score -= 90;
+
   if (lineItemRegex.test(ctx)) score -= 20;
   if (lineItemRegex.test(line)) score -= 35;
+
   if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(ctx)) score -= 120;
+
   if (Number.isInteger(value) && value >= 2024 && value <= 2035) {
     score -= 220;
   }
+
   if (
     Number.isInteger(value) &&
     value >= 2024 &&
@@ -1292,21 +1522,26 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
   ) {
     score -= 260;
   }
+
   if (datePhraseRegex.test(ctx)) score -= 90;
   if (datePhraseRegex.test(line)) score -= 130;
   if (datePatternRegex.test(ctx)) score -= 50;
   if (datePatternRegex.test(line)) score -= 80;
+
   if (lineClass === "strong_total") score += 220;
   if (lineClass === "medium_total") score += 90;
   if (lineClass === "balance") score -= 70;
   if (lineClass === "subtotal") score -= 80;
   if (lineClass === "non_total_money") score -= 140;
   if (lineClass === "table_money") score -= 100;
+
   if (value < 500) score -= 60;
   if (value >= 500 && value < 1500) score -= 40;
   else if (value < 2000) score -= 20;
-  else if (value >= 3000 && value <= 100000) score += 20;
+  else if (value >= 3000 && value <= 500000) score += 20;
+
   if (value > 250000) score -= 80;
+
   if (
     Number.isInteger(value) &&
     value >= 10000 &&
@@ -1316,132 +1551,196 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
   ) {
     score -= 320;
   }
+
   return score;
 }
+
 function normalizeOcrNumberString(raw) {
   let value = String(raw || "").trim();
+
   const original = value;
+
   const looksNumericish =
     /^[\s$.,OIlSBZAoilsbgzaGg|]+$/.test(value) ||
     /[\d]/.test(value) ||
     /[$,\.]/.test(value);
+
   if (!looksNumericish) {
     return "";
   }
+
   value = value
     .replace(/[Oo]/g, "0")
     .replace(/[Il|]/g, "1")
     .replace(/[Ss]/g, "5")
     .replace(/[Bb]/g, "8")
     .replace(/[Zz]/g, "2");
+
   const hasMostlyDigitsAfterLightRepair =
     (value.match(/\d/g) || []).length >= Math.max(2, Math.floor(original.length * 0.4));
+
   if (hasMostlyDigitsAfterLightRepair) {
     value = value.replace(/[Gg]/g, "9");
   }
+
   value = value.replace(/[^\d.,\s]/g, "");
+
   return value.replace(/[^\d]/g, "");
 }
+
 function parseMoneyToNumber(value) {
   if (value == null) return NaN;
+
   const cleaned = String(value)
     .replace(/[^0-9.,]/g, "")
     .trim();
+
   if (!cleaned) return NaN;
+
   const normalized = cleaned.includes(",") && cleaned.includes(".")
     ? cleaned.replace(/,/g, "")
     : cleaned.replace(/,/g, "");
+
   const num = Number(normalized);
   return isFinite(num) ? num : NaN;
 }
+
 function parsePossiblyBrokenMoney(raw) {
   const repaired = normalizeOcrNumberString(raw);
   if (!repaired) return NaN;
+
   const num = Number(repaired);
   return isFinite(num) ? num : NaN;
 }
+
 function repairBrokenLeadingMoney(raw, contextText = "") {
   const text = String(raw || "").trim();
   const ctx = String(contextText || "").toLowerCase();
+
   if (!/^[,.\s]\d{3,4}$/.test(text) && !/^\$?\s*[,\.]\d{3,4}$/.test(text)) {
     return NaN;
   }
+
   const digits = text.replace(/[^\d]/g, "");
   if (!digits) return NaN;
+
   if (/grand total|total estimated cost|proposal total|contract total|total due|amount due|total cost|final total/.test(ctx)) {
     const repaired8 = Number("8" + digits);
     if (isFinite(repaired8) && repaired8 >= 3000 && repaired8 <= 250000) return repaired8;
+
     const repaired9 = Number("9" + digits);
     if (isFinite(repaired9) && repaired9 >= 3000 && repaired9 <= 250000) return repaired9;
+
     const repaired1 = Number("1" + digits);
     if (isFinite(repaired1) && repaired1 >= 3000 && repaired1 <= 250000) return repaired1;
   }
+
   return NaN;
 }
+
 function parseMoneyLikeValue(raw, contextText = "") {
   const trimmed = String(raw || "").trim();
   const isBrokenLeadingFragment =
     /^[,\.]\d{3,4}$/.test(trimmed) || /^\$?\s*[,\.]\d{3,4}$/.test(trimmed);
+
   const hasOcrLikeLetters = /[OIlSBGZAoilsbgza]/.test(trimmed);
+
   const direct = parseMoneyToNumber(raw);
+
   if (isBrokenLeadingFragment) {
     const brokenLeading = repairBrokenLeadingMoney(raw, contextText);
     if (isFinite(brokenLeading) && brokenLeading >= 500) return brokenLeading;
+
     const repaired = parsePossiblyBrokenMoney(raw);
     if (isFinite(repaired) && repaired >= 500) return repaired;
+
     return NaN;
   }
+
   if (hasOcrLikeLetters) {
     const repaired = parsePossiblyBrokenMoney(raw);
     if (isFinite(repaired) && repaired >= 500) {
       return repaired;
     }
   }
+
   if (isFinite(direct) && direct >= 500) return direct;
+
   const repaired = parsePossiblyBrokenMoney(raw);
   if (isFinite(repaired) && repaired >= 500) return repaired;
+
   const brokenLeading = repairBrokenLeadingMoney(raw, contextText);
   if (isFinite(brokenLeading) && brokenLeading >= 500) return brokenLeading;
+
   return NaN;
 }
+
+// Defensive helper: normalize evidence/context strings before storing on
+// candidates. Was referenced 6 times below but never defined — likely
+// removed by an earlier console.log cleanup commit. Stub it back so the
+// parser doesn't ReferenceError on any extraction call.
+function normalizeEvidence(value) {
+  if (value == null) return "";
+  return String(value).replace(/\s+/g, " ").trim().slice(0, 240);
+}
+
+// Collapse all whitespace runs to single spaces and trim. Was referenced
+// in detectLocation, detectContractor, detectMaterial etc but never defined
+// — same root cause as normalizeEvidence and MATERIAL_PATTERNS missing.
+function normalizeWhitespace(value) {
+  if (value == null) return "";
+  return String(value).replace(/\s+/g, " ").trim();
+}
+
 function extractPriceCandidates(text) {
   const candidates = [];
   const seen = new Set();
   const source = String(text || "");
+
   const regex =
     /\$?\s?[0-9OIlSBGZAoilsbgza]{1,3}(?:[.,][0-9OIlSBGZAoilsbgza]{3})+(?:[.,][0-9OIlSBGZAoilsbgza]{2})?|\$?\s?[0-9OIlSBGZAoilsbgza]{4,6}(?:[.,][0-9OIlSBGZAoilsbgza]{2})?/g;
+
   let match;
+
   while ((match = regex.exec(source)) !== null) {
     const matchText = match[0];
     const trimmedMatchText = matchText.trim();
     const isPlainZipLikeToken = /^\d{5}$/.test(trimmedMatchText);
     const start = match.index;
     const end = match.index + matchText.length;
+
     if (/^[,\.]\d{3,4}$/.test(trimmedMatchText) || /^\$\s*[,\.]\d{3,4}$/.test(trimmedMatchText)) {
       continue;
     }
+
     const contextStart = Math.max(0, start - 140);
     const contextEnd = Math.min(source.length, end + 140);
     const context = source.slice(contextStart, contextEnd);
     const lowerContext = context.toLowerCase();
+
     const value = parseMoneyLikeValue(matchText, context);
     if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(matchText)) continue;
     if (!isFinite(value) || value < 500 || value > 250000) continue;
+
     const lineStart = source.lastIndexOf("\n", start) + 1;
     const lineEndRaw = source.indexOf("\n", end);
     const lineEnd = lineEndRaw === -1 ? source.length : lineEndRaw;
     const lineText = source.slice(lineStart, lineEnd).trim().toLowerCase();
     const fullMatchContext = `${context} ${lineText}`.toLowerCase();
+
     let score = scoreMoneyCandidate(value, context, lineText);
+
     if (
       isPlainZipLikeToken &&
       /\b(address|property address|mailing address|zip|zipcode|zip code)\b/.test(fullMatchContext)
     ) {
       score -= 320;
     }
+
     if (/\b(phone|tel|fax|mobile|call|contact)\b/.test(fullMatchContext)) {
       score -= 400;
     }
+
     if (
       Number.isInteger(value) &&
       value >= 2024 &&
@@ -1453,80 +1752,103 @@ function extractPriceCandidates(text) {
     ) {
       score -= 300;
     }
+
     if (/\$|,\d{3}|\.\d{2}\b/.test(matchText)) {
       score += 20;
     }
+
     const relativePosition = start / Math.max(1, source.length);
     if (relativePosition > 0.55) {
       score += 10;
     }
+
     const strongTotalLineRegex =
       /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|total estimated cost|totol estimated cost|total due|estimated cost|total cost|final total|amount due|\btotal\b/;
+
     const candidateIndexInLine = start - lineStart;
     const totalPhraseIndexInLine = lineText.search(strongTotalLineRegex);
+
     const isNearStrongTotalPhrase =
     totalPhraseIndexInLine >= 0 &&
     candidateIndexInLine >= 0 &&
     Math.abs(candidateIndexInLine - totalPhraseIndexInLine) <= 80;
+
     if (isNearStrongTotalPhrase) {
     score += 220;
     }
     if (/grand total|proposal total|contract total|final total/.test(lineText) && isNearStrongTotalPhrase) {
     score += 80;
     }
+
     if (/amount due/.test(lineText) && isNearStrongTotalPhrase) {
       score += 40;
     }
+
     if (/balance due/.test(lineText) && isNearStrongTotalPhrase) {
       score -= 40;
     }
+    
     if (/deductible|deposit|down payment/.test(lineText) && !isNearStrongTotalPhrase) {
     score -= 140;
     }
+
     if (/subtotal/.test(lineText) && !isNearStrongTotalPhrase) {
     score -= 80;
   }
+
     if (/subtotal/.test(lineText) && isNearStrongTotalPhrase) {
       score += 100;
     }
+
     if (/project total|total contract price|final contract total|final total|amount due/.test(lineText) && isNearStrongTotalPhrase) {
       score += 80;
     }
+
     const hasLineItemTableSignals =
       /description|qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade/i.test(lineText);
+
     if (hasLineItemTableSignals && !strongTotalLineRegex.test(lineText)) {
       score -= 180;
     }
+
     if (/license|lic #|license #|proposal number|estimate number/.test(lineText)) {
       score -= 220;
     }
+
     if (/sales tax|tax amount/.test(lineText)) {
       score -= 20;
     }
+
     if (/deposit|down payment|deductible|deductible credit/.test(lineText)) {
     score -= 140;
     }
+
     if (/remaining balance|balance at completion|actual cash value|acv|depreciation/.test(lineText)) {
     score -= 120;
     }
+
     if (/balance due/.test(lineText) && !/grand total|final total|proposal total|contract total|project total/.test(lineText)) {
     score -= 140;
     }
+
     if (
       /roof size|roof area|sq\.?\s*f[tf]|square feet|square foot|\bsf\b|\bsquares\b/.test(lineText) &&
       !strongTotalLineRegex.test(lineText)
     ) {
       score -= 260;
     }
+
     if (
       /roof size|roof area|sq\.?\s*f[tf]|square feet|square foot|\bsf\b|\bsquares\b/.test(lowerContext) &&
       !strongTotalLineRegex.test(lineText)
     ) {
       score -= 180;
     }
+
     if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(lowerContext)) {
       score -= 120;
     }
+
     if (
       hasLineItemTableSignals &&
       /description|qty|quantity|unit price|unit cost|subtotal/i.test(lineText) &&
@@ -1536,13 +1858,17 @@ function extractPriceCandidates(text) {
     ) {
       score -= 120;
     }
+
     if (/deductible|deductible credit/.test(lineText) && value <= 5000) {
       score -= 120;
     }
+
     if (/balance due|remaining balance|balance at completion/.test(lineText)) {
       score -= 80;
     }
+
     let sourceType = "generic_money_candidate";
+
     if (
       Number.isInteger(value) &&
       value >= 2024 &&
@@ -1573,7 +1899,9 @@ function extractPriceCandidates(text) {
     !/deductible|deposit|credit|rebate|discount/.test(lineText)
     ) {
     sourceType = "final_total_phrase";
+    
     } else if (
+
       /roof size|roof area|sq\.?\s*f[tf]|square feet|square foot|\bsf\b|\bsquares\b/.test(lineText) &&
       !strongTotalLineRegex.test(lineText)
     ) {
@@ -1581,9 +1909,11 @@ function extractPriceCandidates(text) {
     } else if (/[OIlSBGZAoilsbgza]/.test(matchText)) {
       sourceType = "ocr_repaired_candidate";
     }
+
     const key = `${Math.round(value)}|${Math.round(score)}`;
     if (seen.has(key)) continue;
     seen.add(key);
+
     candidates.push({
       value,
       display: matchText.trim(),
@@ -1592,33 +1922,44 @@ function extractPriceCandidates(text) {
       context: normalizeEvidence(context)
     });
   }
+
   const brokenMoneyRegex = /\$?\s*[,\.]\d{3,4}\b/g;
+
   while ((match = brokenMoneyRegex.exec(source)) !== null) {
     const matchText = match[0];
     const start = match.index;
     const end = match.index + matchText.length;
+
     const contextStart = Math.max(0, start - 140);
     const contextEnd = Math.min(source.length, end + 140);
     const context = source.slice(contextStart, contextEnd);
     const lowerContext = context.toLowerCase();
+
     const lineStart = source.lastIndexOf("\n", start) + 1;
     const lineEndRaw = source.indexOf("\n", end);
     const lineEnd = lineEndRaw === -1 ? source.length : source.indexOf("\n", end);
     const lineText = source.slice(lineStart, lineEnd === -1 ? source.length : lineEnd).trim().toLowerCase();
+
     const value = parseMoneyLikeValue(matchText, `${context} ${lineText}`);
     if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(matchText)) continue;
     if (!isFinite(value) || value < 500 || value > 250000) continue;
+
     if (/\$\s*\d{1,3}(?:,\d{3})+(?:\.\d{2})?\b/.test(lineText)) {
       continue;
     }
+
     const hasStrongTotalContext =
       /grand total|total estimated cost|proposal total|contract total|amount due|total due|total cost|final total/.test(lowerContext);
+
     if (!hasStrongTotalContext) continue;
+
     let score = scoreMoneyCandidate(value, context, lineText);
     score += 180;
+
     const key = `${Math.round(value)}|broken|${Math.round(score)}`;
     if (seen.has(key)) continue;
     seen.add(key);
+
     candidates.push({
       value,
       display: matchText.trim(),
@@ -1627,14 +1968,18 @@ function extractPriceCandidates(text) {
       context: normalizeEvidence(context)
     });
   }
+
   return candidates
     .sort((a, b) => b.score - a.score || b.value - a.value)
     .slice(0, 10);
 }
+
 const WARRANTY_DEBUG = true;
+
 function isWarrantyDebugEnabled() {
   return Boolean(window.__TP_WARRANTY_DEBUG__);
 }
+
 function normalizeWarrantyText(text) {
   return String(text || "")
     .replace(/[–—]/g, "-")
@@ -1650,44 +1995,59 @@ function normalizeWarrantyText(text) {
     .replace(/\n[ \t]+/g, "\n")
     .trim();
 }
+
 function scoreWarrantyCandidate(line, value, years, type) {
   const lineLower = String(line || "").toLowerCase();
   const valueLower = String(value || "").toLowerCase();
+
   let score = 0;
+
   if (/\bwarranty\b/.test(lineLower)) score += 35;
   if (/\bguarantee(d)?\b/.test(lineLower)) score += 14;
+
   if (/\b\d{1,2}\s*-?\s*year\b/.test(valueLower)) score += 24;
   if (/\blifetime\b/.test(valueLower)) score += 28;
   if (/\blimited lifetime\b/.test(valueLower)) score += 10;
   if (years >= 5 && years <= 50) score += 8;
+
   if (/\b(workmanship|labor|material|manufacturer|shingle|leak|watertight|wind)\b/.test(valueLower)) {
     score += 22;
   }
+
   if (/\b(workmanship|labor|material|manufacturer|shingle|leak|watertight|wind)\b/.test(lineLower)) {
     score += 10;
   }
+
   if (/\b(warranty|guarantee)\b/.test(lineLower) && /\b(workmanship|labor|material|manufacturer|shingle|leak|watertight|wind)\b/.test(lineLower)) {
     score += 12;
   }
+
   if (type === "limited_lifetime") score += 10;
   if (type === "lifetime") score += 6;
   if (type === "typed_numeric") score += 8;
   if (type === "generic_numeric") score += 2;
+
   if (value.length >= 18) score += 4;
   if (value.length >= 28) score += 4;
+
   if (line.length > 160) score -= 8;
+
   return score;
 }
+
 function extractWarrantyCandidate(line) {
   const source = String(line || "").trim();
   if (!source) return null;
+
   const normalizedLine = normalizeWarrantyText(source);
   const lower = normalizedLine.toLowerCase();
+
   if (
     !/\bwarranty\b|\bguarantee\b|\bguaranteed\b|\bworkmanship\b|\blabor\b|\bmaterial\b|\bmanufacturer\b|\bshingle\b|\bleak\b|\blifetime\b/.test(lower)
   ) {
     return null;
   }
+
   const patterns = [
   {
     type: "typed_numeric",
@@ -1714,17 +2074,22 @@ function extractWarrantyCandidate(line) {
     regex: /\b(\d{1,2})\s*-?\s*years?\s+(warranty|guarantee)\b/i
   }
 ];  
+
   let best = null;
+
   for (const pattern of patterns) {
     const match = normalizedLine.match(pattern.regex);
     if (!match) continue;
+
     let years = "";
     let label = "";
     let typeLabel = "";
     const type = pattern.type;
+
     if (type === "typed_numeric") {
       let numericYears = null;
       let typedValue = "";
+
       if (/^\d/.test(match[1] || "")) {
         numericYears = Number(match[1]);
         typedValue = (match[2] || "").toLowerCase();
@@ -1732,7 +2097,9 @@ function extractWarrantyCandidate(line) {
         typedValue = (match[1] || "").toLowerCase();
         numericYears = Number(match[3] || match[2]);
       }
+
       if (!numericYears || numericYears < 1 || numericYears > 75) continue;
+
       years = numericYears;
       typeLabel = typedValue;
       label = `${years}-year ${typeLabel} warranty`;
@@ -1747,10 +2114,12 @@ function extractWarrantyCandidate(line) {
       label = typedValue ? `Limited lifetime ${typedValue} warranty` : "Limited lifetime warranty";
     } else if (type === "lifetime") {
       years = 50;
+
       if (/\bmanufacturer\s+lifetime\s+(warranty|guarantee)\b/i.test(normalizedLine)) {
         label = "Manufacturer lifetime warranty";
       } else {
         const typedValue = (match[1] || "").toLowerCase();
+
         if (typedValue && typedValue !== "warranty" && typedValue !== "guarantee") {
           label = `Lifetime ${typedValue} warranty`;
         } else {
@@ -1758,13 +2127,17 @@ function extractWarrantyCandidate(line) {
         }
       }
     }
+
     label = label
       .replace(/\bmaterials\b/gi, "material")
       .replace(/\bshingles\b/gi, "shingle")
       .replace(/\s+/g, " ")
       .trim();
+
     label = label.charAt(0).toUpperCase() + label.slice(1);
+
     const score = scoreWarrantyCandidate(normalizedLine, label, years, type);
+
     const candidate = {
       label,
       years,
@@ -1777,40 +2150,55 @@ function extractWarrantyCandidate(line) {
         regex: pattern.regex.toString()
       }
     };
+
     if (!best || candidate.score > best.score) {
       best = candidate;
     }
   }
+
   return best;
 }
+
 function detectWarranty(text) {
   const normalized = normalizeWarrantyText(text);
   if (!normalized) {
     return { label: "Not detected", years: "" };
   }
+
   const lines = normalized
     .split(/\n+/)
     .map(line => line.trim())
     .filter(Boolean);
+
   const candidates = [];
+
   for (let i = 0; i < lines.length; i++) {
   const currentLine = lines[i];
   const nextLine = lines[i + 1] || "";
+
   const single = extractWarrantyCandidate(currentLine);
   if (single) candidates.push(single);
+
   const currentLower = currentLine.toLowerCase();
   const nextLower = nextLine.toLowerCase();
+
   const currentLooksIncomplete =
     /\bwarranty\s*:?\s*$|\bguarantee\s*:?\s*$|\bworkmanship\s*:?\s*$|\blabor\s*:?\s*$|\bmaterial\s*:?\s*$|\bmanufacturer\s*:?\s*$|\bshingle\s*:?\s*$|\bleak\s*:?\s*$|\bwatertight\s*:?\s*$|\bwind\s*:?\s*$|\b\d{1,2}\s*-?\s*year\s*$|\blifetime\s*$/.test(currentLower);
+
   const nextStartsFreshWarranty =
     /\b(workmanship|labor|material|manufacturer|shingle|leak|watertight|wind)\b.*\b(warranty|guarantee)\b|\bwarranty\b|\bguarantee\b/.test(nextLower);
+
   if (i < lines.length - 1 && currentLooksIncomplete && !nextStartsFreshWarranty) {
     const joined = `${currentLine} ${nextLine}`.trim();
     const combined = extractWarrantyCandidate(joined);
     if (combined) candidates.push(combined);
   }
 }
+
   if (isWarrantyDebugEnabled()) {
+
+
+
     console.table(
       candidates.map(c => ({
         label: c.label,
@@ -1822,26 +2210,37 @@ function detectWarranty(text) {
       }))
     );
   }
+
   if (!candidates.length) {
     if (isWarrantyDebugEnabled()) {
     }
     return { label: "Not detected", years: "" };
   }
+
   candidates.sort((a, b) => {
     const aYears = Number(a.years || 0);
     const bYears = Number(b.years || 0);
     return b.score - a.score || bYears - aYears || b.label.length - a.label.length;
   });
+
   const winner = {
     label: candidates[0].label,
     years: candidates[0].years
   };
+
   if (isWarrantyDebugEnabled()) {
+
   }
+
   return winner;
 }
+
+// MATERIAL_PATTERNS is defined in analyzer-core.js (loaded first).
+// detectMaterial references it from the global/window scope.
+
 function detectMaterial(text) {
   const source = String(text || "");
+
   const repairedSource = source
     .replace(/0/g, "o")
     .replace(/[1|]/g, "i")
@@ -1851,29 +2250,43 @@ function detectMaterial(text) {
     .replace(/\bmateriai\b/gi, "material")
     .replace(/\barch1tectural\b/gi, "architectural")
     .replace(/\bsh1ngles\b/gi, "shingles");
+
   const normalized = repairedSource.toLowerCase();
   const matches = [];
+
   const materialLineRegex = /\bmaterial(?: proposed)?[:\s]+([^\n]+)/i;
   const materialLineMatch = repairedSource.match(materialLineRegex);
   const materialLine = materialLineMatch ? materialLineMatch[1].toLowerCase() : "";
+
+  // Check if metal is the actual primary install material
   const metalIsPrimary = /\binstall\b[^.]*\bmetal\b|\bmetal\s+panel|\bstanding\s+seam\b|\bmetal\s+roof\s+install/i.test(normalized);
+
+  // Check if shingle-related terms are present
   const hasShingleSignals = /\bshingles?\b|\barchitectural\b|\b3[- ]tab\b|\basphalt\b|\bcertainteed\w*\b|\bgaf\b|\btimberline\b|\bowens\s*corning\b/i.test(normalized);
-  MATERIAL_PATTERNS.forEach(item => {
+
+  var _matPatterns = (typeof MATERIAL_PATTERNS !== "undefined") ? MATERIAL_PATTERNS : (typeof window !== "undefined" && window.MATERIAL_PATTERNS) ? window.MATERIAL_PATTERNS : [];
+  _matPatterns.forEach(item => {
     item.patterns.forEach(pattern => {
       if (pattern.test(normalized)) {
         let score = item.score;
+
         if (materialLine && pattern.test(materialLine)) {
           score += 80;
         }
+
+        // Only penalize metal when shingle signals exist AND metal isn't the primary install
         if (item.value === "metal" && hasShingleSignals && !metalIsPrimary) {
           score -= 80;
         }
+
+        // Penalize metal in boilerplate only when metal isn't the primary install
         if (item.value === "metal" && !materialLine && !metalIsPrimary) {
           const metalContext = normalized.match(/(?:metal\s+roof|metal\s+roofing).{0,80}/);
           if (metalContext && /payment|cancellation|policy|order material|siding/i.test(metalContext[0])) {
             score -= 60;
           }
         }
+
         matches.push({
           value: item.value,
           label: item.label,
@@ -1882,108 +2295,138 @@ function detectMaterial(text) {
       }
     });
   });
+
+  // If both shingle and metal matched, filter out incidental metal
   const hasArchMatch = matches.some(m => m.value === "architectural" || m.value === "asphalt");
   const hasMetalMatch = matches.some(m => m.value === "metal");
+
   if (hasArchMatch && hasMetalMatch && !metalIsPrimary) {
+    // Metal is incidental (drip metal, boilerplate) — remove it
     const filtered = matches.filter(m => m.value !== "metal");
     if (filtered.length > 0) {
       matches.length = 0;
       filtered.forEach(m => matches.push(m));
     }
   }
+
   if (!matches.length) {
     const fuzzyMaterialLine = materialLine || normalized;
+
     if (
       /\barchitectural\b/.test(fuzzyMaterialLine) &&
       /\bshingles?\b/.test(fuzzyMaterialLine)
     ) {
       return { value: "architectural", label: "Architectural shingles" };
     }
+
     if (
       /\barch[a-z]*\b/.test(fuzzyMaterialLine) &&
       /\bshingles?\b/.test(fuzzyMaterialLine)
     ) {
       return { value: "architectural", label: "Architectural shingles" };
     }
+
     if (/\bthree[\s-]?tab\b|\b3[\s-]?tab\b/.test(fuzzyMaterialLine)) {
       return { value: "three_tab", label: "3-tab asphalt shingles" };
     }
+
     if (/\bmetal\b/.test(fuzzyMaterialLine)) {
       return { value: "metal", label: "Metal roofing" };
     }
+
     if (/\btile\b/.test(fuzzyMaterialLine)) {
       return { value: "tile", label: "Tile roofing" };
     }
+
     if (/\bslate\b/.test(fuzzyMaterialLine)) {
       return { value: "slate", label: "Slate roofing" };
     }
+
     return { value: "", label: "Unknown" };
   }
+
   matches.sort((a, b) => b.score - a.score);
   return {
     value: matches[0].value,
     label: matches[0].label
   };
 }
+
 function detectContractor(text) {
   const source = String(text || "");
   const lines = source
     .split("\n")
     .map(line => normalizeWhitespace(line))
     .filter(Boolean);
+
   function cleanCompanyName(value) {
     let name = normalizeWhitespace(value || "");
+
     name = name.replace(
       /\b(roof replacement|replacement estimate|estimate|proposal|proposal date|payment due date|invoice date|customer|property address|description|qty|quantity|unit price|unit cost|subtotal|grand total|final total|amount due|total due|total project cost|warranty|material|roof size|roof area|scope of work)\b.*$/i,
       ""
     );
+
     name = name
-      .replace(/^\s*(contractor|company|roofing company|proposal by|prepared by)\s*[:\-]\s*/i, "")
+      .replace(/^\s*(contractor|company|roofing company|proposal by|prepared by|submitted by|from|provider|shop|business)\s*[:\-]\s*/i, "")
       .replace(/[:\-|,\s]+$/g, "")
       .trim();
+
     return name;
   }
+
   function looksLikeCompanyName(value) {
     const name = String(value || "").trim();
     if (name.length < 4) return false;
     if (name.length > 100) return false;
+
     const normalizedForMatch = name
       .toLowerCase()
       .replace(/0/g, "o")
       .replace(/[1|]/g, "i")
       .replace(/5/g, "s")
       .replace(/8/g, "b");
+
     if (
       /(customer|property address|proposal date|invoice date|description|qty|quantity|unit price|unit cost|subtotal|grand total|final total|amount due|total due|roof size|roof area|scope of work|material|warranty)/i.test(normalizedForMatch)
     ) {
       return false;
     }
+
     if (/\$|,\d{3}|\.\d{2}\b/.test(name)) {
       return false;
     }
+
     if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(name)) {
       return false;
     }
+
     if (
       /\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|underlayment|shingles|permit|sales tax)\b/i.test(normalizedForMatch)
     ) {
       return false;
     }
+
     if (
   /\b(roof replacement|replacement estimate|roof estimate|estimate|proposal)\b/i.test(normalizedForMatch) &&
-  !/(roofing|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement)/i.test(normalizedForMatch)
+  !/(roofing|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement|plumbing|electric|hvac|fencing|foundation|concrete|gutters|insulation|landscaping|moving|movers|painting|solar|siding|windows|garage|auto|repair|services|solutions|pros|specialists|experts|group|brothers|team)/i.test(normalizedForMatch)
 ) {
   return false;
 }
+
     const digitCount = (name.match(/\d/g) || []).length;
     if (digitCount >= 6) return false;
+
     const wordCount = name.split(/\s+/).filter(Boolean).length;
     if (wordCount > 8) return false;
-    return /(roofing|roof|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement)/i.test(normalizedForMatch);
+
+    return /(roofing|roof|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement|plumbing|plumber|electric|electrical|electrician|hvac|heating|cooling|air conditioning|fencing|fence|foundation|concrete|masonry|gutters|gutter|insulation|kitchen|remodel|remodeling|landscaping|landscape|lawn|moving|movers|mover|painting|painter|painters|solar|energy|siding|windows|window|glass|garage|door|doors|auto|repair|mechanic|body shop|services|solutions|pros|professionals|enterprises|industries|works|specialists|experts|group|brothers|sons|associates|partners|team)/i.test(normalizedForMatch);
   }
+
   const labeledPatterns = [
-    /(?:contractor|company|roofing company|proposal by|prepared by)[:\s]+([A-Za-z0-9&.,' -]{4,100})/i
+    /(?:contractor|company|roofing company|proposal by|prepared by|submitted by|from|provider|shop|business)[:\s]+([A-Za-z0-9&.,' -]{4,100})/i
   ];
+
   for (const pattern of labeledPatterns) {
     const match = source.match(pattern);
     if (match && match[1]) {
@@ -1991,26 +2434,44 @@ function detectContractor(text) {
       if (looksLikeCompanyName(cleaned)) return cleaned;
     }
   }
+
   for (const line of lines.slice(0, 10)) {
     const cleaned = cleanCompanyName(line);
     if (looksLikeCompanyName(cleaned)) return cleaned;
   }
-   const fallbackMatch = source.match(
-    /\b([A-Z][A-Za-z0-9&.' -]{2,70}?(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration|Builders))\b/
-  );
-  if (fallbackMatch && fallbackMatch[1]) {
-    const cleaned = cleanCompanyName(fallbackMatch[1]);
+
+  // Fallback: scan ALL company-name matches and pick the longest valid one.
+  // (Was: non-greedy regex returning the first/shortest match, which made
+  // different OCR passes of the same quote produce different substrings like
+  // "PEAKPRO ROOFING" vs "E ROOFING" vs "A E ROOFING".)
+  const fallbackRegex = /\b([A-Z][A-Za-z0-9&.' -]{2,70}?(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration|Builders|Plumbing|Plumber|Electric|Electrical|Electrician|HVAC|Heating|Cooling|Fencing|Fence|Foundation|Concrete|Masonry|Gutters|Gutter|Insulation|Kitchen|Remodel|Remodeling|Landscaping|Landscape|Moving|Movers|Mover|Painting|Painter|Solar|Energy|Siding|Windows|Window|Garage|Auto|Repair|Mechanic|Services|Solutions|Pros|Professionals|Enterprises|Industries|Works|Specialists|Experts|Group|Brothers|Sons|Associates|Partners|Team))\b/g;
+  const candidates = [];
+  let m;
+  while ((m = fallbackRegex.exec(source)) !== null) {
+    const raw = m[1];
+    const cleaned = cleanCompanyName(raw);
     if (
       cleaned &&
       !/\$|,\d{3}|\.\d{2}\b/.test(cleaned) &&
       !/\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|underlayment|shingles|permit|sales tax)\b/i.test(cleaned) &&
       looksLikeCompanyName(cleaned)
     ) {
-      return cleaned;
+      candidates.push(cleaned);
     }
   }
+  if (candidates.length) {
+    // Prefer longest, with a small bonus for known company suffixes
+    candidates.sort(function(a, b) {
+      const sufA = /\b(llc|inc|co|corp|company)\b/i.test(a) ? 5 : 0;
+      const sufB = /\b(llc|inc|co|corp|company)\b/i.test(b) ? 5 : 0;
+      return (b.length + sufB) - (a.length + sufA);
+    });
+    return candidates[0];
+  }
+
   return "Not detected";
 }
+
 function normalizeSizeNumber(raw) {
   const cleaned = String(raw || "")
     .trim()
@@ -2021,17 +2482,22 @@ function normalizeSizeNumber(raw) {
     .replace(/[Gg]/g, "9")
     .replace(/[Zz]/g, "2")
     .replace(/A/g, "4");
+
   if (/^\d{1,2}[,.\s]\d{3}$/.test(cleaned)) {
     return Number(cleaned.replace(/[,\.\s]/g, ""));
   }
+
   return Number(cleaned.replace(/[^\d]/g, ""));
 }
+
 function detectRoofSize(text) {
   const normalized = String(text || "").toLowerCase();
   const candidates = [];
   let match;
+
   const ocrNumberPattern = "[0-9OIlSBGZAoilsbgza]";
   const ocrSizePattern = `${ocrNumberPattern}{1,2}[,.\\s]${ocrNumberPattern}{3}|${ocrNumberPattern}{3,5}`;
+
   const explicitPatterns = [
     {
       regex: new RegExp(`\\broof size\\b[^0-9OIlSBGZAoilsbgza]{0,25}(${ocrSizePattern})(?:\\.[0-9OIlSBGZAoilsbgza]+)?\\s*(?:sq\\.?\\s*f[tf]|sqft|sq ft|square feet|square foot)?\\b`, "g"),
@@ -2067,19 +2533,23 @@ function detectRoofSize(text) {
       transform: "squares_to_sqft"
     }
   ];
+
     explicitPatterns.forEach(({ regex, source, score, transform }) => {
     while ((match = regex.exec(normalized)) !== null) {
         let value;
+
     if (transform === "squares_to_sqft") {
           value = Number(match[1]) * 100;
         } else {
           value = normalizeSizeNumber(match[1]);
         }
+
       if (value >= 600 && value <= 12000) {
           candidates.push({ value, source, score });
         }
       }
     });
+
   const sqFtRegex = new RegExp(`\\b(${ocrSizePattern})(?:\\.[0-9OIlSBGZAoilsbgza]+)?\\s*(?:sq\\.?\\s*f[tf]|sqft|sq ft|square feet|square foot)\\b`, "g");
   while ((match = sqFtRegex.exec(normalized)) !== null) {
     const value = normalizeSizeNumber(match[1]);
@@ -2091,6 +2561,7 @@ function detectRoofSize(text) {
       candidates.push({ value, source: "square feet", score });
     }
   }
+
    const roofLine = normalized.match(new RegExp(`roof[^0-9OIlSBGZAoilsbgza]{0,24}(${ocrSizePattern})`));
   if (roofLine) {
     const value = normalizeSizeNumber(roofLine[1]);
@@ -2102,23 +2573,28 @@ function detectRoofSize(text) {
       });
     }
   }
+
   const squaresRegex = /\b([1-9][0-9]?(?:\.[0-9]+)?)\s*(?:roofing\s+)?(?:squares|square|sq)(?!\s*ft|\s*feet|\s*foot|\s*in|\s*inch|\s*inches)\b/g;
   while ((match = squaresRegex.exec(normalized)) !== null) {
     const raw = Number(match[1]);
     const value = raw * 100;
+
     if (value >= 600 && value <= 12000) {
       let score = 92;
       const context = normalized.slice(
         Math.max(0, match.index - 100),
         Math.min(normalized.length, match.index + 100)
       );
+
       if (/roof|roofing|shingles|replace|tear off|underlayment|flashing/.test(context)) score += 22;
       if (/roof size|roof area|total roof area/.test(context)) score += 18;
       if (/price|cost|total|dollars|amount due|grand total/.test(context)) score -= 18;
       if (/sq ft|square feet|square foot/.test(context)) score -= 25;
+
       candidates.push({ value, source: "roofing squares", score });
     }
   }
+
   const roofAreaLoose = normalized.match(new RegExp(`(roof|roof area|roof size)[^0-9OIlSBGZAoilsbgza]{0,30}(${ocrSizePattern})`));
   if (roofAreaLoose) {
     const value = normalizeSizeNumber(roofAreaLoose[2]);
@@ -2130,25 +2606,73 @@ function detectRoofSize(text) {
       });
     }
   }
+
   if (!candidates.length) {
     return { value: "", source: "" };
   }
+
   candidates.sort((a, b) => b.score - a.score || a.value - b.value);
+
   return {
     value: Math.round(candidates[0].value),
     source: candidates[0].source
   };
 }
+
 function titleCase(value) {
   return String(value || "")
     .toLowerCase()
     .replace(/\b\w/g, ch => ch.toUpperCase());
 }
+
+// Extract a full property/job-site street address from a quote.
+// Conservative: only matches when an explicit label is present (Property
+// Information, Job Site, Service Address, etc.) so we don't accidentally
+// pick up the contractor's letterhead address.
+function extractPropertyAddress(text) {
+  const source = String(text || "");
+  if (!source) return null;
+
+  const streetSuffix = "(?:st|street|rd|road|ave|avenue|blvd|boulevard|dr|drive|ln|lane|ct|court|cir|circle|way|pkwy|parkway|pl|place|ter|terrace|hwy|highway|trl|trail|cv|cove|loop|run|row|sq|square)";
+  const stateAbbr = "(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)";
+
+  // Address core: number + street name + suffix, optional unit, then city, ST zip
+  const addressCore =
+    "(\\d{1,6}\\s+[A-Za-z0-9 .'#\\-]{2,60}?\\s+" + streetSuffix + "\\.?(?:\\s+(?:apt|unit|ste|suite|#)\\s*[A-Za-z0-9\\-]+)?)" +
+    "[\\s,]+([A-Za-z][A-Za-z .'\\-]{1,40}?)" +
+    "[\\s,]+" + stateAbbr +
+    "\\s+(\\d{5}(?:-\\d{4})?)";
+
+  const labelGroup = "(?:property\\s*(?:information|address|info|location)|job\\s*site|job\\s*address|service\\s*address|site\\s*address|project\\s*address|work\\s*site|work\\s*address|jobsite|job\\s*location|property)";
+  const labeledRe = new RegExp(labelGroup + "[\\s:\\-]*(?:[\\r\\n]+\\s*)?" + addressCore, "i");
+
+  const match = source.match(labeledRe);
+  if (!match) return null;
+
+  const street = String(match[1] || "").replace(/\s+/g, " ").trim();
+  const city = titleCase(String(match[2] || "").replace(/\s+/g, " ").trim());
+  const stateCode = String(match[3] || "").toUpperCase().trim();
+  const postalCode = String(match[4] || "").trim();
+
+  if (!street || !city || !stateCode || !postalCode) return null;
+  if (street.length < 6 || street.length > 100) return null;
+
+  return {
+    street,
+    city,
+    stateCode,
+    postalCode,
+    fullAddress: street + ", " + city + ", " + stateCode + " " + postalCode
+  };
+}
+
 function detectLocation(text) {
   const source = String(text || "");
   const compact = normalizeWhitespace(source);
+
   const statePattern =
     "(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)";
+
   const bannedCities = new Set([
     "Customer",
     "Homeowner",
@@ -2191,47 +2715,60 @@ function detectLocation(text) {
     "Receipt",
     "Authorized"
   ]);
+
   function cleanCity(value) {
     let city = String(value || "")
       .replace(/^[,\s]+|[,\s]+$/g, "")
       .replace(/\b(customer|homeowner|property|address|claim|date|roof|material|office|proposal|estimate|page|scope|project|location|description|qty|quantity|unit|price|subtotal|payment|account|routing|information)\b/gi, "")
       .replace(/[,\s]+/g, " ")
       .trim();
+
     city = city.replace(
       /^(?:\d+\s+)?(?:[A-Za-z0-9.'-]+\s+){0,6}(st|street|rd|road|ave|avenue|blvd|boulevard|dr|drive|ln|lane|ct|court|cir|circle|way|pkwy|parkway)\.?\s+/i,
       ""
     );
+
     return titleCase(city);
   }
+
   function isValidCity(city) {
     if (!city) return false;
     if (city.length < 2 || city.length > 40) return false;
     if (bannedCities.has(city)) return false;
     if (/\d/.test(city)) return false;
+
     const lowerCity = String(city || "").toLowerCase();
+
     if (
       /\b(description|qty|quantity|unit|price|subtotal|payment|account|routing|information|labor|materials|docusign|envelope|signature|authorization|company|representative|certificate|insurance|agreement|contract|invoice)\b/.test(lowerCity)
     ) {
       return false;
     }
+
     if (lowerCity.split(/\s+/).length > 3) return false;
+
     return true;
   }
+
   function buildResult(city, stateCode) {
     const cleanedCity = cleanCity(city);
     const cleanedState = String(stateCode || "").toUpperCase().trim();
+
     if (!isValidCity(cleanedCity)) return null;
     if (!cleanedState) return null;
+
     return {
       city: cleanedCity,
       stateCode: cleanedState
     };
   }
+
   const labeledPatterns = [
     new RegExp(`\\b(?:location|city|property address|address|job address|project address)\\s*:\\s*([A-Za-z][A-Za-z .'-]{1,40}?)\\s*,?\\s+${statePattern}\\b`, "i"),
     new RegExp(`\\b(?:location|city|property address|address|job address|project address)\\s*:\\s*.*?,\\s*([A-Za-z][A-Za-z .'-]{1,40}?)\\s*,?\\s+${statePattern}\\b`, "i"),
     new RegExp(`\\b(?:location|city|property address|address|job address|project address)\\s*:\\s*([A-Za-z][A-Za-z .'-]{1,40}?)\\s*,\\s*${statePattern}\\b`, "i")
   ];
+
   for (const pattern of labeledPatterns) {
     const match = compact.match(pattern);
     if (match) {
@@ -2241,22 +2778,27 @@ function detectLocation(text) {
       if (result) return result;
     }
   }
+
   const cityStateZipRegex = new RegExp(
     `\\b([A-Za-z][A-Za-z .'-]{1,40}?)\\s*,?\\s+${statePattern}(?:\\s+\\d{5}(?:-\\d{4})?)?\\b`,
     "g"
   );
+
   const lines = source
     .split("\n")
     .map(line => normalizeWhitespace(line))
     .filter(Boolean);
+
   const lineCityStateRegex = new RegExp(
     `\\b([A-Za-z][A-Za-z .'-]{1,40}?)\\s*,?\\s+${statePattern}(?:\\s+\\d{5}(?:-\\d{4})?)?\\b`,
     "i"
   );
+
   for (const line of lines) {
     if (!/\b(address|property address|job address|project address|location|city)\b/i.test(line)) {
       continue;
     }
+
     const match = line.match(lineCityStateRegex);
     if (match) {
       const city = match[1];
@@ -2265,25 +2807,61 @@ function detectLocation(text) {
       if (result) return result;
     }
   }
-  for (const line of lines) {
+
+  // Collect ALL city/state matches with context scoring
+  const allCandidates = [];
+
+  for (let li = 0; li < lines.length; li++) {
+    const line = lines[li];
     const match = line.match(lineCityStateRegex);
     if (match) {
-      const city = match[1];
-      const stateCode = match[2];
-      const result = buildResult(city, stateCode);
-      if (result) return result;
+      const result = buildResult(match[1], match[2]);
+      if (result) {
+        // Score: prefer customer/property address over contractor/company address
+        let score = 0;
+        const prevLines = lines.slice(Math.max(0, li - 3), li + 1).join(" ").toLowerCase();
+        const nextLines = lines.slice(li, Math.min(lines.length, li + 2)).join(" ").toLowerCase();
+        const context = prevLines + " " + nextLines;
+
+        // Customer address signals (high priority)
+        if (/\b(customer|property|job|project|homeowner|prepared for|estimate for|proposal for)\b/.test(context)) score += 50;
+        // Street address nearby (likely a property)
+        if (/\b\d+\s+[a-z]+\s+(st|street|rd|road|ave|avenue|dr|drive|ln|lane|blvd|ct|court|way|cir)\b/i.test(context)) score += 20;
+        // Position bonus: addresses further down in the document are more likely the customer
+        score += li;
+
+        // Contractor/company signals (penalize)
+        if (/\b(contractor|company|office|phone|fax|email|license|llc|inc|corp)\b/.test(context)) score -= 30;
+        // If the same line has a phone/fax number, it's likely company info
+        if (/\(\d{3}\)\s*\d{3}[-.]\d{4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b/.test(line)) score -= 15;
+
+        allCandidates.push({ ...result, score, lineIndex: li });
+      }
     }
   }
-  const matches = [...compact.matchAll(cityStateZipRegex)];
-  for (let i = matches.length - 1; i >= 0; i--) {
-    const match = matches[i];
-    const city = match[1];
-    const stateCode = match[2];
-    const result = buildResult(city, stateCode);
-    if (result) return result;
+
+  // Also check all matches in compact text
+  const compactMatches = [...compact.matchAll(cityStateZipRegex)];
+  for (const match of compactMatches) {
+    const result = buildResult(match[1], match[2]);
+    if (result) {
+      const idx = match.index || 0;
+      const context = compact.substring(Math.max(0, idx - 200), idx + 200).toLowerCase();
+      let score = 0;
+      if (/\b(customer|property|job|project|homeowner|prepared for|estimate for)\b/.test(context)) score += 50;
+      if (/\b(contractor|company|office|phone|fax|license|llc|inc)\b/.test(context)) score -= 30;
+      allCandidates.push({ ...result, score, lineIndex: -1 });
+    }
   }
+
+  if (allCandidates.length > 0) {
+    allCandidates.sort(function(a, b) { return b.score - a.score; });
+    return { city: allCandidates[0].city, stateCode: allCandidates[0].stateCode };
+  }
+
   return { city: "", stateCode: "" };
 }
+
 const SCOPE_DEFINITIONS = {
   tearOff: {
     label: "Tear-off",
@@ -2305,6 +2883,7 @@ const SCOPE_DEFINITIONS = {
       /\broof over\b/g
     ]
   },
+
   flashing: {
     label: "Flashing",
     positive: [
@@ -2322,6 +2901,7 @@ const SCOPE_DEFINITIONS = {
       /\breuse existing flashing\b/g
     ]
   },
+
   dripEdge: {
     label: "Drip edge",
     positive: [
@@ -2338,6 +2918,7 @@ const SCOPE_DEFINITIONS = {
       /\breuse existing drip edge\b/g
     ]
   },
+
   underlayment: {
     label: "Underlayment",
     positive: [
@@ -2355,6 +2936,7 @@ const SCOPE_DEFINITIONS = {
       /\bexclude underlayment\b/g
     ]
   },
+
   iceShield: {
     label: "Ice and water shield",
     positive: [
@@ -2362,11 +2944,19 @@ const SCOPE_DEFINITIONS = {
       /\bice & water\b/g,
       /\bice water shield\b/g,
       /\bice shield\b/g,
+      /\bice barrier\b/g,
       /\bleak barrier\b/g,
       /\bwater shield\b/g,
       /\bice\s+(?:and|&)\s+water\s+shield\b/g,
       /\binstall\s+ice\s+and\s+water\b/g,
-      /\bself[- ]adhesive.*membrane\b/g
+      /\bself[- ]adhesive.*membrane\b/g,
+      /\bweather\s*watch\b/g,
+      /\bstorm\s*guard\b/g,
+      /\bweather\s*lock\b/g,
+      /\bwinter\s*guard\b/g,
+      /\bstorm\s*shield\b/g,
+      /\bgrace\s*ice\b/g,
+      /\bpolyglass\b/g
     ],
     negative: [
       /\bice and water not included\b/g,
@@ -2374,19 +2964,23 @@ const SCOPE_DEFINITIONS = {
       /\bno ice and water\b/g
     ]
   },
+
   ventilation: {
     label: "Ventilation",
     positive: [
       /\bventilation\b/g,
-      /\bvent\b/g,
-      /\broof vent\b/g,
-      /\bbox vent\b/g,
-      /\bstatic vent\b/g,
-      /\bturtle vent\b/g,
-      /\bpower vent\b/g,
-      /\bsoffit vent\b/g,
+      /\bvents?\b/g,
+      /\broof vents?\b/g,
+      /\bbox vents?\b/g,
+      /\bstatic vents?\b/g,
+      /\bturtle vents?\b/g,
+      /\bpower vents?\b/g,
+      /\bsoffit vents?\b/g,
+      /\battic vents?\b/g,
       /\battic\s+(?:space\s+)?ventilation\b/g,
-      /\bair\s*flow\b/g
+      /\bair\s*flow\b/g,
+      /\bcobra\s*vents?\b/g,
+      /\bturbines?\b/g
     ],
     negative: [
       /\bventilation not included\b/g,
@@ -2394,6 +2988,7 @@ const SCOPE_DEFINITIONS = {
       /\bno ventilation\b/g
     ]
   },
+
   ridgeVent: {
     label: "Ridge vent",
     positive: [
@@ -2403,38 +2998,61 @@ const SCOPE_DEFINITIONS = {
       /\bridge venting\b/g,
       /\bcontinuous\s+ridge\s+vent\b/g,
       /\bridge ventilation\b/g,
-      /\bridge\s+ventilation\s+system\b/g
+      /\bridge\s+ventilation\s+system\b/g,
+      /\bcobra\s*ridge\s*vent\b/g,
+      /\bcobra\s*vent\b/g,
+      /\bshingle[\s-]*over\s*ridge\s*vent\b/g
     ],
     negative: [
       /\bridge vent not included\b/g,
       /\bexclude ridge vent\b/g
     ]
   },
+
   starterStrip: {
     label: "Starter strip",
     positive: [
       /\bstarter strip\b/g,
       /\bstarter course\b/g,
-      /\bstarter shingle\b/g
+      /\bstarter shingle\b/g,
+      /\bstarter row\b/g,
+      /\bpro[\s-]?start\b/g,
+      /\bstarter seal\b/g,
+      /\bweather blocker\b/g,
+      /\bweather[\s-]?blocker\b/g,
+      /\bpeel[\s-]?and[\s-]?stick\s*starter\b/g,
+      /\beave starter\b/g,
+      /\bstarter\s+\(/g
     ],
     negative: [
       /\bstarter strip not included\b/g,
       /\bexclude starter strip\b/g
     ]
   },
+
   ridgeCap: {
     label: "Ridge cap",
     positive: [
       /\bridge cap\b/g,
       /\bridgecap\b/g,
       /\bhip and ridge\b/g,
-      /\bhip\/ridge\b/g
+      /\bhip\/ridge\b/g,
+      /\bhip cap\b/g,
+      /\bcap shingle\b/g,
+      /\btimber\s*tex\b/g,
+      /\bseal[\s-]?a[\s-]?ridge\b/g,
+      /\bz[\s-]?ridge\b/g,
+      /\bdura\s*ridge\b/g,
+      /\bmountain\s*ridge\b/g,
+      /\bshadow\s*ridge\b/g,
+      /\bhigh[\s-]?profile\s*ridge\b/g
     ],
     negative: [
       /\bridge cap not included\b/g,
       /\bexclude ridge cap\b/g
     ]
   },
+
   decking: {
     label: "Decking",
     positive: [
@@ -2455,6 +3073,7 @@ const SCOPE_DEFINITIONS = {
       /\bdecking if needed\b/g
     ]
   },
+
   disposal: {
     label: "Disposal",
     positive: [
@@ -2474,6 +3093,7 @@ const SCOPE_DEFINITIONS = {
       /\bdisposal extra\b/g
     ]
   },
+
   permit: {
     label: "Permit",
     positive: [
@@ -2493,9 +3113,11 @@ const SCOPE_DEFINITIONS = {
     ]
   }
 };
+
 function normalizeScopeText(text) {
   return String(text || "")
     .toLowerCase()
+    // OCR artifact repairs
     .replace(/\broo\s*f?\s*ng\b/g, "roofing")
     .replace(/\bashi?ng\b/g, "ashing")
     .replace(/\b[ffi]+ashing\b/g, "flashing")
@@ -2517,14 +3139,18 @@ function normalizeScopeText(text) {
     .replace(/\n[ \t]+/g, "\n")
     .trim();
 }
+
 function hasNearbyNegation(text, index) {
   const start = Math.max(0, index - 40);
   const end = Math.min(text.length, index + 40);
   const windowText = text.slice(start, end);
+
   return /\b(not included|excluded|exclude|by owner|owner to provide|reuse existing|at additional cost|extra charge|optional|allowance only)\b/.test(windowText);
 }
+
 function evaluateScopeSignal(text, definition) {
   const lower = normalizeScopeText(text);
+
   for (const negativePattern of definition.negative) {
     const negativeMatch = lower.match(negativePattern);
     if (negativeMatch) {
@@ -2535,14 +3161,18 @@ function evaluateScopeSignal(text, definition) {
       };
     }
   }
+
   for (const positivePattern of definition.positive) {
     const positiveMatch = lower.match(positivePattern);
+
     if (positiveMatch && positiveMatch[0]) {
       const plainRegex = new RegExp(
         positivePattern.source,
         positivePattern.flags.replace(/g/g, "")
       );
+
       const idx = lower.search(plainRegex);
+
       if (idx >= 0 && hasNearbyNegation(lower, idx)) {
         return {
           label: definition.label,
@@ -2550,6 +3180,7 @@ function evaluateScopeSignal(text, definition) {
           evidence: normalizeEvidence(positiveMatch[0])
         };
       }
+
       return {
         label: definition.label,
         status: "included",
@@ -2557,19 +3188,23 @@ function evaluateScopeSignal(text, definition) {
       };
     }
   }
+
   return {
     label: definition.label,
     status: "unclear",
     evidence: ""
   };
 }
+
 function detectScopeSignals(text) {
   const source = String(text || "");
   const normalized = normalizeScopeText(source);
   const results = {};
+
   Object.entries(SCOPE_DEFINITIONS).forEach(([key, definition]) => {
     results[key] = evaluateScopeSignal(normalized, definition);
   });
+
   results.premiumBrand = {
     label: "Premium brand",
     status: /\bgaf\b|\bowens corning\b|\bcertainteed\b|\bmalarkey\b|\biko\b|\btamko\b|\bdecra\b|\bmcelroy\b/i.test(normalized)
@@ -2580,36 +3215,47 @@ function detectScopeSignals(text) {
       return match ? normalizeEvidence(match[0]) : "";
     })()
   };
+
   return results;
 }
+
 function buildMissingSignalList(signals) {
   const items = [];
   if (!signals || typeof signals !== "object") return items;
+
   const importantKeys = ["flashing", "dripEdge", "underlayment", "ventilation"];
+
   importantKeys.forEach(key => {
     const item = signals[key];
     if (!item || item.status === "included") return;
+
     if (key === "flashing") items.push("Flashing not mentioned");
     if (key === "dripEdge") items.push("Drip edge not specified");
     if (key === "underlayment") items.push("Underlayment not mentioned");
     if (key === "ventilation") items.push("Ventilation not specified");
   });
+
   return items;
 }
+
 function buildIncludedSignalList(signals) {
   const items = [];
   if (!signals || typeof signals !== "object") return items;
+
   Object.values(signals).forEach(item => {
     if (!item || item.status !== "included") return;
     items.push(item.label);
   });
+
   return items;
 }
+
 function detectTotalLinePrice(text) {
   const lines = String(text || "")
     .split("\n")
     .map(line => line.trim())
     .filter(Boolean);
+
   const totalPatterns = [
     /total estimate/i,
     /estimate total/i,
@@ -2625,122 +3271,158 @@ function detectTotalLinePrice(text) {
     /estimated cost/i,
     /project total/i
   ];
+
   const badContextPatterns =
     /invoice date|due date|payment due date|proposal date|issue date|issued|expires|valid through|valid until|roof size|roof area|sq\.?\s*f[tf]|square feet|claim number|policy number|invoice number|estimate number|proposal number/i;
+
   const moneyRegex =
     /\$?\s?[0-9OIlSBGZAoilsbgza]{1,3}(?:[.,][0-9OIlSBGZAoilsbgza]{3})+(?:[.,][0-9OIlSBGZAoilsbgza]{2})?|\$?\s?[0-9OIlSBGZAoilsbgza]{4,6}(?:[.,][0-9OIlSBGZAoilsbgza]{2})?/g;
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     if (!totalPatterns.some(p => p.test(line))) continue;
+
     const candidateLines = [line, lines[i + 1] || ""];
+
     for (const candidateLine of candidateLines) {
       const lineLower = candidateLine.toLowerCase();
+
       if (badContextPatterns.test(lineLower)) continue;
       if (/\b(address|property address|mailing address|zip|zipcode|zip code)\b/.test(lineLower)) continue;
+
       const matches = [...candidateLine.matchAll(moneyRegex)];
       if (!matches.length) continue;
+
       const totalPhraseIndex = candidateLine.search(
         /total estimate|estimate total|total estimated cost|totol estimated cost|grand total|proposal total|contract total|final total|amount due|total due|total cost|estimated cost|project total/i
       );
+
       let bestMatch = null;
       let bestScore = -Infinity;
+
       for (const match of matches) {
         const raw = match[0];
         const value = parseMoneyLikeValue(raw);
         if (!isFinite(value) || value < 1000 || value > 200000) continue;
+
         if (Number.isInteger(value) && value >= 2024 && value <= 2035) continue;
+
         const matchIndex = match.index ?? 0;
         let candidateScore = 0;
+
         if (/\$|,\d{3}|\.\d{2}\b/.test(raw)) candidateScore += 20;
         if (totalPhraseIndex >= 0 && matchIndex > totalPhraseIndex) candidateScore += 30;
         if (/grand total|contract total|proposal total|final total|amount due|total due/i.test(candidateLine)) candidateScore += 40;
         if (/subtotal/i.test(candidateLine)) candidateScore -= 20;
+
         if (candidateScore > bestScore) {
           bestScore = candidateScore;
           bestMatch = value;
         }
       }
+
       if (bestMatch != null) {
         return bestMatch;
       }
     }
   }
+
   return null;
 }
+
 function detectPremiumSignals(text, signals, roofSize, material) {
   const lower = String(text || "").toLowerCase();
   const items = [];
+
   function add(label, condition) {
     if (condition && !items.includes(label)) {
       items.push(label);
     }
   }
+
   add(
     "Synthetic underlayment mentioned",
     /\bsynthetic underlayment\b|\bsynthetic felt\b/.test(lower)
   );
+
   add(
     "Ice and water shield mentioned",
     /\bice and water\b|\bice & water\b|\bice water shield\b|\bleak barrier\b|\bwater shield\b/.test(lower)
   );
+
   add(
     "Ridge vent system mentioned",
     /\bridge vent\b|\bridgevent\b/.test(lower)
   );
+
   add(
     "Starter strip mentioned",
     /\bstarter strip\b|\bstarter course\b|\bstarter shingle\b/.test(lower)
   );
+
   add(
     "Ridge cap mentioned",
     /\bridge cap\b|\bridgecap\b|\bhip and ridge\b|\bhip\/ridge\b/.test(lower)
   );
+
   add(
     "Flashing upgrades mentioned",
     /\bflashing upgrade\b|\bflashing upgrades\b|\bnew flashing\b|\breplace flashing\b|\bflashing replacement\b/.test(lower)
   );
+
   add(
     "Premium shingle wording detected",
     /\bpremium shingle\b|\bpremium shingles\b|\bdesigner shingle\b|\barchitectural shingle\b|\bdimensional shingle\b/.test(lower)
   );
+
   add(
     "Steep pitch mentioned",
     /\bsteep\b|\bsteep pitch\b|\bhigh pitch\b|\b12\/12\b|\b10\/12\b|\b8\/12\b/.test(lower)
   );
+
   add(
     "Multiple layers detected",
     /\bmultiple layers\b|\b2 layers\b|\btwo layers\b|\bsecond layer\b/.test(lower)
   );
+
   add(
     "Complex roof features detected",
     /\bvalley\b|\bmultiple valleys\b|\bdormer\b|\bskylight\b|\bchimney\b|\bcomplex roof\b/.test(lower)
   );
+
   add(
     "Decking work mentioned",
     Boolean(signals && signals.decking && signals.decking.status === "included")
   );
+
   add(
     "Premium brand mentioned",
     Boolean(signals && signals.premiumBrand && signals.premiumBrand.status === "included")
   );
+
   add(
     "Premium roofing material",
     material === "metal" || material === "tile" || material === "slate"
   );
+
   add(
     "Large roof size",
     Number(roofSize) >= 3500
   );
+
   return items;
 }
+
 function calculateParserConfidence(parsed) {
   let score = 0;
+
   if (parsed.price) score += 28;
   if (parsed.priceCandidates && parsed.priceCandidates[0] && parsed.priceCandidates[0].score >= 55) score += 10;
   if (parsed.material) score += 14;
   if (parsed.warrantyYears) score += 8;
   if (parsed.roofSize) score += 12;
   if (parsed.city && parsed.stateCode) score += 10;
+
   const signals = parsed.signals || {};
   const includedCount = Object.values(signals).filter(item => item && item.status === "included").length;
   if (includedCount >= 3) score += 10;
@@ -2748,16 +3430,20 @@ function calculateParserConfidence(parsed) {
   if (parsed.extractedTextLength >= 300) score += 5;
   if (parsed.extractionMethod === "pdf_text") score += 4;
   if (parsed.extractionMethod === "pdf_ocr_fallback" || parsed.extractionMethod === "image_ocr") score += 2;
+
   return Math.min(100, score);
 }
+
 function getConfidenceLabelFromScore(score) {
   if (score >= 75) return "High";
   if (score >= 45) return "Medium";
   return "Low";
 }
+
 function validatePriceSanity(finalPrice, roofSizeSqFt) {
   const price = Number(finalPrice);
   const roofSize = Number(roofSizeSqFt);
+
   if (!Number.isFinite(price) || !Number.isFinite(roofSize) || roofSize <= 0) {
     return {
       status: "unknown",
@@ -2766,7 +3452,9 @@ function validatePriceSanity(finalPrice, roofSizeSqFt) {
       reason: ""
     };
   }
+
   const pricePerSqFt = price / roofSize;
+
   if (pricePerSqFt < 1.25) {
     return {
       status: "implausible_low",
@@ -2775,6 +3463,7 @@ function validatePriceSanity(finalPrice, roofSizeSqFt) {
       reason: "Selected price appears far too low relative to detected roof size"
     };
   }
+
   if (pricePerSqFt < 2.0) {
     return {
       status: "borderline_low",
@@ -2783,6 +3472,7 @@ function validatePriceSanity(finalPrice, roofSizeSqFt) {
       reason: "Selected price appears unusually low relative to detected roof size"
     };
   }
+
   if (pricePerSqFt > 25.0) {
     return {
       status: "implausible_high",
@@ -2791,6 +3481,7 @@ function validatePriceSanity(finalPrice, roofSizeSqFt) {
       reason: "Selected price appears far too high relative to detected roof size"
     };
   }
+
   if (pricePerSqFt > 20.0) {
     return {
       status: "borderline_high",
@@ -2799,6 +3490,7 @@ function validatePriceSanity(finalPrice, roofSizeSqFt) {
       reason: "Selected price appears unusually high relative to detected roof size"
     };
   }
+
   return {
     status: "plausible",
     pricePerSqFt,
@@ -2806,30 +3498,38 @@ function validatePriceSanity(finalPrice, roofSizeSqFt) {
     reason: ""
   };
 }
+
 function isImplausiblePriceSanityStatus(status) {
   return status === "implausible_low" || status === "implausible_high";
 }
+
 function findSanityFallbackCandidate(priceCandidates, roofSizeSqFt, currentBestPrice) {
   const candidates = Array.isArray(priceCandidates) ? priceCandidates : [];
   const currentValue = Number(currentBestPrice);
   const roofSize = Number(roofSizeSqFt);
+
   if (!Number.isFinite(roofSize) || roofSize <= 0) {
     return null;
   }
+
   for (const candidate of candidates) {
     if (!candidate) continue;
+
     const candidateValue = Number(candidate.value);
     if (!Number.isFinite(candidateValue)) continue;
     if (candidateValue === currentValue) continue;
     if (candidate.score < 80) continue;
     if (candidateValue < 3000 || candidateValue > 250000) continue;
+
     const sanity = validatePriceSanity(candidateValue, roofSize);
+
     if (sanity.status === "plausible") {
       return {
         candidate,
         sanity
       };
     }
+
     if (sanity.status === "borderline_low" || sanity.status === "borderline_high") {
       return {
         candidate,
@@ -2837,50 +3537,70 @@ function findSanityFallbackCandidate(priceCandidates, roofSizeSqFt, currentBestP
       };
     }
   }
+
   return null;
 }
+
 function detectQuoteStructure(text) {
   const source = String(text || "");
   const lower = source.toLowerCase();
+
   const hasTableSignals =
     /description\s+qty\s+unit price\s+(subtotal|amount)/i.test(source) ||
     (/subtotal/.test(lower) && /qty|unit price|amount/.test(lower)) ||
     (/description/.test(lower) && /amount/.test(lower));
+
   const hasInsuranceSignals =
     /replacement cost value|actual cash value|acv|rcv|depreciation|deductible|claim number/i.test(source);
+
   const hasProposalSignals =
     /proposal|investment for this project|the investment for this project|thank you for the opportunity|scope of work/i.test(source);
+
   if (hasInsuranceSignals) return "insurance_quote";
   if (hasTableSignals) return "table_quote";
   if (hasProposalSignals) return "proposal_quote";
   return "unknown";
 }
+
 function reconstructTotalFromLineItems(text) {
   const lines = String(text || "")
     .split("\n")
     .map(l => l.trim())
     .filter(Boolean);
+
   const lineItemValues = [];
+
   const moneyRegex =
     /\$?\s?(?:[0-9OIlSBGZAoilsbgza]{1,3}(?:[.,][0-9OIlSBGZAoilsbgza]{3})+(?:[.,][0-9OIlSBGZAoilsbgza]{2})?|[0-9OIlSBGZAoilsbgza]{3,6}(?:[.,][0-9OIlSBGZAoilsbgza]{2})?)/g;
+
   for (const line of lines) {
     const lower = line.toLowerCase();
+
     if (/total|grand total|project total|contract total|final total|amount due|total due/.test(lower)) continue;
     if (/roof size|roof area|sq\.?\s*f[tf]|square feet/.test(lower)) continue;
     if (!/qty|quantity|unit price|subtotal|labor|materials|tear off|underlayment|shingles|flashing|ventilation/i.test(lower)) continue;
+
     const matches = [...line.matchAll(moneyRegex)];
     if (!matches.length) continue;
+
     const lastMatch = matches[matches.length - 1];
     const value = parseMoneyLikeValue(lastMatch[0], line);
+
     if (!isFinite(value)) continue;
     if (value < 300 || value > 50000) continue;
+
     lineItemValues.push(value);
   }
+
   if (lineItemValues.length < 2) return null;
+
   const total = lineItemValues.reduce((sum, v) => sum + v, 0);
+
   if (total < 1500 || total > 250000) return null;
+
   return total;
 }
+
 function normalizeOcrMoneySpacing(text) {
   return String(text || "")
     .replace(/(\$\s*\d+)\.\s+(\d{3}\b)/g, "$1.$2")
@@ -2890,8 +3610,10 @@ function normalizeOcrMoneySpacing(text) {
     .replace(/\b(\d+),\s+(\d{3}\b)/g, "$1,$2")
     .replace(/\b(\d+)\s+(\d{3}\b)/g, "$1$2");
 }
+
 function detectExplicitTotalFromFullText(text) {
   const source = String(text || "");
+
   const patterns = [
     /total estimate[^0-9$,.]{0,40}(\$?\s*(?:[,\.]\d{3,4}|[0-9OIlSBGZAoilsbgza]{1,3}(?:[.,][0-9OIlSBGZAoilsbgza]{3})+(?:[.,][0-9OIlSBGZAoilsbgza]{2})?|[0-9OIlSBGZAoilsbgza]{4,6}(?:[.,][0-9OIlSBGZAoilsbgza]{2})?))/i,
     /estimate total[^0-9$,.]{0,40}(\$?\s*(?:[,\.]\d{3,4}|[0-9OIlSBGZAoilsbgza]{1,3}(?:[.,][0-9OIlSBGZAoilsbgza]{3})+(?:[.,][0-9OIlSBGZAoilsbgza]{2})?|[0-9OIlSBGZAoilsbgza]{4,6}(?:[.,][0-9OIlSBGZAoilsbgza]{2})?))/i,
@@ -2902,19 +3624,25 @@ function detectExplicitTotalFromFullText(text) {
     /amount due[^0-9$]{0,40}(\$?\s?[0-9OIlSBGZAoilsbgza]{1,3}(?:[.,][0-9OIlSBGZAoilsbgza]{3})+(?:[.,][0-9OIlSBGZAoilsbgza]{2})?|\$?\s?[0-9OIlSBGZAoilsbgza]{4,6}(?:[.,][0-9OIlSBGZAoilsbgza]{2})?)/i,
     /total due[^0-9$]{0,40}(\$?\s?[0-9OIlSBGZAoilsbgza]{1,3}(?:[.,][0-9OIlSBGZAoilsbgza]{3})+(?:[.,][0-9OIlSBGZAoilsbgza]{2})?|\$?\s?[0-9OIlSBGZAoilsbgza]{4,6}(?:[.,][0-9OIlSBGZAoilsbgza]{2})?)/i
   ];
+
   for (const pattern of patterns) {
     const match = source.match(pattern);
     if (!match || !match[1]) continue;
+
     const wholeMatch = String(match[0] || "").toLowerCase();
 const value = parseMoneyLikeValue(match[1], wholeMatch);
+
     if (!isFinite(value)) continue;
     if (value < 1000 || value > 250000) continue;
     if (Number.isInteger(value) && value >= 2024 && value <= 2035) continue;
     if (/deductible|deposit|rebate|discount|coupon|remaining balance|balance due|acv|depreciation/.test(wholeMatch)) continue;
+
   return value;
   }
+
   return null;
 }
+
 function normalizeWhitespacePreserveLines(text) {
   return String(text || "")
     .split("\n")
@@ -2924,8 +3652,10 @@ function normalizeWhitespacePreserveLines(text) {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
+
 function parseExtractedText(extractedText, options = {}) {
   const rawText = String(extractedText || "");
+
   let normalizedText = rawText
     .replace(/\r\n/g, "\n")
     .replace(/\r/g, "\n")
@@ -2933,12 +3663,16 @@ function parseExtractedText(extractedText, options = {}) {
     .replace(/[ \t]+/g, " ")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
+
   normalizedText = normalizeWhitespacePreserveLines(normalizedText);
   normalizedText = normalizeOcrMoneySpacing(normalizedText);
+
+
   const quoteStructure = detectQuoteStructure(normalizedText);
   const totalLinePrice = detectTotalLinePrice(normalizedText);
   const explicitTextTotal = detectExplicitTotalFromFullText(normalizedText);
   let priceCandidates = extractPriceCandidates(normalizedText);
+
   priceCandidates = priceCandidates.sort((a, b) => {
   const sourceRank = {
     explicit_total_full_text: 6,
@@ -2954,13 +3688,19 @@ function parseExtractedText(extractedText, options = {}) {
     zip_or_address_candidate: -5,
     date_like_year_candidate: -6
   };
+
   const aRank = sourceRank[a.sourceType] ?? 0;
   const bRank = sourceRank[b.sourceType] ?? 0;
+
+  // If score difference is large (>30), prefer higher score regardless of source rank
   const scoreDiff = b.score - a.score;
   if (Math.abs(scoreDiff) > 30) return scoreDiff;
+
   return bRank - aRank || scoreDiff || b.value - a.value;
 });
+
   const reconstructedTotal = reconstructTotalFromLineItems(normalizedText);
+
   if (
     Number.isFinite(explicitTextTotal) &&
     !priceCandidates.some(candidate => Number(candidate.value) === Number(explicitTextTotal))
@@ -2973,6 +3713,7 @@ function parseExtractedText(extractedText, options = {}) {
       context: "Explicit total phrase found in full normalized text"
     });
   }
+
   if (
     reconstructedTotal &&
     !priceCandidates.some(c => Number(c.value) === reconstructedTotal)
@@ -2985,6 +3726,7 @@ function parseExtractedText(extractedText, options = {}) {
       context: "Reconstructed from line items"
     });
   }
+
   if (
     Number.isFinite(totalLinePrice) &&
     !priceCandidates.some(candidate => Number(candidate.value) === Number(totalLinePrice))
@@ -2997,19 +3739,23 @@ function parseExtractedText(extractedText, options = {}) {
       context: "Explicit total line match"
     });
   }
+
   const materialResult = detectMaterial(normalizedText);
   const warrantyResult = detectWarranty(normalizedText);
   const roofSizeResult = detectRoofSize(normalizedText);
   const locationResult = detectLocation(normalizedText);
+  const propertyAddressResult = extractPropertyAddress(normalizedText);
   const signals = detectScopeSignals(normalizedText);
   const includedSignals = buildIncludedSignalList(signals);
   const missingSignals = buildMissingSignalList(signals);
+
   const premiumSignals = detectPremiumSignals(
     normalizedText,
     signals,
     roofSizeResult?.value,
     materialResult?.value
   );
+
   const bestPrice =
     Number.isFinite(totalLinePrice)
       ? totalLinePrice
@@ -3018,11 +3764,14 @@ function parseExtractedText(extractedText, options = {}) {
         : priceCandidates.length
           ? priceCandidates[0].value
           : "";
+
   let finalBestPrice = bestPrice;
+
   function isLikelyYear(value) {
     const n = Number(value);
     return Number.isInteger(n) && n >= 2024 && n <= 2035;
   }
+
   function findSaferFallback(candidates, roofSizeValue) {
     return candidates.find(candidate => {
       const candidateValue = Number(candidate.value);
@@ -3034,38 +3783,46 @@ function parseExtractedText(extractedText, options = {}) {
       return true;
     });
   }
+
   const roofSizeNumeric = Number(roofSizeResult?.value || 0);
+
   if (
     Number(finalBestPrice) &&
     roofSizeNumeric &&
     Number(finalBestPrice) === roofSizeNumeric
   ) {
     const nextCandidate = findSaferFallback(priceCandidates, roofSizeNumeric);
+
     if (nextCandidate) {
       finalBestPrice = nextCandidate.value;
     } else {
       finalBestPrice = "";
     }
   }
+
   if (isLikelyYear(finalBestPrice)) {
     const nextCandidate = findSaferFallback(priceCandidates, roofSizeNumeric);
+
     if (nextCandidate) {
       finalBestPrice = nextCandidate.value;
     } else {
       finalBestPrice = "";
     }
   }
+
   let priceSanity = validatePriceSanity(finalBestPrice, roofSizeNumeric);
   let priceSanityFallbackUsed = false;
   let priceSanityOriginalBestPrice = finalBestPrice ? Number(finalBestPrice) : null;
   let priceSanityOriginalStatus = priceSanity.status || "unknown";
   let priceSanityFallbackCandidate = null;
+
   if (isImplausiblePriceSanityStatus(priceSanity.status)) {
     const sanityFallback = findSanityFallbackCandidate(
       priceCandidates,
       roofSizeNumeric,
       finalBestPrice
     );
+
     if (sanityFallback && sanityFallback.candidate) {
       finalBestPrice = sanityFallback.candidate.value;
       priceSanity = sanityFallback.sanity;
@@ -3073,6 +3830,7 @@ function parseExtractedText(extractedText, options = {}) {
       priceSanityFallbackCandidate = sanityFallback.candidate;
     }
   }
+
   const parsed = {
     price: finalBestPrice ? String(finalBestPrice) : "",
     finalBestPrice: finalBestPrice ? Number(finalBestPrice) : null,
@@ -3091,6 +3849,7 @@ function parseExtractedText(extractedText, options = {}) {
     contractor: detectContractor(normalizedText),
     city: locationResult?.city || "",
     stateCode: locationResult?.stateCode || "",
+    propertyAddress: propertyAddressResult || null,
     roofSize:
       roofSizeResult?.value !== undefined &&
       roofSizeResult?.value !== null &&
@@ -3131,14 +3890,19 @@ function parseExtractedText(extractedText, options = {}) {
     extractionMethod: options.extractionMethod || "ocr_cache",
     extractedTextLength: normalizedText.length
   };
+
   parsed.confidenceScore = calculateParserConfidence(parsed);
   parsed.confidenceScore = Math.max(
     0,
     parsed.confidenceScore - (priceSanity.confidencePenalty || 0)
   );
   parsed.confidenceLabel = getConfidenceLabelFromScore(parsed.confidenceScore);
+
+
   return parsed;
 }
+
+
 window.__TP_PARSER_TESTS__ = function () {
   const cases = [
     {
@@ -3181,6 +3945,7 @@ window.__TP_PARSER_TESTS__ = function () {
       expect: { price: 12800, roofSize: 2000 }
     }
   ];
+
   const results = cases.map(testCase => {
     const parsed = parseExtractedText(testCase.text, { extractionMethod: "test_fixture" });
     return {
@@ -3194,54 +3959,338 @@ window.__TP_PARSER_TESTS__ = function () {
         Number(parsed.roofSize || 0) === Number(testCase.expect.roofSize)
     };
   });
+
   console.table(results);
   return results;
 };
+
+// ── Multi-strategy parser with confidence scoring ──
+// Added for plumbing analyzer accuracy pilot (Apr 2026).
+// Runs 3 parse strategies and cross-validates the price:
+//   A) default parser (existing behavior)
+//   B) strict: only accept prices on lines labeled TOTAL / Grand Total / Amount Due / Subtotal / Total Due
+//   C) loose: any dollar amount > $100, bottom-of-doc scored higher
+// Returns a base parsed object (from Strategy A, so all callers still get the
+// same shape) plus finalPrice / priceConfidence / priceCandidates / strategiesAgreed.
+function parseExtractedTextMultiStrategy(extractedText, vertical) {
+  const rawText = String(extractedText || "");
+  const baseParsed = parseExtractedText(rawText, { extractionMethod: "multi_strategy" });
+
+  // Strategy A price: whatever the default parser picked
+  const strategyA = {
+    name: "default",
+    price: Number(baseParsed.finalBestPrice) || null,
+    candidates: Array.isArray(baseParsed.priceCandidates) ? baseParsed.priceCandidates.slice() : []
+  };
+
+  // ── Strategy B: strict labeled-total patterns only ──
+  const strategyB = { name: "strict_labeled", price: null, candidates: [] };
+  // Note: \b before "total" prevents matching "subtotal" as "total".
+  // The bare "total" alternation must come LAST so longer alternates like
+  // "grand total" win first.
+  const labelPatterns = [
+    /(?:grand\s*total|total\s*due|amount\s*due|balance\s*due|final\s*total|contract\s*total|project\s*total|invoice\s*total|quote\s*total|total\s*estimate|total\s*price|total\s*contract\s*price|total\s*installation\s*cost|total\s*repair\s*cost|\btotal)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
+    /\bsub\s*total\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
+    // Insurance EOB: "Replacement Cost Value (RCV): $X" is the authoritative
+    // pre-depreciation total. Bare "RCV: $X" also appears on Xactimate sheets.
+    /(?:replacement\s*cost\s*value\s*(?:\(rcv\))?|\brcv)\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi,
+    // Auto insurance / dealer estimate: "Total Cost of Repairs: $X" is the
+    // gross repair cost line on Mitchell/CCC/Xactimate auto estimates.
+    // "Net Cost of Repairs" is post-deductible — explicitly NOT matched here
+    // because the gross is what compares to the market benchmark.
+    /\btotal\s*cost\s*of\s*repairs?\s*[:\-]?\s*\$?\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/gi
+  ];
+  const textForB = rawText.replace(/\r\n/g, "\n");
+  labelPatterns.forEach((re, idx) => {
+    let m;
+    while ((m = re.exec(textForB)) !== null) {
+      const raw = m[1];
+      const val = Number(String(raw).replace(/,/g, ""));
+      if (!Number.isFinite(val) || val < 50 || val > 500000) continue;
+      // Defensive check: if the matched context contains "sub" right before
+      // the word "total", it's actually a subtotal even if pattern 0 caught it.
+      const ctx = m[0].toLowerCase();
+      const isSubtotal = idx === 1 || /\bsub\s*total/.test(ctx);
+      const isRcv = idx === 2;
+      const isAutoTcr = idx === 3;
+      strategyB.candidates.push({
+        value: val,
+        display: String(raw),
+        score: isSubtotal ? 60 : ((isRcv || isAutoTcr) ? 110 : 100),
+        sourceType: isSubtotal ? "strict_subtotal" : "strict_labeled_total",
+        context: m[0]
+      });
+    }
+  });
+  strategyB.candidates.sort((a, b) => b.score - a.score || b.value - a.value);
+  if (strategyB.candidates.length) {
+    // prefer the highest-scoring labeled total (non-subtotal wins over subtotal)
+    const nonSub = strategyB.candidates.find(c => c.sourceType === "strict_labeled_total");
+    strategyB.price = nonSub ? nonSub.value : strategyB.candidates[0].value;
+  }
+
+  // ── Strategy C: loose — any $ amount > 100, bottom-of-doc wins ties ──
+  const strategyC = { name: "loose_positional", price: null, candidates: [] };
+  const moneyRe = /\$\s*([0-9][0-9,]*(?:\.[0-9]{1,2})?)/g;
+  const totalLen = Math.max(1, textForB.length);
+  let mm;
+  while ((mm = moneyRe.exec(textForB)) !== null) {
+    const val = Number(String(mm[1]).replace(/,/g, ""));
+    if (!Number.isFinite(val) || val < 100 || val > 500000) continue;
+    const positionFrac = mm.index / totalLen; // 0 = top, 1 = bottom
+    // bottom-of-doc scores 50..100, top 20..50
+    const score = Math.round(20 + positionFrac * 80);
+    strategyC.candidates.push({
+      value: val,
+      display: String(mm[1]),
+      score,
+      sourceType: "loose_positional",
+      context: textForB.slice(Math.max(0, mm.index - 20), Math.min(textForB.length, mm.index + 20))
+    });
+  }
+  strategyC.candidates.sort((a, b) => b.score - a.score || b.value - a.value);
+  if (strategyC.candidates.length) strategyC.price = strategyC.candidates[0].value;
+
+  // ── Cross-validate ──
+  const allCandidates = [
+    ...strategyA.candidates.map(c => Object.assign({}, c, { strategy: "A" })),
+    ...strategyB.candidates.map(c => Object.assign({}, c, { strategy: "B" })),
+    ...strategyC.candidates.map(c => Object.assign({}, c, { strategy: "C" }))
+  ];
+
+  const strategyPrices = [strategyA.price, strategyB.price, strategyC.price].filter(p => Number.isFinite(p) && p > 0);
+
+  // Agreement: count how many strategies picked the same price
+  const agreementMap = {};
+  strategyPrices.forEach(p => { agreementMap[p] = (agreementMap[p] || 0) + 1; });
+
+  let finalPrice = null;
+  let strategiesAgreed = 0;
+  let priceConfidence = "low";
+
+  // Pick the price with the most agreement; break ties by preferring Strategy A (default)
+  const sortedByAgreement = Object.keys(agreementMap)
+    .map(k => ({ price: Number(k), count: agreementMap[k] }))
+    .sort((a, b) => b.count - a.count);
+
+  if (sortedByAgreement.length) {
+    const top = sortedByAgreement[0];
+    finalPrice = top.price;
+    strategiesAgreed = top.count;
+  }
+
+  // Prefer Strategy A value if it ties with another
+  if (sortedByAgreement.length > 1 && sortedByAgreement[0].count === sortedByAgreement[1].count) {
+    if (Number.isFinite(strategyA.price) && strategyA.price > 0) {
+      finalPrice = strategyA.price;
+      strategiesAgreed = agreementMap[strategyA.price] || 1;
+    }
+  }
+
+  // No-agreement override: when no two strategies agree (each picked a
+  // different value), defer to Strategy B's strict labeled total if one
+  // exists. A "TOTAL: $X" / "RCV: $X" line is a stronger signal than
+  // Strategy A's heuristic line-item picking. This is what fixes insurance
+  // EOBs where the largest line item (a single shingle SKU) outscores the
+  // actual project total.
+  if (strategiesAgreed <= 1 && Number.isFinite(strategyB.price) && strategyB.price > 0) {
+    const bIsLabeled = strategyB.candidates.some(c => c.sourceType === "strict_labeled_total" && c.value === strategyB.price);
+    if (bIsLabeled && strategyB.price !== finalPrice) {
+      finalPrice = strategyB.price;
+      strategiesAgreed = agreementMap[strategyB.price] || 1;
+    }
+  }
+
+  // Year-vs-price override: if finalPrice is a bare integer in the model-year
+  // range (1980-2030) AND Strategy C has a different $-prefixed candidate,
+  // Strategy A almost certainly grabbed a vehicle model year ("2018 Ford
+  // Focus") instead of a price. Defer to Strategy C's dollar-prefixed value.
+  const looksLikeYear = Number.isFinite(finalPrice) &&
+    finalPrice >= 1980 && finalPrice <= 2030 &&
+    Number.isInteger(finalPrice);
+  if (looksLikeYear && Number.isFinite(strategyC.price) && strategyC.price > 0 && strategyC.price !== finalPrice) {
+    finalPrice = strategyC.price;
+    strategiesAgreed = agreementMap[strategyC.price] || 1;
+  }
+
+  if (strategiesAgreed >= 3) priceConfidence = "high";
+  else if (strategiesAgreed === 2) priceConfidence = "high"; // 2 of 3 is still strong agreement
+  else priceConfidence = "low";
+
+  // BOOST: a strict labeled "TOTAL: $X" match is the highest-quality price
+  // signal we can extract. If Strategy B found one and the picked finalPrice
+  // matches it, treat as at least medium confidence even if A and C picked
+  // different things (Tesseract often introduces noise that breaks A/C scoring
+  // but leaves the labeled-total intact).
+  const labeledTotalMatch = strategyB.candidates.find(c => c.sourceType === "strict_labeled_total");
+  if (labeledTotalMatch && Number.isFinite(finalPrice) && Math.abs(finalPrice - labeledTotalMatch.value) < 1) {
+    if (priceConfidence === "low") priceConfidence = "medium";
+  }
+  // If finalPrice wasn't picked yet but Strategy B has a labeled total, use it.
+  if ((!Number.isFinite(finalPrice) || finalPrice <= 0) && labeledTotalMatch) {
+    finalPrice = labeledTotalMatch.value;
+    priceConfidence = "medium";
+    strategiesAgreed = Math.max(strategiesAgreed, 1);
+  }
+
+  // OCR GARBLE RECOVERY: if a labeled TOTAL exists but is implausibly smaller
+  // than a labeled SUBTOTAL, Tesseract likely dropped a digit/comma from the
+  // total line (e.g. "$7,571" misread as "$7.57"). In that case the subtotal
+  // is the more trustworthy floor — use it instead of the garbled total.
+  const subtotalMatch = strategyB.candidates.find(c => c.sourceType === "strict_subtotal");
+  if (subtotalMatch && labeledTotalMatch && labeledTotalMatch.value < subtotalMatch.value * 0.5) {
+    finalPrice = subtotalMatch.value;
+    priceConfidence = "low"; // explicit: OCR was corrupted, user should verify
+    strategiesAgreed = 1;
+  }
+
+  // If nothing found at all
+  if (!Number.isFinite(finalPrice) || finalPrice <= 0) {
+    finalPrice = null;
+    priceConfidence = "low";
+    strategiesAgreed = 0;
+  }
+
+  // ── Vertical-aware price sanity bounds ──
+  // Reject prices that are implausibly high or low for a given vertical.
+  // Better to say "we couldn't read your price" than show $133k for plumbing.
+  if (finalPrice && vertical) {
+    var VERTICAL_PRICE_BOUNDS = {
+      plumbing:    { min: 75,  max: 50000 },
+      hvac:        { min: 100, max: 60000 },
+      electrical:  { min: 75,  max: 50000 },
+      roofing:     { min: 500, max: 100000 },
+      fencing:     { min: 100, max: 40000 },
+      concrete:    { min: 100, max: 80000 },
+      foundation:  { min: 500, max: 60000 },
+      "garage-door": { min: 100, max: 15000 },
+      gutters:     { min: 100, max: 15000 },
+      insulation:  { min: 100, max: 25000 },
+      kitchen:     { min: 500, max: 150000 },
+      landscaping: { min: 100, max: 60000 },
+      painting:    { min: 100, max: 40000 },
+      siding:      { min: 200, max: 50000 },
+      solar:       { min: 500, max: 80000 },
+      windows:     { min: 200, max: 60000 },
+      moving:      { min: 100, max: 35000 },
+      auto:        { min: 50,  max: 30000 },
+      medical:     { min: 50,  max: 500000 },
+      legal:       { min: 100, max: 200000 }
+    };
+    var bounds = VERTICAL_PRICE_BOUNDS[vertical];
+    if (bounds && (finalPrice < bounds.min || finalPrice > bounds.max)) {
+      finalPrice = null;
+      priceConfidence = "low";
+      strategiesAgreed = 0;
+    }
+  }
+
+  return Object.assign({}, baseParsed, {
+    finalPrice,
+    priceConfidence,
+    priceCandidates: allCandidates,
+    strategiesAgreed,
+    strategyResults: {
+      A: { price: strategyA.price, count: strategyA.candidates.length },
+      B: { price: strategyB.price, count: strategyB.candidates.length },
+      C: { price: strategyC.price, count: strategyC.candidates.length }
+    },
+    vertical: vertical || null
+  });
+}
+
 window.extractPriceCandidates = extractPriceCandidates;
 window.parseExtractedText = parseExtractedText;
+window.parseExtractedTextMultiStrategy = parseExtractedTextMultiStrategy;
 window.detectMaterial = detectMaterial;
 window.detectRoofSize = detectRoofSize;
 window.detectWarranty = detectWarranty;
 window.detectLocation = detectLocation;
 window.detectScopeSignals = detectScopeSignals;
+// === js/analyzer-scope.js ===
 function detectScopeItems(text) {
   const normalized = String(text || "").toLowerCase();
+
   const scopeCatalog = [
-    { key: "tear_off", label: "Tear off existing shingles", patterns: [/tear.?off/, /remove existing roof/] },
-    { key: "underlayment", label: "Underlayment", patterns: [/underlayment/, /felt paper/, /synthetic underlayment/] },
-    { key: "drip_edge", label: "Drip edge", patterns: [/drip edge/] },
-    { key: "flashing", label: "Flashing replacement", patterns: [/flashing/, /step flashing/, /counter flashing/] },
-    { key: "ice_barrier", label: "Ice and water barrier", patterns: [/ice.?water/, /ice barrier/, /ice shield/] },
-    { key: "ridge_vent", label: "Ridge ventilation", patterns: [/ridge vent/, /ridge ventilation/] },
-    { key: "starter", label: "Starter shingles", patterns: [/starter shingle/, /starter strip/] },
-    { key: "ridge_cap", label: "Ridge cap shingles", patterns: [/ridge cap/] },
-    { key: "valley_metal", label: "Valley metal", patterns: [/valley metal/, /metal valley/] },
-    { key: "deck_repair", label: "Deck repair allowance", patterns: [/deck repair/, /replace plywood/, /replace osb/] },
-    { key: "disposal", label: "Debris disposal", patterns: [/dumpster/, /debris removal/, /haul away/] },
-    { key: "permit", label: "Permit included", patterns: [/permit/] }
+    { key: "tear_off", label: "Tear off existing shingles", costLow: 300, costHigh: 800, patterns: [/tear.?off/, /remove existing/, /replace.?existing/, /strip existing/, /remov(?:e|al).*(?:old|existing|current).*roof/, /replace.*(?:old|existing|current).*roof/, /roof(?:ing)?\s+remov/, /replac.*roof/, /remov.*roof/, /new.*(?:asphalt|shingle|roof)/, /(?:asphalt|shingle).*replac/] },
+    { key: "underlayment", label: "Underlayment", costLow: 200, costHigh: 600, patterns: [/underlayment/, /felt paper/, /synthetic underlayment/, /ice.*water.*shield/, /weather\s*lock/, /deck\s*armor/, /deck\s*defense/, /tiger\s*paw/, /roof\s*deck\s*protect/] },
+    { key: "drip_edge", label: "Drip edge", costLow: 100, costHigh: 300, patterns: [/drip edge/, /drip\s*edge/, /edge\s*metal/, /eave\s*metal/] },
+    { key: "flashing", label: "Flashing replacement", costLow: 200, costHigh: 600, patterns: [/flashing/, /flash\s*ing/, /step flash/, /counter flash/, /wall flash/, /chimney flash/, /pipe flash/, /roof flash/, /damaged flash/, /repair.*flash/, /flash.*repair/, /new flash/, /fl\s*ash/] },
+    { key: "ice_barrier", label: "Ice and water barrier", costLow: 150, costHigh: 500, patterns: [/ice.*water/, /ice barrier/, /ice shield/, /weather\s*lock/, /storm\s*guard/, /leak\s*barrier/] },
+    { key: "ridge_vent", label: "Ridge ventilation", costLow: 150, costHigh: 450, patterns: [/ridge vent/, /ridge ventilation/, /ventilation/, /vent(?:s|ing|ilation)?\b/, /exhaust vent/, /attic vent/, /roof vent/, /additional ventilation/, /install.*vent/, /vent\s*il/, /v\s*e\s*n\s*t/, /turbine/, /soffit vent/] },
+    { key: "starter", label: "Starter shingles", costLow: 75, costHigh: 200, patterns: [/starter shingle/, /starter strip/, /starter course/, /eave starter/] },
+    { key: "ridge_cap", label: "Ridge cap shingles", costLow: 100, costHigh: 350, patterns: [/ridge cap/, /hip.*cap/, /cap shingle/] },
+    { key: "valley_metal", label: "Valley metal", costLow: 100, costHigh: 400, patterns: [/valley metal/, /metal valley/, /valley/, /open valley/, /woven valley/] },
+    { key: "deck_repair", label: "Deck repair allowance", costLow: 200, costHigh: 1000, patterns: [/deck(?:ing)?\s*repair/, /replace plywood/, /replace osb/, /rotten.*(?:wood|deck|board|plywood|sheet)/, /damaged.*(?:wood|deck|board|framework|roof)/, /repair.*(?:wood|deck|framework|plywood|board|roof\s*framework)/, /(?:wood|deck|plywood|osb)\s*repair/, /per\s*sheet/, /roof\s*(?:deck|sheathing)/, /roof\s*framework/, /framework/, /damag.*framework/, /damag.*roof/] },
+    { key: "disposal", label: "Debris disposal", costLow: 150, costHigh: 500, patterns: [/dumpster/, /debris remov/, /haul away/, /disposal/, /clean.?up/, /dispose/, /waste remov/, /dump fee/] },
+    { key: "permit", label: "Permit included", costLow: 100, costHigh: 400, patterns: [/permit/, /inspection/, /building permit/, /code complian/] },
+    { key: "power_attic_fan", label: "Power attic fan (incl. electrician)", costLow: 450, costHigh: 1000, patterns: [/power\s*attic\s*fan/, /powered\s*attic\s*(?:fan|vent)/, /attic\s*fan/, /power\s*vent/, /powered\s*vent/, /solar\s*attic\s*fan/] }
   ];
+
   const detected = [];
+
   for (const item of scopeCatalog) {
     const found = item.patterns.some(pattern => pattern.test(normalized));
+
     detected.push({
       key: item.key,
       label: item.label,
-      detected: found
+      detected: found,
+      costLow: item.costLow,
+      costHigh: item.costHigh
     });
   }
+
   return detected;
 }
+
 function calculateScopeScore(scopeItems) {
   const total = scopeItems.length;
   const detected = scopeItems.filter(i => i.detected).length;
+  const missing = scopeItems.filter(i => !i.detected);
+  const missingCostLow = missing.reduce((sum, i) => sum + (i.costLow || 0), 0);
+  const missingCostHigh = missing.reduce((sum, i) => sum + (i.costHigh || 0), 0);
+
   return {
     detected,
     total,
-    score: Math.round((detected / total) * 100)
+    score: Math.round((detected / total) * 100),
+    missingCount: missing.length,
+    missingCostLow,
+    missingCostHigh,
+    missingItems: missing
   };
 }
+
 window.detectScopeItems = detectScopeItems;
 window.calculateScopeScore = calculateScopeScore;
+
+// === js/analyzer-ocr.js ===
+async function detectDarkBackground(imageDataUrl) {
+  return new Promise(function(resolve) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement("canvas");
+      var size = 100; // Sample at small size for speed
+      canvas.width = size;
+      canvas.height = size;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, size, size);
+      var data = ctx.getImageData(0, 0, size, size).data;
+      var darkPixels = 0;
+      var totalPixels = size * size;
+      for (var i = 0; i < data.length; i += 4) {
+        var brightness = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+        if (brightness < 80) darkPixels++;
+      }
+      // If more than 40% of pixels are dark, it's a dark background
+      resolve(darkPixels / totalPixels > 0.4);
+    };
+    img.onerror = function() { resolve(false); };
+    img.src = imageDataUrl;
+  });
+}
+
 async function fileToImageDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -3250,30 +4299,41 @@ async function fileToImageDataUrl(file) {
     reader.readAsDataURL(file);
   });
 }
+
 async function preprocessImageForOcr(imageSource, mode = "soft") {
   return new Promise((resolve, reject) => {
     const img = new Image();
+
     img.onload = () => {
       const canvas = document.createElement("canvas");
+
+      // Higher target DPI for better OCR accuracy (especially phone photos)
       const maxDimension = 2400;
       const longestSide = Math.max(img.width, img.height);
       const upscaleRatio = longestSide < maxDimension ? maxDimension / longestSide : 1;
       const scale = Math.max(1.5, Math.min(2.5, upscaleRatio));
+
       canvas.width = Math.round(img.width * scale);
       canvas.height = Math.round(img.height * scale);
+
       const ctx = canvas.getContext("2d");
       if (!ctx) {
         reject(new Error("Could not create canvas context for OCR preprocessing."));
         return;
       }
+
+      // Use better image smoothing for upscaled images
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = "high";
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
       const width = canvas.width;
       const height = canvas.height;
+
       if (mode === "soft") {
+        // Gentle contrast enhancement — good for clean documents
         for (let i = 0; i < data.length; i += 4) {
           let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
           gray = (gray - 128) * 1.3 + 128;
@@ -3281,6 +4341,7 @@ async function preprocessImageForOcr(imageSource, mode = "soft") {
           data[i] = gray; data[i + 1] = gray; data[i + 2] = gray;
         }
       } else if (mode === "strong") {
+        // Strong binarization — good for blurry/dark images
         for (let i = 0; i < data.length; i += 4) {
           let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
           gray = (gray - 128) * 1.6 + 128;
@@ -3288,11 +4349,28 @@ async function preprocessImageForOcr(imageSource, mode = "soft") {
           gray = Math.max(0, Math.min(255, gray));
           data[i] = gray; data[i + 1] = gray; data[i + 2] = gray;
         }
+      } else if (mode === "inverted") {
+        // Invert colors then binarize — for white text on dark backgrounds
+        for (let i = 0; i < data.length; i += 4) {
+          data[i] = 255 - data[i];
+          data[i + 1] = 255 - data[i + 1];
+          data[i + 2] = 255 - data[i + 2];
+        }
+        // Then apply soft contrast
+        for (let i = 0; i < data.length; i += 4) {
+          let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+          gray = (gray - 128) * 1.3 + 128;
+          gray = Math.max(0, Math.min(255, gray));
+          data[i] = gray; data[i + 1] = gray; data[i + 2] = gray;
+        }
       } else if (mode === "adaptive") {
+        // Adaptive thresholding — best for uneven lighting (phone photos)
+        // First pass: convert to grayscale
         const grayArr = new Uint8Array(width * height);
         for (let i = 0; i < data.length; i += 4) {
           grayArr[i / 4] = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
         }
+        // Second pass: local mean thresholding (block size ~31px)
         const blockSize = 31;
         const halfBlock = Math.floor(blockSize / 2);
         const offset = 12;
@@ -3303,6 +4381,7 @@ async function preprocessImageForOcr(imageSource, mode = "soft") {
             const y1 = Math.min(height - 1, y + halfBlock);
             const x0 = Math.max(0, x - halfBlock);
             const x1 = Math.min(width - 1, x + halfBlock);
+            // Sample every 3rd pixel for speed
             for (let sy = y0; sy <= y1; sy += 3) {
               for (let sx = x0; sx <= x1; sx += 3) {
                 sum += grayArr[sy * width + sx];
@@ -3316,13 +4395,18 @@ async function preprocessImageForOcr(imageSource, mode = "soft") {
           }
         }
       }
+
       ctx.putImageData(imageData, 0, 0);
       resolve(canvas.toDataURL("image/png"));
     };
+
     img.onerror = reject;
     img.src = imageSource;
   });
 }
+
+// pdfjs worker is now initialized by loadVendorLibs() in the HTML
+
 async function runOcrOnImageSource(imageSource, progressCallback, options = {}) {
   const result = await Tesseract.recognize(imageSource, "eng", {
     logger: message => {
@@ -3336,27 +4420,35 @@ async function runOcrOnImageSource(imageSource, progressCallback, options = {}) 
     tessjs_create_hocr: "0",
     tessjs_create_tsv: "0"
   });
+
   return (result && result.data && result.data.text ? result.data.text : "").trim();
 }
+
 async function createImageRegionsForOcr(imageSource) {
   return new Promise((resolve, reject) => {
     const img = new Image();
+
     img.onload = async () => {
       const fullCanvas = document.createElement("canvas");
       const fullCtx = fullCanvas.getContext("2d");
+
       if (!fullCtx) {
         reject(new Error("Could not create canvas context for OCR regions."));
         return;
       }
+
       fullCanvas.width = img.width;
       fullCanvas.height = img.height;
       fullCtx.drawImage(img, 0, 0);
+
       function cropRegion(x, y, width, height) {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         if (!ctx) return null;
+
         canvas.width = Math.max(1, Math.round(width));
         canvas.height = Math.max(1, Math.round(height));
+
         ctx.drawImage(
           fullCanvas,
           Math.round(x),
@@ -3368,10 +4460,13 @@ async function createImageRegionsForOcr(imageSource) {
           canvas.width,
           canvas.height
         );
+
         return canvas.toDataURL("image/png");
       }
+
       const w = img.width;
       const h = img.height;
+
       resolve([
         { label: "full page", src: imageSource, psm: 6 },
         { label: "top half", src: cropRegion(0, 0, w, h * 0.55), psm: 6 },
@@ -3381,47 +4476,70 @@ async function createImageRegionsForOcr(imageSource) {
         { label: "bottom total area", src: cropRegion(w * 0.48, h * 0.48, w * 0.44, h * 0.22), psm: 6 }
       ].filter(region => region.src));
     };
+
     img.onerror = reject;
     img.src = imageSource;
   });
 }
+
 async function extractTextFromPdfNative(file) {
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
   let fullText = "";
+
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
+
+    // Smart text reconstruction using x/y coordinates
+    // Detects line breaks (y changes) and kerning splits (x gap < threshold)
     let lastY = null;
     let lastX = null;
     let lastWidth = null;
     let pageText = "";
+
     for (const item of content.items) {
       if (!("str" in item) || !item.str) continue;
+
       const x = item.transform ? item.transform[4] : null;
       const y = item.transform ? item.transform[5] : null;
       const fontSize = item.transform ? Math.abs(item.transform[0]) : 12;
       const itemWidth = item.width || (item.str.length * fontSize * 0.5);
+
       if (lastY !== null && y !== null && Math.abs(y - lastY) > fontSize * 0.4) {
+        // Y changed more than 40% of font size — new line
         pageText += "\n";
       } else if (lastX !== null && x !== null && lastWidth !== null) {
+        // Same line — check x gap to decide space vs. kerning join
         const gap = x - (lastX + lastWidth);
         const spaceThreshold = fontSize * 0.25;
+
         if (gap > spaceThreshold) {
+          // Real word gap — add space
           if (!pageText.endsWith(" ") && !pageText.endsWith("\n")) {
             pageText += " ";
           }
         }
+        // else: kerning split — join without space (this fixes "Ar chitectur al")
       } else if (pageText.length > 0 && !pageText.endsWith("\n") && !pageText.endsWith(" ")) {
+        // Fallback when no position data
         pageText += " ";
       }
+
       pageText += item.str;
       lastY = y;
       lastX = x;
       lastWidth = itemWidth;
     }
+
     fullText += "\n" + pageText;
   }
+
+  // Aggressive text repair for pdfjs split-character extraction
+  // pdfjs often splits words at ligature/kerning boundaries: "Ar chitectur al" "Roo fi ng"
+
+  // Step 1: Specific roofing term repairs FIRST (before generic collapse)
   fullText = fullText
     .replace(/Roo\s*fi\s*ng/gi, "Roofing")
     .replace(/Ar\s*chitectur\s*al/gi, "Architectural")
@@ -3441,15 +4559,26 @@ async function extractTextFromPdfNative(file) {
     .replace(/T\s*O\s*T\s*AL/g, "TOTAL")
     .replace(/drip\s+metal/gi, "drip edge")
     .replace(/Drip\s+metal/gi, "Drip edge");
+
+  // Step 2: Rejoin ligature fragments: "fi ng" -> "fing", "fl ow" -> "flow"
   fullText = fullText.replace(/\bfi ([a-z])/g, 'fi$1');
   fullText = fullText.replace(/\bfl ([a-z])/g, 'fl$1');
   fullText = fullText.replace(/\bff ([a-z])/g, 'ff$1');
+
+  // Step 3: Collapse single-letter + space fragments aggressively
+  // "E v ans" -> "Evans", "Gr o v et own" -> "Grovetown"
+  // Run multiple passes: each pass joins a single-char fragment to its neighbor
   for (let i = 0; i < 5; i++) {
+    // Join single lowercase letter to next word: "v ans" -> "vans"
     fullText = fullText.replace(/ ([a-z]) ([a-z])/g, ' $1$2');
+    // Join single uppercase letter to next lowercase: "E vans" -> "Evans"
     fullText = fullText.replace(/\b([A-Z]) ([a-z])/g, '$1$2');
   }
+
+
   return fullText.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
 }
+
 function normalizeOcrWhitespace(text) {
   return String(text || "")
     .replace(/\r\n/g, "\n")
@@ -3458,11 +4587,15 @@ function normalizeOcrWhitespace(text) {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
+
 function scoreOcrTextQuality(text) {
   const cleaned = normalizeWhitespace(String(text || ""));
   if (!cleaned) return 0;
+
   let score = 0;
+
   score += Math.min(cleaned.length, 1500) * 0.02;
+
   const strongSignals = [
     "roofing estimate",
     "roof estimate",
@@ -3479,26 +4612,35 @@ function scoreOcrTextQuality(text) {
     "property information",
     "customer information"
   ];
+
   strongSignals.forEach(signal => {
     if (cleaned.toLowerCase().includes(signal)) score += 18;
   });
+
   const moneyMatches = cleaned.match(/\$\s?\d[\d,.\s]{2,}/g) || [];
   score += moneyMatches.length * 12;
+
   const numericRoofSizeMatch = cleaned.match(/\b\d{3,5}\s*(sq\.?\s*ft|sqft|square feet|squares?)\b/i);
   if (numericRoofSizeMatch) score += 25;
+
   const weirdGlyphPenalty = (cleaned.match(/[{}[\]|\\^~]/g) || []).length;
   score -= weirdGlyphPenalty * 4;
+
   const alphaNumNoisePenalty = (cleaned.match(/[A-Z]{2,}[0-9]{1,}|[0-9]{1,}[A-Z]{2,}/g) || []).length;
   score -= alphaNumNoisePenalty * 3;
+
   return score;
 }
+
 function shouldAcceptFastOcrText(text) {
   const cleaned = normalizeWhitespace(String(text || ""));
   if (!cleaned) return false;
+
   const hasStrongPrice =
     /\$\s?\d[\d,]{2,}(\.\d{2})?\b/.test(cleaned) ||
     /total estimated cost\s*\$?\s?\d[\d,]{2,}/i.test(cleaned) ||
     /grand total\s*[:\-]?\s*\$?\s?\d[\d,]{2,}/i.test(cleaned);
+
   const roofingSignals = [
     "roof",
     "roofing",
@@ -3509,14 +4651,19 @@ function shouldAcceptFastOcrText(text) {
     "warranty",
     "shingles"
   ];
+
   const signalHits = roofingSignals.filter(term =>
     cleaned.toLowerCase().includes(term)
   ).length;
+
   const score = scoreOcrTextQuality(cleaned);
+
   if (score >= 70) return true;
   if (hasStrongPrice && signalHits >= 2) return true;
+
   return false;
 }
+
 async function runBestOcrFromVariants(
   imageVariants,
   progressLabel = "Running OCR",
@@ -3527,18 +4674,23 @@ async function runBestOcrFromVariants(
   typeof progressOptions.startPercent === "number" ? progressOptions.startPercent : 35;
   const endPercent =
      typeof progressOptions.endPercent === "number" ? progressOptions.endPercent : 70;
+
   const totalVariants = Math.max(imageVariants.length, 1);
   for (let i = 0; i < imageVariants.length; i++) {
     const variant = imageVariants[i];
+
     const text = await runOcrOnImageSource(
       variant.src,
       progress => {
     const variantBaseStart =
       startPercent + ((endPercent - startPercent) * i) / totalVariants;
+
     const variantBaseEnd =
       startPercent + ((endPercent - startPercent) * (i + 1)) / totalVariants;
+
     const mappedProgress =
       variantBaseStart + (variantBaseEnd - variantBaseStart) * (progress || 0);
+
     if (typeof setSmartUploadStatus === "function") {
       setSmartUploadStatus("identify", Math.round(mappedProgress));
     } else {
@@ -3547,28 +4699,34 @@ async function runBestOcrFromVariants(
   },
       { psm: variant.psm || 6 }
     );
+
     candidates.push({
       label: variant.label,
       text,
       score: scoreOcrTextQuality(text)
     });
   }
+
   candidates.sort((a, b) => b.score - a.score);
+
   const mergedText = normalizeWhitespace(
     candidates
       .map(candidate => candidate.text || "")
       .filter(Boolean)
       .join("\n")
   );
+
   return {
     best: candidates[0] || { text: "", score: 0, label: "none" },
     mergedText,
     candidates
   };
 }
+
 function isWeakExtractedText(text) {
   const cleaned = normalizeWhitespace(text);
   if (!cleaned || cleaned.length < 120) return true;
+
   const signals = [
     "roof",
     "roofing",
@@ -3586,53 +4744,69 @@ function isWeakExtractedText(text) {
     "sq ft",
     "contractor"
   ];
+
   const hits = signals.filter(term => cleaned.toLowerCase().includes(term)).length;
   return hits < 2;
 }
+
 async function renderPdfPagesToImages(file, scale = 2.5) {
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
   const images = [];
+
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const viewport = page.getViewport({ scale });
+
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
+
     canvas.width = Math.ceil(viewport.width);
     canvas.height = Math.ceil(viewport.height);
+
     await page.render({
       canvasContext: context,
       viewport
     }).promise;
+
     images.push(canvas.toDataURL("image/png"));
   }
+
   return images;
 }
+
 async function extractTextFromPdfWithOcrFallback(file) {
   if (typeof setSmartUploadStatus === "function") {
     setSmartUploadStatus("extract", 25);
   } else {
     setUploadStatus("Extracting text from your quote...", "info");
   }
+
   const nativeText = await extractTextFromPdfNative(file);
+
   if (!isWeakExtractedText(nativeText)) {
     return {
       text: nativeText,
       method: "pdf_text"
     };
   }
+
   if (typeof setSmartUploadStatus === "function") {
     setSmartUploadStatus("identify", 45);
   } else {
     setUploadStatus("Identifying key details from your quote...", "info");
   }
+
   const pageImages = await renderPdfPagesToImages(file);
   const ocrPages = [];
+
   for (let i = 0; i < pageImages.length; i++) {
     const pageImage = pageImages[i];
+
     const softPageImage = await preprocessImageForOcr(pageImage, "soft");
     const strongPageImage = await preprocessImageForOcr(pageImage, "strong");
     const adaptivePageImage = await preprocessImageForOcr(pageImage, "adaptive");
+
     const originalRegions = await createImageRegionsForOcr(pageImage);
     const softRegions = await createImageRegionsForOcr(softPageImage);
     const adaptiveRegions = await createImageRegionsForOcr(adaptivePageImage);
@@ -3667,21 +4841,26 @@ const ocrResult = await runBestOcrFromVariants(
     const bestPageText = normalizeOcrWhitespace(
       ocrResult.mergedText || ocrResult.best.text || ""
     );
+
     if (bestPageText) {
       ocrPages.push(bestPageText);
     }
   }
+
   const mergedText = normalizeWhitespace(
     [nativeText, ...ocrPages].filter(Boolean).join("\n\n")
   );
+
   return {
     text: mergedText,
     method: "pdf_ocr_fallback"
   };
 }
+
 async function extractTextFromUploadedFile(file) {
   const name = String(file.name || "").toLowerCase();
   const mimeType = String(file.type || "").toLowerCase();
+
   const isPdf = mimeType === "application/pdf" || name.endsWith(".pdf");
   const isImage =
     mimeType.startsWith("image/") ||
@@ -3691,12 +4870,14 @@ async function extractTextFromUploadedFile(file) {
     name.endsWith(".webp") ||
     name.endsWith(".bmp") ||
     name.endsWith(".gif");
+
   if (isPdf) {
     if (typeof setSmartUploadStatus === "function") {
       setSmartUploadStatus("upload", 10); 
     }
     return await extractTextFromPdfWithOcrFallback(file);
   }
+
   if (isImage) {
     if (typeof setSmartUploadStatus === "function") {
     setSmartUploadStatus("upload", 10);
@@ -3704,120 +4885,209 @@ async function extractTextFromUploadedFile(file) {
   } else {
     setUploadStatus("Uploading your quote...", "info");
   }
+
     const imageDataUrl = await fileToImageDataUrl(file);
-    const softImageDataUrl = await preprocessImageForOcr(imageDataUrl, "soft");
-    const strongImageDataUrl = await preprocessImageForOcr(imageDataUrl, "strong");
-    const originalRegions = await createImageRegionsForOcr(imageDataUrl);
-const softRegions = await createImageRegionsForOcr(softImageDataUrl);
-const fastOriginalRegions = originalRegions.filter(region =>
-  region.label === "middle body" || region.label === "bottom total area"
-);
-const fastSoftRegions = softRegions.filter(region =>
-  region.label === "middle body" || region.label === "bottom total area"
-);
-const fastOcrResult = await runBestOcrFromVariants(
-  [
-    { label: "original image", src: imageDataUrl, psm: 6 },
-    { label: "enhanced image", src: softImageDataUrl, psm: 6 },
-    ...fastOriginalRegions.map(region => ({
-      label: `original ${region.label}`,
-      src: region.src,
-      psm: region.psm || 6
-    })),
-    ...fastSoftRegions.map(region => ({
-      label: `enhanced ${region.label}`,
-      src: region.src,
-      psm: region.psm || 6
-    }))
-  ],
-  "Identifying key details from your quote",
-  { startPercent: 35, endPercent: 68 }
-);
-const fastBestText = normalizeOcrWhitespace(
-  fastOcrResult.best.text || fastOcrResult.mergedText || ""
-);
-if (shouldAcceptFastOcrText(fastBestText)) {
-  return {
-    text: fastBestText,
-    method: "image_ocr"
-  };
-} 
-const rescueOcrResult = await runBestOcrFromVariants(
-  [
-    { label: "high contrast image", src: strongImageDataUrl, psm: 6 },
-    ...originalRegions
-      .filter(region => region.label !== "middle body" && region.label !== "bottom total area")
-      .map(region => ({
-        label: `original ${region.label}`,
-        src: region.src,
-        psm: region.psm || 6
-      })),
-    ...softRegions
-      .filter(region => region.label !== "middle body" && region.label !== "bottom total area")
-      .map(region => ({
-        label: `enhanced ${region.label}`,
-        src: region.src,
-        psm: region.psm || 6
-      }))
-  ],
-  "Identifying key details from your quote",
-  { startPercent: 68, endPercent: 78 }
-);
-const finalText = normalizeOcrWhitespace(
-  rescueOcrResult.best.text ||
-  fastBestText ||
-  rescueOcrResult.mergedText ||
-  fastOcrResult.mergedText ||
-  ""
-);
-return {
-  text: finalText,
-  method: "image_ocr"
-};
+
+    // Tesseract.js client-side OCR pipeline. Same approach the PDF path
+    // already uses: preprocess the image in 3 modes, slice into regions,
+    // run all variants, pick the best result.
+    try {
+      if (typeof loadVendorLibs === "function") {
+        await loadVendorLibs();
+      }
+      if (typeof Tesseract === "undefined") {
+        throw new Error("Tesseract failed to load");
+      }
+
+      const softImage = await preprocessImageForOcr(imageDataUrl, "soft");
+      const strongImage = await preprocessImageForOcr(imageDataUrl, "strong");
+
+      const originalRegions = await createImageRegionsForOcr(imageDataUrl);
+      const softRegions = await createImageRegionsForOcr(softImage);
+
+      // Quick pass: middle body + bottom total area on original + soft
+      const fastVariants = [
+        { label: "original image", src: imageDataUrl, psm: 6 },
+        { label: "enhanced image", src: softImage, psm: 6 },
+        ...originalRegions
+          .filter(r => r.label === "middle body" || r.label === "bottom total area")
+          .map(r => ({ label: "original " + r.label, src: r.src, psm: r.psm || 6 })),
+        ...softRegions
+          .filter(r => r.label === "middle body" || r.label === "bottom total area")
+          .map(r => ({ label: "enhanced " + r.label, src: r.src, psm: r.psm || 6 }))
+      ];
+      const fastResult = await runBestOcrFromVariants(
+        fastVariants,
+        "Identifying key details from your quote",
+        { startPercent: 35, endPercent: 68 }
+      );
+      const fastText = normalizeOcrWhitespace(
+        fastResult.best.text || fastResult.mergedText || ""
+      );
+
+      // Accept fast text if it looks decent
+      if (typeof shouldAcceptFastOcrText === "function" && shouldAcceptFastOcrText(fastText)) {
+        console.log("[OCR] Tesseract fast pass extracted " + fastText.length + " chars");
+        try { window.__TP_LAST_OCR_TEXT = fastText; } catch (e) {}
+        return { text: fastText, method: "tesseract_fast", images: [imageDataUrl] };
+      }
+
+      // Slow pass: high-contrast + remaining regions
+      const slowVariants = [
+        { label: "high contrast image", src: strongImage, psm: 6 },
+        ...originalRegions
+          .filter(r => r.label !== "middle body" && r.label !== "bottom total area")
+          .map(r => ({ label: "original " + r.label, src: r.src, psm: r.psm || 6 })),
+        ...softRegions
+          .filter(r => r.label !== "middle body" && r.label !== "bottom total area")
+          .map(r => ({ label: "enhanced " + r.label, src: r.src, psm: r.psm || 6 }))
+      ];
+      const slowResult = await runBestOcrFromVariants(
+        slowVariants,
+        "Identifying key details from your quote",
+        { startPercent: 68, endPercent: 88 }
+      );
+      const finalText = normalizeOcrWhitespace(
+        slowResult.best.text || fastText || slowResult.mergedText || fastResult.mergedText || ""
+      );
+      console.log("[OCR] Tesseract full pass extracted " + finalText.length + " chars");
+      if (finalText && finalText.length > 0) {
+        try { window.__TP_LAST_OCR_TEXT = finalText; } catch (e) {}
+        return { text: finalText, method: "tesseract_full", images: [imageDataUrl] };
+      }
+    } catch (ocrErr) {
+      console.warn("[OCR] Tesseract pipeline failed:", ocrErr.message);
+    }
+
+    // Tesseract failed entirely - return empty so the analyzer can fall back
+    // to AI vision analysis on the raw image
+    return {
+      text: "",
+      method: "ocr_failed",
+      images: [imageDataUrl]
+    };
+
   }
+
   throw new Error("Unsupported file type. Please upload a PDF or image.");
 }
+
+  // Compare-path file parsing now delegates to the shared TP_Engine.
+  // AI is backup-only (fires when regex fails to find a price).
   async function parseUploadedComparisonFile(file) {
     if (!file) return null;
-    if (typeof loadVendorLibs === "function") {
-      await loadVendorLibs();
+
+    // Use shared engine if available, fall back to legacy flow
+    if (typeof TP_Engine !== "undefined" && TP_Engine.analyzeQuote) {
+      const engineResult = await TP_Engine.analyzeQuote(file, {
+        vertical: "roofing",  // compare pages detect vertical from context
+        apiEndpoint: "/api/parse-quote",
+      });
+
+      // Map engine result to the shape compare pages expect
+      const parsed = engineResult.parsed || {};
+
+      // Merge engine-level fields into parsed
+      if (engineResult.price && !parsed.price) {
+        parsed.price = String(engineResult.price);
+        parsed.finalBestPrice = engineResult.price;
+      }
+      if (engineResult.contractor) parsed.contractor = engineResult.contractor;
+      if (engineResult.material) parsed.material = engineResult.material;
+      if (engineResult.materialLabel) parsed.materialLabel = engineResult.materialLabel;
+      if (engineResult.city) parsed.city = engineResult.city;
+      if (engineResult.stateCode) parsed.stateCode = engineResult.stateCode;
+      if (engineResult.warranty) parsed.warranty = engineResult.warranty;
+      if (engineResult.warrantyYears) parsed.warrantyYears = engineResult.warrantyYears;
+      if (engineResult.roofSize) parsed.roofSize = engineResult.roofSize;
+
+      // Merge scope from engine
+      if (engineResult.scope) {
+        if (!parsed.signals) parsed.signals = {};
+        Object.entries(engineResult.scope).forEach(function(entry) {
+          var key = entry[0], val = entry[1];
+          if (val && val.status === "included") {
+            parsed.signals[key] = val;
+          }
+        });
+      }
+
+      // Scope items from regex
+      if (engineResult.scopeItems && engineResult.scopeItems.length) {
+        if (!parsed.signals) parsed.signals = {};
+        engineResult.scopeItems.forEach(function(item) {
+          if (item.detected) {
+            parsed.signals[item.key] = { label: item.label, status: "included", evidence: "regex" };
+          }
+        });
+      }
+
+      // AI scope merge
+      if (engineResult.aiData && engineResult.aiData.scopeItems) {
+        parsed.scopeItems = engineResult.aiData.scopeItems;
+      }
+
+      parsed.aiEnhanced = engineResult.aiCalled && !!engineResult.aiData;
+
+      console.log("[PARSE] Engine: price=" + (engineResult.price || "NONE") +
+        " source=" + engineResult.source +
+        " contractor=" + (engineResult.contractor || "NONE") +
+        " aiCalled=" + engineResult.aiCalled);
+
+      return {
+        fileName: file.name || "",
+        method: engineResult.source || "engine",
+        rawText: engineResult.ocrText || "",
+        normalizedText: engineResult.ocrText || "",
+        parsed: parsed
+      };
     }
+
+    // Legacy fallback (should not reach here if engine is loaded)
+    console.warn("[PARSE] TP_Engine not available, using legacy flow");
+    if (typeof loadVendorLibs === "function") await loadVendorLibs();
     const extractionResult = await extractTextFromUploadedFile(file);
     const rawText = extractionResult && extractionResult.text ? extractionResult.text : "";
     const normalizedText = normalizeWhitespace(rawText);
-    const parsed = parseExtractedText(normalizedText || "", {
-  extractionMethod: extractionResult ? extractionResult.method : "ocr_cache"
-});
+    const parsed = parseExtractedText(normalizedText || "", {});
     return {
       fileName: file.name || "",
       method: extractionResult ? extractionResult.method : "",
       rawText: rawText || "",
-    normalizedText: normalizedText || "",
-    parsed: parsed || {}
-  };
-}
+      normalizedText: normalizedText || "",
+      parsed: parsed || {}
+    };
+  }
+
 async function parseQuote() {
   const fileInput = document.getElementById("quoteFile");
   const output = document.getElementById("analysisOutput");
   const aiOutput = document.getElementById("aiAnalysisOutput");
+
   if (!fileInput.files.length) {
     output.innerHTML = "Please upload a roofing quote file first.";
     aiOutput.innerHTML = "Upload a quote or run the manual analysis to receive an expert explanation.";
     setUploadStatus("No file selected yet.", "error");
     return;
   }
+
   const file = fileInput.files[0];
+
   try {
     if (typeof setSmartUploadStatus === "function") {
     setSmartUploadStatus("upload", 10);
   } else {
     setUploadStatus("Uploading your quote...", "info");
   }
+
     const extractionResult = await extractTextFromUploadedFile(file);
     const parsedText = normalizeWhitespace(extractionResult.text || "");
+
+
     if (!parsedText) {
       throw new Error("We could not read usable text from that file.");
     }
+
     analyzeParsedText(parsedText, extractionResult.method);
   } catch (error) {
     console.error(error);
@@ -3826,9 +5096,29 @@ async function parseQuote() {
     setUploadStatus(error.message || "Unable to parse uploaded file.", "error");
   }
 }
+
 window.parseUploadedComparisonFile = parseUploadedComparisonFile;
+// === js/analyzer-ui.js ===
+
+  // Count-up animation for price elements
+  function animateCount(el, target, prefix, duration) {
+    if (!el) return;
+    var start = 0;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var current = Math.round(start + (target - start) * progress);
+      el.textContent = prefix + current.toLocaleString();
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Repair pdfjs split-character artifacts in any display text
   function repairDisplayText(text) {
     let t = String(text || "");
+    // Specific roofing terms
     t = t.replace(/Roo\s*fi\s*ng/gi, "Roofing");
     t = t.replace(/Cr\s*osb\s*y/gi, "Crosby");
     t = t.replace(/Ar\s*chitectur\s*al/gi, "Architectural");
@@ -3836,20 +5126,27 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
     t = t.replace(/Cer\s*tain\s*T\s*eed/gi, "CertainTeed");
     t = t.replace(/fl\s*ashing/gi, "flashing");
     t = t.replace(/v\s*entila\s*tion/gi, "ventilation");
+    // Ligature fragments
     t = t.replace(/\bfi ([a-z])/g, 'fi$1');
     t = t.replace(/\bfl ([a-z])/g, 'fl$1');
     t = t.replace(/\bff ([a-z])/g, 'ff$1');
+    // Single-letter splits: "E v ans" -> "Evans"
     for (let i = 0; i < 5; i++) {
       t = t.replace(/ ([a-z]) ([a-z])/g, ' $1$2');
       t = t.replace(/\b([A-Z]) ([a-z])/g, '$1$2');
     }
+    // All-caps letter splits like "E V Ans" or "E V A N S" -> "Evans"
+    // Match 2+ single uppercase letters separated by spaces, optionally followed
+    // by a remaining word fragment; collapse to one token and title-case it.
     t = t.replace(/\b(?:[A-Z] ){2,}[A-Za-z]+/g, function(match) {
       var collapsed = match.replace(/\s+/g, '');
       return collapsed.charAt(0) + collapsed.slice(1).toLowerCase();
     });
+    // Clean up extra spaces
     t = t.replace(/\s{2,}/g, ' ').trim();
     return t;
   }
+
   ;(function () {
     let journeyState = {
       step: "address",
@@ -3857,29 +5154,53 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
       propertyConfirmed: false,
       propertyLookupAttempted: false,
       propertyLookupFailed: false,
-      propertyLookupMessage: ""
+      propertyLookupMessage: "",
+      estimatorAnswers: null
     };
     let latestParsed = null;
     let latestSmartQuote = null;
+
+    // City-level cost multiplier cache
+    window.__cityMultCache = window.__cityMultCache || {};
+    function prefetchCityMultiplier(city, stateCode) {
+      if (!city || !stateCode) return;
+      var key = city + "|" + stateCode;
+      if (window.__cityMultCache[key]) return;
+      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode))
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d && d.multiplier) {
+            window.__cityMultCache[key] = d.multiplier;
+          }
+        })
+        .catch(function() {});
+    }
     let latestAnalysis = null;
+
     window.__tpDebug = window.__tpDebug || {};
     window.__tpDebug.getLatestAnalysis = () => window.__latestAnalysis || null;
+
     let latestExtractedText = "";
     let secondParsed = null;
     let thirdParsed = null;
+
     const TP_TRACKING_KEY = "tp_tracking_events";
     const TP_SESSION_KEY = "tp_tracking_session";
+
     function escapeHtml(text) {
       const div = document.createElement("div");
       div.appendChild(document.createTextNode(String(text || "")));
       return div.innerHTML;
     }
+
     function generateSessionId() {
       return "tp_" + Date.now() + "_" + Math.random().toString(36).slice(2, 10);
     }
+
     function getTrackingSession() {
       try {
         let session = JSON.parse(localStorage.getItem(TP_SESSION_KEY) || "null");
+
         if (!session || !session.sessionId) {
           session = {
             sessionId: generateSessionId(),
@@ -3890,6 +5211,7 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
           };
           localStorage.setItem(TP_SESSION_KEY, JSON.stringify(session));
         }
+
         return session;
       } catch (err) {
         console.warn("Tracking session load failed", err);
@@ -3902,6 +5224,7 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
         };
       }
     }
+
     function saveTrackingSession(session) {
       try {
         localStorage.setItem(TP_SESSION_KEY, JSON.stringify(session));
@@ -3909,6 +5232,7 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
         console.warn("Tracking session save failed", err);
       }
     }
+
     function getTrackingEvents() {
       try {
         return JSON.parse(localStorage.getItem(TP_TRACKING_KEY) || "[]");
@@ -3917,9 +5241,11 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
         return [];
       }
     }
+
     function track(event, data = {}) {
       try {
         const session = getTrackingSession();
+
         const payload = {
           event,
           timestamp: new Date().toISOString(),
@@ -3927,15 +5253,18 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
           page: window.location.pathname,
           ...data
         };
+
         const existing = getTrackingEvents();
         existing.push(payload);
         localStorage.setItem(TP_TRACKING_KEY, JSON.stringify(existing));
+
         return payload;
       } catch (err) {
         console.warn("Tracking failed", err);
         return null;
       }
     }
+
     function clearTrackingEvents() {
       try {
         localStorage.removeItem(TP_TRACKING_KEY);
@@ -3943,15 +5272,18 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
         console.warn("Could not clear tracking events", err);
       }
     }
+
     function byId(id) {
       return document.getElementById(id);
     }
+
     function safeFormatCurrency(value) {
       const num = Number(value);
       if (!isFinite(num)) return "Not available";
       if (typeof formatCurrency === "function") return formatCurrency(num);
       return "$" + Math.round(num).toLocaleString();
     }
+
     function safeFormatCurrencyPrecise(value, decimals = 2) {
       const num = Number(value);
       if (!isFinite(num)) return "Not available";
@@ -3960,34 +5292,55 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
         maximumFractionDigits: decimals
       });
     }
+
     function safeFormatNumber(value) {
       const num = Number(value);
       if (!isFinite(num)) return "";
       if (typeof formatNumber === "function") return formatNumber(num);
       return num.toLocaleString();
     }
+
     function formatRoofSizeForDisplay(value, source, confidence = "") {
       const num = Number(value);
       if (!isFinite(num) || num <= 0) return "Not available";
+
       const normalizedSource = String(source || "").toLowerCase();
       const normalizedConfidence = String(confidence || "").toLowerCase();
-      if (normalizedSource === "address_estimated") {
-        const rounded = Math.round(num / 50) * 50;
+      const rounded = Math.round(num / 50) * 50;
+
+      if (normalizedSource === "address_estimated" || normalizedSource === "osm_footprint") {
         if (normalizedConfidence === "high") {
-          return `${safeFormatNumber(rounded)} sq ft`;
+          return `${safeFormatNumber(rounded)} sq ft (from property data)`;
         }
-        return `about ${safeFormatNumber(rounded)} sq ft`;
+        return `~${safeFormatNumber(rounded)} sq ft (estimated from property)`;
       }
+
       if (normalizedSource === "living_area_fallback") {
-        return `about ${safeFormatNumber(Math.round(num))} sq ft`;
+        return `~${safeFormatNumber(Math.round(num))} sq ft (home size + 30%)`;
       }
+
+      if (normalizedSource === "parsed_quote") {
+        return `${safeFormatNumber(Math.round(num))} sq ft (from quote)`;
+      }
+
+      if (normalizedSource === "user_input") {
+        return `${safeFormatNumber(Math.round(num))} sq ft`;
+      }
+
+      if (normalizedSource === "price_based_estimate") {
+        return `~${safeFormatNumber(Math.round(num))} sq ft (estimated from price)`;
+      }
+
       if (normalizedSource === "price_based_estimate") {
         return `estimated ${safeFormatNumber(Math.round(num))} sq ft`;
       }
+
       return `${safeFormatNumber(num)} sq ft`;
     }
+
     function displayMaterial(value) {
       if (!value) return "Not detected";
+
       const key = String(value).toLowerCase();
       const map = {
         architectural: "Architectural shingles",
@@ -3999,17 +5352,21 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
         "architectural shingles": "Architectural shingles",
         "asphalt shingles": "Asphalt shingles"
       };
+
       return map[key] || value;
     }
+
     function displayWarranty(value) {
       const normalized = String(value || "").trim().toLowerCase();
       if (!normalized || normalized === "not detected") return "Not listed in quote";
       return value;
     }
+
     function displayDetectedValue(value, fallback = "Not detected") {
       if (value === null || value === undefined || value === "") return fallback;
       return value;
     }
+
     function getVerdictClassName(verdict) {
         const normalized = String(verdict || "").toLowerCase();
         if (normalized.includes("excellent")) return "excellent-value";
@@ -4020,70 +5377,94 @@ window.parseUploadedComparisonFile = parseUploadedComparisonFile;
         if (normalized.includes("unusually low")) return "unusually-low";
         return "unknown";
     }
+
     function softenVerdictForRoofSizeTrust(verdict, consistency) {
         const baseVerdict = String(verdict || "").trim();
         const severity = String(consistency?.severity || "").toLowerCase();
+
         if (!baseVerdict) return baseVerdict;
         if (severity !== "medium" && severity !== "high") return baseVerdict;
+
         const high = severity === "high";
+
         if (baseVerdict === "Overpriced") {
           return high ? "Possibly Overpriced" : "May Be Overpriced";
         }
+
         if (baseVerdict === "Higher Than Expected") {
           return high ? "Possibly Higher Than Expected" : "May Be Higher Than Expected";
         }
+
         if (baseVerdict === "Fair Price") {
           return high ? "Fair Price, But Roof Size Needs Review" : "Fair Price, With Some Uncertainty";
         }
+
         if (baseVerdict === "Unusually Low") {
           return high ? "Possibly Unusually Low" : "May Be Unusually Low";
         }
+
         if (baseVerdict === "Possible Scope Risk") {
           return high ? "Low Price, But Roof Size Needs Review" : "Possible Scope Risk, With Some Uncertainty";
         }
+
         return baseVerdict;
       }
+
     function getVerdictTrustNote(consistency) {
         const severity = String(consistency?.severity || "").toLowerCase();
+
         if (severity === "high") {
           return "Roof size signals conflict, so this verdict should be treated as provisional until roof size is verified.";
         }
+
         if (severity === "medium") {
           return "Roof size signals are mixed, so treat this verdict as directional rather than exact.";
         }
+
         return "";
 }
+
     function getConfidenceBadgeClass(label) {
       const normalized = String(label || "").toLowerCase();
       if (normalized === "high") return "high";
       if (normalized === "medium") return "medium";
       return "low";
     }
+
     function formatRoofSizeValue(value, source = "", confidence = "") {
       const num = Number(value);
       if (!isFinite(num) || num <= 0) return "Not available";
+
       const normalizedSource = String(source || "").toLowerCase();
       const normalizedConfidence = String(confidence || "").toLowerCase();
+
       if (normalizedSource === "address_estimated") {
         const rounded = Math.round(num / 50) * 50;
         return normalizedConfidence === "high"
           ? `${safeFormatNumber(rounded)} sq ft`
           : `about ${safeFormatNumber(rounded)} sq ft`;
       }
+
       if (normalizedSource === "living_area_fallback") {
         return `about ${safeFormatNumber(Math.round(num))} sq ft`;
       }
+
       if (normalizedSource === "price_based_estimate") {
         return `estimated ${safeFormatNumber(Math.round(num))} sq ft`;
       }
+
       return `${safeFormatNumber(Math.round(num))} sq ft`;
     }
+
 function buildRoofSizeSuggestionHtml(a) {
     if (!a?.roofSizeEstimate || a?.userEnteredRoofSize) return "";
+
     const source = String(a?.roofSizeEstimateSource || "").toLowerCase();
     const confidence = a.roofSizeEstimateConfidence || "Low";
     const score = a.roofSizeEstimateConfidenceScore || "";
+
     let helperText = "Used only to improve this analysis. Verify with the contractor if possible.";
+
     if (source === "living_area_fallback") {
       helperText = "Estimated from home size — you can edit if needed.";
     } else if (source === "address_estimated") {
@@ -4091,6 +5472,7 @@ function buildRoofSizeSuggestionHtml(a) {
     } else if (source === "price_based_estimate") {
       helperText = "Estimated from quote pricing only — verify before relying on it.";
     }
+
     return `
       <div class="panel" style="margin:0 0 12px; padding:12px 14px; background:#f8fafc; border-color:#e5e7eb;">
         <p class="small" style="margin:0 0 4px;">
@@ -4100,9 +5482,11 @@ function buildRoofSizeSuggestionHtml(a) {
             a.roofSizeEstimateConfidence
           )}
         </p>
+
         <p class="small muted" style="margin:0 0 8px;">
           ${helperText}
         </p>
+
         <button 
           type="button" 
           class="btn secondary" 
@@ -4114,20 +5498,25 @@ function buildRoofSizeSuggestionHtml(a) {
       </div>
     `;
   }
+
 function buildRoofCalculatorHtml(analysis) {
   const currentLength = byId("roofCalcLength")?.value || "";
   const currentWidth = byId("roofCalcWidth")?.value || "";
   const currentPitch = byId("roofCalcPitch")?.value || "6_12";
   const currentWaste = byId("roofCalcWaste")?.value || "medium";
+
   return `
     <div class="panel" style="margin:0 0 14px; padding:14px 16px; background:#f8fafc; border-color:#e5e7eb;">
       <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#334155;">
         DIY roof size calculator
       </p>
+
       <h4 style="margin:0 0 10px;">Estimate roof size yourself</h4>
+
       <p class="small muted" style="margin:0 0 12px;">
         Use simple home dimensions as a reality check before relying on quote pricing.
       </p>
+
       <div class="analysis-grid" style="margin-top:0;">
         <div>
           <label for="roofCalcLength"><strong>Home length (ft)</strong></label>
@@ -4140,6 +5529,7 @@ function buildRoofCalculatorHtml(analysis) {
             value="${currentLength}"
           />
         </div>
+
         <div>
           <label for="roofCalcWidth"><strong>Home width (ft)</strong></label>
           <input
@@ -4151,6 +5541,7 @@ function buildRoofCalculatorHtml(analysis) {
             value="${currentWidth}"
           />
         </div>
+
         <div>
           <label for="roofCalcPitch"><strong>Roof pitch</strong></label>
           <select id="roofCalcPitch">
@@ -4166,6 +5557,7 @@ function buildRoofCalculatorHtml(analysis) {
             <option value="12_12" ${currentPitch === "12_12" ? "selected" : ""}>12/12</option>
           </select>
         </div>
+
         <div>
           <label for="roofCalcWaste"><strong>Complexity / waste</strong></label>
           <select id="roofCalcWaste">
@@ -4175,36 +5567,47 @@ function buildRoofCalculatorHtml(analysis) {
           </select>
         </div>
       </div>
+
       <div style="margin-top:12px;">
         <button type="button" class="btn secondary" id="calculateRoofSizeBtn">
           Calculate roof size
         </button>
       </div>
+
       <div id="roofCalcOutput"></div>
     </div>
   `;
 }
+
 function bindRoofSizeSuggestionActions(analysis) {
     const btn = byId("useRoofSizeEstimateBtn");
     if (!btn || !analysis) return;
+
     btn.addEventListener("click", async function () {
       const input = byId("roofSize");
       const estimate = Number(analysis.roofSizeEstimate);
+
       if (!input || !isFinite(estimate) || estimate <= 0) return;
+
       input.value = String(Math.round(estimate));
       input.dispatchEvent(new Event("input", { bubbles: true }));
       input.dispatchEvent(new Event("change", { bubbles: true }));
+
       btn.disabled = true;
       btn.textContent = "Estimate applied";
+
       track("roof_size_estimate_applied", {
         estimatedRoofSqFt: Math.round(estimate),
         source: analysis?.roofSizeEstimateSource || "unknown"
       });
+
       renderAnalyzingState();
+
 setTimeout(() => {
   const bar = document.getElementById("analysisProgressBar");
   if (bar) bar.style.width = "65%";
 }, 300);
+
 setTimeout(async () => {
   await analyzeQuote();
 }, 700);
@@ -4212,153 +5615,202 @@ setTimeout(async () => {
 }
     function getVerdictExplanation(verdict) {
   const normalized = String(verdict || "").toLowerCase();
+
   if (normalized.includes("possible scope risk")) {
     return "This quote is well below the expected range and may be missing important scope items.";
   }
+
   if (normalized.includes("unusually low")) {
     return "This quote is below the expected range and should be checked carefully for omissions or shortcuts.";
   }
+
   if (normalized.includes("overpriced")) {
     return "This quote is materially above the expected range for this type of roofing job.";
   }
+
   if (normalized.includes("higher than expected")) {
     return "This quote is above the expected range, though the difference may be explained by scope or materials.";
   }
+
   if (normalized.includes("fair")) {
     return "This quote is within the expected range based on the available details.";
   }
+
   if (normalized.includes("excellent")) {
     return "This quote appears to offer strong value relative to the expected range.";
   }
+
   return "This quote was compared against expected pricing using the available quote details.";
 }
+
     function getDecisionGuidance(analysisOrReport) {
       if (!analysisOrReport) return "";
+
       const recommendationAction = String(
         analysisOrReport?.recommendation?.action || ""
       ).toUpperCase();
+
       const rawVerdict = String(
         analysisOrReport?.rawVerdict || analysisOrReport?.verdict || ""
       ).toLowerCase();
+
       const confidenceScore = Number(
         analysisOrReport?.confidenceScore ??
         analysisOrReport?.roofSizeEstimateConfidenceScore ??
         0
       );
+
       const reliabilityTier = String(
         analysisOrReport?.reliabilityTier || ""
       ).toUpperCase();
+
       const severity = String(
         analysisOrReport?.roofSizeConsistency?.severity || "low"
       ).toLowerCase();
+
       const needsReview = !!analysisOrReport?.roofSizeNeedsReview;
+
       const riskFlags = Array.isArray(analysisOrReport?.riskFlags)
         ? analysisOrReport.riskFlags
         : [];
+
       const highRiskCount = riskFlags.filter(
         flag => String(flag?.severity || "").toLowerCase() === "high"
       ).length;
+
       const lowConfidence =
         confidenceScore > 0 && confidenceScore < 60;
+
       const moderateConfidence =
         confidenceScore >= 60 && confidenceScore < 80;
+
       const hardUncertainty =
         needsReview ||
         severity === "high" ||
         reliabilityTier === "LOW_CONFIDENCE";
+
       const moderateUncertainty =
         severity === "medium" ||
         reliabilityTier === "ESTIMATED" ||
         moderateConfidence;
+
       if (hardUncertainty) {
         return "Do not make a contractor decision yet. Verify roof size, confirm scope in writing, then run this again.";
       }
+
       if (recommendationAction === "PROCEED") {
         if (highRiskCount > 0 || moderateUncertainty) {
           return "Pricing is acceptable, but do not sign until the flagged items are answered in writing.";
         }
         return "This quote is in a reasonable range. Pressure test it once, then move forward if scope and warranty check out.";
       }
+
       if (recommendationAction === "NEGOTIATE") {
         if (rawVerdict.includes("overpriced")) {
           return "This quote is overpriced. Push back on price, demand a line by line explanation, and do not accept the number as is.";
         }
         return "This quote is above market. Challenge the price and use competing quotes to force movement.";
       }
+
       if (recommendationAction === "REVIEW") {
         if (rawVerdict.includes("possible scope risk") || rawVerdict.includes("unusually low")) {
           return "This low price is not a green light yet. Audit scope, exclusions, and change order exposure before trusting it.";
         }
+
         if (lowConfidence) {
           return "The model does not trust the inputs enough yet. Fix the missing or conflicting data before acting.";
         }
+
         return "This quote still has unresolved issues. Get written answers before you decide.";
       }
+
       if (rawVerdict.includes("overpriced")) {
         return "This quote is overpriced. Negotiate hard or move on.";
       }
+
       if (rawVerdict.includes("higher than expected")) {
         return "This quote is high. Make the contractor defend the premium.";
       }
+
       if (rawVerdict.includes("possible scope risk") || rawVerdict.includes("unusually low")) {
         return "Low price alone is not a win. Confirm the scope before you trust it.";
       }
+
       if (rawVerdict.includes("fair")) {
         return "This quote is defensible on price. Final check the scope and then move.";
       }
+
       return "Do not drift into a decision. Resolve the open issues, then choose deliberately.";
     }
+
     function getSharePrompt(report) {
       if (!report) return "Share this result with someone you trust before you decide.";
+
       const recommendationAction = String(
         report?.recommendation?.action || ""
       ).toUpperCase();
+
       const rawVerdict = String(
         report?.rawVerdict || report?.verdict || ""
       ).toLowerCase();
+
       const severity = String(
         report?.roofSizeConsistency?.severity || "low"
       ).toLowerCase();
+
       const needsReview = !!report?.roofSizeNeedsReview;
+
       const contractor = displayDetectedValue(report?.contractor, "this contractor");
+
       if (needsReview || severity === "high") {
         return "Share this with the contractor and ask them to confirm the exact roof size they priced.";
       }
+
       if (recommendationAction === "NEGOTIATE") {
         if (rawVerdict.includes("overpriced")) {
           return `Send this to ${contractor} and make them explain the premium in writing.`;
         }
         return `Send this to ${contractor} and use it to challenge the price before you move.`;
       }
+
       if (recommendationAction === "REVIEW") {
         if (rawVerdict.includes("possible scope risk") || rawVerdict.includes("unusually low")) {
           return "Share this with a contractor or knowledgeable friend and ask what may be missing from the quote.";
         }
         return "Share this with the contractor and ask them to answer the flagged questions in writing.";
       }
+
       if (recommendationAction === "PROCEED") {
         return "Share this with a spouse, friend, or advisor for a final sanity check before signing.";
       }
+
       if (rawVerdict.includes("overpriced") || rawVerdict.includes("higher than expected")) {
         return "Share this before you accept the price. A second set of eyes can stop a bad overpay.";
       }
+
       if (rawVerdict.includes("possible scope risk") || rawVerdict.includes("unusually low")) {
         return "Share this before choosing the low bid. Cheap is dangerous when scope is unclear.";
       }
+
       return "Share this with someone you trust to pressure test the decision.";
     }
+
     function scrollToElementBySelector(selector) {
       const el = document.querySelector(selector);
       if (!el) return false;
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       return true;
     }
+
     function focusRoofSizeField() {
       const manualEntryDetails = byId("manualEntryDetails");
       const roofSizeInput = byId("roofSize");
+
       if (manualEntryDetails) manualEntryDetails.open = true;
       if (!roofSizeInput) return;
+
       roofSizeInput.scrollIntoView({ behavior: "smooth", block: "center" });
+
       setTimeout(() => {
         roofSizeInput.focus();
         if (typeof roofSizeInput.select === "function") {
@@ -4366,36 +5818,48 @@ setTimeout(async () => {
         }
       }, 250);
     }
+
     function shouldUseRoofReviewCta(analysis) {
       if (!analysis) return false;
+
       const severity = String(analysis?.roofSizeConsistency?.severity || "low").toLowerCase();
       const needsReview = !!analysis?.roofSizeNeedsReview;
       const hasSuggestion = shouldShowRoofSizeSuggestion(analysis);
+
       return hasSuggestion || severity === "high" || needsReview;
     }
+
     function getPrimaryCtaConfig(analysis) {
       if (!analysis) return null;
+
       const recommendedAction = String(
         analysis?.recommendation?.action || ""
       ).toUpperCase();
+
       const rawVerdict = String(
         analysis?.rawVerdict || analysis?.verdict || ""
       ).toLowerCase();
+
       const confidenceScore = Number(
         analysis?.confidenceScore ??
         analysis?.roofSizeEstimateConfidenceScore ??
         0
       );
+
       const severity = String(
         analysis?.roofSizeConsistency?.severity || "low"
       ).toLowerCase();
+
       const needsReview = !!analysis?.roofSizeNeedsReview;
+
       const riskFlags = Array.isArray(analysis?.riskFlags) ? analysis.riskFlags : [];
       const highRiskCount = riskFlags.filter(
         flag => String(flag?.severity || "").toLowerCase() === "high"
       ).length;
+
       const lowConfidence = confidenceScore > 0 && confidenceScore < 60;
       const moderateConfidence = confidenceScore >= 60 && confidenceScore < 80;
+
       if (shouldUseRoofReviewCta(analysis) || severity === "high" || needsReview) {
         return {
           mode: "verify",
@@ -4406,6 +5870,7 @@ setTimeout(async () => {
           primaryAction: "review_roof_size"
         };
       }
+
       if (recommendedAction === "NEGOTIATE") {
         if (rawVerdict.includes("overpriced")) {
           return {
@@ -4417,6 +5882,7 @@ setTimeout(async () => {
             primaryAction: "copy_contractor_questions"
           };
         }
+
         return {
           mode: "negotiate",
           eyebrow: "Recommended next step",
@@ -4426,6 +5892,7 @@ setTimeout(async () => {
           primaryAction: "copy_contractor_questions"
         };
       }
+
       if (recommendedAction === "REVIEW") {
         if (rawVerdict.includes("possible scope risk") || rawVerdict.includes("unusually low")) {
           return {
@@ -4437,6 +5904,7 @@ setTimeout(async () => {
             primaryAction: "copy_contractor_questions"
           };
         }
+
         if (lowConfidence || highRiskCount > 0) {
           return {
             mode: "review",
@@ -4447,6 +5915,7 @@ setTimeout(async () => {
             primaryAction: "copy_contractor_questions"
           };
         }
+
         return {
           mode: "review",
           eyebrow: "Recommended next step",
@@ -4456,6 +5925,7 @@ setTimeout(async () => {
           primaryAction: "copy_contractor_questions"
         };
       }
+
       if (recommendedAction === "PROCEED") {
         if (highRiskCount > 0 || moderateConfidence) {
           return {
@@ -4467,6 +5937,7 @@ setTimeout(async () => {
             primaryAction: "copy_contractor_questions"
           };
         }
+
         return {
           mode: "proceed",
           eyebrow: "Recommended next step",
@@ -4476,6 +5947,7 @@ setTimeout(async () => {
           primaryAction: "compare_quotes"
         };
       }
+
       if (rawVerdict.includes("overpriced")) {
         return {
           mode: "negotiate",
@@ -4486,6 +5958,7 @@ setTimeout(async () => {
           primaryAction: "copy_contractor_questions"
         };
       }
+
       if (rawVerdict.includes("higher than expected")) {
         return {
           mode: "compare",
@@ -4496,6 +5969,7 @@ setTimeout(async () => {
           primaryAction: "compare_quotes"
         };
       }
+
       if (rawVerdict.includes("possible scope risk") || rawVerdict.includes("unusually low")) {
         return {
           mode: "review",
@@ -4506,6 +5980,7 @@ setTimeout(async () => {
           primaryAction: "copy_contractor_questions"
         };
       }
+
       return {
         mode: "share",
         eyebrow: "Recommended next step",
@@ -4515,14 +5990,17 @@ setTimeout(async () => {
         primaryAction: "copy_summary"
       };
     }
+
         function buildPrimaryCtaHtml(analysis) {
           const config = getPrimaryCtaConfig(analysis);
           if (!config) return "";
+
           return `
             <div class="panel primary-cta ${config.mode}" style="margin:0 0 18px; padding:18px 18px 16px; border-width:2px;">
               <div class="primary-cta-eyebrow">${config.eyebrow}</div>
               <h4 style="margin:0 0 8px;">${config.headline}</h4>
               <p style="margin:0 0 12px;">${config.body}</p>
+
               <div class="primary-cta-actions">
                 <button type="button" class="btn" data-cta-action="${config.primaryAction}" style="min-width:220px;">
                   ${config.primaryLabel}
@@ -4531,9 +6009,12 @@ setTimeout(async () => {
             </div>
           `;
         }
+
       function handlePrimaryCtaAction(action, analysis) {
         if (!action) return;
+
         const ctaConfig = getPrimaryCtaConfig(analysis);
+
         track("cta_clicked", {
           action,
           mode: ctaConfig?.mode || "unknown",
@@ -4542,10 +6023,12 @@ setTimeout(async () => {
           roofSizeNeedsReview: !!analysis?.roofSizeNeedsReview,
           roofSizeConsistencySeverity: analysis?.roofSizeConsistency?.severity || "low"
         });
+
         if (action === "review_roof_size") {
           focusRoofSizeField();
           return;
         }
+
         if (action === "use_suggested_roof_size") {
           const btn = byId("useRoofSizeEstimateBtn");
           if (btn) {
@@ -4555,11 +6038,13 @@ setTimeout(async () => {
           }
           return;
         }
+
         if (action === "copy_contractor_questions") {
           track("cta_copy_contractor_questions_clicked", {
             verdict: analysis?.verdict || "",
             rawVerdict: analysis?.rawVerdict || ""
           });
+
           if (typeof copyContractorQuestions === "function") {
             try {
               copyContractorQuestions();
@@ -4572,10 +6057,12 @@ setTimeout(async () => {
           }
           return;
         }
+
         if (action === "request_quote") {
           scrollToElementBySelector(".lead-box");
           return;
         }
+
         if (action === "view_report") {
           viewShareableResult();
           const output = getShareReportOutputElement();
@@ -4586,26 +6073,33 @@ setTimeout(async () => {
           }
           return;
         }
+
         if (action === "copy_summary") {
           copyShareableReportText();
           return;
         }
+
         if (action === "compare_quotes") {
           compareQuotes();
           return;
         }
     }
+
     function bindPrimaryCtaActions(analysis) {
       const buttons = document.querySelectorAll("[data-cta-action]");
       if (!buttons.length) return;
+
       buttons.forEach(button => {
         if (button.dataset.ctaBound === "true") return;
+
         button.addEventListener("click", function () {
           handlePrimaryCtaAction(button.dataset.ctaAction, analysis);
         });
+
         button.dataset.ctaBound = "true";
       });
     }
+
     function getRoofPitchMultiplier(pitchLabel) {
   const map = {
     "flat": 1.00,
@@ -4619,16 +6113,20 @@ setTimeout(async () => {
     "10_12": 1.30,
     "12_12": 1.41
   };
+
   return map[String(pitchLabel || "").toLowerCase()] || 1.12;
 }
+
 function getRoofWasteMultiplier(wasteLabel) {
   const map = {
     "low": 1.05,
     "medium": 1.10,
     "high": 1.15
   };
+
   return map[String(wasteLabel || "").toLowerCase()] || 1.10;
 }
+
 function calculateManualRoofSizeEstimate({
     length,
     width,
@@ -4637,13 +6135,17 @@ function calculateManualRoofSizeEstimate({
   }) {
     const numericLength = Number(length);
     const numericWidth = Number(width);
+
     if (!isFinite(numericLength) || numericLength <= 0 || !isFinite(numericWidth) || numericWidth <= 0) {
       return null;
     }
+
     const footprintSqFt = numericLength * numericWidth;
     const pitchMultiplier = getRoofPitchMultiplier(pitch);
     const wasteMultiplier = getRoofWasteMultiplier(waste);
+
     const estimatedRoofSqFt = footprintSqFt * pitchMultiplier * wasteMultiplier;
+
     return {
       footprintSqFt: Math.round(footprintSqFt),
       estimatedRoofSqFt: Math.round(estimatedRoofSqFt),
@@ -4653,22 +6155,29 @@ function calculateManualRoofSizeEstimate({
       methodology: "Footprint × pitch factor × waste factor"
   };
 }
+
 function buildRoofCalculatorResultHtml(result) {
   if (!result) return "";
+
   return `
     <div class="panel" style="margin:12px 0 0; background:#f8fafc; border-color:#e5e7eb;">
       <p style="margin:0 0 8px;"><strong>DIY roof size estimate</strong></p>
+
       <div class="analysis-grid" style="margin-top:0;">
         <div><strong>Footprint</strong></div>
         <div>${safeFormatNumber(result.footprintSqFt)} sq ft</div>
+
         <div><strong>Estimated roof size</strong></div>
         <div>${safeFormatNumber(result.estimatedRoofSqFt)} sq ft</div>
+
         <div><strong>Confidence</strong></div>
         <div>${result.confidence}</div>
       </div>
+
       <p class="small muted" style="margin:10px 0 0;">
         Method: ${result.methodology}
       </p>
+
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
         <button type="button" class="btn secondary" id="useManualRoofCalcBtn">
           Use this roof size
@@ -4677,19 +6186,23 @@ function buildRoofCalculatorResultHtml(result) {
     </div>
   `;
 }
+
 function renderRoofCalculatorOutput() {
   const output = byId("roofCalcOutput");
   if (!output) return;
+
   const length = byId("roofCalcLength")?.value || "";
   const width = byId("roofCalcWidth")?.value || "";
   const pitch = byId("roofCalcPitch")?.value || "6_12";
   const waste = byId("roofCalcWaste")?.value || "medium";
+
   const result = calculateManualRoofSizeEstimate({
     length,
     width,
     pitch,
     waste
   });
+
   if (!result) {
     output.innerHTML = `
       <div class="panel" style="margin-top:12px; background:#fff7ed; border-color:#fdba74;">
@@ -4700,23 +6213,29 @@ function renderRoofCalculatorOutput() {
     `;
     return;
   }
+
   output.innerHTML = buildRoofCalculatorResultHtml(result);
+
   const useBtn = byId("useManualRoofCalcBtn");
   if (useBtn && useBtn.dataset.bound !== "true") {
     useBtn.addEventListener("click", async function () {
       const roofSizeInput = byId("roofSize");
       if (!roofSizeInput) return;
+
       roofSizeInput.value = String(result.estimatedRoofSqFt);
       roofSizeInput.dataset.source = "manual_calculator";
       roofSizeInput.dataset.confidence = "manual_estimate";
       roofSizeInput.dispatchEvent(new Event("input", { bubbles: true }));
       roofSizeInput.dispatchEvent(new Event("change", { bubbles: true }));
+
       setUploadStatus("DIY roof size estimate applied. Re-running analysis.", "success");
       await analyzeQuote();
     });
+
     useBtn.dataset.bound = "true";
   }
 }
+
 function bindRoofCalculatorActions() {
   const triggerIds = [
     "roofCalcLength",
@@ -4724,16 +6243,20 @@ function bindRoofCalculatorActions() {
     "roofCalcPitch",
     "roofCalcWaste"
   ];
+
   triggerIds.forEach(id => {
     const el = byId(id);
     if (!el || el.dataset.bound === "true") return;
+
     const handler = function () {
       renderRoofCalculatorOutput();
     };
+
     el.addEventListener("input", handler);
     el.addEventListener("change", handler);
     el.dataset.bound = "true";
   });
+
   const calculateBtn = byId("calculateRoofSizeBtn");
   if (calculateBtn && calculateBtn.dataset.bound !== "true") {
     calculateBtn.addEventListener("click", function () {
@@ -4742,12 +6265,14 @@ function bindRoofCalculatorActions() {
     calculateBtn.dataset.bound = "true";
   }
 }
+
     function setUploadStatus(message, type = "info") {
       const el = byId("uploadStatus");
       if (!el) return;
       el.className = `upload-status ${type}`;
       el.innerText = message;
     }
+
     function setSmartUploadStatus(stage, percent) {
       const map = {
         upload: {
@@ -4776,79 +6301,101 @@ function bindRoofCalculatorActions() {
           type: "success"
         }
       };
+
       const config = map[stage] || {
         title: String(stage || "Working on your quote"),
         percent: typeof percent === "number" ? percent : 50,
         type: "info"
       };
+
       const pct = typeof percent === "number" ? percent : config.percent;
+
       setUploadStatus(
         `[${"█".repeat(Math.max(0, Math.min(12, Math.round(pct / 8.333))))}${"░".repeat(12 - Math.max(0, Math.min(12, Math.round(pct / 8.333))))}] ${Math.round(pct)}%\n${config.title}\nThis usually takes a few seconds\nWe do not store or share your documents.`,
         config.type
       );
     }
+
     function normalizeMaterialForForm(materialValue, materialLabel) {
       const combined = `${materialValue || ""} ${materialLabel || ""}`.toLowerCase();
+
       if (combined.includes("architectural")) return "architectural";
       if (combined.includes("metal")) return "metal";
       if (combined.includes("tile")) return "tile";
       if (combined.includes("asphalt")) return "asphalt";
+
       return "architectural";
     }
+
     function normalizeTearOffForUi(parsed) {
       const status = parsed?.signals?.tearOff?.status;
       if (status === "included") return "1.05";
       if (status === "excluded") return "0.97";
       return "1.00";
     }
+
     function getMissingManualFields(parsed) {
       const missing = [];
+
       const hasPrice = isFinite(Number(parsed?.price)) && Number(parsed.price) > 0;
       const hasRoofSize = isFinite(Number(parsed?.roofSize)) && Number(parsed.roofSize) > 0;
+
       const materialValue = String(parsed?.material || "").trim().toLowerCase();
       const materialLabel = String(parsed?.materialLabel || "").trim().toLowerCase();
       const hasMaterial =
         !!materialValue ||
         (!!materialLabel && materialLabel !== "unknown" && materialLabel !== "not detected");
+
       const hasCity = !!String(parsed?.city || "").trim();
       const hasState = !!String(parsed?.stateCode || "").trim();
+
       if (!hasPrice) missing.push("quotePrice");
       if (!hasRoofSize) missing.push("roofSize");
       if (!hasMaterial) missing.push("materialType");
       if (!hasCity) missing.push("cityName");
       if (!hasState) missing.push("stateCode");
+
       return missing;
     }
+
     function clearManualFieldHighlights() {
       ["quotePrice", "roofSize", "materialType", "cityName", "stateCode"].forEach(id => {
         const el = byId(id);
         if (!el) return;
+
         el.style.borderColor = "";
         el.style.background = "";
         el.style.boxShadow = "";
         el.style.transition = "";
         el.style.outline = "";
         el.style.outlineOffset = "";
+
         const label = document.querySelector(`label[for="${id}"]`);
         if (label) {
           label.style.color = "";
           label.style.fontWeight = "";
         }
       });
+
       const roofCue = byId("roofSizePriorityCue");
       if (roofCue) roofCue.textContent = "";
+
       const manualFieldJumpStatus = byId("manualFieldJumpStatus");
       if (manualFieldJumpStatus) manualFieldJumpStatus.innerHTML = "";
     }
+
     function highlightManualFields(fieldIds = [], options = {}) {
       const ordered = Array.isArray(fieldIds) ? fieldIds : [];
       const isJump = !!options.isJump;
       const primaryId = options.primaryId || ordered[0] || null;
+
       ordered.forEach(id => {
         const el = byId(id);
         if (!el) return;
+
         const isPrimary = id === primaryId;
         const label = document.querySelector(`label[for="${id}"]`);
+
         el.style.borderColor = isPrimary ? "#ea580c" : "#f59e0b";
         el.style.background = isPrimary ? "#fff7ed" : "#fffdf5";
         el.style.outline = isPrimary ? "3px solid rgba(234, 88, 12, 0.22)" : "none";
@@ -4858,11 +6405,14 @@ function bindRoofCalculatorActions() {
           : "0 0 0 1px rgba(245, 158, 11, 0.14)";
         el.style.transition =
           "box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease, outline 0.2s ease";
+
         if (label) {
           label.style.color = isPrimary ? "#c2410c" : "";
           label.style.fontWeight = isPrimary ? "800" : "";
         }
       });
+
+        // Auto focus the primary missing field (first run only)
   if (!options.isJump && primaryId) {
     const primaryEl = byId(primaryId);
     if (primaryEl) {
@@ -4877,6 +6427,7 @@ function bindRoofCalculatorActions() {
       }, 150);
     }
   }
+
       if (isJump && primaryId) {
         setTimeout(() => {
           const primary = byId(primaryId);
@@ -4886,22 +6437,30 @@ function bindRoofCalculatorActions() {
         }, 900);
       }
     }
+
     function buildPartialExtractionNotice(parsed) {
       const missing = [];
+
       const hasPrice = isFinite(Number(parsed?.price)) && Number(parsed.price) > 0;
       const hasRoofSize = isFinite(Number(parsed?.roofSize)) && Number(parsed.roofSize) > 0;
+
       const materialValue = String(parsed?.material || "").trim().toLowerCase();
       const materialLabel = String(parsed?.materialLabel || "").trim().toLowerCase();
       const hasMaterial =
         !!materialValue ||
         (!!materialLabel && materialLabel !== "unknown" && materialLabel !== "not detected");
+
       const hasLocation =
         !!String(parsed?.city || "").trim() || !!String(parsed?.stateCode || "").trim();
+
       if (!hasPrice) return "";
+
       if (!hasRoofSize) missing.push("roof size");
       if (!hasMaterial) missing.push("material");
       if (!hasLocation) missing.push("location");
+
       if (!missing.length) return "";
+
       return `
         <div class="panel" style="margin:0 0 14px; background:#fff7ed; border-color:#fdba74;">
           <h4 style="margin:0 0 8px;">Partial quote read</h4>
@@ -4914,12 +6473,15 @@ function bindRoofCalculatorActions() {
         </div>
       `;
     }
+
     function buildManualEntryPromptHtml(parsed) {
       const price = parsed?.finalBestPrice || parsed?.price || null;
       const missingFieldIds = getMissingManualFields(parsed);
+
       const primaryId = missingFieldIds.includes("roofSize")
         ? "roofSize"
         : (missingFieldIds[0] || null);
+
       const primaryLabel =
         primaryId === "roofSize" ? "roof size" :
         primaryId === "materialType" ? "material" :
@@ -4927,9 +6489,11 @@ function bindRoofCalculatorActions() {
         primaryId === "stateCode" ? "state" :
         primaryId === "quotePrice" ? "quote price" :
         "first highlighted field";
+
       const priceText = price
     ? `We found a quoted price of <strong>${safeFormatCurrency(price)}</strong>, but we still need a few details to finish the analysis.`
     : `We could not clearly detect the quote total yet.`;
+
       return `
         <div class="panel" style="margin-bottom:12px; background:#fff7ed; border-color:#fdba74;">
           <h3 style="margin-top:0;">Complete the missing quote details</h3>
@@ -4940,26 +6504,33 @@ function bindRoofCalculatorActions() {
         </div>
       `;
     }
+
     function jumpToMissingManualFields(parsed) {
       const missingFieldIds = getMissingManualFields(parsed);
+
       const prioritizedFirstId = missingFieldIds.includes("roofSize")
         ? "roofSize"
         : (missingFieldIds[0] || null);
+
       const first = prioritizedFirstId ? byId(prioritizedFirstId) : null;
       const manualEntryDetails = byId("manualEntryDetails");
       const manualFieldJumpStatus = byId("manualFieldJumpStatus");
       const roofCue = byId("roofSizePriorityCue");
+
       if (roofCue) {
         roofCue.textContent = prioritizedFirstId === "roofSize" ? "← start here" : "";
       }
+
       if (manualEntryDetails) {
         manualEntryDetails.open = true;
       }
+
       clearManualFieldHighlights();
       highlightManualFields(missingFieldIds, {
         isJump: true,
         primaryId: prioritizedFirstId
       });
+
       if (manualFieldJumpStatus) {
         const primaryLabel =
           prioritizedFirstId === "roofSize" ? "roof size" :
@@ -4968,6 +6539,7 @@ function bindRoofCalculatorActions() {
           prioritizedFirstId === "stateCode" ? "state" :
           prioritizedFirstId === "quotePrice" ? "quote price" :
           "first highlighted field";
+
         manualFieldJumpStatus.innerHTML = `
           <div class="panel" style="margin:0 0 12px; background:#fff7ed; border-color:#fdba74;">
             <p style="margin:0;">
@@ -4976,11 +6548,15 @@ function bindRoofCalculatorActions() {
           </div>
         `;
       }
+
       const target = first || byId("quotePrice") || byId("materialType");
+
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "center" });
+
         setTimeout(() => {
           target.focus();
+
           if (
             typeof target.select === "function" &&
             (target.tagName === "INPUT" || target.tagName === "TEXTAREA")
@@ -4990,8 +6566,10 @@ function bindRoofCalculatorActions() {
         }, 250);
       }
     }
+
     function calculateScopeRisk(missingItems = []) {
       const count = Array.isArray(missingItems) ? missingItems.length : 0;
+
       if (count === 0) {
         return {
           level: "Low",
@@ -4999,6 +6577,7 @@ function bindRoofCalculatorActions() {
           description: "No likely missing items were flagged based on the available quote details."
         };
       }
+
       if (count <= 2) {
         return {
           level: "Medium",
@@ -5006,12 +6585,14 @@ function bindRoofCalculatorActions() {
           description: "This quote does not mention some common roofing components that sometimes show up later as change orders."
         };
       }
+
       return {
         level: "High",
         color: "#b91c1c",
         description: "This quote is missing several common roofing components. Review the scope carefully before relying on the price."
       };
     }
+   
     function buildRecommendation(analysis) {
   if (!analysis) {
     return {
@@ -5020,6 +6601,7 @@ function bindRoofCalculatorActions() {
       strength: "medium"
     };
   }
+
   const rawVerdict = String(analysis.rawVerdict || analysis.verdict || "").toLowerCase();
   const reliabilityTier = String(analysis.reliabilityTier || "").toUpperCase();
   const roofSizeSeverity = String(analysis?.roofSizeConsistency?.severity || "none").toLowerCase();
@@ -5028,6 +6610,7 @@ function bindRoofCalculatorActions() {
     ? analysis.riskFlags
     : buildRiskFlags(analysis);
   const decisionDelta = analysis?.decisionDelta || null;
+
   const hasHighRisk = riskFlags.some(
     flag => String(flag?.severity || "").toLowerCase() === "high"
   );
@@ -5037,9 +6620,54 @@ function bindRoofCalculatorActions() {
   const hasAmbiguousProperty = !!propertyMeta?.ambiguous;
   const hasLowReliability = reliabilityTier === "LOW_CONFIDENCE";
   const hasEstimatedReliability = reliabilityTier === "ESTIMATED";
+
   const roofSizeSource = String(analysis?.roofSizeEstimateSource || "").toLowerCase();
   const fallbackUsed = !!analysis?.roofSizeEstimateMeta?.fallbackUsed;
   const isUnavailable = roofSizeSource === "unavailable";
+
+  // Build context-aware reasoning that explains WHY a price is high/low
+  function buildContextReasoning(direction, a) {
+    var parts = [];
+    var material = (a?.material || a?.materialLabel || "").toLowerCase();
+    var warranty = a?.warrantyYears || 0;
+    var scopeCount = 0;
+    if (a?.scopeItems) {
+      for (var k in a.scopeItems) { if (a.scopeItems[k] === "included") scopeCount++; }
+    }
+
+    if (direction === "above" || direction === "well above") {
+      parts.push("This quote is " + direction + " the typical range for your area.");
+      // Explain possible justifications
+      var justifications = [];
+      if (material && (material.includes("metal") || material.includes("tile") || material.includes("slate") || material.includes("cedar"))) {
+        justifications.push("premium " + material + " material (which costs significantly more than standard asphalt)");
+      }
+      if (warranty >= 10) justifications.push("a strong " + warranty + "-year warranty");
+      if (scopeCount >= 10) justifications.push("comprehensive scope (" + scopeCount + " items included)");
+
+      if (justifications.length > 0) {
+        parts.push("However, this quote includes " + justifications.join(", ") + " which can justify a higher price.");
+        parts.push("Compare against quotes with the SAME materials and scope before concluding it's overpriced.");
+      } else {
+        parts.push("Ask for a line-by-line breakdown and compare against another quote with the same scope and materials.");
+      }
+    } else if (direction === "below") {
+      parts.push("This quote is below typical market range.");
+      var concerns = [];
+      if (scopeCount < 8) concerns.push("only " + scopeCount + " scope items are confirmed (some may be missing)");
+      if (warranty < 5) concerns.push("warranty coverage appears limited");
+      if (!material || material === "unknown") concerns.push("material type is not specified");
+
+      if (concerns.length > 0) {
+        parts.push("This could mean " + concerns.join(", ") + ".");
+        parts.push("A low price with missing scope items often leads to change orders later. Confirm exactly what's included before signing.");
+      } else {
+        parts.push("This may be a competitive bid, but confirm all scope items are included and there are no hidden costs.");
+      }
+    }
+    return parts.join(" ");
+  }
+
   if (
     roofSizeSeverity === "high" ||
     hasAmbiguousProperty ||
@@ -5053,53 +6681,63 @@ function bindRoofCalculatorActions() {
       strength: "high"
     };
   }
+
   if (rawVerdict.includes("overpriced")) {
     return {
       action: "NEGOTIATE",
-      reasoning: "This quote appears materially above expected pricing. Ask for a line-by-line explanation and compare another quote.",
+      reasoning: buildContextReasoning("well above", analysis),
       strength: "high"
     };
   }
+
   if (rawVerdict.includes("higher than expected")) {
     return {
       action: "NEGOTIATE",
-      reasoning: "This quote appears above expected pricing. Compare another quote before accepting the premium.",
+      reasoning: buildContextReasoning("above", analysis),
       strength: hasHighRisk ? "high" : "medium"
     };
   }
+
   if (rawVerdict.includes("possible scope risk") || rawVerdict.includes("unusually low")) {
     return {
       action: "REVIEW",
-      reasoning: "This quote is low enough that missing scope or later change orders are possible. Confirm inclusions before moving forward.",
+      reasoning: buildContextReasoning("below", analysis),
       strength: "high"
     };
   }
+
   if (rawVerdict.includes("fair")) {
     return {
       action: "PROCEED",
       reasoning: hasMediumRisk || hasEstimatedReliability
-        ? "Pricing looks reasonable, but review flagged items before signing."
-        : "Pricing looks reasonable relative to expected market range.",
+        ? "Pricing looks reasonable for the scope and materials specified, but review flagged items before signing."
+        : "Pricing looks reasonable for the material, scope, and warranty included in this quote.",
       strength: hasMediumRisk ? "medium" : "high"
     };
   }
+
   return {
     action: "REVIEW",
     reasoning: "Review the quote details and compare another quote before making a final decision.",
     strength: "medium"
   };
 }
+
     function buildRecommendationHtml(analysis) {
       const recommendation = analysis?.recommendation || buildRecommendation(analysis);
       if (!recommendation) return "";
+
       const action = String(recommendation.action || "REVIEW").toUpperCase();
       const reasoningText = getRecommendationReasoningText(analysis);
+
       const riskFlags = Array.isArray(analysis?.riskFlags) ? analysis.riskFlags : [];
       const topFlags = riskFlags
         .filter(flag => String(flag?.key || "").toLowerCase() !== "no_major_risks")
         .slice(0, 2);
+
       const decisionDelta = analysis?.decisionDelta || null;
       const deltaText = decisionDelta ? softenClaim(buildDecisionDeltaText(decisionDelta), analysis) : "";
+
       const accent =
         action === "PROCEED"
           ? { bg: "#f0fdf4", border: "#86efac", text: "#166534" }
@@ -5108,18 +6746,24 @@ function bindRoofCalculatorActions() {
             : action === "AVOID"
               ? { bg: "#fef2f2", border: "#fca5a5", text: "#991b1b" }
               : { bg: "#eff6ff", border: "#93c5fd", text: "#1d4ed8" };
+
       const bullets = [];
+
       if (deltaText) {
         bullets.push(deltaText);
       }
+
       if (reasoningText) {
         bullets.push(reasoningText);
       }
+
       topFlags.forEach(flag => {
         if (flag?.impact) bullets.push(flag.impact);
       });
+
       const uniqueBullets = [];
       const seen = new Set();
+
       bullets.forEach(item => {
         const clean = String(item || "").trim();
         const key = clean.toLowerCase();
@@ -5127,66 +6771,80 @@ function bindRoofCalculatorActions() {
         seen.add(key);
         uniqueBullets.push(clean);
       });
+
       return `
         <div class="panel" style="margin:0 0 14px; padding:14px 16px; background:${accent.bg}; border-color:${accent.border};">
           <p style="margin:0 0 8px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:${accent.text};">
             Why this decision
           </p>
+
           <ul class="mini-list" style="margin:0; color:#111827;">
             ${uniqueBullets.slice(0, 3).map(item => `<li>${item}</li>`).join("")}
           </ul>
         </div>
       `;
     }
+
       function buildDecisionLockHtml(a) {
         if (!a || !a.recommendation) return "";
+
         const action = String(a.recommendation.action || "").toUpperCase();
         const confidence = Number(
           a.confidenceScore ??
           a.roofSizeEstimateConfidenceScore ??
           0
         );
+
         let color = "#1d4ed8";
         let bg = "#eff6ff";
         let border = "#93c5fd";
+
         if (action === "PROCEED") {
           color = "#166534";
           bg = "#f0fdf4";
           border = "#86efac";
         }
+
         if (action === "NEGOTIATE") {
           color = "#9a3412";
           bg = "#fff7ed";
           border = "#fdba74";
         }
+
         if (action === "REVIEW") {
           color = "#1e40af";
           bg = "#eff6ff";
           border = "#93c5fd";
         }
+
         if (action === "AVOID") {
           color = "#991b1b";
           bg = "#fef2f2";
           border = "#fca5a5";
         }
+
         const confidenceLabel =
           confidence >= 80 ? "HIGH CONFIDENCE" :
           confidence >= 60 ? "MODERATE CONFIDENCE" :
           "LOW CONFIDENCE";
+
         const actionTextMap = {
           PROCEED: "Proceed",
           NEGOTIATE: "Do not accept this price",
           REVIEW: "Do not decide yet",
           AVOID: "Walk away"
         };
+
         const subTextMap = {
           PROCEED: "The price is defensible. Final check the scope, then move.",
           NEGOTIATE: "The quote is above market or poorly positioned. Push back before moving.",
           REVIEW: "The result is not decision ready yet. Resolve the flagged issues first.",
           AVOID: "The quote is too risky or too weak to advance as is."
         };
+
         const actionText = actionTextMap[action] || "Do not decide yet";
         const subText = subTextMap[action] || "Review the quote before making a decision.";
+
         return `
           <div class="panel" style="
             margin:0 0 16px;
@@ -5197,22 +6855,28 @@ function bindRoofCalculatorActions() {
             <div style="font-size:12px; font-weight:700; letter-spacing:.04em; color:${color}; margin-bottom:6px;">
               SYSTEM DECISION
             </div>
+
             <div style="font-size:24px; line-height:1.1; font-weight:800; color:${color}; margin-bottom:6px;">
               ${actionText}
             </div>
+
             <div style="font-size:13px; color:#374151; margin-bottom:8px;">
               ${confidenceLabel} • Score: ${Math.round(confidence)}/100
             </div>
+
             <div style="font-size:14px; color:#111827;">
               ${subText}
             </div>
           </div>
         `;
       }
+
       function buildContractorQuestions(analysis) {
         if (!analysis) return [];
+
         const questions = [];
         const seen = new Set();
+
         function addQuestion(text) {
           const clean = String(text || "").trim();
           const key = clean.toLowerCase();
@@ -5220,70 +6884,88 @@ function bindRoofCalculatorActions() {
           seen.add(key);
           questions.push(clean);
         }
+
         const recommendationAction = String(
           analysis?.recommendation?.action || ""
         ).toUpperCase();
+
         const riskFlags = Array.isArray(analysis?.riskFlags) ? analysis.riskFlags : [];
         const decisionDelta = analysis?.decisionDelta || null;
         const roofSizeConsistency = analysis?.roofSizeConsistency || null;
         const propertyMeta = analysis?.propertySignalsMeta || {};
         const reliabilityTier = String(analysis?.reliabilityTier || "").toUpperCase();
         const rawVerdict = String(analysis?.rawVerdict || analysis?.verdict || "").toLowerCase();
+
         if (decisionDelta?.position === "above_range" && decisionDelta?.absDelta) {
           addQuestion(
             `Can you explain why this quote is about ${safeFormatCurrency(decisionDelta.absDelta)} above the modeled midpoint?`
           );
         }
+
         if (decisionDelta?.position === "below_range" && decisionDelta?.absDelta) {
           addQuestion(
             `This quote appears about ${safeFormatCurrency(decisionDelta.absDelta)} below expected pricing. Can you confirm what is included so I can compare it fairly?`
           );
         }
+
         riskFlags.forEach(flag => {
           const key = String(flag?.key || "").toLowerCase();
+
           if (key === "potential_overpricing") {
             addQuestion("Can you provide a line by line breakdown showing what is driving the higher price?");
             addQuestion("Are there any premium materials, upgrades, or extra scope items in this quote that explain the price difference?");
           }
+
           if (key === "roof_size_conflict" || key === "roof_size_variance") {
             addQuestion("What roof size are you using for this quote, and how was it measured?");
             addQuestion("Can you show the measurement report or diagram used to calculate the roof size?");
           }
+
           if (key === "ambiguous_property_match" || key === "low_quality_property_match") {
             addQuestion("Can you confirm the final quoted roof size in squares or square feet so I can compare quotes using the same measurement?");
           }
+
           if (key === "missing_flashing") {
             addQuestion("Can you confirm whether flashing replacement is included, and where it appears in the estimate?");
           }
+
           if (
             key === "missing_water_barrier" ||
             key === "missing_underlayment"
           ) {
             addQuestion("What underlayment or water barrier is included, and how much of the roof does it cover?");
           }
+
           if (key === "missing_ventilation") {
             addQuestion("Can you confirm whether ventilation or ridge vent work is included in this quote?");
           }
+
           if (key === "low_bid_scope_risk" || key === "suspiciously_low_price") {
             addQuestion("Is anything excluded that could later become a change order or add-on cost?");
             addQuestion("Does this quote include tear off, disposal, underlayment, flashing, ventilation, and permit related work?");
           }
         });
+
         if (String(roofSizeConsistency?.severity || "").toLowerCase() === "high") {
           addQuestion("Before I compare this quote to others, can you confirm the exact roof size you are pricing?");
         }
+
         if (propertyMeta?.ambiguous) {
           addQuestion("I found mixed property signals. Can you confirm the exact structure and roof area this quote is based on?");
         }
+
         if (recommendationAction === "NEGOTIATE") {
           addQuestion("Is there any flexibility in the price if scope and materials stay the same?");
         }
+
         if (recommendationAction === "REVIEW") {
           addQuestion("Can you update the estimate so all major scope items are clearly shown in writing?");
         }
+
         if (reliabilityTier === "LOW_CONFIDENCE" || reliabilityTier === "ESTIMATED") {
           addQuestion("Can you confirm the main pricing assumptions in writing so I can validate the comparison?");
         }
+
         if (
           rawVerdict.includes("fair") &&
           questions.length < 3
@@ -5291,54 +6973,72 @@ function bindRoofCalculatorActions() {
           addQuestion("Can you confirm the main included scope items and warranty terms in writing?");
           addQuestion("Are there any conditions that could cause the final price to increase after work begins?");
         }
+
         return questions.slice(0, 6);
       }
+
   function buildContractorQuestionsText(analysis) {
     const questions = buildContractorQuestions(analysis);
     if (!questions.length) return "";
+
     return questions.map((q, i) => `${i + 1}. ${q}`).join("\n");
   }
+
   function buildContractorQuestionsHtml(analysis) {
     const questions = buildContractorQuestions(analysis);
     if (!questions.length) return "";
+
     return `
       <div class="panel" style="margin:0 0 14px; padding:14px 16px; background:#eff6ff; border-color:#93c5fd;">
         <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#1d4ed8;">
           Contractor questions
         </p>
+
         <h4 style="margin:0 0 10px;">Questions to send before you decide</h4>
+
         <p class="small muted" style="margin:0 0 10px;">
           These are based on the pricing result, flagged risks, and quote confidence.
         </p>
+
         <ul class="mini-list" style="margin:0 0 12px;">
           ${questions.map(q => `<li>${q}</li>`).join("")}
         </ul>
+
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <button type="button" class="btn secondary" id="copyContractorQuestionsBtn">
             Copy questions
           </button>
         </div>
+
         <div id="contractorQuestionsCopyStatus"></div>
       </div>
     `;
   }
+
   function getConfidenceLanguageMode(analysis) {
     const reliabilityTier = String(analysis?.reliabilityTier || "").toUpperCase();
     const severity = String(analysis?.roofSizeConsistency?.severity || "low").toLowerCase();
     const needsReview = !!analysis?.roofSizeNeedsReview;
+
     if (severity === "high" || needsReview || reliabilityTier === "LOW_CONFIDENCE") {
       return "cautious";
     }
+
     if (severity === "medium" || reliabilityTier === "ESTIMATED") {
       return "measured";
     }
+
     return "direct";
 }
+
 function softenClaim(text, analysis) {
   const value = String(text || "").trim();
   if (!value) return value;
+
   const mode = getConfidenceLanguageMode(analysis);
+
   if (mode === "direct") return value;
+
   if (mode === "measured") {
     return value
       .replace(/^This quote is /, "This quote appears to be ")
@@ -5347,6 +7047,7 @@ function softenClaim(text, analysis) {
       .replace(/^You may be /, "You may be ")
       .replace(/^Pricing looks reasonable/, "Pricing appears reasonable");
   }
+
   return value
     .replace(/^This quote is /, "This result may indicate this quote is ")
     .replace(/^This quote appears to be /, "This result may indicate this quote is ")
@@ -5355,24 +7056,30 @@ function softenClaim(text, analysis) {
     .replace(/^This quote is /, "This result may indicate this quote is ")
     .replace(/^Pricing looks reasonable/, "Pricing may be reasonable");
 }
+
 function getRecommendationReasoningText(analysis) {
   const recommendation =
     analysis?.recommendation || buildRecommendation(analysis);
+
   return softenClaim(recommendation?.reasoning || "", analysis);
 }
+
   async function copyContractorQuestions() {
     const analysis = latestAnalysis;
     if (!analysis) {
       setUploadStatus("Run the quote analysis before copying contractor questions.", "warn");
       return;
     }
+
     const text = buildContractorQuestionsText(analysis);
     if (!text) {
       setUploadStatus("No contractor questions were available for this quote.", "warn");
       return;
     }
+
     try {
       await navigator.clipboard.writeText(text);
+
       const status = byId("contractorQuestionsCopyStatus");
       if (status) {
         status.innerHTML = `
@@ -5383,111 +7090,146 @@ function getRecommendationReasoningText(analysis) {
           </div>
         `;
       }
+
       track("contractor_questions_copied", {
         verdict: analysis?.verdict || "",
         rawVerdict: analysis?.rawVerdict || "",
         recommendation: analysis?.recommendation?.action || ""
       });
+
       setUploadStatus("Contractor questions copied to clipboard.", "success");
     } catch (err) {
       console.error(err);
+
       track("contractor_questions_copy_failed", {
         verdict: analysis?.verdict || "",
         rawVerdict: analysis?.rawVerdict || "",
         recommendation: analysis?.recommendation?.action || ""
       });
+
       setUploadStatus("Could not copy contractor questions.", "error");
     }
   }
+
     function bindContractorQuestionsActions() {
       const btn = byId("copyContractorQuestionsBtn");
       if (!btn || btn.dataset.bound === "true") return;
+
       btn.addEventListener("click", function () {
         copyContractorQuestions();
       });
+
       btn.dataset.bound = "true";
     }
+
       function getSignalComparisonSelectionLabel(source) {
         const normalized = String(source || "").toLowerCase();
+
         if (normalized === "user_input") return "Entered by you";
         if (normalized === "parsed_quote") return "Quote";
         if (normalized === "address_estimated") return "Property";
         if (normalized === "price_based_estimate") return "Price model";
+
         return "Not available";
       }
+
     function buildSignalComparisonReasoning(analysis) {
       const selected =
         analysis?.signalComparison?.selected ||
         analysis?.roofSizeEstimateSource ||
         "";
+
       const source = String(selected).toLowerCase();
       const propertyMeta = analysis?.propertySignalsMeta || {};
       const disagreement = analysis?.roofSizeEstimateMeta?.disagreement || null;
+
       if (source === "user_input") {
         return "Using the roof size you entered directly.";
       }
+
       if (source === "parsed_quote") {
         if (disagreement?.hasDisagreement) {
           return "Quote roof size was used, but other signals did not fully agree.";
         }
         return "Quote roof size was clearly detected and used.";
       }
+
       if (source === "manual_calculator") {
         return "DIY calculator estimate was used based on home dimensions, pitch, and waste assumptions.";
       }
+
       if (source === "address_estimated") {
         const quality = String(propertyMeta?.buildingMatchQuality || "unknown").toLowerCase();
+
         if (propertyMeta?.ambiguous) {
           return "Property data was used, but the building match was ambiguous and should be reviewed.";
         }
+
         if (quality === "high") {
           return "Property data aligns best with the address and available match signals.";
         }
+
         if (quality === "approximate" || quality === "medium") {
           return "Property data was used as the best available fit, but precision may be limited.";
         }
+
         if (quality === "low") {
           return "Property data provided an estimate, but the building match quality was weak.";
         }
+
         return "Property data provided the best available roof size estimate.";
       }
+
       if (source === "price_based_estimate") {
         return "Roof size was estimated from quote price and local pricing benchmarks.";
       }
+
       return "No strong signal explanation was available.";
 }
+
     function buildSignalComparisonHtml(analysis) {
       if (!analysis) return "";
+
       const signals = analysis?.roofSizeSignals || {};
       const parsed = Number(signals?.parsed || 0);
       const property = Number(signals?.property || 0);
       const priceImplied = Number(signals?.priceImplied || 0);
+
       const hasAny =
         (isFinite(parsed) && parsed > 0) ||
         (isFinite(property) && property > 0) ||
         (isFinite(priceImplied) && priceImplied > 0);
+
       if (!hasAny) return "";
+
       const selectedLabel = getSignalComparisonSelectionLabel(analysis?.roofSizeEstimateSource);
       const reasoning = buildSignalComparisonReasoning(analysis);
+
       return `
     <div class="panel" style="margin:0 0 14px; padding:14px 16px; background:#f8fafc; border-color:#e5e7eb;">
       <h4 style="margin:0 0 10px;">Roof size signal comparison</h4>
+
       <div class="analysis-grid" style="margin-top:0;">
         <div><strong>Quote</strong></div>
         <div>${isFinite(parsed) && parsed > 0 ? `${safeFormatNumber(parsed)} sq ft` : "Not available"}</div>
+
         <div><strong>Property</strong></div>
         <div>${isFinite(property) && property > 0 ? `${safeFormatNumber(property)} sq ft` : "Not available"}</div>
+
         <div><strong>Price model</strong></div>
         <div>${isFinite(priceImplied) && priceImplied > 0 ? `${safeFormatNumber(priceImplied)} sq ft` : "Not available"}</div>
+
         <div><strong>Selected signal</strong></div>
         <div>${selectedLabel}</div>
       </div>
+
       <p class="small muted" style="margin:10px 0 0;">
         <strong>Why this signal won:</strong> ${reasoning}
       </p>
     </div>
   `;
 }
+
     function getRiskFlagAccent(severity) {
       const normalized = String(severity || "").toLowerCase();
       if (normalized === "high") {
@@ -5498,6 +7240,7 @@ function getRecommendationReasoningText(analysis) {
           icon: "⚠"
         };
       }
+
       if (normalized === "medium") {
         return {
           bg: "#fff7ed",
@@ -5506,6 +7249,7 @@ function getRecommendationReasoningText(analysis) {
           icon: "⚠"
         };
       }
+
       return {
         bg: "#f8fafc",
         border: "#cbd5e1",
@@ -5513,15 +7257,21 @@ function getRecommendationReasoningText(analysis) {
         icon: "•"
       };
     }
+
+    
+
     function buildRiskFlagsHtml(analysis) {
       const flags = Array.isArray(analysis?.riskFlags)
         ? analysis.riskFlags
         : buildRiskFlags(analysis);
+
       if (!flags.length) return "";
+
       return `
         <div style="display:grid; gap:10px; margin:0 0 14px;">
           ${flags.slice(0, 2).map(flag => {
             const accent = getRiskFlagAccent(flag?.severity);
+
             return `
               <div class="panel" style="margin:0; background:${accent.bg}; border-color:${accent.border};">
                 <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:${accent.text};">
@@ -5541,6 +7291,7 @@ function getRecommendationReasoningText(analysis) {
         </div>
       `;
     }
+
     function buildConflictSignals(analysis) {
       const quotePrice = Number(analysis?.quotePrice);
       const low = Number(analysis?.low);
@@ -5551,7 +7302,9 @@ function getRecommendationReasoningText(analysis) {
         analysis?.roofSizeEstimateConfidenceScore ??
         0
       );
+
       const items = [];
+
       if (
         isFinite(quotePrice) &&
         isFinite(low) &&
@@ -5565,6 +7318,7 @@ function getRecommendationReasoningText(analysis) {
           detail: "Quote total is materially below the expected range for this project."
         });
       }
+
       if (!isFinite(roofSize) || roofSize <= 0) {
         items.push({
           key: "roof_size_uncertain",
@@ -5572,6 +7326,7 @@ function getRecommendationReasoningText(analysis) {
           detail: "Roof size could not be strongly validated, which reduces confidence in the pricing model."
         });
       }
+
       if (confidenceScore > 0 && confidenceScore < 75) {
         items.push({
           key: "low_confidence_inputs",
@@ -5579,9 +7334,11 @@ function getRecommendationReasoningText(analysis) {
           detail: "The result uses weaker or incomplete signals, so the final recommendation should be reviewed carefully."
         });
       }
+
       let severity = "none";
       if (items.length >= 3) severity = "high";
       else if (items.length >= 1) severity = "medium";
+
       return {
         hasConflict: items.length > 0,
         severity,
@@ -5592,20 +7349,30 @@ function getRecommendationReasoningText(analysis) {
         details: items
       };
     }
+
     function buildRiskFlags(analysis) {
       const flags = [];
       if (!analysis) return flags;
+
       const rawVerdict = String(analysis.rawVerdict || "").toLowerCase();
       const verdict = String(analysis.verdict || "").toLowerCase();
+
       const roofSizeSeverity = String(
         analysis?.roofSizeConsistency?.severity || "none"
       ).toLowerCase();
+
       const propertyMeta = analysis?.propertySignalsMeta || {};
+
       const missingSignals = Array.isArray(analysis?.missingSignals)
         ? analysis.missingSignals
         : Array.isArray(latestParsed?.missingSignals)
           ? latestParsed.missingSignals
           : [];
+
+      // =========================
+      // 🔴 PRICING RISK
+      // =========================
+
       if (
         rawVerdict.includes("overpriced") ||
         rawVerdict.includes("higher than expected")
@@ -5631,6 +7398,11 @@ function getRecommendationReasoningText(analysis) {
           highlight: true
         });
       }
+
+       // =========================
+      // 🟠 ROOF SIZE / DATA CONFLICT
+      // =========================
+
       if (roofSizeSeverity === "high") {
         flags.push({
           key: "roof_size_conflict",
@@ -5648,6 +7420,11 @@ function getRecommendationReasoningText(analysis) {
           action: "Double check measurements in the quote"
         });
       }
+
+      // =========================
+      // 🟡 PROPERTY DATA QUALITY
+      // =========================
+
       if (propertyMeta?.ambiguous) {
         flags.push({
           key: "ambiguous_property_match",
@@ -5657,6 +7434,7 @@ function getRecommendationReasoningText(analysis) {
           action: "Confirm roof size manually or review satellite measurement"
         });
       }
+
       if (propertyMeta?.buildingMatchQuality === "low") {
         flags.push({
           key: "low_quality_property_match",
@@ -5666,6 +7444,11 @@ function getRecommendationReasoningText(analysis) {
           action: "Do not rely solely on automated roof size estimates"
         });
       }
+
+      // =========================
+      // 🧱 MISSING SCOPE ITEMS
+      // =========================
+
       if (missingSignals.includes("flashing")) {
         flags.push({
           key: "missing_flashing",
@@ -5675,6 +7458,7 @@ function getRecommendationReasoningText(analysis) {
           action: "Ask contractor to confirm flashing is included"
         });
       }
+
       if (missingSignals.includes("ventilation")) {
         flags.push({
           key: "missing_ventilation",
@@ -5684,6 +7468,7 @@ function getRecommendationReasoningText(analysis) {
           action: "Confirm ridge vents or other ventilation systems are included"
         });
       }
+
       if (missingSignals.includes("underlayment")) {
         flags.push({
           key: "missing_underlayment",
@@ -5693,12 +7478,19 @@ function getRecommendationReasoningText(analysis) {
           action: "Ask what type and coverage of underlayment is included"
         });
       }
+
+      // =========================
+      // 🟢 SAFETY NET
+      // =========================
+
       const normalizedRawVerdict = String(rawVerdict || "").toLowerCase();
+
       const hasVerdictConcern =
         normalizedRawVerdict.includes("possible scope risk") ||
         normalizedRawVerdict.includes("unusually low") ||
         normalizedRawVerdict.includes("overpriced") ||
         normalizedRawVerdict.includes("higher than expected");
+
       if (flags.length === 0 && !hasVerdictConcern) {
         flags.push({
           key: "no_major_risks",
@@ -5708,10 +7500,13 @@ function getRecommendationReasoningText(analysis) {
           action: "You can proceed, but comparing one additional quote is still recommended"
         });
       }
+
       return flags;
     }
+
     function buildScopeRiskHtml(missingItems = []) {
       const scopeRisk = calculateScopeRisk(missingItems);
+
       return `
         <div class="signal-summary-wrap" style="margin-top:14px;">
           <h5 style="margin:0 0 8px;">Scope Risk</h5>
@@ -5735,8 +7530,10 @@ function getRecommendationReasoningText(analysis) {
         </div>
       `;
     }
+
     function normalizeScopeLabel(label) {
       const value = String(label || "").trim().toLowerCase();
+
       const map = {
         "tear off": "Tear off",
         "tear-off": "Tear off",
@@ -5756,20 +7553,27 @@ function getRecommendationReasoningText(analysis) {
         "flashing upgrades": "Flashing upgrades",
         "ridge vent system": "Ridge vent system"
       };
+
       return map[value] || label;
     }
+
     function dedupeScopeLabels(items = []) {
       const seen = new Set();
       const output = [];
+
       (Array.isArray(items) ? items : []).forEach(item => {
         const normalized = normalizeScopeLabel(item);
         const key = String(normalized || "").trim().toLowerCase();
+
         if (!key || seen.has(key)) return;
+
         seen.add(key);
         output.push(normalized);
       });
+
       return output;
     }
+
     function buildScopeCheckHtml({
       includedSignals = [],
       missingSignals = [],
@@ -5778,6 +7582,7 @@ function getRecommendationReasoningText(analysis) {
       const normalizedIncluded = dedupeScopeLabels(includedSignals);
       const normalizedMissing = dedupeScopeLabels(missingSignals);
       const normalizedPremium = dedupeScopeLabels(premiumSignals);
+
       const curatedMissingOrder = [
         "Flashing",
         "Drip edge",
@@ -5790,6 +7595,7 @@ function getRecommendationReasoningText(analysis) {
         "Decking",
         "Tear off"
       ];
+
       const curatedIncludedOrder = [
         "Tear off",
         "Flashing",
@@ -5802,6 +7608,7 @@ function getRecommendationReasoningText(analysis) {
         "Ridge cap",
         "Decking"
       ];
+
       function sortByOrder(items, order) {
         return [...items].sort((a, b) => {
           const aIndex = order.indexOf(a);
@@ -5812,12 +7619,14 @@ function getRecommendationReasoningText(analysis) {
           return a.localeCompare(b);
         });
       }
+
       const included = sortByOrder(normalizedIncluded, curatedIncludedOrder);
       const missing = sortByOrder(
         normalizedMissing.filter(item => curatedMissingOrder.includes(item)),
         curatedMissingOrder
       ).slice(0, 5);
       const premium = normalizedPremium.slice(0, 4);
+
       const includedHtml = included.length
         ? `
           <div class="signal-summary-block">
@@ -5835,6 +7644,7 @@ function getRecommendationReasoningText(analysis) {
             </p>
           </div>
         `;
+
       const missingHtml = missing.length
         ? `
           <div class="signal-summary-block">
@@ -5845,6 +7655,7 @@ function getRecommendationReasoningText(analysis) {
           </div>
         `
         : "";
+
       const premiumHtml = premium.length
         ? `
           <div class="signal-summary-block">
@@ -5855,6 +7666,7 @@ function getRecommendationReasoningText(analysis) {
           </div>
         `
         : "";
+
       return `
         <div class="signal-summary-wrap">
           <h4 style="margin:0 0 10px;">Scope Check</h4>
@@ -5867,12 +7679,15 @@ function getRecommendationReasoningText(analysis) {
         </div>
       `;
     }
+
     function clampNumber(value, min, max) {
       return Math.max(min, Math.min(max, value));
     }
+
     function calculateContractorPriceScore(quotePrice, mid) {
       const price = Number(quotePrice);
       const midpoint = Number(mid);
+
       if (!isFinite(price) || !isFinite(midpoint) || midpoint <= 0) {
         return {
           score: null,
@@ -5881,9 +7696,12 @@ function getRecommendationReasoningText(analysis) {
           description: "A score could not be calculated from the current quote data."
         };
       }
+
       const pctDiff = ((price - midpoint) / midpoint) * 100;
       const absPctDiff = Math.abs(pctDiff);
+
       let score;
+
       if (pctDiff >= -8 && pctDiff <= 5) {
         score = 95 - absPctDiff * 1.5;
       } else if (pctDiff >= -15 && pctDiff < -8) {
@@ -5897,7 +7715,9 @@ function getRecommendationReasoningText(analysis) {
       } else {
         score = 42 - (pctDiff - 30) * 1.2;
       }
+
       score = Math.round(clampNumber(score, 0, 100));
+
       if (pctDiff < -20) {
         return {
           score,
@@ -5906,6 +7726,7 @@ function getRecommendationReasoningText(analysis) {
           description: "This quote is far below the modeled midpoint. Low pricing can reflect missing scope, future change orders, or contractor risk."
         };
       }
+
       if (pctDiff < -10) {
         return {
           score,
@@ -5914,6 +7735,7 @@ function getRecommendationReasoningText(analysis) {
           description: "This quote is materially below the modeled midpoint. Review scope details carefully before treating it as strong value."
         };
       }
+
       if (score >= 90) {
         return {
           score,
@@ -5922,6 +7744,7 @@ function getRecommendationReasoningText(analysis) {
           description: "This quote appears well positioned relative to the modeled midpoint."
         };
       }
+
       if (score >= 75) {
         return {
           score,
@@ -5930,6 +7753,7 @@ function getRecommendationReasoningText(analysis) {
           description: "This quote appears reasonably aligned with expected market pricing."
         };
       }
+
           if (score >= 55) {
         return {
           score,
@@ -5938,6 +7762,7 @@ function getRecommendationReasoningText(analysis) {
           description: "This quote is somewhat above the modeled midpoint."
         };
       }
+
       if (score >= 35) {
         return {
           score,
@@ -5946,6 +7771,7 @@ function getRecommendationReasoningText(analysis) {
           description: "This quote appears materially above the modeled midpoint."
         };
       }
+
       return {
         score,
         label: "Very high pricing",
@@ -5953,58 +7779,75 @@ function getRecommendationReasoningText(analysis) {
         description: "This quote appears far above the modeled midpoint."
       };
     }
+
     function getContractorPriceScoreContext(quotePrice, mid) {
       const result = calculateContractorPriceScore(quotePrice, mid);
       if (result.score === null) return "Score not available";
       return `${result.score} / 100 • ${result.label}`;
     }
+
     function buildTypicalPriceSummary({ city, stateCode, roofSize, low, high, mid }) {
       const hasRange = isFinite(Number(low)) && isFinite(Number(high));
       if (!hasRange) return "Typical local pricing was not available.";
+
       const locationLabel = [repairDisplayText(city), stateCode].filter(Boolean).join(", ") || "your area";
       const roofSizeLabel =
         isFinite(Number(roofSize)) && Number(roofSize) > 0
           ? `${safeFormatNumber(roofSize)} sq ft`
           : "similar-sized";
+
       const midpointText =
         isFinite(Number(mid)) && Number(mid) > 0
           ? `. Midpoint: ${safeFormatCurrency(mid)}`
           : "";
+
       return `${locationLabel}: ${safeFormatCurrency(low)} to ${safeFormatCurrency(high)}${midpointText}.`;
     }
+
     function buildMidpointDollarText(quotePrice, mid) {
       const price = Number(quotePrice);
       const midpoint = Number(mid);
+
       if (!isFinite(price) || !isFinite(midpoint) || midpoint <= 0) {
         return "Difference from midpoint not available";
       }
+
       const diff = price - midpoint;
       const absDiff = Math.abs(diff);
+
       if (absDiff < 50) {
         return "Within about $50 of modeled midpoint";
       }
+
       if (diff < 0) return `${safeFormatCurrency(absDiff)} below modeled midpoint`;
       return `${safeFormatCurrency(absDiff)} above modeled midpoint`;
     }
+
     function buildMarketPositionText(quotePrice, mid) {
       const price = Number(quotePrice);
       const midpoint = Number(mid);
+
       if (!isFinite(price) || !isFinite(midpoint) || midpoint <= 0) {
         return "Market position not available";
       }
+
       const pctDiff = ((price - midpoint) / midpoint) * 100;
       const absPctDiff = Math.abs(pctDiff).toFixed(1);
+
       if (Math.abs(pctDiff) < 2) {
         return "In line with modeled market midpoint";
       }
+
       if (pctDiff < 0) return `${absPctDiff}% below modeled market midpoint`;
       return `${absPctDiff}% above modeled market midpoint`;
     }
+
     function buildPriceGaugeHtml(price, low, mid, high) {
       const numericPrice = Number(price);
       const numericLow = Number(low);
       const numericMid = Number(mid);
       const numericHigh = Number(high);
+
       if (
         !isFinite(numericPrice) ||
         !isFinite(numericLow) ||
@@ -6013,18 +7856,22 @@ function getRecommendationReasoningText(analysis) {
       ) {
         return "";
       }
+
       const range = numericHigh - numericLow;
       let position = ((numericPrice - numericLow) / range) * 100;
       position = Math.max(0, Math.min(100, position));
+
       let positionLabel = "Within expected range";
       if (numericPrice < numericLow) positionLabel = "Below expected range";
       if (numericPrice > numericHigh) positionLabel = "Above expected range";
+
       return `
         <div class="panel" style="margin:0 0 12px; padding:12px 14px; background:#f8fafc; border-color:#e5e7eb;">
           <p style="margin:0 0 4px;"><strong>Where your quote falls</strong></p>
           <p class="small muted" style="margin:0 0 8px;">
             ${positionLabel}
           </p>
+
           <div class="price-gauge">
             <div class="price-gauge-bar">
               <div class="price-gauge-marker" style="left:${position}%"></div>
@@ -6035,21 +7882,27 @@ function getRecommendationReasoningText(analysis) {
               <span>${safeFormatCurrency(numericHigh)}</span>
             </div>
           </div>
+        
       `;
     }
+
 function buildDecisionDelta({ quotePrice, low, mid, high }) {
     const price = Number(quotePrice);
     const lowVal = Number(low);
     const midVal = Number(mid);
     const highVal = Number(high);
+
     if (![price, lowVal, midVal, highVal].every(isFinite) || highVal <= lowVal) {
       return null;
     }
+
     const delta = price - midVal;
     const absDelta = Math.abs(delta);
+
     let position = "within_range";
     if (price < lowVal) position = "below_range";
     if (price > highVal) position = "above_range";
+
     return {
       delta,
       absDelta,
@@ -6059,6 +7912,7 @@ function buildDecisionDelta({ quotePrice, low, mid, high }) {
       high: highVal
   };
 }
+
 function getDecisionDeltaStrength(absDelta) {
   const amount = Number(absDelta);
   if (!isFinite(amount)) return "weak";
@@ -6066,32 +7920,44 @@ function getDecisionDeltaStrength(absDelta) {
   if (amount < 2000) return "moderate";
   return "strong";
 }
+
 function buildDecisionDeltaText(decisionDelta) {
   if (!decisionDelta) return "";
+
   const absDelta = Number(decisionDelta.absDelta) || 0;
+
+  // Suppress meaningless small deltas
   if (absDelta < 100) {
     return "This quote is in line with expected pricing";
   }
+
   const amt = safeFormatCurrency(absDelta);
+
   if (decisionDelta.position === "above_range") {
     return `You may be overpaying by ~${amt}`;
   }
+
   if (decisionDelta.position === "below_range") {
     return `This quote is ~${amt} below expected pricing`;
   }
+
   return `This quote is within ~${amt} of expected pricing`;
 }
+
 function buildDecisionDeltaHtml(analysis) {
   const decisionDelta = buildDecisionDelta(analysis);
   if (!decisionDelta) return "";
+
   const text = softenClaim(buildDecisionDeltaText(decisionDelta), analysis);
   const strength = getDecisionDeltaStrength(decisionDelta.absDelta);
+
   const background =
     strength === "strong"
       ? "#fef2f2"
       : strength === "moderate"
         ? "#f8fafc"
         : "#f9fafb";
+
   return `
     <div class="panel" style="margin:0 0 14px; padding:16px 18px; background:${background}; border-color:#e5e7eb;">
       <div style="font-size:30px; line-height:1.1; font-weight:800; margin:0 0 8px;">
@@ -6103,36 +7969,45 @@ function buildDecisionDeltaHtml(analysis) {
     </div>
   `;
 }
+
     function buildDifferenceDisplay(quotePrice, mid) {
       const price = Number(quotePrice);
       const midpoint = Number(mid);
+
       if (!isFinite(price) || !isFinite(midpoint) || midpoint <= 0) {
         return "Not available";
       }
+
       const diff = price - midpoint;
       const diffPct = (diff / midpoint) * 100;
       const absDiff = Math.abs(diff);
       const absPct = Math.abs(diffPct);
+
       if (absPct < 1) {
         return "In line with modeled midpoint";
       }
+
       if (absPct < 3) {
         return diff < 0
           ? `Slightly below midpoint`
           : `Slightly above midpoint`;
       }
+
       return `${diff < 0 ? "-" : ""}${safeFormatCurrency(absDiff)} (${diffPct.toFixed(1)}%)`;
 }
+
     function getFileNameBase(name) {
       return String(name || "")
         .replace(/\.[^/.]+$/, "")
         .replace(/[_-]+/g, " ")
         .trim();
     }
+
     function inferContractorNameFromParsed(parsedObj, fallbackFileName) {
       if (!parsedObj || typeof parsedObj !== "object") {
         return getFileNameBase(fallbackFileName || "");
       }
+
       const candidate =
         String(
           parsedObj.contractorName ||
@@ -6142,11 +8017,15 @@ function buildDecisionDeltaHtml(analysis) {
           parsedObj.vendor ||
           ""
         ).trim();
+
       if (candidate) return candidate;
+
       return getFileNameBase(fallbackFileName || "");
     }
+
     function getParsedComparisonPrice(parsedObj) {
       if (!parsedObj || typeof parsedObj !== "object") return null;
+
       const candidates = [
         parsedObj.price,
         parsedObj.totalLinePrice,
@@ -6157,34 +8036,43 @@ function buildDecisionDeltaHtml(analysis) {
         parsedObj.grandTotal,
         parsedObj.amount
       ];
+
       for (const value of candidates) {
         const num = Number(value);
         if (isFinite(num) && num > 0) return num;
       }
+
       return null;
     }
+
     function buildComparisonQuoteFromUpload(parsedBundle, manualName, manualPrice, fallbackLabel) {
       const parsed = parsedBundle?.parsed || parsedBundle || null;
+
       const manualPriceNum = Number(manualPrice);
       const parsedPrice = getParsedComparisonPrice(parsed);
+
       const total =
         isFinite(manualPriceNum) && manualPriceNum > 0
           ? manualPriceNum
           : parsedPrice;
+
       const inferredContractor = inferContractorNameFromParsed(
         parsed,
         parsedBundle?.fileName || fallbackLabel
       );
+
       const contractor =
         String(manualName || "").trim() ||
         inferredContractor ||
         fallbackLabel;
+
       const parsedRoofSize = Number(
         parsed?.roofSize ||
         parsed?.measurements?.roofSize ||
         parsed?.roof_area ||
         parsed?.sqft
       );
+
       return {
         label: fallbackLabel,
         contractor,
@@ -6196,22 +8084,27 @@ function buildDecisionDeltaHtml(analysis) {
         fileName: parsedBundle?.fileName || ""
       };
     }
+
     function buildPrimaryComparisonQuote() {
       const parsed = latestParsed || {};
       const analysis = latestAnalysis || {};
+
       const contractor =
         inferContractorNameFromParsed(parsed, "Quote 1") || "Quote 1";
+
       const total =
         getParsedComparisonPrice(parsed) ||
         (isFinite(Number(analysis.quotePrice)) && Number(analysis.quotePrice) > 0
           ? Number(analysis.quotePrice)
           : null);
+
       const roofSize =
         isFinite(Number(parsed?.roofSize)) && Number(parsed.roofSize) > 0
           ? Number(parsed.roofSize)
           : isFinite(Number(analysis?.roofSize)) && Number(analysis.roofSize) > 0
             ? Number(analysis.roofSize)
             : null;
+
       return {
         label: inferContractorNameFromParsed(parsed, "Contractor"),
         contractor,
@@ -6222,21 +8115,28 @@ function buildDecisionDeltaHtml(analysis) {
         source: "primary"
       };
     }
+
     function renderComparisonSourceLabel(source) {
       if (source === "primary") return "Primary analyzed quote";
       if (source === "upload") return "Parsed from upload";
       return "Manual entry";
     }
+
     function normalizeComparisonQuote(raw, fallbackLabel) {
       if (!raw || typeof raw !== "object") return null;
+
       const parsedTotal = Number(raw.total);
       const total = isFinite(parsedTotal) && parsedTotal > 0 ? parsedTotal : null;
+
       const parsedRoofSize = Number(raw.roofSize);
       const roofSize = isFinite(parsedRoofSize) && parsedRoofSize > 0 ? parsedRoofSize : null;
+
       const contractor =
         String(raw.contractor || raw.name || raw.label || "").trim() || fallbackLabel;
+
       const source =
         String(raw.source || "").trim() || "manual";
+
       return {
         label: raw.label || fallbackLabel,
         contractor,
@@ -6251,29 +8151,40 @@ function buildDecisionDeltaHtml(analysis) {
         isPartial: !total
       };
     }
+
 function getComparisonScopeScore(quote) {
     let score = 0;
+
     const material = String(quote?.material || "").toLowerCase();
     const warranty = String(quote?.warranty || "").toLowerCase();
+
     if (material && material !== "not detected") score += 10;
     if (warranty && warranty !== "not listed in quote" && warranty !== "not detected") score += 10;
+
     return score;
   }
+
 function getComparisonWarrantyScore(quote) {
   const warranty = String(quote?.warranty || "").toLowerCase();
+
   if (!warranty || warranty === "not listed in quote" || warranty === "not detected") {
     return 0;
   }
+
   const yearsMatch = warranty.match(/(\d+)/);
   const years = yearsMatch ? Number(yearsMatch[1]) : 0;
+
   if (years >= 25) return 15;
   if (years >= 10) return 10;
   if (years > 0) return 6;
+
   return 8;
 }
+
 function scoreComparisonQuote(quote, analysis) {
   const price = Number(quote?.total || 0);
   const mid = Number(analysis?.mid || 0);
+
   if (!isFinite(price) || price <= 0 || !isFinite(mid) || mid <= 0) {
     return {
       totalScore: 0,
@@ -6287,14 +8198,17 @@ function scoreComparisonQuote(quote, analysis) {
       warnings: ["Comparison score is incomplete because price could not be evaluated."]
     };
   }
+
   const pctOffMid = ((price - mid) / mid) * 100;
   const absPctOffMid = Math.abs(pctOffMid);
+
   let priceScore = 0;
   let riskPenalty = 0;
   let confidencePenalty = 0;
   let band = "fair";
   const reasons = [];
   const warnings = [];
+
   if (price < mid * 0.78) {
     priceScore = 18;
     riskPenalty = 24;
@@ -6314,38 +8228,46 @@ function scoreComparisonQuote(quote, analysis) {
   } else if (price <= mid * 1.15) {
     priceScore = 78;
     band = "fair";
-    reasons.push("Price is somewhat above modeled midpoint");
+    reasons.push("Price is above midpoint. Check if premium materials, extended warranty, or broader scope justify the difference.");
   } else if (price <= mid * 1.30) {
     priceScore = 54;
     riskPenalty = 8;
     band = "high";
-    reasons.push("Price is materially above modeled midpoint");
+    reasons.push("Price is significantly above midpoint. This could reflect premium materials, larger scope, or higher labor quality -- or it could be overpriced. Compare same-scope quotes.");
   } else {
     priceScore = 28;
     riskPenalty = 16;
     band = "very_high";
-    reasons.push("Price is far above modeled midpoint");
-    warnings.push("This quote is expensive relative to modeled pricing");
+    reasons.push("Price is well above midpoint. Unless this includes premium materials, exceptional warranty, or unusually large scope, get competing quotes.");
+    warnings.push("This quote is significantly above typical range. Ask for a detailed breakdown before signing.");
   }
+
   const rawScopeScore = getComparisonScopeScore(quote);
   const rawWarrantyScore = getComparisonWarrantyScore(quote);
+
+  // Keep metadata helpful, but do not let parsing quality dominate
   const scopeScore = Math.min(rawScopeScore, 8);
   const warrantyScore = Math.min(rawWarrantyScore, 10);
+
   if (scopeScore >= 8) {
     reasons.push("More quote details were clearly identified");
   }
+
   if (warrantyScore >= 10) {
     reasons.push("Warranty appears stronger or more clearly stated");
   } else if (warrantyScore >= 6) {
     reasons.push("Warranty information was present");
   }
+
   if (!quote?.roofSize || quote.roofSize <= 0) {
     confidencePenalty += 4;
     warnings.push("Roof size was not detected for this quote");
   }
+
   const totalScore = Math.round(
     Math.max(0, Math.min(100, priceScore + scopeScore + warrantyScore - riskPenalty - confidencePenalty))
   );
+
   return {
     totalScore,
     priceScore: Math.round(priceScore),
@@ -6358,9 +8280,11 @@ function scoreComparisonQuote(quote, analysis) {
     warnings
   };
 }
+
 function buildComparisonWinnerSummary(quotes, analysis) {
   const validQuotes = (Array.isArray(quotes) ? quotes : []).filter(q => q?.isValid);
   if (validQuotes.length < 2 || !analysis) return null;
+
   const scored = validQuotes.map(quote => {
     const score = scoreComparisonQuote(quote, analysis);
     return {
@@ -6369,20 +8293,25 @@ function buildComparisonWinnerSummary(quotes, analysis) {
       comparisonBreakdown: score
     };
   });
+
   const ranked = [...scored].sort((a, b) => {
     if (b.comparisonScore !== a.comparisonScore) {
       return b.comparisonScore - a.comparisonScore;
     }
+
     const aDist = Math.abs((Number(a.total) || 0) - (Number(analysis.mid) || 0));
     const bDist = Math.abs((Number(b.total) || 0) - (Number(analysis.mid) || 0));
     return aDist - bDist;
   });
+
   const winner = ranked[0];
   const runnerUp = ranked[1] || null;
+
   const winnerBand = String(winner?.comparisonBreakdown?.band || "");
   const winnerWarnings = Array.isArray(winner?.comparisonBreakdown?.warnings)
     ? winner.comparisonBreakdown.warnings
     : [];
+
   const blockingWarningPatterns = [
   /very low bid/i,
   /missing scope/i,
@@ -6391,19 +8320,23 @@ function buildComparisonWinnerSummary(quotes, analysis) {
   /far above modeled midpoint/i,
   /expensive relative to modeled pricing/i
 ];
+
 const hasBlockingWarning = winnerWarnings.some(warning =>
   blockingWarningPatterns.some(pattern => pattern.test(String(warning || "")))
 );
+
 const shouldSoftenWinner =
   winnerBand === "suspicious_low" ||
   winnerBand === "very_high" ||
   hasBlockingWarning;
+
   const losers = ranked.slice(1).map(q => ({
     name: q.contractor,
     reasons: q.comparisonBreakdown.reasons.slice(0, 2),
     warnings: q.comparisonBreakdown.warnings.slice(0, 1),
     score: q.comparisonScore
   }));
+
   return {
     winner: winner.contractor,
     winnerQuote: winner,
@@ -6414,8 +8347,10 @@ const shouldSoftenWinner =
     winnerWarnings
   };
 }
+
 function buildComparisonWinnerHtml(summary) {
   if (!summary?.winnerQuote) return "";
+
   const winner = summary.winnerQuote;
   const runnerUp = summary?.runnerUp || null;
   const softened = !!summary.shouldSoftenWinner;
@@ -6423,23 +8358,29 @@ function buildComparisonWinnerHtml(summary) {
   const reasons = Array.isArray(winner?.comparisonBreakdown?.reasons)
     ? winner.comparisonBreakdown.reasons.slice(0, 2)
     : [];
+
   const title = softened
     ? "Current leader"
     : "Comparison decision";
+
   const headline = softened
     ? `${winner.contractor} is in front, but not decision ready`
     : `${winner.contractor} wins`;
+
   const nextStep = softened
     ? "Do not select this quote yet. Resolve the warning first."
     : "Advance this contractor unless new scope issues appear.";
+
   const shellBg = softened ? "#fff7ed" : "#f0fdf4";
   const shellBorder = softened ? "#fdba74" : "#86efac";
   const shellText = softened ? "#9a3412" : "#166534";
+
   const runnerUpLine = runnerUp
     ? `<p class="small muted" style="margin:0 0 10px;">
         <strong>Runner up:</strong> ${runnerUp.contractor} (${runnerUp.comparisonScore}/100)
       </p>`
     : "";
+
   const warningHtml = warnings.length
     ? `
       <div class="panel" style="margin:0 0 10px; background:#fff7ed; border-color:#fdba74;">
@@ -6449,6 +8390,7 @@ function buildComparisonWinnerHtml(summary) {
       </div>
     `
     : "";
+
   const whyWonHtml = reasons.length
     ? `
       <div class="panel" style="margin:0 0 10px; background:#f8fafc; border-color:#e5e7eb;">
@@ -6461,6 +8403,7 @@ function buildComparisonWinnerHtml(summary) {
       </div>
     `
     : "";
+
   const othersHtml = summary.losers.length
     ? `
       <div class="small muted" style="margin-top:8px;">
@@ -6478,29 +8421,39 @@ function buildComparisonWinnerHtml(summary) {
       </div>
     `
     : "";
+
   return `
     <div class="panel" style="margin:0 0 14px; padding:14px 16px; background:${shellBg}; border-color:${shellBorder};">
       <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:${shellText};">
         ${title}
       </p>
+
       <div style="margin:0 0 6px; font-size:30px; line-height:1.05; font-weight:800; color:${shellText};">
         ${headline}
       </div>
+
       <p style="margin:0 0 8px;">
         <strong>Score:</strong> ${winner.comparisonScore} / 100
       </p>
+
       <p style="margin:0 0 12px;">
         <strong>Quoted price:</strong> ${safeFormatCurrency(winner.total)}
       </p>
+
       ${runnerUpLine}
+
       ${warningHtml}
+
       ${whyWonHtml}
+
       <div class="panel" style="margin:0 0 10px; background:#eff6ff; border-color:#93c5fd;">
         <p style="margin:0;">
           <strong>Next step:</strong> ${nextStep}
         </p>
       </div>
+
       ${othersHtml}
+
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
         <button type="button" class="btn secondary" id="copyComparisonWinnerBtn">
           Copy winner summary
@@ -6515,8 +8468,10 @@ function buildComparisonWinnerHtml(summary) {
     </div>
   `;
 }
+
       function buildComparisonWinnerText(summary) {
         if (!summary?.winnerQuote) return "";
+
         const winner = summary.winnerQuote;
         const runnerUp = summary?.runnerUp || null;
         const softened = !!summary.shouldSoftenWinner;
@@ -6524,9 +8479,11 @@ function buildComparisonWinnerHtml(summary) {
         const reasons = Array.isArray(winner?.comparisonBreakdown?.reasons)
           ? winner.comparisonBreakdown.reasons.slice(0, 2)
           : [];
+
         const nextStep = softened
           ? "Do not select this quote yet. Resolve the warning first."
           : "This is the quote to advance unless new scope issues appear.";
+
         const lines = [
           "TruePrice Comparison Decision",
           "",
@@ -6536,50 +8493,62 @@ function buildComparisonWinnerHtml(summary) {
           `Score: ${winner.comparisonScore} / 100`,
           `Quoted price: ${safeFormatCurrency(winner.total)}`,
         ];
+
         if (runnerUp?.contractor) {
           const scoreGap =
             Number(winner.comparisonScore || 0) - Number(runnerUp.comparisonScore || 0);
+
           lines.push(
             `Runner up: ${runnerUp.contractor}${isFinite(scoreGap) ? ` (${Math.abs(scoreGap)} points behind)` : ""}`
           );
         }
+
         if (reasons.length) {
           lines.push(
             "",
             `Why it won: ${reasons[0]}${reasons[1] ? `. ${reasons[1]}` : ""}`
           );
         }
+
         if (warnings.length) {
           lines.push(
             `Warning: ${warnings[0]}`
           );
         }
+
         lines.push(
           `Next step: ${nextStep}`
         );
+
         if (summary.losers?.length) {
           lines.push(
             "",
             "Other quotes:"
           );
+
           summary.losers.forEach(loser => {
             const loserReasons = Array.isArray(loser?.reasons) ? loser.reasons.slice(0, 2) : [];
             const loserWarnings = Array.isArray(loser?.warnings) ? loser.warnings.slice(0, 1) : [];
+
             lines.push(
               `- ${loser.name}: Score ${loser.score}/100.${loserReasons.length ? ` ${loserReasons.join(". ")}.` : ""}${loserWarnings.length ? ` Warning: ${loserWarnings[0]}.` : ""}`
             );
           });
         }
+
         return lines.join("\n");
       }
+
       function bindComparisonWinnerActions(summary) {
         const copyWinnerBtn = byId("copyComparisonWinnerBtn");
         const copyQuestionsBtn = byId("copyContractorQuestionsFromCompareBtn");
         const viewReportBtn = byId("viewShareReportFromCompareBtn");
+
         if (copyWinnerBtn && copyWinnerBtn.dataset.bound !== "true") {
           copyWinnerBtn.addEventListener("click", async function () {
             const text = buildComparisonWinnerText(summary);
             if (!text) return;
+
             try {
               await navigator.clipboard.writeText(text);
               setUploadStatus("Comparison winner summary copied to clipboard.", "success");
@@ -6588,14 +8557,18 @@ function buildComparisonWinnerHtml(summary) {
               setUploadStatus("Could not copy comparison winner summary.", "error");
             }
           });
+
           copyWinnerBtn.dataset.bound = "true";
         }
+
         if (copyQuestionsBtn && copyQuestionsBtn.dataset.bound !== "true") {
           copyQuestionsBtn.addEventListener("click", function () {
             copyContractorQuestions();
           });
+
           copyQuestionsBtn.dataset.bound = "true";
         }
+
         if (viewReportBtn && viewReportBtn.dataset.bound !== "true") {
           viewReportBtn.addEventListener("click", function () {
             viewShareableResult();
@@ -6606,24 +8579,32 @@ function buildComparisonWinnerHtml(summary) {
               }, 150);
             }
           });
+
           viewReportBtn.dataset.bound = "true";
         }
       }
+
+
       function getComparisonBandLabel(band) {
         const normalized = String(band || "").toLowerCase();
+
         if (normalized === "strong") return "Strong";
         if (normalized === "fair") return "Fair";
         if (normalized === "low") return "Low bid";
         if (normalized === "suspicious_low") return "Suspiciously low";
         if (normalized === "high") return "High";
         if (normalized === "very_high") return "Very high";
+
         return "Unscored";
       }
+
       function buildComparisonScoreCellHtml(quote) {
         const breakdown = quote?.comparisonBreakdown || null;
         if (!breakdown) return "Not available";
+
         const score = Number(breakdown.totalScore);
         const bandLabel = getComparisonBandLabel(breakdown.band);
+
         return `
           <div>
             <strong>${isFinite(score) ? `${score} / 100` : "Not available"}</strong>
@@ -6633,11 +8614,13 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
       function renderParsedSignalSection(parsed) {
         const container = byId("parsedSignalSection");
         if (!container) return;
         container.innerHTML = "";
       }
+
       function buildAIExplanation(analysis) {
         const {
           verdict,
@@ -6659,6 +8642,7 @@ function buildComparisonWinnerHtml(summary) {
           roofSizeConsistency,
           reliabilityTier
         } = analysis || {};
+
         const materialLabel =
           material === "architectural"
             ? "architectural shingles"
@@ -6669,24 +8653,30 @@ function buildComparisonWinnerHtml(summary) {
                 : material === "tile"
                   ? "tile roofing"
                   : "roofing";
+
         const locationLabel =
           city && stateCode ? `${city}, ${stateCode}` : stateCode || city || "your area";
+
         const confidenceLabel = analysisConfidenceLabel || "Low";
         const consistencySeverity = String(roofSizeConsistency?.severity || "low").toLowerCase();
+
         const confidenceModeAnalysis = {
           reliabilityTier,
           roofSizeNeedsReview,
           roofSizeConsistency
         };
+
         const benchmarkText = localDataUsed
           ? `We compared it against local benchmark pricing for ${locationLabel}${sizeLabelUsed ? ` using the nearest size bucket (${sizeLabelUsed})` : ""}.`
           : `We compared it against benchmark pricing for ${materialLabel} in ${locationLabel}.`;
+
         const trustPrefix =
           consistencySeverity === "high"
             ? "This result should be treated as provisional until roof size is verified. "
             : consistencySeverity === "medium"
               ? "This result is directionally useful, but roof size signals are mixed. "
               : "";
+
         const trustSuffix =
           consistencySeverity === "high"
             ? " Verify roof size before relying on the price result."
@@ -6695,26 +8685,32 @@ function buildComparisonWinnerHtml(summary) {
               : roofSizeNeedsReview
                 ? " Roof size may need review before relying on this result."
                 : "";
+
         const premiumText =
           Array.isArray(premiumSignals) && premiumSignals.length
             ? ` Premium or complexity signals were detected: ${premiumSignals.join(", ")}.`
             : "";
+
         const tearOffText =
           tearOffLabel === "yes"
             ? " Tear off appears to be included."
             : tearOffLabel === "no"
               ? " Tear off does not appear to be included."
               : "";
+
         const warrantyText =
           warrantyYears && Number(warrantyYears) > 0
             ? ` Detected warranty: ${warrantyYears} years.`
             : "";
+
         if (!roofSize || !material || material === "unknown") {
           return `${trustPrefix}We found a usable quote price, but some important quote details were unclear. Add roof size, material, and location details to improve accuracy. Analysis confidence: ${confidenceLabel}.${trustSuffix}`;
         }
+
         if (verdict === "Fair Price") {
           return `${trustPrefix}${softenClaim(`This quote aligns with expected pricing for this type of project in ${locationLabel}.`, confidenceModeAnalysis)} ${benchmarkText} Confidence: ${confidenceLabel}.${trustSuffix}`;
         }
+
         if (
           verdict === "Higher Than Expected" ||
           verdict === "May Be Higher Than Expected" ||
@@ -6722,6 +8718,7 @@ function buildComparisonWinnerHtml(summary) {
         ) {
           return `${trustPrefix}${softenClaim(`This quote is above expected pricing for this type of project in ${locationLabel}.`, confidenceModeAnalysis)} ${benchmarkText} Confidence: ${confidenceLabel}.${trustSuffix}`;
         }
+
         if (
           verdict === "Overpriced" ||
           verdict === "May Be Overpriced" ||
@@ -6729,6 +8726,7 @@ function buildComparisonWinnerHtml(summary) {
         ) {
           return `${trustPrefix}${softenClaim(`This quote is materially above expected pricing.`, confidenceModeAnalysis)} ${benchmarkText} Confidence: ${confidenceLabel}.${trustSuffix}`;
         }
+
         if (
           verdict === "Possible Scope Risk" ||
           verdict === "Possible Scope Risk, With Some Uncertainty" ||
@@ -6736,6 +8734,7 @@ function buildComparisonWinnerHtml(summary) {
         ) {
           return `${trustPrefix}${softenClaim(`This quote is below expected pricing and may be missing scope items.`, confidenceModeAnalysis)} ${benchmarkText} Confidence: ${confidenceLabel}.${trustSuffix}`;
         }
+
         if (
           verdict === "Unusually Low" ||
           verdict === "May Be Unusually Low" ||
@@ -6743,27 +8742,36 @@ function buildComparisonWinnerHtml(summary) {
         ) {
           return `${trustPrefix}${softenClaim(`This quote is below expected pricing for a ${roofSize || "similar-sized"} ${materialLabel} project in ${locationLabel}.`, confidenceModeAnalysis)} ${benchmarkText}${tearOffText}${warrantyText} Double check that the quote includes underlayment, flashing, ventilation, disposal, and warranty details. Analysis confidence: ${confidenceLabel}.${trustSuffix}${premiumText}`;
         }
+
         return `${trustPrefix}${softenClaim(`This quote was compared against expected pricing for a ${roofSize || "similar-sized"} ${materialLabel} project in ${locationLabel}.`, confidenceModeAnalysis)} ${benchmarkText} Analysis confidence: ${confidenceLabel}.${trustSuffix}${premiumText}`;
       }
+
       function renderAnalysisPanels(parsed) {
         const container = byId("analysisPanels");
       if (!container) return;
+
       const analysis = latestAnalysis || {};
+
       const confidenceLabel = analysis?.analysisConfidenceLabel || parsed?.confidenceLabel || "Low";
       const confidenceClass = getConfidenceBadgeClass(confidenceLabel);
+
       const parserWarnings = Array.isArray(parsed?.warnings) ? parsed.warnings : [];
       const parserWarningsHtml = parserWarnings.length
         ? `<ul class="mini-list signal-summary-warn">${parserWarnings.map(item => `<li>${item}</li>`).join("")}</ul>`
         : `<p class="small muted" style="margin:0;">No major parsing warnings.</p>`;
+
       const includedSignals = Array.isArray(parsed?.includedSignals) ? parsed.includedSignals : [];
       const missingSignals = Array.isArray(parsed?.missingSignals) ? parsed.missingSignals : [];
       const premiumSignals = Array.isArray(parsed?.premiumSignals) ? parsed.premiumSignals : [];
+
       const scopeCheckHtml = buildScopeCheckHtml({
         includedSignals,
         missingSignals,
         premiumSignals
       });
+
       const scopeRiskHtml = buildScopeRiskHtml(missingSignals);
+
       const roofSizeDisplay =
         analysis?.roofSize
           ? formatRoofSizeForDisplay(
@@ -6772,20 +8780,24 @@ function buildComparisonWinnerHtml(summary) {
               analysis.roofSizeEstimateConfidence
             )
           : "Not detected";
+
       const materialDisplay =
         parsed?.materialLabel && parsed.materialLabel !== "Unknown"
           ? parsed.materialLabel
           : analysis?.material
             ? displayMaterial(analysis.material)
             : "Not detected";
+
       const warrantyDisplay =
         parsed?.warranty && String(parsed.warranty).trim().toLowerCase() !== "not detected"
           ? displayWarranty(parsed.warranty)
           : analysis?.warrantyYears
             ? `${analysis.warrantyYears} years`
             : "Not listed in quote";
+
       const locationDisplay =
         [analysis?.city, analysis?.stateCode].filter(Boolean).join(", ") || "Not detected";
+
       container.innerHTML = `
         <div class="panel" style="margin-top:18px;">
           <button
@@ -6796,7 +8808,9 @@ function buildComparisonWinnerHtml(summary) {
           >
             See details behind this result
           </button>
+
           <div id="analysisDetailsContent" style="display:none; margin-top:12px;">
+
             <div>
               <h4>What we used to analyze your quote</h4>
               <ul class="mini-list">
@@ -6806,13 +8820,16 @@ function buildComparisonWinnerHtml(summary) {
                 <li><strong>Location:</strong> ${locationDisplay}</li>
               </ul>
             </div>
+
             <div>
               <h4>Scope and risk signals</h4>
+
               <p style="margin:0 0 10px;">
                 <span class="confidence-badge ${confidenceClass}">
                   Confidence: ${confidenceLabel}
                 </span>
               </p>
+
               ${
                 parserWarnings.length
                   ? `
@@ -6823,16 +8840,21 @@ function buildComparisonWinnerHtml(summary) {
                   `
                   : ""
               }
+
               <div style="margin-top:14px;">
                 ${scopeCheckHtml}
               </div>
+
               ${scopeRiskHtml}
             </div>
+
           </div>
         </div>
       `;
+
       const toggleBtn = byId("toggleDetailsBtn");
   const content = byId("analysisDetailsContent");
+
   if (toggleBtn && content) {
     toggleBtn.addEventListener("click", () => {
       const isOpen = content.style.display === "block";
@@ -6844,74 +8866,96 @@ function buildComparisonWinnerHtml(summary) {
   });
 }
     }
+
     function getRoofSizeSourceDisplay(source) {
   const normalized = String(source || "").toLowerCase();
+
   if (normalized === "user_input") return "Entered by you";
   if (normalized === "parsed_quote") return "Found in the quote";
   if (normalized === "address_estimated") return "Estimated from property data";
   if (normalized === "price_based_estimate") return "Estimated from pricing signals";
   if (normalized === "manual_calculator") return "Estimated with DIY calculator";
   if (normalized === "unavailable") return "Not available";
+
   return "Not available";
 }
+
       function getReliabilityTier({ source, confidenceScore, disagreement }) {
         const normalizedSource = String(source || "").toLowerCase();
         const score = Number(confidenceScore);
         const hasDisagreement = !!disagreement?.hasDisagreement;
+
         if (normalizedSource === "user_input" || normalizedSource === "parsed_quote") {
           return "VERIFIED";
         }
+
         if (normalizedSource === "manual_calculator") {
           return hasDisagreement ? "ESTIMATED" : "HIGH_CONFIDENCE";
         }
+
         if (isFinite(score) && score >= 80 && !hasDisagreement) {
           return "HIGH_CONFIDENCE";
         }
+
         if (isFinite(score) && score >= 60) {
           return "ESTIMATED";
         }
+
         return "LOW_CONFIDENCE";
       }
+
       function getReliabilityTierLabel(tier) {
         if (tier === "VERIFIED") return "Verified";
         if (tier === "HIGH_CONFIDENCE") return "High confidence estimate";
         if (tier === "ESTIMATED") return "Estimated using modeling";
         return "Low confidence – review inputs";
       }
+
       function getReliabilityTierClass(tier) {
         if (tier === "VERIFIED") return "high";
         if (tier === "HIGH_CONFIDENCE") return "high";
         if (tier === "ESTIMATED") return "medium";
         return "low";
       }
+
       function getReliabilityTierExplanation(tier) {
         if (tier === "VERIFIED") {
           return "Key pricing inputs were directly entered or clearly found in the quote.";
         }
+
         if (tier === "HIGH_CONFIDENCE") {
           return "The estimate is supported by strong signals with low disagreement.";
         }
+
         if (tier === "ESTIMATED") {
           return "This result depends partly on modeled inputs, so treat it as directional.";
         }
+
         return "Important inputs are uncertain or conflicting. Review inputs before relying on this result.";
       }
+
       function getPropertyMatchQualityLabel(value) {
         const normalized = String(value || "").toLowerCase();
+
         if (normalized === "high") return "High";
         if (normalized === "medium") return "Moderate";
         if (normalized === "approximate") return "Approximate";
         if (normalized === "low") return "Low";
+
         return "Unknown";
       }
+
       function buildPropertyMetadataTrustHtml(analysis) {
         const source = String(analysis?.roofSizeEstimateSource || "").toLowerCase();
         const meta = analysis?.propertySignalsMeta || {};
+
         if (source !== "address_estimated") return "";
+
         const quality = getPropertyMatchQualityLabel(meta.buildingMatchQuality);
         const geocodeQuality = String(meta.geocodeMatchQuality || "unknown");
         const candidateCount = Number(meta.candidateCount || 0);
         const ambiguous = !!meta.ambiguous;
+
         return `
           <div class="small muted" style="margin:8px 0 0;">
             <div><strong>Property match quality:</strong> ${quality}</div>
@@ -6929,18 +8973,23 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
       function buildResultTrustHtml(analysis) {
         if (!analysis) return "";
+
         const roofSizeSource = getRoofSizeSourceDisplay(analysis.roofSizeEstimateSource);
         const trustNote = getVerdictTrustNote(analysis.roofSizeConsistency);
+
         const reliabilityTier = getReliabilityTier({
           source: analysis.roofSizeEstimateSource,
           confidenceScore: analysis.roofSizeEstimateConfidenceScore,
           disagreement: analysis.roofSizeEstimateMeta?.disagreement || analysis.roofSizeConsistency || null
         });
+
         const reliabilityLabel = getReliabilityTierLabel(reliabilityTier);
         const reliabilityClass = getReliabilityTierClass(reliabilityTier);
         const reliabilityExplanation = getReliabilityTierExplanation(reliabilityTier);
+
         return `
           <div class="panel" style="margin:0 0 12px; padding:12px 14px; background:#f8fafc; border-color:#e5e7eb;">
             <p style="margin:0 0 6px;">
@@ -6948,13 +8997,17 @@ function buildComparisonWinnerHtml(summary) {
                 ${reliabilityLabel}
               </span>
             </p>
+
             <p class="small muted" style="margin:0 0 6px;">
               ${reliabilityExplanation}
             </p>
+
             <p class="small muted" style="margin:0;">
               <strong>Roof size source:</strong> ${roofSizeSource}
             </p>
+
             ${buildPropertyMetadataTrustHtml(analysis)}
+
             ${
               trustNote
                 ? `<p class="small muted" style="margin:6px 0 0;">${trustNote}</p>`
@@ -6963,6 +9016,11 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
 }
+
+      // ============================================================
+      // 1% UX — Modular Result Renderers
+      // ============================================================
+
       function getVerdictCardClass(verdict) {
         const v = String(verdict || "").toLowerCase();
         if (v.includes("fair")) return "verdict-card--fair";
@@ -6972,27 +9030,52 @@ function buildComparisonWinnerHtml(summary) {
         if (v.includes("low")) return "verdict-card--low";
         return "verdict-card--unknown";
       }
+
       function getVerdictHeadline(verdict) {
         const v = String(verdict || "").toLowerCase();
         if (v.includes("fair")) return "This quote looks fair";
         if (v.includes("overpriced")) return "This quote looks overpriced";
         if (v.includes("higher")) return "This quote looks high";
         if (v.includes("scope risk")) return "This quote may be missing items";
-        if (v.includes("low")) return "This price seems low — check what's included";
+        if (v.includes("low")) return "This price seems low";
         return verdict || "Analysis complete";
       }
+
+      function getVerdictSubtitle(verdict) {
+        const v = String(verdict || "").toLowerCase();
+        if (v.includes("fair")) return "Looks good. This is in line with what other homeowners in your area are paying.";
+        if (v.includes("overpriced")) return "This is significantly above market. Get at least two more quotes before signing.";
+        if (v.includes("higher")) return "Not a dealbreaker, but worth getting a second quote to compare.";
+        if (v.includes("scope risk")) return "The price might be fine, but check what's actually included.";
+        if (v.includes("low")) return "Be careful. Low bids sometimes mean missing scope items or cut corners.";
+        return "";
+      }
+
+      function renderAffiliateLink(a) {
+        const aff = window.AFFILIATE_LINKS;
+        if (!aff || !aff.enabled) return "";
+        const material = a?.material || "";
+        const link = aff.link(material, "material");
+        if (!link) return "";
+        return `<div style="padding:14px 20px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:14px; margin-bottom:16px; font-size:14px;">
+          <span style="color:#475569;">Comparing material options? </span>${link}
+        </div>`;
+      }
+
       function renderVerdictCard(a) {
         if (!a) return "";
         const meta = a?.meta || {};
         const pricingMeta = meta?.pricing || {};
         const confidenceMeta = meta?.confidence || {};
         const roofMeta = meta?.roofSize || {};
+
         const confidenceLabel = confidenceMeta?.overallTier || a?.confidenceLabel || "Low";
         const deltaFromMid = pricingMeta?.deltaFromMid ?? (a.quotePrice - a.mid);
         const deltaAbs = Math.abs(deltaFromMid);
         const city = repairDisplayText(a?.city || journeyState?.propertyPreview?.city || "");
         const state = a?.stateCode || journeyState?.propertyPreview?.state || "";
         const location = city && state ? `${city}, ${state}` : city || "your area";
+
         const roofSizeValue = roofMeta?.value ?? a?.roofSize ?? null;
         const roofSizeSource = roofMeta?.source || a?.roofSizeEstimateSource || "";
         const materialLabel = a.material && typeof getMaterialLabel === "function"
@@ -7003,6 +9086,8 @@ function buildComparisonWinnerHtml(summary) {
         const contractorName = latestParsed?.contractor && latestParsed.contractor !== "Not detected"
           ? latestParsed.contractor
           : "";
+
+        // Build personalized delta text
         let deltaText = "";
         if (isFinite(deltaAbs) && deltaAbs >= 100) {
           const direction = deltaFromMid > 0 ? "above" : "below";
@@ -7012,13 +9097,26 @@ function buildComparisonWinnerHtml(summary) {
           const suffix = [sizePart, matPart, locPart].filter(Boolean).join(" ");
           deltaText = "This quote is " + safeFormatCurrency(deltaAbs) + " " + direction + " expected" + (suffix ? " for a " + suffix : "");
         }
+
+        var trudyVerdictImg = (a.verdict === "fair" || a.verdict === "low") ? "/images/trudy-thumbsup.png" : "/images/trudy-worried.png";
+        var trudyVerdictAlt = (a.verdict === "fair" || a.verdict === "low") ? "Trudy gives a thumbs up" : "Trudy looks concerned";
+
         return `
           <div class="verdict-card ${getVerdictCardClass(a.verdict)}">
+            <div style="display:flex; align-items:center; gap:16px; margin-bottom:8px;">
+              <img src="${trudyVerdictImg}" alt="${trudyVerdictAlt}" width="64" style="flex-shrink:0;" />
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">TruePrice ${escapeHtml(a.serviceLabel || "Roofing")} Verdict</div>
+                <div class="verdict-headline" style="margin:0;">${getVerdictHeadline(a.verdict)}</div>
+              </div>
+            </div>
             <div style="display:inline-block; padding:4px 12px; border-radius:999px; background:rgba(255,255,255,0.7); border:1px solid rgba(0,0,0,0.06); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); margin-bottom:12px;">
               Confidence: ${escapeHtml(confidenceLabel)}
             </div>
-            <div class="verdict-headline">${getVerdictHeadline(a.verdict)}</div>
+            ${getVerdictSubtitle(a.verdict) ? `<div style="font-size:15px; color:#475569; margin:4px 0 8px; line-height:1.4;">${getVerdictSubtitle(a.verdict)}</div>` : ""}
+
             ${deltaText ? `<div class="verdict-delta">${escapeHtml(deltaText)}</div>` : ""}
+
             <div class="verdict-range">
               <div class="verdict-range-item">
                 <span class="verdict-range-label">Your quote</span>
@@ -7037,6 +9135,7 @@ function buildComparisonWinnerHtml(summary) {
                 <span class="verdict-range-value">${safeFormatCurrency(a.high)}</span>
               </div>
             </div>
+
             <div class="verdict-meta">
               ${roofSizeValue ? `Roof size: ${formatRoofSizeForDisplay(roofSizeValue, roofSizeSource, roofMeta?.confidence || "Low")}` : ""}
               ${a.material ? ` &middot; ${escapeHtml(typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : a.material)}` : ""}
@@ -7044,17 +9143,20 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
       function renderActionCard(a) {
         if (!a) return "";
         const recommendation = a?.recommendation || {};
         const action = String(recommendation.action || "").toUpperCase();
         const questions = buildContractorQuestions(a);
+
         let mode = "review";
         let eyebrow = "Recommended action";
         let title = "";
         let body = "";
         let questionsHtml = "";
         let buttonsHtml = "";
+
         if (action === "NEGOTIATE") {
           mode = "negotiate";
           title = "Push back on this price";
@@ -7077,6 +9179,7 @@ function buildComparisonWinnerHtml(summary) {
             ? `This quote has ${flagCount} high-severity risk flag${flagCount > 1 ? "s" : ""}. We recommend getting at least one competing bid.`
             : "This quote raises concerns. Get a competing bid before committing.";
         }
+
         if (questions.length > 0 && (action === "NEGOTIATE" || action === "REVIEW" || action === "AVOID")) {
           questionsHtml = `
             <ol class="action-questions">
@@ -7098,6 +9201,7 @@ function buildComparisonWinnerHtml(summary) {
           if (!signals.ventilation || signals.ventilation.status !== "included") checkItems.push("Confirm ventilation work is included");
           if (!parsed.warrantyYears) checkItems.push("Get warranty terms in writing");
           if (checkItems.length === 0) checkItems.push("Confirm scope and warranty in writing");
+
           questionsHtml = `
             <ol class="action-questions">
               ${checkItems.map((item, i) => `<li><strong>${i + 1}</strong>${escapeHtml(item)}</li>`).join("")}
@@ -7107,6 +9211,7 @@ function buildComparisonWinnerHtml(summary) {
         } else {
           buttonsHtml = "";
         }
+
         return `
           <div class="action-card action-card--${mode}">
             <div class="action-eyebrow">${escapeHtml(eyebrow)}</div>
@@ -7117,9 +9222,11 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
       function renderRiskFlagsModule(a) {
         if (!a) return "";
         const flags = Array.isArray(a.riskFlags) ? a.riskFlags : [];
+
         if (flags.length === 0 || (flags.length === 1 && flags[0].key === "no_major_risks")) {
           return `
             <div class="risk-flags-module">
@@ -7130,6 +9237,7 @@ function buildComparisonWinnerHtml(summary) {
             </div>
           `;
         }
+
         return `
           <div class="risk-flags-module">
             <h3 style="margin:0 0 12px; font-size:16px;">Risk Flags</h3>
@@ -7146,10 +9254,13 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
       function renderScopeScorecard(a) {
         const parsed = latestParsed || {};
         const signals = parsed.signals || {};
         const premiumSignals = Array.isArray(parsed.premiumSignals) ? parsed.premiumSignals : [];
+
+        // Weighted scope items grouped by importance
         const tiers = [
           {
             label: "Critical",
@@ -7182,13 +9293,16 @@ function buildComparisonWinnerHtml(summary) {
             ]
           }
         ];
+
         let totalWeight = 0;
         let earnedWeight = 0;
         let criticalMissing = [];
+
         function renderItem(item) {
           const signal = signals[item.key];
           const status = signal?.status || "unclear";
           totalWeight += item.weight;
+
           if (status === "included") {
             earnedWeight += item.weight;
             return `<div class="scope-item scope-item--included"><span class="scope-item-icon">&#10003;</span>${escapeHtml(item.label)}</div>`;
@@ -7197,9 +9311,11 @@ function buildComparisonWinnerHtml(summary) {
             if (item.weight >= 15) criticalMissing.push(item);
             return `<div class="scope-item scope-item--missing"><span class="scope-item-icon">&#10007;</span>${escapeHtml(item.label)}</div>`;
           }
+          // unclear
           if (item.weight >= 15) criticalMissing.push(item);
           return `<div class="scope-item scope-item--unclear"><span class="scope-item-icon">?</span>${escapeHtml(item.label)}</div>`;
         }
+
         const tiersHtml = tiers.map(tier => {
           const itemsHtml = tier.items.map(renderItem).join("");
           return `
@@ -7209,9 +9325,11 @@ function buildComparisonWinnerHtml(summary) {
             </div>
           `;
         }).join("");
+
         const scorePct = totalWeight > 0 ? Math.round((earnedWeight / totalWeight) * 100) : 0;
         const badgeClass = scorePct >= 75 ? "scope-score-badge--good" : scorePct >= 45 ? "scope-score-badge--warn" : "scope-score-badge--bad";
         const scoreLabel = scorePct >= 75 ? "Strong" : scorePct >= 45 ? "Gaps found" : "Weak";
+
         let warningHtml = "";
         if (criticalMissing.length > 0) {
           warningHtml = `
@@ -7227,9 +9345,11 @@ function buildComparisonWinnerHtml(summary) {
             </div>
           `;
         }
+
         const premiumHtml = premiumSignals.length > 0
           ? `<div class="scope-premium">Premium signals: ${premiumSignals.map(s => escapeHtml(s)).join(", ")}</div>`
           : "";
+
         return `
           <div class="scope-scorecard">
             <div class="scope-header">
@@ -7242,67 +9362,163 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
+      // Red flag detection from quote text
+      function detectRedFlags(text) {
+        var flags = [];
+        if (!text) return flags;
+        text = text.toLowerCase();
+
+        if (/100%\s*(due|deposit|upfront|before|prior|at signing)/i.test(text) || /full\s*payment\s*(due|before|prior|upfront|at signing)/i.test(text)) {
+          flags.push({ severity: "high", label: "100% payment upfront", detail: "Paying in full before work starts removes your leverage if something goes wrong. Industry standard is 10-30% deposit." });
+        } else if (/50%\s*(deposit|down|due|at signing)/i.test(text) || /half\s*(down|due|deposit)/i.test(text)) {
+          flags.push({ severity: "medium", label: "50% deposit required", detail: "A 50% deposit is on the high side. 10-30% is more typical. Ensure the balance is due after completion." });
+        }
+        if (/permit.{0,20}(homeowner|owner|customer|client|your)\s*(responsib|expense|cost|obtain)/i.test(text) || /homeowner.{0,15}(responsible|obtain).{0,15}permit/i.test(text)) {
+          flags.push({ severity: "medium", label: "Permits are your responsibility", detail: "Most reputable contractors pull permits themselves. Verify local requirements and factor in the cost." });
+        }
+        if (/1\.5%\s*(per|\/)\s*month|18%\s*(per|\/)\s*(year|annum|annual)/i.test(text) || /late\s*(fee|charge|penalty).{0,30}(1\.5|2)%/i.test(text)) {
+          flags.push({ severity: "medium", label: "High late payment penalty", detail: "Late fees above 12% APR are aggressive. Clarify payment schedule and grace period before signing." });
+        }
+        if (/(credit card|cc|card)\s*(surcharge|fee|charge).{0,15}\d+%/i.test(text) || /\d+%\s*(credit card|cc|card)\s*(surcharge|fee)/i.test(text)) {
+          flags.push({ severity: "low", label: "Credit card surcharge", detail: "Some contractors add 2-4% for credit card payments. Ask about check or ACH to avoid the fee." });
+        }
+        if (text.length > 100 && !/start\s*date|completion|timeline|schedule|begin\s*work|commence/i.test(text)) {
+          flags.push({ severity: "low", label: "No timeline mentioned", detail: "The quote doesn't mention a start date or completion timeline. Get this in writing before signing." });
+        }
+        if (/sub\s*contract|subcontract|third.party|outside\s*crew/i.test(text)) {
+          flags.push({ severity: "low", label: "May use subcontractors", detail: "Not necessarily bad, but ask who will be on-site and whether the warranty covers subcontractor work." });
+        }
+        if (/not\s*(responsible|liable)\s*(for|if)|disclaim|waive.{0,10}(liab|claim|damage)|as[\s-]is/i.test(text)) {
+          flags.push({ severity: "medium", label: "Liability disclaimer detected", detail: "The contractor may be limiting their liability. Read the fine print carefully." });
+        }
+        if (/same[\s-]*day|sign\s*today|today\s*only|expires?\s*today|limited[\s-]*time/i.test(text)) {
+          flags.push({ severity: "medium", label: "Same-day signing pressure", detail: "Discounts that expire today are a pressure tactic. A reputable contractor will honor their price for at least a week." });
+        }
+        return flags;
+      }
+
+      function renderRedFlags(rawText) {
+        var flags = detectRedFlags(rawText);
+        if (flags.length === 0) return "";
+        var html = '<div style="margin:20px 0; padding:20px 24px; background:#fef2f2; border:1px solid #fecaca; border-radius:16px;">';
+        html += '<div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">';
+        html += '<img src="/images/trudy-worried.png" alt="" width="36" />';
+        html += '<div style="font-size:16px; font-weight:800; color:#991b1b;">Fine print & red flags</div>';
+        html += '</div>';
+        flags.forEach(function(f) {
+          var icon = f.severity === "high" ? "&#9888;" : f.severity === "medium" ? "&#9679;" : "&#8226;";
+          var color = f.severity === "high" ? "#dc2626" : f.severity === "medium" ? "#d97706" : "#6b7280";
+          html += '<div style="margin-bottom:8px;">';
+          html += '<div style="font-size:14px; font-weight:700; color:' + color + ';">' + icon + ' ' + escapeHtml(f.label) + '</div>';
+          html += '<div style="font-size:13px; color:#475569; line-height:1.5; margin-top:2px; padding-left:18px;">' + escapeHtml(f.detail) + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+        return html;
+      }
+
+      // Scope review state — tracks user corrections
       const scopeReviewState = {};
+
       function renderBeforeYouSign(a) {
         if (!a) return "";
         const parsed = latestParsed || {};
         const signals = parsed.signals || {};
+
         const scopeItems = [
-          { key: "tearOff", label: "Tear off", why: "Removes old roof to inspect decking" },
-          { key: "underlayment", label: "Underlayment", why: "Waterproofing layer under shingles" },
-          { key: "flashing", label: "Flashing", why: "#1 source of roof leaks" },
-          { key: "iceShield", label: "Ice & water shield", why: "Code-required in valleys" },
-          { key: "dripEdge", label: "Drip edge", why: "Protects fascia from water" },
-          { key: "ventilation", label: "Ventilation", why: "Extends shingle lifespan" },
-          { key: "ridgeVent", label: "Ridge vent", why: "Primary roof ventilation" },
-          { key: "starterStrip", label: "Starter strip", why: "Wind resistance at edges" },
-          { key: "ridgeCap", label: "Ridge cap", why: "Seals the ridge line" },
-          { key: "decking", label: "Decking", why: "Repair allowance if needed" },
-          { key: "disposal", label: "Disposal", why: "Debris removal and cleanup" },
-          { key: "permit", label: "Permit", why: "Building permit" }
+          { key: "tearOff", label: "Tear off", why: "Removes old roof to inspect decking", costLow: 300, costHigh: 800 },
+          { key: "underlayment", label: "Underlayment", why: "Waterproofing layer under shingles", costLow: 200, costHigh: 600 },
+          { key: "flashing", label: "Flashing", why: "#1 source of roof leaks", costLow: 200, costHigh: 600 },
+          { key: "iceShield", label: "Ice & water shield", why: "Code-required in valleys", costLow: 150, costHigh: 500 },
+          { key: "dripEdge", label: "Drip edge", why: "Protects fascia from water", costLow: 100, costHigh: 300 },
+          { key: "ventilation", label: "Ventilation", why: "Extends shingle lifespan", costLow: 150, costHigh: 450 },
+          { key: "ridgeVent", label: "Ridge vent", why: "Primary roof ventilation", costLow: 150, costHigh: 450 },
+          { key: "starterStrip", label: "Starter strip", why: "Wind resistance at edges", costLow: 75, costHigh: 200 },
+          { key: "ridgeCap", label: "Ridge cap", why: "Seals the ridge line", costLow: 100, costHigh: 350 },
+          { key: "decking", label: "Decking", why: "Repair allowance if needed", costLow: 200, costHigh: 1000 },
+          { key: "disposal", label: "Disposal", why: "Debris removal and cleanup", costLow: 150, costHigh: 500 },
+          { key: "permit", label: "Permit", why: "Building permit", costLow: 100, costHigh: 400 }
         ];
+
+        // Initialize review state from OCR signals (only once)
         scopeItems.forEach(item => {
           if (!(item.key in scopeReviewState)) {
             scopeReviewState[item.key] = signals[item.key]?.status === "included";
           }
         });
+
         const confirmed = scopeItems.filter(i => scopeReviewState[i.key]);
         const unconfirmed = scopeItems.filter(i => !scopeReviewState[i.key]);
+
+        // Confirmed items as green pills
         const confirmedHtml = confirmed.length > 0
           ? confirmed.map(item =>
               `<button onclick="toggleScopeItem('${item.key}')" style="display:inline-flex; align-items:center; gap:4px; padding:6px 12px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:999px; font-size:13px; color:#166534; font-weight:500; cursor:pointer; transition:all 0.15s;" title="Click to mark as not included">&#10003; ${escapeHtml(item.label)}</button>`
             ).join(" ")
           : "";
+
+        // Unconfirmed items as amber toggles
         const unconfirmedHtml = unconfirmed.length > 0
           ? unconfirmed.map(item =>
               `<button onclick="toggleScopeItem('${item.key}')" style="display:inline-flex; align-items:center; gap:4px; padding:6px 12px; background:#fffbeb; border:1px solid #fde68a; border-radius:999px; font-size:13px; color:#92400e; font-weight:500; cursor:pointer; transition:all 0.15s;" title="Click if this IS in your quote">? ${escapeHtml(item.label)}</button>`
             ).join(" ")
           : "";
+
+        // Missing cost estimate
+        let missingCostHtml = "";
+        if (unconfirmed.length > 0) {
+          const missingLow = unconfirmed.reduce((s, i) => s + (i.costLow || 0), 0);
+          const missingHigh = unconfirmed.reduce((s, i) => s + (i.costHigh || 0), 0);
+          if (missingLow > 0) {
+            missingCostHtml = `<div style="font-size:14px; padding:10px 14px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; margin-top:12px; color:#991b1b;">
+              <strong>${unconfirmed.length} missing item${unconfirmed.length !== 1 ? "s" : ""}</strong> could add <strong>$${missingLow.toLocaleString()} to $${missingHigh.toLocaleString()}</strong> in change orders if not included.
+            </div>`;
+          }
+        }
+
+        // Context line
         let contextLine = "";
         const pricingMeta = a?.meta?.pricing || {};
         const deltaFromMid = pricingMeta?.deltaFromMid ?? (a.quotePrice - a.mid);
         if (deltaFromMid < -500 && unconfirmed.length > 0) {
           contextLine = `<div style="font-size:13px; color:#92400e; padding:8px 12px; background:rgba(217,119,6,0.06); border-radius:6px; margin-top:14px;">Your quote is below expected. Low bids often exclude items above.</div>`;
         }
+
+        // Email button with count
         const contractorName = parsed.contractor && parsed.contractor !== "Not detected" ? repairDisplayText(parsed.contractor) : "contractor";
         const emailCount = unconfirmed.length;
+
         return `
           <div id="scopeReviewCard" style="padding:24px; border:1px solid ${unconfirmed.length === 0 ? "#a7f3d0" : unconfirmed.length <= 3 ? "#fde68a" : "#fecaca"}; border-radius:14px; margin-bottom:16px; background:#fff;">
             <div style="font-size:18px; font-weight:700; margin-bottom:6px;">What we found in your quote</div>
             <div style="font-size:13px; color:var(--muted); margin-bottom:14px;">Tap any item to correct it</div>
+
             ${confirmedHtml ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;">${confirmedHtml}</div>` : ""}
+
             ${unconfirmedHtml ? `
               <div style="font-size:13px; font-weight:600; color:#92400e; margin-bottom:8px;">Not found — tap if included in your quote:</div>
               <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:4px;">${unconfirmedHtml}</div>
             ` : `
               <div style="padding:10px; text-align:center; color:#166534; font-weight:600; background:#ecfdf5; border-radius:8px; margin-top:8px;">All items confirmed. Quote looks complete.</div>
             `}
+
+            ${missingCostHtml}
             ${contextLine}
           </div>
         `;
       }
+
       window.toggleScopeItem = function toggleScopeItem(key) {
         scopeReviewState[key] = !scopeReviewState[key];
+        // Track scope correction for model improvement
+        track("scope_item_corrected", {
+          key: key,
+          newValue: scopeReviewState[key] ? "included" : "not_included",
+          contractor: (latestParsed && latestParsed.contractor) || "",
+          city: (latestParsed && latestParsed.address && latestParsed.address.city) || ""
+        });
+        // Re-render the scope card
         const a = window.__latestAnalysis;
         if (!a) return;
         const card = document.getElementById("scopeReviewCard");
@@ -7313,8 +9529,10 @@ function buildComparisonWinnerHtml(summary) {
           if (newCard) card.replaceWith(newCard);
         }
       };
+
       window.emailContractorQuestions = function emailContractorQuestions() {};
       window.emailReport = function emailReport() {};
+
       window.copyBeforeYouSignChecklist = function copyBeforeYouSignChecklist() {
         const scopeItems = [
           { key: "tearOff", label: "Tear off" },
@@ -7330,14 +9548,54 @@ function buildComparisonWinnerHtml(summary) {
           { key: "disposal", label: "Disposal" },
           { key: "permit", label: "Permit" },
         ];
+
         const missing = scopeItems.filter(i => !scopeReviewState[i.key]);
         const text = "Items to confirm with contractor:\n" + missing.map((t, i) => (i + 1) + ". " + t.label).join("\n");
+
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text).then(() => alert("Copied.")).catch(() => prompt("Copy:", text));
         } else {
           prompt("Copy:", text);
         }
       };
+
+      function renderMaterialTierComparison(a) {
+        if (!a || !a.roofSize) return "";
+        const rs = a.roofSize;
+        const tiers = [
+          { key: "asphalt", label: "3-Tab Budget", brands: "IKO, TAMKO, Atlas" },
+          { key: "architectural", label: "Architectural Mid", brands: "GAF HDZ, OC Duration, CertainTeed Landmark" },
+          { key: "architectural_premium", label: "Architectural Premium", brands: "Malarkey Vista, GAF AS II" },
+          { key: "designer", label: "Designer / Luxury", brands: "GAF Grand Canyon, OC Berkshire" },
+          { key: "metal", label: "Standing Seam Metal", brands: "Drexel, Berridge, McElroy" }
+        ];
+        let html = `<section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
+          <h2 style="margin:0 0 6px; font-size:18px; color:#0f172a;">Same roof, different materials</h2>
+          <p style="margin:0 0 14px; font-size:13px; color:#64748b;">${safeFormatNumber(rs)} sq ft roof. Prices include standard tear-off, underlayment, and accessories.</p>
+          <div style="display:flex; flex-direction:column; gap:8px;">`;
+        for (const t of tiers) {
+          const ppf = typeof getMaterialBenchmarkPerSqFt === "function" ? getMaterialBenchmarkPerSqFt(t.key) : 5.25;
+          const mid = Math.round(ppf * rs / 50) * 50;
+          const low = Math.round(mid * 0.88 / 50) * 50;
+          const high = Math.round(mid * 1.15 / 50) * 50;
+          const isCurrent = (a.material || "").includes(t.key.split("_")[0]);
+          const bg = isCurrent ? "#eff6ff" : "#f8fafc";
+          const border = isCurrent ? "2px solid #2563eb" : "1px solid #e2e8f0";
+          html += `<div style="background:${bg}; border:${border}; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong>${escapeHtml(t.label)}</strong>${isCurrent ? ' <span style="font-size:11px; color:#2563eb; font-weight:600; vertical-align:middle;">YOURS</span>' : ''}
+              <div style="font-size:12px; color:#94a3b8; margin-top:2px;">${escapeHtml(t.brands)}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:1.05rem; color:#1e293b; font-weight:700;">$${safeFormatNumber(mid)}</div>
+              <div style="font-size:11px; color:#64748b;">$${safeFormatNumber(low)} - $${safeFormatNumber(high)}</div>
+            </div>
+          </div>`;
+        }
+        html += `</div></section>`;
+        return html;
+      }
+
       function renderMarketContext(a) {
         if (!a) return "";
         const city = repairDisplayText(a?.city || "");
@@ -7347,10 +9605,13 @@ function buildComparisonWinnerHtml(summary) {
         const roofSizeValue = roofMeta?.value ?? a?.roofSize ?? null;
         const roofSizeSource = roofMeta?.source || a?.roofSizeEstimateSource || "";
         const ppsf = a.roofSize > 0 ? (a.quotePrice / a.roofSize).toFixed(2) : null;
+
+        // Community data
         const analysisCount = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10);
         const communityNote = analysisCount > 3
           ? `<div style="margin-top:12px; padding:10px 14px; background:var(--bg-subtle, #f8fafc); border-radius:8px; font-size:13px; color:var(--text-muted);">Based on TruePrice pricing models covering 1,000+ U.S. cities. You have analyzed ${analysisCount} quotes.</div>`
           : `<div style="margin-top:12px; padding:10px 14px; background:var(--bg-subtle, #f8fafc); border-radius:8px; font-size:13px; color:var(--text-muted);">Based on TruePrice pricing models covering 1,000+ U.S. cities.</div>`;
+
         return `
           <div class="market-panel">
             <h3>Market Context — ${location}</h3>
@@ -7366,6 +9627,33 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
+      function renderEmailCapture(a) {
+        if (!a) return "";
+        const price = a.quotePrice ? "$" + Number(a.quotePrice).toLocaleString() : null;
+        const verdict = a.verdict || "";
+        const material = typeof getMaterialLabel === "function" ? getMaterialLabel(a.material) : (a.material || "roofing");
+        const city = repairDisplayText(a.city || "");
+        const state = a.stateCode || "";
+        const location = [city, state].filter(Boolean).join(", ");
+
+        // Build plain-text summary for email
+        const summaryLines = [];
+        if (price) summaryLines.push("Quote: " + price);
+        if (verdict) summaryLines.push("Verdict: " + verdict);
+        if (a.roofSize) summaryLines.push("Roof size: " + Number(a.roofSize).toLocaleString() + " sq ft");
+        summaryLines.push("Material: " + material);
+        if (location) summaryLines.push("Location: " + location);
+        if (a.low && a.high) summaryLines.push("Expected range: $" + Number(a.low).toLocaleString() + " - $" + Number(a.high).toLocaleString());
+        summaryLines.push("");
+        summaryLines.push("Full analysis: https://truepricehq.com/roofing-quote-analyzer.html");
+
+        const subject = encodeURIComponent("My TruePrice " + (verdict || "Quote") + " Report" + (location ? " - " + location : ""));
+        const body = encodeURIComponent(summaryLines.join("\n"));
+
+        return ``;
+      }
+
       function renderShareModule(a) {
         const analysisCount = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10);
         const historyHtml = (() => {
@@ -7391,21 +9679,174 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
+      // ============================================================
+      // Community Data Flywheel
+      // ============================================================
+
+      function renderCommunityContribution(a) {
+        // Option C: silent auto-capture replaces the opt-in card.
+        // Show a small transparent footnote so users know it happened
+        // and can opt out if they want.
+        if (!a || !a.quotePrice) return "";
+        if (localStorage.getItem("tp_benchmark_optout") === "1") return "";
+        const cityLabel = a.city ? escapeHtml(a.city) : "your area";
+        return `
+          <div style="padding:8px 14px; margin:8px 0 16px; font-size:12px; color:#94a3b8; text-align:center;">
+            &#10003; Added to our anonymized local benchmark for ${cityLabel}. No personal info shared.
+            <a href="#" onclick="event.preventDefault();if(confirm('Exclude future analyses from anonymized benchmarks?')){localStorage.setItem('tp_benchmark_optout','1');this.parentNode.innerHTML='&#10003; You have opted out. Future analyses will not be added to benchmarks.';}" style="color:#94a3b8; text-decoration:underline; margin-left:6px;">opt out</a>
+          </div>
+        `;
+      }
+
+      function renderRoofSizeAccuracyPrompt(a) {
+        if (!a) return "";
+        const src = String(a.roofSizeSource || "").toLowerCase();
+        const needsBetterSize = src === "price_based_estimate" || src === "unavailable" || src === "";
+        if (!needsBetterSize) return "";
+        // Don't show if user already gave us an address or roof size
+        if (a.roofSize && Number(a.roofSize) > 0 && src !== "price_based_estimate") return "";
+        // Hard-block scenarios always show — dismiss flag only suppresses the soft yellow prompt
+        // (when verdict is rendered alongside it).
+
+        return `
+          <div id="roofAccuracyPrompt" style="padding:20px; background:#fffbeb; border:1px solid #fcd34d; border-radius:12px; margin-bottom:16px;">
+            <div style="font-size:16px; font-weight:700; margin-bottom:6px; color:#78350f;">Want a more accurate price check?</div>
+            <div style="font-size:14px; color:#78350f; margin-bottom:14px;">
+              We couldn&#39;t find your property address in the quote, so we estimated roof size from price. Enter your address (we&#39;ll measure your roof from satellite data) or your known roof size.
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+              <input id="accPromptAddress" type="text" placeholder="Property street address" style="flex:1; min-width:200px; padding:10px 12px; border:1px solid #fcd34d; border-radius:8px; font-size:14px; font-family:inherit;" />
+              <input id="accPromptZip" type="text" placeholder="ZIP" maxlength="10" style="width:90px; padding:10px 12px; border:1px solid #fcd34d; border-radius:8px; font-size:14px; font-family:inherit;" />
+            </div>
+            <div style="font-size:12px; color:#92400e; margin-bottom:10px; text-align:center;">&mdash; or &mdash;</div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+              <input id="accPromptRoofSize" type="number" placeholder="Roof size in sq ft (e.g. 1800)" min="100" max="20000" style="flex:1; min-width:200px; padding:10px 12px; border:1px solid #fcd34d; border-radius:8px; font-size:14px; font-family:inherit;" />
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn" onclick="submitAccuracyPrompt()" style="font-size:14px; padding:10px 18px;">Re-check my quote</button>
+              <button class="btn secondary" onclick="dismissAccuracyPrompt()" style="font-size:14px; padding:10px 18px;">No thanks</button>
+            </div>
+          </div>
+        `;
+      }
+
+      window.dismissAccuracyPrompt = function dismissAccuracyPrompt() {
+        try { localStorage.setItem("tp_dismissed_accuracy_prompt", "1"); } catch (e) {}
+        const el = document.getElementById("roofAccuracyPrompt");
+        if (el) el.remove();
+      };
+
+      window.submitAccuracyPrompt = function submitAccuracyPrompt() {
+        const addr = (document.getElementById("accPromptAddress")?.value || "").trim();
+        const zip = (document.getElementById("accPromptZip")?.value || "").trim();
+        const sz = Number(document.getElementById("accPromptRoofSize")?.value || 0);
+        if (!addr && !sz) {
+          alert("Please enter either a street address or a roof size.");
+          return;
+        }
+        // Stash into the hidden form fields analyzeQuote() reads from
+        const setVal = function(id, val) { const el = document.getElementById(id); if (el) el.value = val; };
+        if (addr) setVal("streetAddress", addr);
+        if (zip) setVal("zipCode", zip);
+        if (sz) setVal("roofSize", String(sz));
+        if (typeof analyzeQuote === "function") analyzeQuote();
+      };
+
+      window.submitCommunityQuote = function submitCommunityQuote() {
+        const a = window.__latestAnalysis;
+        if (!a || !a.quotePrice) return;
+
+        const parsed = latestParsed || {};
+        const signals = parsed.signals || {};
+        const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking","disposal","permit"];
+        const scopeConfirmed = scopeKeys.filter(function(k) {
+          return scopeReviewState[k] || (signals[k] && signals[k].status === "included");
+        }).length;
+
+        const payload = {
+          price: a.quotePrice,
+          material: a.material || "",
+          city: a.city || "",
+          stateCode: a.stateCode || "",
+          roofSize: a.roofSize || 0,
+          serviceType: "roofing",
+          scopeConfirmed: scopeConfirmed,
+          scopeTotal: scopeKeys.length,
+          verdict: a.verdict || ""
+        };
+
+        fetch("/api/community-quote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }).then(function(res) {
+          if (res.ok) {
+            localStorage.setItem("tp_contributed_" + Math.round(a.quotePrice), "true");
+            var card = document.getElementById("communityContributeCard");
+            if (card) {
+              card.innerHTML = '<div style="text-align:center; padding:8px; color:#166534; font-weight:600;">&#10003; Thank you! Your data helps homeowners in ' + escapeHtml(a.city || "your area") + ' get better pricing benchmarks.</div>';
+              card.style.background = "#ecfdf5";
+              card.style.borderColor = "#a7f3d0";
+            }
+          }
+        }).catch(function() {});
+      };
+
+      window.dismissCommunityContribute = function dismissCommunityContribute() {
+        var card = document.getElementById("communityContributeCard");
+        if (card) card.style.display = "none";
+      };
+
+      function renderCommunityStats(a) {
+        if (!a || !a.city || !a.stateCode) return "";
+
+        // Show async — fetch community data and update DOM
+        setTimeout(function() {
+          fetch("/api/community-quote?city=" + encodeURIComponent(a.city) + "&state=" + encodeURIComponent(a.stateCode) + "&service=roofing")
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+              if (data.count >= 3) {
+                var el = document.getElementById("communityStatsDisplay");
+                if (el) {
+                  el.innerHTML = '<div style="padding:12px 16px; background:var(--bg-subtle, #f8fafc); border:1px solid var(--border, #e2e8f0); border-radius:8px; font-size:13px; color:var(--text-secondary, #4b5563);">' +
+                    'Based on <strong>' + data.count + ' quotes analyzed</strong> in ' + escapeHtml(a.city) + ', ' + escapeHtml(a.stateCode) + ': ' +
+                    'typical range ' + safeFormatCurrency(data.low) + ' &ndash; ' + safeFormatCurrency(data.high) +
+                    (data.avgScope ? ' &bull; avg scope: ' + data.avgScope + '/12 items' : '') +
+                    '</div>';
+                }
+              }
+            })
+            .catch(function() {});
+        }, 500);
+
+        return '<div id="communityStatsDisplay"></div>';
+      }
+
+      // ============================================================
+      // End 1% UX modules
+      // ============================================================
+
       function renderMainAnalysisResult(a) {
         if (!a) return "";
         const meta = a?.meta || {};
         const roofMeta = meta?.roofSize || {};
         const pricingMeta = meta?.pricing || {};
         const confidenceMeta = meta?.confidence || {};
+
         const confidenceLabel = confidenceMeta?.overallTier || a?.confidenceLabel || "Low";
         const confidenceScore = confidenceMeta?.overallScore ?? a?.confidenceScore ?? 0;
+
         const deltaFromMid = pricingMeta?.deltaFromMid ?? (a.quotePrice - a.mid);
         const deltaAbs = Math.abs(deltaFromMid);
         const deltaDirection = deltaFromMid > 0 ? "above" : "below";
+
         const deltaText =
           isFinite(deltaAbs) && deltaAbs > 0
             ? `You are ${formatCurrency(deltaAbs)} ${deltaDirection} expected`
             : "";
+        
+            
         const roofSizeValue = roofMeta?.value ?? a?.roofSize ?? null;
         const roofSizeSource = roofMeta?.source || a?.roofSizeEstimateSource || "";
         const roofSizeConfidence = roofMeta?.confidence || a?.roofSizeEstimateConfidence || "Low";
@@ -7415,7 +9856,9 @@ function buildComparisonWinnerHtml(summary) {
             : ["living_area_fallback", "price_based_estimate", "address_estimated"].includes(
                 String(roofSizeSource).toLowerCase()
               );
+
         const verdictClass = getVerdictClassName(a?.verdict);
+
         const decisionDeltaHtml =
           String(a?.verdict || "").toLowerCase().includes("fair")
             ? ""
@@ -7424,10 +9867,13 @@ function buildComparisonWinnerHtml(summary) {
                   ? buildDecisionDeltaHtml(a)
                   : ""
               );
+
         const recommendation = a?.recommendation || {};
         const action = String(recommendation.action || "").toUpperCase();
+
         let primaryCta = "";
         let secondaryCta = "";
+
         if (action === "NEGOTIATE") {
           primaryCta = `<button class="btn" onclick="showNegotiateScreen()">Negotiate this quote</button>`;
           secondaryCta = `<button class="btn secondary" onclick="showCompareScreen()">Compare another quote</button>`;
@@ -7441,8 +9887,10 @@ function buildComparisonWinnerHtml(summary) {
           primaryCta = `<button class="btn" onclick="showNegotiateScreen()">Review this quote</button>`;
           secondaryCta = `<button class="btn secondary" onclick="showCompareScreen()">Compare another quote</button>`;
         }
+
         return `
           <div style="max-width:640px; margin:40px auto;">
+
             <div class="verdict ${verdictClass}" style="font-size:44px; font-weight:800; margin:0 0 6px;">
               ${a.verdict === "Overpriced"
               ? "This quote looks overpriced"
@@ -7454,6 +9902,8 @@ function buildComparisonWinnerHtml(summary) {
                     ? "This quote looks unusually low"
                     : a.verdict}
                         </div>
+            ${getVerdictSubtitle(a.verdict) ? `<div style="font-size:16px; color:#475569; margin:0 0 10px; line-height:1.4;">${getVerdictSubtitle(a.verdict)}</div>` : ""}
+
             <div style="margin:0 0 10px;">
               <span class="pill" style="
                 background:#f1f5f9;
@@ -7463,6 +9913,7 @@ function buildComparisonWinnerHtml(summary) {
                 Confidence: ${escapeHtml(confidenceLabel)}
               </span>
             </div>
+
             ${
               deltaText
                 ? `
@@ -7472,6 +9923,7 @@ function buildComparisonWinnerHtml(summary) {
                 `
                 : ""
             }
+            
             <div class="small muted" style="margin:0 0 14px; font-size:13px;">
               ${
                 [
@@ -7488,12 +9940,15 @@ function buildComparisonWinnerHtml(summary) {
                   .join("<br>")
               }
             </div>
+
             <p class="small muted" style="margin:0 0 6px; font-size:14px;">
               ${buildLocalizedVerdictExplanation(a)}
             </p>
+
             <div class="small muted" style="margin:0 0 8px; font-size:14px;">
               ${buildRangeLine(a)}
             </div>
+
             <div class="small muted" style="margin:0 0 20px; font-size:14px;">
             Roof size used: ${formatRoofSizeForDisplay(
               roofSizeValue,
@@ -7510,6 +9965,7 @@ function buildComparisonWinnerHtml(summary) {
                     : ""
             }
           </div>
+
             ${
               String(a?.verdict || "").toLowerCase().includes("fair")
                 ? ""
@@ -7519,48 +9975,75 @@ function buildComparisonWinnerHtml(summary) {
                   </div>
                 `
             }
+
             <div style="display:flex; gap:10px; flex-wrap:wrap; margin:0 0 20px;">
               ${primaryCta}
               ${secondaryCta}
             </div>
+
             <div style="display:flex; gap:16px; flex-wrap:wrap; font-size:14px;">
-              <a href="#" onclick="showDetailsScreen(); return false;" class="muted">See how we analyzed this</a>
+              <a href="#" onclick="saveAnalysisAsPdf(); return false;" class="muted">Save as PDF</a>
               <a href="#" onclick="showShareScreen(); return false;" class="muted">Share this result</a>
+              <a href="#" onclick="showDetailsScreen(); return false;" class="muted">See how we analyzed this</a>
+              <a href="/methodology.html" class="muted" target="_blank">Our methodology</a>
             </div>
+
+            <div id="estimateFeedback" style="margin:24px 0 0; padding:16px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:10px; text-align:center;">
+              <img src="/images/trudy-thumbsup.png" alt="Trudy" width="64" style="margin-bottom:8px;" />
+              <div style="font-size:14px; color:var(--text-secondary,#475569); margin-bottom:10px;">Trudy wants to know: was this estimate close to your actual quote?</div>
+              <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                <button onclick="submitEstimateFeedback('accurate')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">Yes, accurate</button>
+                <button onclick="submitEstimateFeedback('high')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">My quote was higher</button>
+                <button onclick="submitEstimateFeedback('low')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">My quote was lower</button>
+              </div>
+            </div>
+
           </div>
         `;
       }
+
       function buildLocalizedVerdictExplanation(a) {
         const city =
           a?.city ||
           journeyState?.propertyPreview?.city ||
           "";
+
         const verdict = String(a?.verdict || "").toLowerCase();
+
         if (!city) {
           return `This quote is in line with typical pricing.`;
         }
+
         if (verdict.includes("fair")) {
           return `In the ${city} area, this quote is right in line with typical pricing.`;
         }
+
         if (verdict.includes("higher") || verdict.includes("over")) {
           return `In the ${city} area, this quote appears higher than typical pricing.`;
         }
+
         if (verdict.includes("low") || verdict.includes("below")) {
           return `In the ${city} area, this quote appears lower than typical pricing.`;
         }
+
         return `In the ${city} area, this quote reflects typical pricing conditions.`;
       }
+
       function buildRangeLine(a) {
         const low = safeFormatCurrency(Math.round(a?.low || 0));
         const high = safeFormatCurrency(Math.round(a?.high || 0));
+
         return `Typical range: ${low} – ${high}`;
       }
+
       function copyParsedToForm() {
         clearManualFieldHighlights();
+
         if (!latestParsed) {
           setUploadStatus("No parsed quote data is available yet.", "warn");
           return;
         }
+
         const cityName = byId("cityName");
         const stateCode = byId("stateCode");
         const roofSize = byId("roofSize");
@@ -7568,6 +10051,7 @@ function buildComparisonWinnerHtml(summary) {
         const materialType = byId("materialType");
         const warrantyYears = byId("warrantyYears");
         const tearOffIncluded = byId("tearOffIncluded");
+
         if (shouldPromoteAddress(latestParsed)) {
         if (cityName && !cityName.value) cityName.value = latestParsed.city || latestParsed.address?.city || "";
         if (stateCode && !stateCode.value) stateCode.value = latestParsed.stateCode || latestParsed.address?.stateCode || "";
@@ -7586,21 +10070,30 @@ function buildComparisonWinnerHtml(summary) {
         if (warrantyYears) warrantyYears.value = latestParsed.warrantyYears || "";
         if (tearOffIncluded) tearOffIncluded.value = normalizeTearOffForUi(latestParsed);
       }
+
       async function analyzeParsedText(parsedText, extractionMethod) {
           latestExtractedText = String(parsedText || "");
           setSmartUploadStatus("identify", 68);
+
           if (typeof parseExtractedText !== "function") {
             throw new Error("parseExtractedText is not available.");
           }
+
           const parsed = parseExtractedText(latestExtractedText, {
             extractionMethod: extractionMethod || "image_ocr"
           });
+
           latestParsed = parsed;
+
           copyParsedToForm();
+
+          // ---- PROMOTE PARSED ADDRESS INTO JOURNEY STATE ----
           if (parsed?.address) {
             const addr = parsed.address;
+
             const hasAddress =
               addr.street && (addr.city || addr.zip) && addr.stateCode;
+
             if (hasAddress) {
               journeyState.propertyPreview = {
                 street: addr.street || "",
@@ -7609,20 +10102,27 @@ function buildComparisonWinnerHtml(summary) {
                 state: addr.stateCode || "",
                 zip: addr.zip || ""
               };
+
               journeyState.propertyConfirmed = true;
             }
           }
+
+                // ---------- ADDRESS ROUTING LOGIC ----------
+
           const parsedAddress = {
             street: parsed?.address?.street || "",
             city: parsed?.city || parsed?.address?.city || "",
             state: parsed?.stateCode || parsed?.address?.stateCode || "",
             zip: parsed?.address?.zip || ""
           };
+
           const hasStrongAddress =
             parsedAddress.street &&
             parsedAddress.city &&
             parsedAddress.state &&
             String(parsedAddress.state).length === 2;
+
+          // Save for downstream steps
           journeyState.propertyPreview = {
             street: parsedAddress.street,
             apt: "",
@@ -7630,13 +10130,18 @@ function buildComparisonWinnerHtml(summary) {
             state: parsedAddress.state,
             zip: parsedAddress.zip
           };
+          prefetchCityMultiplier(parsedAddress.city, parsedAddress.state);
+
           if (hasStrongAddress) {
+            // Skip address step → go straight to confirm
             setJourneyStep("confirm");
             return;
           } else {
+            // Missing/weak address → ask user
             setJourneyStep("address");
             return;
           }
+
           if (typeof getSmartQuoteData === "function") {
             try {
               latestSmartQuote = await getSmartQuoteData(latestExtractedText);
@@ -7644,13 +10149,18 @@ function buildComparisonWinnerHtml(summary) {
               latestSmartQuote = null;
             }
           }
+
           setSmartUploadStatus("done", 100);
         }
+
     function renderAnalysisResultUi(analysis, parsed) {
       const resultContainer = byId("analysisOutput");
       const aiOutput = byId("aiAnalysisOutput");
+
       if (!resultContainer || !aiOutput || !analysis) return;
+
       resultContainer.innerHTML = renderMainAnalysisResult(analysis);
+
       aiOutput.innerHTML = `
         <div class="panel" style="margin-top:18px;">
           <button 
@@ -7661,6 +10171,7 @@ function buildComparisonWinnerHtml(summary) {
           >
             See how this was calculated
           </button>
+
           <div id="aiExplanationContent" style="display:none; margin-top:12px;">
             <p class="small muted" style="margin:0;">
               ${buildAIExplanation(analysis)}
@@ -7668,10 +10179,13 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         </div>
       `;
+
       renderAnalysisPanels(parsed || {});
       bindRenderedAnalysisUi();
+
       const aiToggleBtn = byId("toggleAiExplanationBtn");
       const aiContent = byId("aiExplanationContent");
+
       if (aiToggleBtn && aiContent && aiToggleBtn.dataset.bound !== "true") {
         aiToggleBtn.addEventListener("click", () => {
           const isOpen = aiContent.style.display === "block";
@@ -7680,18 +10194,22 @@ function buildComparisonWinnerHtml(summary) {
             ? "See how this was calculated"
             : "Hide explanation";
         });
+
         aiToggleBtn.dataset.bound = "true";
       }
     }
+
     function buildRoofSizeConsistencySummary(signals = {}) {
       const parsed = normalizeRoofSizeValue(signals?.parsed);
       const property = normalizeRoofSizeValue(signals?.property);
       const priceImplied = normalizeRoofSizeValue(signals?.priceImplied);
+
       const values = [
         { key: "parsed", value: parsed, label: "Quote" },
         { key: "property", value: property, label: "Property" },
         { key: "priceImplied", value: priceImplied, label: "Price model" }
       ].filter(item => item.value && item.value > 0);
+
       if (!values.length) {
         return {
           hasConflict: false,
@@ -7701,6 +10219,7 @@ function buildComparisonWinnerHtml(summary) {
           details: []
         };
       }
+
       if (values.length === 1) {
         return {
           hasConflict: false,
@@ -7710,10 +10229,12 @@ function buildComparisonWinnerHtml(summary) {
           details: values
         };
       }
+
       const numericValues = values.map(v => v.value);
       const min = Math.min(...numericValues);
       const max = Math.max(...numericValues);
       const spreadPct = min > 0 ? (max - min) / min : 0;
+
       if (spreadPct <= 0.12) {
         return {
           hasConflict: false,
@@ -7723,6 +10244,7 @@ function buildComparisonWinnerHtml(summary) {
           details: values
         };
       }
+
       if (spreadPct <= 0.25) {
         return {
           hasConflict: true,
@@ -7732,6 +10254,7 @@ function buildComparisonWinnerHtml(summary) {
           details: values
         };
       }
+
       return {
         hasConflict: true,
         severity: "high",
@@ -7740,6 +10263,7 @@ function buildComparisonWinnerHtml(summary) {
         details: values
       };
     }
+
     function shouldShowRoofSizeSuggestion(analysis) {
       const roofMeta = analysis?.meta?.roofSize || null;
       const value = roofMeta?.value ?? analysis?.roofSizeEstimate ?? analysis?.roofSize ?? null;
@@ -7749,8 +10273,10 @@ function buildComparisonWinnerHtml(summary) {
         source === "price_based_estimate" ||
         source === "address_estimated"
       );
+
       return !!(value && estimated);
     }
+
     function buildNormalizedAnalysisMeta({
       effectiveRoofSize,
       effectiveRoofSizeSource,
@@ -7768,10 +10294,12 @@ function buildComparisonWinnerHtml(summary) {
       reliabilityTier
     }) {
       const normalizedSource = String(effectiveRoofSizeSource || "unavailable").toLowerCase();
+
       const estimated =
         normalizedSource !== "user_input" &&
         normalizedSource !== "manual_calculator" &&
         normalizedSource !== "parsed_quote";
+
       const benchmarkLow = Number(low || 0);
       const benchmarkMid = Number(mid || 0);
       const benchmarkHigh = Number(high || 0);
@@ -7780,6 +10308,7 @@ function buildComparisonWinnerHtml(summary) {
       const deltaFromLow = quote - benchmarkLow;
       const deltaPctFromMid =
         benchmarkMid > 0 ? Number((((quote - benchmarkMid) / benchmarkMid) * 100).toFixed(1)) : null;
+
       return {
         roofSize: {
           value: normalizeRoofSizeValue(effectiveRoofSize),
@@ -7804,6 +10333,7 @@ function buildComparisonWinnerHtml(summary) {
             details: Array.isArray(roofSizeConsistency?.details) ? roofSizeConsistency.details : []
           }
         },
+
         pricing: {
           quotePrice: quote,
           benchmarkLow,
@@ -7813,6 +10343,7 @@ function buildComparisonWinnerHtml(summary) {
           deltaFromLow,
           deltaPctFromMid
         },
+
         confidence: {
           overallTier: reliabilityTier?.label || derivedAnalysisConfidenceLabel || "Low",
           overallScore: Number(derivedConfidenceScore || 0),
@@ -7822,23 +10353,40 @@ function buildComparisonWinnerHtml(summary) {
         }
       };
     }
+
     async function analyzeQuote() {
+
         const analyzingEl = document.getElementById("inlineAnalyzingState");
         if (analyzingEl) analyzingEl.innerHTML = "";
         track("analysis_started");
-        const city = (byId("cityName")?.value || "").trim();
-        const stateCode = (byId("stateCode")?.value || "").trim().toUpperCase();
-        const streetAddress = (byId("streetAddress")?.value || "").trim();
-        const zipCode = (byId("zipCode")?.value || "").trim();
+
+        let city = (byId("cityName")?.value || "").trim();
+        let stateCode = (byId("stateCode")?.value || "").trim().toUpperCase();
+        let streetAddress = (byId("streetAddress")?.value || "").trim();
+        let zipCode = (byId("zipCode")?.value || "").trim();
+
+        // Fall back to address extracted from the quote text itself when the
+        // user is on the upload-quote path and didn't fill in any form fields.
+        const parsedPropertyAddress = latestParsed?.propertyAddress || null;
+        if (parsedPropertyAddress && !streetAddress) {
+          streetAddress = parsedPropertyAddress.street || "";
+          if (!city) city = parsedPropertyAddress.city || "";
+          if (!stateCode) stateCode = (parsedPropertyAddress.stateCode || "").toUpperCase();
+          if (!zipCode) zipCode = parsedPropertyAddress.postalCode || "";
+        }
         const roofSize = Number(byId("roofSize")?.value || 0);
         const quotePrice = Number(byId("quotePrice")?.value || 0);
         const material = byId("materialType")?.value || "architectural";
         const complexityFactor = Number(byId("complexityFactor")?.value || 1.0);
         const tearOffFactor = Number(byId("tearOffIncluded")?.value || 1.0);
+        const pitchFactor = Number(byId("roofPitch")?.value || 1.0);
         const warrantyYears = Number(byId("warrantyYears")?.value || 0);
+
         const resultContainer = byId("analysisOutput");
         const aiOutput = byId("aiAnalysisOutput");
+
         if (!resultContainer || !aiOutput) return;
+
         const roofSizeEstimate =
           typeof estimateRoofSize === "function"
             ? await estimateRoofSize({
@@ -7870,20 +10418,25 @@ function buildComparisonWinnerHtml(summary) {
                   fallbackUsed: true
                 }
               };
+
         const roofSizeInput = byId("roofSize");
         const enteredRoofSize = Number(roofSizeInput?.value || 0);
         const roofSizeInputSource = roofSizeInput?.dataset?.source || "";
         const roofSizeInputConfidence = roofSizeInput?.dataset?.confidence || "";
         const userEnteredRoofSize =
           isFinite(enteredRoofSize) && enteredRoofSize > 0 ? enteredRoofSize : null;
+
         const effectiveRoofSize =
           userEnteredRoofSize && userEnteredRoofSize > 0
             ? userEnteredRoofSize
             : (roofSizeEstimate?.roofSize || 0);
+
         if (!effectiveRoofSize || !quotePrice) {
+
           const parsed = latestParsed || {};
           const missingFieldIds = getMissingManualFields(parsed);
           const manualEntryPromptHtml = buildManualEntryPromptHtml(parsed);
+
           track("analysis_blocked_missing_fields", {
             hasQuotePrice: !!quotePrice,
             hasEffectiveRoofSize: !!effectiveRoofSize,
@@ -7891,15 +10444,18 @@ function buildComparisonWinnerHtml(summary) {
             parsedRoofSize: Number(parsed?.roofSize || 0) > 0,
             missingFields: missingFieldIds
           });
+
           clearManualFieldHighlights();
           highlightManualFields(missingFieldIds, {
             isJump: false,
             primaryId: missingFieldIds.includes("roofSize") ? "roofSize" : missingFieldIds[0]
           });
+
           const detectedPriceText =
             isFinite(Number(parsed?.price)) && Number(parsed.price) > 0
               ? `We detected a quote price of ${safeFormatCurrency(parsed.price)}, but cannot finish the analysis yet.`
               : `We could not confidently detect the full quote price yet.`;
+
           resultContainer.innerHTML = `
             ${manualEntryPromptHtml}
             <div class="panel" style="background:#fff7ed;border-color:#fdba74;">
@@ -7915,34 +10471,46 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
           `;
+
           const jumpBtn = byId("jumpToMissingFieldsBtn");
           if (jumpBtn) {
             jumpBtn.addEventListener("click", () => {
               jumpToMissingManualFields(parsed);
             });
           }
+
           aiOutput.innerHTML = "We need a few more quote details before generating the full assessment.";
           return;
         }
+
         const benchmarkMap = {
-          architectural: 5.10,
-          asphalt: 4.60,
+          architectural: 5.25,
+          asphalt: 5.25,
           metal: 10.50,
-          tile: 13.75
+          tile: 10.00,
+          cedar: 8.25,
+          slate: 13.25,
+          concrete: 7.15,
+          flat: 5.50
         };
+
         let benchmarkPerSqFt =
           typeof getMaterialBenchmarkPerSqFt === "function"
             ? getMaterialBenchmarkPerSqFt(material)
-            : benchmarkMap[material] || 5.10;
+            : benchmarkMap[material] || 5.25;
+
         let localDataUsed = false;
         let sizeLabelUsed = "";
+
         if (typeof findCityPricing === "function" && city && stateCode) {
           const cityPricing = findCityPricing(city, stateCode);
           if (cityPricing) {
             localDataUsed = true;
+
             if (typeof getNearestSizeLabel === "function") {
               sizeLabelUsed = getNearestSizeLabel(cityPricing, effectiveRoofSize);
               const bucket = cityPricing?.sizes?.[sizeLabelUsed];
+
               const normalizedMaterial =
                 String(material || "").toLowerCase().includes("architectural")
                   ? "architectural"
@@ -7953,6 +10521,7 @@ function buildComparisonWinnerHtml(summary) {
                       : String(material || "").toLowerCase().includes("tile")
                         ? "tile"
                         : "architectural";
+
               if (bucket && bucket[normalizedMaterial]?.mid) {
                 benchmarkPerSqFt =
                   Number(bucket[normalizedMaterial].mid) /
@@ -7961,15 +10530,30 @@ function buildComparisonWinnerHtml(summary) {
             }
           }
         }
-        const adjustedBenchmark = benchmarkPerSqFt * complexityFactor * tearOffFactor;
+
+        // Detect brand tier from parsed quote text
+        const parsedText = String(latestParsed?._normalizedText || latestParsed?.contractor || "").toLowerCase();
+        const premiumBrands = ["gaf", "hdz", "timberline", "owens corning", "duration", "certainteed", "landmark", "iko", "atlas"];
+        const ultraPremiumBrands = ["davinci", "boral", "decra", "tilcor", "standing seam"];
+        const brandTierMult = ultraPremiumBrands.some(b => parsedText.includes(b)) ? 1.30
+          : premiumBrands.some(b => parsedText.includes(b)) ? 1.12 : 1.0;
+
+        // Detect scope complexity from parsed signals
+        const signalCount = latestAnalysis?.signals ? Object.values(latestAnalysis.signals).filter(s => s?.status === "included").length : 0;
+        const scopeComplexMult = signalCount >= 8 ? 1.15 : signalCount >= 5 ? 1.05 : 1.0;
+
+        const adjustedBenchmark = benchmarkPerSqFt * complexityFactor * tearOffFactor * pitchFactor * brandTierMult * scopeComplexMult;
         const mid = adjustedBenchmark * effectiveRoofSize;
         const low = mid * 0.9;
         const high = mid * 1.12;
+
         const pricePerSqFt = quotePrice / effectiveRoofSize;
         const pricePerSquare = pricePerSqFt * 100;
         const diff = quotePrice - mid;
         const diffPct = (diff / mid) * 100;
+
         let verdict = "Fair Price";
+
         if (quotePrice < low * 0.78) {
           verdict = "Possible Scope Risk";
         } else if (quotePrice < low) {
@@ -7981,6 +10565,7 @@ function buildComparisonWinnerHtml(summary) {
         } else {
           verdict = "Overpriced";
         }
+
         const roofSizeSignals = {
           userInput: userEnteredRoofSize || null,
           parsed:
@@ -8004,6 +10589,7 @@ function buildComparisonWinnerHtml(summary) {
                 : null)
             )
         };
+
         const roofSizeConsistency =
           typeof buildRoofSizeConsistencySummary === "function"
             ? buildRoofSizeConsistencySummary(roofSizeSignals)
@@ -8013,12 +10599,16 @@ function buildComparisonWinnerHtml(summary) {
                 summary: "",
                 details: []
               };
+
         const displayVerdict = softenVerdictForRoofSizeTrust(verdict, roofSizeConsistency);
+
         const disagreement = roofSizeEstimate?.meta?.disagreement;
+
         const roofSizeSource = String(roofSizeEstimate?.source || "").toLowerCase();
         const isLivingAreaFallback = roofSizeSource === "living_area_fallback";
         const isUnavailable = roofSizeSource === "unavailable";
         const fallbackUsed = !!roofSizeEstimate?.meta?.fallbackUsed;
+
         const derivedAnalysisConfidenceLabel =
           isUnavailable
             ? "Low"
@@ -8029,6 +10619,7 @@ function buildComparisonWinnerHtml(summary) {
                 : disagreement?.hasDisagreement
                   ? (disagreement.severity === "high" ? "Low" : "Medium")
                   : (roofSizeEstimate?.confidence || latestParsed?.confidenceLabel || "Low");
+
         const derivedConfidenceScore =
           isUnavailable
             ? 35
@@ -8039,33 +10630,42 @@ function buildComparisonWinnerHtml(summary) {
                 : disagreement?.hasDisagreement
                   ? (disagreement.severity === "high" ? 35 : 55)
                   : (roofSizeEstimate?.confidenceScore ?? latestParsed?.confidenceScore ?? 50);
+        
+         // ---- derived helpers ----
+
         const propertySignalsMeta =
           roofSizeEstimate?.meta?.propertySignalsMeta ||
           roofSizeEstimate?.meta?.propertySignals ||
           {};
+
         const effectiveRoofSizeSource =
           userEnteredRoofSize && roofSizeInputSource === "manual_calculator"
             ? "manual_calculator"
             : (roofSizeEstimate?.source || "unavailable");
+
         const effectiveRoofSizeConfidence =
           userEnteredRoofSize && roofSizeInputConfidence === "manual_estimate"
             ? "Medium"
             : (roofSizeEstimate?.confidence || "Low");
+
         const effectiveRoofSizeConfidenceScore =
           userEnteredRoofSize && roofSizeInputSource === "manual_calculator"
             ? Math.max(65, Number(derivedConfidenceScore || 0))
             : derivedConfidenceScore;
+
         const reliabilityTier = getReliabilityTier({
           source: effectiveRoofSizeSource,
           confidenceScore: effectiveRoofSizeConfidenceScore,
           disagreement: roofSizeEstimate?.meta?.disagreement || null
         });
+
         const decisionDelta = buildDecisionDelta({
           quotePrice,
           low,
           mid,
           high
         });
+
         const riskFlags = buildRiskFlags({
         rawVerdict: verdict,
         verdict: displayVerdict,
@@ -8075,6 +10675,7 @@ function buildComparisonWinnerHtml(summary) {
         reliabilityTier,
         missingSignals: latestParsed?.missingSignals || []
       });
+
         const recommendation = buildRecommendation({
           rawVerdict: verdict,
           verdict: displayVerdict,
@@ -8084,6 +10685,7 @@ function buildComparisonWinnerHtml(summary) {
           riskFlags,
           decisionDelta
         });
+
        const previewAnalysis = {
         verdict: displayVerdict,
         rawVerdict: verdict,
@@ -8091,11 +10693,13 @@ function buildComparisonWinnerHtml(summary) {
         low,
         mid,
         high,
+
         riskFlags,
         recommendation,
         decisionDelta,
         reliabilityTier,
         missingSignals: latestParsed?.missingSignals || [],
+
         material,
         roofSize: effectiveRoofSize,
         city,
@@ -8108,12 +10712,14 @@ function buildComparisonWinnerHtml(summary) {
         confidenceLabel: derivedAnalysisConfidenceLabel,
         pricePerSqFt,
         pricePerSquare,
+
         roofSizeEstimate: roofSizeEstimate?.roofSize ?? null,
         roofSizeEstimateConfidence: effectiveRoofSizeConfidence,
         roofSizeEstimateConfidenceScore: effectiveRoofSizeConfidenceScore,
         roofSizeEstimateSource: effectiveRoofSizeSource,
         roofSizeEstimateReasoning: roofSizeEstimate?.reasoning || "",
         roofSizeEstimateMeta: roofSizeEstimate?.meta || {},
+
         meta: buildNormalizedAnalysisMeta({
           effectiveRoofSize,
           effectiveRoofSizeSource,
@@ -8130,16 +10736,19 @@ function buildComparisonWinnerHtml(summary) {
           derivedConfidenceScore,
           reliabilityTier
       }),
+
         propertySignalsMeta,
         livingAreaSqFt:
         roofSizeEstimate?.meta?.livingAreaSqFt ||
         roofSizeEstimate?.meta?.propertySignals?.livingAreaSqFt ||
         null,
+
         roofSizeNeedsReview:
           !!roofSizeEstimate?.meta?.disagreement?.hasDisagreement ||
           !!propertySignalsMeta?.ambiguous ||
           !!roofSizeEstimate?.meta?.fallbackUsed ||
           String(roofSizeEstimate?.source || "").toLowerCase() === "unavailable",
+
         roofSizeSignals,
         signalComparison: {
           parsed: roofSizeSignals?.parsed || null,
@@ -8157,9 +10766,11 @@ function buildComparisonWinnerHtml(summary) {
         roofSizeInputConfidence,
         userEnteredRoofSize
       };
+
         const tearOffValue = byId("tearOffIncluded")?.value || "1.00";
         const tearOffLabel =
-          tearOffValue === "1.05" ? "yes" : tearOffValue === "0.97" ? "no" : "unknown";
+          tearOffValue === "1.00" ? "1 layer" : tearOffValue === "1.10" ? "2 layers" : tearOffValue === "0.85" ? "overlay" : "unknown";
+
         latestAnalysis = {
           verdict: displayVerdict,
           rawVerdict: verdict,
@@ -8167,11 +10778,13 @@ function buildComparisonWinnerHtml(summary) {
           low,
           mid,
           high,
+
           riskFlags,
           recommendation,
           decisionDelta,
           reliabilityTier,
           missingSignals: latestParsed?.missingSignals || [],
+
           material,
           roofSize: effectiveRoofSize,
           userEnteredRoofSize,
@@ -8189,12 +10802,14 @@ function buildComparisonWinnerHtml(summary) {
           confidenceLabel: derivedAnalysisConfidenceLabel,
           pricePerSqFt,
           pricePerSquare,
+
           roofSizeEstimate: roofSizeEstimate?.roofSize ?? null,
           roofSizeEstimateConfidence: effectiveRoofSizeConfidence,
           roofSizeEstimateConfidenceScore: effectiveRoofSizeConfidenceScore,
           roofSizeEstimateSource: effectiveRoofSizeSource,
           roofSizeEstimateReasoning: roofSizeEstimate?.reasoning || "",
           roofSizeEstimateMeta: roofSizeEstimate?.meta || {},
+
           meta: buildNormalizedAnalysisMeta({
             effectiveRoofSize,
             effectiveRoofSizeSource,
@@ -8211,17 +10826,21 @@ function buildComparisonWinnerHtml(summary) {
             derivedConfidenceScore,
             reliabilityTier
         }),
+          
           propertySignalsMeta,
           livingAreaSqFt:
           roofSizeEstimate?.meta?.livingAreaSqFt ||
           roofSizeEstimate?.meta?.propertySignals?.livingAreaSqFt ||
           null,
+
           roofSizeNeedsReview:
             !!roofSizeEstimate?.meta?.disagreement?.hasDisagreement ||
             !!propertySignalsMeta?.ambiguous ||
             !!roofSizeEstimate?.meta?.fallbackUsed ||
             String(roofSizeEstimate?.source || "").toLowerCase() === "unavailable",
+
           roofSizeSignals,
+
           signalComparison: {
             parsed: roofSizeSignals?.parsed || null,
             property: roofSizeSignals?.property || null,
@@ -8235,10 +10854,12 @@ function buildComparisonWinnerHtml(summary) {
           },
           roofSizeConsistency
         };
+
         latestAnalysis.roofSizeSource =
         latestAnalysis?.meta?.roofSize?.source ||
         latestAnalysis?.roofSizeEstimateSource ||
         "unavailable";
+
         latestAnalysis.conflictSignals = buildConflictSignals({
         quotePrice: latestAnalysis.quotePrice,
         low: latestAnalysis.low,
@@ -8246,11 +10867,49 @@ function buildComparisonWinnerHtml(summary) {
         roofSize: latestAnalysis.roofSize,
         confidenceScore: latestAnalysis.confidenceScore
       });
+
         window.__latestAnalysis = latestAnalysis;
         setJourneyStep("result");
+
+        // Auto-contribute anonymized benchmark data (Option C: silent capture
+        // unless user has opted out). Skips if no price, already contributed
+        // for this exact price, or user opted out.
+        try {
+          const _optOut = localStorage.getItem("tp_benchmark_optout") === "1";
+          const _key = "tp_contributed_" + Math.round(latestAnalysis.quotePrice || 0);
+          const _alreadySent = localStorage.getItem(_key) === "true";
+          if (!_optOut && !_alreadySent && latestAnalysis.quotePrice) {
+            const _parsed = latestParsed || {};
+            const _signals = _parsed.signals || {};
+            const _scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking","disposal","permit"];
+            const _scopeConfirmed = _scopeKeys.filter(function(k) {
+              return (typeof scopeReviewState !== "undefined" && scopeReviewState[k]) || (_signals[k] && _signals[k].status === "included");
+            }).length;
+            fetch("/api/community-quote", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                price: latestAnalysis.quotePrice,
+                material: latestAnalysis.material || "",
+                city: latestAnalysis.city || "",
+                stateCode: latestAnalysis.stateCode || "",
+                roofSize: latestAnalysis.roofSize || 0,
+                serviceType: "roofing",
+                scopeConfirmed: _scopeConfirmed,
+                scopeTotal: _scopeKeys.length,
+                verdict: latestAnalysis.verdict || "",
+                source: "auto"
+              })
+            }).then(function(res) {
+              if (res && res.ok) localStorage.setItem(_key, "true");
+            }).catch(function() {});
+          }
+        } catch (e) {}
+
         const session = getTrackingSession();
         session.analysesRun = (session.analysesRun || 0) + 1;
         saveTrackingSession(session);
+
         track("analysis_completed", {
           verdict: latestAnalysis?.verdict || "",
           rawVerdict: latestAnalysis?.rawVerdict || "",
@@ -8262,11 +10921,76 @@ function buildComparisonWinnerHtml(summary) {
           roofSize: latestAnalysis?.roofSize || null,
           material: latestAnalysis?.material || ""
         });
+
+        // Save analysis state for resume on return visit
+        try {
+          localStorage.setItem("tp_last_analysis", JSON.stringify({
+            verdict: latestAnalysis?.verdict || "",
+            price: latestAnalysis?.quotePrice || null,
+            city: latestAnalysis?.city || "",
+            state: latestAnalysis?.stateCode || "",
+            material: latestAnalysis?.material || "",
+            timestamp: Date.now()
+          }));
+        } catch(e) {}
+
+        // Submit to calibration engine (non-blocking)
+        try {
+          if (latestAnalysis?.quotePrice && latestAnalysis?.quotePrice > 0) {
+            fetch("/api/calibration", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                price: latestAnalysis.quotePrice,
+                contractor: latestAnalysis.contractor || latestParsed?.contractor || "",
+                city: latestAnalysis.city || "",
+                stateCode: latestAnalysis.stateCode || "",
+                material: latestAnalysis.material || "",
+                roofSize: latestAnalysis.roofSize || 0,
+                warrantyYears: latestAnalysis.warrantyYears || 0,
+                scopeItems: latestAnalysis.signals || {},
+                source: "upload",
+                hasDocument: !!window.__uploadedQuoteFile,
+                modelEstimate: latestAnalysis.mid || 0,
+                service: "roofing"
+              })
+            }).catch(function() {});
+
+            // Submit to contractor scoring (non-blocking)
+            var ctrName = latestAnalysis.contractor || latestParsed?.contractor || "";
+            if (ctrName && ctrName !== "Not detected" && ctrName.length > 2) {
+              var scopeSignals = latestAnalysis.signals || {};
+              var scopeCount = Object.values(scopeSignals).filter(function(s) { return s && s.status === "included"; }).length;
+              var redFlagCount = typeof detectRedFlags === "function" ? detectRedFlags(latestExtractedText).length : 0;
+              var priceRatio = (latestAnalysis.mid && latestAnalysis.mid > 0) ? latestAnalysis.quotePrice / latestAnalysis.mid : 0;
+
+              fetch("/api/contractor-score", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  action: "quote",
+                  contractor: ctrName,
+                  city: latestAnalysis.city || "",
+                  stateCode: latestAnalysis.stateCode || "",
+                  scopeCount: scopeCount,
+                  warrantyYears: latestAnalysis.warrantyYears || 0,
+                  redFlagCount: redFlagCount,
+                  priceRatio: priceRatio,
+                  material: latestAnalysis.material || "",
+                  roofSize: latestAnalysis.roofSize || 0
+                })
+              }).catch(function() {});
+            }
+          }
+        } catch(e) {}
+
         }
+
         window.handleAnalyzeClick = function handleAnalyzeClick() {
           const fileInput = document.getElementById("quoteFile");
           const file = fileInput?.files?.[0];
           const price = Number(document.getElementById("quotePrice")?.value || 0);
+
           if (file && typeof parseUploadedComparisonFile === "function") {
             parseUploadedComparisonFile(file)
               .then(parsedBundle => {
@@ -8281,21 +11005,26 @@ function buildComparisonWinnerHtml(summary) {
               });
             return;
           }
+
           if (price > 0) {
             analyzeQuote();
             return;
           }
+
           setUploadStatus(
             "Upload a quote to get started, or enter your price below.",
             "info"
           );
         };
+
     function buildComparisonSummaryLines() {
       const lines = [];
+
       const primaryQuote = normalizeComparisonQuote(buildPrimaryComparisonQuote(), "Quote 1");
       if (primaryQuote?.isValid) {
         lines.push(`${primaryQuote.contractor}: ${safeFormatCurrency(primaryQuote.total)}`);
       }
+
       const secondManualName = (byId("secondContractorName")?.value || "").trim();
       const secondManualPrice = byId("secondQuotePrice")?.value || "";
       const secondQuote = normalizeComparisonQuote(
@@ -8307,6 +11036,7 @@ function buildComparisonWinnerHtml(summary) {
         ),
         "Quote 2"
       );
+
       const thirdManualName = (byId("thirdContractorName")?.value || "").trim();
       const thirdManualPrice = byId("thirdQuotePrice")?.value || "";
       const thirdQuote = normalizeComparisonQuote(
@@ -8318,22 +11048,29 @@ function buildComparisonWinnerHtml(summary) {
         ),
         "Quote 3"
       );
+
       if (secondQuote?.isValid) {
         lines.push(`${secondQuote.contractor}: ${safeFormatCurrency(secondQuote.total)}`);
       }
+
       if (thirdQuote?.isValid) {
         lines.push(`${thirdQuote.contractor}: ${safeFormatCurrency(thirdQuote.total)}`);
       }
+
       return lines;
     }
+
     function buildShareableReportData() {
       const analysis =
         latestAnalysis ||
         (typeof window !== "undefined" && window.__tpDebug?.getLatestAnalysis?.()) ||
         null;
+
       if (!analysis) return null;
+
       const parsed = latestParsed || {};
       const comparisonLines = buildComparisonSummaryLines();
+
       const manualSignals = [
         !!analysis?.quotePrice && (!parsed?.price || Number(parsed.price) <= 0),
         !!analysis?.roofSize && (!parsed?.roofSize || Number(parsed.roofSize) <= 0),
@@ -8341,21 +11078,26 @@ function buildComparisonWinnerHtml(summary) {
         !!analysis?.city && !parsed?.city,
         !!analysis?.stateCode && !parsed?.stateCode
       ];
+
       const manualCount = manualSignals.filter(Boolean).length;
+
       let shareConfidenceLabel =
         analysis?.analysisConfidenceLabel ||
         parsed?.confidenceLabel ||
         "Low";
+
       let shareConfidenceScore =
         analysis?.roofSizeEstimateConfidenceScore ??
         parsed?.confidenceScore ??
         "Unknown";
+
       if (manualCount >= 2) {
         shareConfidenceLabel = "Medium";
         shareConfidenceScore = "Manual or mixed input";
       } else if (manualCount === 1) {
         shareConfidenceScore = parsed?.confidenceScore ?? "1 field confirmed manually";
       }
+
       return {
         verdict: analysis.verdict || "Quote analyzed",
         rawVerdict: analysis.rawVerdict || analysis.verdict || "Quote analyzed",
@@ -8414,34 +11156,44 @@ function buildComparisonWinnerHtml(summary) {
         partialExtractionNoticeHtml: buildPartialExtractionNotice(parsed)
       };
     }
+
      function buildShareableReportText(report) {
       if (!report) return "";
+
       const locationLine =
         [report.city, report.stateCode].filter(Boolean).join(", ") || "Location not detected";
+
       const recommendationAction = String(report?.recommendation?.action || "REVIEW").toUpperCase();
+
       const recommendationReasoning = softenClaim(
         report?.recommendation?.reasoning || getDecisionGuidance(report),
         latestAnalysis || report
       );
+
       const decisionDeltaText = report?.decisionDelta
         ? softenClaim(buildDecisionDeltaText(report.decisionDelta), latestAnalysis || report)
         : softenClaim(buildMarketPositionText(report.quotePrice, report.mid), latestAnalysis || report);
+
       const consistencySeverity = String(report?.roofSizeConsistency?.severity || "low").toLowerCase();
+
       const trustLine =
         consistencySeverity === "high"
           ? "Trust note: Treat this result as provisional until roof size is verified."
           : consistencySeverity === "medium"
             ? "Trust note: Treat this result as directional because roof size signals are mixed."
             : "";
+
       const riskFlags = Array.isArray(report?.riskFlags) ? report.riskFlags : [];
       const topRiskFlags = riskFlags
         .filter(flag => String(flag?.key || "").toLowerCase() !== "no_major_risks")
         .slice(0, 2);
+
       const contractorQuestions = Array.isArray(report?.contractorQuestions)
         ? report.contractorQuestions.slice(0, 3)
         : [];
+
       const sections = [
-        "TruePrice Roofing Quote Decision Report",
+        "TruePrice " + (report.serviceLabel || "Roofing") + " Quote Decision Report",
         "",
         `${recommendationAction}`,
         recommendationReasoning,
@@ -8454,6 +11206,7 @@ function buildComparisonWinnerHtml(summary) {
         ...(trustLine ? [trustLine] : []),
         `Next step: ${getDecisionGuidance(report)}`
       ];
+
       if (topRiskFlags.length) {
         sections.push(
           "",
@@ -8466,6 +11219,7 @@ function buildComparisonWinnerHtml(summary) {
           })
         );
       }
+
       sections.push(
         "",
         "Pricing summary:",
@@ -8485,6 +11239,7 @@ function buildComparisonWinnerHtml(summary) {
         }`,
         `- Typical local price: ${report.typicalPriceSummary || "Not available"}`
       );
+
       sections.push(
         "",
         "Quote details:",
@@ -8505,12 +11260,15 @@ function buildComparisonWinnerHtml(summary) {
         `- Location: ${locationLine}`,
         `- Quote confidence: ${report.confidenceLabel} (${report.confidenceScore})`
       );
+
       if (report.roofSizeNeedsReview) {
         sections.push("- Roof size review: Recommended before relying on this result");
       }
+
       if (report.roofSizeConsistency?.summary) {
         sections.push(`- Roof size consistency: ${report.roofSizeConsistency.summary}`);
       }
+
       if (contractorQuestions.length) {
         sections.push(
           "",
@@ -8518,6 +11276,7 @@ function buildComparisonWinnerHtml(summary) {
           ...contractorQuestions.map((question, index) => `${index + 1}. ${question}`)
         );
       }
+
       if (report.includedSignals.length) {
         sections.push(
           "",
@@ -8525,6 +11284,7 @@ function buildComparisonWinnerHtml(summary) {
           ...report.includedSignals.map(item => `- ${item}`)
         );
       }
+
       if (report.missingSignals.length) {
         sections.push(
           "",
@@ -8532,6 +11292,7 @@ function buildComparisonWinnerHtml(summary) {
           ...report.missingSignals.map(item => `- ${item}`)
         );
       }
+
       if (report.premiumSignals.length) {
         sections.push(
           "",
@@ -8539,6 +11300,7 @@ function buildComparisonWinnerHtml(summary) {
           ...report.premiumSignals.map(item => `- ${item}`)
         );
       }
+
       if (report.comparisonLines.length > 1) {
         sections.push(
           "",
@@ -8546,18 +11308,35 @@ function buildComparisonWinnerHtml(summary) {
           ...report.comparisonLines.map(line => `- ${line}`)
         );
       }
+
+      var textRedFlags = detectRedFlags(latestExtractedText);
+      if (textRedFlags.length) {
+        sections.push(
+          "",
+          "Fine print & red flags:",
+          ...textRedFlags.map(function(f) {
+            var sev = f.severity === "high" ? "[!]" : f.severity === "medium" ? "[*]" : "[-]";
+            return sev + " " + f.label + " - " + f.detail;
+          })
+        );
+      }
+
       sections.push(
         "",
-        getBrandFooterText()
+        "Powered by TruePrice (truepricehq.com)"
       );
+
       return sections.join("\n");
     }
+
     function buildTopRiskFlagsHtml(report) {
       const riskFlags = Array.isArray(report?.riskFlags) ? report.riskFlags : [];
       const topRiskFlags = riskFlags
         .filter(flag => String(flag?.key || "").toLowerCase() !== "no_major_risks")
         .slice(0, 2);
+
       if (!topRiskFlags.length) return "";
+
       return `
         <div style="display:grid; gap:10px; margin:0 0 12px;">
           ${topRiskFlags.map(flag => {
@@ -8581,46 +11360,57 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
     }
+
     function buildShareContractorQuestionsHtml(report) {
       const questions = Array.isArray(report?.contractorQuestions)
         ? report.contractorQuestions.slice(0, 3)
         : [];
+
       if (!questions.length) return "";
+
       return `
         <div class="panel" style="margin:0 0 12px; padding:12px 14px; background:#f8fafc; border-color:#e5e7eb;">
           <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#475569;">
             Contractor questions
           </p>
+
           <p class="small muted" style="margin:0 0 10px;">
             Use these to pressure test the decision before you sign.
           </p>
+
           <ul class="mini-list" style="margin:0;">
             ${questions.map(q => `<li>${q}</li>`).join("")}
           </ul>
         </div>
       `;
     }
+
     async function copyShareableReportText() {
       const report = buildShareableReportData();
       if (!report) {
         setUploadStatus("Run the quote analysis before copying a report.", "warn");
         return;
       }
+
       const text = buildShareableReportText(report);
+
       track("report_copy_attempted", {
         verdict: report?.verdict || "",
         rawVerdict: report?.rawVerdict || "",
         recommendation: report?.recommendation?.action || "",
         hasContractorQuestions: !!buildContractorQuestions(latestAnalysis || {}).length
       });
+
       try {
         await navigator.clipboard.writeText(text);
+
         track("report_copied", {
           verdict: report?.verdict || "",
           rawVerdict: report?.rawVerdict || "",
           recommendation: report?.recommendation?.action || "",
           hasContractorQuestions: !!buildContractorQuestions(latestAnalysis || {}).length
         });
+
         const copyStatus = getShareReportOutputElement();
         if (copyStatus) {
           copyStatus.innerHTML = `
@@ -8630,31 +11420,40 @@ function buildComparisonWinnerHtml(summary) {
             </div>
           `;
         }
+
         setUploadStatus("Shareable quote summary copied to clipboard.", "success");
       } catch (err) {
         console.error(err);
+
         track("report_copy_failed", {
           verdict: report?.verdict || "",
           rawVerdict: report?.rawVerdict || "",
           recommendation: report?.recommendation?.action || "",
           hasContractorQuestions: !!buildContractorQuestions(latestAnalysis || {}).length
         });
+
         setUploadStatus("Could not copy the shareable summary.", "error");
       }
     }
+
     function renderShareableReport(output, report) {
       if (!output || !report) return;
+
       const locationDisplay =
         [report.city, report.stateCode].filter(Boolean).join(", ") || "Not detected";
+
       const recommendationAction = String(report?.recommendation?.action || "REVIEW").toUpperCase();
       const recommendationReasoning = softenClaim(
         report?.recommendation?.reasoning || getDecisionGuidance(report),
         latestAnalysis || report
       );
+
       const decisionDeltaText = report?.decisionDelta
         ? softenClaim(buildDecisionDeltaText(report.decisionDelta), latestAnalysis || report)
         : softenClaim(buildMarketPositionText(report.quotePrice, report.mid), latestAnalysis || report);
+
       const differenceDisplay = buildDifferenceDisplay(report.quotePrice, report.mid);
+
       const partialExtractionNoticeHtml = report.partialExtractionNoticeHtml || "";
       const scopeCheckHtml = buildScopeCheckHtml({
         includedSignals: report.includedSignals,
@@ -8664,6 +11463,7 @@ function buildComparisonWinnerHtml(summary) {
       const scopeRiskHtml = buildScopeRiskHtml(report.missingSignals);
       const topRiskFlagsHtml = buildTopRiskFlagsHtml(report);
       const contractorQuestionsHtml = buildShareContractorQuestionsHtml(report);
+
       const comparisonHtml = report.comparisonLines.length > 1
         ? `
             <div class="panel" style="margin:0 0 12px; background:#f8fafc; border-color:#e5e7eb;">
@@ -8674,17 +11474,26 @@ function buildComparisonWinnerHtml(summary) {
             </div>
           `
         : "";
+
+        const shareRedFlagsHtml = renderRedFlags(latestExtractedText);
+
                 output.innerHTML = `
             <div class="panel" style="margin-top:8px; border-width:2px;">
-              <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#334155;">
-                TruePrice decision report
-              </p>
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                <img src="/images/trudy-clipboard.png" alt="Trudy" width="40" />
+                <div>
+                  <div style="font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brand, #1e3a5f);">TruePrice ${escapeHtml(report.serviceLabel || "Roofing")} Decision Report</div>
+                </div>
+              </div>
+
               <div style="margin:0 0 10px; font-size:32px; line-height:1.05; font-weight:800;">
                 ${recommendationAction}
               </div>
+
               <p class="small muted" style="margin:0 0 14px;">
                 ${recommendationReasoning}
               </p>
+
               <div class="panel" style="margin:0 0 12px; padding:16px 18px; background:#f8fafc; border-color:#e5e7eb;">
                 <div style="font-size:30px; line-height:1.1; font-weight:800; margin:0 0 8px;">
                   ${decisionDeltaText}
@@ -8697,14 +11506,17 @@ function buildComparisonWinnerHtml(summary) {
                   }
                 </p>
               </div>
+
               <div class="verdict ${getVerdictClassName(report.verdict)}" style="margin-bottom:12px;">
                 ${report.verdict}
               </div>
+
           ${report.rawVerdict && report.rawVerdict !== report.verdict ? `
             <p class="small muted" style="margin:0 0 12px;">
               <strong>Original modeled verdict:</strong> ${report.rawVerdict}
             </p>
           ` : ""}
+
           ${report.roofSizeConsistency?.severity === "high" ? `
             <div class="panel" style="margin:0 0 12px; background:#fff7ed; border-color:#fdba74;">
               <p style="margin:0;">
@@ -8718,25 +11530,32 @@ function buildComparisonWinnerHtml(summary) {
               </p>
             </div>
           ` : ""}
+
           ${topRiskFlagsHtml}
+
           <div class="panel" style="margin:0 0 12px; background:#f8fafc; border-color:#dbeafe;">
             <p style="margin:0 0 8px;"><strong>Next step</strong></p>
             <p class="small" style="margin:0;">
               ${getDecisionGuidance(report)}
             </p>
           </div>
+
           ${contractorQuestionsHtml}
+
           <div class="panel" style="margin:0 0 12px; background:#f8fafc; border-color:#e5e7eb;">
             <p class="small muted" style="margin:0;">
               <strong>Share prompt:</strong> ${getSharePrompt(report)}
             </p>
           </div>
+
           <div class="panel" style="margin:0 0 12px; background:#f9fafb; border-color:#e5e7eb;">
             <p class="small muted" style="margin:0;">
               <strong>Market context:</strong> ${report.typicalPriceSummary || "Not available"}
             </p>
           </div>
+
           ${partialExtractionNoticeHtml}
+
           ${report.roofSizeNeedsReview ? `
             <div class="panel" style="margin:0 0 12px; background:#fff7ed; border-color:#fdba74;">
               <p style="margin:0;">
@@ -8744,6 +11563,7 @@ function buildComparisonWinnerHtml(summary) {
               </p>
             </div>
           ` : ""}
+
           ${report.roofSizeConsistency?.summary ? `
             <div class="panel" style="margin:0 0 12px; background:#f8fafc; border-color:#dbeafe;">
               <p style="margin:0;">
@@ -8751,21 +11571,27 @@ function buildComparisonWinnerHtml(summary) {
               </p>
             </div>
           ` : ""}
+
           <div class="analysis-grid">
             <div><strong>Quote price</strong></div>
             <div>${report.quotePrice ? safeFormatCurrency(report.quotePrice) : "Not available"}</div>
+
             <div><strong>Contractor Price Score</strong></div>
             <div>${
               report.contractorPriceScore !== null && report.contractorPriceScore !== undefined
                 ? `${report.contractorPriceScore} / 100${report.contractorPriceScoreLabel ? ` (${report.contractorPriceScoreLabel})` : ""}`
                 : "Not available"
             }</div>
+
             <div><strong>Expected range</strong></div>
             <div>${report.low && report.high ? `${safeFormatCurrency(report.low)} to ${safeFormatCurrency(report.high)}` : "Not available"}</div>
+
             <div><strong>Expected midpoint</strong></div>
             <div>${report.mid ? safeFormatCurrency(report.mid) : "Not available"}</div>
+
             <div><strong>Difference vs midpoint</strong></div>
             <div>${differenceDisplay}</div>
+
             <div><strong>Roof size</strong></div>
             <div>${
               report.roofSize
@@ -8776,37 +11602,55 @@ function buildComparisonWinnerHtml(summary) {
                   )
                 : "Not detected"
             }</div>
+
             <div><strong>Roof size source</strong></div>
             <div>${getRoofSizeSourceDisplay(report.roofSizeEstimateSource) || "Not available"}</div>
+
             <div><strong>Price per sq ft</strong></div>
             <div>${report.pricePerSqFt ? `${safeFormatCurrencyPrecise(report.pricePerSqFt)} / sq ft` : "Not available"}</div>
+
             <div><strong>Material</strong></div>
             <div>${displayMaterial(report.material)}</div>
+
             <div><strong>Warranty</strong></div>
             <div>${displayWarranty(report.warranty)}</div>
+
             <div><strong>Contractor</strong></div>
             <div>${displayDetectedValue(report.contractor, "Quote 1")}</div>
+
             <div><strong>Location</strong></div>
             <div>${locationDisplay}</div>
+
             <div><strong>Quote Confidence</strong></div>
             <div>${report.confidenceLabel} (${report.confidenceScore})</div>
           </div>
+
           <div style="margin-top:14px;">
             ${scopeCheckHtml}
           </div>
+
           ${scopeRiskHtml}
+
           ${comparisonHtml}
-          <p class="small muted" style="margin:16px 0 0;">
-            ${getBrandFooterText()}
-          </p>
+
+          ${shareRedFlagsHtml}
+
+          <div style="text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid #e2e8f0;">
+            <a href="https://truepricehq.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;" target="_blank" rel="noopener">
+              <img src="/images/trudy-peeking.png" alt="" width="24" /> Powered by <strong style="color:#1e3a5f;">TruePrice</strong>
+            </a>
+          </div>
         </div>
       `;
     }
+
     function getShareReportOutputElement() {
       return byId("inlineShareReportOutput");
     }
+
     function viewShareableResult() {
       const output = getShareReportOutputElement();
+
       const comparisonOutput = byId("comparisonOutput");
       if (comparisonOutput) {
         comparisonOutput.innerHTML = "";
@@ -8815,36 +11659,45 @@ function buildComparisonWinnerHtml(summary) {
         setUploadStatus("Share report output container not found.", "warn");
         return;
       }
+
       if (!latestAnalysis) {
         output.innerHTML = "Run the main quote analysis before viewing a shareable result.";
         setUploadStatus("Run the main quote analysis before viewing a shareable result.", "warn");
         return;
       }
+
       const report = buildShareableReportData();
       if (!report) {
         output.innerHTML = "Run the main quote analysis before viewing a shareable result.";
         setUploadStatus("Could not build the share report from the current analysis.", "warn");
         return;
       }
+
       track("report_viewed", {
         verdict: report?.verdict || "",
         rawVerdict: report?.rawVerdict || ""
       });
+
       renderShareableReport(output, report);
       setTimeout(() => {
       output.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
     }
+
     function getWinningComparisonLabel(comparisonSummary) {
       return String(comparisonSummary?.winnerQuote?.label || "").trim();
     }
+
     function getComparisonCellStyle(quote, winningLabel) {
       const isWinner = String(quote?.label || "").trim() === String(winningLabel || "").trim();
+
       if (isWinner) {
         return 'padding:8px; border-bottom:1px solid #d1fae5; background:#f0fdf4;';
       }
+
       return 'padding:8px; border-bottom:1px solid #eee;';
     }
+
     function renderComparisonResults({
       output,
       sortedQuotes,
@@ -8856,14 +11709,18 @@ function buildComparisonWinnerHtml(summary) {
       spreadPct
     }) {
       if (!output) return;
+
       const winnerHtml = buildComparisonWinnerHtml(comparisonSummary);
+
       const tableHtml = `
         ${winnerHtml}
+
         <div class="panel" style="margin:0 0 12px; background:#f8fafc; border-color:#e5e7eb;">
           <p style="margin:0;" class="small muted">
             Quotes are ordered by <strong>best overall position</strong>, not lowest price alone.
           </p>
         </div>
+
         <table style="width:100%; border-collapse:collapse; margin-top:12px;">
           <thead>
             <tr>
@@ -8927,6 +11784,7 @@ function buildComparisonWinnerHtml(summary) {
             </tr>
           </tbody>
         </table>
+
         <div style="margin-top:16px;">
           <p><strong>Lowest total quote:</strong> ${safeFormatCurrency(lowest.total)} (${lowest.contractor})</p>
           <p><strong>Highest total quote:</strong> ${safeFormatCurrency(highest.total)} (${highest.contractor})</p>
@@ -8937,24 +11795,32 @@ function buildComparisonWinnerHtml(summary) {
           </p>
         </div>
       `;
+
       output.innerHTML = tableHtml;
       bindComparisonWinnerActions(comparisonSummary);
     }
+
     function renderComparisonResultScreen(summary, sortedQuotes, spread, spreadPct) {
       const root = document.getElementById("appRoot");
       if (!root) return;
+
       const w = summary.winnerQuote || {};
       const wb = w.comparisonBreakdown || {};
       const softened = summary.shouldSoftenWinner;
       const mid = latestAnalysis?.mid || 0;
+
       const winnerBg = softened ? "#fff7ed" : "#f0fdf4";
       const winnerBorder = softened ? "#fdba74" : "#86efac";
       const winnerColor = softened ? "#9a3412" : "#166534";
       const winnerTitle = softened
         ? `${escapeHtml(summary.winner)} is in front, but needs verification`
         : `${escapeHtml(summary.winner)} is the best value`;
+
+      // Build reasons list
       const reasons = (wb.reasons || []).slice(0, 3);
       const warnings = (wb.warnings || []).slice(0, 2);
+
+      // Build runner-up section
       let runnerUpHtml = "";
       if (summary.runnerUp) {
         const rb = summary.runnerUp.comparisonBreakdown || {};
@@ -8975,6 +11841,8 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `;
       }
+
+      // Build other losers
       let losersHtml = "";
       const losers = (summary.losers || []).filter(l => l.name !== summary.runnerUp?.contractor && l.name !== summary.runnerUp?.label);
       if (losers.length > 0) {
@@ -8988,8 +11856,10 @@ function buildComparisonWinnerHtml(summary) {
           </div>
         `).join("");
       }
+
       root.innerHTML = `
         <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+
           <div style="padding:28px; background:${winnerBg}; border:2px solid ${winnerBorder}; border-radius:16px; margin:0 0 16px; text-align:center;">
             <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:${winnerColor}; margin:0 0 8px;">
               ${softened ? "Current leader" : "Comparison winner"}
@@ -9007,11 +11877,13 @@ function buildComparisonWinnerHtml(summary) {
                 <div style="font-size:12px; color:var(--muted, #6b7280);">Score</div>
               </div>
             </div>
+
             ${warnings.length > 0 ? `
               <div style="padding:12px 16px; background:#fff7ed; border:1px solid #fdba74; border-radius:10px; margin:0 0 16px; text-align:left; font-size:14px; color:#9a3412;">
                 ${warnings.map(w => `<div>${escapeHtml(w)}</div>`).join("")}
               </div>
             ` : ""}
+
             ${reasons.length > 0 ? `
               <div style="text-align:left; margin:0 0 4px;">
                 <div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:${winnerColor}; margin:0 0 8px;">Why this quote won</div>
@@ -9020,16 +11892,20 @@ function buildComparisonWinnerHtml(summary) {
                 </ul>
               </div>
             ` : ""}
+
             ${mid > 0 ? `<div style="margin-top:12px; font-size:13px; color:var(--muted, #6b7280);">Expected midpoint for this market: ${safeFormatCurrency(mid)}</div>` : ""}
           </div>
+
           ${runnerUpHtml}
           ${losersHtml}
+
           <div style="padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:0 0 16px;">
             <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:14px; color:#374151;">
               <div>Spread: <strong>${safeFormatCurrency(spread)}</strong> (${Number(spreadPct).toFixed(0)}%)</div>
               <div>Quotes compared: <strong>${sortedQuotes.length}</strong></div>
             </div>
           </div>
+
           <div class="action-buttons" style="margin:20px 0;">
             <button class="btn" onclick="copyComparisonWinnerSummary()">Copy winner summary</button>
             <button class="btn secondary" onclick="showCompareScreen()">Edit quotes</button>
@@ -9038,6 +11914,7 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
     }
+
     window.copyComparisonWinnerSummary = function copyComparisonWinnerSummary() {
       const summary = latestAnalysis?.comparisonSummary;
       if (!summary) return;
@@ -9052,65 +11929,82 @@ function buildComparisonWinnerHtml(summary) {
         prompt("Copy this text:", text);
       }
     };
+
     function compareQuotes() {
       track("compare_quotes_started", {
         hasPrimaryAnalysis: !!latestAnalysis
       });
       const output = byId("comparisonOutput");
       if (!output) return;
+
       const primaryRaw = buildPrimaryComparisonQuote();
+
       if (!primaryRaw.total || primaryRaw.total <= 0) {
         output.innerHTML = "Upload and analyze your first quote before comparing.";
         return;
       }
+
       const secondManualName = (byId("secondContractorName")?.value || "").trim();
       const secondManualPrice = byId("secondQuotePrice")?.value || "";
+
       const thirdManualName = (byId("thirdContractorName")?.value || "").trim();
       const thirdManualPrice = byId("thirdQuotePrice")?.value || "";
+
       const secondRaw = buildComparisonQuoteFromUpload(
         secondParsed,
         secondManualName,
         secondManualPrice,
         "Quote 2"
       );
+
       const thirdRaw = buildComparisonQuoteFromUpload(
         thirdParsed,
         thirdManualName,
         thirdManualPrice,
         "Quote 3"
       );
+
       const quotes = [
         normalizeComparisonQuote(primaryRaw, "Quote 1")
       ];
+
       if (secondParsed || secondManualName || secondManualPrice) {
         quotes.push(normalizeComparisonQuote(secondRaw, "Quote 2"));
       }
+
       if (thirdParsed || thirdManualName || thirdManualPrice) {
         quotes.push(normalizeComparisonQuote(thirdRaw, "Quote 3"));
       }
+
       const validQuotes = quotes.filter(q => q && q.isValid);
       const partialQuotes = quotes.filter(q => q && q.isPartial);
+
       track("compare_quotes_ready_state", {
         totalQuotesEntered: quotes.length,
         validQuotes: validQuotes.length
       });
+
       if (partialQuotes.length > 0) {
         console.warn("TruePrice compare: partial quotes excluded from comparison", partialQuotes);
       }
+
       if (validQuotes.length < 2) {
         output.innerHTML = "Add at least one more quote manually or via upload to compare.";
         return;
       }
+
       validQuotes.forEach(q => {
         q.pricePerSqFt =
           q.roofSize && q.roofSize > 0
             ? q.total / q.roofSize
             : null;
       });
+
       const lowest = [...validQuotes].sort((a, b) => a.total - b.total)[0];
       const highest = [...validQuotes].sort((a, b) => b.total - a.total)[0];
       const spread = highest.total - lowest.total;
       const spreadPct = lowest.total > 0 ? (spread / lowest.total) * 100 : 0;
+
       track("compare_quotes_completed", {
         validQuotes: validQuotes.length,
         lowestTotal: lowest.total,
@@ -9118,32 +12012,44 @@ function buildComparisonWinnerHtml(summary) {
         spread,
         spreadPct: Number(spreadPct.toFixed(1))
       });
+
       const scoredQuotes = validQuotes.map(q => {
         const breakdown =
           q.comparisonBreakdown || scoreComparisonQuote(q, latestAnalysis);
+
         return {
           ...q,
           comparisonBreakdown: breakdown,
           comparisonScore: breakdown.totalScore
         };
       });
+
       const sortedQuotes = [...scoredQuotes].sort((a, b) => {
         if ((b.comparisonScore || 0) !== (a.comparisonScore || 0)) {
           return (b.comparisonScore || 0) - (a.comparisonScore || 0);
         }
+
         const aMidDistance = Math.abs((Number(a.total) || 0) - (Number(latestAnalysis?.mid) || 0));
         const bMidDistance = Math.abs((Number(b.total) || 0) - (Number(latestAnalysis?.mid) || 0));
+
         if (aMidDistance !== bMidDistance) {
           return aMidDistance - bMidDistance;
         }
+
         return (Number(a.total) || 0) - (Number(b.total) || 0);
       });
+
       const comparisonSummary = buildComparisonWinnerSummary(scoredQuotes, latestAnalysis);
       const winningLabel = getWinningComparisonLabel(comparisonSummary);
+      
       if (latestAnalysis) {
         latestAnalysis.comparisonSummary = comparisonSummary;
       }
+
+      // Render winner-first result screen into #appRoot
       renderComparisonResultScreen(comparisonSummary, sortedQuotes, spread, spreadPct);
+
+      // Also try legacy render for backward compat
       if (output) {
         renderComparisonResults({
           output,
@@ -9157,6 +12063,7 @@ function buildComparisonWinnerHtml(summary) {
         });
       }
     }
+
     function resetAnalyzer() {
       track("reset_clicked", {
         hadAnalysis: !!latestAnalysis,
@@ -9169,14 +12076,17 @@ function buildComparisonWinnerHtml(summary) {
       const comparisonOutput = byId("comparisonOutput");
       const inlineShareReportOutput = byId("inlineShareReportOutput");
       const inlineShareCopyStatus = byId("inlineShareCopyStatus");
+
       if (analysisOutput) {
         analysisOutput.innerHTML =
           "Upload a roofing quote above or enter values manually to analyze the quote.";
       }
+
       if (aiOutput) {
         aiOutput.innerHTML =
           "Run the quote analysis to receive an expert explanation.";
       }
+
       if (analysisPanels) analysisPanels.innerHTML = "";
       if (parsedSignalSection) parsedSignalSection.innerHTML = "";
       if (comparisonOutput) {
@@ -9184,6 +12094,7 @@ function buildComparisonWinnerHtml(summary) {
       }
       if (inlineShareReportOutput) inlineShareReportOutput.innerHTML = "";
       if (inlineShareCopyStatus) inlineShareCopyStatus.innerHTML = "";
+
       [ 
         "streetAddress",
         "zipCode",
@@ -9204,69 +12115,89 @@ function buildComparisonWinnerHtml(summary) {
         const el = byId(id);
         if (el) el.value = "";
       });
+
       ["secondQuoteFile", "thirdQuoteFile", "quoteFile"].forEach(id => {
         const el = byId(id);
         if (el) el.value = "";
       });
+
       ["secondQuoteUploadStatus", "thirdQuoteUploadStatus"].forEach(id => {
         const el = byId(id);
         if (el) el.innerText = "";
       });
+
       const materialType = byId("materialType");
       if (materialType) materialType.value = "architectural";
+
       const complexityFactor = byId("complexityFactor");
       if (complexityFactor) complexityFactor.value = "1.00";
+
       const tearOffIncluded = byId("tearOffIncluded");
       if (tearOffIncluded) tearOffIncluded.value = "1.00";
+
       latestParsed = null;
       latestSmartQuote = null;
       latestAnalysis = null;
       latestExtractedText = "";
       secondParsed = null;
       thirdParsed = null;
+
       clearManualFieldHighlights();
       setUploadStatus("Ready to analyze PDF or image uploads.", "info");
     }
+
     function showLeadPlaceholder() {
       const name = (document.getElementById("leadName")?.value || "").trim();
       const email = (document.getElementById("leadEmail")?.value || "").trim();
       const phone = (document.getElementById("leadPhone")?.value || "").trim();
       const zip = (document.getElementById("leadZip")?.value || "").trim();
       const output = byId("leadPlaceholderOutput");
+
       if (!email || !email.includes("@")) {
         if (output) output.innerHTML = '<span style="color:#b91c1c;">Please enter a valid email address.</span>';
         return;
       }
+
       try {
         const leads = JSON.parse(localStorage.getItem("tp_leads") || "[]");
         leads.push({ name, email, phone, zip, timestamp: new Date().toISOString() });
         localStorage.setItem("tp_leads", JSON.stringify(leads));
       } catch(e) {}
+
       if (output) output.innerHTML = '<span style="color:#166534;">Thanks! We\'ll connect you with vetted local roofers.</span>';
     }
+
     function bindComparisonUploadInputs() {
       const secondFileInput = byId("secondQuoteFile");
       const thirdFileInput = byId("thirdQuoteFile");
+
       if (secondFileInput && !secondFileInput.dataset.bound) {
         secondFileInput.addEventListener("change", async function (event) {
           const file = event.target?.files?.[0];
           if (!file || typeof parseUploadedComparisonFile !== "function") return;
+
           const statusEl = byId("secondQuoteUploadStatus");
+
           try {
             if (statusEl) statusEl.innerText = "Parsing uploaded quote...";
             const parsedBundle = await parseUploadedComparisonFile(file);
             secondParsed = parsedBundle;
+
             const parsed = parsedBundle?.parsed || {};
             const inferredName = inferContractorNameFromParsed(parsed, parsedBundle?.fileName);
             const inferredPrice = getParsedComparisonPrice(parsed);
+
             const secondNameEl = byId("secondContractorName");
             const secondPriceEl = byId("secondQuotePrice");
+
             if (secondNameEl && inferredName && !secondNameEl.value.trim()) {
               secondNameEl.value = inferredName;
             }
+
             if (secondPriceEl && inferredPrice && !secondPriceEl.value) {
               secondPriceEl.value = inferredPrice;
             }
+
             if (statusEl) {
               statusEl.innerText = inferredPrice
                 ? "Upload parsed successfully."
@@ -9277,28 +12208,37 @@ function buildComparisonWinnerHtml(summary) {
             if (statusEl) statusEl.innerText = "Could not parse this upload.";
           }
         });
+
         secondFileInput.dataset.bound = "true";
       }
+
       if (thirdFileInput && !thirdFileInput.dataset.bound) {
         thirdFileInput.addEventListener("change", async function (event) {
           const file = event.target?.files?.[0];
           if (!file || typeof parseUploadedComparisonFile !== "function") return;
+
           const statusEl = byId("thirdQuoteUploadStatus");
+
           try {
             if (statusEl) statusEl.innerText = "Parsing uploaded quote...";
             const parsedBundle = await parseUploadedComparisonFile(file);
             thirdParsed = parsedBundle;
+
             const parsed = parsedBundle?.parsed || {};
             const inferredName = inferContractorNameFromParsed(parsed, parsedBundle?.fileName);
             const inferredPrice = getParsedComparisonPrice(parsed);
+
             const thirdNameEl = byId("thirdContractorName");
             const thirdPriceEl = byId("thirdQuotePrice");
+
             if (thirdNameEl && inferredName && !thirdNameEl.value.trim()) {
               thirdNameEl.value = inferredName;
             }
+
             if (thirdPriceEl && inferredPrice && !thirdPriceEl.value) {
               thirdPriceEl.value = inferredPrice;
             }
+
             if (statusEl) {
               statusEl.innerText = inferredPrice
                 ? "Upload parsed successfully."
@@ -9309,12 +12249,15 @@ function buildComparisonWinnerHtml(summary) {
             if (statusEl) statusEl.innerText = "Could not parse this upload.";
           }
         });
+
         thirdFileInput.dataset.bound = "true";
       }
     }
+    
     function mountExistingAnalyzer(targetId) {
       const target = document.getElementById(targetId);
       if (!target) return;
+
       target.innerHTML = `
          <div class="panel" style="margin:0 0 14px;">
           <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#475569;">
@@ -9330,11 +12273,13 @@ function buildComparisonWinnerHtml(summary) {
           <p class="small muted" style="margin:0 0 12px;">
             We’ll extract pricing, estimate roof size if needed, and give you a decision.
           </p>
+
           <div style="margin:0 0 14px; padding:14px 16px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
             <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 6px;">
               <div class="small muted" style="font-size:13px; font-weight:600;">
                 Estimated roof size
               </div>
+
               <button
                 type="button"
                 class="btn btn-ghost"
@@ -9344,12 +12289,15 @@ function buildComparisonWinnerHtml(summary) {
                 Edit
               </button>
             </div>
+
             <div id="estimatedRoofSizeDisplay" style="font-size:30px; line-height:1.1; font-weight:800; color:#111827; margin:0 0 4px;">
               --
             </div>
+
             <div id="estimatedRoofSizeHint" class="small muted" style="font-size:13px;">
               We’ll use this unless you change it.
             </div>
+
             <div id="roofSizeInlineEditor" style="display:none; margin-top:12px;">
               <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
                 <input
@@ -9366,6 +12314,7 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
           </div>
+
           <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:0 0 12px;">
             <input
               id="quoteFile"
@@ -9387,69 +12336,97 @@ function buildComparisonWinnerHtml(summary) {
         <div id="uploadStatus" class="upload-status info" style="margin:0 0 12px; background:#eff6ff; border-color:#93c5fd;">
           Upload your quote to get started, or enter your price below.
         </div>
+
         <div id="inlineAnalyzingState"></div>
+
         <details id="manualEntryDetails" style="margin:0 0 14px;">
           <summary style="cursor:pointer; font-weight:700; margin:0 0 10px;">Manual quote entry</summary>
+
           <div id="manualFieldJumpStatus"></div>
+
           <div class="analysis-grid" style="margin-top:12px;">
             <div>
               <label for="quotePrice"><strong>Quote price</strong></label>
               <input id="quotePrice" type="number" min="0" step="1" placeholder="e.g. 12000" />
             </div>
+
             <div>
               <label for="roofSize"><strong>Roof size</strong> <span id="roofSizePriorityCue" style="color:#c2410c;"></span></label>
               <input id="roofSize" type="number" min="0" step="1" placeholder="e.g. 2200" />
             </div>
+
             <div>
-              <label for="materialType"><strong>Material</strong></label>
+              <label for="materialType"><strong>Material / brand tier</strong></label>
               <select id="materialType">
-                <option value="architectural">Architectural shingles</option>
-                <option value="asphalt">Asphalt shingles</option>
-                <option value="metal">Metal roofing</option>
-                <option value="tile">Tile roofing</option>
+                <option value="asphalt">3-Tab budget (IKO, TAMKO, Atlas)</option>
+                <option value="architectural" selected>Architectural mid (GAF HDZ, OC Duration, CertainTeed Landmark)</option>
+                <option value="architectural_premium">Architectural premium (Malarkey Vista, GAF AS II)</option>
+                <option value="designer">Designer / luxury (GAF Grand Canyon, OC Berkshire)</option>
+                <option value="metal">Standing seam metal</option>
+                <option value="metal_corrugated">Corrugated metal</option>
+                <option value="tile">Concrete tile</option>
               </select>
             </div>
+
+            <div>
+              <label for="roofPitch"><strong>Roof pitch</strong></label>
+              <select id="roofPitch">
+                <option value="1.00">Low (3/12 - 5/12)</option>
+                <option value="1.00" selected>Standard (6/12 - 8/12)</option>
+                <option value="1.20">Steep (9/12 - 12/12)</option>
+                <option value="1.40">Very steep (>12/12)</option>
+              </select>
+            </div>
+
             <div>
               <label for="complexityFactor"><strong>Complexity</strong></label>
               <select id="complexityFactor">
-                <option value="1.00">Standard</option>
-                <option value="1.08">Moderate</option>
-                <option value="1.15">Complex</option>
+                <option value="1.00">Simple (few cuts)</option>
+                <option value="1.08">Moderate (hips, valleys)</option>
+                <option value="1.15">Complex (dormers, multiple levels)</option>
               </select>
             </div>
+
             <div>
-              <label for="tearOffIncluded"><strong>Tear off</strong></label>
+              <label for="tearOffIncluded"><strong>Tear-off</strong></label>
               <select id="tearOffIncluded">
-                <option value="1.00">Unknown</option>
-                <option value="1.05">Included</option>
-                <option value="0.97">Not included</option>
+                <option value="1.00">1 layer tear-off (standard)</option>
+                <option value="1.10">2 layer tear-off (+10%)</option>
+                <option value="0.85">Overlay / no tear-off (-15%)</option>
               </select>
             </div>
+
             <div>
               <label for="warrantyYears"><strong>Warranty years</strong></label>
               <input id="warrantyYears" type="number" min="0" step="1" placeholder="e.g. 25" />
             </div>
+
             <div>
               <label for="cityName"><strong>City</strong></label>
               <input id="cityName" type="text" placeholder="e.g. Dallas" />
             </div>
+
             <div>
               <label for="stateCode"><strong>State</strong></label>
               <input id="stateCode" type="text" maxlength="2" placeholder="e.g. TX" />
             </div>
+
             <div>
               <label for="streetAddress"><strong>Street address</strong></label>
               <input id="streetAddress" type="text" placeholder="123 Main St" />
             </div>
+
             <div>
               <label for="zipCode"><strong>ZIP code</strong></label>
               <input id="zipCode" type="text" placeholder="75201" />
             </div>
           </div>
         </details>
+
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin:0 0 14px;">
           <button type="button" class="btn secondary" id="resetAnalyzerBtn">Reset</button>
         </div>
+
         <div id="analysisOutput"></div>
         <div id="aiAnalysisOutput"></div>
         <div id="analysisPanels"></div>
@@ -9459,15 +12436,18 @@ function buildComparisonWinnerHtml(summary) {
           <div id="inlineShareCopyStatus"></div>
           <div id="leadPlaceholderOutput"></div>
         `;
+
         const street = journeyState?.propertyPreview?.street || "";
         const apt = journeyState?.propertyPreview?.apt || "";
         const city = journeyState?.propertyPreview?.city || "";
         const state = journeyState?.propertyPreview?.state || "";
         const zip = journeyState?.propertyPreview?.zip || "";
+
         const streetInput = document.getElementById("streetAddress");
         const cityInput = document.getElementById("cityName");
         const stateInput = document.getElementById("stateCode");
         const zipInput = document.getElementById("zipCode");
+
         if (streetInput && !streetInput.value) {
           streetInput.value = [street, apt].filter(Boolean).join(" ");
         }
@@ -9480,6 +12460,7 @@ function buildComparisonWinnerHtml(summary) {
         if (zipInput && !zipInput.value) {
           zipInput.value = zip;
         }
+
         const roofSizeDisplayEl = document.getElementById("estimatedRoofSizeDisplay");
         const roofSizeHintEl = document.getElementById("estimatedRoofSizeHint");
         const editRoofSizeBtn = document.getElementById("editRoofSizeBtn");
@@ -9488,6 +12469,7 @@ function buildComparisonWinnerHtml(summary) {
         const saveRoofSizeBtn = document.getElementById("saveRoofSizeBtn");
         const cancelRoofSizeBtn = document.getElementById("cancelRoofSizeBtn");
         const roofSizeInput = document.getElementById("roofSize");
+
         const inferredRoofSize =
           Number(latestAnalysis?.roofSize || 0) > 0
             ? Number(latestAnalysis.roofSize)
@@ -9496,19 +12478,23 @@ function buildComparisonWinnerHtml(summary) {
               : Number(roofSizeInput?.value || 0) > 0
                 ? Number(roofSizeInput.value)
                 : 0;
+
         if (roofSizeDisplayEl) {
           roofSizeDisplayEl.textContent = inferredRoofSize > 0
             ? `${safeFormatNumber(Math.round(inferredRoofSize))} sq ft`
             : "Not available";
         }
+
         if (roofSizeHintEl) {
           roofSizeHintEl.textContent = inferredRoofSize > 0
             ? "We’ll use this unless you change it."
             : "Add roof size manually if you want to improve accuracy.";
         }
+
         if (roofSizeInput && inferredRoofSize > 0 && !roofSizeInput.value) {
           roofSizeInput.value = String(Math.round(inferredRoofSize));
         }
+
         if (editRoofSizeBtn && roofSizeInlineEditor && inlineRoofSizeInput && roofSizeInput) {
           if (editRoofSizeBtn.dataset.bound !== "true") {
             editRoofSizeBtn.addEventListener("click", function () {
@@ -9520,57 +12506,79 @@ function buildComparisonWinnerHtml(summary) {
                 inlineRoofSizeInput.select();
               }
             });
+
             editRoofSizeBtn.dataset.bound = "true";
           }
+
           if (saveRoofSizeBtn && saveRoofSizeBtn.dataset.bound !== "true") {
             saveRoofSizeBtn.addEventListener("click", function () {
               const newValue = Number(inlineRoofSizeInput.value || 0);
               if (!newValue || newValue <= 0) return;
+
               roofSizeInput.value = String(Math.round(newValue));
               roofSizeInput.dataset.source = "user_input";
               roofSizeInput.dataset.confidence = "high";
+
               if (roofSizeDisplayEl) {
                 roofSizeDisplayEl.textContent = `${safeFormatNumber(Math.round(newValue))} sq ft`;
               }
+
               if (roofSizeHintEl) {
                 roofSizeHintEl.textContent = "Using your edited roof size.";
               }
+
               roofSizeInlineEditor.style.display = "none";
             });
+
             saveRoofSizeBtn.dataset.bound = "true";
           }
+
           if (cancelRoofSizeBtn && cancelRoofSizeBtn.dataset.bound !== "true") {
             cancelRoofSizeBtn.addEventListener("click", function () {
               roofSizeInlineEditor.style.display = "none";
             });
+
             cancelRoofSizeBtn.dataset.bound = "true";
           }
         }
         const fileInput = document.getElementById("quoteFile");
         const scanBtn = document.getElementById("scanQuoteBtn");
+
         const uploadBtn = document.getElementById("uploadQuoteBtn");
+
       if (uploadBtn && fileInput && !uploadBtn.dataset.bound) {
           uploadBtn.addEventListener("click", () => {
           fileInput.click();
         });
+
         fileInput.addEventListener("change", async function () {
           const file = fileInput.files?.[0];
           if (!file) return;
+          window.__uploadedQuoteFile = file;
+
+
+          // Immediate UI
           setJourneyStep("analyze");
+
           setTimeout(() => {
             setSmartUploadStatus("upload", 10);
             renderInlineAnalyzingState(10, "Uploading your quote…");
           }, 0);
+
           try {
             const parsedBundle = await parseUploadedComparisonFile(file);
             const parsed = parsedBundle?.parsed || parsedBundle || {};
+
             latestParsed = parsed;
+
             setSmartUploadStatus("extract", 40);
             renderInlineAnalyzingState(40, "Extracting text from your quote…");
+
             setTimeout(() => {
               setSmartUploadStatus("identify", 65);
               renderInlineAnalyzingState(65, "Identifying key details…");
             }, 200);
+
             if (shouldPromoteAddress(latestParsed)) {
               journeyState.propertyPreview = {
                 street: latestParsed.address?.street || "",
@@ -9579,50 +12587,67 @@ function buildComparisonWinnerHtml(summary) {
                 state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
                 zip: latestParsed.address?.zip || ""
               };
+              prefetchCityMultiplier(journeyState.propertyPreview.city, journeyState.propertyPreview.state);
+
               journeyState.propertyConfirmed = false;
               setJourneyStep("confirm");
               return;
             }
+
             setTimeout(() => {
               copyParsedToForm();
             }, 0);
+
             setTimeout(async () => {
               setSmartUploadStatus("analyze", 85);
               renderInlineAnalyzingState(85, "Analyzing pricing…");
               await analyzeQuote();
             }, 400);
+
           } catch (err) {
             console.error(err);
             setUploadStatus("Could not read the uploaded quote.", "error");
           }
         });
+
         uploadBtn.dataset.bound = "true";
         fileInput.dataset.bound = "true";
       }
+
         if (fileInput && scanBtn && fileInput.dataset.bound !== "true") {
           fileInput.addEventListener("change", function () {
             const hasFile = !!fileInput.files?.length;
+
             scanBtn.disabled = !hasFile;
             scanBtn.style.opacity = hasFile ? "1" : "0.5";
             scanBtn.style.cursor = hasFile ? "pointer" : "not-allowed";
           });
+
           fileInput.dataset.bound = "true";
         }
+
         if (scanBtn && scanBtn.dataset.bound !== "true") {
           scanBtn.addEventListener("click", async function () {
             const file = fileInput?.files?.[0];
             if (!file) return;
+
             try {
               setSmartUploadStatus("upload", 10);
+
               if (typeof parseUploadedComparisonFile === "function") {
                 const parsedBundle = await parseUploadedComparisonFile(file);
                 const parsed = parsedBundle?.parsed || parsedBundle || {};
+
                 latestParsed = parsed;
                 copyParsedToForm();
+
+                // ---- PROMOTE PARSED ADDRESS INTO JOURNEY STATE ----
                 if (parsed?.address) {
                   const addr = parsed.address;
+
                   const hasAddress =
                     addr.street && (addr.city || addr.zip) && addr.stateCode;
+
                   if (hasAddress) {
                     journeyState.propertyPreview = {
                       street: addr.street || "",
@@ -9631,26 +12656,33 @@ function buildComparisonWinnerHtml(summary) {
                       state: addr.stateCode || "",
                       zip: addr.zip || ""
                     };
+                    prefetchCityMultiplier(addr.city, addr.stateCode);
+
                     journeyState.propertyConfirmed = true;
                   }
                 }
+
                 const hasPromotedAddress =
                   !!journeyState.propertyPreview?.street &&
                   (!!journeyState.propertyPreview?.city || !!journeyState.propertyPreview?.zip) &&
                   !!journeyState.propertyPreview?.state;
+
                 if (hasPromotedAddress) {
                   setJourneyStep("confirm");
                   return;
                 }
+
                 setJourneyStep("address");
                 return;
               }
+
               setUploadStatus("Quote upload parser is not available yet.", "error");
             } catch (err) {
               console.error(err);
               setUploadStatus("Could not read the uploaded quote.", "error");
             }
           });
+
           scanBtn.dataset.bound = "true";
         }
         const resetBtn = document.getElementById("resetAnalyzerBtn");
@@ -9660,46 +12692,70 @@ function buildComparisonWinnerHtml(summary) {
           });
           resetBtn.dataset.bound = "true";
         }
+
         bindRenderedAnalysisUi();
         initAnalyzerUI();
       }
+     
+
       function initAnalyzerUI() {
         bindComparisonUploadInputs();
+
         if (typeof injectComparisonFieldHints === "function") {
           injectComparisonFieldHints();
         }
+
         setTimeout(() => {
           const btn = document.getElementById("uploadQuoteBtn");
           const input = document.getElementById("quoteFile");
+
           if (btn && input && !input.dataset.bound) {
             btn.addEventListener("click", () => input.click());
+
             input.addEventListener("change", async function () {
               const file = input.files?.[0];
               if (!file) return;
+              window.__uploadedQuoteFile = file;
+
+              if (typeof tpTrack === "function") tpTrack("quote_uploaded", { type: file.type, size: Math.round(file.size/1024) + "kb" });
+
+              // Validate file type
               const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'];
               if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|webp|gif)$/i)) {
                 alert('Please upload a PDF or image file (JPG, PNG, or PDF).');
                 return;
               }
+              // Validate file size (max 20MB)
               if (file.size > 20 * 1024 * 1024) {
                 alert('File is too large. Please upload a file under 20MB.');
                 return;
               }
+
+              // 🔥 IMMEDIATE UI RESPONSE
               setJourneyStep("analyze");
+
               setTimeout(() => {
                 setSmartUploadStatus("upload", 10);
                 renderInlineAnalyzingState(10, "Uploading your quote…");
               }, 0);
+
               try {
+                // 🔥 START PARSING AFTER UI IS VISIBLE
                 const parsedBundle = await parseUploadedComparisonFile(file);
                 const parsed = parsedBundle?.parsed || parsedBundle || {};
+
                 latestParsed = parsed;
+
+                // 🔥 PROGRESS UPDATE
                 setSmartUploadStatus("extract", 40);
                 renderInlineAnalyzingState(40, "Extracting text from your quote…");
+
                 setTimeout(() => {
                   setSmartUploadStatus("identify", 65);
                   renderInlineAnalyzingState(65, "Identifying key details…");
                 }, 200);
+
+                // ADDRESS ROUTING — save address but skip confirm screen
                 if (shouldPromoteAddress(latestParsed)) {
                   journeyState.propertyPreview = {
                     street: latestParsed.address?.street || "",
@@ -9708,25 +12764,33 @@ function buildComparisonWinnerHtml(summary) {
                     state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
                     zip: latestParsed.address?.zip || ""
                   };
+                  prefetchCityMultiplier(journeyState.propertyPreview.city, journeyState.propertyPreview.state);
                 }
+
+                // 🔥 ENSURE FORM EXISTS BEFORE POPULATING
                 setTimeout(() => {
                   copyParsedToForm();
                 }, 0);
+
+                // 🔥 FINAL STEP → ANALYZE
                 setTimeout(async () => {
                   setSmartUploadStatus("analyze", 85);
                   renderInlineAnalyzingState(85, "Analyzing pricing…");
                   await analyzeQuote();
                 }, 400);
+
               } catch (err) {
                 console.error(err);
                 setUploadStatus("Could not read the uploaded quote.", "error");
               }
             });
+
             btn.dataset.bound = "true";
             input.dataset.bound = "true";
           }
         }, 0);
       }
+
     function bindRenderedAnalysisUi() {
       bindRoofSizeSuggestionActions(latestAnalysis);
       bindPrimaryCtaActions(latestAnalysis);
@@ -9734,6 +12798,7 @@ function buildComparisonWinnerHtml(summary) {
       bindRoofCalculatorActions();
       renderRoofCalculatorOutput();
     }
+
     window.__tpDebug = {
       setLatestParsed(value) {
         latestParsed = value;
@@ -9750,14 +12815,18 @@ function buildComparisonWinnerHtml(summary) {
       clearTrackingEvents,
       getTrackingSession
     };
+
     window.showNegotiateScreen = function showNegotiateScreen() {
       const root = document.getElementById("appRoot");
       if (!root) return;
+
       const questions = typeof buildContractorQuestions === "function"
         ? buildContractorQuestions(latestAnalysis)
         : [];
+
       const a = latestAnalysis || {};
       const verdictSummary = `${safeFormatCurrency(a.quotePrice)} | ${a.verdict || "Unknown"} | ${a.city || ""}${a.stateCode ? ", " + a.stateCode : ""}`;
+
       root.innerHTML = `
         <div style="max-width:800px; margin:40px auto; padding:0 24px;">
           <div style="font-size:13px; color:var(--muted, #6b7280); margin-bottom:16px; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px;">
@@ -9776,14 +12845,19 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
     }
+
+    // Compare state — stores parsed data and scope overrides for quotes 2 and 3
     const compareState = { q2: null, q3: null, scopeOverrides: {} };
+
     function getScopeStatus(label, key, signals) {
+      // Check overrides first, then OCR signals
       const overrideKey = label + "|" + key;
       if (overrideKey in compareState.scopeOverrides) {
         return compareState.scopeOverrides[overrideKey] ? "included" : "unclear";
       }
       return signals[key]?.status || "unclear";
     }
+
     function buildQuoteSummary(parsed, label) {
       if (!parsed) return null;
       const signals = parsed.signals || {};
@@ -9804,6 +12878,7 @@ function buildComparisonWinnerHtml(summary) {
         parsed
       };
     }
+
     function renderCompareGrid(quotes) {
       const scopeItems = [
         { key: "tearOff", label: "Tear off" },
@@ -9819,19 +12894,29 @@ function buildComparisonWinnerHtml(summary) {
           { key: "disposal", label: "Disposal" },
           { key: "permit", label: "Permit" },
       ];
+
+      // Find winner: best value = strong scope + low price + good warranty
+      // Price: lower is better (rank among quotes), with red flag only if scope weak AND price suspiciously low
       const mid = latestAnalysis?.mid || 0;
       const maxPrice = Math.max(...quotes.map(q => q.price), 1);
       let bestIdx = 0;
       let bestScore = -1;
       quotes.forEach((q, i) => {
-        const scopeScore = q.scopeConfirmed * 10; 
+        const scopeScore = q.scopeConfirmed * 10; // 0-100
+
+        // Price score: lower price = higher score (relative to other quotes)
         const priceScore = Math.round((1 - q.price / maxPrice) * 100);
+
+        // Red flag: very low price AND weak scope = suspicious
         const isSuspicious = mid > 0 && q.price < mid * 0.5 && q.scopeConfirmed < 5;
         const suspiciousPenalty = isSuspicious ? 30 : 0;
+
         const warrantyScore = q.warrantyYears ? Math.min(Number(q.warrantyYears), 50) : 0;
+
         q.totalScore = Math.max(0, Math.round(scopeScore * 0.45 + priceScore * 0.35 + warrantyScore * 0.2 - suspiciousPenalty));
         if (q.totalScore > bestScore) { bestScore = q.totalScore; bestIdx = i; }
       });
+
       const cols = quotes.length;
       const colW = Math.floor(100 / (cols + 1));
       const hdr = (label) => `<div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); padding:8px 0;">${label}</div>`;
@@ -9840,30 +12925,44 @@ function buildComparisonWinnerHtml(summary) {
         const isIncluded = status === "included";
         return `<span onclick="toggleCompareScope('${quoteLabel}','${scopeKey}')" style="cursor:pointer; display:inline-block; padding:2px 6px; border-radius:4px; transition:all 0.1s; ${isIncluded ? "color:#16a34a; font-weight:700; background:#ecfdf5;" : "color:#d97706; background:#fffbeb;"}" title="Click to toggle">${isIncluded ? "&#10003;" : "?"}</span>`;
       };
+
       let rows = "";
+
+      // Contractor row
       rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
       rows += hdr("Contractor");
       quotes.forEach((q, i) => rows += cell(`<strong>${escapeHtml(q.contractor)}</strong>${i === bestIdx ? ' <span style="background:#16a34a; color:#fff; font-size:10px; padding:2px 6px; border-radius:999px; font-weight:700;">BEST</span>' : ''}`, i === bestIdx));
       rows += "</div>";
+
+      // Price row
       rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
       rows += hdr("Price");
       quotes.forEach((q, i) => rows += cell(`<strong>${safeFormatCurrency(q.price)}</strong>`, i === bestIdx));
       rows += "</div>";
+
+      // $/sqft row
       rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
       rows += hdr("$/sq ft");
       quotes.forEach((q, i) => rows += cell(q.roofSize > 0 ? "$" + (q.price / q.roofSize).toFixed(2) : "—", i === bestIdx));
       rows += "</div>";
+
+      // Material row
       rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
       rows += hdr("Material");
       quotes.forEach((q, i) => rows += cell(escapeHtml(q.material), i === bestIdx));
       rows += "</div>";
+
+      // Warranty row
       rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
       rows += hdr("Warranty");
       quotes.forEach((q, i) => rows += cell(q.warrantyYears ? q.warrantyYears + " yr" : "?", i === bestIdx));
       rows += "</div>";
+
+      // Scope score row (recalculated with overrides)
       rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f1f5f9;">`;
       rows += hdr("Scope");
       quotes.forEach((q, i) => {
+        // Recalculate with overrides
         const liveConfirmed = scopeItems.filter(si => getScopeStatus(q.label, si.key, q.signals) === "included").length;
         q.scopeConfirmed = liveConfirmed;
         const pct = Math.round((liveConfirmed / q.scopeTotal) * 100);
@@ -9871,6 +12970,8 @@ function buildComparisonWinnerHtml(summary) {
         rows += cell(`<strong style="color:${color};">${liveConfirmed}/${q.scopeTotal}</strong>`, i === bestIdx);
       });
       rows += "</div>";
+
+      // Individual scope items (clickable to toggle)
       scopeItems.forEach(item => {
         rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-bottom:1px solid #f8fafc;">`;
         rows += `<div style="font-size:12px; color:var(--muted); padding:4px 0;">${item.label}</div>`;
@@ -9880,10 +12981,14 @@ function buildComparisonWinnerHtml(summary) {
         });
         rows += "</div>";
       });
+
+      // Overall score row
       rows += `<div style="display:grid; grid-template-columns:120px repeat(${cols}, 1fr); border-top:2px solid #e2e8f0; margin-top:4px;">`;
       rows += hdr("Score");
       quotes.forEach((q, i) => rows += cell(`<strong style="font-size:18px;">${q.totalScore}</strong><span style="font-size:12px; color:var(--muted);">/100</span>`, i === bestIdx));
       rows += "</div>";
+
+      // Winner declaration
       const winner = quotes[bestIdx];
       const reasons = [];
       if (winner.scopeConfirmed >= 7) reasons.push("Most complete scope (" + winner.scopeConfirmed + " of " + winner.scopeTotal + " items)");
@@ -9895,11 +13000,14 @@ function buildComparisonWinnerHtml(summary) {
       }
       if (winner.warrantyYears && Number(winner.warrantyYears) >= 10) reasons.push("Strong warranty (" + winner.warrantyYears + " years)");
       if (reasons.length === 0) reasons.push("Best overall value based on price, scope, and warranty");
+
+      // Check for low-bid warnings
       const cheapest = [...quotes].sort((a, b) => a.price - b.price)[0];
       let cheapWarning = "";
       if (cheapest !== winner && cheapest.scopeConfirmed < 5) {
         cheapWarning = `<div style="margin-top:12px; padding:10px 14px; background:#fffbeb; border:1px solid #fde68a; border-radius:8px; font-size:13px; color:#92400e;">${escapeHtml(cheapest.contractor)} (${safeFormatCurrency(cheapest.price)}) is cheapest but only confirms ${cheapest.scopeConfirmed} scope items — likely incomplete.</div>`;
       }
+
       const winnerCard = `
         <div style="margin-top:20px; padding:20px; background:#ecfdf5; border:2px solid #a7f3d0; border-radius:14px;">
           <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#166534; margin-bottom:6px;">Winner</div>
@@ -9911,18 +13019,24 @@ function buildComparisonWinnerHtml(summary) {
           ${cheapWarning}
         </div>
       `;
+
       const hint = `<div style="font-size:12px; color:var(--muted); text-align:center; margin-top:8px;">Tap any ✓ or ? to correct scope items. Winner recalculates automatically.</div>`;
       return `<div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; overflow-x:auto; background:#fff;">${rows}</div>${hint}${winnerCard}`;
     }
+
     window.showCompareScreen = function showCompareScreen() {
       const root = document.getElementById("appRoot");
       if (!root) return;
+
       const a = latestAnalysis || {};
       const parsed = latestParsed || {};
       const q1 = buildQuoteSummary(parsed, "Quote 1");
       if (q1) { q1.price = a.quotePrice || q1.price; }
+
+      // Build quote 1 summary display
       const scopeKeys = ["tearOff","underlayment","flashing","iceShield","dripEdge","ventilation","ridgeVent","starterStrip","ridgeCap","decking","disposal","permit"];
       const q1Confirmed = scopeKeys.filter(k => (parsed.signals || {})[k]?.status === "included").length;
+
       function renderUploadCard(num, state) {
         const p = state;
         if (p) {
@@ -9949,10 +13063,12 @@ function buildComparisonWinnerHtml(summary) {
             <input id="comparePrice${num}" type="number" placeholder="Total price" style="width:60%; padding:8px; border:1px solid #e2e8f0; border-radius:6px; font-size:13px; margin-top:6px;">
           </div>`;
       }
+
       root.innerHTML = `
         <div style="max-width:900px; margin:40px auto; padding:0 24px;">
           <h2 style="margin:0 0 8px; font-size:28px;">Compare your quotes</h2>
           <p style="color:var(--muted); margin:0 0 24px;">Upload competing bids. We'll parse each one and compare scope, price, and warranty side by side.</p>
+
           <div style="display:grid; grid-template-columns:repeat(${compareState.q3 || true ? 3 : 2}, 1fr); gap:12px; margin-bottom:24px;">
             <div style="padding:16px; border:1px solid #e2e8f0; border-radius:12px; background:#f8fafc;">
               <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Your quote</div>
@@ -9963,13 +13079,17 @@ function buildComparisonWinnerHtml(summary) {
             ${renderUploadCard(2, compareState.q2)}
             ${renderUploadCard(3, compareState.q3)}
           </div>
+
           <div id="compareGridOutput"></div>
+
           <div class="action-buttons" style="margin-top:20px;">
             <button class="btn" id="runCompareBtn" onclick="runFullComparison()">Compare and pick winner</button>
             <button class="btn secondary" onclick="setJourneyStep('result')">Back to result</button>
           </div>
         </div>
       `;
+
+      // Bind file uploads
       [2, 3].forEach(num => {
         const fileInput = document.getElementById("compareFile" + num);
         if (fileInput) {
@@ -9985,7 +13105,7 @@ function buildComparisonWinnerHtml(summary) {
               compareState["q" + num] = p;
               if (num === 2) secondParsed = p;
               if (num === 3) thirdParsed = p;
-              showCompareScreen(); 
+              showCompareScreen(); // Re-render with parsed data
             } catch (e) {
               if (status) status.textContent = "Could not read this file. Try another.";
             }
@@ -9993,15 +13113,21 @@ function buildComparisonWinnerHtml(summary) {
         }
       });
     }
+
     window.toggleCompareScope = function toggleCompareScope(quoteLabel, scopeKey) {
       const overrideKey = quoteLabel + "|" + scopeKey;
       const current = compareState.scopeOverrides[overrideKey];
       if (current === undefined) {
-        compareState.scopeOverrides[overrideKey] = true; 
+        // First toggle: flip from OCR detection
+        // Need to figure out what OCR detected — check if it was included
+        // If unclear, set to included; if included, set to unclear
+        compareState.scopeOverrides[overrideKey] = true; // Default: mark as included
       } else {
         compareState.scopeOverrides[overrideKey] = !current;
       }
+      // Re-render the comparison grid
       runFullComparison();
+      // Flash the winner card briefly
       setTimeout(function() {
         var winnerCard = document.querySelector('[style*="border:2px solid #a7f3d0"]');
         if (winnerCard) {
@@ -10011,18 +13137,25 @@ function buildComparisonWinnerHtml(summary) {
         }
       }, 100);
     };
+
     window.clearCompareQuote = function clearCompareQuote(num) {
       compareState["q" + num] = null;
       if (num === 2) secondParsed = null;
       if (num === 3) thirdParsed = null;
       showCompareScreen();
     };
+
     window.runFullComparison = function runFullComparison() {
       const a = latestAnalysis || {};
       const parsed = latestParsed || {};
+
       const quotes = [];
+
+      // Quote 1 (primary)
       const q1 = buildQuoteSummary(parsed, "Quote 1");
       if (q1) { q1.price = a.quotePrice || q1.price; quotes.push(q1); }
+
+      // Quote 2
       if (compareState.q2) {
         const q2 = buildQuoteSummary(compareState.q2, "Quote 2");
         if (q2 && q2.price > 0) quotes.push(q2);
@@ -10032,6 +13165,8 @@ function buildComparisonWinnerHtml(summary) {
           quotes.push({ label: "Quote 2", contractor: "Quote 2", price: manualPrice, material: "Unknown", warranty: "", warrantyYears: "", roofSize: 0, scopeConfirmed: 0, scopeTotal: 10, signals: {}, totalScore: 0 });
         }
       }
+
+      // Quote 3
       if (compareState.q3) {
         const q3 = buildQuoteSummary(compareState.q3, "Quote 3");
         if (q3 && q3.price > 0) quotes.push(q3);
@@ -10041,20 +13176,67 @@ function buildComparisonWinnerHtml(summary) {
           quotes.push({ label: "Quote 3", contractor: "Quote 3", price: manualPrice, material: "Unknown", warranty: "", warrantyYears: "", roofSize: 0, scopeConfirmed: 0, scopeTotal: 10, signals: {}, totalScore: 0 });
         }
       }
+
       if (quotes.length < 2) {
         const output = document.getElementById("compareGridOutput");
         if (output) output.innerHTML = '<div style="padding:16px; color:#b91c1c; text-align:center;">Upload or enter at least one competing quote to compare.</div>';
         return;
       }
+
       const output = document.getElementById("compareGridOutput");
       if (output) output.innerHTML = renderCompareGrid(quotes);
     };
+
+    window.saveAnalysisAsPdf = function saveAnalysisAsPdf() {
+      var resultEl = document.getElementById("analysisOutput") || document.querySelector(".estimator-result");
+      if (!resultEl) return;
+      if (typeof html2canvas === "undefined") {
+        window.loadVendorLibs && window.loadVendorLibs().then(function() { doCapture(); });
+      } else {
+        doCapture();
+      }
+      function doCapture() {
+        html2canvas(resultEl, { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
+          var link = document.createElement("a");
+          link.download = "trueprice-analysis.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+          track("analysis_saved_pdf", {});
+        });
+      }
+    };
+
+    window.submitEstimateFeedback = function submitEstimateFeedback(response) {
+      var fb = document.getElementById("estimateFeedback");
+      if (!fb) return;
+      track("estimate_feedback", {
+        response: response,
+        verdict: latestAnalysis?.verdict || "",
+        confidence: latestAnalysis?.analysisConfidenceLabel || "",
+        city: latestAnalysis?.city || journeyState?.propertyPreview?.city || "",
+        state: latestAnalysis?.stateCode || journeyState?.propertyPreview?.stateCode || ""
+      });
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "event",
+          event: "estimate_feedback",
+          meta: { response: response, verdict: latestAnalysis?.verdict || "" },
+          path: window.location.pathname
+        })
+      }).catch(function() {});
+      fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
+    };
+
     window.showShareScreen = function showShareScreen() {
       const root = document.getElementById("appRoot");
       if (!root) return;
+
       const a = window.__latestAnalysis || {};
       const parsed = latestParsed || {};
       const signals = parsed.signals || {};
+
       const contractor = parsed.contractor && parsed.contractor !== "Not detected" ? repairDisplayText(parsed.contractor) : "";
       const city = repairDisplayText(a.city || "");
       const state = a.stateCode || "";
@@ -10064,6 +13246,8 @@ function buildComparisonWinnerHtml(summary) {
       const roofSize = roofMeta?.value ?? a?.roofSize ?? null;
       const ppsf = roofSize > 0 ? (a.quotePrice / roofSize).toFixed(2) : null;
       const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+      // Scope items
       const scopeItems = [
         { key: "tearOff", label: "Tear off" },
         { key: "underlayment", label: "Underlayment" },
@@ -10078,17 +13262,22 @@ function buildComparisonWinnerHtml(summary) {
           { key: "disposal", label: "Disposal" },
           { key: "permit", label: "Permit" },
       ];
+
       const foundItems = scopeItems.filter(i => scopeReviewState[i.key] || signals[i.key]?.status === "included");
       const missingItems = scopeItems.filter(i => !scopeReviewState[i.key] && signals[i.key]?.status !== "included");
+
       const scopeHtml = `
         <div class="report-scope-grid">
           ${foundItems.map(i => `<span class="report-scope-item report-scope-item--found">&#10003; ${escapeHtml(i.label)}</span>`).join("")}
           ${missingItems.map(i => `<span class="report-scope-item report-scope-item--missing">? ${escapeHtml(i.label)}</span>`).join("")}
         </div>
       `;
+
+      // Delta
       const deltaFromMid = a.quotePrice - a.mid;
       const deltaAbs = Math.abs(deltaFromMid);
       const deltaDir = deltaFromMid > 0 ? "above" : "below";
+
       root.innerHTML = `
         <div class="report-container">
           <div class="report-card">
@@ -10098,12 +13287,15 @@ function buildComparisonWinnerHtml(summary) {
                 Quote Analysis Report<br>${escapeHtml(date)}
               </div>
             </div>
+
             <div class="report-body">
+
               <div class="report-section">
                 <div class="report-section-title">Verdict</div>
                 <div class="report-verdict">${escapeHtml(getVerdictHeadline(a.verdict))}</div>
                 ${deltaAbs >= 100 ? `<div class="report-delta">${safeFormatCurrency(deltaAbs)} ${deltaDir} expected midpoint</div>` : ""}
               </div>
+
               <div class="report-section">
                 <div class="report-section-title">Quote Details</div>
                 <div class="report-stat-grid">
@@ -10127,6 +13319,7 @@ function buildComparisonWinnerHtml(summary) {
                   ${a.warrantyYears ? `<div class="report-stat"><div class="report-stat-label">Warranty</div><div class="report-stat-value">${escapeHtml(String(a.warrantyYears))} years</div></div>` : ""}
                 </div>
               </div>
+
               ${contractor ? `
                 <div class="report-section">
                   <div class="report-section-title">Contractor</div>
@@ -10134,11 +13327,13 @@ function buildComparisonWinnerHtml(summary) {
                   ${location !== "your area" ? `<div style="font-size:14px; color:var(--muted);">${escapeHtml(location)}</div>` : ""}
                 </div>
               ` : ""}
+
               <div class="report-section">
                 <div class="report-section-title">Scope Items</div>
                 ${scopeHtml}
                 ${missingItems.length > 0 ? `<div style="margin-top:10px; font-size:13px; color:#92400e;">${missingItems.length} item${missingItems.length > 1 ? "s" : ""} not confirmed in quote</div>` : `<div style="margin-top:10px; font-size:13px; color:#166534;">All scope items confirmed</div>`}
               </div>
+
               <div class="report-section">
                 <div class="report-section-title">Market Context</div>
                 <div style="font-size:14px; color:var(--text); line-height:1.6;">
@@ -10146,11 +13341,14 @@ function buildComparisonWinnerHtml(summary) {
                   ${deltaAbs >= 100 ? ` This quote is ${safeFormatCurrency(deltaAbs)} ${deltaDir} the midpoint.` : " This quote is in line with expected pricing."}
                 </div>
               </div>
+
             </div>
+
             <div class="report-footer">
               Generated by TruePrice &bull; truepricehq.com &bull; ${escapeHtml(date)}
             </div>
           </div>
+
           <div class="action-buttons report-actions" style="margin-top:20px; justify-content:center;">
             <button class="btn secondary" onclick="copyShareableReportText()">Copy as text</button>
             <button class="btn secondary" onclick="window.print()">Print / Save PDF</button>
@@ -10159,9 +13357,11 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
     }
+
     window.showDetailsScreen = function showDetailsScreen() {
       const output = document.getElementById("analysisOutput");
       if (!output) return;
+
       output.innerHTML = `
         <div>
           ${buildResultTrustHtml(latestAnalysis)}
@@ -10170,9 +13370,11 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
     }
+
     function getBrandFooterText() {
       return "Generated by TruePrice Roofing Quote Analyzer";
     }
+
     window.setUploadStatus = setUploadStatus;
     window.analyzeParsedText = analyzeParsedText;
     window.analyzeQuote = analyzeQuote;
@@ -10194,11 +13396,16 @@ function buildComparisonWinnerHtml(summary) {
     window.renderShareableReport = renderShareableReport;
     window.renderAnalysisResultUi = renderAnalysisResultUi;
     window.mountExistingAnalyzer = mountExistingAnalyzer;
+    
     window.renderApp = function renderApp() {
       const root = document.getElementById("appRoot");
       if (!root) return;
+
+
       if (journeyState.step === "address") {
         root.innerHTML = renderAddressStep();
+
+        // Bind upload button on the address step
         setTimeout(() => {
           const btn = document.getElementById("uploadQuoteBtn");
           const input = document.getElementById("quoteFile");
@@ -10208,11 +13415,15 @@ function buildComparisonWinnerHtml(summary) {
             input.addEventListener("change", async function () {
               const file = input.files?.[0];
               if (!file) return;
+              window.__uploadedQuoteFile = file;
+
               renderAnalyzingState();
+
               try {
                 const parsedBundle = await parseUploadedComparisonFile(file);
                 const parsed = parsedBundle?.parsed || parsedBundle || {};
                 latestParsed = parsed;
+
                 if (shouldPromoteAddress(latestParsed)) {
                   journeyState.propertyPreview = {
                     street: latestParsed.address?.street || "",
@@ -10221,7 +13432,9 @@ function buildComparisonWinnerHtml(summary) {
                     state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
                     zip: latestParsed.address?.zip || ""
                   };
+                  prefetchCityMultiplier(journeyState.propertyPreview.city, journeyState.propertyPreview.state);
                 }
+                // Skip confirm screen — go straight to analysis
                 journeyState.propertyConfirmed = true;
                 confirmProperty();
               } catch (err) {
@@ -10231,6 +13444,106 @@ function buildComparisonWinnerHtml(summary) {
               }
             });
           }
+
+          // Upload drop zone binding (for ?mode=upload)
+          const dropZone = document.getElementById("uploadDropZone");
+          if (dropZone) {
+            const dzInput = dropZone.querySelector("#quoteFile") || document.getElementById("quoteFile");
+            if (dzInput) {
+              dropZone.addEventListener("click", () => dzInput.click());
+              dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.style.borderColor = "#1d4ed8"; dropZone.style.background = "#eff6ff"; });
+              dropZone.addEventListener("dragleave", () => { dropZone.style.borderColor = "#bfdbfe"; dropZone.style.background = "#f8fbff"; });
+              dropZone.addEventListener("drop", (e) => {
+                e.preventDefault();
+                dropZone.style.borderColor = "#bfdbfe"; dropZone.style.background = "#f8fbff";
+                const file = e.dataTransfer?.files?.[0];
+                if (file) { const dt = new DataTransfer(); dt.items.add(file); dzInput.files = dt.files; dzInput.dispatchEvent(new Event("change")); }
+              });
+              if (!dzInput.dataset.bound) {
+                dzInput.dataset.bound = "true";
+                dzInput.addEventListener("change", async function () {
+                  const file = dzInput.files?.[0];
+                  if (!file) return;
+                  window.__uploadedQuoteFile = file;
+                  renderAnalyzingState();
+                  try {
+                    const parsedBundle = await parseUploadedComparisonFile(file);
+                    const parsed = parsedBundle?.parsed || parsedBundle || {};
+                    latestParsed = parsed;
+                    if (shouldPromoteAddress(latestParsed)) {
+                      journeyState.propertyPreview = {
+                        street: latestParsed.address?.street || "",
+                        apt: "",
+                        city: latestParsed.city || latestParsed.address?.city || "",
+                        state: latestParsed.stateCode || latestParsed.address?.stateCode || "",
+                        zip: latestParsed.address?.zip || ""
+                      };
+                      prefetchCityMultiplier(journeyState.propertyPreview.city, journeyState.propertyPreview.state);
+                    }
+                    journeyState.propertyConfirmed = true;
+                    confirmProperty();
+                  } catch (err) {
+                    journeyState.propertyConfirmed = true;
+                    confirmProperty();
+                  }
+                });
+              }
+            }
+          }
+
+          // Sample result link binding
+          const sampleLink = document.getElementById("showSampleResult");
+          if (sampleLink) {
+            sampleLink.addEventListener("click", function(e) {
+              e.preventDefault();
+              window.__latestAnalysis = {
+                _isSample: true,
+                quotePrice: 14500,
+                material: "architectural",
+                roofSize: 2200,
+                city: "Dallas",
+                stateCode: "TX",
+                verdict: "fair",
+                low: 12800,
+                mid: 14450,
+                high: 16100,
+                confidenceScore: 72,
+                confidenceLabel: "Medium",
+                warrantyYears: 30,
+                roofSizeEstimateSource: "sample",
+                recommendation: { action: "PROCEED" },
+                riskFlags: [],
+                conflictSignals: [],
+                meta: {
+                  pricing: { deltaFromMid: 50 },
+                  confidence: { overallTier: "Medium" },
+                  roofSize: { value: 2200, source: "sample", confidence: "Medium" }
+                }
+              };
+              latestParsed = {
+                contractor: "Sample Roofing Co.",
+                signals: {
+                  tearOff: { status: "included" },
+                  underlayment: { status: "included" },
+                  flashing: { status: "included" },
+                  ventilation: { status: "included" },
+                  dripEdge: { status: "included" },
+                  disposal: { status: "included" },
+                  permit: { status: "included" },
+                  decking: { status: "included" },
+                  ridgeVent: { status: "included" },
+                  starterStrip: { status: "unclear" },
+                  ridgeCap: { status: "unclear" }
+                }
+              };
+              // Reset scope review state for the sample
+              Object.keys(scopeReviewState).forEach(function(k) { delete scopeReviewState[k]; });
+              journeyState.step = "result";
+              renderApp();
+            });
+          }
+
+          // Address autocomplete binding
           const addrInput = document.getElementById("journeyStreetAddress");
           const sugBox = document.getElementById("addressSuggestions");
           if (addrInput && sugBox) {
@@ -10266,6 +13579,7 @@ function buildComparisonWinnerHtml(summary) {
                 } catch (e) { sugBox.style.display = "none"; }
               }, 300);
             });
+            // Hide suggestions on click outside
             document.addEventListener("click", function(e) {
               if (!addrInput.contains(e.target) && !sugBox.contains(e.target)) {
                 sugBox.style.display = "none";
@@ -10273,129 +13587,305 @@ function buildComparisonWinnerHtml(summary) {
             });
           }
         }, 0);
+
+        // When arriving from photo-estimate "Enter your address" box, scroll
+        // the address card into view so the form is centered on screen.
+        if (new URLSearchParams(window.location.search).get("mode") === "estimator") {
+          setTimeout(function() {
+            var addrCard = document.getElementById("journeyStreetAddress");
+            if (addrCard) addrCard.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 100);
+        }
+
         return;
       }
+
       if (journeyState.step === "confirm") {
         root.innerHTML = renderConfirmStep();
         return;
       }
+
       if (journeyState.step === "property_not_found") {
         root.innerHTML = renderPropertyNotFoundStep();
         return;
       }
+
+      if (journeyState.step === "estimator") {
+        root.innerHTML = renderEstimatorStep();
+        bindEstimatorEvents();
+        return;
+      }
+
+      if (journeyState.step === "estimator_result") {
+        root.innerHTML = renderEstimatorResultStep();
+        setTimeout(function() {
+          document.querySelectorAll('.animate-count').forEach(function(el) {
+            var target = parseInt(el.dataset.target);
+            var prefix = el.dataset.prefix || '';
+            animateCount(el, target, prefix, 800);
+          });
+        }, 50);
+        return;
+      }
+
       if (journeyState.step === "analyze") {
         root.innerHTML = renderAnalyzeStep();
+
         if (typeof mountExistingAnalyzer === "function") {
           setTimeout(() => {
             mountExistingAnalyzer("analyzeMount");
           }, 0);
         }
+
         return;
       }
+
       if (journeyState.step === "result") {
+      if (typeof tpTrack === "function") { var _a = window.__latestAnalysis; tpTrack("analysis_completed", { verdict: _a?.verdict || "", price: String(_a?.quotePrice || ""), material: _a?.material || "", city: _a?.city || "" }); }
       root.innerHTML = renderResultStep();
+
+      // Bind side-by-side button if present
+      setTimeout(function() {
+        var sbsBtn = document.getElementById("toggleSideBySide");
+        if (sbsBtn) {
+          sbsBtn.addEventListener("click", function() {
+            window.toggleSideBySide();
+          });
+        }
+      }, 0);
+
       return;
     }
     };
+
     window.renderAddressStep = function renderAddressStep() {
       const urlParams = new URLSearchParams(window.location.search);
+
+      // Redirect compare mode to standalone compare page
+      if (urlParams.get("mode") === "compare") {
+        window.location.href = "/compare-quotes.html";
+        return "";
+      }
+
       const prefillCity = urlParams.get("city") || "";
       const prefillState = urlParams.get("state") || "";
+      const isEstimatorMode = urlParams.get("mode") === "estimator";
+      const isUploadMode = urlParams.get("mode") === "upload";
+      const isMobileDevice = /Mobi|Android|iPhone/i.test(navigator.userAgent);
       const localContext = prefillCity && prefillState
         ? `<div style="margin:0 0 18px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; font-size:14px; color:#166534; font-weight:500;">Showing local pricing for ${escapeHtml(prefillCity)}, ${escapeHtml(prefillState)}</div>`
         : "";
+
+      // (Was: separate "Previous analysis found" card from tp_last_analysis.
+      // Removed — the "Welcome back" card below covers the same info from
+      // tp_quote_history without duplicating it.)
+      let resumeHtml = "";
+
+      // Build returning-user welcome section
+      let returningUserHtml = "";
+      try {
+        const qHistory = JSON.parse(localStorage.getItem("tp_quote_history") || "[]");
+        if (qHistory.length > 0) {
+          const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+          const fmtDate = function(iso) { const d = new Date(iso); return months[d.getMonth()] + " " + d.getDate(); };
+          const fmtPrice = function(p) { return "$" + Number(p).toLocaleString("en-US", { maximumFractionDigits: 0 }); };
+          const fmtVerdict = function(v) { return v === "fair" ? " &mdash; it was fair" : v === "high" ? " &mdash; it was high" : v === "low" ? " &mdash; it was low" : ""; };
+          const latest = qHistory[0];
+          returningUserHtml += '<div style="margin-bottom:20px; padding:16px 20px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:14px;">'
+            + '<div style="font-size:14px; font-weight:600; color:#166534; margin-bottom:8px;">Welcome back</div>'
+            + '<div style="font-size:14px; color:#475569;">You last analyzed a <strong>' + fmtPrice(latest.price) + '</strong> ' + escapeHtml(latest.material || "roofing") + ' quote' + fmtVerdict(latest.verdict) + ' on ' + fmtDate(latest.timestamp) + '. Upload another to compare.</div>'
+            + '</div>';
+          if (qHistory.length >= 2) {
+            const items = qHistory.slice(0, 5);
+            let rows = "";
+            for (var qi = 0; qi < items.length; qi++) {
+              const h = items[qi];
+              const verdictColor = h.verdict === "fair" ? "#166534" : h.verdict === "high" ? "#b91c1c" : h.verdict === "low" ? "#1d4ed8" : "#475569";
+              const verdictLabel = h.verdict ? h.verdict.charAt(0).toUpperCase() + h.verdict.slice(1) : "\u2014";
+              const loc = [h.city, h.state].filter(Boolean).join(", ");
+              rows += '<div style="display:grid; grid-template-columns:70px 80px 100px 1fr auto; gap:8px; align-items:center; padding:6px 0;' + (qi < items.length - 1 ? ' border-bottom:1px solid #e5e7eb;' : '') + '">'
+                + '<span style="font-size:13px; color:#475569;">' + fmtDate(h.timestamp) + '</span>'
+                + '<span style="font-size:13px; font-weight:600; color:#0f172a; text-align:right;">' + fmtPrice(h.price) + '</span>'
+                + '<span style="font-size:13px; color:#475569; text-align:center;">' + escapeHtml(h.material || "\u2014") + '</span>'
+                + '<span style="font-size:12px; font-weight:600; color:' + verdictColor + ';">' + escapeHtml(verdictLabel) + '</span>'
+                + '<span style="font-size:12px; color:#94a3b8; text-align:right;">' + escapeHtml(loc || "") + '</span>'
+                + '</div>';
+            }
+            returningUserHtml += '<details style="margin-bottom:20px;">'
+              + '<summary style="cursor:pointer; font-size:13px; font-weight:600; color:#2563eb; margin-bottom:8px;">Your quote history (' + qHistory.length + ')</summary>'
+              + '<div style="padding:8px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">' + rows + '</div>'
+              + '</details>';
+          }
+        }
+      } catch(e) {}
+
       return `
+        <style></style>
         <div class="journey-start">
-          <div class="journey-start-card" style="max-width:720px; margin:48px auto; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
+
+          ${(resumeHtml || returningUserHtml) ? `
+          <div style="max-width:720px; margin:24px auto 0;">
+            ${resumeHtml}
+            ${returningUserHtml}
+          </div>
+          ` : ''}
+
+          <div class="journey-start-card" style="max-width:720px; margin:24px auto 48px; padding:30px; background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
+
             ${localContext}
+
+            ${(isEstimatorMode || isUploadMode) ? '' : `
             <h1 style="margin:0 0 10px; font-size:38px; line-height:1.05; letter-spacing:-0.03em; color:#0f172a;">
               Is your roofing quote fair?
             </h1>
+            `}
+
+            ${isUploadMode ? `
+            <div style="text-align:center; margin-bottom:24px;">
+              <img src="/images/trudy-peeking.png" alt="Trudy" width="100" style="margin-bottom:10px;" />
+              <h2 style="margin:0 0 8px; font-size:26px; color:#0f172a;">Upload your roofing quote</h2>
+              <p style="margin:0; font-size:15px; color:#64748b; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">Trudy will check the price, scope, and flag anything missing.</p>
+            </div>
+
+            <div style="border:2px dashed #bfdbfe; border-radius:18px; padding:3rem 1.5rem; text-align:center; background:#f8fbff; cursor:pointer; transition:border-color 0.2s, background 0.2s, transform 0.15s;" id="uploadDropZone" onmouseover="this.style.borderColor='#3b82f6';this.style.background='#eff6ff';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#bfdbfe';this.style.background='#f8fbff';this.style.transform='none'">
+              <div style="font-size:48px; margin-bottom:12px;">&#128196;</div>
+              <p style="font-size:18px; font-weight:600; color:#1e293b; margin:0 0 6px;">${isMobileDevice ? "Tap to photograph your quote" : "Drop your quote here or click to upload"}</p>
+              <p style="font-size:14px; color:#94a3b8; margin:0 0 12px;">${isMobileDevice ? "Take a photo of the paper quote" : "PDF, screenshot, or photo of your contractor's estimate"}</p>
+              <div style="font-size:11px; color:#94a3b8; padding-top:12px; border-top:1px solid #e2e8f0;">Your quote stays private. Processed in your browser, never stored or shared.</div>
+              <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
+            </div>
+
+            <!-- photo option removed -->
+
+            <div style="text-align:center; margin-top:12px;">
+              <a href="/analyze-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a>
+            </div>
+
+            ` : isEstimatorMode ? '' : `
             <p class="muted" style="margin:0 0 24px; font-size:16px;">
               Upload your quote. Get your answer in 30 seconds. Free, private, no signup.
             </p>
-            <!-- PRIMARY: UPLOAD -->
-            <div style="border:2px solid #bfdbfe; border-radius:18px; padding:28px; text-align:center; margin:0 0 24px; background:#f8fbff;">
-              <div style="font-size:22px; font-weight:700; margin-bottom:8px; color:#0f172a;">
-                Upload your roofing quote
+
+            <!-- Upload quote (primary action) -->
+            <div style="margin:0 0 24px;">
+
+              <div style="border:2px solid #dbeafe; border-radius:18px; padding:28px; text-align:center; background:#eff6ff;">
+                <div style="font-size:42px; margin-bottom:8px;">&#128196;</div>
+                <div style="font-size:19px; font-weight:700; margin-bottom:6px; color:#0f172a;">Upload Your Roofing Quote</div>
+                <div class="small muted" style="margin-bottom:14px; font-size:14px;">Photo, screenshot, or PDF of your contractor quote</div>
+                <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
+                <button type="button" class="btn" id="uploadQuoteBtn" style="font-size:16px; padding:14px 28px; width:100%; box-sizing:border-box;">
+                  Upload it here
+                </button>
               </div>
-              <div class="small muted" style="margin-bottom:16px;">
-                PDF, screenshot, or phone photo
-              </div>
-              <input
-                id="quoteFile"
-                type="file"
-                accept=".pdf,image/*"
-                style="display:none;"
-              />
-              <button
-                type="button"
-                class="btn"
-                id="uploadQuoteBtn"
-                style="font-size:16px; padding:14px 28px;"
-              >
-                Upload quote
-              </button>
-              <div class="small muted" style="margin-top:12px; font-size:12px;">
-                Private &bull; No spam &bull; No signup
+
+            </div>
+
+            <div style="text-align:center; font-size:12px; color:#94a3b8;">
+              <img src="/images/trudy-peeking.png" alt="Trudy" width="40" style="vertical-align:middle; margin-right:4px;" />
+              Your quote stays private. Processed in your browser, never stored or shared.
+            </div>
+
+            <div class="small muted" style="margin-top:8px; text-align:center; font-size:12px;">
+              Private &bull; No spam &bull; No signup
+            </div>
+
+              <div style="margin-top:12px; text-align:center;">
+                <a href="#" id="showSampleResult" style="font-size:13px; color:var(--brand);">No quote yet? See what a result looks like</a>
               </div>
             </div>
+
             <!-- SECONDARY: ADDRESS -->
             <div style="border-top:1px solid #e5e7eb; padding-top:18px;">
+
               <p class="small muted" style="margin:0 0 12px;">
                 No quote handy? Enter your address instead:
               </p>
+            `}
+
+            ${isEstimatorMode ? `
+            <div style="text-align:center; margin-bottom:20px;">
+              <img src="/images/trudy-typing.png" alt="Trudy" width="200" style="margin-bottom:8px;" />
+              <h2 style="margin:0 0 6px; font-size:22px;">Enter your address</h2>
+              <p style="margin:0; font-size:14px; color:#64748b;">We'll look up your property and estimate your roof size from satellite data.</p>
+            </div>
+            <div>
+            ` : ''}
+
+              <style>.journey-address-grid input{width:100%; box-sizing:border-box; border:1px solid #cbd5e1; border-radius:10px; background:#fff; font-family:inherit; color:#0f172a; transition:border-color 0.15s, box-shadow 0.15s;}.journey-address-grid input:focus{outline:none; border-color:#1d4ed8; box-shadow:0 0 0 3px rgba(29,78,216,0.15);}.journey-address-grid input::placeholder{color:#94a3b8;}</style>
               <div class="journey-address-grid">
                 <div class="journey-address-full" style="position:relative;">
-                  <input id="journeyStreetAddress" type="text" placeholder="Start typing your address..." autocomplete="off" />
+                  <input id="journeyStreetAddress" type="text" placeholder="Street address" autocomplete="off" style="font-size:15px; padding:12px 14px;" />
                   <div id="addressSuggestions" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:50; background:#fff; border:1px solid #e2e8f0; border-top:none; border-radius:0 0 10px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;"></div>
                 </div>
+
                 <div>
-                  <input id="journeyCity" type="text" placeholder="City" value="${escapeHtml(prefillCity)}" />
+                  <input id="journeyCity" type="text" placeholder="City" value="${escapeHtml(prefillCity)}" style="font-size:15px; padding:12px 14px;" />
                 </div>
+
                 <div>
-                  <input id="journeyState" type="text" maxlength="2" placeholder="State" value="${escapeHtml(prefillState)}" />
+                  <input id="journeyState" type="text" maxlength="2" placeholder="State" value="${escapeHtml(prefillState)}" style="font-size:15px; padding:12px 14px;" />
                 </div>
+
                 <div>
-                  <input id="journeyZipCode" type="text" placeholder="ZIP code" />
+                  <input id="journeyZipCode" type="text" placeholder="ZIP" style="font-size:15px; padding:12px 14px;" />
                 </div>
+
+                <input id="journeyHomeSize" type="hidden" value="" />
               </div>
-              <button class="btn secondary" style="margin-top:12px;" onclick="handleAddressSubmit()">
-                Check my property →
+
+              <button class="btn" style="margin-top:16px; width:100%; padding:14px; font-size:16px;" onclick="handleAddressSubmit()">
+                Get my estimate &rarr;
               </button>
+
               <div id="journeyAddressError" class="small" style="margin-top:10px; color:#b91c1c;"></div>
+
+              ${isEstimatorMode ? `
+              <div style="text-align:center; margin-top:16px;">
+                <a href="/roofing-quote-analyzer.html" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back to quote analyzer</a>
+              </div>
+              ` : ''}
             </div>
+
           </div>
         </div>
       `;
     };
+
     window.renderConfirmStep = function renderConfirmStep() {
       const preview = journeyState.propertyPreview || {};
       const fullStreet = [preview.street, preview.apt].filter(Boolean).join(" ");
       const cityStateZip = [preview.city, preview.state, preview.zip].filter(Boolean).join(", ").replace(", ,", ",");
+
       return `
         <div class="wrap" style="max-width:720px; margin:56px auto;">
           <div class="panel" style="padding:28px; border:1px solid #e5e7eb; border-radius:20px; background:#ffffff; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
             <div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#2563eb; margin:0 0 10px;">
               Confirm property
             </div>
+
             <h2 style="margin:0 0 10px; font-size:34px; line-height:1.08; letter-spacing:-0.03em; color:#0f172a;">
               Is this the right property?
             </h2>
+
             <p class="muted" style="margin:0 0 18px; font-size:16px; line-height:1.5; color:#475569;">
               We’ll use this address to estimate roof size and improve quote accuracy before showing your decision.
             </p>
+
             <div style="margin:0 0 18px; padding:18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px;">
               <div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#475569; margin:0 0 8px;">
                 Property address
               </div>
+
               <div style="font-size:24px; line-height:1.2; font-weight:700; color:#0f172a; margin:0 0 6px;">
                 ${escapeHtml(fullStreet || "Address not available")}
               </div>
+
               <div style="font-size:15px; color:#475569;">
                 ${escapeHtml(cityStateZip || "City / state not available")}
               </div>
             </div>
+
             <div style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:10px; margin:0 0 20px;">
               <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
                 <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b; margin:0 0 4px;">
@@ -10405,27 +13895,31 @@ function buildComparisonWinnerHtml(summary) {
                   Estimate roof size
                 </div>
               </div>
+
               <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
                 <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b; margin:0 0 4px;">
                   Step 2
                 </div>
                 <div style="font-size:14px; font-weight:600; color:#0f172a;">
-                  Scan your quote
+                  ${new URLSearchParams(window.location.search).get("mode") === "estimator" ? "Answer a few questions" : "Scan your quote"}
                 </div>
               </div>
+
               <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
                 <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b; margin:0 0 4px;">
                   Step 3
                 </div>
                 <div style="font-size:14px; font-weight:600; color:#0f172a;">
-                  Get decision
+                  ${new URLSearchParams(window.location.search).get("mode") === "estimator" ? "Get your estimate" : "Get decision"}
                 </div>
               </div>
             </div>
+
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
               <button class="btn" onclick="confirmProperty()" style="min-width:180px;">
                 Looks correct
               </button>
+
               <button class="btn secondary" onclick="setJourneyStep('address')" style="min-width:120px;">
                 Edit
               </button>
@@ -10434,33 +13928,41 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
     };
+
     window.renderPropertyNotFoundStep = function renderPropertyNotFoundStep() {
       const preview = journeyState.propertyPreview || {};
       const fullStreet = [preview.street, preview.apt].filter(Boolean).join(" ");
       const cityStateZip = [preview.city, preview.state, preview.zip].filter(Boolean).join(", ").replace(", ,", ",");
+
       return `
         <div class="wrap" style="max-width:720px; margin:56px auto;">
           <div class="panel" style="padding:28px; border:1px solid #fcd34d; border-radius:20px; background:#fffbeb; box-shadow:0 10px 30px rgba(15,23,42,0.04);">
             <div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#b45309; margin:0 0 10px;">
               Property check
             </div>
+
             <h2 style="margin:0 0 10px; font-size:34px; line-height:1.08; letter-spacing:-0.03em; color:#0f172a;">
               We couldn’t confirm this property automatically
             </h2>
+
             <p style="margin:0 0 18px; font-size:16px; line-height:1.5; color:#475569;">
               You can still continue. We’ll fall back to quote details, home size, and pricing signals to estimate roof size.
             </p>
+
             <div style="margin:0 0 18px; padding:18px; background:#ffffff; border:1px solid #fde68a; border-radius:16px;">
               <div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#475569; margin:0 0 8px;">
                 Entered address
               </div>
+
               <div style="font-size:22px; line-height:1.2; font-weight:700; color:#0f172a; margin:0 0 6px;">
                 ${escapeHtml(fullStreet || "Address not available")}
               </div>
+
               <div style="font-size:15px; color:#475569;">
                 ${escapeHtml(cityStateZip || "City / state not available")}
               </div>
             </div>
+
             ${
               journeyState.propertyLookupMessage
                 ? `
@@ -10472,6 +13974,7 @@ function buildComparisonWinnerHtml(summary) {
                 `
                 : ""
             }
+
             <div style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:10px; margin:0 0 20px;">
               <div style="padding:14px; background:#ffffff; border:1px solid #f3f4f6; border-radius:14px;">
                 <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b; margin:0 0 4px;">
@@ -10481,6 +13984,7 @@ function buildComparisonWinnerHtml(summary) {
                   Read quote details
                 </div>
               </div>
+
               <div style="padding:14px; background:#ffffff; border:1px solid #f3f4f6; border-radius:14px;">
                 <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b; margin:0 0 4px;">
                   Fallback 2
@@ -10489,6 +13993,7 @@ function buildComparisonWinnerHtml(summary) {
                   Estimate from home size
                 </div>
               </div>
+
               <div style="padding:14px; background:#ffffff; border:1px solid #f3f4f6; border-radius:14px;">
                 <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b; margin:0 0 4px;">
                   Fallback 3
@@ -10498,10 +14003,12 @@ function buildComparisonWinnerHtml(summary) {
                 </div>
               </div>
             </div>
+
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
               <button class="btn" onclick="continueWithoutPropertyMatch()" style="min-width:220px;">
                 Continue anyway
               </button>
+
               <button class="btn secondary" onclick="setJourneyStep('address')" style="min-width:120px;">
                 Edit address
               </button>
@@ -10510,22 +14017,27 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
     };
+
     window.renderAnalyzeStep = function renderAnalyzeStep() {
       const preview = journeyState.propertyPreview || {};
       const fullStreet = [preview.street, preview.apt].filter(Boolean).join(" ");
       const cityStateZip = [preview.city, preview.state, preview.zip].filter(Boolean).join(", ").replace(", ,", ",");
+
       return `
         <div class="wrap" style="max-width:960px; margin:40px auto;">
           <div style="margin:0 0 18px;">
             <div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#2563eb; margin:0 0 8px;">
               Step 3 of 3
             </div>
+
             <h2 style="margin:0 0 8px; font-size:34px; line-height:1.08; letter-spacing:-0.03em; color:#0f172a;">
               Analyze your quote
             </h2>
+
             <p class="muted" style="margin:0 0 14px; font-size:16px; line-height:1.5; color:#475569;">
               Upload your quote or complete any missing fields below. We’ll compare it against expected local pricing and tell you what to do next.
             </p>
+
             ${
               fullStreet || cityStateZip
                 ? `
@@ -10544,16 +14056,18 @@ function buildComparisonWinnerHtml(summary) {
                 : ""
             }
           </div>
+
           <div id="analyzeMount"></div>
         </div>
       `;
     };
-    function renderInlineAnalyzingState(percent = 30, message = "Analyzing your quote…") {
+
+    function renderInlineAnalyzingState(percent = 30, message = "Reading the fine print so you don\u2019t have to\u2026") {
       const el = document.getElementById("inlineAnalyzingState");
       if (!el) return;
+
       el.innerHTML = `
         <div class="panel" style="margin:0 0 14px; text-align:center;">
-          <img src="/images/trudy-working.png" alt="Trudy" width="80" class="trudy-bounce" style="margin-bottom:10px;" />
           <div style="font-size:24px; font-weight:800; margin-bottom:8px;">${message}</div>
           <p class="small muted" style="margin:0 0 14px;">Extracting price, roof size, and risk signals</p>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden;">
@@ -10562,34 +14076,46 @@ function buildComparisonWinnerHtml(summary) {
         </div>
       `;
     }
+
     function renderAnalyzingState() {
       const root = document.getElementById("appRoot");
       if (!root) return;
+
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+
           <img src="/images/trudy-working.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />
+
           <div class="progress-phase" id="analysisPhaseLabel">
-            Reading your document...
+            Trudy is reading your document...
           </div>
+
           <div class="progress-sub" id="analysisPhaseDetail">
             Extracting price, material, and scope details
           </div>
+
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
             <div id="analysisProgressBar" style="width:10%; height:100%; background:var(--brand); transition:width .4s;"></div>
           </div>
+
           <div class="small muted" style="margin-bottom:24px;">
             This takes ~5-10 seconds
           </div>
+
           <div class="extraction-preview" id="extractionPreview"></div>
+
         </div>
       `;
+
+      // Animate progress phases
       const phases = [
-        { pct: 20, label: "Extracting price, material, and scope...", detail: "Scanning document for key pricing signals", delay: 1500 },
-        { pct: 45, label: "Looking up your property...", detail: "Estimating roof size from address data", delay: 3500 },
-        { pct: 65, label: "Comparing against local pricing...", detail: "Matching to city-level benchmarks", delay: 5000 },
-        { pct: 85, label: "Checking for risks and missing items...", detail: "Reviewing scope signals and risk flags", delay: 7000 },
-        { pct: 95, label: "Generating your decision...", detail: "Assembling your personalized result", delay: 8500 }
+        { pct: 20, label: "Trudy is extracting price, material, and scope...", detail: "Scanning document for key pricing signals", delay: 1500 },
+        { pct: 45, label: "Trudy is looking up your property...", detail: "Estimating roof size from address data", delay: 3500 },
+        { pct: 65, label: "Trudy is checking what your neighbors paid...", detail: "Matching to city-level benchmarks", delay: 5000 },
+        { pct: 85, label: "Trudy is checking for risks and missing items...", detail: "Reviewing scope signals and risk flags", delay: 7000 },
+        { pct: 95, label: "Trudy is almost done...", detail: "Assembling your personalized result", delay: 8500 }
       ];
+
       phases.forEach(phase => {
         setTimeout(() => {
           const bar = document.getElementById("analysisProgressBar");
@@ -10598,6 +14124,8 @@ function buildComparisonWinnerHtml(summary) {
           if (bar) bar.style.width = phase.pct + "%";
           if (label) label.textContent = phase.label;
           if (detail) detail.textContent = phase.detail;
+
+          // Show extraction previews as data becomes available
           const preview = document.getElementById("extractionPreview");
           if (preview && latestParsed) {
             let items = [];
@@ -10605,6 +14133,7 @@ function buildComparisonWinnerHtml(summary) {
             if (latestParsed.materialLabel) items.push({ label: "Material", value: latestParsed.materialLabel });
             if (latestParsed.roofSize) items.push({ label: "Roof size", value: latestParsed.roofSize + " sq ft" });
             if (latestParsed.city) items.push({ label: "Location", value: latestParsed.city + (latestParsed.stateCode ? ", " + latestParsed.stateCode : "") });
+
             if (items.length > 0) {
               preview.innerHTML = items.map(item =>
                 `<div class="extraction-item">
@@ -10617,24 +14146,42 @@ function buildComparisonWinnerHtml(summary) {
         }, phase.delay);
       });
     }
+
     window.setJourneyStep = function setJourneyStep(step) {
       journeyState.step = step;
+      // Funnel tracking
+      if (typeof tpTrack === "function") {
+        var funnelMap = {
+          address: "funnel_visit_analyzer",
+          confirm: "funnel_confirm_address",
+          analyze: "funnel_upload_quote",
+          estimator: "funnel_start_estimator",
+          estimator_result: "funnel_estimator_complete",
+          result: "funnel_analysis_complete"
+        };
+        if (funnelMap[step]) tpTrack(funnelMap[step], { service: "roofing" });
+      }
       renderApp();
-      if (step === "result") {
+      if (step === "result" || step === "estimator_result") {
         setTimeout(function() { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 50);
       }
     };
+
     window.continueWithoutPropertyMatch = function continueWithoutPropertyMatch() {
       journeyState.propertyConfirmed = true;
+      // Use same overlay pattern as confirmProperty
       confirmProperty();
     };
+
     window.handleAddressSubmit = function handleAddressSubmit() {
       const street = document.getElementById("journeyStreetAddress")?.value?.trim() || "";
       const apt = document.getElementById("journeyAptUnit")?.value?.trim() || "";
       const city = document.getElementById("journeyCity")?.value?.trim() || "";
       const state = document.getElementById("journeyState")?.value?.trim().toUpperCase() || "";
       const zip = document.getElementById("journeyZipCode")?.value?.trim() || "";
+
       const errorEl = document.getElementById("journeyAddressError");
+
       if (!street || !city || !state) {
         if (errorEl) {
           errorEl.style.display = "block";
@@ -10642,34 +14189,93 @@ function buildComparisonWinnerHtml(summary) {
         }
         return;
       }
+
       if (errorEl) {
         errorEl.style.display = "none";
         errorEl.textContent = "";
       }
+
+      const homeSize = Number(document.getElementById("journeyHomeSize")?.value || 0);
+
       journeyState.propertyPreview = {
         street,
         apt,
         city,
         state,
-        zip
+        zip,
+        homeSize: homeSize > 0 ? homeSize : null
       };
+      prefetchCityMultiplier(city, state);
+
+      // Fire OSM building footprint lookup early so the home-size input on
+      // the estimator step is pre-filled by the time the user gets there.
+      // 18s timeout (OSM building lookups can be slow). Silent on failure.
+      try {
+        const _ctrl = ("AbortController" in window) ? new AbortController() : null;
+        const _t = setTimeout(function() { if (_ctrl) _ctrl.abort(); }, 18000);
+        fetch("/api/property-signals", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ street: street, city: city, stateCode: state, zip: zip }),
+          signal: _ctrl ? _ctrl.signal : undefined
+        })
+          .then(function(r) { return r.ok ? r.json() : null; })
+          .then(function(payload) {
+            clearTimeout(_t);
+            if (!payload || !payload.success || !payload.data) return;
+            const d = payload.data;
+            const livingArea = Number(d.livingAreaSqFt || 0);
+            const footprint = Number(d.footprintSqFt || 0);
+            // If we have living area, use it directly. Otherwise save
+            // raw footprint and multiply by stories when user selects.
+            if (livingArea >= 500 && livingArea <= 15000) {
+              journeyState.osmHomeSize = Math.round(livingArea);
+              journeyState.osmFootprint = Math.round(footprint || livingArea);
+            } else if (footprint >= 400 && footprint <= 15000) {
+              journeyState.osmFootprint = Math.round(footprint);
+              // Default to footprint as home size; will be adjusted when
+              // user selects stories (two_story = footprint * 2, etc.)
+              journeyState.osmHomeSize = Math.round(footprint);
+            }
+            if (journeyState.osmHomeSize) {
+              // If user is already on the estimator step, populate the input now
+              const _input = document.getElementById("estHomeSize");
+              if (_input && !_input.value) {
+                _input.value = String(journeyState.osmHomeSize);
+                const _hint = document.getElementById("estHomeSizeHint");
+                if (_hint) _hint.textContent = "\u2713 Pre-filled from your address \u2014 edit if not accurate";
+                if (_hint) _hint.style.color = "#16a34a";
+              }
+              // Fire a custom event so any other UI that depends on osmHomeSize
+              // can react (e.g. polling listeners that already gave up).
+              try {
+                window.dispatchEvent(new CustomEvent("tp:osm-resolved", {
+                  detail: { homeSize: journeyState.osmHomeSize, footprint: journeyState.osmFootprint }
+                }));
+              } catch (e) {}
+            }
+          })
+          .catch(function() { clearTimeout(_t); });
+      } catch (e) {}
+
       journeyState.propertyLookupAttempted = true;
       journeyState.propertyLookupFailed = false;
       journeyState.propertyLookupMessage = "";
+
       const looksWeak =
         street.length < 5 ||
         city.length < 2 ||
         state.length !== 2;
+
       if (looksWeak) {
         journeyState.propertyLookupFailed = true;
         journeyState.propertyLookupMessage = "This address may be incomplete or hard to verify.";
         setJourneyStep("property_not_found");
         return;
       }
+
       // In estimate mode (?mode=estimator), skip the confirm step and go
-      // straight to the estimator questions. The user already typed their
-      // address -- asking them to re-confirm is unnecessary friction.
-      // The analyzer/upload path keeps the confirm step for property context.
+      // straight to the estimator. User already typed their address.
       var _isEstimateMode = (new URLSearchParams(window.location.search)).get("mode") === "estimator";
       if (_isEstimateMode) {
         journeyState.propertyConfirmed = true;
@@ -10678,53 +14284,22 @@ function buildComparisonWinnerHtml(summary) {
       }
       setJourneyStep("confirm");
     };
+
     window.confirmProperty = function confirmProperty() {
       journeyState.propertyConfirmed = true;
+
       const root = document.getElementById("appRoot");
       if (!root) return;
+
+      // If no quote was uploaded (address-only flow), redirect to guided estimator
       const hasQuoteData = latestParsed && (latestParsed.price || latestParsed.finalBestPrice || latestParsed.totalLinePrice);
       if (!hasQuoteData) {
-        const preview = journeyState.propertyPreview || {};
-        const addr = [preview.street, preview.city, preview.state, preview.zip].filter(Boolean).join(", ");
-        root.innerHTML = `
-          <div style="max-width:720px; margin:60px auto; padding:0 24px;">
-            <div style="padding:28px; background:#fff; border:1px solid #e2e8f0; border-radius:18px; box-shadow:0 4px 16px rgba(15,23,42,0.06); text-align:center;">
-              ${addr ? `<div style="font-size:13px; color:var(--muted); margin-bottom:12px; padding:8px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">${repairDisplayText(escapeHtml(addr))}</div>` : ""}
-              <h2 style="margin:12px 0 8px; font-size:28px; letter-spacing:-0.02em;">Now upload your quote</h2>
-              <p style="color:var(--muted); margin:0 0 20px;">We saved your address. Upload your contractor's estimate and we'll compare it against local pricing.</p>
-              <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
-              <button type="button" class="btn" id="uploadQuoteBtn" style="font-size:16px; padding:14px 28px;" onclick="document.getElementById('quoteFile').click()">Upload quote</button>
-              <div style="margin-top:14px; font-size:13px; color:var(--muted);">PDF, screenshot, or phone photo</div>
-            </div>
-          </div>
-        `;
-        const input = document.getElementById("quoteFile");
-        if (input) {
-          input.addEventListener("change", async function() {
-            const file = input.files?.[0];
-            if (!file) return;
-            const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-            if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|webp|gif)$/i)) {
-              alert('Please upload a PDF or image file (JPG, PNG, or PDF).');
-              return;
-            }
-            if (file.size > 20 * 1024 * 1024) {
-              alert('File is too large. Please upload a file under 20MB.');
-              return;
-            }
-            if (typeof loadVendorLibs === "function") await loadVendorLibs();
-            root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;"><div class="progress-phase">Reading your quote...</div><div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;"><div style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div></div></div>';
-            try {
-              const parsedBundle = await parseUploadedComparisonFile(file);
-              latestParsed = parsedBundle?.parsed || parsedBundle || {};
-              confirmProperty();
-            } catch (err) {
-              root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:24px;"><p>Could not read the quote. Please try again.</p><button class="btn secondary" onclick="setJourneyStep(\'address\')">Back</button></div>';
-            }
-          });
-        }
+        journeyState.estimatorAnswers = {};
+        setJourneyStep("estimator");
         return;
       }
+
+      // Build extraction preview items
       let previewHtml = "";
       if (latestParsed) {
         let items = [];
@@ -10743,12 +14318,15 @@ function buildComparisonWinnerHtml(summary) {
           ).join("");
         }
       }
+
+      // Render analyzing screen + hidden form elements in one shot (no flash)
       const preview = journeyState.propertyPreview || {};
       const p = latestParsed || {};
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
-          <div class="progress-phase" id="analysisPhaseLabel">Analyzing your quote...</div>
-          <div class="progress-sub" id="analysisPhaseDetail">Comparing against local pricing data</div>
+          <img src="/images/trudy-peeking.png" alt="Trudy" width="140" style="margin-bottom:16px;" />
+          <div class="progress-phase" id="analysisPhaseLabel">Trudy is reading the fine print so you don't have to...</div>
+          <div class="progress-sub" id="analysisPhaseDetail">Checking what your neighbors paid</div>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
             <div id="analysisProgressBar" style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div>
           </div>
@@ -10766,7 +14344,7 @@ function buildComparisonWinnerHtml(summary) {
           <input id="stateCode" value="${escapeHtml(preview.state || p.stateCode || p.address?.stateCode || "")}">
           <input id="streetAddress" value="${escapeHtml(preview.street || p.address?.street || "")}">
           <input id="zipCode" value="${escapeHtml(preview.zip || p.address?.zip || "")}">
-          <input id="roofSize" value="${escapeHtml(String(p.roofSize || ""))}">
+          <input id="roofSize" value="${escapeHtml(String(p.roofSize || (preview.homeSize ? Math.round(preview.homeSize * 1.3) : "") ))}">
           <input id="quotePrice" value="${escapeHtml(String(p.finalBestPrice || p.totalLinePrice || p.price || ""))}">
           <select id="materialType"><option value="${escapeHtml(p.material || "architectural")}" selected></option></select>
           <select id="complexityFactor"><option value="1.00" selected></option></select>
@@ -10781,19 +14359,24 @@ function buildComparisonWinnerHtml(summary) {
           <div id="inlineShareCopyStatus"></div>
         </div>
       `;
+
+      // Run analysis after a tick
       setTimeout(() => {
         if (typeof analyzeQuote === "function") {
           analyzeQuote();
         }
       }, 50);
     };
+
       window.renderResultStep = function renderResultStep() {
         const a = window.__latestAnalysis;
         if (!a) {
           return `<div style="max-width:800px; margin:40px auto; text-align:center; padding:24px;"><p>No analysis yet.</p></div>`;
         }
-        try { var c = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10); if (!window.__lastCountedAnalysis || window.__lastCountedAnalysis !== a) { localStorage.setItem('tp_analysis_count', String(c + 1)); window.__lastCountedAnalysis = a; } } catch(e) {}
-        try {
+        if (!a._isSample) { try { var c = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10); if (!window.__lastCountedAnalysis || window.__lastCountedAnalysis !== a) { localStorage.setItem('tp_analysis_count', String(c + 1)); window.__lastCountedAnalysis = a; } } catch(e) {} }
+
+        // Save to quote history (skip for sample results)
+        if (!a._isSample) try {
           const history = JSON.parse(localStorage.getItem("tp_quote_history") || "[]");
           const entry = {
             id: Date.now(),
@@ -10805,24 +14388,1134 @@ function buildComparisonWinnerHtml(summary) {
             state: a.stateCode || "",
             contractor: (latestParsed?.contractor || "").substring(0, 50)
           };
+          // Don't duplicate if same price+verdict
           if (!history.some(h => h.price === entry.price && h.verdict === entry.verdict)) {
             history.unshift(entry);
-            if (history.length > 20) history.pop(); 
+            if (history.length > 20) history.pop(); // Keep last 20
             localStorage.setItem("tp_quote_history", JSON.stringify(history));
           }
         } catch(e) {}
-        return `
-          <div style="max-width:800px; margin:40px auto; padding:0 24px;">
-            ${renderVerdictCard(a)}
-            ${renderBeforeYouSign(a)}
-            ${renderMarketContext(a)}
-            ${renderShareModule(a)}
-            <div style="text-align:center; margin-top:20px;">
-              <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start a new analysis</a>
+
+        const sampleBanner = a._isSample
+          ? `<div style="padding:12px 20px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:12px; margin-bottom:16px; font-size:14px; color:#1e40af; text-align:center;">This is a sample result. <a href="/roofing-quote-analyzer.html" style="font-weight:600;">Upload your quote</a> to see your actual analysis.</div>`
+          : "";
+
+        const sideBySideBtn = (!a._isSample && window.__uploadedQuoteFile)
+          ? `<div style="text-align:center; margin:16px 0;"><button id="toggleSideBySide" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:10px 20px; font-size:14px; font-weight:600; color:#2563eb; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">View quote side-by-side</button></div>`
+          : "";
+
+        // If roof size came from price (circular) or is unavailable, suppress
+        // the verdict and downstream cards entirely. We refuse to fake-judge a
+        // quote without a real roof size.
+        const _rsSrc = String(a.roofSizeSource || "").toLowerCase();
+        const _verdictBlocked = (_rsSrc === "price_based_estimate" || _rsSrc === "unavailable" || _rsSrc === "");
+
+        if (_verdictBlocked) {
+          return `
+            <div id="resultContainer" style="max-width:800px; margin:40px auto; padding:0 24px;">
+              ${sampleBanner}
+              <div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:16px; margin-bottom:16px; text-align:center;">
+                <div style="font-size:20px; font-weight:700; color:#0f172a; margin-bottom:8px;">We need your roof size to check this quote</div>
+                <div style="font-size:14px; color:#475569; max-width:520px; margin:0 auto;">
+                  Roofing prices depend almost entirely on roof area. Without it, any verdict would be a guess. Enter your address (we&#39;ll measure it from satellite data) or your known roof size below and we&#39;ll re-check instantly.
+                </div>
+              </div>
+              ${renderRoofSizeAccuracyPrompt(Object.assign({}, a, { roofSizeSource: "price_based_estimate" }))}
+              ${sideBySideBtn}
             </div>
+          `;
+        }
+
+        return `
+          <div id="resultContainer" style="max-width:800px; margin:40px auto; padding:0 24px;">
+            ${sampleBanner}
+            ${renderVerdictCard(a)}
+            ${sideBySideBtn}
+            ${renderAffiliateLink(a)}
+            ${renderBeforeYouSign(a)}
+            ${renderRedFlags(latestExtractedText)}
+            ${renderMarketContext(a)}
+            ${renderCommunityStats(a)}
+            ${renderRoofSizeAccuracyPrompt(a)}
+            ${renderMaterialTierComparison(a)}
+
+            <!-- Next Steps (standardized: roofing-specific actionable bullets) -->
+            <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
+              <h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>
+              <ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">
+                <li>Confirm tear-off scope &mdash; old shingles fully removed, not layered over</li>
+                <li>Ask for a written decking replacement allowance (e.g. "first 2 sheets included")</li>
+                <li>Verify drip edge, ice &amp; water shield, and starter strip are itemized</li>
+                <li>Ask if the warranty covers materials AND workmanship, and for how long</li>
+                <li>Confirm permit and disposal are included in the price</li>
+              </ul>
+            </section>
+
+            <div style="text-align:center; margin:16px 0;">
+              <a href="/methodology.html" style="display:inline-block; padding:10px 20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; font-size:14px; font-weight:600; color:#475569; text-decoration:none;">How we calculate estimates</a>
+            </div>
+
+            ${renderCommunityContribution(a)}
+            <div style="text-align:center; margin:20px 0 10px;">
+              <a class="btn-outline" href="/compare-roofing-quotes.html" style="text-decoration:none;">
+                Compare 2-3 roofing quotes side by side
+              </a>
+            </div>
+            ${(a.contractor && a.contractor !== "Not detected" && a.contractor.length > 2) ? `
+            <div id="contractorReviewSection" style="padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:16px 0;">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                <img src="/images/trudy-clipboard.png" alt="" width="32" />
+                <div>
+                  <div style="font-size:15px; font-weight:700;">Already hired ${escapeHtml(a.contractor)}?</div>
+                  <div style="font-size:13px; color:#64748b;">Help other homeowners by sharing your experience</div>
+                </div>
+              </div>
+              <button onclick="showContractorReview()" id="showReviewBtn" style="padding:8px 20px; border:1px solid #e2e8f0; background:#fff; border-radius:8px; font-size:14px; font-weight:600; color:var(--brand); cursor:pointer; font-family:inherit;">Leave a review</button>
+              <div id="contractorReviewForm" style="display:none; margin-top:12px;">
+                <div style="margin-bottom:10px;">
+                  <label style="font-size:13px; font-weight:600; display:block; margin-bottom:4px;">Overall rating</label>
+                  <div style="display:flex; gap:4px;" id="starRating">
+                    <button onclick="setStars(1)" class="star-btn" data-val="1" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                    <button onclick="setStars(2)" class="star-btn" data-val="2" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                    <button onclick="setStars(3)" class="star-btn" data-val="3" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                    <button onclick="setStars(4)" class="star-btn" data-val="4" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                    <button onclick="setStars(5)" class="star-btn" data-val="5" style="font-size:24px; background:none; border:none; cursor:pointer; color:#cbd5e1;">&#9733;</button>
+                  </div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                  <label style="font-size:13px; padding:6px 12px; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                    <input type="checkbox" id="reviewHonored" /> Honored quoted price
+                  </label>
+                  <label style="font-size:13px; padding:6px 12px; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                    <input type="checkbox" id="reviewOnTime" /> Showed up on time
+                  </label>
+                  <label style="font-size:13px; padding:6px 12px; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                    <input type="checkbox" id="reviewRecommend" /> Would recommend
+                  </label>
+                </div>
+                <div style="margin-bottom:10px;">
+                  <label style="font-size:13px; font-weight:600; display:block; margin-bottom:4px;">Quality of work (1-5)</label>
+                  <select id="reviewQuality" style="padding:6px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; font-family:inherit;">
+                    <option value="5">5 - Excellent</option>
+                    <option value="4" selected>4 - Good</option>
+                    <option value="3">3 - Average</option>
+                    <option value="2">2 - Below average</option>
+                    <option value="1">1 - Poor</option>
+                  </select>
+                </div>
+                <div style="margin-bottom:10px;">
+                  <textarea id="reviewComment" placeholder="Optional comments..." rows="2" style="width:100%; padding:8px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; font-family:inherit; resize:vertical;"></textarea>
+                </div>
+                <button onclick="submitContractorReview()" style="padding:8px 20px; background:var(--brand); color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit;">Submit review</button>
+              </div>
+            </div>
+            ` : ""}
           </div>
         `;
       };
+
+    // ── Side-by-side quote + result view ──────────────────────────────
+
+    async function renderPdfPreview(file, container) {
+      try {
+        var arrayBuffer = await file.arrayBuffer();
+        var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        var page = await pdf.getPage(1);
+        var viewport = page.getViewport({ scale: 1.0 });
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        var containerWidth = container.clientWidth || 400;
+        var scale = containerWidth / viewport.width;
+        var scaledViewport = page.getViewport({ scale: scale });
+        canvas.width = scaledViewport.width;
+        canvas.height = scaledViewport.height;
+        canvas.style.width = "100%";
+        await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
+        container.appendChild(canvas);
+      } catch (e) {
+        container.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">Could not render PDF preview.</div>';
+      }
+    }
+
+    window.submitFeedback = function submitFeedback(rating) {
+      var a = window.__latestAnalysis || {};
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/api/analytics", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify({
+        type: "feedback",
+        rating: rating,
+        path: window.location.pathname,
+        meta: {
+          verdict: a.verdict || "",
+          quotePrice: String(a.quotePrice || 0),
+          mid: String(a.mid || 0),
+          low: String(a.low || 0),
+          high: String(a.high || 0),
+          contractor: a.contractor || "",
+          city: a.city || "",
+          stateCode: a.stateCode || "",
+          material: a.material || "",
+          roofSize: String(a.roofSize || 0)
+        }
+      }));
+
+      var widget = document.getElementById("feedbackWidget");
+      if (widget) {
+        if (rating === "no") {
+          widget.innerHTML = '<div style="font-size:14px; color:#475569; margin-bottom:8px;">Thanks. What could be better?</div>'
+            + '<input type="text" id="feedbackText" placeholder="Optional feedback..." style="width:100%; max-width:300px; padding:8px 12px; border:1px solid #e2e8f0; border-radius:8px; font-size:14px; font-family:inherit;" />'
+            + '<div style="margin-top:8px;"><button onclick="submitFeedbackComment()" style="padding:6px 16px; background:var(--brand); color:#fff; border:none; border-radius:6px; font-size:13px; cursor:pointer; font-family:inherit;">Send</button></div>';
+        } else {
+          widget.innerHTML = '<div style="font-size:14px; color:#166534;">Thanks for the feedback!</div>';
+        }
+      }
+
+      // Feed confirmed analysis into calibration flywheel
+      if (rating === "yes" && a.quotePrice > 0 && a.city && a.stateCode) {
+        fetch("/api/calibration", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            price: a.quotePrice,
+            contractor: a.contractor || "",
+            city: a.city,
+            stateCode: a.stateCode,
+            material: a.material || "",
+            roofSize: a.roofSize || 0,
+            warrantyYears: a.warrantyYears || 0,
+            source: "user_confirmed_helpful",
+            service: "roofing",
+            modelEstimate: a.mid || 0
+          })
+        }).catch(function() {});
+      }
+    };
+
+    var _reviewStars = 0;
+    window.showContractorReview = function() {
+      var form = document.getElementById("contractorReviewForm");
+      var btn = document.getElementById("showReviewBtn");
+      if (form) form.style.display = "block";
+      if (btn) btn.style.display = "none";
+    };
+    window.setStars = function(n) {
+      _reviewStars = n;
+      document.querySelectorAll(".star-btn").forEach(function(b) {
+        b.style.color = Number(b.dataset.val) <= n ? "#f59e0b" : "#cbd5e1";
+      });
+    };
+    window.submitContractorReview = function() {
+      var a = window.__latestAnalysis || {};
+      if (!a.contractor || _reviewStars < 1) return;
+      fetch("/api/contractor-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "review",
+          contractor: a.contractor,
+          city: a.city || "",
+          stateCode: a.stateCode || "",
+          rating: _reviewStars,
+          honoredPrice: document.getElementById("reviewHonored")?.checked || false,
+          onTime: document.getElementById("reviewOnTime")?.checked || false,
+          qualityRating: Number((document.getElementById("reviewQuality") || {}).value) || 4,
+          wouldRecommend: document.getElementById("reviewRecommend")?.checked || false,
+          comment: (document.getElementById("reviewComment") || {}).value || ""
+        })
+      }).catch(function() {});
+      var section = document.getElementById("contractorReviewSection");
+      if (section) section.innerHTML = '<div style="text-align:center; font-size:14px; color:#166534; padding:8px 0;">Thanks! Your review helps other homeowners.</div>';
+    };
+
+    window.submitFeedbackComment = function submitFeedbackComment() {
+      var text = (document.getElementById("feedbackText") || {}).value || "";
+      if (text.trim()) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/analytics", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({ type: "feedback", rating: "no", comment: text.trim(), path: window.location.pathname }));
+      }
+      var widget = document.getElementById("feedbackWidget");
+      if (widget) widget.innerHTML = '<div style="font-size:14px; color:#166534;">Thanks. We\'ll work on it.</div>';
+    };
+
+    window.toggleSideBySide = function toggleSideBySide() {
+      var existing = document.getElementById("sideBySideWrapper");
+      if (existing) {
+        // Close side-by-side: restore normal view
+        var resultContainer = document.getElementById("resultContainer");
+        if (resultContainer && existing.contains(resultContainer)) {
+          existing.parentNode.insertBefore(resultContainer, existing);
+          resultContainer.style.maxWidth = "800px";
+          resultContainer.style.margin = "40px auto";
+        }
+        existing.remove();
+        return;
+      }
+
+      var file = window.__uploadedQuoteFile;
+      if (!file) return;
+
+      var resultContainer = document.getElementById("resultContainer");
+      if (!resultContainer) return;
+
+      // Create wrapper
+      var wrapper = document.createElement("div");
+      wrapper.id = "sideBySideWrapper";
+      wrapper.style.cssText = "display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:1400px; margin:40px auto; padding:0 24px;";
+
+      // Responsive: stack on narrow screens
+      if (window.innerWidth < 900) {
+        wrapper.style.gridTemplateColumns = "1fr";
+      }
+
+      // Left panel: quote preview
+      var leftPanel = document.createElement("div");
+      leftPanel.style.cssText = "background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:20px; overflow:auto; max-height:90vh;";
+      leftPanel.innerHTML = '<div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#64748b; margin-bottom:12px;">Your uploaded quote</div>';
+
+      var previewArea = document.createElement("div");
+      previewArea.id = "quotePreviewArea";
+
+      if (file.type && file.type.startsWith("image/")) {
+        var img = document.createElement("img");
+        img.style.cssText = "width:100%; border-radius:8px; cursor:zoom-in;";
+        img.src = URL.createObjectURL(file);
+        img.alt = "Uploaded quote - click to zoom";
+        img.title = "Click to zoom";
+        img.addEventListener("click", function() {
+          var overlay = document.createElement("div");
+          overlay.style.cssText = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); z-index:9999; display:flex; align-items:center; justify-content:center; cursor:zoom-out; padding:20px; box-sizing:border-box;";
+          var zoomImg = document.createElement("img");
+          zoomImg.src = img.src;
+          zoomImg.style.cssText = "max-width:95vw; max-height:95vh; object-fit:contain; border-radius:8px; box-shadow:0 8px 32px rgba(0,0,0,0.5);";
+          overlay.appendChild(zoomImg);
+          var closeHint = document.createElement("div");
+          closeHint.style.cssText = "position:absolute; top:16px; right:24px; color:#fff; font-size:14px; opacity:0.7;";
+          closeHint.textContent = "Click anywhere to close";
+          overlay.appendChild(closeHint);
+          overlay.addEventListener("click", function() { overlay.remove(); });
+          document.body.appendChild(overlay);
+        });
+        previewArea.appendChild(img);
+        previewArea.insertAdjacentHTML("beforeend", '<div style="text-align:center; margin-top:8px; font-size:12px; color:#94a3b8;">Click image to zoom</div>');
+      } else if (file.type === "application/pdf" || (file.name && file.name.toLowerCase().endsWith(".pdf"))) {
+        if (typeof pdfjsLib !== "undefined") {
+          previewArea.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">Loading PDF preview...</div>';
+          renderPdfPreview(file, previewArea).then(function() {
+            // Remove loading text if canvas was added
+            var loading = previewArea.querySelector("div");
+            if (previewArea.querySelector("canvas") && loading) loading.remove();
+          });
+        } else {
+          previewArea.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">PDF preview not available. <a href="' + URL.createObjectURL(file) + '" target="_blank" style="color:#2563eb;">Open PDF</a></div>';
+        }
+      } else {
+        previewArea.innerHTML = '<div style="padding:20px; text-align:center; color:#64748b;">Preview not available for this file type.</div>';
+      }
+
+      leftPanel.appendChild(previewArea);
+
+      // Close button
+      var closeBtn = document.createElement("button");
+      closeBtn.type = "button";
+      closeBtn.textContent = "Close side-by-side";
+      closeBtn.style.cssText = "margin-top:16px; width:100%; padding:10px; font-size:13px; font-weight:600; color:#64748b; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; cursor:pointer;";
+      closeBtn.addEventListener("click", function() { window.toggleSideBySide(); });
+      leftPanel.appendChild(closeBtn);
+
+      // Right panel: existing result
+      resultContainer.style.maxWidth = "none";
+      resultContainer.style.margin = "0";
+      resultContainer.style.padding = "0";
+
+      // Insert into DOM
+      resultContainer.parentNode.insertBefore(wrapper, resultContainer);
+      wrapper.appendChild(leftPanel);
+      wrapper.appendChild(resultContainer);
+
+      // Handle resize
+      var resizeHandler = function() {
+        if (!document.getElementById("sideBySideWrapper")) {
+          window.removeEventListener("resize", resizeHandler);
+          return;
+        }
+        wrapper.style.gridTemplateColumns = window.innerWidth < 900 ? "1fr" : "1fr 1fr";
+      };
+      window.addEventListener("resize", resizeHandler);
+    };
+
+    // ── Guided Estimator (no-quote flow) ──────────────────────────────
+
+    function makeOptionCard(group, value, label, sublabel) {
+      return `<button type="button" class="est-option" data-group="${group}" data-value="${value}">
+        <span class="est-option-label">${label}</span>
+        ${sublabel ? `<span class="est-option-sub">${sublabel}</span>` : ""}
+      </button>`;
+    }
+
+    window.renderEstimatorStep = function renderEstimatorStep() {
+      const preview = journeyState.propertyPreview || {};
+      const addr = [preview.street, preview.city, preview.state].filter(Boolean).join(", ");
+
+      return `
+        <div style="max-width:720px; margin:48px auto; padding:0 24px;">
+          <div style="padding:30px; background:#fff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.06);">
+
+            ${addr ? `<div style="font-size:13px; color:var(--muted); margin-bottom:16px; padding:8px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; display:inline-block;">${escapeHtml(addr)}</div>` : ""}
+
+            <h1 style="margin:0 0 6px; font-size:32px; line-height:1.08; letter-spacing:-0.03em; color:#0f172a;">
+              What would your roof actually cost?
+            </h1>
+            <p class="muted" style="margin:0 0 28px; font-size:15px;">
+              We'll build a custom estimate using satellite data, regional labor rates, and your specific situation. Takes 30 seconds.
+            </p>
+
+            <!-- What's happening -->
+            <div class="est-section">
+              <div class="est-section-label">What's going on with your roof?</div>
+              <div class="est-options" id="estWorkType">
+                ${makeOptionCard("workType", "replacement", "Time for a new one", "Aging, worn, or damaged beyond repair")}
+                ${makeOptionCard("workType", "repair", "Just needs a fix", "Leak, missing shingles, or storm damage")}
+                ${makeOptionCard("workType", "proactive", "Getting ahead of it", "No problems yet, planning ahead")}
+              </div>
+            </div>
+
+            <!-- How urgent -->
+            <div class="est-section">
+              <div class="est-section-label">How soon do you need this done?</div>
+              <div class="est-options est-options-wrap" id="estSeason">
+                ${makeOptionCard("season", "asap", "ASAP", "Active leak or damage")}
+                ${makeOptionCard("season", "summer", "This summer", "Peak season (+2%)")}
+                ${makeOptionCard("season", "fall", "This fall", "Best availability")}
+                ${makeOptionCard("season", "winter", "This winter", "Off-season savings")}
+                ${makeOptionCard("season", "spring", "Next spring", "Planning ahead")}
+                ${makeOptionCard("season", "unsure", "Just exploring", "No timeline yet")}
+              </div>
+            </div>
+
+            <!-- Property type -->
+            <div class="est-section">
+              <div class="est-section-label">Describe your home</div>
+              <div class="est-options" id="estPropertyType">
+                ${makeOptionCard("propertyType", "single", "Single story", "Ranch, bungalow")}
+                ${makeOptionCard("propertyType", "two_story", "Two story", "Colonial, traditional")}
+                ${makeOptionCard("propertyType", "townhome", "Townhome / Condo", "Shared walls")}
+              </div>
+            </div>
+
+            <!-- Material — framed as preference, not knowledge -->
+            <div class="est-section">
+              <div class="est-section-label">What look do you want?</div>
+              <div class="est-options est-options-wrap" id="estMaterial">
+                ${makeOptionCard("material", "architectural", "Dimensional shingles", "Most popular, 30yr life")}
+                ${makeOptionCard("material", "asphalt", "3-tab shingles", "Budget-friendly, 20yr")}
+                ${makeOptionCard("material", "metal", "Standing seam metal", "Premium, 50yr+")}
+                ${makeOptionCard("material", "tile", "Tile or slate", "Luxury, 75yr+")}
+                ${makeOptionCard("material", "cedar", "Cedar shake", "Natural look, 30yr")}
+                ${makeOptionCard("material", "flat", "Flat / membrane", "Low-slope roofs")}
+              </div>
+            </div>
+
+            <!-- Roof shape — visual, not jargon -->
+            <div class="est-section">
+              <div class="est-section-label">Can you see the roof from the street?</div>
+              <div class="est-options" id="estSteepness">
+                ${makeOptionCard("steepness", "flat", "Barely visible", "Flat or very low pitch")}
+                ${makeOptionCard("steepness", "normal", "Visible at an angle", "Standard pitch")}
+                ${makeOptionCard("steepness", "steep", "Dominant feature", "Steep, hard to walk on")}
+                ${makeOptionCard("steepness", "very_steep", "Very steep", "Like a storybook house")}
+              </div>
+            </div>
+
+            <!-- Complexity — relatable descriptions -->
+            <div class="est-section">
+              <div class="est-section-label">How would you describe the shape?</div>
+              <div class="est-options" id="estComplexity">
+                ${makeOptionCard("complexity", "normal", "Simple", "One or two flat planes")}
+                ${makeOptionCard("complexity", "complex", "Some detail", "Dormers, a valley, or hip roof")}
+                ${makeOptionCard("complexity", "very_complex", "Lots going on", "Multiple angles, skylights, chimneys")}
+              </div>
+            </div>
+
+            <!-- Insurance — unique question -->
+            <div class="est-section">
+              <div class="est-section-label">Is this an insurance claim?</div>
+              <div class="est-options" id="estInsurance">
+                ${makeOptionCard("insurance", "no", "No", "Paying out of pocket")}
+                ${makeOptionCard("insurance", "yes", "Yes", "Storm or damage claim")}
+                ${makeOptionCard("insurance", "maybe", "Not sure yet", "Adjuster hasn't been out")}
+              </div>
+            </div>
+
+            <!-- Home size -->
+            <div class="est-section">
+              <div class="est-section-label">How big is your home?</div>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <input type="number" id="estHomeSize" placeholder="e.g. 2400" value="${journeyState.osmHomeSize ? String(journeyState.osmHomeSize) : ""}" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
+                <span style="font-size:14px; color:#64748b;">sq ft</span>
+              </div>
+              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data. Adjusted for home type selected above.' : 'Total living area. Check your listing, tax records, or Zillow if unsure.'}</div>
+            </div>
+
+            <!-- Ownership -->
+            <div class="est-section">
+              <div class="est-section-label">Do you own this property?</div>
+              <div class="est-options" id="estOwnership">
+                ${makeOptionCard("ownership", "yes", "Yes, I own it", "")}
+                ${makeOptionCard("ownership", "no", "No", "")}
+              </div>
+            </div>
+
+            <div id="estError" style="display:none; margin-top:16px; padding:10px 14px; background:#fef2f2; border:1px solid #fecaca; border-radius:10px; font-size:14px; color:#b91c1c;"></div>
+
+            <button class="btn" id="estSubmitBtn" style="margin-top:24px; font-size:16px; padding:14px 28px; width:100%;">
+              Build my estimate
+            </button>
+
+            <div style="text-align:center; margin-top:14px;">
+              <span class="small muted">Already have a quote? </span>
+              <a href="#" onclick="setJourneyStep('address'); return false;" class="small" style="color:var(--brand);">Upload it for a detailed analysis</a>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    window.bindEstimatorEvents = function bindEstimatorEvents() {
+      setTimeout(() => {
+        // Option card selection
+        document.querySelectorAll(".est-option").forEach(btn => {
+          btn.addEventListener("click", function() {
+            const group = this.dataset.group;
+            const value = this.dataset.value;
+            // Deselect siblings
+            this.parentElement.querySelectorAll(".est-option").forEach(b => b.classList.remove("est-selected"));
+            this.classList.add("est-selected");
+            if (!journeyState.estimatorAnswers) journeyState.estimatorAnswers = {};
+            journeyState.estimatorAnswers[group] = value;
+
+            // When user selects stories (propertyType), keep footprint as-is for roofing
+            // The roof covers the building footprint regardless of how many stories
+            if (group === "propertyType" && journeyState.osmFootprint) {
+              journeyState.osmHomeSize = journeyState.osmFootprint;
+              const _inp = document.getElementById("estHomeSize");
+              if (_inp) {
+                _inp.value = String(journeyState.osmFootprint);
+                const _hint = document.getElementById("estHomeSizeHint");
+                if (_hint) {
+                  var storyLabel = value === "two_story" ? "2-story" : value === "townhome" ? "townhome" : "single-story";
+                  _hint.textContent = "\u2713 " + journeyState.osmFootprint.toLocaleString() + " sq ft building footprint from satellite data (" + storyLabel + ")";
+                  _hint.style.color = "#16a34a";
+                }
+              }
+            }
+          });
+        });
+
+        // Show loading indicator in sqft field while OSM fetches
+        if (!journeyState.osmHomeSize) {
+          const _sizeHint = document.getElementById("estHomeSizeHint");
+          if (_sizeHint) {
+            _sizeHint.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data for your address...</span>';
+            _sizeHint.style.color = "#3b82f6";
+          }
+        }
+
+        // Poll for OSM data if it hasn't arrived yet (timing race fix).
+        // Extended to 40 iterations * 500ms = 20s to match the OSM fetch
+        // timeout. Plus listen for the tp:osm-resolved event so we update
+        // even if OSM resolves AFTER polling has given up.
+        const _populateFromOsm = () => {
+          if (!journeyState.osmHomeSize) return false;
+          const _hint = document.getElementById("estHomeSizeHint");
+          const _inp = document.getElementById("estHomeSize");
+          if (_inp && !_inp.value) _inp.value = String(journeyState.osmHomeSize);
+          if (_hint) {
+            _hint.textContent = "\u2713 Pre-filled from satellite data. Select your home type above to adjust for stories.";
+            _hint.style.color = "#16a34a";
+          }
+          return true;
+        };
+
+        // Listen for OSM-resolved events even after polling stops.
+        // Stored on the page so we can deduplicate and clean up.
+        if (!window.__tpOsmListenerInstalled) {
+          window.__tpOsmListenerInstalled = true;
+          window.addEventListener("tp:osm-resolved", _populateFromOsm);
+        }
+
+        if (!journeyState.osmHomeSize) {
+          let _osmPollCount = 0;
+          const _osmPoll = setInterval(() => {
+            _osmPollCount++;
+            if (journeyState.osmHomeSize) {
+              clearInterval(_osmPoll);
+              _populateFromOsm();
+            } else if (_osmPollCount > 40) {
+              clearInterval(_osmPoll);
+              // OSM timed out — but the event listener above still catches
+              // a late OSM response if it eventually arrives.
+              const _hint = document.getElementById("estHomeSizeHint");
+              if (_hint) {
+                _hint.textContent = "Enter your total living area. (Satellite lookup is slow for this address.) Check your listing or tax records if unsure.";
+                _hint.style.color = "#94a3b8";
+              }
+            }
+          }, 500);
+        } else {
+          _populateFromOsm();
+        }
+
+        // Submit
+        const submitBtn = document.getElementById("estSubmitBtn");
+        if (submitBtn) {
+          submitBtn.addEventListener("click", () => generateNoQuoteEstimate());
+        }
+      }, 0);
+    };
+
+    window.generateNoQuoteEstimate = async function generateNoQuoteEstimate() {
+      const answers = journeyState.estimatorAnswers || {};
+      const required = ["propertyType", "material", "workType", "steepness", "complexity", "season", "insurance"];
+      const missing = required.filter(k => !answers[k]);
+
+      if (missing.length > 0) {
+        const errEl = document.getElementById("estError");
+        if (errEl) {
+          errEl.style.display = "block";
+          errEl.textContent = "Please answer all questions before continuing.";
+        }
+        return;
+      }
+
+      // Require home size — can't estimate roof cost without knowing the size
+      const _homeSizeVal = Number(document.getElementById("estHomeSize")?.value || 0);
+      if (!_homeSizeVal || _homeSizeVal < 400) {
+        const errEl = document.getElementById("estError");
+        if (errEl) {
+          errEl.style.display = "block";
+          errEl.textContent = "Please enter your home's square footage. We need this to estimate your roof size.";
+        }
+        const _hsInput = document.getElementById("estHomeSize");
+        if (_hsInput) { _hsInput.style.borderColor = "#f59e0b"; _hsInput.focus(); }
+        return;
+      }
+      if (_homeSizeVal > 15000) {
+        const errEl = document.getElementById("estError");
+        if (errEl) {
+          errEl.style.display = "block";
+          errEl.textContent = "That seems too large for a residential home. Please enter your home's total living area in square feet (typical range: 800 - 8,000).";
+        }
+        const _hsInput = document.getElementById("estHomeSize");
+        if (_hsInput) { _hsInput.style.borderColor = "#f59e0b"; _hsInput.focus(); }
+        return;
+      }
+
+      // Save home size BEFORE the loading screen replaces the DOM,
+      // so the pricing calculation can still access it.
+      journeyState._savedHomeSize = _homeSizeVal;
+
+      // Show loading
+      const root = document.getElementById("appRoot");
+      if (!root) return;
+      root.innerHTML = `
+        <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
+          <div class="progress-phase">Crunching the numbers for your area...</div>
+          <div class="progress-sub">Checking satellite data and local rates</div>
+          <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;">
+            <div id="estProgressBar" style="width:20%; height:100%; background:var(--brand, #1d4ed8); transition:width .6s;"></div>
+          </div>
+        </div>
+      `;
+
+      // Regional pricing model (matches data/pricing-model.json + data/state-regions.json)
+      const BASE_PRICE_PER_SQUARE = {
+        asphalt: 425, architectural: 525, metal: 1150, tile: 1200, cedar: 900, flat: 550, slate: 2800, concrete: 775
+      };
+      const LABOR_MULT_BY_REGION = {
+        south: 1.00, southeast: 1.03, northeast: 1.15, midwest: 1.06, mountain: 1.08, west: 1.18
+      };
+      const STATE_REGIONS = {
+        AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+        DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
+        IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
+        MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
+        MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+        NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
+        PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
+        UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
+        WY:"mountain",DC:"northeast"
+      };
+      const WASTE_FACTOR = 1.0;
+      const OVERHEAD_MULT = 1.0;
+
+      // Inflation adjustment: 3% annual from 2025 baseline
+      const INFLATION_BASE_YEAR = 2025;
+      const INFLATION_RATE = 0.03;
+      const now = new Date();
+      const yearsElapsed = now.getFullYear() - INFLATION_BASE_YEAR + (now.getMonth() / 12);
+      const INFLATION_MULT = Math.pow(1 + INFLATION_RATE, Math.max(0, yearsElapsed));
+
+      // Seasonal adjustment for roofing by month (1-indexed)
+      const SEASONAL_MULT_BY_MONTH = {
+        1:0.92, 2:0.93, 3:0.96, 4:0.99, 5:1.04, 6:1.08, 7:1.10, 8:1.10, 9:1.06, 10:1.00, 11:0.94, 12:0.90
+      };
+      const CURRENT_SEASONAL_MULT = SEASONAL_MULT_BY_MONTH[now.getMonth() + 1] || 1.0;
+
+      // Multipliers from user selections
+      const storyMultipliers = { single: 1.0, two_story: 0.55, townhome: 0.45 };
+      const pitchFactors = { flat: 1.0, normal: 1.12, steep: 1.25, very_steep: 1.40 };
+      const complexityFactors = { normal: 1.0, complex: 1.15, very_complex: 1.30 };
+      const tearOffFactors = { replacement: 1.0, repair: 0.35, proactive: 1.0 };
+      const seasonFactors = { asap: 1.04, spring: 1.0, summer: 1.02, fall: 1.0, winter: 0.97, unsure: 1.0 };
+
+      const storyMult = storyMultipliers[answers.propertyType] || 1.0;
+      const pitchFact = pitchFactors[answers.steepness] || 1.12;
+      const complexFact = complexityFactors[answers.complexity] || 1.0;
+      const tearOffFact = tearOffFactors[answers.workType] || 1.0;
+      const seasonFact = seasonFactors[answers.season] || 1.0;
+
+      // Update progress
+      const bar = document.getElementById("estProgressBar");
+      if (bar) bar.style.width = "40%";
+
+      // Lookup property signals (OSM footprint)
+      const preview = journeyState.propertyPreview || {};
+      let footprintSqFt = null;
+      let footprintSource = "regional_average";
+
+      try {
+        if (typeof lookupPropertyRoofSignals === "function") {
+          const signals = await lookupPropertyRoofSignals({
+            street: preview.street || "",
+            city: preview.city || "",
+            stateCode: preview.state || "",
+            zip: preview.zip || "",
+            fullAddress: [preview.street, preview.city, preview.state, preview.zip].filter(Boolean).join(", ")
+          });
+          if (signals?.footprintSqFt && signals.footprintSqFt > 400) {
+            footprintSqFt = signals.footprintSqFt;
+            footprintSource = "osm_footprint";
+          }
+        }
+      } catch (e) {
+        console.warn("Property signals lookup failed:", e);
+      }
+
+      if (bar) bar.style.width = "65%";
+
+      // Calculate roof size from footprint using proper pitch geometry.
+      // Pitch multiplier: sqrt(1 + (rise/12)^2) converts 2D footprint to sloped roof area.
+      // The user's steepness answer maps to approximate pitch values:
+      //   flat=2/12, normal=5.5/12, steep=9/12, very_steep=12/12
+      // Overhang adds ~8% for typical 1ft eave overhang.
+      const PITCH_TO_RISE = { flat: 2, normal: 5.5, steep: 9, very_steep: 12 };
+      const pitchRise = PITCH_TO_RISE[answers.steepness] || 5.5;
+      const pitchGeometry = Math.sqrt(1 + Math.pow(pitchRise / 12, 2)); // true slope multiplier
+      const OVERHANG_FACTOR = 1.08; // ~1ft overhang on typical perimeter
+      const COMPLEXITY_AREA = { normal: 1.0, complex: 1.07, very_complex: 1.15 };
+      const complexArea = COMPLEXITY_AREA[answers.complexity] || 1.0;
+      const ROOF_AREA_RATIO = pitchGeometry * OVERHANG_FACTOR * complexArea;
+
+      let baseArea;
+      // Check saved home size (saved before DOM was replaced by loading screen),
+      // then fallback to address step home size or OSM data
+      const estHomeSizeVal = journeyState._savedHomeSize || Number(document.getElementById("estHomeSize")?.value || 0);
+      const homeSize = estHomeSizeVal > 0 ? estHomeSizeVal
+        : journeyState.osmHomeSize > 0 ? journeyState.osmHomeSize
+        : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
+
+      if (homeSize) {
+        // If OSM footprint was used and user didn't manually override,
+        // the input already IS the footprint — don't apply story multiplier
+        const isOsmFootprint = journeyState.osmFootprint && homeSize === journeyState.osmFootprint;
+        const footprint = isOsmFootprint ? homeSize : homeSize * storyMult;
+        baseArea = footprint * ROOF_AREA_RATIO;
+        footprintSource = isOsmFootprint ? "osm_footprint" : "user_home_size";
+
+        // Cross-check with OSM if available — use larger of the two for safety
+        if (footprintSqFt && footprintSqFt > footprint * 0.8) {
+          const osmRoofSize = footprintSqFt * pitchFact;
+          if (osmRoofSize > baseArea) {
+            baseArea = osmRoofSize;
+            footprintSource = "osm_footprint";
+          }
+        }
+      } else if (footprintSqFt) {
+        // OSM footprint available, no home size entered
+        baseArea = footprintSqFt * pitchFact;
+        footprintSource = "osm_footprint";
+      } else {
+        // No footprint data — ask user for home size instead of guessing
+        const userSize = prompt("We couldn't detect your roof size from satellite data.\n\nEnter your home's square footage (e.g. 2000):");
+        const parsedSize = parseInt(userSize);
+        if (parsedSize && parsedSize >= 400 && parsedSize <= 20000) {
+          const footprint = parsedSize * storyMult;
+          baseArea = footprint * ROOF_AREA_RATIO;
+          footprintSource = "user_home_size";
+        } else {
+          // User cancelled or invalid — use conservative estimate
+          const avgHome = 1800;
+          baseArea = avgHome * storyMult * ROOF_AREA_RATIO;
+          footprintSource = "regional_average";
+        }
+      }
+
+      // Apply complexity on top (dormers, valleys add area)
+      const estimatedRoofSize = Math.round(baseArea * complexFact);
+
+      // Calculate cost using regional pricing model
+      const city = preview.city || "";
+      const stateCode = (preview.state || "").toUpperCase();
+      const material = answers.material;
+      const region = STATE_REGIONS[stateCode] || "south";
+      let laborMult = LABOR_MULT_BY_REGION[region] || 1.0;
+
+      // Try city-level multiplier from RPP data (cached per session)
+      if (city && stateCode && window.__cityMultCache && window.__cityMultCache[city + "|" + stateCode]) {
+        laborMult = window.__cityMultCache[city + "|" + stateCode];
+      }
+
+      // Price per square (100 sq ft) from base model
+      const basePricePerSquare = BASE_PRICE_PER_SQUARE[material] || 525;
+      const roofSquares = estimatedRoofSize / 100;
+
+      // Brand tier: detect from material selection (basic materials = standard, premium shingles = premium)
+      const premiumMaterials = ["metal", "tile", "cedar"];
+      const brandMult = premiumMaterials.includes(material) ? 1.12 : 1.0;
+
+      // Scope complexity: insurance jobs tend to be comprehensive
+      const scopeMult = answers.insurance === "yes" ? 1.15 : 1.0;
+
+      // Total = squares × base price × waste × overhead × labor × tearoff × brand × scope × inflation × seasonal
+      const totalCost = roofSquares * basePricePerSquare * WASTE_FACTOR * OVERHEAD_MULT
+        * laborMult * tearOffFact * brandMult * scopeMult * seasonFact * INFLATION_MULT * CURRENT_SEASONAL_MULT;
+
+      const mid = Math.round(totalCost / 50) * 50; // round to nearest $50
+      const low = Math.round(mid * 0.85 / 50) * 50;
+      const high = Math.round(mid * 1.18 / 50) * 50;
+      const benchmarkPerSqFt = Math.round((mid / estimatedRoofSize) * 100) / 100;
+      const localDataUsed = true; // Always using regional data now
+
+      if (bar) bar.style.width = "90%";
+
+      // Store result
+      const materialLabel = typeof getMaterialLabel === "function"
+        ? getMaterialLabel(material)
+        : material;
+
+      window.__latestEstimatorResult = {
+        estimatedRoofSize,
+        footprintSource,
+        material,
+        materialLabel,
+        low, mid, high,
+        city, stateCode,
+        region,
+        localDataUsed,
+        propertyType: answers.propertyType,
+        workType: answers.workType,
+        steepness: answers.steepness,
+        complexity: answers.complexity,
+        season: answers.season,
+        insurance: answers.insurance,
+        isOwner: answers.ownership === "yes",
+        pitchFactor: pitchFact,
+        complexityFactor: complexFact,
+        tearOffFactor: tearOffFact,
+        seasonFactor: seasonFact,
+        benchmarkPerSqFt
+      };
+
+      if (typeof tpTrack === "function") tpTrack("estimate_completed", { material: material, city: city, state: stateCode, mid: String(mid) });
+      setTimeout(() => setJourneyStep("estimator_result"), 400);
+    };
+
+    window.renderEstimatorResultStep = function renderEstimatorResultStep() {
+      const r = window.__latestEstimatorResult;
+      if (!r) return `<div style="max-width:800px; margin:40px auto; text-align:center;"><p>No estimate available.</p></div>`;
+
+      // Standardized: silent benchmark capture + opt-out footnote (Option C)
+      try {
+        if (typeof window.tpCaptureCommunity === "function") {
+          window.tpCaptureCommunity({
+            service: "roofing",
+            price: Number(r.mid || r.midpoint || ((Number(r.low||0) + Number(r.high||0))/2) || 0),
+            city: r.city || "",
+            stateCode: r.stateCode || "",
+            material: r.material || r.materialLabel || "",
+            roofSize: r.estimatedRoofSize || 0,
+            verdict: "estimate"
+          });
+        }
+      } catch (e) {}
+
+      const fmtPrice = (n) => "$" + Number(n).toLocaleString();
+      const cityState = [r.city, r.stateCode].filter(Boolean).join(", ");
+      const isMultiStory = r.propertyType === "two_story" || r.propertyType === "townhome";
+      const sourceNote = r.footprintSource === "osm_footprint"
+        ? "Measured from satellite footprint" + (isMultiStory ? ". Roof covers the footprint, not total living area." : "")
+        : r.footprintSource === "user_home_size"
+          ? "Based on your entered home size" + (isMultiStory ? " (adjusted for " + (r.propertyType === "two_story" ? "2" : "multi") + "-story layout)" : "")
+          : "Regional average (footprint not detected)";
+
+      const hasCityMult = r.city && window.__cityMultCache && window.__cityMultCache[r.city + "|" + r.stateCode];
+      const confidenceLevel = (r.footprintSource === "osm_footprint" && hasCityMult) ? "High"
+        : (r.footprintSource === "osm_footprint" || r.footprintSource === "user_home_size") ? "Medium-High"
+        : hasCityMult ? "Medium" : "Low";
+
+      const confidenceColor = confidenceLevel === "High" ? "#166534"
+        : (confidenceLevel === "Medium-High" || confidenceLevel === "Medium") ? "#16a34a" : "#dc2626";
+
+      const regionLabel = (r.region || "").charAt(0).toUpperCase() + (r.region || "").slice(1);
+      const seasonNote = r.season === "summer" ? " (includes 2% peak-season surcharge)"
+        : r.season === "asap" ? " (includes 4% urgency premium)"
+        : r.season === "winter" ? " (includes 3% off-season discount)" : "";
+
+      const workLabel = r.workType === "repair" ? "Roof Repair" : "Roof Replacement";
+
+      return `
+        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+
+          <!-- Main estimate card -->
+          <div style="padding:32px; background:#fff; border:2px solid #2563eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.08); margin-bottom:20px;">
+            <div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#2563eb; margin:0 0 8px;">
+              Your Estimated Cost
+            </div>
+
+            <h2 style="margin:0 0 4px; font-size:42px; line-height:1; letter-spacing:-0.03em; color:#0f172a;">
+              <span class="animate-count" data-target="${r.low}" data-prefix="$">$0</span> &ndash; <span class="animate-count" data-target="${r.high}" data-prefix="$">$0</span>
+            </h2>
+
+            <div style="font-size:16px; color:#475569; margin:0 0 20px;">
+              Midpoint: <strong>${fmtPrice(r.mid)}</strong> for ${r.materialLabel} ${workLabel.toLowerCase()}${cityState ? " in " + escapeHtml(cityState) : ""}${seasonNote}
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
+              <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Roof size</div>
+                <div style="font-size:20px; font-weight:700; color:#0f172a;">${Number(r.estimatedRoofSize).toLocaleString()} sq ft</div>
+                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${sourceNote}</div>
+              </div>
+              <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Material</div>
+                <div style="font-size:20px; font-weight:700; color:#0f172a;">${escapeHtml(r.materialLabel)}</div>
+              </div>
+              <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Cost per sq ft</div>
+                <div style="font-size:20px; font-weight:700; color:#0f172a;">$${r.benchmarkPerSqFt.toFixed(2)}</div>
+              </div>
+              <div style="padding:14px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:14px;">
+                <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:#64748b;">Confidence</div>
+                <div style="font-size:20px; font-weight:700; color:${confidenceColor};">${confidenceLevel}</div>
+                <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${r.city ? r.city + " local pricing" : regionLabel + " regional pricing"}</div>
+              </div>
+            </div>
+
+            <div style="margin-top:16px; padding:0 4px;">
+              <div style="position:relative; height:8px; background:linear-gradient(90deg, #22c55e 0%, #eab308 50%, #ef4444 100%); border-radius:4px;">
+                <div style="position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:20px; height:20px; background:#0f172a; border:3px solid #fff; border-radius:50%; box-shadow:0 2px 4px rgba(0,0,0,0.2);"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:12px; color:#94a3b8;">
+                <span>${fmtPrice(r.low)}</span>
+                <span>Midpoint: ${fmtPrice(r.mid)}</span>
+                <span>${fmtPrice(r.high)}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Encouraging context nudge -->
+          <div style="padding:12px 20px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:12px; margin-bottom:20px; font-size:14px; color:#475569;">
+            ${r.footprintSource === "osm_footprint"
+              ? "We measured your roof from satellite data for a more accurate estimate."
+              : r.city
+                ? "This estimate uses local pricing data for " + escapeHtml(r.city) + ", adjusted for current market conditions."
+                : "This estimate is based on pricing data for your area."}
+          </div>
+
+          <!-- Affiliate: material shopping link -->
+          ${(function() {
+            const aff = window.AFFILIATE_LINKS;
+            if (!aff || !aff.enabled) return "";
+            const link = aff.link(r.material, "material");
+            if (!link) return "";
+            return '<div style="padding:16px 20px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:14px; margin-bottom:20px; font-size:14px;">'
+              + '<span style="color:#475569;">Planning to buy materials yourself? </span>' + link + '</div>';
+          })()}
+
+          <!-- What's included -->
+          <div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">
+            <h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">What a typical ${workLabel.toLowerCase()} includes</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              ${r.workType === "replacement" ? `
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Tear-off &amp; disposal</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; New ${escapeHtml(r.materialLabel)}</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Underlayment</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Flashing</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Ridge caps</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Ventilation</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Cleanup</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Permit (if required)</div>
+              ` : `
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Leak repair</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Damaged area patching</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Flashing repair</div>
+                <div style="font-size:14px; color:#475569; padding:6px 0;">&#10003; Cleanup</div>
+              `}
+            </div>
+          </div>
+
+          <!-- Material tier comparison -->
+          ${(function() {
+            if (!r.estimatedRoofSize) return "";
+            var tiers = [
+              { key: "asphalt", label: "3-Tab Budget", psq: 330, brands: "IKO, TAMKO, Atlas" },
+              { key: "architectural", label: "Architectural", psq: 525, brands: "GAF HDZ, OC Duration, CertainTeed" },
+              { key: "designer", label: "Designer / Luxury", psq: 825, brands: "GAF Grand Canyon, OC Berkshire" },
+              { key: "metal", label: "Standing Seam Metal", psq: 1300, brands: "Drexel, Berridge, McElroy" }
+            ];
+            var squares = r.estimatedRoofSize / 100;
+            var html = '<div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">';
+            html += '<h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">Same roof, different materials</h3>';
+            html += '<div style="display:flex; flex-direction:column; gap:8px;">';
+            tiers.forEach(function(t) {
+              var mid = Math.round(t.psq * squares * (r.laborMult || 1.0) / 50) * 50;
+              var low = Math.round(mid * 0.85 / 50) * 50;
+              var high = Math.round(mid * 1.15 / 50) * 50;
+              var isCurrent = (r.material || "").includes(t.key);
+              var bg = isCurrent ? "#eff6ff" : "#f8fafc";
+              var border = isCurrent ? "2px solid #2563eb" : "1px solid #e2e8f0";
+              html += '<div style="background:' + bg + '; border:' + border + '; border-radius:10px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">';
+              html += '<div><strong>' + t.label + '</strong>' + (isCurrent ? ' <span style="font-size:11px;color:#2563eb;font-weight:600;">YOURS</span>' : '') + '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + t.brands + '</div></div>';
+              html += '<div style="text-align:right;"><div style="font-size:1.05rem;color:#1e293b;font-weight:700;">$' + mid.toLocaleString() + '</div><div style="font-size:11px;color:#64748b;">$' + low.toLocaleString() + ' - $' + high.toLocaleString() + '</div></div>';
+              html += '</div>';
+            });
+            html += '</div></div>';
+            return html;
+          })()}
+
+          ${r.insurance === "yes" || r.insurance === "maybe" ? `
+          <!-- Insurance tip -->
+          <div style="padding:20px 24px; background:#fffbeb; border:1px solid #fde68a; border-radius:18px; margin-bottom:20px;">
+            <div style="font-size:15px; font-weight:700; color:#92400e; margin-bottom:6px;">Insurance claim tip</div>
+            <p style="font-size:14px; color:#78350f; margin:0; line-height:1.6;">
+              ${r.insurance === "yes"
+                ? "Get your own estimate before the adjuster visits. Insurance payouts are often based on their estimate, not yours. Having a contractor quote gives you leverage if the initial payout is low."
+                : "If you suspect storm damage, document everything with photos before calling your insurer. Most policies have a 1-year filing window. A contractor inspection (usually free) can confirm whether the damage is claimable."}
+            </p>
+          </div>` : ""}
+
+          <!-- Next steps -->
+          <div style="padding:24px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:18px; margin-bottom:20px;">
+            <h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">Next steps</h3>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; gap:14px; align-items:flex-start;">
+                <div style="flex-shrink:0; width:28px; height:28px; background:#2563eb; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">1</div>
+                <div>
+                  <div style="font-weight:600; color:#0f172a;">Get 2-3 quotes from local contractors</div>
+                  <div style="font-size:13px; color:#475569;">Compare bids to see who offers the best value — not just the lowest price.</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:14px; align-items:flex-start;">
+                <div style="flex-shrink:0; width:28px; height:28px; background:#2563eb; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">2</div>
+                <div>
+                  <div style="font-weight:600; color:#0f172a;">Upload your quote for a detailed analysis</div>
+                  <div style="font-size:13px; color:#475569;">We'll check the price, scope, and flag anything missing.</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:14px; align-items:flex-start;">
+                <div style="flex-shrink:0; width:28px; height:28px; background:#2563eb; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">3</div>
+                <div>
+                  <div style="font-weight:600; color:#0f172a;">Sign with confidence</div>
+                  <div style="font-size:13px; color:#475569;">Know exactly what you're paying for before you commit.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Standardized: Next Steps before signing -->
+          <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
+            <h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>
+            <ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">
+              <li>Confirm tear-off scope &mdash; old shingles fully removed, not layered over</li>
+              <li>Ask for a written decking replacement allowance (e.g. "first 2 sheets included")</li>
+              <li>Verify drip edge, ice &amp; water shield, and starter strip are itemized</li>
+              <li>Ask if the warranty covers materials AND workmanship, and for how long</li>
+              <li>Confirm permit and disposal are included in the price</li>
+            </ul>
+          </section>
+
+          <div style="text-align:center; margin:16px 0;">
+            <a href="/methodology.html" style="display:inline-block; padding:10px 20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; font-size:14px; font-weight:600; color:#475569; text-decoration:none;">How we calculate estimates</a>
+          </div>
+
+          <!-- CTAs -->
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+            <button class="btn" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px;" onclick="startQuoteUploadFromEstimator()">
+              Upload a quote to compare
+            </button>
+            <a class="btn-outline" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px; text-align:center; text-decoration:none;" href="/compare-roofing-quotes.html">
+              Compare 2-3 roofing quotes
+            </a>
+          </div>
+
+          <div style="text-align:center; margin-top:10px;">
+            <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start over</a>
+          </div>
+        </div>
+      `;
+    };
+
+    // Bridge: from estimator result → quote upload flow
+    window.startQuoteUploadFromEstimator = function startQuoteUploadFromEstimator() {
+      const root = document.getElementById("appRoot");
+      if (!root) return;
+
+      root.innerHTML = `
+        <div style="max-width:720px; margin:60px auto; padding:0 24px;">
+          <div style="padding:28px; background:#fff; border:1px solid #e2e8f0; border-radius:18px; box-shadow:0 4px 16px rgba(15,23,42,0.06); text-align:center;">
+            <h2 style="margin:0 0 8px; font-size:28px; letter-spacing:-0.02em;">Upload your contractor quote</h2>
+            <p style="color:var(--muted); margin:0 0 20px;">We'll compare it against your ${window.__latestEstimatorResult ? "$" + Number(window.__latestEstimatorResult.mid).toLocaleString() + " estimate" : "local pricing data"}.</p>
+            <input id="quoteFile" type="file" accept=".pdf,image/*" style="display:none;" />
+            <button type="button" class="btn" style="font-size:16px; padding:14px 28px;" onclick="document.getElementById('quoteFile').click()">Upload quote</button>
+            <div style="margin-top:14px; font-size:13px; color:var(--muted);">PDF, screenshot, or phone photo</div>
+          </div>
+        </div>
+      `;
+
+      const input = document.getElementById("quoteFile");
+      if (input) {
+        input.addEventListener("change", async function() {
+          const file = input.files?.[0];
+          if (!file) return;
+          const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+          if (!validTypes.includes(file.type) && !file.name.match(/\\.(pdf|jpg|jpeg|png|webp|gif)$/i)) {
+            alert('Please upload a PDF or image file.');
+            return;
+          }
+          if (file.size > 20 * 1024 * 1024) {
+            alert('File is too large. Please upload a file under 20MB.');
+            return;
+          }
+          if (typeof loadVendorLibs === "function") await loadVendorLibs();
+          root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;"><div class="progress-phase">Reading your quote...</div><div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;"><div style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div></div></div>';
+          try {
+            const parsedBundle = await parseUploadedComparisonFile(file);
+            latestParsed = parsedBundle?.parsed || parsedBundle || {};
+            journeyState.propertyConfirmed = true;
+            confirmProperty();
+          } catch (err) {
+            root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:24px;"><p>Could not read the quote. Please try again.</p><button class="btn secondary" onclick="setJourneyStep(\'address\')">Back</button></div>';
+          }
+        });
+      }
+    };
+
+    // ── End Guided Estimator ────────────────────────────────────────────
+
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () {
           if (typeof window.renderApp === "function") {
@@ -10834,4 +15527,5 @@ function buildComparisonWinnerHtml(summary) {
           window.renderApp();
         }
       }
+
       })();

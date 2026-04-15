@@ -16,14 +16,10 @@ files.forEach(f => {
   bundle += '\n// === ' + f + ' ===\n' + content;
 });
 
-// Basic minification: remove comments, collapse whitespace
-const minified = bundle
-  .replace(/\/\/[^\n]*\n/g, '\n')  // Remove single-line comments
-  .replace(/\n\s*\n/g, '\n')       // Collapse blank lines
-  .trim();
-
+// Just concatenate. esbuild handles real minification downstream, and
+// the old regex-based // stripping mangled https:// URLs inside strings.
 const outPath = path.join(ROOT, 'js', 'analyzer-bundle.js');
-fs.writeFileSync(outPath, minified, 'utf8');
+fs.writeFileSync(outPath, bundle.trim(), 'utf8');
 
 const originalSize = files.reduce((sum, f) => sum + fs.statSync(path.join(ROOT, f)).size, 0);
 const bundleSize = fs.statSync(outPath).size;

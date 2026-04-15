@@ -1530,11 +1530,19 @@ const SCOPE_DEFINITIONS = {
       /\bice & water\b/g,
       /\bice water shield\b/g,
       /\bice shield\b/g,
+      /\bice barrier\b/g,
       /\bleak barrier\b/g,
       /\bwater shield\b/g,
       /\bice\s+(?:and|&)\s+water\s+shield\b/g,
       /\binstall\s+ice\s+and\s+water\b/g,
-      /\bself[- ]adhesive.*membrane\b/g
+      /\bself[- ]adhesive.*membrane\b/g,
+      /\bweather\s*watch\b/g,
+      /\bstorm\s*guard\b/g,
+      /\bweather\s*lock\b/g,
+      /\bwinter\s*guard\b/g,
+      /\bstorm\s*shield\b/g,
+      /\bgrace\s*ice\b/g,
+      /\bpolyglass\b/g
     ],
     negative: [
       /\bice and water not included\b/g,
@@ -1547,15 +1555,18 @@ const SCOPE_DEFINITIONS = {
     label: "Ventilation",
     positive: [
       /\bventilation\b/g,
-      /\bvent\b/g,
-      /\broof vent\b/g,
-      /\bbox vent\b/g,
-      /\bstatic vent\b/g,
-      /\bturtle vent\b/g,
-      /\bpower vent\b/g,
-      /\bsoffit vent\b/g,
+      /\bvents?\b/g,
+      /\broof vents?\b/g,
+      /\bbox vents?\b/g,
+      /\bstatic vents?\b/g,
+      /\bturtle vents?\b/g,
+      /\bpower vents?\b/g,
+      /\bsoffit vents?\b/g,
+      /\battic vents?\b/g,
       /\battic\s+(?:space\s+)?ventilation\b/g,
-      /\bair\s*flow\b/g
+      /\bair\s*flow\b/g,
+      /\bcobra\s*vents?\b/g,
+      /\bturbines?\b/g
     ],
     negative: [
       /\bventilation not included\b/g,
@@ -1573,7 +1584,10 @@ const SCOPE_DEFINITIONS = {
       /\bridge venting\b/g,
       /\bcontinuous\s+ridge\s+vent\b/g,
       /\bridge ventilation\b/g,
-      /\bridge\s+ventilation\s+system\b/g
+      /\bridge\s+ventilation\s+system\b/g,
+      /\bcobra\s*ridge\s*vent\b/g,
+      /\bcobra\s*vent\b/g,
+      /\bshingle[\s-]*over\s*ridge\s*vent\b/g
     ],
     negative: [
       /\bridge vent not included\b/g,
@@ -1586,7 +1600,15 @@ const SCOPE_DEFINITIONS = {
     positive: [
       /\bstarter strip\b/g,
       /\bstarter course\b/g,
-      /\bstarter shingle\b/g
+      /\bstarter shingle\b/g,
+      /\bstarter row\b/g,
+      /\bpro[\s-]?start\b/g,
+      /\bstarter seal\b/g,
+      /\bweather blocker\b/g,
+      /\bweather[\s-]?blocker\b/g,
+      /\bpeel[\s-]?and[\s-]?stick\s*starter\b/g,
+      /\beave starter\b/g,
+      /\bstarter\s+\(/g
     ],
     negative: [
       /\bstarter strip not included\b/g,
@@ -1600,7 +1622,16 @@ const SCOPE_DEFINITIONS = {
       /\bridge cap\b/g,
       /\bridgecap\b/g,
       /\bhip and ridge\b/g,
-      /\bhip\/ridge\b/g
+      /\bhip\/ridge\b/g,
+      /\bhip cap\b/g,
+      /\bcap shingle\b/g,
+      /\btimber\s*tex\b/g,
+      /\bseal[\s-]?a[\s-]?ridge\b/g,
+      /\bz[\s-]?ridge\b/g,
+      /\bdura\s*ridge\b/g,
+      /\bmountain\s*ridge\b/g,
+      /\bshadow\s*ridge\b/g,
+      /\bhigh[\s-]?profile\s*ridge\b/g
     ],
     negative: [
       /\bridge cap not included\b/g,
