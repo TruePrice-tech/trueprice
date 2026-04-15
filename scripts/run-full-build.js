@@ -17,6 +17,17 @@ function runStep(name, command) {
   execSync(command, { stdio: "inherit", cwd: ROOT });
 }
 
+function runOptionalStep(name, command) {
+  console.log("\n===============================");
+  console.log(name);
+  console.log("===============================");
+  try {
+    execSync(command, { stdio: "inherit", cwd: ROOT });
+  } catch (err) {
+    console.warn(`⚠  ${name} failed (non-fatal): ${err.message}`);
+  }
+}
+
 function parseCsv(csvText) {
   const lines = csvText.trim().split(/\r?\n/);
   if (!lines.length) return [];
@@ -97,6 +108,8 @@ function main() {
 
     writeBuildManifest(rows);
     printBuildSummary(rows);
+
+    runOptionalStep("3. Ping Bing IndexNow with sitemap URLs", "node scripts/indexnow-push.js");
 
     console.log("\n✅ FULL BUILD COMPLETE\n");
   } catch (err) {
