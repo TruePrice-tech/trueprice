@@ -1,0 +1,48 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "X: Pull Vercel env vars",
+      "type": "shell",
+      "command": "vercel env pull .env.local",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true }
+    },
+    {
+      "label": "X: Verify credentials",
+      "type": "shell",
+      "command": "node scripts/tweet-drafts.js --verify",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true }
+    },
+    {
+      "label": "X: Generate 5 drafts",
+      "type": "shell",
+      "command": "node scripts/tweet-drafts.js --count 5",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true }
+    },
+    {
+      "label": "X: Generate 10 drafts",
+      "type": "shell",
+      "command": "node scripts/tweet-drafts.js --count 10",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true }
+    },
+    {
+      "label": "X: Post draft (prompts for number)",
+      "type": "shell",
+      "command": "node scripts/tweet-drafts.js --post ${input:draftNumber}",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "draftNumber",
+      "type": "promptString",
+      "description": "Draft number to post (1-N from the latest batch):",
+      "default": "1"
+    }
+  ]
+}
