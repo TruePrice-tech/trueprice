@@ -648,7 +648,7 @@
                 var _input = document.getElementById("sizeInput");
                 if (_input && !_input.value) {
                   var stories = state.est.stories || "1";
-                  var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
+                  var mult = stories === "2" ? 1.5 : stories === "3" ? 2.3 : 0.85;
                   _input.value = Math.round(sqft * mult);
                 }
               }
@@ -984,7 +984,7 @@
         var prefill = est.areaSqFtManual || "";
         var _insFp = state.osmFootprint || 0;
         if (!prefill && _insFp > 0) {
-          var sMult = est.stories === "2" ? 2.0 : est.stories === "3" ? 2.5 : 1.0;
+          var sMult = est.stories === "2" ? 1.5 : est.stories === "3" ? 2.3 : 0.85;
           prefill = Math.round(_insFp * sMult);
         }
         card.innerHTML = '\
@@ -1039,7 +1039,7 @@
               if (state.osmFootprint) {
                 var inp = document.getElementById("sizeInput");
                 var stories = est.stories || "1";
-                var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
+                var mult = stories === "2" ? 1.5 : stories === "3" ? 2.3 : 0.85;
                 var calc = Math.round(state.osmFootprint * mult);
                 if (inp && !inp.value) inp.value = String(calc);
                 render(); // Re-render to show satellite message and hide presets

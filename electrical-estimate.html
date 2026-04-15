@@ -652,7 +652,7 @@
                 var _input = document.getElementById("sqftInput");
                 if (_input && !_input.value) {
                   var stories = state.est.stories || "1";
-                  var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
+                  var mult = stories === "2" ? 1.5 : stories === "3" ? 2.3 : 0.85;
                   _input.value = Math.round(sqft * mult);
                 }
               }
@@ -972,7 +972,7 @@
       } else if (stepNum === 2) {
         var osmFp = state.osmFootprint || 0;
         var stories = est.stories || "1";
-        var estimatedSqFt = est.homeSqFtManual || (osmFp > 0 ? Math.round(osmFp * (stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0)) : "");
+        var estimatedSqFt = est.homeSqFtManual || (osmFp > 0 ? Math.round(osmFp * (stories === "2" ? 1.5 : stories === "3" ? 2.3 : 0.85)) : "");
 
         card.innerHTML = '\
           <div class="elec-step">\
@@ -1012,7 +1012,7 @@
             storiesContainer.querySelectorAll(".elec-option").forEach(function(el) { el.classList.remove("selected"); });
             opt.classList.add("selected");
             if (osmFp > 0 && !est.homeSqFtManual) {
-              var mult = est.stories === "2" ? 2.0 : est.stories === "3" ? 2.5 : 1.0;
+              var mult = est.stories === "2" ? 1.5 : est.stories === "3" ? 2.3 : 0.85;
               document.getElementById("sqftInput").value = Math.round(osmFp * mult);
             }
           });
@@ -1062,7 +1062,7 @@
               if (state.osmFootprint) {
                 var inp = document.getElementById("sqftInput");
                 var stories = est.stories || "1";
-                var mult = stories === "2" ? 2.0 : stories === "3" ? 2.5 : 1.0;
+                var mult = stories === "2" ? 1.5 : stories === "3" ? 2.3 : 0.85;
                 var calc = Math.round(state.osmFootprint * mult);
                 if (inp && !inp.value) inp.value = String(calc);
                 render(); // Re-render to show satellite message and hide presets
