@@ -241,6 +241,195 @@ depending on material, fence height, and yard size.
 </div>
 </section>
 
+
+
+
+
+
+<!-- FLAGSHIP-FENCING-CONTENT -->
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<section class="section fp-section">
+<h2>Neighborhood Pricing Breakdown</h2>
+<p>Fencing costs vary within New York based on local labor rates, material delivery distances, and lot accessibility. These are estimated ranges for a typical 150-linear-foot backyard enclosure in each area.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Wood Privacy</th>
+<th style="text-align:right; padding:12px 16px;">Vinyl</th>
+<th style="text-align:right; padding:12px 16px;">Chain Link</th>
+<th style="text-align:right; padding:12px 16px;">Iron/Ornamental</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Upper East Side</td>
+<td style="padding:12px 16px; text-align:right;">$7,100</td>
+<td style="padding:12px 16px; text-align:right;">$8,500</td>
+<td style="padding:12px 16px; text-align:right;">$3,800</td>
+<td style="padding:12px 16px; text-align:right;">$10,900</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Park Slope</td>
+<td style="padding:12px 16px; text-align:right;">$6,950</td>
+<td style="padding:12px 16px; text-align:right;">$8,350</td>
+<td style="padding:12px 16px; text-align:right;">$3,700</td>
+<td style="padding:12px 16px; text-align:right;">$10,700</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Astoria</td>
+<td style="padding:12px 16px; text-align:right;">$6,900</td>
+<td style="padding:12px 16px; text-align:right;">$8,300</td>
+<td style="padding:12px 16px; text-align:right;">$3,700</td>
+<td style="padding:12px 16px; text-align:right;">$10,600</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Forest Hills</td>
+<td style="padding:12px 16px; text-align:right;">$6,150</td>
+<td style="padding:12px 16px; text-align:right;">$7,400</td>
+<td style="padding:12px 16px; text-align:right;">$3,300</td>
+<td style="padding:12px 16px; text-align:right;">$9,450</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Riverdale</td>
+<td style="padding:12px 16px; text-align:right;">$6,300</td>
+<td style="padding:12px 16px; text-align:right;">$7,550</td>
+<td style="padding:12px 16px; text-align:right;">$3,350</td>
+<td style="padding:12px 16px; text-align:right;">$9,650</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Bay Ridge</td>
+<td style="padding:12px 16px; text-align:right;">$6,350</td>
+<td style="padding:12px 16px; text-align:right;">$7,650</td>
+<td style="padding:12px 16px; text-align:right;">$3,400</td>
+<td style="padding:12px 16px; text-align:right;">$9,750</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates, material delivery costs, and typical lot conditions. Actual pricing depends on terrain, fence height, gate count, and old fence removal. <a href="/fencing-quote-analyzer.html?mode=estimator&city=New York&state=NY" style="color:var(--brand);">Get a personalized estimate.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How New York's Climate Affects Fencing Materials</h2>
+<p>Humid continental with 30+ inches of snow per year, freeze-thaw cycles from December through March, and noreaster wind events that can exceed 60 mph. Understanding how these conditions affect fencing materials is critical to getting 15-25 years out of your investment in New York.</p>
+<p><strong>Freeze-thaw and vinyl brittleness.</strong> Vinyl fencing becomes significantly more brittle in cold weather. In New York's winters, a strong wind gust or impact from a falling branch can crack vinyl panels that would flex harmlessly in warmer conditions. If you choose vinyl, specify panels rated for cold-climate installation (look for impact resistance ratings tested at 0F). Post flexibility also matters -- vinyl posts should have internal aluminum or steel reinforcement in New York to handle wind loads without snapping. Standard unreinforced vinyl posts are a common source of failure in cold-climate installations.</p>
+</section>
+<section class="section fp-section">
+<h2>Property Lines and Survey Requirements in New York</h2>
+<p>A fence built even a few inches over a property line can result in a forced removal at your expense, a neighbor dispute that escalates to litigation, or a failed home sale inspection. In New York, boundary disputes are one of the most common and avoidable fencing problems.</p>
+<p><strong>Get a survey before you build.</strong> A professional land survey in New York typically costs $300-$800 depending on lot size and complexity. This is not optional -- it is the only way to know exactly where your property line falls. The original survey from your home purchase may be outdated or imprecise, especially if any neighboring lots have been subdivided or improved since then. Five boroughs spanning Manhattan island, the Bronx, Queens, Brooklyn, and Staten Island, with very different housing stocks and contractor pools.</p>
+<p><strong>Setback requirements.</strong> Most municipalities in NY, including New York, require fences to be set back from the property line by a specific distance (typically 0-6 inches, but sometimes more in corner lots or near easements). Utility easements along the back or side of your lot may prevent fence installation entirely in certain areas. Check with New York's building department and review your plat survey for easement locations before finalizing your fence layout.</p>
+<p><strong>Neighbor notification.</strong> Check NY's specific statutes on boundary fence cost-sharing and neighbor notification requirements.</p>
+</section>
+<section class="section fp-section">
+<h2>HOA and Municipal Fence Restrictions in New York</h2>
+<p>Before selecting materials, height, or style for your fence in New York, check two layers of restrictions: your HOA's CC&Rs (if applicable) and the city's municipal code. Violating either can result in forced removal at your expense.</p>
+<p><strong>Height limits.</strong> New York's municipal code typically limits residential fences to 6 feet in rear and side yards and 3-4 feet in front yards. Corner lots often have additional height restrictions in the sight-triangle zone near intersections to maintain driver visibility. Your HOA may impose stricter limits -- some communities cap fence height at 4 feet even in backyards, or require specific styles that limit effective height.</p>
+<p><strong>Material restrictions.</strong> Many HOAs in New York prohibit chain link fencing entirely, require specific colors or stain tones, or mandate that the "finished" side of a wood fence face outward toward neighbors. Municipal code may restrict certain materials in front yards -- barbed wire and electric fencing are prohibited in most residential zones in New York. Local Law 11 (Facade Inspection Safety Program) requires building owners over six stories to inspect facades every five years.</p>
+<p><strong>Front-yard fence restrictions.</strong> Most residential zones in New York either prohibit front-yard fencing entirely or limit it to 3-4 feet with an open design (picket, wrought iron, or ornamental aluminum). Solid privacy fencing in the front yard is almost universally prohibited in single-family residential zones. If you need front-yard fencing for pet containment, look into low ornamental options that comply with local height and opacity restrictions.</p>
+</section>
+<section class="section fp-section">
+<h2>Fence Permits and Building Code in New York</h2>
+<p>NYC Department of Buildings (DOB) permits are required for nearly all exterior work and typically take 2-4 weeks; expediters are commonly used to navigate the process. For fencing specifically, most cities require a permit when the fence exceeds a certain height threshold -- typically 6 feet in New York, though the trigger varies by zone and lot position.</p>
+<p><strong>When a permit is required.</strong> In New York, a fence permit is generally required for: fences over 6 feet tall, any fence in a front yard, fences within utility easements, and fences near drainage ways or flood zones. Even if your fence falls below the height threshold, some neighborhoods and HOAs require proof of a city permit before approving construction. The permit fee in New York is typically $50-$200 depending on fence length and complexity.</p>
+<p><strong>Who pulls the permit.</strong> Your contractor should handle the permit application as part of the project scope. If a contractor asks you to pull the permit yourself, or suggests skipping the permit entirely, that is a red flag. The permit holder is legally responsible for code compliance, and unpermitted fencing can create problems during a home sale, void HOA approval, and leave you liable for setback violations.</p>
+<p><strong>Inspections.</strong> After permit issuance and fence installation, New York's building department may schedule a final inspection to verify compliance with height, setback, and construction standards. Confirm with your contractor that the inspection was requested and passed. Keep the permit and inspection documentation -- you will need it if you sell the home or if a neighbor raises a boundary dispute.</p>
+</section>
+<section class="section fp-section">
+<h2>Red Flags When Hiring a Fence Contractor in New York</h2>
+<p>These are the most common contractor problems reported by New York homeowners in fencing projects. Watch for all of them when reviewing quotes.</p>
+
+<div class="fp-flag">
+<h3>No survey before installation</h3>
+<p>A contractor who is willing to install a fence without asking about your property survey is either inexperienced or indifferent to the risk of building on your neighbor's property. In New York, a fence built even 6 inches over the property line can result in forced removal at your expense -- and a neighbor lawsuit. Any reputable fencing contractor in New York will ask to see your survey pins or recommend a surveyor before breaking ground.</p>
+</div>
+<div class="fp-flag">
+<h3>Cedar vs pine deception</h3>
+<p>Some contractors in New York quote "cedar" but install lower-grade pine or spruce, which looks similar when freshly cut but rots significantly faster. Pressure-treated pine is a legitimate and cost-effective choice, but it should be quoted honestly. If a contractor quotes cedar at prices that seem too good to be true (below $28-30 per linear foot installed in New York), ask to see the material receipts and verify the wood species. Real western red cedar commands a premium because it resists rot and insects naturally.</p>
+</div>
+<div class="fp-flag">
+<h3>Skipping concrete for post footings</h3>
+<p>Posts set in dirt or gravel alone will shift and lean within 1-3 years in New York's soil conditions. Bedrock close to the surface in Manhattan but variable glacial till in the outer boroughs; foundation work is rare but expensive when needed. Every fence post should be set in concrete with a minimum depth of 24 inches (one-third of the post length). Contractors who skip concrete save $3-$5 per post in material and 10-15 minutes per hole in labor -- but the resulting fence will fail prematurely. If your quote does not explicitly include concrete footings for every post, ask why.</p>
+</div>
+<div class="fp-flag">
+<h3>Wrong post depth</h3>
+<p>In New York, fence posts need to be buried at least one-third of the total post length -- that means 32 inches minimum for an 8-foot post (supporting a 6-foot above-ground fence). Posts set at 18-20 inches, which some budget installers use to save time, will lean and fail under wind load or soil movement. Frost heave is an additional concern in New York. Posts should extend below the frost line, which is approximately 36-42 inches in this area.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Best Time to Install a Fence in New York</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">April through June and September through October</p>
+<p>Frozen ground makes post hole digging extremely difficult and expensive in winter. Spring and fall shoulder seasons offer the best combination of workable ground and moderate demand.</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">December through March</p>
+<p>Expect 10-20% higher labor costs and 2-4 week longer lead times during peak season. If you must schedule during peak, book at least 3-4 weeks in advance.</p>
+</div>
+</div>
+<p><strong>Ground conditions matter.</strong> Frozen ground is the primary constraint. Digging post holes in frozen soil requires auger equipment that adds $200-$500 to the project, and concrete does not cure properly below 40F. If you must install in winter, insulated blankets over fresh concrete footings are essential.</p>
+<p>Off-season scheduling can save 10-15% on labor costs in New York. Many reputable fencing contractors offer competitive pricing during their slower months to keep crews working.</p>
+</section>
+<section class="section fp-section">
+<h2>What a Fence Actually Costs in New York: 3 Scenarios</h2>
+<p>Here is what real fencing projects look like in New York, NY, using New York-adjusted labor and material costs for 2026. All scenarios assume a typical 150-linear-foot backyard enclosure with one walk gate.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">chain link (4 ft) | 150 LF</p>
+<p class="fp-scenario-total">$3,550</p>
+<p class="fp-scenario-detail">~$23.6/LF installed. Includes post holes, concrete footings, posts, rails, panels or pickets, one gate, hardware, and cleanup.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">cedar privacy (6 ft) | 150 LF</p>
+<p class="fp-scenario-total">$6,650</p>
+<p class="fp-scenario-detail">~$44.25/LF installed. Includes post holes, concrete footings, posts, rails, panels or pickets, one gate, hardware, and cleanup.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">ornamental iron (4-5 ft) | 150 LF</p>
+<p class="fp-scenario-total">$10,200</p>
+<p class="fp-scenario-detail">~$67.85/LF installed. Includes post holes, concrete footings, posts, rails, panels or pickets, one gate, hardware, and cleanup.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Scenarios assume flat terrain and no old fence removal. Sloped lots add 10-20% for stepped or racked panels. Old fence removal typically adds $3-$5 per linear foot. Double gates, custom heights, and decorative caps increase costs further. <a href="/fencing-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-FENCING-CONTENT -->
 <!-- TP-NEARBY-CITIES -->
 <section class="section" style="margin:32px 0;">
 <h2>Fencing cost in nearby NY cities</h2>

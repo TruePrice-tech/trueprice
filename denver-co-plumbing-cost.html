@@ -174,6 +174,201 @@
 </ul>
 </section>
 
+<!-- FLAGSHIP-PLUMBING-CONTENT -->
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<section class="section fp-section">
+<h2>Neighborhood Plumbing Cost Breakdown</h2>
+<p>Plumbing costs vary within Denver based on housing age, pipe material, foundation type, and local labor demand. These are estimated costs for common projects by neighborhood.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Water Heater</th>
+<th style="text-align:right; padding:12px 16px;">Sewer Line</th>
+<th style="text-align:right; padding:12px 16px;">Bath Rough-In</th>
+<th style="text-align:right; padding:12px 16px;">Whole Repipe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Highlands</td>
+<td style="padding:12px 16px; text-align:right;">$2,650</td>
+<td style="padding:12px 16px; text-align:right;">$6,650</td>
+<td style="padding:12px 16px; text-align:right;">$5,450</td>
+<td style="padding:12px 16px; text-align:right;">$6.7K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Wash Park</td>
+<td style="padding:12px 16px; text-align:right;">$2,575</td>
+<td style="padding:12px 16px; text-align:right;">$6,400</td>
+<td style="padding:12px 16px; text-align:right;">$5,250</td>
+<td style="padding:12px 16px; text-align:right;">$6.4K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Cherry Creek</td>
+<td style="padding:12px 16px; text-align:right;">$2,550</td>
+<td style="padding:12px 16px; text-align:right;">$6,350</td>
+<td style="padding:12px 16px; text-align:right;">$5,200</td>
+<td style="padding:12px 16px; text-align:right;">$6.3K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Stapleton</td>
+<td style="padding:12px 16px; text-align:right;">$2,275</td>
+<td style="padding:12px 16px; text-align:right;">$5,675</td>
+<td style="padding:12px 16px; text-align:right;">$4,625</td>
+<td style="padding:12px 16px; text-align:right;">$5.7K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">RiNo</td>
+<td style="padding:12px 16px; text-align:right;">$2,375</td>
+<td style="padding:12px 16px; text-align:right;">$5,925</td>
+<td style="padding:12px 16px; text-align:right;">$4,850</td>
+<td style="padding:12px 16px; text-align:right;">$5.9K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Capitol Hill</td>
+<td style="padding:12px 16px; text-align:right;">$2,400</td>
+<td style="padding:12px 16px; text-align:right;">$5,975</td>
+<td style="padding:12px 16px; text-align:right;">$4,900</td>
+<td style="padding:12px 16px; text-align:right;">$6.0K</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and typical project scope. Actual pricing depends on access difficulty, pipe material, and current demand. <a href="/plumbing-quote-analyzer.html?city=Denver&state=CO" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>Water Quality and Pipe Materials in Denver</h2>
+<p>Denver Water sources from the South Platte River and western slope reservoirs. Water hardness is moderate (80-130 ppm), low enough that water softeners are not essential but high enough that annual water heater flushing makes a real difference in equipment life. Denver's mile-high altitude reduces boiling points and affects water heater efficiency slightly, but the practical impact on plumbing costs is minimal.</p>
+<p><strong>What is in your walls.</strong> Copper is the dominant pipe material in Denver homes across all eras. The 1900-1930 brick bungalows in central neighborhoods like Wash Park and Highlands often have original galvanized steel that is severely corroded. PEX is the standard for modern repiping and new construction. Denver's dry climate and alkaline soil can cause exterior corrosion on copper pipes running through concrete and soil.</p>
+<p>If your home was built between 1978 and 1995, check specifically for polybutylene pipe (usually gray, sometimes blue or black, with plastic or copper crimp fittings). Polybutylene degrades from the inside out and fails without warning. Insurance companies in many states will not cover water damage from polybutylene failures if the homeowner was aware the pipe was present. Full PEX repipe is the recommended solution, and it is one of the highest-ROI plumbing investments you can make in an older home.</p>
+</section>
+<section class="section fp-section">
+<h2>How Denver's Climate Affects Your Plumbing</h2>
+<p>Semi-arid with intense UV exposure at altitude, heavy spring hailstorms (Front Range hail alley), and freeze-thaw cycles. These conditions have direct implications for plumbing system longevity, emergency risk, and project timing in Denver.</p>
+<p><strong>Freeze risk.</strong> Denver's winters bring sustained sub-freezing temperatures from November through March, with periodic arctic plunges well below zero. Frozen pipes are a routine winter hazard. Most Denver homes are well-insulated compared to Sun Belt construction, but older homes and homes with unfinished basements still experience freeze damage regularly. Exterior hose bibs should all be frost-free type, and any pipe running through an unheated space needs insulation.</p>
+<p><strong>Slab leaks.</strong> Denver's expansive bentonite clay creates foundation movement similar to Dallas and Houston, though generally less severe. Homes in the eastern metro (Aurora, Stapleton) on heavy clay are more at risk than homes on the western side closer to the foothills.</p>
+<p><strong>Soil and foundation.</strong> Expansive bentonite clay in many areas; foundation heaving and slab issues are common. Foundation movement from soil expansion and contraction is one of the leading causes of supply line failures and sewer lateral damage. If you see new cracks in drywall, doors sticking, or uneven floors, have the foundation evaluated before investing in plumbing repairs -- fixing the symptom without addressing the cause means the new work will fail the same way.</p>
+</section>
+<section class="section fp-section">
+<h2>Sewer and Drainage in Denver</h2>
+<p><strong>Sewer system.</strong> Denver uses a municipal sewer throughout the metro. Denver's system is separate (not combined), which reduces backup risk during storms. However, many older neighborhoods have original clay tile laterals that are 60-80 years old.</p>
+<p><strong>Tree root intrusion.</strong> Root intrusion risk in Denver is moderate. Denver's semi-arid climate limits tree size compared to wetter cities, but established neighborhoods with mature elms, maples, and cottonwoods still experience root intrusion in older sewer lines.. Camera inspection ($250-$450) before any sewer repair or replacement is non-negotiable. A contractor who recommends sewer work without first running a camera through the line is either cutting corners or upselling. The camera inspection tells you exactly where the problem is, what caused it, and what repair method is appropriate. Without it, you are guessing -- and guessing with sewer work means overpaying or under-solving.</p>
+</section>
+<section class="section fp-section">
+<h2>Plumbing Permits and Inspections in Denver</h2>
+<p>City of Denver permits typically issue within 1-2 weeks; insurance-driven hail repair claims spike permit volume in late spring. A plumbing permit is required for virtually all work beyond simple repairs in Denver. The permit ensures the work is inspected for code compliance, which protects you as the homeowner and ensures the work is insurable.</p>
+<p>Your plumber should pull the permit as part of the job. If a plumber asks you to pull the permit yourself, or suggests skipping the permit entirely, that is a serious red flag. Unpermitted plumbing work can void your homeowners insurance, create problems during a home sale, and leave you liable for water damage caused by substandard installation.</p>
+<p>After the job is complete, confirm that a final inspection was scheduled and passed. Most jurisdictions in CO require a pressure test and visual inspection of all new plumbing work. Keep the inspection documentation with your warranty paperwork.</p>
+</section>
+<section class="section fp-section">
+<h2>Plumbing Contractor Licensing in Denver</h2>
+<p>Plumbing is one of the most heavily licensed trades in the United States, and for good reason. Improper plumbing work can cause catastrophic water damage, sewage exposure, and gas leaks. Every state regulates plumbing licenses differently, and Denver has specific requirements you should verify before hiring anyone.</p>
+<p><strong>Licensing authority.</strong> Colorado licenses plumbers at the state level through DORA. There are Journeyman and Master tiers. The City and County of Denver requires additional registration. Colorado's licensing requirements are among the strictest in the western states. Verify at dora.colorado.gov. Note that Colorado does not have reciprocity with neighboring states, so a plumber licensed in Utah or New Mexico cannot legally work in Denver.</p>
+<p>Beyond licensing, verify that any plumber you hire carries general liability insurance (minimum $500,000) and workers' compensation coverage. Ask for certificates of insurance and verify them with the issuer. A plumber who is licensed but uninsured transfers all liability risk to you as the homeowner.</p>
+</section>
+<section class="section fp-section">
+<h2>Red Flags and Common Plumbing Scams in Denver</h2>
+<p>Every market has its share of contractor misconduct. Here are the patterns most commonly reported by Denver homeowners when hiring plumbers.</p>
+
+<div class="fp-flag">
+<h3>No camera inspection before sewer work</h3>
+<p>Any plumber who recommends sewer line replacement, lining, or major repair without first running a camera inspection is either guessing or inflating the scope. A camera inspection costs $250-$450 and shows exactly what is wrong, where it is, and what method is appropriate. In Denver, root intrusion, joint separation, and bellied pipe are all common -- and each requires a different repair approach. Skipping the camera means you cannot verify the diagnosis.</p>
+</div>
+<div class="fp-flag">
+<h3>Excessive deposit (over 25-30%)</h3>
+<p>A deposit exceeding 25-30% of the total job cost is a warning sign. Established plumbers in Denver with good supplier relationships do not need large upfront deposits to purchase materials. A reasonable structure is 10-15% at signing or material delivery, with the balance due upon completion and final inspection. If a plumber demands 50% upfront, that is either a cash flow problem or a flight risk.</p>
+</div>
+<div class="fp-flag">
+<h3>Recommending full repipe when spot repair would suffice</h3>
+<p>A full whole-house repipe is a $5,000-$12,000 job in Denver. It is the right answer when the entire pipe system is failing (polybutylene, severely corroded galvanized, or widespread pinhole leaks in copper). But if you have a single leak or a localized problem, a spot repair or partial repipe is often the correct and much less expensive solution. Be skeptical of any plumber who looks at one leak and immediately recommends a full repipe without inspecting the rest of the system.</p>
+</div>
+<div class="fp-flag">
+<h3>No written scope or single-line quote</h3>
+<p>If the quote says "replumb bathroom: $4,500" without itemizing scope, you have no protection against scope reduction or surprise change orders. A professional plumbing proposal in Denver should itemize: fixtures affected, pipe material, method of access, permit costs, drywall repair (if applicable), pressure testing, cleanup, and warranty terms. Anything not in the written scope is not included in the price.</p>
+</div>
+<div class="fp-flag">
+<h3>Unlicensed or uninsured operator</h3>
+<p>In CO, plumbing work requires a state license. Verify through Colorado DORA (Department of Regulatory Agencies) before signing anything. An unlicensed plumber is operating illegally, and if their work causes damage, your homeowners insurance may deny the claim. Similarly, a plumber without workers' compensation insurance exposes you to personal liability if a worker is injured on your property.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Emergency vs. Planned Plumbing Costs in Denver</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Planned / scheduled work</h3>
+<p class="fp-season-months">Standard pricing</p>
+<p>Book 1-2 weeks ahead and schedule during normal business hours (Monday-Friday, 8am-5pm). You get the best pricing, the most experienced crew, and time to compare multiple bids. Most plumbing work is not an emergency -- even a slow leak can wait a few days if you shut off the supply to the affected fixture.</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Emergency / after-hours</h3>
+<p class="fp-season-months">2-3x markup</p>
+<p>Emergency plumbing in Denver runs 2-3x scheduled rates, with the highest premiums during winter freeze events (December through February) when burst pipe calls overwhelm available capacity. Know where your main water shut-off is before you need it. Shutting off the water yourself converts most "emergencies" into scheduled repairs at standard pricing.</p>
+</div>
+</div>
+<p><strong>The single best way to avoid emergency plumbing costs:</strong> know where your main shut-off valve is and test it annually. A functioning shut-off valve turns a burst pipe from a $3,000 emergency into a $800 scheduled repair. If your shut-off valve is stuck, corroded, or inaccessible, replacing it ($200-$400) is one of the highest-ROI plumbing investments you can make.</p>
+</section>
+<section class="section fp-section">
+<h2>What Plumbing Projects Actually Cost in Denver: 3 Scenarios</h2>
+<p>Here is what real plumbing projects look like in Denver, CO, using Denver-adjusted labor and material costs for 2026.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget: Water Heater Swap</h3>
+<p class="fp-scenario-material">50-gallon gas tank water heater</p>
+<p class="fp-scenario-total">$2,475</p>
+<p class="fp-scenario-detail">Includes removal of old unit, new 50-gallon gas tank heater, supply connections, gas line connection, venting, expansion tank, drain pan, permit, and disposal. Standard location swap (no relocation).</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range: Bathroom Remodel Rough-In</h3>
+<p class="fp-scenario-material">Full bathroom plumbing rough-in</p>
+<p class="fp-scenario-total">$5,050</p>
+<p class="fp-scenario-detail">Includes supply lines (hot and cold), drain/waste/vent for toilet, sink, and tub/shower, shut-off valves, pressure testing, permit, and basic drywall patching. Does not include fixtures or finish work.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium: Whole-House PEX Repipe</h3>
+<p class="fp-scenario-material">Full repipe, 2,000 sq ft home, 2 bathrooms</p>
+<p class="fp-scenario-total">$7,075</p>
+<p class="fp-scenario-detail">Includes PEX supply lines to all fixtures, new shut-off valves throughout, manifold system, pressure testing, drywall repair and patching, permit, and inspection. Typically completed in 2-3 days.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard access conditions. Slab access, multi-story homes, or complex routing add 20-40%. <a href="/plumbing-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-PLUMBING-CONTENT -->
+
+
+
+
 <section class="section">
 <h2>Frequently Asked Questions</h2>
 <div class="faq-list">

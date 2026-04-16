@@ -209,6 +209,227 @@ depending on insulation type, coverage area, and R-value target.
 </div>
 </section>
 
+<!-- FLAGSHIP-INSULATION-CONTENT -->
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-rvalue-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-rvalue-card { padding:20px; border-radius:12px; background:#f0f9ff; border:1px solid #bae6fd; }
+.fp-rvalue-card h3 { font-size:15px; font-weight:700; margin:0 0 8px; color:#0369a1; }
+.fp-rvalue-card p { font-size:14px; margin:0 0 6px; }
+.fp-rebate-card { padding:16px 20px; border-radius:10px; border:1px solid #a7f3d0; background:#f0fdf4; margin-bottom:12px; }
+.fp-rebate-card h3 { font-size:15px; font-weight:700; color:#065f46; margin:0 0 6px; }
+.fp-rebate-card p { margin:0; font-size:14px; line-height:1.6; color:#064e3b; }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+  .fp-rvalue-grid { grid-template-columns:1fr; }
+}
+</style>
+<section class="section fp-section">
+<h2>Neighborhood Insulation Pricing in Phoenix</h2>
+<p>Insulation costs vary across Phoenix based on home age, accessibility, and local contractor demand. These estimates assume a 1,200 sq ft coverage area typical of a single-story home.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Attic Blown-In</th>
+<th style="text-align:right; padding:12px 16px;">Wall Cavity</th>
+<th style="text-align:right; padding:12px 16px;">Crawlspace</th>
+<th style="text-align:right; padding:12px 16px;">Spray Foam</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Arcadia</td>
+<td style="padding:12px 16px; text-align:right;">$3,210</td>
+<td style="padding:12px 16px; text-align:right;">$2,568</td>
+<td style="padding:12px 16px; text-align:right;">$3,595</td>
+<td style="padding:12px 16px; text-align:right;">$3,531</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Biltmore</td>
+<td style="padding:12px 16px; text-align:right;">$3,150</td>
+<td style="padding:12px 16px; text-align:right;">$2,520</td>
+<td style="padding:12px 16px; text-align:right;">$3,528</td>
+<td style="padding:12px 16px; text-align:right;">$3,465</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Ahwatukee</td>
+<td style="padding:12px 16px; text-align:right;">$3,120</td>
+<td style="padding:12px 16px; text-align:right;">$2,496</td>
+<td style="padding:12px 16px; text-align:right;">$3,494</td>
+<td style="padding:12px 16px; text-align:right;">$3,432</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Desert Ridge</td>
+<td style="padding:12px 16px; text-align:right;">$2,790</td>
+<td style="padding:12px 16px; text-align:right;">$2,232</td>
+<td style="padding:12px 16px; text-align:right;">$3,125</td>
+<td style="padding:12px 16px; text-align:right;">$3,069</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Encanto</td>
+<td style="padding:12px 16px; text-align:right;">$2,850</td>
+<td style="padding:12px 16px; text-align:right;">$2,280</td>
+<td style="padding:12px 16px; text-align:right;">$3,192</td>
+<td style="padding:12px 16px; text-align:right;">$3,135</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Willo</td>
+<td style="padding:12px 16px; text-align:right;">$2,880</td>
+<td style="padding:12px 16px; text-align:right;">$2,304</td>
+<td style="padding:12px 16px; text-align:right;">$3,226</td>
+<td style="padding:12px 16px; text-align:right;">$3,168</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and material costs. Actual pricing depends on existing insulation condition, access difficulty, and R-value target. <a href="/analyze-my-quote.html?city=Phoenix&state=AZ" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>Climate Zone and R-Value Requirements for Phoenix</h2>
+<p>Phoenix falls in IECC Climate Zone 2B, which determines the minimum insulation R-values required by building code and recommended by the Department of Energy. Understanding these numbers is the single most important step before signing an insulation contract, because under-insulating wastes money on utility bills while over-insulating wastes money on materials that won't deliver a return.</p>
+<div class="fp-rvalue-grid">
+<div class="fp-rvalue-card">
+<h3>DOE Recommended R-Values</h3>
+<p><strong>Attic:</strong> R-30 to R-60</p>
+<p><strong>Walls:</strong> R-13</p>
+<p>These are the targets for optimal energy performance in Zone 2B. Hitting the upper end of the range delivers diminishing returns, but the lower end is the absolute minimum for meaningful energy savings.</p>
+</div>
+<div class="fp-rvalue-card">
+<h3>Current Code Minimums</h3>
+<p><strong>Attic:</strong> R-38</p>
+<p><strong>Walls:</strong> R-13</p>
+<p>Code minimums are exactly that: minimums. They represent the floor for legal compliance, not the target for energy efficiency. In Phoenix's climate, exceeding code by one R-value tier typically pays for itself in 4-7 years through utility savings.</p>
+</div>
+</div>
+<p>Phoenix's cooling-dominated climate means your insulation investment pays off primarily during the brutal summer months. Heat gain through an under-insulated attic can account for 25-35% of your total cooling bill. The radiant heat load in Phoenix during summer is extreme, and insulation works by slowing that heat transfer into your living space. A radiant barrier combined with proper insulation is the gold standard for Phoenix attics.</p>
+</section>
+<section class="section fp-section">
+<h2>Assessing Your Existing Insulation in Phoenix</h2>
+<p>Phoenix's relatively young housing stock (average 26 years) means most homes were built to modern energy codes and have reasonable insulation. However, "reasonable" in a 26-year-old home often means R-30 in the attic where current DOE recommendations call for R-49 or higher. Builders during this era typically installed the code minimum, which was lower than today's standards. An insulation top-off to current levels is one of the highest-ROI upgrades available.</p>
+<p>In newer construction, the existing insulation is usually in good condition and can simply be topped up. The main exception is homes where roof leaks, HVAC condensation, or pest intrusion have damaged sections. Have the contractor inspect for these issues before quoting the job, because adding insulation over wet or contaminated material creates mold risk.</p>
+</section>
+<section class="section fp-section">
+<h2>Energy Savings from Insulation in Phoenix</h2>
+<p>Upgrading from minimal or degraded insulation to current DOE recommendations in Phoenix typically saves homeowners <strong>$300 to $600 per year</strong> on heating and cooling costs. The exact savings depend on your current insulation level, HVAC system efficiency, home size, and energy rates, but the payback period for a full attic insulation upgrade in Phoenix's climate is typically 3-6 years.</p>
+<p>In Phoenix's cooling-dominated climate, the largest savings come during the summer months when your air conditioning runs hardest. Proper attic insulation reduces the heat load on your HVAC system, which means shorter run cycles, lower electricity bills, and extended equipment life. A well-insulated attic in Phoenix can reduce peak cooling load by 20-30%, which directly translates to lower energy bills and a more comfortable home.</p>
+<p>Beyond utility savings, proper insulation improves home comfort by eliminating hot and cold spots, reducing HVAC noise transmission, and maintaining more consistent temperatures room to room. These comfort improvements don't show up on a utility bill but are consistently cited by homeowners as the most noticeable benefit of an insulation upgrade.</p>
+</section>
+<section class="section fp-section">
+<h2>Moisture and Ventilation Considerations in Phoenix</h2>
+<p>Insulation and moisture management are inseparable. Installing insulation without addressing moisture is one of the most common and most expensive mistakes homeowners in Phoenix make. The right vapor barrier placement, attic ventilation strategy, and air sealing approach depends entirely on Phoenix's climate zone and humidity level.</p>
+<p><strong>Vapor barrier in Phoenix's dry climate.</strong> Phoenix's low humidity simplifies moisture management compared to humid markets. In most cases, a Class III vapor retarder (latex paint on drywall) is sufficient. Avoid full polyethylene vapor barriers in Phoenix because the dry climate rarely produces enough interior moisture to warrant one, and the barrier can trap the small amount of moisture that does occur.</p>
+<p><strong>Attic ventilation.</strong> Even in Phoenix's dry climate, attic ventilation is essential for removing heat buildup in summer. The combination of proper insulation and adequate ventilation can reduce attic temperatures by 30-40 degrees during peak summer, which significantly reduces cooling costs. Install ventilation baffles at every rafter bay when adding blown-in insulation to keep soffit vents clear.</p>
+</section>
+<section class="section fp-section">
+<h2>Insulation Rebates and Incentives in Phoenix, AZ</h2>
+<p>Insulation upgrades qualify for several federal, state, and utility-level incentives that can significantly reduce your out-of-pocket cost. As of 2026, these are the programs most relevant to Phoenix homeowners.</p>
+<div class="fp-rebate-card">
+<h3>Federal Tax Credits (25C)</h3>
+<p>The Inflation Reduction Act provides a 30% tax credit (up to $1,200 per year) for insulation materials and air sealing that meet ENERGY STAR requirements. This covers the cost of materials only, not labor. The credit is non-refundable, meaning you need sufficient tax liability to claim it. There is no income cap for this credit.</p>
+</div>
+<div class="fp-rebate-card">
+<h3>Arizona Programs</h3>
+<p>APS (Arizona Public Service) and SRP (Salt River Project) both offer rebates for insulation upgrades in the Phoenix metro area. APS provides up to $400 for attic insulation meeting R-38 or higher, while SRP's program covers similar upgrades. The Arizona Weatherization Assistance Program provides free insulation for income-qualifying households. Given Phoenix's extreme cooling costs, insulation upgrades here have some of the fastest payback periods in the country.</p>
+</div>
+<div class="fp-rebate-card">
+<h3>Weatherization Assistance Program (WAP)</h3>
+<p>The federal Weatherization Assistance Program provides free home weatherization, including insulation, for households at or below 200% of the federal poverty level. In AZ, the program is administered by your state's designated agency. Wait times can be 6-12 months, but the program covers the full cost of insulation, air sealing, and related improvements with no repayment required.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Insulation Red Flags in Phoenix</h2>
+<p>These are the mistakes and warning signs most commonly seen in Phoenix insulation projects. Knowing them before you get quotes protects you from paying for work that does more harm than good.</p>
+
+<div class="fp-flag">
+<h3>Skipping air sealing before insulating</h3>
+<p>This is the single most common and most costly mistake in insulation projects. Air leaks through gaps around plumbing penetrations, electrical boxes, recessed lights, attic hatches, and ductwork can account for 25-40% of a home's energy loss. Adding insulation over unsealed air leaks is like putting on a sweater with holes in it. Any insulation contractor in Phoenix who does not include air sealing in their scope is either cutting corners or does not understand building science. Require it.</p>
+</div>
+<div class="fp-flag">
+<h3>Wrong vapor barrier placement</h3>
+<p>Vapor barriers installed on the wrong side of the insulation trap moisture inside the wall or ceiling cavity and cause mold, rot, and structural damage. In Phoenix (Zone 2B), avoid unnecessary vapor barriers altogether -- latex paint on drywall typically provides sufficient vapor control in this dry climate. If a contractor cannot explain their vapor barrier strategy for your specific home, find someone who can.</p>
+</div>
+<div class="fp-flag">
+<h3>Spray foam off-gassing concerns</h3>
+<p>Spray foam insulation is excellent when installed correctly, but improper mixing ratios or application temperatures can cause persistent off-gassing that produces odors and potential health effects. In Phoenix, always verify that the installer is certified by the spray foam manufacturer (not just generally licensed), that they follow the manufacturer's temperature and humidity requirements during application, and that the home will be ventilated for 24 hours after installation. If the foam is applied too thick in a single pass (over 2 inches for closed-cell), it can generate excessive heat during curing and fail to cure properly.</p>
+</div>
+<div class="fp-flag">
+<h3>Blocking soffit vents with insulation</h3>
+<p>When blown-in insulation is added to an attic, it is critical to install ventilation baffles (also called insulation dams or rafter vents) at every rafter bay along the eaves. Without these baffles, the insulation slides down and blocks soffit vents, eliminating attic ventilation. This causes moisture buildup in winter (leading to mold and rot) and extreme heat buildup in summer. If your contractor does not mention baffles, ask about them.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Best Time to Insulate in Phoenix</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">October through February</p>
+<p>Demand peaks in spring as Phoenix homeowners prepare for the brutal cooling season. Fall and winter offer the best contractor availability and pricing. Insulation can be installed year-round in Phoenix's mild winters, and the work is actually more comfortable for crews during cooler months, especially for attic installations where summer temperatures can exceed 140 degrees.</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak demand / higher pricing</h3>
+<p class="fp-season-months">April through June</p>
+<p>Expect 10-20% longer lead times and less room to negotiate during peak season. If you need work done during these months, book 3-4 weeks in advance.</p>
+</div>
+</div>
+<p>Insulation is one of the few home improvement projects that can be installed any time of year. The work happens inside the building envelope, so outdoor weather does not affect installation quality. The only variable is contractor availability and pricing, which follow seasonal demand patterns.</p>
+</section>
+<section class="section fp-section">
+<h2>What Insulation Actually Costs in Phoenix: 3 Scenarios</h2>
+<p>Here is what real insulation projects look like in Phoenix, AZ, using Phoenix-adjusted labor and material costs for 2026.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget: Attic Top-Up</h3>
+<p class="fp-scenario-material">Blown-in fiberglass or cellulose added over existing insulation | 1200 sq ft</p>
+<p class="fp-scenario-total">$2,160</p>
+<p class="fp-scenario-detail">~$1.8/sq ft installed. Blown-in insulation over existing material, basic air sealing at major penetrations, ventilation baffles at eaves.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range: Full Attic + Air Sealing</h3>
+<p class="fp-scenario-material">Complete attic insulation with professional air sealing | 1500 sq ft</p>
+<p class="fp-scenario-total">$4,800</p>
+<p class="fp-scenario-detail">~$3.2/sq ft installed. Old insulation removal (if needed), comprehensive air sealing, blown-in insulation to R-49+, ventilation baffles, attic hatch insulation and weather-stripping.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium: Whole-House Spray Foam</h3>
+<p class="fp-scenario-material">Closed-cell spray foam in attic, walls, and crawlspace | 2500 sq ft</p>
+<p class="fp-scenario-total">$7,500</p>
+<p class="fp-scenario-detail">~$3/sq ft installed. Closed-cell spray foam throughout, complete air barrier, vapor management, crawlspace encapsulation, energy audit verification.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard access. Multi-story homes, tight crawlspaces, or extensive mold remediation add 20-40%. <a href="/get-an-estimate.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-INSULATION-CONTENT -->
+
+
+
+
 
 <section class="section">
 <h2>Other Services in Phoenix</h2>

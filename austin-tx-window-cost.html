@@ -209,6 +209,207 @@ depending on window type, number of windows, and frame material.
 </section>
 
 
+
+
+
+
+
+<!-- FLAGSHIP-WINDOWS-CONTENT -->
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<section class="section fp-section">
+<h2>Neighborhood Window Pricing Breakdown</h2>
+<p>Window replacement costs vary within Austin based on housing stock age, labor accessibility, and local demand. These are estimated per-window installed costs for each area.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Vinyl Double-Hung</th>
+<th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th>
+<th style="text-align:right; padding:12px 16px;">Wood Double-Hung</th>
+<th style="text-align:right; padding:12px 16px;">Vinyl Sliding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Hyde Park</td>
+<td style="padding:12px 16px; text-align:right;">$535</td>
+<td style="padding:12px 16px; text-align:right;">$923</td>
+<td style="padding:12px 16px; text-align:right;">$972</td>
+<td style="padding:12px 16px; text-align:right;">$486</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Travis Heights</td>
+<td style="padding:12px 16px; text-align:right;">$515</td>
+<td style="padding:12px 16px; text-align:right;">$889</td>
+<td style="padding:12px 16px; text-align:right;">$936</td>
+<td style="padding:12px 16px; text-align:right;">$468</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">South Congress</td>
+<td style="padding:12px 16px; text-align:right;">$510</td>
+<td style="padding:12px 16px; text-align:right;">$881</td>
+<td style="padding:12px 16px; text-align:right;">$927</td>
+<td style="padding:12px 16px; text-align:right;">$464</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Tarrytown</td>
+<td style="padding:12px 16px; text-align:right;">$455</td>
+<td style="padding:12px 16px; text-align:right;">$787</td>
+<td style="padding:12px 16px; text-align:right;">$828</td>
+<td style="padding:12px 16px; text-align:right;">$414</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Mueller</td>
+<td style="padding:12px 16px; text-align:right;">$475</td>
+<td style="padding:12px 16px; text-align:right;">$821</td>
+<td style="padding:12px 16px; text-align:right;">$864</td>
+<td style="padding:12px 16px; text-align:right;">$432</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Zilker</td>
+<td style="padding:12px 16px; text-align:right;">$480</td>
+<td style="padding:12px 16px; text-align:right;">$829</td>
+<td style="padding:12px 16px; text-align:right;">$873</td>
+<td style="padding:12px 16px; text-align:right;">$437</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Per-window installed pricing based on local labor rates and material delivery costs. Actual pricing depends on window size, installation type (pocket vs full-frame), and current demand. <a href="/analyze-my-quote.html?city=Austin&state=TX" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>Climate and Energy Efficiency: Windows in Austin</h2>
+<p>Humid subtropical with hot summers, occasional severe drought stress on materials, hail risk in spring, and rare but damaging ice storms (Feb 2021 and 2023). These conditions directly determine which glass packages and frame materials deliver the best return on investment in Austin.</p>
+<p><strong>Solar Heat Gain Coefficient (SHGC) matters most here.</strong> In Austin's cooling-dominated climate, the sun beating through your windows drives air conditioning costs more than heat loss drives heating costs. Target SHGC of 0.23 or lower. Low-E coatings tuned for solar rejection (Low-E 366 or equivalent) make a dramatic difference on south- and west-facing windows. U-factor should still be 0.28 or below, but SHGC is where you get the biggest energy savings in Austin.</p>
+<p><strong>Low-E coatings are non-negotiable in Austin.</strong> Every window quote you receive should specify Low-E glass as standard, not an upgrade. There are different Low-E formulations: "passive" Low-E (Low-E 272 type) maximizes solar heat gain for cold climates, while "solar control" Low-E (Low-E 366 type) rejects solar heat for warm climates. In Austin, solar control Low-E on all windows is the clear choice, with particular attention to south and west exposures where solar gain peaks. If a contractor's quote does not specify the Low-E coating type, ask before signing.</p>
+</section>
+<section class="section fp-section">
+<h2>Frame Material Comparison for Austin's Climate</h2>
+<p>The four major frame materials each have distinct advantages in Austin's climate. Here is how they compare for this specific market.</p>
+<p><strong>Vinyl.</strong> Lowest cost ($300-$700/window installed). Zero maintenance. In Austin's heat, dark-colored vinyl frames can warp or distort over time. Stick with white or light-colored vinyl, or choose a brand with welded (not screwed) frames and reinforced meeting rails. Vinyl remains the best value for most Austin homeowners, but quality matters more here than in mild climates.</p>
+<p><strong>Fiberglass.</strong> Mid-premium ($700-$1,600/window installed). Paintable, extremely durable. Fiberglass resists expansion and contraction better than any other frame material, which matters in Austin where temperature swings stress window seals. It is stronger than vinyl, allowing narrower sightlines and more glass area. The 40-70% premium over vinyl is justified for homeowners who want 30+ year performance.</p>
+<p><strong>Wood / Wood-Clad.</strong> Premium ($600-$2,500/window installed). Best aesthetics. Wood requires more maintenance in Austin's humidity and heat. Expect to repaint or restain interior wood surfaces every 5-7 years. Wood-clad windows (wood interior, aluminum or fiberglass exterior) are a better fit for Austin because the exterior cladding eliminates the rot risk while preserving the interior aesthetics.</p>
+<p><strong>Aluminum.</strong> Moderate ($600-$1,400/window installed). Slim sightlines, strong. Aluminum offers a slim, modern aesthetic at moderate cost. In Austin, the thermal conductivity issue is less critical than in cold climates because heating loads are lower. However, aluminum still transfers more heat than vinyl or fiberglass, which means higher cooling costs. If aesthetics drive your choice, fiberglass achieves a similar narrow sightline with better thermal performance.</p>
+</section>
+<section class="section fp-section">
+<h2>Home Age and Existing Window Assessment in Austin</h2>
+<p>The average home in Austin is approximately 29 years old. Rapid recent growth means lots of 5-15 year old construction in suburbs while central neighborhoods like Hyde Park have 1920s bungalows. The age and condition of your existing windows determine whether a pocket (insert) replacement or full-frame replacement is appropriate, and full-frame jobs cost 40-100% more per window.</p>
+<p><strong>Existing double-pane windows.</strong> Most Austin homes built in the last 30 years already have double-pane glass. If your existing double-pane windows are fogging between the panes, the seal has failed and the insulating gas has escaped. Failed-seal windows perform only marginally better than single-pane. Replacement is warranted. If your double-pane windows are still clear and operating smoothly, the energy payback on upgrading to newer double-pane is much longer (15-25 years), and the decision becomes more about comfort, noise reduction, and aesthetics than strict ROI.</p>
+<p><strong>Lead paint in pre-1978 homes.</strong> While most of Austin's housing stock is newer than the 1978 lead paint cutoff, older neighborhoods do have pre-1978 homes. Any window replacement in a pre-1978 home triggers EPA RRP (Renovation, Repair, and Painting) rule compliance. Your contractor must be EPA Lead-Safe certified, and the crew must follow specific containment and cleanup protocols. This adds $200-$500 to the total project cost. If a contractor does not ask about your home's age or dismisses lead paint concerns, that is a red flag for both safety and licensing.</p>
+<p><strong>Historic district restrictions.</strong> Austin has designated historic districts where window replacement is subject to architectural review. In these areas, you may be required to use wood windows that match the original profiles, or specific divided-lite patterns. Vinyl windows are typically prohibited in locally designated historic districts. If your home is in a historic overlay zone, contact your local historic preservation office before getting quotes. The material and design requirements can double the per-window cost compared to standard replacement, and non-compliant work can result in fines and mandatory removal.</p>
+</section>
+<section class="section fp-section">
+<h2>Permits and HOA Considerations in Austin</h2>
+<p>City of Austin permits notoriously slow; residential roof permits typically take 2-4 weeks unless filed as a self-issued contractor permit. For window replacement specifically, most jurisdictions in Austin require a building permit when replacing windows with a different size or type, or when structural modifications to the opening are needed. Simple same-size pocket replacements may be permit-exempt in some cases, but your contractor should confirm with the local building department before starting work.</p>
+<p><strong>HOA architectural review.</strong> HOA-governed communities are very common in Austin. Most HOAs require pre-approval of window replacements, with restrictions that can include frame color (white or almond only, in many cases), grid/grille patterns, and even specific approved brands. Submit your architectural change request 4-6 weeks before your planned installation date. Getting quotes before HOA approval is fine, but do not sign a contract or place a window order until you have written approval. HOA rejections after windows are ordered are expensive because custom windows are non-returnable.</p>
+<p><strong>Historic overlay zones.</strong> If your property falls within a locally designated historic district in Austin, window replacement requires approval from the historic preservation commission in addition to standard permits. Expect a review process of 4-8 weeks. Requirements typically mandate wood or wood-clad windows with historically appropriate profiles and divided-lite patterns. Vinyl and aluminum windows are almost universally prohibited in historic districts. The cost premium for code-compliant historic window replacement is 50-150% over standard vinyl replacement.</p>
+<p><strong>Local code note.</strong> City of Austin Energy Conservation Code requires high-reflectivity roof materials in many cases for residential reroofs.</p>
+</section>
+<section class="section fp-section">
+<h2>Professional Installation vs DIY Windows in Austin</h2>
+<p>Window replacement is one of the few major home improvement projects where DIY is sometimes viable for handy homeowners. That said, the scope of the project and the type of installation determine whether DIY makes sense in Austin.</p>
+<p><strong>Where DIY can work.</strong> Simple pocket (insert) replacements in standard-sized openings on the first floor are the most DIY-friendly window projects. If the existing frame is square, plumb, and in good condition, and the new window is the same size, the installation is primarily shimming, insulating, and trim work. A competent DIYer can save $150-$300 per window in labor costs. Budget 2-4 hours per window for a first-timer, dropping to 1-2 hours per window after you find your rhythm.</p>
+<p><strong>Where you need a professional.</strong> Full-frame replacements (where the existing frame is removed down to the rough opening), any structural modifications to enlarge or reduce openings, second-story or higher installations, and any home built before 1978 (lead paint RRP compliance) all require professional installation. In Austin, tight labor market driven by population boom; expect 20-30 percent premium over San Antonio for the same job. Getting three professional bids is the standard minimum.</p>
+<p><strong>Warranty implications.</strong> Most major window manufacturers (Andersen, Pella, Marvin) offer full product warranties regardless of who installs them, but some brands require "certified installer" status for the labor warranty to apply. Renewal by Andersen and Champion, for example, bundle product and labor warranties together and void them for DIY or third-party installation. Verify warranty terms before choosing the DIY route.</p>
+<p><strong>The hybrid approach.</strong> Some Austin homeowners order windows directly (through a dealer or home center) and hire a handyman or small contractor for installation at $100-$200 per window rather than using the window company's full-service installation crew at $250-$400 per window. This can save 20-30% on the total project while still getting professional installation. The tradeoff is that you manage the project yourself and the installer may not carry the same insurance or warranty coverage as a full-service window company.</p>
+</section>
+<section class="section fp-section">
+<h2>Red Flags and Window Replacement Scams in Austin</h2>
+<p>The window replacement industry has more consumer complaints per dollar spent than almost any other home improvement category. Here are the patterns most commonly reported by Austin homeowners.</p>
+
+<div class="fp-flag">
+<h3>Bait-and-switch on brands</h3>
+<p>The window industry has a chronic problem with brand substitution. A salesperson quotes Andersen 400 Series but the contract specifies "comparable Andersen product" or uses a model number you cannot verify. Before signing any contract in Austin, confirm the exact brand, product line, and model number. Cross-reference it on the manufacturer's website. If the salesperson cannot tell you the exact NFRC-rated U-factor and SHGC for the specific window being quoted, the quote is not specific enough to sign.</p>
+</div>
+<div class="fp-flag">
+<h3>"Today only" pricing</h3>
+<p>This is the single most common predatory sales tactic in the window industry. Companies like Renewal by Andersen, Champion, and Window Nation use in-home sales presentations that end with an "expiring" price. The pitch follows a pattern: high initial price ($1,500-$2,000/window), then "manager approval" discounts, then a "today only" final price. The "today only" price is the real price and it is available any day of the week. No legitimate manufacturer pricing changes based on when you sign. Walk away from any salesperson who pressures you to sign during the first visit. Get the price in writing and compare it against other bids.</p>
+</div>
+<div class="fp-flag">
+<h3>Unnecessary structural modifications</h3>
+<p>Some contractors in Austin recommend full-frame replacement or structural header modifications when a simple pocket replacement would work fine. Full-frame replacement costs 40-100% more per window. It is genuinely necessary when the existing frame is rotted, out of square, or when you are changing window sizes. But some contractors default to full-frame because it justifies higher pricing. If a contractor recommends full-frame, ask them to show you specifically where the existing frame is damaged. If the frame is sound, a pocket replacement is appropriate and significantly cheaper.</p>
+</div>
+<div class="fp-flag">
+<h3>Inflated window counts</h3>
+<p>Some large window companies in Austin pad quotes by counting fixed picture windows as separate units when they share a frame with operable windows (a "mulled unit"). A double-hung window next to a fixed panel in a single frame is one mulled unit with two lites, not two separate windows. Verify the window count in your quote against your actual openings. Miscounting by 2-3 windows on a 15-window job inflates the total by $1,000-$3,000.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Best Time to Buy Windows in Austin</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months to buy</h3>
+<p class="fp-season-months">September through November</p>
+<p>Demand drops after summer AC season; contractors are hungry for work and more willing to negotiate.</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low leverage</h3>
+<p class="fp-season-months">March through May</p>
+<p>Spring is peak selling season for big window companies running national ad campaigns.</p>
+</div>
+</div>
+<p><strong>Window sales cycles are real.</strong> Unlike roofing or HVAC, window replacement is rarely an emergency, which means you have the luxury of timing your purchase. The window industry runs on seasonal patterns and manufacturer promotion cycles that can save you 10-20% on the same product.</p>
+<p><strong>End-of-year manufacturer rebates.</strong> Most major window manufacturers (Andersen, Pella, Marvin) run Q4 rebate programs to hit annual production targets. These are legitimate discounts of $25-$75 per window, separate from any dealer markdowns. Your dealer or contractor can tell you which manufacturer promotions are currently active. These rebates are real savings, unlike the "today only" dealer discounts that are available any day.</p>
+<p><strong>Order lead times matter.</strong> Custom windows typically take 4-8 weeks from order to delivery. Stock sizes from Jeld-Wen, Simonton, or Milgard may be available in 1-2 weeks. Factor lead time into your seasonal planning. If you want Q4 pricing and fall installation, order by mid-September.</p>
+</section>
+<section class="section fp-section">
+<h2>What Window Replacement Actually Costs in Austin: 3 Scenarios</h2>
+<p>Here is what real 15-window whole-house projects look like in Austin, TX, using Austin-adjusted labor and material costs for 2026.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget Vinyl Replacement</h3>
+<p class="fp-scenario-material">15 vinyl double-hung windows | pocket install | Low-E double-pane</p>
+<p class="fp-scenario-total">$5,738</p>
+<p class="fp-scenario-detail">~$383/window installed. Value-tier vinyl (Window World, Alside Sheffield, Jeld-Wen V2500). Includes Low-E double-pane glass, argon fill, pocket installation, interior/exterior trim touch-up, and debris removal.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range Fiberglass with Low-E</h3>
+<p class="fp-scenario-material">15 fiberglass windows | pocket install | Low-E double-pane argon</p>
+<p class="fp-scenario-total">$14,175</p>
+<p class="fp-scenario-detail">~$945/window installed. Mid-tier fiberglass or premium vinyl (Marvin Essential, Milgard Ultra, Pella 350). ENERGY STAR certified. Includes professional measurement, pocket install, foam insulation, interior trim, and permit.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium Wood-Clad Triple-Pane</h3>
+<p class="fp-scenario-material">15 wood-clad windows | full-frame | triple-pane Low-E krypton</p>
+<p class="fp-scenario-total">$27,000</p>
+<p class="fp-scenario-detail">~$1,800/window installed. Premium wood-clad (Andersen 400/A-Series, Pella Lifestyle/Reserve, Marvin Elevate/Signature). Triple-pane with krypton fill. Full-frame installation, new interior/exterior trim, structural modifications as needed, and permit.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard-sized windows in a single-story home. Bay/bow windows, second-story access, structural modifications, and lead paint abatement add to these baselines. <a href="/window-replacement-cost.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-WINDOWS-CONTENT -->
+
 <section class="section">
 <h2>Other Services in Austin</h2>
 <p>Compare contractor costs for other home services in Austin, TX.</p>

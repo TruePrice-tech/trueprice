@@ -193,6 +193,224 @@ depending on system type, efficiency rating, and home size.
 </div>
 </section>
 
+<!-- FLAGSHIP-HVAC-CONTENT -->
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<section class="section fp-section">
+<h2>Neighborhood HVAC Pricing Breakdown</h2>
+<p>HVAC installation costs vary within Seattle based on housing age, ductwork condition, equipment access, and local labor demand. These are mid-range estimates for a typical 2,000 sq ft home with existing ductwork.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Central AC</th>
+<th style="text-align:right; padding:12px 16px;">Heat Pump</th>
+<th style="text-align:right; padding:12px 16px;">Furnace</th>
+<th style="text-align:right; padding:12px 16px;">Full System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Capitol Hill</td>
+<td style="padding:12px 16px; text-align:right;">$5,179</td>
+<td style="padding:12px 16px; text-align:right;">$6,650</td>
+<td style="padding:12px 16px; text-align:right;">$4,237</td>
+<td style="padding:12px 16px; text-align:right;">$9,122</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Ballard</td>
+<td style="padding:12px 16px; text-align:right;">$5,082</td>
+<td style="padding:12px 16px; text-align:right;">$6,526</td>
+<td style="padding:12px 16px; text-align:right;">$4,158</td>
+<td style="padding:12px 16px; text-align:right;">$8,951</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Fremont</td>
+<td style="padding:12px 16px; text-align:right;">$5,034</td>
+<td style="padding:12px 16px; text-align:right;">$6,464</td>
+<td style="padding:12px 16px; text-align:right;">$4,118</td>
+<td style="padding:12px 16px; text-align:right;">$8,866</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Wallingford</td>
+<td style="padding:12px 16px; text-align:right;">$4,501</td>
+<td style="padding:12px 16px; text-align:right;">$5,780</td>
+<td style="padding:12px 16px; text-align:right;">$3,683</td>
+<td style="padding:12px 16px; text-align:right;">$7,928</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Queen Anne</td>
+<td style="padding:12px 16px; text-align:right;">$4,598</td>
+<td style="padding:12px 16px; text-align:right;">$5,904</td>
+<td style="padding:12px 16px; text-align:right;">$3,762</td>
+<td style="padding:12px 16px; text-align:right;">$8,099</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">West Seattle</td>
+<td style="padding:12px 16px; text-align:right;">$4,646</td>
+<td style="padding:12px 16px; text-align:right;">$5,966</td>
+<td style="padding:12px 16px; text-align:right;">$3,802</td>
+<td style="padding:12px 16px; text-align:right;">$8,184</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates, equipment access, and typical ductwork condition. Actual pricing depends on tonnage, efficiency tier, and ductwork modifications. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How Seattle's Climate Affects Your HVAC Decision</h2>
+<p>Marine west coast with constant wet winters (150+ rain days per year), moss and algae growth on north-facing roofs, and rare but damaging windstorms. Understanding how Seattle's specific conditions affect HVAC sizing, efficiency, and equipment lifespan is critical to making the right investment.</p>
+<p><strong>Heating-dominant market.</strong> Seattle homeowners spend the majority of their HVAC energy dollars on heating. heat domes now pushing past 100F (2021 event hit 108F); winters mild but wet and gray. In a heating-dominant climate, your furnace's AFUE rating matters more than your AC's SEER rating for total annual energy cost. The jump from 80% AFUE to 96% AFUE saves roughly 16 cents of every heating dollar, which in Seattle's long heating season translates to $400-$800 per year. Over a 20-year furnace lifespan, that is $8,000-$16,000 in cumulative savings.</p>
+<p><strong>Heat pumps in Seattle.</strong> Excellent choice for Seattle; mild winters, cheap electricity, and Washington state heat pump rebates make this the default recommendation. As of 2026, all new heat pump installations use A2L refrigerant (R-454B or R-32) rather than R-410A. This is a federal requirement, not an upsell. Make sure your contractor is trained and certified for A2L refrigerant handling.</p>
+</section>
+<section class="section fp-section">
+<h2>SEER and Efficiency Ratings: What Seattle Homeowners Should Target</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Cooling efficiency target</h3>
+<p class="fp-season-months">16+ SEER</p>
+<p>A 16 SEER system is the recommended minimum for Seattle. Since heating costs outweigh cooling costs here, investing heavily in a 20+ SEER AC offers diminishing returns. Put the budget toward a higher-efficiency furnace instead.</p>
+</div>
+<div class="fp-season-card" style="background:#eff6ff; border:1px solid #93c5fd;">
+<h3>Heating efficiency target</h3>
+<p class="fp-season-months">92%+ AFUE</p>
+<p>A 90-92% AFUE furnace is the sweet spot for Seattle. Heating demand is meaningful but not extreme, so the premium for 96%+ efficiency has a longer payback period. If your existing furnace is 80% AFUE, upgrading to 92% saves approximately $200-$400 per year on gas bills.</p>
+</div>
+</div>
+<p><strong>The 2026 efficiency landscape.</strong> The federal minimum is now 15 SEER2 (approximately 15.2 legacy SEER) for southern states and 14 SEER2 for northern states. Any contractor quoting a "14 SEER" system in 2026 is either using outdated inventory or mislabeling the rating. Verify the SEER2 rating on the AHRI certificate, not the contractor's proposal.</p>
+<p><strong>Rebates and credits.</strong> The federal 25C tax credit for heat pumps expired December 31, 2025. However, the IRA's HEAR (Home Efficiency Appliance Rebate) program is still active and offers up to $8,000 for qualifying heat pump installations for income-eligible households. Check DSIRE (dsireusa.org) for current WA and utility-specific rebates. Geothermal heat pumps still qualify for a 30% federal tax credit (IRA Section 25D) with no cap through 2034.</p>
+</section>
+<section class="section fp-section">
+<h2>How Seattle Utility Rates Affect Your HVAC ROI</h2>
+<p>Your HVAC system's ongoing cost depends as much on local utility rates as on the equipment you choose. Here is how Seattle's energy market shapes the math.</p>
+<div class="fp-season-grid">
+<div class="fp-scenario-card" style="border-top:4px solid #f59e0b; padding:20px;">
+<h3>Electricity</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$0.12/kWh</p>
+<p style="font-size:13px; color:#64748b;">Seattle City Light (electric) and Puget Sound Energy (gas)</p>
+</div>
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6; padding:20px;">
+<h3>Natural Gas</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$1.40/therm</p>
+<p style="font-size:13px; color:#64748b;">Residential average</p>
+</div>
+</div>
+<p>Seattle's electricity rates are below the national average at $0.12/kWh, which makes heat pumps financially attractive for heating compared to many other markets. The lower your electricity rate, the faster a heat pump's efficiency advantage translates into real savings versus gas heating.</p>
+<p>Natural gas rates in Seattle ($1.40/therm) are in the normal range. The gas-vs-heat-pump decision here comes down to your heating load and how cold it actually gets.</p>
+<p><strong>Deregulated market note.</strong> Check your actual utility bill rate (not the plan's advertised rate) before running efficiency calculations. The rate you pay may differ from regional averages based on your plan, usage tier, and seasonal adjustments.</p>
+</section>
+<section class="section fp-section">
+<h2>HVAC Permits and Code Requirements in Seattle</h2>
+<p><strong>Permit authority:</strong> Seattle Department of Construction and Inspections (SDCI). Mechanical permit required. Washington state HVAC/R specialty contractor license (06A) required. Seattle's green building standards may affect equipment choices. Inspection required.</p>
+<p><strong>What the permit covers.</strong> An HVAC mechanical permit in Seattle ensures that the installation meets local building code for equipment sizing, electrical connections, gas piping (if applicable), refrigerant line sets, condensate drainage, and ventilation. The permit process includes a post-installation inspection to verify code compliance. This inspection protects you as the homeowner.</p>
+<p><strong>Why it matters.</strong> Unpermitted HVAC work can void your equipment warranty, create problems during a home sale (inspection red flags), and leave you liable if the installation causes damage. If a contractor suggests skipping the permit to save time or money, that is a serious red flag. The permit holder is legally responsible for code compliance. Your contractor should pull the permit, not you.</p>
+<p><strong>2026 refrigerant transition.</strong> All new residential AC and heat pump installations in 2026 must use A2L-classified refrigerants (R-454B or R-32) under the AIM Act phase-down. R-410A equipment manufactured before 2025 can still be installed from existing inventory, but new production has stopped. If a contractor is quoting R-410A equipment, verify it is genuine new-old-stock and not refurbished. A2L refrigerants are mildly flammable, which requires updated installation practices and leak detection; make sure your contractor is A2L certified.</p>
+<p><strong>Local code note.</strong> Washington State Energy Code requires specific underlayment ratings; moss treatment is recommended every 2-3 years.</p>
+</section>
+<section class="section fp-section">
+<h2>The HVAC Contractor Market in Seattle</h2>
+<p>Tight labor market with strong tech industry wages; off-season (November-February) discounts of 10-15 percent are common. The HVAC market differs from other trades because equipment brand loyalty creates tiered contractor networks. A Carrier dealer, a Trane dealer, and an independent installer will quote different equipment at different price points for the same job.</p>
+<p>The contractor market in Seattle is relatively stable, which gives homeowners reasonable leverage. Getting 3 bids is standard, but for HVAC specifically, make sure you are comparing equivalent equipment: same brand tier, same SEER rating, same warranty terms. A $3,000 gap between bids often means different equipment, not different markup.</p>
+<p><strong>What to verify.</strong> Confirm licensing through Washington L&I (06A HVAC/R specialty license). Verify general liability insurance and workers compensation coverage. Ask for the AHRI certificate number for the specific equipment being quoted, which confirms the system components are rated to work together. An HVAC system is a matched set: condenser, air handler, and coil must be AHRI-certified as a combination to achieve the quoted efficiency rating.</p>
+<p><strong>Brand does not equal quality of installation.</strong> A premium brand installed poorly will underperform a mid-tier brand installed correctly. The quality of the installation (proper sizing via Manual J, correct refrigerant charge, sealed ductwork connections, proper airflow) matters more than the nameplate on the equipment. Ask about the contractor's installation process, not just the equipment brand.</p>
+</section>
+<section class="section fp-section">
+<h2>HVAC Red Flags and Common Scams in Seattle</h2>
+<p>The HVAC industry has its own set of deceptive practices that cost homeowners thousands. Here are the patterns most commonly reported in Seattle.</p>
+
+<div class="fp-flag">
+<h3>Oversizing: the most expensive HVAC mistake</h3>
+<p>An oversized system is the single most common and most costly HVAC installation error in Seattle. A contractor who sizes your system based on home square footage alone (without a Manual J load calculation) is guessing. Oversized AC units cool the house quickly but shut off before dehumidifying, leaving you with high humidity and uneven temperatures. Oversized furnaces short-cycle, wasting energy and wearing out components prematurely. Demand a Manual J calculation. If a contractor cannot or will not provide one, find a different contractor.</p>
+</div>
+<div class="fp-flag">
+<h3>Unnecessary upsells</h3>
+<p>UV lights ($500-$1,500), whole-house air purifiers ($800-$2,000), and duct sanitizing ($300-$800) are common HVAC upsells with minimal real-world benefit for most homes. A properly filtered system with standard MERV 11-13 filters handles air quality for the vast majority of households. If a contractor leads with add-ons before discussing proper sizing and efficiency, their priorities are misaligned with yours.</p>
+</div>
+<div class="fp-flag">
+<h3>Refrigerant scams</h3>
+<p>With the R-410A phase-out in effect, some contractors claim R-410A is "no longer available" and that you must replace your entire system. This is false. R-410A is still available for service and repair; only new equipment production has stopped. If your existing R-410A system needs a refrigerant recharge, that is a repair, not a replacement trigger. Separately, if a contractor quotes R-22 (Freon) for any system, they are either using illegally imported refrigerant or do not understand current regulations. R-22 production ended in 2020.</p>
+</div>
+<div class="fp-flag">
+<h3>Same-day pressure tactics</h3>
+<p>"This price is only good today" is a high-pressure sales tactic used by large HVAC dealers in Seattle. A legitimate quote should be valid for at least 30 days. Same-day discounts of $1,000-$3,000 that vanish if you want to get another bid are not discounts; they are inflated base prices designed to prevent comparison shopping. Always get at least 3 bids regardless of pressure.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Best Time to Replace Your HVAC System in Seattle</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">March through May</p>
+<p>The 2021 heat dome permanently changed Seattle's AC market. Summer demand now spikes. Spring before the heat is the best window.</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">July through September (heat dome panic) and December (furnace failures)</p>
+<p>Emergency replacements during peak season carry a 10-20% premium in Seattle. Contractors are booked 2-4 weeks out and have zero incentive to negotiate. If your system is 12+ years old, replacing it proactively during a shoulder season is almost always cheaper than waiting for it to fail during a heat wave or cold snap.</p>
+</div>
+</div>
+<p><strong>Pro tip for Seattle.</strong> Schedule a pre-season inspection ($80-$150) in early spring or early fall. A technician can identify systems likely to fail in the coming season, giving you time to plan a replacement on your schedule rather than in an emergency. Most legitimate HVAC companies offer seasonal tune-up packages that include this inspection.</p>
+</section>
+<section class="section fp-section">
+<h2>What HVAC Replacement Actually Costs in Seattle: 3 Scenarios</h2>
+<p>Here is what real HVAC projects look like in Seattle, WA, using Seattle-adjusted labor and equipment costs for 2026.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">14-15 SEER central AC | 80% AFUE furnace</p>
+<p class="fp-scenario-total">$4.8K</p>
+<p class="fp-scenario-detail">Single-stage, value brand (Goodman/Amana). Includes equipment, standard installation, permit, and disposal. Basic thermostat. Adequate for smaller homes or budget-constrained replacements. 10-year parts warranty typical.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">16-17 SEER heat pump | dual fuel option</p>
+<p class="fp-scenario-total">$8.8K</p>
+<p class="fp-scenario-detail">Two-stage, mid-tier brand (Rheem/York). Includes equipment, installation, new line set, permit, and smart thermostat. Better humidity control and quieter operation. 10-year parts warranty with optional extended labor warranty.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">20+ SEER variable-speed heat pump</p>
+<p class="fp-scenario-total">$14.8K</p>
+<p class="fp-scenario-detail">Variable-speed inverter, premium brand (Carrier/Trane/Daikin). Includes full installation, new line set, ductwork sealing, smart thermostat, and surge protector. Whisper-quiet operation, best-in-class humidity control, lowest operating cost. 12-year parts + 10-year labor warranty.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">All scenarios assume a 3-ton system for a 2,000 sq ft home with existing ductwork. Ductwork replacement adds $3,000-$7,000. Multi-story or complex installations add 10-20%. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your quote for a personalized comparison.</a></p>
+</section>
+<!-- /FLAGSHIP-HVAC-CONTENT -->
+
+
+
+
 <section class="section">
 <h2>What affects HVAC cost in Seattle</h2>
 <ul class="factor-list">
