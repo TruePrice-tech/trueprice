@@ -80,7 +80,6 @@
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
 <a href="/find-contractors.html">Contractors</a>
-<a href="/roofing-quote-analyzer.html?mode=estimator">Photo Estimate</a>
 <a class="nav-cta" href="/analyze-my-quote.html">Get Started</a>
 </nav>
 </div>
@@ -215,6 +214,18 @@ depending on window type, number of windows, and frame material.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- FLAGSHIP-WINDOWS-CONTENT -->
 
 <style>
@@ -223,190 +234,16 @@ depending on window type, number of windows, and frame material.
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
-.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
-.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
-.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
-.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
-.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
-.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
-.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
-.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>
-<section class="section fp-section">
-<h2>Neighborhood Window Pricing Breakdown</h2>
-<p>Window replacement costs vary within San Diego based on housing stock age, labor accessibility, and local demand. These are estimated per-window installed costs for each area.</p>
-<div style="overflow-x:auto;">
-<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
-<thead>
-<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
-<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th>
-<th style="text-align:right; padding:12px 16px;">Wood Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Sliding</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">La Jolla</td>
-<td style="padding:12px 16px; text-align:right;">$665</td>
-<td style="padding:12px 16px; text-align:right;">$1,149</td>
-<td style="padding:12px 16px; text-align:right;">$1,210</td>
-<td style="padding:12px 16px; text-align:right;">$605</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">North Park</td>
-<td style="padding:12px 16px; text-align:right;">$641</td>
-<td style="padding:12px 16px; text-align:right;">$1,107</td>
-<td style="padding:12px 16px; text-align:right;">$1,165</td>
-<td style="padding:12px 16px; text-align:right;">$582</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Hillcrest</td>
-<td style="padding:12px 16px; text-align:right;">$634</td>
-<td style="padding:12px 16px; text-align:right;">$1,096</td>
-<td style="padding:12px 16px; text-align:right;">$1,154</td>
-<td style="padding:12px 16px; text-align:right;">$577</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Pacific Beach</td>
-<td style="padding:12px 16px; text-align:right;">$567</td>
-<td style="padding:12px 16px; text-align:right;">$979</td>
-<td style="padding:12px 16px; text-align:right;">$1,030</td>
-<td style="padding:12px 16px; text-align:right;">$515</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Encinitas</td>
-<td style="padding:12px 16px; text-align:right;">$591</td>
-<td style="padding:12px 16px; text-align:right;">$1,021</td>
-<td style="padding:12px 16px; text-align:right;">$1,075</td>
-<td style="padding:12px 16px; text-align:right;">$538</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Carlsbad</td>
-<td style="padding:12px 16px; text-align:right;">$598</td>
-<td style="padding:12px 16px; text-align:right;">$1,032</td>
-<td style="padding:12px 16px; text-align:right;">$1,086</td>
-<td style="padding:12px 16px; text-align:right;">$543</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Per-window installed pricing based on local labor rates and material delivery costs. Actual pricing depends on window size, installation type (pocket vs full-frame), and current demand. <a href="/analyze-my-quote.html?city=San Diego&state=CA" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
-</section>
-<section class="section fp-section">
-<h2>Climate and Energy Efficiency: Windows in San Diego</h2>
-<p>Mild Mediterranean with rare extreme weather but salt air corrosion near the coast and wildfire risk in the inland canyons. These conditions directly determine which glass packages and frame materials deliver the best return on investment in San Diego.</p>
-<p><strong>Balance U-factor and SHGC.</strong> San Diego's mixed climate demands windows that perform well in both heating and cooling seasons. Target U-factor of 0.25 or lower and SHGC of 0.4 or lower. This balance prevents heat loss in winter while blocking solar heat gain in summer. Double-pane Low-E with argon fill is the sweet spot for most San Diego homes.</p>
-<p><strong>Low-E coatings are non-negotiable in San Diego.</strong> Every window quote you receive should specify Low-E glass as standard, not an upgrade. There are different Low-E formulations: "passive" Low-E (Low-E 272 type) maximizes solar heat gain for cold climates, while "solar control" Low-E (Low-E 366 type) rejects solar heat for warm climates. In San Diego, passive Low-E on south-facing windows and solar control Low-E on west-facing windows gives you the best of both worlds. If a contractor's quote does not specify the Low-E coating type, ask before signing.</p>
-</section>
-<section class="section fp-section">
-<h2>Frame Material Comparison for San Diego's Climate</h2>
-<p>The four major frame materials each have distinct advantages in San Diego's climate. Here is how they compare for this specific market.</p>
-<p><strong>Vinyl.</strong> Lowest cost ($300-$700/window installed). Zero maintenance. Vinyl performs well in San Diego's climate with minimal maintenance. It does not conduct heat or cold, making it an excellent insulator. Modern vinyl frames are UV-stabilized and resist fading, cracking, and warping for 20-30 years.</p>
-<p><strong>Fiberglass.</strong> Mid-premium ($700-$1,600/window installed). Paintable, extremely durable. Fiberglass resists expansion and contraction better than any other frame material, which matters in San Diego where temperature swings stress window seals. It is stronger than vinyl, allowing narrower sightlines and more glass area. The 40-70% premium over vinyl is justified for homeowners who want 30+ year performance.</p>
-<p><strong>Wood / Wood-Clad.</strong> Premium ($600-$2,500/window installed). Best aesthetics. Wood offers the best insulation value of any frame material and the premium interior look that many San Diego homeowners want. In San Diego's climate, exterior-clad wood windows (aluminum or fiberglass over wood) protect against moisture while the wood interior provides warmth and character. Pure wood exteriors require repainting every 5-7 years.</p>
-<p><strong>Aluminum.</strong> Moderate ($600-$1,400/window installed). Slim sightlines, strong. Aluminum is a poor choice for San Diego's cold winters. Metal frames conduct heat aggressively, creating condensation and ice buildup on interior surfaces. Even with thermal breaks, aluminum U-factors run 20-40% worse than vinyl or fiberglass. Unless you have a specific architectural reason, avoid aluminum in this climate.</p>
-</section>
-<section class="section fp-section">
-<h2>Home Age and Existing Window Assessment in San Diego</h2>
-<p>The average home in San Diego is approximately 35 years old. Mostly 1950s-1980s in central neighborhoods and newer 1990s-onwards in the suburbs; coastal homes often need salt-resistant materials. The age and condition of your existing windows determine whether a pocket (insert) replacement or full-frame replacement is appropriate, and full-frame jobs cost 40-100% more per window.</p>
-<p><strong>Single-pane windows.</strong> Many homes in San Diego's older neighborhoods still have original single-pane windows. If your home has single-pane glass, replacement is almost always worth the investment. Single-pane windows have a U-factor of approximately 1.0, meaning they lose heat at roughly 4 times the rate of a modern double-pane Low-E window (U-factor 0.25). The energy savings alone typically justify replacement within 7-12 years, and the comfort improvement is immediate and dramatic.</p>
-<p><strong>Lead paint in pre-1978 homes.</strong> While most of San Diego's housing stock is newer than the 1978 lead paint cutoff, older neighborhoods do have pre-1978 homes. Any window replacement in a pre-1978 home triggers EPA RRP (Renovation, Repair, and Painting) rule compliance. Your contractor must be EPA Lead-Safe certified, and the crew must follow specific containment and cleanup protocols. This adds $200-$500 to the total project cost. If a contractor does not ask about your home's age or dismisses lead paint concerns, that is a red flag for both safety and licensing.</p>
-<p><strong>Historic district restrictions.</strong> San Diego has designated historic districts where window replacement is subject to architectural review. In these areas, you may be required to use wood windows that match the original profiles, or specific divided-lite patterns. Vinyl windows are typically prohibited in locally designated historic districts. If your home is in a historic overlay zone, contact your local historic preservation office before getting quotes. The material and design requirements can double the per-window cost compared to standard replacement, and non-compliant work can result in fines and mandatory removal.</p>
-</section>
-<section class="section fp-section">
-<h2>Permits and HOA Considerations in San Diego</h2>
-<p>San Diego DSD plan check averages 3-6 weeks for any structural work; over-the-counter permits available for simple residential projects. For window replacement specifically, most jurisdictions in San Diego require a building permit when replacing windows with a different size or type, or when structural modifications to the opening are needed. Simple same-size pocket replacements may be permit-exempt in some cases, but your contractor should confirm with the local building department before starting work.</p>
-<p><strong>HOA architectural review.</strong> HOA-governed communities are very common in San Diego. Most HOAs require pre-approval of window replacements, with restrictions that can include frame color (white or almond only, in many cases), grid/grille patterns, and even specific approved brands. Submit your architectural change request 4-6 weeks before your planned installation date. Getting quotes before HOA approval is fine, but do not sign a contract or place a window order until you have written approval. HOA rejections after windows are ordered are expensive because custom windows are non-returnable.</p>
-<p><strong>Historic overlay zones.</strong> If your property falls within a locally designated historic district in San Diego, window replacement requires approval from the historic preservation commission in addition to standard permits. Expect a review process of 4-8 weeks. Requirements typically mandate wood or wood-clad windows with historically appropriate profiles and divided-lite patterns. Vinyl and aluminum windows are almost universally prohibited in historic districts. The cost premium for code-compliant historic window replacement is 50-150% over standard vinyl replacement.</p>
-</section>
-<section class="section fp-section">
-<h2>Professional Installation vs DIY Windows in San Diego</h2>
-<p>Window replacement is one of the few major home improvement projects where DIY is sometimes viable for handy homeowners. That said, the scope of the project and the type of installation determine whether DIY makes sense in San Diego.</p>
-<p><strong>Where DIY can work.</strong> Simple pocket (insert) replacements in standard-sized openings on the first floor are the most DIY-friendly window projects. If the existing frame is square, plumb, and in good condition, and the new window is the same size, the installation is primarily shimming, insulating, and trim work. A competent DIYer can save $150-$300 per window in labor costs. Budget 2-4 hours per window for a first-timer, dropping to 1-2 hours per window after you find your rhythm.</p>
-<p><strong>Where you need a professional.</strong> Full-frame replacements (where the existing frame is removed down to the rough opening), any structural modifications to enlarge or reduce openings, second-story or higher installations, and any home built before 1978 (lead paint RRP compliance) all require professional installation. In San Diego, competitive market with many bilingual crews; Spanish-language quotes are common and fully legitimate. Getting three professional bids is the standard minimum.</p>
-<p><strong>Warranty implications.</strong> Most major window manufacturers (Andersen, Pella, Marvin) offer full product warranties regardless of who installs them, but some brands require "certified installer" status for the labor warranty to apply. Renewal by Andersen and Champion, for example, bundle product and labor warranties together and void them for DIY or third-party installation. Verify warranty terms before choosing the DIY route.</p>
-<p><strong>The hybrid approach.</strong> Some San Diego homeowners order windows directly (through a dealer or home center) and hire a handyman or small contractor for installation at $100-$200 per window rather than using the window company's full-service installation crew at $250-$400 per window. This can save 20-30% on the total project while still getting professional installation. The tradeoff is that you manage the project yourself and the installer may not carry the same insurance or warranty coverage as a full-service window company.</p>
-</section>
-<section class="section fp-section">
-<h2>Red Flags and Window Replacement Scams in San Diego</h2>
-<p>The window replacement industry has more consumer complaints per dollar spent than almost any other home improvement category. Here are the patterns most commonly reported by San Diego homeowners.</p>
-
-<div class="fp-flag">
-<h3>Bait-and-switch on brands</h3>
-<p>The window industry has a chronic problem with brand substitution. A salesperson quotes Andersen 400 Series but the contract specifies "comparable Andersen product" or uses a model number you cannot verify. Before signing any contract in San Diego, confirm the exact brand, product line, and model number. Cross-reference it on the manufacturer's website. If the salesperson cannot tell you the exact NFRC-rated U-factor and SHGC for the specific window being quoted, the quote is not specific enough to sign.</p>
-</div>
-<div class="fp-flag">
-<h3>"Today only" pricing</h3>
-<p>This is the single most common predatory sales tactic in the window industry. Companies like Renewal by Andersen, Champion, and Window Nation use in-home sales presentations that end with an "expiring" price. The pitch follows a pattern: high initial price ($1,500-$2,000/window), then "manager approval" discounts, then a "today only" final price. The "today only" price is the real price and it is available any day of the week. No legitimate manufacturer pricing changes based on when you sign. Walk away from any salesperson who pressures you to sign during the first visit. Get the price in writing and compare it against other bids.</p>
-</div>
-<div class="fp-flag">
-<h3>Unnecessary structural modifications</h3>
-<p>Some contractors in San Diego recommend full-frame replacement or structural header modifications when a simple pocket replacement would work fine. Full-frame replacement costs 40-100% more per window. It is genuinely necessary when the existing frame is rotted, out of square, or when you are changing window sizes. But some contractors default to full-frame because it justifies higher pricing. If a contractor recommends full-frame, ask them to show you specifically where the existing frame is damaged. If the frame is sound, a pocket replacement is appropriate and significantly cheaper.</p>
-</div>
-<div class="fp-flag">
-<h3>Inflated window counts</h3>
-<p>Some large window companies in San Diego pad quotes by counting fixed picture windows as separate units when they share a frame with operable windows (a "mulled unit"). A double-hung window next to a fixed panel in a single frame is one mulled unit with two lites, not two separate windows. Verify the window count in your quote against your actual openings. Miscounting by 2-3 windows on a 15-window job inflates the total by $1,000-$3,000.</p>
-</div>
-</section>
-<section class="section fp-section">
-<h2>Best Time to Buy Windows in San Diego</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to buy</h3>
-<p class="fp-season-months">October through February</p>
-<p>Moderate temperatures are ideal for installation (caulk and sealant perform best between 40-90F) and contractor schedules open up.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low leverage</h3>
-<p class="fp-season-months">April through June</p>
-<p>Summer heat makes installation miserable and sealant application problematic.</p>
-</div>
-</div>
-<p><strong>Window sales cycles are real.</strong> Unlike roofing or HVAC, window replacement is rarely an emergency, which means you have the luxury of timing your purchase. The window industry runs on seasonal patterns and manufacturer promotion cycles that can save you 10-20% on the same product.</p>
-<p><strong>End-of-year manufacturer rebates.</strong> Most major window manufacturers (Andersen, Pella, Marvin) run Q4 rebate programs to hit annual production targets. These are legitimate discounts of $25-$75 per window, separate from any dealer markdowns. Your dealer or contractor can tell you which manufacturer promotions are currently active. These rebates are real savings, unlike the "today only" dealer discounts that are available any day.</p>
-<p><strong>Order lead times matter.</strong> Custom windows typically take 4-8 weeks from order to delivery. Stock sizes from Jeld-Wen, Simonton, or Milgard may be available in 1-2 weeks. Factor lead time into your seasonal planning. If you want Q4 pricing and fall installation, order by mid-September.</p>
-</section>
-<section class="section fp-section">
-<h2>What Window Replacement Actually Costs in San Diego: 3 Scenarios</h2>
-<p>Here is what real 15-window whole-house projects look like in San Diego, CA, using San Diego-adjusted labor and material costs for 2026.</p>
-<div class="fp-scenario-grid">
-
-<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget Vinyl Replacement</h3>
-<p class="fp-scenario-material">15 vinyl double-hung windows | pocket install | Low-E double-pane</p>
-<p class="fp-scenario-total">$7,140</p>
-<p class="fp-scenario-detail">~$476/window installed. Value-tier vinyl (Window World, Alside Sheffield, Jeld-Wen V2500). Includes Low-E double-pane glass, argon fill, pocket installation, interior/exterior trim touch-up, and debris removal.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range Fiberglass with Low-E</h3>
-<p class="fp-scenario-material">15 fiberglass windows | pocket install | Low-E double-pane argon</p>
-<p class="fp-scenario-total">$17,640</p>
-<p class="fp-scenario-detail">~$1,176/window installed. Mid-tier fiberglass or premium vinyl (Marvin Essential, Milgard Ultra, Pella 350). ENERGY STAR certified. Includes professional measurement, pocket install, foam insulation, interior trim, and permit.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium Wood-Clad Triple-Pane</h3>
-<p class="fp-scenario-material">15 wood-clad windows | full-frame | triple-pane Low-E krypton</p>
-<p class="fp-scenario-total">$33,600</p>
-<p class="fp-scenario-detail">~$2,240/window installed. Premium wood-clad (Andersen 400/A-Series, Pella Lifestyle/Reserve, Marvin Elevate/Signature). Triple-pane with krypton fill. Full-frame installation, new interior/exterior trim, structural modifications as needed, and permit.</p>
-</div>
-</div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard-sized windows in a single-story home. Bay/bow windows, second-story access, structural modifications, and lead paint abatement add to these baselines. <a href="/window-replacement-cost.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
+<section class="section fp-section"><h2>San Diego neighborhood per-window pricing</h2>
+<div style="overflow-x:auto;"><table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;"><thead><tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);"><th style="text-align:left; padding:12px 16px;">Neighborhood</th><th style="text-align:right; padding:12px 16px;">Vinyl DH</th><th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th><th style="text-align:right; padding:12px 16px;">Wood DH</th><th style="text-align:right; padding:12px 16px;">Vinyl Slider</th></tr></thead><tbody><tr><td style="padding:12px 16px; font-weight:600;">La Jolla</td><td style="padding:12px 16px; text-align:right;">$665</td><td style="padding:12px 16px; text-align:right;">$1,149</td><td style="padding:12px 16px; text-align:right;">$1,210</td><td style="padding:12px 16px; text-align:right;">$605</td></tr><tr><td style="padding:12px 16px; font-weight:600;">North Park</td><td style="padding:12px 16px; text-align:right;">$641</td><td style="padding:12px 16px; text-align:right;">$1,107</td><td style="padding:12px 16px; text-align:right;">$1,165</td><td style="padding:12px 16px; text-align:right;">$582</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Hillcrest</td><td style="padding:12px 16px; text-align:right;">$634</td><td style="padding:12px 16px; text-align:right;">$1,096</td><td style="padding:12px 16px; text-align:right;">$1,154</td><td style="padding:12px 16px; text-align:right;">$577</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Pacific Beach</td><td style="padding:12px 16px; text-align:right;">$567</td><td style="padding:12px 16px; text-align:right;">$979</td><td style="padding:12px 16px; text-align:right;">$1,030</td><td style="padding:12px 16px; text-align:right;">$515</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Encinitas</td><td style="padding:12px 16px; text-align:right;">$591</td><td style="padding:12px 16px; text-align:right;">$1,021</td><td style="padding:12px 16px; text-align:right;">$1,075</td><td style="padding:12px 16px; text-align:right;">$538</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Carlsbad</td><td style="padding:12px 16px; text-align:right;">$598</td><td style="padding:12px 16px; text-align:right;">$1,032</td><td style="padding:12px 16px; text-align:right;">$1,086</td><td style="padding:12px 16px; text-align:right;">$543</td></tr></tbody></table></div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=San Diego&state=CA" style="color:var(--brand);">Upload your San Diego quote for line-item comparison.</a></p></section><section class="section fp-section"><h2>Energy performance spec for San Diego</h2><p>San Diego is IECC zone 3C, a marine-coastal climate with minimal heating and moderate cooling. ENERGY STAR targets U-factor 0.30 and SHGC 0.40 maximum. SDG&E's Home Energy Efficiency Rebate plus San Diego Regional Climate Action Plan incentives return $40-$75 per qualified ENERGY STAR window. California Title 24 Part 11 CALGreen requires water-resistant flashing systems documented on every replacement, which in San Diego means self-adhered flashing tape, sill pan, and integrated weather-resistive barrier at every opening. San Diego's coastal salt exposure also makes frame material selection more critical than in interior marine climates: uncoated aluminum corrodes visibly within 5-8 years on properties within one mile of the coast.</p><p>San Diego energy economics favor U-factor stability across all elevations because heating is minimal and cooling is modest. SDG&E's TOU-DR rate plans penalize summer afternoon peak usage, and west-elevation SHGC reduction delivers modest but consistent peak-hour savings. San Diego Regional Climate Action Plan rebates stack with SDG&E's Home Energy Efficiency Rebate plus federal 25C credit for meaningful full-home retrofit financing.</p></section><section class="section fp-section"><h2>Licensing and code rules in San Diego</h2><p>California requires a CSLB C-17 glazing license or B general license for San Diego work. San Diego additionally requires a city business tax certificate for any contractor pulling city permits. San Diego Historic Resources Board oversees neighborhoods including Mission Hills, Burlingame, South Park, Uptown, and La Jolla; Mills Act properties (reduced property tax for historic preservation) require wood or fiberglass simulated-divided-lite windows matching original profiles. Coastal Commission jurisdiction adds a second regulatory layer for any property within the Coastal Zone boundary.</p></section><section class="section fp-section"><h2>What failing windows look like in San Diego</h2><p>San Diego's dominant failure pattern is 1960s-1980s aluminum sliders and jalousie secondary windows with frame corrosion from coastal salt exposure and failed pile weatherstripping. Canyon and hillside lots in La Jolla, Carmel Valley, and Scripps Ranch create irregular window openings, and many require custom sizing on 6-10 week lead times with 15-25% size-premium upcharges from the manufacturer. Mission Hills and Burlingame 1920s-1940s craftsman homes frequently have original wood sash still in place, and Mills Act compliance requires specific replacement material preserving the historic character.</p></section><section class="section fp-section"><h2>Glass package choices for San Diego</h2><p>San Diego glass packages typically specify dual-pane with Low-E 366 on west exposures (summer afternoon sun) and Low-E 272 on other elevations. Argon fill is baseline. Coastal properties within one mile of the beach benefit from laminated outer panes for salt-spray and debris resistance, and any coastal-zone property should specify fiberglass or vinyl frames rather than uncoated aluminum because coastal salt exposure corrodes aluminum within 5-8 years.</p></section><section class="section fp-section"><h2>Wind, storm, and durability requirements for San Diego</h2><p>San Diego has no hurricane zone, but Santa Ana wind events and coastal marine humidity drive specific material selection. Fiberglass and vinyl outperform aluminum in coastal corrosion environments; any San Diego property within one mile of the coast should specify non-aluminum frames or specialty marine-coated aluminum. California WUI zones in Rancho Bernardo, Rancho Peñasquitos, and portions of East County also trigger Chapter 7A ember-resistance requirements that mandate tempered dual-pane glazing and specific vent protections.</p></section><section class="section fp-section"><h2>Vetting a San Diego installer</h2><p>San Diego installer vetting: verify active CSLB license (C-17 or B general) at cslb.ca.gov plus San Diego city business tax certificate for permit-pulling. County jobs additionally require county contractor registration separate from city. San Diego coastal zone properties also require California Coastal Commission approval for certain scope changes, adding 4-8 weeks to the overall project timeline.</p></section><section class="section fp-section"><h2>San Diego-specific window fraud patterns</h2><p>San Diego window fraud patterns center on unlicensed contractors doing work in North County and East County unincorporated areas where enforcement is less visible than in the city proper. The San Diego-specific warning sign is a contractor offering to skip the city business tax certificate "because it's a county job" when the job is actually inside city limits. California CSLB enforcement and county tax certificate requirements are separate, and both must be verified. Coastal Commission permitting also adds 4-8 weeks to any project within the Coastal Zone, and a contractor who promises faster turnaround on coastal work is either uninformed or planning to work without approval.</p></section><section class="section fp-section"><h2>When to buy in San Diego and what whole-home jobs cost</h2>
+<p><strong>San Diego best months:</strong> September through June, with the only caveat being May-June marine layer morning fog that delays caulk cure.</p>
+<p><strong>San Diego worst months:</strong> July-August peak beach-city construction surge and mid-summer humidity spikes in inland valleys.</p>
+<p></p>
+<p>A 15-window San Diego whole-home replacement in 2026 dollars at prevailing San Diego labor rates: budget vinyl with San Diego-compliant Low-E runs approximately $7,140; mid-range fiberglass with ENERGY STAR IECC Zone 3C marine-coastal qualified glazing runs $17,640; premium wood-clad with dual-pane spectrally-selective full-frame replacement runs $33,600. These numbers reflect San Diego installer rates, not national averages, and assume standard-sized openings without bay-window or radiused-top custom work. The dominant San Diego material story is 1960s-1980s aluminum sliders with coastal salt corrosion on frames and tracks, and replacement economics pivot on whether pocket installation is viable or full-frame scope is required.</p>
+<p><a href="/window-replacement-cost.html" style="color:var(--brand);">Get a San Diego estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-WINDOWS-CONTENT -->
 

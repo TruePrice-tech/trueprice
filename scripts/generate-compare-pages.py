@@ -697,7 +697,6 @@ TEMPLATE = r"""<!DOCTYPE html>
         <a href="/all-cities.html">Cities</a>
         <a href="/guides.html">Guides</a>
         <a href="/find-contractors.html">Contractors</a>
-        <a href="/photo-estimate.html">Photo Estimate</a>
         <a class="nav-cta" href="/analyze-quote.html">Get Started</a>
       </nav>
     </div>

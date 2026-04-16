@@ -80,7 +80,6 @@
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
 <a href="/find-contractors.html">Contractors</a>
-<a href="/roofing-quote-analyzer.html?mode=estimator">Photo Estimate</a>
 <a class="nav-cta" href="/analyze-my-quote.html">Get Started</a>
 </nav>
 </div>
@@ -212,6 +211,18 @@ depending on window type, number of windows, and frame material.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- FLAGSHIP-WINDOWS-CONTENT -->
 
 <style>
@@ -220,190 +231,16 @@ depending on window type, number of windows, and frame material.
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
-.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
-.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
-.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
-.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
-.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
-.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
-.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
-.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>
-<section class="section fp-section">
-<h2>Neighborhood Window Pricing Breakdown</h2>
-<p>Window replacement costs vary within Las Vegas based on housing stock age, labor accessibility, and local demand. These are estimated per-window installed costs for each area.</p>
-<div style="overflow-x:auto;">
-<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
-<thead>
-<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
-<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th>
-<th style="text-align:right; padding:12px 16px;">Wood Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Sliding</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Summerlin</td>
-<td style="padding:12px 16px; text-align:right;">$594</td>
-<td style="padding:12px 16px; text-align:right;">$1,026</td>
-<td style="padding:12px 16px; text-align:right;">$1,080</td>
-<td style="padding:12px 16px; text-align:right;">$540</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Henderson</td>
-<td style="padding:12px 16px; text-align:right;">$572</td>
-<td style="padding:12px 16px; text-align:right;">$988</td>
-<td style="padding:12px 16px; text-align:right;">$1,040</td>
-<td style="padding:12px 16px; text-align:right;">$520</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Green Valley</td>
-<td style="padding:12px 16px; text-align:right;">$567</td>
-<td style="padding:12px 16px; text-align:right;">$979</td>
-<td style="padding:12px 16px; text-align:right;">$1,030</td>
-<td style="padding:12px 16px; text-align:right;">$515</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Anthem</td>
-<td style="padding:12px 16px; text-align:right;">$506</td>
-<td style="padding:12px 16px; text-align:right;">$874</td>
-<td style="padding:12px 16px; text-align:right;">$920</td>
-<td style="padding:12px 16px; text-align:right;">$460</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Centennial Hills</td>
-<td style="padding:12px 16px; text-align:right;">$528</td>
-<td style="padding:12px 16px; text-align:right;">$912</td>
-<td style="padding:12px 16px; text-align:right;">$960</td>
-<td style="padding:12px 16px; text-align:right;">$480</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">MacDonald Ranch</td>
-<td style="padding:12px 16px; text-align:right;">$534</td>
-<td style="padding:12px 16px; text-align:right;">$922</td>
-<td style="padding:12px 16px; text-align:right;">$970</td>
-<td style="padding:12px 16px; text-align:right;">$485</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Per-window installed pricing based on local labor rates and material delivery costs. Actual pricing depends on window size, installation type (pocket vs full-frame), and current demand. <a href="/analyze-my-quote.html?city=Las Vegas&state=NV" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
-</section>
-<section class="section fp-section">
-<h2>Climate and Energy Efficiency: Windows in Las Vegas</h2>
-<p>Extreme desert heat with 110+ degree summers, intense UV that degrades exterior building materials 30 percent faster than the national average, and rare but heavy monsoon rains. These conditions directly determine which glass packages and frame materials deliver the best return on investment in Las Vegas.</p>
-<p><strong>Balance U-factor and SHGC.</strong> Las Vegas's mixed climate demands windows that perform well in both heating and cooling seasons. Target U-factor of 0.25 or lower and SHGC of 0.4 or lower. This balance prevents heat loss in winter while blocking solar heat gain in summer. Double-pane Low-E with argon fill is the sweet spot for most Las Vegas homes.</p>
-<p><strong>Low-E coatings are non-negotiable in Las Vegas.</strong> Every window quote you receive should specify Low-E glass as standard, not an upgrade. There are different Low-E formulations: "passive" Low-E (Low-E 272 type) maximizes solar heat gain for cold climates, while "solar control" Low-E (Low-E 366 type) rejects solar heat for warm climates. In Las Vegas, passive Low-E on south-facing windows and solar control Low-E on west-facing windows gives you the best of both worlds. If a contractor's quote does not specify the Low-E coating type, ask before signing.</p>
-</section>
-<section class="section fp-section">
-<h2>Frame Material Comparison for Las Vegas's Climate</h2>
-<p>The four major frame materials each have distinct advantages in Las Vegas's climate. Here is how they compare for this specific market.</p>
-<p><strong>Vinyl.</strong> Lowest cost ($300-$700/window installed). Zero maintenance. Vinyl performs well in Las Vegas's climate with minimal maintenance. It does not conduct heat or cold, making it an excellent insulator. Modern vinyl frames are UV-stabilized and resist fading, cracking, and warping for 20-30 years.</p>
-<p><strong>Fiberglass.</strong> Mid-premium ($700-$1,600/window installed). Paintable, extremely durable. Fiberglass resists expansion and contraction better than any other frame material, which matters in Las Vegas where temperature swings stress window seals. It is stronger than vinyl, allowing narrower sightlines and more glass area. The 40-70% premium over vinyl is justified for homeowners who want 30+ year performance.</p>
-<p><strong>Wood / Wood-Clad.</strong> Premium ($600-$2,500/window installed). Best aesthetics. Wood offers the best insulation value of any frame material and the premium interior look that many Las Vegas homeowners want. In Las Vegas's climate, exterior-clad wood windows (aluminum or fiberglass over wood) protect against moisture while the wood interior provides warmth and character. Pure wood exteriors require repainting every 5-7 years.</p>
-<p><strong>Aluminum.</strong> Moderate ($600-$1,400/window installed). Slim sightlines, strong. Aluminum is a poor choice for Las Vegas's cold winters. Metal frames conduct heat aggressively, creating condensation and ice buildup on interior surfaces. Even with thermal breaks, aluminum U-factors run 20-40% worse than vinyl or fiberglass. Unless you have a specific architectural reason, avoid aluminum in this climate.</p>
-</section>
-<section class="section fp-section">
-<h2>Home Age and Existing Window Assessment in Las Vegas</h2>
-<p>The average home in Las Vegas is approximately 36 years old. Rapid 1990s-2010s growth means many 20-30 year old roofs hitting end of life simultaneously in master-planned communities. The age and condition of your existing windows determine whether a pocket (insert) replacement or full-frame replacement is appropriate, and full-frame jobs cost 40-100% more per window.</p>
-<p><strong>Single-pane windows.</strong> Many homes in Las Vegas's older neighborhoods still have original single-pane windows. If your home has single-pane glass, replacement is almost always worth the investment. Single-pane windows have a U-factor of approximately 1.0, meaning they lose heat at roughly 4 times the rate of a modern double-pane Low-E window (U-factor 0.25). The energy savings alone typically justify replacement within 7-12 years, and the comfort improvement is immediate and dramatic.</p>
-<p><strong>Lead paint in pre-1978 homes.</strong> While most of Las Vegas's housing stock is newer than the 1978 lead paint cutoff, older neighborhoods do have pre-1978 homes. Any window replacement in a pre-1978 home triggers EPA RRP (Renovation, Repair, and Painting) rule compliance. Your contractor must be EPA Lead-Safe certified, and the crew must follow specific containment and cleanup protocols. This adds $200-$500 to the total project cost. If a contractor does not ask about your home's age or dismisses lead paint concerns, that is a red flag for both safety and licensing.</p>
-<p><strong>Historic district restrictions.</strong> Las Vegas has designated historic districts where window replacement is subject to architectural review. In these areas, you may be required to use wood windows that match the original profiles, or specific divided-lite patterns. Vinyl windows are typically prohibited in locally designated historic districts. If your home is in a historic overlay zone, contact your local historic preservation office before getting quotes. The material and design requirements can double the per-window cost compared to standard replacement, and non-compliant work can result in fines and mandatory removal.</p>
-</section>
-<section class="section fp-section">
-<h2>Permits and HOA Considerations in Las Vegas</h2>
-<p>Clark County and City of Las Vegas permits typically issue same-day for residential roofing. For window replacement specifically, most jurisdictions in Las Vegas require a building permit when replacing windows with a different size or type, or when structural modifications to the opening are needed. Simple same-size pocket replacements may be permit-exempt in some cases, but your contractor should confirm with the local building department before starting work.</p>
-<p><strong>HOA architectural review.</strong> HOA-governed communities are very common in Las Vegas. Most HOAs require pre-approval of window replacements, with restrictions that can include frame color (white or almond only, in many cases), grid/grille patterns, and even specific approved brands. Submit your architectural change request 4-6 weeks before your planned installation date. Getting quotes before HOA approval is fine, but do not sign a contract or place a window order until you have written approval. HOA rejections after windows are ordered are expensive because custom windows are non-returnable.</p>
-<p><strong>Historic overlay zones.</strong> If your property falls within a locally designated historic district in Las Vegas, window replacement requires approval from the historic preservation commission in addition to standard permits. Expect a review process of 4-8 weeks. Requirements typically mandate wood or wood-clad windows with historically appropriate profiles and divided-lite patterns. Vinyl and aluminum windows are almost universally prohibited in historic districts. The cost premium for code-compliant historic window replacement is 50-150% over standard vinyl replacement.</p>
-</section>
-<section class="section fp-section">
-<h2>Professional Installation vs DIY Windows in Las Vegas</h2>
-<p>Window replacement is one of the few major home improvement projects where DIY is sometimes viable for handy homeowners. That said, the scope of the project and the type of installation determine whether DIY makes sense in Las Vegas.</p>
-<p><strong>Where DIY can work.</strong> Simple pocket (insert) replacements in standard-sized openings on the first floor are the most DIY-friendly window projects. If the existing frame is square, plumb, and in good condition, and the new window is the same size, the installation is primarily shimming, insulating, and trim work. A competent DIYer can save $150-$300 per window in labor costs. Budget 2-4 hours per window for a first-timer, dropping to 1-2 hours per window after you find your rhythm.</p>
-<p><strong>Where you need a professional.</strong> Full-frame replacements (where the existing frame is removed down to the rough opening), any structural modifications to enlarge or reduce openings, second-story or higher installations, and any home built before 1978 (lead paint RRP compliance) all require professional installation. In Las Vegas, competitive winter market when snowbirds drive demand; summer shutdowns are common due to heat. Getting three professional bids is the standard minimum.</p>
-<p><strong>Warranty implications.</strong> Most major window manufacturers (Andersen, Pella, Marvin) offer full product warranties regardless of who installs them, but some brands require "certified installer" status for the labor warranty to apply. Renewal by Andersen and Champion, for example, bundle product and labor warranties together and void them for DIY or third-party installation. Verify warranty terms before choosing the DIY route.</p>
-<p><strong>The hybrid approach.</strong> Some Las Vegas homeowners order windows directly (through a dealer or home center) and hire a handyman or small contractor for installation at $100-$200 per window rather than using the window company's full-service installation crew at $250-$400 per window. This can save 20-30% on the total project while still getting professional installation. The tradeoff is that you manage the project yourself and the installer may not carry the same insurance or warranty coverage as a full-service window company.</p>
-</section>
-<section class="section fp-section">
-<h2>Red Flags and Window Replacement Scams in Las Vegas</h2>
-<p>The window replacement industry has more consumer complaints per dollar spent than almost any other home improvement category. Here are the patterns most commonly reported by Las Vegas homeowners.</p>
-
-<div class="fp-flag">
-<h3>Bait-and-switch on brands</h3>
-<p>The window industry has a chronic problem with brand substitution. A salesperson quotes Andersen 400 Series but the contract specifies "comparable Andersen product" or uses a model number you cannot verify. Before signing any contract in Las Vegas, confirm the exact brand, product line, and model number. Cross-reference it on the manufacturer's website. If the salesperson cannot tell you the exact NFRC-rated U-factor and SHGC for the specific window being quoted, the quote is not specific enough to sign.</p>
-</div>
-<div class="fp-flag">
-<h3>"Today only" pricing</h3>
-<p>This is the single most common predatory sales tactic in the window industry. Companies like Renewal by Andersen, Champion, and Window Nation use in-home sales presentations that end with an "expiring" price. The pitch follows a pattern: high initial price ($1,500-$2,000/window), then "manager approval" discounts, then a "today only" final price. The "today only" price is the real price and it is available any day of the week. No legitimate manufacturer pricing changes based on when you sign. Walk away from any salesperson who pressures you to sign during the first visit. Get the price in writing and compare it against other bids.</p>
-</div>
-<div class="fp-flag">
-<h3>Unnecessary structural modifications</h3>
-<p>Some contractors in Las Vegas recommend full-frame replacement or structural header modifications when a simple pocket replacement would work fine. Full-frame replacement costs 40-100% more per window. It is genuinely necessary when the existing frame is rotted, out of square, or when you are changing window sizes. But some contractors default to full-frame because it justifies higher pricing. If a contractor recommends full-frame, ask them to show you specifically where the existing frame is damaged. If the frame is sound, a pocket replacement is appropriate and significantly cheaper.</p>
-</div>
-<div class="fp-flag">
-<h3>Inflated window counts</h3>
-<p>Some large window companies in Las Vegas pad quotes by counting fixed picture windows as separate units when they share a frame with operable windows (a "mulled unit"). A double-hung window next to a fixed panel in a single frame is one mulled unit with two lites, not two separate windows. Verify the window count in your quote against your actual openings. Miscounting by 2-3 windows on a 15-window job inflates the total by $1,000-$3,000.</p>
-</div>
-</section>
-<section class="section fp-section">
-<h2>Best Time to Buy Windows in Las Vegas</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to buy</h3>
-<p class="fp-season-months">October through February</p>
-<p>Moderate temperatures are ideal for installation (caulk and sealant perform best between 40-90F) and contractor schedules open up.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low leverage</h3>
-<p class="fp-season-months">April through June</p>
-<p>Summer heat makes installation miserable and sealant application problematic.</p>
-</div>
-</div>
-<p><strong>Window sales cycles are real.</strong> Unlike roofing or HVAC, window replacement is rarely an emergency, which means you have the luxury of timing your purchase. The window industry runs on seasonal patterns and manufacturer promotion cycles that can save you 10-20% on the same product.</p>
-<p><strong>End-of-year manufacturer rebates.</strong> Most major window manufacturers (Andersen, Pella, Marvin) run Q4 rebate programs to hit annual production targets. These are legitimate discounts of $25-$75 per window, separate from any dealer markdowns. Your dealer or contractor can tell you which manufacturer promotions are currently active. These rebates are real savings, unlike the "today only" dealer discounts that are available any day.</p>
-<p><strong>Order lead times matter.</strong> Custom windows typically take 4-8 weeks from order to delivery. Stock sizes from Jeld-Wen, Simonton, or Milgard may be available in 1-2 weeks. Factor lead time into your seasonal planning. If you want Q4 pricing and fall installation, order by mid-September.</p>
-</section>
-<section class="section fp-section">
-<h2>What Window Replacement Actually Costs in Las Vegas: 3 Scenarios</h2>
-<p>Here is what real 15-window whole-house projects look like in Las Vegas, NV, using Las Vegas-adjusted labor and material costs for 2026.</p>
-<div class="fp-scenario-grid">
-
-<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget Vinyl Replacement</h3>
-<p class="fp-scenario-material">15 vinyl double-hung windows | pocket install | Low-E double-pane</p>
-<p class="fp-scenario-total">$6,375</p>
-<p class="fp-scenario-detail">~$425/window installed. Value-tier vinyl (Window World, Alside Sheffield, Jeld-Wen V2500). Includes Low-E double-pane glass, argon fill, pocket installation, interior/exterior trim touch-up, and debris removal.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range Fiberglass with Low-E</h3>
-<p class="fp-scenario-material">15 fiberglass windows | pocket install | Low-E double-pane argon</p>
-<p class="fp-scenario-total">$15,750</p>
-<p class="fp-scenario-detail">~$1,050/window installed. Mid-tier fiberglass or premium vinyl (Marvin Essential, Milgard Ultra, Pella 350). ENERGY STAR certified. Includes professional measurement, pocket install, foam insulation, interior trim, and permit.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium Wood-Clad Triple-Pane</h3>
-<p class="fp-scenario-material">15 wood-clad windows | full-frame | triple-pane Low-E krypton</p>
-<p class="fp-scenario-total">$30,000</p>
-<p class="fp-scenario-detail">~$2,000/window installed. Premium wood-clad (Andersen 400/A-Series, Pella Lifestyle/Reserve, Marvin Elevate/Signature). Triple-pane with krypton fill. Full-frame installation, new interior/exterior trim, structural modifications as needed, and permit.</p>
-</div>
-</div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard-sized windows in a single-story home. Bay/bow windows, second-story access, structural modifications, and lead paint abatement add to these baselines. <a href="/window-replacement-cost.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
+<section class="section fp-section"><h2>Las Vegas neighborhood per-window pricing</h2>
+<div style="overflow-x:auto;"><table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;"><thead><tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);"><th style="text-align:left; padding:12px 16px;">Neighborhood</th><th style="text-align:right; padding:12px 16px;">Vinyl DH</th><th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th><th style="text-align:right; padding:12px 16px;">Wood DH</th><th style="text-align:right; padding:12px 16px;">Vinyl Slider</th></tr></thead><tbody><tr><td style="padding:12px 16px; font-weight:600;">Summerlin</td><td style="padding:12px 16px; text-align:right;">$594</td><td style="padding:12px 16px; text-align:right;">$1,026</td><td style="padding:12px 16px; text-align:right;">$1,080</td><td style="padding:12px 16px; text-align:right;">$540</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Henderson</td><td style="padding:12px 16px; text-align:right;">$572</td><td style="padding:12px 16px; text-align:right;">$988</td><td style="padding:12px 16px; text-align:right;">$1,040</td><td style="padding:12px 16px; text-align:right;">$520</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Green Valley</td><td style="padding:12px 16px; text-align:right;">$567</td><td style="padding:12px 16px; text-align:right;">$979</td><td style="padding:12px 16px; text-align:right;">$1,030</td><td style="padding:12px 16px; text-align:right;">$515</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Anthem</td><td style="padding:12px 16px; text-align:right;">$506</td><td style="padding:12px 16px; text-align:right;">$874</td><td style="padding:12px 16px; text-align:right;">$920</td><td style="padding:12px 16px; text-align:right;">$460</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Centennial Hills</td><td style="padding:12px 16px; text-align:right;">$528</td><td style="padding:12px 16px; text-align:right;">$912</td><td style="padding:12px 16px; text-align:right;">$960</td><td style="padding:12px 16px; text-align:right;">$480</td></tr><tr><td style="padding:12px 16px; font-weight:600;">MacDonald Ranch</td><td style="padding:12px 16px; text-align:right;">$534</td><td style="padding:12px 16px; text-align:right;">$922</td><td style="padding:12px 16px; text-align:right;">$970</td><td style="padding:12px 16px; text-align:right;">$485</td></tr></tbody></table></div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=Las Vegas&state=NV" style="color:var(--brand);">Upload your Las Vegas quote for line-item comparison.</a></p></section><section class="section fp-section"><h2>Energy performance spec for Las Vegas</h2><p>Las Vegas is IECC zone 3B, a hot-dry desert climate with severe summer cooling loads. ENERGY STAR targets U-factor 0.32 and SHGC 0.25 maximum. NV Energy's PowerShift Windows Rebate pays roughly $50 per qualified ENERGY STAR Southern-zone window, and SouthWest Gas offers stacking credits for combined envelope upgrades. Clark County energy code requires SHGC 0.25 maximum on any west-facing glazing exceeding 15% of that elevation, strictly enforced at final inspection. Las Vegas surface temperatures on dark-frame vinyl regularly exceed 160F in July; white or light-gray vinyl with UV-stabilized formulation is the practical Las Vegas specification for any west-elevation replacement.</p><p>Las Vegas cooling-bill economics reward aggressive SHGC reduction plus UV-stabilized frame material selection. NV Energy's TOU-D residential rate plan penalizes summer afternoon peak usage (1-7 PM), and west-facing glazing drives that peak in a city where ambient temperatures exceed 105F for 60+ summer days. Vegas also has one of the nation's highest solar radiation indices, and unprotected dark vinyl frames develop measurable degradation by year 6-8. White or light-gray vinyl with UV stabilizers is the durable specification.</p></section><section class="section fp-section"><h2>Licensing and code rules in Las Vegas</h2><p>Nevada State Contractors Board requires a C-8 glazing license for any Las Vegas window installation over $1,000. The nscb.nv.gov database includes license status, bond information, and complaint history. Unlike older metros, Las Vegas has few historic districts; John S. Park and Huntridge are the primary protected areas, where wood or aluminum-clad wood replacements match original profiles. Clark County IECC amendments require air leakage verification on replacement windows; the NFRC AL rating in cfm per square foot is checked against 0.3 maximum at final inspection.</p></section><section class="section fp-section"><h2>What failing windows look like in Las Vegas</h2><p>Las Vegas's dominant failure pattern is 1990s-2000s master-planned community construction in Summerlin, Green Valley, Anthem, and MacDonald Ranch with thin-gauge vinyl that UV-yellows and develops seal failures earlier than in milder climates. HOA control is exceptionally tight in these communities: architectural review committees mandate specific frame colors (almond or white) and prohibit dark bronze across nearly all master-planned developments. Pre-approval typically takes 2-4 weeks and requires color swatch samples. Downtown and Historic Westside homes from the 1940s-1960s often have original steel casement windows that require specialty manufacturer orders.</p></section><section class="section fp-section"><h2>Glass package choices for Las Vegas</h2><p>Vegas glass packages prioritize SHGC reduction and UV resistance: dual-pane spectrally-selective Low-E 366 on all exposures with extra spec attention to west-facing. Argon fill is baseline, and white or light-gray frame colors avoid the 160F+ frame surface temperatures that accelerate seal failure on darker frames. Laminated outer panes provide dust-storm debris resistance and 3-6% insurance premium reduction on most Vegas homeowners policies.</p></section><section class="section fp-section"><h2>Wind, storm, and durability requirements for Las Vegas</h2><p>Las Vegas has no hurricane exposure, and monsoon season (July-September) is the primary severe-weather concern. Dust-storm debris and microbursts drive laminated outer pane demand, and many Las Vegas insurers offer 3-6% premium reductions on laminated glass. UV degradation is the dominant Las Vegas durability factor: unprotected vinyl frames on south and west elevations show measurable color fading by year 6-8 and seal failures by year 12-15. White vinyl with UV-stabilized formulation plus Low-E 366 spectrally-selective coating is the Las Vegas durable specification.</p></section><section class="section fp-section"><h2>Vetting a Las Vegas installer</h2><p>Vegas installer vetting: verify active Nevada State Contractors Board C-8 glazing license at nscb.nv.gov, check bond status, and cross-reference NSCB complaint history. Nevada's deposit-cap law (NRS §624.6245) caps residential contractor deposits at 10% of contract or $1,000 (whichever is less), so any Vegas contract demanding 20-50% upfront is unenforceable. HOA architectural review complications are also common in Summerlin, Anthem, and MacDonald Ranch; require written HOA approval before any custom window order ships.</p></section><section class="section fp-section"><h2>Las Vegas-specific window fraud patterns</h2><p>Las Vegas window fraud concentrates around in-home sales from national chains operating out of Summerlin and Henderson showrooms. The Vegas-specific warning sign is a contract with a "price valid today only" clause and a large upfront deposit of 40-50%. Nevada Revised Statutes §624.6245 caps residential contractor deposits at 10% of the total contract or $1,000, whichever is less, and any contract demanding more than that is unenforceable. NSCB complaint filings at nscb.nv.gov show the national chains operating in Las Vegas with the highest complaint volumes; cross-reference before signing.</p></section><section class="section fp-section"><h2>When to buy in Las Vegas and what whole-home jobs cost</h2>
+<p><strong>Las Vegas best months:</strong> November through February, when surface temperatures drop below 90F for reliable caulk cure.</p>
+<p><strong>Las Vegas worst months:</strong> June through September monsoon and 160F+ surface-temperature extremes on dark-frame windows.</p>
+<p></p>
+<p>A 15-window Las Vegas whole-home replacement in 2026 dollars at prevailing Las Vegas labor rates: budget vinyl with Las Vegas-compliant Low-E runs approximately $6,375; mid-range fiberglass with ENERGY STAR IECC Zone 3B hot-dry desert qualified glazing runs $15,750; premium wood-clad with dual-pane spectrally-selective full-frame replacement runs $30,000. These numbers reflect Las Vegas installer rates, not national averages, and assume standard-sized openings without bay-window or radiused-top custom work. The dominant Las Vegas material story is 1990s-2000s master-planned-community thin-gauge vinyl with UV-yellowed frames, and replacement economics pivot on whether pocket installation is viable or full-frame scope is required.</p>
+<p><a href="/window-replacement-cost.html" style="color:var(--brand);">Get a Las Vegas estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-WINDOWS-CONTENT -->
 

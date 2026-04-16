@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
 # Already have the bridge wired
-SKIP = {"moving-estimate.js", "vehicle-estimate.js", "photo-estimate.js"}
+SKIP = {"moving-estimate.js", "vehicle-estimate.js"}
 
 # Vertical key -> service tag used in cal:* keys
 VERTICAL_MAP = {

@@ -170,6 +170,18 @@ export default async function handler(req, res) {
       // Keep only last 10,000 in memory
       if (quotes.length > 10000) quotes.shift();
 
+      // PERSIST to Redis list. The in-memory `quotes` array evaporates on
+      // serverless cold-restart; the Redis list survives. Capped at 10k entries.
+      let durableCount = quotes.length;
+      if (redis) {
+        try {
+          await redis.lpush("tp:community_quotes", JSON.stringify(entry));
+          await redis.ltrim("tp:community_quotes", 0, 9999);
+          const len = await redis.llen("tp:community_quotes");
+          if (typeof len === "number") durableCount = len;
+        } catch (_) { /* persistence is best-effort */ }
+      }
+
       // FLYWHEEL BRIDGE: write to Redis cal:* aggregates so community
       // quotes feed into calibration. Low weight (0.15) since these are
       // self-reported without document verification.
@@ -193,7 +205,7 @@ export default async function handler(req, res) {
         } catch (_) { /* flywheel bridge is best-effort */ }
       }
 
-      return res.status(200).json({ ok: true, accepted: true, count: quotes.length });
+      return res.status(200).json({ ok: true, accepted: true, count: durableCount });
     } catch (e) {
       return res.status(500).json({ error: "Failed to process quote" });
     }

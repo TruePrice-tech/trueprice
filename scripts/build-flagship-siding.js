@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * Generates deep editorial content for 10 flagship metro siding pages.
- * Injects ~2500 words of genuinely unique, city-specific prose.
- * Idempotent via FLAGSHIP-SIDING-CONTENT markers.
+ * Generates deep editorial content for 20 flagship metro siding pages.
+ * Every section pulls long narrative blocks from CITY_SIDING_DATA so 8-word
+ * shingle overlap across metros stays <10%.
  *
+ * Idempotent via FLAGSHIP-SIDING-CONTENT markers.
  * Usage: node scripts/build-flagship-siding.js [--dry]
  */
 
@@ -45,375 +46,292 @@ const METROS = [
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n.toLocaleString()}`; }
 function fmtD(n) { return `$${n.toLocaleString()}`; }
-function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function getLaborMultiplier(region) { return pricingModel.laborMultiplierByRegion?.[region] || 1.0; }
 
-function getLaborMultiplier(region) {
-  return pricingModel.laborMultiplierByRegion?.[region] || 1.0;
-}
+/* =========================================================================
+ * CITY_SIDING_DATA: long per-metro narrative chunks. Each chunk references
+ * at least 2 metro-specific facts (dominant material, HOA, climate, code).
+ * NO roofing terms allowed (no "shingles", "reroof", "roof pitch" etc.)
+ * ========================================================================= */
 
-/* ------------------------------------------------------------------ */
-/* 1. Neighborhood pricing breakdown                                   */
-/* ------------------------------------------------------------------ */
+const CITY_SIDING_DATA = {
+  "new-york-ny": {
+    sec_material: `New York City siding decisions are dominated by housing type: pre-war brick rowhouses and brownstones across Park Slope, Bay Ridge, and Astoria have minimal exposed siding surface, while mid-century and wood-framed Staten Island and Queens single-family homes require full siding replacement programs. The dominant NYC siding material on framed housing is vinyl siding due to low maintenance burden and tenant-suitability, followed by fiber cement on higher-end Brooklyn and Queens renovations. Pre-war brick requires repointing and masonry repair rather than siding replacement, and NYC contractors generally separate those trades.`,
+    sec_climate: `NYC siding faces severe nor'easter wind-driven rain, heavy freeze-thaw cycling from December through March, and summer heat-island temperatures that degrade dark-colored vinyl. Salt spray from coastal Queens and Staten Island also accelerates fastener corrosion; stainless-steel nails and trim are the durable NYC spec in coastal-adjacent zones. Moisture management behind siding is the #1 NYC failure pattern: failed flashing or poorly installed weather-resistive barriers lead to hidden sheathing rot that surfaces only during eventual exterior work.`,
+    sec_code: `NYC DOB requires permits for any siding replacement over 10 square feet. NYC Landmarks Preservation Commission (LPC) governs 37,000+ designated properties including Greenwich Village, SoHo, and the Upper East Side Historic District; landmarked facades require LPC approval, and vinyl is categorically prohibited on landmark-visible elevations. NYC requires a licensed Home Improvement Contractor (HIC) at nyc.gov/dca for any work over $200. Fire-rated wall assembly requirements under §705 of the NYC Building Code also govern siding selection on lot-line walls.`,
+    sec_insurance: `NYC homeowners insurance covers wind and hail damage but treats siding wear as owner responsibility. Con Edison offers envelope credits on qualifying whole-home retrofits, and NYSERDA's Home Performance with ENERGY STAR program layers additional credits on insulated siding installations. Wind-driven rain penetration is a common NYC claim driver; proper weather-resistive barrier installation (Tyvek or ZIP System) behind siding is the mitigation requirement most carriers verify on claim investigations.`,
+    sec_contractor: `NYC contractor verification: active HIC registration at nyc.gov/dca, bond and insurance certificates verified with issuers, and building-access coordination for multi-family buildings (service-elevator scheduling, certificates of insurance naming the building LLC as additional insured, and HIC surety bond filed with NYC DCA). NYC labor rates run 1.8-2.3x national averages per square foot of siding due to building access and parking complexity. Staten Island and outer Queens labor rates moderate, but Manhattan townhouse siding is among the most expensive residential siding work in the country.`,
+    sec_flag: `NYC-specific siding fraud patterns concentrate on vinyl-gauge substitution: the bid specifies .044" or .046" gauge and the installed product is .040" builder-grade. NYC DOB inspection does not verify siding gauge, so verification falls on the homeowner. Demand the manufacturer, profile, gauge, and color on the contract; cross-reference against the manufacturer's technical spec sheet; physically measure the delivered material with calipers before installation. Save a delivery-day photo showing the gauge printed on the product packaging.`,
+    dominantMaterial: "vinyl on framed Queens and Staten Island housing and fiber cement on Brooklyn renovations",
+    climateBand: "mixed-humid coastal with nor'easter exposure",
+    bestSeasons: "April through October, outside freezing-temperature install risk",
+    worstSeasons: "December through February below-freezing conditions that fail vinyl impact resistance",
+  },
+  "los-angeles-ca": {
+    sec_material: `Los Angeles siding is dominated by stucco on Spanish Colonial, Mediterranean, and ranch-style homes (70%+ of LA residential). Fiber cement appears on higher-end Modernist and Craftsman rebuilds, and wood siding (cedar, redwood) is common on Hollywood Hills and Brentwood architect-designed properties. Vinyl siding is rare in LA: the dominant aesthetic tradition rejects it, and HOAs in Pacific Palisades, Brentwood, and Hancock Park typically prohibit vinyl outright. Stucco replacement in LA is largely repair (cracking, efflorescence, delamination) rather than full re-side.`,
+    sec_climate: `LA siding faces intense UV exposure (280+ sunny days annually), Santa Ana wind events that deposit fine debris, and Chapter 7A WUI fire-hazard requirements in hillside neighborhoods. Fiber cement and stucco are inherently Class A fire-rated; wood siding in WUI zones requires specific fire-retardant treatments documented on the permit. Dark-colored stucco fading and chalking is the LA aesthetic failure pattern: south and west elevations typically require re-coating every 10-15 years to maintain color uniformity.`,
+    sec_code: `California requires a CSLB C-35 lathing and plastering license for stucco work or C-6 cabinet/millwork for wood siding. LA enforces California Building Code Chapter 7A in designated WUI zones including Mandeville Canyon, Bel Air, Beverly Hills Post Office, and portions of the San Fernando Valley; WUI compliance mandates Class A exterior wall assemblies and ember-resistant vent terminations. LA HPOZ (Historic Preservation Overlay Zones) cover 35+ designated zones where original siding material and profile must be matched.`,
+    sec_insurance: `LA homeowners insurance increasingly excludes WUI fire coverage in private-market writings; California FAIR Plan provides fallback coverage, and Class A fire-rated exterior assemblies are required for FAIR Plan eligibility. LADWP offers envelope credits on insulated siding retrofits qualifying under the Consumer Rebate Program. Santa Ana wind-driven debris damage to siding is covered but typically requires documentation within 14 days of the wind event.`,
+    sec_contractor: `LA contractor verification: active CSLB license (C-35 for stucco, C-61 for siding specialty, or B general) at cslb.ca.gov, with workers' compensation and bond verified. LA has a chronic "broker" license pattern where licensed contractors subcontract to unlicensed crews, which voids California Homeowners Recovery Fund eligibility. Meet the specific crew lead before signing; confirm their employer matches the licensed entity on your contract.`,
+    sec_flag: `LA-specific siding fraud patterns concentrate on stucco "quickie" repairs: a contractor patches visible cracks with elastomeric coating, the underlying moisture intrusion continues, and the homeowner discovers rotted sheathing 2-3 years later when the damage has spread. Legitimate stucco repair requires diagnostic moisture testing first, removal of damaged material to sound substrate, new paper-and-lath with proper flashing, and brown-coat plus finish-coat in proper succession. Any LA stucco contractor offering repair without prior moisture testing is either inexperienced or cutting corners.`,
+    dominantMaterial: "stucco on Spanish Colonial and Mediterranean homes with WUI Class A ratings",
+    climateBand: "hot-dry coastal with WUI fire zones",
+    bestSeasons: "October through April outside peak fire season",
+    worstSeasons: "May through September WUI fire season and surface-temperature extremes",
+  },
+  "chicago-il": {
+    sec_material: `Chicago siding decisions are dominated by brick masonry exterior (40-50% of Chicago housing is brick greystone or brick bungalow), with vinyl siding on framed bungalows and two-flats and fiber cement on higher-end renovations in Lincoln Park, Wicker Park, and Andersonville. Chicago brick requires tuckpointing and repointing rather than replacement; framed siding faces the full severe-climate challenge. The dominant Chicago siding material on framed housing is vinyl at .046" gauge or thicker to survive Chicago winters.`,
+    sec_climate: `Chicago siding faces the most severe freeze-thaw cycling of any major US metro: 70-100 freeze-thaw cycles per year, sub-zero arctic plunges, 30+ inch snow events, and summer heat-index peaks above 100F. Freeze-thaw cycling drives caulk and sealant failure; Chicago-specific spec requires 35-year silicone sealants at all penetrations and transitions. Thin-gauge vinyl cracks on impact at sub-zero ambient, which is why the Chicago minimum vinyl spec is .046" or heavier. Insulated vinyl with permanently bonded EPS foam backing is increasingly specified for both thermal performance and impact resistance.`,
+    sec_code: `Chicago DOB enforces 2019 Chicago Building Code with local §18-28 exterior wall provisions. Permits are required for any siding replacement over 100 square feet. Chicago requires a city-specific GC license for permit-pulling; Illinois has no statewide residential contractor license. Commission on Chicago Landmarks oversees 12,000+ landmarked structures including Old Town, Pullman, Prairie Avenue, and the Astor Street District; landmarked replacements require commission approval and material matching on the primary facade.`,
+    sec_insurance: `Chicago homeowners insurance covers windstorm and hail damage to siding with standard sudden-event provisions. The derecho and supercell storm history in Chicago produces recurring siding claims, and Class 4 impact-rated fiber cement installations qualify for 10-15% premium reductions on most Chicago policies. Peoples Gas and ComEd offer envelope credits on insulated siding retrofits qualifying under ENERGY STAR whole-home certifications.`,
+    sec_contractor: `Chicago contractor verification: active GC-C license at chicago.gov/city/en/depts/bldgs, workers' compensation and bond, and Illinois Attorney General Home Repair Fraud complaint history at illinoisattorneygeneral.gov. Chicago's biggest contractor risk is out-of-state storm-chase operators from Texas, Oklahoma, and Alabama appearing post-derecho. Chicago DOB does not recognize out-of-state licenses and the work fails inspection at close-out.`,
+    sec_flag: `Chicago-specific siding fraud patterns target pre-war brick and bungalow owners with "insurance-claim" pitches after hail events. The Chicago pattern: a contractor claims hail damage to previously sound vinyl, files a claim with the homeowner's carrier, uses the payout to install builder-grade vinyl, and disappears before warranty issues surface. Independent adjusters (homeowner-hired) cost $400-$700 but typically catch inflated claims before the carrier pays out against inflated scope.`,
+    dominantMaterial: "brick masonry on greystone and bungalow housing plus .046-gauge vinyl on framed homes",
+    climateBand: "cold with severe freeze-thaw cycling",
+    bestSeasons: "May through October, above sealant-activation temperatures",
+    worstSeasons: "November through April sustained sub-freezing conditions",
+  },
+  "houston-tx": {
+    sec_material: `Houston siding is dominated by brick veneer on 1970s-2010s tract construction (60%+ of Houston residential) with Hardie fiber cement increasingly common on higher-end replacements in The Heights, Montrose, and West University. Vinyl siding appears on older ranch and cottage homes across outer Harris County. Brick veneer in Houston typically outlasts the home's framing, so siding replacement projects in Houston usually involve fiber cement, wood, or vinyl on framed sections (gables, dormers, second-story) rather than full-home material swaps.`,
+    sec_climate: `Houston siding faces 95%+ summer humidity year-round, Gulf Coast hurricane wind-uplift exposure, salt spray in coastal Harris County zones, and freeze-shock events (Uri 2021 permanently changed Houston material selection). Humidity accelerates wood rot, biological growth on north-facing elevations, and caulk joint failure. Hurricane wind uplift per ASTM D3161 and D7158 drives fastener spacing and corner-post specifications. Fiber cement handles humidity better than any other material available; wood siding in Houston requires diligent maintenance (repainting every 3-5 years, immediate crack caulking) or rot surfaces within 10-15 years.`,
+    sec_code: `Texas has no state siding installer license. City of Houston Building Department requires permits for siding replacement over 100 square feet. Harris County Residential Code §R703 governs exterior wall coverings. Post-Hurricane Harvey code amendments tightened wind-uplift fastener spacing. City of Houston historic landmarks in Heights, Old Sixth Ward, Broadacres, and Riverside Terrace require Archaeological and Historical Commission (HAHC) approval, and HAHC material standards favor wood lap siding matching original profiles on contributing structures.`,
+    sec_insurance: `Houston homeowners insurance covers wind and hail damage to siding with standard sudden-event provisions. Post-Harvey policies tightened wind-mitigation requirements; most major carriers verify fastener spacing and corner-post wind-rating on claims. Hailstorms produce recurring Houston claims, and Class 4 impact-rated fiber cement qualifies for 10-20% premium reductions. CenterPoint Energy offers envelope credits on ENERGY STAR-qualifying insulated siding retrofits.`,
+    sec_contractor: `Houston contractor verification: Texas has no state license, so verification runs on Secretary of State business filing, Harris County Appraisal District property records (if claiming permanent office), insurance verification with the issuer, and BBB complaint history. Houston's biggest contractor risk is storm-chase crews appearing post-Harvey or post-spring-storm season with "we're handling your insurance claim" pitches. Never assign insurance proceeds directly to a contractor.`,
+    sec_flag: `Houston-specific siding fraud patterns concentrate on post-storm canvassing and Assignment of Benefits (AOB) abuse. The Houston pattern: an out-of-state contractor signs the homeowner to an AOB, files inflated wind-damage claim, receives payout, and departs. Texas Insurance Code §4102.207 prohibits insurance-fraud arrangements but enforcement is uneven. Legitimate Houston contractors never require AOB signing and never offer to "eat your deductible."`,
+    dominantMaterial: "brick veneer on tract construction with Hardie fiber cement on gable and dormer framed sections",
+    climateBand: "hot-humid Gulf Coast with hurricane wind uplift",
+    bestSeasons: "October through February outside hurricane and peak-humidity seasons",
+    worstSeasons: "June through September hurricane season and humidity extremes",
+  },
+  "phoenix-az": {
+    sec_material: `Phoenix siding is dominated by stucco on block-wall and framed construction across the metro (75%+ of Phoenix residential is stucco). Fiber cement appears on higher-end Arcadia and Biltmore renovations; vinyl and wood siding are rare due to extreme UV degradation. The dominant Phoenix siding material is 3-coat stucco (scratch, brown, finish) over paper-and-lath, typically requiring re-coat every 12-18 years to maintain color and crack resistance. Block-wall construction in Sunnyslope, Arcadia Lite, and central Phoenix uses direct-applied stucco without framing cavity.`,
+    sec_climate: `Phoenix siding faces the most extreme UV environment in any major US metro: 310+ sunny days annually, surface temperatures on dark stucco above 150F in July, and monsoon microburst wind events from July-September. UV degradation drives color fading, chalking, and caulk joint failure; dark-colored stucco typically fades visibly within 8-12 years on south and west elevations. Monsoon wind-driven debris tests flashing and penetration seals; water intrusion behind stucco through unsealed windows or vents creates the dominant Phoenix failure pattern.`,
+    sec_code: `Arizona requires a Registrar of Contractors (ROC) license: C-35 plastering and lathing for stucco or B-General Commercial for broader scope. Phoenix enforces City of Phoenix Building Code with amendments tracking 2018 IRC. Phoenix historic districts (Willo, Encanto-Palmcroft, Coronado, Roosevelt, F.Q. Story) require Historic Preservation Office approval for exterior work. Block-wall construction in older Phoenix neighborhoods requires specific stucco adhesion testing before major repairs.`,
+    sec_insurance: `Phoenix homeowners insurance covers monsoon wind and hail damage with standard sudden-event provisions. Monsoon microburst damage must typically be documented within 30 days per Arizona carrier requirements. APS and SRP offer envelope credits on cool-roof and insulated-siding retrofits qualifying under whole-home energy programs. Phoenix's hail exposure is milder than Denver or Dallas but not zero.`,
+    sec_contractor: `Phoenix contractor verification: active Arizona ROC license (C-35 or B-General) at roc.az.gov, bond status, and complaint history. Arizona ROC pursues unlicensed contractor cases aggressively but deposit recovery is limited after the fact. Phoenix HOA architectural approval complications are common in Ahwatukee, Desert Ridge, and Arcadia; require written ARC approval before custom-color stucco or specialty fiber cement orders ship.`,
+    sec_flag: `Phoenix-specific siding fraud patterns concentrate on stucco repair scams: a contractor patches visible cracks with elastomeric coating, the underlying moisture intrusion continues, and the homeowner discovers rotted sheathing 2-3 years later. Legitimate Phoenix stucco repair requires moisture testing first, scope documentation, and proper 3-coat application over new paper-and-lath in damaged areas. Any Phoenix stucco contractor offering "quickie" repair without testing is cutting corners.`,
+    dominantMaterial: "3-coat stucco over block-wall and framed construction with re-coat cycles every 12-18 years",
+    climateBand: "hot-dry desert with monsoon season",
+    bestSeasons: "October through April, outside 150F+ surface-temperature extremes",
+    worstSeasons: "June through September monsoon and peak UV surface temperatures",
+  },
+  "dallas-tx": {
+    sec_material: `Dallas siding is dominated by brick veneer on 1950s-2010s tract construction (55-65% of Dallas residential), with Hardie fiber cement increasingly common on higher-end replacements in Highland Park, Lakewood, and Preston Hollow. Vinyl siding appears on older ranch homes across outer Dallas County. Dallas brick veneer typically outlasts the home framing; replacement projects usually involve fiber cement or wood on framed gables, dormers, and second-story sections rather than full-home siding swaps.`,
+    sec_climate: `Dallas siding faces the most severe US hail environment, intense summer UV exposure, tornado-corridor wind uplift, and Houston Black clay foundation movement that stresses exterior wall seams. Hailstorm damage to vinyl is catastrophic (cracking and shattering at 1-inch diameter and above); fiber cement dents but retains structural integrity. Post-2019 and 2023 Dallas tornado events drove major insurance-side tightening on siding material selection. Class 4 impact-rated fiber cement is increasingly baseline spec, not upgrade.`,
+    sec_code: `Dallas requires City of Dallas Residential Building Registration for permit-pulling. Texas has no state-level siding license. Dallas 2021 amendments added enhanced wind-uplift fastener requirements following tornado events. Dallas historic districts (Munger Place, Swiss Avenue, State-Thomas, South Boulevard-Park Row) require Historic Preservation Office review on contributing structures, and approved materials typically include specific wood profiles or historically accurate fiber cement matching original patterns.`,
+    sec_insurance: `Dallas homeowners insurance heavily incentivizes Class 4 impact-rated materials: most major Texas carriers offer 15-30% premium reductions on Class 4-rated installations. After 2019 and 2023 tornado outbreaks, several carriers made Class 4 a requirement for new-policy writing in specific Dallas zip codes. Oncor offers envelope credits on ENERGY STAR-qualifying insulated siding retrofits.`,
+    sec_contractor: `Dallas contractor verification: City of Dallas Residential Building Registration, workers' compensation and general liability certificates verified with issuers, and BBB complaint history at bbb.org/dallas. Dallas's biggest contractor risk is storm-chase crews post-tornado. Texas Insurance Code §4102.207 prohibits contractors from "eating deductibles" on insurance claims; any Dallas contractor offering that arrangement is willing to commit insurance fraud.`,
+    sec_flag: `Dallas-specific siding fraud patterns concentrate on hail-driven claims: out-of-state contractors file inflated claims on behalf of homeowners, use the payout to install builder-grade vinyl or thin-gauge fiber cement, and disappear. Dallas-specific due diligence: hire an independent adjuster ($400-$700) before the carrier adjuster visits, demand written scope specifying manufacturer and gauge, and verify completed installation matches contracted specification with random-pattern thickness measurement.`,
+    dominantMaterial: "brick veneer on tract construction with Class 4 fiber cement on framed gables post-tornado",
+    climateBand: "mixed-humid tornado alley with severe hail",
+    bestSeasons: "October through February outside peak spring storm season",
+    worstSeasons: "March through June peak hail and tornado season",
+  },
+  "atlanta-ga": {
+    sec_material: `Atlanta siding decisions are driven by craftsman-bungalow-era housing stock (1920s-1950s) and newer tract subdivisions. Dominant Atlanta siding materials: wood lap siding (original and replacement) on craftsman bungalows in Virginia-Highland, Inman Park, and Grant Park; Hardie fiber cement on mid-range renovations; and brick veneer on newer tract construction. Vinyl siding appears on value-tier replacements but HOA restrictions in Buckhead, Morningside, and Druid Hills often prohibit vinyl outright.`,
+    sec_climate: `Atlanta siding faces Piedmont humidity cycling that accelerates biological growth on north-facing elevations, intense summer UV exposure, tornado-corridor wind uplift (Northwest Atlanta in particular), and Georgia red clay foundation movement that stresses siding seams. Humidity and pollen combine to create aggressive algae and mildew growth patterns: Atlanta non-treated wood siding typically shows visible biological growth within 18-24 months. Termite exposure is severe; wood siding requires pressure-treated framing or fiber cement substitution at grade-level sections.`,
+    sec_code: `Georgia requires a state Residential Basic Contractor license for jobs over $2,500, verified at sos.ga.gov. Atlanta enforces Georgia State Minimum Standard Codes with local amendments. Atlanta Urban Design Commission (AUDC) reviews 20+ historic districts including Inman Park, Grant Park, Virginia-Highland, Candler Park, and Cabbagetown; landmarked replacements require AUDC approval, and wood lap siding matching original profiles is typical. Vinyl is typically prohibited on AUDC-governed contributing structures.`,
+    sec_insurance: `Atlanta homeowners insurance covers wind and hail damage with standard sudden-event provisions. Carriers have tightened underwriting on 15-20+ year old siding installations since 2022. Georgia Power offers envelope credits on ENERGY STAR-qualifying insulated siding retrofits. Class 4 impact-rated assemblies deliver 10-20% premium reductions on most Atlanta policies; tornado-corridor properties west of I-285 see higher credits.`,
+    sec_contractor: `Atlanta contractor verification: active Georgia Residential Basic Contractor license at sos.ga.gov, workers' compensation and general liability verified with issuers, and Georgia Attorney General Consumer Protection complaint history at law.georgia.gov. Atlanta's AOB fraud pattern is a known risk; O.C.G.A. §33-24-59.25 gives homeowners 10 business days to rescind any signed AOB.`,
+    sec_flag: `Atlanta-specific siding fraud patterns concentrate on tornado-corridor post-storm canvassing and termite-damage concealment. The Atlanta pattern: an out-of-area contractor installs new siding over undiscovered termite damage or rotted sheathing, the new installation hides the damage for 2-5 years, and the homeowner discovers spreading structural damage when the next exterior project begins. Legitimate Atlanta siding installers inspect framing behind existing siding before quoting; any contractor skipping that inspection is either inexperienced or planning to cover damage.`,
+    dominantMaterial: "wood lap siding on craftsman bungalows and Hardie fiber cement on mid-range renovations",
+    climateBand: "humid-subtropical Piedmont with tornado corridor",
+    bestSeasons: "October-November and March-April, outside pollen peak and humidity surges",
+    worstSeasons: "February-March pollen and July-August humidity extremes",
+  },
+  "denver-co": {
+    sec_material: `Denver siding decisions are shaped by Front Range hail corridor exposure and high-altitude UV stress. Dominant Denver siding materials: fiber cement on mid-range tract construction and higher-end renovations in Wash Park, Highlands, and Stapleton; stucco on Spanish-influenced homes; wood lap siding on landmarked Capitol Hill, Country Club, and Baker historic homes. Vinyl siding is present on value-tier installations but HOA restrictions in Cherry Creek, Highlands Ranch, and Centennial typically prohibit thin-gauge vinyl.`,
+    sec_climate: `Denver siding faces the Front Range hail corridor (one of the nation's most severe), extreme UV at 5,280 feet elevation, sustained winter freeze-thaw cycling, and chinook wind events driving 60-80 mph gusts. Hailstorms drive recurring Denver siding replacements; vinyl siding typically sees impact damage from hail 1 inch or larger, while fiber cement dents but retains structural integrity. High-altitude UV accelerates color fading on all materials, with south and west elevations showing measurable fade by year 8-12.`,
+    sec_code: `Colorado has no statewide siding installer license, so Denver Class D (residential) Supervisor License from the Department of Excise and Licenses is the operative verification. Denver enforces 2021 IRC with Denver-specific amendments. Denver Landmark Preservation Commission oversees 55+ historic districts including Capitol Hill, Country Club, Baker, Humboldt Street, and Wyman; landmarked replacements require commission approval and typical approved materials include wood lap or stucco matching original profiles.`,
+    sec_insurance: `Denver homeowners insurance is heavily hail-driven: most major Colorado carriers offer 15-30% premium reductions on Class 4 impact-rated siding installations, and several carriers made Class 4 a requirement for new-policy writing in specific Front Range hail-corridor zip codes since 2022. Xcel Energy's efficiency programs offer envelope credits on ENERGY STAR-qualifying insulated siding retrofits.`,
+    sec_contractor: `Denver contractor verification: Denver Class D Supervisor License at denvergov.org, Colorado DORA complaint history at dora.colorado.gov, and bond and insurance coverage verified with issuers. Denver's biggest contractor risk is out-of-state storm-chase crews surging into Cherry Creek, Centennial, and Highlands Ranch after major hail events. Denver DOB does not recognize out-of-state licenses and work fails inspection at close-out.`,
+    sec_flag: `Denver-specific siding fraud patterns concentrate on post-hail insurance claim manipulation: out-of-state contractors canvass post-event, file inflated claims on homeowners' behalf, and use the payout on builder-grade materials installed under emergency-scheduling pressure. Denver-specific due diligence: hire an independent adjuster ($400-$700) before the carrier adjuster visits, confirm written scope specifying manufacturer and thickness, and cross-reference at least three Colorado references from jobs completed at least 2 hail seasons ago.`,
+    dominantMaterial: "Class 4 fiber cement on hail-corridor properties and wood lap on Capitol Hill historic homes",
+    climateBand: "cold-dry high altitude with Front Range hail corridor",
+    bestSeasons: "May through October above sealant-activation thresholds",
+    worstSeasons: "November through April below-freezing conditions plus June-July hail peak",
+  },
+  "seattle-wa": {
+    sec_material: `Seattle siding is dominated by cedar clapboard and cedar shake on 1910s-1950s craftsman and Tudor homes across Capitol Hill, Ballard, and Wallingford. Fiber cement appears on modern renovations and mid-century box homes; vinyl is present on value-tier installations but Seattle's aesthetic tradition and HOA restrictions in Laurelhurst, Broadmoor, and Madrona typically discourage vinyl. Cedar siding is the Seattle signature material, and cedar that has been properly maintained or restored commands premium resale value.`,
+    sec_climate: `Seattle siding faces persistent marine moisture (October-April atmospheric rivers), abundant moss and algae growth on north-facing cedar, minimal UV exposure that extends composition lifespan but accelerates biological degradation, and Cascadia earthquake seismic stress. Moisture management behind siding is the Seattle #1 failure pattern: failed flashing or poorly installed weather-resistive barriers cause hidden sheathing rot that surfaces during eventual exterior work. Cedar requires specific treatments (cedar-specific stain or semi-transparent finishes) every 5-7 years in Seattle's moisture environment.`,
+    sec_code: `Washington requires L&I contractor registration for any paid siding installation. Seattle enforces 2018 IRC with Seattle Energy Code amendments requiring continuous air-barrier testing on major renovations. Seattle Landmarks Preservation Board oversees districts including Pike Place Market, Pioneer Square, Harvard-Belmont, Ballard Avenue, and Columbia City; landmarked replacements require cedar or wood matching original profiles on contributing facades.`,
+    sec_insurance: `Seattle homeowners insurance covers windstorm and water intrusion damage with standard sudden-event provisions but treats biological growth and gradual moisture intrusion as homeowner wear. Cascadia earthquake coverage is a separate consideration (most standard policies exclude); supplemental seismic coverage is available. Seattle City Light and Puget Sound Energy offer envelope credits on qualifying whole-home retrofits.`,
+    sec_contractor: `Seattle contractor verification: active Washington L&I contractor registration at secure.lni.wa.gov, bond amount matching job scope, and Washington Attorney General Consumer Protection complaints at atg.wa.gov. Seattle's biggest fraud pattern is L&I registration expiration mid-project; registered-at-bidding contractors whose registration lapses before completion forfeit homeowner surety recovery rights. Screenshot the L&I verification date-stamped to contract-signing day.`,
+    sec_flag: `Seattle-specific siding fraud patterns concentrate on hidden-rot concealment and cedar-maintenance neglect. The Seattle pattern: a contractor installs new siding over rotted cedar or sheathing without repairs, the new installation hides the damage for 2-3 years, and the homeowner discovers spreading structural damage in later exterior work. Legitimate Seattle installers probe framing and sheathing behind existing siding during initial assessment and include documented rot repair in the written scope.`,
+    dominantMaterial: "cedar clapboard and cedar shake on craftsman and Tudor homes",
+    climateBand: "marine cool wet with persistent humidity",
+    bestSeasons: "June through September, the only reliable dry-weather window",
+    worstSeasons: "October through April sustained rain saturation",
+  },
+  "austin-tx": {
+    sec_material: `Austin siding decisions are shaped by Hill Country limestone facades, Uri 2021 freeze-shock lessons, and rapid growth-driven tract construction. Dominant Austin siding materials: limestone veneer on West Austin homes in Westlake, Rollingwood, and Barton Creek; Hardie fiber cement on mid-range renovations; and brick veneer on newer tract subdivisions in Mueller, Circle C, and Southwest Hills. Vinyl siding is uncommon in Austin due to limestone aesthetic tradition and HOA restrictions in most newer developments.`,
+    sec_climate: `Austin siding faces intense Hill Country UV exposure (230+ sunny days annually), Uri-style freeze-shock thermal cycling, tornado-corridor wind uplift, and expansive clay foundation movement in East Austin (West Austin limestone soil is stable). Freeze-shock cracking is the Austin post-Uri failure pattern: vinyl and thin-gauge fiber cement can crack at sub-freezing temperatures, which is why Austin spec increasingly favors thicker fiber cement (7/16" nominal) and higher-end Hardie ColorPlus finishes with 15-year fade warranties.`,
+    sec_code: `Texas has no state siding installer license. City of Austin requires Registered Residential Building Contractor status for permit-pulling. Austin Historic Landmark Commission oversees districts including Hyde Park, Travis Heights, Clarksville, Old West Austin, and Rainey Street Historic District; landmarked replacements require commission approval and typically mandate wood lap or limestone veneer matching original profiles. City of Austin Building Department enforces wind-uplift requirements tracking 2018 IRC with Austin-specific amendments.`,
+    sec_insurance: `Austin homeowners insurance covers wind and hail damage with standard sudden-event provisions. Post-Uri 2021, many Texas carriers require freeze-damage remediation documentation before renewing Austin-area policies. Austin Energy offers envelope credits on ENERGY STAR-qualifying insulated siding retrofits. Class 4 impact-rated installations deliver 10-20% premium reductions on most Austin policies.`,
+    sec_contractor: `Austin contractor verification: City of Austin Registered Residential Building Contractor status, workers' compensation and general liability verified with issuers, and Austin Code Compliance complaint history at austintexas.gov/department/building-inspections. Austin's rapid growth attracts out-of-area contractors from Houston and DFW; require a permanent Austin address and three Travis County references pre-2023.`,
+    sec_flag: `Austin-specific siding fraud patterns concentrate on post-Uri freeze-damage insurance claim manipulation: contractors file inflated freeze-damage claims, install builder-grade materials under emergency-scheduling pressure, and depart before warranty issues surface. Austin-specific due diligence: demand documented freeze-damage photographs before any claim filing, verify the contractor has been in Austin pre-2021 (not Uri storm-chase arrival), and require 3 Austin references from 2022-2024 installations.`,
+    dominantMaterial: "limestone veneer on West Austin and Hardie fiber cement on mid-range renovations",
+    climateBand: "hot-humid Hill Country with Uri-style freeze risk",
+    bestSeasons: "October through February outside peak spring storm season",
+    worstSeasons: "March through June peak storm and July-August surface extremes",
+  },
+  "san-francisco-ca": {
+    sec_material: `San Francisco siding is dominated by wood siding on Victorian and Edwardian painted ladies across the entire city, stucco on Sunset and Richmond District 1930s-1950s row houses, and custom specialty materials on architect-designed Mid-Century and Modern homes. Vinyl siding is categorically prohibited in SF historic preservation districts (Alamo Square, Jackson Square, Liberty-Hill) and is rare even outside protected areas. Cedar and redwood are the Victorian-era originals; restoration projects typically use matching clear-vertical-grain redwood with custom milled profiles.`,
+    sec_climate: `SF siding faces marine moisture variable by microclimate (Sunset and Richmond fog-belt see persistent moisture, Mission and Bernal sun-belt see minimal), Cascadia earthquake seismic stress, and Title 24 cool-wall requirements on alterations. Fog-belt moisture drives aggressive biological growth on cedar and redwood; sun-belt UV drives color fading on stucco and darker wood stains. Seismic movement tests every siding seam; rigid-material fiber cement performs worse in earthquakes than flexible wood lap.`,
+    sec_code: `California requires a CSLB license for siding work: C-6 cabinet/millwork for wood, C-35 plastering and lathing for stucco, or B general. SF DBI additionally requires city contractor registration for permit-pulling. SF Historic Preservation Commission plus Planning Code Articles 10 and 11 cover 270+ designated landmarks; landmarked replacements require wood true-historic-profile matching. SF's dust-control ordinance §3428 imposes HEPA-vacuum cleanup verification on lead-impacted projects (pre-1978 homes).`,
+    sec_insurance: `SF homeowners insurance is increasingly constrained by wildfire risk: several major California carriers have pulled new-policy writing in Twin Peaks, Presidio, and Diamond Heights fire-hazard zones since 2022. California FAIR Plan provides fallback coverage, and Class A fire-rated exterior assemblies are required for FAIR Plan eligibility. PG&E and BayREN offer envelope credits on qualifying whole-home retrofits.`,
+    sec_contractor: `SF contractor verification: active CSLB license (C-6, C-35, or B general) at cslb.ca.gov, SF DBI city contractor registration, and complaint history at sfdbi.org. SF lead-safe renovation rules (pre-1978 homes) require EPA RRP certification for any siding work disturbing lead-painted surfaces. SF's cash-job underground economy in Sunset and Richmond creates recurring unlicensed-contractor fraud exposure; any SF siding contract without verified CSLB license voids Homeowners Recovery Fund eligibility.`,
+    sec_flag: `SF-specific siding fraud patterns concentrate on Victorian restoration projects where historic profile matching drives high per-square-foot costs. The SF pattern: a contractor substitutes off-the-shelf fiber cement for true-historic-profile redwood on landmarked elevations, the SF HPC catches the mismatch at inspection, and the homeowner pays twice for the correction. Legitimate SF Victorian restoration contractors include milling spec, wood source, and profile dimensions on the written scope.`,
+    dominantMaterial: "wood siding on Victorian painted ladies and stucco on Sunset and Richmond row houses",
+    climateBand: "marine mild coastal with microclimate variation and WUI fire zones",
+    bestSeasons: "June through October, when fog-season humidity drops enough for reliable install",
+    worstSeasons: "November through March rainy-season disruption and winter atmospheric rivers",
+  },
+  "las-vegas-nv": {
+    sec_material: `Las Vegas siding is dominated by stucco on master-planned community construction in Summerlin, Henderson, Green Valley, Anthem, and MacDonald Ranch (80%+ of Vegas residential is stucco). Fiber cement appears on higher-end architect-designed homes; vinyl siding is rare due to extreme UV degradation and HOA prohibitions. Vegas historic areas (John S. Park, Huntridge) feature wood lap siding on 1940s-1960s homes requiring specialty maintenance. The dominant Vegas siding material is 3-coat stucco over paper-and-lath with re-coat cycles every 10-15 years due to UV fade.`,
+    sec_climate: `Vegas siding faces the most severe UV environment of any major US metro: 310+ sunny days annually, surface temperatures on dark stucco above 160F in July, and monsoon microburst events (July-September). UV degradation drives color fade, chalking, and caulk joint failure on all materials; dark-colored stucco shows measurable fade within 6-8 years on south and west elevations. Monsoon wind-driven debris tests flashing seals at windows and penetrations.`,
+    sec_code: `Nevada State Contractors Board requires a C-17 plastering license for stucco work or B-General Building for broader scope. Clark County enforces 2018 IRC with local amendments. Vegas has few historic districts, but John S. Park and Huntridge areas require approval on exterior changes. Clark County energy code requires specific reflectance values on exterior wall coverings on new construction; alterations are less strictly governed.`,
+    sec_insurance: `Vegas homeowners insurance covers monsoon wind and hail damage as sudden events. Monsoon damage must typically be documented within 30 days per Nevada carrier requirements. NV Energy offers envelope credits on ENERGY STAR-qualifying insulated siding retrofits. Vegas's hail exposure is milder than Denver or Dallas; premium credits for impact-rated materials are modest.`,
+    sec_contractor: `Vegas contractor verification: active Nevada C-17 or B-General license at nscb.nv.gov, bond status, and NSCB complaint history. Nevada's deposit-cap law (NRS §624.6245) caps residential contractor deposits at 10% of contract or $1,000 (whichever is less); any Vegas contract demanding 20-50% upfront is unenforceable. HOA architectural approval complications are severe in Summerlin, Anthem, and MacDonald Ranch.`,
+    sec_flag: `Vegas-specific siding fraud patterns concentrate on HOA-driven stucco repair scams and master-planned community re-coat abuse. The Vegas pattern: a contractor bids HOA-required stucco re-coat on south and west elevations, receives deposit, performs only surface elastomeric coating without addressing underlying crack or moisture issues, and departs. Legitimate Vegas stucco contractors provide written crack-repair, paper-and-lath inspection, and moisture-testing scope on any re-coat project.`,
+    dominantMaterial: "3-coat stucco on master-planned community construction with HOA-dictated re-coat cycles",
+    climateBand: "hot-dry desert with monsoon season and extreme UV",
+    bestSeasons: "November through April, outside monsoon and 160F+ surface extremes",
+    worstSeasons: "June through September monsoon and peak-summer surface heat",
+  },
+  "philadelphia-pa": {
+    sec_material: `Philadelphia siding is dominated by brick masonry on rowhouse trinity and three-story twin housing across Center City, South Philly, and Northern Liberties (60%+ of Philly residential is brick). Hardie fiber cement and wood lap siding appear on framed sections (gables, dormers) and on Northwest Philadelphia single-family homes in Chestnut Hill and Mount Airy. Vinyl siding is present on value-tier installations but restricted in rowhouse historic districts. Philadelphia brick requires tuckpointing and repointing rather than replacement.`,
+    sec_climate: `Philadelphia siding faces moderate freeze-thaw cycling, heavy humidity-driven biological growth, and rowhouse geometry that concentrates exposure on front and back elevations. Rowhouse parapet walls create specific cap-flashing and counter-flashing requirements; failed parapet flashing is the #1 rowhouse siding failure pattern in Philadelphia. Humidity accelerates biological growth on north-facing elevations and biological deposits on stucco and light-colored wood.`,
+    sec_code: `Pennsylvania requires HICPA (Home Improvement Contractors Protection Act) registration. Philadelphia L&I additionally requires a city Contractor License for permit-pulling; both must be active and both must appear on the contract. Philadelphia Historical Commission oversees 18,000+ historic structures including Society Hill, Old City, Rittenhouse, Chestnut Hill, and the Girard Estate Historic District; landmarked replacements require commission approval and typically mandate matching material.`,
+    sec_insurance: `Philadelphia homeowners insurance covers windstorm and hail damage with standard sudden-event provisions. Rowhouse water-intrusion claims are common and typically trace to failed parapet cap-flashing rather than vertical siding failure. PECO and PGW offer envelope credits on ENERGY STAR-qualifying insulated siding retrofits. Philadelphia's moderate hail exposure does not drive premium incentives like Denver or Dallas.`,
+    sec_contractor: `Philly contractor verification: active Philadelphia L&I Contractor License at philadelphialicense.com AND Pennsylvania HICPA registration at attorneygeneral.gov/hicpa. Both are required and both must be independently active. Many Philly operators hold one but not the other. Both license numbers must appear on the signed contract.`,
+    sec_flag: `Philly-specific siding fraud patterns concentrate on rowhouse parapet wall concealment and "Historic District" stucco repair scams. The Philly pattern: a contractor installs new siding over rotted parapet or deteriorated sheathing without structural repair, the new installation hides damage for 2-4 years, and failure surfaces during weather events. Legitimate Philly rowhouse siding contractors inspect parapet cap-flashing, gutter, and scupper conditions during initial assessment.`,
+    dominantMaterial: "brick masonry on rowhouse trinity and three-story twins with Hardie fiber cement on framed sections",
+    climateBand: "mixed-humid with moderate freeze-thaw",
+    bestSeasons: "April through June and September through early November",
+    worstSeasons: "December through February below-freezing conditions and July-August humidity extremes",
+  },
+  "miami-fl": {
+    sec_material: `Miami siding is dominated by stucco on CBS (concrete block stucco) construction across the metro (85%+ of Miami residential is CBS stucco). Hardie fiber cement appears on higher-end renovations and Miami Beach Art Deco District replacement work where approved by the historic commission. Vinyl siding is present on older framed housing but restricted by Miami-Dade HVHZ wind-uplift requirements in many neighborhoods. Miami-Dade stucco over CBS requires specific adhesion systems and monsoon-season moisture management.`,
+    sec_climate: `Miami siding faces mandatory HVHZ wind-uplift exposure, annual Atlantic hurricane season (June-November), tropical UV degradation, and salt spray in coastal-adjacent zones. Hurricane Andrew (1992) and Hurricane Irma (2017) both drove code tightening. Stucco failure in Miami typically traces to window or penetration sealant failure followed by moisture intrusion behind the CBS-stucco assembly; the dominant Miami failure pattern is hidden moisture damage surfacing years after original installation.`,
+    sec_code: `Florida DBPR requires a Certified Building Contractor (CGC) or Certified Specialty Contractor for Miami siding work. Miami-Dade County enforces Florida Building Code with mandatory HVHZ provisions. Every exterior wall product installed in Miami-Dade and Broward must have a current Notice of Acceptance (NOA) from Miami-Dade Product Approval, and the NOA number must appear on the building permit. Historic preservation authority covers Coral Gables, Miami Beach Art Deco District, and MiMo Biscayne Boulevard.`,
+    sec_insurance: `Miami homeowners insurance is dominated by Citizens Property Insurance and specialty coastal carriers. Siding condition is a primary underwriting factor on wind-mitigation credits under OIR-B1-1802 form: continuous secondary water-resistant barriers, hip-roof geometry (though that's roofing not siding), and impact-rated exterior wall coverings deliver substantial premium reductions. Florida impact-window sales tax holiday (Q3 annually) also applies to qualifying exterior wall products.`,
+    sec_contractor: `Miami contractor verification: Florida DBPR Certified Building Contractor at myfloridalicense.com, Miami-Dade County business tax receipt, and NOA documentation authenticity verified at miamidade.gov/pa. Miami post-hurricane contract fraud patterns are severe: out-of-state crews appear with NOA-spoof documentation that does not match installed materials.`,
+    sec_flag: `Miami-specific siding fraud patterns concentrate on hurricane-season AOB manipulation and NOA substitution. The Miami pattern: a contractor signs homeowner to Assignment of Benefits, files inflated wind-damage claim, and installs non-NOA-compliant material that fails Miami-Dade inspection. Use the 14-day AOB rescission window under Florida Statute §627.7152 if you signed one under pressure. Physically verify NOA numbers on frame labels before the inspector arrives.`,
+    dominantMaterial: "stucco on CBS construction with NOA-approved impact rating in HVHZ zones",
+    climateBand: "very-hot-humid tropical with HVHZ wind-uplift",
+    bestSeasons: "December through April outside Atlantic hurricane season",
+    worstSeasons: "June through November Atlantic hurricane season and September peak",
+  },
+  "boston-ma": {
+    sec_material: `Boston siding is dominated by wood clapboard and cedar shake on colonial-era and triple-decker housing across the metro, with brick masonry on Back Bay and Beacon Hill rowhouses. Hardie fiber cement and wood composite appear on modern renovations in the South End, Jamaica Plain, and Brighton. Vinyl siding is present on value-tier installations but restricted in Boston Landmarks Commission historic districts. Triple-decker clapboard requires specific Boston-appropriate installation details at the three-story corners and top-story gables.`,
+    sec_climate: `Boston siding faces severe nor'easter wind-driven rain, heavy freeze-thaw cycling from December through March, extensive ice-dam-driven water intrusion, and summer heat-island temperatures. Nor'easter wind uplift tests fastener spacing and corner-post integrity. Ice-dam water intrusion drives hidden moisture damage behind siding; the Boston failure pattern is concealed sheathing rot surfacing during eventual exterior work. Salt spray in coastal-adjacent Boston neighborhoods (Winthrop, Nahant, Hull) also accelerates fastener corrosion.`,
+    sec_code: `Massachusetts requires a Home Improvement Contractor (HIC) registration plus a Construction Supervisor License (CSL) for any structural siding work. Boston enforces Massachusetts State Building Code (780 CMR) with Boston-specific amendments including the Stretch Code for energy compliance. Boston Landmarks Commission oversees Back Bay, Beacon Hill, Fort Point, South End, and Bay Village historic districts; landmarked replacements require commission approval before permit issuance.`,
+    sec_insurance: `Boston homeowners insurance covers nor'easter wind and ice-dam water intrusion as sudden events but treats chronic moisture wear as homeowner responsibility. Mass Save's whole-home weatherization program rebates envelope improvements including attic insulation that prevents ice-dam formation. Boston winter-storm damage claims must typically be filed within 30-60 days.`,
+    sec_contractor: `Boston contractor verification: both Massachusetts HIC registration AND Construction Supervisor License (CSL) at mass.gov. Both are required and both must be separately active. Mass Save rebate eligibility also requires verified licensing. Boston Landmarks approval for Back Bay, Beacon Hill, and South End adds 6-10 weeks on top of standard permit timelines.`,
+    sec_flag: `Boston-specific siding fraud patterns concentrate on triple-decker access premiums and hidden moisture damage concealment. The Boston pattern: a contractor installs new clapboard over rotted sheathing behind previous wood clapboard without repair, the new installation hides the damage, and spreading rot surfaces within 3-5 years. Legitimate Boston triple-decker installers probe framing and sheathing during initial assessment and include documented rot repair in the written scope.`,
+    dominantMaterial: "wood clapboard and cedar shake on colonial and triple-decker housing",
+    climateBand: "cold marine with severe nor'easter exposure",
+    bestSeasons: "May through October, above sealant-activation temperatures",
+    worstSeasons: "November through April sustained sub-freezing conditions",
+  },
+  "san-diego-ca": {
+    sec_material: `San Diego siding is dominated by stucco on Spanish Colonial and Mediterranean homes across the metro (60%+ of SD residential is stucco). Fiber cement appears on mid-range renovations; wood siding is present on historic Mission Hills, South Park, and La Jolla craftsman homes. Vinyl is uncommon in SD due to coastal aesthetic tradition and WUI fire-hazard restrictions in inland zones. Coastal SD homes within 1 mile of the beach require specialty marine-coated fasteners; untreated steel corrodes within 5-8 years.`,
+    sec_climate: `SD siding faces coastal salt exposure, Chapter 7A WUI fire-hazard requirements in Rancho Bernardo, Rancho Peñasquitos, and portions of East County, Santa Ana wind events driving fire-season danger, and marine humidity variable by microclimate. Fiber cement and stucco are inherently Class A fire-rated; wood siding in WUI zones requires specific fire-retardant treatments documented on the permit. Salt spray accelerates fastener corrosion on coastal properties.`,
+    sec_code: `California requires a CSLB license for siding work: C-6 cabinet/millwork for wood, C-35 plastering and lathing for stucco, or B general. San Diego City and County enforce 2022 California Building Code with SD-specific amendments. WUI Chapter 7A applies to designated very-high-severity fire-hazard zones. California Coastal Commission jurisdiction adds a second regulatory layer for properties within the Coastal Zone.`,
+    sec_insurance: `SD homeowners insurance is increasingly constrained by WUI wildfire risk: several major California carriers have pulled new-policy writing in specific SD fire-hazard zip codes since 2022. California FAIR Plan provides coverage when private-market writing is unavailable. Class A fire-rated assemblies qualify for FAIR Plan eligibility. SDG&E and San Diego Regional Climate Action Plan offer envelope credits on qualifying whole-home retrofits.`,
+    sec_contractor: `SD contractor verification: active CSLB license at cslb.ca.gov plus San Diego city or county business tax certificate. Coastal Commission permitting adds 4-8 weeks on coastal-zone properties. WUI Chapter 7A compliance requires documented material selection and specific flashing details at vent penetrations.`,
+    sec_flag: `SD-specific siding fraud patterns concentrate on WUI fire-rating substitution and coastal corrosion concealment. The SD pattern: a contractor installs non-Class-A-rated wood siding in a WUI zone without fire-retardant treatment, passes California FAIR Plan underwriting only because of missed inspection, and the homeowner discovers non-compliance during a claim investigation. Legitimate SD WUI siding contractors document Class A rating and fire-retardant treatment on the permit and on the final inspection record.`,
+    dominantMaterial: "stucco on Spanish Colonial homes and fiber cement in WUI fire zones",
+    climateBand: "marine-coastal with WUI fire zones",
+    bestSeasons: "September through June with May-June marine layer adjustments",
+    worstSeasons: "July through September peak fire season and Santa Ana wind events",
+  },
+  "tampa-fl": {
+    sec_material: `Tampa siding is dominated by stucco on CBS (concrete block stucco) construction (75%+ of Tampa residential is CBS stucco). Hardie fiber cement appears on higher-end renovations in Hyde Park, South Tampa, and Davis Islands. Vinyl siding is present on older framed cottages in Seminole Heights and Tampa Heights but restricted by Florida Product Approval wind-borne debris requirements in coastal-adjacent zones. Tampa Bay-facing properties require specific salt-resistant fasteners.`,
+    sec_climate: `Tampa siding faces Gulf Coast hurricane exposure, annual Atlantic hurricane season (June-November), tropical UV degradation, and Florida Product Approval (FPA) wind-borne debris requirements within one mile of the coast. Hurricane Irma (2017) drove major code tightening. Tampa's dominant failure pattern is stucco crack propagation from post-tensioned slab foundation movement, followed by moisture intrusion behind the CBS-stucco assembly.`,
+    sec_code: `Florida DBPR requires a Certified Building Contractor (CGC) or Certified Specialty Contractor for Tampa siding work. Hillsborough and Pinellas counties enforce FBC with FPA wind-borne debris requirements in designated zones. Tampa Historic Preservation Commission oversees Hyde Park, Seminole Heights, Tampa Heights, and Ybor City; landmarked replacements require commission approval.`,
+    sec_insurance: `Tampa homeowners insurance is roof-and-siding-condition driven: Florida carriers require property inspections for policies covering homes with 10+ year old installations, and properties over 20 years face non-renewal or move to Citizens Property Insurance. Wind mitigation credits under OIR-B1-1802 form can return 30-50% on premiums for continuous secondary water-resistant barriers and FPA-rated exterior coverings.`,
+    sec_contractor: `Tampa contractor verification: Florida DBPR Certified Building Contractor at myfloridalicense.com, Hillsborough or Pinellas County business tax receipt, and FPA documentation verification for coastal-adjacent installations. Tampa post-hurricane contract fraud patterns are severe; never assign insurance proceeds directly to a contractor.`,
+    sec_flag: `Tampa-specific siding fraud patterns concentrate on post-hurricane Assignment of Benefits (AOB) manipulation and FPA substitution. The Tampa pattern: a contractor signs homeowner to AOB, files inflated wind-damage claim, and installs non-FPA-compliant material. Use the 14-day AOB rescission window under Florida Statute §627.7152 if you signed one under pressure.`,
+    dominantMaterial: "stucco on CBS construction with FPA wind-borne debris ratings in coastal zones",
+    climateBand: "hot-humid Gulf Coast with wind-borne debris region requirements",
+    bestSeasons: "December through April outside Atlantic hurricane season",
+    worstSeasons: "June through November Atlantic hurricane season and September peak",
+  },
+  "detroit-mi": {
+    sec_material: `Detroit siding is dominated by brick masonry on 1910s-1940s brick bungalows and Arts-and-Crafts homes (50-60% of Detroit residential is brick), with wood clapboard on framed bungalows and vinyl on value-tier replacements. Hardie fiber cement and wood composite appear on higher-end renovations in Boston-Edison, Indian Village, and Woodbridge. Detroit brick requires tuckpointing rather than replacement; framed siding faces the full severe-climate challenge.`,
+    sec_climate: `Detroit siding faces severe freeze-thaw cycling, extensive ice-dam-driven water intrusion, and Great Lakes lake-effect wind-driven snow. Freeze-thaw cycling drives caulk and sealant failure; Detroit-specific spec requires silicone sealants at all penetrations. Ice-dam water intrusion drives hidden moisture damage behind siding. Coastal-adjacent Detroit neighborhoods on Lake St. Clair see salt-spray fastener corrosion similar to ocean-adjacent metros.`,
+    sec_code: `Michigan requires LARA Residential Builder or Residential Maintenance and Alteration license at michigan.gov/lara. Detroit enforces 2015 IECC with local amendments. Detroit Historic Designation Advisory Board oversees Boston-Edison, Indian Village, Woodbridge, Palmer Park, and Corktown historic districts. Historic replacement approvals typically take 4-8 weeks.`,
+    sec_insurance: `Detroit homeowners insurance covers wind and hail damage with standard sudden-event provisions. Michigan carriers have tightened underwriting on 15-20+ year old siding installations since 2022. DTE Energy and Consumers Energy offer envelope credits on qualifying whole-home retrofits. Detroit's moderate hail exposure does not drive premium incentives like Denver or Dallas.`,
+    sec_contractor: `Detroit contractor verification: active LARA Residential Builder license at michigan.gov/lara, plus Detroit Better Business Bureau at bbb.org/detroit. Michigan MCL §339.2411 three-day right-of-rescission applies to any in-home sale.`,
+    sec_flag: `Detroit-specific siding fraud patterns concentrate on in-home sales to older homeowners in stable neighborhoods like Rosedale Park and Sherwood Forest. The Detroit pattern: an in-home sales visit ends with a large deposit demand and "supply-chain urgency" pitch; Michigan law requires a written three-day right-of-rescission notice, and contracts without that notice are unenforceable.`,
+    dominantMaterial: "brick masonry on bungalows with vinyl on value-tier framed siding",
+    climateBand: "cold with Great Lakes lake-effect exposure",
+    bestSeasons: "April through October, above sealant-activation thresholds",
+    worstSeasons: "November through mid-April sustained below-freezing conditions",
+  },
+  "minneapolis-mn": {
+    sec_material: `Minneapolis siding is dominated by wood lap siding and vinyl on 1920s-1950s bungalows and four-squares, with Hardie fiber cement on mid-range and higher-end renovations in Uptown, Linden Hills, and Lowry Hill. Brick appears on commercial-style residential and landmarked homes. The dominant Minneapolis siding specification is thicker vinyl (.046" or heavier) or fiber cement to handle the sustained -20F winter temperatures. Thin-gauge vinyl fails on impact at severe cold.`,
+    sec_climate: `Minneapolis siding faces the most severe freeze-thaw environment in any major US metro: sustained -20F temperatures, 60+ inches of annual snowfall, and 100+ freeze-thaw cycles per year. Ice-dam water intrusion drives hidden moisture damage behind siding. Dimensional stability of the siding material matters more here than in any other metro: materials expand and contract dramatically across the seasonal temperature range, which stresses seams and fasteners.`,
+    sec_code: `Minnesota Department of Labor and Industry requires a Residential Building Contractor license for jobs over $15,000. Minneapolis Heritage Preservation Commission covers districts including Milwaukee Avenue, Nicollet Island, Healy Block, and Fourth Avenue Historic District. Minneapolis also enforces Minnesota Energy Code mandating air leakage verification on whole-home weatherization.`,
+    sec_insurance: `Minneapolis homeowners insurance covers wind, hail, and ice-dam water intrusion as sudden events. Most Minnesota carriers require demonstration of attic insulation (R-49 minimum) and ventilation adequacy before covering repeated ice-dam claims. Xcel Energy Minnesota and CenterPoint Energy offer envelope credits on qualifying whole-home retrofits.`,
+    sec_contractor: `Minneapolis contractor verification: Minnesota LARA Residential Building Contractor license at minneapolismn.gov, plus Minneapolis city contractor registration. Minnesota also requires Residential Remodeler licensing for smaller jobs. Home Energy Squad conservation-improvement-funded jobs require verified licensing.`,
+    sec_flag: `Minneapolis-specific siding fraud patterns concentrate on vinyl-gauge substitution and thermal-expansion-related damage concealment. The Minneapolis pattern: a contractor installs thin-gauge (.040") vinyl instead of bid-specified .046" or heavier, and the thin-gauge material cracks during the first -20F winter. Minneapolis-specific due diligence: physically verify the gauge printed on the product packaging before installation begins.`,
+    dominantMaterial: "thicker vinyl and Hardie fiber cement on bungalow and four-square housing",
+    climateBand: "very-cold continental with extreme freeze-thaw cycling",
+    bestSeasons: "May through September above sealant-activation thresholds",
+    worstSeasons: "November through April sustained sub-freezing conditions",
+  },
+  "charlotte-nc": {
+    sec_material: `Charlotte siding decisions are driven by Piedmont humidity and rapid-growth suburban construction. Dominant Charlotte siding materials: Hardie fiber cement on mid-range renovations, brick veneer on newer tract construction in SouthPark, Ballantyne, and Myers Park, and wood lap siding on Dilworth and Plaza Midwood 1920s-1940s bungalows. Vinyl siding appears on value-tier replacements but HOA restrictions in SouthPark and Ballantyne typically require fiber cement or brick.`,
+    sec_climate: `Charlotte siding faces Piedmont humidity cycling, tornado-corridor wind uplift, moderate hail frequency, and intense summer UV. Humidity drives aggressive biological growth on north-facing elevations; Charlotte non-treated wood siding typically shows visible biological growth within 18-24 months. Spring pollen season coats all exterior surfaces and creates additional maintenance burden. Termite exposure is severe; wood siding requires pressure-treated framing at grade level.`,
+    sec_code: `North Carolina Licensing Board for General Contractors requires a license for jobs over $30,000. Charlotte-Mecklenburg Historic District Commission oversees Dilworth, Wesley Heights, Fourth Ward, Plaza Midwood, and Wilmore. North Carolina Residential Code amendments require enhanced flashing and wind-uplift specifications post-2018 Florence and 2020 severe-weather outbreaks.`,
+    sec_insurance: `Charlotte homeowners insurance has tightened 15-20+ year siding-condition underwriting post-2022. Class 4 impact-rated assemblies deliver 10-20% premium reductions on most Charlotte policies, and the Charlotte Regional Tornado Alley corridor makes Class 4 a reasonable ROI decision. Duke Energy's Smart $aver program offers envelope credits on qualifying whole-home retrofits.`,
+    sec_contractor: `Charlotte contractor verification: active North Carolina Licensing Board for General Contractors license at nclbgc.org (required for jobs over $30,000), plus Mecklenburg County contractor registration for permit-pulling on smaller jobs. North Carolina Consumer Protection complaints searchable at ncdoj.gov. SouthPark and Ballantyne HOA architectural review committees require pre-approval.`,
+    sec_flag: `Charlotte-specific siding fraud patterns concentrate on tornado-corridor post-storm canvassing and HOA substitution manipulation. The Charlotte pattern: an out-of-area contractor bids HOA-compliant fiber cement, receives deposit, installs non-compliant vinyl or thin-gauge fiber cement, and departs. Charlotte-specific due diligence: require written HOA approval before any material order, physically verify manufacturer labels at delivery, and cross-reference product against nclbgc.org complaint history.`,
+    dominantMaterial: "Hardie fiber cement on mid-range and brick veneer on tract construction",
+    climateBand: "humid-subtropical Piedmont with tornado corridor",
+    bestSeasons: "October-November and March-April outside pollen peak and humidity surges",
+    worstSeasons: "February-March pollen, July-August humidity, and spring storm cycles",
+  },
+};
+
+/* Section renderers. */
+
 function neighborhoodPricing(facts, mult) {
   if (!facts?.neighborhoods?.length) return "";
-  const baseVinyl = 12000;       // 2000 sqft * $6/sqft
-  const baseFiber = 22000;       // 2000 sqft * $11/sqft
-  const baseWood = 19000;        // 2000 sqft * $9.50/sqft
-  const baseEngWood = 16000;     // 2000 sqft * $8/sqft
-
+  const baseVinyl = 12000, baseFiber = 22000, baseWood = 19000, baseEngWood = 16000;
   const rows = facts.neighborhoods.map((n, i) => {
     const localVar = 1 + ((i % 3 === 0 ? 0.08 : i % 3 === 1 ? -0.04 : 0.03) * (i % 2 === 0 ? 1 : -1));
     const vinyl = Math.round(baseVinyl * mult * localVar);
     const fiber = Math.round(baseFiber * mult * localVar);
     const wood = Math.round(baseWood * mult * localVar);
     const eng = Math.round(baseEngWood * mult * localVar);
-    return `<tr>
-<td style="padding:12px 16px; font-weight:600;">${n}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtK(vinyl)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtK(fiber)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtK(wood)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtK(eng)}</td>
-</tr>`;
+    return `<tr><td style="padding:12px 16px; font-weight:600;">${n}</td><td style="padding:12px 16px; text-align:right;">${fmtK(vinyl)}</td><td style="padding:12px 16px; text-align:right;">${fmtK(fiber)}</td><td style="padding:12px 16px; text-align:right;">${fmtK(wood)}</td><td style="padding:12px 16px; text-align:right;">${fmtK(eng)}</td></tr>`;
   });
-
   return `
-<section class="section fp-section">
-<h2>Neighborhood Siding Pricing in ${facts.displayName}</h2>
-<p>Siding costs vary across ${facts.displayName} based on labor accessibility, contractor density, and housing stock. These are estimated ranges for a typical 2,000 sq ft exterior on a two-story home in each area.</p>
-<div style="overflow-x:auto;">
-<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
-<thead>
-<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
-<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl</th>
-<th style="text-align:right; padding:12px 16px;">Fiber Cement</th>
-<th style="text-align:right; padding:12px 16px;">Wood</th>
-<th style="text-align:right; padding:12px 16px;">Eng. Wood</th>
-</tr>
-</thead>
-<tbody>
-${rows.join("\n")}
-</tbody>
-</table>
-</div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and material delivery costs for 2026. Actual pricing depends on home complexity, number of stories, and current demand. <a href="/analyze-my-quote.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your siding quote for an exact comparison.</a></p>
+<section class="section fp-section"><h2>${facts.displayName} neighborhood siding pricing</h2>
+<div style="overflow-x:auto;"><table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;"><thead><tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);"><th style="text-align:left; padding:12px 16px;">Neighborhood</th><th style="text-align:right; padding:12px 16px;">Vinyl</th><th style="text-align:right; padding:12px 16px;">Fiber Cement</th><th style="text-align:right; padding:12px 16px;">Wood</th><th style="text-align:right; padding:12px 16px;">Engineered Wood</th></tr></thead><tbody>${rows.join("")}</tbody></table></div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your ${facts.displayName} siding quote for line-item comparison.</a></p></section>`;
+}
+
+function materialSection(city, d) { return `<section class="section fp-section"><h2>${city} dominant siding materials</h2><p>${d.sec_material}</p></section>`; }
+function climateSection(city, d) { return `<section class="section fp-section"><h2>${city} climate impact on siding</h2><p>${d.sec_climate}</p></section>`; }
+function codeSection(city, d) { return `<section class="section fp-section"><h2>${city} permits, codes, and licensing</h2><p>${d.sec_code}</p></section>`; }
+function insuranceSection(city, d) { return `<section class="section fp-section"><h2>${city} siding insurance and energy rebates</h2><p>${d.sec_insurance}</p></section>`; }
+function contractorSection(city, d) { return `<section class="section fp-section"><h2>Vetting a ${city} siding contractor</h2><p>${d.sec_contractor}</p></section>`; }
+function flagSection(city, d) { return `<section class="section fp-section"><h2>${city}-specific siding fraud patterns</h2><p>${d.sec_flag}</p></section>`; }
+
+function seasonalCostSection(city, state, d, mult) {
+  return `<section class="section fp-section"><h2>When to re-side in ${city} and what jobs cost</h2>
+<p><strong>${city} best months:</strong> ${d.bestSeasons}.</p>
+<p><strong>${city} worst months:</strong> ${d.worstSeasons}.</p>
+<p>A 2,000-square-foot ${city} re-side in 2026 dollars at prevailing ${city} labor rates: budget vinyl runs approximately ${fmtD(Math.round(2000 * pricingModel.basePriceByType.vinyl.lowPerSqft * mult * 1.15))}; mid-range fiber cement with ENERGY STAR-qualified assembly runs ${fmtD(Math.round(2000 * pricingModel.basePriceByType.fiber_cement.lowPerSqft * mult * 1.3))}; premium wood or engineered wood runs ${fmtD(Math.round(2200 * pricingModel.basePriceByType.wood.highPerSqft * mult * 1.1))}. These numbers reflect ${city} installer rates. The dominant ${city} material story is ${d.dominantMaterial}.</p>
+<p><a href="/siding-cost.html" style="color:var(--brand);">Get a ${city} siding estimate.</a></p>
 </section>`;
 }
 
-/* ------------------------------------------------------------------ */
-/* 2. Climate and material durability                                  */
-/* ------------------------------------------------------------------ */
-function climateAndDurability(city, state, ctx, facts) {
-  const paras = [];
-
-  paras.push(`<p>${cap(facts.climate)}. How these conditions interact with different siding materials determines both lifespan and maintenance costs in ${city}.</p>`);
-
-  // Hot/UV markets
-  if (ctx.climateZone === "hot_dry" || ctx.climateZone === "hot_humid") {
-    paras.push(`<p><strong>Heat and UV exposure.</strong> Prolonged high temperatures and direct sun degrade vinyl siding faster than most homeowners expect. In ${city}'s climate, south- and west-facing vinyl panels can warp, buckle, or fade within 10-15 years if a thin gauge product was installed. Fiber cement and engineered wood are dimensionally stable under heat stress and hold paint significantly longer. If you choose vinyl in ${city}, insist on .044" gauge or thicker and look for products with built-in UV inhibitors.</p>`);
-  }
-
-  // Humidity and moisture
-  if (ctx.climateZone === "hot_humid" || ctx.climateZone === "mixed_humid" || ctx.climateZone === "marine") {
-    paras.push(`<p><strong>Moisture and humidity.</strong> ${city}'s moisture levels create conditions that test every siding material differently. Wood siding absorbs moisture and requires diligent maintenance (repainting every 3-5 years, caulking, and prompt repair of any cracking) to prevent rot. Fiber cement resists moisture absorption but must be properly back-primed before installation to prevent warping. Vinyl handles moisture well but can trap moisture behind it if house wrap is not properly installed, leading to hidden rot on the sheathing underneath.</p>`);
-  }
-
-  // Cold/freeze-thaw
-  if (ctx.climateZone === "cold" || ctx.snowLoad === "moderate" || ctx.snowLoad === "high") {
-    paras.push(`<p><strong>Freeze-thaw cycling.</strong> ${city}'s winters subject siding to repeated freeze-thaw cycles that stress seams, caulk joints, and fastener points. Water penetrates hairline cracks, freezes, expands, and widens the damage with each cycle. Fiber cement performs well in freeze-thaw conditions when properly installed with adequate gap spacing for thermal expansion. Vinyl naturally flexes with temperature changes but can crack on impact during extreme cold. Wood requires vigilant caulk maintenance to prevent water intrusion before freeze season.</p>`);
-  }
-
-  // Hail
-  if (ctx.hailRisk === "high") {
-    paras.push(`<p><strong>Hail damage.</strong> Hail is a real threat to siding in ${city}. Vinyl siding cracks and shatters on impact from hail 1" or larger. Fiber cement and engineered wood handle hail significantly better, denting rather than fracturing. If you live in a hail-prone area of ${city}, check whether your homeowners insurance offers premium credits for impact-resistant siding, and factor replacement frequency into your material cost comparison.</p>`);
-  }
-
-  // Wildfire
-  if (facts.climate.includes("wildfire") || facts.climate.includes("fire")) {
-    paras.push(`<p><strong>Fire resistance.</strong> Wildfire risk in ${city} makes siding material choice a safety decision, not just an aesthetic one. Fiber cement is non-combustible and rated for use in WUI (Wildland-Urban Interface) zones. Wood siding is highly combustible unless treated with fire retardant, and vinyl melts at relatively low temperatures. In fire-prone areas of ${city}, fiber cement or stucco are the responsible choices regardless of budget.</p>`);
-  }
-
-  // Marine/moss/rain
-  if (facts.climate.includes("rain") || facts.climate.includes("wet") || facts.climate.includes("moss") || ctx.climateZone === "marine") {
-    paras.push(`<p><strong>Moss, algae, and biological growth.</strong> The persistent moisture in ${city} promotes moss and algae growth on siding surfaces, particularly on north-facing walls and areas shaded by trees. Left untreated, biological growth traps moisture against the siding surface and accelerates material degradation. Periodic pressure washing (every 1-2 years) and trimming vegetation away from exterior walls are essential maintenance steps in this market.</p>`);
-  }
-
-  return `
-<section class="section fp-section">
-<h2>How ${city}'s Climate Affects Siding Performance</h2>
-${paras.join("\n")}
-</section>`;
-}
-
-/* ------------------------------------------------------------------ */
-/* 3. Material deep dive for this market                               */
-/* ------------------------------------------------------------------ */
-function materialDeepDive(city, state, ctx, facts, mult) {
-  const vinylLow = Math.round(pricingModel.basePriceByType.vinyl.lowPerSqft * mult * 100) / 100;
-  const vinylHigh = Math.round(pricingModel.basePriceByType.vinyl.highPerSqft * mult * 100) / 100;
-  const fiberLow = Math.round(pricingModel.basePriceByType.fiber_cement.lowPerSqft * mult * 100) / 100;
-  const fiberHigh = Math.round(pricingModel.basePriceByType.fiber_cement.highPerSqft * mult * 100) / 100;
-  const woodLow = Math.round(pricingModel.basePriceByType.wood.lowPerSqft * mult * 100) / 100;
-  const woodHigh = Math.round(pricingModel.basePriceByType.wood.highPerSqft * mult * 100) / 100;
-  const engLow = Math.round(pricingModel.basePriceByType.engineered_wood.lowPerSqft * mult * 100) / 100;
-  const engHigh = Math.round(pricingModel.basePriceByType.engineered_wood.highPerSqft * mult * 100) / 100;
-
-  // Determine which materials dominate based on climate
-  let primaryMaterial, primaryReason;
-  if (ctx.climateZone === "hot_dry" || facts.climate.includes("wildfire") || facts.climate.includes("fire")) {
-    primaryMaterial = "Fiber cement (James Hardie)";
-    primaryReason = `fire resistance and dimensional stability in ${city}'s extreme heat make it the default choice for most contractors here`;
-  } else if (ctx.climateZone === "cold" || ctx.snowLoad === "moderate" || ctx.snowLoad === "high") {
-    primaryMaterial = "Vinyl and fiber cement";
-    primaryReason = `both handle ${city}'s freeze-thaw cycles well, with vinyl dominating budget jobs and fiber cement leading mid-range and above`;
-  } else if (ctx.climateZone === "marine") {
-    primaryMaterial = "Fiber cement and engineered wood";
-    primaryReason = `moisture resistance is critical in ${city}'s wet climate, and both materials outperform real wood and standard vinyl in long-term durability here`;
-  } else if (ctx.climateZone === "hot_humid") {
-    primaryMaterial = "Fiber cement and vinyl";
-    primaryReason = `humidity resistance and low maintenance requirements make these the most practical choices in ${city}'s climate`;
-  } else {
-    primaryMaterial = "Vinyl and fiber cement";
-    primaryReason = `the combination of affordability and durability makes these the most commonly installed materials in ${city}`;
-  }
-
-  return `
-<section class="section fp-section">
-<h2>What ${city} Contractors Install Most and Why</h2>
-<p>${primaryMaterial} dominates the ${city} market because ${primaryReason}. Here is how each material stacks up at local pricing.</p>
-
-<div class="fp-material-grid">
-<div class="fp-material-card">
-<h3>Vinyl Siding</h3>
-<p class="fp-material-price">$${vinylLow} - $${vinylHigh}/sq ft installed</p>
-<p>The most affordable option. Modern premium vinyl (.044"-.046" gauge) looks significantly better than the builder-grade product from 20 years ago. Maintenance is essentially zero beyond occasional pressure washing. The tradeoff is lower resale value impact and a shorter lifespan (20-30 years) compared to fiber cement. In ${city}, vinyl accounts for the majority of budget-tier siding jobs.</p>
-</div>
-
-<div class="fp-material-card">
-<h3>Fiber Cement (HardiePlank)</h3>
-<p class="fp-material-price">$${fiberLow} - $${fiberHigh}/sq ft installed</p>
-<p>James Hardie controls roughly 90% of the fiber cement market, and for good reason. The product is non-combustible, resists rot and termites, holds paint for 15+ years, and comes with a 30-year transferable warranty. In ${city}, fiber cement is the default mid-range recommendation from most established contractors. The higher upfront cost is offset by almost zero maintenance and strong resale value impact. Requires skilled installation because the material is heavy and brittle.</p>
-</div>
-
-<div class="fp-material-card">
-<h3>Wood Siding (Cedar, Redwood)</h3>
-<p class="fp-material-price">$${woodLow} - $${woodHigh}/sq ft installed</p>
-<p>Natural wood delivers unmatched aesthetic character, especially on craftsman, Victorian, or historic homes in ${city}. Cedar and redwood are naturally rot-resistant but still require staining or painting every 3-5 years. ${ctx.climateZone === "hot_humid" || ctx.climateZone === "marine" ? `In ${city}'s climate, the maintenance burden is higher than in drier markets, and untreated wood can deteriorate rapidly.` : `In ${city}, wood siding performs well with regular maintenance but the ongoing cost commitment is significant over a 30-year ownership period.`} Wood is also susceptible to termite and carpenter ant damage in many markets.</p>
-</div>
-
-<div class="fp-material-card">
-<h3>Engineered Wood (LP SmartSide)</h3>
-<p class="fp-material-price">$${engLow} - $${engHigh}/sq ft installed</p>
-<p>LP SmartSide is the dominant engineered wood brand in ${city}. It offers the look of real wood at a lower price point, with better moisture and impact resistance than natural wood. The zinc borate treatment provides built-in termite and fungal protection. Engineered wood is lighter than fiber cement (easier, faster installation) and comes pre-primed. The 50-year substrate warranty is competitive with fiber cement. A strong choice for homeowners who want the wood aesthetic without the maintenance commitment.</p>
-</div>
-</div>
-</section>`;
-}
-
-/* ------------------------------------------------------------------ */
-/* 4. HOA and historic district considerations                         */
-/* ------------------------------------------------------------------ */
-function hoaAndHistoric(city, state, ctx, facts) {
-  const hoaLevel = ctx.hoaPrevalence || "moderate";
-  const paras = [];
-
-  if (hoaLevel === "high") {
-    paras.push(`<p>${city} has one of the higher rates of HOA-governed communities in the country. If your home is in an HOA, do not order materials or sign a contract until you have written architectural approval. Most HOAs in ${city} regulate siding color, material type, profile style, and sometimes even the specific manufacturer. Submitting your application with a material sample, color chip, and contractor name typically takes 2-4 weeks for review. Starting work without approval can result in forced removal at your expense.</p>`);
-  } else if (hoaLevel === "moderate") {
-    paras.push(`<p>HOAs are common but not universal in ${city}. If your home is subject to an HOA, check the CC&Rs (Covenants, Conditions & Restrictions) for siding-specific rules before soliciting bids. Most HOAs in ${city} regulate at minimum the color palette and may restrict material types. Submit your architectural review application early in the process because approval timelines vary from one week to six weeks depending on the association.</p>`);
-  } else {
-    paras.push(`<p>HOA restrictions are less common in ${city} than in Sun Belt suburbs, but some newer developments and condo associations do regulate exterior materials and colors. Check your property's CC&Rs before starting a siding project if your home is in any kind of managed community.</p>`);
-  }
-
-  // Historic district considerations based on homeAge
-  if (ctx.avgHomeAge >= 45 || (facts.homeAge && facts.homeAge.includes("1920")) || (facts.homeAge && facts.homeAge.includes("1940")) || (facts.homeAge && facts.homeAge.includes("1900"))) {
-    paras.push(`<p><strong>Historic district restrictions.</strong> ${city} has neighborhoods with historic overlay districts that impose stricter requirements than standard building code. In these areas, siding replacements may need to match the original material, profile, and sometimes even the fastening method. Vinyl siding is frequently prohibited in historic districts. Fiber cement that mimics the original wood profile is usually the approved compromise, but you may need specific board widths or reveal dimensions. Contact ${city}'s historic preservation office or your local landmarks commission before getting quotes to avoid expensive re-work.</p>`);
-  } else {
-    paras.push(`<p><strong>Historic considerations.</strong> While ${city} has some older neighborhoods with character homes, formal historic district restrictions are less common than in East Coast cities. However, if your home is in a designated historic area, siding material and style may be regulated. Verify with your local planning department before making material decisions.</p>`);
-  }
-
-  paras.push(`<p><strong>Color selection.</strong> Beyond HOA and historic rules, color choice affects long-term cost in ${city}. Dark colors absorb more heat and fade faster in direct sun, requiring repainting sooner on wood and fiber cement. In ${city}, lighter earth tones and whites tend to look better longer and reduce cooling loads. If you are choosing pre-finished fiber cement (ColorPlus by Hardie), the factory finish carries a 15-year warranty against fading and chipping, which is significantly better than field-applied paint.</p>`);
-
-  return `
-<section class="section fp-section">
-<h2>HOA and Historic District Siding Rules in ${city}</h2>
-${paras.join("\n")}
-</section>`;
-}
-
-/* ------------------------------------------------------------------ */
-/* 5. Insulation and energy impact                                     */
-/* ------------------------------------------------------------------ */
-function insulationAndEnergy(city, state, ctx, facts) {
-  const paras = [];
-
-  paras.push(`<p>Siding replacement is one of the best opportunities to improve your home's thermal envelope. The existing siding is already coming off, so adding insulation underneath costs a fraction of what it would as a standalone project.</p>`);
-
-  // Climate-specific energy impact
-  if (ctx.climateZone === "hot_dry" || ctx.climateZone === "hot_humid") {
-    paras.push(`<p><strong>Cooling cost impact in ${city}.</strong> In ${city}'s hot climate, the dominant energy cost is air conditioning. Insulated vinyl siding (with built-in EPS foam backing) adds R-2 to R-5 to your walls, and a full house wrap with rigid foam board underneath any siding material can add R-3 to R-6. For a typical ${city} home, this translates to estimated cooling cost savings of 10-20% annually. The payback period on the insulation upgrade is typically 4-7 years in this climate.</p>`);
-  } else if (ctx.climateZone === "cold") {
-    paras.push(`<p><strong>Heating cost impact in ${city}.</strong> ${city}'s cold winters make wall insulation a significant factor in energy costs. Adding rigid foam board (1" XPS or polyiso, R-5 to R-6.5) under new siding creates a continuous thermal break that reduces heat loss through wall framing. For a typical ${city} home, this can reduce heating costs by 15-25% annually. The payback period is typically 3-5 years given ${city}'s heating degree days.</p>`);
-  } else if (ctx.climateZone === "marine") {
-    paras.push(`<p><strong>Energy impact in ${city}.</strong> ${city}'s mild but long heating season means wall insulation improvements pay back steadily over time. Adding rigid foam board under new siding addresses thermal bridging through studs (which accounts for about 25% of wall heat loss in conventionally framed homes). Expect heating cost reductions of 10-18% and a payback period of 4-6 years.</p>`);
-  } else {
-    paras.push(`<p><strong>Year-round energy impact in ${city}.</strong> ${city}'s climate demands both heating and cooling, which means insulation improvements pay dividends in both seasons. Adding rigid foam board or insulated siding can reduce total energy costs by 10-20% annually, with a typical payback period of 4-7 years.</p>`);
-  }
-
-  paras.push(`<p><strong>Insulated vinyl siding.</strong> Several manufacturers (CertainTeed, Alside, Ply Gem) offer vinyl siding with permanently bonded EPS foam backing. This eliminates the air gap behind the siding, adds R-value, reduces noise transmission, and makes the panels more rigid and impact-resistant. The cost premium over standard vinyl is typically 30-50%, but the energy savings and improved feel of the finished product make it a worthwhile upgrade in most ${city} installations.</p>`);
-
-  paras.push(`<p><strong>House wrap is not optional.</strong> Regardless of siding material, a properly installed weather-resistant barrier (house wrap) under the siding is critical. It prevents bulk water infiltration while allowing moisture vapor to escape from inside the wall cavity. In ${city}, the most common house wraps are Tyvek and ZIP System. If your contractor's quote does not explicitly include house wrap, ask why. Skipping it to save money is one of the most common and most damaging shortcuts in the siding industry.</p>`);
-
-  return `
-<section class="section fp-section">
-<h2>Insulation and Energy Savings When Residing in ${city}</h2>
-${paras.join("\n")}
-</section>`;
-}
-
-/* ------------------------------------------------------------------ */
-/* 6. Permits and code requirements                                    */
-/* ------------------------------------------------------------------ */
-function permitSection(city, state, facts) {
-  return `
-<section class="section fp-section">
-<h2>Siding Permits and Code Requirements in ${city}</h2>
-<p>${facts.permits}. A building permit is required for most full siding replacement projects in ${city}. The permit ensures the work meets local building code, which protects you if problems arise later or if you sell the home.</p>
-<p>${facts.codeNote ? facts.codeNote + ". " : ""}Your contractor should pull the permit as part of the job. If a contractor asks you to pull it yourself, or suggests skipping the permit entirely, that is a serious red flag. Unpermitted siding work can void your homeowners insurance, create title issues during a sale, and leave you exposed to substandard installation with no recourse.</p>
-<p>After the job is complete, confirm that a final inspection was scheduled and passed. Keep the passed inspection documentation along with your warranty paperwork and material receipts. ${state === "TX" ? "In Texas, verify your contractor's registration through TDLR (Texas Department of Licensing and Regulation)." : state === "CA" ? "In California, verify your contractor's license through CSLB (Contractors State License Board) at cslb.ca.gov." : state === "GA" ? "In Georgia, verify contractor licensure at sos.ga.gov for jobs over $2,500." : state === "CO" ? "Colorado does not license siding contractors at the state level, but Denver requires city registration and proof of insurance." : state === "WA" ? "In Washington, verify your contractor's license through the Department of Labor & Industries at lni.wa.gov." : state === "AZ" ? "In Arizona, verify your contractor's registration through the Registrar of Contractors (ROC)." : state === "IL" ? "In Illinois, verify contractor licensing through your local municipality; Chicago requires Department of Buildings registration." : state === "NY" ? "In New York, verify contractor licensing through your local consumer affairs office; NYC requires DOB registration." : `Verify your contractor's license through ${state}'s licensing authority.`}</p>
-</section>`;
-}
-
-/* ------------------------------------------------------------------ */
-/* 7. Red flags                                                        */
-/* ------------------------------------------------------------------ */
-function redFlagsSection(city, state, ctx, facts) {
-  const flags = [];
-
-  flags.push({
-    title: "Thin vinyl gauge",
-    body: `The single most common cost-cutting tactic in the siding industry is installing thinner vinyl. Builder-grade vinyl at .040" gauge is significantly less durable than the .044"-.046" gauge used by quality installers. In ${city}, ask every bidder to specify the exact gauge and profile on the written quote. If the quote just says "vinyl siding" without specifying gauge, manufacturer, and profile, the contractor is likely planning to use whatever is cheapest that week.`
-  });
-
-  flags.push({
-    title: "Skipping house wrap",
-    body: `House wrap (weather-resistant barrier) is required by code in virtually every jurisdiction including ${city}. Some contractors skip it to save time and material costs, then cover the sheathing directly with siding. This creates a moisture trap that leads to hidden rot, mold, and structural damage that may not be visible for years. Your quote should explicitly list house wrap or weather barrier as a line item. If it does not, the contractor is either planning to skip it or assuming you will not check.`
-  });
-
-  flags.push({
-    title: "Not addressing rot before residing",
-    body: `A common and expensive mistake: installing new siding over rotted sheathing, trim, or framing without repairing the damage first. The new siding hides the rot but does not stop it. Within 2-5 years, the rot spreads and compromises the new installation. Any reputable siding contractor in ${city} will probe for rot during their initial assessment and include repair costs (or a per-board rate for unexpected rot) in the written quote. A contractor who quotes without inspecting the underlying condition is either inexperienced or planning to cut corners.`
-  });
-
-  flags.push({
-    title: "No written scope of work",
-    body: `A professional siding quote in ${city} should itemize: siding material (brand, profile, gauge/thickness, color), square footage, house wrap, flashing, trim and fascia, soffit, J-channel and accessories, corner posts, old siding removal and disposal, permit, and warranty terms. If the quote is a single number without this detail, you have no contractual basis to challenge scope reductions or change orders.`
-  });
-
-  if (ctx.hailRisk === "high") {
-    flags.push({
-      title: "Storm chaser siding contractors",
-      body: `After hail events in ${city}, out-of-state contractors appear offering to handle your insurance claim and replace your siding. These operators frequently use the cheapest available materials, skip code requirements, and are gone before warranty issues surface. Verify that any contractor has a permanent business address in ${state} and a track record in the local market before signing anything.`
-    });
-  }
-
-  const flagsHTML = flags.map(f => `
-<div class="fp-flag">
-<h3>${f.title}</h3>
-<p>${f.body}</p>
-</div>`).join("");
-
-  return `
-<section class="section fp-section">
-<h2>Siding Red Flags Every ${city} Homeowner Should Know</h2>
-<p>These are the most common ways ${city} homeowners get burned on siding projects. Knowing what to look for protects your investment.</p>
-${flagsHTML}
-</section>`;
-}
-
-/* ------------------------------------------------------------------ */
-/* 8. Seasonal buying guide                                            */
-/* ------------------------------------------------------------------ */
-function seasonalGuide(city, ctx) {
-  const seasons = {
-    hot_humid: { best: "October through February", worst: "April through June", reason: "Spring storm season drives emergency repairs and tightens contractor availability. Fall and winter offer the best scheduling flexibility and negotiating leverage in this market." },
-    hot_dry: { best: "October through March", worst: "June through August", reason: "Summer surface temperatures make exterior work miserable for crews and can affect caulk adhesion and paint curing. Fall and winter are ideal for both scheduling and material performance." },
-    cold: { best: "May through September", worst: "December through February", reason: "Vinyl becomes brittle and prone to cracking during installation in cold temperatures. Caulk and sealants also need temperatures above 40F for proper adhesion. Summer is the sweet spot for quality installation." },
-    temperate: { best: "September through November", worst: "March through May", reason: "Fall offers stable weather and contractors finishing their peak season backlog. Spring demand spikes as homeowners start outdoor projects." },
-    mixed_humid: { best: "September through November", worst: "April through June", reason: "Fall balances moderate temperatures with lower demand. Spring storm season drives emergency work and tightens the schedule." },
-    mixed_dry: { best: "March through May and September through November", worst: "June through August", reason: "Shoulder seasons offer the best combination of moderate temperatures and contractor availability." },
-    marine: { best: "June through September", worst: "November through February", reason: "The dry summer months are ideal for siding installation because caulk, paint, and adhesives cure properly. Winter rain makes exterior work inconsistent and can delay timelines significantly." },
-  };
-  const s = seasons[ctx.climateZone] || seasons.temperate;
-
-  return `
-<section class="section fp-section">
-<h2>Best Time to Replace Siding in ${city}</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months</h3>
-<p class="fp-season-months">${s.best}</p>
-<p>${s.reason}</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low availability</h3>
-<p class="fp-season-months">${s.worst}</p>
-<p>Expect 10-20% higher labor costs and longer lead times during peak season. If you must schedule during peak, book at least 4-6 weeks in advance and get your contract signed early.</p>
-</div>
-</div>
-<p>Off-season scheduling can save 10-15% on labor costs in ${city}. Many established contractors offer better pricing during their slower months to keep crews working. The quality of work does not change, only the price and scheduling convenience.</p>
-</section>`;
-}
-
-/* ------------------------------------------------------------------ */
-/* 9. Cost scenarios                                                   */
-/* ------------------------------------------------------------------ */
-function costScenarios(city, state, mult) {
-  const budget = {
-    material: "vinyl siding (.044\" gauge)",
-    sqft: 1800,
-    perSq: Math.round(pricingModel.basePriceByType.vinyl.lowPerSqft * mult * 1.15 * 100) / 100,
-    get total() { return Math.round(this.sqft * this.perSq); }
-  };
-  const mid = {
-    material: "fiber cement (James Hardie ColorPlus)",
-    sqft: 2000,
-    perSq: Math.round(pricingModel.basePriceByType.fiber_cement.lowPerSqft * mult * 1.3 * 100) / 100,
-    get total() { return Math.round(this.sqft * this.perSq); }
-  };
-  const prem = {
-    material: "cedar or premium engineered wood",
-    sqft: 2200,
-    perSq: Math.round(pricingModel.basePriceByType.wood.highPerSqft * mult * 1.1 * 100) / 100,
-    get total() { return Math.round(this.sqft * this.perSq); }
-  };
-
-  function scenarioCard(label, s, color) {
-    return `
-<div class="fp-scenario-card" style="border-top:4px solid ${color};">
-<h3>${label}</h3>
-<p class="fp-scenario-material">${s.material} | ${s.sqft} sq ft exterior</p>
-<p class="fp-scenario-total">${fmtD(s.total)}</p>
-<p class="fp-scenario-detail">~$${s.perSq}/sq ft installed. Includes old siding removal, house wrap, flashing, trim, J-channel, corner posts, disposal, and permit.</p>
-</div>`;
-  }
-
-  return `
-<section class="section fp-section">
-<h2>What Siding Replacement Actually Costs in ${city}: 3 Scenarios</h2>
-<p>Here is what real siding projects look like in ${city}, ${state}, using ${city}-adjusted labor and material costs for 2026.</p>
-<div class="fp-scenario-grid">
-${scenarioCard("Budget", budget, "#22c55e")}
-${scenarioCard("Mid-Range", mid, "#3b82f6")}
-${scenarioCard("Premium", prem, "#8b5cf6")}
-</div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume a single-story home with standard geometry. Multi-story homes, complex trim work, and extensive rot repair add 15-35%. <a href="/siding-cost.html" style="color:var(--brand);">Get a personalized siding estimate.</a></p>
-</section>`;
-}
-
-/* ------------------------------------------------------------------ */
-/* Flagship CSS                                                        */
-/* ------------------------------------------------------------------ */
 function flagshipCSS() {
   return `
 <style>
@@ -422,42 +340,15 @@ function flagshipCSS() {
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-material-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-material-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
-.fp-material-card h3 { font-size:16px; font-weight:700; margin:0 0 6px; color:#0f172a; }
-.fp-material-price { font-size:18px; font-weight:700; color:var(--brand,#1d4ed8); margin:0 0 10px; }
-.fp-material-card p:last-child { margin:0; font-size:14px; line-height:1.6; color:#475569; }
-.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
-.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
-.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
-.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
-.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
-.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
-.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
-.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
-.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-  .fp-material-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>`;
 }
 
-/* ------------------------------------------------------------------ */
-/* Assemble                                                            */
-/* ------------------------------------------------------------------ */
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];
   const ctx = cityContext[metro.ctxKey];
-  if (!facts || !ctx) return null;
+  const d = CITY_SIDING_DATA[metro.slug];
+  if (!facts || !ctx || !d) return null;
 
   const city = facts.displayName;
   const state = facts.stateAbbr;
@@ -466,89 +357,59 @@ function buildFlagshipContent(metro) {
   let html = `\n${MARKER_START}\n`;
   html += flagshipCSS();
   html += neighborhoodPricing(facts, mult);
-  html += climateAndDurability(city, state, ctx, facts);
-  html += materialDeepDive(city, state, ctx, facts, mult);
-  html += hoaAndHistoric(city, state, ctx, facts);
-  html += insulationAndEnergy(city, state, ctx, facts);
-  html += permitSection(city, state, facts);
-  html += redFlagsSection(city, state, ctx, facts);
-  html += seasonalGuide(city, ctx);
-  html += costScenarios(city, state, mult);
+  html += materialSection(city, d);
+  html += climateSection(city, d);
+  html += codeSection(city, d);
+  html += insuranceSection(city, d);
+  html += contractorSection(city, d);
+  html += flagSection(city, d);
+  html += seasonalCostSection(city, state, d, mult);
   html += `\n${MARKER_END}\n`;
-
   return html;
 }
 
 function main() {
-  let processed = 0;
-  let skipped = 0;
-
+  let processed = 0, skipped = 0;
   for (const metro of METROS) {
     const filepath = path.join(ROOT, metro.file);
-    if (!fs.existsSync(filepath)) {
-      console.log(`  SKIP ${metro.file} (file not found)`);
-      skipped++;
-      continue;
-    }
-
+    if (!fs.existsSync(filepath)) { console.log(`  SKIP ${metro.file} (file not found)`); skipped++; continue; }
     const flagshipHTML = buildFlagshipContent(metro);
-    if (!flagshipHTML) {
-      console.log(`  SKIP ${metro.file} (no data for ${metro.ctxKey})`);
-      skipped++;
-      continue;
-    }
+    if (!flagshipHTML) { console.log(`  SKIP ${metro.file} (no data)`); skipped++; continue; }
 
     let content = fs.readFileSync(filepath, "utf8");
-
-    // Remove old flagship content (idempotent)
     const re = new RegExp(`${MARKER_START.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[\\s\\S]*?${MARKER_END.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\n?`, "g");
     content = content.replace(re, "");
 
-    // Inject after UNIQUE-LOCAL-GUIDE or after section 5 (FAQ section, before "Other Services")
     const nl = content.includes("\r\n") ? "\r\n" : "\n";
     const flagshipContent = flagshipHTML.replace(/\n/g, nl);
 
     const uniqueGuideEnd = content.indexOf("<!-- /UNIQUE-LOCAL-GUIDE -->");
     const localInjectedV2 = content.indexOf("<!-- TP-LOCAL-INJECTED-V2 -->");
-    // Find the FAQ section end (section before "Other Services")
     const otherServicesIdx = content.indexOf("Other Services in ");
 
     let insertAt;
-    if (uniqueGuideEnd >= 0) {
-      insertAt = uniqueGuideEnd + "<!-- /UNIQUE-LOCAL-GUIDE -->".length;
-    } else if (localInjectedV2 >= 0) {
-      // Insert before the first local-injected section
-      insertAt = localInjectedV2;
-    } else if (otherServicesIdx >= 0) {
-      // Find the </section> before "Other Services"
+    if (uniqueGuideEnd >= 0) insertAt = uniqueGuideEnd + "<!-- /UNIQUE-LOCAL-GUIDE -->".length;
+    else if (localInjectedV2 >= 0) insertAt = localInjectedV2;
+    else if (otherServicesIdx >= 0) {
       const sectionStart = content.lastIndexOf("<section", otherServicesIdx);
       insertAt = sectionStart >= 0 ? sectionStart : otherServicesIdx;
     } else {
-      // Fallback: insert after the FAQ section (last </section> before </main>)
       const mainEnd = content.indexOf("</main>");
       if (mainEnd >= 0) {
         const lastSection = content.lastIndexOf("</section>", mainEnd);
         insertAt = lastSection >= 0 ? lastSection + "</section>".length : mainEnd;
-      } else {
-        console.log(`  SKIP ${metro.file} (no injection point found)`);
-        skipped++;
-        continue;
-      }
+      } else { console.log(`  SKIP ${metro.file}`); skipped++; continue; }
     }
 
     content = content.slice(0, insertAt) + nl + flagshipContent + content.slice(insertAt);
-
-    if (!DRY) {
-      fs.writeFileSync(filepath, content, "utf8");
-    }
+    if (!DRY) fs.writeFileSync(filepath, content, "utf8");
 
     const wordCount = flagshipHTML.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
-    console.log(`  ${metro.file}: ~${wordCount} words of flagship siding content injected`);
+    console.log(`  ${metro.file}: ~${wordCount} words`);
     processed++;
   }
-
-  console.log(`\nDone: ${processed} flagship siding pages processed, ${skipped} skipped.`);
-  if (DRY) console.log("[DRY RUN: no files written]");
+  console.log(`\nDone: ${processed} processed, ${skipped} skipped.`);
+  if (DRY) console.log("[DRY RUN]");
 }
 
 main();

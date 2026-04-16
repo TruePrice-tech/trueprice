@@ -80,7 +80,6 @@
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
 <a href="/find-contractors.html">Contractors</a>
-<a href="/roofing-quote-analyzer.html?mode=estimator">Photo Estimate</a>
 <a class="nav-cta" href="/analyze-my-quote.html">Get Started</a>
 </nav>
 </div>
@@ -215,6 +214,18 @@ depending on window type, number of windows, and frame material.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- FLAGSHIP-WINDOWS-CONTENT -->
 
 <style>
@@ -223,190 +234,16 @@ depending on window type, number of windows, and frame material.
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
-.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
-.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
-.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
-.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
-.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
-.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
-.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
-.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>
-<section class="section fp-section">
-<h2>Neighborhood Window Pricing Breakdown</h2>
-<p>Window replacement costs vary within San Francisco based on housing stock age, labor accessibility, and local demand. These are estimated per-window installed costs for each area.</p>
-<div style="overflow-x:auto;">
-<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
-<thead>
-<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
-<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th>
-<th style="text-align:right; padding:12px 16px;">Wood Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Sliding</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Noe Valley</td>
-<td style="padding:12px 16px; text-align:right;">$665</td>
-<td style="padding:12px 16px; text-align:right;">$1,149</td>
-<td style="padding:12px 16px; text-align:right;">$1,210</td>
-<td style="padding:12px 16px; text-align:right;">$605</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Mission</td>
-<td style="padding:12px 16px; text-align:right;">$641</td>
-<td style="padding:12px 16px; text-align:right;">$1,107</td>
-<td style="padding:12px 16px; text-align:right;">$1,165</td>
-<td style="padding:12px 16px; text-align:right;">$582</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Sunset</td>
-<td style="padding:12px 16px; text-align:right;">$634</td>
-<td style="padding:12px 16px; text-align:right;">$1,096</td>
-<td style="padding:12px 16px; text-align:right;">$1,154</td>
-<td style="padding:12px 16px; text-align:right;">$577</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Richmond</td>
-<td style="padding:12px 16px; text-align:right;">$567</td>
-<td style="padding:12px 16px; text-align:right;">$979</td>
-<td style="padding:12px 16px; text-align:right;">$1,030</td>
-<td style="padding:12px 16px; text-align:right;">$515</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Pacific Heights</td>
-<td style="padding:12px 16px; text-align:right;">$591</td>
-<td style="padding:12px 16px; text-align:right;">$1,021</td>
-<td style="padding:12px 16px; text-align:right;">$1,075</td>
-<td style="padding:12px 16px; text-align:right;">$538</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Bernal Heights</td>
-<td style="padding:12px 16px; text-align:right;">$598</td>
-<td style="padding:12px 16px; text-align:right;">$1,032</td>
-<td style="padding:12px 16px; text-align:right;">$1,086</td>
-<td style="padding:12px 16px; text-align:right;">$543</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Per-window installed pricing based on local labor rates and material delivery costs. Actual pricing depends on window size, installation type (pocket vs full-frame), and current demand. <a href="/analyze-my-quote.html?city=San Francisco&state=CA" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
-</section>
-<section class="section fp-section">
-<h2>Climate and Energy Efficiency: Windows in San Francisco</h2>
-<p>Mild Mediterranean with cool foggy summers, wet winters, and salt air corrosion citywide due to proximity to the ocean and bay. These conditions directly determine which glass packages and frame materials deliver the best return on investment in San Francisco.</p>
-<p><strong>Balance U-factor and SHGC.</strong> San Francisco's mixed climate demands windows that perform well in both heating and cooling seasons. Target U-factor of 0.25 or lower and SHGC of 0.4 or lower. This balance prevents heat loss in winter while blocking solar heat gain in summer. Double-pane Low-E with argon fill is the sweet spot for most San Francisco homes.</p>
-<p><strong>Low-E coatings are non-negotiable in San Francisco.</strong> Every window quote you receive should specify Low-E glass as standard, not an upgrade. There are different Low-E formulations: "passive" Low-E (Low-E 272 type) maximizes solar heat gain for cold climates, while "solar control" Low-E (Low-E 366 type) rejects solar heat for warm climates. In San Francisco, passive Low-E on south-facing windows and solar control Low-E on west-facing windows gives you the best of both worlds. If a contractor's quote does not specify the Low-E coating type, ask before signing.</p>
-</section>
-<section class="section fp-section">
-<h2>Frame Material Comparison for San Francisco's Climate</h2>
-<p>The four major frame materials each have distinct advantages in San Francisco's climate. Here is how they compare for this specific market.</p>
-<p><strong>Vinyl.</strong> Lowest cost ($300-$700/window installed). Zero maintenance. Vinyl performs well in San Francisco's climate with minimal maintenance. It does not conduct heat or cold, making it an excellent insulator. Modern vinyl frames are UV-stabilized and resist fading, cracking, and warping for 20-30 years.</p>
-<p><strong>Fiberglass.</strong> Mid-premium ($700-$1,600/window installed). Paintable, extremely durable. Fiberglass resists expansion and contraction better than any other frame material, which matters in San Francisco where temperature swings stress window seals. It is stronger than vinyl, allowing narrower sightlines and more glass area. The 40-70% premium over vinyl is justified for homeowners who want 30+ year performance.</p>
-<p><strong>Wood / Wood-Clad.</strong> Premium ($600-$2,500/window installed). Best aesthetics. Wood offers the best insulation value of any frame material and the premium interior look that many San Francisco homeowners want. In San Francisco's climate, exterior-clad wood windows (aluminum or fiberglass over wood) protect against moisture while the wood interior provides warmth and character. Pure wood exteriors require repainting every 5-7 years.</p>
-<p><strong>Aluminum.</strong> Moderate ($600-$1,400/window installed). Slim sightlines, strong. Aluminum is a poor choice for San Francisco's cold winters. Metal frames conduct heat aggressively, creating condensation and ice buildup on interior surfaces. Even with thermal breaks, aluminum U-factors run 20-40% worse than vinyl or fiberglass. Unless you have a specific architectural reason, avoid aluminum in this climate.</p>
-</section>
-<section class="section fp-section">
-<h2>Home Age and Existing Window Assessment in San Francisco</h2>
-<p>The average home in San Francisco is approximately 52 years old. Huge stock of pre-1940 Victorian and Edwardian rowhouses with original cedar decking, knob-and-tube wiring, and lath-and-plaster walls. The age and condition of your existing windows determine whether a pocket (insert) replacement or full-frame replacement is appropriate, and full-frame jobs cost 40-100% more per window.</p>
-<p><strong>Single-pane windows.</strong> Many homes in San Francisco's older neighborhoods still have original single-pane windows. If your home has single-pane glass, replacement is almost always worth the investment. Single-pane windows have a U-factor of approximately 1.0, meaning they lose heat at roughly 4 times the rate of a modern double-pane Low-E window (U-factor 0.25). The energy savings alone typically justify replacement within 7-12 years, and the comfort improvement is immediate and dramatic.</p>
-<p><strong>Lead paint in pre-1978 homes.</strong> A significant portion of San Francisco's housing stock predates the 1978 lead paint ban. Any window replacement in a pre-1978 home triggers EPA RRP (Renovation, Repair, and Painting) rule compliance. Your contractor must be EPA Lead-Safe certified, and the crew must follow specific containment and cleanup protocols. This adds $200-$500 to the total project cost. If a contractor does not ask about your home's age or dismisses lead paint concerns, that is a red flag for both safety and licensing.</p>
-<p><strong>Historic district restrictions.</strong> San Francisco has designated historic districts where window replacement is subject to architectural review. In these areas, you may be required to use wood windows that match the original profiles, or specific divided-lite patterns. Vinyl windows are typically prohibited in locally designated historic districts. If your home is in a historic overlay zone, contact your local historic preservation office before getting quotes. The material and design requirements can double the per-window cost compared to standard replacement, and non-compliant work can result in fines and mandatory removal.</p>
-</section>
-<section class="section fp-section">
-<h2>Permits and HOA Considerations in San Francisco</h2>
-<p>SF DBI permits are notoriously slow; major residential exterior permits typically take 6-12 weeks unless the contractor uses an expediter. For window replacement specifically, most jurisdictions in San Francisco require a building permit when replacing windows with a different size or type, or when structural modifications to the opening are needed. Simple same-size pocket replacements may be permit-exempt in some cases, but your contractor should confirm with the local building department before starting work.</p>
-<p><strong>HOA architectural review.</strong> HOA-governed communities are very common in San Francisco. Most HOAs require pre-approval of window replacements, with restrictions that can include frame color (white or almond only, in many cases), grid/grille patterns, and even specific approved brands. Submit your architectural change request 4-6 weeks before your planned installation date. Getting quotes before HOA approval is fine, but do not sign a contract or place a window order until you have written approval. HOA rejections after windows are ordered are expensive because custom windows are non-returnable.</p>
-<p><strong>Historic overlay zones.</strong> If your property falls within a locally designated historic district in San Francisco, window replacement requires approval from the historic preservation commission in addition to standard permits. Expect a review process of 4-8 weeks. Requirements typically mandate wood or wood-clad windows with historically appropriate profiles and divided-lite patterns. Vinyl and aluminum windows are almost universally prohibited in historic districts. The cost premium for code-compliant historic window replacement is 50-150% over standard vinyl replacement.</p>
-</section>
-<section class="section fp-section">
-<h2>Professional Installation vs DIY Windows in San Francisco</h2>
-<p>Window replacement is one of the few major home improvement projects where DIY is sometimes viable for handy homeowners. That said, the scope of the project and the type of installation determine whether DIY makes sense in San Francisco.</p>
-<p><strong>Where DIY can work.</strong> Simple pocket (insert) replacements in standard-sized openings on the first floor are the most DIY-friendly window projects. If the existing frame is square, plumb, and in good condition, and the new window is the same size, the installation is primarily shimming, insulating, and trim work. A competent DIYer can save $150-$300 per window in labor costs. Budget 2-4 hours per window for a first-timer, dropping to 1-2 hours per window after you find your rhythm.</p>
-<p><strong>Where you need a professional.</strong> Full-frame replacements (where the existing frame is removed down to the rough opening), any structural modifications to enlarge or reduce openings, second-story or higher installations, and any home built before 1978 (lead paint RRP compliance) all require professional installation. In San Francisco, labor rates among the highest in the US; union work and bay area cost of living drive minimum prices well above the national average. Getting three professional bids is the standard minimum.</p>
-<p><strong>Warranty implications.</strong> Most major window manufacturers (Andersen, Pella, Marvin) offer full product warranties regardless of who installs them, but some brands require "certified installer" status for the labor warranty to apply. Renewal by Andersen and Champion, for example, bundle product and labor warranties together and void them for DIY or third-party installation. Verify warranty terms before choosing the DIY route.</p>
-<p><strong>The hybrid approach.</strong> Some San Francisco homeowners order windows directly (through a dealer or home center) and hire a handyman or small contractor for installation at $100-$200 per window rather than using the window company's full-service installation crew at $250-$400 per window. This can save 20-30% on the total project while still getting professional installation. The tradeoff is that you manage the project yourself and the installer may not carry the same insurance or warranty coverage as a full-service window company.</p>
-</section>
-<section class="section fp-section">
-<h2>Red Flags and Window Replacement Scams in San Francisco</h2>
-<p>The window replacement industry has more consumer complaints per dollar spent than almost any other home improvement category. Here are the patterns most commonly reported by San Francisco homeowners.</p>
-
-<div class="fp-flag">
-<h3>Bait-and-switch on brands</h3>
-<p>The window industry has a chronic problem with brand substitution. A salesperson quotes Andersen 400 Series but the contract specifies "comparable Andersen product" or uses a model number you cannot verify. Before signing any contract in San Francisco, confirm the exact brand, product line, and model number. Cross-reference it on the manufacturer's website. If the salesperson cannot tell you the exact NFRC-rated U-factor and SHGC for the specific window being quoted, the quote is not specific enough to sign.</p>
-</div>
-<div class="fp-flag">
-<h3>"Today only" pricing</h3>
-<p>This is the single most common predatory sales tactic in the window industry. Companies like Renewal by Andersen, Champion, and Window Nation use in-home sales presentations that end with an "expiring" price. The pitch follows a pattern: high initial price ($1,500-$2,000/window), then "manager approval" discounts, then a "today only" final price. The "today only" price is the real price and it is available any day of the week. No legitimate manufacturer pricing changes based on when you sign. Walk away from any salesperson who pressures you to sign during the first visit. Get the price in writing and compare it against other bids.</p>
-</div>
-<div class="fp-flag">
-<h3>Unnecessary structural modifications</h3>
-<p>Some contractors in San Francisco recommend full-frame replacement or structural header modifications when a simple pocket replacement would work fine. Full-frame replacement costs 40-100% more per window. It is genuinely necessary when the existing frame is rotted, out of square, or when you are changing window sizes. But some contractors default to full-frame because it justifies higher pricing. If a contractor recommends full-frame, ask them to show you specifically where the existing frame is damaged. If the frame is sound, a pocket replacement is appropriate and significantly cheaper.</p>
-</div>
-<div class="fp-flag">
-<h3>Inflated window counts</h3>
-<p>Some large window companies in San Francisco pad quotes by counting fixed picture windows as separate units when they share a frame with operable windows (a "mulled unit"). A double-hung window next to a fixed panel in a single frame is one mulled unit with two lites, not two separate windows. Verify the window count in your quote against your actual openings. Miscounting by 2-3 windows on a 15-window job inflates the total by $1,000-$3,000.</p>
-</div>
-</section>
-<section class="section fp-section">
-<h2>Best Time to Buy Windows in San Francisco</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to buy</h3>
-<p class="fp-season-months">October through December</p>
-<p>End-of-year manufacturer rebates and dealer inventory clearance drive genuine discounts of 10-20%.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low leverage</h3>
-<p class="fp-season-months">April through June</p>
-<p>Spring renovation season tightens contractor availability and reduces negotiating leverage.</p>
-</div>
-</div>
-<p><strong>Window sales cycles are real.</strong> Unlike roofing or HVAC, window replacement is rarely an emergency, which means you have the luxury of timing your purchase. The window industry runs on seasonal patterns and manufacturer promotion cycles that can save you 10-20% on the same product.</p>
-<p><strong>End-of-year manufacturer rebates.</strong> Most major window manufacturers (Andersen, Pella, Marvin) run Q4 rebate programs to hit annual production targets. These are legitimate discounts of $25-$75 per window, separate from any dealer markdowns. Your dealer or contractor can tell you which manufacturer promotions are currently active. These rebates are real savings, unlike the "today only" dealer discounts that are available any day.</p>
-<p><strong>Order lead times matter.</strong> Custom windows typically take 4-8 weeks from order to delivery. Stock sizes from Jeld-Wen, Simonton, or Milgard may be available in 1-2 weeks. Factor lead time into your seasonal planning. If you want Q4 pricing and fall installation, order by mid-September.</p>
-</section>
-<section class="section fp-section">
-<h2>What Window Replacement Actually Costs in San Francisco: 3 Scenarios</h2>
-<p>Here is what real 15-window whole-house projects look like in San Francisco, CA, using San Francisco-adjusted labor and material costs for 2026.</p>
-<div class="fp-scenario-grid">
-
-<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget Vinyl Replacement</h3>
-<p class="fp-scenario-material">15 vinyl double-hung windows | pocket install | Low-E double-pane</p>
-<p class="fp-scenario-total">$7,140</p>
-<p class="fp-scenario-detail">~$476/window installed. Value-tier vinyl (Window World, Alside Sheffield, Jeld-Wen V2500). Includes Low-E double-pane glass, argon fill, pocket installation, interior/exterior trim touch-up, and debris removal.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range Fiberglass with Low-E</h3>
-<p class="fp-scenario-material">15 fiberglass windows | pocket install | Low-E double-pane argon</p>
-<p class="fp-scenario-total">$17,640</p>
-<p class="fp-scenario-detail">~$1,176/window installed. Mid-tier fiberglass or premium vinyl (Marvin Essential, Milgard Ultra, Pella 350). ENERGY STAR certified. Includes professional measurement, pocket install, foam insulation, interior trim, and permit.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium Wood-Clad Triple-Pane</h3>
-<p class="fp-scenario-material">15 wood-clad windows | full-frame | triple-pane Low-E krypton</p>
-<p class="fp-scenario-total">$33,600</p>
-<p class="fp-scenario-detail">~$2,240/window installed. Premium wood-clad (Andersen 400/A-Series, Pella Lifestyle/Reserve, Marvin Elevate/Signature). Triple-pane with krypton fill. Full-frame installation, new interior/exterior trim, structural modifications as needed, and permit.</p>
-</div>
-</div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard-sized windows in a single-story home. Bay/bow windows, second-story access, structural modifications, and lead paint abatement add to these baselines. <a href="/window-replacement-cost.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
+<section class="section fp-section"><h2>San Francisco neighborhood per-window pricing</h2>
+<div style="overflow-x:auto;"><table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;"><thead><tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);"><th style="text-align:left; padding:12px 16px;">Neighborhood</th><th style="text-align:right; padding:12px 16px;">Vinyl DH</th><th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th><th style="text-align:right; padding:12px 16px;">Wood DH</th><th style="text-align:right; padding:12px 16px;">Vinyl Slider</th></tr></thead><tbody><tr><td style="padding:12px 16px; font-weight:600;">Noe Valley</td><td style="padding:12px 16px; text-align:right;">$665</td><td style="padding:12px 16px; text-align:right;">$1,149</td><td style="padding:12px 16px; text-align:right;">$1,210</td><td style="padding:12px 16px; text-align:right;">$605</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Mission</td><td style="padding:12px 16px; text-align:right;">$641</td><td style="padding:12px 16px; text-align:right;">$1,107</td><td style="padding:12px 16px; text-align:right;">$1,165</td><td style="padding:12px 16px; text-align:right;">$582</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Sunset</td><td style="padding:12px 16px; text-align:right;">$634</td><td style="padding:12px 16px; text-align:right;">$1,096</td><td style="padding:12px 16px; text-align:right;">$1,154</td><td style="padding:12px 16px; text-align:right;">$577</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Richmond</td><td style="padding:12px 16px; text-align:right;">$567</td><td style="padding:12px 16px; text-align:right;">$979</td><td style="padding:12px 16px; text-align:right;">$1,030</td><td style="padding:12px 16px; text-align:right;">$515</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Pacific Heights</td><td style="padding:12px 16px; text-align:right;">$591</td><td style="padding:12px 16px; text-align:right;">$1,021</td><td style="padding:12px 16px; text-align:right;">$1,075</td><td style="padding:12px 16px; text-align:right;">$538</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Bernal Heights</td><td style="padding:12px 16px; text-align:right;">$598</td><td style="padding:12px 16px; text-align:right;">$1,032</td><td style="padding:12px 16px; text-align:right;">$1,086</td><td style="padding:12px 16px; text-align:right;">$543</td></tr></tbody></table></div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=San Francisco&state=CA" style="color:var(--brand);">Upload your San Francisco quote for line-item comparison.</a></p></section><section class="section fp-section"><h2>Energy performance spec for San Francisco</h2><p>San Francisco is IECC zone 3C, a marine-coastal mild climate where heating is modest but runs year-round and cooling is nearly absent. ENERGY STAR targets U-factor 0.30 and SHGC 0.40 maximum. PG&E's Home Efficiency Rebate Plus program plus BayREN Home+ incentives can stack to $2,000-$3,500 in combined rebates on whole-home weatherization including windows. SF's fog-belt microclimate means west-of-Twin-Peaks homes see different solar-gain economics than eastern neighborhoods; Sunset and Richmond District homes with persistent fog cover often see zero meaningful cooling benefit from aggressive SHGC reduction, while Mission and Bernal Heights homes with sun exposure benefit from Low-E 366 on west elevations.</p><p>SF energy economics vary dramatically by microclimate: Sunset and Richmond fog-belt homes see minimal cooling load but sustained heating demand, while Mission and Bernal Heights sun-belt homes see modest cooling load. SHGC optimization matters only on the sun-belt side of the city. PG&E's Home Efficiency Rebate Plus plus BayREN Home+ incentives can stack to $2,000-$3,500 on whole-home retrofits. SF also has specific induction-cooking electrification rebates that stack with window replacement funding on combined retrofits.</p></section><section class="section fp-section"><h2>Licensing and code rules in San Francisco</h2><p>California requires a CSLB C-17 glazing license or B general license for any SF window installation over $500. SF DBI (Department of Building Inspection) additionally requires city contractor registration for permit pulling, and the registration must match the license classification. SF Historic Preservation Commission plus Planning Code Articles 10 and 11 cover 270+ designated landmarks and 11 historic districts including Alamo Square, Jackson Square, and Liberty-Hill. Landmarked replacements require wood true-divided-lite windows matching original profiles on visible elevations. SF lead-safe renovation rules (pre-1978 homes) plus dust control ordinance §3428 require EPA RRP certification and HEPA-vacuum cleanup verification before final inspection.</p></section><section class="section fp-section"><h2>What failing windows look like in San Francisco</h2><p>SF's dominant window pattern is Victorian and Edwardian painted-lady construction with original wavy-glass single-pane wood sash, lead-bearing sash cords, and lead-painted trim dating 1870s-1910s. Replacement on these homes is full-frame because the original weight pocket hardware has to be removed and the wall cavity insulated. Bay window projections on Victorians are effectively custom cabinetry assemblies, not single windows; replacing a bay window is a carpentry and finish job running $8,000-$20,000 per bay. Sunset and Richmond District homes are predominantly 1930s-1950s stucco row houses with steel casement windows that require thermal-break aluminum or fiberglass replacement specifications.</p></section><section class="section fp-section"><h2>Glass package choices for San Francisco</h2><p>SF glass packages vary by microclimate: fog-belt Sunset and Richmond homes typically specify Low-E 272 passive coatings to capture available solar gain, while sun-belt Mission and Bernal Heights homes benefit from Low-E 366 spectrally-selective coatings on west exposures. Argon fill is baseline. SF Victorian and Edwardian restoration projects commonly require true-divided-lite wood windows with wavy-glass reproduction on visible elevations, running $1,800-$3,500 per opening.</p></section><section class="section fp-section"><h2>Wind, storm, and durability requirements for San Francisco</h2><p>SF has no hurricane zone and minimal hail exposure, so the Storm section here is about seismic retrofits. Soft-story retrofits required by SF ordinance §34B affect window openings on ground-floor garage levels; any replacement in those openings must coordinate with structural engineer review. Laminated outer panes also provide meaningful seismic benefit: during the 1989 Loma Prieta earthquake, glazing failure was a significant injury source, and modern laminated outer panes retain shattered glass in the frame during shaking. SF Title 24 2022 requires U-0.30 maximum and SHGC 0.40 on coastal zone residential replacements, verified at final inspection.</p></section><section class="section fp-section"><h2>Vetting a San Francisco installer</h2><p>SF installer vetting: verify active CSLB license (C-17 glazing or B general) at cslb.ca.gov, confirm SF DBI city contractor registration, and cross-reference SF DBI complaint history at sfdbi.org. SF lead-safe renovation rules (pre-1978 homes) additionally require EPA RRP certification, which is separately verifiable at epa.gov. SF's dust-control ordinance §3428 imposes HEPA-vacuum cleanup verification before final inspection on lead-impacted projects.</p></section><section class="section fp-section"><h2>San Francisco-specific window fraud patterns</h2><p>SF window fraud patterns concentrate around unlicensed contractors doing cash work in the Sunset and Richmond row-house market. The SF-specific warning sign is a contractor who will not provide their CSLB license number or whose number shows "Inactive" or "Suspended" status at cslb.ca.gov. California Homeowners Recovery Fund claims require an active license at time of work, so an inactive-license contractor means you forfeit recovery rights if the work fails. SF DBI also publishes inspector-verified complaint history on permit records at sfdbi.org.</p></section><section class="section fp-section"><h2>When to buy in San Francisco and what whole-home jobs cost</h2>
+<p><strong>San Francisco best months:</strong> June through October, when fog-season humidity drops enough for outdoor caulk cure.</p>
+<p><strong>San Francisco worst months:</strong> November through March rainy-season install risk and fog-belt microclimate delays.</p>
+<p></p>
+<p>A 15-window San Francisco whole-home replacement in 2026 dollars at prevailing San Francisco labor rates: budget vinyl with San Francisco-compliant Low-E runs approximately $7,140; mid-range fiberglass with ENERGY STAR IECC Zone 3C marine-coastal mild qualified glazing runs $17,640; premium wood-clad with dual-pane spectrally-selective full-frame replacement runs $33,600. These numbers reflect San Francisco installer rates, not national averages, and assume standard-sized openings without bay-window or radiused-top custom work. The dominant San Francisco material story is Victorian and Edwardian wavy-glass wood sash with lead-bearing cords, and replacement economics pivot on whether pocket installation is viable or full-frame scope is required.</p>
+<p><a href="/window-replacement-cost.html" style="color:var(--brand);">Get a San Francisco estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-WINDOWS-CONTENT -->
 

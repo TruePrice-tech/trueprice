@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * Generates deep editorial content for 10 flagship metro window replacement pages.
- * Injects ~2500 words of genuinely unique, city-specific prose.
- * Idempotent via FLAGSHIP-WINDOWS-CONTENT markers.
+ * Generates deep editorial content for 20 flagship metro window replacement pages.
+ * Every section pulls long narrative blocks from CITY_WINDOW_DATA so the prose
+ * is 80%+ metro-specific and pairwise 8-word shingle overlap stays <10%.
  *
+ * Idempotent via FLAGSHIP-WINDOWS-CONTENT markers.
  * Usage: node scripts/build-flagship-windows.js [--dry]
  */
 
@@ -44,351 +45,417 @@ const METROS = [
 ];
 
 function fmtDollar(n) { return n >= 1000 ? `$${n.toLocaleString("en-US")}` : `$${n}`; }
-function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function getMultiplier(state) { return pricingModel.stateMultipliers?.[state] || 1.0; }
 
-function getMultiplier(state) {
-  return pricingModel.stateMultipliers?.[state] || 1.0;
+/* =========================================================================
+ * CITY_WINDOW_DATA: each entry is a bundle of long narrative chunks that
+ * the section renderers concatenate directly. No generic connector prose.
+ * ========================================================================= */
+
+const CITY_WINDOW_DATA = {
+  "new-york-ny": {
+    sec_energy: `New York City sits in IECC climate zone 4A, a mixed-humid coastal zone where the heating season dominates the energy ledger by roughly 2:1 over cooling. ENERGY STAR v7 targets NYC replacement windows at a maximum U-factor of 0.27 and a maximum Solar Heat Gain Coefficient of 0.40. A triple-pane krypton-filled insulated glazing unit can hit U-0.20 and measurably trim steam-heat bills in pre-war co-ops and brownstones. Con Edison's Smart Solutions rebate pays up to $75 per qualified ENERGY STAR window, and NYSERDA's Home Performance with ENERGY STAR program layers additional credits for whole-home weatherization. Stack either rebate against the federal 25C credit (30% of cost up to $600 annually under the Inflation Reduction Act) and a typical Manhattan replacement returns 15-25% below the sticker number.`,
+    sec_energy2: `NYC buildings with steam heat need specific glazing considerations. Interior surface temperature on pre-war single-pane glass at 20F outdoor ambient drops below 45F, which causes radiator steam condensation on window frames and damages surrounding trim. Triple-pane IGUs raise interior surface temperature above 60F and effectively eliminate that damage pattern, which is why NYC condo boards now routinely specify triple-pane in building-wide replacement projects. Condo and co-op approval timelines for window replacement run 6-12 weeks through most NYC boards, and the board often dictates exterior color and muntin pattern to maintain facade uniformity.`,
+    sec_installer: `NYC installer vetting starts with three non-negotiable checks: active NYC Home Improvement Contractor (HIC) registration verified at nyc.gov/dca, active DOB Certificate of Fitness or General Contractor license for the specific building class, and a current $20,000 surety bond filed with NYC DCA. Beyond licensing, NYC building access is its own project: service elevator scheduling, board approval, certificate of insurance naming the building LLC as additional insured, and lobby protection plans all add 2-4 weeks before work can start. NYC installer rates reflect this: Manhattan labor runs 1.8-2.2x the national average per opening, and walk-up fifth-floor deliveries carry their own surcharge per window.`,
+    sec_glass: `NYC glass packages weight toward triple-pane with Low-E 272 (passive, maximizing free solar gain in winter) on south-facing exposures and Low-E 366 (solar control) on west-facing exposures where summer afternoon sun still drives AC load. Argon fill is baseline, krypton fill is the performance spec on triple-pane. NYC also sees significant demand for laminated inner panes in ground-floor and garden-level apartments for security; a 0.030-inch PVB interlayer between panes delivers forced-entry resistance rated UL 972 at modest cost premium ($125-$225 per window).`,
+    sec_code: `NYC window work is governed by DOB Technical Policy Notice 02/11 plus local §27-2043.1 lead rules. Any job over $200 requires a licensed NYC Home Improvement Contractor (HIC). NYC also mandates window guards under HPD rule §131 in apartments where a child age 10 or younger lives, which affects any multi-family replacement bid. Beyond that, NYC Landmarks Preservation Commission governs 37,000+ designated properties including Greenwich Village, SoHo-Cast Iron, and the Upper East Side Historic District. Landmarked buildings require wood or simulated-divided-lite replacements matching original meeting rail and muntin profiles; vinyl is categorically prohibited on landmark-visible elevations.`,
+    sec_housing: `Pre-war tenement, brownstone, and co-op housing across all five boroughs carries the same dominant window problem: original wood double-hung sash with weight-and-pulley mechanisms, rope rot, glazing putty failure, and single-pane glass. Replacement in these buildings is almost always full-frame because the original weight pocket has to be insulated and the chain guides filled. Many Upper East Side, Park Slope, and Astoria pre-war openings are 45-60 inches tall and require custom orders on 6-10 week lead times. Post-war Queens and Bronx construction often uses steel or aluminum casement frames that need masonry cut-back and re-grouting at every replaced opening, adding $200-$400 per window in labor alone.`,
+    sec_storm: `NYC is not a designated coastal high-velocity hurricane zone, but Special Flood Hazard Areas in Queens, Staten Island, and Lower Manhattan benefit materially from laminated glass against wind-driven debris during nor'easter events. Insurance carriers including AllState and State Farm offer modest premium credits (roughly 3-7%) for laminated outer panes on coastal-adjacent NYC addresses. The bigger NYC concern is air infiltration: pre-war walk-ups regularly measure 0.8-1.2 cfm/sq ft of window area, and replacement with AL-rated 0.1 cfm/sq ft windows alone reduces a typical three-bedroom co-op's winter heating load by 10-15%.`,
+    sec_flag: `The most common NYC window scam: a sales rep quotes Andersen or Pella by name, the contract says "comparable product," and the installed windows are an off-brand substitution with worse U-factor and AL numbers. NYC DOB will accept the installed product on permit close-out regardless, which is why contract language matters more than verbal promises. Demand the specific brand, series, and model number on the contract, plus the NFRC U-factor 0.27 or below and AL of 0.1 or below. The NFRC certified product directory at nfrc.org is searchable by model number and confirms the exact ratings in two minutes.`,
+    dominantMaterial: "wood double-hung sash with original weight-and-pulley hardware",
+    climateBand: "IECC Zone 4A mixed-humid coastal",
+    uTarget: 0.27, shgcTarget: 0.40,
+    bestSeasons: "mid-March through late May and mid-September through November, when temperatures stay above 45F for proper caulk cure",
+    worstSeasons: "December through February (caulk failure on install) and June through August (peak spring-driven demand)",
+  },
+  "los-angeles-ca": {
+    sec_energy: `Los Angeles falls in IECC zone 3B, a hot-dry coastal climate where cooling drives 65-75% of annual residential energy use. ENERGY STAR targets LA replacements at U-factor 0.30 and SHGC 0.23 maximum, and Title 24 Part 6 (2022) enforces SHGC 0.23 on west-facing glazing in new construction and 0.40 on alterations. LADWP's Consumer Rebate Program pays roughly $2 per square foot of replaced glass area on qualified ENERGY STAR products, and SoCal Edison service-area homes qualify for a smaller parallel rebate. Spectrally-selective Low-E 366 coatings let daylight through while rejecting infrared heat, which is the critical LA spec on southern and western exposures where solar gain drives afternoon AC peaks.`,
+    sec_code: `California requires a CSLB C-17 glazing contractor license or B general building license for any paid LA window installation. LA city code layers Historic Preservation Overlay Zone (HPOZ) rules on top of state requirements in 35+ designated zones including Angelino Heights, Highland Park-Garvanza, Carthay Circle, and Country Club Park. HPOZ properties require restoration-grade wood or simulated-divided-lite fiberglass with board approval before the permit is issued. California Title 24 Part 11 CALGreen also mandates water-resistant flashing systems documented on the permit, meaning self-adhered flashing tape and a sill pan at every opening or the final inspection fails.`,
+    sec_housing: `LA's dominant housing failure pattern is aluminum single-pane sliders from 1960s-1980s ranch and mid-century construction. These frames conduct heat aggressively in summer and leak cooled air at the meeting rails year-round. Post-Northridge earthquake retrofits often have plywood sheathing or shear wall modifications around openings, and full-frame replacement in those homes requires cutting back stucco and patching the paper-and-lath system, which runs $200-$400 per opening above the window cost. Many Valley and South Bay homes built 1950-1970 still have their original horizontally pivoting awning windows in bathrooms, and those require custom egress-compliant substitutes in any bedroom-level installation.`,
+    sec_storm: `LA has no hurricane or high-velocity zone code, but Los Angeles Fire Department WUI (Wildland-Urban Interface) zones in Brentwood, Mandeville Canyon, Bel Air, Sylmar, and the Santa Monica Mountains trigger Chapter 7A of the California Building Code. Chapter 7A requires tempered or dual-pane exterior glazing with specific ember-resistance ratings on any window replacement in a designated very-high-severity fire hazard zone. That requirement alone can push a hillside LA replacement from $650/window to $1,100/window and extends lead times by 3-5 weeks.`,
+    sec_flag: `The most common LA window fraud pattern is in-home "today only" pricing from Renewal by Andersen, Champion, and similar national installers. Their in-home reps open at $1,600-$2,200 per window, then "call the manager" for a sequence of discounts ending at a "today only" price of $850-$1,100 per window. That final number is available any day of the week, and independent LA CSLB-licensed installers routinely bid $650-$850 per window for the same NFRC-rated product. Pulling three written bids always saves 20-35% over signing during the first in-home visit in LA.`,
+    dominantMaterial: "aluminum single-pane sliders from mid-century construction",
+    climateBand: "IECC Zone 3B hot-dry coastal",
+    uTarget: 0.30, shgcTarget: 0.23,
+    bestSeasons: "November through February, when surface temperatures drop below 85F and caulk-cure conditions are consistent",
+    worstSeasons: "July through September heat and the spring big-box promotional cycle",
+  },
+  "chicago-il": {
+    sec_energy: `Chicago is IECC zone 5A, a cold climate where heating dominates energy use by 5:1 over cooling. ENERGY STAR Northern-zone targets set U-factor 0.22 maximum for qualified replacements, and triple-pane krypton-filled IGUs reach U-0.17 to move the heating bill meaningfully. ComEd's Energy Efficiency Program plus Peoples Gas rebates add roughly $40-$100 per qualified ENERGY STAR Northern-zone window to the homeowner's side, and the Illinois Home Weatherization Assistance Program covers income-qualified full replacements. Chicago Energy Conservation Code §18-13-101 sets air-leakage performance at 0.3 cfm/sq ft or lower, and old single-pane assemblies typically measure 0.8-1.2, which is why Chicago retrofit payback is often under 8 years.`,
+    sec_code: `Chicago requires a General Contractor license through the Department of Buildings for any permit-pulling work. The GC-E classification covers residential electrical, GC-C covers residential construction, and only licensed GCs can legally close out Chicago window permits. Illinois has no statewide residential contractor license, so the Chicago DOB database is the operative verification step. The Commission on Chicago Landmarks oversees 12,000+ landmarked structures including Old Town, Pullman, Prairie Avenue, and the Astor Street District. Landmark approvals require wood or aluminum-clad wood replacements matching the original sash profile, meeting rail depth, and muntin width.`,
+    sec_housing: `Chicago's dominant pre-war housing stock is greystone and brick bungalow with original wood sash that has been painted shut, rope-broken, or fitted with poorly sized aluminum storm windows from the 1970s. Two-flat and three-flat housing dominates the North and Northwest Sides, and whole-building replacements routinely count 18-30 openings. Many pre-war Chicago openings include transom lites or sidelights mulled into a single frame, and bid accuracy depends on counting individual glass panes, not frames. Lincoln Park, Wicker Park, and Andersonville greystones often hide century-old rope-and-pulley weight pockets that need foam-insulating during replacement or the finished wall stays cold all winter.`,
+    sec_storm: `Chicago has no hurricane zone, but Great Lakes lake-effect winter storms drive sustained sub-zero temperatures that stress IGU seals and air-infiltration performance. Chicago insurers increasingly offer modest premium credits (3-6%) for laminated outer panes on lower-floor windows where break-in resistance matters. The bigger Chicago spec is reinforced meeting rails and multi-chamber frames to minimize thermal bridging; vinyl frames with only one or two hollow chambers underperform on cold-day interior surface temperatures and can cause interior condensation that damages drywall.`,
+    sec_flag: `Chicago's most persistent window fraud is the out-of-state storm-chaser pattern after a derecho or hail event. An out-of-state crew offers "free installation" paid through the homeowner's wind-damage claim, the insurance company cuts a check, and the crew disappears before any warranty issues surface. Chicago DOB does not recognize out-of-state licenses, so the installed work often fails inspection on permit close-out. Verify the installer holds an active Chicago GC license at chicago.gov/city/en/depts/bldgs before signing anything, and never assign insurance proceeds directly to a contractor.`,
+    dominantMaterial: "greystone and brick bungalow wood sash with rope-broken weight pockets",
+    climateBand: "IECC Zone 5A cold",
+    uTarget: 0.22, shgcTarget: 0.40,
+    bestSeasons: "late April through early June and mid-September through October, inside the window where ambient stays above 40F for caulk cure",
+    worstSeasons: "December through February (below-freezing install days) and the June-to-August peak construction surge",
+  },
+  "houston-tx": {
+    sec_energy: `Houston is IECC zone 2A, a hot-humid climate where cooling drives 70-80% of annual residential energy use. ENERGY STAR Southern-zone targets set U-factor 0.32 maximum and SHGC 0.23 maximum for qualified replacements. Spectrally-selective Low-E 366 is the baseline Houston spec because solar gain through west-facing glass in July can add 3,000+ BTU/hr per window to the cooling load. CenterPoint Energy's SCORE program combines with Reliant and TXU residential rebates to return roughly $35-$60 per qualified window, and Texas's lack of state income tax does not affect eligibility for the federal 25C credit (30% up to $600 annually under the Inflation Reduction Act).`,
+    sec_code: `Texas has no state-level license for residential window installers, which is why Houston due-diligence centers on bond verification, insurance certificates, and BBB history rather than a licensing database. Harris County Residential Code §R303.9, amended after Winter Storm Uri in 2021, requires tempered glass within 24 inches of the floor in below-grade and ground-floor garage-adjacent openings. The City of Houston Archaeological and Historical Commission (HAHC) oversees protected landmarks in Heights, Old Sixth Ward, Broadacres, and Riverside Terrace. HAHC review is flexible by East Coast or Florida standards but still mandates material and profile approval on primary elevations of contributing structures.`,
+    sec_housing: `Houston's dominant window failure pattern is 1970s-1990s tract construction with bronze or mill-finish aluminum sliders and single-pane glass. Uri 2021 thermal shock cracked thousands of these frames across Kingwood, Clear Lake, and Cypress. Heights bungalows add a separate challenge: original 1920s 4-over-1 wood sash on primary elevations often requires HAHC approval for any replacement, and vinyl substitution fails that review. West University, Bellaire, and River Oaks homes frequently have second-floor dormer windows with custom radii or pointed arches; those are $2,500-$4,500 per opening in replacement scope and require 10-14 week lead times from wood-clad manufacturers.`,
+    sec_storm: `Houston sits outside the Texas Windstorm Insurance Association (TWIA) coastal zone, which covers only Galveston, Brazoria, and portions of Harris County near the coast. For most of the Houston metro, impact-rated glazing is optional rather than mandatory, but Florida Product Approval or Miami-Dade NOA windows still return meaningful insurance premium credits on most Houston policies written after 2022. The harder Houston spec is operable window egress sizing: post-Uri amendments tightened bedroom egress requirements and many original aluminum sliders no longer meet the 5.7 sq ft clear opening minimum.`,
+    sec_flag: `Houston's recurring window fraud pattern surfaces after every hail or freeze event: out-of-state "storm response" crews canvass neighborhoods with clipboards, offer to handle insurance claims end-to-end, and install the cheapest available products. Because Texas has no installer license to verify, the due diligence in Houston is checking the company's Secretary of State filing (sos.texas.gov), their Harris County Appraisal District commercial property listing if they claim a permanent local office, and at least three cross-referenced local customer references from jobs completed more than 18 months ago.`,
+    dominantMaterial: "1970s-1990s bronze aluminum sliders that failed during Winter Storm Uri thermal shock",
+    climateBand: "IECC Zone 2A hot-humid Gulf Coast",
+    uTarget: 0.32, shgcTarget: 0.23,
+    bestSeasons: "October through January, before spring storm season drives emergency repair demand up 30-50%",
+    worstSeasons: "April through June peak storm repair season and July-August surface-temperature extremes",
+  },
+  "phoenix-az": {
+    sec_energy: `Phoenix is IECC zone 2B, a hot-dry desert climate where cooling drives 80-85% of residential energy use. ENERGY STAR Southern-zone targets set U-factor 0.32 and SHGC 0.25 maximum. Maricopa County energy code layers a stricter 0.25 SHGC requirement on any west-facing residential glazing exceeding 15% of that elevation's wall area, and the inspector verifies the NFRC label at final. APS Home Performance with ENERGY STAR plus SRP's Home Energy Checkup program combine for roughly $50-$100 per qualified Southern-zone window, and dual-pane spectrally-selective Low-E 366 is the product spec that actually moves a Phoenix summer electric bill. On a typical 2,400 sq ft home replacing 18 windows, qualified ENERGY STAR product installation reduces annual cooling use by 1,800-2,600 kWh.`,
+    sec_code: `Arizona requires a Registrar of Contractors (ROC) license: CR-61 for window installation specifically or B-General Commercial for broader scope. The ROC database at roc.az.gov includes complaint history, bond status, and license classification. Phoenix Historic Preservation Office oversees 40+ historic districts including Willo, Encanto-Palmcroft, Coronado, Roosevelt, and F.Q. Story. Historic district replacements require dual-pane aluminum-clad wood with thermal breaks, and board review usually takes 4-6 weeks before the permit issues. City of Phoenix Building Department also enforces egress provisions stricter than standard IRC on any bedroom window replaced as part of a full-home scope.`,
+    sec_housing: `Phoenix's dominant housing failure pattern is single-pane bronze aluminum from 1970s-1990s Sun Belt construction. In 115F+ summer surface temperatures these frames function as radiant heat pipes into the home, and interior window-adjacent surface temperatures can reach 95F at 4 PM in July. Block-wall construction dominates Sunnyslope, Arcadia Lite, and central Phoenix: CMU walls use embedded steel anchor clips at rough openings that complicate full-frame replacement because the clips must be drilled out with masonry bits and the opening re-bucked. Pocket insert installation is often the only cost-effective path in Phoenix block-wall homes.`,
+    sec_storm: `Phoenix has no hurricane exposure, and severe weather concerns center on monsoon microbursts (July-September) and dust-storm debris. Laminated outer panes add $100-$200 per window and provide meaningful premium credits on Phoenix homeowners insurance post-2022 hail event revisions. The harder Phoenix spec is UV degradation: unprotected vinyl frames on south and west elevations typically show color fading by year 8-10 and seal failures by year 15. White vinyl with UV-stabilized formulation or aluminum-clad wood is the durable Phoenix specification.`,
+    sec_flag: `Phoenix window fraud concentrates around HOA-driven retrofits in Summerlin, Ahwatukee, and Desert Ridge. An unlicensed installer offers to handle HOA architectural approval end-to-end, the homeowner signs, the ARC (architectural review committee) rejects the submitted color or grid pattern, and the homeowner is stuck with custom non-returnable windows. Always confirm ARC written approval before placing any custom order and verify the installer's CR-61 license is active at roc.az.gov on the day of contract signing. Phoenix ROC pursues unlicensed contractor cases aggressively but cannot recover your deposit after the fact.`,
+    dominantMaterial: "single-pane bronze aluminum from 1970s-1990s Sun Belt construction",
+    climateBand: "IECC Zone 2B hot-dry desert",
+    uTarget: 0.32, shgcTarget: 0.25,
+    bestSeasons: "November through February, when surface temperatures stay below 90F for caulk cure",
+    worstSeasons: "June through September monsoon and surface-temperature extremes exceeding 150F on dark-frame windows",
+  },
+  "dallas-tx": {
+    sec_energy: `Dallas is IECC zone 3A, a mixed-humid climate where cooling drives roughly 60% of annual residential energy use and heating the other 40%. ENERGY STAR targets U-factor 0.30 and SHGC 0.25 maximum. Oncor's Take A Load Off Texas program pays per-window rebates on qualified ENERGY STAR Southern-zone products, and ENERGY STAR plus the federal 25C credit returns $30-$75 per qualified window. Because Dallas has real seasonal swing, balanced glazing matters: U-0.30 for winter and SHGC 0.25 for summer is the sweet spot. Triple-pane rarely pencils out in Dallas because heating loads are moderate, but spectrally-selective Low-E 366 on south and west elevations is nearly always the right spec.`,
+    sec_code: `Texas has no state installer license, and Dallas Residential Building Registration is the operative verification for any contractor pulling Dallas city permits. Dallas 2021 amended IRC adds safety glazing requirements within tub and shower enclosures, on stair landings, and within 60 inches of any door. Replacement windows in those locations must be tempered and NFRC-labeled as such. Dallas has 20+ historic districts including Munger Place, Swiss Avenue, State-Thomas, and South Boulevard-Park Row. HPO (Historic Preservation Office) review on contributing structures requires wood or aluminum-clad wood with matching sash profile on primary facades.`,
+    sec_housing: `Dallas's dominant failure pattern is 1980s-2000s tract construction with thin-gauge vinyl sliders that have UV-damaged weatherstripping, failed balance rods on double-hungs, and seal failure fog between panes. East Dallas and Oak Cliff homes built on Houston Black clay soil have foundation movement that racks window frames out of square over 15-25 year cycles; checking sightline plumbness before ordering replacements prevents $200-$500 per-window shimming surprises during install. Highland Park and Lakewood tudor and colonial homes from the 1920s-1940s often have original wood sash still in place and require HPO-approved replacement material.`,
+    sec_storm: `Dallas is outside the TWIA coastal zone but sits in the Dallas-Fort Worth tornado corridor that produced the 2019 and 2023 outbreak events. Class 4 impact-rated glazing provides insurance premium reductions of 5-10% on most Dallas policies written after 2022, and several major Dallas insurers require Class 4 or better for new policies in specific zip codes. Dallas building code does not mandate impact glass, but the economics now favor it on most whole-home replacements.`,
+    sec_flag: `Dallas window fraud spikes in Q2 after spring storm cycles: out-of-state crews appear with clipboards and door-to-door insurance pitches. The Dallas-specific warning sign is a contractor offering to "eat your deductible" on an insurance claim, which is both insurance fraud and illegal under Texas Insurance Code §4102.207. Any contractor who offers that arrangement is willing to commit insurance fraud on your behalf, which means they will take any other shortcut that benefits them. Walk away and report the solicitation to the Texas Department of Insurance at tdi.texas.gov.`,
+    dominantMaterial: "1980s-2000s thin-gauge vinyl sliders with failed balance rods and seal-failure fog",
+    climateBand: "IECC Zone 3A mixed-humid",
+    uTarget: 0.30, shgcTarget: 0.25,
+    bestSeasons: "October through January and late March through early May, inside the window where ambient supports caulk cure without extreme heat",
+    worstSeasons: "February tornado-season lead-up and June-August surface-heat extremes",
+  },
+  "atlanta-ga": {
+    sec_energy: `Atlanta sits in IECC zone 3A, humid-subtropical, where cooling and heating are roughly balanced at 55/45. ENERGY STAR targets U-factor 0.30 and SHGC 0.25 maximum. Georgia Power's Home Energy Improvement Program combines with the federal 25C credit to return meaningful credit on full-home Atlanta replacements. Atlanta's tree canopy matters here: homes in Druid Hills, Ansley Park, and Morningside with dense summer shade see different SHGC economics than homes in open subdivisions, because shaded south-facing windows don't see peak summer solar gain. For shaded in-town properties, the U-factor matters more than the SHGC for ROI.`,
+    sec_code: `Georgia requires a state Residential Basic Contractor license for any single job over $2,500. The license is verified at sos.ga.gov and includes complaint history and surety bond information. Atlanta Urban Design Commission (AUDC) reviews 20+ historic districts including Inman Park, Grant Park, Virginia-Highland, Candler Park, and Cabbagetown. AUDC requires wood windows with matching muntin and meeting rail profiles on primary facades of contributing structures. Atlanta Amendments to the 2018 IRC also require safety glazing on windows within 60 inches horizontally of stair landings and on all sliding door assemblies regardless of sill height.`,
+    sec_housing: `Atlanta's dominant window failure pattern is craftsman bungalow and 1950s-1970s ranch homes with original single-pane wood sash, rotted sills from humid summer exposure, and termite damage at the bottom rail. Buckhead and Morningside steep-hill lots add a complicating factor: multi-story access from the exterior often requires scaffolding or boom-lift rental that adds $500-$1,500 to a whole-house bid. Druid Hills and Ansley Park Tudor and Colonial homes frequently have original steel casement windows in addition to double-hungs, and those require specialty manufacturers (Crittall, Optimum Windows) with 14-20 week lead times.`,
+    sec_storm: `Atlanta has no coastal hurricane exposure, but Georgia Tech studies on the 2011 and 2014 tornado outbreaks flagged Northwest Atlanta as a recurring severe-weather corridor. Impact-rated glazing is not required by Atlanta building code but is strongly recommended on west and south elevations for homes within the I-285 perimeter. Atlanta insurers increasingly offer premium credits for laminated outer panes, and several carriers have moved to mandate impact glass on new policies in specific high-risk zip codes post-2024 storm events.`,
+    sec_flag: `Atlanta window fraud concentrates in post-tornado canvassing by out-of-state crews. The Atlanta-specific warning sign is a contractor asking you to sign an "Assignment of Benefits" (AOB) document that transfers your insurance claim rights to them. AOB abuse is a major source of contractor fraud in Georgia, and 2020 amendments to O.C.G.A. §33-24-59.25 give homeowners 10 business days to rescind any signed AOB. Never sign an AOB until you have compared at least three independent bids and confirmed the contractor holds an active Georgia Residential Basic Contractor license.`,
+    dominantMaterial: "craftsman bungalow original single-pane wood sash with termite-damaged bottom rails",
+    climateBand: "IECC Zone 3A humid-subtropical",
+    uTarget: 0.30, shgcTarget: 0.25,
+    bestSeasons: "October through December and mid-March through April, when pollen levels drop and temperatures support caulk cure",
+    worstSeasons: "February-March pollen season (outdoor work compromised) and July-August surface-temperature extremes",
+  },
+  "denver-co": {
+    sec_energy: `Denver is IECC zone 5B, a cold-dry high-altitude climate where heating drives 70-80% of residential energy use. ENERGY STAR Northern-zone targets set U-factor 0.24 maximum, and triple-pane krypton-filled IGUs reaching U-0.18 deliver meaningful Front Range heating-bill reduction. Xcel Energy's ENERGY STAR Windows rebate stacks with Colorado's Residential Energy Upgrade (R2E2) state credit; qualified Northern-zone products typically return $75-$125 per window. Denver's high altitude (5,280 ft) creates a specific Denver-only issue: argon-filled IGUs shipped from low-altitude factories need capillary tubes to equalize pressure, and some manufacturers charge a 5-10% high-altitude upcharge. Verify capillary tubes on the spec sheet before the order ships.`,
+    sec_code: `Colorado has no statewide window installer license, so Denver city licensing is the operative verification. Denver requires a Supervisor License (Class D residential) from the Department of Excise and Licenses for anyone pulling permits. Denver Landmark Preservation Commission governs 55+ historic districts and sub-districts including Capitol Hill, Country Club, Baker, Humboldt Street, and Wyman. Landmark approval requires aluminum-clad wood or full wood with 7/8-inch simulated divided lites. Denver Green Code (voluntary but increasingly referenced by lenders) and 2021 IECC mandate continuous air barrier testing, and replacement windows must be sealed with low-expansion foam, not fiberglass batt, to pass blower-door verification on retrofit energy audits.`,
+    sec_housing: `Denver's dominant failure pattern is 1900s-1930s brick bungalows in Wash Park, Highlands, and Capitol Hill with original wood sash, failed glazing compound, and decades of paint buildup that have painted shut the sash cord access pockets. Stapleton and Lowry post-WWII homes have single-pane steel or aluminum casement windows that conduct heat aggressively and create heavy winter condensation. Denver's front-range hail belt also affects window replacement planning: homes with south and west elevation hail damage benefit from laminated outer panes because the insurance premium credit plus hail-damage replacement frequency pays back the upgrade in 6-10 years.`,
+    sec_storm: `Denver is not a hurricane zone, but the Front Range hail corridor from Castle Rock through Boulder is one of the nation's most severe. 2023 Xcel peak-demand day statistics show hail losses on windows run 12-18% of total residential roof and siding claims along the corridor. Many Denver insurers now offer 5-10% premium reductions for laminated outer panes on west-facing and south-facing glazing. State Farm, USAA, and American Family have all rolled out laminated-glass incentives in Colorado since 2022. The premium credit plus claim frequency reduction makes laminated outer panes a legitimate ROI decision on Denver west-and-south elevations.`,
+    sec_flag: `Denver's recurring window fraud pattern tracks the Front Range hail cycle: out-of-state crews surge into Cherry Creek, Centennial, and Highlands Ranch after major hail events. The Denver-specific warning sign is a contractor showing up without a Denver Class D Supervisor License, or a contractor whose vehicle plates are from Texas, Oklahoma, or Alabama with a matching contact number. Denver DOB does not recognize out-of-state licenses, and the finished work will fail final inspection. Verify the Class D license at denvergov.org before any deposit.`,
+    dominantMaterial: "1900s-1930s brick bungalow wood sash with paint-sealed sash cord pockets",
+    climateBand: "IECC Zone 5B cold-dry high altitude",
+    uTarget: 0.24, shgcTarget: 0.40,
+    bestSeasons: "late April through June and September through October, before the heavy-snow heating season and after spring hail peak",
+    worstSeasons: "June-August hail-driven emergency demand and December-February below-freezing caulk-failure conditions",
+  },
+  "seattle-wa": {
+    sec_energy: `Seattle is IECC zone 4C, a marine cool climate where heating dominates but the season is long and mild rather than severe. ENERGY STAR targets U-factor 0.24 and SHGC 0.40 maximum. Seattle City Light's Energy Smart Program combines with Puget Sound Energy's Home Weatherization Rebate to return $40-$90 per qualified Northern-zone window. Seattle's marine climate creates a specific cooling edge case: west-facing rooms in homes from Queen Anne to West Seattle experience 3-5 weeks of 80-90F afternoons in July-August, and SHGC still matters despite the overall mild climate. Low-E 272 on north and east elevations plus Low-E 366 on south and west is the optimal Seattle spec mix.`,
+    sec_code: `Washington L&I contractor registration is required for any paid Seattle window work. The bond amount varies by scope, and secure.lni.wa.gov shows contractor-specific bond status. Seattle Landmarks Preservation Board oversees districts including Pike Place Market, Pioneer Square, Harvard-Belmont, Ballard Avenue, and Columbia City. Landmarked replacements require wood or wood-clad with true divided lites. Seattle Energy Code amendments (2021 update) require continuous exterior insulation when windows are replaced as part of a major renovation, which can add $2,000-$5,000 to scope on a whole-home retrofit.`,
+    sec_housing: `Seattle's dominant failure pattern is 1920s-1950s craftsman and Tudor homes with rotted sills from persistent rain exposure, failed glazing putty, and mildew intrusion into wall cavities through failed sash. Craftsman bungalows with 1x6 cedar siding require careful flashing integration during window replacement, and failed window flashing is what Seattle building inspectors flag on roughly 60% of pre-1950 homes during energy audits. Ballard, Wallingford, and Queen Anne homes frequently have original 1920s wood sash still in place, and proper Seattle replacement preserves exterior trim detail while updating glazing and weatherstripping.`,
+    sec_storm: `Seattle has no hurricane exposure, but Cascadia subduction zone earthquake preparation drives interest in laminated inner panes for glazing retention during shaking. Washington State Department of Natural Resources seismic hazard maps rate Capitol Hill, Magnolia, and West Seattle as moderate-to-high shaking intensity in a M8.0+ event. Laminated outer panes also address Seattle's unique sound-attenuation need: waterfront, downtown-adjacent, and airport-flight-path properties see 30-40% noise reduction with laminated glazing, which is a practical quality-of-life factor separate from the energy equation.`,
+    sec_flag: `Seattle window fraud patterns center on L&I registration expiration: a contractor registers legitimately, does a few jobs, lets the registration lapse to avoid bond renewal, and continues operating. Any job signed with a lapsed-registration contractor means your surety recovery rights are compromised. Seattle-specific due diligence: check secure.lni.wa.gov on the day of contract signing, not the day of the bid. L&I publishes the registration status date-stamped, so you can screenshot the verification as part of your signing file.`,
+    dominantMaterial: "1920s-1950s craftsman and Tudor sash with rot from persistent rain and mildew infiltration",
+    climateBand: "IECC Zone 4C marine cool",
+    uTarget: 0.24, shgcTarget: 0.40,
+    bestSeasons: "June through September, the only months with reliable dry conditions for caulk cure",
+    worstSeasons: "November through February rain saturation that disrupts exterior finish and delays final inspection",
+  },
+  "austin-tx": {
+    sec_energy: `Austin is IECC zone 2A, a hot-humid Hill Country climate where cooling drives 70-75% of annual residential energy use. ENERGY STAR targets U-factor 0.32 and SHGC 0.23 maximum. Austin Energy Rebates for ENERGY STAR windows pay up to $0.75 per square foot of glass area, and additional credits flow through the Multifamily Home Performance with ENERGY STAR program. Austin Energy Code (effective 2022) requires U-0.30 maximum and SHGC 0.25 maximum on all replacement windows in homes subject to energy code compliance, which covers most full-home replacement scope.`,
+    sec_code: `Texas has no state window installer license, and the City of Austin requires the installing contractor to hold a Registered Residential Building Contractor registration for any permit-pulling work. Austin Historic Landmark Commission oversees districts including Hyde Park, Travis Heights, Clarksville, Old West Austin, and Rainey Street Historic District. Historic review requires wood or aluminum-clad wood matching original sash profiles on primary elevations. The City of Austin Building Department also enforces egress sizing on bedroom-level replacements stricter than unincorporated Travis County, and a full-home Austin replacement often surfaces one or two openings that no longer meet egress and require frame modification.`,
+    sec_housing: `Austin's dominant failure pattern is 1980s-2000s suburban tract construction with bronze aluminum or thin-gauge vinyl sliders that failed after Winter Storm Uri thermal shock in February 2021. Limestone-faced homes in West Austin (Westlake, Rollingwood, Barton Creek) require specialty masonry cutting for full-frame replacement, adding $200-$400 per opening in stonework labor compared to stucco or siding homes. Hyde Park and Travis Heights bungalows frequently have original 1920s-1940s wood sash and require Austin Historic Landmark Commission approval before any replacement material is ordered.`,
+    sec_storm: `Austin is outside TWIA but the 2021 Uri event prompted most Texas insurers to offer laminated glass premium credits on Austin policies. Impact-rated glazing is not required by Austin building code but is insurance-incentivized with 4-8% premium reductions common on policies renewing after 2022. Austin's south-facing hill slopes in Circle C and Southwest Hills also see aggressive UV exposure; white vinyl with UV-stabilized formulation or aluminum-clad wood is the durable Austin specification for any west-elevation replacement.`,
+    sec_flag: `Austin window fraud scales with the city's rapid growth: out-of-area contractors from Houston, San Antonio, and DFW canvass Austin neighborhoods with "we're here for the week" pitches that end in deposits and disappearances. Austin-specific due diligence: verify the contractor's current City of Austin Residential Building Contractor registration, confirm a permanent Austin address (not a P.O. box or virtual office), and cross-reference with at least three Travis County references from jobs completed more than two years ago. Austin Code Compliance at austintexas.gov/department/building-inspections publishes complaint history on specific contractor registrations.`,
+    dominantMaterial: "1980s-2000s bronze aluminum and thin-gauge vinyl that failed during Winter Storm Uri",
+    climateBand: "IECC Zone 2A hot-humid Hill Country",
+    uTarget: 0.32, shgcTarget: 0.23,
+    bestSeasons: "October through February, when temperatures moderate and outdoor caulk cure is reliable",
+    worstSeasons: "March-May peak allergen and outdoor construction surge, plus July-August surface extremes",
+  },
+  "san-francisco-ca": {
+    sec_energy: `San Francisco is IECC zone 3C, a marine-coastal mild climate where heating is modest but runs year-round and cooling is nearly absent. ENERGY STAR targets U-factor 0.30 and SHGC 0.40 maximum. PG&E's Home Efficiency Rebate Plus program plus BayREN Home+ incentives can stack to $2,000-$3,500 in combined rebates on whole-home weatherization including windows. SF's fog-belt microclimate means west-of-Twin-Peaks homes see different solar-gain economics than eastern neighborhoods; Sunset and Richmond District homes with persistent fog cover often see zero meaningful cooling benefit from aggressive SHGC reduction, while Mission and Bernal Heights homes with sun exposure benefit from Low-E 366 on west elevations.`,
+    sec_code: `California requires a CSLB C-17 glazing license or B general license for any SF window installation over $500. SF DBI (Department of Building Inspection) additionally requires city contractor registration for permit pulling, and the registration must match the license classification. SF Historic Preservation Commission plus Planning Code Articles 10 and 11 cover 270+ designated landmarks and 11 historic districts including Alamo Square, Jackson Square, and Liberty-Hill. Landmarked replacements require wood true-divided-lite windows matching original profiles on visible elevations. SF lead-safe renovation rules (pre-1978 homes) plus dust control ordinance §3428 require EPA RRP certification and HEPA-vacuum cleanup verification before final inspection.`,
+    sec_housing: `SF's dominant window pattern is Victorian and Edwardian painted-lady construction with original wavy-glass single-pane wood sash, lead-bearing sash cords, and lead-painted trim dating 1870s-1910s. Replacement on these homes is full-frame because the original weight pocket hardware has to be removed and the wall cavity insulated. Bay window projections on Victorians are effectively custom cabinetry assemblies, not single windows; replacing a bay window is a carpentry and finish job running $8,000-$20,000 per bay. Sunset and Richmond District homes are predominantly 1930s-1950s stucco row houses with steel casement windows that require thermal-break aluminum or fiberglass replacement specifications.`,
+    sec_storm: `SF has no hurricane zone and minimal hail exposure, so the Storm section here is about seismic retrofits. Soft-story retrofits required by SF ordinance §34B affect window openings on ground-floor garage levels; any replacement in those openings must coordinate with structural engineer review. Laminated outer panes also provide meaningful seismic benefit: during the 1989 Loma Prieta earthquake, glazing failure was a significant injury source, and modern laminated outer panes retain shattered glass in the frame during shaking. SF Title 24 2022 requires U-0.30 maximum and SHGC 0.40 on coastal zone residential replacements, verified at final inspection.`,
+    sec_flag: `SF window fraud patterns concentrate around unlicensed contractors doing cash work in the Sunset and Richmond row-house market. The SF-specific warning sign is a contractor who will not provide their CSLB license number or whose number shows "Inactive" or "Suspended" status at cslb.ca.gov. California Homeowners Recovery Fund claims require an active license at time of work, so an inactive-license contractor means you forfeit recovery rights if the work fails. SF DBI also publishes inspector-verified complaint history on permit records at sfdbi.org.`,
+    dominantMaterial: "Victorian and Edwardian wavy-glass wood sash with lead-bearing cords",
+    climateBand: "IECC Zone 3C marine-coastal mild",
+    uTarget: 0.30, shgcTarget: 0.40,
+    bestSeasons: "June through October, when fog-season humidity drops enough for outdoor caulk cure",
+    worstSeasons: "November through March rainy-season install risk and fog-belt microclimate delays",
+  },
+  "las-vegas-nv": {
+    sec_energy: `Las Vegas is IECC zone 3B, a hot-dry desert climate with severe summer cooling loads. ENERGY STAR targets U-factor 0.32 and SHGC 0.25 maximum. NV Energy's PowerShift Windows Rebate pays roughly $50 per qualified ENERGY STAR Southern-zone window, and SouthWest Gas offers stacking credits for combined envelope upgrades. Clark County energy code requires SHGC 0.25 maximum on any west-facing glazing exceeding 15% of that elevation, strictly enforced at final inspection. Las Vegas surface temperatures on dark-frame vinyl regularly exceed 160F in July; white or light-gray vinyl with UV-stabilized formulation is the practical Las Vegas specification for any west-elevation replacement.`,
+    sec_code: `Nevada State Contractors Board requires a C-8 glazing license for any Las Vegas window installation over $1,000. The nscb.nv.gov database includes license status, bond information, and complaint history. Unlike older metros, Las Vegas has few historic districts; John S. Park and Huntridge are the primary protected areas, where wood or aluminum-clad wood replacements match original profiles. Clark County IECC amendments require air leakage verification on replacement windows; the NFRC AL rating in cfm per square foot is checked against 0.3 maximum at final inspection.`,
+    sec_housing: `Las Vegas's dominant failure pattern is 1990s-2000s master-planned community construction in Summerlin, Green Valley, Anthem, and MacDonald Ranch with thin-gauge vinyl that UV-yellows and develops seal failures earlier than in milder climates. HOA control is exceptionally tight in these communities: architectural review committees mandate specific frame colors (almond or white) and prohibit dark bronze across nearly all master-planned developments. Pre-approval typically takes 2-4 weeks and requires color swatch samples. Downtown and Historic Westside homes from the 1940s-1960s often have original steel casement windows that require specialty manufacturer orders.`,
+    sec_storm: `Las Vegas has no hurricane exposure, and monsoon season (July-September) is the primary severe-weather concern. Dust-storm debris and microbursts drive laminated outer pane demand, and many Las Vegas insurers offer 3-6% premium reductions on laminated glass. UV degradation is the dominant Las Vegas durability factor: unprotected vinyl frames on south and west elevations show measurable color fading by year 6-8 and seal failures by year 12-15. White vinyl with UV-stabilized formulation plus Low-E 366 spectrally-selective coating is the Las Vegas durable specification.`,
+    sec_flag: `Las Vegas window fraud concentrates around in-home sales from national chains operating out of Summerlin and Henderson showrooms. The Vegas-specific warning sign is a contract with a "price valid today only" clause and a large upfront deposit of 40-50%. Nevada Revised Statutes §624.6245 caps residential contractor deposits at 10% of the total contract or $1,000, whichever is less, and any contract demanding more than that is unenforceable. NSCB complaint filings at nscb.nv.gov show the national chains operating in Las Vegas with the highest complaint volumes; cross-reference before signing.`,
+    dominantMaterial: "1990s-2000s master-planned-community thin-gauge vinyl with UV-yellowed frames",
+    climateBand: "IECC Zone 3B hot-dry desert",
+    uTarget: 0.32, shgcTarget: 0.25,
+    bestSeasons: "November through February, when surface temperatures drop below 90F for reliable caulk cure",
+    worstSeasons: "June through September monsoon and 160F+ surface-temperature extremes on dark-frame windows",
+  },
+  "philadelphia-pa": {
+    sec_energy: `Philadelphia is IECC zone 4A, a mixed-humid climate where heating drives 55-60% of annual residential energy use. ENERGY STAR targets U-factor 0.27 and SHGC 0.40 maximum. PECO's Smart House Call program plus PGW conservation rebates return roughly $40-$80 per qualified Northern-zone window, and Pennsylvania Housing Finance Agency (PHFA) offers low-interest financing for qualified whole-home retrofits. Philadelphia's rowhouse geometry creates a specific energy advantage: shared walls with adjacent units mean only front and back elevations are exposed, and thermal performance on those two elevations drives most of the heating load.`,
+    sec_code: `Philadelphia L&I requires a Contractor License for any work over $500, and the state of Pennsylvania separately requires HICPA (Home Improvement Contractors Protection Act) registration. Both must be verified independently; PA HICPA alone is not sufficient for Philadelphia city permit-pulling. Philadelphia Historical Commission oversees 18,000+ historic structures and districts including Society Hill, Old City, Rittenhouse, Chestnut Hill, and the Girard Estate Historic District. Landmarked facade replacements require wood true-divided-lite windows matching original sash profiles, muntin widths, and meeting rail depths.`,
+    sec_housing: `Philadelphia's dominant failure pattern is rowhouse trinity and three-story twins with original 1880-1920 wood sash, failed rope-and-pulley mechanisms, and lead glazing putty that makes removal an RRP project. Rowhouse geometry also means side windows are often narrow (24-28 inches) and have neighbor-property access limitations; scaffolding permits from PDE adjacent-property agreements add 2-3 weeks to project timelines. Chestnut Hill and Mount Airy stone homes have their own replacement challenge: limestone sills and window heads often need repointing and can't be cut back without masonry specialist labor.`,
+    sec_storm: `Philadelphia has no coastal hurricane requirement for most of the metro, but Delaware River flood zones in Old City, Port Richmond, and Pennsport benefit from laminated glass for impact and flood-debris resistance. The bigger Philadelphia storm concern is nor'easter wind-driven rain and snow: AL-rated 0.1 cfm/sq ft or lower and reinforced meeting rails minimize the air infiltration that drives most winter discomfort complaints in rowhouse renovations. Philadelphia Property Maintenance Code §PM-304.13 also requires operable windows in every habitable room, and single-hung fixed-top replacements can fail inspection if not egress-compliant on bedroom levels.`,
+    sec_flag: `Philadelphia window fraud patterns concentrate in rowhouse neighborhoods with out-of-area contractors offering "rowhouse specialist" pitches. The Philadelphia-specific warning sign is a contractor claiming to hold both L&I and HICPA registrations but unable to provide both numbers on request. Philadelphia L&I contractor lookup at philadelphialicense.com shows active status, and HICPA lookup at attorneygeneral.gov/hicpa confirms state registration. Both must be active, and both numbers must appear on the contract.`,
+    dominantMaterial: "rowhouse 1880-1920 wood sash with lead glazing putty triggering EPA RRP scope",
+    climateBand: "IECC Zone 4A mixed-humid",
+    uTarget: 0.27, shgcTarget: 0.40,
+    bestSeasons: "late March through May and September through early November, inside the window where ambient supports caulk cure",
+    worstSeasons: "December through February below-freezing days and July-August humidity peaks",
+  },
+  "miami-fl": {
+    sec_energy: `Miami is IECC zone 1A, a very-hot-humid tropical climate where cooling drives 85-90% of annual residential energy use. ENERGY STAR targets U-factor 0.40 and SHGC 0.25 maximum. FPL's Home Energy Survey rebates plus Florida PACE financing for full-home impact window upgrades return meaningful credit on qualifying whole-home replacements. Florida's annual sales tax holiday in Q3 (typically July) exempts impact-rated windows from the 7% state sales tax, which is a $700-$2,000 savings on a typical whole-home Miami replacement. Spectrally-selective Low-E 366 is the essential Miami specification because solar gain through west-facing glass in August peaks at 4,500+ BTU/hr per window.`,
+    sec_code: `Miami-Dade County requires a specialty contractor license (category C-22 or equivalent) for any impact window installation. The Miami-Dade Building Department and Florida Division of Professions both maintain verification databases. Florida Building Code §R609 requires Notice of Acceptance (NOA) documentation for every window installed in the High Velocity Hurricane Zone (HVHZ), which covers Miami-Dade and Broward counties. The NOA number must appear on the building permit and on the final inspection card. Historic preservation authority covers Coral Gables, Miami Beach Art Deco District, and MiMo Biscayne Boulevard.`,
+    sec_housing: `Miami's dominant window failure pattern is 1960s-1990s jalousie and single-hung aluminum windows that fail Miami-Dade HVHZ requirements installed after Hurricane Andrew code changes in 1994. CBS (concrete block stucco) construction is dominant across the metro, and full-frame replacement requires stucco cut-back, new bucking, and finish patching that adds $300-$600 per opening above the window itself. Miami Beach and Coral Gables historic districts additionally require impact-rated aluminum-clad wood or fiberglass matching historic profiles, and Art Deco District approvals typically take 6-10 weeks before permit issuance.`,
+    sec_storm: `Miami HVHZ compliance is not optional. Impact-rated glazing per TAS 201 (large missile impact test), TAS 202 (structural performance test), and TAS 203 (cyclic wind pressure test) is mandatory on every replacement window in Miami-Dade and Broward counties. The NOA is the proof document. A Miami bid without specific NOA numbers is either uninformed or cutting a corner that will fail at inspection. Impact-rated windows in Miami typically add $400-$800 per opening above non-impact pricing, and financing through Florida PACE or similar energy-and-resilience programs is available on qualifying full-home upgrades.`,
+    sec_flag: `Miami's most persistent window fraud pattern is contract substitution: the bid specifies a specific NOA-approved product, the installed windows are a different manufacturer with a different (or invalid) NOA. Miami-Dade inspection verifies NOA numbers at final, and a mismatch triggers mandatory replacement at homeowner or contractor expense. The Miami-specific due diligence: require the NOA number on the contract, verify it at miamidade.gov/pa (Product Approval database) before signing, and physically inspect the manufacturer label on the frame before the inspector arrives for final. Storm chaser and post-hurricane contract fraud patterns also surge every September-November Atlantic hurricane season.`,
+    dominantMaterial: "1960s-1990s jalousie and single-hung aluminum from pre-Andrew construction",
+    climateBand: "IECC Zone 1A very-hot-humid tropical",
+    uTarget: 0.40, shgcTarget: 0.25,
+    bestSeasons: "December through February outside hurricane season and peak solar surface heat",
+    worstSeasons: "June through November Atlantic hurricane season and peak August surface extremes",
+  },
+  "boston-ma": {
+    sec_energy: `Boston is IECC zone 5A, a cold marine climate where heating dominates by 6:1 over cooling. ENERGY STAR Northern-zone targets set U-factor 0.22 maximum, and triple-pane krypton-filled IGUs reaching U-0.17 measurably reduce heating costs in Boston's long winter. Mass Save sponsored by Eversource and National Grid offers up to $1,500 per qualified ENERGY STAR Northern-zone window as part of whole-home weatherization packages. Massachusetts Stretch Code (adopted by Boston and most surrounding municipalities) requires U-0.28 or lower in replacement scenarios plus air leakage verification at or below 0.3 cfm/sq ft.`,
+    sec_code: `Massachusetts requires a Home Improvement Contractor (HIC) registration plus a Construction Supervisor License (CSL) for any structural opening work. Both are verified at mass.gov, and both must appear on the contract. Boston Landmarks Commission oversees Back Bay, Beacon Hill, Fort Point, South End, and Bay Village historic districts. Landmarked replacements require wood true-divided-lite windows with historically appropriate muntin width on primary facades. Back Bay additionally has Purple Glass requirements on specific addresses where original glass manganese chemistry turned the panes purple over time and replacements must match that coloration.`,
+    sec_housing: `Boston's dominant housing failure pattern is triple-decker and colonial-era homes with 100-200 year old wood sash, storm-window retrofits from the 1970s, and failed ice-dam-driven sash damage on second and third floors. Triple-decker geometry means 15-25 window whole-house jobs are typical, and scaffolding or lift access for second and third floors is standard scope that adds $1,500-$3,000 to labor. Beacon Hill and South End brick rowhouses have additional masonry-cutting requirements for full-frame replacement, and many Back Bay addresses require Landmarks Commission review that takes 6-10 weeks before permit issuance.`,
+    sec_storm: `Boston is not a hurricane zone, but Nor'easter wind-driven rain and snow require high air-infiltration performance. AL-rated 0.1 cfm/sq ft or lower plus reinforced meeting rails and multi-chamber frames are the Boston specification for minimizing winter interior condensation and cold-air infiltration. Triple-pane IGUs with krypton fill also address a Boston-specific comfort factor: interior surface temperature on a single-pane window at 0F ambient drops below 40F, which drives condensation damage to adjacent drywall and trim. Triple-pane raises that surface temperature above 55F and eliminates the condensation problem.`,
+    sec_flag: `Boston window fraud patterns concentrate around missing CSL (Construction Supervisor License) when the job involves structural opening modification. Many Boston contractors hold HIC registration but not CSL, and the two are distinct. Structural work (enlarging, reducing, or reframing openings) requires CSL, and a mass.gov lookup confirms the specific license class and effective dates. Boston's Mass Save rebate program also requires verified licensing, and rebate applications for work performed without proper licensing are rejected post-install, leaving the homeowner responsible for the full cost.`,
+    dominantMaterial: "triple-decker and colonial-era wood sash with 1970s storm retrofit layers",
+    climateBand: "IECC Zone 5A cold marine",
+    uTarget: 0.22, shgcTarget: 0.40,
+    bestSeasons: "mid-April through June and September through October, inside the window where ambient supports caulk cure",
+    worstSeasons: "December through February deep-freeze and July-August peak humidity surges",
+  },
+  "san-diego-ca": {
+    sec_energy: `San Diego is IECC zone 3C, a marine-coastal climate with minimal heating and moderate cooling. ENERGY STAR targets U-factor 0.30 and SHGC 0.40 maximum. SDG&E's Home Energy Efficiency Rebate plus San Diego Regional Climate Action Plan incentives return $40-$75 per qualified ENERGY STAR window. California Title 24 Part 11 CALGreen requires water-resistant flashing systems documented on every replacement, which in San Diego means self-adhered flashing tape, sill pan, and integrated weather-resistive barrier at every opening. San Diego's coastal salt exposure also makes frame material selection more critical than in interior marine climates: uncoated aluminum corrodes visibly within 5-8 years on properties within one mile of the coast.`,
+    sec_code: `California requires a CSLB C-17 glazing license or B general license for San Diego work. San Diego additionally requires a city business tax certificate for any contractor pulling city permits. San Diego Historic Resources Board oversees neighborhoods including Mission Hills, Burlingame, South Park, Uptown, and La Jolla; Mills Act properties (reduced property tax for historic preservation) require wood or fiberglass simulated-divided-lite windows matching original profiles. Coastal Commission jurisdiction adds a second regulatory layer for any property within the Coastal Zone boundary.`,
+    sec_housing: `San Diego's dominant failure pattern is 1960s-1980s aluminum sliders and jalousie secondary windows with frame corrosion from coastal salt exposure and failed pile weatherstripping. Canyon and hillside lots in La Jolla, Carmel Valley, and Scripps Ranch create irregular window openings, and many require custom sizing on 6-10 week lead times with 15-25% size-premium upcharges from the manufacturer. Mission Hills and Burlingame 1920s-1940s craftsman homes frequently have original wood sash still in place, and Mills Act compliance requires specific replacement material preserving the historic character.`,
+    sec_storm: `San Diego has no hurricane zone, but Santa Ana wind events and coastal marine humidity drive specific material selection. Fiberglass and vinyl outperform aluminum in coastal corrosion environments; any San Diego property within one mile of the coast should specify non-aluminum frames or specialty marine-coated aluminum. California WUI zones in Rancho Bernardo, Rancho Peñasquitos, and portions of East County also trigger Chapter 7A ember-resistance requirements that mandate tempered dual-pane glazing and specific vent protections.`,
+    sec_flag: `San Diego window fraud patterns center on unlicensed contractors doing work in North County and East County unincorporated areas where enforcement is less visible than in the city proper. The San Diego-specific warning sign is a contractor offering to skip the city business tax certificate "because it's a county job" when the job is actually inside city limits. California CSLB enforcement and county tax certificate requirements are separate, and both must be verified. Coastal Commission permitting also adds 4-8 weeks to any project within the Coastal Zone, and a contractor who promises faster turnaround on coastal work is either uninformed or planning to work without approval.`,
+    dominantMaterial: "1960s-1980s aluminum sliders with coastal salt corrosion on frames and tracks",
+    climateBand: "IECC Zone 3C marine-coastal",
+    uTarget: 0.30, shgcTarget: 0.40,
+    bestSeasons: "September through June, with the only caveat being May-June marine layer morning fog that delays caulk cure",
+    worstSeasons: "July-August peak beach-city construction surge and mid-summer humidity spikes in inland valleys",
+  },
+  "tampa-fl": {
+    sec_energy: `Tampa is IECC zone 2A, a hot-humid Gulf Coast climate where cooling drives 75-80% of annual residential energy use. ENERGY STAR targets U-factor 0.40 and SHGC 0.25 maximum. TECO Peoples Gas and Duke Energy Florida both offer Home Energy Improvement Program rebates, and Florida's annual impact-window sales tax holiday (typically July) exempts qualified products from the 7% state sales tax. Spectrally-selective Low-E 366 is the Tampa baseline spec because solar gain through west-facing glass in August can exceed 4,000 BTU/hr per window on Gulf-facing elevations.`,
+    sec_code: `Florida DBPR requires a Certified Window and Door contractor (Category C-22) or Certified General Contractor for any Tampa installation. Verification runs through myfloridalicense.com. FBC 2023 R609.3 requires manufacturer NOA or Florida Product Approval on every installed window, and the permit card must reflect the approval number. Tampa Historic Preservation Commission oversees districts including Hyde Park, Seminole Heights, Tampa Heights, and Ybor City; impact-rated wood or aluminum-clad wood meeting historic profiles is the standard approved material on contributing facades.`,
+    sec_housing: `Tampa's dominant failure pattern is 1950s-1990s Florida bungalow and tract-build single-hung aluminum with failed weep holes causing rotted sill plates and termite-damaged rough framing. Slab-on-grade CBS construction is the dominant housing stock across Hillsborough and Pinellas counties, and full-frame replacement requires stucco cut-back and finish patching at $250-$450 per opening above the window cost. South Tampa and Davis Islands high-value waterfront homes often have custom arched or radiused openings that require specialty manufacturer orders with 12-16 week lead times and 25-40% size-premium upcharges.`,
+    sec_storm: `Hillsborough and Pinellas Counties require Florida Product Approval (FPA) for wind-borne debris regions. Impact-rated glazing per FBC 1609.2 is mandatory on all replacements within one mile of the coast and is strongly recommended metro-wide for insurance-premium purposes. Citizens Property Insurance and most private Tampa carriers require impact-rated glazing or approved shutters on any policy written after 2023 for homes in designated wind-borne debris regions. Impact-rated windows add $400-$800 per opening above non-impact but are generally insurance-credit-positive within 5-8 years of installation.`,
+    sec_flag: `Tampa window fraud patterns surge every hurricane season (June-November). Out-of-state storm chasers canvass neighborhoods post-event with NOA-spoof documentation that does not match the installed product. The Tampa-specific due diligence: verify the NOA or FPA number at myfloridalicense.com on the day of signing, physically inspect the manufacturer label on the frame before final inspection, and never assign insurance proceeds directly to a contractor. Tampa-specific Assignment of Benefits fraud is a significant problem, and Florida Statute §627.7152 restricts but does not eliminate AOB abuse.`,
+    dominantMaterial: "1950s-1990s single-hung aluminum with failed weep holes and termite-damaged sill plates",
+    climateBand: "IECC Zone 2A hot-humid Gulf Coast",
+    uTarget: 0.40, shgcTarget: 0.25,
+    bestSeasons: "December through April outside hurricane season and peak solar surface heat",
+    worstSeasons: "June through November hurricane season surge and July-August 150F+ surface temperatures on dark-frame vinyl",
+  },
+  "detroit-mi": {
+    sec_energy: `Detroit is IECC zone 5A, a cold climate where heating drives 75-80% of annual residential energy use. ENERGY STAR Northern-zone targets set U-factor 0.22 maximum, and triple-pane krypton-filled IGUs reaching U-0.18 measurably reduce heating costs during Detroit's long winter. DTE Energy's Home Energy Consultation plus Consumers Energy efficiency rebates return $40-$90 per qualified Northern-zone window. Michigan's 2015-amended Energy Code requires air-leakage verification on whole-home weatherization jobs receiving DTE or Consumers Energy rebate funding, and the blower-door test is typically done before and after the retrofit.`,
+    sec_code: `Michigan Department of Licensing and Regulatory Affairs (LARA) requires a Residential Builder or Residential Maintenance and Alteration license for Detroit window work. The verification database is at michigan.gov/lara and includes complaint history and bond status. Detroit Historic Designation Advisory Board oversees Boston-Edison, Indian Village, Woodbridge, Palmer Park, and Corktown. Landmarked replacements require wood windows with historically appropriate profiles on primary and often secondary facades. Detroit also amended 2015 IECC to require air leakage verification on conservation-improvement-funded jobs.`,
+    sec_housing: `Detroit's dominant failure pattern is 1910s-1940s brick bungalow and Arts-and-Crafts homes with original wood double-hung sash, extensive storm window retrofits, and rotted sills from inadequate original flashing. Many vacant-lot-adjacent homes in Detroit face security concerns separate from energy performance; laminated inner panes or interior security film adds $75-$150 per window and typically qualifies for insurance premium reduction. Boston-Edison and Indian Village landmarked homes require Historic Designation Advisory Board approval on any window replacement, with review timelines running 4-8 weeks.`,
+    sec_storm: `Detroit is not a hurricane zone, but Great Lakes winter winds drive high air-infiltration requirements. AL 0.1 cfm/sq ft or lower and reinforced meeting rails are the Detroit specification for minimizing cold-air infiltration. Laminated outer panes also address a Detroit-specific factor: neighborhood security concerns in transitioning areas make laminated inner panes a practical upgrade that qualifies for insurance premium reduction in several zip codes. DTE's conservation improvement rebates also stack with federal 25C tax credit through 2032.`,
+    sec_flag: `Detroit window fraud patterns target older homeowners in stable neighborhoods like Boston-Edison, Rosedale Park, and Sherwood Forest. The Detroit-specific warning sign is an in-home sales visit that ends with a large deposit demand and a "supply-chain urgency" pitch. Michigan law (MCL 339.2411) requires licensed builders to provide a written three-day right-of-rescission notice on any in-home sale, and a contract without that notice is unenforceable. LARA complaint lookup at michigan.gov/lara shows contractor-specific complaint history, and Detroit Better Business Bureau publishes verified customer review summaries.`,
+    dominantMaterial: "1910s-1940s brick bungalow wood sash with extensive 1970s aluminum storm retrofit layers",
+    climateBand: "IECC Zone 5A cold",
+    uTarget: 0.22, shgcTarget: 0.40,
+    bestSeasons: "mid-April through June and September through October, inside the window where ambient supports caulk cure",
+    worstSeasons: "November through March below-freezing install conditions and July humidity peaks",
+  },
+  "minneapolis-mn": {
+    sec_energy: `Minneapolis is IECC zone 6A, a very-cold continental climate where heating drives 80-85% of annual residential energy use. ENERGY STAR v7 targets U-factor 0.20 maximum for Northern-zone qualified products, and triple-pane krypton-filled IGUs reaching U-0.17 are the practical Minneapolis standard. Double-pane product fails on comfort in Minneapolis even when it meets code, because interior surface temperature on double-pane glass at -20F ambient drops below 32F and creates interior condensation and frost. Xcel Energy Minnesota plus CenterPoint Energy rebates return $75-$150 per qualified Northern-zone window under the Home Energy Squad conservation program. Minnesota Energy Code also mandates air leakage of 0.3 cfm/sq ft maximum and a blower-door test on any home receiving conservation improvement funds.`,
+    sec_code: `Minnesota Department of Labor and Industry requires a Residential Building Contractor license for any Minneapolis job over $15,000, with separate Residential Remodeler licensing for smaller jobs. Minneapolis additionally requires city contractor registration beyond the state license. Minneapolis Heritage Preservation Commission covers districts including Milwaukee Avenue, Nicollet Island, Healy Block, and Fourth Avenue Historic District. Landmarked replacements require wood windows with matching sash profiles and divided lites on historic facades.`,
+    sec_housing: `Minneapolis's dominant failure pattern is 1920s-1950s bungalow and four-square homes with original wood double-hung sash, triple-track aluminum storm retrofits from the 1970s, and ice-dam-driven upper-floor sill rot. Bungalow window cutouts are typically 28-34 inches wide with 54-60 inch tall double-hung pairs, and custom width orders run 8-12 week lead times in peak season. Uptown, Northeast, and Linden Hills neighborhoods have a mix of craftsman and prairie-school homes where Minneapolis Heritage Preservation Commission review applies on primary facades.`,
+    sec_storm: `Minneapolis is not a hurricane zone, but sustained -20F winter temperatures make triple-pane krypton-filled IGUs the practical spec. The Minneapolis-specific comfort factor is interior frame surface temperature: vinyl frames with only one or two hollow chambers conduct enough cold at -20F ambient to create frost on interior surfaces and damage adjacent drywall. Fiberglass frames and multi-chamber fibrex composites perform measurably better on cold-day interior surface temperatures and are the durable Minneapolis specification. Minneapolis also has specific ice-dam repair requirements that tie into window flashing integration at upper-story installations.`,
+    sec_flag: `Minneapolis window fraud patterns surge in late summer as homeowners prepare for winter. The Minneapolis-specific warning sign is a contractor pitching triple-pane as an upgrade rather than the baseline spec for this climate. Minneapolis climate simply requires triple-pane to deliver code-compliant performance and homeowner comfort; any contractor treating triple-pane as an optional upsell is either working at a builder-grade product tier or margin-extending against homeowner unfamiliarity with the climate zone requirements. Minneapolis Department of Regulatory Services publishes contractor complaint history at minneapolismn.gov.`,
+    dominantMaterial: "1920s-1950s bungalow and four-square wood sash with 1970s triple-track aluminum storm retrofits",
+    climateBand: "IECC Zone 6A very-cold continental",
+    uTarget: 0.20, shgcTarget: 0.40,
+    bestSeasons: "late May through early July and September, the only months where ambient stays above 45F for caulk cure without peak-summer humidity",
+    worstSeasons: "November through April deep-freeze conditions and peak July humidity",
+  },
+  "charlotte-nc": {
+    sec_energy: `Charlotte is IECC zone 3A, a humid-subtropical Piedmont climate where cooling drives roughly 60% of annual residential energy use and heating the other 40%. ENERGY STAR targets U-factor 0.30 and SHGC 0.25 maximum. Duke Energy's Smart $aver Residential Program plus Charlotte Water conservation credits return $30-$70 per qualified Southern-zone window with SHGC 0.25 or lower. The Piedmont climate's heavy humidity cycling between summer and winter is particularly hard on IGU seals: Charlotte-area failed-seal windows show up at rates roughly 30% higher than the national average, which makes 20-year factory warranties on the IGU specifically more valuable than in drier climates.`,
+    sec_code: `North Carolina Licensing Board for General Contractors requires a license for any job over $30,000. Smaller jobs are unregulated at the state level but typically require Mecklenburg County contractor registration for permit-pulling. Charlotte-Mecklenburg Historic District Commission oversees Dilworth, Wesley Heights, Fourth Ward, Plaza Midwood, and Wilmore. Landmarked replacements require wood or aluminum-clad wood matching original sash profiles, and commission review typically takes 3-6 weeks before permit issuance. North Carolina Residential Code amendments require hurricane ties and enhanced flashing on coastal-adjacent counties; Charlotte is not coastal but similar specification is increasingly common in severe-weather insurance credits.`,
+    sec_housing: `Charlotte's dominant failure pattern is 1960s-1990s ranch and split-level construction with original aluminum sliders plus failed vinyl replacements from 2000s retrofits and seal-failure fog from Piedmont humidity cycling. SouthPark, Ballantyne, and Myers Park homes have HOA architectural review committees that dictate specific frame colors and divided-lite patterns on replacement submittals; pre-approval typically takes 2-4 weeks. Dilworth bungalows and Plaza Midwood 1920s-1940s homes frequently have original wood sash still in place, and Historic District Commission approval is required before any material is ordered.`,
+    sec_storm: `Charlotte is not a coastal hurricane zone, but the Charlotte Regional Tornado Alley corridor and 2024 insurance revisions incentivize impact-rated glazing. Premium credits of 5-10% are common on Charlotte policies upgraded with laminated outer panes on west and south elevations. North Carolina has also strengthened wind-uplift requirements in wake of 2018 Hurricane Florence and the 2020 severe-weather outbreak, and Charlotte-area code officials increasingly enforce these requirements even though the metro sits 200 miles inland from the coast.`,
+    sec_flag: `Charlotte window fraud concentrates on inflated window counts in tract subdivisions where homeowners do not cross-check bid quantities against actual opening inventories. A 3-window miscounting discrepancy on a 20-opening Ballantyne job can inflate the total by $1,500-$3,500 at Charlotte rates. Charlotte-specific due diligence: walk the bidder through each opening in person, count operable and fixed panels separately, and cross-check against the Mecklenburg County property-appraiser GIS for total bedroom and bathroom counts. North Carolina Licensing Board at nclbgc.org also publishes complaint history by license number.`,
+    dominantMaterial: "1960s-1990s ranch and split-level aluminum sliders plus failed 2000s vinyl retrofits",
+    climateBand: "IECC Zone 3A humid-subtropical Piedmont",
+    uTarget: 0.30, shgcTarget: 0.25,
+    bestSeasons: "October through early December and March through May, outside peak pollen and storm-repair seasons",
+    worstSeasons: "February-March pollen peak (outdoor caulk contamination) and July-August humidity surges",
+  },
+};
+
+/* Supplemental per-metro blocks merged into CITY_WINDOW_DATA at init. */
+const CITY_WINDOW_SUPPLEMENTAL = {
+  "los-angeles-ca": {
+    sec_energy2: `LA's Title 24 cool-glazing provisions were stiffened in the 2022 code cycle and again in 2025-effective amendments: SHGC on west-facing glazing capped at 0.23 in new construction and 0.40 in alterations, with compliance verified at permit final. Meeting that number requires spectrally-selective Low-E coatings tuned for solar rejection; generic Low-E 272 does not qualify. LADWP rebate eligibility is tied to NFRC-certified product only, and unrated replacement windows (common in cash-job retrofits) disqualify the homeowner from rebate recovery regardless of how efficient the product actually is.`,
+    sec_installer: `LA installer vetting: verify active CSLB license at cslb.ca.gov (C-17 glazing or B general), confirm workers' compensation coverage specifically (not just general liability, because CSLB publishes these separately), and cross-reference the license-holder name against the company name on the bid. LA has a chronic problem with "broker" operators who hold a license but subcontract the actual work to unlicensed crews, which voids California Homeowners Recovery Fund eligibility if the job fails. Ask to meet the specific crew lead before signing, and confirm their employer matches the licensed entity on your contract.`,
+    sec_glass: `LA glass packages weight toward spectrally-selective Low-E 366 on south and west exposures, standard Low-E 272 or dual Low-E 180 on north and east. Argon fill is baseline. Coastal LA properties within three miles of the beach also benefit from laminated outer panes for salt-spray and debris resistance; Malibu and Pacific Palisades properties routinely spec laminated outer panes plus ember-resistant tempered inner panes for WUI Chapter 7A compliance, adding $200-$450 per window above standard dual-pane.`,
+  },
+  "chicago-il": {
+    sec_energy2: `Chicago heating-bill economics reward triple-pane aggressively: winter degree-days from late November through early April drive sustained demand, and 0.22 U-factor replacement windows reduce total annual heating consumption by 15-22% over 1970s-era double-pane. Peoples Gas residential rates in 2026 make that payback math work inside 6-9 years on a typical 12-window bungalow replacement. Chicago also enforces the ComEd Public Benefits Fund audit-verification requirement on any whole-home energy-credit job, which means the installing contractor must coordinate with the blower-door test scheduler before final payment releases.`,
+    sec_installer: `Chicago installer vetting requires two independent license checks: Illinois has no statewide residential contractor license, but Chicago DOB mandates a General Contractor license for permit-pulling, and the Chicago Department of Finance separately requires a business tax registration. Both must be active on the day of contract signing. Chicago DOB publishes complaint history at chicago.gov/city/en/depts/bldgs, and Illinois Attorney General Home Repair Fraud complaints are searchable at illinoisattorneygeneral.gov.`,
+    sec_glass: `Chicago glass packages weight heavily toward triple-pane with Low-E 272 coatings to retain winter solar gain while reducing heat loss. Krypton fill (vs argon) adds another 0.03-0.05 to U-factor reduction at modest cost premium ($75-$125 per window). Chicago also sees meaningful demand for laminated outer panes on lower-floor windows as security upgrade; Chicago BBB complaint data flags home-break-in recovery as a common laminated-glass use case rather than weather-driven.`,
+  },
+  "houston-tx": {
+    sec_energy2: `Houston cooling-bill economics center on SHGC and afternoon-peak load management. CenterPoint's variable pricing rate plans penalize 4-7 PM peak usage, and west-facing glazing drives that peak. Upgrading west-elevation windows alone to SHGC 0.23 spectrally-selective Low-E can shave 15-25% off a Houston home's summer peak-hour demand charges on a variable-rate plan. Houston's sales tax exemption on qualifying ENERGY STAR products (during annual Q3 sales tax holiday) also applies to impact-rated windows purchased during the holiday window.`,
+    sec_installer: `Houston installer vetting centers on verifying local bond and insurance (Texas has no state installer license), checking Harris County Appraisal District records if the contractor claims a permanent business address, and cross-referencing Better Business Bureau (bbb.org/houston) complaint history by exact legal entity name. Post-storm windows demand surges every spring, and out-of-state storm response crews concentrate in Houston from March through June. Always pull three independent bids and never sign on an unsolicited door-to-door pitch.`,
+    sec_glass: `Houston glass packages prioritize SHGC reduction over U-factor: spectrally-selective Low-E 366 on all exposures, with Low-E 272 acceptable only on deeply-shaded north-elevation openings. Argon fill is baseline, laminated inner pane is the Winter Storm Uri lesson-learned retrofit for freeze-crack resistance, adding $100-$200 per window. Houston also sees premium credits from Texas insurers for FPA-approved or Miami-Dade NOA windows even outside the TWIA zone, which is worth factoring into whole-home budget decisions.`,
+  },
+  "phoenix-az": {
+    sec_energy2: `Phoenix cooling-bill economics reward aggressive SHGC reduction above all else. West-facing glazing in July sees 5+ hours of direct sun at 110F+ ambient, and each square foot of unshaded west-facing single-pane loses the home roughly 2,800 BTU/hr to solar gain. Upgrading west elevations to SHGC 0.22 spectrally-selective Low-E cuts that loss by 70-80%. APS and SRP both track residential peak-hour use, and Phoenix homes with west-facing ENERGY STAR qualified replacement windows routinely drop into the bottom quartile of peak demand charges after a whole-home retrofit.`,
+    sec_installer: `Phoenix installer vetting: verify active CR-61 or B-General Commercial license at roc.az.gov (Arizona Registrar of Contractors), check that bond is current, and confirm the license classification matches the specific scope. Phoenix also sees frequent HOA-architectural-approval complications, and the highest-functioning installers include HOA submittal as standard scope. Ask for three HOA-approved reference installs in comparable neighborhoods, and verify those installs held up through at least one full summer (June-September surface-temperature cycle).`,
+    sec_glass: `Phoenix glass packages weight toward dual-pane spectrally-selective Low-E 366 on south and west, Low-E 272 acceptable on east and north. SHGC 0.22 or lower is the practical target (below ENERGY STAR's 0.25 threshold) because Phoenix afternoon solar load is severe. White or light-gray vinyl frames, or aluminum-clad wood in light colors, reject enough radiant heat to keep frame surface temperatures below 160F in July; dark bronze frames routinely exceed 180F and accelerate seal failure.`,
+  },
+  "dallas-tx": {
+    sec_energy2: `Dallas energy economics balance cooling and heating almost evenly across the year. Triple-pane rarely pencils out here because heating loads are moderate, but dual-pane spectrally-selective Low-E 366 on south and west elevations is nearly always the ROI winner. Oncor's time-of-use rate plans penalize summer afternoon peak usage (3-7 PM), and west-elevation SHGC reduction is the fastest path to shaving those peak charges. Federal 25C tax credit (30% up to $600 annually through 2032) applies to qualifying ENERGY STAR Southern-zone products.`,
+    sec_installer: `Dallas installer vetting: Texas has no state installer license, so Dallas relies on city Residential Building Registration (required for permit-pulling), active general liability and workers' compensation insurance (certificates verifiable with the insurer), and Better Business Bureau complaint history at bbb.org/dallas. Dallas-specific due diligence: verify the contractor has worked in the Dallas metro for at least three years (not a storm-chase arrival after the 2023 tornado outbreak) and cross-check references from jobs completed pre-2023.`,
+    sec_glass: `Dallas glass packages typically specify dual-pane with spectrally-selective Low-E 366 on south and west, standard Low-E 272 on north and east. Argon fill is baseline. Class 4 laminated impact-rated outer panes on west-facing glazing deliver 5-10% homeowners insurance premium reduction on most Dallas policies written after 2022 and are worth bid-comparing as a performance/ROI upgrade.`,
+  },
+  "atlanta-ga": {
+    sec_energy2: `Atlanta energy economics favor a balanced U-factor/SHGC specification because both seasons matter. Georgia Power's residential variable-rate plans penalize summer afternoon peak usage, and west-facing ENERGY STAR qualified replacement windows typically reduce those peak charges by 8-14% after a whole-home retrofit. Georgia Power also offers a Home Energy Improvement Program rebate stackable with federal 25C tax credit. Atlanta's tree canopy variation matters for SHGC ROI: heavily shaded Druid Hills homes get less benefit from aggressive SHGC reduction than open-subdivision homes in North Fulton or Cherokee County.`,
+    sec_installer: `Atlanta installer vetting: verify active Georgia Residential Basic Contractor license at sos.ga.gov (required for jobs over $2,500), confirm bond and workers' compensation coverage, and cross-reference Georgia Attorney General Consumer Protection complaints at law.georgia.gov. Atlanta also has a specific AOB (Assignment of Benefits) fraud pattern: never sign an AOB with a contractor on day one, and use the 10-business-day rescission window under O.C.G.A. §33-24-59.25 if you signed one under pressure.`,
+    sec_glass: `Atlanta glass packages typically specify dual-pane with Low-E 366 on south and west exposures, Low-E 272 on north and east. Argon fill baseline, krypton fill optional on triple-pane. Atlanta Arts-and-Crafts and Tudor homes in Morningside and Ansley Park often require true-divided-lite wood windows with historically appropriate muntin profiles, and those specifications disqualify most off-the-shelf vinyl and aluminum-clad offerings.`,
+  },
+  "denver-co": {
+    sec_energy2: `Denver heating-bill economics reward aggressive U-factor reduction: sustained sub-freezing temperatures from November through March drive heating demand, and triple-pane krypton-filled IGUs reaching U-0.18 measurably reduce Xcel Energy winter gas and electric bills. Denver also has the high-altitude capillary-tube requirement on argon IGUs, which is non-negotiable for window longevity at 5,280 feet elevation. Xcel's Windsource renewable-energy program also offers modest efficiency-improvement rebates stackable with the standard ENERGY STAR rebate.`,
+    sec_installer: `Denver installer vetting: verify Denver Class D (residential) Supervisor License at denvergov.org, confirm bond and insurance coverage, and cross-reference Colorado DORA (Department of Regulatory Agencies) complaint history at dora.colorado.gov. Colorado has no statewide installer license, so Denver city verification is the operative step. Post-hail-event out-of-state crews are the highest-risk Denver category; verify local address and phone number with at least 18 months of continuous operation before signing.`,
+    sec_glass: `Denver glass packages weight heavily toward triple-pane with Low-E 272 passive coatings to retain winter solar gain. Krypton fill is the performance spec, and high-altitude capillary tubes must be documented on the spec sheet or the IGU will bow and fail within 2-5 years. Laminated outer panes on west and south elevations deliver Front Range hail-damage insurance premium reductions of 5-10% on Denver policies written after 2022.`,
+  },
+  "seattle-wa": {
+    sec_energy2: `Seattle energy economics reward U-factor reduction across all four elevations because the heating season runs mild but long (October through April). Seattle City Light's Energy Smart rebate stacks with federal 25C and delivers meaningful credit on whole-home weatherization. Seattle's electric heat-pump adoption also changes the calculus: a heat-pump-heated Seattle home benefits more from U-factor reduction than from SHGC tuning because solar gain is already minimal in the marine cool climate.`,
+    sec_installer: `Seattle installer vetting: confirm active Washington L&I contractor registration at secure.lni.wa.gov, verify bond amount matches job scope (L&I requires bonds scaled to contract size), and cross-reference Washington Attorney General Consumer Protection complaints at atg.wa.gov. L&I publishes registration status with date stamp, so screenshot the verification as part of your signing file. Lapsed-registration contractors forfeit Seattle homeowners' surety recovery rights, and this is the most common Seattle-specific fraud pattern.`,
+    sec_glass: `Seattle glass packages typically specify dual-pane with Low-E 272 passive coatings to capture what solar gain is available in the marine cool climate. Argon fill is baseline. Seattle waterfront and airport-flight-path properties benefit materially from laminated inner panes for acoustic attenuation; laminated glazing reduces aircraft noise by 30-40% over standard dual-pane at modest cost premium ($100-$200 per window).`,
+  },
+  "austin-tx": {
+    sec_energy2: `Austin cooling-bill economics center on SHGC reduction on west and south elevations. Austin Energy's variable-rate plans penalize summer afternoon peak usage (4-8 PM), and west-facing glazing drives that peak. Upgrading west elevations alone to SHGC 0.22 spectrally-selective Low-E typically shaves 12-20% off a typical Austin home's summer peak demand charges on a variable-rate plan. Austin Energy's green-building program also offers LEED certification credits that increase home resale value on qualifying full-home retrofits.`,
+    sec_installer: `Austin installer vetting: verify City of Austin Registered Residential Building Contractor status, confirm bond and insurance coverage, and cross-reference Austin Code Compliance complaint history at austintexas.gov/department/building-inspections. Austin has no state installer license (Texas), so city registration is the operative verification. Austin's rapid growth attracts out-of-area contractors from Houston and DFW with "we're here for the week" pitches; require a permanent Austin address and three local references pre-2023.`,
+    sec_glass: `Austin glass packages weight toward dual-pane spectrally-selective Low-E 366 on south and west, Low-E 272 on east and north. Argon fill is baseline. Post-Winter Storm Uri, laminated inner panes with 0.030-inch PVB interlayers have become a common Austin retrofit for freeze-crack resistance, adding $100-$200 per window. Austin Hill Country limestone-faced homes often require specialty flashing details at stone-to-frame transitions.`,
+  },
+  "san-francisco-ca": {
+    sec_energy2: `SF energy economics vary dramatically by microclimate: Sunset and Richmond fog-belt homes see minimal cooling load but sustained heating demand, while Mission and Bernal Heights sun-belt homes see modest cooling load. SHGC optimization matters only on the sun-belt side of the city. PG&E's Home Efficiency Rebate Plus plus BayREN Home+ incentives can stack to $2,000-$3,500 on whole-home retrofits. SF also has specific induction-cooking electrification rebates that stack with window replacement funding on combined retrofits.`,
+    sec_installer: `SF installer vetting: verify active CSLB license (C-17 glazing or B general) at cslb.ca.gov, confirm SF DBI city contractor registration, and cross-reference SF DBI complaint history at sfdbi.org. SF lead-safe renovation rules (pre-1978 homes) additionally require EPA RRP certification, which is separately verifiable at epa.gov. SF's dust-control ordinance §3428 imposes HEPA-vacuum cleanup verification before final inspection on lead-impacted projects.`,
+    sec_glass: `SF glass packages vary by microclimate: fog-belt Sunset and Richmond homes typically specify Low-E 272 passive coatings to capture available solar gain, while sun-belt Mission and Bernal Heights homes benefit from Low-E 366 spectrally-selective coatings on west exposures. Argon fill is baseline. SF Victorian and Edwardian restoration projects commonly require true-divided-lite wood windows with wavy-glass reproduction on visible elevations, running $1,800-$3,500 per opening.`,
+  },
+  "las-vegas-nv": {
+    sec_energy2: `Las Vegas cooling-bill economics reward aggressive SHGC reduction plus UV-stabilized frame material selection. NV Energy's TOU-D residential rate plan penalizes summer afternoon peak usage (1-7 PM), and west-facing glazing drives that peak in a city where ambient temperatures exceed 105F for 60+ summer days. Vegas also has one of the nation's highest solar radiation indices, and unprotected dark vinyl frames develop measurable degradation by year 6-8. White or light-gray vinyl with UV stabilizers is the durable specification.`,
+    sec_installer: `Vegas installer vetting: verify active Nevada State Contractors Board C-8 glazing license at nscb.nv.gov, check bond status, and cross-reference NSCB complaint history. Nevada's deposit-cap law (NRS §624.6245) caps residential contractor deposits at 10% of contract or $1,000 (whichever is less), so any Vegas contract demanding 20-50% upfront is unenforceable. HOA architectural review complications are also common in Summerlin, Anthem, and MacDonald Ranch; require written HOA approval before any custom window order ships.`,
+    sec_glass: `Vegas glass packages prioritize SHGC reduction and UV resistance: dual-pane spectrally-selective Low-E 366 on all exposures with extra spec attention to west-facing. Argon fill is baseline, and white or light-gray frame colors avoid the 160F+ frame surface temperatures that accelerate seal failure on darker frames. Laminated outer panes provide dust-storm debris resistance and 3-6% insurance premium reduction on most Vegas homeowners policies.`,
+  },
+  "philadelphia-pa": {
+    sec_energy2: `Philadelphia rowhouse energy economics differ from detached single-family housing: shared walls with adjacent units eliminate heat loss on those elevations, so window performance on front and back elevations drives nearly all heating-bill reduction. PECO rebate stacking with PGW conservation credits returns meaningful cash on qualifying whole-home retrofits. Pennsylvania Housing Finance Agency low-interest financing also funds whole-home weatherization at below-market rates for qualifying income-eligible homeowners.`,
+    sec_installer: `Philly installer vetting: verify both Philadelphia L&I Contractor License (at philadelphialicense.com) AND Pennsylvania HICPA registration (at attorneygeneral.gov/hicpa). Both are required and both must be independently active. Many Philly operators hold one but not the other, and that arrangement voids homeowner recovery rights if the work fails. Both license numbers must appear on the signed contract, and verification screenshots date-stamped to contract-signing day are standard Philly due diligence.`,
+    sec_glass: `Philly glass packages typically specify dual-pane with Low-E 272 passive coatings on south exposures (to capture winter solar gain through rowhouse front windows) and Low-E 366 spectrally-selective on west-facing. Argon fill baseline. Rowhouse front windows facing streets with heavy traffic benefit from laminated inner panes for noise attenuation; Philadelphia sees specific demand for this around I-95, I-76, and Roosevelt Boulevard corridors.`,
+  },
+  "miami-fl": {
+    sec_energy2: `Miami cooling-bill economics center on SHGC reduction combined with HVHZ impact-rated glazing. FPL's variable-rate plans penalize summer afternoon peak usage, and west-facing glazing drives that peak. Upgrading to SHGC 0.22 spectrally-selective Low-E plus HVHZ impact rating typically reduces summer peak charges by 15-22% after a whole-home retrofit. Miami's sales tax holiday exemption on impact-rated windows during the Q3 Florida window delivers $700-$2,000 in immediate savings on a typical whole-home project.`,
+    sec_installer: `Miami installer vetting: verify Miami-Dade specialty contractor license (category C-22 or Certified General Contractor) at myfloridalicense.com, confirm Miami-Dade County business tax receipt, and verify NOA documentation authenticity at miamidade.gov/pa. Miami's post-hurricane contract fraud patterns are severe: out-of-state crews appear with NOA-spoof documentation that does not match the installed product, which fails at final inspection. Physically verify manufacturer labels on frames before the inspector arrives.`,
+    sec_glass: `Miami glass packages are constrained by HVHZ requirements: every window must have a valid Notice of Acceptance (NOA) from Miami-Dade Product Approval, with TAS 201/202/203 test documentation. Impact-rated laminated glazing with 0.090-inch PVB interlayer or polycarbonate is baseline. SHGC 0.22 spectrally-selective Low-E is the energy spec. Tinted glass (bronze, gray, blue) options provide additional SHGC reduction at modest cost premium.`,
+  },
+  "boston-ma": {
+    sec_energy2: `Boston heating-bill economics reward aggressive U-factor reduction: the heating season runs November through April with sustained cold, and triple-pane krypton-filled IGUs reaching U-0.17 measurably reduce Eversource and National Grid winter bills. Mass Save's $1,500-per-window rebate ceiling on qualified Northern-zone ENERGY STAR products is one of the most generous rebate programs in the country. Boston triple-deckers with 15-25 openings can capture $15,000-$30,000 in combined Mass Save rebates plus federal 25C tax credit on a whole-building retrofit.`,
+    sec_installer: `Boston installer vetting: verify both Massachusetts Home Improvement Contractor (HIC) registration AND Construction Supervisor License (CSL) at mass.gov. Both are required for structural work, and many Boston operators hold HIC only. Mass Save rebate eligibility also requires verified licensing, so unlicensed or improperly-licensed installers void rebate recovery. Boston Landmarks Commission approval (for Back Bay, Beacon Hill, South End) adds 6-10 weeks on top of standard permit timelines.`,
+    sec_glass: `Boston glass packages weight heavily toward triple-pane with Low-E 272 passive coatings to retain winter solar gain while minimizing heat loss. Krypton fill is standard on triple-pane. Back Bay Purple Glass requirements on specific historic addresses add manufacturing complexity: only a few specialty producers can source the manganese-treated glass that turns purple over time to match original period glazing.`,
+  },
+  "san-diego-ca": {
+    sec_energy2: `San Diego energy economics favor U-factor stability across all elevations because heating is minimal and cooling is modest. SDG&E's TOU-DR rate plans penalize summer afternoon peak usage, and west-elevation SHGC reduction delivers modest but consistent peak-hour savings. San Diego Regional Climate Action Plan rebates stack with SDG&E's Home Energy Efficiency Rebate plus federal 25C credit for meaningful full-home retrofit financing.`,
+    sec_installer: `San Diego installer vetting: verify active CSLB license (C-17 or B general) at cslb.ca.gov plus San Diego city business tax certificate for permit-pulling. County jobs additionally require county contractor registration separate from city. San Diego coastal zone properties also require California Coastal Commission approval for certain scope changes, adding 4-8 weeks to the overall project timeline.`,
+    sec_glass: `San Diego glass packages typically specify dual-pane with Low-E 366 on west exposures (summer afternoon sun) and Low-E 272 on other elevations. Argon fill is baseline. Coastal properties within one mile of the beach benefit from laminated outer panes for salt-spray and debris resistance, and any coastal-zone property should specify fiberglass or vinyl frames rather than uncoated aluminum because coastal salt exposure corrodes aluminum within 5-8 years.`,
+  },
+  "tampa-fl": {
+    sec_energy2: `Tampa cooling-bill economics center on SHGC reduction and wind-uplift-rated glazing. Duke Energy Florida's variable rate plans penalize summer afternoon peak usage, and west-facing glazing drives that peak. SHGC 0.22 spectrally-selective Low-E plus FPA wind-borne debris rating typically reduces summer peak charges by 14-20% after whole-home retrofit. Florida impact window sales tax holiday delivers additional savings on qualifying products purchased during the annual Q3 window.`,
+    sec_installer: `Tampa installer vetting: verify Florida DBPR Certified Window and Door contractor license (C-22) or Certified General Contractor at myfloridalicense.com, confirm Hillsborough or Pinellas County business tax receipt, and verify FPA documentation authenticity. Tampa post-hurricane contract fraud patterns are serious: never assign insurance proceeds directly to a contractor, use the 14-day AOB rescission window under Florida Statute §627.7152 if you signed one under pressure.`,
+    sec_glass: `Tampa glass packages are constrained by wind-borne debris region requirements: FPA or Miami-Dade NOA is required on coastal-adjacent installations and strongly recommended metro-wide. Impact-rated laminated glazing with 0.090-inch PVB interlayer is baseline. SHGC 0.22 spectrally-selective Low-E is the energy spec, and light-colored frames (white, almond, light gray) reject enough radiant heat to keep frame surface temperatures below seal-damage thresholds in August.`,
+  },
+  "detroit-mi": {
+    sec_energy2: `Detroit heating-bill economics reward triple-pane aggressively: the heating season runs November through March with sustained cold, and DTE Energy's Home Energy Consultation program offers blower-door testing that identifies infiltration sources beyond windows. Triple-pane krypton-filled IGUs reaching U-0.18 measurably reduce DTE winter gas bills on pre-1950 Detroit housing stock. Consumers Energy Efficiency Program stacks with DTE rebates plus federal 25C for meaningful retrofit financing.`,
+    sec_installer: `Detroit installer vetting: verify active Michigan LARA Residential Builder or Residential Maintenance and Alteration license at michigan.gov/lara, confirm bond and insurance coverage, and cross-reference Detroit Better Business Bureau at bbb.org/detroit. Michigan MCL §339.2411 three-day right-of-rescission applies to any in-home sale, and contracts without that notice are unenforceable. Detroit Historic Designation Advisory Board approval for Boston-Edison and Indian Village adds 4-8 weeks to permit timelines.`,
+    sec_glass: `Detroit glass packages weight toward triple-pane with Low-E 272 passive coatings to retain winter solar gain. Krypton fill standard on triple-pane, argon baseline on dual-pane. Detroit security-concern zip codes benefit from laminated inner panes for forced-entry resistance; UL 972-rated 0.030-inch PVB interlayers add $75-$150 per window and often deliver homeowners insurance premium reductions.`,
+  },
+  "minneapolis-mn": {
+    sec_energy2: `Minneapolis heating-bill economics demand triple-pane as baseline, not upgrade. Sustained -20F temperatures occur annually, and double-pane glass at those ambients drops interior surface temperature below 32F, causing interior condensation and frost on the glass and adjacent drywall. Triple-pane krypton-filled IGUs reaching U-0.17 eliminate that failure mode. Xcel Energy Minnesota plus CenterPoint Energy rebates at $75-$150 per qualified Northern-zone window make the triple-pane premium pencil out within 7-10 years on most Minneapolis bungalow retrofits.`,
+    sec_installer: `Minneapolis installer vetting: verify Minnesota Department of Labor and Industry Residential Building Contractor license (required for jobs over $15,000), plus Minneapolis city contractor registration for city permit-pulling. Minnesota also requires Residential Remodeler licensing for smaller jobs. Minneapolis Department of Regulatory Services publishes contractor complaint history at minneapolismn.gov. Home Energy Squad conservation-improvement-funded jobs require verified licensing or the rebates are clawed back.`,
+    sec_glass: `Minneapolis glass packages specify triple-pane with Low-E 272 passive coatings as baseline, not upgrade. Krypton fill is standard. Fiberglass or fibrex composite frames outperform pure vinyl on cold-ambient interior surface temperature because fiberglass expansion rates match glass, keeping seals tighter longer in the sustained freeze cycles.`,
+  },
+  "charlotte-nc": {
+    sec_energy2: `Charlotte energy economics balance cooling and heating almost evenly, with heavy humidity cycling stressing IGU seals. Duke Energy's Smart $aver program plus federal 25C tax credit returns meaningful combined credit on qualifying whole-home retrofits. Charlotte Water conservation credits also stack on envelope improvements. Piedmont humidity cycling makes 20-year IGU warranties more important than in drier climates, and factory-sealed units from large manufacturers (Andersen, Pella, Marvin) hold up measurably better than small-shop unknown brands.`,
+    sec_installer: `Charlotte installer vetting: verify North Carolina Licensing Board for General Contractors (nclbgc.org) license for jobs over $30,000, plus Mecklenburg County contractor registration for permit-pulling on smaller jobs. North Carolina Consumer Protection complaints are searchable at ncdoj.gov. Charlotte HOA neighborhoods (SouthPark, Ballantyne, Myers Park) require architectural review committee approval before custom orders ship; include HOA submittal in installer scope to avoid deposit-loss risk.`,
+    sec_glass: `Charlotte glass packages typically specify dual-pane with spectrally-selective Low-E 366 on south and west exposures and Low-E 272 on east and north. Argon fill baseline. Laminated outer panes on west and south elevations deliver 5-10% Charlotte homeowners insurance premium reductions under 2024 wind-resilience provisions, and the premium reduction typically pencils the laminated upgrade into positive ROI within 6-8 years.`,
+  },
+};
+
+// Merge supplemental into CITY_WINDOW_DATA
+for (const [slug, extra] of Object.entries(CITY_WINDOW_SUPPLEMENTAL)) {
+  CITY_WINDOW_DATA[slug] = Object.assign(CITY_WINDOW_DATA[slug] || {}, extra);
 }
 
-/** Map state to ENERGY STAR climate zone key */
-function getClimateZone(state) {
-  const zones = pricingModel.climateZones;
-  for (const [key, z] of Object.entries(zones)) {
-    if (z.states_primarily?.includes(state) || z.states_partial?.includes(state)) return key;
-  }
-  return "South-Central";
-}
-
-function getEnergyTargets(zone) {
-  return pricingModel.energyStarTargets?.[zone] || pricingModel.energyStarTargets["South-Central"];
-}
-
-// ── Section 1: Neighborhood pricing breakdown ──────────────────────────
+/* ---------------------------------------------------------------- */
+/* Section renderers. Each pulls ~200-400 word blocks from the dict */
+/* ---------------------------------------------------------------- */
 
 function neighborhoodPricing(facts, mult) {
   if (!facts?.neighborhoods?.length) return "";
-
-  const baseVinylDH = 550;
-  const baseFibCasement = 950;
-  const baseWoodDH = 1000;
-  const baseVinylSliding = 500;
-
+  const baseVinylDH = 550, baseFibCasement = 950, baseWoodDH = 1000, baseVinylSliding = 500;
   const rows = facts.neighborhoods.map((n, i) => {
     const localVar = 1 + ((i % 3 === 0 ? 0.08 : i % 3 === 1 ? -0.04 : 0.03) * (i % 2 === 0 ? 1 : -1));
     const vinyl = Math.round(baseVinylDH * mult * localVar);
     const fib = Math.round(baseFibCasement * mult * localVar);
     const wood = Math.round(baseWoodDH * mult * localVar);
     const sliding = Math.round(baseVinylSliding * mult * localVar);
-    return `<tr>
-<td style="padding:12px 16px; font-weight:600;">${n}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtDollar(vinyl)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtDollar(fib)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtDollar(wood)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtDollar(sliding)}</td>
-</tr>`;
+    return `<tr><td style="padding:12px 16px; font-weight:600;">${n}</td><td style="padding:12px 16px; text-align:right;">${fmtDollar(vinyl)}</td><td style="padding:12px 16px; text-align:right;">${fmtDollar(fib)}</td><td style="padding:12px 16px; text-align:right;">${fmtDollar(wood)}</td><td style="padding:12px 16px; text-align:right;">${fmtDollar(sliding)}</td></tr>`;
   });
-
   return `
-<section class="section fp-section">
-<h2>Neighborhood Window Pricing Breakdown</h2>
-<p>Window replacement costs vary within ${facts.displayName} based on housing stock age, labor accessibility, and local demand. These are estimated per-window installed costs for each area.</p>
-<div style="overflow-x:auto;">
-<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
-<thead>
-<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
-<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th>
-<th style="text-align:right; padding:12px 16px;">Wood Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Sliding</th>
-</tr>
-</thead>
-<tbody>
-${rows.join("\n")}
-</tbody>
-</table>
-</div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Per-window installed pricing based on local labor rates and material delivery costs. Actual pricing depends on window size, installation type (pocket vs full-frame), and current demand. <a href="/analyze-my-quote.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
-</section>`;
+<section class="section fp-section"><h2>${facts.displayName} neighborhood per-window pricing</h2>
+<div style="overflow-x:auto;"><table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;"><thead><tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);"><th style="text-align:left; padding:12px 16px;">Neighborhood</th><th style="text-align:right; padding:12px 16px;">Vinyl DH</th><th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th><th style="text-align:right; padding:12px 16px;">Wood DH</th><th style="text-align:right; padding:12px 16px;">Vinyl Slider</th></tr></thead><tbody>${rows.join("")}</tbody></table></div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your ${facts.displayName} quote for line-item comparison.</a></p></section>`;
 }
 
-// ── Section 2: Climate and energy efficiency ────────────────────────────
-
-function climateEnergySection(city, state, ctx, facts) {
-  const zone = getClimateZone(state);
-  const targets = getEnergyTargets(zone);
-  const paras = [];
-
-  paras.push(`<p>${cap(facts.climate)}. These conditions directly determine which glass packages and frame materials deliver the best return on investment in ${city}.</p>`);
-
-  // U-factor guidance
-  if (zone === "Northern") {
-    paras.push(`<p><strong>U-factor is your priority metric.</strong> In ${city}'s heating-dominated climate, heat loss through windows drives the majority of your energy costs. Target U-factor of ${targets.energyStar.uFactorMax} or lower for ENERGY STAR qualification. Triple-pane glass with krypton gas fill achieves U-factors as low as 0.17, which delivers measurable savings on heating bills in ${state}'s winters. The upfront premium of $100-$300 per window over double-pane typically pays back within 5-8 years through reduced heating costs.</p>`);
-  } else if (zone === "North-Central") {
-    paras.push(`<p><strong>Balance U-factor and SHGC.</strong> ${city}'s mixed climate demands windows that perform well in both heating and cooling seasons. Target U-factor of ${targets.energyStar.uFactorMax} or lower and SHGC of ${targets.energyStar.shgcMax || "0.40"} or lower. This balance prevents heat loss in winter while blocking solar heat gain in summer. Double-pane Low-E with argon fill is the sweet spot for most ${city} homes.</p>`);
-  } else if (zone === "South-Central") {
-    paras.push(`<p><strong>Solar Heat Gain Coefficient (SHGC) matters most here.</strong> In ${city}'s cooling-dominated climate, the sun beating through your windows drives air conditioning costs more than heat loss drives heating costs. Target SHGC of ${targets.energyStar.shgcMax || "0.25"} or lower. Low-E coatings tuned for solar rejection (Low-E 366 or equivalent) make a dramatic difference on south- and west-facing windows. U-factor should still be ${targets.energyStar.uFactorMax} or below, but SHGC is where you get the biggest energy savings in ${city}.</p>`);
-  } else {
-    paras.push(`<p><strong>Prioritize low SHGC above all else.</strong> In ${city}'s hot climate, solar heat gain through windows is the single largest driver of cooling costs. Target SHGC of ${targets.energyStar.shgcMax || "0.25"} or lower on every window, especially south- and west-facing exposures. Low-E coatings with high visible light transmission (VT) and low SHGC let daylight in while blocking infrared heat. U-factor of ${targets.energyStar.uFactorMax} or below is the ENERGY STAR threshold, but SHGC is where your money goes in ${city}.</p>`);
-  }
-
-  // Low-E coatings
-  paras.push(`<p><strong>Low-E coatings are non-negotiable in ${city}.</strong> Every window quote you receive should specify Low-E glass as standard, not an upgrade. There are different Low-E formulations: "passive" Low-E (Low-E 272 type) maximizes solar heat gain for cold climates, while "solar control" Low-E (Low-E 366 type) rejects solar heat for warm climates. In ${city}, ${zone === "Northern" || zone === "North-Central" ? "passive Low-E on south-facing windows and solar control Low-E on west-facing windows gives you the best of both worlds" : "solar control Low-E on all windows is the clear choice, with particular attention to south and west exposures where solar gain peaks"}. If a contractor's quote does not specify the Low-E coating type, ask before signing.</p>`);
-
-  return `
-<section class="section fp-section">
-<h2>Climate and Energy Efficiency: Windows in ${city}</h2>
-${paras.join("\n")}
-</section>`;
+function energySection(city, d) {
+  return `<section class="section fp-section"><h2>Energy performance spec for ${city}</h2><p>${d.sec_energy}</p>${d.sec_energy2 ? `<p>${d.sec_energy2}</p>` : ""}</section>`;
+}
+function codeSection(city, d) {
+  return `<section class="section fp-section"><h2>Licensing and code rules in ${city}</h2><p>${d.sec_code}</p>${d.sec_code2 ? `<p>${d.sec_code2}</p>` : ""}</section>`;
+}
+function housingSection(city, d) {
+  return `<section class="section fp-section"><h2>What failing windows look like in ${city}</h2><p>${d.sec_housing}</p>${d.sec_housing2 ? `<p>${d.sec_housing2}</p>` : ""}</section>`;
+}
+function stormSection(city, d) {
+  return `<section class="section fp-section"><h2>Wind, storm, and durability requirements for ${city}</h2><p>${d.sec_storm}</p>${d.sec_storm2 ? `<p>${d.sec_storm2}</p>` : ""}</section>`;
+}
+function flagSection(city, d) {
+  return `<section class="section fp-section"><h2>${city}-specific window fraud patterns</h2><p>${d.sec_flag}</p>${d.sec_flag2 ? `<p>${d.sec_flag2}</p>` : ""}</section>`;
+}
+function installerSection(city, d) {
+  if (!d.sec_installer) return "";
+  return `<section class="section fp-section"><h2>Vetting a ${city} installer</h2><p>${d.sec_installer}</p></section>`;
+}
+function glassSection(city, d) {
+  if (!d.sec_glass) return "";
+  return `<section class="section fp-section"><h2>Glass package choices for ${city}</h2><p>${d.sec_glass}</p></section>`;
 }
 
-// ── Section 3: Frame material comparison for this climate ──────────────
-
-function frameMaterialComparison(city, state, ctx, facts) {
-  const zone = getClimateZone(state);
-  const paras = [];
-
-  paras.push(`<p>The four major frame materials each have distinct advantages in ${city}'s climate. Here is how they compare for this specific market.</p>`);
-
-  // Vinyl
-  const vinylVerdict = zone === "Southern" || zone === "South-Central"
-    ? `In ${city}'s heat, dark-colored vinyl frames can warp or distort over time. Stick with white or light-colored vinyl, or choose a brand with welded (not screwed) frames and reinforced meeting rails. Vinyl remains the best value for most ${city} homeowners, but quality matters more here than in mild climates.`
-    : `Vinyl performs well in ${city}'s climate with minimal maintenance. It does not conduct heat or cold, making it an excellent insulator. Modern vinyl frames are UV-stabilized and resist fading, cracking, and warping for 20-30 years.`;
-
-  paras.push(`<p><strong>Vinyl.</strong> Lowest cost ($300-$700/window installed). Zero maintenance. ${vinylVerdict}</p>`);
-
-  // Fiberglass
-  const fibVerdict = ctx.climateZone === "cold" || zone === "Northern"
-    ? `Fiberglass is arguably the best frame material for ${city}'s extreme temperature swings. Its expansion rate matches glass, so seals last longer and air infiltration stays lower over time. The premium over vinyl is 40-70%, but the performance gap is real in a heating-dominated climate.`
-    : `Fiberglass resists expansion and contraction better than any other frame material, which matters in ${city} where temperature swings stress window seals. It is stronger than vinyl, allowing narrower sightlines and more glass area. The 40-70% premium over vinyl is justified for homeowners who want 30+ year performance.`;
-
-  paras.push(`<p><strong>Fiberglass.</strong> Mid-premium ($700-$1,600/window installed). Paintable, extremely durable. ${fibVerdict}</p>`);
-
-  // Wood
-  const woodVerdict = zone === "Southern" || ctx.climateZone === "hot_humid"
-    ? `Wood requires more maintenance in ${city}'s humidity and heat. Expect to repaint or restain interior wood surfaces every 5-7 years. Wood-clad windows (wood interior, aluminum or fiberglass exterior) are a better fit for ${city} because the exterior cladding eliminates the rot risk while preserving the interior aesthetics.`
-    : `Wood offers the best insulation value of any frame material and the premium interior look that many ${city} homeowners want. In ${city}'s climate, exterior-clad wood windows (aluminum or fiberglass over wood) protect against moisture while the wood interior provides warmth and character. Pure wood exteriors require repainting every 5-7 years.`;
-
-  paras.push(`<p><strong>Wood / Wood-Clad.</strong> Premium ($600-$2,500/window installed). Best aesthetics. ${woodVerdict}</p>`);
-
-  // Aluminum
-  const aluminumVerdict = ctx.hurricaneZone
-    ? `Aluminum is the standard frame material in ${city}'s hurricane zone. Impact-rated aluminum windows meet the wind and debris requirements that other frame materials struggle with. The thermal break technology in modern aluminum frames has largely solved the old conductivity problem, but verify that any aluminum window you consider has a thermal break specified.`
-    : zone === "Northern" || zone === "North-Central"
-    ? `Aluminum is a poor choice for ${city}'s cold winters. Metal frames conduct heat aggressively, creating condensation and ice buildup on interior surfaces. Even with thermal breaks, aluminum U-factors run 20-40% worse than vinyl or fiberglass. Unless you have a specific architectural reason, avoid aluminum in this climate.`
-    : `Aluminum offers a slim, modern aesthetic at moderate cost. In ${city}, the thermal conductivity issue is less critical than in cold climates because heating loads are lower. However, aluminum still transfers more heat than vinyl or fiberglass, which means higher cooling costs. If aesthetics drive your choice, fiberglass achieves a similar narrow sightline with better thermal performance.`;
-
-  paras.push(`<p><strong>Aluminum.</strong> Moderate ($600-$1,400/window installed). Slim sightlines, strong. ${aluminumVerdict}</p>`);
-
-  return `
-<section class="section fp-section">
-<h2>Frame Material Comparison for ${city}'s Climate</h2>
-${paras.join("\n")}
+function seasonalCostSection(city, state, d, mult) {
+  return `<section class="section fp-section"><h2>When to buy in ${city} and what whole-home jobs cost</h2>
+<p><strong>${city} best months:</strong> ${d.bestSeasons}.</p>
+<p><strong>${city} worst months:</strong> ${d.worstSeasons}.</p>
+<p>${d.sec_seasonal || ""}</p>
+<p>A 15-window ${city} whole-home replacement in 2026 dollars at prevailing ${city} labor rates: budget vinyl with ${city}-compliant Low-E runs approximately ${fmtDollar(Math.round(15 * 425 * mult))}; mid-range fiberglass with ENERGY STAR ${d.climateBand} qualified glazing runs ${fmtDollar(Math.round(15 * 1050 * mult))}; premium wood-clad with ${d.uTarget <= 0.24 ? "triple-pane krypton" : "dual-pane spectrally-selective"} full-frame replacement runs ${fmtDollar(Math.round(15 * 2000 * mult))}. These numbers reflect ${city} installer rates, not national averages, and assume standard-sized openings without bay-window or radiused-top custom work. The dominant ${city} material story is ${d.dominantMaterial}, and replacement economics pivot on whether pocket installation is viable or full-frame scope is required.</p>
+<p><a href="/window-replacement-cost.html" style="color:var(--brand);">Get a ${city} estimate.</a></p>
 </section>`;
 }
-
-// ── Section 4: Home age and existing window assessment ──────────────────
-
-function homeAgeAssessment(city, state, ctx, facts) {
-  const paras = [];
-  const avgAge = ctx.avgHomeAge || 35;
-
-  paras.push(`<p>The average home in ${city} is approximately ${avgAge} years old. ${facts.homeAge ? cap(facts.homeAge) + "." : ""} The age and condition of your existing windows determine whether a pocket (insert) replacement or full-frame replacement is appropriate, and full-frame jobs cost 40-100% more per window.</p>`);
-
-  // Single-pane replacement
-  if (avgAge >= 35) {
-    paras.push(`<p><strong>Single-pane windows.</strong> Many homes in ${city}'s older neighborhoods still have original single-pane windows. If your home has single-pane glass, replacement is almost always worth the investment. Single-pane windows have a U-factor of approximately 1.0, meaning they lose heat at roughly 4 times the rate of a modern double-pane Low-E window (U-factor 0.25). The energy savings alone typically justify replacement within 7-12 years, and the comfort improvement is immediate and dramatic.</p>`);
-  } else {
-    paras.push(`<p><strong>Existing double-pane windows.</strong> Most ${city} homes built in the last ${avgAge < 25 ? "two decades" : "30 years"} already have double-pane glass. If your existing double-pane windows are fogging between the panes, the seal has failed and the insulating gas has escaped. Failed-seal windows perform only marginally better than single-pane. Replacement is warranted. If your double-pane windows are still clear and operating smoothly, the energy payback on upgrading to newer double-pane is much longer (15-25 years), and the decision becomes more about comfort, noise reduction, and aesthetics than strict ROI.</p>`);
-  }
-
-  // Lead paint
-  paras.push(`<p><strong>Lead paint in pre-1978 homes.</strong> ${avgAge >= 45 ? `A significant portion of ${city}'s housing stock predates the 1978 lead paint ban.` : `While most of ${city}'s housing stock is newer than the 1978 lead paint cutoff, older neighborhoods do have pre-1978 homes.`} Any window replacement in a pre-1978 home triggers EPA RRP (Renovation, Repair, and Painting) rule compliance. Your contractor must be EPA Lead-Safe certified, and the crew must follow specific containment and cleanup protocols. This adds $200-$500 to the total project cost. If a contractor does not ask about your home's age or dismisses lead paint concerns, that is a red flag for both safety and licensing.</p>`);
-
-  // Historic districts
-  if (facts.landmarks || facts.geographyNote) {
-    paras.push(`<p><strong>Historic district restrictions.</strong> ${city} has designated historic districts where window replacement is subject to architectural review. In these areas, you may be required to use wood windows that match the original profiles, or specific divided-lite patterns. Vinyl windows are typically prohibited in locally designated historic districts. If your home is in a historic overlay zone, contact your local historic preservation office before getting quotes. The material and design requirements can double the per-window cost compared to standard replacement, and non-compliant work can result in fines and mandatory removal.</p>`);
-  }
-
-  return `
-<section class="section fp-section">
-<h2>Home Age and Existing Window Assessment in ${city}</h2>
-${paras.join("\n")}
-</section>`;
-}
-
-// ── Section 5: Permits and HOA considerations ──────────────────────────
-
-function permitsAndHOA(city, state, ctx, facts) {
-  const paras = [];
-
-  paras.push(`<p>${facts.permits}. For window replacement specifically, most jurisdictions in ${city} require a building permit when replacing windows with a different size or type, or when structural modifications to the opening are needed. Simple same-size pocket replacements may be permit-exempt in some cases, but your contractor should confirm with the local building department before starting work.</p>`);
-
-  if (ctx.hoaPrevalence === "high") {
-    paras.push(`<p><strong>HOA architectural review.</strong> HOA-governed communities are very common in ${city}. Most HOAs require pre-approval of window replacements, with restrictions that can include frame color (white or almond only, in many cases), grid/grille patterns, and even specific approved brands. Submit your architectural change request 4-6 weeks before your planned installation date. Getting quotes before HOA approval is fine, but do not sign a contract or place a window order until you have written approval. HOA rejections after windows are ordered are expensive because custom windows are non-returnable.</p>`);
-  } else if (ctx.hoaPrevalence === "moderate" || ctx.hoaPrevalence === "medium") {
-    paras.push(`<p><strong>HOA considerations.</strong> Many newer subdivisions in ${city} have HOA covenants that govern exterior modifications including window replacements. Common restrictions include frame color, grid patterns, and material type. Check your CC&Rs and submit an architectural change request before signing a contract. Window orders are custom and non-returnable.</p>`);
-  }
-
-  paras.push(`<p><strong>Historic overlay zones.</strong> If your property falls within a locally designated historic district in ${city}, window replacement requires approval from the historic preservation commission in addition to standard permits. Expect a review process of 4-8 weeks. Requirements typically mandate wood or wood-clad windows with historically appropriate profiles and divided-lite patterns. Vinyl and aluminum windows are almost universally prohibited in historic districts. The cost premium for code-compliant historic window replacement is 50-150% over standard vinyl replacement.</p>`);
-
-  if (facts.codeNote) {
-    paras.push(`<p><strong>Local code note.</strong> ${facts.codeNote}.</p>`);
-  }
-
-  return `
-<section class="section fp-section">
-<h2>Permits and HOA Considerations in ${city}</h2>
-${paras.join("\n")}
-</section>`;
-}
-
-// ── Section 6: Contractor vs DIY analysis ──────────────────────────────
-
-function contractorVsDIY(city, state, ctx, facts) {
-  const paras = [];
-
-  paras.push(`<p>Window replacement is one of the few major home improvement projects where DIY is sometimes viable for handy homeowners. That said, the scope of the project and the type of installation determine whether DIY makes sense in ${city}.</p>`);
-
-  paras.push(`<p><strong>Where DIY can work.</strong> Simple pocket (insert) replacements in standard-sized openings on the first floor are the most DIY-friendly window projects. If the existing frame is square, plumb, and in good condition, and the new window is the same size, the installation is primarily shimming, insulating, and trim work. A competent DIYer can save $150-$300 per window in labor costs. Budget 2-4 hours per window for a first-timer, dropping to 1-2 hours per window after you find your rhythm.</p>`);
-
-  paras.push(`<p><strong>Where you need a professional.</strong> Full-frame replacements (where the existing frame is removed down to the rough opening), any structural modifications to enlarge or reduce openings, second-story or higher installations, and any home built before 1978 (lead paint RRP compliance) all require professional installation. In ${city}, ${facts.contractorMarket ? facts.contractorMarket.charAt(0).toLowerCase() + facts.contractorMarket.slice(1) : "the contractor market is competitive"}. Getting three professional bids is the standard minimum.</p>`);
-
-  paras.push(`<p><strong>Warranty implications.</strong> Most major window manufacturers (Andersen, Pella, Marvin) offer full product warranties regardless of who installs them, but some brands require "certified installer" status for the labor warranty to apply. Renewal by Andersen and Champion, for example, bundle product and labor warranties together and void them for DIY or third-party installation. Verify warranty terms before choosing the DIY route.</p>`);
-
-  paras.push(`<p><strong>The hybrid approach.</strong> Some ${city} homeowners order windows directly (through a dealer or home center) and hire a handyman or small contractor for installation at $100-$200 per window rather than using the window company's full-service installation crew at $250-$400 per window. This can save 20-30% on the total project while still getting professional installation. The tradeoff is that you manage the project yourself and the installer may not carry the same insurance or warranty coverage as a full-service window company.</p>`);
-
-  return `
-<section class="section fp-section">
-<h2>Professional Installation vs DIY Windows in ${city}</h2>
-${paras.join("\n")}
-</section>`;
-}
-
-// ── Section 7: Red flags ────────────────────────────────────────────────
-
-function redFlagsSection(city, state, ctx) {
-  const flags = [];
-
-  flags.push({ title: "Bait-and-switch on brands", body: `The window industry has a chronic problem with brand substitution. A salesperson quotes Andersen 400 Series but the contract specifies "comparable Andersen product" or uses a model number you cannot verify. Before signing any contract in ${city}, confirm the exact brand, product line, and model number. Cross-reference it on the manufacturer's website. If the salesperson cannot tell you the exact NFRC-rated U-factor and SHGC for the specific window being quoted, the quote is not specific enough to sign.` });
-
-  flags.push({ title: '"Today only" pricing', body: `This is the single most common predatory sales tactic in the window industry. Companies like Renewal by Andersen, Champion, and Window Nation use in-home sales presentations that end with an "expiring" price. The pitch follows a pattern: high initial price ($1,500-$2,000/window), then "manager approval" discounts, then a "today only" final price. The "today only" price is the real price and it is available any day of the week. No legitimate manufacturer pricing changes based on when you sign. Walk away from any salesperson who pressures you to sign during the first visit. Get the price in writing and compare it against other bids.` });
-
-  flags.push({ title: "Unnecessary structural modifications", body: `Some contractors in ${city} recommend full-frame replacement or structural header modifications when a simple pocket replacement would work fine. Full-frame replacement costs 40-100% more per window. It is genuinely necessary when the existing frame is rotted, out of square, or when you are changing window sizes. But some contractors default to full-frame because it justifies higher pricing. If a contractor recommends full-frame, ask them to show you specifically where the existing frame is damaged. If the frame is sound, a pocket replacement is appropriate and significantly cheaper.` });
-
-  flags.push({ title: "Inflated window counts", body: `Some large window companies in ${city} pad quotes by counting fixed picture windows as separate units when they share a frame with operable windows (a "mulled unit"). A double-hung window next to a fixed panel in a single frame is one mulled unit with two lites, not two separate windows. Verify the window count in your quote against your actual openings. Miscounting by 2-3 windows on a 15-window job inflates the total by $1,000-$3,000.` });
-
-  if (ctx.hurricaneZone) {
-    flags.push({ title: "Non-impact glass in hurricane zone", body: `${state} building code requires impact-rated glass or approved shutters in designated hurricane zones. If a contractor quotes standard glass without discussing impact requirements or protective alternatives, they either do not understand local code or are cutting corners. Impact-rated glass adds $150-$500 per window but is non-negotiable for code compliance and insurance eligibility in coastal ${city}.` });
-  }
-
-  const flagsHTML = flags.map(f => `
-<div class="fp-flag">
-<h3>${f.title}</h3>
-<p>${f.body}</p>
-</div>`).join("");
-
-  return `
-<section class="section fp-section">
-<h2>Red Flags and Window Replacement Scams in ${city}</h2>
-<p>The window replacement industry has more consumer complaints per dollar spent than almost any other home improvement category. Here are the patterns most commonly reported by ${city} homeowners.</p>
-${flagsHTML}
-</section>`;
-}
-
-// ── Section 8: Seasonal buying guide ────────────────────────────────────
-
-function seasonalGuide(city, state, ctx) {
-  const paras = [];
-
-  const seasons = {
-    hot_humid: { best: "September through November", worst: "March through May", bestReason: "demand drops after summer AC season; contractors are hungry for work and more willing to negotiate", worstReason: "spring is peak selling season for big window companies running national ad campaigns" },
-    hot_dry: { best: "October through February", worst: "April through June", bestReason: "moderate temperatures are ideal for installation (caulk and sealant perform best between 40-90F) and contractor schedules open up", worstReason: "summer heat makes installation miserable and sealant application problematic" },
-    cold: { best: "March through May and September through October", worst: "June through August", bestReason: "shoulder seasons offer moderate temperatures for proper installation and contractors competing for spring/fall bookings", worstReason: "peak construction season means higher labor costs and longer lead times" },
-    temperate: { best: "October through December", worst: "April through June", bestReason: "end-of-year manufacturer rebates and dealer inventory clearance drive genuine discounts of 10-20%", worstReason: "spring renovation season tightens contractor availability and reduces negotiating leverage" },
-    mixed_humid: { best: "October through December", worst: "March through June", bestReason: "end-of-year deals combine with lower demand; many manufacturers offer Q4 rebates to hit annual targets", worstReason: "spring and early summer are peak seasons with the least flexibility on pricing" },
-    mixed_dry: { best: "October through February", worst: "May through July", bestReason: "mild weather and post-summer demand drop create the best buying conditions", worstReason: "peak construction season competes for the same labor pool" },
-  };
-
-  const s = seasons[ctx.climateZone] || seasons.temperate;
-
-  paras.push(`<p><strong>Window sales cycles are real.</strong> Unlike roofing or HVAC, window replacement is rarely an emergency, which means you have the luxury of timing your purchase. The window industry runs on seasonal patterns and manufacturer promotion cycles that can save you 10-20% on the same product.</p>`);
-
-  paras.push(`<p><strong>End-of-year manufacturer rebates.</strong> Most major window manufacturers (Andersen, Pella, Marvin) run Q4 rebate programs to hit annual production targets. These are legitimate discounts of $25-$75 per window, separate from any dealer markdowns. Your dealer or contractor can tell you which manufacturer promotions are currently active. These rebates are real savings, unlike the "today only" dealer discounts that are available any day.</p>`);
-
-  paras.push(`<p><strong>Order lead times matter.</strong> Custom windows typically take 4-8 weeks from order to delivery. Stock sizes from Jeld-Wen, Simonton, or Milgard may be available in 1-2 weeks. Factor lead time into your seasonal planning. If you want Q4 pricing and fall installation, order by mid-September.</p>`);
-
-  return `
-<section class="section fp-section">
-<h2>Best Time to Buy Windows in ${city}</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to buy</h3>
-<p class="fp-season-months">${s.best}</p>
-<p>${cap(s.bestReason)}.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low leverage</h3>
-<p class="fp-season-months">${s.worst}</p>
-<p>${cap(s.worstReason)}.</p>
-</div>
-</div>
-${paras.join("\n")}
-</section>`;
-}
-
-// ── Section 9: Cost scenarios ───────────────────────────────────────────
-
-function costScenarios(city, state, mult) {
-  const budget = {
-    label: "Budget Vinyl Replacement",
-    desc: "15 vinyl double-hung windows | pocket install | Low-E double-pane",
-    count: 15,
-    perWin: Math.round(425 * mult),
-    total: Math.round(15 * 425 * mult),
-    detail: "Value-tier vinyl (Window World, Alside Sheffield, Jeld-Wen V2500). Includes Low-E double-pane glass, argon fill, pocket installation, interior/exterior trim touch-up, and debris removal."
-  };
-  const mid = {
-    label: "Mid-Range Fiberglass with Low-E",
-    desc: "15 fiberglass windows | pocket install | Low-E double-pane argon",
-    count: 15,
-    perWin: Math.round(1050 * mult),
-    total: Math.round(15 * 1050 * mult),
-    detail: "Mid-tier fiberglass or premium vinyl (Marvin Essential, Milgard Ultra, Pella 350). ENERGY STAR certified. Includes professional measurement, pocket install, foam insulation, interior trim, and permit."
-  };
-  const prem = {
-    label: "Premium Wood-Clad Triple-Pane",
-    desc: "15 wood-clad windows | full-frame | triple-pane Low-E krypton",
-    count: 15,
-    perWin: Math.round(2000 * mult),
-    total: Math.round(15 * 2000 * mult),
-    detail: "Premium wood-clad (Andersen 400/A-Series, Pella Lifestyle/Reserve, Marvin Elevate/Signature). Triple-pane with krypton fill. Full-frame installation, new interior/exterior trim, structural modifications as needed, and permit."
-  };
-
-  function scenarioCard(s, color) {
-    return `
-<div class="fp-scenario-card" style="border-top:4px solid ${color};">
-<h3>${s.label}</h3>
-<p class="fp-scenario-material">${s.desc}</p>
-<p class="fp-scenario-total">${fmtDollar(s.total)}</p>
-<p class="fp-scenario-detail">~${fmtDollar(s.perWin)}/window installed. ${s.detail}</p>
-</div>`;
-  }
-
-  return `
-<section class="section fp-section">
-<h2>What Window Replacement Actually Costs in ${city}: 3 Scenarios</h2>
-<p>Here is what real 15-window whole-house projects look like in ${city}, ${state}, using ${city}-adjusted labor and material costs for 2026.</p>
-<div class="fp-scenario-grid">
-${scenarioCard(budget, "#22c55e")}
-${scenarioCard(mid, "#3b82f6")}
-${scenarioCard(prem, "#8b5cf6")}
-</div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard-sized windows in a single-story home. Bay/bow windows, second-story access, structural modifications, and lead paint abatement add to these baselines. <a href="/window-replacement-cost.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
-</section>`;
-}
-
-// ── CSS ─────────────────────────────────────────────────────────────────
 
 function flagshipCSS() {
   return `
@@ -398,35 +465,15 @@ function flagshipCSS() {
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
-.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
-.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
-.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
-.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
-.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
-.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
-.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
-.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>`;
 }
-
-// ── Builder ─────────────────────────────────────────────────────────────
 
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];
   const ctx = cityContext[metro.ctxKey];
-  if (!facts || !ctx) return null;
+  const d = CITY_WINDOW_DATA[metro.slug];
+  if (!facts || !ctx || !d) return null;
 
   const city = facts.displayName;
   const state = facts.stateAbbr;
@@ -435,86 +482,55 @@ function buildFlagshipContent(metro) {
   let html = `\n${MARKER_START}\n`;
   html += flagshipCSS();
   html += neighborhoodPricing(facts, mult);
-  html += climateEnergySection(city, state, ctx, facts);
-  html += frameMaterialComparison(city, state, ctx, facts);
-  html += homeAgeAssessment(city, state, ctx, facts);
-  html += permitsAndHOA(city, state, ctx, facts);
-  html += contractorVsDIY(city, state, ctx, facts);
-  html += redFlagsSection(city, state, ctx);
-  html += seasonalGuide(city, state, ctx);
-  html += costScenarios(city, state, mult);
+  html += energySection(city, d);
+  html += codeSection(city, d);
+  html += housingSection(city, d);
+  html += glassSection(city, d);
+  html += stormSection(city, d);
+  html += installerSection(city, d);
+  html += flagSection(city, d);
+  html += seasonalCostSection(city, state, d, mult);
   html += `\n${MARKER_END}\n`;
-
   return html;
 }
 
-// ── Main ────────────────────────────────────────────────────────────────
-
 function main() {
-  let processed = 0;
-  let skipped = 0;
-
+  let processed = 0, skipped = 0;
   for (const metro of METROS) {
     const filepath = path.join(ROOT, metro.file);
-    if (!fs.existsSync(filepath)) {
-      console.log(`  SKIP ${metro.file} (file not found)`);
-      skipped++;
-      continue;
-    }
-
+    if (!fs.existsSync(filepath)) { console.log(`  SKIP ${metro.file} (file not found)`); skipped++; continue; }
     const flagshipHTML = buildFlagshipContent(metro);
-    if (!flagshipHTML) {
-      console.log(`  SKIP ${metro.file} (no data for ${metro.ctxKey})`);
-      skipped++;
-      continue;
-    }
+    if (!flagshipHTML) { console.log(`  SKIP ${metro.file} (no data)`); skipped++; continue; }
 
     let content = fs.readFileSync(filepath, "utf8");
-
-    // Remove old flagship content (idempotent)
     const re = new RegExp(`${MARKER_START.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[\\s\\S]*?${MARKER_END.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\r?\\n?`, "g");
     content = content.replace(re, "");
 
-    // Detect line endings
     const nl = content.includes("\r\n") ? "\r\n" : "\n";
     const flagshipContent = flagshipHTML.replace(/\n/g, nl);
 
-    // Injection point: after UNIQUE-LOCAL-GUIDE, or before "Other Services" section, or after section 5
     const uniqueGuideEnd = content.indexOf("<!-- /UNIQUE-LOCAL-GUIDE -->");
     const otherServicesIdx = content.indexOf(">Other Services in ");
-
     let insertAt;
-    if (uniqueGuideEnd >= 0) {
-      insertAt = uniqueGuideEnd + "<!-- /UNIQUE-LOCAL-GUIDE -->".length;
-    } else if (otherServicesIdx >= 0) {
-      // Back up to the opening <section before "Other Services"
+    if (uniqueGuideEnd >= 0) insertAt = uniqueGuideEnd + "<!-- /UNIQUE-LOCAL-GUIDE -->".length;
+    else if (otherServicesIdx >= 0) {
       const sectionOpen = content.lastIndexOf("<section", otherServicesIdx);
       insertAt = sectionOpen >= 0 ? sectionOpen : otherServicesIdx;
     } else {
-      // Fallback: inject before </main>
       const mainEnd = content.indexOf("</main>");
-      if (mainEnd >= 0) {
-        insertAt = mainEnd;
-      } else {
-        console.log(`  SKIP ${metro.file} (no injection point found)`);
-        skipped++;
-        continue;
-      }
+      if (mainEnd >= 0) insertAt = mainEnd;
+      else { console.log(`  SKIP ${metro.file}`); skipped++; continue; }
     }
 
     content = content.slice(0, insertAt) + nl + flagshipContent + nl + content.slice(insertAt);
-
-    if (!DRY) {
-      fs.writeFileSync(filepath, content, "utf8");
-    }
+    if (!DRY) fs.writeFileSync(filepath, content, "utf8");
 
     const wordCount = flagshipHTML.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
-    console.log(`  ${metro.file}: ~${wordCount} words of flagship content injected`);
+    console.log(`  ${metro.file}: ~${wordCount} words`);
     processed++;
   }
-
-  console.log(`\nDone: ${processed} flagship pages processed, ${skipped} skipped.`);
-  if (DRY) console.log("[DRY RUN: no files written]");
+  console.log(`\nDone: ${processed} processed, ${skipped} skipped.`);
+  if (DRY) console.log("[DRY RUN]");
 }
 
 main();

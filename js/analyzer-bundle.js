@@ -13588,8 +13588,8 @@ function buildComparisonWinnerHtml(summary) {
           }
         }, 0);
 
-        // When arriving from photo-estimate "Enter your address" box, scroll
-        // the address card into view so the form is centered on screen.
+        // When arriving in estimator mode, scroll the address card into view
+        // so the form is centered on screen.
         if (new URLSearchParams(window.location.search).get("mode") === "estimator") {
           setTimeout(function() {
             var addrCard = document.getElementById("journeyStreetAddress");

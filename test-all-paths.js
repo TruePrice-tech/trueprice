@@ -4,7 +4,7 @@ const VERTICALS = [
   { name: "hvac", estimate: "/hvac-estimate.html", analyzer: "/hvac-quote-analyzer.html", compare: "/compare-hvac-quotes.html" },
   { name: "plumbing", estimate: "/plumbing-estimate.html", analyzer: "/plumbing-quote-analyzer.html", compare: "/compare-plumbing-quotes.html" },
   { name: "electrical", estimate: "/electrical-estimate.html", analyzer: "/electrical-quote-analyzer.html", compare: "/compare-electrical-quotes.html" },
-  { name: "roofing", estimate: "/photo-estimate.html", analyzer: "/roofing-quote-analyzer.html", compare: "/compare-roofing-quotes.html" },
+  { name: "roofing", estimate: null, analyzer: "/roofing-quote-analyzer.html", compare: "/compare-roofing-quotes.html" },
   { name: "solar", estimate: "/solar-estimate.html", analyzer: "/solar-quote-analyzer.html", compare: "/compare-solar-quotes.html" },
   { name: "fencing", estimate: "/fencing-estimate.html", analyzer: "/fencing-quote-analyzer.html", compare: "/compare-fencing-quotes.html" },
   { name: "concrete", estimate: "/concrete-estimate.html", analyzer: "/concrete-quote-analyzer.html", compare: "/compare-concrete-quotes.html" },

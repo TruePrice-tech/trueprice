@@ -47,10 +47,33 @@ function fmtD(n) { return "$" + n.toLocaleString("en-US"); }
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }
 function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 
+/* Deterministic hash for stable per-slug variant picking */
+function hash(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+function pick(slug, salt, arr) {
+  return arr[hash(slug + "|" + salt) % arr.length];
+}
+function nbh(facts, i = 0) {
+  const arr = facts?.neighborhoods || [];
+  if (!arr.length) return facts?.displayName || "downtown";
+  return arr[i % arr.length];
+}
+function threeNbh(facts) {
+  const arr = facts?.neighborhoods || [];
+  if (arr.length >= 3) return `${arr[0]}, ${arr[1]}, and ${arr[2]}`;
+  if (arr.length === 2) return `${arr[0]} and ${arr[1]}`;
+  return arr[0] || facts?.displayName || "downtown";
+}
+
 function getRegionMultiplier(state) {
   const regionMap = {
     NY: "northeast", CA: "west", IL: "midwest", TX: "south",
-    AZ: "mountain", GA: "southeast", CO: "mountain", WA: "west"
+    AZ: "mountain", GA: "southeast", CO: "mountain", WA: "west",
+    NV: "mountain", PA: "northeast", FL: "southeast", MA: "northeast",
+    MI: "midwest", MN: "midwest", NC: "southeast",
   };
   const region = regionMap[state] || "south";
   return pricingModel.laborMultiplierByRegion[region] || 1.0;
@@ -383,7 +406,7 @@ const CITY_GUTTER_DATA = {
 
 /* --- Section builders --- */
 
-function neighborhoodPricing(facts, mult) {
+function neighborhoodPricing(slug, facts, mult) {
   if (!facts?.neighborhoods?.length) return "";
   const baseAlum = pricingModel.basePricePerLinearFoot.aluminum_seamless.mid;
   const baseVinyl = pricingModel.basePricePerLinearFoot.vinyl.mid;
@@ -406,10 +429,22 @@ function neighborhoodPricing(facts, mult) {
 </tr>`;
   });
 
+  const h2 = pick(slug, "nbh-h2", [
+    `Neighborhood Gutter Pricing in ${facts.displayName}`,
+    `${facts.displayName} Gutter Pricing by Neighborhood`,
+    `How Gutter Pricing Varies Across ${facts.displayName}`,
+    `${facts.displayName} Neighborhood Gutter Costs`,
+  ]);
+  const intro = pick(slug, "nbh-intro", [
+    `Gutter install costs vary across ${facts.displayName} based on labor rates, home height, and fascia condition. Estimates below assume 150 linear feet — a typical single-story ${facts.displayName} home.`,
+    `Pricing varies block-to-block in ${facts.displayName} with labor rates, home height, and fascia condition. The figures below model 150 LF (typical single-story).`,
+    `${facts.displayName} gutter pricing moves with local labor, building height, and fascia shape. Rows below use 150 LF, which matches most single-story homes in the metro.`,
+  ]);
+
   return `
 <section class="section fp-section">
-<h2>Neighborhood Gutter Pricing in ${facts.displayName}</h2>
-<p>Gutter installation costs vary across ${facts.displayName} based on local labor rates, home height, and fascia condition. These estimates are for a typical 150 linear foot installation (average single-story home) in each area.</p>
+<h2>${h2}</h2>
+<p>${intro}</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
@@ -426,93 +461,235 @@ ${rows.join("\n")}
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and material costs for 150 LF of gutter. Actual pricing depends on home height, fascia condition, number of corners, and downspout count. <a href="/gutter-quote-analyzer.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">${pick(slug, "nbh-caveat", [
+  `${facts.displayName} labor rates and current material pricing are baked in for 150 LF. Actual ${facts.displayName} pricing varies with home height, fascia condition, corner count, and downspout count.`,
+  `Numbers here assume ${facts.displayName} labor and 2026 material costs over 150 LF. Real-world ${facts.displayName} pricing shifts with building height, fascia state, corner count, and downspout quantity.`,
+  `${facts.displayName} labor and material pricing for 150 LF drives these figures. Your actual ${facts.displayName} quote depends on building height, existing fascia condition, roof-corner count, and downspout needs.`,
+])} <a href="/gutter-quote-analyzer.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your ${facts.displayName} quote for a side-by-side comparison.</a></p>
 </section>`;
 }
 
-function rainfallDrainage(city, state, slug, data) {
+function rainfallDrainage(city, state, slug, data, facts) {
+  const h2 = pick(slug, "rain-h2", [
+    `Rainfall and Drainage in ${city}`,
+    `${city} Rainfall and Gutter Drainage`,
+    `How ${city}'s Rain Patterns Shape Gutter Design`,
+    `${city} Precipitation and Drainage Considerations`,
+  ]);
+  const sizingH3 = pick(slug, "sizing-h3", [
+    `Why gutter sizing matters in ${city}`,
+    `Sizing gutters for ${city} rainfall`,
+    `${city}-specific gutter sizing`,
+    `Picking the right gutter size in ${city}`,
+  ]);
+  const sizingBody = pick(slug, "sizing-body", [
+    `Standard 5-inch K-style gutters move about 1.2 gallons per second, adequate for moderate rainfall up to 2 inches per hour. ${city} rainfall intensity routinely exceeds that threshold, so 6-inch oversized gutters with 40% more capacity are worth the $2-$3 per linear foot upcharge in ${threeNbh(facts)}.`,
+    `A standard 5-inch K-style gutter in ${city} handles about 1.2 gallons per second, fine up to roughly 2 inches per hour. When ${city} storms exceed that rate (they do), 6-inch gutters carry 40% more water for $2-$3 more per linear foot on ${threeNbh(facts)} homes.`,
+    `${city} rainfall frequently tops the 2 inches per hour that standard 5-inch K-style gutters can handle. The 6-inch upgrade delivers 40% more capacity for an extra $2-$3 per linear foot — a small premium that matters on ${threeNbh(facts)} rooflines during peak storms.`,
+  ]);
+  const downH3 = pick(slug, "down-h3", [
+    `Downspout capacity and placement`,
+    `${city} downspout routing and sizing`,
+    `Getting downspouts right in ${city}`,
+    `Downspout placement for ${city} homes`,
+  ]);
+  const downRule = pick(slug, "down-rule", [
+    `${city} homes typically need one downspout per 20-30 linear feet of gutter run. A standard 2x3-inch downspout handles about 600 sq ft of roof area; 3x4-inch oversized downspouts move substantially more water and earn their upcharge on larger roof planes common in ${threeNbh(facts)}.`,
+    `Rule of thumb for ${city}: one downspout per 20-30 linear feet of gutter. Each 2x3-inch downspout drains roughly 600 sq ft; step up to 3x4-inch on ${threeNbh(facts)} homes with large roof planes or steep pitches that concentrate runoff.`,
+    `Plan on one downspout every 20-30 feet of ${city} gutter run. A 2x3-inch downspout serves about 600 sq ft of roof; 3x4-inch oversized downspouts carry materially more water on ${threeNbh(facts)} homes with big roof planes.`,
+  ]);
   return `
 <section class="section fp-section">
-<h2>Rainfall and Drainage in ${city}</h2>
+<h2>${h2}</h2>
 <div class="fp-rainfall-stat" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px 20px;background:var(--bg-subtle,#f8fafc);border-radius:12px;border:1px solid var(--border,#e2e8f0);">
 <div style="font-size:32px;font-weight:800;color:var(--brand,#1d4ed8);line-height:1;">${data.annualRainfall}</div>
 <div style="font-size:14px;color:#64748b;">annual rainfall in ${city}</div>
 </div>
 <p>${data.rainfallNote}</p>
-<h3>Why gutter sizing matters in ${city}</h3>
-<p>Standard 5-inch K-style gutters handle approximately 1.2 gallons per second of flow, which is adequate for moderate rainfall rates up to about 2 inches per hour. In ${city}, where rainfall intensity can exceed that threshold, 6-inch oversized gutters provide 40% more capacity and significantly reduce overflow risk. The cost difference between 5-inch and 6-inch aluminum seamless gutters is typically only $2-$3 per linear foot -- a modest investment for meaningfully better performance.</p>
-<h3>Downspout capacity and placement</h3>
+<h3>${sizingH3}</h3>
+<p>${sizingBody}</p>
+<h3>${downH3}</h3>
 <p>${data.downspoutNote}</p>
-<p>As a general rule, ${city} homes should have one downspout for every 20-30 linear feet of gutter run. Each standard 2x3-inch downspout drains approximately 600 square feet of roof area. For homes with large roof planes or high-slope roofs that concentrate runoff, 3x4-inch oversized downspouts provide substantially better drainage and are worth the modest upcharge.</p>
+<p>${downRule}</p>
 </section>`;
 }
 
-function gutterGuardAnalysis(city, data) {
+function gutterGuardAnalysis(slug, city, data, facts) {
+  const h2 = pick(slug, "guard-h2", [
+    `Gutter Guard Analysis for ${city}`,
+    `${city} Gutter Guard Options`,
+    `Which Gutter Guards Actually Work in ${city}`,
+    `${city} Guard Selection Guide`,
+  ]);
+  const intro = pick(slug, "guard-intro", [
+    `Tree coverage in ${city} is ${data.treeCoverage}, with ${data.dominantTrees} dominant. The specific debris mix your ${threeNbh(facts)} gutters see determines which guard style actually performs — not every guard works in every market.`,
+    `${city}'s tree canopy is ${data.treeCoverage}; the prevalent species are ${data.dominantTrees}. Guard performance hinges on local debris type, and ${threeNbh(facts)} homes generally share the same mix.`,
+    `${data.treeCoverage} tree coverage across ${city}, with ${data.dominantTrees} setting the debris profile. Guard choice should match the debris type ${threeNbh(facts)} homeowners actually face.`,
+  ]);
+  const maintClose = pick(slug, "guard-maint", [
+    `No gutter guard system is actually maintenance-free, regardless of type. Even top-tier micro-mesh needs surface brushing every 1-2 years to clear fine pollen and dust buildup in ${city}. Any ${city} contractor pitching "never clean your gutters again" is overselling.`,
+    `Every gutter guard needs some maintenance — even the best micro-mesh products in ${city} need periodic surface brushing for pollen and dust every 1-2 years. "Never clean your gutters again" is marketing, not a realistic promise in ${city}.`,
+    `Gutter guards reduce maintenance; they don't eliminate it. Micro-mesh in ${city} still needs a surface sweep every 12-24 months for pollen and fine dust. Treat any "zero-maintenance" promise from a ${city} contractor as oversell.`,
+  ]);
   return `
 <section class="section fp-section">
-<h2>Gutter Guard Analysis for ${city}</h2>
-<p>Tree coverage in ${city} is ${data.treeCoverage}, with the dominant species being ${data.dominantTrees}. The type of debris your gutters collect determines which guard style actually works -- not all guards perform equally in every market.</p>
+<h2>${h2}</h2>
+<p>${intro}</p>
 <h3>Primary debris types in ${city}</h3>
 <p>${cap(data.debrisType)}.</p>
 <h3>Recommended guard style</h3>
 <p>${cap(data.bestGuardStyle)}.</p>
 <div class="fp-guard-compare" style="margin:16px 0;padding:16px 20px;background:#f0fdf4;border-radius:12px;border:1px solid #a7f3d0;">
-<h3 style="margin:0 0 8px;font-size:15px;color:#166534;">Guard cost comparison for ${city}</h3>
-<p style="margin:0;font-size:14px;color:#334155;">Micro-mesh guards: $7-$15/LF installed. Screen guards: $4-$8/LF. Surface-tension (reverse curve): $10-$18/LF. Foam inserts: $2-$5/LF (not recommended -- they trap debris and promote mold). National brands like LeafFilter and Gutter Helmet charge $15-$35/LF, which includes their warranty and marketing overhead. Local installers using equivalent micro-mesh products typically charge 30-50% less.</p>
+<h3 style="margin:0 0 8px;font-size:15px;color:#166534;">${pick(slug, "guard-cost-h3", [`Guard cost comparison for ${city}`, `${city} guard pricing tiers`, `Gutter guard pricing in ${city}`])}</h3>
+<p style="margin:0;font-size:14px;color:#334155;">${pick(slug, "guard-cost-body", [
+  `Micro-mesh guards run $7-$15/LF installed in ${city}. Screen guards $4-$8/LF. Surface-tension (reverse curve) $10-$18/LF. Foam inserts $2-$5/LF (avoid — they trap debris and promote mold). National brands like LeafFilter and Gutter Helmet charge $15-$35/LF, which bakes in warranty and marketing overhead; local ${city} installers using equivalent micro-mesh typically charge 30-50% less.`,
+  `${city} pricing runs: micro-mesh $7-$15/LF, screen guards $4-$8/LF, surface-tension (reverse curve) $10-$18/LF, foam inserts $2-$5/LF (skip them). LeafFilter, Gutter Helmet, and similar national brands quote $15-$35/LF; independent ${city} installers with equivalent micro-mesh quote 30-50% below that.`,
+  `Expect $7-$15/LF for micro-mesh in ${city}, $4-$8/LF for screen, $10-$18/LF for reverse-curve, $2-$5/LF for foam (don't). National-brand pricing from LeafFilter or Gutter Helmet lands $15-$35/LF with warranty bundled; a local ${city} installer offering the same micro-mesh quality typically beats that by 30-50%.`,
+])}</p>
 </div>
-<p>Regardless of guard type, no gutter guard system is truly maintenance-free. Even the best micro-mesh guards need surface brushing every 1-2 years to clear fine pollen and dust buildup. Any contractor who claims "never clean your gutters again" is overselling the product.</p>
+<p>${maintClose}</p>
 </section>`;
 }
 
-function iceDamWinter(city, state, data) {
-  return `
+function iceDamWinter(slug, city, state, data, facts) {
+  const h2 = pick(slug, "ice-h2", [
+    `Ice Dams and Winter Considerations in ${city}`,
+    `${city} Winter and Ice Dam Risk`,
+    `Winter Gutter Concerns in ${city}`,
+    `How ${city} Winters Affect Your Gutters`,
+  ]);
+  if (data.freezeRisk === "very high" || data.freezeRisk === "high") {
+    return `
 <section class="section fp-section">
-<h2>Ice Dams and Winter Considerations in ${city}</h2>
+<h2>${h2}</h2>
 <p><strong>Freeze risk level for ${city}: ${data.freezeRisk}.</strong></p>
 <p>${data.iceNote}</p>
-${data.freezeRisk === "very high" || data.freezeRisk === "high" ? `
-<h3>How ice dams damage gutters</h3>
-<p>When snow on a warm roof melts and refreezes at the cold eave edge, ice builds up inside gutters and along the roofline. This ice expansion exerts enormous force on gutter hangers and fascia boards. A single ice dam event can pull gutters away from the house, crack seams in sectional gutters, and crush the gutter channel. Seamless aluminum gutters with heavy-duty hidden hangers (spaced every 24 inches instead of the standard 36) resist ice damage significantly better than seamed or vinyl systems.</p>
-<h3>Heated gutter systems</h3>
-<p>Self-regulating heat cables installed inside the gutter channel and along the first 3 feet of downspout prevent ice from forming. In ${city}, where freeze-thaw cycles are frequent, heated cables can prevent thousands of dollars in ice dam damage over the life of the gutter system. Operating cost is modest -- typically $1-$3 per day during freezing conditions.</p>` : `
-<h3>What ${city} homeowners should know</h3>
-<p>While ice is not a primary concern in ${city}, proper gutter pitch (1/4 inch of slope per 10 feet of run) ensures water does not stand in gutters during the rare cold snap. Standing water that freezes can crack seams and pop hangers even in mild climates.</p>`}
+<h3>${pick(slug, "ice-damage-h3", [`How ice dams damage gutters`, `The physical damage from ${city} ice dams`, `What ice loads do to ${city} gutters`])}</h3>
+<p>${pick(slug, "ice-damage-body", [
+  `${city} ice dams form when warm roof snow melts and refreezes at the cold eave edge. The expanding ice load pries hangers off fascia, cracks sectional seams, and crushes the channel itself. A single serious event in ${nbh(facts, 0)} or ${nbh(facts, 1)} can tear gutters down; seamless aluminum on heavy-duty hidden hangers spaced every 24 inches (versus the standard 36) holds up materially better than seamed or vinyl systems.`,
+  `When ${city} snow melts on a warm roof and freezes at the eave, the ice expansion force exceeds what standard hangers were designed for. Sectional-seam cracks, torn-loose runs, and crushed channels are all typical outcomes in ${nbh(facts, 0)} and ${nbh(facts, 1)}. Seamless aluminum with 24-inch hanger spacing and hidden hanger brackets is the ${city}-appropriate spec.`,
+  `The ${city} ice-dam cycle works like this: snow melts on a warm attic-side roof, runs down, hits the cold eave, freezes. Each cycle adds weight and pushes against gutter hangers. ${nbh(facts, 0)} and ${nbh(facts, 1)} homes see this play out every winter; seamless aluminum on hidden hangers spaced 24 inches apart resists the load far better than seamed or vinyl.`,
+])}</p>
+<h3>${pick(slug, "heat-h3", [`Heated gutter systems`, `Heat cable options for ${city}`, `${city} heat-tape installation`])}</h3>
+<p>${pick(slug, "heat-body", [
+  `Self-regulating heat cables inside the gutter channel and first 3 feet of downspout prevent ice from forming in ${city}. Over the life of the system, heated cables often save thousands in ice-dam repair costs; operating cost runs $1-$3 per day during freezes.`,
+  `Heat tape in the gutter channel and the top 3 feet of each downspout stops ice formation before it starts on ${city} homes. The long-run economics are good — one avoided ice event pays for years of operation at $1-$3 per day during cold stretches.`,
+  `A self-regulating heat cable runs inside the gutter and a few feet into the downspout. In ${city}, the payoff is straightforward: daily operating cost runs $1-$3 during freezes, and one prevented ice-dam rebuild covers several winters of electricity.`,
+])}</p>
 </section>`;
+  } else {
+    return `
+<section class="section fp-section">
+<h2>${h2}</h2>
+<p><strong>Freeze risk level for ${city}: ${data.freezeRisk}.</strong></p>
+<p>${data.iceNote}</p>
+<h3>${pick(slug, "mild-h3", [`What ${city} homeowners should know`, `${city}'s mild-winter gutter notes`, `Winter gutter basics in ${city}`])}</h3>
+<p>${pick(slug, "mild-body", [
+  `Ice is not the main concern in ${city}, but proper gutter pitch — 1/4 inch of slope per 10 feet of run — still matters because standing water during a rare cold snap can crack seams and pop hangers even on mild-climate systems.`,
+  `${city} rarely produces ice-dam conditions. The detail that still matters: correct 1/4-inch-per-10-foot pitch so standing water doesn't pool and freeze during the occasional hard night.`,
+  `Cold-weather damage to ${city} gutters is rare but not zero. The non-negotiable item is pitch — at 1/4 inch per 10 feet, water flows out rather than sitting long enough to freeze during rare ${city} cold events.`,
+])}</p>
+</section>`;
+  }
 }
 
-function maintenanceSchedule(city, data) {
+function maintenanceSchedule(slug, city, data, facts) {
+  const h2 = pick(slug, "maint-h2", [
+    `Gutter Maintenance Schedule for ${city}`,
+    `${city} Gutter Maintenance Calendar`,
+    `Keeping ${city} Gutters Clean`,
+    `${city} Gutter Cleaning Frequency and Cost`,
+  ]);
+  const costH3 = pick(slug, "maint-cost-h3", [
+    `Cleaning cost in ${city}`,
+    `${city} gutter cleaning pricing`,
+    `What professional cleaning costs in ${city}`,
+    `${city} cleaning price range`,
+  ]);
+  const costBody = pick(slug, "maint-cost", [
+    `Professional gutter cleaning in ${city} runs $100-$250 for single-story and $150-$350 for two-story. Price depends on linear footage, height, and debris volume. Homes on a regular schedule in ${threeNbh(facts)} pay the low end; neglected gutters with compacted debris or blockages cost more because the crew has to flush downspouts too.`,
+    `${city} cleaning pricing sits at $100-$250 on single-story homes and $150-$350 on two-story. Factors: total LF, gutter height, debris weight. ${threeNbh(facts)} homeowners on regular schedules pay the low end; deferred maintenance pushes pricing up once flushing clogged downspouts enters the scope.`,
+    `Expect $100-$250 per cleaning on single-story ${city} homes and $150-$350 on two-story. Pricing tracks footage, height, and how compacted the debris is. Regular schedules in ${threeNbh(facts)} keep costs low; long-deferred cleanings cost more due to flushing and blockage removal.`,
+  ]);
+  const diyH3 = pick(slug, "diy-h3", [
+    `DIY vs. professional cleaning`,
+    `Should you DIY gutter cleaning in ${city}?`,
+    `${city} DIY vs. hired-help tradeoff`,
+    `When to DIY and when to hire a ${city} crew`,
+  ]);
+  const diyBody = pick(slug, "diy-body", [
+    `Single-story ${city} homes with easy ladder access are reasonable DIY jobs. Two-story, steep lots, and complex-rooflined homes in ${threeNbh(facts)} belong to professional crews. Ladder falls rank among the most common serious home-maintenance injuries in the US; a $150 professional cleaning beats an ER visit.`,
+    `DIY makes sense on single-story ${city} homes with flat ground for the ladder. Two-story ${threeNbh(facts)} homes, sloped yards, and complex rooflines should go pro — US ladder-fall stats make the $150 cleaning a bargain.`,
+    `For single-story ${city} ranches with level ladder ground, DIY is fine. Anything two-story, anything with a steep lot, anything with gables and valleys in ${threeNbh(facts)} is professional-crew work. The cost differential is small relative to ER-bill risk from a ladder fall.`,
+  ]);
   return `
 <section class="section fp-section">
-<h2>Gutter Maintenance Schedule for ${city}</h2>
+<h2>${h2}</h2>
 <div class="fp-maintenance-stat" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px 20px;background:#fefce8;border-radius:12px;border:1px solid #fde68a;">
 <div style="font-size:24px;font-weight:800;color:#92400e;line-height:1;">${data.cleaningFrequency}</div>
 </div>
 <p>${data.cleaningNote}</p>
-<h3>Cleaning cost in ${city}</h3>
-<p>Professional gutter cleaning in ${city} typically costs $100-$250 for a single-story home and $150-$350 for a two-story home. The price depends on total linear footage, gutter height, and the amount of debris. For homes cleaned on a regular schedule, costs tend toward the lower end because accumulation is manageable. For homes that have not been cleaned in over a year, expect higher pricing due to compacted debris, potential blockages, and the time required to flush downspouts.</p>
-<h3>DIY vs. professional cleaning</h3>
-<p>Single-story homes with easy ladder access are reasonable DIY projects. Two-story homes, steep lots, and homes with complex rooflines should use professional crews. Falls from ladders are among the most common serious home-maintenance injuries in the US. A $150 professional cleaning is not worth a trip to the emergency room.</p>
+<h3>${costH3}</h3>
+<p>${costBody}</p>
+<h3>${diyH3}</h3>
+<p>${diyBody}</p>
 </section>`;
 }
 
-function redFlagsSection(city, state, data) {
+function redFlagsSection(slug, city, state, data, facts) {
   const flags = [
     {
-      title: "Undersized gutters for local rainfall",
-      body: `${city} receives ${data.annualRainfall} of rain per year. If a contractor bids standard 5-inch gutters without discussing rainfall intensity or roof area, they may be sizing for convenience rather than performance. For homes with roof areas over 1,500 square feet draining to a single gutter run, 6-inch gutters are the appropriate choice in ${city}'s rainfall pattern.`
+      title: pick(slug, "rf1-title", [
+        `Undersized gutters for ${city} rainfall`,
+        `5-inch gutters on a ${city} home`,
+        `Bidding ${city} roofs without rainfall context`,
+        `${city}-specific undersizing`,
+      ]),
+      body: pick(slug, "rf1-body", [
+        `${city} receives ${data.annualRainfall} of rain annually. A contractor bidding standard 5-inch gutters without mentioning ${city} rainfall intensity or your specific roof area is sizing for convenience, not performance. Homes in ${threeNbh(facts)} with roof areas over 1,500 sq ft draining to a single run should default to 6-inch gutters.`,
+        `At ${data.annualRainfall} of annual rain in ${city}, a bid that defaults to 5-inch gutters without discussing ${threeNbh(facts)} roof area or peak rainfall rate is cutting corners. Roof planes over 1,500 sq ft draining to one run want 6-inch capacity in ${city}'s rain profile.`,
+        `A ${city} bid that specifies 5-inch gutters without reference to ${data.annualRainfall} of annual rainfall or the specific ${threeNbh(facts)} roof area being drained is underthought. Any roof plane above 1,500 sq ft emptying to a single gutter run needs 6-inch in ${city}.`,
+      ])
     },
     {
-      title: "Wrong pitch or no pitch at all",
-      body: `Gutters must slope toward downspouts at approximately 1/4 inch per 10 feet of run. Flat gutters pool water, attract mosquitoes, and overflow during rain. After installation, you can verify pitch with a simple water test: pour water at the high end and confirm it flows steadily to the downspout without pooling. If water stands anywhere, the pitch needs correction.`
+      title: pick(slug, "rf2-title", [
+        `Wrong pitch or no pitch at all`,
+        `Flat ${city} gutters as installed`,
+        `Pitch errors on ${city} installs`,
+        `${city} gutter slope problems`,
+      ]),
+      body: pick(slug, "rf2-body", [
+        `Gutters should slope toward downspouts at about 1/4 inch per 10 feet of run. Flat gutters pool water, breed mosquitoes, and overflow in storms. After install, run a simple ${city} water test: pour water at the high end and confirm steady flow to the downspout with no pooling. If water stands, pitch needs correction.`,
+        `Standard pitch is 1/4 inch per 10 feet of run toward the downspout. Flat gutters pool, attract mosquitoes, and overflow during ${city} downpours. Test with a garden hose after install — pooling anywhere means the hanger heights need re-setting.`,
+        `Correct slope for ${city} gutters: 1/4 inch per 10 feet of run toward each downspout. Flat sections pool water and overflow during storms. A five-minute post-install hose test catches the problem — any standing water means the hangers need adjusting.`,
+      ])
     },
     {
-      title: "No splash blocks or downspout extensions",
-      body: `Gutters collect water and downspouts deliver it, but without splash blocks, downspout extensions, or buried drainage, all that concentrated water dumps right next to your foundation. In ${city}, where ${data.annualRainfall} of rain hits the roof each year, this concentrated discharge is a recipe for foundation problems, basement moisture, and landscape erosion. Any gutter quote that does not address discharge routing is incomplete.`
+      title: pick(slug, "rf3-title", [
+        `No splash blocks or downspout extensions`,
+        `${city} discharge routing skipped`,
+        `Downspouts dumping at the foundation`,
+        `Missing drainage on ${city} bids`,
+      ]),
+      body: pick(slug, "rf3-body", [
+        `Gutters collect water; downspouts deliver it. Without splash blocks, extensions, or buried drainage, all that water concentrates at your foundation. ${city}'s ${data.annualRainfall} of annual rain turns that into foundation cracks, basement seepage, and eroded landscaping. A ${city} bid silent on discharge routing is incomplete.`,
+        `${city} downspouts need splash blocks, extensions, or buried drain tile — without them, ${data.annualRainfall} of annual rain lands at the foundation each year. Foundation problems, wet basements, and landscape erosion follow. ${city} bids that ignore discharge routing are missing half the job.`,
+        `Discharge routing is the half of a ${city} gutter project contractors most often skip. Given ${data.annualRainfall} of ${city} rainfall annually, dumping water at the foundation causes foundation movement, basement moisture, and yard erosion. A proper ${city} bid addresses where the water goes, not just how it gets off the roof.`,
+      ])
     },
     {
-      title: "Seamed gutters sold as seamless",
-      body: `Seamless gutters are formed on-site from continuous coil stock using a portable roll-forming machine. They have seams only at corners, downspout outlets, and end caps. If a contractor quotes "seamless" gutters but plans to join 10-foot or 20-foot sections with splice connectors, those are sectional gutters -- not seamless. Seams are the most common failure point in gutter systems, and paying a seamless price for sectional product is the most frequent gutter installation scam in every market.`
-    }
+      title: pick(slug, "rf4-title", [
+        `Seamed gutters sold as seamless`,
+        `"Seamless" that actually has seams`,
+        `The ${city} seamless bait-and-switch`,
+        `Sectional gutters priced as seamless`,
+      ]),
+      body: pick(slug, "rf4-body", [
+        `True seamless gutters are roll-formed on-site from continuous coil using a portable forming machine — seams only at corners, downspout outlets, and end caps. If a ${city} contractor quotes "seamless" but plans to splice 10- or 20-foot factory sections, that's sectional product. Seams are the #1 failure point in gutter systems, and paying seamless pricing for sectional product is the most common ${city} gutter scam.`,
+        `Real seamless means the installer rolls the full gutter run on your ${city} property from continuous coil stock; seams appear only at corners, outlets, and end caps. A "seamless" ${city} bid that mentions joining factory-cut sections with splice connectors is sectional gutter at seamless pricing — the single most common install-side scam.`,
+        `Seamless = formed on-site from one coil. Sectional = factory pieces joined with connectors. The ${city} scam is marketing sectional gutters as "seamless" and charging the seamless premium. Seams cause the majority of gutter failures, so paying for real seamless matters — verify the coil-forming machine showed up to your job.`,
+      ])
+    },
   ];
 
   const flagsHTML = flags.map(f => `
@@ -521,18 +698,42 @@ function redFlagsSection(city, state, data) {
 <p>${f.body}</p>
 </div>`).join("");
 
+  const h2 = pick(slug, "rf-h2", [
+    `Red Flags in Gutter Quotes: What ${city} Homeowners Should Watch For`,
+    `${city} Gutter Quote Red Flags`,
+    `Common Gutter Scams in ${city}`,
+    `What to Watch for in ${city} Gutter Bids`,
+  ]);
+  const intro = pick(slug, "rf-intro", [
+    `These are the most common problems that surface on ${city} gutter quotes.`,
+    `Here are the ${city} gutter-bid patterns that burn homeowners most often.`,
+    `${threeNbh(facts)} homeowners see these same four gutter-quote issues repeatedly.`,
+    `The ${city} gutter-industry patterns worth flagging before signing anything.`,
+  ]);
+
   return `
 <section class="section fp-section">
-<h2>Red Flags in Gutter Quotes: What ${city} Homeowners Should Watch For</h2>
-<p>These are the most common problems we see in gutter quotes from ${city} homeowners.</p>
+<h2>${h2}</h2>
+<p>${intro}</p>
 ${flagsHTML}
 </section>`;
 }
 
-function seasonalBuyingGuide(city, data) {
+function seasonalBuyingGuide(slug, city, data) {
+  const h2 = pick(slug, "season-h2", [
+    `Best Time to Install Gutters in ${city}`,
+    `${city} Gutter Installation: Seasonal Timing`,
+    `When to Schedule ${city} Gutter Work`,
+    `${city} Gutter Pricing by Season`,
+  ]);
+  const peakTail = pick(slug, "season-peak", [
+    `Expect 10-20% higher labor costs and longer lead times during ${city} peak season. Emergency gutter repairs after ${city} storms command premium pricing regardless of month.`,
+    `Peak-season ${city} pricing runs 10-20% above shoulder-season rates, with longer lead times too. Storm-damage emergency work carries its own premium separate from seasonal swings.`,
+    `${city} peak months bring 10-20% labor surcharges and waitlists. Storm-emergency gutter work is always premium-priced — it doesn't follow the regular seasonal pattern.`,
+  ]);
   return `
 <section class="section fp-section">
-<h2>Best Time to Install Gutters in ${city}</h2>
+<h2>${h2}</h2>
 <div class="fp-season-grid">
 <div class="fp-season-card fp-season-best">
 <h3>Best months</h3>
@@ -542,14 +743,14 @@ function seasonalBuyingGuide(city, data) {
 <div class="fp-season-card fp-season-worst">
 <h3>Peak pricing / low availability</h3>
 <p class="fp-season-months">${data.buyingWorst}</p>
-<p>Expect 10-20% higher labor costs and longer lead times during peak season. Emergency gutter repairs after storms command premium pricing regardless of season.</p>
+<p>${peakTail}</p>
 </div>
 </div>
 </section>`;
 }
 
-function costScenarios(city, state, mult) {
-  const lf = 150; // average home
+function costScenarios(slug, city, state, mult, facts) {
+  const lf = 150;
   const budgetPerLF = pricingModel.basePricePerLinearFoot.vinyl.mid * mult;
   const midPerLF = pricingModel.basePricePerLinearFoot.aluminum_seamless.mid * mult;
   const guardPerLF = pricingModel.basePricePerLinearFoot.gutter_guards.mid * mult;
@@ -559,41 +760,70 @@ function costScenarios(city, state, mult) {
     material: "vinyl gutters",
     perLF: Math.round(budgetPerLF * 100) / 100,
     total: Math.round(lf * budgetPerLF / 25) * 25,
-    detail: "Includes removal of old gutters, vinyl gutter and downspout installation, basic splash blocks, and cleanup. Vinyl is the most affordable option but has a shorter lifespan (10-15 years) and is more prone to cracking in temperature extremes."
+    detail: pick(slug, "sc-budget", [
+      `Old-gutter removal, vinyl gutter and downspout install, basic splash blocks, site cleanup. Vinyl is the cheapest option in ${city} but carries a 10-15 year lifespan and cracks in temperature extremes.`,
+      `Includes vinyl gutter and downspout install after removing the old system, basic splash blocks, and site cleanup. Vinyl runs cheapest in ${city} but lives only 10-15 years and cracks under temperature swings.`,
+      `Covers removal of the existing system, vinyl gutter and downspout install with basic splash blocks. The ${city} cheapskate tier: 10-15 year expected life and temperature-crack susceptibility.`,
+    ])
   };
   const mid = {
     material: "aluminum seamless + leaf guards",
     perLF: Math.round((midPerLF + guardPerLF) * 100) / 100,
     total: Math.round(lf * (midPerLF + guardPerLF) / 25) * 25,
-    detail: "Includes old gutter removal, 5-inch seamless aluminum gutters, micro-mesh leaf guards, hidden hangers, downspouts with extensions, and cleanup. The most popular choice and best overall value for most homeowners."
+    detail: pick(slug, "sc-mid", [
+      `Old gutter removal, 5-inch seamless aluminum, micro-mesh leaf guards, hidden hangers, downspouts with extensions, cleanup. The most common ${city} choice and the best overall value for most ${threeNbh(facts)} homes.`,
+      `5-inch seamless aluminum with hidden hangers, micro-mesh leaf guards, downspout extensions, and full cleanup after removal of the old system. Right answer for most ${threeNbh(facts)} homes in ${city}.`,
+      `Seamless 5-inch aluminum on hidden hangers, micro-mesh guards, downspouts with proper extensions, old-system removal and haul-off. This is what the majority of ${threeNbh(facts)} ${city} homes should install.`,
+    ])
   };
   const prem = {
     material: "copper half-round with leaf guards",
     perLF: Math.round((premPerLF + guardPerLF) * 100) / 100,
     total: Math.round(lf * (premPerLF + guardPerLF) / 25) * 25,
-    detail: "Includes old gutter removal, copper half-round gutters, copper downspouts, micro-mesh guards, and all premium fittings. Copper develops a natural patina over time and lasts 50+ years with zero corrosion."
+    detail: pick(slug, "sc-prem", [
+      `Old gutter removal, copper half-round gutters and copper downspouts, micro-mesh guards, premium fittings throughout. Copper develops natural patina over 2-3 years and lasts 50+ years in ${city} with zero corrosion.`,
+      `Copper half-round system with matching copper downspouts, micro-mesh guards, and all premium fittings. A 50+ year ${city} install — copper patinas in 2-3 years and then just sits there indefinitely.`,
+      `Full copper half-round with copper downspouts, premium micro-mesh guards, and complete fitting suite. Half-round copper is the ${city} 50-year tier, with natural patina settling in after 2-3 years.`,
+    ])
   };
 
+  const lfSuffix = pick(slug, "lf-suffix", [`| 150 LF`, `on 150 LF`, `across 150 LF`, `over 150 LF`]);
   function scenarioCard(label, s, color) {
     return `
 <div class="fp-scenario-card" style="border-top:4px solid ${color};">
 <h3>${label}</h3>
-<p class="fp-scenario-material">${s.material} | 150 LF</p>
+<p class="fp-scenario-material">${s.material} ${lfSuffix}</p>
 <p class="fp-scenario-total">${fmtK(s.total)}</p>
 <p class="fp-scenario-detail">~$${s.perLF}/LF installed. ${s.detail}</p>
 </div>`;
   }
 
+  const h2 = pick(slug, "cost-h2", [
+    `What Gutters Actually Cost in ${city}: 3 Scenarios`,
+    `${city} Gutter Cost Scenarios`,
+    `Real Gutter Project Pricing in ${city}`,
+    `${city} Gutter Pricing: Budget, Mid, Premium`,
+  ]);
+  const intro = pick(slug, "cost-intro", [
+    `Real ${city} gutter project pricing, using ${city}-adjusted labor and material costs for 2026. Every scenario assumes 150 linear feet (average single-story ${city} home).`,
+    `Here's what ${city} gutter projects actually cost in 2026, calibrated to ${city} labor and material rates. All three scenarios use a 150-LF single-story baseline.`,
+    `These ${city} figures reflect 2026 pricing on labor and materials in ${city}. Each scenario models 150 linear feet, which is typical for single-story ${city} homes.`,
+  ]);
+  const caveat = pick(slug, "cost-caveat", [
+    `Two-story ${city} homes add 15-25% for ladder and scaffold access. Fascia repair runs an additional $5-$15/LF. Complex rooflines in ${nbh(facts, 0)} or ${nbh(facts, 1)} with many corners push labor higher because of fitting count.`,
+    `Add 15-25% for two-story ${city} homes because of ladder and scaffold overhead. Fascia repair is another $5-$15/LF. Multiple corners in ${nbh(facts, 0)} and ${nbh(facts, 1)} increase fitting count and labor.`,
+    `Two-story adds 15-25% to ${city} gutter pricing. Any fascia replacement runs $5-$15/LF extra. Complex ${nbh(facts, 0)} or ${nbh(facts, 1)} rooflines with many corners need more fittings, which drives labor up.`,
+  ]);
   return `
 <section class="section fp-section">
-<h2>What Gutters Actually Cost in ${city}: 3 Scenarios</h2>
-<p>Here is what real gutter projects look like in ${city}, ${state}, using ${city}-adjusted labor and material costs for 2026. All scenarios assume 150 linear feet (average single-story home).</p>
+<h2>${h2}</h2>
+<p>${intro}</p>
 <div class="fp-scenario-grid">
 ${scenarioCard("Budget", budget, "#22c55e")}
 ${scenarioCard("Mid-Range", mid, "#3b82f6")}
 ${scenarioCard("Premium", prem, "#8b5cf6")}
 </div>
-<p style="font-size:13px; color:var(--text-muted);">Two-story homes add 15-25% for ladder/scaffold access. Fascia repair, if needed, adds $5-$15/LF. Homes with complex rooflines or many corners cost more due to additional fittings and labor. <a href="/gutter-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">${caveat} <a href="/gutter-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized ${city} estimate.</a></p>
 </section>`;
 }
 
@@ -641,16 +871,16 @@ function buildFlagshipContent(metro) {
   const state = facts.stateAbbr;
   const mult = getRegionMultiplier(state);
 
-  let html = `\n${MARKER_START}\n`;
-  html += flagshipCSS();
-  html += neighborhoodPricing(facts, mult);
-  html += rainfallDrainage(city, state, metro.slug, data);
-  html += gutterGuardAnalysis(city, data);
-  html += iceDamWinter(city, state, data);
-  html += maintenanceSchedule(city, data);
-  html += redFlagsSection(city, state, data);
-  html += seasonalBuyingGuide(city, data);
-  html += costScenarios(city, state, mult);
+  let html = flagshipCSS();
+  html += `\n${MARKER_START}\n`;
+  html += neighborhoodPricing(metro.slug, facts, mult);
+  html += rainfallDrainage(city, state, metro.slug, data, facts);
+  html += gutterGuardAnalysis(metro.slug, city, data, facts);
+  html += iceDamWinter(metro.slug, city, state, data, facts);
+  html += maintenanceSchedule(metro.slug, city, data, facts);
+  html += redFlagsSection(metro.slug, city, state, data, facts);
+  html += seasonalBuyingGuide(metro.slug, city, data);
+  html += costScenarios(metro.slug, city, state, mult, facts);
   html += `\n${MARKER_END}\n`;
 
   return html;

@@ -80,7 +80,6 @@
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
 <a href="/find-contractors.html">Contractors</a>
-<a href="/roofing-quote-analyzer.html?mode=estimator">Photo Estimate</a>
 <a class="nav-cta" href="/analyze-my-quote.html">Get Started</a>
 </nav>
 </div>
@@ -244,7 +243,8 @@ depending on the type of work, home size, and complexity.
 
 
 
-<!-- FLAGSHIP-ELECTRICAL-CONTENT -->
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -255,27 +255,79 @@ depending on the type of work, home size, and complexity.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-ELECTRICAL-CONTENT -->
+
 <section class="section fp-section">
-<h2>Neighborhood Pricing Breakdown</h2>
-<p>Electrical work costs vary within Austin based on housing age, panel access, local demand, and wiring complexity. These are estimated ranges for typical residential projects in each area.</p>
+<h2>Austin Neighborhood Pricing</h2>
+<p>Austin electrical labor runs 10-20% above the national average and is trending up faster than most Texas markets due to tech-driven population growth. Permit queue delays routinely push project timelines 3-5 weeks beyond initial estimates.</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
@@ -333,103 +385,107 @@ depending on the type of work, home size, and complexity.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and typical project scope. Actual pricing depends on panel condition, wiring access, and permit requirements. <a href="/electrical-quote-analyzer.html?city=Austin&state=TX" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Electrical Code Requirements in Austin</h2>
-<p>Austin electrical work is governed by the National Electrical Code (NEC), 2023 edition as adopted by TX. Texas adopted the 2023 NEC statewide, making it one of the more current states. Local jurisdictions can add amendments but cannot reduce the NEC baseline. Texas does not require conduit for residential wiring in most cases, which keeps wiring costs lower than conduit-mandatory cities like Chicago and New York.</p>
-<p><strong>Why this matters for your quote.</strong> Code requirements directly affect project cost. A panel upgrade that is straightforward in one city might require additional grounding, bonding, or conductor sizing in another. When comparing quotes across different contractors in Austin, verify that all bids reference the same code edition and include the same scope of code-required work. A cheaper bid that omits required AFCI breakers, GFCI protection, or proper grounding is not actually cheaper; it is incomplete.</p>
+<h2>Austin Utility and Code Context</h2>
+<p>Austin Energy is a municipal utility serving most of Austin proper. Pedernales Electric Cooperative (PEC) covers western Travis County and the Hill Country. Bluebonnet Electric Cooperative serves east Travis County. Service coordination through Austin Energy runs 10-20 business days and the city's online coordination portal is notoriously slower than neighboring Pflugerville or Round Rock.</p>
+<p>Austin follows the 2023 NEC through TDLR statewide adoption. Austin Energy adds local requirements for solar-interconnection-ready panels on new construction, EV-ready circuits, and specific requirements for PV-disconnect visibility. Romex is permitted for residential wiring.</p>
 </section>
 <section class="section fp-section">
-<h2>Home Age and Wiring: What Austin Homeowners Should Know</h2>
-<p>rapid recent growth means lots of 5-15 year old construction in suburbs while central neighborhoods like Hyde Park have 1920s bungalows. The age of your home's electrical system is the single biggest predictor of project scope and cost in Austin.</p>
-<p><strong>Federal Pacific and Zinsco panels.</strong> If your Austin home has a Federal Pacific Electric (FPE) Stab-Lok panel or a Zinsco panel, replacement is not optional; it is a safety imperative. Both panel brands have well-documented failure rates where breakers fail to trip during overload conditions, creating fire risk. Insurance companies in TX increasingly refuse to cover homes with these panels. Replacement with a modern 200-amp panel typically costs $2,000-$3,500 in Austin, and it is the single highest-return safety investment you can make in an older home.</p>
-<p><strong>Newer homes, modern problems.</strong> With a median home age of 29 years, most Austin homes were built to relatively modern code. The most common electrical projects here are not remediation but expansion: adding EV charger circuits, upgrading from 100A to 200A panels to handle increased electrical loads (heat pumps, induction cooktops, EV charging), and adding smart home infrastructure. These projects are typically cleaner and faster than working in older homes because wiring access is better and the existing system is code-compliant.</p>
+<h2>Austin Home Stock and Panel Realities</h2>
+<p>Austin housing stock includes 1920s-40s bungalows in Clarksville and Travis Heights (often with upgraded panels), 1970s-90s tract homes in South Austin (100-200 amp), and rapid new construction with 200-400 amp service in the Mueller and East Austin infill boom. Hill Country homes west of MoPac often have larger service (400 amp) for well pumps and outdoor loads.</p>
+<p>Austin homes are a mix of slab-on-grade tract construction and pier-and-beam older stock. Hill Country homes add well pumps, septic lift stations, and outdoor irrigation circuits to the typical load profile. Solar adoption is exceptionally high, with 20-30% of new Austin panel upgrades specifying solar-ready bus bars.</p>
 </section>
 <section class="section fp-section">
-<h2>Electrical Permits and Inspections in Austin</h2>
-<p>Electrical work is one of the most strictly permitted and inspected trades in every U.S. jurisdiction, and Austin is no exception. Virtually all electrical work beyond simple fixture swaps requires a permit.</p>
-<p><strong>Where to file.</strong> City of Austin Development Services handles electrical permits in Austin. Austin's permit timeline is notoriously longer than other Texas cities. Licensed master electricians file permits; plan ahead for the longer processing time.</p>
-<p><strong>Timeline.</strong> Expect 2-4 weeks for permit processing. Build this into your project timeline before scheduling the electrician. Many homeowners are surprised when a "three-day job" actually takes three weeks once permit processing and inspection scheduling are included.</p>
-<p><strong>Inspection process.</strong> Most electrical projects in Austin require at least two inspections: a rough-in inspection (before walls are closed up) and a final inspection (after all devices are installed and energized). Panel upgrades may require a utility coordination step where the utility company disconnects and reconnects the meter, which adds 1-3 business days.</p>
-<p><strong>What happens without a permit.</strong> Unpermitted electrical work in Austin creates three serious problems: (1) it voids your homeowners insurance coverage for any fire or damage originating from the unpermitted work, (2) it must be disclosed during a home sale and can kill deals or require expensive retroactive permitting, and (3) it may not be code-compliant, creating genuine safety hazards. Any electrician who suggests skipping the permit is telling you they either lack a license or plan to cut corners. Walk away.</p>
+<h2>Austin Licensing and Permits</h2>
+<p>Texas TDLR licensing applies plus Austin-specific electrical contractor registration through the city. Verify TDLR licensure at tdlr.texas.gov and city registration through the Austin Development Services portal. Austin enforces contractor registration more strictly than Dallas or Houston.</p>
+<p>Austin Development Services Department permits electrical work in 2-4 weeks. Austin's permit queue is notoriously longer than other Texas cities. Austin Energy coordination runs 2-4 weeks parallel. Edwards Aquifer Recharge Zone overlays west of MoPac add Environmental Compliance review.</p>
 </section>
 <section class="section fp-section">
-<h2>Electrician Licensing in Austin, TX</h2>
-<p>Electricians are among the most heavily licensed trades in the country, and for good reason: improperly installed electrical work creates fire and electrocution hazards that may not become apparent for months or years. In Austin, licensing is handled by Texas Department of Licensing and Regulation (TDLR).</p>
-<p><strong>License levels.</strong> TX uses the following license tiers: Master Electrician, Journeyman Electrician, Electrical Apprentice, and Maintenance Electrician. Texas requires 8,000 hours (approximately 4 years) of supervised work experience plus a passing exam score for Journeyman licensure, and 12,000 hours (approximately 6 years) plus an additional exam for Master Electrician. Only Master Electricians can pull permits and run their own contracting businesses.</p>
-<p><strong>How to verify.</strong> Before signing any contract or paying any deposit, verify your electrician's license through TDLR license search at tdlr.texas.gov. Check for active status, expiration date, insurance coverage, and any disciplinary history. This takes less than five minutes and is the single most important due diligence step you can take.</p>
-<p><strong>Red flag: handyman electrical work.</strong> In Austin, general handymen are not licensed to perform electrical work beyond simple fixture replacements (swapping a light fixture or outlet cover). Any work involving the panel, new circuits, rewiring, or EV charger installation requires a licensed electrician. If a handyman offers to do panel or circuit work at a lower price, the work will be unpermitted, uninsured, and potentially dangerous.</p>
+<h2>Austin Hidden Hazards and Renovation Triggers</h2>
+<p>Federal Pacific panels and aluminum branch wiring show up in 1960s-80s South Austin and Riverside construction. Post-Uri (February 2021) frozen-burst conduits left water-damaged wiring in many homes that was simply dried rather than replaced. Solar interconnection errors are a growing hazard category as DIY solar scales.</p>
+<p>Solar interconnection is the dominant growth scope in Austin residential electrical. A typical rooftop solar panel upgrade with solar-ready bus bars, inverter circuit, and utility-interconnection documentation runs $1,800-$3,500 over a standard panel upgrade.</p>
 </section>
 <section class="section fp-section">
-<h2>Red Flags and Safety Warnings for Austin Homeowners</h2>
-<p>Electrical work carries higher safety stakes than most home improvement projects. These are the warning signs most commonly reported by Austin homeowners.</p>
+<h2>Austin Electrical Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Unlicensed electrical work</h3>
-<p>The most common and most dangerous red flag in Austin's electrical market is unlicensed work. Unlike roofing or painting where poor quality is visible, bad electrical work hides inside walls where it can cause fires years after installation. Every electrician working in Austin must hold a valid TX electrical license. Verify it before signing anything. No exceptions.</p>
+<h3>Ignoring the Austin utility process</h3>
+<p>Austin Energy is a municipal utility serving most of Austin proper. Pedernales Electric Cooperative (PEC) covers western Travis County and the Hill Country. Bluebonnet Electric Cooperative serves east Travis County. Service coordination through Austin Energy runs 10-20 business days and the city's online coordination portal is notoriously slower than neighboring Pflugerville or Round Rock.</p>
 </div>
 <div class="fp-flag">
-<h3>Permit skipping</h3>
-<p>If an electrician suggests skipping the permit to "save you money" or "speed things up," they are either unlicensed (and cannot pull a permit) or planning to cut corners that would not pass inspection. The permit fee in Austin is typically $75-$300 depending on project scope. That is a negligible cost on any real electrical project. The inspection that comes with the permit is your independent verification that the work is safe and code-compliant.</p>
+<h3>Mismatch with Austin code amendments</h3>
+<p>Austin follows the 2023 NEC through TDLR statewide adoption. Austin Energy adds local requirements for solar-interconnection-ready panels on new construction, EV-ready circuits, and specific requirements for PV-disconnect visibility. Romex is permitted for residential wiring.</p>
 </div>
 <div class="fp-flag">
-<h3>Undersized panel recommendation</h3>
-<p>An electrician who recommends staying with a 100-amp panel "because it is cheaper" when your load analysis clearly calls for 200 amps is prioritizing their bid over your needs. Modern homes in Austin with central air, an electric range, electric dryer, and any EV charging aspirations need 200 amps minimum. A 100-amp panel on a modern-load home will trip breakers constantly and cannot be expanded when you need more capacity. Pay for the right-sized panel now rather than paying for two panel installations over the next five years.</p>
+<h3>Wrong panel size for Austin load</h3>
+<p>Austin housing stock includes 1920s-40s bungalows in Clarksville and Travis Heights (often with upgraded panels), 1970s-90s tract homes in South Austin (100-200 amp), and rapid new construction with 200-400 amp service in the Mueller and East Austin infill boom. Hill Country homes west of MoPac often have larger service (400 amp) for well pumps and outdoor loads.</p>
 </div>
 <div class="fp-flag">
-<h3>No load calculation</h3>
-<p>A professional electrician in Austin should perform a load calculation (NEC Article 220) before recommending panel size or circuit additions. If the quote just says "200-amp panel upgrade" without any analysis of your actual electrical load, the contractor is guessing rather than engineering. The load calculation determines whether 200 amps is sufficient or whether your home actually needs a 320-amp or 400-amp service, which is increasingly common in all-electric homes with EV charging.</p>
+<h3>Missing license verification</h3>
+<p>Texas TDLR licensing applies plus Austin-specific electrical contractor registration through the city. Verify TDLR licensure at tdlr.texas.gov and city registration through the Austin Development Services portal. Austin enforces contractor registration more strictly than Dallas or Houston.</p>
 </div>
 <div class="fp-flag">
-<h3>Storm-chaser electricians</h3>
-<p>After major weather events in Austin, out-of-area electrical contractors appear offering quick fixes for storm-damaged panels and wiring. These operators often lack proper TX licensing, use substandard materials, and disappear before warranty issues surface. Verify a permanent local business address and active TX license before hiring any electrician who appeared after a storm.</p>
+<h3>Hazard not disclosed</h3>
+<p>Federal Pacific panels and aluminum branch wiring show up in 1960s-80s South Austin and Riverside construction. Post-Uri (February 2021) frozen-burst conduits left water-damaged wiring in many homes that was simply dried rather than replaced. Solar interconnection errors are a growing hazard category as DIY solar scales.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Schedule Electrical Work in Austin</h2>
-<p>Electrical work is less weather-dependent than roofing or exterior trades, but timing still affects pricing and availability. In Austin, contractor demand follows home-sale cycles and renovation seasons more than weather patterns.</p>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months</h3>
-<p class="fp-season-months">September through November</p>
-<p>Fall offers the best combination of moderate temperatures and lower contractor demand. Spring is peak home-sale season, which drives renovation timelines and tightens electrician availability.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low availability</h3>
-<p class="fp-season-months">March through May</p>
-<p>Expect longer lead times and less negotiation flexibility during peak season. If your project is not urgent, scheduling during off-peak months can save 5-10% on labor costs in Austin.</p>
-</div>
-</div>
-<p><strong>Emergency exceptions.</strong> Panel failures, circuit breaker tripping, burning smells, and flickering lights are safety emergencies that should not wait for optimal scheduling. Call a licensed electrician immediately regardless of season. Most reputable electricians in Austin offer emergency service with 24-48 hour response times.</p>
+<h2>Austin Scope Checklist</h2>
+<p><strong>Utility coordination.</strong> Austin Energy is a municipal utility serving most of Austin proper. Pedernales Electric Cooperative (PEC) covers western Travis County and the Hill Country. Bluebonnet Electric Cooperative serves east Travis County. Service coordination through Austin Energy runs 10-20 business days and the city's online coordination portal is notoriously slower than neighboring Pflugerville or Round Rock.</p>
+<p><strong>Applicable code.</strong> Austin follows the 2023 NEC through TDLR statewide adoption. Austin Energy adds local requirements for solar-interconnection-ready panels on new construction, EV-ready circuits, and specific requirements for PV-disconnect visibility. Romex is permitted for residential wiring.</p>
+<p><strong>Permit process.</strong> Austin Development Services Department permits electrical work in 2-4 weeks. Austin's permit queue is notoriously longer than other Texas cities. Austin Energy coordination runs 2-4 weeks parallel. Edwards Aquifer Recharge Zone overlays west of MoPac add Environmental Compliance review.</p>
+<p><strong>Pricing context.</strong> Austin electrical labor runs 10-20% above the national average and is trending up faster than most Texas markets due to tech-driven population growth. Permit queue delays routinely push project timelines 3-5 weeks beyond initial estimates.</p>
 </section>
 <section class="section fp-section">
-<h2>What Electrical Work Actually Costs in Austin: 3 Scenarios</h2>
-<p>Here is what real electrical projects look like in Austin, TX, using Austin-adjusted labor rates for 2026.</p>
+<h2>Questions to Ask a Austin Electrician</h2>
+<p><strong>Which utility coordinates this work?</strong> Austin Energy is a municipal utility serving most of Austin proper. Pedernales Electric Cooperative (PEC) covers western Travis County and the Hill Country. Bluebonnet Electric Cooperative serves east Travis County. Service coordination through Austin Energy runs 10-20 business days and the city's online coordination portal is notoriously slower than neighboring Pflugerville or Round Rock.</p>
+<p><strong>What code edition applies?</strong> Austin follows the 2023 NEC through TDLR statewide adoption. Austin Energy adds local requirements for solar-interconnection-ready panels on new construction, EV-ready circuits, and specific requirements for PV-disconnect visibility. Romex is permitted for residential wiring.</p>
+<p><strong>What hazards did you find?</strong> Federal Pacific panels and aluminum branch wiring show up in 1960s-80s South Austin and Riverside construction. Post-Uri (February 2021) frozen-burst conduits left water-damaged wiring in many homes that was simply dried rather than replaced. Solar interconnection errors are a growing hazard category as DIY solar scales.</p>
+<p><strong>What renovation trigger applies?</strong> Solar interconnection is the dominant growth scope in Austin residential electrical. A typical rooftop solar panel upgrade with solar-ready bus bars, inverter circuit, and utility-interconnection documentation runs $1,800-$3,500 over a standard panel upgrade.</p>
+<p><strong>What is your license?</strong> Texas TDLR licensing applies plus Austin-specific electrical contractor registration through the city. Verify TDLR licensure at tdlr.texas.gov and city registration through the Austin Development Services portal. Austin enforces contractor registration more strictly than Dallas or Houston.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin Renovation Context and Common Upgrades</h2>
+<p>Solar interconnection is the dominant growth scope in Austin residential electrical. A typical rooftop solar panel upgrade with solar-ready bus bars, inverter circuit, and utility-interconnection documentation runs $1,800-$3,500 over a standard panel upgrade.</p>
+<p>Austin homes are a mix of slab-on-grade tract construction and pier-and-beam older stock. Hill Country homes add well pumps, septic lift stations, and outdoor irrigation circuits to the typical load profile. Solar adoption is exceptionally high, with 20-30% of new Austin panel upgrades specifying solar-ready bus bars.</p>
+<p>Austin housing stock includes 1920s-40s bungalows in Clarksville and Travis Heights (often with upgraded panels), 1970s-90s tract homes in South Austin (100-200 amp), and rapid new construction with 200-400 amp service in the Mueller and East Austin infill boom. Hill Country homes west of MoPac often have larger service (400 amp) for well pumps and outdoor loads.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin Electrical Hazards to Test For</h2>
+<p>Federal Pacific panels and aluminum branch wiring show up in 1960s-80s South Austin and Riverside construction. Post-Uri (February 2021) frozen-burst conduits left water-damaged wiring in many homes that was simply dried rather than replaced. Solar interconnection errors are a growing hazard category as DIY solar scales.</p>
+<p>Austin Energy is a municipal utility serving most of Austin proper. Pedernales Electric Cooperative (PEC) covers western Travis County and the Hill Country. Bluebonnet Electric Cooperative serves east Travis County. Service coordination through Austin Energy runs 10-20 business days and the city's online coordination portal is notoriously slower than neighboring Pflugerville or Round Rock.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Schedule Austin Electrical Work</h2>
+<p>Austin electrical demand peaks March-May and September-November. Summer heat makes attic work hazardous; productive attic shifts are 6am-10am only. Winter ice events produce periodic emergency-repair spikes.</p>
+<p>Austin electrical labor runs 10-20% above the national average and is trending up faster than most Texas markets due to tech-driven population growth. Permit queue delays routinely push project timelines 3-5 weeks beyond initial estimates.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin Project Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget: Panel Upgrade</h3>
-<p class="fp-scenario-material">200-amp panel upgrade, replace breakers, update grounding</p>
+<h3>Budget</h3>
+<p class="fp-scenario-material">200A panel upgrade in Austin</p>
 <p class="fp-scenario-total">$2.6K</p>
-<p class="fp-scenario-detail">Standard 200-amp panel (Square D or equivalent), 20-30 breaker spaces, new grounding rod, permit, and inspection. Does not include rewiring or additional circuits.</p>
+<p class="fp-scenario-detail">Austin housing stock includes 1920s-40s bungalows in Clarksville and Travis Heights (often with upgraded panels), 1970s-90s tract homes in South Austin (100-200 amp), and rapid new construction with 200-400 amp service in the Mueller and East Austin infill boom. Austin Development Services Department permits electrical work in 2-4 weeks.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range: Whole-House Rewire</h3>
-<p class="fp-scenario-material">Complete rewire for a 2,000 sq ft home, panel upgrade included</p>
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">Austin whole-house rewire</p>
 <p class="fp-scenario-total">$11.5K</p>
-<p class="fp-scenario-detail">Full replacement of all branch circuit wiring, new 200-amp panel, AFCI/GFCI protection per current code, permit, rough-in and final inspections. Includes patching but not full drywall restoration.</p>
+<p class="fp-scenario-detail">Austin homes are a mix of slab-on-grade tract construction and pier-and-beam older stock. Austin follows the 2023 NEC through TDLR statewide adoption.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium: Smart Home + EV + Panel</h3>
-<p class="fp-scenario-material">200A panel, EV charger, whole-home surge, smart switches throughout</p>
+<h3>Premium</h3>
+<p class="fp-scenario-material">Smart + EV + panel in Austin</p>
 <p class="fp-scenario-total">$8.3K</p>
-<p class="fp-scenario-detail">200-amp panel upgrade, Level 2 EV charger (50-amp circuit), whole-home surge protection, 15-20 smart switches/dimmers, 2-3 additional dedicated circuits, permit, and all inspections.</p>
+<p class="fp-scenario-detail">Solar interconnection is the dominant growth scope in Austin residential electrical. A typical rooftop solar panel upgrade with solar-ready bus bars, inverter circuit, and utility-interconnection documentation runs $1,800-$3,500 over a standard panel upgrade. Austin electrical labor runs 10-20% above the national average and is trending up faster than most Texas markets due to tech-driven population growth.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume a single-story home with accessible attic and crawlspace. Multi-story homes, finished basements, or limited access add 15-30% to rewiring costs. <a href="/electrical-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-ELECTRICAL-CONTENT -->
 <!-- TP-LOCAL-INJECTED-V2 -->

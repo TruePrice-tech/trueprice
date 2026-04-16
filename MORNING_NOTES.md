@@ -51,12 +51,10 @@ verticals.
      "totalPrice" but the bridge looks for totalPrice
    - 30-min fix once you investigate `api/medical-bill-estimate.js`
 
-**2. Roofing endpoint missing**
-   - Test loop expected `/api/roofing-estimate`, got 404 on all 10
-   - Roofing analysis presumably lives in `/api/photo-estimate.js`
-     (which was in the SKIP list of the bridge patcher)
-   - Need to find the actual roofing endpoint, add the flywheel bridge,
-     and update the test runner
+**2. Roofing has no dedicated estimate endpoint**
+   - Photo-estimate was removed Apr 2026 (feature deprecated)
+   - Roofing now only supports analyze (parse-quote) and compare flows
+   - No fix needed — this is intentional
 
 **3. Reddit fixture quality**
    - Many of the 85 scraped fixtures are NOT actual quote screenshots

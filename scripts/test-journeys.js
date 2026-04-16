@@ -11,8 +11,7 @@
  *     1. Visit /
  *     2. Click the "Estimate" intent card
  *     3. On /get-an-estimate.html, click the vertical card
- *     4. The destination MUST be the estimate page (e.g. /hvac-estimate.html
- *        or /photo-estimate.html for roofing)
+ *     4. The destination MUST be the estimate page (e.g. /hvac-estimate.html)
  *     5. The page MUST NOT show a file upload as the primary action
  *        (this catches the "estimate path landed on upload" routing bug)
  *     6. The page MUST show some kind of address input or estimator
@@ -51,13 +50,12 @@ fs.mkdirSync(SHOTS_DIR, { recursive: true });
 const BASE = 'https://truepricehq.com';
 
 const VERTICALS = [
-  'hvac', 'plumbing', 'electrical', 'roofing', 'solar', 'concrete',
+  'hvac', 'plumbing', 'electrical', 'solar', 'concrete',
   'window', 'siding', 'painting', 'foundation', 'fencing', 'gutters',
   'insulation', 'kitchen', 'landscaping', 'garage-door',
 ];
 
 function expectedEstimateUrl(v) {
-  if (v === 'roofing') return '/photo-estimate.html';
   if (v === 'window') return '/window-estimate.html';
   return '/' + v + '-estimate.html';
 }
@@ -159,9 +157,7 @@ async function testEstimateJourney(browser, v) {
       });
       const hasAddrInput = !!document.querySelector('input[id*="addr" i], input[placeholder*="address" i], input[placeholder*="city" i], input[id*="city" i], [class*="-address-form"], form#winForm');
       const hasUploadButton = (document.body.innerText || '').match(/upload (your |a )?quote|drop your quote|browse files/i);
-      // photo-estimate.html shows a "Take photo" button before address — that's actually OK for roofing now since I refactored it to address-first
-      const hasPhotoBtn = (document.body.innerText || '').match(/take photo|snap a photo/i);
-      return { visibleFileInputs: visibleFileInputs.length, hasAddrInput, hasUploadButton: !!hasUploadButton, hasPhotoBtn: !!hasPhotoBtn };
+      return { visibleFileInputs: visibleFileInputs.length, hasAddrInput, hasUploadButton: !!hasUploadButton };
     });
 
     if (visualState.hasUploadButton && !visualState.hasAddrInput) {

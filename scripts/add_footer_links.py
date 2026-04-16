@@ -10,7 +10,6 @@ BLOCK = '''<div class="tp-footer-links">
     <a href="/get-an-estimate.html">Get an estimate</a>
     <a href="/analyze-my-quote.html">Analyze a quote</a>
     <a href="/compare-quotes-picker.html">Compare quotes</a>
-    <a href="/photo-estimate.html">Roof photo estimate</a>
   </div>
   <div class="tp-footer-col">
     <h4>Browse</h4>

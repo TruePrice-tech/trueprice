@@ -293,170 +293,21 @@ Upload a contractor quote for an instant price check, or get a personalized esti
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
-.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
-.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
-.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
-.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
-.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
-.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
-.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
-.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>
-<section class="section fp-section">
-<h2>Neighborhood Pricing Breakdown</h2>
-<p>Roofing costs vary within Los Angeles based on labor accessibility, local demand, and housing density. These are estimated ranges for a typical 2,000 sq ft home in each area.</p>
-<div style="overflow-x:auto;">
-<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
-<thead>
-<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
-<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:right; padding:12px 16px;">Asphalt</th>
-<th style="text-align:right; padding:12px 16px;">Architectural</th>
-<th style="text-align:right; padding:12px 16px;">Metal</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Silver Lake</td>
-<td style="padding:12px 16px; text-align:right;">$12.7K</td>
-<td style="padding:12px 16px; text-align:right;">$15.7K</td>
-<td style="padding:12px 16px; text-align:right;">$34.4K</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Echo Park</td>
-<td style="padding:12px 16px; text-align:right;">$12.3K</td>
-<td style="padding:12px 16px; text-align:right;">$15.1K</td>
-<td style="padding:12px 16px; text-align:right;">$33.1K</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Sherman Oaks</td>
-<td style="padding:12px 16px; text-align:right;">$12.2K</td>
-<td style="padding:12px 16px; text-align:right;">$14.9K</td>
-<td style="padding:12px 16px; text-align:right;">$32.8K</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Mar Vista</td>
-<td style="padding:12px 16px; text-align:right;">$10.9K</td>
-<td style="padding:12px 16px; text-align:right;">$13.4K</td>
-<td style="padding:12px 16px; text-align:right;">$29.3K</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Eagle Rock</td>
-<td style="padding:12px 16px; text-align:right;">$11.3K</td>
-<td style="padding:12px 16px; text-align:right;">$13.9K</td>
-<td style="padding:12px 16px; text-align:right;">$30.6K</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Highland Park</td>
-<td style="padding:12px 16px; text-align:right;">$11.4K</td>
-<td style="padding:12px 16px; text-align:right;">$14.1K</td>
-<td style="padding:12px 16px; text-align:right;">$30.9K</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and material delivery costs. Actual pricing depends on roof complexity, access, and current demand. <a href="/analyze-my-quote.html?city=Los Angeles&state=CA" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
-</section>
-<section class="section fp-section">
-<h2>How Los Angeles's Climate Affects Your Roof</h2>
-<p>Mediterranean with mild wet winters and dry summers, but increasing wildfire risk in the foothills and Santa Ana wind events that drive embers miles from active fires. Understanding how these specific conditions affect roofing materials is essential to making the right investment in Los Angeles.</p>
-<p>The persistent moisture in Los Angeles's climate creates ideal conditions for moss, algae, and lichen growth on roofing surfaces. North-facing slopes are most susceptible. Left untreated, biological growth traps moisture against shingles and accelerates decay. Zinc or copper ridge strips provide long-term moss prevention, and periodic treatment (every 2-3 years) extends roof lifespan significantly. Asphalt shingles with built-in algae resistance (AR-rated) are strongly recommended for this market.</p>
-</section>
-<section class="section fp-section">
-<h2>Geography and Soil: What Los Angeles Homeowners Should Know</h2>
-<p>The soil conditions in Los Angeles have a direct but often overlooked impact on roofing decisions. Expansive clay soils in the basin plus active fault zones; foundation and grading permits are scrutinized closely. This matters for roofing because differential foundation movement can stress the roof structure, causing sheathing to separate, ridge lines to sag, and flashing details to fail. If your home shows signs of foundation movement (cracked drywall, sticking doors), have the foundation evaluated before committing to a full reroof. Addressing structural issues after a new roof is installed can damage the work you just paid for.</p>
-<p>Spans 469 square miles from coast to mountains; pricing varies meaningfully between coastal Westside and inland San Fernando Valley. When comparing roofing quotes in Los Angeles, make sure the contractors you are comparing are bidding on similar properties in similar conditions. A quote for a flat ranch home on stable ground is not comparable to a quote for a steep-pitched home on a hillside lot, even if both are 2,000 square feet.</p>
-</section>
-<section class="section fp-section">
-<h2>Roofing Insurance and Claims in Los Angeles</h2>
-<p>Most roof replacements in Los Angeles are homeowner-funded rather than insurance-driven, since storm damage claims are less common here than in hail or hurricane zones. However, your homeowners insurance still covers sudden and accidental damage (fallen trees, severe wind events, fire). Review your policy's roof coverage and deductible annually. Some carriers in CA offer premium discounts for impact-resistant or fire-resistant materials.</p>
-</section>
-<section class="section fp-section">
-<h2>Permits and Building Code in Los Angeles</h2>
-<p>LADBS plan check can take 4-8 weeks for structural work and any home over 5,000 sqft requires a private plan check engineer. A building permit is required for virtually all full roof replacements in Los Angeles. The permit ensures the work is inspected for code compliance, which protects you as the homeowner if problems arise later.</p>
-<p>Title 24 energy code applies to almost all reroofs, requires cool-roof shingles in many zones, and adds 5-10 percent to material costs. Your contractor should pull the permit as part of the job. If a contractor asks you to pull it yourself, or suggests skipping the permit entirely, that is a serious red flag. The permit holder is legally responsible for code compliance, and unpermitted work can void your homeowners insurance, create problems during a home sale, and leave you liable for substandard installation.</p>
-<p>After the job is complete, confirm that a final inspection was scheduled and passed. You should receive documentation from Los Angeles's building department confirming the inspection result. Keep this with your roofing warranty paperwork.</p>
-</section>
-<section class="section fp-section">
-<h2>The Contractor Market in Los Angeles</h2>
-<p>highly competitive but capacity tightens after every wildfire event; verify CSLB license at cslb.ca.gov. Understanding the local contractor landscape helps you set expectations on pricing, availability, and negotiation leverage.</p>
-<p>The contractor market in Los Angeles is relatively stable, which gives homeowners reasonable negotiation leverage. Getting 3 bids is the standard recommendation, but in Los Angeles you should also verify that each bidder carries active general liability insurance and workers compensation coverage. Ask for certificates of insurance and verify them with the issuer.</p>
-<p>Verify licensing through CSLB (Contractors State License Board). A valid license confirms the contractor has met minimum competency and bonding requirements. An expired or suspended license is a disqualifying red flag regardless of how competitive their pricing is.</p>
-</section>
-<section class="section fp-section">
-<h2>Red Flags and Common Roofing Scams in Los Angeles</h2>
-<p>Every market has its share of contractor misconduct. Here are the patterns most commonly reported by Los Angeles homeowners.</p>
-
-<div class="fp-flag">
-<h3>Storm chaser warning</h3>
-<p>After any significant weather event in Los Angeles, out-of-state contractors flood the market offering "free roofs" through insurance claims. These operators often use lower-quality materials, skip code requirements, and are gone before warranty issues surface. Verify that any contractor has a permanent business address in CA, not just a temporary office or hotel room.</p>
-</div>
-<div class="fp-flag">
-<h3>Deposit over 30%</h3>
-<p>A deposit exceeding 30% of the total job cost is a warning sign in any market, including Los Angeles. Established contractors with good supplier relationships do not need large upfront deposits to purchase materials. A typical deposit structure is 10-15% at signing, with the balance due upon completion and inspection.</p>
-</div>
-<div class="fp-flag">
-<h3>No written scope</h3>
-<p>If the quote is a single line item ("reroof entire house: $12,000") without itemized scope, you have no protection against scope reduction or surprise change orders. A professional roofing proposal in Los Angeles should itemize: material type and brand, square footage, tear-off method, underlayment, flashing details, ventilation, permit, debris removal, and warranty terms. Anything missing from the written scope is not included in the price.</p>
-</div>
-</section>
-<section class="section fp-section">
-<h2>Best Time to Replace a Roof in Los Angeles</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months</h3>
-<p class="fp-season-months">October through March</p>
-<p>Summer surface temperatures make installation difficult and affect material adhesion. Fall and winter are ideal for both scheduling and material performance.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low availability</h3>
-<p class="fp-season-months">June through August</p>
-<p>Expect 10-20% higher labor costs and longer lead times during peak season. If you must schedule during peak, book at least 4-6 weeks in advance.</p>
-</div>
-</div>
-<p>Off-season scheduling can save 10-15% on labor costs in Los Angeles. Many reputable contractors offer competitive pricing during their slower months to keep crews working steadily.</p>
-</section>
-<section class="section fp-section">
-<h2>What a Roof Replacement Actually Costs in Los Angeles: 3 Scenarios</h2>
-<p>Here is what real projects look like in Los Angeles, CA, using Los Angeles-adjusted labor and material costs for 2026.</p>
-<div class="fp-scenario-grid">
-
-<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget</h3>
-<p class="fp-scenario-material">3-tab asphalt | 1800 sq ft</p>
-<p class="fp-scenario-total">$10.6K</p>
-<p class="fp-scenario-detail">~$5.9/sq ft installed. Includes tear-off, underlayment, flashing, ventilation, permit, and debris removal.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range</h3>
-<p class="fp-scenario-material">architectural shingle | 2000 sq ft</p>
-<p class="fp-scenario-total">$14.5K</p>
-<p class="fp-scenario-detail">~$7.26/sq ft installed. Includes tear-off, underlayment, flashing, ventilation, permit, and debris removal.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium</h3>
-<p class="fp-scenario-material">standing seam metal | 2200 sq ft</p>
-<p class="fp-scenario-total">$35.0K</p>
-<p class="fp-scenario-detail">~$15.93/sq ft installed. Includes tear-off, underlayment, flashing, ventilation, permit, and debris removal.</p>
-</div>
-</div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume a single-story home with standard roof complexity. Multi-story, steep-pitch, or complex roof designs add 15-30%. <a href="/roofing-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized estimate.</a></p>
+<section class="section fp-section"><h2>Los Angeles neighborhood roof pricing</h2>
+<div style="overflow-x:auto;"><table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;"><thead><tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);"><th style="text-align:left; padding:12px 16px;">Neighborhood</th><th style="text-align:right; padding:12px 16px;">3-Tab Composition</th><th style="text-align:right; padding:12px 16px;">Architectural</th><th style="text-align:right; padding:12px 16px;">Standing-Seam Metal</th></tr></thead><tbody><tr><td style="padding:12px 16px; font-weight:600;">Silver Lake</td><td style="padding:12px 16px; text-align:right;">$12.7K</td><td style="padding:12px 16px; text-align:right;">$15.7K</td><td style="padding:12px 16px; text-align:right;">$34.4K</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Echo Park</td><td style="padding:12px 16px; text-align:right;">$12.3K</td><td style="padding:12px 16px; text-align:right;">$15.1K</td><td style="padding:12px 16px; text-align:right;">$33.1K</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Sherman Oaks</td><td style="padding:12px 16px; text-align:right;">$12.2K</td><td style="padding:12px 16px; text-align:right;">$14.9K</td><td style="padding:12px 16px; text-align:right;">$32.8K</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Mar Vista</td><td style="padding:12px 16px; text-align:right;">$10.9K</td><td style="padding:12px 16px; text-align:right;">$13.4K</td><td style="padding:12px 16px; text-align:right;">$29.3K</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Eagle Rock</td><td style="padding:12px 16px; text-align:right;">$11.3K</td><td style="padding:12px 16px; text-align:right;">$13.9K</td><td style="padding:12px 16px; text-align:right;">$30.6K</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Highland Park</td><td style="padding:12px 16px; text-align:right;">$11.4K</td><td style="padding:12px 16px; text-align:right;">$14.1K</td><td style="padding:12px 16px; text-align:right;">$30.9K</td></tr></tbody></table></div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=Los Angeles&state=CA" style="color:var(--brand);">Upload your Los Angeles quote for line-item comparison.</a></p></section><section class="section fp-section"><h2>Los Angeles climate and roof performance</h2><p>Los Angeles roofs face intense UV exposure (LA sees 280+ days of sunshine annually), Santa Ana wind events driving 60-80 mph gusts in fall, and Chapter 7A WUI fire-hazard requirements in hillside neighborhoods. The dominant LA roofing material is concrete or clay tile on Spanish Colonial and Mediterranean-style homes, with composition on ranch and mid-century. Tile lifespan in LA's climate is 50-75 years for the tile itself, but the underlayment typically fails at 20-25 years and requires full underlayment replacement with tile reset.</p></section><section class="section fp-section"><h2>Los Angeles dominant roofing materials</h2><p>LA dominant roofing materials are concrete tile (Eagle, Monier) and clay tile (Redland, US Tile) on Spanish Colonial and Mediterranean homes, composition on ranch and mid-century, and increasingly standing-seam metal on architect-designed hillside modern builds. Tile roofs use a 2x batten system over 40-lb organic or synthetic underlayment, and the underlayment is what fails first. Reset-and-new-underlayment projects run $8-$14 per square foot on tile roofs; full tile replacement runs $15-$25 per square foot installed.</p></section><section class="section fp-section"><h2>Los Angeles permits, codes, and licensing</h2><p>LA building code requires compliance with Chapter 7A of the California Building Code (Wildland-Urban Interface Fire Area) in designated zones including Mandeville Canyon, Bel Air, Beverly Hills Post Office, and portions of the San Fernando Valley. Chapter 7A mandates Class A fire-rated roof assemblies, ember-resistant vents, and specific spark-arrestor gutter screens. Title 24 Part 6 cool-roof requirements also govern low-slope replacements: minimum solar reflectance of 0.55 on initial install or 0.63 on alteration. LA CSLB requires a C-39 roofing contractor license for any paid installation.</p></section><section class="section fp-section"><h2>Los Angeles roofing insurance and claims</h2><p>LA homeowners insurance increasingly excludes or sub-limits roof coverage in WUI zones, and several major carriers (State Farm, Allstate, Farmers) have pulled new-policy writing in specific fire-hazard zip codes. Class A fire-rated assemblies plus ember-resistant vents qualify for California FAIR Plan eligibility when private market coverage is unavailable. LADWP also offers modest rebates on cool-roof installations on qualifying low-slope replacements.</p></section><section class="section fp-section"><h2>Vetting a Los Angeles roofing contractor</h2><p>LA contractor verification runs through CSLB at cslb.ca.gov: confirm active C-39 roofing license, bond, and workers' compensation coverage. CSLB publishes complaint history by license number. LA also has a chronic problem with "broker" license operators who hold licenses but subcontract to unlicensed crews, voiding Homeowners Recovery Fund eligibility. Ask to meet the specific crew lead and confirm their employer matches the licensed entity on your contract.</p></section><section class="section fp-section"><h2>When to reroof in Los Angeles and what jobs cost</h2>
+<p><strong>Los Angeles best months:</strong> October through April outside fire season and rain events.</p>
+<p><strong>Los Angeles worst months:</strong> May through September peak fire season and summer surface extremes.</p>
+<p>A 2,000-square-foot Los Angeles reroof in 2026 dollars at prevailing Los Angeles labor rates: basic composition with Los Angeles-compliant underlayment runs approximately $10.6K; mid-range architectural composition with enhanced warranty runs $14.5K; premium standing-seam metal runs $35.0K. These numbers reflect Los Angeles installer rates, not national averages. The dominant Los Angeles material story is concrete and clay tile on Spanish Colonial and Mediterranean-style homes, which frames nearly every Los Angeles reroof decision.</p>
+<p><a href="/roofing-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a Los Angeles roofing estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-CONTENT -->
+
+
+
+
 
 
 

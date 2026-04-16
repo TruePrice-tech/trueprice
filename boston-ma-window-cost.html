@@ -80,7 +80,6 @@
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
 <a href="/find-contractors.html">Contractors</a>
-<a href="/roofing-quote-analyzer.html?mode=estimator">Photo Estimate</a>
 <a class="nav-cta" href="/analyze-my-quote.html">Get Started</a>
 </nav>
 </div>
@@ -215,6 +214,18 @@ depending on window type, number of windows, and frame material.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- FLAGSHIP-WINDOWS-CONTENT -->
 
 <style>
@@ -223,190 +234,16 @@ depending on window type, number of windows, and frame material.
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
-.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
-.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
-.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
-.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
-.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
-.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
-.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
-.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>
-<section class="section fp-section">
-<h2>Neighborhood Window Pricing Breakdown</h2>
-<p>Window replacement costs vary within Boston based on housing stock age, labor accessibility, and local demand. These are estimated per-window installed costs for each area.</p>
-<div style="overflow-x:auto;">
-<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
-<thead>
-<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
-<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th>
-<th style="text-align:right; padding:12px 16px;">Wood Double-Hung</th>
-<th style="text-align:right; padding:12px 16px;">Vinyl Sliding</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Beacon Hill</td>
-<td style="padding:12px 16px; text-align:right;">$695</td>
-<td style="padding:12px 16px; text-align:right;">$1,200</td>
-<td style="padding:12px 16px; text-align:right;">$1,264</td>
-<td style="padding:12px 16px; text-align:right;">$632</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">South End</td>
-<td style="padding:12px 16px; text-align:right;">$669</td>
-<td style="padding:12px 16px; text-align:right;">$1,156</td>
-<td style="padding:12px 16px; text-align:right;">$1,217</td>
-<td style="padding:12px 16px; text-align:right;">$608</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Back Bay</td>
-<td style="padding:12px 16px; text-align:right;">$663</td>
-<td style="padding:12px 16px; text-align:right;">$1,145</td>
-<td style="padding:12px 16px; text-align:right;">$1,205</td>
-<td style="padding:12px 16px; text-align:right;">$603</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Jamaica Plain</td>
-<td style="padding:12px 16px; text-align:right;">$592</td>
-<td style="padding:12px 16px; text-align:right;">$1,023</td>
-<td style="padding:12px 16px; text-align:right;">$1,076</td>
-<td style="padding:12px 16px; text-align:right;">$538</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Charlestown</td>
-<td style="padding:12px 16px; text-align:right;">$618</td>
-<td style="padding:12px 16px; text-align:right;">$1,067</td>
-<td style="padding:12px 16px; text-align:right;">$1,123</td>
-<td style="padding:12px 16px; text-align:right;">$562</td>
-</tr>
-<tr>
-<td style="padding:12px 16px; font-weight:600;">Brighton</td>
-<td style="padding:12px 16px; text-align:right;">$624</td>
-<td style="padding:12px 16px; text-align:right;">$1,078</td>
-<td style="padding:12px 16px; text-align:right;">$1,135</td>
-<td style="padding:12px 16px; text-align:right;">$567</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Per-window installed pricing based on local labor rates and material delivery costs. Actual pricing depends on window size, installation type (pocket vs full-frame), and current demand. <a href="/analyze-my-quote.html?city=Boston&state=MA" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
-</section>
-<section class="section fp-section">
-<h2>Climate and Energy Efficiency: Windows in Boston</h2>
-<p>Humid continental with heavy snow loads, ice dam formation a major roofing concern, freeze-thaw damage, and noreaster wind events. These conditions directly determine which glass packages and frame materials deliver the best return on investment in Boston.</p>
-<p><strong>U-factor is your priority metric.</strong> In Boston's heating-dominated climate, heat loss through windows drives the majority of your energy costs. Target U-factor of 0.22 or lower for ENERGY STAR qualification. Triple-pane glass with krypton gas fill achieves U-factors as low as 0.17, which delivers measurable savings on heating bills in MA's winters. The upfront premium of $100-$300 per window over double-pane typically pays back within 5-8 years through reduced heating costs.</p>
-<p><strong>Low-E coatings are non-negotiable in Boston.</strong> Every window quote you receive should specify Low-E glass as standard, not an upgrade. There are different Low-E formulations: "passive" Low-E (Low-E 272 type) maximizes solar heat gain for cold climates, while "solar control" Low-E (Low-E 366 type) rejects solar heat for warm climates. In Boston, passive Low-E on south-facing windows and solar control Low-E on west-facing windows gives you the best of both worlds. If a contractor's quote does not specify the Low-E coating type, ask before signing.</p>
-</section>
-<section class="section fp-section">
-<h2>Frame Material Comparison for Boston's Climate</h2>
-<p>The four major frame materials each have distinct advantages in Boston's climate. Here is how they compare for this specific market.</p>
-<p><strong>Vinyl.</strong> Lowest cost ($300-$700/window installed). Zero maintenance. Vinyl performs well in Boston's climate with minimal maintenance. It does not conduct heat or cold, making it an excellent insulator. Modern vinyl frames are UV-stabilized and resist fading, cracking, and warping for 20-30 years.</p>
-<p><strong>Fiberglass.</strong> Mid-premium ($700-$1,600/window installed). Paintable, extremely durable. Fiberglass is arguably the best frame material for Boston's extreme temperature swings. Its expansion rate matches glass, so seals last longer and air infiltration stays lower over time. The premium over vinyl is 40-70%, but the performance gap is real in a heating-dominated climate.</p>
-<p><strong>Wood / Wood-Clad.</strong> Premium ($600-$2,500/window installed). Best aesthetics. Wood offers the best insulation value of any frame material and the premium interior look that many Boston homeowners want. In Boston's climate, exterior-clad wood windows (aluminum or fiberglass over wood) protect against moisture while the wood interior provides warmth and character. Pure wood exteriors require repainting every 5-7 years.</p>
-<p><strong>Aluminum.</strong> Moderate ($600-$1,400/window installed). Slim sightlines, strong. Aluminum is a poor choice for Boston's cold winters. Metal frames conduct heat aggressively, creating condensation and ice buildup on interior surfaces. Even with thermal breaks, aluminum U-factors run 20-40% worse than vinyl or fiberglass. Unless you have a specific architectural reason, avoid aluminum in this climate.</p>
-</section>
-<section class="section fp-section">
-<h2>Home Age and Existing Window Assessment in Boston</h2>
-<p>The average home in Boston is approximately 55 years old. Huge stock of pre-1900 brick rowhouses and triple-deckers; ice and water shield required at eaves under MA code. The age and condition of your existing windows determine whether a pocket (insert) replacement or full-frame replacement is appropriate, and full-frame jobs cost 40-100% more per window.</p>
-<p><strong>Single-pane windows.</strong> Many homes in Boston's older neighborhoods still have original single-pane windows. If your home has single-pane glass, replacement is almost always worth the investment. Single-pane windows have a U-factor of approximately 1.0, meaning they lose heat at roughly 4 times the rate of a modern double-pane Low-E window (U-factor 0.25). The energy savings alone typically justify replacement within 7-12 years, and the comfort improvement is immediate and dramatic.</p>
-<p><strong>Lead paint in pre-1978 homes.</strong> A significant portion of Boston's housing stock predates the 1978 lead paint ban. Any window replacement in a pre-1978 home triggers EPA RRP (Renovation, Repair, and Painting) rule compliance. Your contractor must be EPA Lead-Safe certified, and the crew must follow specific containment and cleanup protocols. This adds $200-$500 to the total project cost. If a contractor does not ask about your home's age or dismisses lead paint concerns, that is a red flag for both safety and licensing.</p>
-<p><strong>Historic district restrictions.</strong> Boston has designated historic districts where window replacement is subject to architectural review. In these areas, you may be required to use wood windows that match the original profiles, or specific divided-lite patterns. Vinyl windows are typically prohibited in locally designated historic districts. If your home is in a historic overlay zone, contact your local historic preservation office before getting quotes. The material and design requirements can double the per-window cost compared to standard replacement, and non-compliant work can result in fines and mandatory removal.</p>
-</section>
-<section class="section fp-section">
-<h2>Permits and HOA Considerations in Boston</h2>
-<p>City of Boston ISD permits typically take 2-4 weeks; landmark district approval needed in Back Bay and Beacon Hill. For window replacement specifically, most jurisdictions in Boston require a building permit when replacing windows with a different size or type, or when structural modifications to the opening are needed. Simple same-size pocket replacements may be permit-exempt in some cases, but your contractor should confirm with the local building department before starting work.</p>
-<p><strong>HOA considerations.</strong> Many newer subdivisions in Boston have HOA covenants that govern exterior modifications including window replacements. Common restrictions include frame color, grid patterns, and material type. Check your CC&Rs and submit an architectural change request before signing a contract. Window orders are custom and non-returnable.</p>
-<p><strong>Historic overlay zones.</strong> If your property falls within a locally designated historic district in Boston, window replacement requires approval from the historic preservation commission in addition to standard permits. Expect a review process of 4-8 weeks. Requirements typically mandate wood or wood-clad windows with historically appropriate profiles and divided-lite patterns. Vinyl and aluminum windows are almost universally prohibited in historic districts. The cost premium for code-compliant historic window replacement is 50-150% over standard vinyl replacement.</p>
-</section>
-<section class="section fp-section">
-<h2>Professional Installation vs DIY Windows in Boston</h2>
-<p>Window replacement is one of the few major home improvement projects where DIY is sometimes viable for handy homeowners. That said, the scope of the project and the type of installation determine whether DIY makes sense in Boston.</p>
-<p><strong>Where DIY can work.</strong> Simple pocket (insert) replacements in standard-sized openings on the first floor are the most DIY-friendly window projects. If the existing frame is square, plumb, and in good condition, and the new window is the same size, the installation is primarily shimming, insulating, and trim work. A competent DIYer can save $150-$300 per window in labor costs. Budget 2-4 hours per window for a first-timer, dropping to 1-2 hours per window after you find your rhythm.</p>
-<p><strong>Where you need a professional.</strong> Full-frame replacements (where the existing frame is removed down to the rough opening), any structural modifications to enlarge or reduce openings, second-story or higher installations, and any home built before 1978 (lead paint RRP compliance) all require professional installation. In Boston, specialized triple-decker and rowhouse trades; verify Massachusetts Construction Supervisor License (CSL) at mass.gov. Getting three professional bids is the standard minimum.</p>
-<p><strong>Warranty implications.</strong> Most major window manufacturers (Andersen, Pella, Marvin) offer full product warranties regardless of who installs them, but some brands require "certified installer" status for the labor warranty to apply. Renewal by Andersen and Champion, for example, bundle product and labor warranties together and void them for DIY or third-party installation. Verify warranty terms before choosing the DIY route.</p>
-<p><strong>The hybrid approach.</strong> Some Boston homeowners order windows directly (through a dealer or home center) and hire a handyman or small contractor for installation at $100-$200 per window rather than using the window company's full-service installation crew at $250-$400 per window. This can save 20-30% on the total project while still getting professional installation. The tradeoff is that you manage the project yourself and the installer may not carry the same insurance or warranty coverage as a full-service window company.</p>
-</section>
-<section class="section fp-section">
-<h2>Red Flags and Window Replacement Scams in Boston</h2>
-<p>The window replacement industry has more consumer complaints per dollar spent than almost any other home improvement category. Here are the patterns most commonly reported by Boston homeowners.</p>
-
-<div class="fp-flag">
-<h3>Bait-and-switch on brands</h3>
-<p>The window industry has a chronic problem with brand substitution. A salesperson quotes Andersen 400 Series but the contract specifies "comparable Andersen product" or uses a model number you cannot verify. Before signing any contract in Boston, confirm the exact brand, product line, and model number. Cross-reference it on the manufacturer's website. If the salesperson cannot tell you the exact NFRC-rated U-factor and SHGC for the specific window being quoted, the quote is not specific enough to sign.</p>
-</div>
-<div class="fp-flag">
-<h3>"Today only" pricing</h3>
-<p>This is the single most common predatory sales tactic in the window industry. Companies like Renewal by Andersen, Champion, and Window Nation use in-home sales presentations that end with an "expiring" price. The pitch follows a pattern: high initial price ($1,500-$2,000/window), then "manager approval" discounts, then a "today only" final price. The "today only" price is the real price and it is available any day of the week. No legitimate manufacturer pricing changes based on when you sign. Walk away from any salesperson who pressures you to sign during the first visit. Get the price in writing and compare it against other bids.</p>
-</div>
-<div class="fp-flag">
-<h3>Unnecessary structural modifications</h3>
-<p>Some contractors in Boston recommend full-frame replacement or structural header modifications when a simple pocket replacement would work fine. Full-frame replacement costs 40-100% more per window. It is genuinely necessary when the existing frame is rotted, out of square, or when you are changing window sizes. But some contractors default to full-frame because it justifies higher pricing. If a contractor recommends full-frame, ask them to show you specifically where the existing frame is damaged. If the frame is sound, a pocket replacement is appropriate and significantly cheaper.</p>
-</div>
-<div class="fp-flag">
-<h3>Inflated window counts</h3>
-<p>Some large window companies in Boston pad quotes by counting fixed picture windows as separate units when they share a frame with operable windows (a "mulled unit"). A double-hung window next to a fixed panel in a single frame is one mulled unit with two lites, not two separate windows. Verify the window count in your quote against your actual openings. Miscounting by 2-3 windows on a 15-window job inflates the total by $1,000-$3,000.</p>
-</div>
-</section>
-<section class="section fp-section">
-<h2>Best Time to Buy Windows in Boston</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to buy</h3>
-<p class="fp-season-months">March through May and September through October</p>
-<p>Shoulder seasons offer moderate temperatures for proper installation and contractors competing for spring/fall bookings.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low leverage</h3>
-<p class="fp-season-months">June through August</p>
-<p>Peak construction season means higher labor costs and longer lead times.</p>
-</div>
-</div>
-<p><strong>Window sales cycles are real.</strong> Unlike roofing or HVAC, window replacement is rarely an emergency, which means you have the luxury of timing your purchase. The window industry runs on seasonal patterns and manufacturer promotion cycles that can save you 10-20% on the same product.</p>
-<p><strong>End-of-year manufacturer rebates.</strong> Most major window manufacturers (Andersen, Pella, Marvin) run Q4 rebate programs to hit annual production targets. These are legitimate discounts of $25-$75 per window, separate from any dealer markdowns. Your dealer or contractor can tell you which manufacturer promotions are currently active. These rebates are real savings, unlike the "today only" dealer discounts that are available any day.</p>
-<p><strong>Order lead times matter.</strong> Custom windows typically take 4-8 weeks from order to delivery. Stock sizes from Jeld-Wen, Simonton, or Milgard may be available in 1-2 weeks. Factor lead time into your seasonal planning. If you want Q4 pricing and fall installation, order by mid-September.</p>
-</section>
-<section class="section fp-section">
-<h2>What Window Replacement Actually Costs in Boston: 3 Scenarios</h2>
-<p>Here is what real 15-window whole-house projects look like in Boston, MA, using Boston-adjusted labor and material costs for 2026.</p>
-<div class="fp-scenario-grid">
-
-<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget Vinyl Replacement</h3>
-<p class="fp-scenario-material">15 vinyl double-hung windows | pocket install | Low-E double-pane</p>
-<p class="fp-scenario-total">$7,459</p>
-<p class="fp-scenario-detail">~$497/window installed. Value-tier vinyl (Window World, Alside Sheffield, Jeld-Wen V2500). Includes Low-E double-pane glass, argon fill, pocket installation, interior/exterior trim touch-up, and debris removal.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range Fiberglass with Low-E</h3>
-<p class="fp-scenario-material">15 fiberglass windows | pocket install | Low-E double-pane argon</p>
-<p class="fp-scenario-total">$18,428</p>
-<p class="fp-scenario-detail">~$1,229/window installed. Mid-tier fiberglass or premium vinyl (Marvin Essential, Milgard Ultra, Pella 350). ENERGY STAR certified. Includes professional measurement, pocket install, foam insulation, interior trim, and permit.</p>
-</div>
-
-<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium Wood-Clad Triple-Pane</h3>
-<p class="fp-scenario-material">15 wood-clad windows | full-frame | triple-pane Low-E krypton</p>
-<p class="fp-scenario-total">$35,100</p>
-<p class="fp-scenario-detail">~$2,340/window installed. Premium wood-clad (Andersen 400/A-Series, Pella Lifestyle/Reserve, Marvin Elevate/Signature). Triple-pane with krypton fill. Full-frame installation, new interior/exterior trim, structural modifications as needed, and permit.</p>
-</div>
-</div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard-sized windows in a single-story home. Bay/bow windows, second-story access, structural modifications, and lead paint abatement add to these baselines. <a href="/window-replacement-cost.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
+<section class="section fp-section"><h2>Boston neighborhood per-window pricing</h2>
+<div style="overflow-x:auto;"><table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;"><thead><tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);"><th style="text-align:left; padding:12px 16px;">Neighborhood</th><th style="text-align:right; padding:12px 16px;">Vinyl DH</th><th style="text-align:right; padding:12px 16px;">Fiberglass Casement</th><th style="text-align:right; padding:12px 16px;">Wood DH</th><th style="text-align:right; padding:12px 16px;">Vinyl Slider</th></tr></thead><tbody><tr><td style="padding:12px 16px; font-weight:600;">Beacon Hill</td><td style="padding:12px 16px; text-align:right;">$695</td><td style="padding:12px 16px; text-align:right;">$1,200</td><td style="padding:12px 16px; text-align:right;">$1,264</td><td style="padding:12px 16px; text-align:right;">$632</td></tr><tr><td style="padding:12px 16px; font-weight:600;">South End</td><td style="padding:12px 16px; text-align:right;">$669</td><td style="padding:12px 16px; text-align:right;">$1,156</td><td style="padding:12px 16px; text-align:right;">$1,217</td><td style="padding:12px 16px; text-align:right;">$608</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Back Bay</td><td style="padding:12px 16px; text-align:right;">$663</td><td style="padding:12px 16px; text-align:right;">$1,145</td><td style="padding:12px 16px; text-align:right;">$1,205</td><td style="padding:12px 16px; text-align:right;">$603</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Jamaica Plain</td><td style="padding:12px 16px; text-align:right;">$592</td><td style="padding:12px 16px; text-align:right;">$1,023</td><td style="padding:12px 16px; text-align:right;">$1,076</td><td style="padding:12px 16px; text-align:right;">$538</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Charlestown</td><td style="padding:12px 16px; text-align:right;">$618</td><td style="padding:12px 16px; text-align:right;">$1,067</td><td style="padding:12px 16px; text-align:right;">$1,123</td><td style="padding:12px 16px; text-align:right;">$562</td></tr><tr><td style="padding:12px 16px; font-weight:600;">Brighton</td><td style="padding:12px 16px; text-align:right;">$624</td><td style="padding:12px 16px; text-align:right;">$1,078</td><td style="padding:12px 16px; text-align:right;">$1,135</td><td style="padding:12px 16px; text-align:right;">$567</td></tr></tbody></table></div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=Boston&state=MA" style="color:var(--brand);">Upload your Boston quote for line-item comparison.</a></p></section><section class="section fp-section"><h2>Energy performance spec for Boston</h2><p>Boston is IECC zone 5A, a cold marine climate where heating dominates by 6:1 over cooling. ENERGY STAR Northern-zone targets set U-factor 0.22 maximum, and triple-pane krypton-filled IGUs reaching U-0.17 measurably reduce heating costs in Boston's long winter. Mass Save sponsored by Eversource and National Grid offers up to $1,500 per qualified ENERGY STAR Northern-zone window as part of whole-home weatherization packages. Massachusetts Stretch Code (adopted by Boston and most surrounding municipalities) requires U-0.28 or lower in replacement scenarios plus air leakage verification at or below 0.3 cfm/sq ft.</p><p>Boston heating-bill economics reward aggressive U-factor reduction: the heating season runs November through April with sustained cold, and triple-pane krypton-filled IGUs reaching U-0.17 measurably reduce Eversource and National Grid winter bills. Mass Save's $1,500-per-window rebate ceiling on qualified Northern-zone ENERGY STAR products is one of the most generous rebate programs in the country. Boston triple-deckers with 15-25 openings can capture $15,000-$30,000 in combined Mass Save rebates plus federal 25C tax credit on a whole-building retrofit.</p></section><section class="section fp-section"><h2>Licensing and code rules in Boston</h2><p>Massachusetts requires a Home Improvement Contractor (HIC) registration plus a Construction Supervisor License (CSL) for any structural opening work. Both are verified at mass.gov, and both must appear on the contract. Boston Landmarks Commission oversees Back Bay, Beacon Hill, Fort Point, South End, and Bay Village historic districts. Landmarked replacements require wood true-divided-lite windows with historically appropriate muntin width on primary facades. Back Bay additionally has Purple Glass requirements on specific addresses where original glass manganese chemistry turned the panes purple over time and replacements must match that coloration.</p></section><section class="section fp-section"><h2>What failing windows look like in Boston</h2><p>Boston's dominant housing failure pattern is triple-decker and colonial-era homes with 100-200 year old wood sash, storm-window retrofits from the 1970s, and failed ice-dam-driven sash damage on second and third floors. Triple-decker geometry means 15-25 window whole-house jobs are typical, and scaffolding or lift access for second and third floors is standard scope that adds $1,500-$3,000 to labor. Beacon Hill and South End brick rowhouses have additional masonry-cutting requirements for full-frame replacement, and many Back Bay addresses require Landmarks Commission review that takes 6-10 weeks before permit issuance.</p></section><section class="section fp-section"><h2>Glass package choices for Boston</h2><p>Boston glass packages weight heavily toward triple-pane with Low-E 272 passive coatings to retain winter solar gain while minimizing heat loss. Krypton fill is standard on triple-pane. Back Bay Purple Glass requirements on specific historic addresses add manufacturing complexity: only a few specialty producers can source the manganese-treated glass that turns purple over time to match original period glazing.</p></section><section class="section fp-section"><h2>Wind, storm, and durability requirements for Boston</h2><p>Boston is not a hurricane zone, but Nor'easter wind-driven rain and snow require high air-infiltration performance. AL-rated 0.1 cfm/sq ft or lower plus reinforced meeting rails and multi-chamber frames are the Boston specification for minimizing winter interior condensation and cold-air infiltration. Triple-pane IGUs with krypton fill also address a Boston-specific comfort factor: interior surface temperature on a single-pane window at 0F ambient drops below 40F, which drives condensation damage to adjacent drywall and trim. Triple-pane raises that surface temperature above 55F and eliminates the condensation problem.</p></section><section class="section fp-section"><h2>Vetting a Boston installer</h2><p>Boston installer vetting: verify both Massachusetts Home Improvement Contractor (HIC) registration AND Construction Supervisor License (CSL) at mass.gov. Both are required for structural work, and many Boston operators hold HIC only. Mass Save rebate eligibility also requires verified licensing, so unlicensed or improperly-licensed installers void rebate recovery. Boston Landmarks Commission approval (for Back Bay, Beacon Hill, South End) adds 6-10 weeks on top of standard permit timelines.</p></section><section class="section fp-section"><h2>Boston-specific window fraud patterns</h2><p>Boston window fraud patterns concentrate around missing CSL (Construction Supervisor License) when the job involves structural opening modification. Many Boston contractors hold HIC registration but not CSL, and the two are distinct. Structural work (enlarging, reducing, or reframing openings) requires CSL, and a mass.gov lookup confirms the specific license class and effective dates. Boston's Mass Save rebate program also requires verified licensing, and rebate applications for work performed without proper licensing are rejected post-install, leaving the homeowner responsible for the full cost.</p></section><section class="section fp-section"><h2>When to buy in Boston and what whole-home jobs cost</h2>
+<p><strong>Boston best months:</strong> mid-April through June and September through October, inside the window where ambient supports caulk cure.</p>
+<p><strong>Boston worst months:</strong> December through February deep-freeze and July-August peak humidity surges.</p>
+<p></p>
+<p>A 15-window Boston whole-home replacement in 2026 dollars at prevailing Boston labor rates: budget vinyl with Boston-compliant Low-E runs approximately $7,459; mid-range fiberglass with ENERGY STAR IECC Zone 5A cold marine qualified glazing runs $18,428; premium wood-clad with triple-pane krypton full-frame replacement runs $35,100. These numbers reflect Boston installer rates, not national averages, and assume standard-sized openings without bay-window or radiused-top custom work. The dominant Boston material story is triple-decker and colonial-era wood sash with 1970s storm retrofit layers, and replacement economics pivot on whether pocket installation is viable or full-frame scope is required.</p>
+<p><a href="/window-replacement-cost.html" style="color:var(--brand);">Get a Boston estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-WINDOWS-CONTENT -->
 

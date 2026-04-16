@@ -102,6 +102,23 @@
     '<div class="tp-skel tp-skel-link" style="margin-top:16px"></div>'
   ].join('');
 
+  function fireBeacon(resolvedCity, resolvedState) {
+    try {
+      var payload = JSON.stringify({
+        city: resolvedCity,
+        state: resolvedState,
+        service: service
+      });
+      var url = 'https://truepricehq.com/api/widget-beacon';
+      if (navigator.sendBeacon) {
+        var blob = new Blob([payload], { type: 'application/json' });
+        navigator.sendBeacon(url, blob);
+      } else {
+        fetch(url, { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json' }, keepalive: true }).catch(function() {});
+      }
+    } catch (_) { /* beacon is best-effort, never block render */ }
+  }
+
   function loadWidget(resolvedCity, resolvedState) {
     var url = 'https://truepricehq.com/api/widget-data?city=' +
       encodeURIComponent(resolvedCity) + '&state=' + encodeURIComponent(resolvedState) +
@@ -113,6 +130,7 @@
     }).then(function(data) {
       if (data.error) throw new Error(data.error);
       render(data);
+      fireBeacon(resolvedCity, resolvedState);
     }).catch(function() {
       renderError();
     });

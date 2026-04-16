@@ -25,10 +25,12 @@ for f, prefix in targets.items():
   s = pat.sub('\n        ', s)
 
   # 2. Remove the tp-dual-opts wrapper (siding + painting only)
+  # NOTE: This block previously also stripped a /photo-estimate.html link
+  # that no longer exists on the site. Pattern kept for historical reference;
+  # safe to delete this entire script once verified no longer needed.
   pat2 = re.compile(
     r'<style>\.tp-dual-opts\{[^<]*</style>\\\s*<div class="tp-dual-opts">\\\s*'
-    r'(<div class="' + prefix + r'-upload-zone"[^>]*>\\.*?</div>\\)\s*'
-    r'<a href="/photo-estimate\.html[^"]*"[^>]*>\\.*?</a>\\\s*</div>\\',
+    r'(<div class="' + prefix + r'-upload-zone"[^>]*>\\.*?</div>\\)\s*</div>\\',
     re.DOTALL
   )
   s = pat2.sub(lambda m: m.group(1).replace('style="margin:0;"', ''), s)

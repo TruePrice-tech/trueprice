@@ -17,7 +17,7 @@ import os, re, glob
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-SKIP = {"_abuse-guard.js", "moving-estimate.js", "vehicle-estimate.js", "photo-estimate.js"}
+SKIP = {"_abuse-guard.js", "moving-estimate.js", "vehicle-estimate.js"}
 
 # Endpoints we'll wire — only the *-estimate.js analyzer endpoints
 TARGETS = [

@@ -80,7 +80,6 @@
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
 <a href="/find-contractors.html">Contractors</a>
-<a href="/roofing-quote-analyzer.html?mode=estimator">Photo Estimate</a>
 <a class="nav-cta" href="/analyze-my-quote.html">Get Started</a>
 </nav>
 </div>
@@ -244,7 +243,8 @@ depending on the type of work, home size, and complexity.
 
 
 
-<!-- FLAGSHIP-ELECTRICAL-CONTENT -->
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -255,27 +255,79 @@ depending on the type of work, home size, and complexity.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-ELECTRICAL-CONTENT -->
+
 <section class="section fp-section">
-<h2>Neighborhood Pricing Breakdown</h2>
-<p>Electrical work costs vary within Atlanta based on housing age, panel access, local demand, and wiring complexity. These are estimated ranges for typical residential projects in each area.</p>
+<h2>Atlanta Neighborhood Pricing</h2>
+<p>Atlanta electrical labor runs at or slightly below the national average. Storm-season emergency premiums add 20-30% to service-call pricing. Tree-damage repair is a distinct category most Atlanta-area electricians price separately from planned work.</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
@@ -333,104 +385,107 @@ depending on the type of work, home size, and complexity.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and typical project scope. Actual pricing depends on panel condition, wiring access, and permit requirements. <a href="/electrical-quote-analyzer.html?city=Atlanta&state=GA" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Electrical Code Requirements in Atlanta</h2>
-<p>Atlanta electrical work is governed by the National Electrical Code (NEC), 2020 edition as adopted by GA. Georgia follows the 2020 NEC with minimal state-level amendments. Local jurisdictions like Atlanta and the surrounding counties (Fulton, DeKalb, Cobb) enforce the code through their own inspection departments with varying turnaround times and interpretation strictness.</p>
-<p><strong>Why this matters for your quote.</strong> Code requirements directly affect project cost. A panel upgrade that is straightforward in one city might require additional grounding, bonding, or conductor sizing in another. When comparing quotes across different contractors in Atlanta, verify that all bids reference the same code edition and include the same scope of code-required work. A cheaper bid that omits required AFCI breakers, GFCI protection, or proper grounding is not actually cheaper; it is incomplete.</p>
-<p><strong>Code upgrades on older homes.</strong> With a median home age of 41 years in Atlanta, many electrical projects trigger code-upgrade requirements. When you open up walls for a rewire or pull a permit for a panel upgrade, the inspector may require you to bring adjacent systems up to current code. This is called "the 50% rule" in many jurisdictions: if the cost of electrical work exceeds 50% of the value of the existing electrical system, the entire system must be brought to current code. Budget an additional 10-20% contingency for code-triggered upgrades on older Atlanta homes.</p>
+<h2>Atlanta Utility and Code Context</h2>
+<p>Georgia Power serves most of metro Atlanta. Cobb EMC covers parts of northwest Cobb County, and Sawnee EMC serves portions of Forsyth and north Fulton. Service coordination timelines vary significantly between providers (Georgia Power runs 7-14 business days; rural EMCs can run 15-25 days for residential service upgrades).</p>
+<p>Georgia follows the 2020 NEC with minimal state-level amendments. Atlanta and surrounding counties (Fulton, DeKalb, Cobb, Gwinnett) each enforce the code through their own inspection departments with varying interpretation strictness. DeKalb historically enforces more aggressively on grounding and bonding than Fulton.</p>
 </section>
 <section class="section fp-section">
-<h2>Home Age and Wiring: What Atlanta Homeowners Should Know</h2>
-<p>lots of 1920s-1940s craftsman bungalows in Virginia-Highland and Inman Park; 1980s-onwards in north Fulton. The age of your home's electrical system is the single biggest predictor of project scope and cost in Atlanta.</p>
-<p><strong>Aluminum wiring.</strong> Homes built between roughly 1965 and 1975 in Atlanta may have aluminum branch circuit wiring, which was used as a copper substitute during a period of high copper prices. Aluminum wiring itself is not defective, but the connections where aluminum meets devices (outlets, switches, panels) are prone to oxidation, loosening, and overheating. The CPSC estimates that homes with aluminum wiring are 55 times more likely to have fire-hazard conditions at connections. The fix is not full rewiring but rather "pigtailing" with approved connectors (COPALUM or AlumiConn) at every connection point, which typically costs $50-75 per connection point, or $2,500-$5,000 for a whole house in Atlanta.</p>
-<p><strong>Federal Pacific and Zinsco panels.</strong> If your Atlanta home has a Federal Pacific Electric (FPE) Stab-Lok panel or a Zinsco panel, replacement is not optional; it is a safety imperative. Both panel brands have well-documented failure rates where breakers fail to trip during overload conditions, creating fire risk. Insurance companies in GA increasingly refuse to cover homes with these panels. Replacement with a modern 200-amp panel typically costs $2,000-$3,500 in Atlanta, and it is the single highest-return safety investment you can make in an older home.</p>
+<h2>Atlanta Home Stock and Panel Realities</h2>
+<p>Atlanta housing stock mixes 1920s-40s Craftsman bungalows in Cabbagetown, Grant Park, and Decatur (originally 60-amp fuse services) with 1960s-80s ranch homes in Brookhaven and Sandy Springs (100-150 amp panels), plus 1990s-2010s infill tract homes with 200-amp panels. Storm-damage service-mast replacements are a common post-event scope.</p>
+<p>Atlanta homes are typically crawl-space or walkout-basement construction with accessible under-floor wiring runs. Multi-story homes in Buckhead and Morningside use attic-down rewire approaches. Tree coverage means service-entrance cable damage from falling limbs is a recurring maintenance category.</p>
 </section>
 <section class="section fp-section">
-<h2>Electrical Permits and Inspections in Atlanta</h2>
-<p>Electrical work is one of the most strictly permitted and inspected trades in every U.S. jurisdiction, and Atlanta is no exception. Virtually all electrical work beyond simple fixture swaps requires a permit.</p>
-<p><strong>Where to file.</strong> City of Atlanta Office of Buildings handles electrical permits in Atlanta. Atlanta and surrounding counties (Fulton, DeKalb, Cobb) each have separate permitting departments with different timelines. Verify which jurisdiction your property falls under.</p>
-<p><strong>Timeline.</strong> Expect 1-3 weeks for permit processing. Build this into your project timeline before scheduling the electrician. Many homeowners are surprised when a "three-day job" actually takes three weeks once permit processing and inspection scheduling are included.</p>
-<p><strong>Inspection process.</strong> Most electrical projects in Atlanta require at least two inspections: a rough-in inspection (before walls are closed up) and a final inspection (after all devices are installed and energized). Panel upgrades may require a utility coordination step where the utility company disconnects and reconnects the meter, which adds 1-3 business days.</p>
-<p><strong>What happens without a permit.</strong> Unpermitted electrical work in Atlanta creates three serious problems: (1) it voids your homeowners insurance coverage for any fire or damage originating from the unpermitted work, (2) it must be disclosed during a home sale and can kill deals or require expensive retroactive permitting, and (3) it may not be code-compliant, creating genuine safety hazards. Any electrician who suggests skipping the permit is telling you they either lack a license or plan to cut corners. Walk away.</p>
+<h2>Atlanta Licensing and Permits</h2>
+<p>Georgia Construction Industry Licensing Board (CILB) issues Unrestricted Electrical Contractor, Restricted Electrical Contractor, and Electrical Journeyman licenses for work over $2,500. Verify at sos.ga.gov. Atlanta homeowners should also verify local business tax certificates for the specific county where the work will happen.</p>
+<p>City of Atlanta Office of Buildings issues permits for the city proper. Surrounding counties have separate portals (DeKalb's is known for slower turnaround; Fulton's is faster). Georgia Power service coordination for panel upgrades runs parallel to city permits and often determines the real schedule.</p>
 </section>
 <section class="section fp-section">
-<h2>Electrician Licensing in Atlanta, GA</h2>
-<p>Electricians are among the most heavily licensed trades in the country, and for good reason: improperly installed electrical work creates fire and electrocution hazards that may not become apparent for months or years. In Atlanta, licensing is handled by Georgia Construction Industry Licensing Board.</p>
-<p><strong>License levels.</strong> GA uses the following license tiers: Unrestricted Electrical Contractor, Restricted Electrical Contractor, and Electrical Journeyman. Georgia requires electrical contractors to hold state licensure for any work over $2,500. Verify license status at sos.ga.gov. The Unrestricted license permits all residential and commercial work; the Restricted license limits project scope.</p>
-<p><strong>How to verify.</strong> Before signing any contract or paying any deposit, verify your electrician's license through Georgia Secretary of State license verification at sos.ga.gov. Check for active status, expiration date, insurance coverage, and any disciplinary history. This takes less than five minutes and is the single most important due diligence step you can take.</p>
-<p><strong>Red flag: handyman electrical work.</strong> In Atlanta, general handymen are not licensed to perform electrical work beyond simple fixture replacements (swapping a light fixture or outlet cover). Any work involving the panel, new circuits, rewiring, or EV charger installation requires a licensed electrician. If a handyman offers to do panel or circuit work at a lower price, the work will be unpermitted, uninsured, and potentially dangerous.</p>
+<h2>Atlanta Hidden Hazards and Renovation Triggers</h2>
+<p>Atlanta's 1960s-70s suburban housing boom produced a large inventory of Federal Pacific panels. Aluminum branch wiring is common in Gwinnett, Cobb, and Clayton Country construction from 1965-1975. Tornado and severe-weather damage to service drops in north-metro Atlanta is a recurring repair category.</p>
+<p>Generator transfer switch installation is a fast-growing Atlanta residential electrical scope driven by repeated tornado and ice-storm power outages. A typical 10-12 circuit manual transfer switch plus inlet runs $2,000-$3,500; whole-house automatic transfer switches run $5,000-$9,000.</p>
 </section>
 <section class="section fp-section">
-<h2>Red Flags and Safety Warnings for Atlanta Homeowners</h2>
-<p>Electrical work carries higher safety stakes than most home improvement projects. These are the warning signs most commonly reported by Atlanta homeowners.</p>
+<h2>Atlanta Electrical Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Unlicensed electrical work</h3>
-<p>The most common and most dangerous red flag in Atlanta's electrical market is unlicensed work. Unlike roofing or painting where poor quality is visible, bad electrical work hides inside walls where it can cause fires years after installation. Every electrician working in Atlanta must hold a valid GA electrical license. Verify it before signing anything. No exceptions.</p>
+<h3>Ignoring the Atlanta utility process</h3>
+<p>Georgia Power serves most of metro Atlanta. Cobb EMC covers parts of northwest Cobb County, and Sawnee EMC serves portions of Forsyth and north Fulton. Service coordination timelines vary significantly between providers (Georgia Power runs 7-14 business days; rural EMCs can run 15-25 days for residential service upgrades).</p>
 </div>
 <div class="fp-flag">
-<h3>Permit skipping</h3>
-<p>If an electrician suggests skipping the permit to "save you money" or "speed things up," they are either unlicensed (and cannot pull a permit) or planning to cut corners that would not pass inspection. The permit fee in Atlanta is typically $75-$300 depending on project scope. That is a negligible cost on any real electrical project. The inspection that comes with the permit is your independent verification that the work is safe and code-compliant.</p>
+<h3>Mismatch with Atlanta code amendments</h3>
+<p>Georgia follows the 2020 NEC with minimal state-level amendments. Atlanta and surrounding counties (Fulton, DeKalb, Cobb, Gwinnett) each enforce the code through their own inspection departments with varying interpretation strictness. DeKalb historically enforces more aggressively on grounding and bonding than Fulton.</p>
 </div>
 <div class="fp-flag">
-<h3>Undersized panel recommendation</h3>
-<p>An electrician who recommends staying with a 100-amp panel "because it is cheaper" when your load analysis clearly calls for 200 amps is prioritizing their bid over your needs. Modern homes in Atlanta with central air, an electric range, electric dryer, and any EV charging aspirations need 200 amps minimum. A 100-amp panel on a modern-load home will trip breakers constantly and cannot be expanded when you need more capacity. Pay for the right-sized panel now rather than paying for two panel installations over the next five years.</p>
+<h3>Wrong panel size for Atlanta load</h3>
+<p>Atlanta housing stock mixes 1920s-40s Craftsman bungalows in Cabbagetown, Grant Park, and Decatur (originally 60-amp fuse services) with 1960s-80s ranch homes in Brookhaven and Sandy Springs (100-150 amp panels), plus 1990s-2010s infill tract homes with 200-amp panels. Storm-damage service-mast replacements are a common post-event scope.</p>
 </div>
 <div class="fp-flag">
-<h3>No load calculation</h3>
-<p>A professional electrician in Atlanta should perform a load calculation (NEC Article 220) before recommending panel size or circuit additions. If the quote just says "200-amp panel upgrade" without any analysis of your actual electrical load, the contractor is guessing rather than engineering. The load calculation determines whether 200 amps is sufficient or whether your home actually needs a 320-amp or 400-amp service, which is increasingly common in all-electric homes with EV charging.</p>
+<h3>Missing license verification</h3>
+<p>Georgia Construction Industry Licensing Board (CILB) issues Unrestricted Electrical Contractor, Restricted Electrical Contractor, and Electrical Journeyman licenses for work over $2,500. Verify at sos.ga.gov. Atlanta homeowners should also verify local business tax certificates for the specific county where the work will happen.</p>
 </div>
 <div class="fp-flag">
-<h3>Partial rewiring that ignores hazards</h3>
-<p>In Atlanta's older housing stock, be cautious of contractors who propose partial rewiring while leaving known hazards (aluminum connections, K&T segments, FPE panels) in place. A professional assessment should identify all existing hazards and either address them in the current scope or clearly document them with a timeline and cost for remediation. "We'll get to that later" is not an acceptable plan for active electrical hazards.</p>
+<h3>Hazard not disclosed</h3>
+<p>Atlanta's 1960s-70s suburban housing boom produced a large inventory of Federal Pacific panels. Aluminum branch wiring is common in Gwinnett, Cobb, and Clayton Country construction from 1965-1975. Tornado and severe-weather damage to service drops in north-metro Atlanta is a recurring repair category.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Schedule Electrical Work in Atlanta</h2>
-<p>Electrical work is less weather-dependent than roofing or exterior trades, but timing still affects pricing and availability. In Atlanta, contractor demand follows home-sale cycles and renovation seasons more than weather patterns.</p>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months</h3>
-<p class="fp-season-months">September through November</p>
-<p>Fall offers the best combination of moderate temperatures and lower contractor demand. Spring is peak home-sale season, which drives renovation timelines and tightens electrician availability.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / low availability</h3>
-<p class="fp-season-months">March through May</p>
-<p>Expect longer lead times and less negotiation flexibility during peak season. If your project is not urgent, scheduling during off-peak months can save 5-10% on labor costs in Atlanta.</p>
-</div>
-</div>
-<p><strong>Emergency exceptions.</strong> Panel failures, circuit breaker tripping, burning smells, and flickering lights are safety emergencies that should not wait for optimal scheduling. Call a licensed electrician immediately regardless of season. Most reputable electricians in Atlanta offer emergency service with 24-48 hour response times.</p>
+<h2>Atlanta Scope Checklist</h2>
+<p><strong>Utility coordination.</strong> Georgia Power serves most of metro Atlanta. Cobb EMC covers parts of northwest Cobb County, and Sawnee EMC serves portions of Forsyth and north Fulton. Service coordination timelines vary significantly between providers (Georgia Power runs 7-14 business days; rural EMCs can run 15-25 days for residential service upgrades).</p>
+<p><strong>Applicable code.</strong> Georgia follows the 2020 NEC with minimal state-level amendments. Atlanta and surrounding counties (Fulton, DeKalb, Cobb, Gwinnett) each enforce the code through their own inspection departments with varying interpretation strictness. DeKalb historically enforces more aggressively on grounding and bonding than Fulton.</p>
+<p><strong>Permit process.</strong> City of Atlanta Office of Buildings issues permits for the city proper. Surrounding counties have separate portals (DeKalb's is known for slower turnaround; Fulton's is faster). Georgia Power service coordination for panel upgrades runs parallel to city permits and often determines the real schedule.</p>
+<p><strong>Pricing context.</strong> Atlanta electrical labor runs at or slightly below the national average. Storm-season emergency premiums add 20-30% to service-call pricing. Tree-damage repair is a distinct category most Atlanta-area electricians price separately from planned work.</p>
 </section>
 <section class="section fp-section">
-<h2>What Electrical Work Actually Costs in Atlanta: 3 Scenarios</h2>
-<p>Here is what real electrical projects look like in Atlanta, GA, using Atlanta-adjusted labor rates for 2026.</p>
+<h2>Questions to Ask a Atlanta Electrician</h2>
+<p><strong>Which utility coordinates this work?</strong> Georgia Power serves most of metro Atlanta. Cobb EMC covers parts of northwest Cobb County, and Sawnee EMC serves portions of Forsyth and north Fulton. Service coordination timelines vary significantly between providers (Georgia Power runs 7-14 business days; rural EMCs can run 15-25 days for residential service upgrades).</p>
+<p><strong>What code edition applies?</strong> Georgia follows the 2020 NEC with minimal state-level amendments. Atlanta and surrounding counties (Fulton, DeKalb, Cobb, Gwinnett) each enforce the code through their own inspection departments with varying interpretation strictness. DeKalb historically enforces more aggressively on grounding and bonding than Fulton.</p>
+<p><strong>What hazards did you find?</strong> Atlanta's 1960s-70s suburban housing boom produced a large inventory of Federal Pacific panels. Aluminum branch wiring is common in Gwinnett, Cobb, and Clayton Country construction from 1965-1975. Tornado and severe-weather damage to service drops in north-metro Atlanta is a recurring repair category.</p>
+<p><strong>What renovation trigger applies?</strong> Generator transfer switch installation is a fast-growing Atlanta residential electrical scope driven by repeated tornado and ice-storm power outages. A typical 10-12 circuit manual transfer switch plus inlet runs $2,000-$3,500; whole-house automatic transfer switches run $5,000-$9,000.</p>
+<p><strong>What is your license?</strong> Georgia Construction Industry Licensing Board (CILB) issues Unrestricted Electrical Contractor, Restricted Electrical Contractor, and Electrical Journeyman licenses for work over $2,500. Verify at sos.ga.gov. Atlanta homeowners should also verify local business tax certificates for the specific county where the work will happen.</p>
+</section>
+<section class="section fp-section">
+<h2>Atlanta Renovation Context and Common Upgrades</h2>
+<p>Generator transfer switch installation is a fast-growing Atlanta residential electrical scope driven by repeated tornado and ice-storm power outages. A typical 10-12 circuit manual transfer switch plus inlet runs $2,000-$3,500; whole-house automatic transfer switches run $5,000-$9,000.</p>
+<p>Atlanta homes are typically crawl-space or walkout-basement construction with accessible under-floor wiring runs. Multi-story homes in Buckhead and Morningside use attic-down rewire approaches. Tree coverage means service-entrance cable damage from falling limbs is a recurring maintenance category.</p>
+<p>Atlanta housing stock mixes 1920s-40s Craftsman bungalows in Cabbagetown, Grant Park, and Decatur (originally 60-amp fuse services) with 1960s-80s ranch homes in Brookhaven and Sandy Springs (100-150 amp panels), plus 1990s-2010s infill tract homes with 200-amp panels. Storm-damage service-mast replacements are a common post-event scope.</p>
+</section>
+<section class="section fp-section">
+<h2>Atlanta Electrical Hazards to Test For</h2>
+<p>Atlanta's 1960s-70s suburban housing boom produced a large inventory of Federal Pacific panels. Aluminum branch wiring is common in Gwinnett, Cobb, and Clayton Country construction from 1965-1975. Tornado and severe-weather damage to service drops in north-metro Atlanta is a recurring repair category.</p>
+<p>Georgia Power serves most of metro Atlanta. Cobb EMC covers parts of northwest Cobb County, and Sawnee EMC serves portions of Forsyth and north Fulton. Service coordination timelines vary significantly between providers (Georgia Power runs 7-14 business days; rural EMCs can run 15-25 days for residential service upgrades).</p>
+</section>
+<section class="section fp-section">
+<h2>When to Schedule Atlanta Electrical Work</h2>
+<p>Atlanta electrical demand peaks February-April (pre-summer AC push) and September-October. Summer thunderstorms drive emergency service demand. Winter tornado outbreaks (January-March) produce periodic emergency-repair spikes.</p>
+<p>Atlanta electrical labor runs at or slightly below the national average. Storm-season emergency premiums add 20-30% to service-call pricing. Tree-damage repair is a distinct category most Atlanta-area electricians price separately from planned work.</p>
+</section>
+<section class="section fp-section">
+<h2>Atlanta Project Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget: Panel Upgrade</h3>
-<p class="fp-scenario-material">200-amp panel upgrade, replace breakers, update grounding</p>
+<h3>Budget</h3>
+<p class="fp-scenario-material">200A panel upgrade in Atlanta</p>
 <p class="fp-scenario-total">$2.8K</p>
-<p class="fp-scenario-detail">Standard 200-amp panel (Square D or equivalent), 20-30 breaker spaces, new grounding rod, permit, and inspection. Does not include rewiring or additional circuits.</p>
+<p class="fp-scenario-detail">Atlanta housing stock mixes 1920s-40s Craftsman bungalows in Cabbagetown, Grant Park, and Decatur (originally 60-amp fuse services) with 1960s-80s ranch homes in Brookhaven and Sandy Springs (100-150 amp panels), plus 1990s-2010s infill tract homes with 200-amp panels. City of Atlanta Office of Buildings issues permits for the city proper.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range: Whole-House Rewire</h3>
-<p class="fp-scenario-material">Complete rewire for a 2,000 sq ft home, panel upgrade included</p>
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">Atlanta whole-house rewire</p>
 <p class="fp-scenario-total">$11.8K</p>
-<p class="fp-scenario-detail">Full replacement of all branch circuit wiring, new 200-amp panel, AFCI/GFCI protection per current code, permit, rough-in and final inspections. Includes patching but not full drywall restoration.</p>
+<p class="fp-scenario-detail">Atlanta homes are typically crawl-space or walkout-basement construction with accessible under-floor wiring runs. Georgia follows the 2020 NEC with minimal state-level amendments.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium: Smart Home + EV + Panel</h3>
-<p class="fp-scenario-material">200A panel, EV charger, whole-home surge, smart switches throughout</p>
+<h3>Premium</h3>
+<p class="fp-scenario-material">Smart + EV + panel in Atlanta</p>
 <p class="fp-scenario-total">$8.6K</p>
-<p class="fp-scenario-detail">200-amp panel upgrade, Level 2 EV charger (50-amp circuit), whole-home surge protection, 15-20 smart switches/dimmers, 2-3 additional dedicated circuits, permit, and all inspections.</p>
+<p class="fp-scenario-detail">Generator transfer switch installation is a fast-growing Atlanta residential electrical scope driven by repeated tornado and ice-storm power outages. A typical 10-12 circuit manual transfer switch plus inlet runs $2,000-$3,500; whole-house automatic transfer switches run $5,000-$9,000. Atlanta electrical labor runs at or slightly below the national average.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume a single-story home with accessible attic and crawlspace. Multi-story homes, finished basements, or limited access add 15-30% to rewiring costs. <a href="/electrical-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-ELECTRICAL-CONTENT -->
 <!-- TP-LOCAL-INJECTED-V2 -->
