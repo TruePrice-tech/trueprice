@@ -286,6 +286,190 @@ Upload a contractor quote for an instant price check, or get a personalized esti
 </section>
 <!-- /UNIQUE-LOCAL-GUIDE -->
 
+<!-- FLAGSHIP-CONTENT -->
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<section class="section fp-section">
+<h2>Neighborhood Pricing Breakdown</h2>
+<p>Roofing costs vary within Dallas based on labor accessibility, local demand, and housing density. These are estimated ranges for a typical 2,000 sq ft home in each area.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Asphalt</th>
+<th style="text-align:right; padding:12px 16px;">Architectural</th>
+<th style="text-align:right; padding:12px 16px;">Metal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Highland Park</td>
+<td style="padding:12px 16px; text-align:right;">$9.9K</td>
+<td style="padding:12px 16px; text-align:right;">$12.2K</td>
+<td style="padding:12px 16px; text-align:right;">$26.8K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Lakewood</td>
+<td style="padding:12px 16px; text-align:right;">$9.6K</td>
+<td style="padding:12px 16px; text-align:right;">$11.8K</td>
+<td style="padding:12px 16px; text-align:right;">$25.8K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Bishop Arts</td>
+<td style="padding:12px 16px; text-align:right;">$9.5K</td>
+<td style="padding:12px 16px; text-align:right;">$11.7K</td>
+<td style="padding:12px 16px; text-align:right;">$25.6K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Oak Cliff</td>
+<td style="padding:12px 16px; text-align:right;">$8.5K</td>
+<td style="padding:12px 16px; text-align:right;">$10.4K</td>
+<td style="padding:12px 16px; text-align:right;">$22.9K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Preston Hollow</td>
+<td style="padding:12px 16px; text-align:right;">$8.8K</td>
+<td style="padding:12px 16px; text-align:right;">$10.9K</td>
+<td style="padding:12px 16px; text-align:right;">$23.8K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Uptown</td>
+<td style="padding:12px 16px; text-align:right;">$8.9K</td>
+<td style="padding:12px 16px; text-align:right;">$11.0K</td>
+<td style="padding:12px 16px; text-align:right;">$24.1K</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and material delivery costs. Actual pricing depends on roof complexity, access, and current demand. <a href="/analyze-my-quote.html?city=Dallas&state=TX" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How Dallas's Climate Affects Your Roof</h2>
+<p>Humid subtropical with violent spring hailstorms (DFW is in the heart of Hail Alley), 100+ degree summers, and occasional ice storms in winter. Understanding how these specific conditions affect roofing materials is essential to making the right investment in Dallas.</p>
+<p>Hail is the dominant roof threat in Dallas. Standard 3-tab asphalt shingles are particularly vulnerable, with a single severe event capable of causing enough damage to require full replacement. Class 4 impact-resistant shingles (rated to UL 2218 standards) offer significantly better protection and typically qualify for insurance premium discounts of 15-25% in TX. For homeowners planning to stay more than 5 years, the upfront premium of 10-20% over standard shingles pays for itself through reduced insurance costs and avoided storm claims.</p>
+</section>
+<section class="section fp-section">
+<h2>Geography and Soil: What Dallas Homeowners Should Know</h2>
+<p>The soil conditions in Dallas have a direct but often overlooked impact on roofing decisions. Houston Black clay that shrinks and swells dramatically; foundation movement is endemic and slab work is a major local industry. This matters for roofing because differential foundation movement can stress the roof structure, causing sheathing to separate, ridge lines to sag, and flashing details to fail. If your home shows signs of foundation movement (cracked drywall, sticking doors), have the foundation evaluated before committing to a full reroof. Addressing structural issues after a new roof is installed can damage the work you just paid for.</p>
+<p>The DFW metroplex is the most active hail damage market in the country, with many homes seeing roof claims every 5-7 years. When comparing roofing quotes in Dallas, make sure the contractors you are comparing are bidding on similar properties in similar conditions. A quote for a flat ranch home on stable ground is not comparable to a quote for a steep-pitched home on a hillside lot, even if both are 2,000 square feet.</p>
+</section>
+<section class="section fp-section">
+<h2>Roofing Insurance and Claims in Dallas</h2>
+<p>A significant percentage of roof replacements in Dallas are partially or fully insurance-funded due to storm damage. Understanding the claims process before you need it saves thousands of dollars and weeks of frustration.</p>
+<p><strong>Document damage immediately.</strong> After any severe weather event, photograph your roof from the ground (all four sides), document damage to gutters, vents, and any visible dents. File your claim within 1-2 weeks. Texas law gives you one year from the date of damage, but delaying weakens your case and risks policy non-renewal.</p>
+<p><strong>Get your own estimate first.</strong> Before the insurance adjuster arrives, get an independent contractor estimate from someone not affiliated with your insurance company. The insurance company's initial offer is negotiable. TruePrice can help you verify whether the adjuster's scope matches what the job actually requires. <a href="/analyze-my-quote.html?city=Dallas&state=TX" style="color:var(--brand);">Upload the insurance scope letter here</a> and we will compare it against local benchmarks.</p>
+<p><strong>You choose the contractor.</strong> Your insurer may recommend contractors, but you have the legal right to use anyone licensed in TX. Insurance-recommended contractors sometimes have arrangements with insurers that prioritize cost savings over quality. Get at least three independent bids.</p>
+</section>
+<section class="section fp-section">
+<h2>Permits and Building Code in Dallas</h2>
+<p>City of Dallas residential permits issue within 1-3 days online; insurance-driven hail repairs can flood the queue after major storms. A building permit is required for virtually all full roof replacements in Dallas. The permit ensures the work is inspected for code compliance, which protects you as the homeowner if problems arise later.</p>
+<p>Texas FAIR Plan and many private insurers require Class 4 impact-resistant shingles for windstorm/hail coverage discounts. Your contractor should pull the permit as part of the job. If a contractor asks you to pull it yourself, or suggests skipping the permit entirely, that is a serious red flag. The permit holder is legally responsible for code compliance, and unpermitted work can void your homeowners insurance, create problems during a home sale, and leave you liable for substandard installation.</p>
+<p>After the job is complete, confirm that a final inspection was scheduled and passed. You should receive documentation from Dallas's building department confirming the inspection result. Keep this with your roofing warranty paperwork.</p>
+</section>
+<section class="section fp-section">
+<h2>The Contractor Market in Dallas</h2>
+<p>large hail events bring storm-chasing contractors from out of state; verify local address and TDLR registration. Understanding the local contractor landscape helps you set expectations on pricing, availability, and negotiation leverage.</p>
+<p>Dallas is a high-growth market, which drives up labor costs and tightens contractor availability. In rapidly growing metros like this, the gap between the cheapest and most expensive bid tends to be wider than in stable markets. Do not automatically take the lowest bid. Instead, compare scope and qualifications. A $2,000 difference between contractors often reflects real differences in materials, warranty coverage, or crew experience rather than pure pricing.</p>
+<p>Verify licensing through TDLR (Texas Department of Licensing and Regulation). A valid license confirms the contractor has met minimum competency and bonding requirements. An expired or suspended license is a disqualifying red flag regardless of how competitive their pricing is.</p>
+</section>
+<section class="section fp-section">
+<h2>Red Flags and Common Roofing Scams in Dallas</h2>
+<p>Every market has its share of contractor misconduct. Here are the patterns most commonly reported by Dallas homeowners.</p>
+
+<div class="fp-flag">
+<h3>Storm chaser warning</h3>
+<p>After any significant weather event in Dallas, out-of-state contractors flood the market offering "free roofs" through insurance claims. These operators often use lower-quality materials, skip code requirements, and are gone before warranty issues surface. Verify that any contractor has a permanent business address in TX, not just a temporary office or hotel room.</p>
+</div>
+<div class="fp-flag">
+<h3>Deposit over 30%</h3>
+<p>A deposit exceeding 30% of the total job cost is a warning sign in any market, including Dallas. Established contractors with good supplier relationships do not need large upfront deposits to purchase materials. A typical deposit structure is 10-15% at signing, with the balance due upon completion and inspection.</p>
+</div>
+<div class="fp-flag">
+<h3>No written scope</h3>
+<p>If the quote is a single line item ("reroof entire house: $12,000") without itemized scope, you have no protection against scope reduction or surprise change orders. A professional roofing proposal in Dallas should itemize: material type and brand, square footage, tear-off method, underlayment, flashing details, ventilation, permit, debris removal, and warranty terms. Anything missing from the written scope is not included in the price.</p>
+</div>
+<div class="fp-flag">
+<h3>Unsolicited door-knocking after storms</h3>
+<p>Contractors who show up uninvited after a storm and offer free roof inspections are almost always storm chasers working on commission. They inflate damage claims, pocket insurance payouts, and install the cheapest materials possible. If someone knocks on your door after a storm, do not sign anything. Get your own contractor and file your own insurance claim.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Best Time to Replace a Roof in Dallas</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">October through February</p>
+<p>Spring storm season drives demand and prices up. Post-hurricane season and winter offer the best contractor availability and negotiating leverage.</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">April through June</p>
+<p>Expect 10-20% higher labor costs and longer lead times during peak season. If you must schedule during peak, book at least 4-6 weeks in advance.</p>
+</div>
+</div>
+<p>Off-season scheduling can save 10-15% on labor costs in Dallas. Many reputable contractors offer competitive pricing during their slower months to keep crews working steadily.</p>
+</section>
+<section class="section fp-section">
+<h2>What a Roof Replacement Actually Costs in Dallas: 3 Scenarios</h2>
+<p>Here is what real projects look like in Dallas, TX, using Dallas-adjusted labor and material costs for 2026.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">3-tab asphalt | 1800 sq ft</p>
+<p class="fp-scenario-total">$8.3K</p>
+<p class="fp-scenario-detail">~$4.6/sq ft installed. Includes tear-off, underlayment, flashing, ventilation, permit, and debris removal.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">architectural shingle | 2000 sq ft</p>
+<p class="fp-scenario-total">$11.3K</p>
+<p class="fp-scenario-detail">~$5.66/sq ft installed. Includes tear-off, underlayment, flashing, ventilation, permit, and debris removal.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">standing seam metal | 2200 sq ft</p>
+<p class="fp-scenario-total">$27.3K</p>
+<p class="fp-scenario-detail">~$12.42/sq ft installed. Includes tear-off, underlayment, flashing, ventilation, permit, and debris removal.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">All scenarios assume a single-story home with standard roof complexity. Multi-story, steep-pitch, or complex roof designs add 15-30%. <a href="/roofing-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-CONTENT -->
+
+
+
+
+
 
 <!-- 6. Scope checklist -->
 <section class="section">
