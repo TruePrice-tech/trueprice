@@ -234,7 +234,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -245,35 +247,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in Seattle</h2>
-<p>About 40-45% of Seattle-area homes have favorable south-facing exposure. The hillside topology means some homes face slope aspects that reduce winter production further. Seattle's evergreen tree canopy is a major solar consideration. Year-round shading from Douglas fir and western red cedar in Ballard, Wallingford, and West Seattle can reduce production by 25-40%. Unlike deciduous trees that shed leaves in winter, evergreens block light year-round. Tree assessment is non-negotiable here</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -316,136 +351,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in Seattle: Payback and Savings</h2>
-<p>The financial case for solar in Seattle depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> Seattle averages 3.6 peak sun hours per day, which translates to roughly 10,512 kWh of annual production from a typical 8 kW system. Seattle solar production is the most seasonal of any major US city: ~6.0 kWh/kW/day in June-July versus ~1.2 kWh/kW/day in December when cloud cover and short days combine. Over 70% of annual production happens between April and September.</p>
-
-<p><strong>Electricity cost offset.</strong> At WA's average residential rate of ~$0.12/kWh, an 8 kW system offsets approximately $1,261 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> Washington State mandates net metering. Seattle City Light customers receive full retail rate credits for exported energy, with credits rolling over month-to-month. Seattle City Light is already ~90% carbon-free (hydropower), so the environmental argument for solar is more about resilience than carbon reduction.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and WA's incentive structure, most Seattle homeowners see a payback period of 10-13 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in Seattle can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>Seattle Sun Exposure and Seasonal Production</h2>
+<p>Seattle averages 3.6 peak sun hours daily, the lowest of any major US metro, but June through September production is strong at 5.8-6.0 kWh per kW per day thanks to 16-plus hour summer daylight. December collapses to 1.2 kWh per kW per day. Over 72 percent of annual production happens April through September. North Seattle neighborhoods (Greenwood, Maple Leaf, Lake City) receive 5-8 percent more annual insolation than West Seattle because of fewer marine-layer fog events over the Puget Sound windward shore.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for Seattle Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>WA state incentives.</strong> Washington State's solar incentive program expired in 2021. The state offers a sales tax exemption for solar installations (worth 10% given WA's 10.25% Seattle rate) and exempts solar from property tax. No state tax credit.</p>
-
-<p><strong>Utility incentives.</strong> Seattle City Light does not currently offer a solar rebate program. The sales tax exemption is the primary state-level benefit.</p>
-
-<p><strong>Property tax exemption.</strong> Washington exempts solar installations from the state and local sales tax (saving roughly 10% in Seattle's tax jurisdiction). No separate property tax exemption exists.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in Seattle, the effective cost after all available incentives can drop to $14,000-$16,000.</p>
+<h2>Seattle Utility Rate and Net Metering Structure</h2>
+<p>Seattle City Light residential solar operates under the Net Energy Metering tariff with full 1-for-1 retail-rate credit for exported energy under Washington RCW 80.60. Credits roll forward month-to-month with annual March true-up at the SCL avoided cost rate. SCL's hydropower-dominated grid is already 90-plus percent carbon-free, making solar's environmental case primarily about resilience and load reduction during peak demand rather than grid decarbonization. Puget Sound Energy (covering Bellevue, Redmond, and the east side) operates under a similar net metering structure with slight differences in rollover treatment.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in Seattle</h2>
-<p><strong>Peak sun hours.</strong> Seattle receives an average of 3.6 peak sun hours per day, which is below the national average but still economically viable with favorable incentives. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> Seattle solar production is the most seasonal of any major US city: ~6.0 kWh/kW/day in June-July versus ~1.2 kWh/kW/day in December when cloud cover and short days combine. Over 70% of annual production happens between April and September. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> Seattle averages 70% cloud cover annually, the highest of any major US metro. However, June through September is remarkably clear and dry, and the long summer days (16+ hours of daylight at solstice) compensate significantly. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In Seattle, summer heat reduces panel efficiency modestly during peak afternoon hours, but the temperature effect is manageable and already factored into production estimates from reputable installers.</p>
+<h2>Seattle Interconnection and Grid Approval</h2>
+<p>Seattle City Light interconnection for residential systems under 25 kW runs 4-8 weeks through the SCL Interconnection Portal. Seattle Department of Construction and Inspections (SDCI) issues solar permits in 2-6 weeks depending on structural scope. Systems on homes built before 1960 often require structural engineering review that adds 2-4 weeks. King County unincorporated areas use separate permitting. Puget Sound Energy interconnection runs 4-6 weeks for residential systems.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in Seattle</h2>
-<p><strong>Solar access law.</strong> Washington State RCW 64.38.055 prohibits HOAs from banning solar installations. HOAs may require panels to be parallel to the roofline and may have color requirements, but cannot prevent installation.</p>
-
-<p><strong>Permitting.</strong> Seattle DCI (Department of Construction and Inspections) requires permits for all solar installations. Expect 2-6 weeks depending on structural requirements. Systems on older homes (pre-1960) may require structural engineering review. Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>Seattle Solar Installer Landscape</h2>
+<p>The Seattle installer market is led by A and R Solar, Puget Sound Solar, Solar Washington, and Artisan Electric. Sunrun operates at volume. Specialty crews include Synchro Solar, West Coast Solar, and Northwest Electric and Solar. Tesla Energy operates in Seattle at modest volume. Washington State Department of Labor and Industries requires an Electrical Contractor license (EL01 or EL02) plus a Specialty Electrical license (EL06) for solar work. Typical Seattle residential quote runs $2.90-$3.70 per watt before incentives, competitive with Portland and the broader Pacific Northwest.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in Seattle</h2>
-<p><strong>Your utility.</strong> Most Seattle homeowners are served by Seattle City Light (a public utility). Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> Washington State mandates net metering. Seattle City Light customers receive full retail rate credits for exported energy, with credits rolling over month-to-month. Seattle City Light is already ~90% carbon-free (hydropower), so the environmental argument for solar is more about resilience than carbon reduction.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to Seattle City Light. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> With Seattle's net metering structure, sizing your system to offset 90-100% of your annual usage typically provides the best return. Your installer should model your specific usage pattern and utility rate to optimize system size.</p>
+<h2>Seattle Solar Incentives and Tax Credits</h2>
+<p>Washington's production incentive program (Renewable Energy System Cost Recovery Incentive Program) expired in 2021. Federal ITC at 30 percent is the primary remaining upfront incentive. Washington exempts solar equipment from state and local sales tax (RCW 82.08.962), saving 10.25 percent in the Seattle jurisdiction. Washington exempts solar installations from residential property tax. Seattle City Light has no direct solar rebate but operates the Energy Advisor program for free pre-install consultation. King County PACE financing for residential solar is available through C-PACE Northwest.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in Seattle</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what Seattle homeowners need to watch for.</p>
+<h2>Seattle Roof Types and Mounting Implications</h2>
+<p>Seattle rooftop stock is heavily composition shingle on post-1940 single-family in Ballard, Fremont, Greenwood, and West Seattle. Metal standing seam is common in new construction and Ballard-Fremont craftsman remodels. The typical Seattle hip and gable roof has moderate pitch (4/12 to 8/12) that is well-suited for solar. Moss on shingles is a Seattle-specific concern that requires cleaning before installation. The evergreen Douglas fir canopy in Magnolia, Madrona, and Capitol Hill is a year-round shading challenge (unlike deciduous trees in other regions).</p>
+</section>
+<section class="section fp-section">
+<h2>Seattle HOA Rules and Solar Access Law</h2>
+<p>Washington State RCW 64.38.055 prohibits HOAs from banning solar installations. HOAs may require panels parallel to the roofline and may impose color requirements, but cannot prevent installation. Master-planned communities are less common in Seattle than in other markets. Seattle Landmarks Preservation Board designates 400-plus individual and district landmarks (Pioneer Square, Ballard Avenue, Columbia City, Pike Place); visible rooftop solar typically requires Certificate of Approval with 6-10 week review in Landmark zones.</p>
+</section>
+<section class="section fp-section">
+<h2>Seattle Solar Permitting Process</h2>
+<p>SDCI issues solar permits through the Accela online portal with 2-6 week standard turnaround. Homes built before 1960 often trigger structural review adding 2-4 weeks. Critical Areas Ordinance overlays (steep slopes in West Seattle, Magnolia) add 4-8 weeks. Puget Sound Energy service area (Bellevue, Redmond, Kirkland) uses respective city portals with 2-4 week turnaround. Washington State Energy Code 2021 applies to all solar scope.</p>
+</section>
+<section class="section fp-section">
+<h2>Seattle Battery Storage Options and Rebates</h2>
+<p>Battery adoption in Seattle is moderate, driven by windstorm outage risk (Puget Sound Convergence Zone produces 2-3 major wind events per winter) and Seattle City Light's occasional summer heat-dome outages. Tesla Powerwall 3 and Enphase IQ Battery 10 are dominant. Generac PWRcell has notable Seattle market share because of long-term Generac dealer relationships. No state or utility battery rebate exists for SCL customers; PSE offers a modest battery adder through the clean energy program. Federal ITC at 30 percent applies.</p>
+</section>
+<section class="section fp-section">
+<h2>Seattle Climate Risks for Solar Installations</h2>
+<p>Seattle climate risks for solar are not severe-weather driven like other markets but include moss and algae growth on panels (requires cleaning every 18-24 months at $150-$300 per visit), prolonged winter overcast reducing production to 15-25 percent of summer output, and the 2021 heat dome which exposed installed modules to unprecedented 108F temperatures without UV-rated backsheet acceleration testing at those levels. The Pacific Northwest snowstorm events (every 3-5 years) add temporary snow loading.</p>
+</section>
+<section class="section fp-section">
+<h2>Seattle Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in Seattle runs 10-18 weeks: 1-2 weeks site assessment and engineering (including tree shade analysis), 2-6 weeks SDCI permitting (longer for older homes), 1-2 days installation, 1-2 weeks inspection, 4-8 weeks SCL interconnection. The February-April installation window captures the full April-September peak production window and avoids rainy-season installation delays. Winter installs are possible but slower.</p>
+</section>
+<section class="section fp-section">
+<h2>Seattle-Specific Solar Program Insight</h2>
+<p>Seattle City Light's hydropower-first grid means solar's primary environmental benefit is peak-demand load reduction rather than carbon offset. The Northwest Solar Communities initiative provides installer certification and customer education resources. King County's Solar Mapper tool (using LiDAR roof data) provides free rooftop production estimates. Puget Sound Energy's HomePrint program includes a free solar site assessment for any residential customer on request.</p>
+</section>
+<section class="section fp-section">
+<h2>Seattle Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In Seattle, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores Seattle utility tariff details</h3>
+<p>Seattle City Light residential solar operates under the Net Energy Metering tariff with full 1-for-1 retail-rate credit for exported energy under Washington RCW 80.60. Credits roll forward month-to-month with annual March true-up at the SCL avoided cost rate. SCL's hydropower-dominated grid is already 90-plus percent carbon-free, making solar's environmental case primarily about resilience and load reduction during peak demand rather than grid decarbonization. Puget Sound Energy (covering Bellevue, Redmond, and the east side) operates under a similar net metering structure with slight differences in rollover treatment.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In Seattle, your system should produce roughly 3.6 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for Seattle exposure</h3>
+<p>Seattle averages 3.6 peak sun hours daily, the lowest of any major US metro, but June through September production is strong at 5.8-6.0 kWh per kW per day thanks to 16-plus hour summer daylight. December collapses to 1.2 kWh per kW per day. Over 72 percent of annual production happens April through September. North Seattle neighborhoods (Greenwood, Maple Leaf, Lake City) receive 5-8 percent more annual insolation than West Seattle because of fewer marine-layer fog events over the Puget Sound windward shore.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match Seattle permit reality</h3>
+<p>Full timeline from contract signing to PTO in Seattle runs 10-18 weeks: 1-2 weeks site assessment and engineering (including tree shade analysis), 2-6 weeks SDCI permitting (longer for older homes), 1-2 days installation, 1-2 weeks inspection, 4-8 weeks SCL interconnection. The February-April installation window captures the full April-September peak production window and avoids rainy-season installation delays. Winter installs are possible but slower.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in Seattle during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing Seattle incentive stacking</h3>
+<p>Washington's production incentive program (Renewable Energy System Cost Recovery Incentive Program) expired in 2021. Federal ITC at 30 percent is the primary remaining upfront incentive. Washington exempts solar equipment from state and local sales tax (RCW 82.08.962), saving 10.25 percent in the Seattle jurisdiction. Washington exempts solar installations from residential property tax. Seattle City Light has no direct solar rebate but operates the Energy Advisor program for free pre-install consultation. King County PACE financing for residential solar is available through C-PACE Northwest.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most WA rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>Seattle climate risks for solar are not severe-weather driven like other markets but include moss and algae growth on panels (requires cleaning every 18-24 months at $150-$300 per visit), prolonged winter overcast reducing production to 15-25 percent of summer output, and the 2021 heat dome which exposed installed modules to unprecedented 108F temperatures without UV-rated backsheet acceleration testing at those levels. The Pacific Northwest snowstorm events (every 3-5 years) add temporary snow loading.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without Seattle context</h3>
+<p>Battery adoption in Seattle is moderate, driven by windstorm outage risk (Puget Sound Convergence Zone produces 2-3 major wind events per winter) and Seattle City Light's occasional summer heat-dome outages. Tesla Powerwall 3 and Enphase IQ Battery 10 are dominant. Generac PWRcell has notable Seattle market share because of long-term Generac dealer relationships. No state or utility battery rebate exists for SCL customers; PSE offers a modest battery adder through the clean energy program. Federal ITC at 30 percent applies.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in Seattle</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">February-April</p>
-<p>Installing before the dry season (June-September) captures the entire high-production window. Scheduling during the rainy season also means better contractor availability and potentially lower pricing.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In Seattle, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (2-4 weeks), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a Seattle Solar Installer</h2>
+<p><strong>What is my expected production given Seattle sun hours?</strong> Seattle averages 3.6 peak sun hours daily, the lowest of any major US metro, but June through September production is strong at 5.8-6.0 kWh per kW per day thanks to 16-plus hour summer daylight. December collapses to 1.2 kWh per kW per day. Over 72 percent of annual production happens April through September. North Seattle neighborhoods (Greenwood, Maple Leaf, Lake City) receive 5-8 percent more annual insolation than West Seattle because of fewer marine-layer fog events over the Puget Sound windward shore.</p>
+<p><strong>How does your design handle Seattle climate risks?</strong> Seattle climate risks for solar are not severe-weather driven like other markets but include moss and algae growth on panels (requires cleaning every 18-24 months at $150-$300 per visit), prolonged winter overcast reducing production to 15-25 percent of summer output, and the 2021 heat dome which exposed installed modules to unprecedented 108F temperatures without UV-rated backsheet acceleration testing at those levels. The Pacific Northwest snowstorm events (every 3-5 years) add temporary snow loading.</p>
+<p><strong>Which Seattle incentives are you filing for?</strong> Washington's production incentive program (Renewable Energy System Cost Recovery Incentive Program) expired in 2021. Federal ITC at 30 percent is the primary remaining upfront incentive. Washington exempts solar equipment from state and local sales tax (RCW 82.08.962), saving 10.25 percent in the Seattle jurisdiction. Washington exempts solar installations from residential property tax. Seattle City Light has no direct solar rebate but operates the Energy Advisor program for free pre-install consultation. King County PACE financing for residential solar is available through C-PACE Northwest.</p>
+<p><strong>What does the full Seattle timeline look like?</strong> Full timeline from contract signing to PTO in Seattle runs 10-18 weeks: 1-2 weeks site assessment and engineering (including tree shade analysis), 2-6 weeks SDCI permitting (longer for older homes), 1-2 days installation, 1-2 weeks inspection, 4-8 weeks SCL interconnection. The February-April installation window captures the full April-September peak production window and avoids rainy-season installation delays. Winter installs are possible but slower.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in Seattle: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in Seattle, WA, using Seattle-adjusted labor and material costs for 2026.</p>
+<h2>Seattle Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$22,000</p>
-<p class="fp-scenario-detail">$15,400 after 30% ITC. ~7,884 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$15,400 after 30% ITC. ~7,884 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$32,900</p>
-<p class="fp-scenario-detail">$23,000 after 30% ITC. ~10,512 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$23,000 after 30% ITC. ~10,512 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$59,800</p>
-<p class="fp-scenario-detail">$41,900 after 30% ITC. ~13,140 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$41,900 after 30% ITC. ~13,140 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in Seattle typically runs 10-13 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 

@@ -554,8 +554,8 @@ function buildFlagshipContent(metro) {
   const city = facts.displayName;
   const mult = getMultiplier(metro.region);
 
-  let html = `\n${MARKER_START}\n`;
-  html += flagshipCSS();
+  let html = `\n${flagshipCSS()}\n`;
+  html += `${MARKER_START}\n`;
   html += neighborhoodPricing(facts, mult, cd);
   html += soilSection(city, cd);
   html += failureModeSection(city, cd);

@@ -209,7 +209,6 @@ depending on insulation type, coverage area, and R-value target.
 </div>
 </section>
 
-<!-- FLAGSHIP-INSULATION-CONTENT -->
 
 <style>
 .fp-section { margin-top:32px; }
@@ -217,38 +216,21 @@ depending on insulation type, coverage area, and R-value target.
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-rvalue-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-rvalue-card { padding:20px; border-radius:12px; background:#f0f9ff; border:1px solid #bae6fd; }
-.fp-rvalue-card h3 { font-size:15px; font-weight:700; margin:0 0 8px; color:#0369a1; }
-.fp-rvalue-card p { font-size:14px; margin:0 0 6px; }
-.fp-rebate-card { padding:16px 20px; border-radius:10px; border:1px solid #a7f3d0; background:#f0fdf4; margin-bottom:12px; }
-.fp-rebate-card h3 { font-size:15px; font-weight:700; color:#065f46; margin:0 0 6px; }
-.fp-rebate-card p { margin:0; font-size:14px; line-height:1.6; color:#064e3b; }
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-  .fp-rvalue-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+<!-- FLAGSHIP-INSULATION-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Insulation Pricing in Houston</h2>
-<p>Insulation costs vary across Houston based on home age, accessibility, and local contractor demand. These estimates assume a 1,200 sq ft coverage area typical of a single-story home.</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
@@ -306,130 +288,160 @@ depending on insulation type, coverage area, and R-value target.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and material costs. Actual pricing depends on existing insulation condition, access difficulty, and R-value target. <a href="/analyze-my-quote.html?city=Houston&state=TX" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=Houston&state=TX" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Climate Zone and R-Value Requirements for Houston</h2>
-<p>Houston falls in IECC Climate Zone 2A, which determines the minimum insulation R-values required by building code and recommended by the Department of Energy. Understanding these numbers is the single most important step before signing an insulation contract, because under-insulating wastes money on utility bills while over-insulating wastes money on materials that won't deliver a return.</p>
-<div class="fp-rvalue-grid">
-<div class="fp-rvalue-card">
-<h3>DOE Recommended R-Values</h3>
-<p><strong>Attic:</strong> R-30 to R-60</p>
-<p><strong>Walls:</strong> R-13</p>
-<p>These are the targets for optimal energy performance in Zone 2A. Hitting the upper end of the range delivers diminishing returns, but the lower end is the absolute minimum for meaningful energy savings.</p>
-</div>
-<div class="fp-rvalue-card">
-<h3>Current Code Minimums</h3>
-<p><strong>Attic:</strong> R-38</p>
-<p><strong>Walls:</strong> R-13</p>
-<p>Code minimums are exactly that: minimums. They represent the floor for legal compliance, not the target for energy efficiency. In Houston's climate, exceeding code by one R-value tier typically pays for itself in 4-7 years through utility savings.</p>
-</div>
-</div>
-<p>Houston's cooling-dominated climate means your insulation investment pays off primarily during the brutal summer months. Heat gain through an under-insulated attic can account for 25-35% of your total cooling bill. The radiant heat load in Houston during summer is extreme, and insulation works by slowing that heat transfer into your living space. A radiant barrier combined with proper insulation is the gold standard for Houston attics.</p>
+<h2>Houston Attic Insulation Strategy</h2>
+<p>Houston attics in Bellaire, The Heights, and West University typically run 135-150F in July through September because of the southern sun angle and lack of winter heating drive to prioritize fill depth. Open-cell spray foam at R-21 to R-38 applied at the underside of the decking (converting to unvented assembly) is the dominant high-end solution here because it brings the ductwork and air handler inside the conditioned envelope. Blown-in fiberglass at R-38 on the attic floor is the code-minimum path for Zone 2A and is appropriate when the HVAC system is relocated out of the attic.</p>
 </section>
 <section class="section fp-section">
-<h2>Assessing Your Existing Insulation in Houston</h2>
-<p>Most homes in Houston average around 36 years old, which means original insulation was typically fiberglass batts or early blown-in cellulose installed to 1990s-era code. This insulation has likely settled 20-30% from its original depth, reducing effective R-value proportionally. In attics, it is common to find R-19 to R-30 equivalent where R-38 or higher is now required.</p>
-<p>For homes in this age range, adding blown-in insulation on top of existing material is usually the most cost-effective approach, as long as the existing insulation is dry, pest-free, and not contaminated. A quick visual and moisture meter check by your contractor should confirm this before topping off. If there are signs of rodent activity, water staining, or mold, remove the affected areas before adding new material.</p>
+<h2>Houston Wall Cavity Retrofit Approach</h2>
+<p>Houston post-Harvey construction uses 2x4 walls with R-13 batt plus increasingly common 1-inch exterior polyiso sheathing (R-6 continuous) to meet Texas IRC 2015 amended. Older 1960s-1970s ranch-style homes in Spring Branch and Sharpstown have 2x4 walls with R-11 batt and no continuous insulation. Drill-and-fill cellulose through the interior drywall is the retrofit path; avoid any injection foam in brick-veneer walls because the Houston humidity and rain load traps moisture between the foam and the brick back wall. The TDI windstorm certificate issues for coastal-county walls influence the vapor strategy.</p>
 </section>
 <section class="section fp-section">
-<h2>Energy Savings from Insulation in Houston</h2>
-<p>Upgrading from minimal or degraded insulation to current DOE recommendations in Houston typically saves homeowners <strong>$300 to $600 per year</strong> on heating and cooling costs. The exact savings depend on your current insulation level, HVAC system efficiency, home size, and energy rates, but the payback period for a full attic insulation upgrade in Houston's climate is typically 3-6 years.</p>
-<p>In Houston's cooling-dominated climate, the largest savings come during the summer months when your air conditioning runs hardest. Proper attic insulation reduces the heat load on your HVAC system, which means shorter run cycles, lower electricity bills, and extended equipment life. A well-insulated attic in Houston can reduce peak cooling load by 20-30%, which directly translates to lower energy bills and a more comfortable home.</p>
-<p>Beyond utility savings, proper insulation improves home comfort by eliminating hot and cold spots, reducing HVAC noise transmission, and maintaining more consistent temperatures room to room. These comfort improvements don't show up on a utility bill but are consistently cited by homeowners as the most noticeable benefit of an insulation upgrade.</p>
+<h2>Air Sealing Priorities in Houston</h2>
+<p>A typical Houston 1980s ranch blower door pre-retrofit reads 6-9 ACH50 because of open top plates, unsealed recessed fixtures, and duct leakage through attic-mounted air handlers. The CenterPoint Energy air sealing priority is: seal the air handler plenum and return boot connections (often a 15-25% loss source alone), foam the top plate penetrations, gasket the attic hatch, and seal the bathroom fan housings to the drywall plane. Houston homes with open foundation crawls add a secondary rim-joist closed-cell pass at R-21. AeroBarrier is available through three local applicators and is increasingly used on pre-2000 homes.</p>
 </section>
 <section class="section fp-section">
-<h2>Moisture and Ventilation Considerations in Houston</h2>
-<p>Insulation and moisture management are inseparable. Installing insulation without addressing moisture is one of the most common and most expensive mistakes homeowners in Houston make. The right vapor barrier placement, attic ventilation strategy, and air sealing approach depends entirely on Houston's climate zone and humidity level.</p>
-<p><strong>Vapor barrier placement in Houston.</strong> In Houston's humid climate (Zone 2A), the vapor barrier goes on the warm side of the insulation -- which means the interior side in heating-dominant seasons and the exterior side in cooling-dominant seasons. Because Houston is cooling-dominated, many contractors recommend a vapor retarder (Class III) rather than a full barrier, which allows the wall assembly to dry in both directions. A full polyethylene vapor barrier on the interior side can trap summer moisture inside the wall cavity and cause rot.</p>
-<p><strong>Mold risk.</strong> Houston's humidity creates real mold risk in any insulation project. The critical rule is simple: never insulate over wet materials, and never create conditions where moisture can condense inside the insulation layer. In attics, this means maintaining proper ventilation (1 sq ft of net free area per 150 sq ft of attic floor, or 1:300 with balanced soffit and ridge vents). In crawlspaces, it means sealing the ground with a vapor barrier and providing either mechanical ventilation or full encapsulation.</p>
+<h2>Houston Rebates and Utility Programs</h2>
+<p>CenterPoint Energy's SCORE and CoolSaver programs rebate $400-$1,200 for attic insulation and duct sealing combined, verified by an RESNET HERS Rater. Reliant Energy's Take-Action program adds a stacked $250-$600 for whole-house packages. Entergy Texas covers the Beaumont-Woodlands eastern edge of the metro. The Texas Comptroller's sales tax holiday for ENERGY STAR products (late May) covers batt insulation and rigid foam but not blown-in. HB 3 Texas energy efficiency goals drive the utility rebate cycle on a March-through-October enrollment window.</p>
 </section>
 <section class="section fp-section">
-<h2>Insulation Rebates and Incentives in Houston, TX</h2>
-<p>Insulation upgrades qualify for several federal, state, and utility-level incentives that can significantly reduce your out-of-pocket cost. As of 2026, these are the programs most relevant to Houston homeowners.</p>
-<div class="fp-rebate-card">
-<h3>Federal Tax Credits (25C)</h3>
-<p>The Inflation Reduction Act provides a 30% tax credit (up to $1,200 per year) for insulation materials and air sealing that meet ENERGY STAR requirements. This covers the cost of materials only, not labor. The credit is non-refundable, meaning you need sufficient tax liability to claim it. There is no income cap for this credit.</p>
-</div>
-<div class="fp-rebate-card">
-<h3>Texas Utility Rebates</h3>
-<p>Major utilities in Houston including CenterPoint Energy and Reliant offer rebates for insulation upgrades, typically $200-$500 for attic insulation meeting specified R-value targets. Check your utility's website for current program details and qualifying requirements.</p>
-</div>
-<div class="fp-rebate-card">
-<h3>Weatherization Assistance Program (WAP)</h3>
-<p>The federal Weatherization Assistance Program provides free home weatherization, including insulation, for households at or below 200% of the federal poverty level. In TX, the program is administered by your state's designated agency. Wait times can be 6-12 months, but the program covers the full cost of insulation, air sealing, and related improvements with no repayment required.</p>
-</div>
+<h2>Houston Insulation Contractor Landscape</h2>
+<p>Houston's insulation market is dominated by whole-house retrofit crews like USA Insulation Houston, Green Home Solutions Houston, and Eco-Insulate Texas who bundle attic spray foam with HVAC replacement through affiliate HVAC contractors. The Heights and River Oaks have a boutique tier (Clean Energy Innovations, Texas Insulation) that specializes in historic home dense-pack without disturbing plaster. Texas Department of Licensing and Regulation requires a HVAC Contractor license for any mechanical work; insulation-only work is unlicensed but BPI certification is the quality benchmark for CenterPoint rebate qualification.</p>
 </section>
 <section class="section fp-section">
-<h2>Insulation Red Flags in Houston</h2>
-<p>These are the mistakes and warning signs most commonly seen in Houston insulation projects. Knowing them before you get quotes protects you from paying for work that does more harm than good.</p>
+<h2>Common Houston Insulation Upsells and What They Actually Buy</h2>
+<p>The dominant Houston upsell is converting the attic to unvented closed-cell foam at $3.80-$5.50 per square foot (against the underside of the roof sheathing), which runs $12K-$20K on a 2,000-sqft footprint. This pencils out ONLY when ducts and air handler are in the attic. A frequent bad upsell is radiant barrier spray over fiberglass, which Oak Ridge National Lab testing shows delivers 3-7% cooling reduction, not the 20-40% salespeople claim. Legitimate pairs: duct replacement with R-8 insulated ducts and a variable-speed 16+ SEER heat pump.</p>
+</section>
+<section class="section fp-section">
+<h2>Historic Homes and Preservation Rules in Houston</h2>
+<p>Houston has no formal Landmark Preservation Commission across most neighborhoods, but the City of Houston Archaeological and Historical Commission reviews work in designated historic districts like Freeland, High First Ward, and parts of the Heights East. Deed restrictions in West University and Bellaire can restrict exterior insulation retrofits. Interior dense-pack and attic work are unrestricted everywhere. 1920s bungalows in the Heights have original shiplap-sheathed walls that accept dense-pack cellulose cleanly; the older shotgun homes in Third Ward need moisture-tolerant mineral wool blow-in because of elevated ground moisture.</p>
+</section>
+<section class="section fp-section">
+<h2>Energy Code Snapshot for Houston (Zone 2A)</h2>
+<p>Houston is under IRC 2015 with state amendments (not IECC); Zone 2A requires R-38 attic and R-13 cavity walls. City of Houston Code Enforcement issues the insulation-included permit at HVAC replacement scope. No continuous exterior insulation is required for residential retrofits. Windstorm engineering TDI compliance for Harris and Galveston counties influences vapor-open versus closed wall strategies. Duct leakage maximum of 15% to outside is the practical Manual D target.</p>
+<p>DOE recommended insulation levels for Zone 2A are attic R-30 to R-60 and walls R-13. Code minimums in Houston are attic R-38 and walls R-13. Exceeding code by one R-tier typically returns within 4 to 7 years of utility savings in this market.</p>
+</section>
+<section class="section fp-section">
+<h2>Houston Pre and Post-Retrofit Verification</h2>
+<p>CenterPoint Energy's SmartMeter TX data portal gives pre-retrofit 15-minute interval data that is standard for Houston energy auditors. Pre-retrofit blower door of 0.55 CFM50 per sqft envelope is typical on 1970s-1980s Houston homes; the SCORE target is 0.32 after work. Duct leakage to outside must drop below 10% for Tier 2 rebate qualification. Summer peak kWh reduction of 20-28% is the benchmark for a full Houston attic-foam-plus-duct-seal package.</p>
+</section>
+<section class="section fp-section">
+<h2>Moisture Control and Vapor Strategy in Houston</h2>
+<p>Houston humidity at 75-90% relative humidity year-round drives a cooling-climate vapor strategy: vapor retarder on the exterior side of the wall (the warm-in-summer side) not the interior. This is the opposite of Northern practice. Kraft-faced batts installed with the kraft facing the drywall side are WRONG in Houston and cause mold within 3 years. Open-cell foam at the roof deck in unvented attic assemblies requires a Class III interior vapor retarder (latex paint) only; avoid poly sheeting on any Houston wall assembly because it creates a double vapor barrier.</p>
+</section>
+<section class="section fp-section">
+<h2>Houston Insulation Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Skipping air sealing before insulating</h3>
-<p>This is the single most common and most costly mistake in insulation projects. Air leaks through gaps around plumbing penetrations, electrical boxes, recessed lights, attic hatches, and ductwork can account for 25-40% of a home's energy loss. Adding insulation over unsealed air leaks is like putting on a sweater with holes in it. Any insulation contractor in Houston who does not include air sealing in their scope is either cutting corners or does not understand building science. Require it.</p>
+<h3>Skipping air sealing before Houston insulation install</h3>
+<p>A typical Houston 1980s ranch blower door pre-retrofit reads 6-9 ACH50 because of open top plates, unsealed recessed fixtures, and duct leakage through attic-mounted air handlers. The CenterPoint Energy air sealing priority is: seal the air handler plenum and return boot connections (often a 15-25% loss source alone), foam the top plate penetrations, gasket the attic hatch, and seal the bathroom fan housings to the drywall plane. Houston homes with open foundation crawls add a secondary rim-joist closed-cell pass at R-21. AeroBarrier is available through three local applicators and is increasingly used on pre-2000 homes.</p>
 </div>
 <div class="fp-flag">
-<h3>Wrong vapor barrier placement</h3>
-<p>Vapor barriers installed on the wrong side of the insulation trap moisture inside the wall or ceiling cavity and cause mold, rot, and structural damage. In Houston (Zone 2A), a full polyethylene vapor barrier on the interior side can trap summer moisture and create major problems. A vapor retarder rather than a full barrier is usually the right choice here. If a contractor cannot explain their vapor barrier strategy for your specific home, find someone who can.</p>
+<h3>Vapor strategy mismatched to Houston climate</h3>
+<p>Houston humidity at 75-90% relative humidity year-round drives a cooling-climate vapor strategy: vapor retarder on the exterior side of the wall (the warm-in-summer side) not the interior. This is the opposite of Northern practice. Kraft-faced batts installed with the kraft facing the drywall side are WRONG in Houston and cause mold within 3 years. Open-cell foam at the roof deck in unvented attic assemblies requires a Class III interior vapor retarder (latex paint) only; avoid poly sheeting on any Houston wall assembly because it creates a double vapor barrier.</p>
 </div>
 <div class="fp-flag">
-<h3>Spray foam off-gassing concerns</h3>
-<p>Spray foam insulation is excellent when installed correctly, but improper mixing ratios or application temperatures can cause persistent off-gassing that produces odors and potential health effects. In Houston, always verify that the installer is certified by the spray foam manufacturer (not just generally licensed), that they follow the manufacturer's temperature and humidity requirements during application, and that the home will be ventilated for 24 hours after installation. If the foam is applied too thick in a single pass (over 2 inches for closed-cell), it can generate excessive heat during curing and fail to cure properly.</p>
+<h3>Overselling spray foam that will not pencil</h3>
+<p>The dominant Houston upsell is converting the attic to unvented closed-cell foam at $3.80-$5.50 per square foot (against the underside of the roof sheathing), which runs $12K-$20K on a 2,000-sqft footprint. This pencils out ONLY when ducts and air handler are in the attic. A frequent bad upsell is radiant barrier spray over fiberglass, which Oak Ridge National Lab testing shows delivers 3-7% cooling reduction, not the 20-40% salespeople claim. Legitimate pairs: duct replacement with R-8 insulated ducts and a variable-speed 16+ SEER heat pump.</p>
 </div>
 <div class="fp-flag">
-<h3>Blocking soffit vents with insulation</h3>
-<p>When blown-in insulation is added to an attic, it is critical to install ventilation baffles (also called insulation dams or rafter vents) at every rafter bay along the eaves. Without these baffles, the insulation slides down and blocks soffit vents, eliminating attic ventilation. This causes moisture buildup in winter (leading to mold and rot) and extreme heat buildup in summer. If your contractor does not mention baffles, ask about them.</p>
+<h3>Ignoring historic preservation review in Houston</h3>
+<p>Houston has no formal Landmark Preservation Commission across most neighborhoods, but the City of Houston Archaeological and Historical Commission reviews work in designated historic districts like Freeland, High First Ward, and parts of the Heights East. Deed restrictions in West University and Bellaire can restrict exterior insulation retrofits. Interior dense-pack and attic work are unrestricted everywhere. 1920s bungalows in the Heights have original shiplap-sheathed walls that accept dense-pack cellulose cleanly; the older shotgun homes in Third Ward need moisture-tolerant mineral wool blow-in because of elevated ground moisture.</p>
 </div>
 <div class="fp-flag">
-<h3>Insulating a wet crawlspace</h3>
-<p>In Houston's humid climate, insulating a crawlspace without first addressing moisture is a recipe for mold. The ground must be covered with a sealed vapor barrier (6 mil poly minimum, 10-20 mil preferred), and any bulk water intrusion must be resolved before insulation goes in. If your crawlspace has standing water, puddles after rain, or visible mold, those problems come first. Insulating over wet conditions will make the problem worse, not better.</p>
+<h3>Quoting below code minimums for Houston</h3>
+<p>Houston is under IRC 2015 with state amendments (not IECC); Zone 2A requires R-38 attic and R-13 cavity walls. City of Houston Code Enforcement issues the insulation-included permit at HVAC replacement scope. No continuous exterior insulation is required for residential retrofits. Windstorm engineering TDI compliance for Harris and Galveston counties influences vapor-open versus closed wall strategies. Duct leakage maximum of 15% to outside is the practical Manual D target.</p>
+</div>
+<div class="fp-flag">
+<h3>Skipping verification testing on Houston retrofit</h3>
+<p>CenterPoint Energy's SmartMeter TX data portal gives pre-retrofit 15-minute interval data that is standard for Houston energy auditors. Pre-retrofit blower door of 0.55 CFM50 per sqft envelope is typical on 1970s-1980s Houston homes; the SCORE target is 0.32 after work. Duct leakage to outside must drop below 10% for Tier 2 rebate qualification. Summer peak kWh reduction of 20-28% is the benchmark for a full Houston attic-foam-plus-duct-seal package.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Insulate in Houston</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months</h3>
-<p class="fp-season-months">October through February</p>
-<p>Demand peaks in spring as Houston homeowners prepare for the brutal cooling season. Fall and winter offer the best contractor availability and pricing. Insulation can be installed year-round in Houston's mild winters, and the work is actually more comfortable for crews during cooler months, especially for attic installations where summer temperatures can exceed 140 degrees.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak demand / higher pricing</h3>
-<p class="fp-season-months">April through June</p>
-<p>Expect 10-20% longer lead times and less room to negotiate during peak season. If you need work done during these months, book 3-4 weeks in advance.</p>
-</div>
-</div>
-<p>Insulation is one of the few home improvement projects that can be installed any time of year. The work happens inside the building envelope, so outdoor weather does not affect installation quality. The only variable is contractor availability and pricing, which follow seasonal demand patterns.</p>
+<h2>What Your Houston Insulation Contract Should Spell Out</h2>
+<p><strong>Attic scope.</strong> Houston attics in Bellaire, The Heights, and West University typically run 135-150F in July through September because of the southern sun angle and lack of winter heating drive to prioritize fill depth. Open-cell spray foam at R-21 to R-38 applied at the underside of the decking (converting to unvented assembly) is the dominant high-end solution here because it brings the ductwork and air handler inside the conditioned envelope. Blown-in fiberglass at R-38 on the attic floor is the code-minimum path for Zone 2A and is appropriate when the HVAC system is relocated out of the attic.</p>
+<p><strong>Wall scope.</strong> Houston post-Harvey construction uses 2x4 walls with R-13 batt plus increasingly common 1-inch exterior polyiso sheathing (R-6 continuous) to meet Texas IRC 2015 amended. Older 1960s-1970s ranch-style homes in Spring Branch and Sharpstown have 2x4 walls with R-11 batt and no continuous insulation. Drill-and-fill cellulose through the interior drywall is the retrofit path; avoid any injection foam in brick-veneer walls because the Houston humidity and rain load traps moisture between the foam and the brick back wall. The TDI windstorm certificate issues for coastal-county walls influence the vapor strategy.</p>
+<p><strong>Air sealing scope.</strong> A typical Houston 1980s ranch blower door pre-retrofit reads 6-9 ACH50 because of open top plates, unsealed recessed fixtures, and duct leakage through attic-mounted air handlers. The CenterPoint Energy air sealing priority is: seal the air handler plenum and return boot connections (often a 15-25% loss source alone), foam the top plate penetrations, gasket the attic hatch, and seal the bathroom fan housings to the drywall plane. Houston homes with open foundation crawls add a secondary rim-joist closed-cell pass at R-21. AeroBarrier is available through three local applicators and is increasingly used on pre-2000 homes.</p>
+<p><strong>Verification scope.</strong> CenterPoint Energy's SmartMeter TX data portal gives pre-retrofit 15-minute interval data that is standard for Houston energy auditors. Pre-retrofit blower door of 0.55 CFM50 per sqft envelope is typical on 1970s-1980s Houston homes; the SCORE target is 0.32 after work. Duct leakage to outside must drop below 10% for Tier 2 rebate qualification. Summer peak kWh reduction of 20-28% is the benchmark for a full Houston attic-foam-plus-duct-seal package.</p>
 </section>
 <section class="section fp-section">
-<h2>What Insulation Actually Costs in Houston: 3 Scenarios</h2>
-<p>Here is what real insulation projects look like in Houston, TX, using Houston-adjusted labor and material costs for 2026.</p>
+<h2>Questions to Ask a Houston Insulation Contractor</h2>
+<p><strong>Which rebate programs will you file for?</strong> CenterPoint Energy's SCORE and CoolSaver programs rebate $400-$1,200 for attic insulation and duct sealing combined, verified by an RESNET HERS Rater. Reliant Energy's Take-Action program adds a stacked $250-$600 for whole-house packages. Entergy Texas covers the Beaumont-Woodlands eastern edge of the metro. The Texas Comptroller's sales tax holiday for ENERGY STAR products (late May) covers batt insulation and rigid foam but not blown-in. HB 3 Texas energy efficiency goals drive the utility rebate cycle on a March-through-October enrollment window.</p>
+<p><strong>How does your scope handle Houston moisture?</strong> Houston humidity at 75-90% relative humidity year-round drives a cooling-climate vapor strategy: vapor retarder on the exterior side of the wall (the warm-in-summer side) not the interior. This is the opposite of Northern practice. Kraft-faced batts installed with the kraft facing the drywall side are WRONG in Houston and cause mold within 3 years. Open-cell foam at the roof deck in unvented attic assemblies requires a Class III interior vapor retarder (latex paint) only; avoid poly sheeting on any Houston wall assembly because it creates a double vapor barrier.</p>
+<p><strong>Which upsells do you push and why?</strong> The dominant Houston upsell is converting the attic to unvented closed-cell foam at $3.80-$5.50 per square foot (against the underside of the roof sheathing), which runs $12K-$20K on a 2,000-sqft footprint. This pencils out ONLY when ducts and air handler are in the attic. A frequent bad upsell is radiant barrier spray over fiberglass, which Oak Ridge National Lab testing shows delivers 3-7% cooling reduction, not the 20-40% salespeople claim. Legitimate pairs: duct replacement with R-8 insulated ducts and a variable-speed 16+ SEER heat pump.</p>
+<p><strong>Do you do historic district work in Houston?</strong> Houston has no formal Landmark Preservation Commission across most neighborhoods, but the City of Houston Archaeological and Historical Commission reviews work in designated historic districts like Freeland, High First Ward, and parts of the Heights East. Deed restrictions in West University and Bellaire can restrict exterior insulation retrofits. Interior dense-pack and attic work are unrestricted everywhere. 1920s bungalows in the Heights have original shiplap-sheathed walls that accept dense-pack cellulose cleanly; the older shotgun homes in Third Ward need moisture-tolerant mineral wool blow-in because of elevated ground moisture.</p>
+</section>
+<section class="section fp-section">
+<h2>Houston Insulation Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget: Attic Top-Up</h3>
-<p class="fp-scenario-material">Blown-in fiberglass or cellulose added over existing insulation | 1200 sq ft</p>
+<h3>Budget attic top-up</h3>
+<p class="fp-scenario-material">Blown-in fiberglass or cellulose over existing material | 1200 sq ft</p>
 <p class="fp-scenario-total">$2,160</p>
-<p class="fp-scenario-detail">~$1.8/sq ft installed. Blown-in insulation over existing material, basic air sealing at major penetrations, ventilation baffles at eaves.</p>
+<p class="fp-scenario-detail">~$1.8/sq ft. Houston attics in Bellaire, The Heights, and West University typically run 135-150F in July through September because of the southern sun angle and lack of winter heating drive to prioritize fill depth. Open-cell spray foam at R-21 to R-38 applied at the underside of the decking (converting to unvented assembly) is the dominant high-end solution here because it brings the ductwork and air handler inside the conditioned envelope.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range: Full Attic + Air Sealing</h3>
-<p class="fp-scenario-material">Complete attic insulation with professional air sealing | 1500 sq ft</p>
+<h3>Mid-range attic plus air seal</h3>
+<p class="fp-scenario-material">Full attic scope plus blower-door-directed air sealing | 1500 sq ft</p>
 <p class="fp-scenario-total">$4,800</p>
-<p class="fp-scenario-detail">~$3.2/sq ft installed. Old insulation removal (if needed), comprehensive air sealing, blown-in insulation to R-49+, ventilation baffles, attic hatch insulation and weather-stripping.</p>
+<p class="fp-scenario-detail">~$3.2/sq ft. A typical Houston 1980s ranch blower door pre-retrofit reads 6-9 ACH50 because of open top plates, unsealed recessed fixtures, and duct leakage through attic-mounted air handlers. The CenterPoint Energy air sealing priority is: seal the air handler plenum and return boot connections (often a 15-25% loss source alone), foam the top plate penetrations, gasket the attic hatch, and seal the bathroom fan housings to the drywall plane.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium: Whole-House Spray Foam</h3>
-<p class="fp-scenario-material">Closed-cell spray foam in attic, walls, and crawlspace | 2500 sq ft</p>
+<h3>Premium whole-house package</h3>
+<p class="fp-scenario-material">Attic, walls, rim joist, verified HERS index | 2500 sq ft</p>
 <p class="fp-scenario-total">$7,500</p>
-<p class="fp-scenario-detail">~$3/sq ft installed. Closed-cell spray foam throughout, complete air barrier, vapor management, crawlspace encapsulation, energy audit verification.</p>
+<p class="fp-scenario-detail">~$3/sq ft. Houston post-Harvey construction uses 2x4 walls with R-13 batt plus increasingly common 1-inch exterior polyiso sheathing (R-6 continuous) to meet Texas IRC 2015 amended. Older 1960s-1970s ranch-style homes in Spring Branch and Sharpstown have 2x4 walls with R-11 batt and no continuous insulation.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard access. Multi-story homes, tight crawlspaces, or extensive mold remediation add 20-40%. <a href="/get-an-estimate.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-INSULATION-CONTENT -->
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
 
 
 

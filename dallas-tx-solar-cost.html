@@ -235,7 +235,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -246,35 +248,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in Dallas</h2>
-<p>About 55% of DFW homes have south-facing roof planes. The suburban tract home layout in Lakewood, Preston Hollow, and Highland Park generally provides good solar access. Mature oak and pecan trees in Lakewood and Highland Park can significantly shade roofs. Oak Cliff and Bishop Arts have more variable canopy. Get a professional shade assessment before signing</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -317,136 +352,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in Dallas: Payback and Savings</h2>
-<p>The financial case for solar in Dallas depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> Dallas averages 5 peak sun hours per day, which translates to roughly 14,600 kWh of annual production from a typical 8 kW system. Dallas produces ~6.6 kWh/kW/day in summer and ~3.3 kWh/kW/day in December-January.</p>
-
-<p><strong>Electricity cost offset.</strong> At TX's average residential rate of ~$0.13/kWh, an 8 kW system offsets approximately $1,898 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> Like Houston, Dallas is in the deregulated Texas market. There is no mandated net metering. Look for solar buyback plans from retail providers. Rates vary from $0.04-$0.09/kWh for exports versus $0.10-$0.14/kWh retail, so sizing your system to match consumption rather than oversizing is the smart play in DFW.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and TX's incentive structure, most Dallas homeowners see a payback period of 9-12 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in Dallas can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>Dallas Sun Exposure and Seasonal Production</h2>
+<p>Dallas-Fort Worth averages 5.0 peak sun hours daily with June-August production at 6.6 kWh per kW per day and December at 3.3. Spring hail season (March through May) is the single largest production disruption, with 2-4 significant hail events per year on average. Plano and Frisco receive 4-5 percent more annual insolation than Fort Worth because of slightly less particulate haze from the I-35W industrial corridor. The East Texas cloud line typically stays east of US-75 so Garland and Richardson see clearer skies than Rockwall and Wylie.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for Dallas Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>TX state incentives.</strong> Texas has no state solar tax credit. The federal ITC plus property tax exemption (Texas Tax Code 11.27) are the primary incentives. Some municipalities in the DFW area offer small local rebates.</p>
-
-<p><strong>Utility incentives.</strong> Oncor does not offer solar rebates. Some retail electric providers run promotional solar buyback rates; shop around before committing to a plan.</p>
-
-<p><strong>Property tax exemption.</strong> Texas exempts the appraised value of solar installations from property tax under Tax Code 11.27. A $25,000 solar system adds zero to your property tax bill.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in Dallas, the effective cost after all available incentives can drop to $15,000-$17,000.</p>
+<h2>Dallas Utility Rate and Net Metering Structure</h2>
+<p>Dallas operates in the deregulated ERCOT retail market similar to Houston. Oncor Electric Delivery owns transmission and distribution; customers choose an REP. No statewide net metering mandate exists. Solar buyback plans from Green Mountain Energy, Chariot, TXU, and Reliant credit exported energy at $0.04-$0.08 per kWh versus retail rates of $0.11-$0.13. Oncor has no solar rebate program; it is purely the distribution utility. Sizing solar to 85-95 percent of annual consumption rather than overbuilding is the optimal DFW strategy because exports earn significantly less than retail rate.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in Dallas</h2>
-<p><strong>Peak sun hours.</strong> Dallas receives an average of 5 peak sun hours per day, making it a solid solar market with above-average production potential. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> Dallas produces ~6.6 kWh/kW/day in summer and ~3.3 kWh/kW/day in December-January. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> Dallas averages 40% cloud cover, with spring storm season bringing the most overcast days. Summer skies are generally clear and hot. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In Dallas's hot climate, this means panels can lose 8-15% of rated efficiency during peak summer hours. Microinverters or power optimizers help mitigate this loss. Adequate roof ventilation under the panels also reduces temperature impact.</p>
+<h2>Dallas Interconnection and Grid Approval</h2>
+<p>Oncor Distributed Generation interconnection runs 4-8 weeks for residential systems through the Oncor DG Portal. City of Dallas Building Inspection issues solar permits in 3-7 days through the Dallas ePlan portal. Plano, Frisco, Garland, Arlington, and Fort Worth each have separate municipal permitting portals with 2-10 day turnaround. Unincorporated Dallas and Tarrant county follow county-level permitting. Tornado-season storm delays in the March-May window can affect installation scheduling even if permits are in hand.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in Dallas</h2>
-<p><strong>Solar access law.</strong> Texas Property Code Section 202.010 prohibits HOAs from banning solar. Same strong protections as Houston. HOAs cannot require ground-mounted instead of roof-mounted and cannot impose restrictions that reduce output by more than 10%.</p>
-
-<p><strong>Permitting.</strong> City of Dallas issues residential solar permits within 1-3 days online. Post-installation electrical inspection is required before utility interconnection. Insurance-driven hail events can slow the permit queue in spring. Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>Dallas Solar Installer Landscape</h2>
+<p>The DFW installer market is led by Freedom Solar Power, Sunpro Solar, Longhorn Solar, and Tesla Energy. National chains Sunrun, Sunnova, and Palmetto Solar operate at volume. Local specialty crews include Circle L Solar, Alba Energy, and Clearview Solar. Texas Department of Licensing and Regulation requires Master Electrician licensing. Typical DFW residential quote runs $2.50-$3.20 per watt before incentives, competitive with Houston. Fort Worth typically sees 8-12 percent higher pricing than Dallas proper because of smaller installer pool.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in Dallas</h2>
-<p><strong>Your utility.</strong> Most Dallas homeowners are served by Oncor (transmission/distribution) with various retail electric providers in the deregulated ERCOT market. Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> Like Houston, Dallas is in the deregulated Texas market. There is no mandated net metering. Look for solar buyback plans from retail providers. Rates vary from $0.04-$0.09/kWh for exports versus $0.10-$0.14/kWh retail, so sizing your system to match consumption rather than oversizing is the smart play in DFW.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to Oncor. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> In Texas's deregulated market, where export rates are well below retail, the optimal strategy is to size your system to offset 80-90% of your annual consumption rather than oversizing. Excess production exported to the grid earns significantly less than the retail rate you avoid by consuming your own solar power.</p>
+<h2>Dallas Solar Incentives and Tax Credits</h2>
+<p>Texas has no state solar tax credit. Federal ITC at 30 percent is the primary upfront incentive. Texas Tax Code Section 11.27 exempts residential solar installations from property tax increases. Texas Tax Code 151.355 exempts solar equipment from state sales tax. Oncor does not offer a direct solar rebate; some REPs run promotional solar sign-up credits. Dallas Economic Development Office offers a green home loan at 2 percent below prime for qualifying energy improvements over $10,000. No property-specific PACE financing currently available in Dallas County.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in Dallas</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what Dallas homeowners need to watch for.</p>
+<h2>Dallas Roof Types and Mounting Implications</h2>
+<p>DFW rooftop stock is heavily composition shingle on post-1980 tract housing in Plano, Frisco, Allen, and McKinney. Concrete tile and clay tile appear in Highland Park, University Park, and older Preston Hollow, adding 15-20 percent install cost. Flat roofs are rare in DFW residential outside of mid-century modern pockets in Lakewood and White Rock. Hail-rated Class 4 composition products (which many insurance carriers require in DFW) are thicker and require upgraded module flashing hardware. Wind zone is ASCE 7-16 Category II, 115 mph design wind.</p>
+</section>
+<section class="section fp-section">
+<h2>Dallas HOA Rules and Solar Access Law</h2>
+<p>Texas Property Code Section 202.010 prohibits HOA bans on solar. Master-planned communities in Plano (Dallas North Estates, Windhaven), Frisco (Shaddock Creek, Hidden Cove), and Southlake (Timarron) have architectural review committees that must comply with state law but impose placement and aesthetic rules within the 10 percent output reduction limit. Park Cities (Highland Park, University Park) has some of the most restrictive deed-enforced HOA rules in Texas and can require ground-mounted alternatives.</p>
+</section>
+<section class="section fp-section">
+<h2>Dallas Solar Permitting Process</h2>
+<p>Dallas Building Inspection issues solar permits through the Dallas ePlan portal with 3-7 day turnaround. Plano, Frisco, and Allen use Plano's online permit system (different from Dallas) with 2-5 day turnaround. Fort Worth uses the Accela Citizen Access portal with 5-10 day turnaround. All DFW municipalities have adopted the International Residential Code 2015 or 2018 for solar scope. TDLR Master Electrician certification is required for the electrical portion.</p>
+</section>
+<section class="section fp-section">
+<h2>Dallas Battery Storage Options and Rebates</h2>
+<p>Battery adoption in DFW is driven by Winter Storm Uri memory (February 2021 grid failure left millions without power for days) and annual spring storm outage risk. Tesla Powerwall 3 dominates. Enphase IQ Battery and FranklinWH are the secondary tier. Some DFW REPs (Green Mountain, Chariot) have started offering battery-friendly TOU rate plans that improve battery economic case. Texas has no state battery rebate but federal ITC at 30 percent applies to battery storage for both standalone and solar-coupled installs.</p>
+</section>
+<section class="section fp-section">
+<h2>Dallas Climate Risks for Solar Installations</h2>
+<p>DFW climate risks for solar are spring hail (baseball-sized hail is common enough that tempered glass module fronts are mandatory Tier 1 spec), wind uplift during tornado season (ASCE 7-16 Category II, 115 mph design), and extreme summer heat reducing output 10-15 percent below STC on 100F-plus days. Class 4 hail-impact rating for modules is increasingly standard. Some insurance carriers (State Farm, USAA) require Class 4 modules in DFW for homeowner insurance continuity.</p>
+</section>
+<section class="section fp-section">
+<h2>Dallas Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in DFW runs 8-14 weeks: 1 week site assessment and engineering, 1-2 weeks permitting, 1-2 days physical installation, 3-7 days inspection, 4-8 weeks Oncor interconnection plus REP solar buyback enrollment. The October-February installation window avoids summer heat and hail season. Spring permits can be delayed by storm-related priority volume in building departments.</p>
+</section>
+<section class="section fp-section">
+<h2>Dallas-Specific Solar Program Insight</h2>
+<p>DFW's deregulated ERCOT market makes REP selection critical to solar economics. The Texas Power to Choose portal allows quarterly REP comparison; running this comparison annually can swing solar-household savings $300-$700 per year. The Texas Solar Energy Society's installer ratings database is a useful vetting tool. Oncor offers residential smart meter hourly data through Smart Meter Texas portal; using this for pre-install baselining improves system sizing accuracy.</p>
+</section>
+<section class="section fp-section">
+<h2>Dallas Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In Dallas, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores Dallas utility tariff details</h3>
+<p>Dallas operates in the deregulated ERCOT retail market similar to Houston. Oncor Electric Delivery owns transmission and distribution; customers choose an REP. No statewide net metering mandate exists. Solar buyback plans from Green Mountain Energy, Chariot, TXU, and Reliant credit exported energy at $0.04-$0.08 per kWh versus retail rates of $0.11-$0.13. Oncor has no solar rebate program; it is purely the distribution utility. Sizing solar to 85-95 percent of annual consumption rather than overbuilding is the optimal DFW strategy because exports earn significantly less than retail rate.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In Dallas, your system should produce roughly 5 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for Dallas exposure</h3>
+<p>Dallas-Fort Worth averages 5.0 peak sun hours daily with June-August production at 6.6 kWh per kW per day and December at 3.3. Spring hail season (March through May) is the single largest production disruption, with 2-4 significant hail events per year on average. Plano and Frisco receive 4-5 percent more annual insolation than Fort Worth because of slightly less particulate haze from the I-35W industrial corridor. The East Texas cloud line typically stays east of US-75 so Garland and Richardson see clearer skies than Rockwall and Wylie.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match Dallas permit reality</h3>
+<p>Full timeline from contract signing to PTO in DFW runs 8-14 weeks: 1 week site assessment and engineering, 1-2 weeks permitting, 1-2 days physical installation, 3-7 days inspection, 4-8 weeks Oncor interconnection plus REP solar buyback enrollment. The October-February installation window avoids summer heat and hail season. Spring permits can be delayed by storm-related priority volume in building departments.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in Dallas during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing Dallas incentive stacking</h3>
+<p>Texas has no state solar tax credit. Federal ITC at 30 percent is the primary upfront incentive. Texas Tax Code Section 11.27 exempts residential solar installations from property tax increases. Texas Tax Code 151.355 exempts solar equipment from state sales tax. Oncor does not offer a direct solar rebate; some REPs run promotional solar sign-up credits. Dallas Economic Development Office offers a green home loan at 2 percent below prime for qualifying energy improvements over $10,000. No property-specific PACE financing currently available in Dallas County.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most TX rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>DFW climate risks for solar are spring hail (baseball-sized hail is common enough that tempered glass module fronts are mandatory Tier 1 spec), wind uplift during tornado season (ASCE 7-16 Category II, 115 mph design), and extreme summer heat reducing output 10-15 percent below STC on 100F-plus days. Class 4 hail-impact rating for modules is increasingly standard. Some insurance carriers (State Farm, USAA) require Class 4 modules in DFW for homeowner insurance continuity.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without Dallas context</h3>
+<p>Battery adoption in DFW is driven by Winter Storm Uri memory (February 2021 grid failure left millions without power for days) and annual spring storm outage risk. Tesla Powerwall 3 dominates. Enphase IQ Battery and FranklinWH are the secondary tier. Some DFW REPs (Green Mountain, Chariot) have started offering battery-friendly TOU rate plans that improve battery economic case. Texas has no state battery rebate but federal ITC at 30 percent applies to battery storage for both standalone and solar-coupled installs.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in Dallas</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">October-February</p>
-<p>Cooler weather and lower contractor demand in the off-season mean better pricing and faster scheduling. Your system will be online before the peak production and peak usage summer months.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In Dallas, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (2-4 weeks), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a Dallas Solar Installer</h2>
+<p><strong>What is my expected production given Dallas sun hours?</strong> Dallas-Fort Worth averages 5.0 peak sun hours daily with June-August production at 6.6 kWh per kW per day and December at 3.3. Spring hail season (March through May) is the single largest production disruption, with 2-4 significant hail events per year on average. Plano and Frisco receive 4-5 percent more annual insolation than Fort Worth because of slightly less particulate haze from the I-35W industrial corridor. The East Texas cloud line typically stays east of US-75 so Garland and Richardson see clearer skies than Rockwall and Wylie.</p>
+<p><strong>How does your design handle Dallas climate risks?</strong> DFW climate risks for solar are spring hail (baseball-sized hail is common enough that tempered glass module fronts are mandatory Tier 1 spec), wind uplift during tornado season (ASCE 7-16 Category II, 115 mph design), and extreme summer heat reducing output 10-15 percent below STC on 100F-plus days. Class 4 hail-impact rating for modules is increasingly standard. Some insurance carriers (State Farm, USAA) require Class 4 modules in DFW for homeowner insurance continuity.</p>
+<p><strong>Which Dallas incentives are you filing for?</strong> Texas has no state solar tax credit. Federal ITC at 30 percent is the primary upfront incentive. Texas Tax Code Section 11.27 exempts residential solar installations from property tax increases. Texas Tax Code 151.355 exempts solar equipment from state sales tax. Oncor does not offer a direct solar rebate; some REPs run promotional solar sign-up credits. Dallas Economic Development Office offers a green home loan at 2 percent below prime for qualifying energy improvements over $10,000. No property-specific PACE financing currently available in Dallas County.</p>
+<p><strong>What does the full Dallas timeline look like?</strong> Full timeline from contract signing to PTO in DFW runs 8-14 weeks: 1 week site assessment and engineering, 1-2 weeks permitting, 1-2 days physical installation, 3-7 days inspection, 4-8 weeks Oncor interconnection plus REP solar buyback enrollment. The October-February installation window avoids summer heat and hail season. Spring permits can be delayed by storm-related priority volume in building departments.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in Dallas: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in Dallas, TX, using Dallas-adjusted labor and material costs for 2026.</p>
+<h2>Dallas Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$18,000</p>
-<p class="fp-scenario-detail">$12,600 after 30% ITC. ~10,950 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$12,600 after 30% ITC. ~10,950 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$27,000</p>
-<p class="fp-scenario-detail">$18,900 after 30% ITC. ~14,600 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$18,900 after 30% ITC. ~14,600 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$51,500</p>
-<p class="fp-scenario-detail">$36,100 after 30% ITC. ~18,250 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$36,100 after 30% ITC. ~18,250 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in Dallas typically runs 9-12 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 

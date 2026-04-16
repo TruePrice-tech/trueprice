@@ -235,7 +235,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -246,35 +248,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in Chicago</h2>
-<p>About 45-50% of Chicago-area homes have favorable south-facing roof planes. Flat roofs on bungalows and three-flats allow for optimized tilt-mounted arrays. Mature tree canopy in Lincoln Park, Lakeview, and Hyde Park can reduce production 15-25% without trimming. Logan Square and Wicker Park have more moderate canopy</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -317,136 +352,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in Chicago: Payback and Savings</h2>
-<p>The financial case for solar in Chicago depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> Chicago averages 4 peak sun hours per day, which translates to roughly 11,680 kWh of annual production from a typical 8 kW system. Chicago solar production is highly seasonal: ~6.0 kWh/kW/day in June-July versus ~1.8 kWh/kW/day in December when snow cover and short days combine.</p>
-
-<p><strong>Electricity cost offset.</strong> At IL's average residential rate of ~$0.15/kWh, an 8 kW system offsets approximately $1,752 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> Illinois has robust net metering through ComEd. Residential customers receive full retail rate credits for exported energy, and credits roll over month-to-month with an annual true-up in April.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and IL's incentive structure, most Chicago homeowners see a payback period of 7-9 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in Chicago can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>Chicago Sun Exposure and Seasonal Production</h2>
+<p>Chicago averages 4.0 peak sun hours daily with June-July production at 6.0 kWh per kW per day and December at only 1.8 because of Lake Michigan cloud generation and shortened winter days. Over 72 percent of annual production happens April through September. Oak Park, Evanston, and the north suburbs average 4-6 percent more annual insolation than the South Side because of less particulate haze from the Indiana industrial corridor. Lake-effect clouds over Rogers Park and Edgewater cost an additional 3-5 percent.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for Chicago Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>IL state incentives.</strong> Illinois Shines (the Adjustable Block Program) provides Solar Renewable Energy Credits (SRECs) worth $3,000-$6,000 over 15 years for a typical residential system. This is one of the most valuable state incentive programs in the country.</p>
-
-<p><strong>Utility incentives.</strong> ComEd does not offer a separate solar rebate, but the Illinois Shines SREC payments function as the primary state-level incentive and are administered through your installer.</p>
-
-<p><strong>Property tax exemption.</strong> Illinois exempts solar from state sales tax and provides a property tax exemption for the added value of the solar installation for the first 30 years.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in Chicago, the effective cost after all available incentives can drop to $11,500-$13,500.</p>
+<h2>Chicago Utility Rate and Net Metering Structure</h2>
+<p>ComEd residential solar runs on Rider POG (Parallel Operation of Generators) with 1-for-1 retail-rate net metering under Illinois Public Utilities Act 220 ILCS 5/16-107.5. Credits roll forward month-to-month with an annual April true-up; unused credits are paid at the utility avoided-cost rate rather than retail. This is among the strongest net metering frameworks in the Midwest. Nicor Gas customers on the gas side do not affect solar economics. ComEd's summer peak demand window (12pm to 6pm June through September) aligns with afternoon production.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in Chicago</h2>
-<p><strong>Peak sun hours.</strong> Chicago receives an average of 4 peak sun hours per day, which is moderate for a major US metro but still supports a positive ROI with proper sizing. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> Chicago solar production is highly seasonal: ~6.0 kWh/kW/day in June-July versus ~1.8 kWh/kW/day in December when snow cover and short days combine. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> Chicago averages 60% cloud cover, with lake-effect clouds adding extra coverage on the east side. Winter months are particularly overcast. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In Chicago's cold winters, panels actually operate above their rated efficiency when temperatures drop below 77F. Snow cover temporarily blocks production, but panels typically shed snow quickly due to their smooth surface and dark color. Snow clearing is rarely necessary.</p>
+<h2>Chicago Interconnection and Grid Approval</h2>
+<p>ComEd interconnection for residential systems under 25 kW runs 4-8 weeks through the ComEd Distributed Generation Portal. Chicago Department of Buildings (CDOB) issues the electrical permit in 2-4 weeks for standard installations. South Side and West Side ComEd substations have more hosting capacity than the dense North Side, which occasionally triggers Level 2 interconnection screening on systems over 10 kW in already-saturated feeders. The Illinois Shines (Adjustable Block Program) SREC commitment must be filed before ComEd interconnection for the incentive to stack.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in Chicago</h2>
-<p><strong>Solar access law.</strong> Illinois passed the Solar Access Rights Act (765 ILCS 165) that prohibits HOA covenants from banning solar installations. HOAs may set reasonable aesthetic guidelines but cannot prevent installation.</p>
-
-<p><strong>Permitting.</strong> Chicago Department of Buildings requires electrical and structural permits. Standard residential solar permits take 2-4 weeks. An electrical inspection is required before utility interconnection. Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>Chicago Solar Installer Landscape</h2>
+<p>The Chicago installer market is led by WCP Solar (Wisconsin-based with strong Chicago presence), AES Solar, Rethink Electric, and Sunrun. Midwest specialty crews include Ailey Solar Electric, Certasun, and Solar Service (Niles-based and operating since 1979). Tesla Energy operates in Chicago but at lower volume than coastal markets. Illinois Commerce Commission and Illinois Department of Commerce and Economic Opportunity track certified installers. Typical Chicago residential quote runs $2.90-$3.60 per watt before incentives, competitive with other Midwest metros.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in Chicago</h2>
-<p><strong>Your utility.</strong> Most Chicago homeowners are served by ComEd (Commonwealth Edison). Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> Illinois has robust net metering through ComEd. Residential customers receive full retail rate credits for exported energy, and credits roll over month-to-month with an annual true-up in April.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to ComEd. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> With Chicago's net metering structure, sizing your system to offset 90-100% of your annual usage typically provides the best return. Your installer should model your specific usage pattern and utility rate to optimize system size.</p>
+<h2>Chicago Solar Incentives and Tax Credits</h2>
+<p>Illinois Shines (the Adjustable Block Program, administered by Illinois Power Agency) provides Solar Renewable Energy Credits (SRECs) worth $3,000-$6,000 over 15 years for a typical 6-8 kW residential system. This is among the strongest Renewable Portfolio Standard markets in the country. Federal ITC at 30 percent stacks. Illinois exempts solar from state sales tax (6.25 percent statewide plus local) and provides a Special Assessment Property Tax exemption on the added home value for 30 years. Cook County offers no additional local rebate but Chicago has the Retrofit Chicago homeowner energy program.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in Chicago</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what Chicago homeowners need to watch for.</p>
+<h2>Chicago Roof Types and Mounting Implications</h2>
+<p>Chicago rooftop stock is heavily composition shingle on post-1950 bungalows and cape cods in the outer bungalow belt (Portage Park, Norwood Park, Jefferson Park). Flat EPDM and TPO membrane on rowhouses and three-flats in Wicker Park, Logan Square, Lincoln Park, and Hyde Park requires ballasted or tilted-mount racking. Slate and tile on historic homes in Ravenswood and Andersonville adds 20-30 percent install cost and may trigger Landmarks Commission review. The typical Chicago bungalow hip roof has three solar-viable faces (south, southwest, southeast) because of the distinctive Chicago bungalow cross-gable.</p>
+</section>
+<section class="section fp-section">
+<h2>Chicago HOA Rules and Solar Access Law</h2>
+<p>Illinois Solar Access Rights Act (765 ILCS 165) prohibits HOA covenants from banning solar installations. HOAs may set reasonable aesthetic guidelines but cannot prevent installation. Chicago Landmarks Commission reviews exterior modifications in 60-plus designated historic districts including Lincoln Park, Gold Coast, Old Town Triangle, and Pullman. Roof-mounted visible solar typically triggers Certificate of Appropriateness review in Landmarks zones, which adds 8-16 weeks. Rear-facing or concealed flat-roof installs usually pass.</p>
+</section>
+<section class="section fp-section">
+<h2>Chicago Solar Permitting Process</h2>
+<p>Chicago Department of Buildings issues solar permits through the Chicago E-Plan portal. A Residential Express Permit is available for systems under 25 kW on pitched-roof single-family residences, clearing in 2-4 weeks. Rowhouse and three-flat installs fall under the Residential Standard Permit track with 4-6 week review. Historic district projects require Certificate of Appropriateness through the Commission on Chicago Landmarks before CDOB permit can issue.</p>
+</section>
+<section class="section fp-section">
+<h2>Chicago Battery Storage Options and Rebates</h2>
+<p>Battery storage adoption in Chicago is modest because strong 1-for-1 net metering reduces the financial case; most battery purchases are resilience-driven. Enphase IQ Battery 10 and Tesla Powerwall 3 are the dominant residential products. Illinois Shines SREC program now includes a battery storage adder. Chicago Fire Department inspection is required for any residential battery over 20 kWh under Chicago Fire Code 57-1.15; basement and below-grade installations are restricted.</p>
+</section>
+<section class="section fp-section">
+<h2>Chicago Climate Risks for Solar Installations</h2>
+<p>Chicago climate risks for solar are wind uplift during lake-effect blow events (peak gusts in January and April routinely hit 60 mph at Midway), snow loading averaging 36 inches annual snowfall, and hail damage from summer derecho events. Ground-snow load is 25 psf under IBC 2018 Table 1608.1. Module racking must be spec'd for the Chicago snow-load zone, typically requiring 25 percent upgrade over base IronRidge XR hardware. The August 2020 derecho produced several documented racking failures where wind speeds exceeded 100 mph.</p>
+</section>
+<section class="section fp-section">
+<h2>Chicago Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in Chicago runs 12-18 weeks: 1-2 weeks site assessment and engineering, 2-6 weeks CDOB permitting (longer for Landmarks districts), 1-3 days physical installation, 1-2 weeks inspection, 4-8 weeks ComEd interconnection review including Illinois Shines SREC registration. The March-May installation window captures the full April-September peak production window and avoids frozen-roof scheduling issues in winter.</p>
+</section>
+<section class="section fp-section">
+<h2>Chicago-Specific Solar Program Insight</h2>
+<p>Chicago's Green Homes Program offers property tax reductions for energy-efficient residential construction. The Illinois Solar for All program provides income-qualifying households with no-cost community solar or rooftop solar through approved contractors. Cook County's Solar Ready Initiative (through the Cook County Department of Environment and Sustainability) offers free rooftop site assessments using satellite data. ComEd's Hourly Pricing voluntary rate program can improve solar economics by aligning consumption with low-price hours.</p>
+</section>
+<section class="section fp-section">
+<h2>Chicago Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In Chicago, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores Chicago utility tariff details</h3>
+<p>ComEd residential solar runs on Rider POG (Parallel Operation of Generators) with 1-for-1 retail-rate net metering under Illinois Public Utilities Act 220 ILCS 5/16-107.5. Credits roll forward month-to-month with an annual April true-up; unused credits are paid at the utility avoided-cost rate rather than retail. This is among the strongest net metering frameworks in the Midwest. Nicor Gas customers on the gas side do not affect solar economics. ComEd's summer peak demand window (12pm to 6pm June through September) aligns with afternoon production.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In Chicago, your system should produce roughly 4 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for Chicago exposure</h3>
+<p>Chicago averages 4.0 peak sun hours daily with June-July production at 6.0 kWh per kW per day and December at only 1.8 because of Lake Michigan cloud generation and shortened winter days. Over 72 percent of annual production happens April through September. Oak Park, Evanston, and the north suburbs average 4-6 percent more annual insolation than the South Side because of less particulate haze from the Indiana industrial corridor. Lake-effect clouds over Rogers Park and Edgewater cost an additional 3-5 percent.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match Chicago permit reality</h3>
+<p>Full timeline from contract signing to PTO in Chicago runs 12-18 weeks: 1-2 weeks site assessment and engineering, 2-6 weeks CDOB permitting (longer for Landmarks districts), 1-3 days physical installation, 1-2 weeks inspection, 4-8 weeks ComEd interconnection review including Illinois Shines SREC registration. The March-May installation window captures the full April-September peak production window and avoids frozen-roof scheduling issues in winter.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in Chicago during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing Chicago incentive stacking</h3>
+<p>Illinois Shines (the Adjustable Block Program, administered by Illinois Power Agency) provides Solar Renewable Energy Credits (SRECs) worth $3,000-$6,000 over 15 years for a typical 6-8 kW residential system. This is among the strongest Renewable Portfolio Standard markets in the country. Federal ITC at 30 percent stacks. Illinois exempts solar from state sales tax (6.25 percent statewide plus local) and provides a Special Assessment Property Tax exemption on the added home value for 30 years. Cook County offers no additional local rebate but Chicago has the Retrofit Chicago homeowner energy program.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most IL rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>Chicago climate risks for solar are wind uplift during lake-effect blow events (peak gusts in January and April routinely hit 60 mph at Midway), snow loading averaging 36 inches annual snowfall, and hail damage from summer derecho events. Ground-snow load is 25 psf under IBC 2018 Table 1608.1. Module racking must be spec'd for the Chicago snow-load zone, typically requiring 25 percent upgrade over base IronRidge XR hardware. The August 2020 derecho produced several documented racking failures where wind speeds exceeded 100 mph.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without Chicago context</h3>
+<p>Battery storage adoption in Chicago is modest because strong 1-for-1 net metering reduces the financial case; most battery purchases are resilience-driven. Enphase IQ Battery 10 and Tesla Powerwall 3 are the dominant residential products. Illinois Shines SREC program now includes a battery storage adder. Chicago Fire Department inspection is required for any residential battery over 20 kWh under Chicago Fire Code 57-1.15; basement and below-grade installations are restricted.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in Chicago</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">March-May</p>
-<p>Spring installation catches the entire peak production window from May through September. Avoid scheduling during winter when cold temperatures slow the process.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In Chicago, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (2-4 weeks), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a Chicago Solar Installer</h2>
+<p><strong>What is my expected production given Chicago sun hours?</strong> Chicago averages 4.0 peak sun hours daily with June-July production at 6.0 kWh per kW per day and December at only 1.8 because of Lake Michigan cloud generation and shortened winter days. Over 72 percent of annual production happens April through September. Oak Park, Evanston, and the north suburbs average 4-6 percent more annual insolation than the South Side because of less particulate haze from the Indiana industrial corridor. Lake-effect clouds over Rogers Park and Edgewater cost an additional 3-5 percent.</p>
+<p><strong>How does your design handle Chicago climate risks?</strong> Chicago climate risks for solar are wind uplift during lake-effect blow events (peak gusts in January and April routinely hit 60 mph at Midway), snow loading averaging 36 inches annual snowfall, and hail damage from summer derecho events. Ground-snow load is 25 psf under IBC 2018 Table 1608.1. Module racking must be spec'd for the Chicago snow-load zone, typically requiring 25 percent upgrade over base IronRidge XR hardware. The August 2020 derecho produced several documented racking failures where wind speeds exceeded 100 mph.</p>
+<p><strong>Which Chicago incentives are you filing for?</strong> Illinois Shines (the Adjustable Block Program, administered by Illinois Power Agency) provides Solar Renewable Energy Credits (SRECs) worth $3,000-$6,000 over 15 years for a typical 6-8 kW residential system. This is among the strongest Renewable Portfolio Standard markets in the country. Federal ITC at 30 percent stacks. Illinois exempts solar from state sales tax (6.25 percent statewide plus local) and provides a Special Assessment Property Tax exemption on the added home value for 30 years. Cook County offers no additional local rebate but Chicago has the Retrofit Chicago homeowner energy program.</p>
+<p><strong>What does the full Chicago timeline look like?</strong> Full timeline from contract signing to PTO in Chicago runs 12-18 weeks: 1-2 weeks site assessment and engineering, 2-6 weeks CDOB permitting (longer for Landmarks districts), 1-3 days physical installation, 1-2 weeks inspection, 4-8 weeks ComEd interconnection review including Illinois Shines SREC registration. The March-May installation window captures the full April-September peak production window and avoids frozen-roof scheduling issues in winter.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in Chicago: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in Chicago, IL, using Chicago-adjusted labor and material costs for 2026.</p>
+<h2>Chicago Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$19,100</p>
-<p class="fp-scenario-detail">$13,400 after 30% ITC. ~8,760 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$13,400 after 30% ITC. ~8,760 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$28,600</p>
-<p class="fp-scenario-detail">$20,000 after 30% ITC. ~11,680 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$20,000 after 30% ITC. ~11,680 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$53,800</p>
-<p class="fp-scenario-detail">$37,700 after 30% ITC. ~14,600 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$37,700 after 30% ITC. ~14,600 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in Chicago typically runs 7-9 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 

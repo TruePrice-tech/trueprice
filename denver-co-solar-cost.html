@@ -235,7 +235,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -246,35 +248,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in Denver</h2>
-<p>About 50-55% of Denver homes have favorable south-facing exposure. The Highlands, Wash Park, and Cherry Creek have good roofline variety. Denver has a moderate urban canopy. Wash Park and older neighborhoods in Capitol Hill have more mature trees that can shade panels. Stapleton/Central Park area homes are newer with smaller trees and better solar access</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -317,136 +352,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in Denver: Payback and Savings</h2>
-<p>The financial case for solar in Denver depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> Denver averages 5.5 peak sun hours per day, which translates to roughly 16,060 kWh of annual production from a typical 8 kW system. Denver produces ~7.0 kWh/kW/day in June and ~3.5 kWh/kW/day in December. The altitude advantage adds roughly 5-8% more production versus comparable sun hours at sea level due to thinner atmosphere.</p>
-
-<p><strong>Electricity cost offset.</strong> At CO's average residential rate of ~$0.14/kWh, an 8 kW system offsets approximately $2,248 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> Colorado mandates net metering for Xcel Energy customers. Residential solar customers receive full retail rate credits for exported energy, with credits rolling over month-to-month and an annual true-up. This is one of the more favorable net metering structures in the Mountain West.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and CO's incentive structure, most Denver homeowners see a payback period of 7-9 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in Denver can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>Denver Sun Exposure and Seasonal Production</h2>
+<p>Denver averages 5.5 peak sun hours daily at 5,280 feet elevation with the thin-atmosphere bonus adding 5-8 percent to production versus comparable sea-level sun hours. June production hits 7.0 kWh per kW per day and December still delivers 3.5. Colorado has 300-plus clear sunny days annually. Afternoon summer thunderstorms are brief and mostly post-peak-production. Cherry Creek, Stapleton, and Washington Park receive marginally more annual insolation than Highlands and LoHi because of less smoke from Front Range wildfire seasons.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for Denver Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>CO state incentives.</strong> Colorado no longer offers a state solar tax credit (it expired in 2020). The state does exempt solar from sales tax and property tax. Some municipalities offer additional incentives.</p>
-
-<p><strong>Utility incentives.</strong> Xcel Energy's Solar*Rewards program has been significantly reduced but still offers $0.05/kWh performance payments for 10 years for qualifying residential systems. Check current availability as program capacity fills quickly.</p>
-
-<p><strong>Property tax exemption.</strong> Colorado exempts residential renewable energy equipment from property tax assessment, and solar installations are exempt from state sales tax.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in Denver, the effective cost after all available incentives can drop to $14,000-$16,000.</p>
+<h2>Denver Utility Rate and Net Metering Structure</h2>
+<p>Xcel Energy Colorado residential solar operates under the Schedule R rate with full 1-for-1 retail-rate net metering under Colorado PUC Rule 3902. Excess exports roll forward month-to-month with an annual true-up at the Xcel Energy avoided cost rate. This is among the most favorable net metering frameworks in the Mountain West. Black Hills Energy covers southeast Colorado but not Denver metro. Xcel's Residential Time-of-Use (RTOU) rate is optional and can improve solar economics for households that self-consume daytime production.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in Denver</h2>
-<p><strong>Peak sun hours.</strong> Denver receives an average of 5.5 peak sun hours per day, putting it among the top-tier solar markets in the US. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> Denver produces ~7.0 kWh/kW/day in June and ~3.5 kWh/kW/day in December. The altitude advantage adds roughly 5-8% more production versus comparable sun hours at sea level due to thinner atmosphere. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> Denver averages 35% cloud cover. The Front Range gets 300+ days of sunshine annually. Afternoon thunderstorms in spring/summer are brief and rarely impact daily production significantly. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In Denver, summer heat reduces panel efficiency modestly during peak afternoon hours, but the temperature effect is manageable and already factored into production estimates from reputable installers.</p>
+<h2>Denver Interconnection and Grid Approval</h2>
+<p>Xcel Energy Colorado interconnection runs 4-8 weeks for residential systems through the Xcel Renewable Connections Portal. City and County of Denver Community Planning and Development issues solar permits in 2-4 weeks. Arapahoe, Jefferson, Douglas, and Adams counties have separate permitting portals for unincorporated areas. Denver implemented SolarAPP+ automated instant permitting in 2022 for qualifying residential installs, dropping permit time to same-day for many projects. Xcel interconnection remains the timeline bottleneck.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in Denver</h2>
-<p><strong>Solar access law.</strong> Colorado Revised Statutes 38-30-168 prohibits HOAs from banning solar installations. Colorado's law is strong: HOAs cannot impose requirements that increase cost by more than 10% or decrease efficiency by more than 10%. HOAs that violate this statute face statutory damages.</p>
-
-<p><strong>Permitting.</strong> City of Denver issues residential solar permits within 1-2 weeks. Structural review is required for older roofs. An electrical inspection is required before Xcel will connect the system. Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>Denver Solar Installer Landscape</h2>
+<p>The Denver installer market is led by Namaste Solar (Boulder-based cooperative), Photon Brothers (Denver), Freedom Solar Power, SunPower dealers including Blue Raven Solar and Freedom Forever. Tesla Energy operates in Denver. Local specialty includes Sunsense Solar (Carbondale-based mountain market extension) and REenergizeCO. Colorado Department of Regulatory Agencies requires a Master Electrician license. Typical Denver residential quote runs $2.70-$3.40 per watt before incentives; mountain-resort installs (Vail, Aspen, Breckenridge) run $3.80-$4.60.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in Denver</h2>
-<p><strong>Your utility.</strong> Most Denver homeowners are served by Xcel Energy. Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> Colorado mandates net metering for Xcel Energy customers. Residential solar customers receive full retail rate credits for exported energy, with credits rolling over month-to-month and an annual true-up. This is one of the more favorable net metering structures in the Mountain West.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to Xcel Energy. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> With Denver's net metering structure, sizing your system to offset 90-100% of your annual usage typically provides the best return. Your installer should model your specific usage pattern and utility rate to optimize system size.</p>
+<h2>Denver Solar Incentives and Tax Credits</h2>
+<p>Colorado no longer offers a state solar tax credit (expired 2020). Federal ITC at 30 percent is the primary upfront incentive. Colorado exempts residential solar installations from state property tax through Colorado Revised Statutes 39-3-118. Colorado exempts solar equipment from state sales tax (2.9 percent state plus local) through CRS 39-26-724. Xcel Energy's Solar*Rewards program provides performance-based $0.05 per kWh payments for 10 years on qualifying residential systems, but program capacity fills quickly each year. City of Denver Climate Action Rebates offer $500-$1,500 for electrification-bundled packages.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in Denver</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what Denver homeowners need to watch for.</p>
+<h2>Denver Roof Types and Mounting Implications</h2>
+<p>Denver rooftop stock is heavily composition shingle on post-1990 suburban housing in Highlands Ranch, Stapleton, and Aurora. Concrete and clay tile appear in Cherry Hills Village, Bow Mar, and older Washington Park, adding 15-20 percent install cost. Metal standing seam is increasingly common in new mountain construction and in LEED-certified Boulder homes; standing seam is the easiest solar-install substrate because S-5 clamps avoid roof penetrations. Denver's high-altitude UV is 30-40 percent more intense than sea level and accelerates shingle aging, which is a consideration for solar install timing.</p>
+</section>
+<section class="section fp-section">
+<h2>Denver HOA Rules and Solar Access Law</h2>
+<p>Colorado Revised Statutes 38-30-168 prohibits HOA bans on solar installations. The law is strong: HOAs cannot impose requirements that increase cost by more than 10 percent or decrease efficiency by more than 10 percent. Master-planned communities in Highlands Ranch, Lone Tree, and Stapleton have architectural review within those limits. Denver Landmark Preservation designates individual properties plus districts (Curtis Park, LoDo, Country Club, Humboldt Street); visible solar in Landmark zones requires Certificate of Appropriateness with 4-6 week review.</p>
+</section>
+<section class="section fp-section">
+<h2>Denver Solar Permitting Process</h2>
+<p>Denver Community Planning and Development uses the SolarAPP+ automated permitting platform for qualifying residential installs under 25 kW on single-family homes, offering same-day online permit issuance for about 65 percent of applications. Complex installs, Landmark zones, and Hillside Designated Areas fall back to standard plan check with 2-4 week review. Jefferson, Arapahoe, and Douglas counties are in various stages of SolarAPP+ rollout. NEC 2020 rapid shutdown compliance is required statewide.</p>
+</section>
+<section class="section fp-section">
+<h2>Denver Battery Storage Options and Rebates</h2>
+<p>Battery adoption in Denver is moderate and driven by wildfire-season outage risk and strong Xcel 1-for-1 net metering already providing most of the financial benefit without battery. Tesla Powerwall 3 and Enphase IQ Battery 10 dominate. FranklinWH gains share in premium tier. Colorado PUC-approved battery incentives stack with federal ITC. Xcel Solar*Rewards storage adder provides limited additional payments. Wildfire PSPS events in Jefferson and Larimer counties have driven battery adoption 20-30 percent annually.</p>
+</section>
+<section class="section fp-section">
+<h2>Denver Climate Risks for Solar Installations</h2>
+<p>Denver climate risks for solar are wind uplift (Front Range Chinook events can hit 80-100 mph in January and April), hail damage from spring storm season (Denver is among the most hail-prone metros in the country, with 3-5 annual significant hail events), and snow loading (36-60 inches annual snowfall in the metro, higher in foothill ZIPs). Class 4 hail-impact modules and 40 psf snow-load-rated racking are Denver standards. Front Range hail insurance claims are so common that tempered glass backsheets are mandatory Tier 1 spec.</p>
+</section>
+<section class="section fp-section">
+<h2>Denver Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in Denver runs 8-14 weeks: 1 week site assessment and engineering, same-day to 2 weeks permitting (faster with SolarAPP+), 1-2 days installation, 3-7 days inspection, 4-8 weeks Xcel interconnection. The March-May installation window avoids snow and frozen-roof scheduling and captures the full April-September peak production window immediately.</p>
+</section>
+<section class="section fp-section">
+<h2>Denver-Specific Solar Program Insight</h2>
+<p>Denver's SolarAPP+ automated permitting is a national model and cuts typical permit time from 3 weeks to same-day for qualifying projects. Colorado's 300-plus sunny days plus 5,280-foot altitude bonus deliver some of the strongest residential production profiles in the country. The Colorado Energy Office's Residential Energy Affordability Program (REAP) provides no-cost solar for income-qualifying households. Xcel Energy's Green Button Connect data is available for pre-install production modeling baseline.</p>
+</section>
+<section class="section fp-section">
+<h2>Denver Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In Denver, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores Denver utility tariff details</h3>
+<p>Xcel Energy Colorado residential solar operates under the Schedule R rate with full 1-for-1 retail-rate net metering under Colorado PUC Rule 3902. Excess exports roll forward month-to-month with an annual true-up at the Xcel Energy avoided cost rate. This is among the most favorable net metering frameworks in the Mountain West. Black Hills Energy covers southeast Colorado but not Denver metro. Xcel's Residential Time-of-Use (RTOU) rate is optional and can improve solar economics for households that self-consume daytime production.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In Denver, your system should produce roughly 5.5 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for Denver exposure</h3>
+<p>Denver averages 5.5 peak sun hours daily at 5,280 feet elevation with the thin-atmosphere bonus adding 5-8 percent to production versus comparable sea-level sun hours. June production hits 7.0 kWh per kW per day and December still delivers 3.5. Colorado has 300-plus clear sunny days annually. Afternoon summer thunderstorms are brief and mostly post-peak-production. Cherry Creek, Stapleton, and Washington Park receive marginally more annual insolation than Highlands and LoHi because of less smoke from Front Range wildfire seasons.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match Denver permit reality</h3>
+<p>Full timeline from contract signing to PTO in Denver runs 8-14 weeks: 1 week site assessment and engineering, same-day to 2 weeks permitting (faster with SolarAPP+), 1-2 days installation, 3-7 days inspection, 4-8 weeks Xcel interconnection. The March-May installation window avoids snow and frozen-roof scheduling and captures the full April-September peak production window immediately.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in Denver during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing Denver incentive stacking</h3>
+<p>Colorado no longer offers a state solar tax credit (expired 2020). Federal ITC at 30 percent is the primary upfront incentive. Colorado exempts residential solar installations from state property tax through Colorado Revised Statutes 39-3-118. Colorado exempts solar equipment from state sales tax (2.9 percent state plus local) through CRS 39-26-724. Xcel Energy's Solar*Rewards program provides performance-based $0.05 per kWh payments for 10 years on qualifying residential systems, but program capacity fills quickly each year. City of Denver Climate Action Rebates offer $500-$1,500 for electrification-bundled packages.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most CO rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>Denver climate risks for solar are wind uplift (Front Range Chinook events can hit 80-100 mph in January and April), hail damage from spring storm season (Denver is among the most hail-prone metros in the country, with 3-5 annual significant hail events), and snow loading (36-60 inches annual snowfall in the metro, higher in foothill ZIPs). Class 4 hail-impact modules and 40 psf snow-load-rated racking are Denver standards. Front Range hail insurance claims are so common that tempered glass backsheets are mandatory Tier 1 spec.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without Denver context</h3>
+<p>Battery adoption in Denver is moderate and driven by wildfire-season outage risk and strong Xcel 1-for-1 net metering already providing most of the financial benefit without battery. Tesla Powerwall 3 and Enphase IQ Battery 10 dominate. FranklinWH gains share in premium tier. Colorado PUC-approved battery incentives stack with federal ITC. Xcel Solar*Rewards storage adder provides limited additional payments. Wildfire PSPS events in Jefferson and Larimer counties have driven battery adoption 20-30 percent annually.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in Denver</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">March-May</p>
-<p>Spring installation means your system is online for the peak production summer months. Denver's altitude means even early spring has strong solar irradiance.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In Denver, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (1-2 weeks), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a Denver Solar Installer</h2>
+<p><strong>What is my expected production given Denver sun hours?</strong> Denver averages 5.5 peak sun hours daily at 5,280 feet elevation with the thin-atmosphere bonus adding 5-8 percent to production versus comparable sea-level sun hours. June production hits 7.0 kWh per kW per day and December still delivers 3.5. Colorado has 300-plus clear sunny days annually. Afternoon summer thunderstorms are brief and mostly post-peak-production. Cherry Creek, Stapleton, and Washington Park receive marginally more annual insolation than Highlands and LoHi because of less smoke from Front Range wildfire seasons.</p>
+<p><strong>How does your design handle Denver climate risks?</strong> Denver climate risks for solar are wind uplift (Front Range Chinook events can hit 80-100 mph in January and April), hail damage from spring storm season (Denver is among the most hail-prone metros in the country, with 3-5 annual significant hail events), and snow loading (36-60 inches annual snowfall in the metro, higher in foothill ZIPs). Class 4 hail-impact modules and 40 psf snow-load-rated racking are Denver standards. Front Range hail insurance claims are so common that tempered glass backsheets are mandatory Tier 1 spec.</p>
+<p><strong>Which Denver incentives are you filing for?</strong> Colorado no longer offers a state solar tax credit (expired 2020). Federal ITC at 30 percent is the primary upfront incentive. Colorado exempts residential solar installations from state property tax through Colorado Revised Statutes 39-3-118. Colorado exempts solar equipment from state sales tax (2.9 percent state plus local) through CRS 39-26-724. Xcel Energy's Solar*Rewards program provides performance-based $0.05 per kWh payments for 10 years on qualifying residential systems, but program capacity fills quickly each year. City of Denver Climate Action Rebates offer $500-$1,500 for electrification-bundled packages.</p>
+<p><strong>What does the full Denver timeline look like?</strong> Full timeline from contract signing to PTO in Denver runs 8-14 weeks: 1 week site assessment and engineering, same-day to 2 weeks permitting (faster with SolarAPP+), 1-2 days installation, 3-7 days inspection, 4-8 weeks Xcel interconnection. The March-May installation window avoids snow and frozen-roof scheduling and captures the full April-September peak production window immediately.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in Denver: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in Denver, CO, using Denver-adjusted labor and material costs for 2026.</p>
+<h2>Denver Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$19,800</p>
-<p class="fp-scenario-detail">$13,900 after 30% ITC. ~12,045 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$13,900 after 30% ITC. ~12,045 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$29,700</p>
-<p class="fp-scenario-detail">$20,800 after 30% ITC. ~16,060 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$20,800 after 30% ITC. ~16,060 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$55,300</p>
-<p class="fp-scenario-detail">$38,700 after 30% ITC. ~20,075 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$38,700 after 30% ITC. ~20,075 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in Denver typically runs 7-9 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 

@@ -219,7 +219,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -230,35 +232,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in San Diego</h2>
-<p>About 60-65% of San Diego homes have strong south or southwest exposure. The low-density single-family housing stock and canyon topology in Mission Hills, Kensington, and North Park create excellent solar access, though canyon-edge homes occasionally face awkward roof orientations. Tree shading is relatively light: jacaranda and eucalyptus in older neighborhoods like Mission Hills and Kensington create some moderate shading. Most San Diego roofs have clear sky access thanks to the region's low canopy density</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -301,136 +336,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in San Diego: Payback and Savings</h2>
-<p>The financial case for solar in San Diego depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> San Diego averages 5.5 peak sun hours per day, which translates to roughly 16,060 kWh of annual production from a typical 8 kW system. San Diego produces ~6.8 kWh/kW/day in May-July and still ~4.2 kWh/kW/day in December, one of the most consistent year-round production profiles in the country thanks to the mild coastal climate.</p>
-
-<p><strong>Electricity cost offset.</strong> At CA's average residential rate of ~$0.28/kWh, an 8 kW system offsets approximately $4,497 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> SDG&E customers interconnecting after April 2023 fall under California NEM 3.0, which cut export credit value by roughly 75% versus NEM 2.0 and uses time-varying avoided-cost pricing. Battery storage is functionally required for reasonable payback. SDG&E's high retail rates ($0.40+/kWh peak) still make self-consumption solar compelling even under NEM 3.0.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and CA's incentive structure, most San Diego homeowners see a payback period of 7-10 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in San Diego can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>San Diego Sun Exposure and Seasonal Production</h2>
+<p>San Diego averages 5.5 peak sun hours daily with May-July production at 6.8 kWh per kW per day and December still strong at 4.2, one of the most consistent year-round production profiles in the US thanks to the mild coastal climate. May Gray and June Gloom marine layer reduces morning production near the coast (La Jolla, Pacific Beach, Point Loma) 10-18 percent but typically burns off by noon. Inland Poway, Rancho Bernardo, and Escondido see minimal marine-layer impact with consistently clearer morning skies.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for San Diego Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>CA state incentives.</strong> California offers no state tax credit. SGIP (Self-Generation Incentive Program) provides battery storage rebates of $150-$1,000/kWh depending on equity tier; San Diego-area residents in wildfire-risk zones qualify for the Equity Resiliency tier with the highest rebates. California property tax exclusion for solar extends through 2026.</p>
-
-<p><strong>Utility incentives.</strong> SDG&E offers no direct solar panel rebate. The utility administers portions of SGIP for battery storage, which is now the primary stackable incentive for new solar-plus-storage installations.</p>
-
-<p><strong>Property tax exemption.</strong> California excludes solar improvements from property tax reassessment through the Active Solar Energy Systems Exclusion. Your property value increases but your tax assessment does not.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in San Diego, the effective cost after all available incentives can drop to $12,000-$14,000.</p>
+<h2>San Diego Utility Rate and Net Metering Structure</h2>
+<p>SDG&E customers interconnecting after April 15, 2023 fall under California NEM 3.0 (Net Billing Tariff) with export credits at roughly 25 percent of retail value versus NEM 2.0. SDG&E has the highest retail rates in the continental US (averaging $0.40-$0.50 per kWh on summer peak hours), so even NEM 3.0 solar-plus-battery economics remain compelling for self-consumption. Pre-April-2023 NEM 2.0 customers are grandfathered 20 years from interconnection. Battery storage is functionally required for new installs to capture reasonable payback.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in San Diego</h2>
-<p><strong>Peak sun hours.</strong> San Diego receives an average of 5.5 peak sun hours per day, putting it among the top-tier solar markets in the US. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> San Diego produces ~6.8 kWh/kW/day in May-July and still ~4.2 kWh/kW/day in December, one of the most consistent year-round production profiles in the country thanks to the mild coastal climate. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> San Diego averages 30% cloud cover annually. May Gray and June Gloom marine layer reduces morning production near the coast (La Jolla, Point Loma, Pacific Beach) but typically burns off by noon. Inland neighborhoods like Poway and Rancho Bernardo see minimal cloud impact. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In San Diego's hot climate, this means panels can lose 8-15% of rated efficiency during peak summer hours. Microinverters or power optimizers help mitigate this loss. Adequate roof ventilation under the panels also reduces temperature impact.</p>
+<h2>San Diego Interconnection and Grid Approval</h2>
+<p>SDG&E interconnection for residential systems under 30 kW runs 4-8 weeks through the SDG&E Net Energy Metering portal. City of San Diego Development Services uses the SolarAPP+ automated portal for instant permit issuance on qualifying residential installs under 10 kW. Chula Vista, Oceanside, Encinitas, and Escondido each maintain separate permitting. San Diego County unincorporated permitting uses County eServices. Coastal Commission review adds 4-8 weeks for properties in the coastal overlay zone.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in San Diego</h2>
-<p><strong>Solar access law.</strong> California Civil Code Section 714 (Solar Rights Act) is the nation's strongest solar access law. HOAs cannot prohibit solar and can only impose restrictions that add less than $1,000 in cost or reduce output by less than 10%. SB 1226 extended protections to multifamily common-area roofs.</p>
-
-<p><strong>Permitting.</strong> City of San Diego issues residential solar permits same-day or within 2-3 business days via the SolarAPP+ automated portal for standard installations under 10 kW. Coastal Commission review may apply to homes in the coastal overlay zone (strips of La Jolla, Del Mar, and Ocean Beach). Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>San Diego Solar Installer Landscape</h2>
+<p>The San Diego installer market is led by Sunrun, Baker Electric Home Energy, Stellar Solar, and Sullivan Solar Power. SunPower dealers include SunPower by Tecta and Sunnymead Solar. Regional specialty includes San Diego Solar Direct, Action Solar Installation, and California Solar Systems. Tesla Energy operates. California Contractors State License Board requires C-10 Electrical or C-46 Solar licensing. Typical SD residential quote runs $2.80-$3.60 per watt before incentives, slightly below LA pricing because of lower labor costs and more streamlined permitting.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in San Diego</h2>
-<p><strong>Your utility.</strong> Most San Diego homeowners are served by SDG&E (San Diego Gas & Electric). Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> SDG&E customers interconnecting after April 2023 fall under California NEM 3.0, which cut export credit value by roughly 75% versus NEM 2.0 and uses time-varying avoided-cost pricing. Battery storage is functionally required for reasonable payback. SDG&E's high retail rates ($0.40+/kWh peak) still make self-consumption solar compelling even under NEM 3.0.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to SDG&E. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> With San Diego's net metering structure, sizing your system to offset 90-100% of your annual usage typically provides the best return. Your installer should model your specific usage pattern and utility rate to optimize system size.</p>
+<h2>San Diego Solar Incentives and Tax Credits</h2>
+<p>California offers no state solar tax credit. Federal ITC at 30 percent is the primary upfront incentive. California property tax exclusion (RTC 73) extends through 2026. California SGIP battery rebates of $150-$1,000 per kWh; San Diego residents in PSPS-risk zones (much of east county including Ramona, Julian, Alpine) qualify for Equity Resiliency tier. SDG&E's Energy Savings Assistance Program covers income-qualifying households. The San Diego Regional Climate Collaborative provides pre-install consultation resources.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in San Diego</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what San Diego homeowners need to watch for.</p>
+<h2>San Diego Roof Types and Mounting Implications</h2>
+<p>San Diego rooftop stock is a mix of composition shingle on 1960s-1990s tract housing in Mira Mesa, Rancho Penasquitos, and Clairemont; concrete tile (flat and S-tile) on post-1980 luxury housing in Carmel Valley, Del Mar, and La Jolla; and clay tile on Spanish Revival homes in Point Loma and Kensington. Tile adds 15-20 percent install cost. Flat-roof homes in Bird Rock and La Jolla Shores require ballasted or penetration-engineered racking. The Coastal Fog Zone within 1 mile of the ocean requires marine-grade aluminum module frames.</p>
+</section>
+<section class="section fp-section">
+<h2>San Diego HOA Rules and Solar Access Law</h2>
+<p>California Civil Code Section 714 (Solar Rights Act) is the strongest solar access law in the country. HOAs can impose only restrictions that add less than $1,000 in cost or reduce output by less than 10 percent. Master-planned communities in Carmel Valley, Del Sur, 4S Ranch, and Rancho Bernardo have architectural review within those limits. Coastal Development Permit process through California Coastal Commission applies to any visible work on properties seaward of the Coastal Zone boundary. La Jolla Shores has additional community-specific overlay.</p>
+</section>
+<section class="section fp-section">
+<h2>San Diego Solar Permitting Process</h2>
+<p>San Diego Development Services uses SolarAPP+ automated portal for same-day permit issuance on standard residential installs under 10 kW. Complex installs or tile-roof structural reinforcements take 2-5 days through standard plan check. County unincorporated areas use County eServices with 3-7 day turnaround. Title 24 Part 6 solar-ready provisions apply to new construction. NEC 2020 California amendments apply to solar scope.</p>
+</section>
+<section class="section fp-section">
+<h2>San Diego Battery Storage Options and Rebates</h2>
+<p>Battery adoption in San Diego is extremely strong because of NEM 3.0 economics and PSPS outage risk in east county fire zones. Tesla Powerwall 3 dominates. Enphase IQ Battery 10 and FranklinWH are strong secondary. California SGIP Equity Resiliency tier provides $1,000 per kWh for High Fire Risk Area customers. SDG&E's Critical Peak Pricing and Time-of-Use 5-8pm plans make battery arbitrage economically valuable. Federal ITC at 30 percent applies.</p>
+</section>
+<section class="section fp-section">
+<h2>San Diego Climate Risks for Solar Installations</h2>
+<p>San Diego climate risks for solar are Santa Ana wind events (October-November dry season brings 60-80 mph gusts), wildfire smoke (reduces production 10-20 percent for 2-4 weeks most years), and marine salt corrosion in coastal ZIPs. Module frame marine-grade certification is mandatory Tier 1 spec within 1 mile of ocean. Module backsheet UV-accelerated aging is a Southern California concern that Tier 1 manufacturers address with polyamide or fluoropolymer backsheet chemistry.</p>
+</section>
+<section class="section fp-section">
+<h2>San Diego Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in San Diego runs 8-14 weeks: 1 week site assessment and engineering, same-day to 1 week permitting (SolarAPP+ fast), 1-2 days installation (tile roofs add time), 3-7 days inspection, 4-8 weeks SDG&E interconnection. The January-March installation window captures the full April-September peak production window and avoids marine-layer morning installation scheduling in May-June.</p>
+</section>
+<section class="section fp-section">
+<h2>San Diego-Specific Solar Program Insight</h2>
+<p>San Diego has some of the highest electricity rates in the US, making self-consumption solar compelling even under NEM 3.0. SDG&E's EV Climate Credit provides additional bill offset that affects net solar economics. Center for Sustainable Energy (CSE) administers SGIP in San Diego and provides neutral battery sizing guidance. San Diego's SolarAPP+ adoption is among the fastest in California for permit speed.</p>
+</section>
+<section class="section fp-section">
+<h2>San Diego Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In San Diego, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores San Diego utility tariff details</h3>
+<p>SDG&E customers interconnecting after April 15, 2023 fall under California NEM 3.0 (Net Billing Tariff) with export credits at roughly 25 percent of retail value versus NEM 2.0. SDG&E has the highest retail rates in the continental US (averaging $0.40-$0.50 per kWh on summer peak hours), so even NEM 3.0 solar-plus-battery economics remain compelling for self-consumption. Pre-April-2023 NEM 2.0 customers are grandfathered 20 years from interconnection. Battery storage is functionally required for new installs to capture reasonable payback.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In San Diego, your system should produce roughly 5.5 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for San Diego exposure</h3>
+<p>San Diego averages 5.5 peak sun hours daily with May-July production at 6.8 kWh per kW per day and December still strong at 4.2, one of the most consistent year-round production profiles in the US thanks to the mild coastal climate. May Gray and June Gloom marine layer reduces morning production near the coast (La Jolla, Pacific Beach, Point Loma) 10-18 percent but typically burns off by noon. Inland Poway, Rancho Bernardo, and Escondido see minimal marine-layer impact with consistently clearer morning skies.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match San Diego permit reality</h3>
+<p>Full timeline from contract signing to PTO in San Diego runs 8-14 weeks: 1 week site assessment and engineering, same-day to 1 week permitting (SolarAPP+ fast), 1-2 days installation (tile roofs add time), 3-7 days inspection, 4-8 weeks SDG&E interconnection. The January-March installation window captures the full April-September peak production window and avoids marine-layer morning installation scheduling in May-June.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in San Diego during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing San Diego incentive stacking</h3>
+<p>California offers no state solar tax credit. Federal ITC at 30 percent is the primary upfront incentive. California property tax exclusion (RTC 73) extends through 2026. California SGIP battery rebates of $150-$1,000 per kWh; San Diego residents in PSPS-risk zones (much of east county including Ramona, Julian, Alpine) qualify for Equity Resiliency tier. SDG&E's Energy Savings Assistance Program covers income-qualifying households. The San Diego Regional Climate Collaborative provides pre-install consultation resources.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most CA rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>San Diego climate risks for solar are Santa Ana wind events (October-November dry season brings 60-80 mph gusts), wildfire smoke (reduces production 10-20 percent for 2-4 weeks most years), and marine salt corrosion in coastal ZIPs. Module frame marine-grade certification is mandatory Tier 1 spec within 1 mile of ocean. Module backsheet UV-accelerated aging is a Southern California concern that Tier 1 manufacturers address with polyamide or fluoropolymer backsheet chemistry.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without San Diego context</h3>
+<p>Battery adoption in San Diego is extremely strong because of NEM 3.0 economics and PSPS outage risk in east county fire zones. Tesla Powerwall 3 dominates. Enphase IQ Battery 10 and FranklinWH are strong secondary. California SGIP Equity Resiliency tier provides $1,000 per kWh for High Fire Risk Area customers. SDG&E's Critical Peak Pricing and Time-of-Use 5-8pm plans make battery arbitrage economically valuable. Federal ITC at 30 percent applies.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in San Diego</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">January-March</p>
-<p>Late winter installation brings your system online before the peak April-September production window while avoiding marine layer morning haze during the installation period itself.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In San Diego, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (1-3 days), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a San Diego Solar Installer</h2>
+<p><strong>What is my expected production given San Diego sun hours?</strong> San Diego averages 5.5 peak sun hours daily with May-July production at 6.8 kWh per kW per day and December still strong at 4.2, one of the most consistent year-round production profiles in the US thanks to the mild coastal climate. May Gray and June Gloom marine layer reduces morning production near the coast (La Jolla, Pacific Beach, Point Loma) 10-18 percent but typically burns off by noon. Inland Poway, Rancho Bernardo, and Escondido see minimal marine-layer impact with consistently clearer morning skies.</p>
+<p><strong>How does your design handle San Diego climate risks?</strong> San Diego climate risks for solar are Santa Ana wind events (October-November dry season brings 60-80 mph gusts), wildfire smoke (reduces production 10-20 percent for 2-4 weeks most years), and marine salt corrosion in coastal ZIPs. Module frame marine-grade certification is mandatory Tier 1 spec within 1 mile of ocean. Module backsheet UV-accelerated aging is a Southern California concern that Tier 1 manufacturers address with polyamide or fluoropolymer backsheet chemistry.</p>
+<p><strong>Which San Diego incentives are you filing for?</strong> California offers no state solar tax credit. Federal ITC at 30 percent is the primary upfront incentive. California property tax exclusion (RTC 73) extends through 2026. California SGIP battery rebates of $150-$1,000 per kWh; San Diego residents in PSPS-risk zones (much of east county including Ramona, Julian, Alpine) qualify for Equity Resiliency tier. SDG&E's Energy Savings Assistance Program covers income-qualifying households. The San Diego Regional Climate Collaborative provides pre-install consultation resources.</p>
+<p><strong>What does the full San Diego timeline look like?</strong> Full timeline from contract signing to PTO in San Diego runs 8-14 weeks: 1 week site assessment and engineering, same-day to 1 week permitting (SolarAPP+ fast), 1-2 days installation (tile roofs add time), 3-7 days inspection, 4-8 weeks SDG&E interconnection. The January-March installation window captures the full April-September peak production window and avoids marine-layer morning installation scheduling in May-June.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in San Diego: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in San Diego, CA, using San Diego-adjusted labor and material costs for 2026.</p>
+<h2>San Diego Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$22,000</p>
-<p class="fp-scenario-detail">$15,400 after 30% ITC. ~12,045 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$15,400 after 30% ITC. ~12,045 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$32,900</p>
-<p class="fp-scenario-detail">$23,000 after 30% ITC. ~16,060 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$23,000 after 30% ITC. ~16,060 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$59,800</p>
-<p class="fp-scenario-detail">$41,900 after 30% ITC. ~20,075 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$41,900 after 30% ITC. ~20,075 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in San Diego typically runs 7-10 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 

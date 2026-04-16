@@ -220,7 +220,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -231,35 +233,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in Las Vegas</h2>
-<p>About 60-65% of Las Vegas-area homes have strong south or southwest exposure. Newer master-planned communities like Summerlin, Henderson, and the southwest valley are often designed with solar-ready roof orientations. Tile roofs common in Spanish-style construction require specialized mounting. Tree shading is minimal throughout the Las Vegas valley thanks to the desert landscape. Older neighborhoods in Huntridge and parts of east Las Vegas have some mature mesquite and palm trees, but most roofs have completely unobstructed sky access</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -302,136 +337,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in Las Vegas: Payback and Savings</h2>
-<p>The financial case for solar in Las Vegas depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> Las Vegas averages 6.4 peak sun hours per day, which translates to roughly 18,688 kWh of annual production from a typical 8 kW system. Las Vegas produces ~8.0 kWh/kW/day in June and still ~4.4 kWh/kW/day in December, one of the strongest year-round production profiles in the country. Clear-sky days average 294 per year.</p>
-
-<p><strong>Electricity cost offset.</strong> At NV's average residential rate of ~$0.14/kWh, an 8 kW system offsets approximately $2,616 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> Nevada operates under NEM 2.0-equivalent tiered rules (AB 405, 2017). New residential solar customers receive export credits at 75% of retail rate in the current tier, with credits declining to 50% in future tiers as capacity fills. Monthly rollover applies and credits expire annually. Less favorable than true 1:1 net metering but better than Arizona's avoided-cost structure.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and NV's incentive structure, most Las Vegas homeowners see a payback period of 8-10 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in Las Vegas can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>Las Vegas Sun Exposure and Seasonal Production</h2>
+<p>Las Vegas averages 6.4 peak sun hours daily, the second-strongest major US metro (behind only Phoenix) with 294 annual clear-sky days. June production hits 8.0 kWh per kW per day and December still delivers 4.4. Monsoon-season afternoon thunderstorms (July through mid-September) briefly clip production but rarely disrupt daily totals significantly. Summerlin and Henderson receive marginally less annual insolation than Central Las Vegas because of slightly more dust buildup frequency; post-dust-storm cleaning recovers 3-5 percent production.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for Las Vegas Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>NV state incentives.</strong> Nevada offers no state solar tax credit. The state provides property tax abatement on the value solar adds to a home (100% exemption through the Renewable Energy Tax Abatement Program for qualifying systems). No state sales tax exists in Nevada to exempt.</p>
-
-<p><strong>Utility incentives.</strong> NV Energy's SolarGenerations rebate program was phased out in 2016. The utility now offers only the net metering structure plus optional time-of-use rate plans that can improve solar economics if consumption is shifted to off-peak hours.</p>
-
-<p><strong>Property tax exemption.</strong> NV offers property tax benefits for solar installations. Check with your local tax assessor for current exemptions.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in Las Vegas, the effective cost after all available incentives can drop to $14,000-$16,000.</p>
+<h2>Las Vegas Utility Rate and Net Metering Structure</h2>
+<p>NV Energy residential solar operates under Nevada's tiered net metering structure (AB 405, 2017) with export credits at 75 percent of retail rate in Tier 3 (current enrollment tier) declining to 50 percent in Tier 4 as statewide capacity fills. Nevada abandoned true 1-for-1 net metering in 2015 (the infamous grandfathering crisis) and rebuilt it with declining tiers. Monthly rollover applies; annual true-up credits expire rather than rolling. Tier 3 rates are more favorable than APS RCP in Arizona but less than LADWP or Xcel Colorado.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in Las Vegas</h2>
-<p><strong>Peak sun hours.</strong> Las Vegas receives an average of 6.4 peak sun hours per day, putting it among the top-tier solar markets in the US. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> Las Vegas produces ~8.0 kWh/kW/day in June and still ~4.4 kWh/kW/day in December, one of the strongest year-round production profiles in the country. Clear-sky days average 294 per year. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> Las Vegas averages only 18% cloud cover annually, second only to Phoenix among major US metros. Brief monsoon-season thunderstorms in July-August are the main production disruption, and dust storms occasionally reduce output until panels are cleaned. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In Las Vegas's hot climate, this means panels can lose 8-15% of rated efficiency during peak summer hours. Microinverters or power optimizers help mitigate this loss. Adequate roof ventilation under the panels also reduces temperature impact.</p>
+<h2>Las Vegas Interconnection and Grid Approval</h2>
+<p>NV Energy interconnection for residential systems under 25 kW runs 3-6 weeks through the NV Energy RenewableGenerations portal. Clark County Department of Building and Fire Prevention issues solar permits in 2-5 business days, among the fastest in the Mountain West. City of Las Vegas Building and Safety issues permits separately for city-limits properties. Henderson, North Las Vegas, and Boulder City each maintain their own permitting portals with similar turnaround.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in Las Vegas</h2>
-<p><strong>Solar access law.</strong> Nevada Revised Statute 111.239 prohibits HOAs from banning solar energy systems and limits aesthetic restrictions to those that do not significantly increase cost or reduce efficiency. Placement restrictions are permitted only if they do not reduce output by more than 10% or add more than $1,500 in cost. Protections are strong and have been tested in Nevada courts.</p>
-
-<p><strong>Permitting.</strong> Clark County Department of Building and Fire Prevention issues residential solar permits in 2-5 business days through the online portal, one of the faster permitting environments in the Mountain West. NV Energy interconnection review adds 2-4 weeks after permit issuance. Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>Las Vegas Solar Installer Landscape</h2>
+<p>The Las Vegas installer market is led by Sol-Up Nevada (Henderson-based), Sunrun, Robco Electric, and Sunpower dealers including Bombard Electric. Regional crews include Go Solar Group, Silver State Solar, and Nevada Solar Group. Tesla Energy operates. Nevada State Contractors Board requires a C-2 Electrical license for solar work plus specialty solar endorsement. Typical Las Vegas residential quote runs $2.50-$3.20 per watt before incentives, competitive with Phoenix. The Nevada solar market recovered strongly after the 2015-2017 grandfathering crisis.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in Las Vegas</h2>
-<p><strong>Your utility.</strong> Most Las Vegas homeowners are served by NV Energy. Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> Nevada operates under NEM 2.0-equivalent tiered rules (AB 405, 2017). New residential solar customers receive export credits at 75% of retail rate in the current tier, with credits declining to 50% in future tiers as capacity fills. Monthly rollover applies and credits expire annually. Less favorable than true 1:1 net metering but better than Arizona's avoided-cost structure.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to NV Energy. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> With Las Vegas's net metering structure, sizing your system to offset 90-100% of your annual usage typically provides the best return. Your installer should model your specific usage pattern and utility rate to optimize system size.</p>
+<h2>Las Vegas Solar Incentives and Tax Credits</h2>
+<p>Nevada has no state solar tax credit (Nevada has no state income tax). Federal ITC at 30 percent is the primary upfront incentive. Nevada Revised Statutes 701A.200 provides Renewable Energy Tax Abatement on the added home value from solar (100 percent property tax exemption for qualifying systems). Nevada has no state sales tax to exempt on the state side, but Clark County sales tax (8.375 percent) does apply to equipment. NV Energy's SolarGenerations rebate program phased out in 2016 and has not been replaced.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in Las Vegas</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what Las Vegas homeowners need to watch for.</p>
+<h2>Las Vegas Roof Types and Mounting Implications</h2>
+<p>Las Vegas rooftop stock is heavily concrete tile (flat S-tile and barrel tile) on post-1990 Summerlin, Henderson, Anthem, and Aliante master-planned housing. Tile mounting adds 15-25 percent install cost. Composition shingle is common in pre-1990 Downtown and Huntridge neighborhoods and in 1970s Paradise and Spring Valley. Flat-roof foam (SPF) is a Vegas-specific premium roof type on custom homes; it requires ballasted racking because SPF does not accept penetration. Standing seam metal appears in new high-end construction.</p>
+</section>
+<section class="section fp-section">
+<h2>Las Vegas HOA Rules and Solar Access Law</h2>
+<p>Nevada Revised Statute 111.239 prohibits HOAs from banning solar and limits aesthetic restrictions to those not significantly increasing cost or reducing efficiency. The statute has been tested in Nevada courts and upheld. Master-planned communities in Summerlin (Howard Hughes), Anthem (Del Webb), and Lake Las Vegas have architectural review committees that must comply with NRS 111.239 but impose placement and tile-color-matching rules within the 10 percent output reduction limit. HOA approval typically takes 2-6 weeks, often longer than Clark County permitting.</p>
+</section>
+<section class="section fp-section">
+<h2>Las Vegas Solar Permitting Process</h2>
+<p>Clark County Department of Building and Fire Prevention issues solar permits through the online portal in 2-5 business days. City of Las Vegas Building and Safety runs a parallel system for city-limits addresses. Henderson, North Las Vegas, and Boulder City each operate separate permitting. IRC 2018 with Clark County amendments applies to residential solar. Nevada adopted NEC 2020 for residential electrical work. The Nevada Office of Energy's Green Building program provides technical assistance.</p>
+</section>
+<section class="section fp-section">
+<h2>Las Vegas Battery Storage Options and Rebates</h2>
+<p>Battery adoption in Las Vegas is moderate, driven by extreme-heat grid-strain resilience and the less-favorable NV Energy tiered net metering. Tesla Powerwall 3 dominates. Enphase IQ Battery 10 and FranklinWH are secondary. Federal ITC at 30 percent applies. NV Energy's Optional Time-of-Use rate plans (RS OTU) can improve battery arbitrage economics. Nevada Governor's Office of Energy occasionally offers grant programs for battery-inclusive residential solar.</p>
+</section>
+<section class="section fp-section">
+<h2>Las Vegas Climate Risks for Solar Installations</h2>
+<p>Las Vegas climate risks for solar are extreme heat (cell temperatures routinely exceed 80C on 115F-plus days, reducing output 18-25 percent below STC; inverter derating is a design consideration), monsoon dust storms (cleaning frequency 2-3 times per year for peak production), and rare but intense microbursts during summer thunderstorms (80-100 mph gusts documented). UV-rated module backsheets are mandatory Tier 1 spec. Inverter oversizing of 15-25 percent helps capture summer-afternoon production despite heat derating.</p>
+</section>
+<section class="section fp-section">
+<h2>Las Vegas Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in Las Vegas runs 6-12 weeks: 1 week site assessment and engineering, 2-5 days permitting, 2-6 weeks HOA approval (often the longest step), 1-2 days installation, 3-7 days inspection, 3-6 weeks NV Energy interconnection. The October-February installation window avoids summer roof temperatures above 160F and gets the system online before peak AC season in April.</p>
+</section>
+<section class="section fp-section">
+<h2>Las Vegas-Specific Solar Program Insight</h2>
+<p>Las Vegas has some of the best solar economics in the country thanks to 6.4 peak sun hours, zero state income tax, and a maturing installer market. NV Energy's Green Rate program offers optional renewable energy purchasing for households unable to install rooftop solar. The Nevada Solar Policy group tracks PUCN rulings that affect residential solar. Clark County's SolarAPP+ adoption is accelerating permit timelines further.</p>
+</section>
+<section class="section fp-section">
+<h2>Las Vegas Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In Las Vegas, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores Las Vegas utility tariff details</h3>
+<p>NV Energy residential solar operates under Nevada's tiered net metering structure (AB 405, 2017) with export credits at 75 percent of retail rate in Tier 3 (current enrollment tier) declining to 50 percent in Tier 4 as statewide capacity fills. Nevada abandoned true 1-for-1 net metering in 2015 (the infamous grandfathering crisis) and rebuilt it with declining tiers. Monthly rollover applies; annual true-up credits expire rather than rolling. Tier 3 rates are more favorable than APS RCP in Arizona but less than LADWP or Xcel Colorado.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In Las Vegas, your system should produce roughly 6.4 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for Las Vegas exposure</h3>
+<p>Las Vegas averages 6.4 peak sun hours daily, the second-strongest major US metro (behind only Phoenix) with 294 annual clear-sky days. June production hits 8.0 kWh per kW per day and December still delivers 4.4. Monsoon-season afternoon thunderstorms (July through mid-September) briefly clip production but rarely disrupt daily totals significantly. Summerlin and Henderson receive marginally less annual insolation than Central Las Vegas because of slightly more dust buildup frequency; post-dust-storm cleaning recovers 3-5 percent production.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match Las Vegas permit reality</h3>
+<p>Full timeline from contract signing to PTO in Las Vegas runs 6-12 weeks: 1 week site assessment and engineering, 2-5 days permitting, 2-6 weeks HOA approval (often the longest step), 1-2 days installation, 3-7 days inspection, 3-6 weeks NV Energy interconnection. The October-February installation window avoids summer roof temperatures above 160F and gets the system online before peak AC season in April.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in Las Vegas during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing Las Vegas incentive stacking</h3>
+<p>Nevada has no state solar tax credit (Nevada has no state income tax). Federal ITC at 30 percent is the primary upfront incentive. Nevada Revised Statutes 701A.200 provides Renewable Energy Tax Abatement on the added home value from solar (100 percent property tax exemption for qualifying systems). Nevada has no state sales tax to exempt on the state side, but Clark County sales tax (8.375 percent) does apply to equipment. NV Energy's SolarGenerations rebate program phased out in 2016 and has not been replaced.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most NV rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>Las Vegas climate risks for solar are extreme heat (cell temperatures routinely exceed 80C on 115F-plus days, reducing output 18-25 percent below STC; inverter derating is a design consideration), monsoon dust storms (cleaning frequency 2-3 times per year for peak production), and rare but intense microbursts during summer thunderstorms (80-100 mph gusts documented). UV-rated module backsheets are mandatory Tier 1 spec. Inverter oversizing of 15-25 percent helps capture summer-afternoon production despite heat derating.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without Las Vegas context</h3>
+<p>Battery adoption in Las Vegas is moderate, driven by extreme-heat grid-strain resilience and the less-favorable NV Energy tiered net metering. Tesla Powerwall 3 dominates. Enphase IQ Battery 10 and FranklinWH are secondary. Federal ITC at 30 percent applies. NV Energy's Optional Time-of-Use rate plans (RS OTU) can improve battery arbitrage economics. Nevada Governor's Office of Energy occasionally offers grant programs for battery-inclusive residential solar.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in Las Vegas</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">October-February</p>
-<p>Cooler months mean safer rooftop work conditions (summer roof temperatures exceed 160 degrees F) and faster contractor scheduling. Your system will be fully operational before the extreme summer AC season when monthly bills peak at $400-$600 without solar.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In Las Vegas, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (2-4 weeks), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a Las Vegas Solar Installer</h2>
+<p><strong>What is my expected production given Las Vegas sun hours?</strong> Las Vegas averages 6.4 peak sun hours daily, the second-strongest major US metro (behind only Phoenix) with 294 annual clear-sky days. June production hits 8.0 kWh per kW per day and December still delivers 4.4. Monsoon-season afternoon thunderstorms (July through mid-September) briefly clip production but rarely disrupt daily totals significantly. Summerlin and Henderson receive marginally less annual insolation than Central Las Vegas because of slightly more dust buildup frequency; post-dust-storm cleaning recovers 3-5 percent production.</p>
+<p><strong>How does your design handle Las Vegas climate risks?</strong> Las Vegas climate risks for solar are extreme heat (cell temperatures routinely exceed 80C on 115F-plus days, reducing output 18-25 percent below STC; inverter derating is a design consideration), monsoon dust storms (cleaning frequency 2-3 times per year for peak production), and rare but intense microbursts during summer thunderstorms (80-100 mph gusts documented). UV-rated module backsheets are mandatory Tier 1 spec. Inverter oversizing of 15-25 percent helps capture summer-afternoon production despite heat derating.</p>
+<p><strong>Which Las Vegas incentives are you filing for?</strong> Nevada has no state solar tax credit (Nevada has no state income tax). Federal ITC at 30 percent is the primary upfront incentive. Nevada Revised Statutes 701A.200 provides Renewable Energy Tax Abatement on the added home value from solar (100 percent property tax exemption for qualifying systems). Nevada has no state sales tax to exempt on the state side, but Clark County sales tax (8.375 percent) does apply to equipment. NV Energy's SolarGenerations rebate program phased out in 2016 and has not been replaced.</p>
+<p><strong>What does the full Las Vegas timeline look like?</strong> Full timeline from contract signing to PTO in Las Vegas runs 6-12 weeks: 1 week site assessment and engineering, 2-5 days permitting, 2-6 weeks HOA approval (often the longest step), 1-2 days installation, 3-7 days inspection, 3-6 weeks NV Energy interconnection. The October-February installation window avoids summer roof temperatures above 160F and gets the system online before peak AC season in April.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in Las Vegas: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in Las Vegas, NV, using Las Vegas-adjusted labor and material costs for 2026.</p>
+<h2>Las Vegas Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$19,800</p>
-<p class="fp-scenario-detail">$13,900 after 30% ITC. ~14,016 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$13,900 after 30% ITC. ~14,016 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$29,700</p>
-<p class="fp-scenario-detail">$20,800 after 30% ITC. ~18,688 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$20,800 after 30% ITC. ~18,688 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$55,300</p>
-<p class="fp-scenario-detail">$38,700 after 30% ITC. ~23,360 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$38,700 after 30% ITC. ~23,360 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in Las Vegas typically runs 8-10 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 

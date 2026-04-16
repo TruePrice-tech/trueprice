@@ -209,7 +209,6 @@ depending on insulation type, coverage area, and R-value target.
 </div>
 </section>
 
-<!-- FLAGSHIP-INSULATION-CONTENT -->
 
 <style>
 .fp-section { margin-top:32px; }
@@ -217,38 +216,21 @@ depending on insulation type, coverage area, and R-value target.
 .fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
 .fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
 .fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
-.fp-rvalue-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-rvalue-card { padding:20px; border-radius:12px; background:#f0f9ff; border:1px solid #bae6fd; }
-.fp-rvalue-card h3 { font-size:15px; font-weight:700; margin:0 0 8px; color:#0369a1; }
-.fp-rvalue-card p { font-size:14px; margin:0 0 6px; }
-.fp-rebate-card { padding:16px 20px; border-radius:10px; border:1px solid #a7f3d0; background:#f0fdf4; margin-bottom:12px; }
-.fp-rebate-card h3 { font-size:15px; font-weight:700; color:#065f46; margin:0 0 6px; }
-.fp-rebate-card p { margin:0; font-size:14px; line-height:1.6; color:#064e3b; }
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-  .fp-rvalue-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+<!-- FLAGSHIP-INSULATION-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Insulation Pricing in Philadelphia</h2>
-<p>Insulation costs vary across Philadelphia based on home age, accessibility, and local contractor demand. These estimates assume a 1,200 sq ft coverage area typical of a single-story home.</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
@@ -306,123 +288,160 @@ depending on insulation type, coverage area, and R-value target.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and material costs. Actual pricing depends on existing insulation condition, access difficulty, and R-value target. <a href="/analyze-my-quote.html?city=Philadelphia&state=PA" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/analyze-my-quote.html?city=Philadelphia&state=PA" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Climate Zone and R-Value Requirements for Philadelphia</h2>
-<p>Philadelphia falls in IECC Climate Zone 4A, which determines the minimum insulation R-values required by building code and recommended by the Department of Energy. Understanding these numbers is the single most important step before signing an insulation contract, because under-insulating wastes money on utility bills while over-insulating wastes money on materials that won't deliver a return.</p>
-<div class="fp-rvalue-grid">
-<div class="fp-rvalue-card">
-<h3>DOE Recommended R-Values</h3>
-<p><strong>Attic:</strong> R-49 to R-60</p>
-<p><strong>Walls:</strong> R-13 to R-21</p>
-<p>These are the targets for optimal energy performance in Zone 4A. Hitting the upper end of the range delivers diminishing returns, but the lower end is the absolute minimum for meaningful energy savings.</p>
-</div>
-<div class="fp-rvalue-card">
-<h3>Current Code Minimums</h3>
-<p><strong>Attic:</strong> R-49</p>
-<p><strong>Walls:</strong> R-13+5ci</p>
-<p>Code minimums are exactly that: minimums. They represent the floor for legal compliance, not the target for energy efficiency. In Philadelphia's climate, exceeding code by one R-value tier typically pays for itself in 4-7 years through utility savings.</p>
-</div>
-</div>
-<p>Philadelphia's heating-dominated climate means your insulation investment pays off primarily during cold months. Heat loss through an under-insulated attic can account for 25-30% of your total heating bill. For homes with older construction typical of many Philadelphia neighborhoods, the original insulation was likely installed to lower standards than current code requires, making an upgrade both practical and cost-effective.</p>
+<h2>Philadelphia Attic Insulation Strategy</h2>
+<p>Philadelphia attics in Society Hill, Fairmount, and Mt. Airy face the 70+ freeze-thaw cycles and humid continental summer pattern of the mid-Atlantic. Row home attics are typically shallow (4-foot crown max) with shared party walls and minimal legacy insulation. The dominant retrofit is blown-in cellulose to R-49 (Zone 4A code minimum) with dense-pack at the front-wall to party-wall seam where heat loss concentrates. Brick three-story row homes with cockloft construction (common in South Philly) need cockloft dense-pack at 3.5 pcf because there is no floor-plane attic. Unvented closed-cell at the roof deck is specified for finished-attic conversions in Queen Village and Bella Vista.</p>
 </section>
 <section class="section fp-section">
-<h2>Assessing Your Existing Insulation in Philadelphia</h2>
-<p>With an average home age of 58 years, many Philadelphia homes were originally insulated with materials that have degraded significantly or were installed to standards far below modern code. Vermiculite (which may contain asbestos), loose-fill fiberglass that has settled and compressed, and minimal batt insulation are the most common findings in pre-1980 homes here. Before adding new insulation, a professional assessment should determine whether the existing material contains hazardous substances, has been contaminated by moisture or pests, or has settled to the point of near-uselessness.</p>
-<p>In many older Philadelphia homes, the right approach is full removal and replacement rather than adding on top. Adding blown-in insulation over old, compressed material only partially addresses the problem because the original layer has minimal R-value and may trap moisture against the roof deck or wall sheathing. The cost of removal (typically $1.00-$2.00 per sq ft) adds to the project but eliminates hidden problems that would otherwise compromise the new insulation's performance.</p>
+<h2>Philadelphia Wall Cavity Retrofit Approach</h2>
+<p>Philadelphia 2x4 wall construction with R-13 batt is the post-2015 norm. Older row homes (1860s-1920s) have 3-wythe brick party walls with no cavity insulation and front walls of 1x plaster on masonry. The PECO Smart Energy Resource program rebates interior furring strip plus R-10 rigid polyiso retrofit on brick front walls, bringing them to effective R-13 without destroying the exterior masonry character. Party-wall dense-pack cellulose injection from the attic is legitimate when the row home transitions to vacancy (air movement through party walls was the original design and creates massive heat loss once abandoned).</p>
 </section>
 <section class="section fp-section">
-<h2>Energy Savings from Insulation in Philadelphia</h2>
-<p>Upgrading from minimal or degraded insulation to current DOE recommendations in Philadelphia typically saves homeowners <strong>$350 to $700 per year</strong> on heating and cooling costs. The exact savings depend on your current insulation level, HVAC system efficiency, home size, and energy rates, but the payback period for a full attic insulation upgrade in Philadelphia's climate is typically 4-7 years.</p>
-<p>In Philadelphia's heating-dominated climate, most of the savings come during the winter heating season. Heat rises, and an under-insulated attic is the single largest source of heat loss in most homes. Proper insulation keeps that heat inside your living space, reducing furnace run time and natural gas or heating oil consumption. For homes with gas heating, the savings can be substantial because heating fuel costs in the Northeast and Midwest have been volatile.</p>
-<p>Beyond utility savings, proper insulation improves home comfort by eliminating hot and cold spots, reducing HVAC noise transmission, and maintaining more consistent temperatures room to room. These comfort improvements don't show up on a utility bill but are consistently cited by homeowners as the most noticeable benefit of an insulation upgrade.</p>
+<h2>Air Sealing Priorities in Philadelphia</h2>
+<p>A typical Philadelphia row home pre-retrofit blower door reads 4,000-8,000 CFM50 because of party-wall-to-attic open plenums, unsealed dumbwaiter and coal chute penetrations, and unfinished-basement header leakage at the grade-adjacent sill. PECO's priority: seal the attic-to-party-wall plenum with fire-rated closed-cell (massive 30-45% leakage source on attached row homes), foam the rim joist at the cellar, gasket the front-to-back transom windows, and close the coal-chute and dumbwaiter chase penetrations. AeroBarrier has two Philadelphia applicators and is particularly effective on row homes because the party-wall geometry is hard to manually seal.</p>
 </section>
 <section class="section fp-section">
-<h2>Moisture and Ventilation Considerations in Philadelphia</h2>
-<p>Insulation and moisture management are inseparable. Installing insulation without addressing moisture is one of the most common and most expensive mistakes homeowners in Philadelphia make. The right vapor barrier placement, attic ventilation strategy, and air sealing approach depends entirely on Philadelphia's climate zone and humidity level.</p>
-<p><strong>Vapor barrier placement in Philadelphia.</strong> Zone 4A calls for a vapor retarder on the warm-in-winter side of the insulation (interior face of exterior walls). In Philadelphia's moderate humidity, a Class II or III vapor retarder (kraft-faced batts, for example) is typically sufficient. Full polyethylene sheeting is generally not recommended unless you are in a heating-only situation, because it can trap moisture during Philadelphia's warm months.</p>
-<p><strong>Attic ventilation.</strong> Balanced ventilation is critical in Philadelphia's attic spaces. The target is equal intake (soffit vents) and exhaust (ridge or box vents) with a minimum of 1 sq ft of net free area per 300 sq ft of attic floor. When adding blown-in insulation, ventilation baffles at every rafter bay along the eaves are non-negotiable to prevent the insulation from blocking soffit vents. Blocked soffits cause moisture buildup in winter and heat buildup in summer.</p>
+<h2>Philadelphia Rebates and Utility Programs</h2>
+<p>PECO Smart Energy Resource pays $300-$1,200 for attic insulation and air sealing verified by a BPI Building Analyst. PECO's Low Income Usage Reduction Program (LIURP) handles income-qualifying households at 100% cost coverage. The Philadelphia Office of Sustainability offers a $1,000 stacked rebate for City of Philadelphia residents through the Greenworks program. Pennsylvania's Keystone HELP Program provides a 3.99% APR loan up to $15,000 for energy improvements. The Pennsylvania Public Utility Commission Act 129 Phase IV drives the utility rebate cycle. Federal 25C ($1,200 cap) stacks.</p>
 </section>
 <section class="section fp-section">
-<h2>Insulation Rebates and Incentives in Philadelphia, PA</h2>
-<p>Insulation upgrades qualify for several federal, state, and utility-level incentives that can significantly reduce your out-of-pocket cost. As of 2026, these are the programs most relevant to Philadelphia homeowners.</p>
-<div class="fp-rebate-card">
-<h3>Federal Tax Credits (25C)</h3>
-<p>The Inflation Reduction Act provides a 30% tax credit (up to $1,200 per year) for insulation materials and air sealing that meet ENERGY STAR requirements. This covers the cost of materials only, not labor. The credit is non-refundable, meaning you need sufficient tax liability to claim it. There is no income cap for this credit.</p>
-</div>
-
-<div class="fp-rebate-card">
-<h3>Weatherization Assistance Program (WAP)</h3>
-<p>The federal Weatherization Assistance Program provides free home weatherization, including insulation, for households at or below 200% of the federal poverty level. In PA, the program is administered by your state's designated agency. Wait times can be 6-12 months, but the program covers the full cost of insulation, air sealing, and related improvements with no repayment required.</p>
-</div>
+<h2>Philadelphia Insulation Contractor Landscape</h2>
+<p>Philadelphia's insulation market is led by BPI-certified whole-house crews (Clean Energy Works Philadelphia, Practical Energy Solutions, Lighthouse Solar and Insulation) bundling attic with HVAC. South Philly and Fishtown have a row-home specialty tier (Philadelphia Energy Authority contractors, Eco Insulation Philly) focused on party-wall dense-pack. Pennsylvania Home Improvement Contractor Act requires registration for any work over $500. BPI certification is the PECO rebate prerequisite. Typical Philadelphia row home dense-pack runs $2.40-$3.30 per interior wall sqft because of party-wall access complexity.</p>
 </section>
 <section class="section fp-section">
-<h2>Insulation Red Flags in Philadelphia</h2>
-<p>These are the mistakes and warning signs most commonly seen in Philadelphia insulation projects. Knowing them before you get quotes protects you from paying for work that does more harm than good.</p>
+<h2>Common Philadelphia Insulation Upsells and What They Actually Buy</h2>
+<p>The dominant Philadelphia upsell is closed-cell foam at the cellar rim joist at $3.80-$4.50 per linear foot. This is legitimate and PECO rebates it. A frequent bad upsell is full party-wall dense-pack on both sides of a row home seam when only one side is occupied, which wastes material and does not deliver the heat-retention benefit if the neighbor is heating. The legitimate paired upgrade is cockloft insulation plus front-wall interior polyiso on a brick Trinity home, which captures PECO Tier 2 plus the Philadelphia Greenworks city stacking.</p>
+</section>
+<section class="section fp-section">
+<h2>Historic Homes and Preservation Rules in Philadelphia</h2>
+<p>Philadelphia Historical Commission reviews exterior modifications in designated historic districts (Society Hill, Old City, Queen Village, Germantown, and 20+ others). Interior and attic insulation is unrestricted. The Certificate of Appropriateness process for exterior scope runs 6-12 weeks. Society Hill and Spring Garden have stricter review than Fishtown or Passyunk. 1700s and 1800s Philadelphia row homes have 3-wythe brick party walls and front walls with masonry-direct-applied plaster on the interior; the compliant retrofit is interior furring strips at 3/4-inch plus R-10 polyiso, which does not trigger Historical Commission review.</p>
+</section>
+<section class="section fp-section">
+<h2>Energy Code Snapshot for Philadelphia (Zone 4A)</h2>
+<p>Philadelphia is under 2018 IECC with Philadelphia amendments. Zone 4A requires R-49 attic and R-20 continuous or R-13+5ci for walls. City of Philadelphia Department of Licenses and Inspections issues the insulation-included permit. The Philadelphia Building Energy Performance Policy applies to commercial over 50,000 sqft only. Manual J is required for HVAC permits. Lead-safe work practices under Pennsylvania Lead Act Chapter 31 apply to any interior work in pre-1978 homes.</p>
+<p>DOE recommended insulation levels for Zone 4A are attic R-49 to R-60 and walls R-13 to R-21. Code minimums in Philadelphia are attic R-49 and walls R-13+5ci. Exceeding code by one R-tier typically returns within 4 to 7 years of utility savings in this market.</p>
+</section>
+<section class="section fp-section">
+<h2>Philadelphia Pre and Post-Retrofit Verification</h2>
+<p>PECO's Smart Ideas portal provides Green Button Connect for pre-retrofit baselining on kWh and therm usage. BPI Building Analysts run blower door and duct leakage pre and post. Pre-retrofit 0.55 CFM50 per sqft envelope is typical on pre-1940 Philadelphia row homes; post-retrofit target is 0.28 for PECO Smart Energy Tier 2. Winter therm reduction of 32-42% is the benchmark on a row home retrofit because party-wall seal gains are substantial.</p>
+</section>
+<section class="section fp-section">
+<h2>Moisture Control and Vapor Strategy in Philadelphia</h2>
+<p>Philadelphia's Cfa humid subtropical climate on the heating-dominant side of the border keeps winter interior humidity at 20-30% and summer at 60-75%. Zone 4A vapor strategy is bidirectional drying; Class III interior vapor retarder (latex paint) is standard. Polyethylene sheeting is discouraged because summer vapor drive is exterior-to-interior. Kraft-faced batts with kraft facing the interior are acceptable but smart membranes (Intello Plus, MemBrain) handle Philadelphia's shoulder seasons better. Brick-veneer walls need proper weep detailing because wind-driven rain saturates the back of brick during nor'easters, which can wick into dense-pack cellulose if the WRB is compromised.</p>
+</section>
+<section class="section fp-section">
+<h2>Philadelphia Insulation Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Skipping air sealing before insulating</h3>
-<p>This is the single most common and most costly mistake in insulation projects. Air leaks through gaps around plumbing penetrations, electrical boxes, recessed lights, attic hatches, and ductwork can account for 25-40% of a home's energy loss. Adding insulation over unsealed air leaks is like putting on a sweater with holes in it. Any insulation contractor in Philadelphia who does not include air sealing in their scope is either cutting corners or does not understand building science. Require it.</p>
+<h3>Skipping air sealing before Philadelphia insulation install</h3>
+<p>A typical Philadelphia row home pre-retrofit blower door reads 4,000-8,000 CFM50 because of party-wall-to-attic open plenums, unsealed dumbwaiter and coal chute penetrations, and unfinished-basement header leakage at the grade-adjacent sill. PECO's priority: seal the attic-to-party-wall plenum with fire-rated closed-cell (massive 30-45% leakage source on attached row homes), foam the rim joist at the cellar, gasket the front-to-back transom windows, and close the coal-chute and dumbwaiter chase penetrations. AeroBarrier has two Philadelphia applicators and is particularly effective on row homes because the party-wall geometry is hard to manually seal.</p>
 </div>
 <div class="fp-flag">
-<h3>Wrong vapor barrier placement</h3>
-<p>Vapor barriers installed on the wrong side of the insulation trap moisture inside the wall or ceiling cavity and cause mold, rot, and structural damage. In Philadelphia (Zone 4A), the vapor retarder goes on the warm-in-winter side (interior). Using kraft-faced batts is the simplest way to get this right. If a contractor cannot explain their vapor barrier strategy for your specific home, find someone who can.</p>
+<h3>Vapor strategy mismatched to Philadelphia climate</h3>
+<p>Philadelphia's Cfa humid subtropical climate on the heating-dominant side of the border keeps winter interior humidity at 20-30% and summer at 60-75%. Zone 4A vapor strategy is bidirectional drying; Class III interior vapor retarder (latex paint) is standard. Polyethylene sheeting is discouraged because summer vapor drive is exterior-to-interior. Kraft-faced batts with kraft facing the interior are acceptable but smart membranes (Intello Plus, MemBrain) handle Philadelphia's shoulder seasons better. Brick-veneer walls need proper weep detailing because wind-driven rain saturates the back of brick during nor'easters, which can wick into dense-pack cellulose if the WRB is compromised.</p>
 </div>
 <div class="fp-flag">
-<h3>Spray foam off-gassing concerns</h3>
-<p>Spray foam insulation is excellent when installed correctly, but improper mixing ratios or application temperatures can cause persistent off-gassing that produces odors and potential health effects. In Philadelphia, always verify that the installer is certified by the spray foam manufacturer (not just generally licensed), that they follow the manufacturer's temperature and humidity requirements during application, and that the home will be ventilated for 24 hours after installation. If the foam is applied too thick in a single pass (over 2 inches for closed-cell), it can generate excessive heat during curing and fail to cure properly.</p>
+<h3>Overselling spray foam that will not pencil</h3>
+<p>The dominant Philadelphia upsell is closed-cell foam at the cellar rim joist at $3.80-$4.50 per linear foot. This is legitimate and PECO rebates it. A frequent bad upsell is full party-wall dense-pack on both sides of a row home seam when only one side is occupied, which wastes material and does not deliver the heat-retention benefit if the neighbor is heating. The legitimate paired upgrade is cockloft insulation plus front-wall interior polyiso on a brick Trinity home, which captures PECO Tier 2 plus the Philadelphia Greenworks city stacking.</p>
 </div>
 <div class="fp-flag">
-<h3>Blocking soffit vents with insulation</h3>
-<p>When blown-in insulation is added to an attic, it is critical to install ventilation baffles (also called insulation dams or rafter vents) at every rafter bay along the eaves. Without these baffles, the insulation slides down and blocks soffit vents, eliminating attic ventilation. This causes moisture buildup in winter (leading to mold and rot) and extreme heat buildup in summer. If your contractor does not mention baffles, ask about them.</p>
+<h3>Ignoring historic preservation review in Philadelphia</h3>
+<p>Philadelphia Historical Commission reviews exterior modifications in designated historic districts (Society Hill, Old City, Queen Village, Germantown, and 20+ others). Interior and attic insulation is unrestricted. The Certificate of Appropriateness process for exterior scope runs 6-12 weeks. Society Hill and Spring Garden have stricter review than Fishtown or Passyunk. 1700s and 1800s Philadelphia row homes have 3-wythe brick party walls and front walls with masonry-direct-applied plaster on the interior; the compliant retrofit is interior furring strips at 3/4-inch plus R-10 polyiso, which does not trigger Historical Commission review.</p>
+</div>
+<div class="fp-flag">
+<h3>Quoting below code minimums for Philadelphia</h3>
+<p>Philadelphia is under 2018 IECC with Philadelphia amendments. Zone 4A requires R-49 attic and R-20 continuous or R-13+5ci for walls. City of Philadelphia Department of Licenses and Inspections issues the insulation-included permit. The Philadelphia Building Energy Performance Policy applies to commercial over 50,000 sqft only. Manual J is required for HVAC permits. Lead-safe work practices under Pennsylvania Lead Act Chapter 31 apply to any interior work in pre-1978 homes.</p>
+</div>
+<div class="fp-flag">
+<h3>Skipping verification testing on Philadelphia retrofit</h3>
+<p>PECO's Smart Ideas portal provides Green Button Connect for pre-retrofit baselining on kWh and therm usage. BPI Building Analysts run blower door and duct leakage pre and post. Pre-retrofit 0.55 CFM50 per sqft envelope is typical on pre-1940 Philadelphia row homes; post-retrofit target is 0.28 for PECO Smart Energy Tier 2. Winter therm reduction of 32-42% is the benchmark on a row home retrofit because party-wall seal gains are substantial.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Insulate in Philadelphia</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months</h3>
-<p class="fp-season-months">Late spring through early fall</p>
-<p>Demand spikes in fall as homeowners scramble to insulate before winter heating season. Contractors are most available (and offer the best pricing) during late spring and summer when insulation is not top of mind. The work itself can be done year-round, but attic work in Philadelphia's summer is hot, so crews may charge slightly more for July-August attic jobs.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak demand / higher pricing</h3>
-<p class="fp-season-months">October through December</p>
-<p>Expect 10-20% longer lead times and less room to negotiate during peak season. If you need work done during these months, book 3-4 weeks in advance.</p>
-</div>
-</div>
-<p>Insulation is one of the few home improvement projects that can be installed any time of year. The work happens inside the building envelope, so outdoor weather does not affect installation quality. The only variable is contractor availability and pricing, which follow seasonal demand patterns.</p>
+<h2>What Your Philadelphia Insulation Contract Should Spell Out</h2>
+<p><strong>Attic scope.</strong> Philadelphia attics in Society Hill, Fairmount, and Mt. Airy face the 70+ freeze-thaw cycles and humid continental summer pattern of the mid-Atlantic. Row home attics are typically shallow (4-foot crown max) with shared party walls and minimal legacy insulation. The dominant retrofit is blown-in cellulose to R-49 (Zone 4A code minimum) with dense-pack at the front-wall to party-wall seam where heat loss concentrates. Brick three-story row homes with cockloft construction (common in South Philly) need cockloft dense-pack at 3.5 pcf because there is no floor-plane attic. Unvented closed-cell at the roof deck is specified for finished-attic conversions in Queen Village and Bella Vista.</p>
+<p><strong>Wall scope.</strong> Philadelphia 2x4 wall construction with R-13 batt is the post-2015 norm. Older row homes (1860s-1920s) have 3-wythe brick party walls with no cavity insulation and front walls of 1x plaster on masonry. The PECO Smart Energy Resource program rebates interior furring strip plus R-10 rigid polyiso retrofit on brick front walls, bringing them to effective R-13 without destroying the exterior masonry character. Party-wall dense-pack cellulose injection from the attic is legitimate when the row home transitions to vacancy (air movement through party walls was the original design and creates massive heat loss once abandoned).</p>
+<p><strong>Air sealing scope.</strong> A typical Philadelphia row home pre-retrofit blower door reads 4,000-8,000 CFM50 because of party-wall-to-attic open plenums, unsealed dumbwaiter and coal chute penetrations, and unfinished-basement header leakage at the grade-adjacent sill. PECO's priority: seal the attic-to-party-wall plenum with fire-rated closed-cell (massive 30-45% leakage source on attached row homes), foam the rim joist at the cellar, gasket the front-to-back transom windows, and close the coal-chute and dumbwaiter chase penetrations. AeroBarrier has two Philadelphia applicators and is particularly effective on row homes because the party-wall geometry is hard to manually seal.</p>
+<p><strong>Verification scope.</strong> PECO's Smart Ideas portal provides Green Button Connect for pre-retrofit baselining on kWh and therm usage. BPI Building Analysts run blower door and duct leakage pre and post. Pre-retrofit 0.55 CFM50 per sqft envelope is typical on pre-1940 Philadelphia row homes; post-retrofit target is 0.28 for PECO Smart Energy Tier 2. Winter therm reduction of 32-42% is the benchmark on a row home retrofit because party-wall seal gains are substantial.</p>
 </section>
 <section class="section fp-section">
-<h2>What Insulation Actually Costs in Philadelphia: 3 Scenarios</h2>
-<p>Here is what real insulation projects look like in Philadelphia, PA, using Philadelphia-adjusted labor and material costs for 2026.</p>
+<h2>Questions to Ask a Philadelphia Insulation Contractor</h2>
+<p><strong>Which rebate programs will you file for?</strong> PECO Smart Energy Resource pays $300-$1,200 for attic insulation and air sealing verified by a BPI Building Analyst. PECO's Low Income Usage Reduction Program (LIURP) handles income-qualifying households at 100% cost coverage. The Philadelphia Office of Sustainability offers a $1,000 stacked rebate for City of Philadelphia residents through the Greenworks program. Pennsylvania's Keystone HELP Program provides a 3.99% APR loan up to $15,000 for energy improvements. The Pennsylvania Public Utility Commission Act 129 Phase IV drives the utility rebate cycle. Federal 25C ($1,200 cap) stacks.</p>
+<p><strong>How does your scope handle Philadelphia moisture?</strong> Philadelphia's Cfa humid subtropical climate on the heating-dominant side of the border keeps winter interior humidity at 20-30% and summer at 60-75%. Zone 4A vapor strategy is bidirectional drying; Class III interior vapor retarder (latex paint) is standard. Polyethylene sheeting is discouraged because summer vapor drive is exterior-to-interior. Kraft-faced batts with kraft facing the interior are acceptable but smart membranes (Intello Plus, MemBrain) handle Philadelphia's shoulder seasons better. Brick-veneer walls need proper weep detailing because wind-driven rain saturates the back of brick during nor'easters, which can wick into dense-pack cellulose if the WRB is compromised.</p>
+<p><strong>Which upsells do you push and why?</strong> The dominant Philadelphia upsell is closed-cell foam at the cellar rim joist at $3.80-$4.50 per linear foot. This is legitimate and PECO rebates it. A frequent bad upsell is full party-wall dense-pack on both sides of a row home seam when only one side is occupied, which wastes material and does not deliver the heat-retention benefit if the neighbor is heating. The legitimate paired upgrade is cockloft insulation plus front-wall interior polyiso on a brick Trinity home, which captures PECO Tier 2 plus the Philadelphia Greenworks city stacking.</p>
+<p><strong>Do you do historic district work in Philadelphia?</strong> Philadelphia Historical Commission reviews exterior modifications in designated historic districts (Society Hill, Old City, Queen Village, Germantown, and 20+ others). Interior and attic insulation is unrestricted. The Certificate of Appropriateness process for exterior scope runs 6-12 weeks. Society Hill and Spring Garden have stricter review than Fishtown or Passyunk. 1700s and 1800s Philadelphia row homes have 3-wythe brick party walls and front walls with masonry-direct-applied plaster on the interior; the compliant retrofit is interior furring strips at 3/4-inch plus R-10 polyiso, which does not trigger Historical Commission review.</p>
+</section>
+<section class="section fp-section">
+<h2>Philadelphia Insulation Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
-<h3>Budget: Attic Top-Up</h3>
-<p class="fp-scenario-material">Blown-in fiberglass or cellulose added over existing insulation | 1200 sq ft</p>
+<h3>Budget attic top-up</h3>
+<p class="fp-scenario-material">Blown-in fiberglass or cellulose over existing material | 1200 sq ft</p>
 <p class="fp-scenario-total">$2,549</p>
-<p class="fp-scenario-detail">~$2.12/sq ft installed. Blown-in insulation over existing material, basic air sealing at major penetrations, ventilation baffles at eaves.</p>
+<p class="fp-scenario-detail">~$2.12/sq ft. Philadelphia attics in Society Hill, Fairmount, and Mt. Airy face the 70+ freeze-thaw cycles and humid continental summer pattern of the mid-Atlantic.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
-<h3>Mid-Range: Full Attic + Air Sealing</h3>
-<p class="fp-scenario-material">Complete attic insulation with professional air sealing | 1500 sq ft</p>
+<h3>Mid-range attic plus air seal</h3>
+<p class="fp-scenario-material">Full attic scope plus blower-door-directed air sealing | 1500 sq ft</p>
 <p class="fp-scenario-total">$5,664</p>
-<p class="fp-scenario-detail">~$3.78/sq ft installed. Old insulation removal (if needed), comprehensive air sealing, blown-in insulation to R-49+, ventilation baffles, attic hatch insulation and weather-stripping.</p>
+<p class="fp-scenario-detail">~$3.78/sq ft. A typical Philadelphia row home pre-retrofit blower door reads 4,000-8,000 CFM50 because of party-wall-to-attic open plenums, unsealed dumbwaiter and coal chute penetrations, and unfinished-basement header leakage at the grade-adjacent sill. PECO's priority: seal the attic-to-party-wall plenum with fire-rated closed-cell (massive 30-45% leakage source on attached row homes), foam the rim joist at the cellar, gasket the front-to-back transom windows, and close the coal-chute and dumbwaiter chase penetrations.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
-<h3>Premium: Whole-House Spray Foam</h3>
-<p class="fp-scenario-material">Closed-cell spray foam in attic, walls, and crawlspace | 2500 sq ft</p>
+<h3>Premium whole-house package</h3>
+<p class="fp-scenario-material">Attic, walls, rim joist, verified HERS index | 2500 sq ft</p>
 <p class="fp-scenario-total">$8,850</p>
-<p class="fp-scenario-detail">~$3.54/sq ft installed. Closed-cell spray foam throughout, complete air barrier, vapor management, crawlspace encapsulation, energy audit verification.</p>
+<p class="fp-scenario-detail">~$3.54/sq ft. Philadelphia 2x4 wall construction with R-13 batt is the post-2015 norm. Older row homes (1860s-1920s) have 3-wythe brick party walls with no cavity insulation and front walls of 1x plaster on masonry.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard access. Multi-story homes, tight crawlspaces, or extensive mold remediation add 20-40%. <a href="/get-an-estimate.html" style="color:var(--brand);">Get a personalized estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-INSULATION-CONTENT -->
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
 
 
 

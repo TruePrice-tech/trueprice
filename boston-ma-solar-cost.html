@@ -220,7 +220,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -231,35 +233,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in Boston</h2>
-<p>About 45-50% of Boston-area homes have favorable south-facing exposure. The triple-decker housing stock in Dorchester, JP, and Somerville offers generous roof area, while colonial and Cape homes in Cambridge and Brookline often have complex multi-gable roofs that limit optimal panel placement. Mature hardwood canopy is significant across Brookline, Jamaica Plain, and West Roxbury, with oak and maple shading that can reduce production 20-35%. Back Bay and South End have building-shadow constraints instead of trees. South Boston and the Seaport have minimal shading</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -302,136 +337,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in Boston: Payback and Savings</h2>
-<p>The financial case for solar in Boston depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> Boston averages 4.1 peak sun hours per day, which translates to roughly 11,972 kWh of annual production from a typical 8 kW system. Boston produces ~5.8 kWh/kW/day in June-July and drops to ~2.0 kWh/kW/day in December-January when snow cover and short days combine. Approximately 65% of annual production happens between April and September.</p>
-
-<p><strong>Electricity cost offset.</strong> At MA's average residential rate of ~$0.14/kWh, an 8 kW system offsets approximately $1,676 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> Massachusetts mandates net metering under 220 CMR 18. Eversource residential customers receive full retail-rate credits for exports on systems up to 10 kW, with monthly rollover and annual true-up. Credits above the retail portion are paid at the net metering cap rate.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and MA's incentive structure, most Boston homeowners see a payback period of 6-8 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in Boston can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>Boston Sun Exposure and Seasonal Production</h2>
+<p>Boston averages 4.1 peak sun hours daily with June-July production at 5.8 kWh per kW per day and December at 2.0 because of New England coastal cloud cover and short days. Approximately 65 percent of annual production happens April through September. Cambridge, Somerville, and Watertown receive marginally more annual insolation than Jamaica Plain or West Roxbury because of less tree canopy shade. Back Bay and South End flat-roof installs perform 8-12 percent below optimal because of limited tilt opportunity.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for Boston Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>MA state incentives.</strong> The SMART (Solar Massachusetts Renewable Target) program is the primary state incentive: a declining-block per-kWh payment paid monthly for 10 years. Current block rates for Eversource East run $0.06-$0.10/kWh depending on block and adders (low-income, storage, community solar). Massachusetts also offers a 15% state income tax credit capped at $1,000.</p>
-
-<p><strong>Utility incentives.</strong> Eversource does not offer a direct solar rebate, but administers Mass Save programs that include solar-related home energy benefits. The SMART program effectively serves as the primary ongoing incentive beyond net metering.</p>
-
-<p><strong>Property tax exemption.</strong> MA offers property tax benefits for solar installations. Check with your local tax assessor for current exemptions.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in Boston, the effective cost after all available incentives can drop to $14,000-$16,000.</p>
+<h2>Boston Utility Rate and Net Metering Structure</h2>
+<p>Eversource residential solar operates under Massachusetts mandated net metering through 220 CMR 18 for systems up to 10 kW. Export credits are 1-for-1 retail rate with monthly rollover and annual true-up. Credits above the retail portion are paid at the market net metering cap rate. This is among the strongest net metering frameworks in the Northeast. National Grid customers in the western metro operate under similar rules. Unitil covers a small northeast metro slice.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in Boston</h2>
-<p><strong>Peak sun hours.</strong> Boston receives an average of 4.1 peak sun hours per day, which is moderate for a major US metro but still supports a positive ROI with proper sizing. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> Boston produces ~5.8 kWh/kW/day in June-July and drops to ~2.0 kWh/kW/day in December-January when snow cover and short days combine. Approximately 65% of annual production happens between April and September. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> Boston averages 55% cloud cover annually. Coastal New England weather brings frequent fog and overcast conditions, and Nor'easters produce multi-day snow events that can temporarily cover panels; production typically resumes within 24-48 hours as panels warm and shed snow. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In Boston's cold winters, panels actually operate above their rated efficiency when temperatures drop below 77F. Snow cover temporarily blocks production, but panels typically shed snow quickly due to their smooth surface and dark color. Snow clearing is rarely necessary.</p>
+<h2>Boston Interconnection and Grid Approval</h2>
+<p>Eversource interconnection for residential systems under 25 kW runs 4-8 weeks through the Eversource DG Web Portal. Boston Inspectional Services Department (ISD) issues solar permits through the Boston online portal with 2-4 week turnaround. Historic district properties in Back Bay, Beacon Hill, South End, and Charlestown require Boston Landmarks Commission review adding 6-12 weeks. Cambridge, Somerville, Newton, and Brookline each maintain separate permitting.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in Boston</h2>
-<p><strong>Solar access law.</strong> Massachusetts General Laws Chapter 184 Section 23C provides solar access protections that restrict HOA and zoning interference with solar installations, though the law is weaker than California's Civil Code 714. Condo associations retain some latitude on common-element roofs, which matters for Back Bay and South End unit owners.</p>
-
-<p><strong>Permitting.</strong> Boston ISD (Inspectional Services Department) processes residential solar permits in 2-4 weeks via the online portal. Historic district properties in Beacon Hill, Back Bay, and parts of the South End require Landmarks Commission review that can add 4-12 weeks. Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>Boston Solar Installer Landscape</h2>
+<p>The Boston installer market is led by ReVision Energy (Massachusetts-based regional), Solect Energy, SunBug Solar, and Sunrun. SunPower dealers include New England Clean Energy and Clear Sky Solar. Regional specialty includes Boston Solar, Ipswich Solar, and Brightergy. Massachusetts Division of Professional Licensure requires an Electrical Contractor license (Master Electrician C license) plus a Home Improvement Contractor registration. Typical Boston residential quote runs $2.80-$3.60 per watt before incentives, with premium for tight urban rowhouse access.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in Boston</h2>
-<p><strong>Your utility.</strong> Most Boston homeowners are served by Eversource. Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> Massachusetts mandates net metering under 220 CMR 18. Eversource residential customers receive full retail-rate credits for exports on systems up to 10 kW, with monthly rollover and annual true-up. Credits above the retail portion are paid at the net metering cap rate.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to Eversource. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> With Boston's net metering structure, sizing your system to offset 90-100% of your annual usage typically provides the best return. Your installer should model your specific usage pattern and utility rate to optimize system size.</p>
+<h2>Boston Solar Incentives and Tax Credits</h2>
+<p>Massachusetts offers the Solar Massachusetts Renewable Target (SMART) program: a declining-block per-kWh incentive paid monthly for 10 years. Current block rates for Eversource East run $0.06-$0.10 per kWh depending on block and adders (low-income, storage, community). Massachusetts 15 percent state income tax credit on solar capped at $1,000. Federal ITC at 30 percent stacks. Massachusetts exempts solar equipment from 6.25 percent state sales tax. Mass Save programs include solar-adjacent insulation and efficiency bundles.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in Boston</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what Boston homeowners need to watch for.</p>
+<h2>Boston Roof Types and Mounting Implications</h2>
+<p>Boston rooftop stock is heavily composition shingle on single-family colonials and capes in Brookline, Newton, and the suburbs. Flat-roof rubber membrane (EPDM) on triple-deckers in Dorchester, JP, and Somerville requires ballasted or tilted-mount racking. Slate roofs in Cambridge and Beacon Hill add 20-35 percent install cost and trigger Landmarks review. Back Bay brownstone rooftops are limited and mostly flat with parapet walls. The steep New England rafter slopes (8/12 to 12/12 common on colonials) work well for solar but require safety harness work that adds labor cost.</p>
+</section>
+<section class="section fp-section">
+<h2>Boston HOA Rules and Solar Access Law</h2>
+<p>Massachusetts General Laws Chapter 184 Section 23C provides solar access protections that restrict HOA and zoning interference, though the law is weaker than California's Civil Code 714. Condo associations retain some latitude on common-element roofs, which matters significantly for Back Bay, South End, and Beacon Hill unit owners. Boston Landmarks Commission reviews all exterior work in Back Bay, Beacon Hill, South End Landmark District, and Charlestown Navy Yard Historic District. Cambridge Historical Commission has parallel review.</p>
+</section>
+<section class="section fp-section">
+<h2>Boston Solar Permitting Process</h2>
+<p>Boston ISD processes residential solar permits in 2-4 weeks through the online portal. Historic district properties trigger Landmarks Commission review with 6-12 week turnaround. Cambridge Inspectional Services uses separate portal with 3-5 week turnaround. Newton, Brookline, Somerville each have their own. Massachusetts Stretch Code (2020 IECC plus Mass amendments) applies. NEC 2020 Massachusetts adoption with some state variances applies to solar scope.</p>
+</section>
+<section class="section fp-section">
+<h2>Boston Battery Storage Options and Rebates</h2>
+<p>Battery adoption in Boston is strong, driven by winter storm outage risk (ice storms and nor'easters regularly produce multi-day outages) and the SMART storage adder that stacks on monthly production payments. Tesla Powerwall 3, Enphase IQ Battery 10, and FranklinWH are dominant. Mass Save ConnectedSolutions program provides performance-based payments (up to $1,500 per year) for battery dispatch participation. Federal ITC at 30 percent applies. Massachusetts has among the most favorable battery economics in the country thanks to SMART + ConnectedSolutions stacking.</p>
+</section>
+<section class="section fp-section">
+<h2>Boston Climate Risks for Solar Installations</h2>
+<p>Boston climate risks for solar are nor'easter wind uplift (ASCE 7-16 Category II, 130-140 mph coastal design wind), heavy snow loading (40-60 inches annual average; 2015 set the modern record at 110 inches), and ice storm loading. The 2015 snow season tested residential racking across the metro. Ground-snow load is 40 psf under IBC 2018 Table 1608.1 coastal and 50 psf inland. Module racking must be spec'd for Boston snow-load zone with appropriate IronRidge XR or Unirac ULA snow-load hardware.</p>
+</section>
+<section class="section fp-section">
+<h2>Boston Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in Boston runs 12-20 weeks: 1-2 weeks site assessment and engineering, 2-12 weeks permitting (fast for standard, long for Landmarks), 1-3 days installation, 1-2 weeks inspection, 4-8 weeks Eversource interconnection. The April-June installation window captures the full April-September peak production window and avoids frozen-roof winter scheduling.</p>
+</section>
+<section class="section fp-section">
+<h2>Boston-Specific Solar Program Insight</h2>
+<p>Boston's SMART program plus ConnectedSolutions battery dispatch produce some of the strongest residential solar-plus-storage economics in the country. The Massachusetts Clean Energy Center (MassCEC) administers the Mass Solar Loan Program with 0 percent APR financing for income-qualifying households. Sustainable Cambridge tracks solar adoption block-by-block. The triple-decker roof profile across Dorchester and JP is particularly well-suited for solar thanks to generous flat-roof square footage.</p>
+</section>
+<section class="section fp-section">
+<h2>Boston Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In Boston, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores Boston utility tariff details</h3>
+<p>Eversource residential solar operates under Massachusetts mandated net metering through 220 CMR 18 for systems up to 10 kW. Export credits are 1-for-1 retail rate with monthly rollover and annual true-up. Credits above the retail portion are paid at the market net metering cap rate. This is among the strongest net metering frameworks in the Northeast. National Grid customers in the western metro operate under similar rules. Unitil covers a small northeast metro slice.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In Boston, your system should produce roughly 4.1 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for Boston exposure</h3>
+<p>Boston averages 4.1 peak sun hours daily with June-July production at 5.8 kWh per kW per day and December at 2.0 because of New England coastal cloud cover and short days. Approximately 65 percent of annual production happens April through September. Cambridge, Somerville, and Watertown receive marginally more annual insolation than Jamaica Plain or West Roxbury because of less tree canopy shade. Back Bay and South End flat-roof installs perform 8-12 percent below optimal because of limited tilt opportunity.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match Boston permit reality</h3>
+<p>Full timeline from contract signing to PTO in Boston runs 12-20 weeks: 1-2 weeks site assessment and engineering, 2-12 weeks permitting (fast for standard, long for Landmarks), 1-3 days installation, 1-2 weeks inspection, 4-8 weeks Eversource interconnection. The April-June installation window captures the full April-September peak production window and avoids frozen-roof winter scheduling.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in Boston during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing Boston incentive stacking</h3>
+<p>Massachusetts offers the Solar Massachusetts Renewable Target (SMART) program: a declining-block per-kWh incentive paid monthly for 10 years. Current block rates for Eversource East run $0.06-$0.10 per kWh depending on block and adders (low-income, storage, community). Massachusetts 15 percent state income tax credit on solar capped at $1,000. Federal ITC at 30 percent stacks. Massachusetts exempts solar equipment from 6.25 percent state sales tax. Mass Save programs include solar-adjacent insulation and efficiency bundles.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most MA rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>Boston climate risks for solar are nor'easter wind uplift (ASCE 7-16 Category II, 130-140 mph coastal design wind), heavy snow loading (40-60 inches annual average; 2015 set the modern record at 110 inches), and ice storm loading. The 2015 snow season tested residential racking across the metro. Ground-snow load is 40 psf under IBC 2018 Table 1608.1 coastal and 50 psf inland. Module racking must be spec'd for Boston snow-load zone with appropriate IronRidge XR or Unirac ULA snow-load hardware.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without Boston context</h3>
+<p>Battery adoption in Boston is strong, driven by winter storm outage risk (ice storms and nor'easters regularly produce multi-day outages) and the SMART storage adder that stacks on monthly production payments. Tesla Powerwall 3, Enphase IQ Battery 10, and FranklinWH are dominant. Mass Save ConnectedSolutions program provides performance-based payments (up to $1,500 per year) for battery dispatch participation. Federal ITC at 30 percent applies. Massachusetts has among the most favorable battery economics in the country thanks to SMART + ConnectedSolutions stacking.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in Boston</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">April-June</p>
-<p>Installing in late spring avoids snow and frozen-roof scheduling issues from winter while capturing the full May-September peak production window. Contractor availability is also better before the summer rush.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In Boston, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (2-4 weeks), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a Boston Solar Installer</h2>
+<p><strong>What is my expected production given Boston sun hours?</strong> Boston averages 4.1 peak sun hours daily with June-July production at 5.8 kWh per kW per day and December at 2.0 because of New England coastal cloud cover and short days. Approximately 65 percent of annual production happens April through September. Cambridge, Somerville, and Watertown receive marginally more annual insolation than Jamaica Plain or West Roxbury because of less tree canopy shade. Back Bay and South End flat-roof installs perform 8-12 percent below optimal because of limited tilt opportunity.</p>
+<p><strong>How does your design handle Boston climate risks?</strong> Boston climate risks for solar are nor'easter wind uplift (ASCE 7-16 Category II, 130-140 mph coastal design wind), heavy snow loading (40-60 inches annual average; 2015 set the modern record at 110 inches), and ice storm loading. The 2015 snow season tested residential racking across the metro. Ground-snow load is 40 psf under IBC 2018 Table 1608.1 coastal and 50 psf inland. Module racking must be spec'd for Boston snow-load zone with appropriate IronRidge XR or Unirac ULA snow-load hardware.</p>
+<p><strong>Which Boston incentives are you filing for?</strong> Massachusetts offers the Solar Massachusetts Renewable Target (SMART) program: a declining-block per-kWh incentive paid monthly for 10 years. Current block rates for Eversource East run $0.06-$0.10 per kWh depending on block and adders (low-income, storage, community). Massachusetts 15 percent state income tax credit on solar capped at $1,000. Federal ITC at 30 percent stacks. Massachusetts exempts solar equipment from 6.25 percent state sales tax. Mass Save programs include solar-adjacent insulation and efficiency bundles.</p>
+<p><strong>What does the full Boston timeline look like?</strong> Full timeline from contract signing to PTO in Boston runs 12-20 weeks: 1-2 weeks site assessment and engineering, 2-12 weeks permitting (fast for standard, long for Landmarks), 1-3 days installation, 1-2 weeks inspection, 4-8 weeks Eversource interconnection. The April-June installation window captures the full April-September peak production window and avoids frozen-roof winter scheduling.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in Boston: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in Boston, MA, using Boston-adjusted labor and material costs for 2026.</p>
+<h2>Boston Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$21,200</p>
-<p class="fp-scenario-detail">$14,800 after 30% ITC. ~8,979 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$14,800 after 30% ITC. ~8,979 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$31,900</p>
-<p class="fp-scenario-detail">$22,300 after 30% ITC. ~11,972 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$22,300 after 30% ITC. ~11,972 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$58,300</p>
-<p class="fp-scenario-detail">$40,800 after 30% ITC. ~14,965 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$40,800 after 30% ITC. ~14,965 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in Boston typically runs 6-8 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 

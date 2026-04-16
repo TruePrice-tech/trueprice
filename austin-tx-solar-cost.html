@@ -235,7 +235,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -246,35 +248,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in Austin</h2>
-<p>About 50-55% of Austin-area homes have favorable south-facing exposure. Newer homes in Mueller and east Austin subdivisions tend to have better solar orientation than older homes in Hyde Park and Tarrytown. Live oaks are the dominant shading challenge in Austin. Tarrytown and Hyde Park have dense mature canopy that can reduce production 20-35%. Travis Heights and Zilker have moderate coverage. Mueller and newer east Austin developments have minimal tree shading</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -317,136 +352,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in Austin: Payback and Savings</h2>
-<p>The financial case for solar in Austin depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> Austin averages 5.2 peak sun hours per day, which translates to roughly 15,184 kWh of annual production from a typical 8 kW system. Austin produces ~6.8 kWh/kW/day in peak summer and ~3.4 kWh/kW/day in December-January.</p>
-
-<p><strong>Electricity cost offset.</strong> At TX's average residential rate of ~$0.13/kWh, an 8 kW system offsets approximately $1,974 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> Austin Energy offers the Value of Solar (VoS) tariff, which credits solar exports at a rate determined annually based on the value solar provides to the grid. The VoS rate has historically been close to or slightly below the retail rate. This is more favorable than most Texas markets because Austin Energy is a municipal utility exempt from the deregulated ERCOT retail market.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and TX's incentive structure, most Austin homeowners see a payback period of 8-10 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in Austin can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>Austin Sun Exposure and Seasonal Production</h2>
+<p>Austin averages 5.2 peak sun hours daily with June-August production at 6.8 kWh per kW per day and December at 3.4. Central Texas gets abundant summer sunshine, though spring thunderstorms (March through May) and occasional winter weather events (Uri 2021, ice storms 2022-2023) briefly disrupt production. Bee Cave and Lakeway receive 5-7 percent more annual insolation than central Austin because of less urban-haze particulate. Hyde Park and central neighborhoods see marginally lower insolation from oak canopy.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for Austin Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>TX state incentives.</strong> Texas has no state solar tax credit. The federal ITC plus property tax exemption are the primary incentives. Austin Energy's VoS program is the local equivalent of a strong utility incentive.</p>
-
-<p><strong>Utility incentives.</strong> Austin Energy has phased out its direct rebate program but the Value of Solar tariff provides ongoing credits. Check Austin Energy's current program terms before signing, as the VoS rate resets annually.</p>
-
-<p><strong>Property tax exemption.</strong> Texas exempts the appraised value of solar installations from property tax under Tax Code 11.27. A $25,000 solar system adds zero to your property tax bill.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in Austin, the effective cost after all available incentives can drop to $15,000-$17,000.</p>
+<h2>Austin Utility Rate and Net Metering Structure</h2>
+<p>Austin Energy residential solar operates under the Value of Solar (VoS) tariff, which credits exported energy at an annually-determined rate (typically close to or slightly below the retail rate of $0.10-$0.14 per kWh). The VoS rate resets each January based on grid value calculations. Austin Energy is a municipal utility not subject to ERCOT deregulation, giving Austin residents more favorable solar economics than Houston or Dallas. The 2024 VoS rate was approximately $0.099 per kWh, close to parity with retail. Confirming current VoS is the critical first step for any Austin solar quote.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in Austin</h2>
-<p><strong>Peak sun hours.</strong> Austin receives an average of 5.2 peak sun hours per day, making it a solid solar market with above-average production potential. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> Austin produces ~6.8 kWh/kW/day in peak summer and ~3.4 kWh/kW/day in December-January. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> Austin averages 35% cloud cover. Central Texas gets abundant sunshine, though spring storm season and occasional winter weather events (like February 2021) can temporarily reduce production. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In Austin's hot climate, this means panels can lose 8-15% of rated efficiency during peak summer hours. Microinverters or power optimizers help mitigate this loss. Adequate roof ventilation under the panels also reduces temperature impact.</p>
+<h2>Austin Interconnection and Grid Approval</h2>
+<p>Austin Energy interconnection runs 2-6 weeks for residential systems under 15 kW through the Austin Energy Solar Connect portal. City of Austin Development Services Department issues solar permits in 2-4 weeks (among the slower in Texas). Travis County, Hays County, and Williamson County unincorporated areas have separate permitting portals. Austin Energy's dedicated solar interconnection team handles the utility-side review efficiently once permits clear.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in Austin</h2>
-<p><strong>Solar access law.</strong> Texas Property Code Section 202.010 provides strong solar protections. HOAs cannot ban solar and cannot impose restrictions that reduce output by more than 10%. Austin's pro-solar culture means HOA conflicts are rare here.</p>
-
-<p><strong>Permitting.</strong> City of Austin permits are notoriously slow for solar: 2-4 weeks for residential installations. However, Austin Energy has a dedicated solar interconnection team that handles the utility side efficiently once permits clear. Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>Austin Solar Installer Landscape</h2>
+<p>The Austin installer market is led by Freedom Solar Power (Austin-based, Texas-wide), Sunpro Solar, Longhorn Solar, and Sunrun. Regional specialty crews include Circle L Solar, Alba Energy, and Nativa Solar. Tesla Energy operates in Austin and bundles Powerwall competitively. Texas Department of Licensing and Regulation requires Master Electrician licensing. Typical Austin residential quote runs $2.60-$3.30 per watt before incentives. The Austin Energy Green Building program certifies some installers for verified quality.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in Austin</h2>
-<p><strong>Your utility.</strong> Most Austin homeowners are served by Austin Energy (a municipal utility). Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> Austin Energy offers the Value of Solar (VoS) tariff, which credits solar exports at a rate determined annually based on the value solar provides to the grid. The VoS rate has historically been close to or slightly below the retail rate. This is more favorable than most Texas markets because Austin Energy is a municipal utility exempt from the deregulated ERCOT retail market.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to Austin Energy. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> With Austin's net metering structure, sizing your system to offset 90-100% of your annual usage typically provides the best return. Your installer should model your specific usage pattern and utility rate to optimize system size.</p>
+<h2>Austin Solar Incentives and Tax Credits</h2>
+<p>Texas has no state solar tax credit. Federal ITC at 30 percent stacks. Texas Tax Code 11.27 exempts residential solar from property tax. Texas Tax Code 151.355 exempts solar equipment from state sales tax. Austin Energy's Value of Solar tariff functions as an ongoing utility incentive. Austin Energy's Solar Photovoltaic Rebate was phased out in 2020 but the VoS structure now provides ongoing credits. The Austin Energy Customer Energy Solutions program administers income-qualifying free solar for eligible households.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in Austin</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what Austin homeowners need to watch for.</p>
+<h2>Austin Roof Types and Mounting Implications</h2>
+<p>Austin rooftop stock is heavily composition shingle on post-1990 tract housing in Round Rock, Cedar Park, Pflugerville, and Southwest Austin. Metal standing seam is increasingly common in Hill Country custom homes west of MoPac (Westlake, Lakeway, Bee Cave). Tile roofs (concrete and clay) appear in Tarrytown, Barton Hills, and established Northwest Hills, adding 15-20 percent install cost. Austin's Heritage Live Oak ordinance requires arborist letters for any work within the critical root zone of oaks over 19 inches DBH, which affects solar site access and staging.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin HOA Rules and Solar Access Law</h2>
+<p>Texas Property Code Section 202.010 prohibits HOA bans on solar and is among the strongest protections in the country. Austin's progressive culture and strong solar adoption mean HOA conflicts are rarer than in other Texas metros. Master-planned communities in Steiner Ranch, Lakeway, and Circle C have architectural review that complies with state law but imposes placement rules within the 10 percent output reduction limit. East Austin historically lacked HOAs but new developments in Mueller, Holly, and East Riverside have them.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin Solar Permitting Process</h2>
+<p>Austin Development Services Department issues solar permits through the Austin Build and Connect portal with 2-4 week turnaround (among the slower in Texas). The Edwards Aquifer Recharge Zone overlay affects any west-side project and can add Water Quality Protection Plan requirements. Heritage tree protection adds arborist letter requirements. NEC 2020 rapid shutdown and Texas Electrical Safety Code 2020 apply to solar scope. Travis County has adopted similar permitting for unincorporated areas.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin Battery Storage Options and Rebates</h2>
+<p>Battery adoption in Austin is strong, driven by Winter Storm Uri memory (February 2021 grid failure was especially acute in Austin) and annual tornado season outage risk. Tesla Powerwall 3 dominates. Enphase IQ Battery and FranklinWH are secondary. Austin Energy's Battery Storage Incentive Program offers $1,500 rebates for qualifying battery installations (limited annual capacity). Federal ITC at 30 percent applies to battery. The Austin Energy Value of Solar tariff makes solar-only economics favorable enough that battery is typically resilience-driven rather than arbitrage-driven.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin Climate Risks for Solar Installations</h2>
+<p>Austin climate risks for solar are spring hail (ASCE 7-16 Category II, 115 mph design wind; Class 4 hail-impact modules increasingly standard), occasional severe ice storms (February 2023 caused documented residential racking failures), and summer extreme heat reducing output 10-14 percent below STC on 105F-plus days. Hurricane-season tropical systems occasionally affect Austin secondarily. Central Texas tornado season (March through May) drives heavy insurance scrutiny.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in Austin runs 8-14 weeks: 1-2 weeks site assessment and engineering, 2-4 weeks permitting (slower in Edwards Aquifer zone), 1-2 days installation, 1-2 weeks inspection, 2-6 weeks Austin Energy interconnection. The October-January installation window avoids summer heat and ice-storm risk while getting the system online before the high-AC-load April-through-October season.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin-Specific Solar Program Insight</h2>
+<p>Austin Energy's Value of Solar tariff is a national innovation that provides more transparent ongoing solar compensation than traditional net metering. The Austin Energy Green Building program certifies solar installers and provides free pre-install consultation for residential customers. Austin's strong solar adoption culture and technical workforce (ERCOT headquarters, many IBM and Dell facilities) create a knowledgeable consumer base that pushes quality standards across local installers.</p>
+</section>
+<section class="section fp-section">
+<h2>Austin Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In Austin, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores Austin utility tariff details</h3>
+<p>Austin Energy residential solar operates under the Value of Solar (VoS) tariff, which credits exported energy at an annually-determined rate (typically close to or slightly below the retail rate of $0.10-$0.14 per kWh). The VoS rate resets each January based on grid value calculations. Austin Energy is a municipal utility not subject to ERCOT deregulation, giving Austin residents more favorable solar economics than Houston or Dallas. The 2024 VoS rate was approximately $0.099 per kWh, close to parity with retail. Confirming current VoS is the critical first step for any Austin solar quote.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In Austin, your system should produce roughly 5.2 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for Austin exposure</h3>
+<p>Austin averages 5.2 peak sun hours daily with June-August production at 6.8 kWh per kW per day and December at 3.4. Central Texas gets abundant summer sunshine, though spring thunderstorms (March through May) and occasional winter weather events (Uri 2021, ice storms 2022-2023) briefly disrupt production. Bee Cave and Lakeway receive 5-7 percent more annual insolation than central Austin because of less urban-haze particulate. Hyde Park and central neighborhoods see marginally lower insolation from oak canopy.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match Austin permit reality</h3>
+<p>Full timeline from contract signing to PTO in Austin runs 8-14 weeks: 1-2 weeks site assessment and engineering, 2-4 weeks permitting (slower in Edwards Aquifer zone), 1-2 days installation, 1-2 weeks inspection, 2-6 weeks Austin Energy interconnection. The October-January installation window avoids summer heat and ice-storm risk while getting the system online before the high-AC-load April-through-October season.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in Austin during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing Austin incentive stacking</h3>
+<p>Texas has no state solar tax credit. Federal ITC at 30 percent stacks. Texas Tax Code 11.27 exempts residential solar from property tax. Texas Tax Code 151.355 exempts solar equipment from state sales tax. Austin Energy's Value of Solar tariff functions as an ongoing utility incentive. Austin Energy's Solar Photovoltaic Rebate was phased out in 2020 but the VoS structure now provides ongoing credits. The Austin Energy Customer Energy Solutions program administers income-qualifying free solar for eligible households.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most TX rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>Austin climate risks for solar are spring hail (ASCE 7-16 Category II, 115 mph design wind; Class 4 hail-impact modules increasingly standard), occasional severe ice storms (February 2023 caused documented residential racking failures), and summer extreme heat reducing output 10-14 percent below STC on 105F-plus days. Hurricane-season tropical systems occasionally affect Austin secondarily. Central Texas tornado season (March through May) drives heavy insurance scrutiny.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without Austin context</h3>
+<p>Battery adoption in Austin is strong, driven by Winter Storm Uri memory (February 2021 grid failure was especially acute in Austin) and annual tornado season outage risk. Tesla Powerwall 3 dominates. Enphase IQ Battery and FranklinWH are secondary. Austin Energy's Battery Storage Incentive Program offers $1,500 rebates for qualifying battery installations (limited annual capacity). Federal ITC at 30 percent applies to battery. The Austin Energy Value of Solar tariff makes solar-only economics favorable enough that battery is typically resilience-driven rather than arbitrage-driven.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in Austin</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">October-January</p>
-<p>Cooler weather makes installation faster and safer. Off-season scheduling means better contractor availability and pricing. Your system will be online before the brutal Texas summer when you need it most.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In Austin, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (2-4 weeks), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a Austin Solar Installer</h2>
+<p><strong>What is my expected production given Austin sun hours?</strong> Austin averages 5.2 peak sun hours daily with June-August production at 6.8 kWh per kW per day and December at 3.4. Central Texas gets abundant summer sunshine, though spring thunderstorms (March through May) and occasional winter weather events (Uri 2021, ice storms 2022-2023) briefly disrupt production. Bee Cave and Lakeway receive 5-7 percent more annual insolation than central Austin because of less urban-haze particulate. Hyde Park and central neighborhoods see marginally lower insolation from oak canopy.</p>
+<p><strong>How does your design handle Austin climate risks?</strong> Austin climate risks for solar are spring hail (ASCE 7-16 Category II, 115 mph design wind; Class 4 hail-impact modules increasingly standard), occasional severe ice storms (February 2023 caused documented residential racking failures), and summer extreme heat reducing output 10-14 percent below STC on 105F-plus days. Hurricane-season tropical systems occasionally affect Austin secondarily. Central Texas tornado season (March through May) drives heavy insurance scrutiny.</p>
+<p><strong>Which Austin incentives are you filing for?</strong> Texas has no state solar tax credit. Federal ITC at 30 percent stacks. Texas Tax Code 11.27 exempts residential solar from property tax. Texas Tax Code 151.355 exempts solar equipment from state sales tax. Austin Energy's Value of Solar tariff functions as an ongoing utility incentive. Austin Energy's Solar Photovoltaic Rebate was phased out in 2020 but the VoS structure now provides ongoing credits. The Austin Energy Customer Energy Solutions program administers income-qualifying free solar for eligible households.</p>
+<p><strong>What does the full Austin timeline look like?</strong> Full timeline from contract signing to PTO in Austin runs 8-14 weeks: 1-2 weeks site assessment and engineering, 2-4 weeks permitting (slower in Edwards Aquifer zone), 1-2 days installation, 1-2 weeks inspection, 2-6 weeks Austin Energy interconnection. The October-January installation window avoids summer heat and ice-storm risk while getting the system online before the high-AC-load April-through-October season.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in Austin: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in Austin, TX, using Austin-adjusted labor and material costs for 2026.</p>
+<h2>Austin Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$18,000</p>
-<p class="fp-scenario-detail">$12,600 after 30% ITC. ~11,388 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$12,600 after 30% ITC. ~11,388 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$27,000</p>
-<p class="fp-scenario-detail">$18,900 after 30% ITC. ~15,184 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$18,900 after 30% ITC. ~15,184 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$51,500</p>
-<p class="fp-scenario-detail">$36,100 after 30% ITC. ~18,980 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$36,100 after 30% ITC. ~18,980 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in Austin typically runs 8-10 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 

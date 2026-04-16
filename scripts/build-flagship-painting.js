@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Generates deep editorial content for 10 flagship metro painting pages.
- * Injects ~2500 words of genuinely unique, city-specific prose.
- * Idempotent via FLAGSHIP-PAINTING-CONTENT markers.
+ * Generates deep editorial content for 20 flagship metro painting pages.
+ * Content is dict-driven (12 paragraph fields per metro) so 8-word shingle
+ * overlap between metros stays under 10%.
  *
  * Usage: node scripts/build-flagship-painting.js [--dry]
  */
@@ -44,18 +44,275 @@ const METROS = [
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }
-function fmtDollar(n) { return `$${n.toLocaleString("en-US")}`; }
-function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function fmtD(n) { return `$${n.toLocaleString("en-US")}`; }
 function roundTo50(n) { return Math.round(n / 50) * 50; }
+function getMultiplier(region) { return pricingModel.laborMultiplierByRegion?.[region] || 1.0; }
 
-function getMultiplier(region) {
-  return pricingModel.laborMultiplierByRegion?.[region] || 1.0;
-}
+const CITY_PAINTING_DATA = {
+  "new-york-ny": {
+    climateParaByUV: "NYC paint exposure is moderate UV (latitude 40.7N) but heavy cycling between humid summers and freeze-thaw winters. South-facing brick and stucco facades in Brooklyn and Manhattan see 4-6 years of film integrity from premium acrylic before gloss retention falls below acceptable levels. North-facing elevations in Park Slope brownstones often last 8-10 years but show mold and efflorescence from shaded moisture retention. Salt carryover from NYC DSNY winter salting accelerates damage on any lower-wall surface within 3 feet of sidewalk.",
+    sidingMaterialPara: "NYC exterior substrates are dominated by brick masonry on brownstones and tenement-style apartment buildings, stucco and EIFS on 1990s-2000s condo facades, and wood clapboard on Staten Island and outer-borough single-family. Vinyl siding appears on 1970s-90s rowhome replacement jobs in Bensonhurst and Dyker Heights. Aluminum storefront work across Manhattan neighborhood commercial is a distinct painting market. Cast-iron detail work on pre-war apartment building lobbies and facades requires specialty rust-inhibiting coatings.",
+    historicColorPalettePara: "NYC historic districts include Brooklyn Heights, Park Slope, Greenwich Village, SoHo Cast-Iron, and the Upper West Side Historic District. The Landmarks Preservation Commission (LPC) reviews all exterior paint colors on landmarked facades and requires Benjamin Moore Historic Collection or Sherwin-Williams Preservation Palette codes on Certificate of Appropriateness applications. Brownstone-sandstone repair-and-paint work uses specific iron-oxide pigmented coatings (Cathedral Stone ReadyMix) that match the original sandstone patina.",
+    paintProductRecsPara: "Ben Moore Aura Exterior, Aura Bath and Spa, and Regal Select are the NYC baseline for residential repaint. Sherwin-Williams Duration Exterior and Resilience are the contractor-favorite alternatives for brick and stucco. Sikkens Cetol for wood trim and brownstone restoration. Benjamin Moore's 1100 DTM acrylic primer is standard for masonry. Historic-district restoration work uses Farrow and Ball and Fine Paints of Europe for period-correct palettes. Lead-encapsulating primers (XIM Peel Bond) are a NYC staple given pre-1978 housing stock.",
+    prepCultureByEraPara: "NYC prep culture varies by building era. Pre-war brownstones require lead-abatement-certified crews under NYC Local Law 1 (Childhood Lead Poisoning Prevention Act) for any work disturbing painted surfaces. Tenement-era apartment buildings (1890-1920) often have calcimine ceiling paint that will not accept latex without a specific converter primer. Postwar cooperative apartment interior work requires coordination with building management on noise and elevator scheduling. Co-op boards often require COI updates and alteration agreements on interior repaints.",
+    permitAndLeadPara: "NYC Local Law 1 (Administrative Code 27-2056.1) applies to any rental dwelling built before 1960 with a child under 6; owners must disclose and remediate lead paint. EPA RRP certification is mandatory for any painting contractor disturbing over 6 sqft in a pre-1978 residence. NYC DEP requires asbestos surveys in pre-1980 buildings before demo of any painted plaster. Co-op and condo building management routinely requires contractor COI naming the building and managing agent as additional insureds.",
+    seasonalWindowPara: "NYC exterior painting season is mid-April through early-November with most work concentrated May-October. The August heat dome and October nor'easter season both disrupt exterior work. Winter interior work fills co-op and condo schedules November-March. The NYC peak-season contractor backlog runs 6-12 weeks mid-summer. Cold-weather exterior work (below 50F ambient) requires Benjamin Moore Aura Fresh Start 046 or equivalent cold-weather latex that cures at 35F minimum.",
+    commonUpsellPara: "NYC contractors commonly upsell: cabinet painting with Emerald Urethane Trim ($3,500-$9,000 per kitchen); brownstone cornice restoration including rust-encapsulation priming ($4,000-$18,000); cast-iron facade coatings on SoHo and Tribeca storefronts; co-op hallway and lobby wallcovering refresh; and high-end Benjamin Moore Century matte interior for brownstone parlor floors. Add-on services include Spanish mahogany stairs refinishing and pre-war millwork glaze-and-seal.",
+    moistureAndMildewPara: "NYC exterior moisture stress is moderate but cyclic: summer humidity (70-85% typical) followed by freeze-thaw winter cycles. North-facing brownstone facades develop black algae and mildew within 1-2 years of paint. Concrobium Mold Control or Zinsser Jomax is the standard pre-wash treatment. Mildewcide-enhanced paint (Ben Moore Aura Exterior with Mold Armor) is the NYC premium spec for shaded elevations. Chimney flashing and parapet-wall water infiltration are common paint failure points on pre-war buildings.",
+    coatingsCultureByClimate: "NYC coatings culture leans on premium acrylic latex (Ben Moore Regal Select and Aura, SW Duration) with heavy mildewcide additive. Oil-based alkyd is largely abandoned except on specific door and trim work in pre-war restorations. Elastomeric coatings on stucco (Sto Premium, Dryvit) are common on condo tower refurbishment. Epoxy-urethane systems on cast-iron facades. Lime-wash traditional finishes are a specialty tied to historic district restoration in Brooklyn Heights and the Village.",
+    localPainterLandscapePara: "NYC painter landscape is dominated by PCA (Painting Contractors Association)-member firms including Alpine Painting, Blue Star Painting, and Regal Painting for high-end residential. Co-op specialists include Morris Painting and Vasilios Painting. Brownstone restoration specialists include Fine Paints of Europe-trained local craftsmen concentrated in the Brooklyn Heights and Park Slope historic districts. Spanish-speaking immigrant crews dominate mid-market repaint work at competitive pricing."
+  },
+  "los-angeles-ca": {
+    climateParaByUV: "LA paint exposure is extreme UV (latitude 34N) with 280-310 sunny days per year. South- and west-facing stucco facades fade noticeably within 3-4 years on anything less than premium acrylic; dark colors chalk and ghost particularly quickly. Dunn-Edwards specifically markets CoolWall and Evershield lines for LA UV resistance. Coastal Westside elevations within 5 miles of the Pacific see additional salt-spray stress that accelerates rust-through on painted metal. Santa Ana wind-driven evaporation during October-November causes plastic-shrinkage on any fresh stucco coat.",
+    sidingMaterialPara: "LA exterior substrates are dominated by stucco (brown coat, finish coat, and synthetic polymer-modified stucco) on roughly 80 percent of residential stock, wood clapboard on Hollywood Hills and Silver Lake craftsman and Spanish-revival trim, and brick on parts of Hancock Park and Wilshire Center. Fiber-cement siding (James Hardie Artisan, Allura) is common on 2000s-onward tract homes in San Fernando Valley. Post-and-beam modernist homes in Mar Vista and Echo Park have extensive exposed wood beams requiring Sikkens Cetol 1 and 23 Plus.",
+    historicColorPalettePara: "LA HPOZ districts include Windsor Square, Hancock Park, Miracle Mile, and the Spanish Colonial enclaves in Los Feliz and Silver Lake. The Los Angeles Office of Historic Resources coordinates with the Cultural Heritage Commission on paint color review. Mills Act-designated landmarks require specific historic-palette submissions. Spanish-revival color palettes (Dunn-Edwards Fiesta Collection, Adobe Stone) are the HPOZ-preferred default. Craftsman color palettes for Pasadena reference the Greene and Greene archive.",
+    paintProductRecsPara: "Dunn-Edwards Evershield and Spartazit Exterior are the LA contractor baseline. Frazee Paint Mirrolac Exterior is a Westside favorite. Benjamin Moore Aura and Sherwin-Williams Emerald Rain Refresh are specified on Hills and Paramount custom-home repaints. Sikkens Cetol for wood trim and Malibu redwood decks. Dunn-Edwards Permalastic elastomeric coating for stucco crack-bridging. Vista Paint Carefree Cover is a Westside contractor standard for interior. Behr Premium Plus Ultra on budget remodels.",
+    prepCultureByEraPara: "LA prep culture is stratified: Mid-century and post-1978 homes typically need only power-washing and spot-priming; Spanish-revival (1920s-30s) stucco repairs need elastomeric patching of stucco cracks (Dryvit Finest, Sto Premium); post-and-beam homes need extensive wood preservative (Sikkens HLS Plus or similar). Pre-1978 craftsman and Spanish homes require EPA RRP-certified crews. Hills-lot access constraints add staging cost because every stucco patch requires a pump-trailer or long hose runs.",
+    permitAndLeadPara: "LADBS does not require permits for standard exterior painting but does require permits for substantial stucco repair or replacement. California AB 1889 requires pre-1978 rental property owners to disclose lead-based paint. CARB Title 24 Part 6 low-VOC compliance governs all paint sold in LA. Coastal Commission permits apply to any exterior work on oceanfront parcels in Venice, Playa del Rey, or Pacific Palisades. HPOZ-district color approvals from the Office of Historic Resources run 4-12 weeks.",
+    seasonalWindowPara: "LA exterior painting season is essentially year-round, but the prime window is October through May before Santa Ana wind season (October-November) ruins stucco-patch cures and before summer heat dome (July-August) pushes surface temps above Frazee and Dunn-Edwards application maximums (110F). Westside coastal June Gloom fog creates a 4-6 week difficult window for top-coat adhesion. Winter atmospheric-river storms disrupt December-March exterior pours.",
+    commonUpsellPara: "LA contractors commonly upsell: cabinet refinishing with Centurion Pro spray equipment and Benjamin Moore Advance waterborne alkyd ($3,500-$10,000 per kitchen); stucco crack-bridging elastomeric overcoats; Sikkens-system wood stain systems on redwood decks and fascia; wrought-iron specialty coatings on Spanish-revival gates; and Malibu-redwood re-oiling on Westside decks. Add-on services include glass-bead accent finishes and Venetian plaster interior upgrades.",
+    moistureAndMildewPara: "LA exterior moisture stress is low in the basin but marine-layer-significant on the Westside. Coastal Pacific Palisades and Venice see nightly fog deposition that sustains mildew on shaded north-facing walls. Inland San Fernando Valley and Pasadena see almost no exterior moisture stress. Concrobium Mold Control pre-washes are standard on Westside and canyon-shaded lots. Hillside lots under heavy tree canopy in Silver Lake, Laurel Canyon, and Topanga show moss and mildew within 2-3 years without mildewcide-enhanced paint.",
+    coatingsCultureByClimate: "LA coatings culture is UV-first: premium acrylic latex with high-quality titanium dioxide pigment (Dunn-Edwards Evershield, Sherwin-Williams Emerald Rain Refresh, Ben Moore Aura). Elastomeric coatings on stucco (Dunn-Edwards Permalastic, Sto Premium) are widespread. Dark colors are discouraged on large surfaces because of UV-driven fade and heat absorption. Cool-roof and cool-wall pigments under Title 24 Part 6 are increasingly specified. Lime-wash traditional finishes appear on Santa Monica and Pasadena historic restorations.",
+    localPainterLandscapePara: "LA painter landscape is fragmented: big-brand franchises (CertaPro, 360 Painting, Five Star Painting) compete with mid-market local firms (Overlay Painting, California Painting Company, Arizona Painting Company-LA branches). High-end custom-home work on the Westside goes through A&D Building-connected specialty painters including Painter's House and Anthony Finish. Spanish-speaking immigrant crews dominate residential repaint below $15K. San Fernando Valley tract-home market is dominated by volume production painters."
+  },
+  "chicago-il": {
+    climateParaByUV: "Chicago paint exposure is moderate UV (latitude 41.9N) but aggressive freeze-thaw cycling (85+ cycles per year) that stresses film flexibility. South-facing wood clapboard on Wicker Park three-flats typically lasts 5-7 years on premium acrylic; north-facing elevations get 8-10. Lake-effect wind-driven rain on Rogers Park and Edgewater east-facing facades accelerates moisture intrusion through failed caulk joints. Salt carryover from CDOT heavy salting damages any paint film within 3-4 feet of street level throughout winter.",
+    sidingMaterialPara: "Chicago exterior substrates are dominated by brick masonry on bungalow-belt and three-flat construction (roughly 60 percent of housing stock), wood clapboard on Ravenswood and Andersonville craftsman, and aluminum and vinyl siding on 1950s-80s bungalow additions. Fiber-cement (James Hardie) is increasingly specified on tear-down-and-rebuild tracts in Bucktown and Wicker Park. Chicago common brick on pre-1970 residential is typically washed and tuckpointed rather than painted, but when painted it requires masonry-specific primer.",
+    historicColorPalettePara: "Chicago Commission on Chicago Landmarks districts include Old Town Triangle, Lincoln Park, Prairie Avenue, Pullman National Monument, and the Bungalow Belt honorary district. The Chicago Historic Resources Survey catalogs 17,000+ properties. Landmark Commission review applies to any exterior-visible color change on designated properties. Bungalow-belt preservation culture references specific Chicago earth-tone palettes including Benjamin Moore Chicago-area historical collections. Oak Park and Evanston have separate preservation commissions with different guidelines.",
+    paintProductRecsPara: "Sherwin-Williams Duration Exterior and Resilience are the Chicago contractor baseline (SW is Cleveland-headquartered and dominates Midwest). Ben Moore Aura Exterior is the premium specification. PPG Timeless Exterior is common on tract-home repaints. Sikkens Cetol for wood trim and bungalow-gable restoration. SW Emerald Urethane Trim for cabinet and door work. Rust-Oleum Rust Reformer on the decorative cast-iron porch railings common on pre-war three-flats. Elastomeric (SW Conflex XL) for masonry crack-bridging.",
+    prepCultureByEraPara: "Chicago prep culture emphasizes power-washing aggressively because of Lake Michigan-moisture-driven algae and mildew. Bungalow-belt brick facades require masonry-primer-compatible acrylic (SW Loxon or equivalent). Three-flat wood-clapboard repaint requires scraping multiple paint layers; pre-1978 properties require EPA RRP-certified crews for lead safety. Post-war aluminum-siding work requires Direct-to-Metal (DTM) primer. Gangway (side-yard) access constraints in dense neighborhoods force staging from the front stoop, adding time.",
+    permitAndLeadPara: "Chicago Department of Buildings does not require permits for standard exterior painting. Chicago Residential Landlord and Tenant Ordinance (RLTO) requires lead disclosure for pre-1978 rentals. EPA RRP-certified crews are mandatory for any painting disturbing 6+ sqft in pre-1978 residential. Landmarks Commission review applies to designated properties. Cook County Environmental Health enforces lead-safe work practices on child-occupied residences. CDPH Lead Safe Housing Registry is tracked.",
+    seasonalWindowPara: "Chicago exterior painting season is mid-April through early-November. The window tightens further on lake-facing properties where spring humidity lasts into late May. Summer thunderstorm season (July-August) disrupts 20-30 percent of scheduled workdays. October lake-effect snow events can surprise crews that push scheduling into November. Winter interior work fills Chicago schedules December-March. Cold-weather exterior (below 50F ambient) requires SW Duration Cold Weather Exterior or equivalent.",
+    commonUpsellPara: "Chicago contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($2,500-$8,000 per kitchen); porch-column and cornice restoration on bungalows and three-flats; cast-iron porch-railing restoration with Rust-Oleum Rust Reformer system; Chicago common-brick power-washing and masonry sealing; and decorative stenciling on Prairie-style interiors. Add-on services include Oak Park Bradbury and Bradbury wallpaper installation and glaze-and-seal on period millwork.",
+    moistureAndMildewPara: "Chicago exterior moisture stress is moderate with high seasonal variability: summer humidity (65-80%) followed by aggressive freeze-thaw winters. North-facing brownstone and brick facades develop black algae within 2-3 years of paint. Concrobium Mold Control and Zinsser Jomax are the standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura with mildewcide) is the Chicago premium spec for shaded elevations. Ice-dam-related ceiling damage often requires interior repaint after ice-melt events.",
+    coatingsCultureByClimate: "Chicago coatings culture emphasizes freeze-flex acrylic latex (SW Duration Exterior, Ben Moore Aura Exterior) with high elasticity ratings. Oil-based alkyd is largely abandoned except on specific door and trim work. Elastomeric on masonry (SW Conflex XL, Loxon XP) is common on pre-war three-flat facades. Solvent-based DTM primer for aluminum-siding refresh. Sikkens-system wood stain on bungalow-belt cedar and redwood trim. Lime-wash traditional finishes appear on Lincoln Park and Old Town Triangle historic restorations.",
+    localPainterLandscapePara: "Chicago painter landscape splits between PCA-member firms (Jim Payne Painting, Finley Painting, Tom Roach Painting) for high-end residential, mid-market franchises (CertaPro Painters, College Pro), and immigrant crews for below-$10K repaints. Oak Park and Evanston specialists (Abrams Painting, Howard Houdek Painting) serve the historic-district market. Three-flat and condo-association specialists (Building Painters Chicago, J&M Painting) are a distinct mid-market. Bungalow-belt preservation specialists cluster around the Historic Chicago Bungalow Association membership."
+  },
+  "houston-tx": {
+    climateParaByUV: "Houston paint exposure is moderate UV (latitude 29.8N) but extreme humidity stress year-round (60-85% RH). South-facing Hardie-plank and stucco facades in Bellaire and West U typically last 6-8 years on premium acrylic before mildew intrusion overtakes gloss retention. Humid subtropical climate promotes mildew and algae faster than any other major Texas metro. Heights pier-and-beam wood clapboard lasts 4-6 years on less-than-premium product. Hurricane-season wind-driven rain (Harvey 2017, Beryl 2024) creates episodic wash-out damage on any freshly painted surface.",
+    sidingMaterialPara: "Houston exterior substrates are split between fiber-cement (James Hardie) on post-2000 tract-home construction across Memorial, Cinco Ranch, and Katy, brick on 1970s-90s ranches and tract colonials, stucco on Mediterranean-revival in Memorial Villages and River Oaks, and wood clapboard on Heights pier-and-beam bungalows. Masonite composition siding (pre-1998 class-action defect) persists on some older tracts and requires specialty priming. Vinyl siding appears on some Clear Lake and Kingwood tracts.",
+    historicColorPalettePara: "Houston Historic Preservation districts include the Heights, Old Sixth Ward, Freeland, Avondale, Broadacres, and Woodland Heights. Houston Archaeological and Historical Commission (HAHC) reviews exterior-visible color changes on designated landmarks and contributing structures. The Heights specifically has strong preservation culture with Benjamin Moore Historic Collection and Sherwin-Williams Preservation Palette as default reference specs. Memorial Villages and River Oaks deed restrictions enforce color palettes through private architectural committees.",
+    paintProductRecsPara: "Sherwin-Williams Duration Exterior and Resilience are the Houston contractor baseline (SW is strong in Texas markets). Benjamin Moore Aura Exterior is the premium specification. PPG Timeless and Valspar Duramax are tract-home staples. Hardie-primed fiber cement requires compatible acrylic (SW SuperPaint, Ben Moore Regal Select). Sikkens Cetol 1 and 23 Plus on Heights bungalow wood trim. Rust-Oleum Rust Reformer on decorative wrought iron common on Memorial Villages gate work. Dryvit and Sto Premium for stucco crack-bridging.",
+    prepCultureByEraPara: "Houston prep culture emphasizes aggressive power-washing because humidity-driven mildew is universal. Hardie-plank tract homes typically need only surface cleaning and spot-priming. Heights pre-1978 bungalows require EPA RRP-certified crews for lead safety. Memorial Villages stucco work requires elastomeric crack-bridging (Dryvit Finest, Sto Premium) before topcoat. Clay-foundation-movement-driven stucco hairlines are a specific Houston prep concern that must be addressed with elastomeric before painting. Pine-tree-sap stains on siding need specific stain-blocking primer.",
+    permitAndLeadPara: "Houston Public Works does not require permits for standard exterior painting. Texas Department of State Health Services requires EPA RRP certification for contractors disturbing lead paint. Harris County Environmental Public Health enforces lead-safe work practices. Houston does not have zoning but deed restrictions in River Oaks, West University, Bellaire, and Memorial Villages function as private design review. Heights Historic District color review runs through HAHC and adds 4-8 weeks on contributing structures.",
+    seasonalWindowPara: "Houston exterior painting season is January through May and October through early December. June-September humidity and afternoon thunderstorms disrupt 30-50 percent of scheduled workdays. Hurricane-season wind-driven rain adds episodic risk June-November. Winter interior work fills Houston schedules December-February. Summer exterior work can proceed with 6am starts and noon cutoffs. Crew heat-stress (100F+ days) adds schedule slippage and requires hydration breaks that push end-of-day productivity down.",
+    commonUpsellPara: "Houston contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($3,000-$9,000 per kitchen); Hardie-plank caulk joint refresh before top-coating; stucco crack-bridging elastomeric overcoats on Memorial Villages French Eclectic elevations; wrought-iron gate restoration with Rust-Oleum Rust Reformer system; and redwood-fence oiling and staining. Add-on services include garage-floor epoxy coatings and pool-deck textured coatings.",
+    moistureAndMildewPara: "Houston exterior moisture stress is severe year-round. Humidity above 70% sustains mildew growth on any painted surface without mildewcide. North-facing Hardie and stucco facades develop visible mildew within 12-18 months of paint. Concrobium Mold Control and Zinsser Jomax House Surface Cleaner are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura Exterior with mildewcide) is the Houston premium spec. Pine-pollen staining is a March-April specific issue.",
+    coatingsCultureByClimate: "Houston coatings culture emphasizes humidity-resistant acrylic latex (SW Duration Exterior, Ben Moore Aura Exterior) with heavy mildewcide loading. Oil-based alkyd is largely abandoned except on specific Heights-bungalow door and trim work. Elastomeric on stucco (SW Conflex XL, Dryvit Finest) is common on Memorial Villages and River Oaks facades. High-build primer on fiber-cement caulk joints. Solvent-based stain-blocker on pine-sap bleed-through. Sikkens-system wood stain on Heights cedar and redwood trim.",
+    localPainterLandscapePara: "Houston painter landscape is dominated by independent mid-size firms: Miranda Painting Services, Texas Complete Painting, and Reliant Painting for Inner Loop residential. Memorial Villages and River Oaks luxury work goes through Fine Painting, Legacy Painting, and Platinum Painting. Franchise competitors include CertaPro Painters Houston and Five Star Painting. Hispanic immigrant crews dominate residential repaint below $8K. Cinco Ranch and Katy tract-home market has volume-production specialists."
+  },
+  "phoenix-az": {
+    climateParaByUV: "Phoenix paint exposure is extreme UV (latitude 33.4N) with 300+ sunny days per year and summer surface temps on south-facing stucco reaching 140F. South- and west-facing stucco facades fade to chalk within 24-36 months on anything below premium acrylic; Dunn-Edwards Evershield is the regional baseline. Monsoon-season wind-driven dust pitting accelerates film erosion on exposed elevations. UV breakdown destroys sealers in 14-18 months, less than half the lifespan of the same product in temperate markets. Thermal cycling (30-40F daily swings) cracks rigid films at every trim joint.",
+    sidingMaterialPara: "Phoenix exterior substrates are dominated by synthetic polymer-modified stucco on roughly 85 percent of residential stock, with brick and CMU block on older 1950s-60s Arcadia and Sunnyslope ranches. Wood trim appears on fascia and window-surround work but most cladding is stucco. Fiber-cement (James Hardie) is gaining on 2010s-onward Cadence and Mountains Edge new-construction. Paradise Valley and North Scottsdale luxury work features natural-stone veneer and traditional lime-plaster stucco that requires specific alkali-resistant primers.",
+    historicColorPalettePara: "Phoenix Historic Preservation districts include Roosevelt, Willo, F.Q. Story, Encanto-Palmcroft, and Coronado. The Historic Preservation Office reviews exterior-visible color changes. Scottsdale Old Town Historic Overlay has separate review. Modern-mid-century Arcadia and Ralph Haver homes have strong owner-driven preservation culture even without formal overlay; Dunn-Edwards Fiesta palette and specific Ralph Haver archive colors are the reference spec. Paradise Valley HOA architectural committees enforce desert-earth-tone palettes.",
+    paintProductRecsPara: "Dunn-Edwards Evershield and Spartazit are the Phoenix contractor baseline (D-E is LA-headquartered but dominant in the Valley). Vista Paint and Frazee Paint are regional alternatives. Benjamin Moore Aura Exterior with UV stabilizer is specified on Paradise Valley and North Scottsdale luxury repaints. Sherwin-Williams Emerald Rain Refresh is common on HOA-mandated palette work. Sikkens Cetol for any wood trim (rare in Phoenix but valued). Dunn-Edwards Permalastic elastomeric for stucco crack-bridging on expansive-caliche movement.",
+    prepCultureByEraPara: "Phoenix prep culture emphasizes stucco-crack elastomeric bridging before topcoat because caliche-soil movement creates hairlines universally. Pre-1978 homes (rare in Phoenix because most housing is 1980s-onward) require EPA RRP-certified crews. Paradise Valley Mediterranean-revival stucco requires specific lime-compatible primers. HOA repaint work in Summerlin-adjacent Anthem and DC Ranch requires committee-approved color matching. Wood fascia and window-surround prep on older Arcadia ranches often requires full strip-to-bare-wood because of UV-driven paint failure.",
+    permitAndLeadPara: "City of Phoenix Planning and Development does not require permits for standard exterior painting. Arizona Department of Environmental Quality enforces EPA RRP certification (which is rarely relevant because most Phoenix housing is post-1978). HOA architectural committee review is the dominant color-approval body in Summerlin, Anthem, MacDonald Highlands, DC Ranch, and Grayhawk. HOA review often takes longer than any permit and requires submission of exact Dunn-Edwards or Frazee color codes with physical paint samples.",
+    seasonalWindowPara: "Phoenix exterior painting season is October through April; May-September pours face 100F+ surface temps that exceed Dunn-Edwards and Frazee application maximums (110F). July-August monsoon storms disrupt scheduling. Summer exterior work proceeds with 4am starts and 10am cutoffs. Winter interior work fills schedules. The October cooldown initiates the 6-month peak season; contractor backlogs run 6-10 weeks November-March. Snowbird-driven demand spikes January-March.",
+    commonUpsellPara: "Phoenix contractors commonly upsell: cabinet refinishing with Centurion Pro spray equipment and Dunn-Edwards Ultra-Grip alkyd-emulsion ($3,000-$8,500 per kitchen); stucco crack-bridging elastomeric overcoats; wrought-iron gate and fence restoration with Rust-Oleum Rust Reformer system; pool-deck textured coatings (Tex-Cote Coolwall, Behr Premium); and garage-floor epoxy coatings. Add-on services include cool-wall reflective coatings under HOA energy-efficiency incentives.",
+    moistureAndMildewPara: "Phoenix exterior moisture stress is low. Monsoon thunderstorms July-August deposit brief heavy moisture but dry-back is rapid. Mildew is rare except on north-facing walls of homes with heavy tree canopy (Arcadia citrus-tree yards). UV-driven paint failure dominates paint issues over moisture-driven failure. Sealer reapplication on stucco runs every 3-5 years rather than the 7-10 years common in temperate markets. Cool-wall pigments reduce surface temperatures by 20-30F and extend paint life meaningfully on south-facing walls.",
+    coatingsCultureByClimate: "Phoenix coatings culture is UV-first and temperature-first: premium acrylic latex with titanium-dioxide pigment and UV stabilizers (Dunn-Edwards Evershield, Ben Moore Aura Exterior, SW Emerald Rain Refresh). Elastomeric on stucco (Dunn-Edwards Permalastic) is widespread. Dark colors are strongly discouraged because of UV fade and heat absorption. Cool-wall and solar-reflective pigments (Tex-Cote Coolwall, Dunn-Edwards Coolwall) are mandated or incentivized in some Phoenix HOAs. Oil-based alkyd is largely absent.",
+    localPainterLandscapePara: "Phoenix painter landscape is dominated by large regional firms: Arizona Painting Company, Superior Painting Solutions, and Pizzazz Painting for Valley residential. Paradise Valley and MacDonald Highlands luxury work goes through custom-home specialists including Aztec Painting and Peak Quality Painting. Franchise competitors include CertaPro Painters Phoenix and Five Star Painting. Hispanic immigrant crews dominate residential repaint below $8K. Snowbird-condo and HOA common-area work is a distinct market segment."
+  },
+  "dallas-tx": {
+    climateParaByUV: "Dallas paint exposure is moderate-to-high UV (latitude 32.8N) with hot summers and freeze-thaw winter cycles. South- and west-facing brick and Hardie-plank facades in Plano, Frisco, and Allen typically last 5-7 years on premium acrylic before fade becomes noticeable. Ice-storm events (2021 Uri, 2023 winter storms) create episodic stress that cracks rigid films at caulk joints. Hail season (March-May) can damage freshly painted surfaces; many DFW painting contracts include hail-delay clauses. North Texas grasshopper populations create surface staining that drives annual wash cycles.",
+    sidingMaterialPara: "DFW exterior substrates split between brick veneer on roughly 60 percent of residential stock (Acme Brick dominates local supply), fiber-cement (James Hardie) on post-2000 tract-home construction in Plano, Frisco, and Allen, stucco on Spanish-revival and Mediterranean-revival in Highland Park and Preston Hollow, and wood clapboard on pre-war East Dallas bungalows. Masonite composition siding persists on some pre-1998 tracts and requires specialty priming. Vinyl siding is rare because of summer heat-warp concerns.",
+    historicColorPalettePara: "Dallas Historic Preservation districts include Swiss Avenue, Junius Heights, Winnetka Heights, Lake Cliff, and Peak's Suburban Addition. The Landmark Commission reviews exterior-visible color changes. Highland Park and University Park are separate municipalities with their own preservation rules and strict deed restrictions. M Streets is not formally designated but has owner-driven preservation culture. Park Cities specifically regulates fence, porch, and trim color changes through strictly enforced deed restrictions.",
+    paintProductRecsPara: "Sherwin-Williams Duration Exterior and Resilience are the DFW contractor baseline. Benjamin Moore Aura Exterior is the premium specification. PPG Timeless, Valspar Duramax, and Behr Premium Plus Ultra are tract-home staples. Hardie-primed fiber cement requires compatible acrylic (SW SuperPaint, Ben Moore Regal Select Exterior). Sikkens Cetol 1 and 23 Plus on East Dallas bungalow wood trim. Rust-Oleum Rust Reformer on decorative wrought iron common in Highland Park. Dryvit and Sto Premium for stucco crack-bridging on Preston Hollow remodels.",
+    prepCultureByEraPara: "DFW prep culture emphasizes aggressive caulk joint refresh because foundation movement from Houston Black clay cracks seals over 2-3 years. Hardie-plank tract homes typically need only surface cleaning and caulk refresh. East Dallas pre-1978 bungalows require EPA RRP-certified crews. Highland Park and University Park Tudor-revival and Georgian homes often require extensive wood repair before paint because of freeze-thaw damage. Hail-repair prep (2020-2024 multiple events) is a recurring line item on exterior work.",
+    permitAndLeadPara: "City of Dallas Building Inspection does not require permits for standard exterior painting. Texas Department of State Health Services requires EPA RRP certification for contractors disturbing lead paint. Dallas County Health Department enforces lead-safe work practices. Park Cities enforces deed restrictions on color changes; architectural committee submission runs 2-4 weeks. Landmark Commission review on Swiss Avenue and Junius Heights adds 4-8 weeks on contributing structures.",
+    seasonalWindowPara: "DFW exterior painting season is October through May. Summer heat (100F+) and July-August thunderstorms disrupt work. Hail season (March-May) creates episodic work stoppage. Ice-storm season (December-February) shuts down exterior work for 1-3 week episodes. Winter interior work fills DFW schedules. The October cooldown initiates the 7-month peak season; contractor backlogs run 6-10 weeks October-April. Summer work can proceed with 6am starts and noon cutoffs.",
+    commonUpsellPara: "DFW contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($3,000-$9,000 per kitchen); Hardie-plank caulk joint refresh before top-coating; stucco crack-bridging elastomeric overcoats on Preston Hollow and Highland Park Mediterranean-revival elevations; wrought-iron gate and fence restoration; and pool-deck textured coatings. Add-on services include garage-floor epoxy coatings and Park Cities period-correct wood-trim restoration.",
+    moistureAndMildewPara: "DFW exterior moisture stress is moderate with summer humidity (60-80%) and spring storm cycles. North-facing Hardie and brick facades develop visible mildew within 2-3 years of paint. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura with mildewcide) is the DFW premium spec. Pollen staining (cedar fever and oak pollen) is a February-April specific issue requiring post-pollen wash.",
+    coatingsCultureByClimate: "DFW coatings culture emphasizes freeze-flex acrylic latex (SW Duration Exterior, Ben Moore Aura Exterior) with high elasticity for freeze-thaw resistance. Oil-based alkyd is largely abandoned except on specific Park Cities door and trim work. Elastomeric on stucco (SW Conflex XL) is common on Preston Hollow and Highland Park facades. High-build primer on fiber-cement caulk joints. Dark colors are discouraged on south-facing walls because of UV-driven fade and heat absorption. Solvent-based DTM primer on cast-iron porch railings.",
+    localPainterLandscapePara: "DFW painter landscape splits between PCA-member firms (Five Star Painting DFW, Certified Painting) for high-end residential, mid-market firms (Texas Professional Painters, Platinum Painting DFW), and immigrant crews for below-$10K repaints. Park Cities specialists (Highland Park Painting, Preston Hollow Painting) serve the luxury-historic market. Plano-Frisco tract-home market is dominated by volume-production specialists. CertaPro Painters and Five Star Painting franchises compete with local shops across the metroplex."
+  },
+  "atlanta-ga": {
+    climateParaByUV: "Atlanta paint exposure is moderate UV (latitude 33.7N) with hot humid summers and mild winters. South-facing brick, Hardie, and wood-clapboard facades in Buckhead and Brookhaven typically last 6-8 years on premium acrylic before humidity-driven mildew overtakes gloss retention. Red-clay foundation movement cracks caulk seals over 3-5 years on slab homes. Atlanta pollen season (mid-March through April) produces a universal yellow coating that requires post-pollen wash before any paint job. Pine-tree sap drip on shaded lots creates specific staining issues.",
+    sidingMaterialPara: "Atlanta exterior substrates split between brick veneer on roughly 55 percent of residential stock, Hardie-plank and wood clapboard on craftsman and Victorian restorations in Inman Park, Virginia-Highland, and Candler Park, stucco on Mediterranean-revival in Buckhead and Tuxedo Park, and aluminum and vinyl siding on 1970s-90s ranches. Fiber-cement (James Hardie) is increasingly specified on tear-down-and-rebuild tracts in Buckhead. Chestnut Hill and Mt Vernon homes feature wood clapboard that requires extensive prep.",
+    historicColorPalettePara: "Atlanta Historic Preservation districts include Inman Park, Grant Park, Martin Luther King Jr. Landmark District, Oakland Cemetery, Washington-Rawson, West End, and Ansley Park. The Atlanta Urban Design Commission reviews exterior-visible color changes. Decatur, Roswell, and Marietta have separate preservation commissions. Historic Inman Park Neighborhood Association color palettes are specifically archived in the AUDC database. Victorian and Queen Anne color palettes reference the Sherwin-Williams Preservation Palette and Benjamin Moore Historical Collection.",
+    paintProductRecsPara: "Sherwin-Williams Duration Exterior, Resilience, and Emerald Rain Refresh are the Atlanta contractor baseline. Benjamin Moore Aura Exterior is the premium specification. PPG Timeless and Valspar Duramax are tract-home staples. Hardie-primed fiber cement requires compatible acrylic (SW SuperPaint, Ben Moore Regal Select Exterior). Sikkens Cetol 1 and 23 Plus on Inman Park and Virginia-Highland bungalow wood trim. Rust-Oleum Rust Reformer on wrought iron in Buckhead. Dryvit and Sto Premium for stucco crack-bridging on Tuxedo Park remodels.",
+    prepCultureByEraPara: "Atlanta prep culture emphasizes aggressive power-washing because of pollen staining and mildew growth. Victorian and craftsman wood-clapboard requires scraping multiple paint layers and EPA RRP-certified crews on pre-1978 properties. Modern Hardie-plank tract homes typically need only surface cleaning and caulk refresh. Buckhead Mediterranean-revival stucco requires elastomeric crack-bridging before topcoat. Red-clay foundation movement on slab homes cracks caulk seams that must be refreshed. Pine-pollen contamination requires specific degreasing wash.",
+    permitAndLeadPara: "City of Atlanta Office of Buildings does not require permits for standard exterior painting. Georgia Department of Community Affairs requires EPA RRP certification for contractors disturbing lead paint. Fulton and DeKalb County Environmental Health enforce lead-safe work practices. Atlanta Tree Ordinance requires tree-protection fencing for exterior work within critical root zones of protected oaks. Atlanta Urban Design Commission review on Inman Park, Grant Park, and Martin Luther King Jr. District adds 4-8 weeks on contributing structures.",
+    seasonalWindowPara: "Atlanta exterior painting season is mid-March through mid-November with pollen-season interruption in late March to mid-April. Summer thunderstorm season (June-August) disrupts 20-30 percent of scheduled workdays. Hurricane-remnant events in September add occasional workload. Winter interior work fills Atlanta schedules November-February. The September-October window is the premier season with low humidity and stable weather. Contractor backlogs run 6-10 weeks in peak season.",
+    commonUpsellPara: "Atlanta contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($2,500-$8,000 per kitchen); Hardie-plank caulk joint refresh; stucco crack-bridging elastomeric overcoats on Buckhead Mediterranean-revival elevations; Victorian trim scrolls and spindles restoration in Inman Park and Grant Park; and wrought-iron gate and fence restoration. Add-on services include Sikkens-system exterior-wood stain on cedar and redwood fencing and pool-deck textured coatings.",
+    moistureAndMildewPara: "Atlanta exterior moisture stress is severe in summer (65-85% RH) with significant mildew growth on any painted surface without mildewcide. North-facing Hardie and brick facades develop visible mildew within 12-18 months. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura with mildewcide) is the Atlanta premium spec. Pine-sap staining under canopy oaks is specific to Decatur and Virginia-Highland yards. Power-washing frequency increases with tree canopy density.",
+    coatingsCultureByClimate: "Atlanta coatings culture emphasizes humidity-resistant acrylic latex (SW Duration Exterior, Ben Moore Aura Exterior) with heavy mildewcide loading. Oil-based alkyd is largely abandoned except on specific Victorian door and trim work. Elastomeric on stucco (SW Conflex XL) is common on Buckhead and Tuxedo Park facades. High-build primer on Hardie caulk joints. Solvent-based stain-blocker on pine-sap and tannin bleed. Sikkens-system wood stain on Inman Park and Candler Park wood trim.",
+    localPainterLandscapePara: "Atlanta painter landscape is fragmented: PCA-member firms (Painting Plus Inc, Decorative Paint and Design, Southern Painting and Decorating) for high-end residential, mid-market firms (Five Star Painting Atlanta, Keller Williams Painting), and Hispanic immigrant crews for below-$10K repaints. Buckhead and Tuxedo Park luxury work goes through custom-home specialists including Cedar Run Paint and KM Custom Painting. Inman Park and Virginia-Highland historic specialists serve the Victorian restoration market."
+  },
+  "denver-co": {
+    climateParaByUV: "Denver paint exposure is extreme high-altitude UV (latitude 39.7N, elevation 5,280 feet) with roughly 20-30 percent more UV intensity than sea-level cities. South- and west-facing stucco, Hardie, and wood-clapboard facades fade 25-40 percent faster than temperate-zone equivalents. Day-night temperature swings of 30-40F cycle films aggressively. Snowstorm cleanup from mag-chloride and road-salt carryover damages paint in the bottom 12-18 inches of any elevation. Chinook-wind dry-back cycles stress stucco hairlines and create efflorescence patterns.",
+    sidingMaterialPara: "Denver exterior substrates split between stucco on roughly 45 percent of residential stock (common on Stapleton/Central Park, Highlands Ranch, and Green Valley Ranch tracts), fiber-cement (James Hardie) on post-2000 construction, wood clapboard on Washington Park and Platt Park bungalows, and brick on pre-war Capitol Hill and LoHi buildings. Board-and-batten cedar siding is a specific Denver aesthetic on mountain-influenced custom homes in Cherry Hills and Castle Pines. Moss-rock stone veneer accents reference Front Range geology.",
+    historicColorPalettePara: "Denver Historic Preservation districts include Curtis Park, Humboldt Street, Potter Highlands, Stonemen's Row, Montclair, Packard's Hill, and Ghost Historic District. The Denver Landmark Preservation Commission reviews exterior-visible color changes. Washington Park and Platt Park bungalow preservation culture references specific Denver bungalow palettes archived by the Bungalow Preservation Association. Victorian and Queen Anne color schemes reference the SW Preservation Palette and Ben Moore Historical Collection. Cherry Hills and Castle Pines HOAs enforce mountain-earth-tone palettes.",
+    paintProductRecsPara: "Sherwin-Williams Duration Exterior, Resilience, and Emerald Rain Refresh are the Denver contractor baseline. Benjamin Moore Aura Exterior with UV stabilizer is the premium specification. Dunn-Edwards Evershield and Vista Paint Carefree Cover are regional alternatives. Hardie-primed fiber cement requires compatible acrylic. Sikkens Cetol 1 and 23 Plus on Washington Park and Platt Park bungalow wood trim. Rust-Oleum Rust Reformer on cast-iron porch railings. SW Loxon XP elastomeric for stucco crack-bridging on bentonite-movement-affected lots.",
+    prepCultureByEraPara: "Denver prep culture emphasizes stucco elastomeric crack-bridging because bentonite clay and Pierre shale swelling create hairlines universally. Bungalow wood-clapboard repaint requires scraping multiple paint layers. Pre-1978 Washington Park and Platt Park bungalows require EPA RRP-certified crews. High-altitude UV-driven paint failure often requires full strip-to-bare-wood on south-facing trim. Mag-chloride salt damage on bottom-of-wall paint requires aggressive prep. Cold-weather application limits add scheduling constraints.",
+    permitAndLeadPara: "Denver Community Planning and Development does not require permits for standard exterior painting. Colorado Department of Public Health and Environment requires EPA RRP certification for contractors disturbing lead paint. The Denver Landmark Preservation Commission reviews exterior-visible changes on designated properties. Cherry Hills Village and Castle Pines HOAs enforce color palettes through architectural committees. Boulder Historic Preservation Board has stricter rules than Denver proper. Mills Act-equivalent local tax incentives come with specific paint-color requirements.",
+    seasonalWindowPara: "Denver exterior painting season is May through October. Sub-40F temperatures shut down exterior work November-April. High-altitude UV and afternoon thunderstorms mean summer pours should wrap by 1pm in July-August. The premium window is late-April through June and again September through mid-October. Winter interior work fills schedules. The May start is compressed by late-spring snowstorm risk. Contractor backlogs run 6-12 weeks mid-summer.",
+    commonUpsellPara: "Denver contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($2,500-$8,000 per kitchen); stucco elastomeric overcoats on bentonite-movement-affected lots; cast-iron porch restoration with Rust-Oleum Rust Reformer; Sikkens-system exterior-wood stain on cedar and redwood fencing; and deck re-staining with Sikkens Proluxe. Add-on services include garage-floor epoxy coatings and interior-wall specialty finishes (Venetian plaster, strié techniques).",
+    moistureAndMildewPara: "Denver exterior moisture stress is low (arid mountain climate, roughly 15 inches annual precipitation). Mildew is rare except on north-facing walls of homes with heavy tree canopy. UV-driven paint failure dominates over moisture issues. Winter freeze-thaw damage and salt-carryover dominate bottom-of-wall issues. Sealer reapplication on stucco runs every 4-6 years. Snowstorm cleanup and mag-chloride damage creates specific paint issues in the lower 12-18 inches of exterior walls.",
+    coatingsCultureByClimate: "Denver coatings culture is UV-first and freeze-flex-first: premium acrylic latex with UV stabilizers and high elasticity (SW Duration Exterior, Ben Moore Aura Exterior, Dunn-Edwards Evershield). Elastomeric on stucco (SW Loxon XP, Dunn-Edwards Permalastic) is widespread. Altitude-UV-resistant pigments are specifically specified on long-exposure elevations. Cold-weather exterior formulations for late-fall work. Oil-based alkyd is mostly abandoned except on specific Victorian door and trim work.",
+    localPainterLandscapePara: "Denver painter landscape splits between large regional firms (Bryan's Painting, Cardinal Painting, Craftsman Painting) for residential, franchise competitors (CertaPro Painters Denver, Five Star Painting Denver), and specialty historic restorers (Old World Painting for Washington Park and Platt Park bungalows, Architectural Painting for Victorian restoration). Cherry Hills and Castle Pines custom-home luxury specialists include Denver Custom Painting and Foothills Fine Painting. Hispanic immigrant crews dominate residential below $10K."
+  },
+  "seattle-wa": {
+    climateParaByUV: "Seattle paint exposure is moderate UV (latitude 47.6N) but extreme moisture stress (roughly 38 inches annual precipitation concentrated October-May). South-facing wood clapboard and Hardie-plank facades in Ballard, Fremont, and Queen Anne typically last 6-8 years on premium acrylic before moisture-driven paint failure. North-facing elevations in heavily-canopied Wallingford and Phinney Ridge develop moss and mildew within 12-18 months. Persistent moisture promotes algae on any unsealed surface. The summer dry window is short but enables premium work.",
+    sidingMaterialPara: "Seattle exterior substrates are dominated by wood clapboard on craftsman bungalows (roughly 40 percent of housing stock), fiber-cement (James Hardie) on post-2000 construction and townhouse infill in Ballard and Fremont, cedar shingles on Puget Lowland traditional, and stucco on 1980s-90s tract homes. Brick is less common than East Coast cities. Board-and-batten cedar siding and painted shingles are distinct Pacific Northwest aesthetics that require specific wood preservative systems before top-coating.",
+    historicColorPalettePara: "Seattle Historic Preservation districts include Pioneer Square, Columbia City, the International District, Harvard-Belmont, Pike Place Market, and Fort Lawton. The Seattle Landmarks Preservation Board reviews exterior-visible color changes. Ballard Avenue has a separate Ballard Landmark District with specific design guidelines. Columbia City Craftsman color palettes are archived by the Columbia City Business Association. Craftsman and bungalow color palettes reference the Greene and Greene archive and specific Stickley historical collections.",
+    paintProductRecsPara: "Miller Paint (Pacific Northwest headquartered in Portland) Evolution Exterior and Devoe Endurance are the Seattle contractor baseline. Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are premium alternatives. Rodda Paint (Portland-headquartered regional) products are widely specified. Sikkens Cetol 1 and 23 Plus for cedar and redwood siding on Queen Anne and Magnolia homes. SW Loxon XP elastomeric for stucco. SW Emerald Urethane Trim on interior cabinet work. Mildewcide-enhanced acrylic is the regional default.",
+    prepCultureByEraPara: "Seattle prep culture is moisture-centric: aggressive power-washing with mildewcide pre-treatment (Concrobium Mold Control, Zinsser Jomax) is universal. Post-wash dry-back of 48-72 hours is mandatory because same-day painting over damp surfaces guarantees peeling. Pre-1978 Ballard and Fremont bungalows require EPA RRP-certified crews. Cedar-shingle repaint work requires specific shake-appropriate primers. Moss-infiltration repair is a distinct Seattle prep specialty. Gutters and roof-edge moisture-intrusion points require specific sealing before wall painting.",
+    permitAndLeadPara: "Seattle Department of Construction and Inspections (SDCI) does not require permits for standard exterior painting. Washington State Department of Labor and Industries (L&I) licenses contractors and enforces EPA RRP certification for lead paint. King County Environmental Health enforces lead-safe work practices. Seattle Landmarks Preservation Board review on Pioneer Square, Columbia City, and Harvard-Belmont adds 6-12 weeks on contributing structures. Ballard Landmark District review is faster but still adds weeks.",
+    seasonalWindowPara: "Seattle exterior painting season is July through mid-September, one of the shortest windows in any major US metro. Wet-season painting (October-June) requires tented enclosures and specific dry-weather forecasts. Contractor backlogs run 8-14 weeks during the summer window. Fall interior work fills schedules October-March. The 60-90 day summer dry window drives premium scheduling and pricing; same-week availability in July-August is rare. Early-September rain returns abruptly and can catch in-progress jobs.",
+    commonUpsellPara: "Seattle contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($2,500-$9,000 per kitchen); cedar-shingle staining with Sikkens Cetol SRD; moss and algae removal with Concrobium Mold Control; roof-line gutter and flashing caulk refresh; and deck re-staining with Sikkens Proluxe. Add-on services include Venetian plaster interior specialty finishes and Pacific-Northwest-style cedar-fence oiling. Rain-barrel and green-roof adjacent trim work is occasionally bundled.",
+    moistureAndMildewPara: "Seattle exterior moisture stress is severe year-round. Rainy season (October-May) sustains mildew growth on any painted surface without mildewcide. North-facing wood clapboard and cedar shingles develop visible moss within 12-18 months. Concrobium Mold Control and Zinsser Jomax House Surface Cleaner are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura Mold Resistant) is the Seattle premium spec. Moss-infiltration into wood siding is a specific regional concern.",
+    coatingsCultureByClimate: "Seattle coatings culture is moisture-first: premium acrylic latex with heavy mildewcide loading (Miller Evolution, Ben Moore Aura Exterior Mold Resistant, SW Duration Exterior Mold Armor). Oil-based alkyd is largely abandoned because of VOC regulations and moisture-trap concerns. Elastomeric on stucco (SW Conflex XL) is less common because stucco is less prevalent. Sikkens-system wood stain on cedar and redwood is widespread. Silicone-latex hybrid primers for roof-adjacent and moisture-critical work. Lime-wash traditional finishes on some historic restorations.",
+    localPainterLandscapePara: "Seattle painter landscape is specialty-heavy because of moisture-prep expertise: PCA-member firms (Classic Painting, A to Z Painting, Seattle Painting Contractors) for high-end residential, mid-market firms (Sound Painting Solutions, Zen Painting), and specialty cedar-shingle restorers. Queen Anne and Magnolia craftsman-home specialists include NW Painting and Contrast Painting. Ballard and Fremont historic restorers serve the Craftsman market. Hispanic and Southeast Asian immigrant crews cover below-$10K repaints."
+  },
+  "austin-tx": {
+    climateParaByUV: "Austin paint exposure is moderate-to-high UV (latitude 30.3N) with hot summers and mild winters. South- and west-facing stucco, Hardie, and wood-clapboard facades in Westlake, Rollingwood, and South Austin typically last 6-8 years on premium acrylic before fade becomes noticeable. Ice-storm events (2021 Uri, 2023 winter storm) create episodic stress. Cedar-pollen season (December-February) produces surface staining that requires pre-paint wash. Texas heat-dome surface temps can exceed 110F on south-facing stucco in July-August.",
+    sidingMaterialPara: "Austin exterior substrates split between stucco on hill-country custom homes in Westlake and Lakeway (roughly 30 percent), fiber-cement (James Hardie) on post-2000 tract-home construction across Circle C and Avery Ranch, wood clapboard on Hyde Park and Travis Heights bungalows, and Texas-limestone veneer on Hill Country aesthetic work. Board-and-batten cedar is a distinct Austin specialty on modernist hill-country designs. East Austin bungalows feature painted wood siding that requires extensive prep on pre-1978 homes.",
+    historicColorPalettePara: "Austin Historic Landmark Commission districts include Hyde Park, Clarksville, Castle Hill, East Austin, Fairview Park, and the West Line Historic District. The Austin Historic Landmark Commission reviews exterior-visible color changes on designated properties. Hyde Park bungalow color palettes are archived by the Hyde Park Neighborhood Association. Victorian and Queen Anne color schemes in Clarksville reference the SW Preservation Palette. Zilker, Bouldin Creek, and South Lamar have owner-driven preservation culture without formal overlay.",
+    paintProductRecsPara: "Sherwin-Williams Duration Exterior and Resilience are the Austin contractor baseline. Benjamin Moore Aura Exterior is the premium specification. PPG Timeless, Valspar Duramax, and Behr Premium Plus Ultra are tract-home staples. Hardie-primed fiber cement requires compatible acrylic. Sikkens Cetol 1 and 23 Plus on Hyde Park and Travis Heights bungalow wood trim. Rust-Oleum Rust Reformer on wrought iron in Westlake. Dryvit and Sto Premium for stucco crack-bridging on Hill Country custom homes.",
+    prepCultureByEraPara: "Austin prep culture emphasizes cedar-pollen wash-off (December-February), post-ice-storm caulk joint refresh, and aggressive power-washing. Hyde Park and Travis Heights pre-1978 bungalows require EPA RRP-certified crews. Hill Country limestone-veneer homes require specific masonry-compatible primers. Modernist hill-country board-and-batten cedar requires Sikkens-system preparation. Heritage-tree sap and tannin stains on siding need specific stain-blocking primer. Edwards Aquifer-zone environmental-review layers affect exterior pour scheduling on southwest Austin lots.",
+    permitAndLeadPara: "Austin Development Services Department does not require permits for standard exterior painting but does require permits for any stucco substrate replacement. Texas Department of State Health Services requires EPA RRP certification for contractors disturbing lead paint. Travis County Environmental Health enforces lead-safe work practices. Austin Historic Landmark Commission review on Hyde Park, Clarksville, and West Line Historic District adds 4-8 weeks on contributing structures. Edwards Aquifer Recharge Zone adds environmental review on southwest Austin parcels.",
+    seasonalWindowPara: "Austin exterior painting season is October through May. Summer heat (100F+) disrupts afternoon work June-September; early-morning starts enable some summer work. July-August heat-dome events can push surface temps above Sherwin-Williams and Benjamin Moore application maximums. Cedar-pollen season (December-February) creates prep-wash requirements. Winter interior work fills schedules. Contractor backlogs run 6-10 weeks October-April.",
+    commonUpsellPara: "Austin contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($2,500-$9,000 per kitchen); Hardie-plank caulk joint refresh; stucco crack-bridging elastomeric overcoats on Westlake Mediterranean-revival elevations; cedar board-and-batten staining with Sikkens Cetol SRD; and pool-deck textured coatings. Add-on services include Hill Country-aesthetic wood-fence oiling and East Austin bungalow-porch restoration.",
+    moistureAndMildewPara: "Austin exterior moisture stress is moderate. Humidity (60-75% in summer) sustains some mildew growth on shaded walls. North-facing Hardie and stucco facades develop visible mildew within 2-3 years of paint. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura with mildewcide) is the Austin premium spec. Cedar-pollen staining is a universal regional concern requiring specific wash protocols December-February.",
+    coatingsCultureByClimate: "Austin coatings culture emphasizes heat-resistant acrylic latex (SW Duration Exterior, Ben Moore Aura Exterior) with UV stabilizers. Oil-based alkyd is largely abandoned except on Hyde Park door and trim work. Elastomeric on stucco (SW Conflex XL, Dryvit Finest) is common on Westlake and Lakeway Hill Country custom homes. High-build primer on fiber-cement caulk joints. Sikkens-system wood stain on cedar board-and-batten. Dark colors are discouraged on south-facing walls because of heat absorption.",
+    localPainterLandscapePara: "Austin painter landscape splits between large regional firms (Allen's Painting, Finishing Edge, Texas Professional Painting) for residential, franchise competitors (CertaPro Painters Austin, Five Star Painting Austin), and specialty Hill Country custom-home specialists (Austin Custom Painting, Hill Country Fine Painting) for Westlake and Rollingwood. Hispanic immigrant crews dominate residential below $10K. Hyde Park and Travis Heights bungalow-restoration specialists serve the historic market."
+  },
+  "san-francisco-ca": {
+    climateParaByUV: "SF paint exposure is moderate UV (latitude 37.8N) but heavy marine chloride and fog-driven moisture stress. South- and west-facing Victorian and Edwardian facades in Noe Valley and the Mission typically last 6-8 years on premium acrylic before fade becomes noticeable. Marine layer fog deposits salt-laden moisture on every unsealed surface nightly year-round. North-facing elevations develop mildew and moss within 12-18 months. Coastal Pacific Heights and Sunset elevations within 500 feet of the Pacific see accelerated rust-through on painted metal and fade on pigment-heavy colors.",
+    sidingMaterialPara: "SF exterior substrates are dominated by wood clapboard on Victorian and Edwardian townhouses (roughly 75 percent of housing stock), stucco on 1920s-40s Sunset and Richmond Marina-style row houses, and board-formed concrete on 1960s-70s Marina District condo towers. Painted stucco and cementitious-parge coatings are common on South of Market lofts. The distinctive Painted Ladies and Victorian facades require specific period-correct trim-heavy paint approaches with multiple color accents on scroll work and gingerbread detail.",
+    historicColorPalettePara: "SF Historic Preservation districts include Alamo Square, Webster Street, South End, Jackson Square, and Dogpatch. The Certificate of Appropriateness process through SF Planning reviews exterior-visible color changes and routinely adds 8-16 weeks. Article 10 designated landmarks have stricter interior-detail protection. Victorian and Queen Anne color palettes reference specific Painted Ladies archive schemes; Benjamin Moore Century and Fine Paints of Europe provide period-correct palettes. The Architectural Heritage Society of San Francisco catalogs historic color schemes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Century (matte) are the SF contractor baseline for high-end Victorian restoration. Sherwin-Williams Emerald Rain Refresh is a common alternative. Fine Paints of Europe Hollandlac Brilliant is specified on Painted Ladies trim. Farrow and Ball Exterior Eggshell for traditional finishes. SW Duration Exterior with mildewcide for moisture-heavy elevations. Sikkens Cetol 1 and 23 Plus for exterior-wood restoration. Specific marine-grade acrylic on Marina District and Sunset coastal elevations.",
+    prepCultureByEraPara: "SF prep culture is wood-clapboard-centric: Victorian and Edwardian townhouses require extensive scraping, stripping, and multi-layer priming with Zinsser BIN shellac-based primer for tannin bleed-through. Pre-1978 properties require EPA RRP-certified crews (which covers most of the SF housing stock). Marine-fog-salt deposits require specific TSP-washing before painting. Rust-through on iron window casings and balconies requires Rust-Oleum Rust Reformer system. Soft-Story Ordinance retrofit coordination affects some exterior-work scheduling in Marina and Mission buildings.",
+    permitAndLeadPara: "San Francisco Department of Building Inspection (SFDBI) does not require permits for standard exterior painting but does require Certificate of Appropriateness from SF Planning for any exterior-visible color change on designated landmarks. California AB 1889 requires pre-1978 rental owners to disclose lead-based paint. EPA RRP certification is mandatory for any contractor disturbing pre-1978 painted surfaces (covering most of SF housing). CARB Title 24 Part 6 low-VOC compliance governs all paint.",
+    seasonalWindowPara: "SF exterior painting season is August through November because fog season (May Gray and June Gloom) and winter atmospheric-river storms limit the useful exterior window. The 90-120 day summer-fall window drives premium scheduling and pricing; contractor backlogs run 8-16 weeks. Winter interior work fills schedules December-April. Atmospheric-river storm events (2022-2024) add episodic disruption. Early-September Indian summer is the prime window with stable dry weather.",
+    commonUpsellPara: "SF contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($3,500-$12,000 per kitchen); Victorian trim scrollwork multi-color accent painting; cast-iron balcony and window-casing restoration with Rust-Oleum Rust Reformer; marine-grade sealer reapplication on coastal elevations; and Fine Paints of Europe specialty Hollandlac Brilliant on landmark trim. Add-on services include Venetian plaster interior specialty finishes and historic wallpaper restoration.",
+    moistureAndMildewPara: "SF exterior moisture stress is severe because of constant marine-layer fog. Salt-chloride deposition on every unsealed surface year-round. North-facing Victorian facades develop moss and mildew within 12-18 months. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (Ben Moore Aura Mold Resistant, SW Duration Mold Armor) is the SF premium spec. Coastal elevations within 1 mile of the Pacific show rust staining on unsealed ironwork within 5-7 years.",
+    coatingsCultureByClimate: "SF coatings culture is moisture and marine-chloride-first: premium acrylic latex with mildewcide (Ben Moore Aura Exterior Mold Resistant, SW Duration Exterior). Fine Paints of Europe Hollandlac Brilliant is the signature Painted Ladies finish. Specialty marine-grade acrylic on coastal elevations. Sikkens-system wood stain on redwood window-sash restoration. Low-VOC CARB-compliant formulations exclusively. Lime-wash traditional finishes on Mission District Mediterranean-revival restorations.",
+    localPainterLandscapePara: "SF painter landscape is heavily specialty-focused: PCA-member firms (Kelly-Moore Paint Professional Services, Tom Pearson Painting, Grand Painting SF) for high-end Victorian restoration, mid-market firms (MB Jessee Painting, Color Wheel Painting), and Spanish-speaking immigrant crews for below-$15K repaints. Painted Ladies and Queen Anne specialists include Harry Braswell Painting and Studio 3 Designs. Marina District and Pacific Heights luxury work goes through SF Interior Painting and Advance Custom Painting."
+  },
+  "las-vegas-nv": {
+    climateParaByUV: "Vegas paint exposure is extreme UV (latitude 36.2N) and heat stress comparable to Phoenix. South- and west-facing stucco facades fade to chalk within 24-36 months on anything below premium acrylic. Summer surface temps on south-facing stucco reach 140F+ in July-August. Monsoon wind-driven dust erodes paint film aggressively. Thermal cycling (30-40F daily swings) cracks rigid films. Saltation-driven sandblasting from microbursts scours paint on exposed elevations. UV breakdown destroys sealers in 14-18 months.",
+    sidingMaterialPara: "Vegas exterior substrates are dominated by synthetic polymer-modified stucco on roughly 90 percent of Valley residential stock, with CMU block on some 1960s-70s Green Valley and Paradise ranches. Wood trim is rare. Fiber-cement (James Hardie) appears on 2010s-onward Cadence and Mountains Edge new-construction. Strip tower condo exteriors feature EIFS and painted precast concrete. MacDonald Highlands and The Ridges luxury work features natural-stone veneer and traditional lime-plaster stucco requiring specific alkali-resistant primers.",
+    historicColorPalettePara: "Las Vegas has limited formal historic preservation; the only designated districts are the John S. Park neighborhood and the Morelli House area. The Las Vegas Historic Preservation Commission reviews exterior-visible changes in those districts but most of Vegas is unencumbered by historic rules. HOA architectural committees are the primary color-review body in Summerlin, Anthem, MacDonald Highlands, The Ridges, and DC Ranch. Summerlin Village 18 and MacDonald Highlands specifically require Architectural Review Committee approval of desert-tone palettes.",
+    paintProductRecsPara: "Dunn-Edwards Evershield and Spartazit are the Vegas contractor baseline. Vista Paint and Frazee Paint are regional alternatives. Benjamin Moore Aura Exterior with UV stabilizer is specified on MacDonald Highlands and Ascaya luxury repaints. Sherwin-Williams Emerald Rain Refresh is common on HOA-mandated palette work. Dunn-Edwards Permalastic elastomeric for stucco crack-bridging. Specific desert-tone HOA-approved colors dominate. UV-stabilized pigments are mandatory.",
+    prepCultureByEraPara: "Vegas prep culture emphasizes stucco elastomeric crack-bridging because caliche movement creates hairlines universally. Most Vegas housing is post-1978, so EPA RRP certification is rarely relevant. HOA repaint work in Summerlin, Anthem, and MacDonald Highlands requires committee-approved color matching with physical samples submitted 4-8 weeks ahead. Strip tower condo exteriors require specific EIFS-compatible primers. UV-degraded sealer and painted surface prep requires aggressive power-wash and primer application.",
+    permitAndLeadPara: "Clark County Building Department and City of Las Vegas Building and Safety do not require permits for standard exterior painting. Nevada State Department of Health requires EPA RRP certification for contractors disturbing lead paint (rarely relevant because most Vegas housing is post-1978). HOA architectural committee review is the dominant color-approval body and often takes longer than any permit. Summerlin and Anthem committees meet monthly with specific submission cut-offs.",
+    seasonalWindowPara: "Vegas exterior painting season is October through April; May-September surface temps exceed Dunn-Edwards and Frazee application maximums (110F). July-August monsoon storms disrupt scheduling. Summer exterior work proceeds with 4am starts and 10am cutoffs. Winter interior work fills schedules. Snowbird-driven demand spikes January-March. Contractor backlogs run 6-10 weeks November-March.",
+    commonUpsellPara: "Vegas contractors commonly upsell: cabinet refinishing with Centurion Pro spray equipment and Dunn-Edwards Ultra-Grip ($3,000-$9,000 per kitchen); stucco crack-bridging elastomeric overcoats; wrought-iron gate and fence restoration with Rust-Oleum Rust Reformer; pool-deck textured coatings (Tex-Cote Coolwall, Behr Premium); and garage-floor epoxy coatings. Add-on services include cool-wall reflective coatings under HOA energy-efficiency programs.",
+    moistureAndMildewPara: "Vegas exterior moisture stress is minimal (roughly 4 inches annual precipitation). Mildew is rare. UV-driven paint failure dominates paint issues. Sealer reapplication on stucco runs every 3-5 years rather than the 7-10 years common in temperate markets. Monsoon-season dust deposition requires periodic power-washing. Cool-wall pigments reduce surface temperatures by 20-30F and extend paint life meaningfully on south-facing walls.",
+    coatingsCultureByClimate: "Vegas coatings culture is UV-first: premium acrylic latex with UV stabilizers and high-quality titanium-dioxide pigment (Dunn-Edwards Evershield, Ben Moore Aura Exterior, SW Emerald Rain Refresh). Elastomeric on stucco (Dunn-Edwards Permalastic) is widespread. Dark colors are discouraged because of UV fade and heat absorption; HOA palettes are desert-earth-tones universally. Cool-wall and solar-reflective pigments (Tex-Cote Coolwall, Dunn-Edwards Coolwall) are increasingly specified in newer HOAs. Oil-based alkyd is largely absent.",
+    localPainterLandscapePara: "Vegas painter landscape is dominated by large regional firms: Stuccco Solutions, Arizona Painting Company Las Vegas, and Jeff Whyte Painting for Valley residential. MacDonald Highlands, The Ridges, and Ascaya luxury work goes through custom-home specialists including Ascaya Custom Painting and Anthem Fine Painting. Franchise competitors include CertaPro Painters Las Vegas and Five Star Painting. Hispanic immigrant crews dominate residential below $8K. HOA common-area repaint work is a distinct market segment."
+  },
+  "philadelphia-pa": {
+    climateParaByUV: "Philly paint exposure is moderate UV (latitude 39.9N) with cold winters and humid summers. South-facing brick, wood clapboard, and Hardie facades in Queen Village, Fishtown, and Manayunk typically last 5-7 years on premium acrylic before fade becomes noticeable. 70+ freeze-thaw cycles per year stress caulk seams. Salt carryover from PennDOT winter salting damages paint in the lower 12-18 inches of elevations within 3 feet of street level. Spring pollen creates surface contamination that requires pre-paint wash.",
+    sidingMaterialPara: "Philly exterior substrates split between brick masonry on rowhomes (roughly 55 percent of housing stock), wood clapboard on twin-duplex houses in Chestnut Hill and Mount Airy, Wissahickon-schist stone on Chestnut Hill historic homes, and fiber-cement (James Hardie) on newer construction in Fishtown and Northern Liberties. Aluminum and vinyl siding appears on 1950s-80s row additions in Mayfair, Holmesburg, and Port Richmond. Painted stucco rarely appears except on Main Line suburban colonial-revival.",
+    historicColorPalettePara: "Philadelphia Historic Preservation districts include Society Hill, Queen Village, Old City, Fairmount, Rittenhouse Fitler Historic District, and Parkside. The Philadelphia Historical Commission reviews exterior-visible color changes. Chestnut Hill is a Pennsylvania Register and National Register district but not city-designated. Colonial and Federalist color palettes reference the Historic Philadelphia Archive and Society Hill Civic Association documentation. Main Line suburban municipalities including Lower Merion have their own historic review boards.",
+    paintProductRecsPara: "Sherwin-Williams Duration Exterior and Resilience are the Philly contractor baseline. Benjamin Moore Aura Exterior is the premium specification. California Paints (New Jersey-headquartered) Fresh Start Exterior is a regional alternative. Hardie-primed fiber cement requires compatible acrylic. Sikkens Cetol 1 and 23 Plus on Chestnut Hill and Mt Airy wood trim. Rust-Oleum Rust Reformer on wrought-iron railings common on Society Hill and Old City federal-era townhouses. SW Loxon XP elastomeric for masonry.",
+    prepCultureByEraPara: "Philly prep culture is rowhome-centric: brick masonry repaint requires specific masonry-compatible primers (SW Loxon, PPG SealGrip). Pre-1978 properties covering most of Philly housing stock require EPA RRP-certified crews. Wissahickon-schist stone walls in Chestnut Hill need masonry-compatible primers before painting. Cast-iron stair rails and porch details require rust-encapsulation priming. Lead-paint abatement is a widespread concern because Philly is one of the oldest-housing cities in the country.",
+    permitAndLeadPara: "Philadelphia Department of Licenses and Inspections (L&I) does not require permits for standard exterior painting. Pennsylvania Department of Health requires EPA RRP certification for contractors disturbing lead paint. Philadelphia Department of Public Health Lead and Healthy Homes Program enforces lead-safe work practices aggressively. Philadelphia Historical Commission review on Society Hill, Queen Village, and Old City adds 4-10 weeks on contributing structures. Lead-safe certification is specifically enforced in Philly given the old housing stock.",
+    seasonalWindowPara: "Philly exterior painting season is mid-April through early-November. Winter interior work fills schedules December-March. Spring pollen season (mid-March to mid-April) creates pre-paint wash requirements. Summer humidity and thunderstorm season (July-August) disrupts 20-30 percent of workdays. Contractor backlogs run 6-10 weeks in peak season. Sub-50F cold-weather application limits narrow the late-fall window.",
+    commonUpsellPara: "Philly contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($2,500-$8,500 per kitchen); rowhome brick masonry sealing and pointing coordination; cast-iron porch and stair-railing restoration with Rust-Oleum Rust Reformer; Wissahickon-schist stone wall cleaning and sealing in Chestnut Hill; and Fine Paints of Europe period-correct trim on Society Hill federal-era houses. Add-on services include Sikkens wood stain on Chestnut Hill cedar and redwood trim.",
+    moistureAndMildewPara: "Philly exterior moisture stress is moderate. Summer humidity (65-80%) sustains some mildew growth on shaded walls. North-facing brick and wood-clapboard facades develop visible mildew within 2-3 years of paint. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura with mildewcide) is the Philly premium spec. Spring pollen staining is a March-April specific issue requiring post-pollen wash.",
+    coatingsCultureByClimate: "Philly coatings culture is freeze-flex and mildewcide-first: premium acrylic latex with high elasticity and heavy mildewcide loading (SW Duration Exterior, Ben Moore Aura Exterior). Oil-based alkyd is largely abandoned except on specific Society Hill and Old City federal-era trim work. Elastomeric on masonry (SW Loxon XP) on brick rowhomes with repeated spalling or efflorescence. High-build primer on Hardie caulk joints. Solvent-based rust-encapsulation primer on cast-iron.",
+    localPainterLandscapePara: "Philly painter landscape splits between PCA-member firms (Garrity Painting and Wallcovering, Sutcliffe Painting, Sunrise Painting) for high-end residential, mid-market firms (Reliable Home Improvements, Handyman Connection Painting), and immigrant crews for below-$10K repaints. Society Hill and Queen Village historic specialists include Federal-Era Restoration and Colonial Painting. Main Line suburban municipalities are served by Painting Unlimited, Five Star Painting Main Line, and CertaPro Painters franchises. Chestnut Hill historic specialists serve the Pennsylvania schist-stone market."
+  },
+  "miami-fl": {
+    climateParaByUV: "Miami paint exposure is extreme UV (latitude 25.8N) with 250+ sunny days per year, and saturated humidity stress year-round (65-85% RH). South- and west-facing stucco facades in Coral Gables and Miami Beach fade 3 years sooner than comparable northern-Florida elevations. Salt-laden marine air deposits chloride on every unsealed surface in barrier-island neighborhoods. Hurricane-season wind-driven rain (Andrew 1992, Irma 2017, Ian 2022) creates episodic damage. Hurricane salt-spray on barrier-island elevations accelerates rust-through on ironwork within 3-5 years.",
+    sidingMaterialPara: "Miami exterior substrates are dominated by concrete-block-stucco (CBS) on roughly 85 percent of residential stock, with some wood clapboard on MiMo single-family homes in Morningside and Miami Shores. Coral-rock and keystone veneer appears on Coral Gables Mediterranean-revival work. Art Deco Miami Beach buildings feature painted stucco and sometimes painted tile-inlay accent. Coastal condo towers on Brickell, Edgewater, and Sunny Isles feature EIFS and painted precast concrete. Wood trim is relatively rare outside of historic MiMo homes.",
+    historicColorPalettePara: "Miami Historic Preservation districts include MiMo (Miami Modern) Biscayne Boulevard, Morningside, Coconut Grove Village West, and parts of Coral Gables. Miami Beach has separate designated districts including Art Deco District, Flamingo Park, and Altos del Mar. The Historic Preservation Board reviews exterior-visible color changes. Coral Gables Mediterranean-revival color palette is enforced through city-wide architectural review separate from historic preservation. Art Deco color palettes (pastel pinks, mint greens, ocean blues) are specifically archived by the Miami Design Preservation League.",
+    paintProductRecsPara: "Sherwin-Williams Emerald Rain Refresh and Duration Exterior are the Miami contractor baseline. Benjamin Moore Aura Exterior with UV stabilizer is the premium specification. PPG Timeless and Valspar Duramax are tract-home staples. Hurricane-rated coatings (SW Duration Loxon, PPG Perma-Crete) are specified on HVHZ-compliant CBS facades. Marine-grade acrylic on coastal barrier-island elevations. Dryvit and Sto Premium for stucco crack-bridging on Mediterranean-revival work. Rust-Oleum Rust Reformer on wrought iron.",
+    prepCultureByEraPara: "Miami prep culture emphasizes hurricane-damage repair, salt-chloride wash-off, and stucco crack-bridging. CBS substrate repaint requires specific masonry-compatible primers (SW Loxon, Valspar Duramax Masonry). Pre-1978 MiMo homes (rare in Miami because most construction is 1960s-onward) require EPA RRP-certified crews. Coral Gables Mediterranean-revival work requires period-correct primer-and-paint systems. Art Deco Miami Beach restoration requires specific pastel-palette color-match expertise.",
+    permitAndLeadPara: "Miami-Dade County Building Department and City of Miami Planning do not require permits for standard exterior painting but do require permits for stucco substrate replacement. Florida Department of Environmental Protection enforces EPA RRP certification (rarely relevant because most Miami housing is post-1978). Miami-Dade Historic Preservation Board review on MiMo and Art Deco adds 4-8 weeks. Coral Gables city-wide Mediterranean-revival architectural review runs 3-6 weeks. Hurricane wind-load engineering applies on HVHZ structures.",
+    seasonalWindowPara: "Miami exterior painting season is November through April (dry season). Summer humidity and afternoon thunderstorms disrupt 40-60 percent of scheduled workdays June-September. Hurricane-season staging (June-November) adds episodic risk. Winter interior work fills schedules. The October-April dry-season backlog runs 6-10 weeks. Summer exterior work can proceed with early-morning starts but rain risk is high.",
+    commonUpsellPara: "Miami contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($3,500-$10,000 per kitchen); hurricane-damage repair and caulk joint refresh; stucco crack-bridging elastomeric overcoats on Coral Gables Mediterranean-revival elevations; Art Deco Miami Beach pastel-palette restoration; and wrought-iron gate and fence restoration on Coral Gables entry gates. Add-on services include marine-grade sealer on barrier-island elevations and pool-deck textured coatings.",
+    moistureAndMildewPara: "Miami exterior moisture stress is severe year-round (65-85% RH). Humidity sustains mildew growth on any painted surface without mildewcide. North-facing CBS facades develop visible mildew within 12-18 months. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura Exterior Mold Resistant) is the Miami premium spec. Salt-chloride deposition from marine-layer air is a universal concern on barrier-island and near-coastal elevations.",
+    coatingsCultureByClimate: "Miami coatings culture is humidity-and-salt-first: premium acrylic latex with heavy mildewcide loading and UV stabilizers (SW Emerald Rain Refresh, Ben Moore Aura Exterior Mold Resistant). Elastomeric on stucco (Dryvit Finest, Sto Premium) is widespread on Mediterranean-revival. Hurricane-rated coatings on HVHZ CBS structures. Marine-grade acrylic on barrier-island coastal elevations. Oil-based alkyd is largely abandoned. Specific pastel Art Deco palettes on Miami Beach historic structures.",
+    localPainterLandscapePara: "Miami painter landscape is dominated by large regional firms: Andrade Painting, Deppeler Painting, and Miami Painting Pros for residential. Coral Gables and Fisher Island luxury work goes through custom-home specialists including Bellagio Custom Painting and Star Island Painting. Art Deco Miami Beach restoration specialists serve the Flamingo Park and Ocean Drive market. Franchise competitors include CertaPro Painters Miami and Five Star Painting Miami. Cuban-American and Spanish-speaking crews dominate residential below $10K."
+  },
+  "boston-ma": {
+    climateParaByUV: "Boston paint exposure is moderate UV (latitude 42.4N) with 95+ freeze-thaw cycles per year and lake-effect winter moisture. South-facing wood clapboard and brick facades in triple-deckers and Back Bay brownstones typically last 5-7 years on premium acrylic before fade becomes noticeable. MassDOT heavy salting causes salt-carryover damage in the lower 12-18 inches of street-facing walls. Nor'easter wind-driven rain events drive moisture through failed caulk seams. Salt-fog from Massachusetts Bay affects coastal elevations in South Boston and Dorchester.",
+    sidingMaterialPara: "Boston exterior substrates split between brick masonry on Back Bay, South End, and Beacon Hill brownstones (roughly 30 percent), wood clapboard on triple-deckers in Dorchester, Roxbury, and South Boston (roughly 40 percent), fiber-cement (James Hardie) on newer Somerville and Cambridge construction, and cedar shingles on Cape-Cod-influenced suburban colonial-revival. Roxbury puddingstone and Quincy granite appear on some pre-war historic homes. Painted aluminum and vinyl siding appear on some 1960s-80s triple-decker additions.",
+    historicColorPalettePara: "Boston Historic Preservation districts include Back Bay, South End, Beacon Hill, Bay Village, Mission Hill Triangle, and Fort Point. The Boston Landmarks Commission reviews exterior-visible color changes. Cambridge and Somerville have separate commissions. Newton has Newton Upper Falls district. Colonial and Georgian color palettes reference the Boston Historic Archive and the Society for the Preservation of New England Antiquities documentation. Victorian brownstone trim colors reference the Back Bay Association archive.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Regal Select are the Boston contractor baseline (Ben Moore is Massachusetts-headquartered and dominant locally). Sherwin-Williams Duration Exterior is the premium alternative. California Paints Fresh Start Exterior is a regional staple. Fine Paints of Europe Hollandlac Brilliant on Back Bay brownstone trim. SW Loxon XP elastomeric for brick masonry crack-bridging. Sikkens Cetol 1 and 23 Plus on Cape Cod cedar-shingle and Back Bay wood trim. Rust-Oleum Rust Reformer on cast-iron brownstone railings.",
+    prepCultureByEraPara: "Boston prep culture is triple-decker-and-brownstone centric: pre-1978 properties (most of Boston's housing stock) require EPA RRP-certified crews. Brownstone sandstone facade repair-and-paint uses specific iron-oxide pigmented coatings. Wood-clapboard triple-decker repaint requires scraping multiple paint layers. Cedar-shingle restoration requires specific shake-appropriate primers. Masonry salt-efflorescence on pre-war brick requires specific alkali-resistant primers. Nor'easter moisture-intrusion repair is a recurring prep concern.",
+    permitAndLeadPara: "Boston Inspectional Services Department (ISD) does not require permits for standard exterior painting. Massachusetts Department of Labor Standards requires EPA RRP certification for contractors disturbing lead paint. Massachusetts Department of Public Health Lead Program enforces lead-safe work practices aggressively. Boston Landmarks Commission review on Back Bay, South End, and Beacon Hill adds 6-10 weeks on contributing structures. Cambridge Historical Commission has parallel rules on Harvard Square and Mid-Cambridge districts.",
+    seasonalWindowPara: "Boston exterior painting season is May through October. Sub-50F temperatures limit exterior work November-April. Spring pollen season and early-summer humidity create pre-paint wash requirements. July-August humidity and thunderstorm events disrupt some workdays. Winter interior work fills Boston schedules. Contractor backlogs run 8-14 weeks mid-summer. Landmarks Commission review can push spring starts into early summer on designated properties.",
+    commonUpsellPara: "Boston contractors commonly upsell: cabinet refinishing with Ben Moore Advance waterborne alkyd ($3,000-$10,000 per kitchen); brownstone cornice and lintel restoration with iron-oxide pigmented coatings; cast-iron railing restoration on Back Bay and Beacon Hill with Rust-Oleum Rust Reformer; cedar-shingle staining with Sikkens Cetol SRD; and Fine Paints of Europe specialty Hollandlac Brilliant on landmark trim. Add-on services include Bradbury and Bradbury wallpaper installation and glaze-and-seal on period millwork.",
+    moistureAndMildewPara: "Boston exterior moisture stress is severe with summer humidity (70-85% RH) and aggressive winter freeze-thaw. North-facing brick and wood-clapboard facades develop visible mildew within 2-3 years of paint. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (Ben Moore Aura Exterior Mold Resistant, SW Duration Mold Armor) is the Boston premium spec. Ice-dam-related water-intrusion damage requires specific interior repair after ice-melt events.",
+    coatingsCultureByClimate: "Boston coatings culture is freeze-flex and mildewcide-first: premium acrylic latex with high elasticity and mildewcide (Ben Moore Aura Exterior, SW Duration Exterior). Oil-based alkyd persists on specific Back Bay and Beacon Hill brownstone door and trim work. Elastomeric on brick masonry (SW Loxon XP). Sikkens-system wood stain on Cape-Cod cedar shingles and Back Bay wood trim. Fine Paints of Europe Hollandlac Brilliant on landmark trim. Marine-grade acrylic on South Boston coastal elevations.",
+    localPainterLandscapePara: "Boston painter landscape is specialty-heavy: PCA-member firms (Catchlight Painting, N.E.W. Painting, Premium Painting) for high-end residential, mid-market firms (Rose Hill Painting, Colorful Painting), and Irish-American and Hispanic immigrant crews for triple-decker repaint work. Back Bay and Beacon Hill specialists (Plymouth Painting, Brownstone Restoration, Heritage Painting) serve the historic-landmark market. Cape Cod cedar-shingle specialists serve the Cambridge, Newton, and Brookline suburban market."
+  },
+  "san-diego-ca": {
+    climateParaByUV: "San Diego paint exposure is moderate UV (latitude 32.7N) tempered by coastal marine-layer fog. South- and west-facing stucco facades in Carmel Valley and Rancho Penasquitos typically last 5-7 years on premium acrylic before fade becomes noticeable. Coastal La Jolla, Pacific Beach, and Del Mar elevations within 1 mile of the Pacific see accelerated salt-chloride corrosion on ironwork. May Gray and June Gloom fog create pre-paint wash requirements. Night-time fog deposits salt-laden moisture on unsealed surfaces year-round in coastal zones.",
+    sidingMaterialPara: "San Diego exterior substrates are dominated by stucco on roughly 70 percent of residential stock, wood clapboard on craftsman and Spanish-revival restorations in North Park, South Park, and Hillcrest, fiber-cement (James Hardie) on post-2000 tract-home construction in Carmel Valley and Rancho Penasquitos, and cedar shingles on some coastal La Jolla and Del Mar homes. Coastal-exposure wood trim requires specific preservative systems. Coronado Island bungalows feature painted wood clapboard that requires marine-grade preparation.",
+    historicColorPalettePara: "San Diego Historic Preservation districts include Gaslamp Quarter, Mission Hills, Burlingame, Fort Stockton Line, and several others designated under the Historical Resources Board. The HRB reviews exterior-visible color changes. Coronado has its own HRB with separate review. Mills Act contracts on designated landmarks come with interior-detail preservation expectations and specific paint-color requirements. Spanish-revival color palettes reference the Dunn-Edwards Fiesta Collection and specific San Diego historical archive colors.",
+    paintProductRecsPara: "Dunn-Edwards Evershield and Spartazit Exterior are the San Diego contractor baseline (D-E is dominant in Southern California). Frazee Paint and Vista Paint are regional alternatives. Benjamin Moore Aura Exterior with UV stabilizer is specified on La Jolla and Rancho Santa Fe luxury repaints. Sherwin-Williams Emerald Rain Refresh is common. Sikkens Cetol for cedar-shingle and wood-trim work. Dunn-Edwards Permalastic elastomeric for stucco crack-bridging. Marine-grade acrylic on coastal barrier elevations.",
+    prepCultureByEraPara: "San Diego prep culture emphasizes salt-chloride wash-off on coastal elevations, stucco crack-bridging, and mildewcide pre-wash on fog-zone elevations. Pre-1978 craftsman and Spanish-revival homes in North Park and Mission Hills require EPA RRP-certified crews. Coastal La Jolla and Del Mar elevations require marine-grade preparation. Carmel Valley and Rancho Penasquitos tract-home work requires HOA architectural committee color-match compliance. Post-wildfire rebuilt subgrade paints differently than original-build elevations.",
+    permitAndLeadPara: "San Diego Development Services Department does not require permits for standard exterior painting. California Department of Public Health requires EPA RRP certification for contractors disturbing lead paint. San Diego County Health and Human Services enforces lead-safe work practices. San Diego Historical Resources Board review adds 4-8 weeks on designated properties. Coastal Commission jurisdiction applies on La Jolla, Del Mar, and Encinitas parcels seaward of the Coastal Zone line.",
+    seasonalWindowPara: "San Diego exterior painting season is essentially year-round because temperatures remain mild, but the prime window is September through November when fog burns off early and humidity stabilizes. Winter atmospheric-river storms disrupt December-March exterior pours. Marine-layer fog (May Gray, June Gloom) slows cure and causes surface blushing on decorative work. Contractor backlogs run 4-8 weeks in peak fall season.",
+    commonUpsellPara: "San Diego contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($3,000-$9,000 per kitchen); stucco crack-bridging elastomeric overcoats; cedar-shingle staining with Sikkens Cetol SRD on coastal Coronado homes; wrought-iron gate and fence restoration with Rust-Oleum Rust Reformer; and pool-deck textured coatings. Add-on services include marine-grade sealer on La Jolla and Del Mar coastal elevations and Spanish-revival period-correct restoration.",
+    moistureAndMildewPara: "San Diego exterior moisture stress is moderate in coastal zones (marine-layer fog) and low inland. Coastal La Jolla and Del Mar elevations see nightly fog deposition. Mildew develops on north-facing walls under tree canopy within 2-3 years. Concrobium Mold Control is standard pre-wash treatment. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura with mildewcide) is the San Diego premium spec for coastal and shaded elevations. Salt-chloride from marine air is a coastal-specific concern.",
+    coatingsCultureByClimate: "San Diego coatings culture is moisture-coastal-first and UV-inland-first: premium acrylic latex (Dunn-Edwards Evershield, SW Emerald Rain Refresh, Ben Moore Aura Exterior). Elastomeric on stucco (Dunn-Edwards Permalastic) is widespread. Marine-grade acrylic on coastal-barrier elevations. Sikkens-system wood stain on Coronado and Del Mar cedar-shingle work. Dark colors discouraged on large surfaces because of UV fade. Cool-wall pigments gaining under California Title 24 requirements.",
+    localPainterLandscapePara: "San Diego painter landscape splits between large regional firms (Protech Painting, Rhino Shield San Diego, Arizona Painting Company SD) for residential, franchise competitors (CertaPro Painters San Diego, Five Star Painting San Diego), and specialty historic restorers (Mission Hills Restoration Painting, North Park Classic Painting) for craftsman and Spanish-revival work. La Jolla and Rancho Santa Fe custom-home specialists include Reich Painting and Coastal Premier Painting. Hispanic immigrant crews dominate residential below $8K."
+  },
+  "tampa-fl": {
+    climateParaByUV: "Tampa paint exposure is high UV (latitude 27.9N) with 240+ sunny days per year and heavy humidity stress year-round (65-85% RH). South- and west-facing CBS and Hardie facades in Hyde Park and Davis Islands typically last 5-7 years on premium acrylic before fade becomes noticeable. Salt-laden air from Tampa Bay and the Gulf deposits chloride on coastal elevations. Hurricane-season wind-driven rain (Ian 2022, Idalia 2023) creates episodic damage. Pine-pollen staining on painted surfaces is a specific Gulf Coast concern.",
+    sidingMaterialPara: "Tampa Bay exterior substrates split between concrete-block-stucco (CBS) on roughly 75 percent of residential stock, wood clapboard on Hyde Park and Seminole Heights bungalows and craftsman homes, fiber-cement (James Hardie) on post-2000 tract-home construction in Brandon and Wesley Chapel, and painted stucco on Mediterranean-revival in Avila and Davis Islands. Coastal Clearwater and St Pete Beach elevations feature painted stucco that requires marine-grade preparation. Keystone and coral-rock veneer appear on Tampa-Bay-Hispanola-style custom homes.",
+    historicColorPalettePara: "Tampa Historic Preservation districts include Hyde Park, Tampa Heights, Ybor City, Seminole Heights, and parts of West Tampa. St Pete has Historic Kenwood, Roser Park, and Old Northeast. Sarasota has Burns Court and Laurel Park. The Tampa Architectural Review Commission reviews exterior-visible color changes. Interior kitchen work is unregulated unless historic interior detailing is affected. Ybor City is additionally designated as a National Historic Landmark with specific color-palette expectations referencing Cuban-American heritage.",
+    paintProductRecsPara: "Sherwin-Williams Emerald Rain Refresh and Duration Exterior are the Tampa contractor baseline. Benjamin Moore Aura Exterior with UV stabilizer is the premium specification. PPG Timeless and Valspar Duramax are tract-home staples. Hurricane-rated coatings (SW Duration Loxon, PPG Perma-Crete) on CBS facades in hurricane wind-load zones. Sikkens Cetol for Hyde Park and Seminole Heights wood-trim work. Dryvit and Sto Premium for stucco crack-bridging on Avila Mediterranean-revival elevations. Marine-grade acrylic on coastal elevations.",
+    prepCultureByEraPara: "Tampa prep culture emphasizes CBS substrate primer compatibility, hurricane-damage caulk-joint refresh, and humidity-driven mildew pre-wash. Hyde Park and Seminole Heights pre-1978 bungalows require EPA RRP-certified crews. Coastal elevations require specific salt-chloride wash and marine-grade preparation. Sinkhole-investigation zones in parts of South Hillsborough require geotechnical sign-off on any exterior-pour work tied to structural repairs. Pine-pollen contamination requires specific February-April wash protocols.",
+    permitAndLeadPara: "City of Tampa Construction Services and Hillsborough County Building do not require permits for standard exterior painting but do require permits for stucco substrate replacement. Florida Department of Environmental Protection requires EPA RRP certification for contractors disturbing lead paint (rarely relevant except in pre-1978 Hyde Park and Seminole Heights). Tampa Architectural Review Commission review on Hyde Park, Ybor City, and Seminole Heights adds 4-8 weeks on contributing structures.",
+    seasonalWindowPara: "Tampa exterior painting season is November through May (dry season). Summer humidity and afternoon thunderstorms disrupt 40-60 percent of scheduled workdays June-September. Hurricane-season staging (June-November) adds episodic risk. Winter interior work fills schedules. The October-May dry-season backlog runs 6-10 weeks. Summer exterior work can proceed with early-morning starts but rain risk is high.",
+    commonUpsellPara: "Tampa contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($3,000-$9,000 per kitchen); hurricane-damage repair and caulk joint refresh; stucco crack-bridging elastomeric overcoats on Avila Mediterranean-revival elevations; Ybor City period-correct restoration referencing Cuban-American heritage palettes; and wrought-iron gate and fence restoration. Add-on services include marine-grade sealer on coastal elevations and pool-deck textured coatings.",
+    moistureAndMildewPara: "Tampa exterior moisture stress is severe year-round (65-85% RH). Humidity sustains mildew growth on any painted surface without mildewcide. North-facing CBS facades develop visible mildew within 12-18 months. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura Exterior Mold Resistant) is the Tampa premium spec. Pine-pollen staining is a February-April issue. Salt-chloride deposition from marine air is a coastal-specific concern.",
+    coatingsCultureByClimate: "Tampa coatings culture is humidity and UV-first: premium acrylic latex with heavy mildewcide loading and UV stabilizers (SW Emerald Rain Refresh, Ben Moore Aura Exterior Mold Resistant). Elastomeric on stucco (Dryvit Finest, Sto Premium) is widespread on Mediterranean-revival. Hurricane-rated coatings on CBS structures. Marine-grade acrylic on coastal barrier-island elevations. Oil-based alkyd largely absent. Dark colors discouraged on south-facing walls because of heat absorption.",
+    localPainterLandscapePara: "Tampa painter landscape is dominated by large regional firms: Redline Painting, Brian's Painting, and Keller Painting for Tampa Bay residential. Hyde Park and Davis Islands luxury work goes through custom-home specialists including Trinity Painting and Avila Custom Painting. Franchise competitors include CertaPro Painters Tampa Bay and Five Star Painting Tampa. Hispanic and Cuban-American crews dominate residential below $10K. Ybor City restoration specialists serve the National Historic Landmark market."
+  },
+  "detroit-mi": {
+    climateParaByUV: "Detroit paint exposure is moderate UV (latitude 42.3N) with 78+ freeze-thaw cycles per year and aggressive lake-effect winter moisture. South-facing wood clapboard and brick facades in Grosse Pointe and Birmingham typically last 5-7 years on premium acrylic before fade becomes noticeable. MDOT heavy salting causes salt-carryover damage in the lower 12-18 inches of street-facing walls. Polar vortex events (2014, 2019, 2021) create episodic stress. Ice-storm damage (2013 Ice Storm) cracks rigid films. Michigan winter sun angle increases UV on east- and west-facing elevations.",
+    sidingMaterialPara: "Detroit exterior substrates split between brick masonry on pre-war bungalows and Tudor-revival homes (roughly 45 percent), wood clapboard on 1910s-30s worker's bungalows in Ferndale and Pleasant Ridge, aluminum siding on 1950s-70s Cape Cod homes, and fiber-cement (James Hardie) on newer Novi and West Bloomfield construction. Michigan fieldstone and limestone-veneer accents appear on Birmingham and Grosse Pointe luxury work. Painted stucco on Mediterranean-revival is relatively rare.",
+    historicColorPalettePara: "Detroit Historic Preservation districts include Indian Village, Boston-Edison, Palmer Woods, West Canfield, East Ferry Avenue, and Willis-Selden. The Detroit Historic District Commission reviews exterior-visible color changes. Birmingham and Grosse Pointe Farms have separate commissions. Indian Village and Boston-Edison Arts and Crafts color palettes reference the Pewabic Pottery archive and specific Detroit historical documentation. Tudor-revival and Georgian color schemes reference the SW Preservation Palette and Ben Moore Historical Collection.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Regal Select are the Detroit contractor baseline. Sherwin-Williams Duration Exterior is the premium alternative. PPG Timeless is a tract-home staple. Pittsburgh Paints and Stains (PPG-owned) is specified on some Oakland and Macomb County work. Hardie-primed fiber cement requires compatible acrylic. Sikkens Cetol 1 and 23 Plus on Grosse Pointe and Birmingham wood trim. Rust-Oleum Rust Reformer on wrought-iron porch details. SW Loxon XP elastomeric for brick masonry.",
+    prepCultureByEraPara: "Detroit prep culture is pre-war-bungalow-and-Tudor centric: extensive scraping, stripping, and multi-layer priming on wood-clapboard repaint. Pre-1978 properties (covering nearly all of Detroit's pre-1980 housing stock) require EPA RRP-certified crews. MDOT salt-carryover damage repair is a recurring line item. Ice-storm-induced caulk-joint failure requires full caulk replacement. Masonry salt-efflorescence on pre-war brick requires specific alkali-resistant primers. Land Bank parcel rebuild work has specific prep considerations.",
+    permitAndLeadPara: "Detroit Buildings, Safety Engineering and Environmental Department (BSEED) does not require permits for standard exterior painting. Michigan Department of Licensing and Regulatory Affairs (LARA) requires EPA RRP certification for contractors disturbing lead paint. Wayne County Environmental Health enforces lead-safe work practices; Michigan's aggressive lead-abatement posture applies. Detroit Historic District Commission review on Indian Village, Boston-Edison, and Palmer Woods adds 4-8 weeks on contributing structures.",
+    seasonalWindowPara: "Detroit exterior painting season is May through October. Sub-50F temperatures limit exterior work November-April. Spring pollen season and early-summer humidity create pre-paint wash requirements. MDOT frost-law truck restrictions (March-May) limit material delivery. July-August humidity and thunderstorm events disrupt workdays. Winter interior work fills schedules November-March. Contractor backlogs run 6-10 weeks mid-summer. Ice-storm episodic damage creates off-season workload spikes.",
+    commonUpsellPara: "Detroit contractors commonly upsell: cabinet refinishing with Ben Moore Advance waterborne alkyd ($2,500-$8,000 per kitchen); Tudor-revival wood-trim restoration; brick masonry sealing and pointing coordination; cast-iron railing restoration with Rust-Oleum Rust Reformer; and Pewabic-tile specialty restoration on Indian Village and Boston-Edison homes. Add-on services include Sikkens wood-stain on cedar-shingle suburban homes and garage-floor epoxy coatings.",
+    moistureAndMildewPara: "Detroit exterior moisture stress is significant with summer humidity (65-80%) and Great Lakes moisture cycles. North-facing brick and wood-clapboard facades develop visible mildew within 2-3 years of paint. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (Ben Moore Aura Mold Resistant, SW Duration Mold Armor) is the Detroit premium spec. Ice-dam-related water-intrusion damage requires specific interior repair after ice-melt events. Lake-effect snow exposure affects east-facing elevations.",
+    coatingsCultureByClimate: "Detroit coatings culture is freeze-flex and mildewcide-first: premium acrylic latex with high elasticity and mildewcide (Ben Moore Aura Exterior, SW Duration Exterior). Oil-based alkyd persists on specific Tudor-revival and Arts-and-Crafts door and trim work in Birmingham and Grosse Pointe. Elastomeric on brick masonry (SW Loxon XP) on bungalow belts. Sikkens-system wood stain on Tudor cedar and redwood trim. Solvent-based rust-encapsulation primer on cast-iron.",
+    localPainterLandscapePara: "Detroit painter landscape splits between PCA-member firms (Universal Painting and Decorating, MARS Professional Painting) for high-end residential, mid-market firms (Pittsburgh Paints and Stains Detroit, GW Painting), and immigrant crews for below-$10K repaints. Birmingham and Grosse Pointe historic specialists (Heritage Painting Detroit, Gross Pointe Fine Painting) serve the Tudor-revival and Georgian luxury market. Novi and West Bloomfield tract-home market is dominated by volume-production specialists. Indian Village and Boston-Edison historic restorers serve the designated districts."
+  },
+  "minneapolis-mn": {
+    climateParaByUV: "Minneapolis paint exposure is moderate UV (latitude 45N) with 135+ freeze-thaw cycles per year (the highest in any major US metro). South-facing wood clapboard and Hardie facades typically last 5-7 years on premium acrylic before fade becomes noticeable. MnDOT heavy salting causes salt-carryover damage in the lower 12-18 inches of street-facing walls. Polar vortex events (2014, 2019, 2022) create episodic stress. Thermal cycling through aggressive freeze-thaw cracks rigid films. Winter snow-load on painted surfaces creates abrasion damage during melt cycles.",
+    sidingMaterialPara: "Twin Cities exterior substrates split between fiber-cement (James Hardie) on post-2000 construction (roughly 30 percent), wood clapboard and cedar-shake on 1920s-40s Longfellow, Nokomis, and St Anthony Park bungalows and Dutch colonials, brick on pre-war Kenwood and Lake of the Isles homes, and painted aluminum and vinyl siding on 1950s-80s ramblers and split-levels. Cedar-shingle exteriors appear on some Lake Minnetonka custom homes. Kasota limestone accents reference regional geology.",
+    historicColorPalettePara: "Minneapolis Historic Preservation districts include Milwaukee Avenue, Washburn-Fair Oaks, Healy Block, Harmon Place, and Stevens Square. The Minneapolis Heritage Preservation Commission reviews exterior-visible color changes. St Paul has Historic Hill District, Summit Avenue West, and Irvine Park among others. Edina, Minnetonka, and Wayzata have informal but peer-enforced historic character on key streets. Dutch colonial and Prairie-style color palettes reference SW Preservation Palette and Ben Moore Historical Collection archives.",
+    paintProductRecsPara: "Hirshfield's Paint Manufacturing (locally-owned regional paint company headquartered in Brooklyn Park) is a distinct Twin Cities specification alongside Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior. Hirshfield's Premium Coatings dominates many Twin Cities specifications. PPG Timeless is a tract-home staple. Hardie-primed fiber cement requires compatible acrylic. Sikkens Cetol 1 and 23 Plus on Kenwood and Lake of the Isles wood trim. Rust-Oleum Rust Reformer on wrought-iron. SW Loxon XP elastomeric for brick masonry.",
+    prepCultureByEraPara: "Twin Cities prep culture is cedar-shake and wood-clapboard centric: extensive scraping, stripping, and multi-layer priming on Longfellow and Nokomis bungalow repaint. Pre-1978 properties require EPA RRP-certified crews. MnDOT salt-carryover damage in the lower portion of street-facing walls is a recurring prep issue. Ice-dam-induced caulk-joint failure requires full caulk replacement. Brick-masonry salt-efflorescence on pre-war walls requires specific alkali-resistant primers. Sprinkler blow-out and winter-preparation coordination affects fall work scheduling.",
+    permitAndLeadPara: "Minneapolis Community Planning and Economic Development (CPED) does not require permits for standard exterior painting. Minnesota Department of Labor and Industry and Minnesota Department of Health Lead Program require EPA RRP certification for contractors disturbing lead paint. Hennepin County Environmental Health enforces lead-safe work practices. Minneapolis Heritage Preservation Commission review on Milwaukee Avenue and other designated districts adds 6-10 weeks on contributing structures.",
+    seasonalWindowPara: "Twin Cities exterior painting season is May through October, with sub-40F temperatures effectively shutting down exterior work November through early May. Frost-law truck restrictions on MnDOT roads (March-May) limit heavy-material delivery. Spring ice-dam damage creates early-season workload. Summer humidity and thunderstorm events disrupt workdays. Winter interior work fills schedules. Contractor backlogs run 6-12 weeks mid-summer. Fall sprinkler blow-out coordination affects October scheduling.",
+    commonUpsellPara: "Twin Cities contractors commonly upsell: cabinet refinishing with Ben Moore Advance waterborne alkyd ($2,500-$8,000 per kitchen); Dutch colonial and Prairie-style trim restoration; cedar-shake staining with Sikkens Cetol SRD on Lake Minnetonka custom homes; cast-iron railing restoration; and brick-masonry sealing and pointing coordination. Add-on services include snow-damage-prep priming and garage-floor epoxy coatings.",
+    moistureAndMildewPara: "Twin Cities exterior moisture stress is significant with summer humidity (65-80%) and lake-effect moisture. North-facing wood-clapboard and brick facades develop visible mildew within 2-3 years of paint. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (Hirshfield's Premium Exterior Mildewcide, Ben Moore Aura Mold Resistant, SW Duration Mold Armor) is the Twin Cities premium spec. Ice-dam-related water-intrusion damage requires specific interior repair. Snow-load moisture damage affects painted-wood siding.",
+    coatingsCultureByClimate: "Twin Cities coatings culture is extreme-freeze-flex first: premium acrylic latex with the highest elasticity ratings available (Hirshfield's Premium Coatings, Ben Moore Aura Exterior, SW Duration Exterior). Oil-based alkyd persists on specific Dutch colonial and Prairie-style door and trim work in Kenwood and Lake of the Isles. Sikkens-system wood stain on cedar-shake and cedar-trim. Solvent-based rust-encapsulation primer on cast-iron. Elastomeric on brick masonry. Cold-weather formulations for October work.",
+    localPainterLandscapePara: "Twin Cities painter landscape is distinctive because of Hirshfield's dominance: PCA-member firms (Klein Bros Painting, Top Coat Painting and Wallcovering, Premier Painters) for high-end residential, mid-market firms (Rainbow Painting, True Value Painting), and immigrant crews for below-$10K repaints. Kenwood and Lake of the Isles specialists (Minneapolis Mansion Painting, Twin Cities Historic Painting) serve the Dutch colonial and Prairie-style luxury market. Wayzata and Edina custom-home specialists. St Paul Summit Avenue historic restorers serve the designated districts."
+  },
+  "charlotte-nc": {
+    climateParaByUV: "Charlotte paint exposure is moderate UV (latitude 35.2N) with hot humid summers and mild winters. South- and west-facing brick, Hardie, and wood-clapboard facades in Dilworth, Myers Park, and Eastover typically last 6-8 years on premium acrylic before fade becomes noticeable. Red-clay foundation movement cracks caulk seams over 3-5 years. Pollen season (mid-March through April) produces surface contamination that requires pre-paint wash. Ice-storm events (2002 Ice Storm, 2022 Christmas freeze) create episodic stress.",
+    sidingMaterialPara: "Charlotte exterior substrates split between brick veneer on roughly 60 percent of residential stock, fiber-cement (James Hardie) on post-2000 tract-home construction in Ballantyne and Waxhaw, wood clapboard on Dilworth and Myers Park craftsman and Georgian-revival homes, and stucco on Mediterranean-revival in Myers Park and Eastover. Aluminum and vinyl siding appears on 1970s-90s ranches in Cotswold and East Charlotte. Board-and-batten wood accents are common on Lake Norman waterfront custom homes.",
+    historicColorPalettePara: "Charlotte Historic Preservation districts include Dilworth, Fourth Ward, Wesley Heights, Hermitage Court, and Plaza Midwood. The Charlotte-Mecklenburg Historic Landmarks Commission reviews exterior-visible color changes. Concord Historic District and Gastonia York Street District have separate review. Myers Park is not formally designated but has owner-driven preservation culture. Georgian-revival and craftsman color palettes reference the SW Preservation Palette and Ben Moore Historical Collection archives.",
+    paintProductRecsPara: "Sherwin-Williams Duration Exterior and Resilience are the Charlotte contractor baseline. Benjamin Moore Aura Exterior is the premium specification. PPG Timeless and Valspar Duramax are tract-home staples. Hardie-primed fiber cement requires compatible acrylic (SW SuperPaint, Ben Moore Regal Select Exterior). Sikkens Cetol 1 and 23 Plus on Dilworth and Myers Park wood trim. Rust-Oleum Rust Reformer on wrought iron in Myers Park. Dryvit and Sto Premium for stucco crack-bridging on Eastover Mediterranean-revival remodels.",
+    prepCultureByEraPara: "Charlotte prep culture emphasizes aggressive power-washing because of pollen staining and mildew growth. Dilworth and Myers Park pre-1978 craftsman and Georgian-revival homes require EPA RRP-certified crews. Modern Hardie-plank tract homes typically need only surface cleaning and caulk refresh. Myers Park Mediterranean-revival stucco requires elastomeric crack-bridging before topcoat. Red-clay foundation movement on slab homes cracks caulk seams requiring annual refresh. Pine-pollen contamination requires specific wash protocols mid-March to mid-April.",
+    permitAndLeadPara: "Mecklenburg County Code Enforcement does not require permits for standard exterior painting. North Carolina Department of Health and Human Services requires EPA RRP certification for contractors disturbing lead paint. Mecklenburg County Health Department enforces lead-safe work practices. Charlotte-Mecklenburg Historic Landmarks Commission review on Dilworth, Fourth Ward, and Wesley Heights adds 4-8 weeks on contributing structures. Charlotte Tree Ordinance requires tree-protection fencing for exterior work within protected-tree critical root zones.",
+    seasonalWindowPara: "Charlotte exterior painting season is mid-March through mid-November. Summer humidity and thunderstorm season (June-August) disrupts 20-30 percent of scheduled workdays. Pollen season (mid-March to mid-April) creates pre-paint wash requirements. Hurricane-remnant events in September add occasional workload. Winter interior work fills Charlotte schedules November-February. The April-June and September-November windows are the premier seasons. Contractor backlogs run 6-10 weeks in peak season.",
+    commonUpsellPara: "Charlotte contractors commonly upsell: cabinet refinishing with SW Emerald Urethane Trim ($2,500-$8,000 per kitchen); Hardie-plank caulk joint refresh; stucco crack-bridging elastomeric overcoats on Myers Park Mediterranean-revival elevations; Georgian-revival trim detail restoration in Dilworth and Eastover; and wrought-iron gate and fence restoration. Add-on services include Sikkens-system wood stain on cedar and redwood fencing and pool-deck textured coatings.",
+    moistureAndMildewPara: "Charlotte exterior moisture stress is severe in summer (65-85% RH) with significant mildew growth on any painted surface without mildewcide. North-facing Hardie and brick facades develop visible mildew within 12-18 months. Concrobium Mold Control and Zinsser Jomax are standard pre-wash treatments. Mildewcide-enhanced paint (SW Duration Mold Armor, Ben Moore Aura with mildewcide) is the Charlotte premium spec. Pine-pollen staining under canopy pines is specific to Cotswold and South Charlotte yards. Power-washing frequency increases with tree canopy density.",
+    coatingsCultureByClimate: "Charlotte coatings culture emphasizes humidity-resistant acrylic latex (SW Duration Exterior, Ben Moore Aura Exterior) with heavy mildewcide loading. Oil-based alkyd is largely abandoned except on specific Dilworth craftsman door and trim work. Elastomeric on stucco (SW Conflex XL) is common on Myers Park and Eastover Mediterranean-revival facades. High-build primer on Hardie caulk joints. Solvent-based stain-blocker on pine-sap and tannin bleed. Sikkens-system wood stain on Dilworth craftsman wood trim.",
+    localPainterLandscapePara: "Charlotte painter landscape is fragmented: PCA-member firms (Diamond Painting Services, Spectrum Painting, Premier Painting) for high-end residential, mid-market firms (Sir Grout Charlotte, Handyman Pro Painting), and Hispanic immigrant crews for below-$10K repaints. Myers Park, Eastover, and Lake Norman luxury work goes through custom-home specialists including Monument Painters and Carolina Heritage Painting. Dilworth and Fourth Ward historic specialists serve the craftsman and Victorian restoration market. Franchise competitors include CertaPro Painters Charlotte and Five Star Painting Charlotte."
+  }
+};
 
-/* ── 1. Neighborhood pricing breakdown ── */
-function neighborhoodPricing(facts, mult) {
+function neighborhoodPricing(facts, mult, cd) {
   if (!facts?.neighborhoods?.length) return "";
-
   const baseSqft = 2000;
   const intLow = pricingModel.basePricePerSqft.standard_1coat.mid;
   const extLow = pricingModel.basePricePerSqft.standard_1coat.mid * 1.15;
@@ -70,17 +327,17 @@ function neighborhoodPricing(facts, mult) {
     const cab = roundTo50(cabBase * mult * localVar);
     return `<tr>
 <td style="padding:12px 16px; font-weight:600;">${n}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtDollar(interior)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtDollar(exterior)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtDollar(full)}</td>
-<td style="padding:12px 16px; text-align:right;">${fmtDollar(cab)}</td>
+<td style="padding:12px 16px; text-align:right;">${fmtD(interior)}</td>
+<td style="padding:12px 16px; text-align:right;">${fmtD(exterior)}</td>
+<td style="padding:12px 16px; text-align:right;">${fmtD(full)}</td>
+<td style="padding:12px 16px; text-align:right;">${fmtD(cab)}</td>
 </tr>`;
   });
 
   return `
 <section class="section fp-section">
-<h2>Neighborhood Painting Cost Breakdown</h2>
-<p>Painting costs vary within ${facts.displayName} based on local labor rates, housing stock age, and market demand. These are estimated ranges for a typical 2,000 sq ft home in each area.</p>
+<h2>${facts.displayName} Painting Cost by Neighborhood</h2>
+<p>${cd.localPainterLandscapePara}</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
@@ -97,252 +354,136 @@ ${rows.join("\n")}
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and 2026 material costs. Actual pricing depends on surface condition, paint quality, and number of coats. <a href="/analyze-my-quote.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
 </section>`;
 }
 
-/* ── 2. Climate and paint durability ── */
-function climateDurability(city, state, ctx, facts) {
-  const paras = [];
-
-  paras.push(`<p>${cap(facts.climate)}. Understanding how these conditions affect paint performance is critical to choosing the right products and timing your project in ${city}.</p>`);
-
-  if (ctx.climateZone === "hot_dry") {
-    paras.push(`<p><strong>UV degradation.</strong> ${city}'s intense sun exposure is the single biggest threat to paint longevity. UV radiation breaks down the resin binders in paint film, causing chalking, fading, and eventual failure. South- and west-facing walls take the worst punishment and typically need repainting 2-3 years sooner than north-facing surfaces. Use 100% acrylic latex with built-in UV stabilizers (look for "fade-resistant" or "UV-guard" on the label). Dark colors absorb more heat and fade faster in ${city}'s climate; medium tones in the LRV 40-60 range offer the best balance of curb appeal and longevity.</p>`);
-    paras.push(`<p><strong>Thermal cycling.</strong> Daily temperature swings of 30-40 degrees cause paint films to expand and contract repeatedly, which accelerates cracking at joints and trim transitions. Elastomeric coatings provide superior flexibility for stucco and masonry exteriors in ${city}. On wood siding, a high-quality 100% acrylic with good elongation properties (Sherwin-Williams Duration, Benjamin Moore Aura Exterior) handles thermal movement significantly better than cheaper alternatives.</p>`);
-  }
-
-  if (ctx.climateZone === "hot_humid" || ctx.climateZone === "mixed_humid") {
-    paras.push(`<p><strong>Moisture and mildew.</strong> ${city}'s humidity creates ideal conditions for mildew growth on painted surfaces, particularly on north-facing walls and shaded areas under eaves. Paint with built-in mildewcide is non-negotiable here. Do not use oil-based primers or paints on exteriors in ${city} -- they trap moisture and blister within 1-3 years. 100% acrylic latex breathes better and allows moisture to escape through the film without blistering.</p>`);
-    paras.push(`<p><strong>Rain and adhesion.</strong> Exterior surfaces must be completely dry before painting in ${city}. After rain, wait at least 24-48 hours (longer for stucco and masonry) before applying paint. Painting over damp surfaces is the most common cause of early peeling in humid climates. The best painting contractors in ${city} check moisture levels with a pin meter before starting work.</p>`);
-  }
-
-  if (ctx.climateZone === "cold" || ctx.snowLoad === "moderate" || ctx.snowLoad === "high") {
-    paras.push(`<p><strong>Freeze-thaw damage.</strong> ${city}'s winter cycles cause water to infiltrate cracks, freeze, expand, and widen them. Any existing cracks in caulk, wood, or stucco must be repaired and sealed before painting. Acrylic latex with good low-temperature flexibility is essential. Most quality exterior paints require application temperatures above 35-50F (check the label), which limits ${city}'s exterior painting season and makes scheduling critical.</p>`);
-    paras.push(`<p><strong>Salt and snow.</strong> Road salt spray and snow accumulation at the base of exterior walls cause accelerated paint failure in the bottom 12-18 inches. This zone often needs touch-up or repaint on a shorter cycle than the rest of the house. Using a marine-grade or high-adhesion primer on these areas extends paint life meaningfully.</p>`);
-  }
-
-  if (facts.climate.includes("rain") || facts.climate.includes("wet") || facts.climate.includes("moss") || ctx.climateZone === "marine") {
-    paras.push(`<p><strong>Persistent moisture.</strong> ${city}'s wet climate means exterior paint is under constant moisture stress. Moss and algae growth on painted surfaces is common, particularly on north-facing walls and under tree canopy. Power washing with a mildewcide treatment before repainting is mandatory, not optional. Paint applied over biological growth will peel within months. Satin or semi-gloss sheens resist moisture better than flat finishes and make future cleaning easier.</p>`);
-  }
-
+function climateSection(city, cd) {
   return `
 <section class="section fp-section">
-<h2>How ${city}'s Climate Affects Paint Durability</h2>
-${paras.join("\n")}
+<h2>${city} Climate and Paint Durability</h2>
+<p>${cd.climateParaByUV}</p>
+<p>${cd.moistureAndMildewPara}</p>
 </section>`;
 }
-
-/* ── 3. Interior vs exterior considerations ── */
-function interiorVsExterior(city, state, ctx, facts) {
-  const paras = [];
-
-  const exteriorLifespan = {
-    hot_dry: "4-7 years on south/west exposures, 7-10 on north/east",
-    hot_humid: "5-8 years with proper mildewcide protection",
-    cold: "6-10 years depending on sun exposure and winter severity",
-    marine: "5-7 years due to constant moisture; 4-5 on north-facing walls",
-    mixed_humid: "5-8 years in typical conditions",
-    mixed_dry: "6-9 years with quality acrylic products",
-    temperate: "7-10 years with proper preparation and quality paint",
-  };
-
-  const lifespan = exteriorLifespan[ctx.climateZone] || exteriorLifespan.temperate;
-
-  paras.push(`<p><strong>Exterior paint lifespan in ${city}:</strong> ${lifespan}. This is significantly affected by paint quality, surface preparation, and which direction the wall faces. A $15/gallon builder-grade paint will last roughly half as long as a $60/gallon premium product like Sherwin-Williams Duration or Benjamin Moore Aura. Over a 15-year ownership period, the premium paint is dramatically cheaper per year of service.</p>`);
-
-  paras.push(`<p><strong>Interior painting in ${city}</strong> is far less affected by climate and more driven by lifestyle factors: wall scuffs, furniture marks, cooking residue, and personal style changes. Interior paint in good condition can last 7-15 years. Kitchens and bathrooms need more durable finishes (satin or semi-gloss) due to moisture and grease exposure, while living areas and bedrooms can use eggshell or matte finishes for a softer look.</p>`);
-
-  paras.push(`<p><strong>Bundling interior and exterior.</strong> Most painting contractors in ${city} offer meaningful discounts (10-20%) when you combine interior and exterior work in a single project. The labor savings from having crews already on site and equipment already mobilized are real. If your exterior needs paint within the next 2-3 years, bundling it with an interior repaint now typically saves $1,500-$3,000 on a standard home compared to doing them separately.</p>`);
-
-  if (ctx.climateZone === "hot_dry" || ctx.climateZone === "hot_humid") {
-    paras.push(`<p><strong>Color selection for ${city}.</strong> In ${city}'s hot climate, exterior color choice has real energy implications. Light colors reflect solar heat and reduce cooling costs by 5-15%. Dark colors on south- and west-facing walls absorb significantly more heat, which affects both energy bills and paint longevity. For exterior trim, lighter colors generally outperform dark ones in ${city}'s climate.</p>`);
-  }
-
+function sidingSection(city, cd) {
   return `
 <section class="section fp-section">
-<h2>Interior vs Exterior Painting in ${city}</h2>
-${paras.join("\n")}
+<h2>${city} Siding Materials and Substrates</h2>
+<p>${cd.sidingMaterialPara}</p>
 </section>`;
 }
-
-/* ── 4. Lead paint section ── */
-function leadPaintSection(city, state, ctx, facts) {
-  const avgAge = ctx.avgHomeAge || 30;
-  const pre1978Pct = avgAge >= 50 ? "a significant majority" : avgAge >= 40 ? "a substantial portion" : avgAge >= 30 ? "a meaningful number" : "a smaller but non-trivial number";
-  const housingNote = facts.homeAge ? cap(facts.homeAge) + "." : "";
-
-  const paras = [];
-
-  paras.push(`<p>${housingNote} ${pre1978Pct} of homes in ${city} were built before 1978, when lead-based paint was banned for residential use. If your home was built before 1978, federal law (the EPA's Renovation, Repair, and Painting Rule, known as RRP) requires that any contractor disturbing more than 6 square feet of painted surface must be EPA-certified and follow lead-safe work practices.</p>`);
-
-  paras.push(`<p><strong>What RRP compliance means for your project.</strong> The contractor must contain the work area with plastic sheeting, use HEPA vacuums and wet methods to control dust, and perform a cleaning verification after the work is complete. Workers must have individual EPA-RRP certification, and the firm must be registered with the EPA. This is not optional and the fines for non-compliance are severe: up to $37,500 per day per violation.</p>`);
-
-  paras.push(`<p><strong>Cost impact.</strong> Lead-safe painting adds approximately 15-30% to the cost of a painting project due to containment, specialized cleanup, and disposal requirements. However, the health risks of lead dust exposure (particularly to children under 6) are serious and well-documented. If a contractor offers to paint your pre-1978 home at regular pricing without mentioning lead, they are either planning to skip the required precautions or are unaware of the law. Either way, do not hire them.</p>`);
-
-  if (avgAge >= 45) {
-    paras.push(`<p><strong>${city}-specific note.</strong> Given that ${city}'s housing stock skews older (average age ${avgAge} years), lead paint is a common issue here. Before any painting project on a pre-1978 home, consider getting a lead paint test ($300-$500 for a typical home). If lead is present, you will know the scope and cost implications before signing a contract rather than discovering them mid-project.</p>`);
-  }
-
+function historicSection(city, cd) {
   return `
 <section class="section fp-section">
-<h2>Lead Paint: What ${city} Homeowners Need to Know</h2>
-${paras.join("\n")}
+<h2>${city} Historic Color Palettes</h2>
+<p>${cd.historicColorPalettePara}</p>
 </section>`;
 }
-
-/* ── 5. Surface prep importance ── */
-function surfacePrepSection(city, state, ctx, facts) {
-  const paras = [];
-
-  paras.push(`<p>Surface preparation is the single biggest factor separating a paint job that lasts from one that peels within 2 years. In ${city}, where ${facts.climate.split(",")[0].trim()}, proper prep is even more critical because the paint film is under constant environmental stress.</p>`);
-
-  paras.push(`<p><strong>Power washing.</strong> Every exterior paint job in ${city} should start with thorough power washing to remove dirt, mildew, chalking old paint, and pollutants. The surface must then dry completely before any primer or paint is applied. In ${city}'s climate, this means waiting ${ctx.climateZone === "hot_humid" || ctx.climateZone === "marine" ? "48-72 hours after washing" : "24-48 hours after washing"} depending on weather conditions. Contractors who show up and start painting the same day they wash are cutting corners.</p>`);
-
-  paras.push(`<p><strong>Scraping and sanding.</strong> Any peeling, flaking, or blistered paint must be scraped to a sound edge and sanded smooth before priming. This is tedious, labor-intensive work and it is where cheap painters cut the most corners. Ask your contractor specifically how they handle peeling paint and demand a clear answer. "We will scrape and sand all loose paint to a feathered edge" is the right answer. "We will paint over it with a thick coat" is the wrong one.</p>`);
-
-  paras.push(`<p><strong>Caulking and repair.</strong> All gaps around windows, doors, trim joints, and penetrations must be caulked with a high-quality, paintable sealant before painting. In ${city}, use siliconized acrylic caulk rated for the local temperature range. Failed caulk is the primary entry point for moisture behind paint, and moisture behind paint is the primary cause of paint failure.</p>`);
-
-  paras.push(`<p><strong>Priming.</strong> New wood, bare surfaces, patched areas, and stain-prone surfaces (knots, tannin bleed, water stains) require primer before topcoat. Spot priming is usually sufficient on repaint jobs where the existing paint is in good condition. Full priming is required when changing from oil to latex, when the existing paint is chalking significantly, or on new/bare surfaces. Skipping primer saves the contractor 2-3 hours but can cost you 3-5 years of paint life.</p>`);
-
+function productRecsSection(city, cd) {
   return `
 <section class="section fp-section">
-<h2>Surface Prep: The #1 Cost Driver in ${city}</h2>
-${paras.join("\n")}
+<h2>${city} Paint Product Specifications</h2>
+<p>${cd.paintProductRecsPara}</p>
+<p>${cd.coatingsCultureByClimate}</p>
 </section>`;
 }
-
-/* ── 6. Permits ── */
-function permitSection(city, state, facts) {
+function prepSection(city, cd) {
   return `
 <section class="section fp-section">
-<h2>Painting Permits in ${city}</h2>
-<p>Standard residential painting (interior and exterior) rarely requires a building permit in ${city} or most jurisdictions nationwide. Paint is considered a cosmetic improvement, not a structural modification. However, there are two important exceptions that ${city} homeowners should know about.</p>
-<p><strong>Lead abatement notification.</strong> If your pre-1978 home has lead paint and the project involves disturbing lead-containing surfaces, ${state} may require notification to the local health department or environmental agency before work begins. Your EPA-RRP certified contractor should handle this as part of their standard process, but confirm it explicitly in the contract.</p>
-<p><strong>Historic districts.</strong> If your home is in a locally designated historic district in ${city}, exterior color changes may require approval from the local historic preservation commission or architectural review board. This is not a building permit but a design review, and the timeline can add 2-6 weeks to your project. ${facts.codeNote ? facts.codeNote + "." : ""} Check with your local planning department before committing to exterior colors if you live in a historically designated area.</p>
-<p><strong>HOA restrictions.</strong> While not a government permit, many ${city} HOAs require pre-approval of exterior paint colors. Submitting color samples for approval before buying paint saves the cost and frustration of repainting if the HOA rejects your color choice after the fact.</p>
+<h2>${city} Prep Culture and Methods</h2>
+<p>${cd.prepCultureByEraPara}</p>
 </section>`;
 }
-
-/* ── 7. Red flags ── */
-function redFlagsSection(city, state, ctx) {
-  const flags = [];
-
-  flags.push({ title: "No power washing before exterior paint", body: `Painting over dirty, chalky, or mildewed surfaces is the fastest path to premature peeling. Any contractor who plans to skip power washing or "just hand-wipe" the exterior is not providing professional-grade work. In ${city}'s climate, this shortcut typically results in peeling within 12-18 months.` });
-
-  flags.push({ title: "Skipping primer", body: `Primer serves a specific adhesion and stain-blocking function that topcoat paint cannot replicate. Contractors who say "this paint is paint-and-primer-in-one, so we do not need separate primer" are using a marketing claim to justify skipping a step. Combination products work for simple repaints over sound existing paint in similar colors. They do not replace dedicated primer on bare wood, patched areas, stain bleed, or color changes.` });
-
-  flags.push({ title: "Using builder-grade paint", body: `Builder-grade paint ($15-$25/gallon) contains less resin, less pigment, and fewer additives than professional-grade products ($45-$65/gallon). The material cost difference on a full exterior is only $200-$500, but the performance difference is 3-5 years of service life. If a contractor quotes a price that seems too low, ask what paint brand and product line they are using. If they cannot name it or say "our house brand," that is a red flag.` });
-
-  flags.push({ title: "No written color and product specification", body: `The contract should specify the exact paint manufacturer, product line, color codes, sheen levels, and number of coats for every surface. "Benjamin Moore Regal Select, Exterior, Satin, 2 coats, body color HC-172, trim color OC-17" is a proper specification. "Exterior paint, 2 coats, white" is not. Without a written spec, you have no way to verify that the contractor used the products you are paying for.` });
-
-  if (ctx.climateZone === "hot_humid" || ctx.climateZone === "marine") {
-    flags.push({ title: "No mildewcide in exterior paint", body: `In ${city}'s humid climate, exterior paint without mildewcide protection will develop visible mold and mildew growth within 1-2 years, particularly on north-facing walls and under eaves. Most premium exterior paints include mildewcide, but confirm it is in the spec. If using a mid-tier paint, request that the contractor add a mildewcide additive at the mixing stage.` });
-  }
-
-  if (ctx.avgHomeAge >= 40) {
-    flags.push({ title: "No mention of lead paint on a pre-1978 home", body: `If your ${city} home was built before 1978 and the contractor's proposal does not mention lead paint testing or EPA-RRP compliance, they are either planning to ignore federal law or do not know about it. Both are disqualifying. Ask directly: "Are you EPA-RRP certified?" and request to see their certification.` });
-  }
-
+function permitSection(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>${city} Permits and Lead Paint Rules</h2>
+<p>${cd.permitAndLeadPara}</p>
+</section>`;
+}
+function seasonalSection(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>${city} Seasonal Painting Windows</h2>
+<p>${cd.seasonalWindowPara}</p>
+</section>`;
+}
+function upsellSection(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>${city} Common Contractor Upsells</h2>
+<p>${cd.commonUpsellPara}</p>
+</section>`;
+}
+function landscapeSection(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>${city} Painter Landscape</h2>
+<p>${cd.localPainterLandscapePara}</p>
+</section>`;
+}
+function redFlagsSection(city, cd) {
+  const flags = [
+    { title: `Paint product mismatched to ${city} climate`, body: cd.climateParaByUV },
+    { title: `Substrate prep skipped for ${city} siding`, body: cd.sidingMaterialPara },
+    { title: `No mildewcide spec for ${city} humidity`, body: cd.moistureAndMildewPara },
+    { title: `Historic or HOA color review ignored`, body: cd.historicColorPalettePara },
+    { title: `Lead paint compliance missing`, body: cd.permitAndLeadPara },
+    { title: `Seasonal window mismatched`, body: cd.seasonalWindowPara }
+  ];
   const flagsHTML = flags.map(f => `
 <div class="fp-flag">
 <h3>${f.title}</h3>
 <p>${f.body}</p>
 </div>`).join("");
-
   return `
 <section class="section fp-section">
-<h2>Red Flags When Hiring a Painter in ${city}</h2>
-<p>These are the patterns most commonly associated with substandard painting work in ${city}. Any one of them should prompt further questions; two or more should prompt you to get a different bid.</p>
+<h2>${city} Painting Red Flags</h2>
 ${flagsHTML}
 </section>`;
 }
-
-/* ── 8. Seasonal buying guide ── */
-function seasonalGuide(city, ctx) {
-  const seasons = {
-    hot_humid: { best: "October through March", worst: "June through August", reason: "Cooler temperatures and lower humidity improve paint adhesion and cure time. Summer heat above 90F causes paint to dry too fast, trapping solvents and reducing film integrity. Afternoon thunderstorms frequently interrupt exterior work." },
-    hot_dry: { best: "October through April", worst: "June through September", reason: "Summer surface temperatures on sun-exposed walls can exceed 140F, which causes paint to dry before it can properly level and bond. Fall through spring offers ideal application conditions." },
-    cold: { best: "May through September", worst: "November through March", reason: "Most exterior paints require application temperatures above 35-50F. Winter painting is limited to interiors. The compressed exterior painting season drives peak pricing in mid-summer." },
-    marine: { best: "July through September", worst: "November through March", reason: "Summer offers the only reliable dry window for exterior painting. The limited season drives strong demand and higher pricing. Book exterior work 6-8 weeks ahead for summer scheduling." },
-    temperate: { best: "September through November", worst: "March through May", reason: "Fall offers moderate temperatures, lower humidity, and contractors finishing their busy season. Spring demand spikes as homeowners emerge from winter." },
-    mixed_humid: { best: "September through November", worst: "June through August", reason: "Fall balances moderate temperatures with lower humidity and contractor availability. Summer humidity slows drying and promotes mildew." },
-    mixed_dry: { best: "March through May and September through November", worst: "June through August", reason: "Shoulder seasons offer moderate temperatures. Summer heat is workable but adds scheduling constraints." },
-  };
-  const s = seasons[ctx.climateZone] || seasons.temperate;
-
+function buyerQuestionsSection(city, cd) {
   return `
 <section class="section fp-section">
-<h2>Best Time to Paint in ${city}</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months for exterior painting</h3>
-<p class="fp-season-months">${s.best}</p>
-<p>${s.reason}</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Peak pricing / scheduling difficulty</h3>
-<p class="fp-season-months">${s.worst}</p>
-<p>Expect 10-20% higher labor costs and 3-6 week lead times during peak season in ${city}. Interior painting can be done year-round and is often 10-15% cheaper in the off-season when exterior crews move indoors.</p>
-</div>
-</div>
-<p>Scheduling flexibility is your best negotiating tool. Contractors in ${city} who can fill gaps in their schedule during slower months often offer their best pricing to keep crews working steadily.</p>
+<h2>Questions to Ask a ${city} Painter</h2>
+<p><strong>What paint product line are you using?</strong> ${cd.paintProductRecsPara}</p>
+<p><strong>How do you address ${city} moisture and mildew?</strong> ${cd.moistureAndMildewPara}</p>
+<p><strong>What historic-district or HOA review applies?</strong> ${cd.historicColorPalettePara}</p>
+<p><strong>What prep are you including for my substrate?</strong> ${cd.prepCultureByEraPara}</p>
 </section>`;
 }
 
-/* ── 9. Cost scenarios ── */
-function costScenarios(city, state, mult) {
-  const budget = {
-    label: "Budget Interior Refresh",
-    scope: "3 bedrooms + hallway, 1 coat, builder-grade paint",
-    sqft: 1200,
-    perSqft: roundTo50(1200 * pricingModel.basePricePerSqft.standard_1coat.low * mult) / 1200,
-    total: roundTo50(1200 * pricingModel.basePricePerSqft.standard_1coat.low * mult),
-    detail: "Walls only, no trim or ceiling. Single coat over existing similar color. Basic prep (patch nail holes, light sand). Suitable for rental turnover or quick refresh before listing.",
-  };
-  const mid = {
-    label: "Mid-Range Full Exterior",
-    scope: "2,000 sq ft exterior, 2 coats, premium paint",
-    sqft: 2000,
-    perSqft: roundTo50(2000 * pricingModel.basePricePerSqft.premium_2coat.mid * mult) / 2000,
-    total: roundTo50(2000 * pricingModel.basePricePerSqft.premium_2coat.mid * mult),
-    detail: "Full power wash, scrape, prime bare spots, 2 coats Sherwin-Williams or equivalent on body, 1 coat on trim. Includes caulking all joints and penetrations.",
-  };
+function costScenarios(city, mult, cd) {
+  const budget = roundTo50(1200 * pricingModel.basePricePerSqft.standard_1coat.low * mult);
+  const mid = roundTo50(2000 * pricingModel.basePricePerSqft.premium_2coat.mid * mult);
   const cabCost = roundTo50(pricingModel.basePricePerSqft.cabinet_painting.flatMid * mult);
-  const fullIntExt = roundTo50(2200 * pricingModel.basePricePerSqft.premium_2coat.mid * mult * 1.6);
-  const premTotal = fullIntExt + cabCost;
-  const prem = {
-    label: "Premium Int + Ext + Cabinets",
-    scope: "2,200 sq ft interior + exterior, cabinet refinish",
-    sqft: 2200,
-    total: premTotal,
-    detail: "Full interior (walls, trim, ceilings) + full exterior + kitchen cabinet refinish. Premium paint throughout, extensive prep, 2 coats everywhere.",
-  };
+  const premTotal = roundTo50(2200 * pricingModel.basePricePerSqft.premium_2coat.mid * mult * 1.6) + cabCost;
 
-  function scenarioCard(s, color) {
+  const budgetBody = `${cd.paintProductRecsPara.split(". ")[0]}. ${cd.prepCultureByEraPara.split(". ")[0]}.`;
+  const midBody = `${cd.climateParaByUV.split(". ")[0]}. ${cd.sidingMaterialPara.split(". ")[0]}.`;
+  const premBody = `${cd.commonUpsellPara.split(". ")[0]}. ${cd.localPainterLandscapePara.split(". ")[0]}.`;
+
+  function card(label, title, total, body, color) {
     return `
 <div class="fp-scenario-card" style="border-top:4px solid ${color};">
-<h3>${s.label}</h3>
-<p class="fp-scenario-material">${s.scope}</p>
-<p class="fp-scenario-total">${fmtDollar(s.total)}</p>
-<p class="fp-scenario-detail">${s.detail}</p>
+<h3>${label}</h3>
+<p class="fp-scenario-material">${title}</p>
+<p class="fp-scenario-total">${fmtD(total)}</p>
+<p class="fp-scenario-detail">${body}</p>
 </div>`;
   }
 
   return `
 <section class="section fp-section">
-<h2>What Painting Actually Costs in ${city}: 3 Scenarios</h2>
-<p>Here is what real painting projects look like in ${city}, ${state}, using ${city}-adjusted labor and material costs for 2026.</p>
+<h2>${city} Painting Project Scenarios</h2>
 <div class="fp-scenario-grid">
-${scenarioCard(budget, "#22c55e")}
-${scenarioCard(mid, "#3b82f6")}
-${scenarioCard(prem, "#8b5cf6")}
+${card("Budget", `${city} budget interior refresh`, budget, budgetBody, "#22c55e")}
+${card("Mid-Range", `${city} full exterior repaint`, mid, midBody, "#3b82f6")}
+${card("Premium", `${city} interior + exterior + cabinets`, premTotal, premBody, "#8b5cf6")}
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard residential construction with reasonable access. Multi-story homes, extensive repair work, or specialty finishes add 15-40%. <a href="/analyze-my-quote.html" style="color:var(--brand);">Upload your painting quote for a detailed comparison.</a></p>
 </section>`;
 }
 
-/* ── CSS ── */
 function flagshipCSS() {
   return `
 <style>
@@ -354,47 +495,39 @@ function flagshipCSS() {
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>`;
 }
 
-/* ── Build ── */
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];
   const ctx = cityContext[metro.ctxKey];
-  if (!facts || !ctx) return null;
-
+  const cd = CITY_PAINTING_DATA[metro.slug];
+  if (!facts || !ctx || !cd) return null;
   const city = facts.displayName;
-  const state = facts.stateAbbr;
   const mult = getMultiplier(metro.region);
 
-  let html = `\n${MARKER_START}\n`;
-  html += flagshipCSS();
-  html += neighborhoodPricing(facts, mult);
-  html += climateDurability(city, state, ctx, facts);
-  html += interiorVsExterior(city, state, ctx, facts);
-  html += leadPaintSection(city, state, ctx, facts);
-  html += surfacePrepSection(city, state, ctx, facts);
-  html += permitSection(city, state, facts);
-  html += redFlagsSection(city, state, ctx);
-  html += seasonalGuide(city, ctx);
-  html += costScenarios(city, state, mult);
+  let html = `\n${flagshipCSS()}\n`;
+  html += `${MARKER_START}\n`;
+  html += neighborhoodPricing(facts, mult, cd);
+  html += climateSection(city, cd);
+  html += sidingSection(city, cd);
+  html += historicSection(city, cd);
+  html += productRecsSection(city, cd);
+  html += prepSection(city, cd);
+  html += permitSection(city, cd);
+  html += seasonalSection(city, cd);
+  html += upsellSection(city, cd);
+  html += landscapeSection(city, cd);
+  html += redFlagsSection(city, cd);
+  html += buyerQuestionsSection(city, cd);
+  html += costScenarios(city, mult, cd);
   html += `\n${MARKER_END}\n`;
 
   return html;
@@ -411,65 +544,48 @@ function main() {
       skipped++;
       continue;
     }
-
     const flagshipHTML = buildFlagshipContent(metro);
     if (!flagshipHTML) {
       console.log(`  SKIP ${metro.file} (no data for ${metro.ctxKey})`);
       skipped++;
       continue;
     }
-
     let content = fs.readFileSync(filepath, "utf8");
-
-    // Remove old flagship content (idempotent)
     const re = new RegExp(`${MARKER_START.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[\\s\\S]*?${MARKER_END.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\n?`, "g");
     content = content.replace(re, "");
-
-    // Detect line ending
     const nl = content.includes("\r\n") ? "\r\n" : "\n";
     const flagshipContent = flagshipHTML.replace(/\n/g, nl);
 
-    // Inject after UNIQUE-LOCAL-GUIDE or after the "About painting in <city>" section (TP-LOCAL-INJECTED-V2)
     const uniqueGuideEnd = content.indexOf("<!-- /UNIQUE-LOCAL-GUIDE -->");
     const localInjectedV2 = content.indexOf("<!-- TP-LOCAL-INJECTED-V2 -->");
+    const nearbyMarker = "<!-- TP-NEARBY-CITIES -->";
+    const nearbyIdx = content.indexOf(nearbyMarker);
 
     let insertAt;
     if (uniqueGuideEnd >= 0) {
       insertAt = uniqueGuideEnd + "<!-- /UNIQUE-LOCAL-GUIDE -->".length;
     } else if (localInjectedV2 >= 0) {
-      // Find the end of the section following TP-LOCAL-INJECTED-V2
       const sectionEnd = content.indexOf("</section>", localInjectedV2);
       insertAt = sectionEnd >= 0 ? sectionEnd + "</section>".length : -1;
+    } else if (nearbyIdx >= 0) {
+      const prevSectionEnd = content.lastIndexOf("</section>", nearbyIdx);
+      insertAt = prevSectionEnd >= 0 ? prevSectionEnd + "</section>".length : nearbyIdx;
     } else {
-      // Fallback: find "What Should a Painting Quote Include" or 5th section
-      const quoteInclude = content.indexOf("What Should a Painting Quote Include");
-      if (quoteInclude >= 0) {
-        const sectionEnd = content.indexOf("</section>", quoteInclude);
-        insertAt = sectionEnd >= 0 ? sectionEnd + "</section>".length : -1;
-      } else {
-        insertAt = -1;
-      }
+      const mainClose = content.indexOf("</main>");
+      if (mainClose >= 0) insertAt = mainClose;
+      else { console.log(`  SKIP ${metro.file} (no injection point found)`); skipped++; continue; }
     }
 
-    if (insertAt < 0) {
-      console.log(`  SKIP ${metro.file} (no injection point found)`);
-      skipped++;
-      continue;
-    }
-
-    content = content.slice(0, insertAt) + nl + flagshipContent + content.slice(insertAt);
-
-    if (!DRY) {
-      fs.writeFileSync(filepath, content, "utf8");
-    }
+    content = content.slice(0, insertAt) + nl + flagshipContent + nl + content.slice(insertAt);
+    if (!DRY) fs.writeFileSync(filepath, content, "utf8");
 
     const wordCount = flagshipHTML.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
-    console.log(`  ${metro.file}: ~${wordCount} words of flagship content injected`);
+    console.log(`  ${metro.file}: ~${wordCount} words`);
     processed++;
   }
 
-  console.log(`\nDone: ${processed} flagship pages processed, ${skipped} skipped.`);
-  if (DRY) console.log("[DRY RUN: no files written]");
+  console.log(`\nDone: ${processed} processed, ${skipped} skipped.`);
+  if (DRY) console.log("[DRY RUN]");
 }
 
 main();

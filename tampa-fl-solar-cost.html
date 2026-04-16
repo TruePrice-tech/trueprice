@@ -219,7 +219,9 @@ before the 30% federal tax credit, depending on system size and panel type.
 
 
 
-<!-- FLAGSHIP-SOLAR-CONTENT -->
+
+
+
 
 <style>
 .fp-section { margin-top:32px; }
@@ -230,35 +232,68 @@ before the 30% federal tax credit, depending on system size and panel type.
 .fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
 .fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
 .fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
-.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
-.fp-season-card { padding:20px; border-radius:12px; }
-.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
-.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
-.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
-.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
-.fp-season-card p { font-size:14px; margin:0; }
 .fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
 .fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
 .fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
 .fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
 .fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
-@media(max-width:700px) {
-  .fp-scenario-grid { grid-template-columns:1fr; }
-  .fp-season-grid { grid-template-columns:1fr; }
-}
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-SOLAR-CONTENT -->
+
 <section class="section fp-section">
 <h2>Neighborhood Solar Potential in Tampa</h2>
-<p>About 55-60% of Tampa-area homes have good south-facing exposure. Ranch-style homes in South Tampa, Carrollwood, and Brandon generally have simple rooflines that accommodate solar well. Concrete tile roofs common in newer subdivisions like Westchase and FishHawk add some mounting complexity. Tree shading is moderate: mature live oaks in Hyde Park, Seminole Heights, and Old Northeast St. Petersburg create significant shading that can reduce production 20-30%. Newer suburban areas like Wesley Chapel and Riverview have minimal tree cover</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
 <tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
 <th style="text-align:left; padding:12px 16px;">Neighborhood</th>
-<th style="text-align:center; padding:12px 16px;">South-Facing Roofs</th>
-<th style="text-align:center; padding:12px 16px;">Tree Shade Impact</th>
-<th style="text-align:center; padding:12px 16px;">Typical System Size</th>
+<th style="text-align:center; padding:12px 16px;">Favorable Orientation</th>
+<th style="text-align:center; padding:12px 16px;">Shade Impact</th>
+<th style="text-align:center; padding:12px 16px;">Typical System</th>
 </tr>
 </thead>
 <tbody>
@@ -301,136 +336,117 @@ before the 30% federal tax credit, depending on system size and panel type.
 </tbody>
 </table>
 </div>
-<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on satellite roof analysis and local canopy data. Actual solar potential depends on your specific roof orientation, pitch, and surrounding obstructions. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;"><a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <section class="section fp-section">
-<h2>Solar Economics in Tampa: Payback and Savings</h2>
-<p>The financial case for solar in Tampa depends on three variables: sun hours, electricity rates, and incentive structure. Here is how they stack up.</p>
-
-<p><strong>Sun hours and production.</strong> Tampa averages 5.3 peak sun hours per day, which translates to roughly 15,476 kWh of annual production from a typical 8 kW system. Tampa produces ~6.6 kWh/kW/day in April-May and still ~4.3 kWh/kW/day in December. Like Miami, spring outperforms mid-summer because daily afternoon thunderstorms clip production hours from June through September.</p>
-
-<p><strong>Electricity cost offset.</strong> At FL's average residential rate of ~$0.14/kWh, an 8 kW system offsets approximately $2,167 in electricity per year. Your actual savings depend on your usage pattern, time-of-use rate structure, and how much energy you export versus consume directly.</p>
-
-<p><strong>Net metering.</strong> Florida's 1:1 retail-rate net metering applies to TECO customers under FPSC rules. Exported energy is credited at full retail rate with monthly rollover; any annual surplus is paid out at TECO's avoided-cost rate. The 2022 legislative effort to phase down net metering was vetoed, preserving favorable economics for now.</p>
-
-<p><strong>Payback period.</strong> With the 30% federal ITC and FL's incentive structure, most Tampa homeowners see a payback period of 7-9 years. After payback, your system produces essentially free electricity for the remaining 15-20 years of its warranted life. A well-sized system in Tampa can generate $40,000-$80,000 in lifetime electricity savings.</p>
+<h2>Tampa Sun Exposure and Seasonal Production</h2>
+<p>Tampa averages 5.3 peak sun hours daily with April-May production at 6.6 kWh per kW per day and December at 4.3. Like Miami, Tampa spring outperforms mid-summer because of daily afternoon thunderstorms June through September. Hurricane season adds periodic multi-day production dips. South Tampa and Carrollwood receive marginally more annual insolation than St. Petersburg because St. Pete's peninsula position creates more frequent Gulf cloud buildup. Westchase and New Tampa see intermediate insolation.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Incentives and Tax Credits for Tampa Homeowners</h2>
-
-<div class="fp-flag" style="background:#f0fdf4; border-color:#a7f3d0;">
-<h3 style="color:#166534;">Federal Solar Investment Tax Credit (ITC) - 30%</h3>
-<p style="color:#14532d;">The federal ITC under IRC Section 25D provides a 30% tax credit on the total cost of your solar installation, including panels, inverters, battery storage, wiring, and installation labor. This credit is available through 2032, then drops to 26% in 2033 and 22% in 2034. This is a dollar-for-dollar tax credit, not a deduction. If you owe $8,000 in federal taxes and your credit is $7,000, your tax bill drops to $1,000. Unused credits can be carried forward to future tax years.</p>
-</div>
-
-<p><strong>Important distinction:</strong> The IRA Section 25C heat pump and energy efficiency credit expired in December 2025. The Section 25D solar and battery credit remains fully active through 2034. Do not confuse these two programs when planning your installation.</p>
-
-<p><strong>FL state incentives.</strong> Florida offers no state tax credit but exempts solar equipment from the 6% state sales tax and provides a 100% property tax exemption on the value solar adds to a home. Combined, these are worth roughly $2,000-$4,000 in savings for a typical installation.</p>
-
-<p><strong>Utility incentives.</strong> TECO offers no direct residential solar rebate. The utility has a modest Renewable Energy Grant program for nonprofits and schools but nothing for homeowners beyond standard interconnection.</p>
-
-<p><strong>Property tax exemption.</strong> FL offers property tax benefits for solar installations. Check with your local tax assessor for current exemptions.</p>
-
-<p><strong>Stacking incentives.</strong> The federal ITC applies to the gross system cost before any state rebates are deducted. State credits and utility rebates stack on top of the federal credit. For a $24,000 system in Tampa, the effective cost after all available incentives can drop to $14,000-$16,000.</p>
+<h2>Tampa Utility Rate and Net Metering Structure</h2>
+<p>TECO residential solar operates under Florida Public Service Commission-mandated 1-for-1 retail-rate net metering. Exported energy is credited at full retail rate with monthly rollover; any annual surplus is paid at TECO's avoided-cost rate. Florida HB 741 attempted to phase down net metering in 2022 but was vetoed by Governor DeSantis, preserving current economics. Duke Energy Florida covers the northern Tampa Bay metro edge (Pasco, northern Pinellas) under similar rules. TECO residential rates average $0.11-$0.13 per kWh.</p>
 </section>
 <section class="section fp-section">
-<h2>Climate and Sun Exposure in Tampa</h2>
-<p><strong>Peak sun hours.</strong> Tampa receives an average of 5.3 peak sun hours per day, making it a solid solar market with above-average production potential. For context, the US average is about 4.5 peak sun hours.</p>
-
-<p><strong>Seasonal production.</strong> Tampa produces ~6.6 kWh/kW/day in April-May and still ~4.3 kWh/kW/day in December. Like Miami, spring outperforms mid-summer because daily afternoon thunderstorms clip production hours from June through September. This seasonal swing affects cash flow: summer months may generate credits that offset winter shortfalls, depending on your utility's net metering policy.</p>
-
-<p><strong>Cloud cover.</strong> Tampa averages 48% cloud cover annually. The Gulf Coast location means daily summer thunderstorms driven by the sea-breeze convergence zone, plus periodic tropical systems from June through November. Winter months are remarkably clear. Modern solar panels still produce 10-25% of their rated output on overcast days through diffuse radiation, but cloud cover is factored into the peak sun hours figure above.</p>
-
-<p><strong>Temperature effects.</strong> Solar panels are rated at 25C (77F) and lose roughly 0.3-0.4% efficiency per degree above that temperature. In Tampa, summer heat reduces panel efficiency modestly during peak afternoon hours, but the temperature effect is manageable and already factored into production estimates from reputable installers.</p>
+<h2>Tampa Interconnection and Grid Approval</h2>
+<p>TECO interconnection for residential systems under 10 kW runs 2-4 weeks through the TECO Renewable Energy portal. Hillsborough County and City of Tampa Building Services issue solar permits through the Accela Citizen Access portal with 2-4 week turnaround. St. Petersburg uses the St. Pete Permit portal. Clearwater and Pinellas County unincorporated use separate portals. The Florida Wind Zone 140-150 mph design requires engineered racking calculations for any residential roof mount.</p>
 </section>
 <section class="section fp-section">
-<h2>HOA Rules and Solar Permitting in Tampa</h2>
-<p><strong>Solar access law.</strong> Florida Statute 163.04 provides some of the strongest solar access protections in the country. HOAs cannot prohibit solar installations and cannot impose restrictions that impair efficiency; placement restrictions are only permitted if they do not reduce production.</p>
-
-<p><strong>Permitting.</strong> City of Tampa and Hillsborough County permits typically clear in 2-4 weeks through Accela online portals. Florida Building Code wind-load requirements (140-150 mph design wind speed for Hillsborough) require engineered racking and enhanced attachment density, which adds cost but protects against hurricane damage. Your installer should handle all permitting as part of the contract. If a company asks you to pull your own permits, that is a yellow flag. The permit holder is legally responsible for code compliance.</p>
-
-<p><strong>Building code.</strong>  Solar installations must comply with the National Electrical Code (NEC) Article 690, which governs photovoltaic systems. Key requirements include rapid shutdown capability (required since NEC 2017), proper conductor sizing, and equipment grounding. Your installer should be intimately familiar with these requirements.</p>
-
-<p><strong>Inspection process.</strong> After installation, expect two inspections before your system can generate power: a building/structural inspection and an electrical inspection. Once both pass, your utility will install a bidirectional meter (or reprogram your existing smart meter) and authorize interconnection. The full process from installation completion to power-on typically takes 2-6 weeks, with utility interconnection being the bottleneck.</p>
+<h2>Tampa Solar Installer Landscape</h2>
+<p>The Tampa installer market is led by Sunrun, Tesla Energy, ADT Solar, and SunPower dealers including Gulf Coast Solar and Big Dog Solar. Regional specialty includes Urban Solar, FLA-SunPro, and Solar Bear Tampa. Florida DBPR requires Certified Solar Contractor (CVC) licensing plus Master Electrician for electrical. Typical Tampa residential quote runs $2.60-$3.40 per watt before incentives, competitive with Orlando and 8-12 percent below Miami because of lower HVHZ-certification complexity.</p>
 </section>
 <section class="section fp-section">
-<h2>Grid Connection and Net Metering in Tampa</h2>
-<p><strong>Your utility.</strong> Most Tampa homeowners are served by TECO (Tampa Electric Company). Confirm your utility provider before evaluating solar proposals, because net metering terms vary significantly between utilities even within the same city.</p>
-
-<p><strong>Net metering details.</strong> Florida's 1:1 retail-rate net metering applies to TECO customers under FPSC rules. Exported energy is credited at full retail rate with monthly rollover; any annual surplus is paid out at TECO's avoided-cost rate. The 2022 legislative effort to phase down net metering was vetoed, preserving favorable economics for now.</p>
-
-<p><strong>Interconnection process.</strong> After your system passes final inspection, your installer submits an interconnection application to TECO. The utility reviews the application, may inspect the meter connection, and then authorizes Permission to Operate (PTO). Do not energize your system before receiving PTO. Operating without utility authorization can damage equipment, void warranties, and create liability issues.</p>
-
-<p><strong>System sizing strategy.</strong> With Tampa's net metering structure, sizing your system to offset 90-100% of your annual usage typically provides the best return. Your installer should model your specific usage pattern and utility rate to optimize system size.</p>
+<h2>Tampa Solar Incentives and Tax Credits</h2>
+<p>Florida offers no state solar tax credit. Federal ITC at 30 percent stacks. Florida exempts solar equipment from 6 percent state sales tax. Florida provides 100 percent property tax exemption on the added home value from solar (Florida Statute 196.175). TECO offers no residential solar rebate. Hillsborough County has no local rebate tier. The Florida Solar Energy Center (at UCF) certifies installers for quality. Solar United Neighbors of Florida runs co-op group-purchase programs that save 10-15 percent.</p>
 </section>
 <section class="section fp-section">
-<h2>Solar Scams and Red Flags in Tampa</h2>
-<p>Solar is a legitimate investment, but the industry has its share of bad actors. Here is what Tampa homeowners need to watch for.</p>
+<h2>Tampa Roof Types and Mounting Implications</h2>
+<p>Tampa rooftop stock is heavily composition shingle on post-1970 suburban housing in South Tampa, Carrollwood, Westchase, and New Tampa. Concrete barrel tile appears in luxury neighborhoods (Avila, Cheval, Weston) and adds 15-20 percent install cost. Metal standing seam is common in new construction and LEED-certified homes. Florida Wind Zone 140-150 mph design applies to Hillsborough County, requiring engineered flashing and racking certifications. Hurricane-rated installations require upgraded hardware at roughly 8-12 percent premium over base pricing.</p>
+</section>
+<section class="section fp-section">
+<h2>Tampa HOA Rules and Solar Access Law</h2>
+<p>Florida Statute 163.04 provides some of the strongest solar access protections in the country. HOAs cannot prohibit solar and cannot impose restrictions that impair efficiency. Master-planned communities in FishHawk Ranch, Westchase, Avila, and Trinity have architectural review that must respect the statute. Placement restrictions are permitted only if they do not reduce output. Ybor City historic district and Hyde Park Historic District add historic review but do not prohibit solar.</p>
+</section>
+<section class="section fp-section">
+<h2>Tampa Solar Permitting Process</h2>
+<p>Hillsborough County and City of Tampa Building Services issue solar permits through the Accela portal with 2-4 week turnaround. Florida Wind Zone design wind calculations (140-150 mph for Hillsborough) are required at permit. Florida Building Code 2020 with Tampa amendments applies. Pinellas County and St. Petersburg use separate portals. NEC 2020 Florida adoption applies. Florida Product Approval is required for any foam bonded to roof sheathing.</p>
+</section>
+<section class="section fp-section">
+<h2>Tampa Battery Storage Options and Rebates</h2>
+<p>Battery adoption in Tampa is driven by hurricane outage risk and the 2004 Charley and 2017 Irma memory. Tesla Powerwall 3 dominates. Enphase IQ Battery 10 and FranklinWH are secondary. Florida has no state battery rebate. Federal ITC at 30 percent applies. TECO's Time-of-Day Pricing can improve battery arbitrage economics but spreads are modest. Indoor battery installation requires proper UL-9540A listing and coordination with Florida Building Code sections on energy storage.</p>
+</section>
+<section class="section fp-section">
+<h2>Tampa Climate Risks for Solar Installations</h2>
+<p>Tampa climate risks for solar are hurricane wind uplift (ASCE 7-16 Category II; Florida Wind Zone 140-150 mph), storm surge in low-lying coastal ZIPs (South Tampa below 10 feet elevation), and lightning strikes from daily summer thunderstorms. Module frames require marine-grade anodized aluminum within 1 mile of Tampa Bay. Surge Protection Devices (SPD) at the DC combiner and AC service entrance are mandatory spec in Florida. Lightning strikes per square mile per year are among the highest in the US.</p>
+</section>
+<section class="section fp-section">
+<h2>Tampa Solar Project Timeline</h2>
+<p>Full timeline from contract signing to PTO in Tampa runs 8-14 weeks: 1-2 weeks site assessment and engineering (wind calculations), 2-4 weeks permitting, 1-2 days installation, 1-2 weeks inspection, 2-4 weeks TECO interconnection. The November-February installation window avoids daily thunderstorm delays and extreme roof temperatures during summer while getting the system online before peak AC season.</p>
+</section>
+<section class="section fp-section">
+<h2>Tampa-Specific Solar Program Insight</h2>
+<p>Tampa Bay has strong residential solar economics thanks to Florida's favorable net metering preservation, property tax exemption, and sales tax exemption. Solar United Neighbors of Florida Tampa Bay Co-op provides group-purchase discounts. The Tampa Bay Solar Advocacy group tracks policy at the Florida PSC level. Hurricane plus solar plus battery resilience packages are a growing Tampa Bay specialty that bundles impact windows with roof-mount solar.</p>
+</section>
+<section class="section fp-section">
+<h2>Tampa Solar Red Flags</h2>
 
 <div class="fp-flag">
-<h3>Solar lease vs. purchase traps</h3>
-<p>Leasing companies offer "$0 down solar" and handle everything, but the homeowner does not own the system, does not receive the federal tax credit (the leasing company claims it), and is locked into 20-25 year contracts with escalating payments (typically 2-3% annually). After 20 years, a leased system can cost more than the electricity it replaces. In Tampa, the strong contractor market means purchase financing at competitive rates is readily available. Own your panels.</p>
+<h3>Quote ignores Tampa utility tariff details</h3>
+<p>TECO residential solar operates under Florida Public Service Commission-mandated 1-for-1 retail-rate net metering. Exported energy is credited at full retail rate with monthly rollover; any annual surplus is paid at TECO's avoided-cost rate. Florida HB 741 attempted to phase down net metering in 2022 but was vetoed by Governor DeSantis, preserving current economics. Duke Energy Florida covers the northern Tampa Bay metro edge (Pasco, northern Pinellas) under similar rules. TECO residential rates average $0.11-$0.13 per kWh.</p>
 </div>
 <div class="fp-flag">
-<h3>Inflated production estimates</h3>
-<p>Some installers inflate production projections by 15-25% to make the payback math look better. Ask for production estimates using PVWatts (the NREL tool) or similar validated modeling software, and verify the shading analysis uses actual site data, not assumptions. In Tampa, your system should produce roughly 5.3 kWh per installed kW per day on an annual average basis. If an installer promises significantly more, demand documentation.</p>
+<h3>System sized wrong for Tampa exposure</h3>
+<p>Tampa averages 5.3 peak sun hours daily with April-May production at 6.6 kWh per kW per day and December at 4.3. Like Miami, Tampa spring outperforms mid-summer because of daily afternoon thunderstorms June through September. Hurricane season adds periodic multi-day production dips. South Tampa and Carrollwood receive marginally more annual insolation than St. Petersburg because St. Pete's peninsula position creates more frequent Gulf cloud buildup. Westchase and New Tampa see intermediate insolation.</p>
 </div>
 <div class="fp-flag">
-<h3>Pressure sales tactics and one-day offers</h3>
-<p>Legitimate solar installers do not pressure you to sign today. Any "this price is only available if you sign now" pitch is a high-pressure sales tactic designed to prevent you from comparing bids. The solar investment tax credit is not going anywhere until 2033. Material costs are not spiking tomorrow. Get at least three quotes and take your time.</p>
+<h3>Timeline does not match Tampa permit reality</h3>
+<p>Full timeline from contract signing to PTO in Tampa runs 8-14 weeks: 1-2 weeks site assessment and engineering (wind calculations), 2-4 weeks permitting, 1-2 days installation, 1-2 weeks inspection, 2-4 weeks TECO interconnection. The November-February installation window avoids daily thunderstorm delays and extreme roof temperatures during summer while getting the system online before peak AC season.</p>
 </div>
 <div class="fp-flag">
-<h3>"Free solar" door-knockers</h3>
-<p>Door-to-door solar salespeople (especially common in Tampa during summer months) often work on commission and represent lease or PPA (Power Purchase Agreement) products. They may show you a monthly payment lower than your current electric bill, but the contract locks you in for 20-25 years, includes escalators, and can complicate home sales. The panels they install are usually the cheapest available to maximize their margin. If someone knocks on your door offering free solar, close the door and do your own research.</p>
+<h3>Missing Tampa incentive stacking</h3>
+<p>Florida offers no state solar tax credit. Federal ITC at 30 percent stacks. Florida exempts solar equipment from 6 percent state sales tax. Florida provides 100 percent property tax exemption on the added home value from solar (Florida Statute 196.175). TECO offers no residential solar rebate. Hillsborough County has no local rebate tier. The Florida Solar Energy Center (at UCF) certifies installers for quality. Solar United Neighbors of Florida runs co-op group-purchase programs that save 10-15 percent.</p>
 </div>
 <div class="fp-flag">
-<h3>Unrealistic battery claims</h3>
-<p>Battery storage (Tesla Powerwall, Enphase IQ, etc.) is a real product with genuine benefits for backup power, but some installers oversell battery as a money-making investment. In most FL rate structures, battery storage alone does not improve the financial payback of a solar installation unless you are on a time-of-use rate with large peak/off-peak spreads. Buy battery for power security during outages, not as a financial investment.</p>
+<h3>Climate-risk engineering shortfall</h3>
+<p>Tampa climate risks for solar are hurricane wind uplift (ASCE 7-16 Category II; Florida Wind Zone 140-150 mph), storm surge in low-lying coastal ZIPs (South Tampa below 10 feet elevation), and lightning strikes from daily summer thunderstorms. Module frames require marine-grade anodized aluminum within 1 mile of Tampa Bay. Surge Protection Devices (SPD) at the DC combiner and AC service entrance are mandatory spec in Florida. Lightning strikes per square mile per year are among the highest in the US.</p>
+</div>
+<div class="fp-flag">
+<h3>Battery pitched without Tampa context</h3>
+<p>Battery adoption in Tampa is driven by hurricane outage risk and the 2004 Charley and 2017 Irma memory. Tesla Powerwall 3 dominates. Enphase IQ Battery 10 and FranklinWH are secondary. Florida has no state battery rebate. Federal ITC at 30 percent applies. TECO's Time-of-Day Pricing can improve battery arbitrage economics but spreads are modest. Indoor battery installation requires proper UL-9540A listing and coordination with Florida Building Code sections on energy storage.</p>
 </div>
 </section>
 <section class="section fp-section">
-<h2>Best Time to Install Solar in Tampa</h2>
-<div class="fp-season-grid">
-<div class="fp-season-card fp-season-best">
-<h3>Best months to install</h3>
-<p class="fp-season-months">November-February</p>
-<p>Dry-season installation avoids daily thunderstorm delays and Florida's brutal summer humidity on rooftops, plus gets your system online before summer AC bills peak.</p>
-</div>
-<div class="fp-season-card fp-season-worst">
-<h3>Why timing matters</h3>
-<p class="fp-season-months">Maximize first-year production</p>
-<p>Solar panels start generating returns the day they are activated. Installing 2-3 months before the peak production season means your first 12 months of ownership capture the maximum possible production. In Tampa, peak production runs from May through September, so having your system operational by April or May is the ideal target.</p>
-</div>
-</div>
-<p><strong>The full timeline.</strong> Plan for 2-3 months from contract signing to power-on. This includes site assessment (1-2 weeks), design and engineering (1-2 weeks), permitting (2-4 weeks), physical installation (1-3 days), inspection (1-2 weeks), and utility interconnection (2-4 weeks). Working backward from your target go-live date helps you choose the right signing date.</p>
+<h2>Questions to Ask a Tampa Solar Installer</h2>
+<p><strong>What is my expected production given Tampa sun hours?</strong> Tampa averages 5.3 peak sun hours daily with April-May production at 6.6 kWh per kW per day and December at 4.3. Like Miami, Tampa spring outperforms mid-summer because of daily afternoon thunderstorms June through September. Hurricane season adds periodic multi-day production dips. South Tampa and Carrollwood receive marginally more annual insolation than St. Petersburg because St. Pete's peninsula position creates more frequent Gulf cloud buildup. Westchase and New Tampa see intermediate insolation.</p>
+<p><strong>How does your design handle Tampa climate risks?</strong> Tampa climate risks for solar are hurricane wind uplift (ASCE 7-16 Category II; Florida Wind Zone 140-150 mph), storm surge in low-lying coastal ZIPs (South Tampa below 10 feet elevation), and lightning strikes from daily summer thunderstorms. Module frames require marine-grade anodized aluminum within 1 mile of Tampa Bay. Surge Protection Devices (SPD) at the DC combiner and AC service entrance are mandatory spec in Florida. Lightning strikes per square mile per year are among the highest in the US.</p>
+<p><strong>Which Tampa incentives are you filing for?</strong> Florida offers no state solar tax credit. Federal ITC at 30 percent stacks. Florida exempts solar equipment from 6 percent state sales tax. Florida provides 100 percent property tax exemption on the added home value from solar (Florida Statute 196.175). TECO offers no residential solar rebate. Hillsborough County has no local rebate tier. The Florida Solar Energy Center (at UCF) certifies installers for quality. Solar United Neighbors of Florida runs co-op group-purchase programs that save 10-15 percent.</p>
+<p><strong>What does the full Tampa timeline look like?</strong> Full timeline from contract signing to PTO in Tampa runs 8-14 weeks: 1-2 weeks site assessment and engineering (wind calculations), 2-4 weeks permitting, 1-2 days installation, 1-2 weeks inspection, 2-4 weeks TECO interconnection. The November-February installation window avoids daily thunderstorm delays and extreme roof temperatures during summer while getting the system online before peak AC season.</p>
 </section>
 <section class="section fp-section">
-<h2>What Solar Actually Costs in Tampa: 3 Scenarios</h2>
-<p>Here is what real solar installations look like in Tampa, FL, using Tampa-adjusted labor and material costs for 2026.</p>
+<h2>Tampa Solar Cost Scenarios</h2>
 <div class="fp-scenario-grid">
 
 <div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
 <h3>Budget</h3>
 <p class="fp-scenario-material">6 kW string inverter | string inverter</p>
 <p class="fp-scenario-total">$18,500</p>
-<p class="fp-scenario-detail">$13,000 after 30% ITC. ~11,607 kWh/year production. $3.00/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$13,000 after 30% ITC. ~11,607 kWh/year. $3.00/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">8 kW with optimizers | power optimizers</p>
 <p class="fp-scenario-total">$27,800</p>
-<p class="fp-scenario-detail">$19,500 after 30% ITC. ~15,476 kWh/year production. $3.38/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$19,500 after 30% ITC. ~15,476 kWh/year. $3.38/W before incentives.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">10 kW with battery backup | microinverters + battery</p>
 <p class="fp-scenario-total">$52,600</p>
-<p class="fp-scenario-detail">$36,800 after 30% ITC. ~19,345 kWh/year production. $3.75/W before incentives. Includes design, permits, installation, monitoring, and warranty.</p>
+<p class="fp-scenario-detail">$36,800 after 30% ITC. ~19,345 kWh/year. $3.75/W before incentives.</p>
 </div>
 </div>
-<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard roof-mount installation on a composition shingle roof with adequate structural capacity. Ground mounts, tile roofs, and flat-roof ballasted systems add 10-25%. Battery pricing based on Tesla Powerwall or equivalent. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">Payback period in Tampa typically runs 7-9 years. <a href="/solar-cost.html" style="color:var(--brand);">Get a personalized solar estimate.</a></p>
 </section>
 <!-- /FLAGSHIP-SOLAR-CONTENT -->
 
