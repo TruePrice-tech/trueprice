@@ -1,8 +1,10 @@
 // Affiliate link configuration — Amazon Associates
 // Store ID: trueprice0d-20
 
+// DISABLED 2026-04-16: Affiliate program paused until LLC formation.
+// Re-enable by flipping `enabled` back to true and rebuilding .min.js.
 window.AFFILIATE_LINKS = {
-  enabled: true,
+  enabled: false,
   tag: "trueprice0d-20",
 
   // Material-specific product links
