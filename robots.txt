@@ -1,18 +1,23 @@
-# Search engines (welcome)
+# Search engines (welcome, but API endpoints are off-limits)
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
 
 User-agent: Slurp
 Allow: /
+Disallow: /api/
 
 User-agent: DuckDuckBot
 Allow: /
+Disallow: /api/
 
 User-agent: Applebot
 Allow: /
+Disallow: /api/
 
 # Known scrapers and AI trainers (blocked)
 User-agent: AhrefsBot
