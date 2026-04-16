@@ -1,0 +1,909 @@
+{
+  "verticals": {
+    "roofing": {
+      "label": "Roofing",
+      "fixtures": [
+        "roofing--03-how-over-priced-is-this-estimate-for-a-metal-roof.jpeg",
+        "01-can-this-be-done-for-8500.png",
+        "02-is-it-normal-for-roofers-to-remove-shingles-as-par.jpeg"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click-estimate-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/get-an-estimate.html",
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Roofing\n          Replace, repair, or new roof"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/roofing-quote-analyzer.html?mode=estimator",
+            "h1": "Roofing Quote Analyzer",
+            "buttons": [
+              "Get my estimate →"
+            ]
+          },
+          {
+            "step": "fill-address",
+            "fields": {
+              "street": "input[placeholder*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "submit-estimate",
+            "clicked": true,
+            "text": "Get my estimate →"
+          },
+          {
+            "step": "wait-estimator-or-result",
+            "ok": true,
+            "ms": 1
+          },
+          {
+            "step": "final-state",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEstimate": true,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nAbout\nContact\nRoofing Quote Analyzer\n17064 Laurelmont Ct, Fort Mill, SC\nWhat would your roof actually cost?\n\nWe'll build a custom estimate using satellite data, regional labor rates, and your specific situat"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "roofing--03-how-over-priced-is-this-estimate-for-a-metal-roof.jpeg",
+        "steps": [
+          {
+            "step": "click-analyze-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Roofing\n          Upload a roofing quote"
+          },
+          {
+            "step": "upload-widget-present",
+            "ok": true
+          },
+          {
+            "step": "upload",
+            "ok": true,
+            "method": "fileChooser"
+          },
+          {
+            "step": "results-state",
+            "hasDollar": true,
+            "hasVerdict": true,
+            "hasScope": true,
+            "hasError": false,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nAbout\nContact\nRoofing Quote Analyzer\nWe need your roof size to check this quote\nRoofing prices depend almost entirely on roof area. Without it, any verdict would be a guess. Enter your address (we'll measure it from satellite data) or your known roof size below and we'll re-check instantly.\nWant a more acc"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "roofing--03-how-over-priced-is-this-estimate-for-a-metal-roof.jpeg",
+          "01-can-this-be-done-for-8500.png"
+        ],
+        "steps": [
+          {
+            "step": "click-compare-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Roofing\n          Compare roofing quotes"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/compare-quotes.html?service=roofing",
+            "h1": "Compare your roofing quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload-slot-0",
+            "file": "roofing--03-how-over-priced-is-this-estimate-for-a-metal-roof.jpeg",
+            "ok": true
+          },
+          {
+            "step": "upload-slot-1",
+            "file": "01-can-this-be-done-for-8500.png",
+            "ok": true
+          },
+          {
+            "step": "click-compare",
+            "clicked": true,
+            "text": "Compare 2 quotes"
+          },
+          {
+            "step": "compare-result",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false,
+            "snippet": "TruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nNot detected shows the best overall value\n\nBased on price, scope completeness, warranty, and transparency.\n\n\tNOT DETECTED BEST VALUE\tNOT DETECTED\nTotal Price\t$136,375\tN/A\nPrice / sq ft\tN/A\tN/A\nMaterial\tStanding seam metal roofing\t"
+          }
+        ],
+        "uploaded": 2,
+        "errs": [
+          "console: Failed to load resource: the server responded with a status of 400 ()"
+        ],
+        "reqFails": [
+          "https://truepricehq.com/images/trudy-thinking.png"
+        ]
+      }
+    },
+    "hvac": {
+      "label": "HVAC",
+      "fixtures": [
+        "hvac--04-is-this-reasonable.jpeg",
+        "01-estimator-said-the-capacitor-would-be-700-not-incl.jpeg",
+        "09-every-quote-10-total-ive-gotten-for-a-heat-pump-in.png"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click-estimate-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/get-an-estimate.html",
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "HVAC\n          Furnace, AC, heat pump install"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/hvac-estimate.html",
+            "h1": "How much will your HVAC project cost?",
+            "buttons": [
+              "Get HVAC Estimate"
+            ]
+          },
+          {
+            "step": "fill-address",
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "submit-estimate",
+            "clicked": false
+          },
+          {
+            "step": "wait-estimator-or-result",
+            "ok": true,
+            "ms": 2
+          },
+          {
+            "step": "final-state",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEstimate": true,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your HVAC project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to HVAC p"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "hvac--04-is-this-reasonable.jpeg",
+        "steps": [
+          {
+            "step": "click-analyze-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "HVAC\n          Upload an HVAC quote"
+          },
+          {
+            "step": "upload-widget-present",
+            "ok": true
+          },
+          {
+            "step": "upload",
+            "ok": true,
+            "method": "fileChooser"
+          },
+          {
+            "step": "results-state",
+            "hasDollar": true,
+            "hasVerdict": true,
+            "hasScope": false,
+            "hasError": false,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nEnter your quote total\n\nWe couldn't read a price from your image. Enter your quote total:\n\n$\nAnalyze this price\nStart over with a different file\nAnalyze quotes for other services\nRoofing\nPlumbing\nElectrical\nSolar\nWindows\nPa"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "hvac--04-is-this-reasonable.jpeg",
+          "01-estimator-said-the-capacitor-would-be-700-not-incl.jpeg"
+        ],
+        "steps": [
+          {
+            "step": "click-compare-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "HVAC\n          Compare HVAC quotes"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/compare-hvac-quotes.html",
+            "h1": "Compare your HVAC quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload-slot-0",
+            "file": "hvac--04-is-this-reasonable.jpeg",
+            "ok": true
+          },
+          {
+            "step": "upload-slot-1",
+            "file": "01-estimator-said-the-capacitor-would-be-700-not-incl.jpeg",
+            "ok": true
+          },
+          {
+            "step": "click-compare",
+            "clicked": true,
+            "text": "Compare 2 quotes"
+          },
+          {
+            "step": "compare-result",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nServices amount shows the best overall value\n\nBased on price, scope transparency, and red flags.\n\nNote: One or more quotes are missing a price. Enter the "
+          }
+        ],
+        "uploaded": 2,
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "insulation": {
+      "label": "Insulation",
+      "fixtures": [
+        "comparison-insul-high.png",
+        "messy-comparison-insul-high.jpg",
+        "comparison-insul-low.png"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click-estimate-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/get-an-estimate.html",
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Insulation\n          Attic, walls, blown-in"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/insulation-estimate.html",
+            "h1": "How much will your insulation project cost?",
+            "buttons": [
+              "Get Insulation Estimate"
+            ]
+          },
+          {
+            "step": "fill-address",
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "submit-estimate",
+            "clicked": false
+          },
+          {
+            "step": "wait-estimator-or-result",
+            "ok": true,
+            "ms": 1
+          },
+          {
+            "step": "final-state",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEstimate": true,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nHow much will your insulation project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to insulation pricing? Read our Insulation Cost Guide\n\nYou are getting an estimate.\nAlready ha"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "comparison-insul-high.png",
+        "steps": [
+          {
+            "step": "click-analyze-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Insulation\n          Upload an insulation quote"
+          },
+          {
+            "step": "upload-widget-present",
+            "ok": true
+          },
+          {
+            "step": "upload",
+            "ok": true,
+            "method": "fileChooser"
+          },
+          {
+            "step": "results-state",
+            "hasDollar": true,
+            "hasVerdict": true,
+            "hasScope": true,
+            "hasError": false,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nWe found your quote total\n\nThis looks like a HVAC quote\n\nWant to analyze it with our HVAC tool instead?\n\nGo to HVAC Analyzer Continue here anyway\n$5,680\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over with a different file\nAnal"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "comparison-insul-high.png",
+          "messy-comparison-insul-high.jpg"
+        ],
+        "steps": [
+          {
+            "step": "click-compare-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Insulation\n          Compare insulation quotes"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/compare-insulation-quotes.html",
+            "h1": "Compare your insulation quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload-slot-0",
+            "file": "comparison-insul-high.png",
+            "ok": true
+          },
+          {
+            "step": "upload-slot-1",
+            "file": "messy-comparison-insul-high.jpg",
+            "ok": true
+          },
+          {
+            "step": "click-compare",
+            "clicked": true,
+            "text": "Compare 2 quotes"
+          },
+          {
+            "step": "compare-result",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nThese quotes are closely matched\n\nScores are within 5 points. Review the details below to make your final call.\n\nNot detected\n60\nWhole-home performance Sp"
+          }
+        ],
+        "uploaded": 2,
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "plumbing": {
+      "label": "Plumbing",
+      "fixtures": [
+        "plumbing--06-help-me-understand-the-invoicenote-from-a-plumber.jpeg",
+        "01-did-i-get-ripped-off.jpeg",
+        "07-my-water-bill-in-the-past-few-months-has-doubled-f.jpg"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click-estimate-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/get-an-estimate.html",
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Plumbing\n          Water heater, pipes, fixtures"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/plumbing-estimate.html",
+            "h1": "How much will your plumbing project cost?",
+            "buttons": [
+              "Get Plumbing Estimate"
+            ]
+          },
+          {
+            "step": "fill-address",
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "submit-estimate",
+            "clicked": false
+          },
+          {
+            "step": "wait-estimator-or-result",
+            "ok": true,
+            "ms": 0
+          },
+          {
+            "step": "final-state",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEstimate": true,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your plumbing project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to pl"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "plumbing--06-help-me-understand-the-invoicenote-from-a-plumber.jpeg",
+        "steps": [
+          {
+            "step": "click-analyze-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Plumbing\n          Upload a plumbing quote"
+          },
+          {
+            "step": "upload-widget-present",
+            "ok": true
+          },
+          {
+            "step": "upload",
+            "ok": true,
+            "method": "fileChooser"
+          },
+          {
+            "step": "results-state",
+            "hasDollar": true,
+            "hasVerdict": true,
+            "hasScope": false,
+            "hasError": false,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nWe found your quote total\n$581\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over\nAnalyze quotes for other services\nRoofing\nHVAC\nElectrical\nSolar\n"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "plumbing--06-help-me-understand-the-invoicenote-from-a-plumber.jpeg",
+          "01-did-i-get-ripped-off.jpeg"
+        ],
+        "steps": [
+          {
+            "step": "click-compare-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Plumbing\n          Compare plumbing quotes"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/compare-plumbing-quotes.html",
+            "h1": "Compare your plumbing quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload-slot-0",
+            "file": "plumbing--06-help-me-understand-the-invoicenote-from-a-plumber.jpeg",
+            "ok": true
+          },
+          {
+            "step": "upload-slot-1",
+            "file": "01-did-i-get-ripped-off.jpeg",
+            "ok": true
+          },
+          {
+            "step": "click-compare",
+            "clicked": true,
+            "text": "Compare 2 quotes"
+          },
+          {
+            "step": "compare-result",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nROOTER Roto-Rooter Services shows the best overall value\n\nBased on price, scope transparency, and red flags.\n\nNote: One or more quotes are missing a price"
+          }
+        ],
+        "uploaded": 2,
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "medical": {
+      "label": "Medical",
+      "fixtures": [
+        "01-found-out-my-insurance-doesnt-cover-hospital-bills.jpeg",
+        "06-received-a-new-eob-and-bill-nearly-three-years-aft.png",
+        "09-asked-for-itemized-bill.jpg"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click-estimate-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/get-an-estimate.html",
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Medical\n          Estimate procedure costs"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/medical-estimate.html",
+            "h1": "How much will your medical procedure cost?",
+            "buttons": [
+              "Get Medical Estimate"
+            ]
+          },
+          {
+            "step": "fill-address",
+            "fields": {
+              "street": null,
+              "city": null,
+              "state": null,
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "submit-estimate",
+            "clicked": false
+          },
+          {
+            "step": "wait-estimator-or-result",
+            "ok": false,
+            "ms": 30395,
+            "label": ""
+          },
+          {
+            "step": "final-state",
+            "hasDollar": false,
+            "hasRange": false,
+            "hasEstimate": true,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate.\nAlready have a bill? Analyze it →\nHow much will your medical procedure cost?\n\nFree cost estimate by procedure, insurance, and location. No email, no phone, no lead-selling.\n\nNew "
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "01-found-out-my-insurance-doesnt-cover-hospital-bills.jpeg",
+        "steps": [
+          {
+            "step": "click-analyze-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Medical\n          Upload a medical bill or GFE"
+          },
+          {
+            "step": "upload-widget-present",
+            "ok": true
+          },
+          {
+            "step": "upload",
+            "ok": true,
+            "method": "fileChooser"
+          },
+          {
+            "step": "results-state",
+            "hasDollar": true,
+            "hasVerdict": true,
+            "hasScope": false,
+            "hasError": true,
+            "snippet": "TruePrice\nGuides\nYou are analyzing a medical bill.\nLook up a procedure price →\nMultiple bills? Compare →\nALL CLEAR\nNo obvious issues detected\nTOTAL BILLED\n$34,764\nINSURANCE PAID\n$0\nYOU OWE\n$34,764\nThis analysis is AI-generated and may contain errors. It is not a substitute for professional medical billing advice. Always verify findings with your insurance provider and healthcare facility.\nLine Ite"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "01-found-out-my-insurance-doesnt-cover-hospital-bills.jpeg",
+          "06-received-a-new-eob-and-bill-nearly-three-years-aft.png"
+        ],
+        "steps": [
+          {
+            "step": "click-compare-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Medical\n          Compare medical bills"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/compare-medical-quotes.html",
+            "h1": "Compare your medical bills",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload-slot-0",
+            "file": "01-found-out-my-insurance-doesnt-cover-hospital-bills.jpeg",
+            "ok": true
+          },
+          {
+            "step": "upload-slot-1",
+            "file": "06-received-a-new-eob-and-bill-nearly-three-years-aft.png",
+            "ok": true
+          },
+          {
+            "step": "click-compare",
+            "clicked": true,
+            "text": "Compare 2 quotes"
+          },
+          {
+            "step": "compare-result",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": true,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are comparing medical bills.\nLook up a procedure price →\nAnalyze a single bill →\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nNot detected shows the best overall value\n\nBased on price, scope tran"
+          }
+        ],
+        "uploaded": 2,
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "auto-repair": {
+      "label": "Auto Repair",
+      "fixtures": [
+        "01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg",
+        "02-just-had-this-show-up-was-initially-quoted-2-hours.jpeg",
+        "comparison-brake-01-shop-a-low.png"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click-estimate-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/get-an-estimate.html",
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Auto Repair\n          Mechanic shop estimate"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/auto-estimate.html",
+            "h1": "How much will your auto repair cost?",
+            "buttons": [
+              "Get Repair Estimate"
+            ]
+          },
+          {
+            "step": "fill-address",
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "submit-estimate",
+            "clicked": false
+          },
+          {
+            "step": "wait-estimator-or-result",
+            "ok": false,
+            "ms": 30407,
+            "label": ""
+          },
+          {
+            "step": "final-state",
+            "hasDollar": false,
+            "hasRange": false,
+            "hasEstimate": true,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your auto repair cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to auto re"
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg",
+        "steps": [
+          {
+            "step": "click-analyze-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Auto Repair\n          Upload a mechanic quote"
+          },
+          {
+            "step": "upload-widget-present",
+            "ok": true
+          },
+          {
+            "step": "upload",
+            "ok": true,
+            "method": "fileChooser"
+          },
+          {
+            "step": "results-state",
+            "hasDollar": true,
+            "hasVerdict": true,
+            "hasScope": false,
+            "hasError": false,
+            "snippet": "TruePrice\nGuides\nAuto Repair Pricing\n\nWhether you're shopping around or checking a quote you already have.\n\n🔎 I Need an Estimate\n\nSee fair prices for your car and repair\n\n📄 I Have a Quote\n\nUpload your mechanic quote for AI analysis\n\nWe found your quote total\n$83\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over with a "
+          }
+        ],
+        "errs": [
+          "pageerror: Cannot read properties of null (reading 'addEventListener')"
+        ],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg",
+          "02-just-had-this-show-up-was-initially-quoted-2-hours.jpeg"
+        ],
+        "steps": [
+          {
+            "step": "click-compare-card",
+            "clicked": true,
+            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
+          },
+          {
+            "step": "click-vertical",
+            "clicked": true,
+            "text": "Auto Repair\n          Compare mechanic quotes"
+          },
+          {
+            "step": "landed",
+            "url": "https://truepricehq.com/compare-auto-quotes.html",
+            "h1": "Compare your mechanic quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload-slot-0",
+            "file": "01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg",
+            "ok": true
+          },
+          {
+            "step": "upload-slot-1",
+            "file": "02-just-had-this-show-up-was-initially-quoted-2-hours.jpeg",
+            "ok": true
+          },
+          {
+            "step": "click-compare",
+            "clicked": true,
+            "text": "Compare 2 quotes"
+          },
+          {
+            "step": "compare-result",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false,
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nThese quotes are closely matched\n\nScores are within 5 points. Price differences may reflect different parts quality (OEM vs aftermarket), labor rates, or "
+          }
+        ],
+        "uploaded": 2,
+        "errs": [],
+        "reqFails": []
+      }
+    }
+  },
+  "findings": [
+    {
+      "sev": "MED",
+      "vertical": "medical",
+      "path": "estimate",
+      "issue": "estimate path didn't render a dollar amount. Snippet: \"✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate...\""
+    },
+    {
+      "sev": "MED",
+      "vertical": "auto-repair",
+      "path": "estimate",
+      "issue": "estimate path didn't render a dollar amount. Snippet: \"✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate...\""
+    }
+  ]
+}

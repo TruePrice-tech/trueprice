@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-painting-cost.html", region: "mountain" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-painting-cost.html", region: "west" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-painting-cost.html", region: "south" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-painting-cost.html", region: "west" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-painting-cost.html", region: "mountain" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-painting-cost.html", region: "northeast" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-painting-cost.html", region: "southeast" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-painting-cost.html", region: "northeast" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-painting-cost.html", region: "west" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-painting-cost.html", region: "southeast" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-painting-cost.html", region: "midwest" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-painting-cost.html", region: "midwest" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-painting-cost.html", region: "southeast" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }

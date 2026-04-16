@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-roof-cost.html" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-roof-cost.html" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-roof-cost.html" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-roof-cost.html" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-roof-cost.html" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-roof-cost.html" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-roof-cost.html" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-roof-cost.html" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-roof-cost.html" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-roof-cost.html" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-roof-cost.html" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-roof-cost.html" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-roof-cost.html" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }
@@ -92,7 +102,7 @@ function climateDeepDive(city, state, ctx, facts) {
   }
 
   if (ctx.hurricaneZone) {
-    paras.push(`<p>Hurricane exposure adds a layer of complexity to roofing in ${city}. ${state} building code requires enhanced wind-uplift resistance in coastal zones, which means six-nail application patterns (vs. the standard four), high-wind-rated underlayment, and specific flashing details at ridges and hips. ${facts.codeNote || ""} These requirements add approximately 5-10% to the cost of a standard reroof but are non-negotiable for code compliance and insurance eligibility.</p>`);
+    paras.push(`<p>Hurricane exposure adds a layer of complexity to roofing in ${city}. ${state} building code requires enhanced wind-uplift resistance in coastal zones, which means six-nail application patterns (vs. the standard four), high-wind-rated underlayment, and specific flashing details at ridges and hips. ${facts.roofCodeNote || ""} These requirements add approximately 5-10% to the cost of a standard reroof but are non-negotiable for code compliance and insurance eligibility.</p>`);
   }
 
   if (ctx.snowLoad === "high" || ctx.climateZone === "cold") {
@@ -156,7 +166,7 @@ function permitDeepDive(city, state, facts) {
 <section class="section fp-section">
 <h2>Permits and Building Code in ${city}</h2>
 <p>${facts.permits}. A building permit is required for virtually all full roof replacements in ${city}. The permit ensures the work is inspected for code compliance, which protects you as the homeowner if problems arise later.</p>
-<p>${facts.codeNote ? facts.codeNote + "." : ""} Your contractor should pull the permit as part of the job. If a contractor asks you to pull it yourself, or suggests skipping the permit entirely, that is a serious red flag. The permit holder is legally responsible for code compliance, and unpermitted work can void your homeowners insurance, create problems during a home sale, and leave you liable for substandard installation.</p>
+<p>${facts.roofCodeNote ? facts.roofCodeNote + "." : ""} Your contractor should pull the permit as part of the job. If a contractor asks you to pull it yourself, or suggests skipping the permit entirely, that is a serious red flag. The permit holder is legally responsible for code compliance, and unpermitted work can void your homeowners insurance, create problems during a home sale, and leave you liable for substandard installation.</p>
 <p>After the job is complete, confirm that a final inspection was scheduled and passed. You should receive documentation from ${city}'s building department confirming the inspection result. Keep this with your roofing warranty paperwork.</p>
 </section>`;
 }

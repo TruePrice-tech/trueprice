@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-plumbing-cost.html" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-plumbing-cost.html" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-plumbing-cost.html" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-plumbing-cost.html" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-plumbing-cost.html" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-plumbing-cost.html" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-plumbing-cost.html" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-plumbing-cost.html" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-plumbing-cost.html" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-plumbing-cost.html" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-plumbing-cost.html" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-plumbing-cost.html" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-plumbing-cost.html" },
 ];
 
 /* State-to-region mapping for laborMultiplierByRegion */

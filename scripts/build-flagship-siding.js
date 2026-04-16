@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", region: "mountain", file: "denver-co-siding-cost.html" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", region: "west", file: "seattle-wa-siding-cost.html" },
   { slug: "austin-tx", ctxKey: "Austin|TX", region: "south", file: "austin-tx-siding-cost.html" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", region: "west", file: "san-francisco-ca-siding-cost.html" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", region: "mountain", file: "las-vegas-nv-siding-cost.html" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", region: "northeast", file: "philadelphia-pa-siding-cost.html" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", region: "southeast", file: "miami-fl-siding-cost.html" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", region: "northeast", file: "boston-ma-siding-cost.html" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", region: "west", file: "san-diego-ca-siding-cost.html" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", region: "southeast", file: "tampa-fl-siding-cost.html" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", region: "midwest", file: "detroit-mi-siding-cost.html" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", region: "midwest", file: "minneapolis-mn-siding-cost.html" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", region: "southeast", file: "charlotte-nc-siding-cost.html" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n.toLocaleString()}`; }

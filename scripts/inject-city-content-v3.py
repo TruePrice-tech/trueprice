@@ -261,19 +261,25 @@ def build_section(city_display, state_code, vslug, vcfg, ctx, mult, local):
     if home_age_p:
         paras.append(f"<p><strong>Home stock in {city_display}.</strong> {home_age_p}</p>")
 
-    # Weather note verbatim (unique per city)
-    if weather_note:
+    # weatherNote / permitNote / materialTip in city-context.json are written
+    # for ROOFING (e.g. "any roof replacement project", "Class 4 impact-resistant
+    # shingles"). Injecting them on non-roof verticals produced 2,065 contaminated
+    # pages (audit-city-page-contamination.py). Until we ship vertical-specific
+    # equivalents, gate these three fields to roof only. V3 only targets non-roof
+    # verticals today, so in practice these stay off — but the guard makes the
+    # invariant explicit and survives future vertical additions.
+    is_roof = vslug == "roof"
+
+    if is_roof and weather_note:
         paras.append(
             f"<p><strong>Local climate reality.</strong> {weather_note} For {vlabel}, that translates "
             f"into specific material and installation choices that contractors in {city_display} factor into every quote.</p>"
         )
 
-    # Material tip verbatim
-    if material_tip:
+    if is_roof and material_tip:
         paras.append(f"<p><strong>Materials to prioritize.</strong> {material_tip}</p>")
 
-    # Permit note verbatim (unique per city)
-    if permit_note:
+    if is_roof and permit_note:
         hoa_addon = f" {hoa_p}" if hoa_p else ""
         paras.append(f"<p><strong>Permit &amp; code considerations.</strong> {permit_note}.{hoa_addon}</p>")
     elif hoa_p:

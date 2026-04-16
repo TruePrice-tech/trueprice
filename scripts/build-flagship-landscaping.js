@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-landscaping-cost.html" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-landscaping-cost.html" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-landscaping-cost.html" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-landscaping-cost.html" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-landscaping-cost.html" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-landscaping-cost.html" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-landscaping-cost.html" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-landscaping-cost.html" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-landscaping-cost.html" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-landscaping-cost.html" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-landscaping-cost.html" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-landscaping-cost.html" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-landscaping-cost.html" },
 ];
 
 const STATE_TO_REGION = {

@@ -1,0 +1,850 @@
+{
+  "verticals": {
+    "kitchen": {
+      "label": "Kitchen",
+      "fixtures": [
+        "mock-08.png",
+        "messy-comparison-kitchen-high.jpg",
+        "mock-03.png"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Kitchen\n          Remodel or refresh",
+            "href": "http://127.0.0.1:4324/kitchen-estimate.html"
+          },
+          {
+            "step": "landed",
+            "url": "http://127.0.0.1:4324/kitchen-estimate.html",
+            "h1": "How much will your kitchen remodel cost?",
+            "buttons": [
+              "Get Kitchen Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": true,
+            "text": "Get Kitchen Estimate",
+            "href": ""
+          },
+          {
+            "step": "result signals",
+            "url": "http://127.0.0.1:4324/kitchen-estimate.html",
+            "h1": "Kitchen Remodel Estimator",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEst": true,
+            "textLength": 4103
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "mock-08.png",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Kitchen\n          Remodel or refresh",
+            "href": "http://127.0.0.1:4324/kitchen-estimate.html"
+          },
+          {
+            "step": "pre-state",
+            "hasFileInput": false,
+            "hasAddressForm": true,
+            "h1": "How much will your kitchen remodel cost?"
+          },
+          {
+            "step": "upload widget available",
+            "hydrated": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "mock-08.png",
+          "messy-comparison-kitchen-high.jpg",
+          "mock-03.png"
+        ],
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4324/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Kitchen\n          Compare kitchen remodel quotes",
+            "href": "http://127.0.0.1:4324/compare-kitchen-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4324/compare-kitchen-quotes.html",
+            "h1": "Compare your kitchen remodel quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload slot 0",
+            "ok": true,
+            "file": "mock-08.png"
+          },
+          {
+            "step": "upload slot 1",
+            "ok": true,
+            "file": "messy-comparison-kitchen-high.jpg"
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          },
+          {
+            "step": "after compare",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "hvac": {
+      "label": "HVAC",
+      "fixtures": [
+        "hvac--07-had-a-leak-in-the-coil-of-my-air-handler-is-this-r.jpeg",
+        "04-is-this-reasonable.jpeg",
+        "10-8k-for-mitsubishi-mini-split-leak-detection-just-t.png"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "HVAC\n          Furnace, AC, heat pump install",
+            "href": "http://127.0.0.1:4324/hvac-estimate.html"
+          },
+          {
+            "step": "landed",
+            "url": "http://127.0.0.1:4324/hvac-estimate.html",
+            "h1": "How much will your HVAC project cost?",
+            "buttons": [
+              "Get HVAC Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": true,
+            "text": "Get HVAC Estimate",
+            "href": ""
+          },
+          {
+            "step": "result signals",
+            "url": "http://127.0.0.1:4324/hvac-estimate.html",
+            "h1": "HVAC Cost Estimator",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEst": true,
+            "textLength": 4967
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "hvac--07-had-a-leak-in-the-coil-of-my-air-handler-is-this-r.jpeg",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "HVAC\n          Furnace, AC, heat pump install",
+            "href": "http://127.0.0.1:4324/hvac-estimate.html"
+          },
+          {
+            "step": "pre-state",
+            "hasFileInput": false,
+            "hasAddressForm": true,
+            "h1": "How much will your HVAC project cost?"
+          },
+          {
+            "step": "upload widget available",
+            "hydrated": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "hvac--07-had-a-leak-in-the-coil-of-my-air-handler-is-this-r.jpeg",
+          "04-is-this-reasonable.jpeg",
+          "10-8k-for-mitsubishi-mini-split-leak-detection-just-t.png"
+        ],
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4324/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "HVAC\n          Compare HVAC quotes",
+            "href": "http://127.0.0.1:4324/compare-hvac-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4324/compare-hvac-quotes.html",
+            "h1": "Compare your HVAC quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload slot 0",
+            "ok": true,
+            "file": "hvac--07-had-a-leak-in-the-coil-of-my-air-handler-is-this-r.jpeg"
+          },
+          {
+            "step": "upload slot 1",
+            "ok": true,
+            "file": "04-is-this-reasonable.jpeg"
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          },
+          {
+            "step": "after compare",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "window": {
+      "label": "Window",
+      "fixtures": [],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Windows\n          Replacement windows",
+            "href": "http://127.0.0.1:4324/window-estimate.html"
+          },
+          {
+            "step": "landed",
+            "url": "http://127.0.0.1:4324/window-estimate.html",
+            "h1": "How much will your window project cost?",
+            "buttons": [
+              "Get Window Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": true,
+            "text": "Get Window Estimate",
+            "href": ""
+          },
+          {
+            "step": "result signals",
+            "url": "http://127.0.0.1:4324/window-estimate.html",
+            "h1": "Window Cost Estimator",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEst": true,
+            "textLength": 4571
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "landscaping": {
+      "label": "Landscaping",
+      "fixtures": [
+        "mock-06.png",
+        "messy-comparison-land-mid.jpg",
+        "mock-02.png"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Landscaping\n          Sod, plants, hardscape",
+            "href": "http://127.0.0.1:4324/landscaping-estimate.html"
+          },
+          {
+            "step": "landed",
+            "url": "http://127.0.0.1:4324/landscaping-estimate.html",
+            "h1": "How much will your landscaping project cost?",
+            "buttons": [
+              "Get Landscaping Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": true,
+            "text": "Get Landscaping Estimate",
+            "href": ""
+          },
+          {
+            "step": "result signals",
+            "url": "http://127.0.0.1:4324/landscaping-estimate.html",
+            "h1": "Landscaping Cost Estimator",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEst": true,
+            "textLength": 4371
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "mock-06.png",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Landscaping\n          Sod, plants, hardscape",
+            "href": "http://127.0.0.1:4324/landscaping-estimate.html"
+          },
+          {
+            "step": "pre-state",
+            "hasFileInput": false,
+            "hasAddressForm": true,
+            "h1": "How much will your landscaping project cost?"
+          },
+          {
+            "step": "upload widget available",
+            "hydrated": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "mock-06.png",
+          "messy-comparison-land-mid.jpg",
+          "mock-02.png"
+        ],
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4324/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Landscaping\n          Compare landscaping quotes",
+            "href": "http://127.0.0.1:4324/compare-landscaping-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4324/compare-landscaping-quotes.html",
+            "h1": "Compare your landscaping quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload slot 0",
+            "ok": true,
+            "file": "mock-06.png"
+          },
+          {
+            "step": "upload slot 1",
+            "ok": true,
+            "file": "messy-comparison-land-mid.jpg"
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          },
+          {
+            "step": "after compare",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "auto-repair": {
+      "label": "Auto Repair",
+      "fixtures": [
+        "01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg",
+        "07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg",
+        "comparison-brake-02-shop-b-mid.png"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Auto Repair\n          Mechanic shop estimate",
+            "href": "http://127.0.0.1:4324/auto-estimate.html"
+          },
+          {
+            "step": "landed",
+            "url": "http://127.0.0.1:4324/auto-estimate.html",
+            "h1": "How much will your auto repair cost?",
+            "buttons": [
+              "Get Repair Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": true,
+            "text": "Get Repair Estimate",
+            "href": ""
+          },
+          {
+            "step": "result signals",
+            "url": "http://127.0.0.1:4324/auto-estimate.html",
+            "h1": "Auto Repair Cost Estimator",
+            "hasDollar": false,
+            "hasRange": false,
+            "hasEst": true,
+            "textLength": 861
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Auto Repair\n          Mechanic shop estimate",
+            "href": "http://127.0.0.1:4324/auto-estimate.html"
+          },
+          {
+            "step": "pre-state",
+            "hasFileInput": false,
+            "hasAddressForm": true,
+            "h1": "How much will your auto repair cost?"
+          },
+          {
+            "step": "upload widget available",
+            "hydrated": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg",
+          "07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg",
+          "comparison-brake-02-shop-b-mid.png"
+        ],
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4324/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Auto Repair\n          Compare mechanic quotes",
+            "href": "http://127.0.0.1:4324/compare-auto-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4324/compare-auto-quotes.html",
+            "h1": "Compare your mechanic quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload slot 0",
+            "ok": true,
+            "file": "01-to-the-pos-technician-who-quoted-this-poor-lady-a.jpg"
+          },
+          {
+            "step": "upload slot 1",
+            "ok": true,
+            "file": "07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg"
+          },
+          {
+            "step": "click compare button",
+            "clicked": false
+          },
+          {
+            "step": "after compare",
+            "hasDollar": true,
+            "hasTable": false,
+            "hasScore": false,
+            "hasError": true
+          }
+        ],
+        "errs": [
+          "console: [compare-auto-quotes] Parse error: Error: API returned 404",
+          "console: [compare-auto-quotes] Parse error: Error: API returned 404"
+        ],
+        "reqFails": []
+      }
+    },
+    "garage-door": {
+      "label": "Garage Door",
+      "fixtures": [
+        "mock-08.png",
+        "messy-comparison-garage-mid.jpg",
+        "real-06-what-is-this-cable-even-for.jpeg"
+      ],
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Garage Door\n          Door + opener install",
+            "href": "http://127.0.0.1:4324/garage-door-estimate.html"
+          },
+          {
+            "step": "landed",
+            "url": "http://127.0.0.1:4324/garage-door-estimate.html",
+            "h1": "How much will your garage door cost?",
+            "buttons": [
+              "Get Garage Door Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "fields": {
+              "street": "input[id*='street' i]",
+              "city": "input[placeholder*='city' i]",
+              "state": "input[placeholder*='state' i]",
+              "zip": "input[placeholder*='zip' i]"
+            }
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": true,
+            "text": "Get Garage Door Estimate",
+            "href": ""
+          },
+          {
+            "step": "result signals",
+            "url": "http://127.0.0.1:4324/garage-door-estimate.html",
+            "h1": "Garage Door Cost Estimator",
+            "hasDollar": true,
+            "hasRange": true,
+            "hasEst": true,
+            "textLength": 4179
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "fixture": "mock-08.png",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4324/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Garage Door\n          Door + opener install",
+            "href": "http://127.0.0.1:4324/garage-door-estimate.html"
+          },
+          {
+            "step": "pre-state",
+            "hasFileInput": false,
+            "hasAddressForm": true,
+            "h1": "How much will your garage door cost?"
+          },
+          {
+            "step": "upload widget available",
+            "hydrated": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "fixtures": [
+          "mock-08.png",
+          "messy-comparison-garage-mid.jpg",
+          "real-06-what-is-this-cable-even-for.jpeg"
+        ],
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4324/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical",
+            "clicked": true,
+            "text": "Garage Door\n          Compare garage door quotes",
+            "href": "http://127.0.0.1:4324/compare-garage-door-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4324/compare-garage-door-quotes.html",
+            "h1": "Compare your garage door quotes",
+            "fileInputs": 3
+          },
+          {
+            "step": "upload slot 0",
+            "ok": true,
+            "file": "mock-08.png"
+          },
+          {
+            "step": "upload slot 1",
+            "ok": true,
+            "file": "messy-comparison-garage-mid.jpg"
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          },
+          {
+            "step": "after compare",
+            "hasDollar": true,
+            "hasTable": true,
+            "hasScore": true,
+            "hasError": false
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    }
+  },
+  "findings": [
+    {
+      "sev": "HIGH",
+      "vertical": "kitchen",
+      "path": "analyze",
+      "issue": "analyze path never reaches upload widget (stuck on address/confirm flow)"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "hvac",
+      "path": "analyze",
+      "issue": "analyze path never reaches upload widget (stuck on address/confirm flow)"
+    },
+    {
+      "sev": "INFO",
+      "vertical": "window",
+      "path": "setup",
+      "issue": "no fixtures found for window — skipping upload tests"
+    },
+    {
+      "sev": "INFO",
+      "vertical": "window",
+      "path": "compare",
+      "issue": "only 0 fixture(s) available — can't run compare"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "landscaping",
+      "path": "analyze",
+      "issue": "analyze path never reaches upload widget (stuck on address/confirm flow)"
+    },
+    {
+      "sev": "MED",
+      "vertical": "auto-repair",
+      "path": "estimate",
+      "issue": "submit didn't produce any dollar amount in rendered page"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "auto-repair",
+      "path": "analyze",
+      "issue": "analyze path never reaches upload widget (stuck on address/confirm flow)"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "garage-door",
+      "path": "analyze",
+      "issue": "analyze path never reaches upload widget (stuck on address/confirm flow)"
+    }
+  ]
+}

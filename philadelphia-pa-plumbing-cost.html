@@ -176,6 +176,130 @@
 </ul>
 </section>
 
+<!-- FLAGSHIP-PLUMBING-CONTENT -->
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<section class="section fp-section">
+<h2>Neighborhood Plumbing Cost Breakdown</h2>
+<p>Plumbing costs vary within Philadelphia based on housing age, pipe material, foundation type, and local labor demand. These are estimated costs for common projects by neighborhood.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Water Heater</th>
+<th style="text-align:right; padding:12px 16px;">Sewer Line</th>
+<th style="text-align:right; padding:12px 16px;">Bath Rough-In</th>
+<th style="text-align:right; padding:12px 16px;">Whole Repipe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Fishtown</td>
+<td style="padding:12px 16px; text-align:right;">$2,375</td>
+<td style="padding:12px 16px; text-align:right;">$5,950</td>
+<td style="padding:12px 16px; text-align:right;">$4,850</td>
+<td style="padding:12px 16px; text-align:right;">$6.0K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Northern Liberties</td>
+<td style="padding:12px 16px; text-align:right;">$2,300</td>
+<td style="padding:12px 16px; text-align:right;">$5,725</td>
+<td style="padding:12px 16px; text-align:right;">$4,675</td>
+<td style="padding:12px 16px; text-align:right;">$5.7K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Manayunk</td>
+<td style="padding:12px 16px; text-align:right;">$2,275</td>
+<td style="padding:12px 16px; text-align:right;">$5,675</td>
+<td style="padding:12px 16px; text-align:right;">$4,625</td>
+<td style="padding:12px 16px; text-align:right;">$5.7K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Chestnut Hill</td>
+<td style="padding:12px 16px; text-align:right;">$2,025</td>
+<td style="padding:12px 16px; text-align:right;">$5,050</td>
+<td style="padding:12px 16px; text-align:right;">$4,150</td>
+<td style="padding:12px 16px; text-align:right;">$5.0K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Fairmount</td>
+<td style="padding:12px 16px; text-align:right;">$2,100</td>
+<td style="padding:12px 16px; text-align:right;">$5,275</td>
+<td style="padding:12px 16px; text-align:right;">$4,325</td>
+<td style="padding:12px 16px; text-align:right;">$5.3K</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Queen Village</td>
+<td style="padding:12px 16px; text-align:right;">$2,125</td>
+<td style="padding:12px 16px; text-align:right;">$5,325</td>
+<td style="padding:12px 16px; text-align:right;">$4,375</td>
+<td style="padding:12px 16px; text-align:right;">$5.3K</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Estimates based on local labor rates and typical project scope. Actual pricing depends on access difficulty, pipe material, and current demand. <a href="/plumbing-quote-analyzer.html?city=Philadelphia&state=PA" style="color:var(--brand);">Upload your quote for an exact comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>What Plumbing Projects Actually Cost in Philadelphia: 3 Scenarios</h2>
+<p>Here is what real plumbing projects look like in Philadelphia, PA, using Philadelphia-adjusted labor and material costs for 2026.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget: Water Heater Swap</h3>
+<p class="fp-scenario-material">50-gallon gas tank water heater</p>
+<p class="fp-scenario-total">$2,200</p>
+<p class="fp-scenario-detail">Includes removal of old unit, new 50-gallon gas tank heater, supply connections, gas line connection, venting, expansion tank, drain pan, permit, and disposal. Standard location swap (no relocation).</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range: Bathroom Remodel Rough-In</h3>
+<p class="fp-scenario-material">Full bathroom plumbing rough-in</p>
+<p class="fp-scenario-total">$4,500</p>
+<p class="fp-scenario-detail">Includes supply lines (hot and cold), drain/waste/vent for toilet, sink, and tub/shower, shut-off valves, pressure testing, permit, and basic drywall patching. Does not include fixtures or finish work.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium: Whole-House PEX Repipe</h3>
+<p class="fp-scenario-material">Full repipe, 2,000 sq ft home, 2 bathrooms</p>
+<p class="fp-scenario-total">$6,325</p>
+<p class="fp-scenario-detail">Includes PEX supply lines to all fixtures, new shut-off valves throughout, manifold system, pressure testing, drywall repair and patching, permit, and inspection. Typically completed in 2-3 days.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">All scenarios assume standard access conditions. Slab access, multi-story homes, or complex routing add 20-40%. <a href="/plumbing-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-PLUMBING-CONTENT -->
+
+
+
+
 <section class="section">
 <h2>Frequently Asked Questions</h2>
 <div class="faq-list">

@@ -36,7 +36,7 @@
   var styles = document.createElement('style');
   styles.textContent = [
     '@keyframes tp-pulse { 0%,100%{ opacity:.6 } 50%{ opacity:.3 } }',
-    ':host { display:block; max-width:380px; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; }',
+    ':host { display:block; width:100%; max-width:380px; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; box-sizing:border-box; }',
     '.tp-card { background:' + bg + '; border:1px solid ' + border + '; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,0.1); padding:20px; box-sizing:border-box; }',
     '.tp-header { display:flex; align-items:flex-start; gap:10px; margin-bottom:16px; }',
     '.tp-logo { font-weight:800; font-size:16px; color:' + brand + '; flex-shrink:0; line-height:1.3; }',
@@ -48,7 +48,12 @@
     '.tp-highlight-range { font-size:13px; color:' + textSecondary + '; margin-top:4px; }',
     '.tp-highlight-note { font-size:12px; color:' + textSecondary + '; margin-top:6px; }',
     '.tp-confidence { font-size:11px; color:' + textSecondary + '; margin-top:6px; display:flex; align-items:center; justify-content:center; gap:4px; }',
-    '.tp-confidence-dot { width:6px; height:6px; border-radius:50%; background:#22c55e; display:inline-block; flex-shrink:0; }',
+    '.tp-confidence-dot { width:6px; height:6px; border-radius:50%; display:inline-block; flex-shrink:0; }',
+    '.tp-conf-verified { background:#22c55e; }',
+    '.tp-conf-calibrated { background:#3b82f6; }',
+    '.tp-conf-modeled { background:#94a3b8; }',
+    '.tp-conf-estimated { background:#f59e0b; }',
+    '.tp-updated { font-size:10px; color:' + textSecondary + '; text-align:center; margin-top:8px; opacity:0.75; }',
     '.tp-materials { margin:16px 0; }',
     '.tp-material { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid ' + rowBorder + '; font-size:14px; }',
     '.tp-material:last-child { border-bottom:none; }',
@@ -80,6 +85,8 @@
 
   var card = document.createElement('div');
   card.className = 'tp-card';
+  card.setAttribute('role', 'region');
+  card.setAttribute('aria-label', 'TruePrice local pricing widget');
   shadow.appendChild(card);
 
   // Loading skeleton
@@ -111,16 +118,20 @@
     });
   }
 
-  // Geo auto-detect or use provided city/state
+  // Geo auto-detect (with 2.5s timeout fallback) or use provided city/state
   if (autoDetect && !city) {
-    fetch('https://ipapi.co/json/').then(function(r) { return r.json(); }).then(function(geo) {
+    var geoTimeout = new Promise(function(_, reject) {
+      setTimeout(function() { reject(new Error('geo-timeout')); }, 2500);
+    });
+    Promise.race([
+      fetch('https://ipapi.co/json/').then(function(r) { return r.json(); }),
+      geoTimeout
+    ]).then(function(geo) {
       city = geo.city || city || 'Dallas';
       state = geo.region_code || state || 'TX';
       loadWidget(city, state);
     }).catch(function() {
-      city = city || 'Dallas';
-      state = state || 'TX';
-      loadWidget(city, state);
+      loadWidget(city || 'Dallas', state || 'TX');
     });
   } else {
     loadWidget(city || 'Dallas', state || 'TX');
@@ -158,27 +169,27 @@
     html.push('<div class="tp-subtitle">in ' + esc(displayCity) + ', ' + esc(displayState) + '</div>');
     html.push('</div></div>');
 
-    // Most common price highlight
+    function confidenceBlock() {
+      if (!data.confidenceLabel) return '';
+      var dotClass = 'tp-conf-' + (data.confidence || 'estimated');
+      return '<div class="tp-confidence"><span class="tp-confidence-dot ' + dotClass + '"></span>' + esc(data.confidenceLabel) + '</div>';
+    }
+
+    // Typical price highlight (median of material mid-points)
     if (mostCommon > 0 && !isHourly) {
       html.push('<div class="tp-highlight">');
-      html.push('<div class="tp-highlight-label">Most common price</div>');
+      html.push('<div class="tp-highlight-label">Typical price</div>');
       html.push('<div class="tp-highlight-price">' + fmt(mostCommon) + '</div>');
       html.push('<div class="tp-highlight-range">Range: ' + fmt(data.overallLow) + ' &ndash; ' + fmt(data.overallHigh) + '</div>');
       if (note) html.push('<div class="tp-highlight-note">' + esc(note) + '</div>');
-      if (data.confidenceLabel) {
-        var dot = data.confidence === 'verified' ? '<span class="tp-confidence-dot"></span>' : '';
-        html.push('<div class="tp-confidence">' + dot + esc(data.confidenceLabel) + '</div>');
-      }
+      html.push(confidenceBlock());
       html.push('</div>');
     } else if (isHourly) {
       html.push('<div class="tp-highlight">');
       html.push('<div class="tp-highlight-label">Typical hourly rate</div>');
       html.push('<div class="tp-highlight-price">' + fmt(data.overallLow) + ' &ndash; ' + fmt(data.overallHigh) + '/hr</div>');
       html.push('<div class="tp-highlight-note">Varies by practice area, firm size, and region</div>');
-      if (data.confidenceLabel) {
-        var dotH = data.confidence === 'verified' ? '<span class="tp-confidence-dot"></span>' : '';
-        html.push('<div class="tp-confidence">' + dotH + esc(data.confidenceLabel) + '</div>');
-      }
+      html.push(confidenceBlock());
       html.push('</div>');
     }
 
@@ -209,6 +220,9 @@
     html.push('<a class="tp-cta" href="' + esc(cityUrl) + '" target="_blank" rel="noopener">Full pricing details &rarr;</a>');
     html.push('<a class="tp-powered" href="https://truepricehq.com/widget.html" target="_blank" rel="noopener"><img src="https://truepricehq.com/images/trudy-peeking.png" alt="" width="14" height="14" onerror="this.style.display=\'none\'" /> by TruePrice</a>');
     html.push('</div>');
+    if (data.updated) {
+      html.push('<div class="tp-updated">Updated ' + esc(data.updated) + '</div>');
+    }
     html.push('</div>');
 
     card.innerHTML = html.join('');

@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-window-cost.html" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-window-cost.html" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-window-cost.html" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-window-cost.html" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-window-cost.html" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-window-cost.html" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-window-cost.html" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-window-cost.html" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-window-cost.html" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-window-cost.html" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-window-cost.html" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-window-cost.html" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-window-cost.html" },
 ];
 
 function fmtDollar(n) { return n >= 1000 ? `$${n.toLocaleString("en-US")}` : `$${n}`; }

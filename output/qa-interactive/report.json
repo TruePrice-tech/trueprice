@@ -1,0 +1,775 @@
+{
+  "verticals": {
+    "kitchen": {
+      "label": "Kitchen",
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Kitchen\n          Remodel or refresh",
+            "href": "http://127.0.0.1:4323/kitchen-estimate.html"
+          },
+          {
+            "step": "landed on vertical page",
+            "url": "http://127.0.0.1:4323/kitchen-estimate.html",
+            "h1": "How much will your kitchen remodel cost?",
+            "inputs": 4,
+            "buttons": [
+              "Get Kitchen Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "selector": "input[placeholder*='address' i]",
+            "placeholder": "Start typing your address..."
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": false
+          },
+          {
+            "step": "after submit",
+            "url": "http://127.0.0.1:4323/kitchen-estimate.html",
+            "h1": "How much will your kitchen remodel cost?",
+            "headings": [
+              "Kitchen remodel cost by tier (2026)",
+              "Kitchen remodel cost factors",
+              "Kitchen remodel cost by city",
+              "Frequently asked questions about kitchen remodel cost"
+            ]
+          },
+          {
+            "step": "check result signals",
+            "hasDollar": true,
+            "hasEst": true,
+            "hasCta": true,
+            "textLength": 4220
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Kitchen\n          Remodel or refresh",
+            "href": "http://127.0.0.1:4323/kitchen-estimate.html"
+          },
+          {
+            "step": "landed analyzer",
+            "url": "http://127.0.0.1:4323/kitchen-estimate.html",
+            "h1": "How much will your kitchen remodel cost?",
+            "fileInputCount": 0
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4323/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Kitchen\n          Compare kitchen remodel quotes",
+            "href": "http://127.0.0.1:4323/compare-kitchen-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4323/compare-kitchen-quotes.html",
+            "h1": "Compare your kitchen remodel quotes",
+            "fileInputCount": 3
+          },
+          {
+            "step": "uploads completed",
+            "uploaded": 2
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "concrete": {
+      "label": "Concrete",
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Concrete\n          Driveway, patio, slab",
+            "href": "http://127.0.0.1:4323/concrete-estimate.html"
+          },
+          {
+            "step": "landed on vertical page",
+            "url": "http://127.0.0.1:4323/concrete-estimate.html",
+            "h1": "How much will your concrete project cost?",
+            "inputs": 4,
+            "buttons": [
+              "Get Concrete Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "selector": "input[placeholder*='address' i]",
+            "placeholder": "Start typing your address..."
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": false
+          },
+          {
+            "step": "after submit",
+            "url": "http://127.0.0.1:4323/concrete-estimate.html",
+            "h1": "How much will your concrete project cost?",
+            "headings": [
+              "Concrete cost by project type (2026)",
+              "Concrete cost factors",
+              "Concrete cost by city",
+              "Frequently asked questions about concrete cost"
+            ]
+          },
+          {
+            "step": "check result signals",
+            "hasDollar": true,
+            "hasEst": true,
+            "hasCta": true,
+            "textLength": 3975
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Concrete\n          Driveway, patio, slab",
+            "href": "http://127.0.0.1:4323/concrete-estimate.html"
+          },
+          {
+            "step": "landed analyzer",
+            "url": "http://127.0.0.1:4323/concrete-estimate.html",
+            "h1": "How much will your concrete project cost?",
+            "fileInputCount": 0
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4323/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Concrete\n          Compare concrete quotes",
+            "href": "http://127.0.0.1:4323/compare-concrete-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4323/compare-concrete-quotes.html",
+            "h1": "Compare your concrete quotes",
+            "fileInputCount": 3
+          },
+          {
+            "step": "uploads completed",
+            "uploaded": 2
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "painting": {
+      "label": "Painting",
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Painting\n          Interior or exterior paint",
+            "href": "http://127.0.0.1:4323/painting-estimate.html"
+          },
+          {
+            "step": "landed on vertical page",
+            "url": "http://127.0.0.1:4323/painting-estimate.html",
+            "h1": "How much will your painting project cost?",
+            "inputs": 4,
+            "buttons": [
+              "Get Painting Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "selector": "input[placeholder*='address' i]",
+            "placeholder": "Start typing your address..."
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": false
+          },
+          {
+            "step": "after submit",
+            "url": "http://127.0.0.1:4323/painting-estimate.html",
+            "h1": "How much will your painting project cost?",
+            "headings": [
+              "House painting cost by project type (2026)",
+              "House painting cost factors",
+              "House painting cost by city",
+              "Frequently asked questions about house painting cost"
+            ]
+          },
+          {
+            "step": "check result signals",
+            "hasDollar": true,
+            "hasEst": true,
+            "hasCta": true,
+            "textLength": 4649
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Painting\n          Interior or exterior paint",
+            "href": "http://127.0.0.1:4323/painting-estimate.html"
+          },
+          {
+            "step": "landed analyzer",
+            "url": "http://127.0.0.1:4323/painting-estimate.html",
+            "h1": "How much will your painting project cost?",
+            "fileInputCount": 0
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4323/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Painting\n          Compare painting quotes",
+            "href": "http://127.0.0.1:4323/compare-painting-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4323/compare-painting-quotes.html",
+            "h1": "Compare your painting quotes",
+            "fileInputCount": 3
+          },
+          {
+            "step": "uploads completed",
+            "uploaded": 2
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "siding": {
+      "label": "Siding",
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Siding\n          Vinyl, fiber cement, wood",
+            "href": "http://127.0.0.1:4323/siding-estimate.html"
+          },
+          {
+            "step": "landed on vertical page",
+            "url": "http://127.0.0.1:4323/siding-estimate.html",
+            "h1": "How much will your siding project cost?",
+            "inputs": 4,
+            "buttons": [
+              "Get Siding Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "selector": "input[placeholder*='address' i]",
+            "placeholder": "Start typing your address..."
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": false
+          },
+          {
+            "step": "after submit",
+            "url": "http://127.0.0.1:4323/siding-estimate.html",
+            "h1": "How much will your siding project cost?",
+            "headings": [
+              "Siding cost by material (2026)",
+              "Siding cost factors",
+              "Siding cost by city",
+              "Frequently asked questions about siding cost"
+            ]
+          },
+          {
+            "step": "check result signals",
+            "hasDollar": true,
+            "hasEst": true,
+            "hasCta": true,
+            "textLength": 4436
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Siding\n          Vinyl, fiber cement, wood",
+            "href": "http://127.0.0.1:4323/siding-estimate.html"
+          },
+          {
+            "step": "landed analyzer",
+            "url": "http://127.0.0.1:4323/siding-estimate.html",
+            "h1": "How much will your siding project cost?",
+            "fileInputCount": 0
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4323/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Siding\n          Compare siding quotes",
+            "href": "http://127.0.0.1:4323/compare-siding-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4323/compare-siding-quotes.html",
+            "h1": "Compare your siding quotes",
+            "fileInputCount": 3
+          },
+          {
+            "step": "uploads completed",
+            "uploaded": 2
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "medical": {
+      "label": "Medical",
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Medical\n          Estimate procedure costs",
+            "href": "http://127.0.0.1:4323/medical-estimate.html"
+          },
+          {
+            "step": "landed on vertical page",
+            "url": "http://127.0.0.1:4323/medical-estimate.html",
+            "h1": "How much will your medical procedure cost?",
+            "inputs": 1,
+            "buttons": [
+              "Get Medical Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "selector": "input[placeholder*='zip' i]",
+            "placeholder": "ZIP code (e.g. 90210)"
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": false
+          },
+          {
+            "step": "after submit",
+            "url": "http://127.0.0.1:4323/medical-estimate.html",
+            "h1": "How much will your medical procedure cost?",
+            "headings": []
+          },
+          {
+            "step": "check result signals",
+            "hasDollar": false,
+            "hasEst": true,
+            "hasCta": true,
+            "textLength": 876
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Medical\n          Estimate procedure costs",
+            "href": "http://127.0.0.1:4323/medical-estimate.html"
+          },
+          {
+            "step": "landed analyzer",
+            "url": "http://127.0.0.1:4323/medical-estimate.html",
+            "h1": "How much will your medical procedure cost?",
+            "fileInputCount": 0
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4323/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Medical\n          Compare medical bills",
+            "href": "http://127.0.0.1:4323/compare-medical-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4323/compare-medical-quotes.html",
+            "h1": "Compare your medical bills",
+            "fileInputCount": 3
+          },
+          {
+            "step": "uploads completed",
+            "uploaded": 2
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    },
+    "window": {
+      "label": "Window",
+      "estimate": {
+        "path": "estimate",
+        "steps": [
+          {
+            "step": "click estimate card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Windows\n          Replacement windows",
+            "href": "http://127.0.0.1:4323/window-estimate.html"
+          },
+          {
+            "step": "landed on vertical page",
+            "url": "http://127.0.0.1:4323/window-estimate.html",
+            "h1": "How much will your window project cost?",
+            "inputs": 4,
+            "buttons": [
+              "Get Window Estimate"
+            ]
+          },
+          {
+            "step": "fill address",
+            "filled": true,
+            "selector": "input[placeholder*='address' i]",
+            "placeholder": "Start typing your address..."
+          },
+          {
+            "step": "fill sqft",
+            "filled": false
+          },
+          {
+            "step": "click submit",
+            "clicked": false
+          },
+          {
+            "step": "after submit",
+            "url": "http://127.0.0.1:4323/window-estimate.html",
+            "h1": "How much will your window project cost?",
+            "headings": [
+              "Window replacement cost by type (2026)",
+              "Window replacement cost factors",
+              "Window replacement cost by city",
+              "Frequently asked questions about window replacement cost"
+            ]
+          },
+          {
+            "step": "check result signals",
+            "hasDollar": true,
+            "hasEst": true,
+            "hasCta": true,
+            "textLength": 4612
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "analyze": {
+        "path": "analyze",
+        "steps": [
+          {
+            "step": "click analyze card",
+            "clicked": true,
+            "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  ",
+            "href": "http://127.0.0.1:4323/get-an-estimate.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Windows\n          Replacement windows",
+            "href": "http://127.0.0.1:4323/window-estimate.html"
+          },
+          {
+            "step": "landed analyzer",
+            "url": "http://127.0.0.1:4323/window-estimate.html",
+            "h1": "How much will your window project cost?",
+            "fileInputCount": 0
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      },
+      "compare": {
+        "path": "compare",
+        "steps": [
+          {
+            "step": "click compare card",
+            "clicked": true,
+            "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          ",
+            "href": "http://127.0.0.1:4323/compare-quotes-picker.html"
+          },
+          {
+            "step": "click vertical card",
+            "clicked": true,
+            "text": "Windows\n          Compare window quotes",
+            "href": "http://127.0.0.1:4323/compare-windows-quotes.html"
+          },
+          {
+            "step": "landed compare",
+            "url": "http://127.0.0.1:4323/compare-windows-quotes.html",
+            "h1": "Compare your window quotes",
+            "fileInputCount": 3
+          },
+          {
+            "step": "uploads completed",
+            "uploaded": 2
+          },
+          {
+            "step": "click compare button",
+            "clicked": true,
+            "text": "Compare 2 quotes",
+            "href": ""
+          }
+        ],
+        "errs": [],
+        "reqFails": []
+      }
+    }
+  },
+  "findings": [
+    {
+      "sev": "HIGH",
+      "vertical": "kitchen",
+      "path": "analyze",
+      "issue": "kitchen analyzer has no file upload input"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "concrete",
+      "path": "analyze",
+      "issue": "concrete analyzer has no file upload input"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "painting",
+      "path": "analyze",
+      "issue": "painting analyzer has no file upload input"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "siding",
+      "path": "analyze",
+      "issue": "siding analyzer has no file upload input"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "medical",
+      "path": "analyze",
+      "issue": "medical analyzer has no file upload input"
+    },
+    {
+      "sev": "HIGH",
+      "vertical": "window",
+      "path": "analyze",
+      "issue": "window analyzer has no file upload input"
+    }
+  ]
+}

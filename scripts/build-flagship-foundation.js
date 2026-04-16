@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-foundation-cost.html" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-foundation-cost.html" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-foundation-cost.html" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-foundation-cost.html" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-foundation-cost.html" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-foundation-cost.html" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-foundation-cost.html" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-foundation-cost.html" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-foundation-cost.html" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-foundation-cost.html" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-foundation-cost.html" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-foundation-cost.html" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-foundation-cost.html" },
 ];
 
 const STATE_TO_REGION = {

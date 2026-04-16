@@ -109,7 +109,9 @@ function main() {
     writeBuildManifest(rows);
     printBuildSummary(rows);
 
-    runOptionalStep("3. Ping Bing IndexNow with sitemap URLs", "node scripts/indexnow-push.js");
+    runStep("3. Audit city pages for cross-vertical contamination", "python scripts/audit-city-page-contamination.py");
+
+    runOptionalStep("4. Ping Bing IndexNow with sitemap URLs", "node scripts/indexnow-push.js");
 
     console.log("\n✅ FULL BUILD COMPLETE\n");
   } catch (err) {

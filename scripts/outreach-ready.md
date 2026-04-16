@@ -1,6 +1,6 @@
 # Outreach Emails - Ready to Send
 
-Generated: 2026-04-05
+Generated: 2026-04-16
 
 > **Before sending:** Replace "Editor" with real names. Find a specific article on their site to reference. Send Tuesday-Thursday mornings. One follow-up max, 5-7 days later.
 

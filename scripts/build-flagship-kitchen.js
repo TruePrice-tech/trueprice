@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-kitchen-remodel-cost.html" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-kitchen-remodel-cost.html" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-kitchen-remodel-cost.html" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-kitchen-remodel-cost.html" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-kitchen-remodel-cost.html" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-kitchen-remodel-cost.html" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-kitchen-remodel-cost.html" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-kitchen-remodel-cost.html" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-kitchen-remodel-cost.html" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-kitchen-remodel-cost.html" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-kitchen-remodel-cost.html" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-kitchen-remodel-cost.html" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-kitchen-remodel-cost.html" },
 ];
 
 const STATE_TO_REGION = {

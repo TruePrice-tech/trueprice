@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-electrical-cost.html", region: "mountain" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-electrical-cost.html", region: "west" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-electrical-cost.html", region: "south" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-electrical-cost.html", region: "west" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-electrical-cost.html", region: "mountain" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-electrical-cost.html", region: "northeast" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-electrical-cost.html", region: "southeast" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-electrical-cost.html", region: "northeast" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-electrical-cost.html", region: "west" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-electrical-cost.html", region: "southeast" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-electrical-cost.html", region: "midwest" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-electrical-cost.html", region: "midwest" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-electrical-cost.html", region: "southeast" },
 ];
 
 /* --- pricing model uses laborMultiplierByRegion, not stateMultipliers --- */

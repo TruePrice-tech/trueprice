@@ -31,6 +31,16 @@ const METROS = [
   { slug: "denver-co", ctxKey: "Denver|CO", file: "denver-co-concrete-cost.html", region: "mountain" },
   { slug: "seattle-wa", ctxKey: "Seattle|WA", file: "seattle-wa-concrete-cost.html", region: "west" },
   { slug: "austin-tx", ctxKey: "Austin|TX", file: "austin-tx-concrete-cost.html", region: "south" },
+  { slug: "san-francisco-ca", ctxKey: "San Francisco|CA", file: "san-francisco-ca-concrete-cost.html", region: "west" },
+  { slug: "las-vegas-nv", ctxKey: "Las Vegas|NV", file: "las-vegas-nv-concrete-cost.html", region: "mountain" },
+  { slug: "philadelphia-pa", ctxKey: "Philadelphia|PA", file: "philadelphia-pa-concrete-cost.html", region: "northeast" },
+  { slug: "miami-fl", ctxKey: "Miami|FL", file: "miami-fl-concrete-cost.html", region: "southeast" },
+  { slug: "boston-ma", ctxKey: "Boston|MA", file: "boston-ma-concrete-cost.html", region: "northeast" },
+  { slug: "san-diego-ca", ctxKey: "San Diego|CA", file: "san-diego-ca-concrete-cost.html", region: "west" },
+  { slug: "tampa-fl", ctxKey: "Tampa|FL", file: "tampa-fl-concrete-cost.html", region: "southeast" },
+  { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-concrete-cost.html", region: "midwest" },
+  { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-concrete-cost.html", region: "midwest" },
+  { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-concrete-cost.html", region: "southeast" },
 ];
 
 function fmtDollar(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n.toLocaleString()}`; }
