@@ -6,7 +6,7 @@ export async function fetchSmartQuote({ text = "", images = [] } = {}) {
     throw new Error("SmartQuote requires extracted text or images");
   }
 
-  const response = await fetch("https://trueprice-smartquote.glane0303.workers.dev", {
+  const response = await fetch("https://woogoro-smartquote.glane0303.workers.dev", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
