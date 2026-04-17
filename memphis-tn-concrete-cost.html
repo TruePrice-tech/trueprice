@@ -223,6 +223,408 @@ depending on project type, size, and finish.
 </section>
 
 
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-CONCRETE-CONTENT -->
+
+<section class="section fp-section">
+<h2>Memphis Neighborhood Pricing</h2>
+<p>Ranges reflect Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem ready-mix rates plus local labor. Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Memphis are at or near the national average.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Driveway (400sf)</th>
+<th style="text-align:right; padding:12px 16px;">Patio (300sf)</th>
+<th style="text-align:right; padding:12px 16px;">Sidewalk (150sf)</th>
+<th style="text-align:right; padding:12px 16px;">Foundation Repair</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Midtown</td>
+<td style="padding:12px 16px; text-align:right;">$5,070</td>
+<td style="padding:12px 16px; text-align:right;">$3,968</td>
+<td style="padding:12px 16px; text-align:right;">$1,818</td>
+<td style="padding:12px 16px; text-align:right;">$7,164</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Cooper-Young</td>
+<td style="padding:12px 16px; text-align:right;">$4,975</td>
+<td style="padding:12px 16px; text-align:right;">$3,893</td>
+<td style="padding:12px 16px; text-align:right;">$1,784</td>
+<td style="padding:12px 16px; text-align:right;">$7,030</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">East Memphis</td>
+<td style="padding:12px 16px; text-align:right;">$4,928</td>
+<td style="padding:12px 16px; text-align:right;">$3,856</td>
+<td style="padding:12px 16px; text-align:right;">$1,767</td>
+<td style="padding:12px 16px; text-align:right;">$6,963</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Germantown</td>
+<td style="padding:12px 16px; text-align:right;">$4,406</td>
+<td style="padding:12px 16px; text-align:right;">$3,448</td>
+<td style="padding:12px 16px; text-align:right;">$1,581</td>
+<td style="padding:12px 16px; text-align:right;">$6,226</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Collierville</td>
+<td style="padding:12px 16px; text-align:right;">$4,501</td>
+<td style="padding:12px 16px; text-align:right;">$3,523</td>
+<td style="padding:12px 16px; text-align:right;">$1,615</td>
+<td style="padding:12px 16px; text-align:right;">$6,360</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Downtown</td>
+<td style="padding:12px 16px; text-align:right;">$4,548</td>
+<td style="padding:12px 16px; text-align:right;">$3,560</td>
+<td style="padding:12px 16px; text-align:right;">$1,632</td>
+<td style="padding:12px 16px; text-align:right;">$6,427</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Memphis Subgrade and Mix Design</h2>
+<p>Memphis sits on Mississippi River alluvium and loess (windblown silt) over Cretaceous clay. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Midtown, Cooper-Young, Germantown.</p>
+<p>The Memphis residential concrete spec is 4,000 psi with 4-6 percent entrained air, Type II cement for sulfate resistance, and compliance with local building department standards. Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem supply most of the Memphis delivery radius. Cold-weather pours in January and February require protection protocols.</p>
+<p>#4 rebar on 18-inch centers is the standard residential reinforcement in Memphis. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.</p>
+</section>
+<section class="section fp-section">
+<h2>Climate Impact on Memphis Concrete</h2>
+<p>Memphis averages about 30 freeze-thaw cycles per year, a moderate freeze-thaw load that still requires air-entrained mix and proper curing. The area receives approximately 54 inches of precipitation annually.</p>
+<p>Memphis is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Memphis contractors reference these events when specifying protective measures.</p>
+</section>
+<section class="section fp-section">
+<h2>Memphis Permits and Right-of-Way Rules</h2>
+<p>City of Memphis Division of Planning and Development handles residential concrete permits. Midtown and Germantown have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+<p>Memphis zoning code restricts driveway width and requires setbacks from property lines in residential zones. Midtown and Cooper-Young lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</section>
+<section class="section fp-section">
+<h2>What Memphis Concrete Contractors Actually Do</h2>
+<p>Residential concrete in Memphis centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Midtown and Cooper-Young.</p>
+<p>Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Memphis. Local pigment and aggregate supply match the regional aesthetic.</p>
+</section>
+<section class="section fp-section">
+<h2>Memphis Concrete Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Bid ignores Memphis mix spec</h3>
+<p>The Memphis residential concrete spec is 4,000 psi with 4-6 percent entrained air, Type II cement for sulfate resistance, and compliance with local building department standards. Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem supply most of the Memphis delivery radius. Cold-weather pours in January and February require protection protocols.</p>
+</div>
+<div class="fp-flag">
+<h3>Reinforcement weaker than the Memphis baseline</h3>
+<p>#4 rebar on 18-inch centers is the standard residential reinforcement in Memphis. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.</p>
+</div>
+<div class="fp-flag">
+<h3>Climate exposure unaddressed</h3>
+<p>Memphis averages about 30 freeze-thaw cycles per year, a moderate freeze-thaw load that still requires air-entrained mix and proper curing. The area receives approximately 54 inches of precipitation annually.</p>
+</div>
+<div class="fp-flag">
+<h3>Missing disaster-informed detailing</h3>
+<p>Memphis is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Memphis contractors reference these events when specifying protective measures.</p>
+</div>
+<div class="fp-flag">
+<h3>Setback or permit gaps</h3>
+<p>Memphis zoning code restricts driveway width and requires setbacks from property lines in residential zones. Midtown and Cooper-Young lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</div>
+<div class="fp-flag">
+<h3>Pour window mismatch</h3>
+<p>Memphis pours best from March through November. Winter pours in January and February require cold-weather protection protocols.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>How Memphis Concrete Fails</h2>
+<p>Memphis averages about 30 freeze-thaw cycles per year, a moderate freeze-thaw load that still requires air-entrained mix and proper curing. The area receives approximately 54 inches of precipitation annually.</p>
+<p>Memphis is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Memphis contractors reference these events when specifying protective measures.</p>
+<p>Memphis zoning code restricts driveway width and requires setbacks from property lines in residential zones. Midtown and Cooper-Young lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</section>
+<section class="section fp-section">
+<h2>What Your Memphis Contract Should Spell Out</h2>
+<p><strong>Mix design.</strong> The Memphis residential concrete spec is 4,000 psi with 4-6 percent entrained air, Type II cement for sulfate resistance, and compliance with local building department standards. Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem supply most of the Memphis delivery radius. Cold-weather pours in January and February require protection protocols.</p>
+<p><strong>Reinforcement.</strong> #4 rebar on 18-inch centers is the standard residential reinforcement in Memphis. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.</p>
+<p><strong>Subgrade preparation.</strong> Memphis sits on Mississippi River alluvium and loess (windblown silt) over Cretaceous clay. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Midtown, Cooper-Young, Germantown.</p>
+<p><strong>Permit package.</strong> City of Memphis Division of Planning and Development handles residential concrete permits. Midtown and Germantown have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+</section>
+<section class="section fp-section">
+<h2>Memphis Concrete Style and Finish Choices</h2>
+<p>Residential concrete in Memphis centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Midtown and Cooper-Young.</p>
+<p>Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Memphis. Local pigment and aggregate supply match the regional aesthetic.</p>
+<p>Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Memphis are at or near the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Memphis Concrete Maintenance</h2>
+<p>undefined</p>
+<p>Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Memphis. Local pigment and aggregate supply match the regional aesthetic.</p>
+<p>Memphis pours best from March through November. Winter pours in January and February require cold-weather protection protocols.</p>
+</section>
+<section class="section fp-section">
+<h2>Costly Memphis Concrete Mistakes</h2>
+<p>undefined</p>
+<p>City of Memphis Division of Planning and Development handles residential concrete permits. Midtown and Germantown have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+<p>Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Memphis are at or near the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Memphis Concrete Contractor</h2>
+<p><strong>What mix spec will you pour?</strong> The Memphis residential concrete spec is 4,000 psi with 4-6 percent entrained air, Type II cement for sulfate resistance, and compliance with local building department standards. Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem supply most of the Memphis delivery radius. Cold-weather pours in January and February require protection protocols.</p>
+<p><strong>How are you reinforcing?</strong> #4 rebar on 18-inch centers is the standard residential reinforcement in Memphis. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.</p>
+<p><strong>How does your bid address Memphis climate exposure?</strong> Memphis averages about 30 freeze-thaw cycles per year, a moderate freeze-thaw load that still requires air-entrained mix and proper curing. The area receives approximately 54 inches of precipitation annually.</p>
+<p><strong>What local disaster informs your detailing?</strong> Memphis is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Memphis contractors reference these events when specifying protective measures.</p>
+<p><strong>Who pulls the permit?</strong> City of Memphis Division of Planning and Development handles residential concrete permits. Midtown and Germantown have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Pour Concrete in Memphis</h2>
+<p>Memphis pours best from March through November. Winter pours in January and February require cold-weather protection protocols.</p>
+<p>Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Memphis are at or near the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Memphis Concrete Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">400 sqft Memphis driveway</p>
+<p class="fp-scenario-total">$4.7K</p>
+<p class="fp-scenario-detail">Delivery from Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem. The Memphis residential concrete spec is 4,000 psi with 4-6 percent entrained air, Type II cement for sulfate resistance, and compliance with local building department standards.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">350 sqft stamped patio, Memphis</p>
+<p class="fp-scenario-total">$5.8K</p>
+<p class="fp-scenario-detail">Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Memphis. Residential concrete in Memphis centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Midtown and Cooper-Young..</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Memphis full hardscape package</p>
+<p class="fp-scenario-total">$14.0K</p>
+<p class="fp-scenario-detail">Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Memphis are at or near the national average. City of Memphis Division of Planning and Development handles residential concrete permits.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-CONCRETE-CONTENT -->
+
 <section class="section">
 <h2>Other Services in Memphis</h2>
 <p>Compare contractor costs for other home services in Memphis, TN.</p>

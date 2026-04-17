@@ -193,6 +193,622 @@ depending on system type, efficiency rating, and home size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-HVAC-CONTENT -->
+
+<section class="section fp-section">
+<h2>How HVAC Pricing Varies Inside Pittsburgh</h2>
+<p>Pittsburgh's pricing spread reflects the mix of Forced-air gas furnace plus central AC split system is the dominant Pittsburgh configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.. The numbers below assume a 2,000 sq ft home with serviceable ductwork, pulled against Duquesne Light Company interconnection requirements.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Central AC</th>
+<th style="text-align:right; padding:12px 16px;">Heat Pump</th>
+<th style="text-align:right; padding:12px 16px;">Furnace</th>
+<th style="text-align:right; padding:12px 16px;">Full System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Lawrenceville</td>
+<td style="padding:12px 16px; text-align:right;">$4,708</td>
+<td style="padding:12px 16px; text-align:right;">$6,046</td>
+<td style="padding:12px 16px; text-align:right;">$3,852</td>
+<td style="padding:12px 16px; text-align:right;">$8,293</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Squirrel Hill</td>
+<td style="padding:12px 16px; text-align:right;">$4,620</td>
+<td style="padding:12px 16px; text-align:right;">$5,933</td>
+<td style="padding:12px 16px; text-align:right;">$3,780</td>
+<td style="padding:12px 16px; text-align:right;">$8,138</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Shadyside</td>
+<td style="padding:12px 16px; text-align:right;">$4,576</td>
+<td style="padding:12px 16px; text-align:right;">$5,876</td>
+<td style="padding:12px 16px; text-align:right;">$3,744</td>
+<td style="padding:12px 16px; text-align:right;">$8,060</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Mount Washington</td>
+<td style="padding:12px 16px; text-align:right;">$4,092</td>
+<td style="padding:12px 16px; text-align:right;">$5,255</td>
+<td style="padding:12px 16px; text-align:right;">$3,348</td>
+<td style="padding:12px 16px; text-align:right;">$7,207</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Strip District</td>
+<td style="padding:12px 16px; text-align:right;">$4,180</td>
+<td style="padding:12px 16px; text-align:right;">$5,368</td>
+<td style="padding:12px 16px; text-align:right;">$3,420</td>
+<td style="padding:12px 16px; text-align:right;">$7,363</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">South Side</td>
+<td style="padding:12px 16px; text-align:right;">$4,224</td>
+<td style="padding:12px 16px; text-align:right;">$5,424</td>
+<td style="padding:12px 16px; text-align:right;">$3,456</td>
+<td style="padding:12px 16px; text-align:right;">$7,440</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Pittsburgh labor, City of Pittsburgh Department of Permits, Licenses and Inspections permit costs, and Duquesne Light Company interconnection overhead are all priced in. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Pittsburgh quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How Pittsburgh's Climate Drives Your HVAC Decision</h2>
+<p>Humid continental with cold snowy winters, freeze-thaw damage, and severe summer thunderstorms. Pittsburgh's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost..</p>
+<p><strong>Heating dominates the Pittsburgh HVAC budget.</strong> cold winters with sub-zero wind chills and summer humidity pushes furnace or heat-pump run time to 2,500-3,500 hours per year across Lawrenceville, Squirrel Hill, and Shadyside. At Duquesne Light Company's $1.60/therm residential rate, the jump from 80% AFUE to 96% AFUE cuts gas burn roughly 3%, which saves $240-$448 per year in Pittsburgh's long heating season. Over a 20-year furnace life, that's $4000-$8320 in cumulative gas savings, which dwarfs the upfront premium for condensing equipment.</p>
+<p><strong>Heat pumps in Pittsburgh.</strong> Viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events. Duquesne Light Company offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Efficiency Numbers That Matter in Pittsburgh</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Cooling efficiency target</h3>
+<p class="fp-season-months">16+ SEER</p>
+<p>16 SEER is the sensible Pittsburgh minimum because heating, not cooling, dominates your Duquesne Light Company bill. The 14-to-16 SEER jump delivers modest savings here; the 16-to-20 jump delivers almost none. Put the efficiency budget toward the furnace or a cold-climate heat pump instead.</p>
+</div>
+<div class="fp-season-card" style="background:#eff6ff; border:1px solid #93c5fd;">
+<h3>Heating efficiency target</h3>
+<p class="fp-season-months">96%+ AFUE</p>
+<p>Pittsburgh's heavy heating load makes 95-96% AFUE the Pittsburgh minimum on any new gas furnace. At Duquesne Light Company's $1.60/therm rate, the 80-to-96% AFUE jump saves $240-$448 annually in a typical Pittsburgh home. Condensing furnaces vent through 2-3 inch PVC rather than the old metal flue, which is a plus if your intown home already has a compromised brick chimney but adds cost on a first-time conversion.</p>
+</div>
+</div>
+<p><strong>2026 rating floor in Pittsburgh.</strong> Federal floor for PA is 14 SEER2 under the DOE northern-region rule, but most Pittsburgh homeowners should aim well above that because the incremental cost of higher SEER2 is modest. A Pittsburgh bid showing "14 SEER" in 2026 is either clearing pre-2025 inventory or mixing up SEER2 with legacy SEER — cross-check the AHRI reference at ahridirectory.org.</p>
+<p><strong>How to stack PA rebates in Pittsburgh.</strong> Duquesne Light Company offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates.. 25C heat-pump credits ended with 2025 and have no effect on 2026 Pittsburgh project taxes. Two IRA programs still apply in PA: HEAR (up to $8,000 for income-qualified households) and HOMES ($4,000-$8,000 performance-based). PA's energy office runs the programs; the installer captures the incentive on the invoice rather than you on your return. Ground-loop geothermal is a separate path in Pittsburgh: 30% Section 25D credit, uncapped, runs through 2034.</p>
+</section>
+<section class="section fp-section">
+<h2>How Pittsburgh Utility Rates Shape Your HVAC ROI</h2>
+<p>Ongoing Pittsburgh HVAC cost depends mostly on Duquesne Light Company's rates. Here's how the numbers drive the sizing and brand decision.</p>
+<div class="fp-season-grid">
+<div class="fp-scenario-card" style="border-top:4px solid #f59e0b; padding:20px;">
+<h3>Electricity</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$0.20/kWh</p>
+<p style="font-size:13px; color:#64748b;">Duquesne Light Company</p>
+</div>
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6; padding:20px;">
+<h3>Natural gas</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$1.60/therm</p>
+<p style="font-size:13px; color:#64748b;">Local provider residential</p>
+</div>
+</div>
+<p>Pittsburgh's Duquesne Light Company residential rate of $0.20/kWh is meaningfully above the US average, so efficiency upgrades pay back faster for Lawrenceville and Squirrel Hill homeowners than they would in cheap-electricity markets. Pittsburgh's $1.60/therm gas rate is moderately above the US average. The gas-vs-heat-pump math tilts toward heat pumps if you're already upgrading the electric service, but dual-fuel remains the conservative choice for Shadyside and similar Pittsburgh neighborhoods.</p>
+<p><strong>PA rate structure.</strong> Check your actual Duquesne Light Company bill rate, not the advertised rate, before running payback math. The summer delivery charges and demand components can meaningfully shift the effective per-kWh cost in Pittsburgh.</p>
+</section>
+<section class="section fp-section">
+<h2>What the City of Pittsburgh Department of Permits, Licenses and Inspections Permit Covers in Pittsburgh</h2>
+<p><strong>Permit authority:</strong> City of Pittsburgh Department of Permits, Licenses and Inspections. City of Pittsburgh Department of Permits, Licenses and Inspections issues HVAC permits for residential work. State licensing applies plus local contractor registration. Pittsburgh requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+<p><strong>Scope of the Pittsburgh mechanical permit.</strong> Pittsburgh building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.. A City of Pittsburgh Department of Permits, Licenses and Inspections mechanical permit in Pittsburgh covers Manual J sizing, service-side electrical, gas-piping sizing for any gas work, refrigerant line-set routing, condensate routing, and duct leakage testing where PA code requires it. On top of that baseline, City of Pittsburgh Department of Permits, Licenses and Inspections reviews condensate routing, combustion-air make-up, and line-set insulation as standard PA checklist items. City of Pittsburgh Department of Permits, Licenses and Inspections reviews Forced-air gas furnace plus central AC split system is the dominant Pittsburgh configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.-specific installation details unique to Pittsburgh.</p>
+<p><strong>The City of Pittsburgh Department of Permits, Licenses and Inspections permit in Pittsburgh is worth every dollar it costs.</strong> Working without the City of Pittsburgh Department of Permits, Licenses and Inspections permit nulls Pittsburgh warranty rights, produces a resale-inspection flag, and transfers install liability from the contractor to the homeowner: a botched Pittsburgh furnace install can vent CO through a cracked heat exchanger or undersized flue, and City of Pittsburgh Department of Permits, Licenses and Inspections is the last real check before that goes live in your living room. The "no-permit discount" a Pittsburgh shop offers is really insurance against City of Pittsburgh Department of Permits, Licenses and Inspections inspection, paid by you. Under PA law, permit liability stays with the contractor — avoid any pitch to pull the permit yourself as an owner-builder.</p>
+<p><strong>Pittsburgh's A2L transition is already under way.</strong> R-454B and R-32 are the A2L refrigerants replacing R-410A in new Pittsburgh residential installs. Pittsburgh distributors across PA still have some pre-2025 R-410A inventory for service and carry-over installs, but new manufacturing stopped at the 2025 cutoff. A2L sits in flammability class 2L versus class 1 for R-410A, so installation practice tightens under UL 60335-2-40. The new requirements: charge-to-room-volume minimums, leak-detection sensors on heads above certain tonnages, and A2L-specific brazing procedures. PA licensing does not equate to A2L certification; the Pittsburgh shop you hire should produce A2L training documentation independently.</p>
+
+</section>
+<section class="section fp-section">
+<h2>How Pittsburgh's HVAC Labor Market Shapes Your Bid</h2>
+<p>Stable established trades; specialized hillside and roof-access skills needed for many neighborhoods. Pittsburgh has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.. The bid gap between a Pittsburgh dealer and an independent shop in Pittsburgh usually reflects real differences in equipment supply chain, not pure markup.</p>
+<p>Pittsburgh's HVAC labor pool is steady enough that Lawrenceville, Squirrel Hill, and Shadyside buyers can collect competitive bids without scheduling friction. Three bids is the baseline, but on HVAC specifically verify you're comparing equivalent systems: same Pittsburgh-vs-value-tier brand class, same SEER2/HSPF on the AHRI certificate, same warranty terms, same duct-testing scope. A $3,000 gap between Pittsburgh bids usually means different equipment rather than different margin.</p>
+<p><strong>How to vet a Pittsburgh HVAC contractor.</strong> Start with PA HICPA registration plus local Philadelphia contractor license — check the PA license number against the state board's public lookup, not whatever the website claims. On the insurance side: $500K-$1M per occurrence is standard in PA, with workers' comp verified in the PA comp system. Insist on the AHRI reference for the specific condenser/coil/air-handler combo in your Pittsburgh quote. The listed SEER2/HSPF applies only to that AHRI-certified trio, not to random coil substitutions from Duquesne Light Company-area distribution.</p>
+<p><strong>Pittsburgh install details that actually matter.</strong> Install craft matters more than brand tier — a poorly commissioned Pittsburgh unit can be beaten by a mid-tier unit done right in Pittsburgh. The craft specifics that matter in Pittsburgh: Manual J against Duquesne Light Company's actual climate station, refrigerant charge verified by live superheat and subcooling at commissioning, plenum-to-duct joints sealed with mastic paste (tape fails in moderate humidity within three years), Pittsburgh's heating-dominant load profile calls for 400 CFM per ton, adjusted for long heat-call duty cycles, and a written commissioning report handed over before final payment. A serious Pittsburgh bidder handles all five items without pushback; anyone who deflects is revealing a process problem.</p>
+</section>
+<section class="section fp-section">
+<h2>What to Watch Out for in Pittsburgh HVAC Quotes</h2>
+<p>Scammy Pittsburgh HVAC pitches follow patterns. Here are the ones that keep showing up across Lawrenceville, Squirrel Hill, and Shadyside.</p>
+
+<div class="fp-flag">
+<h3>Pittsburgh oversizing is the costliest install error</h3>
+<p>Moderate Pittsburgh humidity still punishes oversizing: short-cycling wears out compressors and blower motors before the 15-year national-average lifespan. Duquesne Light Company climate-station data plus a proper Manual J catches the common one-size-too-big bid. The question that separates serious Pittsburgh contractors from guessers: "What cooling load did your Manual J return for this house, and what output tonnage are you specifying?" Any response missing the Manual J load number or the tonnage rationale is disqualifying.</p>
+</div>
+<div class="fp-flag">
+<h3>IAQ upsell creep in Pittsburgh</h3>
+<p>For Lawrenceville, Squirrel Hill, and Shadyside homes on Duquesne Light Company's grid, UV lights, ionizers, and "duct sanitization" add no measurable benefit over a MERV 11-13 pleated filter changed quarterly. These are pure margin boosters on bids already loaded with Pittsburgh or Carrier equipment. When a Pittsburgh bid opens with air-quality accessories before talking Manual J or Duquesne Light Company rebates via Duquesne Light Company offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates., the real profit line is the add-ons — not the heating and cooling.</p>
+</div>
+<div class="fp-flag">
+<h3>R-410A scarcity fear-selling in Pittsburgh</h3>
+<p>R-410A refrigerant remains available through Pittsburgh and Carrier distribution in PA for servicing installed Pittsburgh systems — manufacturing of new R-410A units is what wound down in 2024. A Pittsburgh technician claiming R-410A service is impossible is wrong or selling replacement. Recharge rates sit at $200-450 per pound; a "low refrigerant" fault is almost always a leak to find and repair. R-22 imports were banned from the US in 2020, so R-22 on a Pittsburgh invoice is either mislabeled or smuggled.</p>
+</div>
+<div class="fp-flag">
+<h3>Pittsburgh-specific scam</h3>
+<p>Pittsburgh homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.. The Pittsburgh pattern always involves urgency: same-day decision, no competing quote, no time to research. A second opinion from a HICPA-credentialed Shadyside or Mount Washington shop costs 48 hours and routinely shaves $3,000-10,000 off the first pitch.</p>
+</div>
+<div class="fp-flag">
+<h3>Vanishing-price close on Pittsburgh bids</h3>
+<p>The sign-today play crosses every Pittsburgh bidder tier from Pittsburgh authorized dealers to value shops. Honest quotes in Pittsburgh hold for 30-90 days — "today only" pricing is a flag, not a deal. Leave, get bids from Lawrenceville, Squirrel Hill, and Shadyside alternatives, and remember Duquesne Light Company rebate windows span months — not the minutes left in the sales call.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Pittsburgh Equipment and Ductwork</h2>
+<p><strong>Dominant equipment.</strong> Forced-air gas furnace plus central AC split system is the dominant Pittsburgh configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market..</p>
+<p><strong>Brand coverage.</strong> Pittsburgh has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications..</p>
+<p><strong>Heat pump viability.</strong> Viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events.</p>
+<p><strong>Permit detail.</strong> City of Pittsburgh Department of Permits, Licenses and Inspections issues HVAC permits for residential work. State licensing applies plus local contractor registration. Pittsburgh requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+</section>
+<section class="section fp-section">
+<h2>Pittsburgh HVAC Scam Patterns</h2>
+<p><strong>Local pattern.</strong> Pittsburgh homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair..</p>
+<p><strong>Season reason.</strong> Pittsburgh HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+<p><strong>Permit quirk.</strong> Pittsburgh building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements..</p>
+<p><strong>Utility rebates.</strong> Duquesne Light Company offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Pittsburgh HVAC Technical Context</h2>
+<p>Pittsburgh's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost..</p>
+<p><strong>Extreme conditions.</strong> Cold winters with sub-zero wind chills and summer humidity. The Pittsburgh recommended efficiency targets are 16+ SEER for cooling and 96%+ AFUE for heating, calibrated to Duquesne Light Company rate structures.</p>
+<p><strong>Humidity.</strong> Pittsburgh humidity is moderate. </p>
+</section>
+<section class="section fp-section">
+<h2>Seasonal Pricing for Pittsburgh HVAC Replacements</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">October through February</p>
+<p>Pittsburgh HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">June through August</p>
+<p>Emergency Pittsburgh replacements during these months carry a 10-20% premium because Duquesne Light Company-approved contractors book two to four weeks out. Lawrenceville, Squirrel Hill, and Shadyside contractors can afford to pass on negotiating; the emergency-call backlog keeps them busy. Past the 12-year mark, scheduling replacement during october through february beats hoping the unit survives the next cold winters with sub-zero wind chills and summer humidity.</p>
+</div>
+</div>
+<p><strong>Pittsburgh pro tip.</strong> A spring or fall tune-up from a Pittsburgh-authorized Pittsburgh contractor runs $80-$150. The technician looks for early-stage failure signals — superheat drift, high-side pressure creep, noisy blower motor bearings — that flag a controlled replacement window before a June breakdown in Lawrenceville. Pittsburgh contractors typically package the tune-up into a $180-$280 annual service agreement — reasonable for multi-unit homes.</p>
+</section>
+<section class="section fp-section">
+<h2>Pittsburgh HVAC Pricing: Three Worked Examples</h2>
+<p>These Pittsburgh numbers reflect 2026 PA labor rates and the current Duquesne Light Company-territory equipment supply chain. Each scenario targets a 3-ton system on a 2,000 sq ft home where Forced-air gas furnace plus central AC split system is the dominant Pittsburgh configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market. already exists.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">96% AFUE furnace + 15 SEER2 AC</p>
+<p class="fp-scenario-total">$4.4K</p>
+<p class="fp-scenario-detail">Single-stage Goodman or Amana furnace paired with a baseline AC condenser, 10-year parts coverage. Includes City of Pittsburgh Department of Permits, Licenses and Inspections permit, programmable thermostat, Duquesne Light Company gas line sign-off, and removal of the existing unit. Reasonable for a Shadyside starter home or a short-term Pittsburgh hold; heating-hour counts in Pittsburgh mean a 92-96% AFUE upgrade pays back fast enough that this tier usually isn't the right long-term pick.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">16 SEER2 heat pump + 96% AFUE dual-fuel backup</p>
+<p class="fp-scenario-total">$8.0K</p>
+<p class="fp-scenario-detail">Two-stage Carrier heat pump with dual-fuel gas backup, new A2L line set, City of Pittsburgh Department of Permits, Licenses and Inspections permit, smart thermostat with Duquesne Light Company time-of-use scheduling, duct leakage measurement, and a written commissioning report. 10-year parts, 2-year labor warranty. The insurance-minded pick for Lawrenceville, Squirrel Hill, and Shadyside homeowners who remember the last grid-stressing cold event.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">16+ SEER2 variable-speed system with 96% AFUE backup</p>
+<p class="fp-scenario-total">$13.5K</p>
+<p class="fp-scenario-detail">Inverter-driven variable-speed Pittsburgh equipment with communicating controls. Full mastic-paste duct re-seal, flared-fitting A2L line set, City of Pittsburgh Department of Permits, Licenses and Inspections permit, smart thermostat with occupancy sensing, whole-home surge protection (genuinely relevant in Pittsburgh given Duquesne Light Company's grid profile), and HERS-verified written commissioning report. 12-year parts / 10-year labor warranty through Pittsburgh's factory-authorized dealer program. Stacks maximum Duquesne Light Company offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. rebate plus any PA-level incentives. The ROI pencils in Pittsburgh only for a 10+ year hold.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Budget another $3,000-$7,000 if full ductwork replacement is needed. A second story, or a Three Rivers-adjacent Pittsburgh property, typically adds 10-20%. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Pittsburgh quote for a side-by-side comparison.</a></p>
+</section>
+<!-- /FLAGSHIP-HVAC-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 <section class="section">
 <h2>What affects HVAC cost in Pittsburgh</h2>
 <ul class="factor-list">

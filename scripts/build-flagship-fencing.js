@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates deep, metro-unique editorial content for 20 flagship metro
+ * Generates deep, metro-unique editorial content for 40 flagship metro
  * fencing pages. Dict-driven so 8-word shingle overlap stays below 10%.
  *
  * Usage: node scripts/build-flagship-fencing.js [--dry]
@@ -39,6 +39,26 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-fence-cost.html", region: "midwest" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-fence-cost.html", region: "midwest" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-fence-cost.html", region: "southeast" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-fence-cost.html", region: "south" },
+    { slug: "jacksonville-fl", ctxKey: "Jacksonville|FL", file: "jacksonville-fl-fence-cost.html", region: "southeast" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-fence-cost.html", region: "south" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-fence-cost.html", region: "midwest" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-fence-cost.html", region: "midwest" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-fence-cost.html", region: "southeast" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-fence-cost.html", region: "west" },
+    { slug: "memphis-tn", ctxKey: "Memphis|TN", file: "memphis-tn-fence-cost.html", region: "southeast" },
+    { slug: "louisville-ky", ctxKey: "Louisville|KY", file: "louisville-ky-fence-cost.html", region: "southeast" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-fence-cost.html", region: "northeast" },
+    { slug: "milwaukee-wi", ctxKey: "Milwaukee|WI", file: "milwaukee-wi-fence-cost.html", region: "midwest" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-fence-cost.html", region: "mountain" },
+    { slug: "tucson-az", ctxKey: "Tucson|AZ", file: "tucson-az-fence-cost.html", region: "mountain" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-fence-cost.html", region: "west" },
+    { slug: "raleigh-nc", ctxKey: "Raleigh|NC", file: "raleigh-nc-fence-cost.html", region: "southeast" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-fence-cost.html", region: "midwest" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-fence-cost.html", region: "southeast" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-fence-cost.html", region: "northeast" },
+    { slug: "cincinnati-oh", ctxKey: "Cincinnati|OH", file: "cincinnati-oh-fence-cost.html", region: "midwest" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-fence-cost.html", region: "mountain" },
 ];
 
 function fmtD(n) { return `$${n.toLocaleString("en-US")}`; }
@@ -56,6 +76,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature NYC fencing is bluestone-capped iron picket fences in Park Slope brownstones, ornamental aluminum in Forest Hills Tudor gardens, and galvanized chain link with privacy slats in working-class Queens. Stockade wood privacy fencing is limited to larger lots in Staten Island and eastern Queens where zoning permits.",
     costContext: "NYC fencing labor runs 40-60% above the national average due to staging constraints, permit costs, sidewalk-shed rental requirements for multi-day projects, and Local Law 11 interactions on buildings over 6 stories. Delivery costs for fence panels through Manhattan add $200-$600 over suburban New Jersey equivalents.",
     seasonPara: "The productive NYC fencing season is April through early November. Frozen ground from mid-December through mid-March makes post-hole digging expensive even with augers. Permit processing and LPC review timelines mean most projects cluster in May-September.",
+    maintenancePara: "Ornamental iron fencing in NYC requires rust-spot treatment and repaint every 3-5 years because deicing salt from NYCDOT spreaders accelerates corrosion on every metal surface. Cedar picket fences in Park Slope and Forest Hills need annual stain recoat to resist the humid summers and salt-laden winter moisture.",
+    lifespanPara: "Wood privacy fencing in NYC outer boroughs lasts 12-15 years with annual maintenance. Ornamental iron properly maintained lasts 30-50 years. Chain link with privacy slats lasts 20-25 years. Vinyl in NYC's freeze-thaw cycle cracks within 10-15 years unless impact-rated for 0F temperatures.",
+    mistakePara: "The costliest NYC fencing mistake is installing a front-yard fence in a Landmarks Preservation Commission district without LPC approval. The Commission can order removal of non-compliant fencing in Brooklyn Heights, Park Slope, and Greenwich Village, and the review process adds 4-8 weeks."
   },
   "los-angeles-ca": {
     materialsPara: "LA's dominant residential fencing is redwood and cedar privacy fences in the San Fernando Valley and Westside, stucco walls on a concrete footing in Spanish-revival neighborhoods like Los Feliz and Hancock Park, and ornamental iron or aluminum on ranch-style homes. Bamboo and natural-material privacy screens are common in eco-conscious Silver Lake and Mar Vista.",
@@ -68,6 +91,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature LA residential fencing is horizontal redwood board privacy fences (the 'LA fence' popularized on Instagram), natural redwood or cedar ranch-style split rail, and stucco perimeter walls matching Spanish colonial architecture. Clear-finish cedar that retains its natural color is popular in modern-style homes; painted wood is rare because of UV degradation.",
     costContext: "LA fencing labor runs 15-25% above the national average. Hillside engineering and coastal-zone materials add 10-20% to specific project types. Staging constraints on narrow older streets in Silver Lake and Echo Park add permit and labor line items compared to newer subdivisions.",
     seasonPara: "LA fencing season is essentially year-round because of mild weather, but Santa Ana wind events and atmospheric rivers in winter disrupt scheduling briefly. Most contractors run full-capacity March-November and reduce crews in December-February. Off-season pricing saves 8-12%.",
+    maintenancePara: "LA's intense UV exposure degrades wood stain in 2-3 years versus the 5-7 years the product label suggests for temperate markets. Clear-finished redwood fences in Silver Lake and Echo Park need annual UV-stabilized oil reapplication to maintain color. Stucco perimeter walls need crack inspection every 2-3 years because seismic micro-movement opens hairline fractures.",
+    lifespanPara: "Redwood privacy fencing in LA lasts 20-30 years with maintenance because the dry climate inhibits rot. Stucco perimeter walls last 40-60 years. Ornamental aluminum lasts 25-30 years but requires coastal corrosion treatment within 3 miles of the Pacific.",
+    mistakePara: "The costliest LA fencing mistake is installing on a hillside lot without engineered post footings. Standard 24-inch posts on expansive Altamont clay fail within 2-3 years from slope creep, and LADBS can require retroactive engineering that costs $2,000-$5,000."
   },
   "chicago-il": {
     materialsPara: "Chicago's dominant residential fencing is cedar privacy fencing (stockade and shadowbox), black aluminum or steel ornamental picket in Lincoln Park and Lakeview coach-house yards, and chain link in working-class neighborhoods. Vinyl is gaining share but remains a minority choice because brittleness in cold winters limits its durability.",
@@ -80,6 +106,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Chicago residential fencing is cedar shadowbox privacy fencing (allowing air flow between pickets), black aluminum ornamental with finial caps matching Victorian-era coach houses, and chain link with privacy slats for alley separation. Brick-pilastered wood privacy fencing is a Lincoln Park and Lakeview specialty.",
     costContext: "Chicago fencing labor runs 20-35% above the national average due to winter-shutdown capacity constraints, narrow gangway access, and frozen-ground digging premiums for shoulder-season installs. Alley access requirements add staging complexity on many inner-ring projects.",
     seasonPara: "The productive Chicago fencing season is mid-April through early November, roughly 210 days. Frozen ground limits digging from late November through mid-April. Off-season winter installations require hydraulic augers and heat-cured concrete that adds 25-40% to the cost.",
+    maintenancePara: "Chicago's 85+ freeze-thaw cycles demand aggressive cedar fence maintenance. Annual stain recoat plus board-replacement of frost-damaged sections is the Lincoln Park and Lakeview standard. Black aluminum ornamental needs touchup paint every 3-4 years where rock-salt contact pits the powder coat.",
+    lifespanPara: "Cedar privacy fencing in Chicago lasts 12-15 years with annual maintenance. Black aluminum ornamental lasts 20-30 years. Chain link lasts 20-25 years. Vinyl must be impact-rated for sustained below-zero or it cracks within 5-8 Chicago winters.",
+    mistakePara: "The costliest Chicago fencing mistake is setting posts at standard 24-inch depth rather than below the 42-inch frost line. Ice-jacking pushes shallow posts out of plumb within 1-2 winters, requiring full replacement rather than the concrete-footing cost that prevents the problem."
   },
   "houston-tx": {
     materialsPara: "Houston's dominant residential fencing is pressure-treated pine or cedar privacy (stockade and board-on-board), ornamental aluminum in deed-restricted neighborhoods, and steel pipe-rail with hog wire for larger Fort Bend and Montgomery County lots. Vinyl has gained share in newer master-planned communities. Barbed wire and livestock fencing persist on rural-edge properties.",
@@ -92,6 +121,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Houston residential fencing is 6-foot pressure-treated pine privacy (board-on-board or stockade), red cedar in deed-restricted neighborhoods, and black aluminum ornamental in Cinco Ranch and Sienna Plantation master-planned communities. Brick-pilastered wood privacy is common in River Oaks and Memorial.",
     costContext: "Houston fencing labor runs at or slightly below the national average. Deed-restriction architectural approval adds 2-6 weeks to project timelines. Hurricane-season (June-November) material pricing fluctuates with storm activity. WPI-8 windstorm certification in coastal zones adds 10-15% to materials.",
     seasonPara: "Houston's fencing season is essentially year-round, with October-February offering the most comfortable working conditions. Summer afternoon heat (95F+) shifts crew schedules to 6am-1pm. Hurricane season (June-November) disrupts scheduling around storm events.",
+    maintenancePara: "Houston's humidity creates the most aggressive wood-fence rot conditions in Texas. Untreated pine at ground contact fails within 2-3 years. Annual sealer reapplication on the bottom 12 inches of every picket is the River Oaks and Memorial maintenance standard because that is where moisture concentration destroys boards first.",
+    lifespanPara: "Pressure-treated pine in Houston lasts 15-20 years with annual ground-level sealing. Cedar lasts 12-15 years. Ornamental aluminum lasts 25-30 years. Vinyl holds up well in Houston humidity but yellows from UV in 8-12 years without UV-stabilized formulation.",
+    mistakePara: "The costliest Houston fencing mistake is setting posts at 24-inch depth on expansive Beaumont clay. The 4-6 inch seasonal vertical soil movement tilts shallow posts within 12-18 months. Local best practice is 36 inches with expansion material around the concrete footing."
   },
   "phoenix-az": {
     materialsPara: "Phoenix's dominant residential fencing is view fencing (black wrought iron or steel), stucco-faced CMU perimeter walls (the 'Arizona wall'), and ornamental aluminum. Wood privacy fencing is rare because the low-humidity desert environment combined with intense UV makes cedar and pine look weathered within 2-3 years. Pool-code compliant 5-foot barriers are standard in every yard with a pool.",
@@ -104,6 +136,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Phoenix residential fencing is view fencing (wrought iron or steel ornamental, 5-6 feet with ornamental caps), stucco perimeter walls with decorative caps matching desert aesthetic, and pool-code-compliant aluminum barrier fencing in tract communities. Natural-color powder-coated steel in earth tones is the dominant HOA-approved style.",
     costContext: "Phoenix fencing labor runs at the national average, with caliche excavation and HOA compliance adding distinct line items. Summer-heat premium for outdoor labor (May-September) adds 10-15%. HOA architectural review delays extend real project timelines 2-6 weeks beyond the building permit.",
     seasonPara: "Phoenix fencing season is October through April. May-September heat (100F+ daily) limits productive outdoor work to early-morning shifts. Monsoon wind events in July-August disrupt scheduling around storm damage. HOA-governed communities add parallel approval timelines.",
+    maintenancePara: "Phoenix UV destroys wood fence stain in 12-18 months on south-facing runs, roughly half the lifespan of the same product in Portland or Seattle. Wrought iron and steel need powder-coat inspection annually because monsoon wind-driven sand pits the finish and creates rust nucleation points in Scottsdale and Mesa.",
+    lifespanPara: "Wrought iron and steel view fencing in Phoenix lasts 25-40 years with powder-coat maintenance. Stucco CMU perimeter walls last 40-60 years. Wood privacy fencing is impractical because UV and low humidity weather cedar and pine to gray within 2-3 years.",
+    mistakePara: "The costliest Phoenix fencing mistake is pouring standard concrete post footings on caliche without pneumatic breaking through the cemented layer. Posts set on top of intact caliche have no lateral stability and lean after the first monsoon wind event."
   },
   "dallas-tx": {
     materialsPara: "DFW's dominant residential fencing is cedar privacy (board-on-board and stockade), black ornamental aluminum in master-planned communities, and steel pipe-rail with hog wire on larger Collin and Denton County lots. Vinyl has moderate share in newer subdivisions. Brick-pilastered wood privacy is common in Highland Park and Preston Hollow.",
@@ -116,6 +151,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature DFW residential fencing is cedar board-on-board privacy fencing (Dallas specialty allowing air flow), brick-pilastered wood privacy in Highland Park and Preston Hollow, and black ornamental aluminum in Frisco and Plano master-planned communities.",
     costContext: "DFW fencing labor runs at the national average. HOA compliance in master-planned communities adds 2-6 weeks to project timelines. Cedar and pine prices track commodity lumber markets with seasonal variability. Winter Storm Uri 2021 drove a multi-year backlog of wind-damage repairs.",
     seasonPara: "DFW fencing season is essentially year-round. October-May offers the most comfortable working conditions. Summer heat (100F+) shifts schedules to 6am-1pm. Spring hailstorm season (March-May) drives emergency repair demand.",
+    maintenancePara: "DFW cedar board-on-board fencing needs annual stain recoat plus post-hailstorm inspection because large hail dents and splits pickets. The shrink-swell clay cycle works posts out of plumb every 2-3 years; re-leveling is a distinct maintenance line item in East Dallas and Oak Cliff.",
+    lifespanPara: "Cedar privacy fencing in DFW lasts 12-15 years with maintenance. Pressure-treated pine lasts 15-20 years. Ornamental aluminum in master-planned communities lasts 25-30 years. Brick-pilastered wood privacy in Highland Park lasts as long as the cedar panels are replaced every 12-15 years.",
+    mistakePara: "The costliest DFW fencing mistake is skipping HOA architectural review in Frisco, Allen, or Southlake master-planned communities. HOAs can require removal and reinstallation of non-compliant fencing at the homeowner expense, and the approval process takes 2-6 weeks."
   },
   "atlanta-ga": {
     materialsPara: "Atlanta's dominant residential fencing is cedar and pressure-treated pine privacy fencing, black aluminum ornamental in established neighborhoods like Buckhead and Brookhaven, and chain link in older Cobb and Clayton County neighborhoods. Vinyl has grown but remains a minority choice. Stacked-stone and cedar combination fencing is a Piedmont specialty.",
@@ -128,6 +166,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Atlanta residential fencing is cedar privacy fencing (stockade and dogeared), black aluminum ornamental for front-yard Georgian revival homes, chain link in older middle-class neighborhoods, and split-rail cedar for pasture-style lots in Milton and Cherokee County.",
     costContext: "Atlanta fencing labor runs at the national average. Tree-protection compliance adds $300-$1,000 per project on lots with canopy oaks. Piedmont slope grading adds $500-$2,000 on hillside lots. HOA compliance in master-planned communities adds 2-5 weeks.",
     seasonPara: "Atlanta fencing season is essentially year-round. September-November offers the most stable weather. Summer humidity and afternoon thunderstorms disrupt scheduling. January-February can be wet but workable; only hard-freeze events (4-6 per winter) force shutdowns.",
+    maintenancePara: "Atlanta's 50+ inches of annual rainfall and Piedmont humidity promote moss and mildew on north-facing cedar fence sections within 12-18 months. Annual pressure washing at 1,500 PSI (lower than concrete to avoid fiber damage) plus stain recoat is the Buckhead and Brookhaven maintenance standard.",
+    lifespanPara: "Cedar privacy fencing in Atlanta lasts 12-15 years with maintenance. Pressure-treated pine lasts 15-20 years. Ornamental aluminum lasts 25-30 years. Stacked-stone-and-cedar combination fencing lasts 20-30 years because the stone protects the cedar from ground moisture.",
+    mistakePara: "The costliest Atlanta fencing mistake is excavating within the critical root zone of a protected tree without an arborist letter. The Atlanta Tree Ordinance fines up to $500 per inch of DBH for tree damage, and a mature oak violation in Grant Park generates $10,000-$25,000 in penalties."
   },
   "denver-co": {
     materialsPara: "Denver's dominant residential fencing is cedar privacy (stockade and split-rail), black steel ornamental in Cherry Creek and Washington Park, and chain link in older neighborhoods. Vinyl has moderate share. Ranch-style wood split-rail fencing is common on larger lots in Douglas and Elbert counties.",
@@ -140,6 +181,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Denver residential fencing is cedar privacy (stockade and shadowbox), ranch-style split rail on larger lots, black steel ornamental in historic Wash Park and Platt Park, and chain link with privacy slats in working-class Globeville and Elyria-Swansea.",
     costContext: "Denver fencing labor runs 15-25% above the national average. Altitude-specific materials (UV-rated cable, mag-chloride-resistant fasteners) add 5-10%. Geotechnical letters for swelling-soil zones add $800-$2,200. Hail damage from Front-Range storms drives periodic demand spikes.",
     seasonPara: "Denver's productive fencing season is late April through mid-October. Frozen ground from November through March limits digging. Spring hailstorm season drives emergency demand. Summer thunderstorms shift crew schedules. Winter installations require hydraulic augers and heated concrete.",
+    maintenancePara: "Denver's 120+ freeze-thaw cycles combined with magnesium-chloride deicer carryover from CDOT plows corrode metal fence hardware aggressively. Annual fastener and hinge inspection plus mag-chloride-resistant sealer on metal components is the Wash Park and Cherry Creek standard.",
+    lifespanPara: "Cedar privacy fencing in Denver lasts 10-15 years because of the aggressive freeze-thaw environment. Pressure-treated pine lasts 12-18 years. Black steel ornamental lasts 20-30 years with annual touchup. Vinyl must be impact-rated for 0F or it cracks within 5-8 Front Range winters.",
+    mistakePara: "The costliest Denver fencing mistake is setting posts without geotechnical confirmation in a confirmed bentonite swelling-soil zone. Pierre shale swelling pressure can lift and tilt fence posts 2-4 inches over a single season cycle."
   },
   "seattle-wa": {
     materialsPara: "Seattle's dominant residential fencing is western red cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in older working-class neighborhoods. Pressure-treated pine is common but cedar dominates because of local supply. Living walls with cedar framing and moss integration are a Pacific Northwest specialty.",
@@ -152,6 +196,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Seattle residential fencing is western red cedar privacy fencing with clear finish allowing natural silvering, horizontal cedar board fences with metal post supports (the 'Seattle fence'), and black aluminum ornamental in Craftsman neighborhoods. Living cedar hedges are common as property-line markers.",
     costContext: "Seattle fencing labor runs 15-25% above the national average due to high cedar material costs and hillside-access constraints. Critical Areas Ordinance review adds $1,500-$5,000 on affected parcels. Tree-protection compliance adds $300-$800 on canopied lots.",
     seasonPara: "Seattle fencing season is essentially year-round due to mild weather. June-September dry months are preferred for work requiring deep excavation or concrete curing. Fall and winter atmospheric rivers disrupt scheduling but do not stop work entirely. Off-season pricing saves 8-12%.",
+    maintenancePara: "Seattle's 150+ days of measurable precipitation make western red cedar the only practical wood species because its natural rot resistance handles the constant moisture. Even cedar requires annual inspection of ground-contact sections because moss colonizes the base within 12 months and holds moisture against the wood.",
+    lifespanPara: "Western red cedar privacy fencing in Seattle lasts 15-20 years because of local supply quality and natural rot resistance. Non-local cedar and pressure-treated pine last 10-15 years. Aluminum ornamental lasts 25-30 years. Living cedar hedges function as permanent property-line markers.",
+    mistakePara: "The costliest Seattle fencing mistake is installing in a Critical Areas Ordinance overlay (hillside, landslide-prone, or wetland-adjacent) without SDCI environmental review. Retroactive compliance costs $1,500-$5,000 and can require partial removal."
   },
   "austin-tx": {
     materialsPara: "Austin's dominant residential fencing is cedar privacy (local heart cedar is a specialty), black ornamental aluminum, and limestone-veneer perimeter walls on Hill Country lots. Bamboo privacy screens are popular in eco-focused neighborhoods like Hyde Park and Mueller. Steel pipe rail with hog wire is common on larger exurban lots.",
@@ -164,6 +211,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Austin residential fencing is cedar privacy (dogeared and stockade in local heart cedar), black ornamental aluminum with Austin-specific picket patterns, and limestone-veneer perimeter walls in Hill Country neighborhoods. Hardwood deck fencing integrated with outdoor living spaces is a popular Austin specialty.",
     costContext: "Austin fencing labor runs 10-20% above the national average and rising faster than most Texas markets due to tech-driven population growth. Heritage-tree arborist letters add $400-$1,200. Edwards Aquifer environmental review adds $800-$2,500. Limestone-ledge drilling adds $300-$600 per difficult post.",
     seasonPara: "Austin fencing season is essentially year-round. October-April offers the most comfortable working conditions. Summer heat (100F+) shifts crew schedules to 6am-1pm. Spring ice storm events disrupt scheduling periodically.",
+    maintenancePara: "Austin heritage-tree canopy creates heavy deadfall pressure on fences during ice storms that the rest of Texas does not experience. Annual inspection of posts and panels adjacent to heritage cedars and oaks is a Travis Heights and Westlake Hills maintenance standard. Local heart cedar needs UV-stabilized oil every 2-3 years.",
+    lifespanPara: "Local heart cedar in Austin lasts 20-30 years, significantly longer than standard cedar because of the natural oil content. Standard cedar lasts 15-20 years. Limestone-veneer perimeter walls last 40-60 years. Ornamental aluminum lasts 25-30 years.",
+    mistakePara: "The costliest Austin fencing mistake is installing within the critical root zone of a heritage tree (19+ inches DBH) without an arborist letter. The city can require tree-damage remediation at 3:1 replacement ratio with fines exceeding $10,000 per tree."
   },
   "san-francisco-ca": {
     materialsPara: "San Francisco's dominant residential fencing is horizontal redwood board privacy (the 'Bay Area fence'), black ornamental iron in Victorian-era neighborhoods, and cast-in-place concrete walls on hillside lots. Space constraints mean full perimeter fencing is rare; most SF fencing is rear-yard-only or side-property-line.",
@@ -176,6 +226,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature SF residential fencing is horizontal redwood board (the 'Bay Area fence' popularized in Victorian garden design), black ornamental iron matching Victorian-era residential character, and concrete retaining-wall-fence combinations on hillside lots.",
     costContext: "SF fencing labor runs 40-60% above the national average due to space constraints, hillside engineering, historic district review, and union-scale labor. Historic district certificate of appropriateness adds $500-$2,000 in fees and review time. Hillside post-footing engineering adds $1,200-$3,500.",
     seasonPara: "SF fencing season is essentially year-round because of mild weather. September-October Indian summer offers the most stable conditions. Winter atmospheric rivers disrupt scheduling December-March. Off-season pricing is limited because demand is relatively steady.",
+    maintenancePara: "SF's marine fog keeps fence surfaces damp 6+ months per year, promoting moss on horizontal redwood boards and corrosion on iron hardware. Annual inspection of iron fence connections plus marine-grade sealant on all metal fasteners is the standard for Victorian-era Noe Valley and Bernal Heights front fences.",
+    lifespanPara: "Horizontal redwood board fencing in SF lasts 20+ years because of natural rot resistance. Black ornamental iron lasts 25-40 years with regular anti-corrosion maintenance. Concrete retaining-wall-fence combinations on hillside lots last 40-60 years.",
+    mistakePara: "The costliest SF fencing mistake is installing a front fence in a Historic Preservation District without the Planning Department Certificate of Appropriateness. DBI can order removal, and the review adds 8-16 weeks that cannot be bypassed."
   },
   "las-vegas-nv": {
     materialsPara: "Las Vegas's dominant residential fencing is stucco-faced CMU perimeter walls (the 'Vegas wall'), black view fencing (wrought iron or steel), and pool-code-compliant aluminum barrier fencing. Wood is rare because the low humidity plus intense UV weathers cedar and pine within 3-4 years.",
@@ -188,6 +241,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Las Vegas residential fencing is stucco CMU perimeter walls (the 'Vegas wall') in earth tones, black view fencing combining CMU pilasters with wrought-iron panels, and pool-code-compliant aluminum in tract communities.",
     costContext: "Las Vegas fencing labor runs at or slightly below the national average. HOA compliance delays routinely push project timelines 2-6 weeks past the building permit. Summer heat premium adds 10-15% May through September. Caliche excavation adds $100-$400 per difficult post location.",
     seasonPara: "Las Vegas fencing season is October through April. May-September heat (105F+ daily) limits productive outdoor work to early-morning shifts. Monsoon wind events in July-August disrupt scheduling around storm damage.",
+    maintenancePara: "Las Vegas stucco CMU perimeter walls need crack inspection every 2-3 years because thermal expansion from 115F+ summer heat combined with monsoon moisture works hairline fractures open. View fencing powder-coat inspection is an annual item because UV and wind-driven sand degrade the finish faster than in any coastal market.",
+    lifespanPara: "Stucco CMU perimeter walls in Las Vegas last 40-60 years with crack maintenance. Powder-coated wrought iron view fencing lasts 25-40 years. Wood privacy fencing is impractical in the Valley because UV and low humidity weather all species within 3-4 years regardless of maintenance.",
+    mistakePara: "The costliest Las Vegas fencing mistake is starting installation without HOA architectural review in Summerlin, Henderson, or Anthem. HOAs routinely require complete removal and reinstallation of non-approved fencing, and review takes 2-6 weeks."
   },
   "philadelphia-pa": {
     materialsPara: "Philadelphia's dominant residential fencing is black ornamental iron (signature Philly front-yard style), cedar privacy in rear yards, and chain link in working-class neighborhoods. Stockade wood privacy is limited on tight urban lots. Brick-pilastered wood privacy is common in historic Society Hill, Old City, and Queen Village.",
@@ -200,6 +256,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Philadelphia residential fencing is black ornamental iron front fences matching Federal-era row-house architecture, cedar privacy fencing in rear yards, and brick-pilastered wood privacy in historic districts. Ornamental iron with custom historic finials is a Philly specialty.",
     costContext: "Philadelphia fencing labor runs 15-25% above the national average due to rowhouse access constraints and historic district compliance. RRP lead-safe certification adds documentation requirements on pre-1978 construction. Dumpster-parking permits through PPA add $30-$50/day to urban projects.",
     seasonPara: "Philadelphia fencing season is mid-April through early November. Rowhouse access constraints and dumpster-parking fees make winter shutdown more pronounced. Off-season pricing saves 10-15%.",
+    maintenancePara: "Philly's 70+ freeze-thaw cycles plus heavy PennDOT salt application require annual inspection of ornamental iron front fences for rust spots and paint flaking. Cedar rear-yard privacy fencing needs stain recoat every 2-3 years because the humid summers promote moss on shaded north-facing sections in Chestnut Hill and Mt. Airy.",
+    lifespanPara: "Ornamental iron front fencing in Philadelphia lasts 30-50 years with biannual anti-rust treatment. Cedar privacy fencing lasts 12-15 years. Brick-pilastered wood privacy in Society Hill lasts 25-35 years because the brick protects the wood posts from ground moisture and salt.",
+    mistakePara: "The costliest Philly fencing mistake is installing a front fence in a historic district without Philadelphia Historical Commission review. PHC can order removal, and the review adds 6-10 weeks. RRP lead-safe certification is also required for any work disturbing pre-1978 painted surfaces."
   },
   "miami-fl": {
     materialsPara: "Miami's dominant residential fencing is aluminum ornamental (hurricane-resistant), stucco-faced CBS perimeter walls, and chain link with privacy slats. Wood is rare because the humid tropical environment plus hurricane exposure makes cedar and pine impractical. PVC and vinyl have moderate share but suffer UV degradation.",
@@ -212,6 +271,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Miami residential fencing is hurricane-rated aluminum ornamental (typical 6-foot with decorative posts), stucco-faced CBS perimeter walls in Spanish Mediterranean style, and pool-code-compliant aluminum barrier fencing integrated with landscape design.",
     costContext: "Miami fencing labor runs 20-35% above the national average due to HVHZ product-approval requirements, coastal corrosion-resistant materials, and hurricane-season work restrictions. HVHZ-rated aluminum runs 25-40% over standard aluminum. HOA compliance adds 2-6 weeks.",
     seasonPara: "Miami fencing season peaks November-May during the dry season. Hurricane season (June-November) disrupts scheduling around named storms. Summer afternoon thunderstorms shift crew schedules. Post-storm emergency repair pricing can run 2-3x standard rates.",
+    maintenancePara: "Miami's hurricane-resistant aluminum fencing needs annual connection inspection because sustained high-wind events stress mounting hardware and fasteners. Salt-air corrosion inspection on all metal components within 1,500 feet of the Atlantic or Biscayne Bay is a standard biannual maintenance item in Coconut Grove and Coral Gables.",
+    lifespanPara: "Hurricane-rated aluminum ornamental fencing in Miami lasts 20-30 years with corrosion maintenance. Stucco CBS perimeter walls last 40-60 years. Wood is impractical because the humid tropical environment plus hurricane exposure makes cedar and pine structurally unsound within 5-8 years.",
+    mistakePara: "The costliest Miami fencing mistake is using non-HVHZ-approved products. Miami-Dade NOA (Notice of Acceptance) is required for all fencing products in the High Velocity Hurricane Zone, and unpermitted products discovered during a post-hurricane inspection void the insurance claim."
   },
   "boston-ma": {
     materialsPara: "Boston's dominant residential fencing is cedar privacy (traditional stockade and shadowbox), black ornamental iron in historic Back Bay and Beacon Hill, and granite-veneered wood privacy in established Brookline and Newton. Chain link is common in working-class Dorchester and Roxbury. Pressure-treated pine dominates budget installations.",
@@ -224,6 +286,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Boston residential fencing is cedar stockade privacy fencing, black ornamental iron matching historic Back Bay character, granite-veneered wood privacy fencing in Brookline, and chain link in working-class Dorchester. Colonial-style split rail is common on larger suburban lots in Concord and Lincoln.",
     costContext: "Boston fencing labor runs 20-35% above the national average due to frost-depth footing requirements, Master Electrician-class trade labor rates, and historic district review. Historic Landmarks Commission review adds $600-$2,000 in fees.",
     seasonPara: "Boston fencing season is May through October. Frost depth of 48 inches limits winter work to specialized equipment. Ice storm emergency repair drives spring demand. Off-season pricing limited because the narrow productive window forces compressed scheduling.",
+    maintenancePara: "Boston's 95+ freeze-thaw cycles combined with heavy MassDOT salt applications require the most aggressive fence maintenance in the Northeast. Annual inspection of cedar post bases for frost-heave damage and iron fence hardware for salt-pitting is the Brookline and Newton standard. Granite-veneered fencing needs joint repointing every 10-15 years.",
+    lifespanPara: "Cedar privacy fencing in Boston lasts 12-15 years with aggressive maintenance. Granite-veneered wood privacy lasts 25-35 years because the granite protects post bases. Black ornamental iron lasts 25-40 years with biannual anti-rust treatment. Pressure-treated pine lasts 15-18 years.",
+    mistakePara: "The costliest Boston fencing mistake is setting post footings at less than the 48-inch frost depth. The 2015 winter frost-heaved every shallow footing in the metro. Experienced Boston crews default to 48-inch minimum regardless of code."
   },
   "san-diego-ca": {
     materialsPara: "San Diego's dominant residential fencing is redwood and cedar privacy, stucco-faced CMU walls in Spanish Mediterranean neighborhoods, and black ornamental aluminum. Vinyl has moderate share in newer suburban communities. Living hedges (bamboo, ficus) are common as privacy barriers in coastal neighborhoods.",
@@ -236,6 +301,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature San Diego residential fencing is redwood privacy fencing in coastal neighborhoods (natural gray weathering is desirable), stucco-faced CMU walls in Spanish Mediterranean neighborhoods, and black ornamental aluminum in newer tract homes.",
     costContext: "San Diego fencing labor runs 15-25% above the national average. Coastal Development Permits add $1,200-$4,000 and 4-8 weeks. HOA compliance adds 2-6 weeks. Marine-grade corrosion-resistant fasteners add 5-10% on coastal-zone projects.",
     seasonPara: "San Diego fencing season is essentially year-round due to mild weather. September-November offers the most stable conditions. Winter atmospheric-river events disrupt scheduling December-March. Marine-layer fog through June slows concrete curing on footing work.",
+    maintenancePara: "San Diego's marine-layer fog deposits salt on coastal fence surfaces every night year-round. Annual inspection of metal fasteners and hardware for corrosion is essential for properties within 1 mile of the Pacific. Redwood fencing needs UV-stabilized oil every 2-3 years to maintain the natural gray weathering aesthetic popular in La Jolla and Del Mar.",
+    lifespanPara: "Redwood privacy fencing in San Diego lasts 15-25 years with maintenance because the mild climate inhibits rot. Stucco CMU walls last 40-60 years. Ornamental aluminum lasts 20-30 years but needs marine-grade corrosion treatment on coastal lots. Living hedges serve as permanent property-line markers.",
+    mistakePara: "The costliest San Diego fencing mistake is installing in a Coastal Zone Overlay without the Coastal Development Permit. The California Coastal Commission can order removal of visible unpermitted fencing in La Jolla and Del Mar, adding $1,200-$4,000 in permit costs and 4-8 weeks."
   },
   "tampa-fl": {
     materialsPara: "Tampa's dominant residential fencing is aluminum ornamental (hurricane-resistant), vinyl privacy in newer subdivisions, and chain link in older middle-class neighborhoods. Wood privacy is possible but requires UC4A pressure-treated pine with aggressive annual maintenance. Stucco-faced CBS walls are common in upscale Bayshore and Belleair neighborhoods.",
@@ -248,6 +316,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Tampa residential fencing is black aluminum ornamental (typically 5-6 feet with decorative caps), vinyl privacy in newer suburban neighborhoods, and CBS stucco perimeter walls in Bayshore and Harbour Island. Pool-code aluminum barrier fencing is a universal scope.",
     costContext: "Tampa fencing labor runs 10-20% above the national average. Hurricane-rated materials add 15-25% over standard. Coastal High Hazard Area permitting adds 4-8 weeks. Post-storm emergency pricing (2022 Ian, 2023 Idalia) runs 1.5-2x standard rates.",
     seasonPara: "Tampa fencing season peaks November-May during the dry season. Hurricane season (June-November) disrupts scheduling. Summer afternoon thunderstorms and lightning risk limit productive hours. Post-storm emergency repair demand drives periodic spikes.",
+    maintenancePara: "Tampa Bay hurricane-rated aluminum fencing requires annual hardware inspection because the combination of salt spray and thunderstorm wind stress works fasteners loose. Vinyl privacy fencing in newer Westchase and FishHawk subdivisions needs annual UV-inspection because Florida sun yellows standard vinyl in 8-10 years.",
+    lifespanPara: "Hurricane-rated aluminum ornamental fencing in Tampa lasts 20-30 years with maintenance. Vinyl privacy lasts 12-18 years with UV-stabilized formulation. Stucco CBS perimeter walls last 40-60 years. Pressure-treated pine lasts only 3-4 years without aggressive annual sealing in Tampa humidity.",
+    mistakePara: "The costliest Tampa fencing mistake is skipping hurricane-rated hardware on aluminum installations in Coastal High Hazard Area parcels. Standard-gauge aluminum with standard fasteners peels off in named storms, and the insurance claim gets denied for non-code-compliant installation."
   },
   "detroit-mi": {
     materialsPara: "Detroit's dominant residential fencing is chain link in working-class neighborhoods (reinforced against vehicle impact in some blocks), cedar privacy fencing in established neighborhoods, and black ornamental aluminum or iron in Indian Village and Palmer Woods. Land Bank properties often need complete fence reinstallation after extended vacancy.",
@@ -260,6 +331,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Detroit residential fencing is chain link (often with privacy slats) in working-class neighborhoods, cedar privacy fencing in established neighborhoods, and black ornamental iron matching Tudor Revival architecture in Indian Village and Palmer Woods.",
     costContext: "Detroit fencing labor runs 5-15% below the national average. Land Bank rehab work often priced lower due to specialist crews experienced in quick reinstallation after vacancy. MDOT frost-law affects spring scheduling. Post-ice-storm repair demand drives periodic spikes.",
     seasonPara: "Detroit fencing season is mid-May through early November. Frozen ground from December through mid-April limits digging. MDOT frost-law affects utility coordination for trench-reliant projects. Off-season winter installation requires hydraulic augers adding 25-40%.",
+    maintenancePara: "Detroit's 78+ freeze-thaw cycles and aggressive MDOT salt require annual inspection of cedar post bases and chain-link top-rail connections. Copper theft on chain-link fencing is a distinct Detroit market concern requiring tamper-resistant top-rail bolts in some neighborhoods.",
+    lifespanPara: "Cedar privacy fencing in Detroit lasts 10-15 years with maintenance. Chain link with privacy slats lasts 20-25 years. Black ornamental iron in Indian Village and Palmer Woods lasts 30-50 years with biannual rust treatment. Vinyl must be 0F-impact-rated or it cracks within 5-8 winters.",
+    mistakePara: "The costliest Detroit fencing mistake is installing on a Land Bank parcel without confirming the property lines. Land Bank lots with unclear boundaries from prior demolitions generate neighbor disputes that require survey work after the fence is already in place."
   },
   "minneapolis-mn": {
     materialsPara: "Twin Cities dominant residential fencing is cedar privacy fencing (shadowbox and stockade), black steel or aluminum ornamental, and chain link in older working-class neighborhoods. Vinyl fencing requires impact-rated specification. Split-rail cedar is common on larger rural-edge lots. Windbreak fencing is a distinct specialty for lake and prairie exposure.",
@@ -272,6 +346,9 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Twin Cities residential fencing is cedar shadowbox privacy fencing (allowing air circulation against moisture buildup), black steel ornamental in Kenwood and Linden Hills, and chain link in working-class Phillips and Powderhorn. Windbreak fencing with prevailing-wind-angled panels is a prairie specialty.",
     costContext: "Twin Cities fencing labor runs 10-20% above the national average. Deep footing requirements (48-54 inches) add $100-$300 per post versus code minimums. Winter shutdown from mid-November through mid-April compresses productive scheduling.",
     seasonPara: "Twin Cities fencing season is mid-May through late October. Frozen ground limits winter work to hydraulic augers. Spring frost-law affects utility coordination. Off-season winter installation adds 25-45%.",
+    maintenancePara: "Twin Cities' 135+ freeze-thaw cycles produce the highest annual fence maintenance burden of any major US metro. Annual post-base inspection for frost-heave damage is mandatory. Cedar shadowbox panels need stain recoat every 2 years because the aggressive salt and freeze cycle strips finish faster than any temperate market.",
+    lifespanPara: "Cedar privacy fencing in Minneapolis lasts 10-15 years because of extreme freeze-thaw stress. Pressure-treated pine lasts 15-20 years. Black steel ornamental lasts 20-30 years with annual touchup. Impact-rated vinyl (0F tested) lasts 12-18 years. Split-rail cedar on rural-edge lots lasts 15-20 years.",
+    mistakePara: "The costliest Twin Cities fencing mistake is setting post footings at less than 48 inches. The frost line regularly reaches 48-54 inches in hard winters, and the 2019 polar vortex heaved every shallow footing in the metro."
   },
   "charlotte-nc": {
     materialsPara: "Charlotte's dominant residential fencing is cedar and pressure-treated pine privacy, black aluminum ornamental, and chain link in older neighborhoods. Vinyl has moderate share in newer suburban developments. Georgian-style brick perimeter walls are common in Myers Park and Eastover. Split-rail fencing on larger Lake Norman and Union County lots.",
@@ -284,7 +361,270 @@ const CITY_FENCING_DATA = {
     stylePara: "Signature Charlotte residential fencing is cedar privacy fencing (dogeared and stockade), black aluminum ornamental in master-planned communities, Georgian-style brick perimeter walls in Myers Park, and split-rail cedar on larger Lake Norman lots.",
     costContext: "Charlotte fencing labor runs at or slightly above the national average. Tree-protection compliance adds $300-$1,000 per project on lots with canopy oaks. Piedmont rocky-lot post drilling adds $100-$300 per difficult post. HOA compliance in master-planned communities adds 2-4 weeks.",
     seasonPara: "Charlotte fencing season is essentially year-round. April-June and September-November offer the most comfortable working conditions. Summer humidity and afternoon thunderstorms disrupt scheduling. Winter ice storms drive emergency repair demand.",
-  }
+    maintenancePara: "Charlotte's moderate freeze-thaw cycle and Piedmont humidity create a manageable fence maintenance environment. Cedar needs stain recoat every 2-3 years. April pollen coats every fence in the metro with a yellow-green film requiring 1,500 PSI pressure washing.",
+    lifespanPara: "Cedar privacy fencing in Charlotte lasts 15-20 years with maintenance. Pressure-treated pine lasts 18-22 years. Georgian-style brick perimeter walls in Myers Park last 50+ years. Ornamental aluminum lasts 25-30 years.",
+    mistakePara: "The costliest Charlotte fencing mistake is excavating within the tree-save zone of a protected canopy oak. The Charlotte Tree Ordinance requires replacement plantings at 3:1 ratio and fines reaching $5,000-$15,000 per tree.",
+  },
+  "san-antonio-tx": {
+    materialsPara: "San Antonio's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like Alamo Heights and Stone Oak. Wood is less common because intense UV weathers cedar within 3-4 years.",
+    hoaPara: "San Antonio master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Alamo Heights and Stone Oak may have deed restrictions or neighborhood character expectations. Texas deed restrictions effectively function as HOAs in many neighborhoods.",
+    heightPara: "San Antonio zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Texas Health and Safety Code pool barrier requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "San Antonio soil is Balcones Fault Zone clay and Edwards limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "San Antonio essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 32 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "San Antonio wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of San Antonio Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Alamo Heights and King William may have distinct permitting requirements.",
+    stylePara: "Signature San Antonio residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "San Antonio fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "San Antonio fencing season runs year-round, with October-April offering the best working conditions."
+  },
+
+  "jacksonville-fl": {
+    materialsPara: "Jacksonville's dominant residential fencing is aluminum ornamental (hurricane-resistant), vinyl privacy, and chain link in neighborhoods like Riverside and San Marco. ",
+    hoaPara: "Jacksonville master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Riverside and San Marco may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Jacksonville zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Florida state code (48 inches minimum). Corner lot sight-triangle reductions apply.",
+    soilPara: "Jacksonville soil is sandy coastal soils over Ocala limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Jacksonville essentially does not freeze, so the dominant concerns are hurricane wind loads and coastal corrosion. Annual precipitation of 52 inches creates aggressive wood-rot conditions.",
+    wildlifePara: "Jacksonville wildlife pressure includes raccoons, opossums, and occasional alligators near canals and ponds. Pool-safety compliance dominates most fencing decisions.",
+    permitPara: "City of Jacksonville Building Inspection Division handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Riverside and Ponte Vedra Beach may have distinct permitting requirements.",
+    stylePara: "Signature Jacksonville residential fencing is hurricane-rated aluminum ornamental, vinyl privacy in newer subdivisions, and pool-code-compliant barrier fencing.",
+    costContext: "Jacksonville fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Jacksonville fencing season runs year-round, with the November-May dry season as the ideal window."
+  },
+
+  "fort-worth-tx": {
+    materialsPara: "Fort Worth's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like Southlake and Westover Hills. ",
+    hoaPara: "Fort Worth master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Southlake and Westover Hills may have deed restrictions or neighborhood character expectations. Texas deed restrictions effectively function as HOAs in many neighborhoods.",
+    heightPara: "Fort Worth zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Texas Health and Safety Code pool barrier requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Fort Worth soil is Eagle Ford shale and Goodland limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Fort Worth essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 34 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Fort Worth wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Fort Worth Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Southlake and Fairmount may have distinct permitting requirements.",
+    stylePara: "Signature Fort Worth residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "Fort Worth fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Fort Worth fencing season runs year-round, with October-April offering the best working conditions."
+  },
+
+  "columbus-oh": {
+    materialsPara: "Columbus's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like German Village and Short North. ",
+    hoaPara: "Columbus master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like German Village and Short North may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Columbus zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Columbus soil is glacial till over Devonian shale and Ohio limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Columbus averages 80 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 40 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Columbus wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Columbus Department of Building and Zoning Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. German Village and Upper Arlington may have distinct permitting requirements.",
+    stylePara: "Signature Columbus residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Columbus fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Columbus fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "indianapolis-in": {
+    materialsPara: "Indianapolis's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Broad Ripple and Meridian-Kessler. ",
+    hoaPara: "Indianapolis master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Broad Ripple and Meridian-Kessler may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Indianapolis zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Indianapolis soil is Wisconsin-age glacial till and Silurian-Devonian limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Indianapolis averages 85 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 42 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Indianapolis wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Indianapolis Department of Business and Neighborhood Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Broad Ripple and Carmel may have distinct permitting requirements.",
+    stylePara: "Signature Indianapolis residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Indianapolis fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Indianapolis fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "nashville-tn": {
+    materialsPara: "Nashville's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like East Nashville and 12South. ",
+    hoaPara: "Nashville master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like East Nashville and 12South may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Nashville zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Nashville soil is Middle Tennessee Basin limestone and Ordovician phosphatic clay. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Nashville experiences 40 freeze-thaw cycles per year, a moderate load that still requires impact-rated vinyl and deep post footings. Annual precipitation of 48 inches creates aggressive wood-rot conditions.",
+    wildlifePara: "Nashville wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "Metropolitan Nashville Department of Codes Administration handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. East Nashville and Green Hills may have distinct permitting requirements.",
+    stylePara: "Signature Nashville residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "Nashville fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Nashville fencing season runs essentially year-round with the most comfortable conditions October-May."
+  },
+
+  "portland-or": {
+    materialsPara: "Portland's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like Pearl District and Alberta Arts. ",
+    hoaPara: "Portland master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Pearl District and Alberta Arts may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Portland zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Portland soil is Willamette River alluvium over Columbia River basalt. Standard 24-30 inch post depth with concrete footings is adequate for most residential installations.",
+    climatePara: "Portland essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 43 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Portland wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Portland Bureau of Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Pearl District and Lake Oswego may have distinct permitting requirements.",
+    stylePara: "Signature Portland residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "Portland fencing labor runs 15-25% above the national average. HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Portland fencing season runs year-round, with October-April offering the best working conditions."
+  },
+
+  "memphis-tn": {
+    materialsPara: "Memphis's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like Midtown and Cooper-Young. ",
+    hoaPara: "Memphis master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Midtown and Cooper-Young may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Memphis zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Memphis soil is Mississippi River alluvium and loess (windblown silt) over Cretaceous clay. Expansive clay requires 36-inch post depth with concrete footings and expansion material.",
+    climatePara: "Memphis experiences 30 freeze-thaw cycles per year, a moderate load that still requires impact-rated vinyl and deep post footings. Annual precipitation of 54 inches creates aggressive wood-rot conditions.",
+    wildlifePara: "Memphis wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Memphis Division of Planning and Development handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Midtown and Germantown may have distinct permitting requirements.",
+    stylePara: "Signature Memphis residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "Memphis fencing labor runs at or near the national average. HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Memphis fencing season runs essentially year-round with the most comfortable conditions October-May."
+  },
+
+  "louisville-ky": {
+    materialsPara: "Louisville's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Highlands and Old Louisville. ",
+    hoaPara: "Louisville master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Highlands and Old Louisville may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Louisville zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Louisville soil is Ohio River floodplain alluvium over Devonian limestone and New Albany shale. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Louisville experiences 60 freeze-thaw cycles per year, a moderate load that still requires impact-rated vinyl and deep post footings. Annual precipitation of 45 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Louisville wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "Louisville Metro Department of Codes and Regulations handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Highlands and St. Matthews may have distinct permitting requirements.",
+    stylePara: "Signature Louisville residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Louisville fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Louisville fencing season runs essentially year-round with the most comfortable conditions October-May."
+  },
+
+  "baltimore-md": {
+    materialsPara: "Baltimore's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Federal Hill and Canton. ",
+    hoaPara: "Baltimore master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Federal Hill and Canton may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Baltimore zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Baltimore soil is Piedmont saprolite and Baltimore gneiss. Frost depth requirements drive post footings to 42-48 inches.",
+    climatePara: "Baltimore averages 65 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 42 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Baltimore wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "Baltimore City Department of Housing handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Federal Hill and Roland Park may have distinct permitting requirements.",
+    stylePara: "Signature Baltimore residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Baltimore fencing labor runs 15-25% above the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Baltimore fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "milwaukee-wi": {
+    materialsPara: "Milwaukee's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Third Ward and Bay View. ",
+    hoaPara: "Milwaukee master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Third Ward and Bay View may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Milwaukee zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Milwaukee soil is Laurentide glacial till over Silurian dolomite and Niagara escarpment limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Milwaukee averages 120 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 34 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Milwaukee wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Milwaukee Department of Neighborhood Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Third Ward and Wauwatosa may have distinct permitting requirements.",
+    stylePara: "Signature Milwaukee residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Milwaukee fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Milwaukee fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "albuquerque-nm": {
+    materialsPara: "Albuquerque's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Nob Hill and North Valley. ",
+    hoaPara: "Albuquerque master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Nob Hill and North Valley may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Albuquerque zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Albuquerque soil is Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand. Frost depth requirements drive post footings to 42-48 inches.",
+    climatePara: "Albuquerque averages 70 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 9 inches minimizes rot but UV remains the primary degradation factor.",
+    wildlifePara: "Albuquerque wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Albuquerque Planning Department handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Nob Hill and Rio Rancho may have distinct permitting requirements.",
+    stylePara: "Signature Albuquerque residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Albuquerque fencing labor runs at or near the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Albuquerque fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "tucson-az": {
+    materialsPara: "Tucson's dominant residential fencing is view fencing (wrought iron or steel), stucco-faced CMU walls, and ornamental aluminum in neighborhoods like Sam Hughes and Catalina Foothills. ",
+    hoaPara: "Tucson master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Sam Hughes and Catalina Foothills may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Tucson zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Arizona Revised Statutes pool-code requirements (60 inches). Corner lot sight-triangle reductions apply.",
+    soilPara: "Tucson soil is Sonoran Desert alluvium. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Tucson essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 12 inches minimizes rot but UV remains the primary degradation factor.",
+    wildlifePara: "Tucson wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Tucson Planning and Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Sam Hughes and Oro Valley may have distinct permitting requirements.",
+    stylePara: "Signature Tucson residential fencing is view fencing in earth tones, stucco perimeter walls, and pool-code aluminum barriers.",
+    costContext: "Tucson fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Tucson fencing season runs year-round, with October-April offering the best working conditions."
+  },
+
+  "sacramento-ca": {
+    materialsPara: "Sacramento's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like East Sacramento and Midtown. ",
+    hoaPara: "Sacramento master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like East Sacramento and Midtown may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Sacramento zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Sacramento soil is Sacramento Valley alluvial clay and American River sand. Expansive clay requires 36-inch post depth with concrete footings and expansion material.",
+    climatePara: "Sacramento essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 18 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Sacramento wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Sacramento Community Development Department handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. East Sacramento and Elk Grove may have distinct permitting requirements.",
+    stylePara: "Signature Sacramento residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "Sacramento fencing labor runs 15-25% above the national average. HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Sacramento fencing season runs year-round, with October-April offering the best working conditions."
+  },
+
+  "raleigh-nc": {
+    materialsPara: "Raleigh's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like North Hills and Cameron Village. ",
+    hoaPara: "Raleigh master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like North Hills and Cameron Village may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Raleigh zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Raleigh soil is Piedmont saprolite over felsic gneiss. Standard 24-30 inch post depth with concrete footings is adequate for most residential installations.",
+    climatePara: "Raleigh experiences 45 freeze-thaw cycles per year, a moderate load that still requires impact-rated vinyl and deep post footings. Annual precipitation of 46 inches creates aggressive wood-rot conditions.",
+    wildlifePara: "Raleigh wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Raleigh Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. North Hills and Cary may have distinct permitting requirements.",
+    stylePara: "Signature Raleigh residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Raleigh fencing labor runs at or near the national average. HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Raleigh fencing season runs essentially year-round with the most comfortable conditions October-May."
+  },
+
+  "kansas-city-mo": {
+    materialsPara: "Kansas City's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Country Club Plaza and Brookside. ",
+    hoaPara: "Kansas City master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Country Club Plaza and Brookside may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Kansas City zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Kansas City soil is Kansas City Group limestone and Missouri River loess. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Kansas City averages 80 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 39 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Kansas City wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Kansas City Permits and Inspections Division handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Country Club Plaza and Overland Park may have distinct permitting requirements.",
+    stylePara: "Signature Kansas City residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Kansas City fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Kansas City fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "orlando-fl": {
+    materialsPara: "Orlando's dominant residential fencing is aluminum ornamental (hurricane-resistant), vinyl privacy, and chain link in neighborhoods like Winter Park and College Park. ",
+    hoaPara: "Orlando master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Winter Park and College Park may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Orlando zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Florida state code (48 inches minimum). Corner lot sight-triangle reductions apply.",
+    soilPara: "Orlando soil is Central Florida sand over Ocala limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Orlando essentially does not freeze, so the dominant concerns are hurricane wind loads and coastal corrosion. Annual precipitation of 50 inches creates aggressive wood-rot conditions.",
+    wildlifePara: "Orlando wildlife pressure includes raccoons, opossums, and occasional alligators near canals and ponds. Pool-safety compliance dominates most fencing decisions.",
+    permitPara: "City of Orlando Permitting Services Division handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Winter Park and Dr. Phillips may have distinct permitting requirements.",
+    stylePara: "Signature Orlando residential fencing is hurricane-rated aluminum ornamental, vinyl privacy in newer subdivisions, and pool-code-compliant barrier fencing.",
+    costContext: "Orlando fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Orlando fencing season runs year-round, with the November-May dry season as the ideal window."
+  },
+
+  "pittsburgh-pa": {
+    materialsPara: "Pittsburgh's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Shadyside and Squirrel Hill. ",
+    hoaPara: "Pittsburgh master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Shadyside and Squirrel Hill may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Pittsburgh zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Pittsburgh soil is Allegheny Plateau sandstone and shale. Expansive clay requires 36-inch post depth with concrete footings and expansion material.",
+    climatePara: "Pittsburgh averages 75 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 38 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Pittsburgh wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Pittsburgh Department of Permits, Licenses and Inspections handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Shadyside and Lawrenceville may have distinct permitting requirements.",
+    stylePara: "Signature Pittsburgh residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Pittsburgh fencing labor runs 15-25% above the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Pittsburgh fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "cincinnati-oh": {
+    materialsPara: "Cincinnati's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Hyde Park and Over-the-Rhine. ",
+    hoaPara: "Cincinnati master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Hyde Park and Over-the-Rhine may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Cincinnati zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Cincinnati soil is Ohio River glacial outwash over Ordovician limestone and shale. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Cincinnati averages 70 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 42 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Cincinnati wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Cincinnati Department of Buildings and Inspections handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Hyde Park and Mount Adams may have distinct permitting requirements.",
+    stylePara: "Signature Cincinnati residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Cincinnati fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Cincinnati fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "colorado-springs-co": {
+    materialsPara: "Colorado Springs's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Broadmoor and Old Colorado City. ",
+    hoaPara: "Colorado Springs master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Broadmoor and Old Colorado City may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Colorado Springs zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Colorado Springs soil is Pikes Peak granite alluvium and Pierre shale. Expansive clay requires 36-inch post depth with concrete footings and expansion material.",
+    climatePara: "Colorado Springs averages 110 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 17 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Colorado Springs wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Colorado Springs Regional Building Department handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Broadmoor and Briargate may have distinct permitting requirements.",
+    stylePara: "Signature Colorado Springs residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Colorado Springs fencing labor runs at or near the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Colorado Springs fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
 };
 
 /* Sections */
@@ -410,6 +750,37 @@ function buyerQuestions(city, cd) {
 </section>`;
 }
 
+function lifespanSection(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>${city} Fence Lifespan by Material</h2>
+<p>${cd.lifespanPara}</p>
+<p>${cd.maintenancePara}</p>
+<p>${cd.climatePara}</p>
+</section>`;
+}
+
+function commonMistakes(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>Costly ${city} Fencing Mistakes</h2>
+<p>${cd.mistakePara}</p>
+<p>${cd.permitPara}</p>
+<p>${cd.wildlifePara}</p>
+<p>${cd.costContext}</p>
+</section>`;
+}
+
+function maintenanceCalendar(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>${city} Fence Maintenance Calendar</h2>
+<p>${cd.maintenancePara}</p>
+<p><strong>Material lifespan.</strong> ${cd.lifespanPara}</p>
+<p><strong>Soil and climate impact.</strong> ${cd.soilPara}</p>
+</section>`;
+}
+
 function seasonalGuide(city, cd) {
   return `
 <section class="section fp-section">
@@ -490,6 +861,9 @@ function buildFlagshipContent(metro) {
   html += redFlags(city, cd);
   html += scopeChecklist(city, cd);
   html += buyerQuestions(city, cd);
+  html += lifespanSection(city, cd);
+  html += commonMistakes(city, cd);
+  html += maintenanceCalendar(city, cd);
   html += seasonalGuide(city, cd);
   html += costScenarios(city, mult, cd);
   html += `\n${MARKER_END}\n`;

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates deep editorial content for 20 flagship metro concrete pages.
+ * Generates deep editorial content for 40 flagship metro concrete pages.
  * Content is almost entirely dict-driven so 8-word shingle overlap between
  * metros stays under 10%.
  *
@@ -41,6 +41,26 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-concrete-cost.html", region: "midwest" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-concrete-cost.html", region: "midwest" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-concrete-cost.html", region: "southeast" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-concrete-cost.html", region: "south" },
+    { slug: "jacksonville-fl", ctxKey: "Jacksonville|FL", file: "jacksonville-fl-concrete-cost.html", region: "southeast" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-concrete-cost.html", region: "south" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-concrete-cost.html", region: "midwest" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-concrete-cost.html", region: "midwest" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-concrete-cost.html", region: "southeast" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-concrete-cost.html", region: "west" },
+    { slug: "memphis-tn", ctxKey: "Memphis|TN", file: "memphis-tn-concrete-cost.html", region: "southeast" },
+    { slug: "louisville-ky", ctxKey: "Louisville|KY", file: "louisville-ky-concrete-cost.html", region: "southeast" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-concrete-cost.html", region: "northeast" },
+    { slug: "milwaukee-wi", ctxKey: "Milwaukee|WI", file: "milwaukee-wi-concrete-cost.html", region: "midwest" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-concrete-cost.html", region: "mountain" },
+    { slug: "tucson-az", ctxKey: "Tucson|AZ", file: "tucson-az-concrete-cost.html", region: "mountain" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-concrete-cost.html", region: "west" },
+    { slug: "raleigh-nc", ctxKey: "Raleigh|NC", file: "raleigh-nc-concrete-cost.html", region: "southeast" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-concrete-cost.html", region: "midwest" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-concrete-cost.html", region: "southeast" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-concrete-cost.html", region: "northeast" },
+    { slug: "cincinnati-oh", ctxKey: "Cincinnati|OH", file: "cincinnati-oh-concrete-cost.html", region: "midwest" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-concrete-cost.html", region: "mountain" },
 ];
 
 function fmtDollar(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n.toLocaleString()}`; }
@@ -62,7 +82,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Popular decorative finishes match streetscape character: Belgian-block aprons, bluestone-aggregate exposed finishes for front walks, and tooled-joint tooling that replicates pre-war sidewalk patterns. Stamped faux-cobble driveways look out of place in most NYC residential contexts and HOAs or co-op boards routinely reject them.",
     seasonPara: "The NYC pour season runs late April through early November, narrowed further by Local Law noise rules that restrict Saturday pours in residential districts. Winter work happens but demands heated enclosures and a DOB-filed cold-weather protection plan.",
     scenarioNotes: "NYC labor and union-scale finisher rates push a Manhattan-delivered truck cost 25-35% above the suburban New Jersey equivalent. Dumpster parking permits from DOT add $200-$600 to every driveway-scale project.",
-    readyMixPlants: "Ferrara, Eastern Concrete, and Empire Transit Mix"
+    readyMixPlants: "Ferrara, Eastern Concrete, and Empire Transit Mix",
+    maintenancePara: "NYC's deicing salt requires sealer reapplication every 2-3 years on residential flatwork. Acrylic-resin sealers are the DOB-compliant standard for city sidewalks; solvent-based sealers violate VOC limits under NYC Clean Air Act amendments. A Bronx or Brooklyn stoop without sealer shows surface scaling by year 7-8 in typical use.",
+    commonMistakePara: "The most expensive NYC concrete mistake is pouring a sidewalk vault cover without confirming the cellar space below meets DOB structural loading requirements. Vault pours that fail the post-pour inspection must be demolished and re-poured at the contractor's expense, but many will try to pass that cost to the homeowner."
   },
   "los-angeles-ca": {
     soilPara: "The LA basin sits on Ballona, Hollywood, and Torrance silts with pockets of expansive Altamont clay in the Hollywood Hills and Santa Monica Mountain foothills. Coastal Westside properties on marine terrace sand drain fast. Hillside lots in Silver Lake, Eagle Rock, and Mount Washington often require over-excavation of Puente Formation weathered mudstone before a slab can be poured.",
@@ -76,7 +98,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "The most-requested decorative finishes in LA are Saltillo-tile-pattern stamps, integrally colored Malibu-tan driveways, and sandblasted seat walls. Color-through pigmentation outperforms surface stains in the UV environment, which is why LA suppliers stock pigment at the dispatch level rather than as a specialty order.",
     seasonPara: "The productive pour window in Los Angeles is September through mid-June. The Santa Ana wind season (October-November) is the worst window for decorative pours despite the mild temperatures because wind-driven evaporation ruins stamp finish consistency.",
     scenarioNotes: "Hillside access surcharges, pumper-truck fees, and plan-check turnaround through LADBS routinely add $1,500-$4,500 to residential concrete scope. Coastal zone parcels add a further 10-15 percent for the CDP process.",
-    readyMixPlants: "Robertson's Ready Mix, CalPortland, and National Ready Mixed"
+    readyMixPlants: "Robertson's Ready Mix, CalPortland, and National Ready Mixed",
+    maintenancePara: "LA's UV exposure degrades concrete sealers in 14-18 months rather than the 3-5 years manufacturers claim for temperate climates. Recoating with UV-stabilized acrylic every 18-24 months is the only way to keep decorative finishes looking sharp in the basin. North-facing patios in Silver Lake and Highland Park last longer between recoats than south-facing Encino driveways.",
+    commonMistakePara: "The costliest LA concrete mistake is skipping LADBS plan-check on a hillside retaining wall. Walls over 3 feet on slopes above 15% require engineering and a B-permit. Unpermitted walls that fail during a rain event expose the homeowner to landslide liability for downhill properties."
   },
   "chicago-il": {
     soilPara: "Chicago clay overlays glacial lacustrine silt with the Wisconsinan till layer typically 8-12 feet down. The South Side water table sits high enough that most basements need continuous perimeter drain tile, and foundation slabs often require under-slab vapor retarders rated for 15-mil minimum thickness. Freeze-susceptible wet clay is the single biggest driver of sidewalk heave in Chicago.",
@@ -90,7 +114,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Decorative finishes that sell in Chicago are Chicago-brick-stamped walks, limestone-tone stained stoops matching Ashlar greystones, and exposed-aggregate alley pads that shed snow and salt better than smooth broom finish.",
     seasonPara: "Productive exterior concrete season in Chicago is late April through early November, roughly 165 working days. Cold-weather work is possible with heated enclosures and MnDOT-style insulated blanket curing, but the premium runs 25-40 percent.",
     scenarioNotes: "Staging and dumpster parking in dense neighborhoods adds $300-$800 per residential project. Off-season pricing from November through February can save 10-15 percent on labor if the contractor runs a winter crew.",
-    readyMixPlants: "Ozinga, Prairie Material, and Lafarge Holcim Lemont"
+    readyMixPlants: "Ozinga, Prairie Material, and Lafarge Holcim Lemont",
+    maintenancePara: "Chicago's aggressive rock-salt environment demands penetrating lithium-silicate sealer within 28 days of the pour plus a topical acrylic recoat every 2 years. The $0.50-$0.90/sqft maintenance cost is non-negotiable for any driveway that will see CDOT salt carryover. Skipping the first-year sealer on a bungalow-belt driveway cuts its useful life nearly in half.",
+    commonMistakePara: "The most expensive Chicago concrete mistake is pouring a garage pad without confirming the alley apron grade. CDOT requires the apron to match the existing alley slope, and a mismatch floods the garage during spring snowmelt. Regrading after the pour costs $2,500-$5,000 more than getting it right the first time."
   },
   "houston-tx": {
     soilPara: "Beaumont clay and Lissie Formation silts sit under most of the Houston metro with Plasticity Index values frequently above 40. The 4-6 inch seasonal vertical soil movement Houston is infamous for is why nearly every residential slab here is post-tensioned. Raised pier-and-beam houses in the Heights, Montrose, and Woodland Heights avoid the worst of the shrink-swell cycle.",
@@ -104,7 +130,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Salt-finish textures dominate pool-deck work for traction in wet weather. Rock-salt-textured driveways, integrally colored limestone-tan aprons, and brushed-concrete back patios are the most common decorative choices.",
     seasonPara: "The productive pour windows are March-May and October-November. July afternoons routinely exceed 95F and force pre-dawn pours with evaporation retarder. Hurricane season (June-November) adds staging and schedule-risk premiums.",
     scenarioNotes: "Bar-ditch culvert work, post-tensioning stressing labor, and elevation-certificate surcharges add 10-20 percent to Houston residential concrete scope compared to an equivalent Dallas or San Antonio bid.",
-    readyMixPlants: "US Concrete, Tilcon Martin Marietta, and Southern Star Concrete"
+    readyMixPlants: "US Concrete, Tilcon Martin Marietta, and Southern Star Concrete",
+    maintenancePara: "Houston's expansive clay means sealer maintenance protects the subgrade as much as the surface. Moisture intrusion through unsealed control joints accelerates the shrink-swell cycle beneath the slab and causes mid-panel cracking within 5-7 years. Annual joint re-caulking with flexible polyurethane sealant is the most cost-effective maintenance line for any Houston slab.",
+    commonMistakePara: "The most expensive Houston concrete mistake is pouring a driveway without confirming the bar-ditch culvert size matches the Harris County Flood Control District requirement. An undersized culvert triggers a county violation and forced replacement that costs $3,000-$8,000 after the driveway is already in place."
   },
   "phoenix-az": {
     soilPara: "Caliche cemented horizons 18-36 inches below grade dominate most Phoenix lots and require pneumatic breakers to excavate for footings. Salt River alluvium lies beneath the caliche, and the northwest Valley has expansive Avondale clay zones that behave similar to Texas black clay.",
@@ -118,7 +146,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Stamped Spanish-mission tile patterns, acid-stained saguaro-green accents, and salt-finish pool surrounds are the most popular decorative choices. Solar-reflective overlays are a growing share because HOAs increasingly require them in newer communities.",
     seasonPara: "Peak Phoenix pour season is November through March. July-August pours should be canceled outright unless the contractor has a documented night-pour protocol, cooled mix water, and retarder application on the surface before troweling.",
     scenarioNotes: "Caliche excavation runs $400-$1,200 per footing beyond standard bid. HOA architectural review through Summerlin-style committees adds 2-5 weeks to the real schedule in master-planned zones.",
-    readyMixPlants: "Cemex, CalPortland Rillito, and Salt River Materials Group"
+    readyMixPlants: "Cemex, CalPortland Rillito, and Salt River Materials Group",
+    maintenancePara: "Phoenix UV destroys concrete sealers roughly twice as fast as temperate markets. Topical acrylic sealers last 12-14 months maximum on south-facing Scottsdale driveways versus 3-5 years on a shaded Chicago slab. Penetrating silane-siloxane sealers outperform acrylics in the Valley because they bond below the surface where UV cannot reach them.",
+    commonMistakePara: "The costliest Phoenix concrete mistake is pouring during a July afternoon without retarder and chilled mix water. The concrete flash-sets before the finisher can work it, producing plastic-shrinkage cracks across the entire slab. Reputable Valley contractors refuse noon pours outright from June through September."
   },
   "dallas-tx": {
     soilPara: "Dallas sits on Austin Chalk on the west side and Houston Black clay across the eastern half of the metroplex, with Plasticity Index values of 35-55. The aggressive shrink-swell cycle is the primary driver of residential foundation movement and is why nearly every new DFW slab is post-tensioned rather than conventionally reinforced.",
@@ -132,7 +162,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Ashlar-cut flagstone stamps, chocolate integral-color driveways, and exposed rose-granite aggregate patios are the popular choices. Concrete crews in DFW often partner with separate masonry subs for flagstone veneer overlays on top of the structural slab.",
     seasonPara: "October through April is the ideal window in Dallas. Summer pours before 10am can work but require wet-curing blankets against 100F-plus afternoon heat. Spring hail season (March-May) drives emergency roofing and gutter work but also affects concrete crews doing exterior finishing.",
     scenarioNotes: "Engineered foundation detailing for expansive soil adds $1,000-$3,500 over a standard bid. Post-tensioning stressing labor is a distinct line item DFW homeowners should see broken out rather than bundled into the slab price.",
-    readyMixPlants: "Martin Marietta, Trinity Industries Ready-Mix, and Big-D Concrete"
+    readyMixPlants: "Martin Marietta, Trinity Industries Ready-Mix, and Big-D Concrete",
+    maintenancePara: "Dallas expansive clay requires joint sealant maintenance every 12-18 months because the shrink-swell cycle works control joints open wider than in stable-soil markets. Flexible polyurethane caulk rated for 50% joint movement is the correct Dallas spec; rigid epoxy fillers crack within one seasonal cycle on Houston Black clay.",
+    commonMistakePara: "The costliest DFW concrete mistake is skipping the engineer's letter on an expansive-soil parcel in East Dallas or Oak Cliff. The city requires it for slabs over 300 sqft in overlay districts, and an unpermitted pour on active clay can produce 2-3 inches of differential settlement within 18 months."
   },
   "atlanta-ga": {
     soilPara: "Atlanta's Piedmont red clay is underlain by saprolite weathered from granite and gneiss. The biotite-mica-heavy subgrade breaks down under repeated wheel loading, which is why reputable Atlanta crews over-compact the base beyond the nominal 95 percent Modified Proctor requirement. Buckhead, Brookhaven, and Decatur sit on similar Piedmont soil with variable depth to rock.",
@@ -146,7 +178,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Stamped Chattahoochee-pebble exposed aggregate, acid-stained Piedmont-red patios, and stacked-stone-faced retaining walls are the popular choices. Color matching to the local red clay is a distinct local specialty.",
     seasonPara: "The sweet spot for Atlanta pours is mid-September through mid-November when the Piedmont drought pattern produces dry subgrade and moderate temperatures. July-August humidity and afternoon thunderstorms disrupt finishing windows.",
     scenarioNotes: "Steep-lot grading on Piedmont terrain adds $800-$2,500 over flat-lot bids. Tree protection and arborist documentation adds another $300-$900 on any lot with canopy oaks or hardwoods.",
-    readyMixPlants: "Thomas Concrete, Argos USA, and Ready Mix USA"
+    readyMixPlants: "Thomas Concrete, Argos USA, and Ready Mix USA",
+    maintenancePara: "Atlanta's 50+ inches of annual rainfall and Piedmont humidity promote moss and mildew on unsealed north-facing concrete within 2-3 years. Annual pressure washing at 2,500-3,000 PSI plus penetrating sealer reapplication every 3 years is the Buckhead and Decatur maintenance standard. Acid-stained surfaces need gentler cleaning to avoid color stripping.",
+    commonMistakePara: "The costliest Atlanta concrete mistake is excavating within the critical root zone of a protected tree without an arborist letter. The Atlanta Tree Ordinance imposes fines up to $500 per inch of DBH for tree damage, and a single mature oak in Grant Park or Inman Park can generate a $15,000-$25,000 penalty."
   },
   "denver-co": {
     soilPara: "Pierre shale and bentonite-rich claystones under the Front Range produce swelling pressures up to 20,000 psf, among the most aggressive residential soil conditions in the country. Sandy alluvium dominates the South Platte floodplain in neighborhoods like Globeville and Elyria-Swansea. Geotechnical reports are effectively mandatory for any new residential slab on the west side.",
@@ -160,7 +194,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Sandstone-patterned stamped drives, acid-stained mountain-bronze patios, and moss-rock-faced retaining walls match the regional aesthetic. Red-flagstone stamps tied to local sandstone color are a Denver signature.",
     seasonPara: "High-altitude UV and sudden afternoon thunderstorms mean summer pours should wrap by 1pm in July-August. The premium window is late April through June and again September through mid-October. Sub-freezing night temperatures return in early November.",
     scenarioNotes: "Geotechnical letters for swelling-soil zones add $800-$2,200 to the engineering line. Structural piering to stable bearing in deep bentonite adds $4,000-$15,000 depending on depth. Mag-chloride-resistant sealing at year 1 is a nonnegotiable maintenance line.",
-    readyMixPlants: "Aggregate Industries Holcim, Transit Mix Concrete, and Martin Marietta"
+    readyMixPlants: "Aggregate Industries Holcim, Transit Mix Concrete, and Martin Marietta",
+    maintenancePara: "Denver's 120 freeze-thaw cycles combined with magnesium-chloride deicer demand the most aggressive sealer schedule of any major US metro. Penetrating lithium-silicate sealer at 28 days post-pour plus mag-chloride-resistant topical recoat every 18-24 months is the Wash Park and Platt Park standard. Skipping the first recoat cycle produces visible surface scaling by year 4.",
+    commonMistakePara: "The costliest Denver concrete mistake is pouring a structural slab without a geotechnical letter confirming bentonite depth. Pierre shale swelling pressures can lift a residential slab 3-6 inches over 2-3 years if the foundation does not extend to stable bearing below the active zone."
   },
   "seattle-wa": {
     soilPara: "Seattle sits on Vashon glacial till and Lawton clay across the Puget Lowland. Hillside lots in Madrona, Leschi, and West Seattle often sit over liquefaction-susceptible Duwamish fill and require tightline stormwater drainage plus geotechnical sign-off before a new slab can be permitted.",
@@ -174,7 +210,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Exposed-aggregate basalt finishes, stamped cedar-plank patterns, and acid-stained moss-green patios match the regional aesthetic. Integrally colored slate-tone driveways are common in Queen Anne and Capitol Hill.",
     seasonPara: "The dry pour window in Seattle is June through mid-September. Winter pours require tented enclosures and curing blankets because sub-45F days run October through April and sustained rain disrupts finishing.",
     scenarioNotes: "Stormwater management plan filing adds $500-$1,500 through an engineer or licensed designer. Critical Areas Ordinance review adds $1,500-$5,000 on hillside or landslide-prone parcels. Tented winter pours add 20-30 percent.",
-    readyMixPlants: "Stoneway Concrete, Glacier Northwest, and Cadman"
+    readyMixPlants: "Stoneway Concrete, Glacier Northwest, and Cadman",
+    maintenancePara: "Seattle's persistent moisture means moss and organic growth colonize unsealed concrete within 12-18 months, faster than any other major metro. Annual pressure washing at 2,000 PSI (lower than typical to avoid aggregate damage) plus penetrating silane sealer every 2-3 years is the Queen Anne and Capitol Hill standard. Moss-inhibitor additives in the sealer extend cleaning intervals.",
+    commonMistakePara: "The costliest Seattle concrete mistake is pouring a patio without a stormwater management plan when the new impervious area exceeds 750 sqft. SDCI can require retroactive stormwater compliance that costs $3,000-$8,000 to engineer after the slab is already in place."
   },
   "austin-tx": {
     soilPara: "Austin sits on Eagle Ford shale and Austin Chalk east of MoPac. West of the Balcones Fault the ground transitions to limestone ledges with thin clay caps where Edwards Aquifer recharge rules add environmental review to any pour. Lot-by-lot variability in depth to rock is the dominant cost variable.",
@@ -188,7 +226,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Hill-country flagstone stamps, integrally colored limestone-beige driveways, and sandblasted seat walls on bluff lots are the popular finishes. Austin-specific limestone-aggregate exposed finish is a signature style.",
     seasonPara: "The January-March window is ideal. July-August heat forces 6am pours and the 35-day Austin permit queue routinely extends the real project schedule. Edwards Aquifer permit reviews stretch to 60 days in peak season.",
     scenarioNotes: "Edwards Aquifer Recharge Zone permitting adds $800-$2,500. Heritage tree arborist letters add $400-$1,200. Austin's unusually slow permit queue adds 3-5 weeks compared to Houston or San Antonio.",
-    readyMixPlants: "Cemex Buda, Capitol Aggregates, and Texas Materials Group"
+    readyMixPlants: "Cemex Buda, Capitol Aggregates, and Texas Materials Group",
+    maintenancePara: "Austin's UV exposure and occasional ice events create a dual-threat maintenance profile. Sealer reapplication every 2-3 years prevents UV-driven surface chalking on decorative finishes, while flexible control-joint caulk rated for 50% movement accommodates the Eagle Ford shale shrink-swell cycle beneath the slab.",
+    commonMistakePara: "The costliest Austin concrete mistake is pouring in the Edwards Aquifer Recharge Zone without the Environmental Compliance permit. The city can order demolition of unpermitted hardscape in recharge zones, and the 3-5 week permit queue means contractors who skip it are gambling with the homeowner's investment."
   },
   "san-francisco-ca": {
     soilPara: "San Francisco sits on Franciscan Complex sandstone and serpentinite in the hills, bay mud and Dumbarton silt in the flats, with the Marina District and South Beach built on liquefaction-prone fill. Seismic and geotechnical scrutiny is higher per residential project than almost any other US market.",
@@ -202,7 +242,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Integrally colored fog-gray driveways, exposed serpentinite aggregate, and Victorian-tile-pattern stamped stoops are the signature local finishes. Marine-grade sealer application at year 1 is a nonnegotiable for coastal exposure.",
     seasonPara: "The September-October Indian summer window is ideal because fog burns off and humidity stabilizes. Winter atmospheric river storms disrupt pours December through March and effectively shut down decorative work for 8-12 weeks a year.",
     scenarioNotes: "Historic District Certificate of Appropriateness adds 8-16 weeks and $500-$2,000 in fees. Hill staging on 25 percent grade driveways adds $1,200-$3,500 in pumper-truck and safety line-item costs.",
-    readyMixPlants: "Central Concrete, Cemex SF, and Bode Gravel"
+    readyMixPlants: "Central Concrete, Cemex SF, and Bode Gravel",
+    maintenancePara: "SF's marine fog deposits chloride on every unsealed concrete surface year-round. Marine-grade penetrating sealer applied within 28 days of the pour and recoated every 2 years is the only way to prevent rebar staining in fog-belt neighborhoods like the Sunset and Richmond. Surface sealers alone fail in the constant moisture.",
+    commonMistakePara: "The costliest SF concrete mistake is starting visible work in a Historic Preservation District without the Planning Department Certificate of Appropriateness. The review adds 8-16 weeks but skipping it can result in a stop-work order, forced demolition, and fines that dwarf the original project cost."
   },
   "las-vegas-nv": {
     soilPara: "Las Vegas sits on hardpan caliche and Mojave playa deposits. The northwest Valley has hydrocompactible silts that collapse under wetting and require controlled-density backfill before a slab can be poured. Sulfate-rich gypsum soils in some zones require Type V cement in footings.",
@@ -216,7 +258,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Stamped slate patterns, acid-stained Mojave-sand patios, exposed quartz aggregate around pools, and solar-reflective overlays increasingly required by HOAs are the dominant decorative finishes.",
     seasonPara: "The October-April window is the only reliable one. May-September pours require 4am starts, retarder sprays, and wet-curing for 7 full days to avoid plastic-shrinkage cracking.",
     scenarioNotes: "HOA architectural review adds 2-6 weeks beyond the building permit. Summer-pour premiums for night crews and retarder application add 15-25 percent over October-April pricing.",
-    readyMixPlants: "CEMEX Apex, Service Rock Products, and Nevada Ready Mix"
+    readyMixPlants: "CEMEX Apex, Service Rock Products, and Nevada Ready Mix",
+    maintenancePara: "Las Vegas UV degrades topical concrete sealers in 10-14 months on south-facing driveways, the fastest burnoff rate of any major US metro. Penetrating silane-siloxane sealers outperform acrylics because the active ingredient bonds below the surface. Sulfate-attack monitoring on slabs poured over gypsum-rich soil is a distinct Valley maintenance concern.",
+    commonMistakePara: "The costliest Las Vegas concrete mistake is pouring a pool deck without Type V cement in a sulfate-rich gypsum soil zone. Standard Type I cement deteriorates from sulfate attack within 5-8 years in confirmed gypsum subgrade, and the deck must be demolished and re-poured at full cost."
   },
   "philadelphia-pa": {
     soilPara: "Philadelphia Wissahickon schist sits close to grade in Chestnut Hill, Mount Airy, and Roxborough. Trenton gravel dominates the river flats, and tidal fill shows up along the Delaware in Pennsport and Fishtown. Row-house side-yard pours often hit rock ledge within 2-3 feet of grade.",
@@ -230,7 +274,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Belgian-block-edged stoops, exposed-Wissahickon-schist aggregate walks, and bluestone-veneer cellar covers are the signature Philly finishes. Local aggregate suppliers stock schist-matched stone specifically for historic-district restoration work.",
     seasonPara: "The productive season is mid-April through early November. Rowhouse-access constraints and dumpster-parking fees make winter shutdown more pronounced than in suburban markets because staging can add $300-$600 per week in PPA parking permit costs.",
     scenarioNotes: "Historical Commission review adds 6-10 weeks and $500-$1,800 in fees. Dumpster parking permits through PPA add $30-$50/day. Rowhouse access surcharges for constrained staging add $400-$1,200.",
-    readyMixPlants: "Silvi Concrete, Eastern Concrete Materials, and Penn Jersey Concrete"
+    readyMixPlants: "Silvi Concrete, Eastern Concrete Materials, and Penn Jersey Concrete",
+    maintenancePara: "Philadelphia's 70 freeze-thaw cycles plus heavy PennDOT salt make sealer maintenance critical on rowhouse stoops and front walks. Penetrating lithium-silicate sealer at 28 days post-pour plus annual topical recoat on salt-exposed surfaces is the Chestnut Hill and Society Hill standard. Deferred sealing on front walks produces D-cracking visible within 8 years.",
+    commonMistakePara: "The costliest Philadelphia concrete mistake is starting stoop work in a historic district without Philadelphia Historical Commission review. The PHC can order removal of non-compliant concrete, and the review process adds 6-10 weeks that cannot be bypassed."
   },
   "miami-fl": {
     soilPara: "Miami oolitic limestone (the Key Largo formation) sits close to grade across most of Miami-Dade. Sandy marl covers the western reaches toward the Everglades transition, and coastal mangrove peat requires over-excavation near Biscayne Bay and Coconut Grove. Rock saw work is common on footing excavation.",
@@ -244,7 +290,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Keystone-imprint pool decks, sand-finish driveways with oolite aggregate, and acid-stained tropical-coral patios are the signature finishes. Art Deco tile-top seat walls are a Miami Beach specialty tied to neighborhood historic character.",
     seasonPara: "The November-April dry season is the prime pour window. May-October afternoon thunderstorms and hurricane season make summer pours a staging and schedule gamble that most reputable Miami contractors price with a 10-15 percent seasonal premium.",
     scenarioNotes: "Florida Product Approval and Miami-Dade NOA filing adds $500-$1,800 in engineering and fee lines. Hurricane-season staging premiums add 10-15 percent on summer pours. Coastal Construction Control Line reviews stretch 6-12 weeks.",
-    readyMixPlants: "Titan America Pennsuco, Cemex, and Continental Cement"
+    readyMixPlants: "Titan America Pennsuco, Cemex, and Continental Cement",
+    maintenancePara: "Miami's chloride environment makes marine-grade sealer application within 14 days of the pour (rather than the standard 28) the local best practice. Epoxy-coated rebar still requires topical sealer recoats every 2 years on any exterior pour within 1,500 feet of the Atlantic or Biscayne Bay. The sealer cost is trivial compared to rebar-staining remediation.",
+    commonMistakePara: "The costliest Miami concrete mistake is using non-HVHZ-approved connection details on a slab tied to the building envelope. Miami-Dade's High Velocity Hurricane Zone requires specific product approvals, and an unpermitted connection detail discovered during a post-hurricane inspection voids the homeowner's insurance claim."
   },
   "boston-ma": {
     soilPara: "Boston Blue Clay sits under Back Bay and the South End (both built on 19th-century fill), Roxbury puddingstone dominates Jamaica Plain and parts of Dorchester, and glacial till covers Brookline, Newton, and much of the immediate suburbs. Fill-zone projects often need geotechnical letters.",
@@ -258,7 +306,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Boston-granite-cobblestone banded driveways, exposed-aggregate finishes matching South End brownstone color, and stamped slate-patterned walks are the signature local decorative choices.",
     seasonPara: "The Boston pour window is May through October. Frost depth reaches 48 inches in a cold winter, so November-April work requires insulated blanket curing and heated enclosures. Landmark Commission reviews can push spring starts into early summer.",
     scenarioNotes: "Boston Landmarks Commission review adds 8-14 weeks and $600-$2,000 in fees and survey work. Deep-footing excavation (42-48 inches) adds $300-$800 per footing compared to code-minimum depths.",
-    readyMixPlants: "Aggregate Industries Holcim, Boston Sand and Gravel, and S&F Concrete"
+    readyMixPlants: "Aggregate Industries Holcim, Boston Sand and Gravel, and S&F Concrete",
+    maintenancePara: "Boston's 95 freeze-thaw cycles combined with heavy MassDOT salt produce the most punishing residential concrete maintenance environment in the country. Penetrating lithium-silicate sealer at 28 days plus annual topical recoat is the Brookline and Newton standard. Triple-decker front walks without sealer show D-cracking by year 6-8.",
+    commonMistakePara: "The costliest Boston concrete mistake is setting footings at code minimum depth rather than the 42-48 inches that experienced local crews use. The 2015 winter's 110-inch snow total frost-heaved every shallow footing in the metro, and repair costs exceeded the original pour price on most affected projects."
   },
   "san-diego-ca": {
     soilPara: "San Diego marine terrace sandstone dominates coastal North County. Mission Valley and parts of Mira Mesa have known expansive Friars Formation clay. The Otay Formation in South County contains bentonite-rich layers that behave similar to Front Range swelling soils.",
@@ -272,7 +322,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Sand-finish pool decks, acid-stained terracotta-tone patios, and stamped Saltillo-tile driveway aprons are the popular choices. Marine-grade pigment supply is locally specialized because coastal UV breaks down generic iron-oxide colors within 5-7 years.",
     seasonPara: "Marine-layer fog through June slows curing and causes surface blushing on decorative work. September through November offers the most predictable pour conditions. Winter atmospheric-river events disrupt December-March scheduling.",
     scenarioNotes: "Coastal Development Permits add $1,200-$4,000 and 4-8 weeks. Geotechnical compaction verification in post-burn zones adds $600-$1,500. Marine-grade sealer reapplication is an annual maintenance line rather than a 3-year line.",
-    readyMixPlants: "Robertson's Ready Mix, Superior Ready Mix, and Hanson Aggregates"
+    readyMixPlants: "Robertson's Ready Mix, Superior Ready Mix, and Hanson Aggregates",
+    maintenancePara: "San Diego's marine-layer fog deposits chloride on coastal concrete every night year-round, making marine-grade sealer reapplication an annual maintenance item for properties within 1 mile of the Pacific. Inland Rancho Bernardo and Scripps Ranch homes can extend to every 2-3 years. Atmospheric-river storm damage inspection after each winter event is also standard.",
+    commonMistakePara: "The costliest San Diego concrete mistake is pouring in a Coastal Zone Overlay without the Coastal Development Permit. The California Coastal Commission can order removal of unpermitted hardscape in La Jolla, Ocean Beach, and Del Mar, and the 4-8 week permit timeline cannot be circumvented."
   },
   "tampa-fl": {
     soilPara: "Tampa sits on Ocala limestone and Tampa Limestone formations close to grade, with sandy Miami oolite in some inland areas and organic mangrove muck requiring over-excavation near Old Tampa Bay and McKay Bay. Karst sinkhole risk is a distinct local variable.",
@@ -286,7 +338,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Keystone-accented pool decks, sand-finish driveways, and acid-stained terracotta-coastal patios are the popular choices. Salt-finish textures are common on lanai pool decks for traction in wet conditions.",
     seasonPara: "The November-May dry season is the ideal pour window. The June-September rainy-season lightning window forces morning pours and frequent weather delays. Hurricane season staging adds schedule risk.",
     scenarioNotes: "Sinkhole-zone geotechnical and GPR surveys add $800-$2,500. Coastal High Hazard Area permitting adds 4-8 weeks. Hurricane-season contingency staging adds 8-12 percent to summer project pricing.",
-    readyMixPlants: "Titan Florida Port of Tampa, Cemex Tampa, and Argos USA"
+    readyMixPlants: "Titan Florida Port of Tampa, Cemex Tampa, and Argos USA",
+    maintenancePara: "Tampa's karst limestone substrate creates a unique maintenance concern: settlement monitoring. Post-pour ground-penetrating radar follow-up on slabs in South Hillsborough Sinkhole Investigation Zones is a prudent biennial maintenance item that catches subsurface void development before it produces catastrophic slab failure.",
+    commonMistakePara: "The costliest Tampa concrete mistake is pouring a large patio without GPR sinkhole screening in a designated Sinkhole Investigation Zone. A void collapse under a new slab can produce $20,000-$50,000 in remediation costs, and homeowner insurance increasingly excludes pre-existing sinkholes on post-2017 policies."
   },
   "detroit-mi": {
     soilPara: "Detroit clay and glacial lacustrine silt dominate most of Wayne County. The Saline Formation limestone shelf affects excavation in Dearborn and Grosse Pointe. Detroit Land Bank-acquired parcels often have rubble or undocumented fill from prior demolitions that requires over-excavation.",
@@ -300,7 +354,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Pewabic-tile-inspired stamped patios, exposed-aggregate finishes tied to local basalt sources, and stained Tudor-mullion-patterned walks reference Detroit's architectural heritage.",
     seasonPara: "The MDOT frost law limits heavy concrete truck access on local roads March-May, narrowing the spring pour window. Late May through early November is the reliable season; sub-freezing overnight temperatures return by mid-November.",
     scenarioNotes: "MDOT frost-law truck weight restrictions add 3-6 week scheduling delays in spring. Land Bank parcel over-excavation for undocumented fill adds $800-$3,500. Mandatory sealing adds $300-$600 per maintenance cycle.",
-    readyMixPlants: "Edward C. Levy Co., Michigan Truck Mix, and Superior Materials"
+    readyMixPlants: "Edward C. Levy Co., Michigan Truck Mix, and Superior Materials",
+    maintenancePara: "Detroit's 78 freeze-thaw cycles and aggressive MDOT salt tonnage require mandatory annual sealer reapplication on any driveway exposed to street-salt carryover. Penetrating lithium-silicate at 28 days post-pour plus annual topical acrylic is the Grosse Pointe and Indian Village standard. Land Bank rehabilitation pours should specify sealer as part of the initial contract.",
+    commonMistakePara: "The costliest Detroit concrete mistake is pouring on a Land Bank parcel without confirming the subgrade is free of demolition rubble. Undocumented fill from prior teardowns produces differential settlement within 2-3 years that cracks the slab and requires full removal and re-pour."
   },
   "minneapolis-mn": {
     soilPara: "Minneapolis sits on Des Moines Lobe glacial till, the Platteville limestone shelf affects Ramsey County excavations, and the northern suburbs sit on the saturated Anoka Sand Plain. Frost-susceptibility rankings directly drive footing depth requirements in MnDOT cold zone.",
@@ -314,7 +370,9 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Stamped random-flagstone drives, salt-finish textures for traction, and exposed-basalt-aggregate patios are the signature local finishes. Anti-slip additives are a near-universal spec for any decorative pour.",
     seasonPara: "The productive pour season is mid-May through late October. Sub-40F temperatures and frozen subgrade effectively shut down exterior concrete work November through early May. Spring frost law limits heavy truck access in April.",
     scenarioNotes: "48-54 inch footing depth adds $400-$1,200 per footing versus code minimum. Epoxy-coated rebar versus black bar adds 15-25 percent on reinforcement line. Annual sealer reapplication at $0.50-$0.90/sqft is mandatory maintenance.",
-    readyMixPlants: "Cemstone, Aggregate Industries Holcim, and Knife River"
+    readyMixPlants: "Cemstone, Aggregate Industries Holcim, and Knife River",
+    maintenancePara: "Minneapolis's 135 freeze-thaw cycles produce the highest annual sealer-maintenance burden of any major US metro. Epoxy-coated rebar plus penetrating lithium-silicate sealer at 28 days plus twice-annual topical recoat on salt-exposed surfaces is the Kenwood and Linden Hills standard. The annual sealer cost of $0.50-$0.90/sqft is genuinely non-negotiable for driveway longevity.",
+    commonMistakePara: "The costliest Minneapolis concrete mistake is setting footings at the 42-inch code minimum when the actual frost depth regularly exceeds 48 inches. The 2019 polar vortex proved that 42-inch footings heave in sustained sub-40F wind-chill events, and experienced Twin Cities crews now default to 54 inches."
   },
   "charlotte-nc": {
     soilPara: "Charlotte sits on Carolina Piedmont saprolite over mica-schist bedrock. Red clay over decomposed granite dominates Mecklenburg County with highly variable depth to rock. Biotite-heavy saprolite breaks down under repeated compaction and requires extra base preparation.",
@@ -328,8 +386,310 @@ const CITY_CONCRETE_DATA = {
     decorativePara: "Stamped ashlar-slate patterns, exposed-Piedmont-granite aggregate, and stained tobacco-brown patios matching Queen City brick are the popular finishes. Charlotte-specific red-clay-tone pigmentation is a local specialty.",
     seasonPara: "April-June and September-November are the ideal windows. July-August humidity slows cure and increases plastic-shrinkage risk, so afternoon pours are discouraged. Pollen-season finishing (March-April) can contaminate decorative surfaces.",
     scenarioNotes: "Tree-protection compliance and arborist documentation adds $300-$1,000 per project. Piedmont slope grading for hillside lots adds $500-$2,000. NCDOT right-of-way tie-ins add $400-$1,500 in permit and inspection costs.",
-    readyMixPlants: "Carolina Sunrock, Thomas Concrete Carolinas, and Ready Mixed Concrete Company"
-  }
+    readyMixPlants: "Carolina Sunrock, Thomas Concrete Carolinas, and Ready Mixed Concrete Company",
+    maintenancePara: "Charlotte's moderate freeze-thaw cycle and NCDOT salt-brine applications create a forgiving but not zero maintenance environment. Penetrating sealer at 28 days plus recoat every 3 years is the Myers Park and Dilworth standard. Pollen-season (March-April) pressure washing at 2,500 PSI removes the yellow-green film that coats every exterior surface in the Piedmont.",
+    commonMistakePara: "The costliest Charlotte concrete mistake is excavating within the tree-save zone of a protected canopy oak without an arborist letter. The Charlotte Tree Ordinance imposes fines and requires replacement plantings at 3:1 ratio, and a single mature willow oak violation can generate $5,000-$15,000 in penalties."
+  },
+  "san-antonio-tx": {
+    soilPara: "San Antonio sits on Balcones Fault Zone clay and Edwards limestone. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Alamo Heights, Stone Oak, King William.",
+    mixPara: "The San Antonio residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Alamo Concrete, Capitol Aggregates, and Martin Marietta supply most of the San Antonio delivery radius. Year-round pouring is feasible with heat-mitigation admixtures in summer.",
+    rebarPara: "San Antonio residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "San Antonio averages about 5 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 32 inches of precipitation annually.",
+    disasterPara: "San Antonio faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable San Antonio contractors reference these events when specifying protective measures.",
+    permitPara: "City of San Antonio Development Services handles residential concrete permits. Alamo Heights and King William have distinct permitting timelines. Houston-style no-zoning rules do not apply; San Antonio enforces setback and impervious-cover requirements.",
+    setbackPara: "San Antonio zoning code restricts driveway width and requires setbacks from property lines in residential zones. Alamo Heights and Stone Oak lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in San Antonio centers on stamped patios, integrally colored driveways, and decorative seat walls typical of neighborhoods like Alamo Heights and Stone Oak.",
+    decorativePara: "Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in San Antonio. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The San Antonio pour window runs year-round, with early morning pours recommended during summer to avoid afternoon heat.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in San Antonio are at or near the national average.",
+    readyMixPlants: "Alamo Concrete, Capitol Aggregates, and Martin Marietta"
+  },
+
+  "jacksonville-fl": {
+    soilPara: "Jacksonville sits on sandy coastal soils over Ocala limestone with marsh peat near the St. Johns River. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Riverside, San Marco, Ponte Vedra Beach.",
+    mixPara: "The Jacksonville residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Rinker Materials, CEMEX Jacksonville, and Argos USA supply most of the Jacksonville delivery radius. Year-round pouring is feasible with heat-mitigation admixtures in summer.",
+    rebarPara: "Jacksonville residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Jacksonville averages about 0 freeze-thaw cycles annually (essentially none), so freeze-thaw is not a durability concern. The dominant threats are hurricane-season saturation and high humidity. The area receives approximately 52 inches of precipitation annually.",
+    disasterPara: "Jacksonville is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Jacksonville contractors reference these events when specifying protective measures.",
+    permitPara: "City of Jacksonville Building Inspection Division handles residential concrete permits. Riverside and Ponte Vedra Beach have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Jacksonville zoning code restricts driveway width and requires setbacks from property lines in residential zones. Riverside and San Marco lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Jacksonville centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Riverside and San Marco.",
+    decorativePara: "Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Jacksonville. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The Jacksonville pour window runs year-round, with the November-May dry season as the ideal window.",
+    scenarioNotes: "Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Jacksonville are at or near the national average.",
+    readyMixPlants: "Rinker Materials, CEMEX Jacksonville, and Argos USA"
+  },
+
+  "fort-worth-tx": {
+    soilPara: "Fort Worth sits on Eagle Ford shale and Goodland limestone with expansive Benbrook clay. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Southlake, Westover Hills, Fairmount.",
+    mixPara: "The Fort Worth residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Trinity Industries Ready-Mix, Martin Marietta, and TXI supply most of the Fort Worth delivery radius. Cold-weather pours in January and February require protection protocols.",
+    rebarPara: "Fort Worth residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "Fort Worth averages about 12 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 34 inches of precipitation annually.",
+    disasterPara: "Fort Worth faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable Fort Worth contractors reference these events when specifying protective measures.",
+    permitPara: "City of Fort Worth Development Services handles residential concrete permits. Southlake and Fairmount have distinct permitting timelines. Houston-style no-zoning rules do not apply; Fort Worth enforces setback and impervious-cover requirements.",
+    setbackPara: "Fort Worth zoning code restricts driveway width and requires setbacks from property lines in residential zones. Southlake and Westover Hills lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Fort Worth centers on stamped patios, integrally colored driveways, and decorative seat walls typical of neighborhoods like Southlake and Westover Hills.",
+    decorativePara: "Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in Fort Worth. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The Fort Worth pour window runs year-round, with early morning pours recommended during summer to avoid afternoon heat.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Fort Worth are at or near the national average.",
+    readyMixPlants: "Trinity Industries Ready-Mix, Martin Marietta, and TXI"
+  },
+
+  "columbus-oh": {
+    soilPara: "Columbus sits on glacial till over Devonian shale and Ohio limestone. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like German Village, Short North, Upper Arlington.",
+    mixPara: "The Columbus residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Shelly Company, Irving Materials, and Central Ohio Ready Mix supply most of the Columbus delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Columbus because of aggressive deicing salt applications that attack uncoated bar. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Columbus averages about 80 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 40 inches of precipitation annually.",
+    disasterPara: "Columbus experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Columbus contractors reference these events when specifying protective measures.",
+    permitPara: "City of Columbus Department of Building and Zoning Services handles residential concrete permits. German Village and Upper Arlington have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Columbus zoning code restricts driveway width and requires setbacks from property lines in residential zones. German Village and Short North lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Columbus centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like German Village and Short North.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Columbus. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Columbus is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Limestone or caliche excavation adds $400-$1,200 per footing. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Shelly Company, Irving Materials, and Central Ohio Ready Mix"
+  },
+
+  "indianapolis-in": {
+    soilPara: "Indianapolis sits on Wisconsin-age glacial till and Silurian-Devonian limestone. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Broad Ripple, Meridian-Kessler, Carmel.",
+    mixPara: "The Indianapolis residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Irving Materials, Milestone Contractors, and Prairie Supply supply most of the Indianapolis delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Indianapolis because of aggressive deicing salt applications that attack uncoated bar. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Indianapolis averages about 85 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 42 inches of precipitation annually.",
+    disasterPara: "Indianapolis experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Indianapolis contractors reference these events when specifying protective measures.",
+    permitPara: "City of Indianapolis Department of Business and Neighborhood Services handles residential concrete permits. Broad Ripple and Carmel have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Indianapolis zoning code restricts driveway width and requires setbacks from property lines in residential zones. Broad Ripple and Meridian-Kessler lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Indianapolis centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Broad Ripple and Meridian-Kessler.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Indianapolis. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Indianapolis is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Limestone or caliche excavation adds $400-$1,200 per footing. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Irving Materials, Milestone Contractors, and Prairie Supply"
+  },
+
+  "nashville-tn": {
+    soilPara: "Nashville sits on Middle Tennessee Basin limestone and Ordovician phosphatic clay. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like East Nashville, 12South, Green Hills.",
+    mixPara: "The Nashville residential concrete spec is 4,000 psi with 4-6 percent entrained air, Type II cement for sulfate resistance, and compliance with local building department standards. Buzzi Unicem, Rogers Group, and Volunteer Ready Mix supply most of the Nashville delivery radius. Cold-weather pours in January and February require protection protocols.",
+    rebarPara: "#4 rebar on 18-inch centers is the standard residential reinforcement in Nashville. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "Nashville averages about 40 freeze-thaw cycles per year, a moderate freeze-thaw load that still requires air-entrained mix and proper curing. The area receives approximately 48 inches of precipitation annually.",
+    disasterPara: "Nashville is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Nashville contractors reference these events when specifying protective measures.",
+    permitPara: "Metropolitan Nashville Department of Codes Administration handles residential concrete permits. East Nashville and Green Hills have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Nashville zoning code restricts driveway width and requires setbacks from property lines in residential zones. East Nashville and 12South lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Nashville centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like East Nashville and 12South.",
+    decorativePara: "Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Nashville. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "Nashville pours best from March through November. Winter pours in January and February require cold-weather protection protocols.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Nashville are at or near the national average.",
+    readyMixPlants: "Buzzi Unicem, Rogers Group, and Volunteer Ready Mix"
+  },
+
+  "portland-or": {
+    soilPara: "Portland sits on Willamette River alluvium over Columbia River basalt with Portland Hills silt. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Pearl District, Alberta Arts, Lake Oswego.",
+    mixPara: "The Portland residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Knife River, CalPortland, and Cadman supply most of the Portland delivery radius. Cold-weather pours in January and February require protection protocols.",
+    rebarPara: "Portland residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Portland averages about 15 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 43 inches of precipitation annually.",
+    disasterPara: "Portland faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable Portland contractors reference these events when specifying protective measures.",
+    permitPara: "City of Portland Bureau of Development Services handles residential concrete permits. Pearl District and Lake Oswego have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Portland zoning code restricts driveway width and requires setbacks from property lines in residential zones. Pearl District and Alberta Arts lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Portland centers on stamped patios, integrally colored driveways, and decorative seat walls typical of neighborhoods like Pearl District and Alberta Arts.",
+    decorativePara: "Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in Portland. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The Portland pour window runs year-round, with early morning pours recommended during summer to avoid afternoon heat.",
+    scenarioNotes: "Standard soil conditions keep excavation costs predictable. Labor rates in Portland are above the national average.",
+    readyMixPlants: "Knife River, CalPortland, and Cadman"
+  },
+
+  "memphis-tn": {
+    soilPara: "Memphis sits on Mississippi River alluvium and loess (windblown silt) over Cretaceous clay. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Midtown, Cooper-Young, Germantown.",
+    mixPara: "The Memphis residential concrete spec is 4,000 psi with 4-6 percent entrained air, Type II cement for sulfate resistance, and compliance with local building department standards. Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem supply most of the Memphis delivery radius. Cold-weather pours in January and February require protection protocols.",
+    rebarPara: "#4 rebar on 18-inch centers is the standard residential reinforcement in Memphis. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "Memphis averages about 30 freeze-thaw cycles per year, a moderate freeze-thaw load that still requires air-entrained mix and proper curing. The area receives approximately 54 inches of precipitation annually.",
+    disasterPara: "Memphis is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Memphis contractors reference these events when specifying protective measures.",
+    permitPara: "City of Memphis Division of Planning and Development handles residential concrete permits. Midtown and Germantown have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Memphis zoning code restricts driveway width and requires setbacks from property lines in residential zones. Midtown and Cooper-Young lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Memphis centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Midtown and Cooper-Young.",
+    decorativePara: "Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Memphis. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "Memphis pours best from March through November. Winter pours in January and February require cold-weather protection protocols.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Memphis are at or near the national average.",
+    readyMixPlants: "Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem"
+  },
+
+  "louisville-ky": {
+    soilPara: "Louisville sits on Ohio River floodplain alluvium over Devonian limestone and New Albany shale. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Highlands, Old Louisville, St. Matthews.",
+    mixPara: "The Louisville residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Buzzi Unicem, Ernst Concrete, and Irving Materials supply most of the Louisville delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "#4 rebar on 18-inch centers is the standard residential reinforcement in Louisville. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Louisville averages about 60 freeze-thaw cycles per year, a moderate freeze-thaw load that still requires air-entrained mix and proper curing. The area receives approximately 45 inches of precipitation annually.",
+    disasterPara: "Louisville has experienced periodic ice storm damage that cracks partially cured concrete during winter pour events. Reputable Louisville contractors reference these events when specifying protective measures.",
+    permitPara: "Louisville Metro Department of Codes and Regulations handles residential concrete permits. Highlands and St. Matthews have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Louisville zoning code restricts driveway width and requires setbacks from property lines in residential zones. Highlands and Old Louisville lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Louisville centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Highlands and Old Louisville.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Louisville. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "Louisville pours best from March through November. Winter pours in January and February require cold-weather protection protocols.",
+    scenarioNotes: "Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Louisville are at or near the national average.",
+    readyMixPlants: "Buzzi Unicem, Ernst Concrete, and Irving Materials"
+  },
+
+  "baltimore-md": {
+    soilPara: "Baltimore sits on Piedmont saprolite and Baltimore gneiss with Coastal Plain sediments east of the Fall Line. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Federal Hill, Canton, Roland Park.",
+    mixPara: "The Baltimore residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Chaney Enterprises, Lehigh Hanson, and Martin Marietta supply most of the Baltimore delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Baltimore because of aggressive deicing salt applications that attack uncoated bar. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Baltimore averages about 65 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 42 inches of precipitation annually.",
+    disasterPara: "Baltimore experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Baltimore contractors reference these events when specifying protective measures.",
+    permitPara: "Baltimore City Department of Housing handles residential concrete permits. Federal Hill and Roland Park have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Baltimore zoning code restricts driveway width and requires setbacks from property lines in residential zones. Federal Hill and Canton lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Baltimore centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Federal Hill and Canton.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Baltimore. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Baltimore is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Standard soil conditions keep excavation costs predictable. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Chaney Enterprises, Lehigh Hanson, and Martin Marietta"
+  },
+
+  "milwaukee-wi": {
+    soilPara: "Milwaukee sits on Laurentide glacial till over Silurian dolomite and Niagara escarpment limestone. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Third Ward, Bay View, Wauwatosa.",
+    mixPara: "The Milwaukee residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Waukesha Concrete, We Energies Industrial, and Payne & Dolan supply most of the Milwaukee delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Milwaukee because of aggressive deicing salt applications that attack uncoated bar. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Milwaukee averages about 120 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 34 inches of precipitation annually.",
+    disasterPara: "Milwaukee experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Milwaukee contractors reference these events when specifying protective measures.",
+    permitPara: "City of Milwaukee Department of Neighborhood Services handles residential concrete permits. Third Ward and Wauwatosa have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Milwaukee zoning code restricts driveway width and requires setbacks from property lines in residential zones. Third Ward and Bay View lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Milwaukee centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Third Ward and Bay View.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Milwaukee. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Milwaukee is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Limestone or caliche excavation adds $400-$1,200 per footing. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Waukesha Concrete, We Energies Industrial, and Payne & Dolan"
+  },
+
+  "albuquerque-nm": {
+    soilPara: "Albuquerque sits on Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Nob Hill, North Valley, Rio Rancho.",
+    mixPara: "The Albuquerque residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Vulcan Materials, Martin Marietta, and Rio Grande Ready Mix supply most of the Albuquerque delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Albuquerque because of aggressive deicing salt applications that attack uncoated bar. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Albuquerque averages about 70 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 9 inches of precipitation annually.",
+    disasterPara: "Albuquerque experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Albuquerque contractors reference these events when specifying protective measures.",
+    permitPara: "City of Albuquerque Planning Department handles residential concrete permits. Nob Hill and Rio Rancho have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Albuquerque zoning code restricts driveway width and requires setbacks from property lines in residential zones. Nob Hill and North Valley lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Albuquerque centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Nob Hill and North Valley.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Albuquerque. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Albuquerque is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Standard soil conditions keep excavation costs predictable. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Vulcan Materials, Martin Marietta, and Rio Grande Ready Mix"
+  },
+
+  "tucson-az": {
+    soilPara: "Tucson sits on Sonoran Desert alluvium with caliche layers 12-30 inches below grade over Tucson Mountain rhyolite. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Sam Hughes, Catalina Foothills, Oro Valley.",
+    mixPara: "The Tucson residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. CalPortland, Vulcan Materials, and Rinker Materials Southwest supply most of the Tucson delivery radius. Cold-weather pours in January and February require protection protocols.",
+    rebarPara: "Tucson residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Tucson averages about 12 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 12 inches of precipitation annually.",
+    disasterPara: "Tucson faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable Tucson contractors reference these events when specifying protective measures.",
+    permitPara: "City of Tucson Planning and Development Services handles residential concrete permits. Sam Hughes and Oro Valley have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Tucson zoning code restricts driveway width and requires setbacks from property lines in residential zones. Sam Hughes and Catalina Foothills lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Tucson centers on stamped patios, integrally colored driveways, and decorative seat walls typical of neighborhoods like Sam Hughes and Catalina Foothills.",
+    decorativePara: "Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in Tucson. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The Tucson pour window runs year-round, with early morning pours recommended during summer to avoid afternoon heat.",
+    scenarioNotes: "Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Tucson are at or near the national average.",
+    readyMixPlants: "CalPortland, Vulcan Materials, and Rinker Materials Southwest"
+  },
+
+  "sacramento-ca": {
+    soilPara: "Sacramento sits on Sacramento Valley alluvial clay and American River sand with hardpan beneath east-side neighborhoods. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like East Sacramento, Midtown, Elk Grove.",
+    mixPara: "The Sacramento residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. CalPortland, Teichert, and Pacific Coast Building Products supply most of the Sacramento delivery radius. Cold-weather pours in January and February require protection protocols.",
+    rebarPara: "Sacramento residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "Sacramento averages about 12 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 18 inches of precipitation annually.",
+    disasterPara: "Sacramento faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable Sacramento contractors reference these events when specifying protective measures.",
+    permitPara: "City of Sacramento Community Development Department handles residential concrete permits. East Sacramento and Elk Grove have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Sacramento zoning code restricts driveway width and requires setbacks from property lines in residential zones. East Sacramento and Midtown lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Sacramento centers on stamped patios, integrally colored driveways, and decorative seat walls typical of neighborhoods like East Sacramento and Midtown.",
+    decorativePara: "Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in Sacramento. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The Sacramento pour window runs year-round, with early morning pours recommended during summer to avoid afternoon heat.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Labor rates in Sacramento are above the national average.",
+    readyMixPlants: "CalPortland, Teichert, and Pacific Coast Building Products"
+  },
+
+  "raleigh-nc": {
+    soilPara: "Raleigh sits on Piedmont saprolite over felsic gneiss with Triassic basin mudstone in the eastern reaches. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like North Hills, Cameron Village, Cary.",
+    mixPara: "The Raleigh residential concrete spec is 4,000 psi with 4-6 percent entrained air, Type II cement for sulfate resistance, and compliance with local building department standards. Carolina Sunrock, Chandler Concrete, and Chaney Enterprises supply most of the Raleigh delivery radius. Cold-weather pours in January and February require protection protocols.",
+    rebarPara: "#4 rebar on 18-inch centers is the standard residential reinforcement in Raleigh. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Raleigh averages about 45 freeze-thaw cycles per year, a moderate freeze-thaw load that still requires air-entrained mix and proper curing. The area receives approximately 46 inches of precipitation annually.",
+    disasterPara: "Raleigh is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Raleigh contractors reference these events when specifying protective measures.",
+    permitPara: "City of Raleigh Development Services handles residential concrete permits. North Hills and Cary have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Raleigh zoning code restricts driveway width and requires setbacks from property lines in residential zones. North Hills and Cameron Village lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Raleigh centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like North Hills and Cameron Village.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Raleigh. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "Raleigh pours best from March through November. Winter pours in January and February require cold-weather protection protocols.",
+    scenarioNotes: "Standard soil conditions keep excavation costs predictable. Labor rates in Raleigh are at or near the national average.",
+    readyMixPlants: "Carolina Sunrock, Chandler Concrete, and Chaney Enterprises"
+  },
+
+  "kansas-city-mo": {
+    soilPara: "Kansas City sits on Kansas City Group limestone and Missouri River loess with expansive Pennsylvanian shale. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Country Club Plaza, Brookside, Overland Park.",
+    mixPara: "The Kansas City residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Ash Grove Cement, Hunt Midwest, and Ready Mixed Concrete Co. of Kansas City supply most of the Kansas City delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Kansas City because of aggressive deicing salt applications that attack uncoated bar. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "Kansas City averages about 80 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 39 inches of precipitation annually.",
+    disasterPara: "Kansas City experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Kansas City contractors reference these events when specifying protective measures.",
+    permitPara: "City of Kansas City Permits and Inspections Division handles residential concrete permits. Country Club Plaza and Overland Park have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Kansas City zoning code restricts driveway width and requires setbacks from property lines in residential zones. Country Club Plaza and Brookside lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Kansas City centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Country Club Plaza and Brookside.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Kansas City. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Kansas City is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Ash Grove Cement, Hunt Midwest, and Ready Mixed Concrete Co. of Kansas City"
+  },
+
+  "orlando-fl": {
+    soilPara: "Orlando sits on Central Florida sand over Ocala limestone with karst sinkholes and high water table. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Winter Park, College Park, Dr. Phillips.",
+    mixPara: "The Orlando residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. CEMEX Orlando, Titan Florida, and Argos USA supply most of the Orlando delivery radius. Year-round pouring is feasible with heat-mitigation admixtures in summer.",
+    rebarPara: "Orlando residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.",
+    climatePara: "Orlando averages about 0 freeze-thaw cycles annually (essentially none), so freeze-thaw is not a durability concern. The dominant threats are hurricane-season saturation and high humidity. The area receives approximately 50 inches of precipitation annually.",
+    disasterPara: "Orlando is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Orlando contractors reference these events when specifying protective measures.",
+    permitPara: "City of Orlando Permitting Services Division handles residential concrete permits. Winter Park and Dr. Phillips have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Orlando zoning code restricts driveway width and requires setbacks from property lines in residential zones. Winter Park and College Park lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Orlando centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Winter Park and College Park.",
+    decorativePara: "Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Orlando. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The Orlando pour window runs year-round, with the November-May dry season as the ideal window.",
+    scenarioNotes: "Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Orlando are at or near the national average.",
+    readyMixPlants: "CEMEX Orlando, Titan Florida, and Argos USA"
+  },
+
+  "pittsburgh-pa": {
+    soilPara: "Pittsburgh sits on Allegheny Plateau sandstone and shale with Pittsburgh red beds clay and abandoned mine subsidence risk. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Shadyside, Squirrel Hill, Lawrenceville.",
+    mixPara: "The Pittsburgh residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Allegheny Mineral, Lafarge Holcim, and Pittsburgh Ready Mix supply most of the Pittsburgh delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Pittsburgh because of aggressive deicing salt applications that attack uncoated bar. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "Pittsburgh averages about 75 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 38 inches of precipitation annually.",
+    disasterPara: "Pittsburgh experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Pittsburgh contractors reference these events when specifying protective measures.",
+    permitPara: "City of Pittsburgh Department of Permits, Licenses and Inspections handles residential concrete permits. Shadyside and Lawrenceville have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Pittsburgh zoning code restricts driveway width and requires setbacks from property lines in residential zones. Shadyside and Squirrel Hill lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Pittsburgh centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Shadyside and Squirrel Hill.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Pittsburgh. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Pittsburgh is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Allegheny Mineral, Lafarge Holcim, and Pittsburgh Ready Mix"
+  },
+
+  "cincinnati-oh": {
+    soilPara: "Cincinnati sits on Ohio River glacial outwash over Ordovician limestone and shale with hillside instability on Cincinnati Formation clay. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Hyde Park, Over-the-Rhine, Mount Adams.",
+    mixPara: "The Cincinnati residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Barrett Industries, Rumpke Concrete, and Hilltop Ready Mix supply most of the Cincinnati delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Cincinnati because of aggressive deicing salt applications that attack uncoated bar. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "Cincinnati averages about 70 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 42 inches of precipitation annually.",
+    disasterPara: "Cincinnati experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Cincinnati contractors reference these events when specifying protective measures.",
+    permitPara: "City of Cincinnati Department of Buildings and Inspections handles residential concrete permits. Hyde Park and Mount Adams have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Cincinnati zoning code restricts driveway width and requires setbacks from property lines in residential zones. Hyde Park and Over-the-Rhine lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Cincinnati centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Hyde Park and Over-the-Rhine.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Cincinnati. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Cincinnati is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Barrett Industries, Rumpke Concrete, and Hilltop Ready Mix"
+  },
+
+  "colorado-springs-co": {
+    soilPara: "Colorado Springs sits on Pikes Peak granite alluvium and Pierre shale with expansive bentonite along the Front Range foothills. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Broadmoor, Old Colorado City, Briargate.",
+    mixPara: "The Colorado Springs residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Martin Marietta, Transit Mix Concrete, and Aggregate Industries supply most of the Colorado Springs delivery radius. Winter pours require insulated blanket curing and protection plans.",
+    rebarPara: "Epoxy-coated #4 rebar is standard in Colorado Springs because of aggressive deicing salt applications that attack uncoated bar. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.",
+    climatePara: "Colorado Springs averages about 110 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 17 inches of precipitation annually.",
+    disasterPara: "Colorado Springs experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Colorado Springs contractors reference these events when specifying protective measures.",
+    permitPara: "City of Colorado Springs Regional Building Department handles residential concrete permits. Broadmoor and Briargate have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.",
+    setbackPara: "Colorado Springs zoning code restricts driveway width and requires setbacks from property lines in residential zones. Broadmoor and Old Colorado City lots often have specific deed restrictions or HOA requirements layered on top of municipal code.",
+    stylePara: "Residential concrete in Colorado Springs centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Broadmoor and Old Colorado City.",
+    decorativePara: "Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Colorado Springs. Local pigment and aggregate supply match the regional aesthetic.",
+    seasonPara: "The productive pour season in Colorado Springs is late April through early November. Frozen ground from December through March makes winter work expensive.",
+    scenarioNotes: "Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.",
+    readyMixPlants: "Martin Marietta, Transit Mix Concrete, and Aggregate Industries"
+  },
+
 };
 
 /* ---------- Section 1: Neighborhood Pricing Breakdown ---------- */
@@ -488,7 +848,29 @@ function styleDeepDive(city, cd) {
 </section>`;
 }
 
-/* ---------- Section 7e: Buyer Questions (reuses dict text via new framing) ---------- */
+/* ---------- Section 7e: Maintenance Guide ---------- */
+function maintenanceGuide(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>${city} Concrete Maintenance</h2>
+<p>${cd.maintenancePara}</p>
+<p>${cd.decorativePara}</p>
+<p>${cd.seasonPara}</p>
+</section>`;
+}
+
+/* ---------- Section 7f: Common Mistakes ---------- */
+function commonMistakes(city, cd) {
+  return `
+<section class="section fp-section">
+<h2>Costly ${city} Concrete Mistakes</h2>
+<p>${cd.commonMistakePara}</p>
+<p>${cd.permitPara}</p>
+<p>${cd.scenarioNotes}</p>
+</section>`;
+}
+
+/* ---------- Section 7g: Buyer Questions (reuses dict text via new framing) ---------- */
 function buyerQuestions(city, cd) {
   return `
 <section class="section fp-section">
@@ -577,6 +959,8 @@ function buildFlagshipContent(metro) {
   html += failureModes(city, cd);
   html += scopeChecklist(city, cd);
   html += styleDeepDive(city, cd);
+  html += maintenanceGuide(city, cd);
+  html += commonMistakes(city, cd);
   html += buyerQuestions(city, cd);
   html += seasonalGuide(city, cd);
   html += costScenarios(city, mult, cd);

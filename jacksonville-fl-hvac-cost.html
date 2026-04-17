@@ -193,6 +193,623 @@ depending on system type, efficiency rating, and home size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-HVAC-CONTENT -->
+
+<section class="section fp-section">
+<h2>Neighborhood HVAC Pricing Across Jacksonville</h2>
+<p>Pricing varies block-to-block in Jacksonville because Central AC split system or packaged heat pump is standard in Jacksonville, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.. Figures below use a 2,000 sq ft home with existing ducts, running against JEA (Jacksonville Electric Authority)'s interconnection rules.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Central AC</th>
+<th style="text-align:right; padding:12px 16px;">Heat Pump</th>
+<th style="text-align:right; padding:12px 16px;">Furnace</th>
+<th style="text-align:right; padding:12px 16px;">Full System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Riverside</td>
+<td style="padding:12px 16px; text-align:right;">$4,331</td>
+<td style="padding:12px 16px; text-align:right;">$5,562</td>
+<td style="padding:12px 16px; text-align:right;">$3,544</td>
+<td style="padding:12px 16px; text-align:right;">$7,629</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Avondale</td>
+<td style="padding:12px 16px; text-align:right;">$4,250</td>
+<td style="padding:12px 16px; text-align:right;">$5,458</td>
+<td style="padding:12px 16px; text-align:right;">$3,478</td>
+<td style="padding:12px 16px; text-align:right;">$7,487</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">San Marco</td>
+<td style="padding:12px 16px; text-align:right;">$4,210</td>
+<td style="padding:12px 16px; text-align:right;">$5,406</td>
+<td style="padding:12px 16px; text-align:right;">$3,444</td>
+<td style="padding:12px 16px; text-align:right;">$7,415</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Atlantic Beach</td>
+<td style="padding:12px 16px; text-align:right;">$3,765</td>
+<td style="padding:12px 16px; text-align:right;">$4,834</td>
+<td style="padding:12px 16px; text-align:right;">$3,080</td>
+<td style="padding:12px 16px; text-align:right;">$6,631</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Mandarin</td>
+<td style="padding:12px 16px; text-align:right;">$3,846</td>
+<td style="padding:12px 16px; text-align:right;">$4,938</td>
+<td style="padding:12px 16px; text-align:right;">$3,146</td>
+<td style="padding:12px 16px; text-align:right;">$6,774</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Springfield</td>
+<td style="padding:12px 16px; text-align:right;">$3,886</td>
+<td style="padding:12px 16px; text-align:right;">$4,990</td>
+<td style="padding:12px 16px; text-align:right;">$3,180</td>
+<td style="padding:12px 16px; text-align:right;">$6,845</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Jacksonville labor, City of Jacksonville Building Inspection Division permit costs, and JEA (Jacksonville Electric Authority) interconnection overhead are all priced in. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Jacksonville quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How Jacksonville's Climate Drives Your HVAC Decision</h2>
+<p>Humid subtropical with hurricane exposure from both the Atlantic and Gulf, year-round humidity that drives mold and rot, and intense UV. Jacksonville's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely..</p>
+<p><strong>Cooling dominates the Jacksonville HVAC budget.</strong> extreme summer heat exceeding 100F with tropical humidity keeps AC or heat-pump compressors running six to eight months a year across Riverside, Avondale, and San Marco. At JEA (Jacksonville Electric Authority)'s low $0.14/kWh residential rate, every SEER point above code minimum matters: stepping from 14 SEER to 18 SEER cuts cooling bills roughly 29% in Jacksonville, which works out to $320-$560 per year on a typical home. Over a 15-year system life, that's meaningful money on JEA (Jacksonville Electric Authority) bills alone.</p>
+<p><strong>Humidity control is the Jacksonville sizing issue.</strong> Jacksonville's high humidity turns AC oversizing from a minor annoyance into a real mold and mildew problem. An oversized system short-cycles, satisfying the thermostat before pulling moisture out of the air, and leaves Riverside and Avondale homeowners with a cold, clammy interior. A credible Manual J load calculation done against the JEA (Jacksonville Electric Authority) climate station data is mandatory in Jacksonville, not optional. Variable-speed or two-stage systems run longer at lower output, which is what actually dehumidifies air under Jacksonville's dew-point profile.</p>
+<p><strong>Heat pumps in Jacksonville.</strong> Excellent; Jacksonville's mild winters make heat pumps the default recommendation for most homeowners. JEA offers efficiency rebates for qualifying ENERGY STAR equipment. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville Efficiency Targets: SEER and AFUE</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Cooling efficiency target</h3>
+<p class="fp-season-months">18+ SEER</p>
+<p>Jacksonville's long cooling season at JEA (Jacksonville Electric Authority)'s $0.14/kWh rate makes 18 SEER the efficiency sweet spot. Going higher adds diminishing returns unless your downtown neighborhood has unusual run-time profiles. The 18 SEER tier typically pays its premium over a 16 SEER in 4-6 years of reduced JEA (Jacksonville Electric Authority) cooling bills.</p>
+</div>
+<div class="fp-season-card" style="background:#eff6ff; border:1px solid #93c5fd;">
+<h3>Heating efficiency target</h3>
+<p class="fp-season-months">80%+ AFUE</p>
+<p>Jacksonville's minimal heating load means an 80% AFUE furnace is fine if you even keep gas. Most Jacksonville homeowners are better served by going all-electric with a high-SEER heat pump and skipping the gas furnace, water heater, and PGW-equivalent bill altogether. Do the math on JEA (Jacksonville Electric Authority)'s electric rate before locking in dual-fuel.</p>
+</div>
+</div>
+<p><strong>What's the SEER2 floor in Jacksonville?</strong> Federal floor for FL is 15 SEER2 (roughly 15.2 legacy SEER) under the DOE southern-region rule — any Jacksonville bid under that is illegal for new residential install. Any "14 SEER" number on a Jacksonville 2026 bid is either left-over old inventory or a labeling mix-up between SEER2 and legacy SEER; the AHRI listing at ahridirectory.org is the authoritative source.</p>
+<p><strong>Rebates available to Jacksonville homeowners.</strong> JEA offers efficiency rebates for qualifying ENERGY STAR equipment. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates.. The 25C heat-pump credit sunset December 31, 2025 and does not apply to 2026 Jacksonville projects. HEAR and HOMES IRA rebates remain live: HEAR delivers up to $8,000 for income-qualified FL residents; HOMES delivers $4,000-$8,000 based on measured performance. Both flow through FL's energy office and the installer, not through your 1040. Geothermal heat pumps separately qualify for the 30% Section 25D credit through 2034 — relevant for Jacksonville homes with lot space for a ground loop.</p>
+</section>
+<section class="section fp-section">
+<h2>What JEA (Jacksonville Electric Authority) Rates Mean for Jacksonville HVAC</h2>
+<p>Ongoing Jacksonville HVAC cost depends mostly on JEA (Jacksonville Electric Authority)'s rates. Here's how the numbers drive the sizing and brand decision.</p>
+<div class="fp-season-grid">
+<div class="fp-scenario-card" style="border-top:4px solid #f59e0b; padding:20px;">
+<h3>Electricity</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$0.14/kWh</p>
+<p style="font-size:13px; color:#64748b;">JEA (Jacksonville Electric Authority)</p>
+</div>
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6; padding:20px;">
+<h3>Natural gas</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$1.80/therm</p>
+<p style="font-size:13px; color:#64748b;">Local provider residential</p>
+</div>
+</div>
+<p>Jacksonville's JEA (Jacksonville Electric Authority) residential rate of $0.14/kWh sits right at the US average, which means standard payback math applies without regional adjustments. Jacksonville's $1.80/therm gas rate through JEA (Jacksonville Electric Authority) runs well above the US average, which narrows the gas-vs-heat-pump cost gap. In this rate environment, an all-electric heat pump is worth serious consideration even where gas service exists.</p>
+<p><strong>FL rate structure.</strong> Check your actual JEA (Jacksonville Electric Authority) bill rate, not the advertised rate, before running payback math. The summer delivery charges and demand components can meaningfully shift the effective per-kWh cost in Jacksonville.</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville HVAC Permitting and Inspections</h2>
+<p><strong>Permit authority:</strong> City of Jacksonville Building Inspection Division. City of Jacksonville Building Inspection Division issues HVAC permits for residential work. Florida DBPR licenses HVAC contractors. Jacksonville requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+<p><strong>Jacksonville-specific coverage.</strong> Florida requires Manual J load calculations for new installations, and Jacksonville building inspectors enforce this.. A Jacksonville mechanical permit formally signs off on Manual J load calc, service electrical, gas pipe sizing if gas is involved, refrigerant line routing, condensate discharge, and FL's required duct-leakage testing. On top of that baseline, condensate overflow switches and secondary drain pans pull extra City of Jacksonville Building Inspection Division scrutiny in Jacksonville because clogged primary drain lines trigger ceiling collapse faster in humid air than anywhere drier. City of Jacksonville Building Inspection Division also checks Central AC split system or packaged heat pump is standard in Jacksonville, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.-specific details a generic Sun Belt tract-home inspector wouldn't recognize.</p>
+<p><strong>Jacksonville permits aren't optional red tape — they're leverage against bad installs.</strong> Unpermitted Jacksonville work voids Jacksonville and every manufacturer warranty, appears as an MLS flag at resale, and leaves you holding the liability when things fail: a botched Jacksonville AC install leaks refrigerant into the attic, drips condensate into the JEA (Jacksonville Electric Authority)-side electrical panel, or fails its first pressure test during July; City of Jacksonville Building Inspection Division catches those upstream of drywall closing back up. The "no-permit discount" a Jacksonville shop offers is really insurance against City of Jacksonville Building Inspection Division inspection, paid by you. Under FL law, permit liability stays with the contractor — avoid any pitch to pull the permit yourself as an owner-builder.</p>
+<p><strong>A2L changes how Jacksonville shops handle refrigerant.</strong> R-454B and R-32 are the A2L refrigerants replacing R-410A in new Jacksonville residential installs. Jacksonville distributors across FL still have some pre-2025 R-410A inventory for service and carry-over installs, but new manufacturing stopped at the 2025 cutoff. Because A2L is class 2L (mildly flammable) and R-410A was class 1 (non-flammable), UL 60335-2-40 adds install requirements. The new requirements: charge-to-room-volume minimums, leak-detection sensors on heads above certain tonnages, and A2L-specific brazing procedures. DBPR does not equate to A2L certification; the Jacksonville shop you hire should produce A2L training documentation independently.</p>
+
+</section>
+<section class="section fp-section">
+<h2>Jacksonville HVAC Contractors: How the Market Works</h2>
+<p>Post-hurricane price spikes are common; out-of-state contractors flock in after named storms and many disappear before warranty work. Jacksonville has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Rheem and Goodman also have significant market share through independent dealers.. A Jacksonville dealer quote versus an independent Jacksonville shop quote usually differs because of actual supply-chain differences, not margin inflation.</p>
+<p>Jacksonville's growth is real and it shows up in contractor scheduling. New builds absorb Florida DBPR Class A or Class B mechanical contractor license-licensed crews out of Riverside, Avondale, and San Marco, so replacement bidders face scarcer labor and less price flexibility. Bid spreads of 40-60% between the cheapest and most expensive Jacksonville HVAC quote are normal and usually reflect genuine differences in Jacksonville-vs-value-tier equipment, warranty terms, and install craft — not just markup. Don't default to lowest bid.</p>
+<p><strong>What to verify on any Jacksonville bid.</strong> Florida DBPR Class A or Class B mechanical contractor license is the starting point — pull the FL license number from the state's own lookup portal, not the company marketing page. Insurance check: $1M per occurrence is the Jacksonville floor for general liability, plus active workers' comp confirmed through FL's comp database. Demand the AHRI reference number for the exact condenser-coil-air-handler combo quoted in Jacksonville: the SEER2/HSPF printed on the spec sheet only applies to the certified combination, not to whatever substitute coil the installer pulls off a JEA (Jacksonville Electric Authority)-area truck.</p>
+<p><strong>Jacksonville install quality matters more than the nameplate.</strong> A premium Jacksonville unit installed sloppily loses to a mid-tier unit installed right in any Jacksonville home. Five craft items to insist on in Jacksonville: a Manual J tied to JEA (Jacksonville Electric Authority)'s climate data, refrigerant charge dialed by live superheat/subcooling readings rather than weight, mastic-paste duct sealing (not tape — it fails in high conditions within three years), Jacksonville's long cooling run hours call for 375-400 CFM per ton, and a signed commissioning sheet before you release final payment. Ask each Jacksonville contractor about all five specifics — a contractor who can't or won't answer is showing you their install quality.</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville HVAC Scam Patterns to Watch For</h2>
+<p>These are the HVAC sales patterns that burn Jacksonville homeowners most consistently across Riverside, Avondale, and San Marco.</p>
+
+<div class="fp-flag">
+<h3>Why oversizing hurts worst in Jacksonville</h3>
+<p>Riverside and Avondale bids regularly show oversized equipment because contractors default to square-foot rules; JEA (Jacksonville Electric Authority)'s climate data plus a genuine Manual J worksheet catch this. Oversized AC in Jacksonville's humid climate short-cycles before pulling moisture out of the air. Every Jacksonville homeowner should ask each bidder "Show me the Manual J result and explain why this tonnage instead of the next size down." Any response missing the Manual J load number or the tonnage rationale is disqualifying.</p>
+</div>
+<div class="fp-flag">
+<h3>Upsell bundles to decline in Jacksonville</h3>
+<p>Jacksonville's humidity occasionally justifies the whole-home dehumidifier upsell ($1,500-$3,000). UV lights, ionizers, and duct sanitization remain upsell theater for Riverside, Avondale, and San Marco homes with healthy ductwork; a MERV 13 pleated filter swapped twice a year handles the air quality. If your Jacksonville bid leads with air-quality add-ons before discussing Manual J sizing or JEA (Jacksonville Electric Authority) rebate stacking via JEA offers efficiency rebates for qualifying ENERGY STAR equipment. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates., the sales priority is add-on margin rather than your utility bill.</p>
+</div>
+<div class="fp-flag">
+<h3>"You can't service R-410A anymore" pitch</h3>
+<p>Jacksonville and Carrier wholesalers across the JEA (Jacksonville Electric Authority) territory still stock R-410A for servicing existing Riverside and Avondale systems. What stopped at end of 2024 was new-equipment manufacturing, not refrigerant supply. Any Jacksonville tech insisting your working R-410A unit "can't be serviced" is either confused or running a replacement pitch. Refrigerant recharges cost $200-450 per pound, and most "low refrigerant" symptom calls are actually repairable leak locations. R-22 imports were banned from the US in 2020, so R-22 on a Jacksonville invoice is either mislabeled or smuggled.</p>
+</div>
+<div class="fp-flag">
+<h3>Jacksonville market-specific pitch</h3>
+<p>Jacksonville homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.. The Jacksonville pattern always involves urgency: same-day decision, no competing quote, no time to research. A second opinion from a DBPR-credentialed San Marco or Atlantic Beach shop costs 48 hours and routinely shaves $4,000-12,000 off the first pitch.</p>
+</div>
+<div class="fp-flag">
+<h3>Jacksonville same-day "discount" gimmick</h3>
+<p>Jacksonville-authorized dealers and independent Jacksonville shops alike run this close. A real Jacksonville quote stays valid 30-90 days; anything "expiring tonight" was base-inflated so the fake discount lands at market price. Decline, collect competing bids in Riverside, Avondale, and San Marco, and check the actual JEA (Jacksonville Electric Authority) rebate deadlines: they're quarterly or annual, not same-day.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville Equipment and Ductwork</h2>
+<p><strong>Dominant equipment.</strong> Central AC split system or packaged heat pump is standard in Jacksonville, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market..</p>
+<p><strong>Brand coverage.</strong> Jacksonville has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Rheem and Goodman also have significant market share through independent dealers..</p>
+<p><strong>Heat pump viability.</strong> Excellent; Jacksonville's mild winters make heat pumps the default recommendation for most homeowners.</p>
+<p><strong>Permit detail.</strong> City of Jacksonville Building Inspection Division issues HVAC permits for residential work. Florida DBPR licenses HVAC contractors. Jacksonville requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville HVAC Scam Patterns</h2>
+<p><strong>Local pattern.</strong> Jacksonville homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair..</p>
+<p><strong>Season reason.</strong> Jacksonville HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+<p><strong>Permit quirk.</strong> Florida requires Manual J load calculations for new installations, and Jacksonville building inspectors enforce this..</p>
+<p><strong>Utility rebates.</strong> JEA offers efficiency rebates for qualifying ENERGY STAR equipment. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville HVAC Technical Context</h2>
+<p>Jacksonville's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely..</p>
+<p><strong>Extreme conditions.</strong> Extreme summer heat exceeding 100F with tropical humidity. The Jacksonville recommended efficiency targets are 18+ SEER for cooling and 80%+ AFUE for heating, calibrated to JEA (Jacksonville Electric Authority) rate structures.</p>
+<p><strong>Humidity.</strong> Jacksonville humidity is high. </p>
+</section>
+<section class="section fp-section">
+<h2>When to Buy HVAC in Jacksonville: Seasonal Timing</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">November through March</p>
+<p>Jacksonville HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">June through September</p>
+<p>Emergency Jacksonville replacements during these months carry a 10-20% premium because JEA (Jacksonville Electric Authority)-approved contractors book two to four weeks out. Negotiating room disappears in Riverside, Avondale, and San Marco whenever the emergency queue is full, which it always is during these weeks. Past the 12-year mark, scheduling replacement during november through march beats hoping the unit survives the next extreme summer heat exceeding 100f with tropical humidity.</p>
+</div>
+</div>
+<p><strong>A Jacksonville timing trick worth knowing.</strong> Book a Jacksonville-authorized Jacksonville tune-up ($80-$150) before either shoulder season. Pre-season diagnostics pick up superheat drift, pressure-side anomalies, and blower-motor bearing noise; those readings separate a planned replacement from a panicked June-weekend call in Riverside. Most Jacksonville shops fold this into a yearly maintenance contract at $180-$280, which pencils out for multi-unit homes.</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville HVAC Cost Scenarios: Budget, Mid, Premium</h2>
+<p>These Jacksonville numbers reflect 2026 FL labor rates and the current JEA (Jacksonville Electric Authority)-territory equipment supply chain. Each scenario targets a 3-ton system on a 2,000 sq ft home where Central AC split system or packaged heat pump is standard in Jacksonville, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market. already exists.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">15 SEER2 single-stage AC + 80% AFUE furnace</p>
+<p class="fp-scenario-total">$4.0K</p>
+<p class="fp-scenario-detail">Single-stage Goodman or Amana equipment, 10-year parts warranty from Goodman's factory-authorized network. Covers City of Jacksonville Building Inspection Division permit, basic 7-day programmable thermostat, JEA (Jacksonville Electric Authority) interconnection paperwork, and haul-off of the old unit. A sensible budget pick for a San Marco rental or a Jacksonville seller prepping a flip; not ideal for an owner planning 10+ year occupancy because the cooling run-hour count in Jacksonville wears single-stage compressors hard.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">16 SEER2 two-stage heat pump</p>
+<p class="fp-scenario-total">$7.4K</p>
+<p class="fp-scenario-detail">Two-stage Carrier heat pump, fresh refrigerant line set with A2L-rated fittings, City of Jacksonville Building Inspection Division permit, JEA (Jacksonville Electric Authority) time-of-use-aware Wi-Fi thermostat (Honeywell T10 or Ecobee Premium), duct leakage test, basic written commissioning report. 10-year parts plus 2-year labor warranty. Eligible for JEA offers efficiency rebates for qualifying ENERGY STAR equipment. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. rebate stacking. The sensible Jacksonville choice for most Riverside, Avondale, and San Marco single-family homes.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">18+ SEER2 variable-speed inverter heat pump</p>
+<p class="fp-scenario-total">$12.4K</p>
+<p class="fp-scenario-detail">Variable-speed Jacksonville inverter equipment, full duct system re-sealed with mastic paste, A2L line set with flared fittings, City of Jacksonville Building Inspection Division permit, smart thermostat tracking JEA (Jacksonville Electric Authority) time-of-use, whole-home surge suppression, and a HERS-verified commissioning document. Jacksonville factory warranty of 12-year parts and 10-year labor. Eligible for the full JEA offers efficiency rebates for qualifying ENERGY STAR equipment. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. rebate plus FL-level stacking. Works financially in Jacksonville on a 10+ year ownership horizon.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Budget another $3,000-$7,000 if full ductwork replacement is needed. A second story, or a Jacksonville Landing-adjacent Jacksonville property, typically adds 10-20%. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Jacksonville quote for a side-by-side comparison.</a></p>
+</section>
+<!-- /FLAGSHIP-HVAC-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 <section class="section">
 <h2>What affects HVAC cost in Jacksonville</h2>
 <ul class="factor-list">

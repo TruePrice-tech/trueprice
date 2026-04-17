@@ -219,6 +219,631 @@ depending on material, gutter height, and yard size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-GUTTERS-CONTENT -->
+
+<section class="section fp-section">
+<h2>Neighborhood Gutter Pricing in Orlando</h2>
+<p>Orlando gutter pricing moves with local labor, building height, and fascia shape. Rows below use 150 LF, which matches most single-story homes in the metro.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Aluminum Seamless</th>
+<th style="text-align:right; padding:12px 16px;">Vinyl</th>
+<th style="text-align:right; padding:12px 16px;">Copper</th>
+<th style="text-align:right; padding:12px 16px;">Steel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Winter Park</td>
+<td style="padding:12px 16px; text-align:right;">$1,500</td>
+<td style="padding:12px 16px; text-align:right;">$1,000</td>
+<td style="padding:12px 16px; text-align:right;">$6,250</td>
+<td style="padding:12px 16px; text-align:right;">$1,825</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Thornton Park</td>
+<td style="padding:12px 16px; text-align:right;">$1,450</td>
+<td style="padding:12px 16px; text-align:right;">$975</td>
+<td style="padding:12px 16px; text-align:right;">$6,025</td>
+<td style="padding:12px 16px; text-align:right;">$1,775</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">College Park</td>
+<td style="padding:12px 16px; text-align:right;">$1,425</td>
+<td style="padding:12px 16px; text-align:right;">$950</td>
+<td style="padding:12px 16px; text-align:right;">$5,975</td>
+<td style="padding:12px 16px; text-align:right;">$1,750</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Audubon Park</td>
+<td style="padding:12px 16px; text-align:right;">$1,275</td>
+<td style="padding:12px 16px; text-align:right;">$850</td>
+<td style="padding:12px 16px; text-align:right;">$5,325</td>
+<td style="padding:12px 16px; text-align:right;">$1,575</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Lake Nona</td>
+<td style="padding:12px 16px; text-align:right;">$1,325</td>
+<td style="padding:12px 16px; text-align:right;">$900</td>
+<td style="padding:12px 16px; text-align:right;">$5,550</td>
+<td style="padding:12px 16px; text-align:right;">$1,625</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Baldwin Park</td>
+<td style="padding:12px 16px; text-align:right;">$1,350</td>
+<td style="padding:12px 16px; text-align:right;">$900</td>
+<td style="padding:12px 16px; text-align:right;">$5,625</td>
+<td style="padding:12px 16px; text-align:right;">$1,650</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Orlando labor and material pricing for 150 LF drives these figures. Your actual Orlando quote depends on building height, existing fascia condition, roof-corner count, and downspout needs. <a href="/gutter-quote-analyzer.html?city=Orlando&state=FL" style="color:var(--brand);">Upload your Orlando quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>Rainfall and Drainage in Orlando</h2>
+<div class="fp-rainfall-stat" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px 20px;background:var(--bg-subtle,#f8fafc);border-radius:12px;border:1px solid var(--border,#e2e8f0);">
+<div style="font-size:32px;font-weight:800;color:var(--brand,#1d4ed8);line-height:1;">50 inches</div>
+<div style="font-size:14px;color:#64748b;">annual rainfall in Orlando</div>
+</div>
+<p>Orlando receives 50 inches of rain per year, with intense summer thunderstorms and hurricane-season deluges that can deliver 3-5 inches in 24 hours. Gutters on Orlando homes must handle both sustained rainfall and sudden high-volume events.</p>
+<h3>Picking the right gutter size in Orlando</h3>
+<p>A standard 5-inch K-style gutter in Orlando handles about 1.2 gallons per second, fine up to roughly 2 inches per hour. When Orlando storms exceed that rate (they do), 6-inch gutters carry 40% more water for $2-$3 more per linear foot on Winter Park, Thornton Park, and College Park homes.</p>
+<h3>Orlando downspout routing and sizing</h3>
+<p>High water tables in Orlando require downspout discharge away from foundations to prevent saturation. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Orlando practice.</p>
+<p>Orlando homes typically need one downspout per 20-30 linear feet of gutter run. A standard 2x3-inch downspout handles about 600 sq ft of roof area; 3x4-inch oversized downspouts move substantially more water and earn their upcharge on larger roof planes common in Winter Park, Thornton Park, and College Park.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Guard Selection Guide</h2>
+<p>Tree coverage in Orlando is moderate to heavy, with live oak, cabbage palm, bald cypress dominant. The specific debris mix your Winter Park, Thornton Park, and College Park gutters see determines which guard style actually performs — not every guard works in every market.</p>
+<h3>Primary debris types in Orlando</h3>
+<p>Oak leaves, acorns, and pollen catkins.</p>
+<h3>Recommended guard style</h3>
+<p>Micro-mesh guards provide the best all-around protection for Orlando's debris mix.</p>
+<div class="fp-guard-compare" style="margin:16px 0;padding:16px 20px;background:#f0fdf4;border-radius:12px;border:1px solid #a7f3d0;">
+<h3 style="margin:0 0 8px;font-size:15px;color:#166534;">Guard cost comparison for Orlando</h3>
+<p style="margin:0;font-size:14px;color:#334155;">Expect $7-$15/LF for micro-mesh in Orlando, $4-$8/LF for screen, $10-$18/LF for reverse-curve, $2-$5/LF for foam (don't). National-brand pricing from LeafFilter or Gutter Helmet lands $15-$35/LF with warranty bundled; a local Orlando installer offering the same micro-mesh quality typically beats that by 30-50%.</p>
+</div>
+<p>No gutter guard system is actually maintenance-free, regardless of type. Even top-tier micro-mesh needs surface brushing every 1-2 years to clear fine pollen and dust buildup in Orlando. Any Orlando contractor pitching "never clean your gutters again" is overselling.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Winter and Ice Dam Risk</h2>
+<p><strong>Freeze risk level for Orlando: low to none.</strong></p>
+<p>Freeze risk is essentially zero in Orlando. Heated gutter systems are unnecessary.</p>
+<h3>Winter gutter basics in Orlando</h3>
+<p>Cold-weather damage to Orlando gutters is rare but not zero. The non-negotiable item is pitch — at 1/4 inch per 10 feet, water flows out rather than sitting long enough to freeze during rare Orlando cold events.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Gutter Maintenance Calendar</h2>
+<div class="fp-maintenance-stat" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px 20px;background:#fefce8;border-radius:12px;border:1px solid #fde68a;">
+<div style="font-size:24px;font-weight:800;color:#92400e;line-height:1;">twice per year minimum (late fall after leaf drop and late spring after seed season)</div>
+</div>
+<p>Winter Park and College Park neighborhoods with heavy live oak canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.</p>
+<h3>Cleaning cost in Orlando</h3>
+<p>Professional gutter cleaning in Orlando runs $100-$250 for single-story and $150-$350 for two-story. Price depends on linear footage, height, and debris volume. Homes on a regular schedule in Winter Park, Thornton Park, and College Park pay the low end; neglected gutters with compacted debris or blockages cost more because the crew has to flush downspouts too.</p>
+<h3>Should you DIY gutter cleaning in Orlando?</h3>
+<p>Single-story Orlando homes with easy ladder access are reasonable DIY jobs. Two-story, steep lots, and complex-rooflined homes in Winter Park, Thornton Park, and College Park belong to professional crews. Ladder falls rank among the most common serious home-maintenance injuries in the US; a $150 professional cleaning beats an ER visit.</p>
+</section>
+<section class="section fp-section">
+<h2>Common Gutter Scams in Orlando</h2>
+<p>Winter Park, Thornton Park, and College Park homeowners see these same four gutter-quote issues repeatedly.</p>
+
+<div class="fp-flag">
+<h3>Orlando-specific undersizing</h3>
+<p>A Orlando bid that specifies 5-inch gutters without reference to 50 inches of annual rainfall or the specific Winter Park, Thornton Park, and College Park roof area being drained is underthought. Any roof plane above 1,500 sq ft emptying to a single gutter run needs 6-inch in Orlando.</p>
+</div>
+<div class="fp-flag">
+<h3>Pitch errors on Orlando installs</h3>
+<p>Correct slope for Orlando gutters: 1/4 inch per 10 feet of run toward each downspout. Flat sections pool water and overflow during storms. A five-minute post-install hose test catches the problem — any standing water means the hangers need adjusting.</p>
+</div>
+<div class="fp-flag">
+<h3>Orlando discharge routing skipped</h3>
+<p>Gutters collect water; downspouts deliver it. Without splash blocks, extensions, or buried drainage, all that water concentrates at your foundation. Orlando's 50 inches of annual rain turns that into foundation cracks, basement seepage, and eroded landscaping. A Orlando bid silent on discharge routing is incomplete.</p>
+</div>
+<div class="fp-flag">
+<h3>Seamed gutters sold as seamless</h3>
+<p>Real seamless means the installer rolls the full gutter run on your Orlando property from continuous coil stock; seams appear only at corners, outlets, and end caps. A "seamless" Orlando bid that mentions joining factory-cut sections with splice connectors is sectional gutter at seamless pricing — the single most common install-side scam.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Orlando Gutter Installation: Seasonal Timing</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">Dry season months when contractor demand is lowest</p>
+<p>Scheduling Orlando gutter installation during the quieter off-peak months typically saves 10-15% on labor. </p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">Post-hurricane emergency demand periods</p>
+<p>Peak-season Orlando pricing runs 10-20% above shoulder-season rates, with longer lead times too. Storm-damage emergency work carries its own premium separate from seasonal swings.</p>
+</div>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Orlando-Specific Gutter Details</h2>
+<p>undefined</p>
+<p>undefined</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Downspout and Drainage Routing</h2>
+<p>High water tables in Orlando require downspout discharge away from foundations to prevent saturation. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Orlando practice.</p>
+<p>Winter Park and College Park neighborhoods with heavy live oak canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.</p>
+</section>
+<section class="section fp-section">
+<h2>What Your Orlando Gutter Contract Should Include</h2>
+<p><strong>Material specification.</strong> Micro-mesh guards provide the best all-around protection for Orlando's debris mix.</p>
+<p><strong>Cleaning schedule.</strong> twice per year minimum (late fall after leaf drop and late spring after seed season). Winter Park and College Park neighborhoods with heavy live oak canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.</p>
+<p><strong>Seasonal timing.</strong> Scheduling Orlando gutter installation during the quieter off-peak months typically saves 10-15% on labor. </p>
+<p><strong>Warranty terms.</strong> undefined</p>
+</section>
+<section class="section fp-section">
+<h2>How Orlando Climate Affects Gutters</h2>
+<p>Orlando receives 50 inches of rain per year, with intense summer thunderstorms and hurricane-season deluges that can deliver 3-5 inches in 24 hours. Gutters on Orlando homes must handle both sustained rainfall and sudden high-volume events.</p>
+<p><strong>Debris profile.</strong> Orlando tree coverage is moderate to heavy, with live oak, cabbage palm, bald cypress dominant. Primary debris: oak leaves, acorns, and pollen catkins.</p>
+<p><strong>Guard recommendation.</strong> Micro-mesh guards provide the best all-around protection for Orlando's debris mix.</p>
+<p><strong>Freeze risk: low to none.</strong> Freeze risk is essentially zero in Orlando. Heated gutter systems are unnecessary.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Orlando Gutter Contractor</h2>
+<p><strong>What gauge aluminum are you installing?</strong> undefined</p>
+<p><strong>How are you sizing for Orlando rainfall?</strong> Orlando receives 50 inches annually. Orlando receives 50 inches of rain per year, with intense summer thunderstorms and hurricane-season deluges that can deliver 3-5 inches in 24 hours. Gutters on Orlando homes must handle both sustained rainfall and sudden high-volume events.</p>
+<p><strong>What guard type works here?</strong> Micro-mesh guards provide the best all-around protection for Orlando's debris mix.</p>
+<p><strong>What warranty terms apply?</strong> undefined</p>
+<p><strong>What is your cleaning recommendation?</strong> twice per year minimum (late fall after leaf drop and late spring after seed season). Winter Park and College Park neighborhoods with heavy live oak canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Gutter Cost Scenarios</h2>
+<p>These Orlando figures reflect 2026 pricing on labor and materials in Orlando. Each scenario models 150 linear feet, which is typical for single-story Orlando homes.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">vinyl gutters over 150 LF</p>
+<p class="fp-scenario-total">$925</p>
+<p class="fp-scenario-detail">~$6.18/LF installed. Old-gutter removal, vinyl gutter and downspout install, basic splash blocks, site cleanup. Vinyl is the cheapest option in Orlando but carries a 10-15 year lifespan and cracks in temperature extremes.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">aluminum seamless + leaf guards over 150 LF</p>
+<p class="fp-scenario-total">$3.5K</p>
+<p class="fp-scenario-detail">~$23.18/LF installed. 5-inch seamless aluminum with hidden hangers, micro-mesh leaf guards, downspout extensions, and full cleanup after removal of the old system. Right answer for most Winter Park, Thornton Park, and College Park homes in Orlando.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">copper half-round with leaf guards over 150 LF</p>
+<p class="fp-scenario-total">$7.9K</p>
+<p class="fp-scenario-detail">~$52.53/LF installed. Old gutter removal, copper half-round gutters and copper downspouts, micro-mesh guards, premium fittings throughout. Copper develops natural patina over 2-3 years and lasts 50+ years in Orlando with zero corrosion.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Two-story adds 15-25% to Orlando gutter pricing. Any fascia replacement runs $5-$15/LF extra. Complex Winter Park or Thornton Park rooflines with many corners need more fittings, which drives labor up. <a href="/gutter-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized Orlando estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-GUTTERS-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 
 <section class="section">
 <h2>Other Services in Orlando</h2>

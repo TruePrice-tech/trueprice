@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates deep editorial content for 20 flagship metro siding pages.
+ * Generates deep editorial content for 40 flagship metro siding pages.
  * Every section pulls long narrative blocks from CITY_SIDING_DATA so 8-word
  * shingle overlap across metros stays <10%.
  *
@@ -42,6 +42,26 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", region: "midwest", file: "detroit-mi-siding-cost.html" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", region: "midwest", file: "minneapolis-mn-siding-cost.html" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", region: "southeast", file: "charlotte-nc-siding-cost.html" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-siding-cost.html", region: "south" },
+    { slug: "jacksonville-fl", ctxKey: "Jacksonville|FL", file: "jacksonville-fl-siding-cost.html", region: "southeast" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-siding-cost.html", region: "south" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-siding-cost.html", region: "midwest" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-siding-cost.html", region: "midwest" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-siding-cost.html", region: "southeast" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-siding-cost.html", region: "west" },
+    { slug: "memphis-tn", ctxKey: "Memphis|TN", file: "memphis-tn-siding-cost.html", region: "southeast" },
+    { slug: "louisville-ky", ctxKey: "Louisville|KY", file: "louisville-ky-siding-cost.html", region: "southeast" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-siding-cost.html", region: "northeast" },
+    { slug: "milwaukee-wi", ctxKey: "Milwaukee|WI", file: "milwaukee-wi-siding-cost.html", region: "midwest" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-siding-cost.html", region: "mountain" },
+    { slug: "tucson-az", ctxKey: "Tucson|AZ", file: "tucson-az-siding-cost.html", region: "mountain" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-siding-cost.html", region: "west" },
+    { slug: "raleigh-nc", ctxKey: "Raleigh|NC", file: "raleigh-nc-siding-cost.html", region: "southeast" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-siding-cost.html", region: "midwest" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-siding-cost.html", region: "southeast" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-siding-cost.html", region: "northeast" },
+    { slug: "cincinnati-oh", ctxKey: "Cincinnati|OH", file: "cincinnati-oh-siding-cost.html", region: "midwest" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-siding-cost.html", region: "mountain" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n.toLocaleString()}`; }
@@ -295,6 +315,346 @@ const CITY_SIDING_DATA = {
     bestSeasons: "October-November and March-April outside pollen peak and humidity surges",
     worstSeasons: "February-March pollen, July-August humidity, and spring storm cycles",
   },
+  "san-antonio-tx": {
+    sec_material: `San Antonio siding choices center on vinyl, fiber cement, and wood across neighborhoods like Alamo Heights and Stone Oak. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `San Antonio siding faces moderate seasonal weather with 32 inches of annual precipitation. Moisture management behind siding is the primary failure pattern in San Antonio.`,
+    pattern: "standard residential lap",
+    sec_code: `City of San Antonio Development Services handles siding permits. Standard building codes apply. Historic district overlays in Alamo Heights may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `San Antonio homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `San Antonio siding contractor vetting requires verification through the Texas Department of Licensing and Regulation plus insurance and local business registration. Alamo Heights and Stone Oak have established contractor networks. Labor rates in San Antonio run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `San Antonio siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "moderate/mixed",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "jacksonville-fl": {
+    sec_material: `Jacksonville siding choices center on stucco, fiber cement, and aluminum across neighborhoods like Riverside and San Marco. CBS block construction in older neighborhoods requires masonry repair rather than siding replacement.`,
+    type: "residential",
+    sec_climate: `Jacksonville siding faces intense UV, tropical moisture, hurricane wind loads, and salt-air corrosion in coastal zones. Moisture management behind siding is the primary failure pattern in Jacksonville.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Jacksonville Building Inspection Division handles siding permits. Florida Building Code requires wind-load-rated siding products in HVHZ zones. Historic district overlays in Riverside may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Jacksonville homeowners insurance covers sudden siding damage from hurricane wind damage but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Florida Assignment of Benefits (AOB) reform affects contractor-insurance interactions.`,
+    sec_contractor: `Jacksonville siding contractor vetting requires Florida DBPR general or specialty contractor license plus insurance and local business registration. Riverside and San Marco have established contractor networks. Labor rates in Jacksonville run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Jacksonville siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "stucco and fiber cement",
+    climateBand: "tropical/hurricane",
+    bestSeasons: "November-May",
+    worstSeasons: "June-November (hurricane season)"
+  },
+
+  "fort-worth-tx": {
+    sec_material: `Fort Worth siding choices center on vinyl, fiber cement, and wood across neighborhoods like Southlake and Westover Hills. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `Fort Worth siding faces moderate seasonal weather with 34 inches of annual precipitation. Moisture management behind siding is the primary failure pattern in Fort Worth.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Fort Worth Development Services handles siding permits. Standard building codes apply. Historic district overlays in Southlake may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Fort Worth homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Fort Worth siding contractor vetting requires verification through the Texas Department of Licensing and Regulation plus insurance and local business registration. Southlake and Westover Hills have established contractor networks. Labor rates in Fort Worth run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Fort Worth siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "moderate/mixed",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "columbus-oh": {
+    sec_material: `Columbus siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like German Village and Short North. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Columbus siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Columbus.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Columbus Department of Building and Zoning Services handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in German Village may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Columbus homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Columbus siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. German Village and Short North have established contractor networks. Labor rates in Columbus run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Columbus siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
+  "indianapolis-in": {
+    sec_material: `Indianapolis siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like Broad Ripple and Meridian-Kessler. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Indianapolis siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Indianapolis.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Indianapolis Department of Business and Neighborhood Services handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in Broad Ripple may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Indianapolis homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Indianapolis siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Broad Ripple and Meridian-Kessler have established contractor networks. Labor rates in Indianapolis run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Indianapolis siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
+  "nashville-tn": {
+    sec_material: `Nashville siding choices center on vinyl, fiber cement, and wood across neighborhoods like East Nashville and 12South. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `Nashville siding faces moderate seasonal weather with 48 inches of annual precipitation. Moisture management behind siding is the primary failure pattern in Nashville.`,
+    pattern: "standard residential lap",
+    sec_code: `Metropolitan Nashville Department of Codes Administration handles siding permits. Standard building codes apply. Historic district overlays in East Nashville may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Nashville homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Nashville siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. East Nashville and 12South have established contractor networks. Labor rates in Nashville run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Nashville siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "moderate/mixed",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "portland-or": {
+    sec_material: `Portland siding choices center on vinyl, fiber cement, and wood across neighborhoods like Pearl District and Alberta Arts. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `Portland siding faces moderate seasonal weather with 43 inches of annual precipitation. Moisture management behind siding is the primary failure pattern in Portland.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Portland Bureau of Development Services handles siding permits. Standard building codes apply. Historic district overlays in Pearl District may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Portland homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Portland siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Pearl District and Alberta Arts have established contractor networks. Labor rates in Portland run 15-30% above national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Portland siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "moderate/mixed",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "memphis-tn": {
+    sec_material: `Memphis siding choices center on vinyl, fiber cement, and wood across neighborhoods like Midtown and Cooper-Young. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `Memphis siding faces moderate seasonal weather with 54 inches of annual precipitation. Moisture management behind siding is the primary failure pattern in Memphis.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Memphis Division of Planning and Development handles siding permits. Standard building codes apply. Historic district overlays in Midtown may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Memphis homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Memphis siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Midtown and Cooper-Young have established contractor networks. Labor rates in Memphis run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Memphis siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "moderate/mixed",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "louisville-ky": {
+    sec_material: `Louisville siding choices center on vinyl, fiber cement, and wood across neighborhoods like Highlands and Old Louisville. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `Louisville siding faces moderate seasonal weather with 45 inches of annual precipitation. Moisture management behind siding is the primary failure pattern in Louisville.`,
+    pattern: "standard residential lap",
+    sec_code: `Louisville Metro Department of Codes and Regulations handles siding permits. Standard building codes apply. Historic district overlays in Highlands may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Louisville homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Louisville siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Highlands and Old Louisville have established contractor networks. Labor rates in Louisville run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Louisville siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "moderate/mixed",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "baltimore-md": {
+    sec_material: `Baltimore siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like Federal Hill and Canton. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Baltimore siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Baltimore.`,
+    pattern: "standard residential lap",
+    sec_code: `Baltimore City Department of Housing handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in Federal Hill may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Baltimore homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Baltimore siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Federal Hill and Canton have established contractor networks. Labor rates in Baltimore run 15-30% above national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Baltimore siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
+  "milwaukee-wi": {
+    sec_material: `Milwaukee siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like Third Ward and Bay View. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Milwaukee siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Milwaukee.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Milwaukee Department of Neighborhood Services handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in Third Ward may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Milwaukee homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Milwaukee siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Third Ward and Bay View have established contractor networks. Labor rates in Milwaukee run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Milwaukee siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
+  "albuquerque-nm": {
+    sec_material: `Albuquerque siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like Nob Hill and North Valley. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Albuquerque siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Albuquerque.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Albuquerque Planning Department handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in Nob Hill may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Albuquerque homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Albuquerque siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Nob Hill and North Valley have established contractor networks. Labor rates in Albuquerque run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Albuquerque siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
+  "tucson-az": {
+    sec_material: `Tucson siding choices center on fiber cement, stucco, and engineered wood across neighborhoods like Sam Hughes and Catalina Foothills. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `Tucson siding faces intense high-altitude UV, hailstorms, and wide daily temperature swings that stress fasteners. Moisture management behind siding is the primary failure pattern in Tucson.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Tucson Planning and Development Services handles siding permits. Standard building codes apply. Historic district overlays in Sam Hughes may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Tucson homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Tucson siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Sam Hughes and Catalina Foothills have established contractor networks. Labor rates in Tucson run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Tucson siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "fiber cement and stucco",
+    climateBand: "high altitude/hail",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "sacramento-ca": {
+    sec_material: `Sacramento siding choices center on vinyl, fiber cement, and wood across neighborhoods like East Sacramento and Midtown. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `Sacramento siding faces moderate seasonal weather with 18 inches of annual precipitation. Moisture management behind siding is the primary failure pattern in Sacramento.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Sacramento Community Development Department handles siding permits. Standard building codes apply. Historic district overlays in East Sacramento may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Sacramento homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Sacramento siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. East Sacramento and Midtown have established contractor networks. Labor rates in Sacramento run 15-30% above national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Sacramento siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "moderate/mixed",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "raleigh-nc": {
+    sec_material: `Raleigh siding choices center on vinyl, fiber cement, and wood across neighborhoods like North Hills and Cameron Village. Each substrate demands specific installation and maintenance approaches.`,
+    type: "residential",
+    sec_climate: `Raleigh siding faces moderate seasonal weather with 46 inches of annual precipitation. Moisture management behind siding is the primary failure pattern in Raleigh.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Raleigh Development Services handles siding permits. Standard building codes apply. Historic district overlays in North Hills may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Raleigh homeowners insurance covers sudden siding damage from wind and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Raleigh siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. North Hills and Cameron Village have established contractor networks. Labor rates in Raleigh run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Raleigh siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "moderate/mixed",
+    bestSeasons: "March-November",
+    worstSeasons: "Peak summer heat"
+  },
+
+  "kansas-city-mo": {
+    sec_material: `Kansas City siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like Country Club Plaza and Brookside. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Kansas City siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Kansas City.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Kansas City Permits and Inspections Division handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in Country Club Plaza may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Kansas City homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Kansas City siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Country Club Plaza and Brookside have established contractor networks. Labor rates in Kansas City run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Kansas City siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
+  "orlando-fl": {
+    sec_material: `Orlando siding choices center on stucco, fiber cement, and aluminum across neighborhoods like Winter Park and College Park. CBS block construction in older neighborhoods requires masonry repair rather than siding replacement.`,
+    type: "residential",
+    sec_climate: `Orlando siding faces intense UV, tropical moisture, hurricane wind loads, and salt-air corrosion in coastal zones. Moisture management behind siding is the primary failure pattern in Orlando.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Orlando Permitting Services Division handles siding permits. Florida Building Code requires wind-load-rated siding products in HVHZ zones. Historic district overlays in Winter Park may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Orlando homeowners insurance covers sudden siding damage from hurricane wind damage but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Florida Assignment of Benefits (AOB) reform affects contractor-insurance interactions.`,
+    sec_contractor: `Orlando siding contractor vetting requires Florida DBPR general or specialty contractor license plus insurance and local business registration. Winter Park and College Park have established contractor networks. Labor rates in Orlando run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Orlando siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "stucco and fiber cement",
+    climateBand: "tropical/hurricane",
+    bestSeasons: "November-May",
+    worstSeasons: "June-November (hurricane season)"
+  },
+
+  "pittsburgh-pa": {
+    sec_material: `Pittsburgh siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like Shadyside and Squirrel Hill. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Pittsburgh siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Pittsburgh.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Pittsburgh Department of Permits, Licenses and Inspections handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in Shadyside may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Pittsburgh homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Pittsburgh siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Shadyside and Squirrel Hill have established contractor networks. Labor rates in Pittsburgh run 15-30% above national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Pittsburgh siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
+  "cincinnati-oh": {
+    sec_material: `Cincinnati siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like Hyde Park and Over-the-Rhine. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Cincinnati siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Cincinnati.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Cincinnati Department of Buildings and Inspections handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in Hyde Park may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Cincinnati homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Cincinnati siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Hyde Park and Over-the-Rhine have established contractor networks. Labor rates in Cincinnati run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Cincinnati siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
+  "colorado-springs-co": {
+    sec_material: `Colorado Springs siding choices center on vinyl, fiber cement (HardiePlank), and wood clapboard across neighborhoods like Broadmoor and Old Colorado City. Brick masonry on older homes requires repointing rather than siding installation.`,
+    type: "residential",
+    sec_climate: `Colorado Springs siding faces severe freeze-thaw cycling, deicing salt carryover, and heavy precipitation that drives moisture behind improperly flashed panels. Moisture management behind siding is the primary failure pattern in Colorado Springs.`,
+    pattern: "standard residential lap",
+    sec_code: `City of Colorado Springs Regional Building Department handles siding permits. Local energy codes may require continuous insulation under new siding installations. Historic district overlays in Broadmoor may restrict material choices. Licensed contractors must pull permits for full re-siding projects.`,
+    sec_insurance: `Colorado Springs homeowners insurance covers sudden siding damage from wind, ice, and hail but not gradual wear or maintenance failure. Document damage with photos within 72 hours. Replacement cost versus actual cash value coverage drives claim economics.`,
+    sec_contractor: `Colorado Springs siding contractor vetting requires state contractor licensing verification plus insurance and local business registration. Broadmoor and Old Colorado City have established contractor networks. Labor rates in Colorado Springs run at or near national averages.`,
+    verification: "license plus insurance verification",
+    sec_flag: `Colorado Springs siding red flags include: bids that skip moisture barrier (weather-resistive barrier) replacement, vinyl quotes without expansion-joint allowances, and fiber cement installation without manufacturer-required caulking and priming of cut ends. Storm-chaser firms appear after severe weather; verify local presence.`,
+    substitution: "material substitution after contract signing",
+    dominantMaterial: "vinyl and fiber cement",
+    climateBand: "cold/freeze-thaw",
+    bestSeasons: "May-October",
+    worstSeasons: "December-March"
+  },
+
 };
 
 /* =========================================================================

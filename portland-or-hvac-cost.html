@@ -193,6 +193,622 @@ depending on system type, efficiency rating, and home size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-HVAC-CONTENT -->
+
+<section class="section fp-section">
+<h2>Neighborhood HVAC Pricing Across Portland</h2>
+<p>Portland HVAC pricing is shaped by Central AC split system or packaged heat pump is standard in Portland, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.. Rows below model a 2,000 sq ft home with ductwork in serviceable condition, priced against Portland General Electric (PGE)'s paperwork.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Central AC</th>
+<th style="text-align:right; padding:12px 16px;">Heat Pump</th>
+<th style="text-align:right; padding:12px 16px;">Furnace</th>
+<th style="text-align:right; padding:12px 16px;">Full System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Alberta Arts</td>
+<td style="padding:12px 16px; text-align:right;">$4,943</td>
+<td style="padding:12px 16px; text-align:right;">$6,348</td>
+<td style="padding:12px 16px; text-align:right;">$4,045</td>
+<td style="padding:12px 16px; text-align:right;">$8,707</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Hawthorne</td>
+<td style="padding:12px 16px; text-align:right;">$4,851</td>
+<td style="padding:12px 16px; text-align:right;">$6,229</td>
+<td style="padding:12px 16px; text-align:right;">$3,969</td>
+<td style="padding:12px 16px; text-align:right;">$8,544</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Sellwood</td>
+<td style="padding:12px 16px; text-align:right;">$4,805</td>
+<td style="padding:12px 16px; text-align:right;">$6,170</td>
+<td style="padding:12px 16px; text-align:right;">$3,931</td>
+<td style="padding:12px 16px; text-align:right;">$8,463</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Northwest</td>
+<td style="padding:12px 16px; text-align:right;">$4,297</td>
+<td style="padding:12px 16px; text-align:right;">$5,517</td>
+<td style="padding:12px 16px; text-align:right;">$3,515</td>
+<td style="padding:12px 16px; text-align:right;">$7,568</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Laurelhurst</td>
+<td style="padding:12px 16px; text-align:right;">$4,389</td>
+<td style="padding:12px 16px; text-align:right;">$5,636</td>
+<td style="padding:12px 16px; text-align:right;">$3,591</td>
+<td style="padding:12px 16px; text-align:right;">$7,731</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Mississippi</td>
+<td style="padding:12px 16px; text-align:right;">$4,435</td>
+<td style="padding:12px 16px; text-align:right;">$5,695</td>
+<td style="padding:12px 16px; text-align:right;">$3,629</td>
+<td style="padding:12px 16px; text-align:right;">$7,812</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Portland labor, City of Portland Bureau of Development Services permit costs, and Portland General Electric (PGE) interconnection overhead are all priced in. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Portland quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How Portland's Climate Drives Your HVAC Decision</h2>
+<p>Marine west coast like Seattle with constant winter rain, moss growth, and rare but damaging ice storms (Feb 2021). Portland's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely..</p>
+<p><strong>Cooling dominates the Portland HVAC budget.</strong> extreme summer heat exceeding 100F with arid conditions keeps AC or heat-pump compressors running six to eight months a year across Alberta Arts, Hawthorne, and Sellwood. At Portland General Electric (PGE)'s low $0.13/kWh residential rate, every SEER point above code minimum matters: stepping from 14 SEER to 18 SEER cuts cooling bills roughly 29% in Portland, which works out to $320-$560 per year on a typical home. Over a 15-year system life, that's meaningful money on Portland General Electric (PGE) bills alone.</p>
+<p><strong>Heat pumps in Portland.</strong> Excellent; Portland's mild winters make heat pumps the default recommendation for most homeowners. Portland General Electric offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Portland Efficiency Targets: SEER and AFUE</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Cooling efficiency target</h3>
+<p class="fp-season-months">18+ SEER</p>
+<p>Portland's long cooling season at Portland General Electric (PGE)'s $0.13/kWh rate makes 18 SEER the efficiency sweet spot. Going higher adds diminishing returns unless your downtown neighborhood has unusual run-time profiles. The 18 SEER tier typically pays its premium over a 16 SEER in 4-6 years of reduced Portland General Electric (PGE) cooling bills.</p>
+</div>
+<div class="fp-season-card" style="background:#eff6ff; border:1px solid #93c5fd;">
+<h3>Heating efficiency target</h3>
+<p class="fp-season-months">80%+ AFUE</p>
+<p>Portland's minimal heating load means an 80% AFUE furnace is fine if you even keep gas. Most Portland homeowners are better served by going all-electric with a high-SEER heat pump and skipping the gas furnace, water heater, and PGW-equivalent bill altogether. Do the math on Portland General Electric (PGE)'s electric rate before locking in dual-fuel.</p>
+</div>
+</div>
+<p><strong>What's the SEER2 floor in Portland?</strong> Federal floor for OR is 14 SEER2 under the DOE northern-region rule, but most Portland homeowners should aim well above that because the incremental cost of higher SEER2 is modest. A Portland bid showing "14 SEER" in 2026 is either clearing pre-2025 inventory or mixing up SEER2 with legacy SEER — cross-check the AHRI reference at ahridirectory.org.</p>
+<p><strong>Rebates available to Portland homeowners.</strong> Portland General Electric offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates.. Section 25C expired end of 2025 — it cannot be claimed on any 2026 Portland install. IRA HEAR (up to $8,000 for income-qualified OR households) and IRA HOMES (up to $4,000-$8,000 performance-based) continue — administered through OR's designated energy office, applied by the installer, not via the homeowner's tax return. For Portland homes with lot space, geothermal heat pumps carry the uncapped 30% Section 25D credit through 2034.</p>
+</section>
+<section class="section fp-section">
+<h2>What Portland General Electric (PGE) Rates Mean for Portland HVAC</h2>
+<p>Portland General Electric (PGE) charge-per-unit rates dominate Portland system operating cost. Below is how those rates bend the equipment choice.</p>
+<div class="fp-season-grid">
+<div class="fp-scenario-card" style="border-top:4px solid #f59e0b; padding:20px;">
+<h3>Electricity</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$0.13/kWh</p>
+<p style="font-size:13px; color:#64748b;">Portland General Electric (PGE)</p>
+</div>
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6; padding:20px;">
+<h3>Natural gas</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$1.20/therm</p>
+<p style="font-size:13px; color:#64748b;">Portland General Electric (PGE) residential</p>
+</div>
+</div>
+<p>Portland's Portland General Electric (PGE) residential rate of $0.13/kWh runs roughly 19% below the US average, which makes heat pumps financially attractive because every BTU delivered by electricity costs less than in almost any other US metro. Portland's $1.20/therm gas rate is moderately above the US average. The gas-vs-heat-pump math tilts toward heat pumps if you're already upgrading the electric service, but dual-fuel remains the conservative choice for Sellwood and similar Portland neighborhoods.</p>
+<p><strong>OR rate structure.</strong> Check your actual Portland General Electric (PGE) bill rate, not the advertised rate, before running payback math. The summer delivery charges and demand components can meaningfully shift the effective per-kWh cost in Portland.</p>
+</section>
+<section class="section fp-section">
+<h2>Portland HVAC Permitting and Inspections</h2>
+<p><strong>Permit authority:</strong> City of Portland Bureau of Development Services. City of Portland Bureau of Development Services issues HVAC permits for residential work. State licensing applies plus local contractor registration. Portland requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+<p><strong>Portland-specific coverage.</strong> Portland building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.. A Portland mechanical permit formally signs off on Manual J load calc, service electrical, gas pipe sizing if gas is involved, refrigerant line routing, condensate discharge, and OR's required duct-leakage testing. On top of that baseline, City of Portland Bureau of Development Services reviews condensate routing, combustion-air make-up, and line-set insulation as standard OR checklist items. City of Portland Bureau of Development Services also checks Central AC split system or packaged heat pump is standard in Portland, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.-specific details a generic Sun Belt tract-home inspector wouldn't recognize.</p>
+<p><strong>Pulling the City of Portland Bureau of Development Services permit is always the right call in Portland.</strong> Working without the City of Portland Bureau of Development Services permit nulls Portland warranty rights, produces a resale-inspection flag, and transfers install liability from the contractor to the homeowner: a botched Portland AC install leaks refrigerant into the attic, drips condensate into the Portland General Electric (PGE)-side electrical panel, or fails its first pressure test during July; City of Portland Bureau of Development Services catches those upstream of drywall closing back up. The "no-permit discount" a Portland shop offers is really insurance against City of Portland Bureau of Development Services inspection, paid by you. OR law puts permit liability on the installer, not the homeowner; refuse any owner-builder permit suggestion.</p>
+<p><strong>A2L changes how Portland shops handle refrigerant.</strong> Every 2026 residential AC or heat pump going into a Portland home runs R-454B (Honeywell's Solstice N41) or R-32 (the Daikin and Mitsubishi preference) under the AIM Act phase-down. Portland distribution in OR still moves residual pre-2025 R-410A stock, but that pipeline is closing fast. Because A2L is class 2L (mildly flammable) and R-410A was class 1 (non-flammable), UL 60335-2-40 adds install requirements. Requirements include volume-to-charge ratios, leak sensors on indoor equipment over specified tonnages, and brazing-joint protocols that depart from R-410A practice. A OR state license alone does not prove A2L competency — pull the A2L training credential separately before signing with a Portland shop.</p>
+
+</section>
+<section class="section fp-section">
+<h2>Portland HVAC Contractors: How the Market Works</h2>
+<p>Tight labor market; off-season pricing in November-February is meaningfully cheaper. Portland has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.. The bid gap between a Portland dealer and an independent shop in Portland usually reflects real differences in equipment supply chain, not pure markup.</p>
+<p>Contractor supply in Portland is healthy relative to demand, so Alberta Arts, Hawthorne, and Sellwood bidders compete meaningfully on price. Three bids is the baseline, but on HVAC specifically verify you're comparing equivalent systems: same Portland-vs-value-tier brand class, same SEER2/HSPF on the AHRI certificate, same warranty terms, same duct-testing scope. A $3,000 gap between Portland bids usually means different equipment rather than different margin.</p>
+<p><strong>What to verify on any Portland bid.</strong> OR's HVAC contractor licensing board is the starting point — pull the OR license number from the state's own lookup portal, not the company marketing page. $500K-$1M per occurrence is standard in OR on general liability; workers' comp confirmed via the OR comp database. Ask for the AHRI reference number for the specific combo quoted: SEER2 and HSPF ratings only apply to the AHRI-certified condenser/coil/air-handler trio, never to whatever parts substitute on a Portland General Electric (PGE)-area truck.</p>
+<p><strong>Portland install quality matters more than the nameplate.</strong> Install craft matters more than brand tier — a poorly commissioned Portland unit can be beaten by a mid-tier unit done right in Portland. Five craft items to insist on in Portland: a Manual J tied to Portland General Electric (PGE)'s climate data, refrigerant charge dialed by live superheat/subcooling readings rather than weight, mastic-paste duct sealing (not tape — it fails in moderate conditions within three years), Portland's long cooling run hours call for 375-400 CFM per ton, and a signed commissioning sheet before you release final payment. A serious Portland bidder handles all five items without pushback; anyone who deflects is revealing a process problem.</p>
+</section>
+<section class="section fp-section">
+<h2>Portland HVAC Scam Patterns to Watch For</h2>
+<p>These are the HVAC sales patterns that burn Portland homeowners most consistently across Alberta Arts, Hawthorne, and Sellwood.</p>
+
+<div class="fp-flag">
+<h3>Why oversizing hurts worst in Portland</h3>
+<p>Moderate Portland humidity still punishes oversizing: short-cycling wears out compressors and blower motors before the 15-year national-average lifespan. Portland General Electric (PGE) climate-station data plus a proper Manual J catches the common one-size-too-big bid. On a Portland replacement, the disqualifying question for each bidder is "Show me the Manual J result and explain why this tonnage instead of the next size down." A contractor who dodges either the BTU load or the tonnage explanation is not worth a second visit.</p>
+</div>
+<div class="fp-flag">
+<h3>Upsell bundles to decline in Portland</h3>
+<p>Alberta Arts, Hawthorne, and Sellwood homeowners on Portland General Electric (PGE) rarely need UV lights, ionizers, or "duct sanitization" when a MERV 11-13 filter changed every 90 days covers the same ground. These add-ons exist to pad margin on Portland- or Carrier-equipped bids. A Portland bid that foregrounds IAQ add-ons before covering Manual J sizing or Portland General Electric (PGE) rebate stacking through Portland General Electric offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. is telling you the margin is in the accessories.</p>
+</div>
+<div class="fp-flag">
+<h3>"You can't service R-410A anymore" pitch</h3>
+<p>Portland and Carrier distributors in the Portland General Electric (PGE) area still fill R-410A service orders for existing Portland customers. The 2024 cutoff ended new equipment production, not refrigerant availability. When a Portland tech tells you R-410A servicing ended, push back: recharges run $200-450 per pound and most "low charge" findings are leak-and-repair, not replace-the-system. R-22 imports were banned from the US in 2020, so R-22 on a Portland invoice is either mislabeled or smuggled.</p>
+</div>
+<div class="fp-flag">
+<h3>Portland market-specific pitch</h3>
+<p>Portland homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.. In Portland, the consistent giveaway is single-visit pressure — the pitch doesn't want you gathering second opinions. A second opinion from a state licensing-credentialed Sellwood or Northwest shop costs 48 hours and routinely shaves $3,000-10,000 off the first pitch.</p>
+</div>
+<div class="fp-flag">
+<h3>Portland same-day "discount" gimmick</h3>
+<p>Portland-authorized dealers and independent Portland shops alike run this close. A real Portland quote stays valid 30-90 days; anything "expiring tonight" was base-inflated so the fake discount lands at market price. Walk away, gather bids from Alberta Arts, Hawthorne, and Sellwood competitors, and notice Portland General Electric (PGE) rebate deadlines run on quarterly or annual timelines, not end-of-visit.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Portland Equipment and Ductwork</h2>
+<p><strong>Dominant equipment.</strong> Central AC split system or packaged heat pump is standard in Portland, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market..</p>
+<p><strong>Brand coverage.</strong> Portland has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications..</p>
+<p><strong>Heat pump viability.</strong> Excellent; Portland's mild winters make heat pumps the default recommendation for most homeowners.</p>
+<p><strong>Permit detail.</strong> City of Portland Bureau of Development Services issues HVAC permits for residential work. State licensing applies plus local contractor registration. Portland requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+</section>
+<section class="section fp-section">
+<h2>Portland HVAC Scam Patterns</h2>
+<p><strong>Local pattern.</strong> Portland homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair..</p>
+<p><strong>Season reason.</strong> Portland HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+<p><strong>Permit quirk.</strong> Portland building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements..</p>
+<p><strong>Utility rebates.</strong> Portland General Electric offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Portland HVAC Technical Context</h2>
+<p>Portland's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely..</p>
+<p><strong>Extreme conditions.</strong> Extreme summer heat exceeding 100F with arid conditions. The Portland recommended efficiency targets are 18+ SEER for cooling and 80%+ AFUE for heating, calibrated to Portland General Electric (PGE) rate structures.</p>
+<p><strong>Humidity.</strong> Portland humidity is moderate. </p>
+</section>
+<section class="section fp-section">
+<h2>When to Buy HVAC in Portland: Seasonal Timing</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">November through March</p>
+<p>Portland HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">June through September</p>
+<p>Emergency Portland replacements during these months carry a 10-20% premium because Portland General Electric (PGE)-approved contractors book two to four weeks out. Alberta Arts, Hawthorne, and Sellwood contractors can afford to pass on negotiating; the emergency-call backlog keeps them busy. For any system over 12 years, proactive november through march replacement saves real money versus the emergency-call alternative during extreme summer heat exceeding 100f with arid conditions.</p>
+</div>
+</div>
+<p><strong>A Portland timing trick worth knowing.</strong> Book a Portland-authorized Portland tune-up ($80-$150) before either shoulder season. The technician looks for early-stage failure signals — superheat drift, high-side pressure creep, noisy blower motor bearings — that flag a controlled replacement window before a June breakdown in Alberta Arts. Portland contractors typically package the tune-up into a $180-$280 annual service agreement — reasonable for multi-unit homes.</p>
+</section>
+<section class="section fp-section">
+<h2>Portland HVAC Cost Scenarios: Budget, Mid, Premium</h2>
+<p>Here's what real Portland HVAC projects cost in 2026, using OR-calibrated labor and Portland General Electric (PGE)-area parts availability. Every scenario assumes a 3-ton, 2,000 sq ft Portland home with serviceable ductwork and Central AC split system or packaged heat pump is standard in Portland, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market..</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">15 SEER2 single-stage AC + 80% AFUE furnace</p>
+<p class="fp-scenario-total">$4.6K</p>
+<p class="fp-scenario-detail">Single-stage Goodman or Amana equipment, 10-year parts warranty from Goodman's factory-authorized network. Covers City of Portland Bureau of Development Services permit, basic 7-day programmable thermostat, Portland General Electric (PGE) interconnection paperwork, and haul-off of the old unit. A sensible budget pick for a Sellwood rental or a Portland seller prepping a flip; not ideal for an owner planning 10+ year occupancy because the cooling run-hour count in Portland wears single-stage compressors hard.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">16 SEER2 two-stage heat pump</p>
+<p class="fp-scenario-total">$8.4K</p>
+<p class="fp-scenario-detail">Two-stage Carrier heat pump, fresh refrigerant line set with A2L-rated fittings, City of Portland Bureau of Development Services permit, Portland General Electric (PGE) time-of-use-aware Wi-Fi thermostat (Honeywell T10 or Ecobee Premium), duct leakage test, basic written commissioning report. 10-year parts plus 2-year labor warranty. Eligible for Portland General Electric offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. rebate stacking. The sensible Portland choice for most Alberta Arts, Hawthorne, and Sellwood single-family homes.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">18+ SEER2 variable-speed inverter heat pump</p>
+<p class="fp-scenario-total">$14.2K</p>
+<p class="fp-scenario-detail">Top-tier Portland inverter-driven heat pump with communicating controls and full-home duct re-sealing in mastic (not tape). A2L-ready line set, City of Portland Bureau of Development Services mechanical permit, smart thermostat aware of Portland General Electric (PGE) peak windows, whole-home surge protection, and HERS-verified commissioning. 12/10 warranty through Portland's dealer program. Qualifies for full Portland General Electric offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. stacking with OR incentives. ROI math only works in Portland if you're staying 10+ years.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Add $3,000-$7,000 for full duct replacement in Portland. Multi-story homes in Alberta Arts or Hawthorne and Forest Park-adjacent installs run 10-20% above these numbers. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Portland quote for a side-by-side comparison.</a></p>
+</section>
+<!-- /FLAGSHIP-HVAC-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 <section class="section">
 <h2>What affects HVAC cost in Portland</h2>
 <ul class="factor-list">

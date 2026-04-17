@@ -231,6 +231,389 @@ depending on the type of work, home size, and complexity.
 </div>
 </section>
 
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-ELECTRICAL-CONTENT -->
+
+<section class="section fp-section">
+<h2>Fort Worth Neighborhood Pricing</h2>
+<p>Fort Worth electrical labor runs at or near the national average. Oncor Electric Delivery coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Panel Upgrade</th>
+<th style="text-align:right; padding:12px 16px;">Whole-House Rewire</th>
+<th style="text-align:right; padding:12px 16px;">Outlet Install</th>
+<th style="text-align:right; padding:12px 16px;">EV Charger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">TCU/West Cliff</td>
+<td style="padding:12px 16px; text-align:right;">$2,850</td>
+<td style="padding:12px 16px; text-align:right;">$12.4K</td>
+<td style="padding:12px 16px; text-align:right;">$240</td>
+<td style="padding:12px 16px; text-align:right;">$1,800</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Arlington Heights</td>
+<td style="padding:12px 16px; text-align:right;">$2,750</td>
+<td style="padding:12px 16px; text-align:right;">$11.9K</td>
+<td style="padding:12px 16px; text-align:right;">$230</td>
+<td style="padding:12px 16px; text-align:right;">$1,700</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Fairmount</td>
+<td style="padding:12px 16px; text-align:right;">$2,750</td>
+<td style="padding:12px 16px; text-align:right;">$11.8K</td>
+<td style="padding:12px 16px; text-align:right;">$230</td>
+<td style="padding:12px 16px; text-align:right;">$1,700</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Westover Hills</td>
+<td style="padding:12px 16px; text-align:right;">$2,450</td>
+<td style="padding:12px 16px; text-align:right;">$10.6K</td>
+<td style="padding:12px 16px; text-align:right;">$210</td>
+<td style="padding:12px 16px; text-align:right;">$1,500</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Tanglewood</td>
+<td style="padding:12px 16px; text-align:right;">$2,550</td>
+<td style="padding:12px 16px; text-align:right;">$11.1K</td>
+<td style="padding:12px 16px; text-align:right;">$220</td>
+<td style="padding:12px 16px; text-align:right;">$1,600</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Rivercrest</td>
+<td style="padding:12px 16px; text-align:right;">$2,550</td>
+<td style="padding:12px 16px; text-align:right;">$11.2K</td>
+<td style="padding:12px 16px; text-align:right;">$220</td>
+<td style="padding:12px 16px; text-align:right;">$1,600</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Utility and Code Context</h2>
+<p>Oncor Electric Delivery serves the Fort Worth metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while Oncor Electric Delivery handles physical distribution.</p>
+<p>Texas adopted the 2023 NEC statewide through TDLR. Fort Worth enforces the code through local building inspection. Romex is permitted for residential wiring, keeping labor costs competitive in Fort Worth.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Home Stock and Panel Realities</h2>
+<p>Fort Worth housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Oncor Electric Delivery. Neighborhoods like Southlake and Westover Hills show distinct housing-era panel profiles.</p>
+<p>Fort Worth homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Southlake and Fairmount represent different construction eras with distinct wiring access challenges.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Licensing and Permits</h2>
+<p>Texas TDLR licenses Master Electricians, Journeyman Electricians, and Residential Wiremen. Verify at tdlr.texas.gov. Fort Worth homeowners should verify both state licensure and local business registration before signing.</p>
+<p>City of Fort Worth Development Services issues electrical permits, typically in 1-4 weeks for standard residential work. Oncor Electric Delivery service coordination runs 2-4 weeks parallel to the city permit. Historic districts in Southlake or Westover Hills may add preservation commission review for visible exterior work.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Hidden Hazards and Renovation Triggers</h2>
+<p>Federal Pacific Stab-Lok panels are common in 1960s-70s Fort Worth homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
+<p>EV charger installation is the fastest-growing residential electrical scope in Fort Worth. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Electrical Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Ignoring the Fort Worth utility process</h3>
+<p>Oncor Electric Delivery serves the Fort Worth metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while Oncor Electric Delivery handles physical distribution.</p>
+</div>
+<div class="fp-flag">
+<h3>Mismatch with Fort Worth code amendments</h3>
+<p>Texas adopted the 2023 NEC statewide through TDLR. Fort Worth enforces the code through local building inspection. Romex is permitted for residential wiring, keeping labor costs competitive in Fort Worth.</p>
+</div>
+<div class="fp-flag">
+<h3>Wrong panel size for Fort Worth load</h3>
+<p>Fort Worth housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Oncor Electric Delivery. Neighborhoods like Southlake and Westover Hills show distinct housing-era panel profiles.</p>
+</div>
+<div class="fp-flag">
+<h3>Missing license verification</h3>
+<p>Texas TDLR licenses Master Electricians, Journeyman Electricians, and Residential Wiremen. Verify at tdlr.texas.gov. Fort Worth homeowners should verify both state licensure and local business registration before signing.</p>
+</div>
+<div class="fp-flag">
+<h3>Hazard not disclosed</h3>
+<p>Federal Pacific Stab-Lok panels are common in 1960s-70s Fort Worth homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Scope Checklist</h2>
+<p><strong>Utility coordination.</strong> Oncor Electric Delivery serves the Fort Worth metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while Oncor Electric Delivery handles physical distribution.</p>
+<p><strong>Applicable code.</strong> Texas adopted the 2023 NEC statewide through TDLR. Fort Worth enforces the code through local building inspection. Romex is permitted for residential wiring, keeping labor costs competitive in Fort Worth.</p>
+<p><strong>Permit process.</strong> City of Fort Worth Development Services issues electrical permits, typically in 1-4 weeks for standard residential work. Oncor Electric Delivery service coordination runs 2-4 weeks parallel to the city permit. Historic districts in Southlake or Westover Hills may add preservation commission review for visible exterior work.</p>
+<p><strong>Pricing context.</strong> Fort Worth electrical labor runs at or near the national average. Oncor Electric Delivery coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Fort Worth Electrician</h2>
+<p><strong>Which utility coordinates this work?</strong> Oncor Electric Delivery serves the Fort Worth metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while Oncor Electric Delivery handles physical distribution.</p>
+<p><strong>What code edition applies?</strong> Texas adopted the 2023 NEC statewide through TDLR. Fort Worth enforces the code through local building inspection. Romex is permitted for residential wiring, keeping labor costs competitive in Fort Worth.</p>
+<p><strong>What hazards did you find?</strong> Federal Pacific Stab-Lok panels are common in 1960s-70s Fort Worth homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
+<p><strong>What renovation trigger applies?</strong> EV charger installation is the fastest-growing residential electrical scope in Fort Worth. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
+<p><strong>What is your license?</strong> Texas TDLR licenses Master Electricians, Journeyman Electricians, and Residential Wiremen. Verify at tdlr.texas.gov. Fort Worth homeowners should verify both state licensure and local business registration before signing.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Renovation Context and Common Upgrades</h2>
+<p>EV charger installation is the fastest-growing residential electrical scope in Fort Worth. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
+<p>Fort Worth homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Southlake and Fairmount represent different construction eras with distinct wiring access challenges.</p>
+<p>Fort Worth housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Oncor Electric Delivery. Neighborhoods like Southlake and Westover Hills show distinct housing-era panel profiles.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Electrical Hazards to Test For</h2>
+<p>Federal Pacific Stab-Lok panels are common in 1960s-70s Fort Worth homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
+<p>Oncor Electric Delivery serves the Fort Worth metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while Oncor Electric Delivery handles physical distribution.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Electrical Maintenance</h2>
+<p>undefined</p>
+<p>Federal Pacific Stab-Lok panels are common in 1960s-70s Fort Worth homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
+<p>undefined</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Emergency Electrical Service</h2>
+<p>undefined</p>
+<p>Fort Worth homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Southlake and Fairmount represent different construction eras with distinct wiring access challenges.</p>
+<p>Fort Worth electrical labor runs at or near the national average. Oncor Electric Delivery coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Electrical Scope and Utility Context</h2>
+<p><strong>Utility coordination.</strong> Oncor Electric Delivery serves the Fort Worth metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while Oncor Electric Delivery handles physical distribution.</p>
+<p><strong>Common renovation trigger.</strong> EV charger installation is the fastest-growing residential electrical scope in Fort Worth. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
+<p><strong>Licensing.</strong> Texas TDLR licenses Master Electricians, Journeyman Electricians, and Residential Wiremen. Verify at tdlr.texas.gov. Fort Worth homeowners should verify both state licensure and local business registration before signing.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Schedule Fort Worth Electrical Work</h2>
+<p>Fort Worth electrical demand peaks March-May and October-November. Summer heat limits attic work productivity. Off-peak scheduling saves 8-15% on labor.</p>
+<p>Fort Worth electrical labor runs at or near the national average. Oncor Electric Delivery coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+</section>
+<section class="section fp-section">
+<h2>Fort Worth Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">200A panel upgrade in Fort Worth</p>
+<p class="fp-scenario-total">$2.6K</p>
+<p class="fp-scenario-detail">Fort Worth housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. City of Fort Worth Development Services issues electrical permits, typically in 1-4 weeks for standard residential work.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">Fort Worth whole-house rewire</p>
+<p class="fp-scenario-total">$11.5K</p>
+<p class="fp-scenario-detail">Fort Worth homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Texas adopted the 2023 NEC statewide through TDLR.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Smart + EV + panel in Fort Worth</p>
+<p class="fp-scenario-total">$8.3K</p>
+<p class="fp-scenario-detail">EV charger installation is the fastest-growing residential electrical scope in Fort Worth. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity. Fort Worth electrical labor runs at or near the national average.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-ELECTRICAL-CONTENT -->
 <!-- TP-LOCAL-INJECTED-V2 -->
 <section class="section" style="background:#fafbff;padding:24px;border-radius:14px;border:1px solid #e2e8f0;margin:32px 0;">
 <h2>About electrical work in Fort Worth, TX</h2>

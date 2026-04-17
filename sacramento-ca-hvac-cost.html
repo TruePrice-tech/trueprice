@@ -193,6 +193,622 @@ depending on system type, efficiency rating, and home size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-HVAC-CONTENT -->
+
+<section class="section fp-section">
+<h2>Neighborhood HVAC Pricing Across Sacramento</h2>
+<p>Pricing varies block-to-block in Sacramento because Central AC split system or packaged heat pump is standard in Sacramento, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.. Figures below use a 2,000 sq ft home with existing ducts, running against Sacramento Municipal Utility District (SMUD)'s interconnection rules.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Central AC</th>
+<th style="text-align:right; padding:12px 16px;">Heat Pump</th>
+<th style="text-align:right; padding:12px 16px;">Furnace</th>
+<th style="text-align:right; padding:12px 16px;">Full System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">East Sacramento</td>
+<td style="padding:12px 16px; text-align:right;">$5,744</td>
+<td style="padding:12px 16px; text-align:right;">$7,376</td>
+<td style="padding:12px 16px; text-align:right;">$4,699</td>
+<td style="padding:12px 16px; text-align:right;">$10,117</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Land Park</td>
+<td style="padding:12px 16px; text-align:right;">$5,636</td>
+<td style="padding:12px 16px; text-align:right;">$7,238</td>
+<td style="padding:12px 16px; text-align:right;">$4,612</td>
+<td style="padding:12px 16px; text-align:right;">$9,928</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Midtown</td>
+<td style="padding:12px 16px; text-align:right;">$5,583</td>
+<td style="padding:12px 16px; text-align:right;">$7,169</td>
+<td style="padding:12px 16px; text-align:right;">$4,568</td>
+<td style="padding:12px 16px; text-align:right;">$9,833</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Curtis Park</td>
+<td style="padding:12px 16px; text-align:right;">$4,992</td>
+<td style="padding:12px 16px; text-align:right;">$6,410</td>
+<td style="padding:12px 16px; text-align:right;">$4,085</td>
+<td style="padding:12px 16px; text-align:right;">$8,793</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Tahoe Park</td>
+<td style="padding:12px 16px; text-align:right;">$5,100</td>
+<td style="padding:12px 16px; text-align:right;">$6,548</td>
+<td style="padding:12px 16px; text-align:right;">$4,172</td>
+<td style="padding:12px 16px; text-align:right;">$8,982</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Natomas</td>
+<td style="padding:12px 16px; text-align:right;">$5,153</td>
+<td style="padding:12px 16px; text-align:right;">$6,617</td>
+<td style="padding:12px 16px; text-align:right;">$4,216</td>
+<td style="padding:12px 16px; text-align:right;">$9,077</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Sacramento labor, City of Sacramento Community Development Department permit costs, and Sacramento Municipal Utility District (SMUD) interconnection overhead are all priced in. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Sacramento quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How Sacramento's Climate Drives Your HVAC Decision</h2>
+<p>Mediterranean with hot dry summers, mild wet winters, and increasing wildfire smoke days from Sierra fires. Sacramento's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely..</p>
+<p><strong>Cooling dominates the Sacramento HVAC budget.</strong> extreme summer heat exceeding 100F with arid conditions keeps AC or heat-pump compressors running six to eight months a year across East Sacramento, Land Park, and Midtown. At Sacramento Municipal Utility District (SMUD)'s painful $0.28/kWh residential rate, every SEER point above code minimum matters: stepping from 14 SEER to 18 SEER cuts cooling bills roughly 29% in Sacramento, which works out to $320-$560 per year on a typical home. Over a 15-year system life, that's meaningful money on Sacramento Municipal Utility District (SMUD) bills alone.</p>
+<p><strong>Heat pumps in Sacramento.</strong> Excellent; Sacramento's mild winters make heat pumps the default recommendation for most homeowners. Sacramento Municipal Utility District offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Sacramento Efficiency Targets: SEER and AFUE</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Cooling efficiency target</h3>
+<p class="fp-season-months">18+ SEER</p>
+<p>Sacramento's long cooling season at Sacramento Municipal Utility District (SMUD)'s $0.28/kWh rate makes 18 SEER the efficiency sweet spot. Going higher adds diminishing returns unless your downtown neighborhood has unusual run-time profiles. The 18 SEER tier typically pays its premium over a 16 SEER in 4-6 years of reduced Sacramento Municipal Utility District (SMUD) cooling bills.</p>
+</div>
+<div class="fp-season-card" style="background:#eff6ff; border:1px solid #93c5fd;">
+<h3>Heating efficiency target</h3>
+<p class="fp-season-months">80%+ AFUE</p>
+<p>Sacramento's minimal heating load means an 80% AFUE furnace is fine if you even keep gas. Most Sacramento homeowners are better served by going all-electric with a high-SEER heat pump and skipping the gas furnace, water heater, and PGW-equivalent bill altogether. Do the math on Sacramento Municipal Utility District (SMUD)'s electric rate before locking in dual-fuel.</p>
+</div>
+</div>
+<p><strong>What's the SEER2 floor in Sacramento?</strong> Federal floor for CA is 15 SEER2 (roughly 15.2 legacy SEER) under the DOE southern-region rule — any Sacramento bid under that is illegal for new residential install. A "14 SEER" quote in Sacramento for 2026 installs is a red flag — either stale inventory or a SEER2-versus-SEER labeling confusion; verify the AHRI reference online before signing.</p>
+<p><strong>Rebates available to Sacramento homeowners.</strong> Sacramento Municipal Utility District offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates.. Section 25C expired end of 2025 — it cannot be claimed on any 2026 Sacramento install. Two IRA programs still apply in CA: HEAR (up to $8,000 for income-qualified households) and HOMES ($4,000-$8,000 performance-based). CA's energy office runs the programs; the installer captures the incentive on the invoice rather than you on your return. Geothermal heat pumps separately qualify for the 30% Section 25D credit through 2034 — relevant for Sacramento homes with lot space for a ground loop.</p>
+</section>
+<section class="section fp-section">
+<h2>What Sacramento Municipal Utility District (SMUD) Rates Mean for Sacramento HVAC</h2>
+<p>Ongoing Sacramento HVAC cost depends mostly on Sacramento Municipal Utility District (SMUD)'s rates. Here's how the numbers drive the sizing and brand decision.</p>
+<div class="fp-season-grid">
+<div class="fp-scenario-card" style="border-top:4px solid #f59e0b; padding:20px;">
+<h3>Electricity</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$0.28/kWh</p>
+<p style="font-size:13px; color:#64748b;">Sacramento Municipal Utility District (SMUD)</p>
+</div>
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6; padding:20px;">
+<h3>Natural gas</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$1.20/therm</p>
+<p style="font-size:13px; color:#64748b;">Local provider residential</p>
+</div>
+</div>
+<p>Sacramento's Sacramento Municipal Utility District (SMUD) residential rate of $0.28/kWh runs roughly 75% above the US average; every efficiency point saves more real dollars in East Sacramento than in a comparable home in Houston or Atlanta. Sacramento's $1.20/therm gas rate is moderately above the US average. The gas-vs-heat-pump math tilts toward heat pumps if you're already upgrading the electric service, but dual-fuel remains the conservative choice for Midtown and similar Sacramento neighborhoods.</p>
+<p><strong>CA rate structure.</strong> California's tiered rate structure through Sacramento Municipal Utility District means your marginal rate climbs sharply as usage grows; high-SEER equipment that keeps you in lower tiers amplifies savings beyond what a flat-rate calculation would predict.</p>
+</section>
+<section class="section fp-section">
+<h2>Sacramento HVAC Permitting and Inspections</h2>
+<p><strong>Permit authority:</strong> City of Sacramento Community Development Department. City of Sacramento Community Development Department issues HVAC permits for residential work. State licensing applies plus local contractor registration. Sacramento requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+<p><strong>Sacramento-specific coverage.</strong> Sacramento building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.. A Sacramento mechanical permit formally signs off on Manual J load calc, service electrical, gas pipe sizing if gas is involved, refrigerant line routing, condensate discharge, and CA's required duct-leakage testing. On top of that baseline, City of Sacramento Community Development Department reviews condensate routing, combustion-air make-up, and line-set insulation as standard CA checklist items. City of Sacramento Community Development Department also checks Central AC split system or packaged heat pump is standard in Sacramento, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.-specific details a generic Sun Belt tract-home inspector wouldn't recognize.</p>
+<p><strong>Sacramento permits aren't optional red tape — they're leverage against bad installs.</strong> Working without the City of Sacramento Community Development Department permit nulls Sacramento warranty rights, produces a resale-inspection flag, and transfers install liability from the contractor to the homeowner: a botched Sacramento AC install leaks refrigerant into the attic, drips condensate into the Sacramento Municipal Utility District (SMUD)-side electrical panel, or fails its first pressure test during July; City of Sacramento Community Development Department catches those upstream of drywall closing back up. When a Sacramento contractor offers to save you the permit fee, the savings really accrue to them by dodging City of Sacramento Community Development Department review. CA law puts permit liability on the installer, not the homeowner; refuse any owner-builder permit suggestion.</p>
+<p><strong>A2L changes how Sacramento shops handle refrigerant.</strong> R-454B and R-32 are the A2L refrigerants replacing R-410A in new Sacramento residential installs. Sacramento distributors across CA still have some pre-2025 R-410A inventory for service and carry-over installs, but new manufacturing stopped at the 2025 cutoff. Because A2L is class 2L (mildly flammable) and R-410A was class 1 (non-flammable), UL 60335-2-40 adds install requirements. Expect minimum charge-per-room-volume thresholds, mandatory leak sensors on larger indoor units, and brazing-joint protocols different from R-410A. CSLB does not equate to A2L certification; the Sacramento shop you hire should produce A2L training documentation independently.</p>
+
+</section>
+<section class="section fp-section">
+<h2>Sacramento HVAC Contractors: How the Market Works</h2>
+<p>Competitive market; CSLB license verification required at cslb.ca.gov. Sacramento has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.. A Sacramento dealer quote versus an independent Sacramento shop quote usually differs because of actual supply-chain differences, not margin inflation.</p>
+<p>Sacramento's HVAC labor pool is steady enough that East Sacramento, Land Park, and Midtown buyers can collect competitive bids without scheduling friction. Three bids is the baseline, but on HVAC specifically verify you're comparing equivalent systems: same Sacramento-vs-value-tier brand class, same SEER2/HSPF on the AHRI certificate, same warranty terms, same duct-testing scope. A $3,000 gap between Sacramento bids usually means different equipment rather than different margin.</p>
+<p><strong>What to verify on any Sacramento bid.</strong> CSLB (Contractors State License Board), with specific C-20 HVAC classification is the starting point — pull the CA license number from the state's own lookup portal, not the company marketing page. $1M per occurrence is the Sacramento floor on general liability; workers' comp confirmed via the CA comp database. Ask for the AHRI reference number for the specific combo quoted: SEER2 and HSPF ratings only apply to the AHRI-certified condenser/coil/air-handler trio, never to whatever parts substitute on a Sacramento Municipal Utility District (SMUD)-area truck.</p>
+<p><strong>Sacramento install quality matters more than the nameplate.</strong> Install craft matters more than brand tier — a poorly commissioned Sacramento unit can be beaten by a mid-tier unit done right in Sacramento. The craft specifics that matter in Sacramento: Manual J against Sacramento Municipal Utility District (SMUD)'s actual climate station, refrigerant charge verified by live superheat and subcooling at commissioning, plenum-to-duct joints sealed with mastic paste (tape fails in moderate humidity within three years), Sacramento's long cooling run hours call for 375-400 CFM per ton, and a written commissioning report handed over before final payment. Every Sacramento bidder should walk you through all five; anyone who dismisses the question is telling you something.</p>
+</section>
+<section class="section fp-section">
+<h2>Sacramento HVAC Scam Patterns to Watch For</h2>
+<p>These are the HVAC sales patterns that burn Sacramento homeowners most consistently across East Sacramento, Land Park, and Midtown.</p>
+
+<div class="fp-flag">
+<h3>Why oversizing hurts worst in Sacramento</h3>
+<p>Moderate Sacramento humidity still punishes oversizing: short-cycling wears out compressors and blower motors before the 15-year national-average lifespan. Sacramento Municipal Utility District (SMUD) climate-station data plus a proper Manual J catches the common one-size-too-big bid. Every Sacramento homeowner should ask each bidder "Show me the Manual J result and explain why this tonnage instead of the next size down." Any response missing the Manual J load number or the tonnage rationale is disqualifying.</p>
+</div>
+<div class="fp-flag">
+<h3>Upsell bundles to decline in Sacramento</h3>
+<p>UV lights, ionizers, and "duct sanitization" on East Sacramento, Land Park, and Midtown homes served by Sacramento Municipal Utility District (SMUD) deliver nothing a quarterly MERV 11-13 filter doesn't already do. They're tacked-on margin items on bids that already include Sacramento or Carrier equipment. If your Sacramento bid leads with air-quality add-ons before discussing Manual J sizing or Sacramento Municipal Utility District (SMUD) rebate stacking via Sacramento Municipal Utility District offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates., the sales priority is add-on margin rather than your utility bill.</p>
+</div>
+<div class="fp-flag">
+<h3>"You can't service R-410A anymore" pitch</h3>
+<p>Sacramento and Carrier wholesalers across the Sacramento Municipal Utility District (SMUD) territory still stock R-410A for servicing existing East Sacramento and Land Park systems. What stopped at end of 2024 was new-equipment manufacturing, not refrigerant supply. A Sacramento technician claiming R-410A service is impossible is wrong or selling replacement. Recharge rates sit at $300-550 per pound; a "low refrigerant" fault is almost always a leak to find and repair. Separately: any R-22 mention on a Sacramento quote is a red flag — R-22 left the legal US supply chain with the 2020 import ban.</p>
+</div>
+<div class="fp-flag">
+<h3>Sacramento market-specific pitch</h3>
+<p>Sacramento homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.. The Sacramento tell is time pressure: the close wants you to commit inside one visit without a comparison bid. A second opinion from a CSLB-credentialed Midtown or Curtis Park shop costs 48 hours and routinely shaves $6,000-18,000 off the first pitch.</p>
+</div>
+<div class="fp-flag">
+<h3>Sacramento same-day "discount" gimmick</h3>
+<p>The sign-today play crosses every Sacramento bidder tier from Sacramento authorized dealers to value shops. Honest quotes in Sacramento hold for 30-90 days — "today only" pricing is a flag, not a deal. Decline, collect competing bids in East Sacramento, Land Park, and Midtown, and check the actual Sacramento Municipal Utility District (SMUD) rebate deadlines: they're quarterly or annual, not same-day.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Sacramento Equipment and Ductwork</h2>
+<p><strong>Dominant equipment.</strong> Central AC split system or packaged heat pump is standard in Sacramento, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market..</p>
+<p><strong>Brand coverage.</strong> Sacramento has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications..</p>
+<p><strong>Heat pump viability.</strong> Excellent; Sacramento's mild winters make heat pumps the default recommendation for most homeowners.</p>
+<p><strong>Permit detail.</strong> City of Sacramento Community Development Department issues HVAC permits for residential work. State licensing applies plus local contractor registration. Sacramento requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+</section>
+<section class="section fp-section">
+<h2>Sacramento HVAC Scam Patterns</h2>
+<p><strong>Local pattern.</strong> Sacramento homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair..</p>
+<p><strong>Season reason.</strong> Sacramento HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+<p><strong>Permit quirk.</strong> Sacramento building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements..</p>
+<p><strong>Utility rebates.</strong> Sacramento Municipal Utility District offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Sacramento HVAC Technical Context</h2>
+<p>Sacramento's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely..</p>
+<p><strong>Extreme conditions.</strong> Extreme summer heat exceeding 100F with arid conditions. The Sacramento recommended efficiency targets are 18+ SEER for cooling and 80%+ AFUE for heating, calibrated to Sacramento Municipal Utility District (SMUD) rate structures.</p>
+<p><strong>Humidity.</strong> Sacramento humidity is moderate. </p>
+</section>
+<section class="section fp-section">
+<h2>When to Buy HVAC in Sacramento: Seasonal Timing</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">November through March</p>
+<p>Sacramento HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">June through September</p>
+<p>Emergency Sacramento replacements during these months carry a 10-20% premium because Sacramento Municipal Utility District (SMUD)-approved contractors book two to four weeks out. Negotiating room disappears in East Sacramento, Land Park, and Midtown whenever the emergency queue is full, which it always is during these weeks. Past the 12-year mark, scheduling replacement during november through march beats hoping the unit survives the next extreme summer heat exceeding 100f with arid conditions.</p>
+</div>
+</div>
+<p><strong>A Sacramento timing trick worth knowing.</strong> Book a Sacramento-authorized Sacramento tune-up ($80-$150) before either shoulder season. Pre-season diagnostics pick up superheat drift, pressure-side anomalies, and blower-motor bearing noise; those readings separate a planned replacement from a panicked June-weekend call in East Sacramento. Most Sacramento shops fold this into a yearly maintenance contract at $180-$280, which pencils out for multi-unit homes.</p>
+</section>
+<section class="section fp-section">
+<h2>Sacramento HVAC Cost Scenarios: Budget, Mid, Premium</h2>
+<p>Here's what real Sacramento HVAC projects cost in 2026, using CA-calibrated labor and Sacramento Municipal Utility District (SMUD)-area parts availability. Every scenario assumes a 3-ton, 2,000 sq ft Sacramento home with serviceable ductwork and Central AC split system or packaged heat pump is standard in Sacramento, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market..</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">15 SEER2 single-stage AC + 80% AFUE furnace</p>
+<p class="fp-scenario-total">$5.4K</p>
+<p class="fp-scenario-detail">Single-stage Goodman or Amana equipment, 10-year parts warranty from Goodman's factory-authorized network. Covers City of Sacramento Community Development Department permit, basic 7-day programmable thermostat, Sacramento Municipal Utility District (SMUD) interconnection paperwork, and haul-off of the old unit. A sensible budget pick for a Midtown rental or a Sacramento seller prepping a flip; not ideal for an owner planning 10+ year occupancy because the cooling run-hour count in Sacramento wears single-stage compressors hard.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">16 SEER2 two-stage heat pump</p>
+<p class="fp-scenario-total">$9.8K</p>
+<p class="fp-scenario-detail">Two-stage Carrier heat pump, fresh refrigerant line set with A2L-rated fittings, City of Sacramento Community Development Department permit, Sacramento Municipal Utility District (SMUD) time-of-use-aware Wi-Fi thermostat (Honeywell T10 or Ecobee Premium), duct leakage test, basic written commissioning report. 10-year parts plus 2-year labor warranty. Eligible for Sacramento Municipal Utility District offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. rebate stacking. The sensible Sacramento choice for most East Sacramento, Land Park, and Midtown single-family homes.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">18+ SEER2 variable-speed inverter heat pump</p>
+<p class="fp-scenario-total">$16.5K</p>
+<p class="fp-scenario-detail">Inverter-driven variable-speed Sacramento equipment with communicating controls. Full mastic-paste duct re-seal, flared-fitting A2L line set, City of Sacramento Community Development Department permit, smart thermostat with occupancy sensing, whole-home surge protection (genuinely relevant in Sacramento given Sacramento Municipal Utility District (SMUD)'s grid profile), and HERS-verified written commissioning report. 12-year parts / 10-year labor warranty through Sacramento's factory-authorized dealer program. Stacks maximum Sacramento Municipal Utility District offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. rebate plus any CA-level incentives. The ROI pencils in Sacramento only for a 10+ year hold.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Full duct replacement adds $3,000-$7,000 in Sacramento; multi-story East Sacramento or Land Park homes, or any California State Capitol-adjacent install, add 10-20% on top. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Sacramento quote for a side-by-side comparison.</a></p>
+</section>
+<!-- /FLAGSHIP-HVAC-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 <section class="section">
 <h2>What affects HVAC cost in Sacramento</h2>
 <ul class="factor-list">

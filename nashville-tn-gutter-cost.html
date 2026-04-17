@@ -219,6 +219,631 @@ depending on material, gutter height, and yard size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-GUTTERS-CONTENT -->
+
+<section class="section fp-section">
+<h2>Nashville Neighborhood Gutter Costs</h2>
+<p>Gutter install costs vary across Nashville based on labor rates, home height, and fascia condition. Estimates below assume 150 linear feet — a typical single-story Nashville home.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Aluminum Seamless</th>
+<th style="text-align:right; padding:12px 16px;">Vinyl</th>
+<th style="text-align:right; padding:12px 16px;">Copper</th>
+<th style="text-align:right; padding:12px 16px;">Steel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">East Nashville</td>
+<td style="padding:12px 16px; text-align:right;">$1,450</td>
+<td style="padding:12px 16px; text-align:right;">$975</td>
+<td style="padding:12px 16px; text-align:right;">$6,075</td>
+<td style="padding:12px 16px; text-align:right;">$1,775</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">12 South</td>
+<td style="padding:12px 16px; text-align:right;">$1,400</td>
+<td style="padding:12px 16px; text-align:right;">$925</td>
+<td style="padding:12px 16px; text-align:right;">$5,850</td>
+<td style="padding:12px 16px; text-align:right;">$1,725</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Germantown</td>
+<td style="padding:12px 16px; text-align:right;">$1,400</td>
+<td style="padding:12px 16px; text-align:right;">$925</td>
+<td style="padding:12px 16px; text-align:right;">$5,800</td>
+<td style="padding:12px 16px; text-align:right;">$1,700</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Sylvan Park</td>
+<td style="padding:12px 16px; text-align:right;">$1,250</td>
+<td style="padding:12px 16px; text-align:right;">$825</td>
+<td style="padding:12px 16px; text-align:right;">$5,175</td>
+<td style="padding:12px 16px; text-align:right;">$1,525</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">The Gulch</td>
+<td style="padding:12px 16px; text-align:right;">$1,300</td>
+<td style="padding:12px 16px; text-align:right;">$875</td>
+<td style="padding:12px 16px; text-align:right;">$5,400</td>
+<td style="padding:12px 16px; text-align:right;">$1,575</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Belmont</td>
+<td style="padding:12px 16px; text-align:right;">$1,300</td>
+<td style="padding:12px 16px; text-align:right;">$875</td>
+<td style="padding:12px 16px; text-align:right;">$5,450</td>
+<td style="padding:12px 16px; text-align:right;">$1,600</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Nashville labor rates and current material pricing are baked in for 150 LF. Actual Nashville pricing varies with home height, fascia condition, corner count, and downspout count. <a href="/gutter-quote-analyzer.html?city=Nashville&state=TN" style="color:var(--brand);">Upload your Nashville quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>Nashville Rainfall and Gutter Drainage</h2>
+<div class="fp-rainfall-stat" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px 20px;background:var(--bg-subtle,#f8fafc);border-radius:12px;border:1px solid var(--border,#e2e8f0);">
+<div style="font-size:32px;font-weight:800;color:var(--brand,#1d4ed8);line-height:1;">48 inches</div>
+<div style="font-size:14px;color:#64748b;">annual rainfall in Nashville</div>
+</div>
+<p>Nashville receives 48 inches of rain per year, with intense summer thunderstorms and severe storm events that can deliver 3-5 inches in 24 hours. Gutters on Nashville homes must handle both sustained rainfall and sudden high-volume events.</p>
+<h3>Nashville-specific gutter sizing</h3>
+<p>Nashville rainfall frequently tops the 2 inches per hour that standard 5-inch K-style gutters can handle. The 6-inch upgrade delivers 40% more capacity for an extra $2-$3 per linear foot — a small premium that matters on East Nashville, 12 South, and Germantown rooflines during peak storms.</p>
+<h3>Downspout capacity and placement</h3>
+<p>Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Nashville practice.</p>
+<p>Nashville homes typically need one downspout per 20-30 linear feet of gutter run. A standard 2x3-inch downspout handles about 600 sq ft of roof area; 3x4-inch oversized downspouts move substantially more water and earn their upcharge on larger roof planes common in East Nashville, 12 South, and Germantown.</p>
+</section>
+<section class="section fp-section">
+<h2>Gutter Guard Analysis for Nashville</h2>
+<p>Tree coverage in Nashville is low to moderate, with eastern red cedar, tulip poplar, hackberry dominant. The specific debris mix your East Nashville, 12 South, and Germantown gutters see determines which guard style actually performs — not every guard works in every market.</p>
+<h3>Primary debris types in Nashville</h3>
+<p>Mixed deciduous leaf drop and seasonal seed debris.</p>
+<h3>Recommended guard style</h3>
+<p>Micro-mesh guards provide the best all-around protection for Nashville's debris mix.</p>
+<div class="fp-guard-compare" style="margin:16px 0;padding:16px 20px;background:#f0fdf4;border-radius:12px;border:1px solid #a7f3d0;">
+<h3 style="margin:0 0 8px;font-size:15px;color:#166534;">Guard cost comparison for Nashville</h3>
+<p style="margin:0;font-size:14px;color:#334155;">Micro-mesh guards run $7-$15/LF installed in Nashville. Screen guards $4-$8/LF. Surface-tension (reverse curve) $10-$18/LF. Foam inserts $2-$5/LF (avoid — they trap debris and promote mold). National brands like LeafFilter and Gutter Helmet charge $15-$35/LF, which bakes in warranty and marketing overhead; local Nashville installers using equivalent micro-mesh typically charge 30-50% less.</p>
+</div>
+<p>No gutter guard system is actually maintenance-free, regardless of type. Even top-tier micro-mesh needs surface brushing every 1-2 years to clear fine pollen and dust buildup in Nashville. Any Nashville contractor pitching "never clean your gutters again" is overselling.</p>
+</section>
+<section class="section fp-section">
+<h2>Winter Gutter Concerns in Nashville</h2>
+<p><strong>Freeze risk level for Nashville: moderate.</strong></p>
+<p>Nashville gets occasional freezing that can cause ice dam issues in severe winters. Heated cables are optional but valuable for north-facing slopes.</p>
+<h3>What Nashville homeowners should know</h3>
+<p>Ice is not the main concern in Nashville, but proper gutter pitch — 1/4 inch of slope per 10 feet of run — still matters because standing water during a rare cold snap can crack seams and pop hangers even on mild-climate systems.</p>
+</section>
+<section class="section fp-section">
+<h2>Keeping Nashville Gutters Clean</h2>
+<div class="fp-maintenance-stat" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px 20px;background:#fefce8;border-radius:12px;border:1px solid #fde68a;">
+<div style="font-size:24px;font-weight:800;color:#92400e;line-height:1;">twice per year (spring and fall)</div>
+</div>
+<p>East Nashville and 12South neighborhoods with heavy eastern red cedar canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.</p>
+<h3>Nashville gutter cleaning pricing</h3>
+<p>Expect $100-$250 per cleaning on single-story Nashville homes and $150-$350 on two-story. Pricing tracks footage, height, and how compacted the debris is. Regular schedules in East Nashville, 12 South, and Germantown keep costs low; long-deferred cleanings cost more due to flushing and blockage removal.</p>
+<h3>Nashville DIY vs. hired-help tradeoff</h3>
+<p>For single-story Nashville ranches with level ladder ground, DIY is fine. Anything two-story, anything with a steep lot, anything with gables and valleys in East Nashville, 12 South, and Germantown is professional-crew work. The cost differential is small relative to ER-bill risk from a ladder fall.</p>
+</section>
+<section class="section fp-section">
+<h2>What to Watch for in Nashville Gutter Bids</h2>
+<p>Here are the Nashville gutter-bid patterns that burn homeowners most often.</p>
+
+<div class="fp-flag">
+<h3>Bidding Nashville roofs without rainfall context</h3>
+<p>Nashville receives 48 inches of rain annually. A contractor bidding standard 5-inch gutters without mentioning Nashville rainfall intensity or your specific roof area is sizing for convenience, not performance. Homes in East Nashville, 12 South, and Germantown with roof areas over 1,500 sq ft draining to a single run should default to 6-inch gutters.</p>
+</div>
+<div class="fp-flag">
+<h3>Nashville gutter slope problems</h3>
+<p>Standard pitch is 1/4 inch per 10 feet of run toward the downspout. Flat gutters pool, attract mosquitoes, and overflow during Nashville downpours. Test with a garden hose after install — pooling anywhere means the hanger heights need re-setting.</p>
+</div>
+<div class="fp-flag">
+<h3>No splash blocks or downspout extensions</h3>
+<p>Gutters collect water; downspouts deliver it. Without splash blocks, extensions, or buried drainage, all that water concentrates at your foundation. Nashville's 48 inches of annual rain turns that into foundation cracks, basement seepage, and eroded landscaping. A Nashville bid silent on discharge routing is incomplete.</p>
+</div>
+<div class="fp-flag">
+<h3>"Seamless" that actually has seams</h3>
+<p>Real seamless means the installer rolls the full gutter run on your Nashville property from continuous coil stock; seams appear only at corners, outlets, and end caps. A "seamless" Nashville bid that mentions joining factory-cut sections with splice connectors is sectional gutter at seamless pricing — the single most common install-side scam.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Best Time to Install Gutters in Nashville</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">Dry season months when contractor demand is lowest</p>
+<p>Scheduling Nashville gutter installation during the quieter off-peak months typically saves 10-15% on labor. </p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">During and immediately after severe weather events</p>
+<p>Nashville peak months bring 10-20% labor surcharges and waitlists. Storm-emergency gutter work is always premium-priced — it doesn't follow the regular seasonal pattern.</p>
+</div>
+</div>
+</section>
+<section class="section fp-section">
+<h2>What Nashville Gutter Projects Require</h2>
+<p>undefined</p>
+<p>undefined</p>
+</section>
+<section class="section fp-section">
+<h2>Nashville Downspout and Drainage Routing</h2>
+<p>Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Nashville practice.</p>
+<p>East Nashville and 12South neighborhoods with heavy eastern red cedar canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.</p>
+</section>
+<section class="section fp-section">
+<h2>What Your Nashville Gutter Contract Should Include</h2>
+<p><strong>Material specification.</strong> Micro-mesh guards provide the best all-around protection for Nashville's debris mix.</p>
+<p><strong>Cleaning schedule.</strong> twice per year (spring and fall). East Nashville and 12South neighborhoods with heavy eastern red cedar canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.</p>
+<p><strong>Seasonal timing.</strong> Scheduling Nashville gutter installation during the quieter off-peak months typically saves 10-15% on labor. </p>
+<p><strong>Warranty terms.</strong> undefined</p>
+</section>
+<section class="section fp-section">
+<h2>How Nashville Climate Affects Gutters</h2>
+<p>Nashville receives 48 inches of rain per year, with intense summer thunderstorms and severe storm events that can deliver 3-5 inches in 24 hours. Gutters on Nashville homes must handle both sustained rainfall and sudden high-volume events.</p>
+<p><strong>Debris profile.</strong> Nashville tree coverage is low to moderate, with eastern red cedar, tulip poplar, hackberry dominant. Primary debris: mixed deciduous leaf drop and seasonal seed debris.</p>
+<p><strong>Guard recommendation.</strong> Micro-mesh guards provide the best all-around protection for Nashville's debris mix.</p>
+<p><strong>Freeze risk: moderate.</strong> Nashville gets occasional freezing that can cause ice dam issues in severe winters. Heated cables are optional but valuable for north-facing slopes.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Nashville Gutter Contractor</h2>
+<p><strong>What gauge aluminum are you installing?</strong> undefined</p>
+<p><strong>How are you sizing for Nashville rainfall?</strong> Nashville receives 48 inches annually. Nashville receives 48 inches of rain per year, with intense summer thunderstorms and severe storm events that can deliver 3-5 inches in 24 hours. Gutters on Nashville homes must handle both sustained rainfall and sudden high-volume events.</p>
+<p><strong>What guard type works here?</strong> Micro-mesh guards provide the best all-around protection for Nashville's debris mix.</p>
+<p><strong>What warranty terms apply?</strong> undefined</p>
+<p><strong>What is your cleaning recommendation?</strong> twice per year (spring and fall). East Nashville and 12South neighborhoods with heavy eastern red cedar canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.</p>
+</section>
+<section class="section fp-section">
+<h2>What Gutters Actually Cost in Nashville: 3 Scenarios</h2>
+<p>Real Nashville gutter project pricing, using Nashville-adjusted labor and material costs for 2026. Every scenario assumes 150 linear feet (average single-story Nashville home).</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">vinyl gutters across 150 LF</p>
+<p class="fp-scenario-total">$900</p>
+<p class="fp-scenario-detail">~$6/LF installed. Old-gutter removal, vinyl gutter and downspout install, basic splash blocks, site cleanup. Vinyl is the cheapest option in Nashville but carries a 10-15 year lifespan and cracks in temperature extremes.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">aluminum seamless + leaf guards across 150 LF</p>
+<p class="fp-scenario-total">$3.4K</p>
+<p class="fp-scenario-detail">~$22.5/LF installed. Seamless 5-inch aluminum on hidden hangers, micro-mesh guards, downspouts with proper extensions, old-system removal and haul-off. This is what the majority of East Nashville, 12 South, and Germantown Nashville homes should install.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">copper half-round with leaf guards across 150 LF</p>
+<p class="fp-scenario-total">$7.7K</p>
+<p class="fp-scenario-detail">~$51/LF installed. Old gutter removal, copper half-round gutters and copper downspouts, micro-mesh guards, premium fittings throughout. Copper develops natural patina over 2-3 years and lasts 50+ years in Nashville with zero corrosion.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Two-story Nashville homes add 15-25% for ladder and scaffold access. Fascia repair runs an additional $5-$15/LF. Complex rooflines in East Nashville or 12 South with many corners push labor higher because of fitting count. <a href="/gutter-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized Nashville estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-GUTTERS-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 
 <section class="section">
 <h2>Other Services in Nashville</h2>

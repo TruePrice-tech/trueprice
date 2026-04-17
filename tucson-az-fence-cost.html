@@ -242,6 +242,409 @@ depending on material, fence height, and yard size.
 </div>
 </section>
 
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-FENCING-CONTENT -->
+
+<section class="section fp-section">
+<h2>Tucson Neighborhood Pricing</h2>
+<p>Tucson fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Wood Privacy</th>
+<th style="text-align:right; padding:12px 16px;">Vinyl</th>
+<th style="text-align:right; padding:12px 16px;">Chain Link</th>
+<th style="text-align:right; padding:12px 16px;">Iron/Ornamental</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Sam Hughes</td>
+<td style="padding:12px 16px; text-align:right;">$6,600</td>
+<td style="padding:12px 16px; text-align:right;">$7,950</td>
+<td style="padding:12px 16px; text-align:right;">$3,550</td>
+<td style="padding:12px 16px; text-align:right;">$10,150</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">El Encanto</td>
+<td style="padding:12px 16px; text-align:right;">$6,500</td>
+<td style="padding:12px 16px; text-align:right;">$7,800</td>
+<td style="padding:12px 16px; text-align:right;">$3,450</td>
+<td style="padding:12px 16px; text-align:right;">$9,950</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Catalina Foothills</td>
+<td style="padding:12px 16px; text-align:right;">$6,450</td>
+<td style="padding:12px 16px; text-align:right;">$7,700</td>
+<td style="padding:12px 16px; text-align:right;">$3,450</td>
+<td style="padding:12px 16px; text-align:right;">$9,850</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Oro Valley</td>
+<td style="padding:12px 16px; text-align:right;">$5,750</td>
+<td style="padding:12px 16px; text-align:right;">$6,900</td>
+<td style="padding:12px 16px; text-align:right;">$3,050</td>
+<td style="padding:12px 16px; text-align:right;">$8,800</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Civano</td>
+<td style="padding:12px 16px; text-align:right;">$5,900</td>
+<td style="padding:12px 16px; text-align:right;">$7,050</td>
+<td style="padding:12px 16px; text-align:right;">$3,150</td>
+<td style="padding:12px 16px; text-align:right;">$9,000</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Armory Park</td>
+<td style="padding:12px 16px; text-align:right;">$5,950</td>
+<td style="padding:12px 16px; text-align:right;">$7,150</td>
+<td style="padding:12px 16px; text-align:right;">$3,150</td>
+<td style="padding:12px 16px; text-align:right;">$9,100</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Tucson Fencing Material Choices</h2>
+<p>Tucson's dominant residential fencing is view fencing (wrought iron or steel), stucco-faced CMU walls, and ornamental aluminum in neighborhoods like Sam Hughes and Catalina Foothills. </p>
+<p>Signature Tucson residential fencing is view fencing in earth tones, stucco perimeter walls, and pool-code aluminum barriers.</p>
+</section>
+<section class="section fp-section">
+<h2>Tucson Height and Zoning Rules</h2>
+<p>Tucson zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Arizona Revised Statutes pool-code requirements (60 inches). Corner lot sight-triangle reductions apply.</p>
+<p>Tucson master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Sam Hughes and Catalina Foothills may have deed restrictions or neighborhood character expectations. </p>
+</section>
+<section class="section fp-section">
+<h2>Tucson Soil and Climate Impact</h2>
+<p>Tucson soil is Sonoran Desert alluvium. Caliche or limestone layers require pneumatic breakers for post-hole digging.</p>
+<p>Tucson essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 12 inches minimizes rot but UV remains the primary degradation factor.</p>
+</section>
+<section class="section fp-section">
+<h2>Tucson Wildlife and Permit Considerations</h2>
+<p>Tucson wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.</p>
+<p>City of Tucson Planning and Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Sam Hughes and Oro Valley may have distinct permitting requirements.</p>
+</section>
+<section class="section fp-section">
+<h2>Tucson Fencing Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Wrong material for Tucson exposure</h3>
+<p>Tucson's dominant residential fencing is view fencing (wrought iron or steel), stucco-faced CMU walls, and ornamental aluminum in neighborhoods like Sam Hughes and Catalina Foothills. </p>
+</div>
+<div class="fp-flag">
+<h3>Inadequate post depth for Tucson soil</h3>
+<p>Tucson soil is Sonoran Desert alluvium. Caliche or limestone layers require pneumatic breakers for post-hole digging.</p>
+</div>
+<div class="fp-flag">
+<h3>Climate-mismatch spec</h3>
+<p>Tucson essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 12 inches minimizes rot but UV remains the primary degradation factor.</p>
+</div>
+<div class="fp-flag">
+<h3>Skipped HOA review</h3>
+<p>Tucson master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Sam Hughes and Catalina Foothills may have deed restrictions or neighborhood character expectations. </p>
+</div>
+<div class="fp-flag">
+<h3>Missing wildlife provisions</h3>
+<p>Tucson wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Tucson Scope Checklist</h2>
+<p><strong>Height and setback.</strong> Tucson zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Arizona Revised Statutes pool-code requirements (60 inches). Corner lot sight-triangle reductions apply.</p>
+<p><strong>Soil and footing.</strong> Tucson soil is Sonoran Desert alluvium. Caliche or limestone layers require pneumatic breakers for post-hole digging.</p>
+<p><strong>HOA compliance.</strong> Tucson master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Sam Hughes and Catalina Foothills may have deed restrictions or neighborhood character expectations. </p>
+<p><strong>Permit process.</strong> City of Tucson Planning and Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Sam Hughes and Oro Valley may have distinct permitting requirements.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Tucson Fence Contractor</h2>
+<p><strong>Which materials hold up in Tucson?</strong> Tucson's dominant residential fencing is view fencing (wrought iron or steel), stucco-faced CMU walls, and ornamental aluminum in neighborhoods like Sam Hughes and Catalina Foothills. </p>
+<p><strong>How are you handling Tucson soil?</strong> Tucson soil is Sonoran Desert alluvium. Caliche or limestone layers require pneumatic breakers for post-hole digging.</p>
+<p><strong>What style fits the neighborhood?</strong> Signature Tucson residential fencing is view fencing in earth tones, stucco perimeter walls, and pool-code aluminum barriers.</p>
+<p><strong>What climate protections are standard?</strong> Tucson essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 12 inches minimizes rot but UV remains the primary degradation factor.</p>
+<p><strong>What HOA or regulatory review applies?</strong> Tucson master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Sam Hughes and Catalina Foothills may have deed restrictions or neighborhood character expectations. </p>
+</section>
+<section class="section fp-section">
+<h2>Tucson Fence Lifespan by Material</h2>
+<p>undefined</p>
+<p>undefined</p>
+<p>Tucson essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 12 inches minimizes rot but UV remains the primary degradation factor.</p>
+</section>
+<section class="section fp-section">
+<h2>Costly Tucson Fencing Mistakes</h2>
+<p>undefined</p>
+<p>City of Tucson Planning and Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Sam Hughes and Oro Valley may have distinct permitting requirements.</p>
+<p>Tucson wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.</p>
+<p>Tucson fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.</p>
+</section>
+<section class="section fp-section">
+<h2>Tucson Fence Maintenance Calendar</h2>
+<p>undefined</p>
+<p><strong>Material lifespan.</strong> undefined</p>
+<p><strong>Soil and climate impact.</strong> Tucson soil is Sonoran Desert alluvium. Caliche or limestone layers require pneumatic breakers for post-hole digging.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Install Fencing in Tucson</h2>
+<p>Tucson fencing season runs year-round, with October-April offering the best working conditions.</p>
+<p>Tucson fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.</p>
+</section>
+<section class="section fp-section">
+<h2>Tucson Fence Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">Tucson 150-LF chain link</p>
+<p class="fp-scenario-total">$3,300</p>
+<p class="fp-scenario-detail">Tucson's dominant residential fencing is view fencing (wrought iron or steel), stucco-faced CMU walls, and ornamental aluminum in neighborhoods like Sam Hughes and Catalina Foothills. Tucson soil is Sonoran Desert alluvium.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">Tucson 150-LF cedar privacy</p>
+<p class="fp-scenario-total">$6,200</p>
+<p class="fp-scenario-detail">Signature Tucson residential fencing is view fencing in earth tones, stucco perimeter walls, and pool-code aluminum barriers.. City of Tucson Planning and Development Services handles fence permits for installations exceeding standard height limits.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Tucson 150-LF ornamental iron</p>
+<p class="fp-scenario-total">$9,500</p>
+<p class="fp-scenario-detail">Tucson fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities. Tucson master-planned communities and newer subdivisions often have strict HOAs with architectural review.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-FENCING-CONTENT -->
 <!-- TP-NEARBY-CITIES -->
 <section class="section" style="margin:32px 0;">
 <h2>Fencing cost in nearby AZ cities</h2>

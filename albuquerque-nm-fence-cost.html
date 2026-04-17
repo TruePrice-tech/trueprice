@@ -242,6 +242,409 @@ depending on material, fence height, and yard size.
 </div>
 </section>
 
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-FENCING-CONTENT -->
+
+<section class="section fp-section">
+<h2>Albuquerque Neighborhood Pricing</h2>
+<p>Albuquerque fencing labor runs at or near the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Wood Privacy</th>
+<th style="text-align:right; padding:12px 16px;">Vinyl</th>
+<th style="text-align:right; padding:12px 16px;">Chain Link</th>
+<th style="text-align:right; padding:12px 16px;">Iron/Ornamental</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Nob Hill</td>
+<td style="padding:12px 16px; text-align:right;">$6,600</td>
+<td style="padding:12px 16px; text-align:right;">$7,950</td>
+<td style="padding:12px 16px; text-align:right;">$3,550</td>
+<td style="padding:12px 16px; text-align:right;">$10,150</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Old Town</td>
+<td style="padding:12px 16px; text-align:right;">$6,500</td>
+<td style="padding:12px 16px; text-align:right;">$7,800</td>
+<td style="padding:12px 16px; text-align:right;">$3,450</td>
+<td style="padding:12px 16px; text-align:right;">$9,950</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Northeast Heights</td>
+<td style="padding:12px 16px; text-align:right;">$6,450</td>
+<td style="padding:12px 16px; text-align:right;">$7,700</td>
+<td style="padding:12px 16px; text-align:right;">$3,450</td>
+<td style="padding:12px 16px; text-align:right;">$9,850</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Ridgecrest</td>
+<td style="padding:12px 16px; text-align:right;">$5,750</td>
+<td style="padding:12px 16px; text-align:right;">$6,900</td>
+<td style="padding:12px 16px; text-align:right;">$3,050</td>
+<td style="padding:12px 16px; text-align:right;">$8,800</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">North Valley</td>
+<td style="padding:12px 16px; text-align:right;">$5,900</td>
+<td style="padding:12px 16px; text-align:right;">$7,050</td>
+<td style="padding:12px 16px; text-align:right;">$3,150</td>
+<td style="padding:12px 16px; text-align:right;">$9,000</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Corrales</td>
+<td style="padding:12px 16px; text-align:right;">$5,950</td>
+<td style="padding:12px 16px; text-align:right;">$7,150</td>
+<td style="padding:12px 16px; text-align:right;">$3,150</td>
+<td style="padding:12px 16px; text-align:right;">$9,100</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Fencing Material Choices</h2>
+<p>Albuquerque's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Nob Hill and North Valley. </p>
+<p>Signature Albuquerque residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.</p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Height and Zoning Rules</h2>
+<p>Albuquerque zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.</p>
+<p>Albuquerque master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Nob Hill and North Valley may have deed restrictions or neighborhood character expectations. </p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Soil and Climate Impact</h2>
+<p>Albuquerque soil is Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand. Frost depth requirements drive post footings to 42-48 inches.</p>
+<p>Albuquerque averages 70 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 9 inches minimizes rot but UV remains the primary degradation factor.</p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Wildlife and Permit Considerations</h2>
+<p>Albuquerque wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.</p>
+<p>City of Albuquerque Planning Department handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Nob Hill and Rio Rancho may have distinct permitting requirements.</p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Fencing Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Wrong material for Albuquerque exposure</h3>
+<p>Albuquerque's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Nob Hill and North Valley. </p>
+</div>
+<div class="fp-flag">
+<h3>Inadequate post depth for Albuquerque soil</h3>
+<p>Albuquerque soil is Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand. Frost depth requirements drive post footings to 42-48 inches.</p>
+</div>
+<div class="fp-flag">
+<h3>Climate-mismatch spec</h3>
+<p>Albuquerque averages 70 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 9 inches minimizes rot but UV remains the primary degradation factor.</p>
+</div>
+<div class="fp-flag">
+<h3>Skipped HOA review</h3>
+<p>Albuquerque master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Nob Hill and North Valley may have deed restrictions or neighborhood character expectations. </p>
+</div>
+<div class="fp-flag">
+<h3>Missing wildlife provisions</h3>
+<p>Albuquerque wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Scope Checklist</h2>
+<p><strong>Height and setback.</strong> Albuquerque zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.</p>
+<p><strong>Soil and footing.</strong> Albuquerque soil is Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand. Frost depth requirements drive post footings to 42-48 inches.</p>
+<p><strong>HOA compliance.</strong> Albuquerque master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Nob Hill and North Valley may have deed restrictions or neighborhood character expectations. </p>
+<p><strong>Permit process.</strong> City of Albuquerque Planning Department handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Nob Hill and Rio Rancho may have distinct permitting requirements.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Albuquerque Fence Contractor</h2>
+<p><strong>Which materials hold up in Albuquerque?</strong> Albuquerque's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Nob Hill and North Valley. </p>
+<p><strong>How are you handling Albuquerque soil?</strong> Albuquerque soil is Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand. Frost depth requirements drive post footings to 42-48 inches.</p>
+<p><strong>What style fits the neighborhood?</strong> Signature Albuquerque residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.</p>
+<p><strong>What climate protections are standard?</strong> Albuquerque averages 70 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 9 inches minimizes rot but UV remains the primary degradation factor.</p>
+<p><strong>What HOA or regulatory review applies?</strong> Albuquerque master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Nob Hill and North Valley may have deed restrictions or neighborhood character expectations. </p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Fence Lifespan by Material</h2>
+<p>undefined</p>
+<p>undefined</p>
+<p>Albuquerque averages 70 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 9 inches minimizes rot but UV remains the primary degradation factor.</p>
+</section>
+<section class="section fp-section">
+<h2>Costly Albuquerque Fencing Mistakes</h2>
+<p>undefined</p>
+<p>City of Albuquerque Planning Department handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Nob Hill and Rio Rancho may have distinct permitting requirements.</p>
+<p>Albuquerque wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.</p>
+<p>Albuquerque fencing labor runs at or near the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.</p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Fence Maintenance Calendar</h2>
+<p>undefined</p>
+<p><strong>Material lifespan.</strong> undefined</p>
+<p><strong>Soil and climate impact.</strong> Albuquerque soil is Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand. Frost depth requirements drive post footings to 42-48 inches.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Install Fencing in Albuquerque</h2>
+<p>The productive Albuquerque fencing season is mid-May through early November. Frozen ground limits winter digging.</p>
+<p>Albuquerque fencing labor runs at or near the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.</p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Fence Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">Albuquerque 150-LF chain link</p>
+<p class="fp-scenario-total">$3,300</p>
+<p class="fp-scenario-detail">Albuquerque's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Nob Hill and North Valley. Albuquerque soil is Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">Albuquerque 150-LF cedar privacy</p>
+<p class="fp-scenario-total">$6,200</p>
+<p class="fp-scenario-detail">Signature Albuquerque residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.. City of Albuquerque Planning Department handles fence permits for installations exceeding standard height limits.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Albuquerque 150-LF ornamental iron</p>
+<p class="fp-scenario-total">$9,500</p>
+<p class="fp-scenario-detail">Albuquerque fencing labor runs at or near the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities. Albuquerque master-planned communities and newer subdivisions often have strict HOAs with architectural review.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-FENCING-CONTENT -->
 <!-- TP-NEARBY-CITIES -->
 <section class="section" style="margin:32px 0;">
 <h2>Fencing cost in nearby NM cities</h2>

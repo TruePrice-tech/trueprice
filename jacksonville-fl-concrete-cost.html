@@ -223,6 +223,408 @@ depending on project type, size, and finish.
 </section>
 
 
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-CONCRETE-CONTENT -->
+
+<section class="section fp-section">
+<h2>Jacksonville Neighborhood Pricing</h2>
+<p>Ranges reflect Rinker Materials, CEMEX Jacksonville, and Argos USA ready-mix rates plus local labor. Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Jacksonville are at or near the national average.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Driveway (400sf)</th>
+<th style="text-align:right; padding:12px 16px;">Patio (300sf)</th>
+<th style="text-align:right; padding:12px 16px;">Sidewalk (150sf)</th>
+<th style="text-align:right; padding:12px 16px;">Foundation Repair</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Riverside</td>
+<td style="padding:12px 16px; text-align:right;">$5,070</td>
+<td style="padding:12px 16px; text-align:right;">$3,968</td>
+<td style="padding:12px 16px; text-align:right;">$1,818</td>
+<td style="padding:12px 16px; text-align:right;">$7,164</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Avondale</td>
+<td style="padding:12px 16px; text-align:right;">$4,975</td>
+<td style="padding:12px 16px; text-align:right;">$3,893</td>
+<td style="padding:12px 16px; text-align:right;">$1,784</td>
+<td style="padding:12px 16px; text-align:right;">$7,030</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">San Marco</td>
+<td style="padding:12px 16px; text-align:right;">$4,928</td>
+<td style="padding:12px 16px; text-align:right;">$3,856</td>
+<td style="padding:12px 16px; text-align:right;">$1,767</td>
+<td style="padding:12px 16px; text-align:right;">$6,963</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Atlantic Beach</td>
+<td style="padding:12px 16px; text-align:right;">$4,406</td>
+<td style="padding:12px 16px; text-align:right;">$3,448</td>
+<td style="padding:12px 16px; text-align:right;">$1,581</td>
+<td style="padding:12px 16px; text-align:right;">$6,226</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Mandarin</td>
+<td style="padding:12px 16px; text-align:right;">$4,501</td>
+<td style="padding:12px 16px; text-align:right;">$3,523</td>
+<td style="padding:12px 16px; text-align:right;">$1,615</td>
+<td style="padding:12px 16px; text-align:right;">$6,360</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Springfield</td>
+<td style="padding:12px 16px; text-align:right;">$4,548</td>
+<td style="padding:12px 16px; text-align:right;">$3,560</td>
+<td style="padding:12px 16px; text-align:right;">$1,632</td>
+<td style="padding:12px 16px; text-align:right;">$6,427</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville Subgrade and Mix Design</h2>
+<p>Jacksonville sits on sandy coastal soils over Ocala limestone with marsh peat near the St. Johns River. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Riverside, San Marco, Ponte Vedra Beach.</p>
+<p>The Jacksonville residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Rinker Materials, CEMEX Jacksonville, and Argos USA supply most of the Jacksonville delivery radius. Year-round pouring is feasible with heat-mitigation admixtures in summer.</p>
+<p>Jacksonville residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.</p>
+</section>
+<section class="section fp-section">
+<h2>Climate Impact on Jacksonville Concrete</h2>
+<p>Jacksonville averages about 0 freeze-thaw cycles annually (essentially none), so freeze-thaw is not a durability concern. The dominant threats are hurricane-season saturation and high humidity. The area receives approximately 52 inches of precipitation annually.</p>
+<p>Jacksonville is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Jacksonville contractors reference these events when specifying protective measures.</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville Permits and Right-of-Way Rules</h2>
+<p>City of Jacksonville Building Inspection Division handles residential concrete permits. Riverside and Ponte Vedra Beach have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+<p>Jacksonville zoning code restricts driveway width and requires setbacks from property lines in residential zones. Riverside and San Marco lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</section>
+<section class="section fp-section">
+<h2>What Jacksonville Concrete Contractors Actually Do</h2>
+<p>Residential concrete in Jacksonville centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Riverside and San Marco.</p>
+<p>Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Jacksonville. Local pigment and aggregate supply match the regional aesthetic.</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville Concrete Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Bid ignores Jacksonville mix spec</h3>
+<p>The Jacksonville residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Rinker Materials, CEMEX Jacksonville, and Argos USA supply most of the Jacksonville delivery radius. Year-round pouring is feasible with heat-mitigation admixtures in summer.</p>
+</div>
+<div class="fp-flag">
+<h3>Reinforcement weaker than the Jacksonville baseline</h3>
+<p>Jacksonville residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.</p>
+</div>
+<div class="fp-flag">
+<h3>Climate exposure unaddressed</h3>
+<p>Jacksonville averages about 0 freeze-thaw cycles annually (essentially none), so freeze-thaw is not a durability concern. The dominant threats are hurricane-season saturation and high humidity. The area receives approximately 52 inches of precipitation annually.</p>
+</div>
+<div class="fp-flag">
+<h3>Missing disaster-informed detailing</h3>
+<p>Jacksonville is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Jacksonville contractors reference these events when specifying protective measures.</p>
+</div>
+<div class="fp-flag">
+<h3>Setback or permit gaps</h3>
+<p>Jacksonville zoning code restricts driveway width and requires setbacks from property lines in residential zones. Riverside and San Marco lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</div>
+<div class="fp-flag">
+<h3>Pour window mismatch</h3>
+<p>The Jacksonville pour window runs year-round, with the November-May dry season as the ideal window.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>How Jacksonville Concrete Fails</h2>
+<p>Jacksonville averages about 0 freeze-thaw cycles annually (essentially none), so freeze-thaw is not a durability concern. The dominant threats are hurricane-season saturation and high humidity. The area receives approximately 52 inches of precipitation annually.</p>
+<p>Jacksonville is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Jacksonville contractors reference these events when specifying protective measures.</p>
+<p>Jacksonville zoning code restricts driveway width and requires setbacks from property lines in residential zones. Riverside and San Marco lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</section>
+<section class="section fp-section">
+<h2>What Your Jacksonville Contract Should Spell Out</h2>
+<p><strong>Mix design.</strong> The Jacksonville residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Rinker Materials, CEMEX Jacksonville, and Argos USA supply most of the Jacksonville delivery radius. Year-round pouring is feasible with heat-mitigation admixtures in summer.</p>
+<p><strong>Reinforcement.</strong> Jacksonville residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.</p>
+<p><strong>Subgrade preparation.</strong> Jacksonville sits on sandy coastal soils over Ocala limestone with marsh peat near the St. Johns River. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Riverside, San Marco, Ponte Vedra Beach.</p>
+<p><strong>Permit package.</strong> City of Jacksonville Building Inspection Division handles residential concrete permits. Riverside and Ponte Vedra Beach have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville Concrete Style and Finish Choices</h2>
+<p>Residential concrete in Jacksonville centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Riverside and San Marco.</p>
+<p>Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Jacksonville. Local pigment and aggregate supply match the regional aesthetic.</p>
+<p>Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Jacksonville are at or near the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville Concrete Maintenance</h2>
+<p>undefined</p>
+<p>Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Jacksonville. Local pigment and aggregate supply match the regional aesthetic.</p>
+<p>The Jacksonville pour window runs year-round, with the November-May dry season as the ideal window.</p>
+</section>
+<section class="section fp-section">
+<h2>Costly Jacksonville Concrete Mistakes</h2>
+<p>undefined</p>
+<p>City of Jacksonville Building Inspection Division handles residential concrete permits. Riverside and Ponte Vedra Beach have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+<p>Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Jacksonville are at or near the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Jacksonville Concrete Contractor</h2>
+<p><strong>What mix spec will you pour?</strong> The Jacksonville residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Rinker Materials, CEMEX Jacksonville, and Argos USA supply most of the Jacksonville delivery radius. Year-round pouring is feasible with heat-mitigation admixtures in summer.</p>
+<p><strong>How are you reinforcing?</strong> Jacksonville residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.</p>
+<p><strong>How does your bid address Jacksonville climate exposure?</strong> Jacksonville averages about 0 freeze-thaw cycles annually (essentially none), so freeze-thaw is not a durability concern. The dominant threats are hurricane-season saturation and high humidity. The area receives approximately 52 inches of precipitation annually.</p>
+<p><strong>What local disaster informs your detailing?</strong> Jacksonville is exposed to tropical storm and hurricane risk that saturates subgrades and produces multi-year foundation settlement patterns. Reputable Jacksonville contractors reference these events when specifying protective measures.</p>
+<p><strong>Who pulls the permit?</strong> City of Jacksonville Building Inspection Division handles residential concrete permits. Riverside and Ponte Vedra Beach have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Pour Concrete in Jacksonville</h2>
+<p>The Jacksonville pour window runs year-round, with the November-May dry season as the ideal window.</p>
+<p>Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Jacksonville are at or near the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Jacksonville Concrete Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">400 sqft Jacksonville driveway</p>
+<p class="fp-scenario-total">$4.7K</p>
+<p class="fp-scenario-detail">Delivery from Rinker Materials, CEMEX Jacksonville, and Argos USA. The Jacksonville residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">350 sqft stamped patio, Jacksonville</p>
+<p class="fp-scenario-total">$5.8K</p>
+<p class="fp-scenario-detail">Sand-finish pool decks, keystone-imprint patios, and acid-stained tropical-tone driveways are the popular decorative choices in Jacksonville. Residential concrete in Jacksonville centers on pool-cage slab extensions, driveway aprons, and raised house pads typical of neighborhoods like Riverside and San Marco..</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Jacksonville full hardscape package</p>
+<p class="fp-scenario-total">$14.0K</p>
+<p class="fp-scenario-detail">Limestone or caliche excavation adds $400-$1,200 per footing. Labor rates in Jacksonville are at or near the national average. City of Jacksonville Building Inspection Division handles residential concrete permits.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-CONCRETE-CONTENT -->
+
 <section class="section">
 <h2>Other Services in Jacksonville</h2>
 <p>Compare contractor costs for other home services in Jacksonville, FL.</p>

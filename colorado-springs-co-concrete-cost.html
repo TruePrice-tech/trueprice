@@ -223,6 +223,408 @@ depending on project type, size, and finish.
 </section>
 
 
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-CONCRETE-CONTENT -->
+
+<section class="section fp-section">
+<h2>Colorado Springs Neighborhood Pricing</h2>
+<p>Ranges reflect Martin Marietta, Transit Mix Concrete, and Aggregate Industries ready-mix rates plus local labor. Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Driveway (400sf)</th>
+<th style="text-align:right; padding:12px 16px;">Patio (300sf)</th>
+<th style="text-align:right; padding:12px 16px;">Sidewalk (150sf)</th>
+<th style="text-align:right; padding:12px 16px;">Foundation Repair</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Old North End</td>
+<td style="padding:12px 16px; text-align:right;">$5,414</td>
+<td style="padding:12px 16px; text-align:right;">$4,237</td>
+<td style="padding:12px 16px; text-align:right;">$1,942</td>
+<td style="padding:12px 16px; text-align:right;">$7,651</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Broadmoor</td>
+<td style="padding:12px 16px; text-align:right;">$5,313</td>
+<td style="padding:12px 16px; text-align:right;">$4,158</td>
+<td style="padding:12px 16px; text-align:right;">$1,906</td>
+<td style="padding:12px 16px; text-align:right;">$7,508</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Westside</td>
+<td style="padding:12px 16px; text-align:right;">$5,262</td>
+<td style="padding:12px 16px; text-align:right;">$4,118</td>
+<td style="padding:12px 16px; text-align:right;">$1,888</td>
+<td style="padding:12px 16px; text-align:right;">$7,436</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Briargate</td>
+<td style="padding:12px 16px; text-align:right;">$4,706</td>
+<td style="padding:12px 16px; text-align:right;">$3,683</td>
+<td style="padding:12px 16px; text-align:right;">$1,688</td>
+<td style="padding:12px 16px; text-align:right;">$6,650</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Black Forest</td>
+<td style="padding:12px 16px; text-align:right;">$4,807</td>
+<td style="padding:12px 16px; text-align:right;">$3,762</td>
+<td style="padding:12px 16px; text-align:right;">$1,724</td>
+<td style="padding:12px 16px; text-align:right;">$6,793</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Manitou Springs</td>
+<td style="padding:12px 16px; text-align:right;">$4,858</td>
+<td style="padding:12px 16px; text-align:right;">$3,802</td>
+<td style="padding:12px 16px; text-align:right;">$1,742</td>
+<td style="padding:12px 16px; text-align:right;">$6,864</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Colorado Springs Subgrade and Mix Design</h2>
+<p>Colorado Springs sits on Pikes Peak granite alluvium and Pierre shale with expansive bentonite along the Front Range foothills. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Broadmoor, Old Colorado City, Briargate.</p>
+<p>The Colorado Springs residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Martin Marietta, Transit Mix Concrete, and Aggregate Industries supply most of the Colorado Springs delivery radius. Winter pours require insulated blanket curing and protection plans.</p>
+<p>Epoxy-coated #4 rebar is standard in Colorado Springs because of aggressive deicing salt applications that attack uncoated bar. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.</p>
+</section>
+<section class="section fp-section">
+<h2>Climate Impact on Colorado Springs Concrete</h2>
+<p>Colorado Springs averages about 110 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 17 inches of precipitation annually.</p>
+<p>Colorado Springs experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Colorado Springs contractors reference these events when specifying protective measures.</p>
+</section>
+<section class="section fp-section">
+<h2>Colorado Springs Permits and Right-of-Way Rules</h2>
+<p>City of Colorado Springs Regional Building Department handles residential concrete permits. Broadmoor and Briargate have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+<p>Colorado Springs zoning code restricts driveway width and requires setbacks from property lines in residential zones. Broadmoor and Old Colorado City lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</section>
+<section class="section fp-section">
+<h2>What Colorado Springs Concrete Contractors Actually Do</h2>
+<p>Residential concrete in Colorado Springs centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Broadmoor and Old Colorado City.</p>
+<p>Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Colorado Springs. Local pigment and aggregate supply match the regional aesthetic.</p>
+</section>
+<section class="section fp-section">
+<h2>Colorado Springs Concrete Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Bid ignores Colorado Springs mix spec</h3>
+<p>The Colorado Springs residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Martin Marietta, Transit Mix Concrete, and Aggregate Industries supply most of the Colorado Springs delivery radius. Winter pours require insulated blanket curing and protection plans.</p>
+</div>
+<div class="fp-flag">
+<h3>Reinforcement weaker than the Colorado Springs baseline</h3>
+<p>Epoxy-coated #4 rebar is standard in Colorado Springs because of aggressive deicing salt applications that attack uncoated bar. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.</p>
+</div>
+<div class="fp-flag">
+<h3>Climate exposure unaddressed</h3>
+<p>Colorado Springs averages about 110 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 17 inches of precipitation annually.</p>
+</div>
+<div class="fp-flag">
+<h3>Missing disaster-informed detailing</h3>
+<p>Colorado Springs experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Colorado Springs contractors reference these events when specifying protective measures.</p>
+</div>
+<div class="fp-flag">
+<h3>Setback or permit gaps</h3>
+<p>Colorado Springs zoning code restricts driveway width and requires setbacks from property lines in residential zones. Broadmoor and Old Colorado City lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</div>
+<div class="fp-flag">
+<h3>Pour window mismatch</h3>
+<p>The productive pour season in Colorado Springs is late April through early November. Frozen ground from December through March makes winter work expensive.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>How Colorado Springs Concrete Fails</h2>
+<p>Colorado Springs averages about 110 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 17 inches of precipitation annually.</p>
+<p>Colorado Springs experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Colorado Springs contractors reference these events when specifying protective measures.</p>
+<p>Colorado Springs zoning code restricts driveway width and requires setbacks from property lines in residential zones. Broadmoor and Old Colorado City lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</section>
+<section class="section fp-section">
+<h2>What Your Colorado Springs Contract Should Spell Out</h2>
+<p><strong>Mix design.</strong> The Colorado Springs residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Martin Marietta, Transit Mix Concrete, and Aggregate Industries supply most of the Colorado Springs delivery radius. Winter pours require insulated blanket curing and protection plans.</p>
+<p><strong>Reinforcement.</strong> Epoxy-coated #4 rebar is standard in Colorado Springs because of aggressive deicing salt applications that attack uncoated bar. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.</p>
+<p><strong>Subgrade preparation.</strong> Colorado Springs sits on Pikes Peak granite alluvium and Pierre shale with expansive bentonite along the Front Range foothills. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Broadmoor, Old Colorado City, Briargate.</p>
+<p><strong>Permit package.</strong> City of Colorado Springs Regional Building Department handles residential concrete permits. Broadmoor and Briargate have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+</section>
+<section class="section fp-section">
+<h2>Colorado Springs Concrete Style and Finish Choices</h2>
+<p>Residential concrete in Colorado Springs centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Broadmoor and Old Colorado City.</p>
+<p>Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Colorado Springs. Local pigment and aggregate supply match the regional aesthetic.</p>
+<p>Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.</p>
+</section>
+<section class="section fp-section">
+<h2>Colorado Springs Concrete Maintenance</h2>
+<p>undefined</p>
+<p>Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Colorado Springs. Local pigment and aggregate supply match the regional aesthetic.</p>
+<p>The productive pour season in Colorado Springs is late April through early November. Frozen ground from December through March makes winter work expensive.</p>
+</section>
+<section class="section fp-section">
+<h2>Costly Colorado Springs Concrete Mistakes</h2>
+<p>undefined</p>
+<p>City of Colorado Springs Regional Building Department handles residential concrete permits. Broadmoor and Briargate have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+<p>Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Colorado Springs Concrete Contractor</h2>
+<p><strong>What mix spec will you pour?</strong> The Colorado Springs residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards. Martin Marietta, Transit Mix Concrete, and Aggregate Industries supply most of the Colorado Springs delivery radius. Winter pours require insulated blanket curing and protection plans.</p>
+<p><strong>How are you reinforcing?</strong> Epoxy-coated #4 rebar is standard in Colorado Springs because of aggressive deicing salt applications that attack uncoated bar. Post-tensioned strand is increasingly common on structural slabs because of the shrink-swell soil cycle.</p>
+<p><strong>How does your bid address Colorado Springs climate exposure?</strong> Colorado Springs averages about 110 freeze-thaw cycles per year, among the more punishing residential concrete environments in the region. Deicing salt applications accelerate surface scaling on unsealed driveways within 6-8 years. The area receives approximately 17 inches of precipitation annually.</p>
+<p><strong>What local disaster informs your detailing?</strong> Colorado Springs experienced documented freeze damage during recent polar vortex events that split driveways and cracked unsealed stoops across the metro. Reputable Colorado Springs contractors reference these events when specifying protective measures.</p>
+<p><strong>Who pulls the permit?</strong> City of Colorado Springs Regional Building Department handles residential concrete permits. Broadmoor and Briargate have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Pour Concrete in Colorado Springs</h2>
+<p>The productive pour season in Colorado Springs is late April through early November. Frozen ground from December through March makes winter work expensive.</p>
+<p>Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets.</p>
+</section>
+<section class="section fp-section">
+<h2>Colorado Springs Concrete Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">400 sqft Colorado Springs driveway</p>
+<p class="fp-scenario-total">$5.1K</p>
+<p class="fp-scenario-detail">Delivery from Martin Marietta, Transit Mix Concrete, and Aggregate Industries. The Colorado Springs residential concrete spec is 4,500 psi with 6-7 percent entrained air, Type I/II cement for freeze-thaw resistance, and compliance with local building department standards.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">350 sqft stamped patio, Colorado Springs</p>
+<p class="fp-scenario-total">$6.2K</p>
+<p class="fp-scenario-detail">Stamped flagstone patterns, exposed-aggregate finishes, and salt-finish textures for traction are the popular decorative choices in Colorado Springs. Residential concrete in Colorado Springs centers on broom-finish driveways, replacement front walks, and walkout-basement foundation work typical of neighborhoods like Broadmoor and Old Colorado City..</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Colorado Springs full hardscape package</p>
+<p class="fp-scenario-total">$15.0K</p>
+<p class="fp-scenario-detail">Expansive soil engineering adds $800-$2,500 to the scope. Mandatory sealing and deep footings add 15-20 percent to project cost compared to warmer markets. City of Colorado Springs Regional Building Department handles residential concrete permits.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-CONCRETE-CONTENT -->
+
 <section class="section">
 <h2>Other Services in Colorado Springs</h2>
 <p>Compare contractor costs for other home services in Colorado Springs, CO.</p>

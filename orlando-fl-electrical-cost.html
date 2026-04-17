@@ -231,6 +231,389 @@ depending on the type of work, home size, and complexity.
 </div>
 </section>
 
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-ELECTRICAL-CONTENT -->
+
+<section class="section fp-section">
+<h2>Orlando Neighborhood Pricing</h2>
+<p>Orlando electrical labor runs at or near the national average. Duke Energy Florida and Orlando Utilities Commission coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Panel Upgrade</th>
+<th style="text-align:right; padding:12px 16px;">Whole-House Rewire</th>
+<th style="text-align:right; padding:12px 16px;">Outlet Install</th>
+<th style="text-align:right; padding:12px 16px;">EV Charger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Winter Park</td>
+<td style="padding:12px 16px; text-align:right;">$2,950</td>
+<td style="padding:12px 16px; text-align:right;">$12.8K</td>
+<td style="padding:12px 16px; text-align:right;">$250</td>
+<td style="padding:12px 16px; text-align:right;">$1,850</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Thornton Park</td>
+<td style="padding:12px 16px; text-align:right;">$2,850</td>
+<td style="padding:12px 16px; text-align:right;">$12.3K</td>
+<td style="padding:12px 16px; text-align:right;">$240</td>
+<td style="padding:12px 16px; text-align:right;">$1,750</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">College Park</td>
+<td style="padding:12px 16px; text-align:right;">$2,800</td>
+<td style="padding:12px 16px; text-align:right;">$12.2K</td>
+<td style="padding:12px 16px; text-align:right;">$240</td>
+<td style="padding:12px 16px; text-align:right;">$1,750</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Audubon Park</td>
+<td style="padding:12px 16px; text-align:right;">$2,500</td>
+<td style="padding:12px 16px; text-align:right;">$10.9K</td>
+<td style="padding:12px 16px; text-align:right;">$210</td>
+<td style="padding:12px 16px; text-align:right;">$1,550</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Lake Nona</td>
+<td style="padding:12px 16px; text-align:right;">$2,600</td>
+<td style="padding:12px 16px; text-align:right;">$11.3K</td>
+<td style="padding:12px 16px; text-align:right;">$220</td>
+<td style="padding:12px 16px; text-align:right;">$1,650</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Baldwin Park</td>
+<td style="padding:12px 16px; text-align:right;">$2,650</td>
+<td style="padding:12px 16px; text-align:right;">$11.5K</td>
+<td style="padding:12px 16px; text-align:right;">$220</td>
+<td style="padding:12px 16px; text-align:right;">$1,650</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Orlando Utility and Code Context</h2>
+<p>Duke Energy Florida and Orlando Utilities Commission (OUC) serves the Orlando metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
+<p>Florida Building Code Chapter 27 incorporates the 2020 NEC with Florida-specific amendments. Romex is permitted for residential wiring, keeping labor costs competitive in Orlando.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Home Stock and Panel Realities</h2>
+<p>Orlando housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Duke Energy Florida and Orlando Utilities Commission. Neighborhoods like Winter Park and College Park show distinct housing-era panel profiles.</p>
+<p>Orlando homes range from CBS (concrete block stucco) construction with slab-on-grade in older neighborhoods to modern tract homes in the suburbs. Winter Park and Dr. Phillips represent different construction eras with distinct wiring access challenges.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Licensing and Permits</h2>
+<p>Florida DBPR Electrical Contractors' Licensing Board issues Certified and Registered Electrical Contractor licenses. Verify at myfloridalicense.com. Orlando homeowners should verify both state licensure and local business registration before signing.</p>
+<p>City of Orlando Permitting Services Division issues electrical permits, typically in 1-4 weeks for standard residential work. Duke Energy Florida and Orlando Utilities Commission service coordination runs 2-4 weeks parallel to the city permit. Historic districts in Winter Park or College Park may add preservation commission review for visible exterior work.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Hidden Hazards and Renovation Triggers</h2>
+<p>Federal Pacific Stab-Lok panels are common in 1960s-70s Orlando homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Hurricane-damaged service entrance cables that were dried rather than replaced are a persistent hidden hazard.</p>
+<p>Whole-house generator transfer switches are a standard Orlando residential scope driven by hurricane outages. A typical installation runs $6,000-$11,000 for a standby generator with automatic transfer switch.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Electrical Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Ignoring the Orlando utility process</h3>
+<p>Duke Energy Florida and Orlando Utilities Commission (OUC) serves the Orlando metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
+</div>
+<div class="fp-flag">
+<h3>Mismatch with Orlando code amendments</h3>
+<p>Florida Building Code Chapter 27 incorporates the 2020 NEC with Florida-specific amendments. Romex is permitted for residential wiring, keeping labor costs competitive in Orlando.</p>
+</div>
+<div class="fp-flag">
+<h3>Wrong panel size for Orlando load</h3>
+<p>Orlando housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Duke Energy Florida and Orlando Utilities Commission. Neighborhoods like Winter Park and College Park show distinct housing-era panel profiles.</p>
+</div>
+<div class="fp-flag">
+<h3>Missing license verification</h3>
+<p>Florida DBPR Electrical Contractors' Licensing Board issues Certified and Registered Electrical Contractor licenses. Verify at myfloridalicense.com. Orlando homeowners should verify both state licensure and local business registration before signing.</p>
+</div>
+<div class="fp-flag">
+<h3>Hazard not disclosed</h3>
+<p>Federal Pacific Stab-Lok panels are common in 1960s-70s Orlando homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Hurricane-damaged service entrance cables that were dried rather than replaced are a persistent hidden hazard.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Orlando Scope Checklist</h2>
+<p><strong>Utility coordination.</strong> Duke Energy Florida and Orlando Utilities Commission (OUC) serves the Orlando metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
+<p><strong>Applicable code.</strong> Florida Building Code Chapter 27 incorporates the 2020 NEC with Florida-specific amendments. Romex is permitted for residential wiring, keeping labor costs competitive in Orlando.</p>
+<p><strong>Permit process.</strong> City of Orlando Permitting Services Division issues electrical permits, typically in 1-4 weeks for standard residential work. Duke Energy Florida and Orlando Utilities Commission service coordination runs 2-4 weeks parallel to the city permit. Historic districts in Winter Park or College Park may add preservation commission review for visible exterior work.</p>
+<p><strong>Pricing context.</strong> Orlando electrical labor runs at or near the national average. Duke Energy Florida and Orlando Utilities Commission coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Orlando Electrician</h2>
+<p><strong>Which utility coordinates this work?</strong> Duke Energy Florida and Orlando Utilities Commission (OUC) serves the Orlando metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
+<p><strong>What code edition applies?</strong> Florida Building Code Chapter 27 incorporates the 2020 NEC with Florida-specific amendments. Romex is permitted for residential wiring, keeping labor costs competitive in Orlando.</p>
+<p><strong>What hazards did you find?</strong> Federal Pacific Stab-Lok panels are common in 1960s-70s Orlando homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Hurricane-damaged service entrance cables that were dried rather than replaced are a persistent hidden hazard.</p>
+<p><strong>What renovation trigger applies?</strong> Whole-house generator transfer switches are a standard Orlando residential scope driven by hurricane outages. A typical installation runs $6,000-$11,000 for a standby generator with automatic transfer switch.</p>
+<p><strong>What is your license?</strong> Florida DBPR Electrical Contractors' Licensing Board issues Certified and Registered Electrical Contractor licenses. Verify at myfloridalicense.com. Orlando homeowners should verify both state licensure and local business registration before signing.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Renovation Context and Common Upgrades</h2>
+<p>Whole-house generator transfer switches are a standard Orlando residential scope driven by hurricane outages. A typical installation runs $6,000-$11,000 for a standby generator with automatic transfer switch.</p>
+<p>Orlando homes range from CBS (concrete block stucco) construction with slab-on-grade in older neighborhoods to modern tract homes in the suburbs. Winter Park and Dr. Phillips represent different construction eras with distinct wiring access challenges.</p>
+<p>Orlando housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Duke Energy Florida and Orlando Utilities Commission. Neighborhoods like Winter Park and College Park show distinct housing-era panel profiles.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Electrical Hazards to Test For</h2>
+<p>Federal Pacific Stab-Lok panels are common in 1960s-70s Orlando homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Hurricane-damaged service entrance cables that were dried rather than replaced are a persistent hidden hazard.</p>
+<p>Duke Energy Florida and Orlando Utilities Commission (OUC) serves the Orlando metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Electrical Maintenance</h2>
+<p>undefined</p>
+<p>Federal Pacific Stab-Lok panels are common in 1960s-70s Orlando homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Hurricane-damaged service entrance cables that were dried rather than replaced are a persistent hidden hazard.</p>
+<p>undefined</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Emergency Electrical Service</h2>
+<p>undefined</p>
+<p>Orlando homes range from CBS (concrete block stucco) construction with slab-on-grade in older neighborhoods to modern tract homes in the suburbs. Winter Park and Dr. Phillips represent different construction eras with distinct wiring access challenges.</p>
+<p>Orlando electrical labor runs at or near the national average. Duke Energy Florida and Orlando Utilities Commission coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Electrical Scope and Utility Context</h2>
+<p><strong>Utility coordination.</strong> Duke Energy Florida and Orlando Utilities Commission (OUC) serves the Orlando metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
+<p><strong>Common renovation trigger.</strong> Whole-house generator transfer switches are a standard Orlando residential scope driven by hurricane outages. A typical installation runs $6,000-$11,000 for a standby generator with automatic transfer switch.</p>
+<p><strong>Licensing.</strong> Florida DBPR Electrical Contractors' Licensing Board issues Certified and Registered Electrical Contractor licenses. Verify at myfloridalicense.com. Orlando homeowners should verify both state licensure and local business registration before signing.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Schedule Orlando Electrical Work</h2>
+<p>Orlando electrical demand peaks March-May and October-November. Summer heat limits attic work productivity. Off-peak scheduling saves 8-15% on labor.</p>
+<p>Orlando electrical labor runs at or near the national average. Duke Energy Florida and Orlando Utilities Commission coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+</section>
+<section class="section fp-section">
+<h2>Orlando Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">200A panel upgrade in Orlando</p>
+<p class="fp-scenario-total">$2.8K</p>
+<p class="fp-scenario-detail">Orlando housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. City of Orlando Permitting Services Division issues electrical permits, typically in 1-4 weeks for standard residential work.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">Orlando whole-house rewire</p>
+<p class="fp-scenario-total">$11.8K</p>
+<p class="fp-scenario-detail">Orlando homes range from CBS (concrete block stucco) construction with slab-on-grade in older neighborhoods to modern tract homes in the suburbs. Florida Building Code Chapter 27 incorporates the 2020 NEC with Florida-specific amendments.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Smart + EV + panel in Orlando</p>
+<p class="fp-scenario-total">$8.6K</p>
+<p class="fp-scenario-detail">Whole-house generator transfer switches are a standard Orlando residential scope driven by hurricane outages. A typical installation runs $6,000-$11,000 for a standby generator with automatic transfer switch. Orlando electrical labor runs at or near the national average.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-ELECTRICAL-CONTENT -->
 <!-- TP-LOCAL-INJECTED-V2 -->
 <section class="section" style="background:#fafbff;padding:24px;border-radius:14px;border:1px solid #e2e8f0;margin:32px 0;">
 <h2>About electrical work in Orlando, FL</h2>

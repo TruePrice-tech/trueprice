@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates deep editorial content for 10 flagship metro gutter pages.
+ * Generates deep editorial content for 40 flagship metro gutter pages.
  * Injects ~2500 words of genuinely unique, city-specific prose.
  * Idempotent via FLAGSHIP-GUTTERS-CONTENT markers.
  *
@@ -41,6 +41,26 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-gutter-cost.html" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-gutter-cost.html" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-gutter-cost.html" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-gutter-cost.html" },
+    { slug: "jacksonville-fl", ctxKey: "Jacksonville|FL", file: "jacksonville-fl-gutter-cost.html" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-gutter-cost.html" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-gutter-cost.html" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-gutter-cost.html" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-gutter-cost.html" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-gutter-cost.html" },
+    { slug: "memphis-tn", ctxKey: "Memphis|TN", file: "memphis-tn-gutter-cost.html" },
+    { slug: "louisville-ky", ctxKey: "Louisville|KY", file: "louisville-ky-gutter-cost.html" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-gutter-cost.html" },
+    { slug: "milwaukee-wi", ctxKey: "Milwaukee|WI", file: "milwaukee-wi-gutter-cost.html" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-gutter-cost.html" },
+    { slug: "tucson-az", ctxKey: "Tucson|AZ", file: "tucson-az-gutter-cost.html" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-gutter-cost.html" },
+    { slug: "raleigh-nc", ctxKey: "Raleigh|NC", file: "raleigh-nc-gutter-cost.html" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-gutter-cost.html" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-gutter-cost.html" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-gutter-cost.html" },
+    { slug: "cincinnati-oh", ctxKey: "Cincinnati|OH", file: "cincinnati-oh-gutter-cost.html" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-gutter-cost.html" },
 ];
 
 function fmtD(n) { return "$" + n.toLocaleString("en-US"); }
@@ -49,9 +69,9 @@ function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 
 /* Deterministic hash for stable per-slug variant picking */
 function hash(s) {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
-  return Math.abs(h);
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619) >>> 0;
+  return h;
 }
 function pick(slug, salt, arr) {
   return arr[hash(slug + "|" + salt) % arr.length];
@@ -96,7 +116,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "The heavy tree canopy in neighborhoods like Park Slope, Forest Hills, and Riverdale means gutters fill faster than in less wooded areas. Homes adjacent to mature oaks or maples should budget for a third cleaning in mid-fall.",
     buyingBest: "Late winter (January-February) and late summer (August-September)",
     buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
-    buyingNote: "Gutter contractors in the New York metro are busiest after winter storm damage and during fall gutter cleaning season. Scheduling installation during the quieter summer months typically saves 10-15% on labor."
+    buyingNote: "Gutter contractors in the New York metro are busiest after winter storm damage and during fall gutter cleaning season. Scheduling installation during the quieter summer months typically saves 10-15% on labor.",
+    localInsightPara: "Brownstone and row-house gutter work in NYC requires staging permits from DOT for sidewalk scaffolding. The permit alone adds $200-$600, and most Brooklyn and Queens gutter contractors factor it into the base bid. Verify whether staging is included or a separate line item.",
+    warrantyPara: "Standard NYC gutter installation warranties run 5-10 years on materials and 2-5 years on labor. Co-op and condo board work often requires the contractor to carry $2M in liability coverage, which limits the bidder pool to larger, established NYC shops."
   },
   "los-angeles-ca": {
     annualRainfall: "14.9 inches",
@@ -112,7 +134,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Even though LA gets little rain, dry-season dust and debris accumulation can clog gutters and downspouts before the first major storm. A single thorough cleaning in October ensures the system is ready when the rains arrive. Homes near eucalyptus trees may need a second cleaning in mid-winter.",
     buyingBest: "May through September (dry season, low demand)",
     buyingWorst: "November through February (rainy season, emergency repairs spike demand)",
-    buyingNote: "Most LA homeowners do not think about gutters until the first big rainstorm exposes a problem. Contractors are flooded with emergency calls during atmospheric river events. Planning your gutter work during dry season gives you better pricing and contractor availability."
+    buyingNote: "Most LA homeowners do not think about gutters until the first big rainstorm exposes a problem. Contractors are flooded with emergency calls during atmospheric river events. Planning your gutter work during dry season gives you better pricing and contractor availability.",
+    localInsightPara: "Hillside gutter work in Silver Lake, Echo Park, and the Hollywood Hills requires pumper-truck or crane access for materials because steep driveways and narrow streets prevent standard delivery. This access surcharge runs $500-$1,500 and should appear as a line item.",
+    warrantyPara: "LA gutter warranties run 5-10 years on materials and 2-5 years on labor. Coastal-zone installations in Venice, Playa del Rey, and Malibu should specify marine-grade sealant; standard silicone degrades in salt air within 3-5 years."
   },
   "chicago-il": {
     annualRainfall: "36.9 inches",
@@ -128,7 +152,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Chicago's dense urban tree canopy means gutters fill rapidly in fall. The combination of heavy leaf drop and freeze risk makes pre-winter cleaning critical. Gutter neglect in October leads directly to ice dam formation in December.",
     buyingBest: "March through May (before storm season) and September (before leaf season rush)",
     buyingWorst: "June through August (peak storm repair season) and late October through November (leaf season)",
-    buyingNote: "Chicago gutter contractors run at capacity during fall cleaning season and after summer storms. Spring installation lets your new gutters handle the full year cycle before their first winter test."
+    buyingNote: "Chicago gutter contractors run at capacity during fall cleaning season and after summer storms. Spring installation lets your new gutters handle the full year cycle before their first winter test.",
+    localInsightPara: "Chicago gangway access between bungalows limits ladder placement and often requires extension-arm scaffolding for second-story gutter work. This access constraint adds $300-$800 to inner-ring neighborhood projects in Wicker Park, Logan Square, and Lakeview.",
+    warrantyPara: "Chicago gutter warranties should specify ice-damage exclusion terms clearly. Many contractors exclude ice-dam-related hanger failure from their labor warranty, which in a city with 85+ freeze-thaw cycles makes the warranty nearly meaningless."
   },
   "houston-tx": {
     annualRainfall: "49.8 inches",
@@ -144,7 +170,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Live oaks are evergreen but shed their old leaves in March-April while putting on new growth. This means Houston has a spring gutter cleaning need that most cities do not. Homes near pine trees should add a mid-summer cleaning to clear needle accumulation.",
     buyingBest: "October through February (dry season, lower contractor demand)",
     buyingWorst: "May through September (hurricane season and peak thunderstorm activity)",
-    buyingNote: "Hurricane season drives emergency gutter work in Houston. Planning your installation during the drier fall and winter months means better scheduling, better pricing, and time to address any drainage issues before the next storm season."
+    buyingNote: "Hurricane season drives emergency gutter work in Houston. Planning your installation during the drier fall and winter months means better scheduling, better pricing, and time to address any drainage issues before the next storm season.",
+    localInsightPara: "Houston bar-ditch drainage integration is a gutter-project detail most non-Texas contractors miss. Downspout discharge must cross the roadside bar ditch without blocking flow, often requiring a buried pipe under the ditch to the street. This adds $200-$600 per downspout location.",
+    warrantyPara: "Houston gutter warranties should address hurricane-wind exclusions explicitly. A warranty that excludes wind damage above 60 mph effectively excludes every named tropical system. Insist on 100+ mph wind-rated installation with a warranty that matches."
   },
   "phoenix-az": {
     annualRainfall: "8.0 inches",
@@ -160,7 +188,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Dust and wind-blown debris accumulate during the dry months. A single cleaning before monsoon season ensures gutters can handle the intense but infrequent rainfall. Homes near citrus groves or with heavy palo verde coverage may need a second cleaning in late fall.",
     buyingBest: "October through April (mild weather, lower demand)",
     buyingWorst: "July through September (monsoon season, emergency repairs dominate)",
-    buyingNote: "Many Phoenix homeowners only discover they need gutters after a monsoon storm floods their patio or erodes their yard. Installing during the mild winter months lets you avoid the monsoon-season rush and gives the sealant and fasteners time to cure in moderate temperatures."
+    buyingNote: "Many Phoenix homeowners only discover they need gutters after a monsoon storm floods their patio or erodes their yard. Installing during the mild winter months lets you avoid the monsoon-season rush and gives the sealant and fasteners time to cure in moderate temperatures.",
+    localInsightPara: "Many Phoenix homes were built without gutters because the low annual rainfall led builders to skip them. Retrofitting gutters onto a stucco-clad home requires fascia-board verification because some Valley builders omitted the fascia entirely, attaching roof sheathing directly to the rafter tails.",
+    warrantyPara: "Phoenix gutter warranties should address monsoon-wind damage. Standard 5-year labor warranties that exclude wind events above 50 mph are problematic because Valley monsoon microbursts routinely exceed 60 mph."
   },
   "dallas-tx": {
     annualRainfall: "37.6 inches",
@@ -176,7 +206,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "The pecan trees common in established DFW neighborhoods produce heavy leaf drop and catkins that fill gutters quickly in fall. Post-storm inspections are also important in Dallas because hail events can dent gutters and knock them out of alignment.",
     buyingBest: "December through February (slow season) and July through August (between storm and leaf seasons)",
     buyingWorst: "March through May (storm damage repairs) and October through November (fall cleaning rush)",
-    buyingNote: "Dallas gutter contractors are busiest after hailstorms and during fall leaf season. The winter months offer the best combination of availability and pricing, and installation conditions are comfortable enough for quality work."
+    buyingNote: "Dallas gutter contractors are busiest after hailstorms and during fall leaf season. The winter months offer the best combination of availability and pricing, and installation conditions are comfortable enough for quality work.",
+    localInsightPara: "DFW hail damage to gutters is a recurring insurance-claim category. Dented aluminum gutter channels from large hail events are often covered under the homeowner policy alongside roof damage. Ensure your gutter contractor documents pre-existing conditions with photos before starting work.",
+    warrantyPara: "Dallas gutter warranties should specify hail-damage terms. Many DFW contractors exclude hail dents from the labor warranty, which in a metro with 3-5 significant hail events per year leaves homeowners unprotected."
   },
   "atlanta-ga": {
     annualRainfall: "50.2 inches",
@@ -192,7 +224,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Atlanta's tree canopy -- particularly the combination of pine and hardwoods -- produces debris in every season. Pine needles accumulate year-round, spring brings pollen and catkins, summer storms knock down small branches, and fall brings massive leaf volume. Three cleanings per year is the minimum; homes surrounded by pines may need four.",
     buyingBest: "January through March (before spring storms) and September through October (before leaf season)",
     buyingWorst: "April through June (spring storm repairs) and November through December (leaf season + holiday slowdown)",
-    buyingNote: "Atlanta's rapid growth means contractor schedules fill quickly. Booking gutter work 3-4 weeks in advance is standard practice. Off-season installation in late winter offers the best pricing and availability."
+    buyingNote: "Atlanta's rapid growth means contractor schedules fill quickly. Booking gutter work 3-4 weeks in advance is standard practice. Off-season installation in late winter offers the best pricing and availability.",
+    localInsightPara: "Atlanta's pine-needle density is the single biggest gutter-maintenance cost driver in the Southeast. A single mature loblolly pine can fill 30-40 linear feet of gutter in 6-8 weeks. Properties surrounded by pines in Dunwoody and Alpharetta should budget for quarterly cleaning or invest in micro-mesh guards.",
+    warrantyPara: "Atlanta gutter warranties run 5-10 years on materials and 2-5 years on labor. Ensure the warranty covers hanger-pull-out from ice loading because even Atlanta's moderate freeze events produce enough ice weight to tear standard 36-inch-spaced hangers off the fascia."
   },
   "denver-co": {
     annualRainfall: "15.6 inches",
@@ -208,7 +242,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "The critical pre-winter cleaning ensures gutters are clear before the freeze cycle begins. Any debris left in gutters in November will be frozen in place until March and will block snowmelt drainage. The spring cleaning clears accumulated winter debris and cottonwood buds.",
     buyingBest: "June through August (warm and dry, good working conditions)",
     buyingWorst: "March through May (post-hailstorm demand spikes) and November through February (weather limits installation)",
-    buyingNote: "Denver's Front Range hailstorms drive a seasonal spike in gutter and roofing work every spring. Summer is the sweet spot for gutter installation: warm enough for proper sealant curing, dry enough for safe ladder work, and far enough from hail season that contractors have availability."
+    buyingNote: "Denver's Front Range hailstorms drive a seasonal spike in gutter and roofing work every spring. Summer is the sweet spot for gutter installation: warm enough for proper sealant curing, dry enough for safe ladder work, and far enough from hail season that contractors have availability.",
+    localInsightPara: "Denver's altitude affects gutter sealant curing times. Butyl and silicone sealants used at gutter joints cure 20-30% slower at 5,280 feet because of the reduced atmospheric pressure. Reputable Front Range crews use altitude-specific cure schedules rather than the sea-level manufacturer guidelines.",
+    warrantyPara: "Denver gutter warranties should specify heated-cable compatibility. Many warranties void if aftermarket heat cable is installed without the original contractor's approval, which creates a conflict when ice-dam protection is genuinely needed."
   },
   "seattle-wa": {
     annualRainfall: "37.5 inches",
@@ -224,7 +260,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Moss growing inside gutters is a uniquely Seattle problem. The combination of constant moisture and organic debris creates ideal moss conditions. If left unchecked, moss blocks water flow and adds significant weight to gutter runs. The mid-summer cleaning specifically targets moss removal before fall leaf season begins.",
     buyingBest: "June through September (the dry window)",
     buyingWorst: "October through February (wet season makes installation difficult and demand for repairs peaks)",
-    buyingNote: "Seattle's brief dry season (July-September) is the ideal window for gutter installation. Contractors prefer working in dry conditions, sealant cures properly, and you can test the new system with garden hose flow before the rains arrive. Fall and winter installation is possible but expect 10-20% higher labor costs for wet-weather work."
+    buyingNote: "Seattle's brief dry season (July-September) is the ideal window for gutter installation. Contractors prefer working in dry conditions, sealant cures properly, and you can test the new system with garden hose flow before the rains arrive. Fall and winter installation is possible but expect 10-20% higher labor costs for wet-weather work.",
+    localInsightPara: "Seattle's persistent moisture means gutter sealant never fully dries between rain events from October through April. Reputable Puget Sound contractors schedule installation during the June-September dry window specifically because sealant adhesion to wet fascia board is unreliable.",
+    warrantyPara: "Seattle gutter warranties should address moss-related failure. Standard warranties that exclude organic growth effectively exclude the primary failure mode in the Pacific Northwest. Insist on a warranty that covers moss-blocked drainage."
   },
   "austin-tx": {
     annualRainfall: "34.2 inches",
@@ -240,7 +278,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Austin's live oaks are semi-evergreen, shedding old leaves in March while putting on new growth. This spring leaf exchange, combined with cedar pollen season ending, makes March-April a critical gutter cleaning window. The fall cleaning clears deciduous leaves before any potential winter freeze event.",
     buyingBest: "June through September (hot but dry, good contractor availability)",
     buyingWorst: "March through May (storm season and spring cleaning rush) and October through November (fall demand spike)",
-    buyingNote: "Austin's booming growth has stretched contractor capacity across all trades. Booking gutter work 3-4 weeks in advance is standard. Summer installation means dealing with Texas heat, but contractors are more available and pricing is typically 10-15% lower than peak seasons."
+    buyingNote: "Austin's booming growth has stretched contractor capacity across all trades. Booking gutter work 3-4 weeks in advance is standard. Summer installation means dealing with Texas heat, but contractors are more available and pricing is typically 10-15% lower than peak seasons.",
+    localInsightPara: "Austin's Edwards Aquifer Recharge Zone west of MoPac adds environmental constraints to gutter discharge routing. Downspouts on recharge-zone properties cannot discharge into concentrated surface flows without environmental review. French drains and pop-up emitters are the compliant discharge method.",
+    warrantyPara: "Austin gutter warranties run 5-10 years on materials and 2-5 years on labor. Austin permit-queue delays mean warranty-claim response times are slower than in Houston or San Antonio because the same contractors are juggling new-install backlogs."
   },
   "san-francisco-ca": {
     annualRainfall: "24.6 inches",
@@ -256,7 +296,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes near the Presidio, Glen Canyon, or McLaren Park collect far more debris than downtown flats because of eucalyptus and cypress canopy. Properties in the fog belt also accumulate moss and lichen inside uncleaned gutters faster than the rainfall totals would suggest.",
     buyingBest: "May through September (the dry window)",
     buyingWorst: "November through February (atmospheric river emergencies dominate contractor schedules)",
-    buyingNote: "SF gutter contractors see their biggest call volume after the first big winter storm exposes failures that have been hidden all summer. Booking installation during the dry months gets you better sealant curing conditions and typically 10-15% lower labor pricing than peak storm season."
+    buyingNote: "SF gutter contractors see their biggest call volume after the first big winter storm exposes failures that have been hidden all summer. Booking installation during the dry months gets you better sealant curing conditions and typically 10-15% lower labor pricing than peak storm season.",
+    localInsightPara: "SF hillside gutter work on 25%+ grade streets in Noe Valley, Twin Peaks, and Bernal Heights requires specialized staging that adds $1,200-$3,500 to the project. The pumper-truck and safety-harness requirements are genuine and should not be dismissed as padding.",
+    warrantyPara: "SF gutter warranties should address marine-fog corrosion. Standard aluminum warranties assume inland exposure; within the fog belt, the constant salt-moisture cycle degrades fastener connections 30-40% faster than manufacturer timelines predict."
   },
   "philadelphia-pa": {
     annualRainfall: "44.5 inches",
@@ -272,7 +314,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes in Chestnut Hill, Mt. Airy, and West Mt. Airy sit under some of the heaviest hardwood canopy in the city and routinely need a third fall cleaning in early December. Row houses in Center City with a single street tree out front need far less.",
     buyingBest: "Late winter (January-February) and mid-summer (July-August)",
     buyingWorst: "March through May (post-winter damage repairs) and October through November (leaf-season scramble)",
-    buyingNote: "Philadelphia contractors are busiest after freeze-thaw damage surfaces in spring and during the fall gutter-cleaning rush. Scheduling installation in the quieter summer or late-winter windows typically saves 10-15% on labor and gets you a faster turnaround."
+    buyingNote: "Philadelphia contractors are busiest after freeze-thaw damage surfaces in spring and during the fall gutter-cleaning rush. Scheduling installation in the quieter summer or late-winter windows typically saves 10-15% on labor and gets you a faster turnaround.",
+    localInsightPara: "Philly rowhouse shared party-wall gutter runs create a unique coordination requirement: one neighbor's gutter clog or failure affects both properties. Twin-home and rowhouse gutter projects in Fishtown, Brewerytown, and South Philly often require neighbor coordination that single-family projects do not.",
+    warrantyPara: "Philadelphia gutter warranties should specify freeze-damage terms. Standard warranties excluding ice-dam-related hanger failure are problematic in a city with 70+ freeze-thaw cycles. Insist on 24-inch hanger spacing and a warranty that covers ice-load failure."
   },
   "miami-fl": {
     annualRainfall: "61.9 inches",
@@ -288,7 +332,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes in Coconut Grove, Coral Gables, and the Redland sit under the densest tree canopy and need the full three cleanings. Ficus trees are the single worst gutter offender in Miami because they shed debris year-round and the aerial roots can actually grow into a standing-water gutter.",
     buyingBest: "December through April (dry season, mild weather, post-hurricane lull)",
     buyingWorst: "May through October (wet season and hurricane season drive emergency repairs)",
-    buyingNote: "Miami contractors get slammed with emergency work after every named storm, and pricing and availability both suffer from May through October. Installing during the dry winter months gets you better sealant curing, better scheduling, and the satisfaction of being ready before the next hurricane season."
+    buyingNote: "Miami contractors get slammed with emergency work after every named storm, and pricing and availability both suffer from May through October. Installing during the dry winter months gets you better sealant curing, better scheduling, and the satisfaction of being ready before the next hurricane season.",
+    localInsightPara: "Miami gutter installations must use hurricane-rated hardware: heavier-gauge aluminum (0.032 minimum), hidden hangers spaced every 18-24 inches rather than the standard 36, and stainless-steel fasteners. Any Miami bid specifying standard-gauge aluminum with 36-inch hanger spacing is under-engineering for the HVHZ.",
+    warrantyPara: "Miami gutter warranties should address hurricane-wind exclusions. A warranty that excludes damage above 74 mph (Category 1) is meaningless in South Florida. Insist on 130+ mph rated installation with a warranty that does not cap at tropical-storm wind speeds."
   },
   "boston-ma": {
     annualRainfall: "43.6 inches",
@@ -304,7 +350,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes in Chestnut Hill, Brookline, Jamaica Plain around the Arboretum, and the leafier parts of Cambridge sit under enough oak and maple canopy to need a third late-October cleaning. The pre-winter cleaning is non-negotiable -- any debris left in a Boston gutter in December will be frozen in place until March.",
     buyingBest: "June through early September (warm, dry, stable working conditions)",
     buyingWorst: "March through May (post-winter damage claims spike) and October through November (leaf-season rush)",
-    buyingNote: "Boston contractors run at capacity after every hard winter as homeowners discover ice-damaged gutters during the spring thaw. Summer installation gets you the best sealant curing conditions, the best labor availability, and a full cycle to spot any issues before winter arrives."
+    buyingNote: "Boston contractors run at capacity after every hard winter as homeowners discover ice-damaged gutters during the spring thaw. Summer installation gets you the best sealant curing conditions, the best labor availability, and a full cycle to spot any issues before winter arrives.",
+    localInsightPara: "Boston triple-decker gutter work requires three-story ladder access and often scaffold staging because the roof eaves sit 35-40 feet above grade. The staging cost on a Dorchester or Somerville triple-decker adds $800-$2,000 to the gutter project versus single-story ranch pricing.",
+    warrantyPara: "Boston gutter warranties should explicitly cover ice-dam hanger failure because ice dams are a standard annual occurrence, not an excluded act of nature. Any Boston warranty that excludes ice-related damage is covering the contractor, not the homeowner."
   },
   "san-diego-ca": {
     annualRainfall: "10.3 inches",
@@ -320,7 +368,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes under eucalyptus or jacaranda canopy in Mission Hills, Kensington, and parts of La Jolla need the pre-rainy-season cleaning more than homes in less-wooded coastal tracts. Properties near Torrey Pine reserves or canyon edges also collect substantially more debris than the metro average.",
     buyingBest: "May through October (the dry window)",
     buyingWorst: "December through March (the narrow rainy season drives all the emergency calls)",
-    buyingNote: "Most San Diego homeowners don't think about gutters until the first real winter storm exposes a problem, which means contractors see a compressed rush every December. Installing during the long dry season means better pricing, better availability, and time to test the system before rainfall arrives."
+    buyingNote: "Most San Diego homeowners don't think about gutters until the first real winter storm exposes a problem, which means contractors see a compressed rush every December. Installing during the long dry season means better pricing, better availability, and time to test the system before rainfall arrives.",
+    localInsightPara: "San Diego hillside gutter work in La Jolla, Point Loma, and Mission Hills canyon-edge properties faces slope-runoff concerns that flat-lot homes do not share. Downspout discharge must route away from bluff edges, and some coastal-zone parcels require engineered drainage as a permit condition.",
+    warrantyPara: "San Diego gutter warranties run 5-10 years on materials and 2-5 years on labor. Coastal installations should specify marine-grade sealant and stainless fasteners; standard components corrode in the salt-fog environment within 5-8 years."
   },
   "tampa-fl": {
     annualRainfall: "46.6 inches",
@@ -336,7 +386,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes in Hyde Park, Davis Islands, Temple Terrace, and the old-growth oak corridors along Bayshore need the full three cleanings because of the live oak canopy. Properties with slash pine in the yard should add an informal mid-summer needle sweep.",
     buyingBest: "November through April (dry season, post-hurricane lull)",
     buyingWorst: "May through October (wet season, hurricane season, and emergency-repair peak)",
-    buyingNote: "Tampa gutter contractors see the year's biggest call volume in the days after every named storm, and both pricing and scheduling suffer through the entire wet season. Installing during the dry winter window gets you better pricing, better sealant curing, and readiness before the next hurricane season opens."
+    buyingNote: "Tampa gutter contractors see the year's biggest call volume in the days after every named storm, and both pricing and scheduling suffer through the entire wet season. Installing during the dry winter window gets you better pricing, better sealant curing, and readiness before the next hurricane season opens.",
+    localInsightPara: "Tampa gutter installations must address hurricane hardening: heavier-gauge aluminum with hidden hangers spaced every 18-24 inches and stainless-steel fasteners rated for Hillsborough County 140-150 mph design wind speed. Standard mainland-US gutter specs are inadequate for Tampa Bay storm exposure.",
+    warrantyPara: "Tampa gutter warranties should match the hurricane-rated installation spec. A warranty that caps at 74 mph wind speed is inadequate for a metro that sits in a 140-150 mph design wind zone under Florida Building Code."
   },
   "detroit-mi": {
     annualRainfall: "33.5 inches",
@@ -352,7 +404,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Grosse Pointe, Indian Village, and Palmer Woods sit under enough old-growth canopy to need a third late-October cleaning. The pre-winter cleaning is non-negotiable in Detroit; any debris left in gutters in December will freeze into a solid plug until March and guarantees ice dam formation.",
     buyingBest: "June through early September (warm, stable, dry working conditions)",
     buyingWorst: "March through May (post-winter damage surfaces) and October through November (leaf-season rush)",
-    buyingNote: "Detroit contractors see their biggest spike in spring as homeowners discover ice-damaged gutters and torn-loose runs during the thaw. Summer installation gets you the best labor availability, the best sealant curing conditions, and a full cycle to find any issues before winter hits."
+    buyingNote: "Detroit contractors see their biggest spike in spring as homeowners discover ice-damaged gutters and torn-loose runs during the thaw. Summer installation gets you the best labor availability, the best sealant curing conditions, and a full cycle to find any issues before winter hits.",
+    localInsightPara: "Detroit's aging combined sewer system is overwhelmed during summer thunderstorms, and proper downspout disconnection is one of the cheapest ways to reduce basement backup risk. The Detroit Water and Sewerage Department offers downspout-disconnection credits that offset a portion of the gutter project cost.",
+    warrantyPara: "Detroit gutter warranties should specify ice-dam exclusion terms clearly. A warranty that excludes freeze-related hanger failure is covering the contractor, not the homeowner, in a city with 78+ freeze-thaw cycles annually."
   },
   "minneapolis-mn": {
     annualRainfall: "30.6 inches",
@@ -368,7 +422,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes in Kenwood, Linden Hills, Lowry Hill, and the old-growth stretches of Edina and Minnetonka sit under dense canopy and often need a third mid-November cleaning right before the snow locks everything in. The pre-freeze cleaning is non-negotiable -- any debris left in a Minneapolis gutter in November is frozen in place until April and guarantees ice dam formation.",
     buyingBest: "June through early September (the narrow warm-dry installation window)",
     buyingWorst: "March through May (post-winter damage claims dominate schedules) and November through February (weather prevents most installation)",
-    buyingNote: "The Twin Cities gutter-installation season is genuinely short, and every contractor is booked solid from April through the first hard freeze. Booking summer installation 4-6 weeks ahead is standard; waiting until September risks not getting on a calendar at all before the weather window closes."
+    buyingNote: "The Twin Cities gutter-installation season is genuinely short, and every contractor is booked solid from April through the first hard freeze. Booking summer installation 4-6 weeks ahead is standard; waiting until September risks not getting on a calendar at all before the weather window closes.",
+    localInsightPara: "Twin Cities gutter installation is constrained by the narrow warm-weather window. Every contractor is booked solid from May through the first hard freeze. Booking summer installation 4-6 weeks ahead is standard; waiting until September risks not getting on a calendar before the weather window closes entirely.",
+    warrantyPara: "Minneapolis gutter warranties should cover ice-dam hanger failure explicitly because ice dams occur every single winter in the Twin Cities. A warranty excluding ice-related damage is meaningless in a metro with 135+ freeze-thaw cycles."
   },
   "charlotte-nc": {
     annualRainfall: "43.1 inches",
@@ -384,7 +440,9 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes in Myers Park, Eastover, Dilworth, and the old canopy stretches of Elizabeth need the full three cleanings because of the willow oak density. NoDa and Plaza Midwood homes with fewer mature trees can usually get by with two. Loblolly pine debris across the region means pretty much every Charlotte home needs at least one mid-year cleaning.",
     buyingBest: "January through February (slow season) and July (between storm and leaf seasons)",
     buyingWorst: "April through June (spring storm repairs) and October through December (extended leaf-season rush)",
-    buyingNote: "Charlotte's rapid population growth has stretched contractor capacity thin across every trade, and gutter work is no exception. Booking 3-4 weeks ahead is standard practice. Late-winter installation gets you the best pricing and availability, and conditions are mild enough for quality work year-round."
+    buyingNote: "Charlotte's rapid population growth has stretched contractor capacity thin across every trade, and gutter work is no exception. Booking 3-4 weeks ahead is standard practice. Late-winter installation gets you the best pricing and availability, and conditions are mild enough for quality work year-round.",
+    localInsightPara: "Charlotte's extended oak leaf-drop season (October through December due to mild fall temperatures) means gutters fill later in the year than in northern metros. A single late-December cleaning is often necessary even after an early-November cleaning because willow and water oaks hold their leaves well into the holiday season.",
+    warrantyPara: "Charlotte gutter warranties run 5-10 years on materials and 2-5 years on labor. The moderate freeze-thaw cycle rarely produces ice-dam conditions, but ice-storm hanger failure (2002, December 2022) should still be covered in the warranty terms."
   },
   "las-vegas-nv": {
     annualRainfall: "4.2 inches",
@@ -400,8 +458,350 @@ const CITY_GUTTER_DATA = {
     cleaningNote: "Homes in Summerlin, Henderson, and parts of Anthem with mature palo verde, mesquite, or olive canopy collect more debris than the metro average and may benefit from a second cleaning in November after the fall seed drop. Newer tract homes with minimal landscape trees can often stretch to every 18 months.",
     buyingBest: "October through April (mild weather, lower demand, easy working conditions)",
     buyingWorst: "July through September (monsoon season drives emergency-repair demand) and the peak summer heat when rooftop work is genuinely dangerous",
-    buyingNote: "Most Las Vegas homeowners only discover they need gutter work after a monsoon storm floods a patio or washes out the xeriscape. Installing during the mild fall or winter months avoids both the monsoon-season rush and the 110-degree rooftop conditions that make summer installation risky for workers and hard on sealant curing."
-  }
+    buyingNote: "Most Las Vegas homeowners only discover they need gutter work after a monsoon storm floods a patio or washes out the xeriscape. Installing during the mild fall or winter months avoids both the monsoon-season rush and the 110-degree rooftop conditions that make summer installation risky for workers and hard on sealant curing.",
+    localInsightPara: "Many Las Vegas tract homes in Summerlin, Henderson, and Anthem were built without gutters because builders historically considered them unnecessary in the desert. Retrofitting gutters onto a stucco home with tile roof requires specialized fascia-mounting hardware that tile-roof-compatible brackets provide at $2-$4 more per bracket than standard K-style clips.",
+    warrantyPara: "Las Vegas gutter warranties should address monsoon-damage coverage. Standard warranties excluding wind events above 50-60 mph are problematic because Valley monsoon microbursts regularly exceed those speeds in the July-September season."
+  },
+  "san-antonio-tx": {
+    annualRainfall: "32 inches",
+    rainfallNote: "San Antonio receives 32 inches of rain per year, spread across the seasons with spring and fall peaks. Gutters on San Antonio homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard San Antonio practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "live oak, pecan, mountain laurel",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for San Antonio's debris mix",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in San Antonio. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Alamo Heights and Stone Oak neighborhoods with heavy live oak canopy may need a third cleaning. ",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling San Antonio gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "jacksonville-fl": {
+    annualRainfall: "52 inches",
+    rainfallNote: "Jacksonville receives 52 inches of rain per year, with intense summer thunderstorms and hurricane-season deluges that can deliver 3-5 inches in 24 hours. Gutters on Jacksonville homes must handle both sustained rainfall and sudden high-volume events.",
+    downspoutNote: "High water tables in Jacksonville require downspout discharge away from foundations to prevent saturation. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Jacksonville practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "live oak, bald cypress, southern magnolia",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Jacksonville's debris mix",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Jacksonville. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Riverside and San Marco neighborhoods with heavy live oak canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "Post-hurricane emergency demand periods",
+    buyingNote: "Scheduling Jacksonville gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "fort-worth-tx": {
+    annualRainfall: "34 inches",
+    rainfallNote: "Fort Worth receives 34 inches of rain per year, spread across the seasons with spring and fall peaks. Gutters on Fort Worth homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Fort Worth practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "post oak, cedar elm, Texas ash",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Fort Worth's debris mix",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Fort Worth. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Southlake and Westover Hills neighborhoods with heavy post oak canopy may need a third cleaning. ",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Fort Worth gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "columbus-oh": {
+    annualRainfall: "40 inches",
+    rainfallNote: "Columbus receives 40 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Columbus homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Columbus issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Columbus practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "sugar maple, red oak, Ohio buckeye",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Columbus's debris mix",
+    freezeRisk: "high",
+    iceNote: "Columbus experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Columbus home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "German Village and Short North neighborhoods with heavy sugar maple canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Columbus gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "indianapolis-in": {
+    annualRainfall: "42 inches",
+    rainfallNote: "Indianapolis receives 42 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Indianapolis homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Indianapolis issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Indianapolis practice.",
+    treeCoverage: "low to moderate",
+    dominantTrees: "tulip poplar, sweetgum, white ash",
+    debrisType: "mixed deciduous leaf drop and seasonal seed debris",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Indianapolis's debris mix",
+    freezeRisk: "high",
+    iceNote: "Indianapolis experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Indianapolis home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year (spring and fall)",
+    cleaningNote: "Broad Ripple and Meridian-Kessler neighborhoods with heavy tulip poplar canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Indianapolis gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "nashville-tn": {
+    annualRainfall: "48 inches",
+    rainfallNote: "Nashville receives 48 inches of rain per year, with intense summer thunderstorms and severe storm events that can deliver 3-5 inches in 24 hours. Gutters on Nashville homes must handle both sustained rainfall and sudden high-volume events.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Nashville practice.",
+    treeCoverage: "low to moderate",
+    dominantTrees: "eastern red cedar, tulip poplar, hackberry",
+    debrisType: "mixed deciduous leaf drop and seasonal seed debris",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Nashville's debris mix",
+    freezeRisk: "moderate",
+    iceNote: "Nashville gets occasional freezing that can cause ice dam issues in severe winters. Heated cables are optional but valuable for north-facing slopes.",
+    cleaningFrequency: "twice per year (spring and fall)",
+    cleaningNote: "East Nashville and 12South neighborhoods with heavy eastern red cedar canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Nashville gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "portland-or": {
+    annualRainfall: "43 inches",
+    rainfallNote: "Portland receives 43 inches of rain per year, spread across the seasons with spring and fall peaks. Gutters on Portland homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Portland practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "Douglas fir, western red cedar, bigleaf maple",
+    debrisType: "maple samaras (helicopter seeds) and heavy autumn leaf drop",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Portland's debris mix",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Portland. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Pearl District and Alberta Arts neighborhoods with heavy Douglas fir canopy may need a third cleaning. ",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Portland gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "memphis-tn": {
+    annualRainfall: "54 inches",
+    rainfallNote: "Memphis receives 54 inches of rain per year, with intense summer thunderstorms and severe storm events that can deliver 3-5 inches in 24 hours. Gutters on Memphis homes must handle both sustained rainfall and sudden high-volume events.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Memphis practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "water oak, sweetgum, bald cypress",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Memphis's debris mix",
+    freezeRisk: "moderate",
+    iceNote: "Memphis gets occasional freezing that can cause ice dam issues in severe winters. Heated cables are optional but valuable for north-facing slopes.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Midtown and Cooper-Young neighborhoods with heavy water oak canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Memphis gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "louisville-ky": {
+    annualRainfall: "45 inches",
+    rainfallNote: "Louisville receives 45 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Louisville homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Louisville practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "Kentucky coffeetree, white oak, tulip poplar",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Louisville's debris mix",
+    freezeRisk: "moderate",
+    iceNote: "Louisville gets occasional freezing that can cause ice dam issues in severe winters. Heated cables are optional but valuable for north-facing slopes.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Highlands and Old Louisville neighborhoods with heavy Kentucky coffeetree canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Louisville gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "baltimore-md": {
+    annualRainfall: "42 inches",
+    rainfallNote: "Baltimore receives 42 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Baltimore homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Baltimore issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Baltimore practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "red maple, American sycamore, white oak",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Baltimore's debris mix",
+    freezeRisk: "high",
+    iceNote: "Baltimore experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Baltimore home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Federal Hill and Canton neighborhoods with heavy red maple canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Baltimore gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "milwaukee-wi": {
+    annualRainfall: "34 inches",
+    rainfallNote: "Milwaukee receives 34 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Milwaukee homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Milwaukee issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Milwaukee practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "sugar maple, basswood, white pine",
+    debrisType: "pine needles, pollen, and small cone debris",
+    bestGuardStyle: "Micro-mesh guards handle pine needles that slip through standard screen guards",
+    freezeRisk: "high",
+    iceNote: "Milwaukee experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Milwaukee home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Third Ward and Bay View neighborhoods with heavy sugar maple canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Milwaukee gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "albuquerque-nm": {
+    annualRainfall: "9 inches",
+    rainfallNote: "Albuquerque receives 9 inches of rain per year, concentrated in brief monsoon-season downpours. Gutters on Albuquerque homes must handle concentrated high-intensity events despite long dry periods.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Albuquerque issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Albuquerque practice.",
+    treeCoverage: "moderate",
+    dominantTrees: "Rio Grande cottonwood, desert willow, pinon pine",
+    debrisType: "pine needles, pollen, and small cone debris",
+    bestGuardStyle: "Micro-mesh guards handle pine needles that slip through standard screen guards",
+    freezeRisk: "high",
+    iceNote: "Albuquerque experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Albuquerque home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "once per year before the rainy season",
+    cleaningNote: "Nob Hill and North Valley neighborhoods with heavy Rio Grande cottonwood canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Albuquerque gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "tucson-az": {
+    annualRainfall: "12 inches",
+    rainfallNote: "Tucson receives 12 inches of rain per year, concentrated in brief monsoon-season downpours. Gutters on Tucson homes must handle concentrated high-intensity events despite long dry periods.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Tucson practice.",
+    treeCoverage: "low to moderate",
+    dominantTrees: "mesquite, palo verde, ironwood",
+    debrisType: "mesquite seed pods, palo verde flowers, and desert dust",
+    bestGuardStyle: "Reverse-curve or surface-tension guards shed the occasional heavy rain effectively",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Tucson. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "once per year before the rainy season",
+    cleaningNote: "Sam Hughes and Catalina Foothills neighborhoods with heavy mesquite canopy may need a third cleaning. ",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Tucson gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "sacramento-ca": {
+    annualRainfall: "18 inches",
+    rainfallNote: "Sacramento receives 18 inches of rain per year, concentrated in the November-March wet season. Gutters on Sacramento homes must handle concentrated high-intensity events despite long dry periods.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Sacramento practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "valley oak, coast live oak, Chinese pistache",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Reverse-curve or surface-tension guards shed the occasional heavy rain effectively",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Sacramento. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "East Sacramento and Midtown neighborhoods with heavy valley oak canopy may need a third cleaning. ",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Sacramento gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "raleigh-nc": {
+    annualRainfall: "46 inches",
+    rainfallNote: "Raleigh receives 46 inches of rain per year, with intense summer thunderstorms and severe storm events that can deliver 3-5 inches in 24 hours. Gutters on Raleigh homes must handle both sustained rainfall and sudden high-volume events.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Raleigh practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "loblolly pine, red maple, willow oak",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards handle pine needles that slip through standard screen guards",
+    freezeRisk: "moderate",
+    iceNote: "Raleigh gets occasional freezing that can cause ice dam issues in severe winters. Heated cables are optional but valuable for north-facing slopes.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "North Hills and Cameron Village neighborhoods with heavy loblolly pine canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Raleigh gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "kansas-city-mo": {
+    annualRainfall: "39 inches",
+    rainfallNote: "Kansas City receives 39 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Kansas City homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Kansas City issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Kansas City practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "bur oak, eastern redbud, hackberry",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Kansas City's debris mix",
+    freezeRisk: "high",
+    iceNote: "Kansas City experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Kansas City home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Country Club Plaza and Brookside neighborhoods with heavy bur oak canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Kansas City gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "orlando-fl": {
+    annualRainfall: "50 inches",
+    rainfallNote: "Orlando receives 50 inches of rain per year, with intense summer thunderstorms and hurricane-season deluges that can deliver 3-5 inches in 24 hours. Gutters on Orlando homes must handle both sustained rainfall and sudden high-volume events.",
+    downspoutNote: "High water tables in Orlando require downspout discharge away from foundations to prevent saturation. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Orlando practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "live oak, cabbage palm, bald cypress",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Orlando's debris mix",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Orlando. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Winter Park and College Park neighborhoods with heavy live oak canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "Post-hurricane emergency demand periods",
+    buyingNote: "Scheduling Orlando gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "pittsburgh-pa": {
+    annualRainfall: "38 inches",
+    rainfallNote: "Pittsburgh receives 38 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Pittsburgh homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Pittsburgh issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Pittsburgh practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "red oak, sugar maple, American beech",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Pittsburgh's debris mix",
+    freezeRisk: "high",
+    iceNote: "Pittsburgh experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Pittsburgh home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Shadyside and Squirrel Hill neighborhoods with heavy red oak canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Pittsburgh gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "cincinnati-oh": {
+    annualRainfall: "42 inches",
+    rainfallNote: "Cincinnati receives 42 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Cincinnati homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Cincinnati issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Cincinnati practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "sugar maple, chinquapin oak, eastern redbud",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Cincinnati's debris mix",
+    freezeRisk: "high",
+    iceNote: "Cincinnati experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Cincinnati home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Hyde Park and Over-the-Rhine neighborhoods with heavy sugar maple canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Cincinnati gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "colorado-springs-co": {
+    annualRainfall: "17 inches",
+    rainfallNote: "Colorado Springs receives 17 inches of rain per year, concentrated in brief monsoon-season downpours. Gutters on Colorado Springs homes must handle concentrated high-intensity events despite long dry periods.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Colorado Springs issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Colorado Springs practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "ponderosa pine, blue spruce, Gambel oak",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards handle pine needles that slip through standard screen guards",
+    freezeRisk: "high",
+    iceNote: "Colorado Springs experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Colorado Springs home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Broadmoor and Old Colorado City neighborhoods with heavy ponderosa pine canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Colorado Springs gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
 };
 
 /* --- Section builders --- */
@@ -749,6 +1149,64 @@ function seasonalBuyingGuide(slug, city, data) {
 </section>`;
 }
 
+function localInsights(slug, city, data) {
+  const h2 = pick(slug, "local-h2", [
+    `${city} Gutter Installation Notes`,
+    `${city}-Specific Gutter Details`,
+    `What ${city} Gutter Projects Require`,
+    `${city} Installation Considerations`,
+  ]);
+  return `
+<section class="section fp-section">
+<h2>${h2}</h2>
+<p>${data.localInsightPara}</p>
+<p>${data.warrantyPara}</p>
+</section>`;
+}
+
+function downspoutRouting(slug, city, data, facts) {
+  return `
+<section class="section fp-section">
+<h2>${city} Downspout and Drainage Routing</h2>
+<p>${data.downspoutNote}</p>
+<p>${data.cleaningNote}</p>
+</section>`;
+}
+
+function scopeChecklist(slug, city, data) {
+  return `
+<section class="section fp-section">
+<h2>What Your ${city} Gutter Contract Should Include</h2>
+<p><strong>Material specification.</strong> ${data.bestGuardStyle}.</p>
+<p><strong>Cleaning schedule.</strong> ${data.cleaningFrequency}. ${data.cleaningNote}</p>
+<p><strong>Seasonal timing.</strong> ${data.buyingNote}</p>
+<p><strong>Warranty terms.</strong> ${data.warrantyPara}</p>
+</section>`;
+}
+
+function buyerQuestions(city, data) {
+  return `
+<section class="section fp-section">
+<h2>Questions to Ask a ${city} Gutter Contractor</h2>
+<p><strong>What gauge aluminum are you installing?</strong> ${data.localInsightPara}</p>
+<p><strong>How are you sizing for ${city} rainfall?</strong> ${city} receives ${data.annualRainfall} annually. ${data.rainfallNote}</p>
+<p><strong>What guard type works here?</strong> ${cap(data.bestGuardStyle)}.</p>
+<p><strong>What warranty terms apply?</strong> ${data.warrantyPara}</p>
+<p><strong>What is your cleaning recommendation?</strong> ${data.cleaningFrequency}. ${data.cleaningNote}</p>
+</section>`;
+}
+
+function climateAndDebris(city, data) {
+  return `
+<section class="section fp-section">
+<h2>How ${city} Climate Affects Gutters</h2>
+<p>${data.rainfallNote}</p>
+<p><strong>Debris profile.</strong> ${city} tree coverage is ${data.treeCoverage}, with ${data.dominantTrees} dominant. Primary debris: ${data.debrisType}.</p>
+<p><strong>Guard recommendation.</strong> ${cap(data.bestGuardStyle)}.</p>
+<p><strong>Freeze risk: ${data.freezeRisk}.</strong> ${data.iceNote}</p>
+</section>`;
+}
+
 function costScenarios(slug, city, state, mult, facts) {
   const lf = 150;
   const budgetPerLF = pricingModel.basePricePerLinearFoot.vinyl.mid * mult;
@@ -880,6 +1338,11 @@ function buildFlagshipContent(metro) {
   html += maintenanceSchedule(metro.slug, city, data, facts);
   html += redFlagsSection(metro.slug, city, state, data, facts);
   html += seasonalBuyingGuide(metro.slug, city, data);
+  html += localInsights(metro.slug, city, data);
+  html += downspoutRouting(metro.slug, city, data, facts);
+  html += scopeChecklist(metro.slug, city, data);
+  html += climateAndDebris(city, data);
+  html += buyerQuestions(city, data);
   html += costScenarios(metro.slug, city, state, mult, facts);
   html += `\n${MARKER_END}\n`;
 

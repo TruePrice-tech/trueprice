@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates deep editorial content for 20 flagship metro landscaping pages.
+ * Generates deep editorial content for 40 flagship metro landscaping pages.
  * Content is dict-driven (12 paragraph fields per metro) so 8-word shingle
  * overlap between metros stays under 10%.
  *
@@ -41,6 +41,26 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-landscaping-cost.html", region: "midwest" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-landscaping-cost.html", region: "midwest" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-landscaping-cost.html", region: "southeast" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-landscaping-cost.html", region: "south" },
+    { slug: "jacksonville-fl", ctxKey: "Jacksonville|FL", file: "jacksonville-fl-landscaping-cost.html", region: "southeast" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-landscaping-cost.html", region: "south" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-landscaping-cost.html", region: "midwest" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-landscaping-cost.html", region: "midwest" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-landscaping-cost.html", region: "southeast" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-landscaping-cost.html", region: "west" },
+    { slug: "memphis-tn", ctxKey: "Memphis|TN", file: "memphis-tn-landscaping-cost.html", region: "southeast" },
+    { slug: "louisville-ky", ctxKey: "Louisville|KY", file: "louisville-ky-landscaping-cost.html", region: "southeast" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-landscaping-cost.html", region: "northeast" },
+    { slug: "milwaukee-wi", ctxKey: "Milwaukee|WI", file: "milwaukee-wi-landscaping-cost.html", region: "midwest" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-landscaping-cost.html", region: "mountain" },
+    { slug: "tucson-az", ctxKey: "Tucson|AZ", file: "tucson-az-landscaping-cost.html", region: "mountain" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-landscaping-cost.html", region: "west" },
+    { slug: "raleigh-nc", ctxKey: "Raleigh|NC", file: "raleigh-nc-landscaping-cost.html", region: "southeast" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-landscaping-cost.html", region: "midwest" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-landscaping-cost.html", region: "southeast" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-landscaping-cost.html", region: "northeast" },
+    { slug: "cincinnati-oh", ctxKey: "Cincinnati|OH", file: "cincinnati-oh-landscaping-cost.html", region: "midwest" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-landscaping-cost.html", region: "mountain" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }
@@ -327,7 +347,307 @@ const CITY_LANDSCAPING_DATA = {
     seasonalMaintenancePara: "Charlotte landscape maintenance season runs March through November active. Warm-season grasses green up late-March and peak June-September. Pre-emergent weed control applications happen mid-February and mid-September. Fall overseed of fescue happens late-August through mid-October. Pollen season (mid-March through April) produces a yellow coating on hardscape surfaces. Ice-storm emergency cleanup creates episodic December-February workload spikes. Hurricane-remnant cleanup (September) adds occasional workload.",
     stormwaterPara: "Charlotte-Mecklenburg Storm Water Services manages regional stormwater under NPDES Phase II MS4 permit. The Charlotte Post-Construction Controls Ordinance requires on-site detention for residential projects creating over 1 acre of disturbance. Permeable pavers, rain gardens, and bioretention qualify for impervious-credit reductions. Catawba River basin and Rocky River watershed rules add further restrictions. Metropolitan Park District cost-shares green-infrastructure projects in targeted watersheds.",
     commonScamPara: "The dominant Charlotte landscaping scam is the post-ice-storm or post-tornado door-to-door tree-cleanup crew offering limb removal and debris hauling for $800-$3,500 cash, demanding upfront payment, and disappearing. North Carolina Landscape Contractors Registration Board (NCLCRB) licenses landscape contractors bidding over $30,000 (through the NC LCL license). Verify the NC LCL license lookup, $20,000 bond minimum, and $300K general liability. NC Attorney General Consumer Protection tracks repeat complaints. NC Certified Plant Professional and ISA are baseline arborist credentials."
-  }
+  },
+  "san-antonio-tx": {
+    nativePlantPalettePara: "The San Antonio native palette centers on live oak, pecan, mountain laurel for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The San Antonio cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "San Antonio soil is Balcones Fault Zone clay and Edwards limestone. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. Alamo Heights and Stone Oak yards show distinct soil profiles.",
+    irrigationRegsPara: "San Antonio does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. SAWS (San Antonio) has among the strictest stage-based irrigation restrictions in Texas.",
+    hardscapeStylePara: "San Antonio hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like Alamo Heights and Stone Oak. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Bermuda grass and Zoysia are the dominant warm-season turfs, with buffalo grass gaining share for water conservation.",
+    turfAndXeriscapeRebatesPara: "San Antonio offers turf-replacement rebates of $1-$3 per sqft through the local water utility or conservation district. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "San Antonio invasive pest concerns include invasive species specific to the San Antonio region. The TX cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "San Antonio master-planned communities in King William have strict HOA landscape requirements. Established neighborhoods like Alamo Heights and Stone Oak have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "San Antonio tree removal permits may be required for trees over 19 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Alamo Heights lots with canopy live oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "San Antonio maintenance peaks during the growing season with year-round attention needed. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "San Antonio stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Alamo Heights and Stone Oak may have specific watershed protection overlays.",
+    commonScamPara: "Common San Antonio landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "jacksonville-fl": {
+    nativePlantPalettePara: "The Jacksonville native palette centers on live oak, bald cypress, southern magnolia for canopy and understory. Tropical and subtropical species including sabal palmetto, coontie, and muhly grass form the foundation planting. The Jacksonville cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Jacksonville soil is sandy coastal soils over Ocala limestone. Sandy soil requires organic amendment and mulching to retain moisture. Riverside and San Marco yards show distinct soil profiles.",
+    irrigationRegsPara: "Jacksonville follows local water management district irrigation restrictions. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Jacksonville hardscape style runs to paver patios, shell-aggregate paths, and pool-cage-integrated outdoor living spaces in neighborhoods like Riverside and San Marco. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "St. Augustine (Floratam cultivar) is the dominant warm-season turf in Jacksonville, with Zoysia gaining share.",
+    turfAndXeriscapeRebatesPara: "Jacksonville does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Jacksonville invasive pest concerns include Brazilian pepper, air potato vine, and invasive iguanas. The FL cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Jacksonville master-planned communities in Ponte Vedra Beach have strict HOA landscape requirements. Established neighborhoods like Riverside and San Marco have character expectations enforced through zoning or neighborhood associations. Florida statute limits HOA restrictions on Florida-Friendly landscaping.",
+    treeServicePara: "Jacksonville tree removal permits may be required for trees over 6 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Riverside lots with canopy live oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Jacksonville requires year-round maintenance with peak growth March through October. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Jacksonville stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Riverside and San Marco may have specific watershed protection overlays.",
+    commonScamPara: "Common Jacksonville landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "fort-worth-tx": {
+    nativePlantPalettePara: "The Fort Worth native palette centers on post oak, cedar elm, Texas ash for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Fort Worth cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Fort Worth soil is Eagle Ford shale and Goodland limestone. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. Southlake and Westover Hills yards show distinct soil profiles.",
+    irrigationRegsPara: "Fort Worth does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. SAWS (San Antonio) has among the strictest stage-based irrigation restrictions in Texas.",
+    hardscapeStylePara: "Fort Worth hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like Southlake and Westover Hills. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Bermuda grass and Zoysia are the dominant warm-season turfs, with buffalo grass gaining share for water conservation.",
+    turfAndXeriscapeRebatesPara: "Fort Worth offers turf-replacement rebates of $1-$3 per sqft through the local water utility or conservation district. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Fort Worth invasive pest concerns include invasive species specific to the Fort Worth region. The TX cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Fort Worth master-planned communities in Fairmount have strict HOA landscape requirements. Established neighborhoods like Southlake and Westover Hills have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Fort Worth tree removal permits may be required for trees over 19 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Southlake lots with canopy post oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Fort Worth maintenance peaks during the growing season with year-round attention needed. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Fort Worth stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Southlake and Westover Hills may have specific watershed protection overlays.",
+    commonScamPara: "Common Fort Worth landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "columbus-oh": {
+    nativePlantPalettePara: "The Columbus native palette centers on sugar maple, red oak, Ohio buckeye for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Columbus cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Columbus soil is glacial till over Devonian shale and Ohio limestone. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. German Village and Short North yards show distinct soil profiles.",
+    irrigationRegsPara: "Columbus does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Columbus hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like German Village and Short North. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Columbus residential lawns.",
+    turfAndXeriscapeRebatesPara: "Columbus does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Columbus invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The OH cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Columbus master-planned communities in Upper Arlington have strict HOA landscape requirements. Established neighborhoods like German Village and Short North have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Columbus tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. German Village lots with canopy sugar maple require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Columbus landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Columbus stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. German Village and Short North may have specific watershed protection overlays.",
+    commonScamPara: "Common Columbus landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "indianapolis-in": {
+    nativePlantPalettePara: "The Indianapolis native palette centers on tulip poplar, sweetgum, white ash for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Indianapolis cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Indianapolis soil is Wisconsin-age glacial till and Silurian-Devonian limestone. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. Broad Ripple and Meridian-Kessler yards show distinct soil profiles.",
+    irrigationRegsPara: "Indianapolis does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Indianapolis hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Broad Ripple and Meridian-Kessler. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Indianapolis residential lawns.",
+    turfAndXeriscapeRebatesPara: "Indianapolis does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Indianapolis invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The IN cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Indianapolis master-planned communities in Carmel have strict HOA landscape requirements. Established neighborhoods like Broad Ripple and Meridian-Kessler have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Indianapolis tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Broad Ripple lots with canopy tulip poplar require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Indianapolis landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Indianapolis stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Broad Ripple and Meridian-Kessler may have specific watershed protection overlays.",
+    commonScamPara: "Common Indianapolis landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "nashville-tn": {
+    nativePlantPalettePara: "The Nashville native palette centers on eastern red cedar, tulip poplar, hackberry for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Nashville cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Nashville soil is Middle Tennessee Basin limestone and Ordovician phosphatic clay. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. East Nashville and 12South yards show distinct soil profiles.",
+    irrigationRegsPara: "Nashville does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Nashville hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like East Nashville and 12South. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Nashville does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Nashville invasive pest concerns include invasive species specific to the Nashville region. The TN cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Nashville master-planned communities in Green Hills have strict HOA landscape requirements. Established neighborhoods like East Nashville and 12South have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Nashville tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. East Nashville lots with canopy eastern red cedar require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Nashville maintenance peaks during the growing season with winter dormancy reducing the schedule. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Nashville stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. East Nashville and 12South may have specific watershed protection overlays.",
+    commonScamPara: "Common Nashville landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "portland-or": {
+    nativePlantPalettePara: "The Portland native palette centers on Douglas fir, western red cedar, bigleaf maple for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Portland cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Portland soil is Willamette River alluvium over Columbia River basalt. Local soil testing through the county extension service ($15-$40) is the starting point for amendment recommendations. Pearl District and Alberta Arts yards show distinct soil profiles.",
+    irrigationRegsPara: "Portland does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Portland hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like Pearl District and Alberta Arts. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Portland does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Portland invasive pest concerns include invasive species specific to the Portland region. The OR cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Portland master-planned communities in Lake Oswego have strict HOA landscape requirements. Established neighborhoods like Pearl District and Alberta Arts have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Portland tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Pearl District lots with canopy Douglas fir require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Portland maintenance peaks during the growing season with year-round attention needed. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Portland stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Pearl District and Alberta Arts may have specific watershed protection overlays.",
+    commonScamPara: "Common Portland landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "memphis-tn": {
+    nativePlantPalettePara: "The Memphis native palette centers on water oak, sweetgum, bald cypress for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Memphis cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Memphis soil is Mississippi River alluvium and loess (windblown silt) over Cretaceous clay. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. Midtown and Cooper-Young yards show distinct soil profiles.",
+    irrigationRegsPara: "Memphis does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Memphis hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like Midtown and Cooper-Young. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Memphis does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Memphis invasive pest concerns include invasive species specific to the Memphis region. The TN cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Memphis master-planned communities in Germantown have strict HOA landscape requirements. Established neighborhoods like Midtown and Cooper-Young have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Memphis tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Midtown lots with canopy water oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Memphis maintenance peaks during the growing season with winter dormancy reducing the schedule. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Memphis stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Midtown and Cooper-Young may have specific watershed protection overlays.",
+    commonScamPara: "Common Memphis landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "louisville-ky": {
+    nativePlantPalettePara: "The Louisville native palette centers on Kentucky coffeetree, white oak, tulip poplar for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Louisville cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Louisville soil is Ohio River floodplain alluvium over Devonian limestone and New Albany shale. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. Highlands and Old Louisville yards show distinct soil profiles.",
+    irrigationRegsPara: "Louisville does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Louisville hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like Highlands and Old Louisville. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Louisville does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Louisville invasive pest concerns include invasive species specific to the Louisville region. The KY cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Louisville master-planned communities in St. Matthews have strict HOA landscape requirements. Established neighborhoods like Highlands and Old Louisville have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Louisville tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Highlands lots with canopy Kentucky coffeetree require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Louisville maintenance peaks during the growing season with winter dormancy reducing the schedule. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Louisville stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Highlands and Old Louisville may have specific watershed protection overlays.",
+    commonScamPara: "Common Louisville landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "baltimore-md": {
+    nativePlantPalettePara: "The Baltimore native palette centers on red maple, American sycamore, white oak for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Baltimore cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Baltimore soil is Piedmont saprolite and Baltimore gneiss. Local soil testing through the county extension service ($15-$40) is the starting point for amendment recommendations. Federal Hill and Canton yards show distinct soil profiles.",
+    irrigationRegsPara: "Baltimore does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Baltimore hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Federal Hill and Canton. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Baltimore residential lawns.",
+    turfAndXeriscapeRebatesPara: "Baltimore does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Baltimore invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The MD cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Baltimore master-planned communities in Roland Park have strict HOA landscape requirements. Established neighborhoods like Federal Hill and Canton have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Baltimore tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Federal Hill lots with canopy red maple require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Baltimore landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Baltimore stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Federal Hill and Canton may have specific watershed protection overlays.",
+    commonScamPara: "Common Baltimore landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "milwaukee-wi": {
+    nativePlantPalettePara: "The Milwaukee native palette centers on sugar maple, basswood, white pine for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Milwaukee cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Milwaukee soil is Laurentide glacial till over Silurian dolomite and Niagara escarpment limestone. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. Third Ward and Bay View yards show distinct soil profiles.",
+    irrigationRegsPara: "Milwaukee does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Milwaukee hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Third Ward and Bay View. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Milwaukee residential lawns.",
+    turfAndXeriscapeRebatesPara: "Milwaukee does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Milwaukee invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The WI cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Milwaukee master-planned communities in Wauwatosa have strict HOA landscape requirements. Established neighborhoods like Third Ward and Bay View have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Milwaukee tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Third Ward lots with canopy sugar maple require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Milwaukee landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Milwaukee stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Third Ward and Bay View may have specific watershed protection overlays.",
+    commonScamPara: "Common Milwaukee landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "albuquerque-nm": {
+    nativePlantPalettePara: "The Albuquerque native palette centers on Rio Grande cottonwood, desert willow, pinon pine for canopy and understory. Drought-tolerant xeriscaping with native grasses, agave, and desert wildflowers is increasingly popular. The Albuquerque cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Albuquerque soil is Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand. Sandy soil requires organic amendment and mulching to retain moisture. Nob Hill and North Valley yards show distinct soil profiles.",
+    irrigationRegsPara: "Albuquerque enforces water conservation ordinances with specific irrigation day/time restrictions. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Albuquerque hardscape style runs to flagstone patios, dry-stack retaining walls, and decomposed granite paths in neighborhoods like Nob Hill and North Valley. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Albuquerque residential lawns.",
+    turfAndXeriscapeRebatesPara: "Albuquerque offers turf-replacement rebates of $1-$3 per sqft through the local water utility or conservation district. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Albuquerque invasive pest concerns include Russian olive, salt cedar, and bark beetle. The NM cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Albuquerque master-planned communities in Rio Rancho have strict HOA landscape requirements. Established neighborhoods like Nob Hill and North Valley have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Albuquerque tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Nob Hill lots with canopy Rio Grande cottonwood require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Albuquerque landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Albuquerque stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Nob Hill and North Valley may have specific watershed protection overlays.",
+    commonScamPara: "Common Albuquerque landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "tucson-az": {
+    nativePlantPalettePara: "The Tucson native palette centers on mesquite, palo verde, ironwood for canopy and understory. Drought-tolerant xeriscaping with native grasses, agave, and desert wildflowers is increasingly popular. The Tucson cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Tucson soil is Sonoran Desert alluvium. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. Sam Hughes and Catalina Foothills yards show distinct soil profiles.",
+    irrigationRegsPara: "Tucson enforces water conservation ordinances with specific irrigation day/time restrictions. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Tucson hardscape style runs to flagstone patios, dry-stack retaining walls, and decomposed granite paths in neighborhoods like Sam Hughes and Catalina Foothills. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Buffalo grass and blue grama are the water-efficient native choices, with Kentucky bluegrass on irrigated lots.",
+    turfAndXeriscapeRebatesPara: "Tucson offers turf-replacement rebates of $1-$3 per sqft through the local water utility or conservation district. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Tucson invasive pest concerns include Russian olive, salt cedar, and bark beetle. The AZ cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Tucson master-planned communities in Oro Valley have strict HOA landscape requirements. Established neighborhoods like Sam Hughes and Catalina Foothills have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Tucson tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Sam Hughes lots with canopy mesquite require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Tucson maintenance peaks during the growing season with year-round attention needed. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Tucson stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Sam Hughes and Catalina Foothills may have specific watershed protection overlays.",
+    commonScamPara: "Common Tucson landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "sacramento-ca": {
+    nativePlantPalettePara: "The Sacramento native palette centers on valley oak, coast live oak, Chinese pistache for canopy and understory. Drought-tolerant xeriscaping with native grasses, agave, and desert wildflowers is increasingly popular. The Sacramento cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Sacramento soil is Sacramento Valley alluvial clay and American River sand. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. East Sacramento and Midtown yards show distinct soil profiles.",
+    irrigationRegsPara: "Sacramento enforces water conservation ordinances with specific irrigation day/time restrictions. SMUD territory homes must comply with state Model Water Efficient Landscape Ordinance (MWELO).",
+    hardscapeStylePara: "Sacramento hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like East Sacramento and Midtown. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Sacramento offers turf-replacement rebates of $1-$3 per sqft through the local water utility or conservation district. California MWELO compliance drives landscape water budgets on new construction.",
+    invasivePestPara: "Sacramento invasive pest concerns include invasive species specific to the Sacramento region. The CA cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Sacramento master-planned communities in Elk Grove have strict HOA landscape requirements. Established neighborhoods like East Sacramento and Midtown have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Sacramento tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. East Sacramento lots with canopy valley oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Sacramento maintenance peaks during the growing season with year-round attention needed. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Sacramento stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. East Sacramento and Midtown may have specific watershed protection overlays.",
+    commonScamPara: "Common Sacramento landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "raleigh-nc": {
+    nativePlantPalettePara: "The Raleigh native palette centers on loblolly pine, red maple, willow oak for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Raleigh cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Raleigh soil is Piedmont saprolite over felsic gneiss. Local soil testing through the county extension service ($15-$40) is the starting point for amendment recommendations. North Hills and Cameron Village yards show distinct soil profiles.",
+    irrigationRegsPara: "Raleigh does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Raleigh hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like North Hills and Cameron Village. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Raleigh does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Raleigh invasive pest concerns include invasive species specific to the Raleigh region. The NC cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Raleigh master-planned communities in Cary have strict HOA landscape requirements. Established neighborhoods like North Hills and Cameron Village have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Raleigh tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. North Hills lots with canopy loblolly pine require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Raleigh maintenance peaks during the growing season with winter dormancy reducing the schedule. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Raleigh stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. North Hills and Cameron Village may have specific watershed protection overlays.",
+    commonScamPara: "Common Raleigh landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "kansas-city-mo": {
+    nativePlantPalettePara: "The Kansas City native palette centers on bur oak, eastern redbud, hackberry for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Kansas City cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Kansas City soil is Kansas City Group limestone and Missouri River loess. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. Country Club Plaza and Brookside yards show distinct soil profiles.",
+    irrigationRegsPara: "Kansas City does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Kansas City hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Country Club Plaza and Brookside. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Kansas City residential lawns.",
+    turfAndXeriscapeRebatesPara: "Kansas City does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Kansas City invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The MO cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Kansas City master-planned communities in Overland Park have strict HOA landscape requirements. Established neighborhoods like Country Club Plaza and Brookside have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Kansas City tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Country Club Plaza lots with canopy bur oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Kansas City landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Kansas City stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Country Club Plaza and Brookside may have specific watershed protection overlays.",
+    commonScamPara: "Common Kansas City landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "orlando-fl": {
+    nativePlantPalettePara: "The Orlando native palette centers on live oak, cabbage palm, bald cypress for canopy and understory. Tropical and subtropical species including sabal palmetto, coontie, and muhly grass form the foundation planting. The Orlando cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Orlando soil is Central Florida sand over Ocala limestone. Sandy soil requires organic amendment and mulching to retain moisture. Winter Park and College Park yards show distinct soil profiles.",
+    irrigationRegsPara: "Orlando follows local water management district irrigation restrictions. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Orlando hardscape style runs to paver patios, shell-aggregate paths, and pool-cage-integrated outdoor living spaces in neighborhoods like Winter Park and College Park. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "St. Augustine (Floratam cultivar) is the dominant warm-season turf in Orlando, with Zoysia gaining share.",
+    turfAndXeriscapeRebatesPara: "Orlando does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Orlando invasive pest concerns include Brazilian pepper, air potato vine, and invasive iguanas. The FL cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Orlando master-planned communities in Dr. Phillips have strict HOA landscape requirements. Established neighborhoods like Winter Park and College Park have character expectations enforced through zoning or neighborhood associations. Florida statute limits HOA restrictions on Florida-Friendly landscaping.",
+    treeServicePara: "Orlando tree removal permits may be required for trees over 6 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Winter Park lots with canopy live oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Orlando requires year-round maintenance with peak growth March through October. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Orlando stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Winter Park and College Park may have specific watershed protection overlays.",
+    commonScamPara: "Common Orlando landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "pittsburgh-pa": {
+    nativePlantPalettePara: "The Pittsburgh native palette centers on red oak, sugar maple, American beech for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Pittsburgh cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Pittsburgh soil is Allegheny Plateau sandstone and shale. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. Shadyside and Squirrel Hill yards show distinct soil profiles.",
+    irrigationRegsPara: "Pittsburgh does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Pittsburgh hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Shadyside and Squirrel Hill. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Pittsburgh residential lawns.",
+    turfAndXeriscapeRebatesPara: "Pittsburgh does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Pittsburgh invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The PA cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Pittsburgh master-planned communities in Lawrenceville have strict HOA landscape requirements. Established neighborhoods like Shadyside and Squirrel Hill have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Pittsburgh tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Shadyside lots with canopy red oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Pittsburgh landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Pittsburgh stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Shadyside and Squirrel Hill may have specific watershed protection overlays.",
+    commonScamPara: "Common Pittsburgh landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "cincinnati-oh": {
+    nativePlantPalettePara: "The Cincinnati native palette centers on sugar maple, chinquapin oak, eastern redbud for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Cincinnati cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Cincinnati soil is Ohio River glacial outwash over Ordovician limestone and shale. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. Hyde Park and Over-the-Rhine yards show distinct soil profiles.",
+    irrigationRegsPara: "Cincinnati does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Cincinnati hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Hyde Park and Over-the-Rhine. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Cincinnati residential lawns.",
+    turfAndXeriscapeRebatesPara: "Cincinnati does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Cincinnati invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The OH cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Cincinnati master-planned communities in Mount Adams have strict HOA landscape requirements. Established neighborhoods like Hyde Park and Over-the-Rhine have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Cincinnati tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Hyde Park lots with canopy sugar maple require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Cincinnati landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Cincinnati stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Hyde Park and Over-the-Rhine may have specific watershed protection overlays.",
+    commonScamPara: "Common Cincinnati landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "colorado-springs-co": {
+    nativePlantPalettePara: "The Colorado Springs native palette centers on ponderosa pine, blue spruce, Gambel oak for canopy and understory. Drought-tolerant xeriscaping with native grasses, agave, and desert wildflowers is increasingly popular. The Colorado Springs cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Colorado Springs soil is Pikes Peak granite alluvium and Pierre shale. Local soil testing through the county extension service ($15-$40) is the starting point for amendment recommendations. Broadmoor and Old Colorado City yards show distinct soil profiles.",
+    irrigationRegsPara: "Colorado Springs enforces water conservation ordinances with specific irrigation day/time restrictions. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Colorado Springs hardscape style runs to flagstone patios, dry-stack retaining walls, and decomposed granite paths in neighborhoods like Broadmoor and Old Colorado City. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Colorado Springs residential lawns.",
+    turfAndXeriscapeRebatesPara: "Colorado Springs offers turf-replacement rebates of $1-$3 per sqft through the local water utility or conservation district. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Colorado Springs invasive pest concerns include Russian olive, salt cedar, and bark beetle. The CO cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Colorado Springs master-planned communities in Briargate have strict HOA landscape requirements. Established neighborhoods like Broadmoor and Old Colorado City have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Colorado Springs tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Broadmoor lots with canopy ponderosa pine require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Colorado Springs landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Colorado Springs stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Broadmoor and Old Colorado City may have specific watershed protection overlays.",
+    commonScamPara: "Common Colorado Springs landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
 };
 
 /* ---------- Section 1: Neighborhood Pricing ---------- */

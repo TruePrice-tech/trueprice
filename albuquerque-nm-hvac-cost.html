@@ -193,6 +193,623 @@ depending on system type, efficiency rating, and home size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-HVAC-CONTENT -->
+
+<section class="section fp-section">
+<h2>How HVAC Pricing Varies Inside Albuquerque</h2>
+<p>Albuquerque HVAC pricing is shaped by Forced-air gas furnace plus central AC split system is the dominant Albuquerque configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.. Rows below model a 2,000 sq ft home with ductwork in serviceable condition, priced against PNM (Public Service Company of New Mexico)'s paperwork.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Central AC</th>
+<th style="text-align:right; padding:12px 16px;">Heat Pump</th>
+<th style="text-align:right; padding:12px 16px;">Furnace</th>
+<th style="text-align:right; padding:12px 16px;">Full System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Nob Hill</td>
+<td style="padding:12px 16px; text-align:right;">$4,331</td>
+<td style="padding:12px 16px; text-align:right;">$5,562</td>
+<td style="padding:12px 16px; text-align:right;">$3,544</td>
+<td style="padding:12px 16px; text-align:right;">$7,629</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Old Town</td>
+<td style="padding:12px 16px; text-align:right;">$4,250</td>
+<td style="padding:12px 16px; text-align:right;">$5,458</td>
+<td style="padding:12px 16px; text-align:right;">$3,478</td>
+<td style="padding:12px 16px; text-align:right;">$7,487</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Northeast Heights</td>
+<td style="padding:12px 16px; text-align:right;">$4,210</td>
+<td style="padding:12px 16px; text-align:right;">$5,406</td>
+<td style="padding:12px 16px; text-align:right;">$3,444</td>
+<td style="padding:12px 16px; text-align:right;">$7,415</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Ridgecrest</td>
+<td style="padding:12px 16px; text-align:right;">$3,765</td>
+<td style="padding:12px 16px; text-align:right;">$4,834</td>
+<td style="padding:12px 16px; text-align:right;">$3,080</td>
+<td style="padding:12px 16px; text-align:right;">$6,631</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">North Valley</td>
+<td style="padding:12px 16px; text-align:right;">$3,846</td>
+<td style="padding:12px 16px; text-align:right;">$4,938</td>
+<td style="padding:12px 16px; text-align:right;">$3,146</td>
+<td style="padding:12px 16px; text-align:right;">$6,774</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Corrales</td>
+<td style="padding:12px 16px; text-align:right;">$3,886</td>
+<td style="padding:12px 16px; text-align:right;">$4,990</td>
+<td style="padding:12px 16px; text-align:right;">$3,180</td>
+<td style="padding:12px 16px; text-align:right;">$6,845</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Albuquerque labor, City of Albuquerque Planning Department permit costs, and PNM (Public Service Company of New Mexico) interconnection overhead are all priced in. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Albuquerque quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How Albuquerque's Climate Drives Your HVAC Decision</h2>
+<p>High desert with intense UV exposure at altitude (5,300 ft), wide diurnal temperature swings, monsoon rains in July-August, and rare snow. Albuquerque's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost..</p>
+<p><strong>Heating dominates the Albuquerque HVAC budget.</strong> cold winters with sub-zero wind chills and summer humidity pushes furnace or heat-pump run time to 2,500-3,500 hours per year across Nob Hill, Old Town, and Northeast Heights. At PNM (Public Service Company of New Mexico)'s $1.20/therm residential rate, the jump from 80% AFUE to 96% AFUE cuts gas burn roughly 3%, which saves $240-$448 per year in Albuquerque's long heating season. Over a 20-year furnace life, that's $4000-$8320 in cumulative gas savings, which dwarfs the upfront premium for condensing equipment.</p>
+<p><strong>Albuquerque's dry air simplifies equipment selection.</strong> Low humidity means your AC does less dehumidification work, so single-stage equipment actually performs fine in Nob Hill, Old Town, and Northeast Heights without the upcharge for variable-speed. The real Albuquerque comfort problem is the opposite: winter indoor humidity can drop below 25%, which damages hardwood floors and dries out sinuses. A whole-house humidifier running off the forced-air duct ($400-$800 installed in Albuquerque) is worth the small upcharge on any PNM (Public Service Company of New Mexico)-fed system.</p>
+<p><strong>Heat pumps in Albuquerque.</strong> Viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events. PNM offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Efficiency Numbers That Matter in Albuquerque</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Cooling efficiency target</h3>
+<p class="fp-season-months">16+ SEER</p>
+<p>16 SEER is the sensible Albuquerque minimum because heating, not cooling, dominates your PNM (Public Service Company of New Mexico) bill. The 14-to-16 SEER jump delivers modest savings here; the 16-to-20 jump delivers almost none. Put the efficiency budget toward the furnace or a cold-climate heat pump instead.</p>
+</div>
+<div class="fp-season-card" style="background:#eff6ff; border:1px solid #93c5fd;">
+<h3>Heating efficiency target</h3>
+<p class="fp-season-months">96%+ AFUE</p>
+<p>Albuquerque's heavy heating load makes 95-96% AFUE the Albuquerque minimum on any new gas furnace. At PNM (Public Service Company of New Mexico)'s $1.20/therm rate, the 80-to-96% AFUE jump saves $240-$448 annually in a typical Albuquerque home. Condensing furnaces vent through 2-3 inch PVC rather than the old metal flue, which is a plus if your intown home already has a compromised brick chimney but adds cost on a first-time conversion.</p>
+</div>
+</div>
+<p><strong>2026 rating floor in Albuquerque.</strong> Federal floor for NM is 14 SEER2 under the DOE northern-region rule, but most Albuquerque homeowners should aim well above that because the incremental cost of higher SEER2 is modest. A "14 SEER" quote in Albuquerque for 2026 installs is a red flag — either stale inventory or a SEER2-versus-SEER labeling confusion; verify the AHRI reference online before signing.</p>
+<p><strong>How to stack NM rebates in Albuquerque.</strong> PNM offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates.. Section 25C expired end of 2025 — it cannot be claimed on any 2026 Albuquerque install. IRA HEAR (up to $8,000 for income-qualified NM households) and IRA HOMES (up to $4,000-$8,000 performance-based) continue — administered through NM's designated energy office, applied by the installer, not via the homeowner's tax return. Geothermal heat pumps separately qualify for the 30% Section 25D credit through 2034 — relevant for Albuquerque homes with lot space for a ground loop.</p>
+</section>
+<section class="section fp-section">
+<h2>How Albuquerque Utility Rates Shape Your HVAC ROI</h2>
+<p>PNM (Public Service Company of New Mexico) charge-per-unit rates dominate Albuquerque system operating cost. Below is how those rates bend the equipment choice.</p>
+<div class="fp-season-grid">
+<div class="fp-scenario-card" style="border-top:4px solid #f59e0b; padding:20px;">
+<h3>Electricity</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$0.13/kWh</p>
+<p style="font-size:13px; color:#64748b;">PNM (Public Service Company of New Mexico)</p>
+</div>
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6; padding:20px;">
+<h3>Natural gas</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$1.20/therm</p>
+<p style="font-size:13px; color:#64748b;">Local provider residential</p>
+</div>
+</div>
+<p>Albuquerque's PNM (Public Service Company of New Mexico) residential rate of $0.13/kWh runs roughly 19% below the US average, which makes heat pumps financially attractive because every BTU delivered by electricity costs less than in almost any other US metro. Albuquerque's $1.20/therm gas rate is moderately above the US average. The gas-vs-heat-pump math tilts toward heat pumps if you're already upgrading the electric service, but dual-fuel remains the conservative choice for Northeast Heights and similar Albuquerque neighborhoods.</p>
+<p><strong>NM rate structure.</strong> Check your actual PNM (Public Service Company of New Mexico) bill rate, not the advertised rate, before running payback math. The summer delivery charges and demand components can meaningfully shift the effective per-kWh cost in Albuquerque.</p>
+</section>
+<section class="section fp-section">
+<h2>What the City of Albuquerque Planning Department Permit Covers in Albuquerque</h2>
+<p><strong>Permit authority:</strong> City of Albuquerque Planning Department. City of Albuquerque Planning Department issues HVAC permits for residential work. State licensing applies plus local contractor registration. Albuquerque requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+<p><strong>Scope of the Albuquerque mechanical permit.</strong> Albuquerque building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.. A City of Albuquerque Planning Department mechanical permit in Albuquerque covers Manual J sizing, service-side electrical, gas-piping sizing for any gas work, refrigerant line-set routing, condensate routing, and duct leakage testing where NM code requires it. On top of that baseline, City of Albuquerque Planning Department inspectors lean into combustion-air verification and refrigerant-line insulation on Albuquerque jobs rather than condensate, which rarely fails in this dry climate. City of Albuquerque Planning Department reviews Forced-air gas furnace plus central AC split system is the dominant Albuquerque configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.-specific installation details unique to Albuquerque.</p>
+<p><strong>Pulling the City of Albuquerque Planning Department permit is always the right call in Albuquerque.</strong> Skipping the permit in Albuquerque voids Albuquerque's warranty and any other manufacturer coverage, creates an MLS-listed defect at sale time, and sticks you with liability: a botched Albuquerque furnace install can vent CO through a cracked heat exchanger or undersized flue, and City of Albuquerque Planning Department is the last real check before that goes live in your living room. When a Albuquerque contractor offers to save you the permit fee, the savings really accrue to them by dodging City of Albuquerque Planning Department review. Permit-holder liability belongs to the installer under NM law; don't let them transfer it via an owner-builder filing.</p>
+<p><strong>Albuquerque's A2L transition is already under way.</strong> Every 2026 residential AC or heat pump going into a Albuquerque home runs R-454B (Honeywell's Solstice N41) or R-32 (the Daikin and Mitsubishi preference) under the AIM Act phase-down. Albuquerque distribution in NM still moves residual pre-2025 R-410A stock, but that pipeline is closing fast. The 2L flammability class on A2L — versus class 1 on R-410A — triggers tighter UL 60335-2-40 install protocols. Requirements include volume-to-charge ratios, leak sensors on indoor equipment over specified tonnages, and brazing-joint protocols that depart from R-410A practice. NM licensing does not equate to A2L certification; the Albuquerque shop you hire should produce A2L training documentation independently.</p>
+
+</section>
+<section class="section fp-section">
+<h2>How Albuquerque's HVAC Labor Market Shapes Your Bid</h2>
+<p>Smaller market with established local trades; verify NM Construction Industries Division license. Albuquerque has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.. Albuquerque-dealer pricing and independent-shop pricing in Albuquerque diverge mostly because the equipment pipelines differ, not because one is overcharging.</p>
+<p>Albuquerque's HVAC contractor market is comparatively stable, which gives Nob Hill, Old Town, and Northeast Heights homeowners real negotiating room. Three bids is the baseline, but on HVAC specifically verify you're comparing equivalent systems: same Albuquerque-vs-value-tier brand class, same SEER2/HSPF on the AHRI certificate, same warranty terms, same duct-testing scope. A $3,000 gap between Albuquerque bids usually means different equipment rather than different margin.</p>
+<p><strong>How to vet a Albuquerque HVAC contractor.</strong> Start with NM's HVAC contractor licensing board — check the NM license number against the state board's public lookup, not whatever the website claims. Insurance check: $500K-$1M per occurrence is standard in NM for general liability, plus active workers' comp confirmed through NM's comp database. Insist on the AHRI reference for the specific condenser/coil/air-handler combo in your Albuquerque quote. The listed SEER2/HSPF applies only to that AHRI-certified trio, not to random coil substitutions from PNM (Public Service Company of New Mexico)-area distribution.</p>
+<p><strong>Albuquerque install details that actually matter.</strong> Install craft matters more than brand tier — a poorly commissioned Albuquerque unit can be beaten by a mid-tier unit done right in Albuquerque. Five craft items to insist on in Albuquerque: a Manual J tied to PNM (Public Service Company of New Mexico)'s climate data, refrigerant charge dialed by live superheat/subcooling readings rather than weight, mastic-paste duct sealing (not tape — it fails in low conditions within three years), Albuquerque's heating-dominant load profile calls for 400 CFM per ton, adjusted for long heat-call duty cycles, and a signed commissioning sheet before you release final payment. Every Albuquerque bidder should walk you through all five; anyone who dismisses the question is telling you something.</p>
+</section>
+<section class="section fp-section">
+<h2>What to Watch Out for in Albuquerque HVAC Quotes</h2>
+<p>Scammy Albuquerque HVAC pitches follow patterns. Here are the ones that keep showing up across Nob Hill, Old Town, and Northeast Heights.</p>
+
+<div class="fp-flag">
+<h3>Albuquerque oversizing is the costliest install error</h3>
+<p>Albuquerque's dry climate hides the oversizing problem because dehumidification isn't the main job, but oversized furnaces still short-cycle and wear out sooner. Ask for the Manual J worksheet keyed to PNM (Public Service Company of New Mexico)'s climate bin data, not the "your house is 2,000 sq ft so you need 4 tons" shorthand. On a Albuquerque replacement, the disqualifying question for each bidder is "What cooling load did your Manual J return for this house, and what output tonnage are you specifying?" An answer that skips the load calc or the tonnage justification is a hard pass.</p>
+</div>
+<div class="fp-flag">
+<h3>IAQ upsell creep in Albuquerque</h3>
+<p>Nob Hill, Old Town, and Northeast Heights homeowners on PNM (Public Service Company of New Mexico) rarely need UV lights, ionizers, or "duct sanitization" when a MERV 11-13 filter changed every 90 days covers the same ground. These add-ons exist to pad margin on Albuquerque- or Carrier-equipped bids. If your Albuquerque bid leads with air-quality add-ons before discussing Manual J sizing or PNM (Public Service Company of New Mexico) rebate stacking via PNM offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates., the sales priority is add-on margin rather than your utility bill.</p>
+</div>
+<div class="fp-flag">
+<h3>R-410A scarcity fear-selling in Albuquerque</h3>
+<p>Albuquerque and Carrier distributors in the PNM (Public Service Company of New Mexico) area still fill R-410A service orders for existing Albuquerque customers. The 2024 cutoff ended new equipment production, not refrigerant availability. A Albuquerque technician claiming R-410A service is impossible is wrong or selling replacement. Recharge rates sit at $200-450 per pound; a "low refrigerant" fault is almost always a leak to find and repair. Separately: any R-22 mention on a Albuquerque quote is a red flag — R-22 left the legal US supply chain with the 2020 import ban.</p>
+</div>
+<div class="fp-flag">
+<h3>Albuquerque-specific scam</h3>
+<p>Albuquerque homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.. The Albuquerque pattern always involves urgency: same-day decision, no competing quote, no time to research. A second opinion from a state licensing-credentialed Northeast Heights or Ridgecrest shop costs 48 hours and routinely shaves $3,000-10,000 off the first pitch.</p>
+</div>
+<div class="fp-flag">
+<h3>Vanishing-price close on Albuquerque bids</h3>
+<p>The sign-today play crosses every Albuquerque bidder tier from Albuquerque authorized dealers to value shops. Honest quotes in Albuquerque hold for 30-90 days — "today only" pricing is a flag, not a deal. Walk away, gather bids from Nob Hill, Old Town, and Northeast Heights competitors, and notice PNM (Public Service Company of New Mexico) rebate deadlines run on quarterly or annual timelines, not end-of-visit.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque Equipment and Ductwork</h2>
+<p><strong>Dominant equipment.</strong> Forced-air gas furnace plus central AC split system is the dominant Albuquerque configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market..</p>
+<p><strong>Brand coverage.</strong> Albuquerque has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications..</p>
+<p><strong>Heat pump viability.</strong> Viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events.</p>
+<p><strong>Permit detail.</strong> City of Albuquerque Planning Department issues HVAC permits for residential work. State licensing applies plus local contractor registration. Albuquerque requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque HVAC Scam Patterns</h2>
+<p><strong>Local pattern.</strong> Albuquerque homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair..</p>
+<p><strong>Season reason.</strong> Albuquerque HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+<p><strong>Permit quirk.</strong> Albuquerque building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements..</p>
+<p><strong>Utility rebates.</strong> PNM offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque HVAC Technical Context</h2>
+<p>Albuquerque's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost..</p>
+<p><strong>Extreme conditions.</strong> Cold winters with sub-zero wind chills and summer humidity. The Albuquerque recommended efficiency targets are 16+ SEER for cooling and 96%+ AFUE for heating, calibrated to PNM (Public Service Company of New Mexico) rate structures.</p>
+<p><strong>Humidity.</strong> Albuquerque humidity is low. </p>
+</section>
+<section class="section fp-section">
+<h2>Seasonal Pricing for Albuquerque HVAC Replacements</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">October through February</p>
+<p>Albuquerque HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">June through August</p>
+<p>Albuquerque emergency pricing spikes 10-20% through these months since PNM (Public Service Company of New Mexico)-area shops run booked two to four weeks deep. Shops in Nob Hill, Old Town, and Northeast Heights have no incentive to discount when the next emergency call is already queued. Past the 12-year mark, scheduling replacement during october through february beats hoping the unit survives the next cold winters with sub-zero wind chills and summer humidity.</p>
+</div>
+</div>
+<p><strong>Albuquerque pro tip.</strong> A spring or fall tune-up from a Albuquerque-authorized Albuquerque contractor runs $80-$150. Pre-season diagnostics pick up superheat drift, pressure-side anomalies, and blower-motor bearing noise; those readings separate a planned replacement from a panicked June-weekend call in Nob Hill. Annual maintenance plans in Albuquerque run $180-$280 and bundle the tune-up; worth it if you have more than one system.</p>
+</section>
+<section class="section fp-section">
+<h2>Albuquerque HVAC Pricing: Three Worked Examples</h2>
+<p>These Albuquerque numbers reflect 2026 NM labor rates and the current PNM (Public Service Company of New Mexico)-territory equipment supply chain. Each scenario targets a 3-ton system on a 2,000 sq ft home where Forced-air gas furnace plus central AC split system is the dominant Albuquerque configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market. already exists.</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">96% AFUE furnace + 15 SEER2 AC</p>
+<p class="fp-scenario-total">$4.0K</p>
+<p class="fp-scenario-detail">Single-stage Goodman or Amana furnace paired with a baseline AC condenser, 10-year parts coverage. Includes City of Albuquerque Planning Department permit, programmable thermostat, PNM (Public Service Company of New Mexico) gas line sign-off, and removal of the existing unit. Reasonable for a Northeast Heights starter home or a short-term Albuquerque hold; heating-hour counts in Albuquerque mean a 92-96% AFUE upgrade pays back fast enough that this tier usually isn't the right long-term pick.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">16 SEER2 heat pump + 96% AFUE dual-fuel backup</p>
+<p class="fp-scenario-total">$7.4K</p>
+<p class="fp-scenario-detail">Two-stage Carrier heat pump with dual-fuel gas backup, new A2L line set, City of Albuquerque Planning Department permit, smart thermostat with PNM (Public Service Company of New Mexico) time-of-use scheduling, duct leakage measurement, and a written commissioning report. 10-year parts, 2-year labor warranty. The insurance-minded pick for Nob Hill, Old Town, and Northeast Heights homeowners who remember the last grid-stressing cold event.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">16+ SEER2 variable-speed system with 96% AFUE backup</p>
+<p class="fp-scenario-total">$12.4K</p>
+<p class="fp-scenario-detail">Inverter-driven variable-speed Albuquerque equipment with communicating controls. Full mastic-paste duct re-seal, flared-fitting A2L line set, City of Albuquerque Planning Department permit, smart thermostat with occupancy sensing, whole-home surge protection (genuinely relevant in Albuquerque given PNM (Public Service Company of New Mexico)'s grid profile), and HERS-verified written commissioning report. 12-year parts / 10-year labor warranty through Albuquerque's factory-authorized dealer program. Stacks maximum PNM offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. rebate plus any NM-level incentives. The ROI pencils in Albuquerque only for a 10+ year hold.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Budget another $3,000-$7,000 if full ductwork replacement is needed. A second story, or a Sandia Peak-adjacent Albuquerque property, typically adds 10-20%. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Albuquerque quote for a side-by-side comparison.</a></p>
+</section>
+<!-- /FLAGSHIP-HVAC-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 <section class="section">
 <h2>What affects HVAC cost in Albuquerque</h2>
 <ul class="factor-list">

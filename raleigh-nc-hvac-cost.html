@@ -193,6 +193,623 @@ depending on system type, efficiency rating, and home size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-HVAC-CONTENT -->
+
+<section class="section fp-section">
+<h2>Neighborhood HVAC Pricing Across Raleigh</h2>
+<p>Raleigh's pricing spread reflects the mix of Heat pump split systems are increasingly common in Raleigh, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.. The numbers below assume a 2,000 sq ft home with serviceable ductwork, pulled against Duke Energy Progress interconnection requirements.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Central AC</th>
+<th style="text-align:right; padding:12px 16px;">Heat Pump</th>
+<th style="text-align:right; padding:12px 16px;">Furnace</th>
+<th style="text-align:right; padding:12px 16px;">Full System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Five Points</td>
+<td style="padding:12px 16px; text-align:right;">$4,331</td>
+<td style="padding:12px 16px; text-align:right;">$5,562</td>
+<td style="padding:12px 16px; text-align:right;">$3,544</td>
+<td style="padding:12px 16px; text-align:right;">$7,629</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Cameron Park</td>
+<td style="padding:12px 16px; text-align:right;">$4,250</td>
+<td style="padding:12px 16px; text-align:right;">$5,458</td>
+<td style="padding:12px 16px; text-align:right;">$3,478</td>
+<td style="padding:12px 16px; text-align:right;">$7,487</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Oakwood</td>
+<td style="padding:12px 16px; text-align:right;">$4,210</td>
+<td style="padding:12px 16px; text-align:right;">$5,406</td>
+<td style="padding:12px 16px; text-align:right;">$3,444</td>
+<td style="padding:12px 16px; text-align:right;">$7,415</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Boylan Heights</td>
+<td style="padding:12px 16px; text-align:right;">$3,765</td>
+<td style="padding:12px 16px; text-align:right;">$4,834</td>
+<td style="padding:12px 16px; text-align:right;">$3,080</td>
+<td style="padding:12px 16px; text-align:right;">$6,631</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">North Hills</td>
+<td style="padding:12px 16px; text-align:right;">$3,846</td>
+<td style="padding:12px 16px; text-align:right;">$4,938</td>
+<td style="padding:12px 16px; text-align:right;">$3,146</td>
+<td style="padding:12px 16px; text-align:right;">$6,774</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">ITB</td>
+<td style="padding:12px 16px; text-align:right;">$3,886</td>
+<td style="padding:12px 16px; text-align:right;">$4,990</td>
+<td style="padding:12px 16px; text-align:right;">$3,180</td>
+<td style="padding:12px 16px; text-align:right;">$6,845</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Numbers here bake in Raleigh labor rates, City of Raleigh Development Services fees, and Duke Energy Progress paperwork time. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Raleigh quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>How Raleigh's Climate Drives Your HVAC Decision</h2>
+<p>Humid subtropical similar to Charlotte with hot summers, occasional ice storms, and remnants of Atlantic hurricanes. Raleigh's moderate climate makes it an ideal market for variable-speed heat pumps that handle both heating and cooling efficiently without the complexity of dual-fuel systems..</p>
+<p><strong>Balanced heating and cooling profile.</strong> Raleigh's hot summers above 95F and cold winters below 20F means you pay for both furnace and AC performance roughly equally. At Duke Energy Progress's $0.13/kWh electric rate and $1.20/therm gas rate, a single heat pump serving both loads usually wins the lifetime-cost comparison for homeowners in Five Points, Cameron Park, and Oakwood, especially when paired with a smart thermostat that shifts run time away from Duke Energy Progress's peak pricing windows.</p>
+<p><strong>Humidity control is the Raleigh sizing issue.</strong> Raleigh's high humidity turns AC oversizing from a minor annoyance into a real mold and mildew problem. An oversized system short-cycles, satisfying the thermostat before pulling moisture out of the air, and leaves Five Points and Cameron Park homeowners with a cold, clammy interior. A credible Manual J load calculation done against the Duke Energy Progress climate station data is mandatory in Raleigh, not optional. Variable-speed or two-stage systems run longer at lower output, which is what actually dehumidifies air under Raleigh's dew-point profile.</p>
+<p><strong>Heat pumps in Raleigh.</strong> Highly viable as the primary system; Raleigh's moderate climate is ideal for standard heat pump efficiency. Duke Energy Progress offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Raleigh Efficiency Targets: SEER and AFUE</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Cooling efficiency target</h3>
+<p class="fp-season-months">16+ SEER</p>
+<p>16 SEER is the sensible Raleigh minimum because heating, not cooling, dominates your Duke Energy Progress bill. The 14-to-16 SEER jump delivers modest savings here; the 16-to-20 jump delivers almost none. Put the efficiency budget toward the furnace or a cold-climate heat pump instead.</p>
+</div>
+<div class="fp-season-card" style="background:#eff6ff; border:1px solid #93c5fd;">
+<h3>Heating efficiency target</h3>
+<p class="fp-season-months">92%+ AFUE</p>
+<p>Raleigh's heating season is meaningful but not extreme, so 90-92% AFUE is the sensible sweet spot. If you're replacing an 80% AFUE unit in an older neighborhood home, the jump to 92% saves $200-$400 per year at Duke Energy Progress's current gas rate; the marginal step to 96% takes meaningfully longer to pay back.</p>
+</div>
+</div>
+<p><strong>What's the SEER2 floor in Raleigh?</strong> Federal floor for NC is 15 SEER2 (roughly 15.2 legacy SEER) under the DOE southern-region rule — any Raleigh bid under that is illegal for new residential install. A "14 SEER" quote in Raleigh for 2026 installs is a red flag — either stale inventory or a SEER2-versus-SEER labeling confusion; verify the AHRI reference online before signing.</p>
+<p><strong>Rebates available to Raleigh homeowners.</strong> Duke Energy Progress offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates.. The 25C heat-pump credit sunset December 31, 2025 and does not apply to 2026 Raleigh projects. IRA HEAR (up to $8,000 for income-qualified NC households) and IRA HOMES (up to $4,000-$8,000 performance-based) continue — administered through NC's designated energy office, applied by the installer, not via the homeowner's tax return. Ground-loop geothermal is a separate path in Raleigh: 30% Section 25D credit, uncapped, runs through 2034.</p>
+</section>
+<section class="section fp-section">
+<h2>What Duke Energy Progress Rates Mean for Raleigh HVAC</h2>
+<p>Duke Energy Progress charge-per-unit rates dominate Raleigh system operating cost. Below is how those rates bend the equipment choice.</p>
+<div class="fp-season-grid">
+<div class="fp-scenario-card" style="border-top:4px solid #f59e0b; padding:20px;">
+<h3>Electricity</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$0.13/kWh</p>
+<p style="font-size:13px; color:#64748b;">Duke Energy Progress</p>
+</div>
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6; padding:20px;">
+<h3>Natural gas</h3>
+<p class="fp-scenario-total" style="font-size:22px;">$1.20/therm</p>
+<p style="font-size:13px; color:#64748b;">Local provider residential</p>
+</div>
+</div>
+<p>Raleigh's Duke Energy Progress residential rate of $0.13/kWh runs roughly 19% below the US average, which makes heat pumps financially attractive because every BTU delivered by electricity costs less than in almost any other US metro. Raleigh's $1.20/therm gas rate is moderately above the US average. The gas-vs-heat-pump math tilts toward heat pumps if you're already upgrading the electric service, but dual-fuel remains the conservative choice for Oakwood and similar Raleigh neighborhoods.</p>
+<p><strong>NC rate structure.</strong> Check your actual Duke Energy Progress bill rate, not the advertised rate, before running payback math. The summer delivery charges and demand components can meaningfully shift the effective per-kWh cost in Raleigh.</p>
+</section>
+<section class="section fp-section">
+<h2>Raleigh HVAC Permitting and Inspections</h2>
+<p><strong>Permit authority:</strong> City of Raleigh Development Services. City of Raleigh Development Services issues HVAC permits for residential work. State licensing applies plus local contractor registration. Raleigh requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+<p><strong>Raleigh-specific coverage.</strong> Raleigh building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.. A Raleigh mechanical permit formally signs off on Manual J load calc, service electrical, gas pipe sizing if gas is involved, refrigerant line routing, condensate discharge, and NC's required duct-leakage testing. On top of that baseline, condensate overflow switches and secondary drain pans pull extra City of Raleigh Development Services scrutiny in Raleigh because clogged primary drain lines trigger ceiling collapse faster in humid air than anywhere drier. City of Raleigh Development Services also checks Heat pump split systems are increasingly common in Raleigh, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.-specific details a generic Sun Belt tract-home inspector wouldn't recognize.</p>
+<p><strong>The City of Raleigh Development Services permit in Raleigh is worth every dollar it costs.</strong> Unpermitted Raleigh work voids Raleigh and every manufacturer warranty, appears as an MLS flag at resale, and leaves you holding the liability when things fail: City of Raleigh Development Services inspection catches install errors that otherwise surface during Raleigh's first real extreme-weather event — which is the worst possible time to find them. The "no-permit discount" a Raleigh shop offers is really insurance against City of Raleigh Development Services inspection, paid by you. NC law puts permit liability on the installer, not the homeowner; refuse any owner-builder permit suggestion.</p>
+<p><strong>A2L changes how Raleigh shops handle refrigerant.</strong> Every 2026 residential AC or heat pump going into a Raleigh home runs R-454B (Honeywell's Solstice N41) or R-32 (the Daikin and Mitsubishi preference) under the AIM Act phase-down. Raleigh distribution in NC still moves residual pre-2025 R-410A stock, but that pipeline is closing fast. A2L sits in flammability class 2L versus class 1 for R-410A, so installation practice tightens under UL 60335-2-40. Requirements include volume-to-charge ratios, leak sensors on indoor equipment over specified tonnages, and brazing-joint protocols that depart from R-410A practice. NC licensing licensing does not automatically confirm A2L training; verify it separately on the Raleigh contractor you hire.</p>
+
+</section>
+<section class="section fp-section">
+<h2>Raleigh HVAC Contractors: How the Market Works</h2>
+<p>Rapid Triangle growth has stretched capacity; book 4-6 weeks ahead in peak season. Raleigh has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Rheem and Goodman also have significant market share through independent dealers.. A Raleigh dealer quote versus an independent Raleigh shop quote usually differs because of actual supply-chain differences, not margin inflation.</p>
+<p>Rapid Raleigh growth means replacement work competes against new construction for the same North Carolina Class I or Class II HVAC contractor license-licensed Five Points, Cameron Park, and Oakwood crews. That imbalance is a persistent headwind on negotiating leverage. Bid spreads of 40-60% between the cheapest and most expensive Raleigh HVAC quote are normal and usually reflect genuine differences in Raleigh-vs-value-tier equipment, warranty terms, and install craft — not just markup. Don't default to lowest bid.</p>
+<p><strong>What to verify on any Raleigh bid.</strong> North Carolina Class I or Class II HVAC contractor license is the starting point — pull the NC license number from the state's own lookup portal, not the company marketing page. On the insurance side: $500K-$1M per occurrence is standard in NC, with workers' comp verified in the NC comp system. Demand the AHRI reference number for the exact condenser-coil-air-handler combo quoted in Raleigh: the SEER2/HSPF printed on the spec sheet only applies to the certified combination, not to whatever substitute coil the installer pulls off a Duke Energy Progress-area truck.</p>
+<p><strong>Raleigh install quality matters more than the nameplate.</strong> Install craft matters more than brand tier — a poorly commissioned Raleigh unit can be beaten by a mid-tier unit done right in Raleigh. Non-negotiable craft details on a Raleigh install: Manual J against Duke Energy Progress's weather station, charge set by active superheat and subcooling readings during commissioning, mastic-sealed duct joints (tape degrades in high air inside three years), 400 CFM per ton balanced for Raleigh's dual-season operation, and a written commissioning record delivered pre-payment. Ask each Raleigh contractor about all five specifics — a contractor who can't or won't answer is showing you their install quality.</p>
+</section>
+<section class="section fp-section">
+<h2>Raleigh HVAC Scam Patterns to Watch For</h2>
+<p>These are the HVAC sales patterns that burn Raleigh homeowners most consistently across Five Points, Cameron Park, and Oakwood.</p>
+
+<div class="fp-flag">
+<h3>Why oversizing hurts worst in Raleigh</h3>
+<p>Five Points and Cameron Park bids regularly show oversized equipment because contractors default to square-foot rules; Duke Energy Progress's climate data plus a genuine Manual J worksheet catch this. Oversized AC in Raleigh's humid climate short-cycles before pulling moisture out of the air. Every Raleigh homeowner should ask each bidder "Show me the Manual J result and explain why this tonnage instead of the next size down." An answer that skips the load calc or the tonnage justification is a hard pass.</p>
+</div>
+<div class="fp-flag">
+<h3>Upsell bundles to decline in Raleigh</h3>
+<p>In Raleigh's humid climate, a whole-home dehumidifier ($1,500-$3,000) can genuinely pencil out; UV lights, ionizers, and "duct sanitization" on Five Points, Cameron Park, and Oakwood homes with clean ducts usually do not. Twice-yearly MERV 13 filter swaps cover the air-quality basics. When a Raleigh bid opens with air-quality accessories before talking Manual J or Duke Energy Progress rebates via Duke Energy Progress offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates., the real profit line is the add-ons — not the heating and cooling.</p>
+</div>
+<div class="fp-flag">
+<h3>"You can't service R-410A anymore" pitch</h3>
+<p>Raleigh and Carrier distributors in the Duke Energy Progress area still fill R-410A service orders for existing Raleigh customers. The 2024 cutoff ended new equipment production, not refrigerant availability. When a Raleigh tech tells you R-410A servicing ended, push back: recharges run $200-450 per pound and most "low charge" findings are leak-and-repair, not replace-the-system. R-22 imports were banned from the US in 2020, so R-22 on a Raleigh invoice is either mislabeled or smuggled.</p>
+</div>
+<div class="fp-flag">
+<h3>Raleigh market-specific pitch</h3>
+<p>Raleigh homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.. The Raleigh tell is time pressure: the close wants you to commit inside one visit without a comparison bid. A second opinion from a NC HVAC board-credentialed Oakwood or Boylan Heights shop costs 48 hours and routinely shaves $3,000-10,000 off the first pitch.</p>
+</div>
+<div class="fp-flag">
+<h3>Raleigh same-day "discount" gimmick</h3>
+<p>The sign-today play crosses every Raleigh bidder tier from Raleigh authorized dealers to value shops. Honest quotes in Raleigh hold for 30-90 days — "today only" pricing is a flag, not a deal. Decline, collect competing bids in Five Points, Cameron Park, and Oakwood, and check the actual Duke Energy Progress rebate deadlines: they're quarterly or annual, not same-day.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Raleigh Equipment and Ductwork</h2>
+<p><strong>Dominant equipment.</strong> Heat pump split systems are increasingly common in Raleigh, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market..</p>
+<p><strong>Brand coverage.</strong> Raleigh has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Rheem and Goodman also have significant market share through independent dealers..</p>
+<p><strong>Heat pump viability.</strong> Highly viable as the primary system; Raleigh's moderate climate is ideal for standard heat pump efficiency.</p>
+<p><strong>Permit detail.</strong> City of Raleigh Development Services issues HVAC permits for residential work. State licensing applies plus local contractor registration. Raleigh requires permit inspection for all new equipment installations including like-for-like replacements..</p>
+</section>
+<section class="section fp-section">
+<h2>Raleigh HVAC Scam Patterns</h2>
+<p><strong>Local pattern.</strong> Raleigh homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair..</p>
+<p><strong>Season reason.</strong> Raleigh HVAC demand peaks during the transition seasons when homeowners discover failing equipment. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+<p><strong>Permit quirk.</strong> Raleigh building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements..</p>
+<p><strong>Utility rebates.</strong> Duke Energy Progress offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates..</p>
+</section>
+<section class="section fp-section">
+<h2>Raleigh HVAC Technical Context</h2>
+<p>Raleigh's moderate climate makes it an ideal market for variable-speed heat pumps that handle both heating and cooling efficiently without the complexity of dual-fuel systems..</p>
+<p><strong>Extreme conditions.</strong> Hot summers above 95F and cold winters below 20F. The Raleigh recommended efficiency targets are 16+ SEER for cooling and 92%+ AFUE for heating, calibrated to Duke Energy Progress rate structures.</p>
+<p><strong>Humidity.</strong> Raleigh humidity is high. </p>
+</section>
+<section class="section fp-section">
+<h2>When to Buy HVAC in Raleigh: Seasonal Timing</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">November through March</p>
+<p>Raleigh HVAC demand peaks during the transition seasons when homeowners discover failing equipment. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing..</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">July through September</p>
+<p>Expect a 10-20% Raleigh premium during peak months: Duke Energy Progress-approved contractors carry a two-to-four-week backlog. Five Points, Cameron Park, and Oakwood contractors can afford to pass on negotiating; the emergency-call backlog keeps them busy. For any system over 12 years, proactive november through march replacement saves real money versus the emergency-call alternative during hot summers above 95f and cold winters below 20f.</p>
+</div>
+</div>
+<p><strong>A Raleigh timing trick worth knowing.</strong> Book a Raleigh-authorized Raleigh tune-up ($80-$150) before either shoulder season. The technician looks for early-stage failure signals — superheat drift, high-side pressure creep, noisy blower motor bearings — that flag a controlled replacement window before a July breakdown in Five Points. Most Raleigh shops fold this into a yearly maintenance contract at $180-$280, which pencils out for multi-unit homes.</p>
+</section>
+<section class="section fp-section">
+<h2>Raleigh HVAC Cost Scenarios: Budget, Mid, Premium</h2>
+<p>Here's what real Raleigh HVAC projects cost in 2026, using NC-calibrated labor and Duke Energy Progress-area parts availability. Every scenario assumes a 3-ton, 2,000 sq ft Raleigh home with serviceable ductwork and Heat pump split systems are increasingly common in Raleigh, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market..</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">15 SEER2 AC + 90% AFUE furnace</p>
+<p class="fp-scenario-total">$4.0K</p>
+<p class="fp-scenario-detail">Single-stage Goodman or Amana equipment with a 10-year parts-only warranty. Covers City of Raleigh Development Services permit, programmable thermostat, Duke Energy Progress interconnection, and old-unit disposal. Fits Oakwood rentals or budget-bound Raleigh owners with a short planned hold; duct sealing and HERS verification (where NC requires it) are not included.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">16 SEER2 heat pump + 92% AFUE dual-fuel backup</p>
+<p class="fp-scenario-total">$7.4K</p>
+<p class="fp-scenario-detail">Two-stage Carrier heat pump with dual-fuel gas backup, new A2L line set, City of Raleigh Development Services permit, smart thermostat with Duke Energy Progress time-of-use scheduling, duct leakage measurement, and a written commissioning report. 10-year parts, 2-year labor warranty. The insurance-minded pick for Five Points, Cameron Park, and Oakwood homeowners who remember the last grid-stressing cold event.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">16+ SEER2 variable-speed system with 92% AFUE backup</p>
+<p class="fp-scenario-total">$12.4K</p>
+<p class="fp-scenario-detail">Variable-speed Raleigh inverter equipment, full duct system re-sealed with mastic paste, A2L line set with flared fittings, City of Raleigh Development Services permit, smart thermostat tracking Duke Energy Progress time-of-use, whole-home surge suppression, and a HERS-verified commissioning document. Raleigh factory warranty of 12-year parts and 10-year labor. Eligible for the full Duke Energy Progress offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates. rebate plus NC-level stacking. Works financially in Raleigh on a 10+ year ownership horizon.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Budget another $3,000-$7,000 if full ductwork replacement is needed. A second story, or a NC State campus-adjacent Raleigh property, typically adds 10-20%. <a href="/hvac-quote-analyzer.html" style="color:var(--brand);">Upload your Raleigh quote for a side-by-side comparison.</a></p>
+</section>
+<!-- /FLAGSHIP-HVAC-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 <section class="section">
 <h2>What affects HVAC cost in Raleigh</h2>
 <ul class="factor-list">

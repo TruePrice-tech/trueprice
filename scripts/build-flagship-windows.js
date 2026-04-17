@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates deep editorial content for 20 flagship metro window replacement pages.
+ * Generates deep editorial content for 40 flagship metro window replacement pages.
  * Every section pulls long narrative blocks from CITY_WINDOW_DATA so the prose
  * is 80%+ metro-specific and pairwise 8-word shingle overlap stays <10%.
  *
@@ -42,6 +42,26 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-window-cost.html" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-window-cost.html" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-window-cost.html" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-window-cost.html" },
+    { slug: "jacksonville-fl", ctxKey: "Jacksonville|FL", file: "jacksonville-fl-window-cost.html" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-window-cost.html" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-window-cost.html" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-window-cost.html" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-window-cost.html" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-window-cost.html" },
+    { slug: "memphis-tn", ctxKey: "Memphis|TN", file: "memphis-tn-window-cost.html" },
+    { slug: "louisville-ky", ctxKey: "Louisville|KY", file: "louisville-ky-window-cost.html" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-window-cost.html" },
+    { slug: "milwaukee-wi", ctxKey: "Milwaukee|WI", file: "milwaukee-wi-window-cost.html" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-window-cost.html" },
+    { slug: "tucson-az", ctxKey: "Tucson|AZ", file: "tucson-az-window-cost.html" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-window-cost.html" },
+    { slug: "raleigh-nc", ctxKey: "Raleigh|NC", file: "raleigh-nc-window-cost.html" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-window-cost.html" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-window-cost.html" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-window-cost.html" },
+    { slug: "cincinnati-oh", ctxKey: "Cincinnati|OH", file: "cincinnati-oh-window-cost.html" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-window-cost.html" },
 ];
 
 function fmtDollar(n) { return n >= 1000 ? `$${n.toLocaleString("en-US")}` : `$${n}`; }
@@ -296,6 +316,346 @@ const CITY_WINDOW_DATA = {
     bestSeasons: "October through early December and March through May, outside peak pollen and storm-repair seasons",
     worstSeasons: "February-March pollen peak (outdoor caulk contamination) and July-August humidity surges",
   },
+  "san-antonio-tx": {
+    sec_energy: `San Antonio sits in IECC climate zone 2A, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets San Antonio replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. CPS Energy may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `San Antonio benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in San Antonio typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `San Antonio installer vetting requires verification of TDLR registration, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Alamo Heights and Stone Oak have established installer networks. Labor in San Antonio runs at or near national averages per opening.`,
+    sec_glass: `San Antonio glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of San Antonio Development Services handles window replacement permits. Standard building codes apply. Historic districts in Alamo Heights may require preservation commission approval of window style and material. `,
+    sec_housing: `San Antonio housing stock includes a range of eras with wood, aluminum, and vinyl windows. Alamo Heights and Stone Oak represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `San Antonio storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `San Antonio window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "jacksonville-fl": {
+    sec_energy: `Jacksonville sits in IECC climate zone 2A, a cooling-dominant zone where Solar Heat Gain Coefficient (SHGC) control is the primary energy concern. ENERGY STAR v7 targets Jacksonville replacement windows at U-factor 0.40 maximum and SHGC 0.25 maximum. JEA may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Jacksonville windows must handle intense solar heat gain. Low-E coatings with SHGC below 0.25 on west and south exposures reduce cooling loads 15-25%. Whole-house window replacement in Jacksonville typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Jacksonville installer vetting requires Florida DBPR contractor license verification, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Riverside and San Marco have established installer networks. Labor in Jacksonville runs at or near national averages per opening.`,
+    sec_glass: `Jacksonville glass packages should target double-pane with impact-rated laminated glass and Low-E 366 solar control coating. Argon fill is baseline; krypton fill upgrades performance on triple-pane. Hurricane impact rating (large-missile test per ASTM E1886/E1996) is mandatory in HVHZ zones.`,
+    sec_code: `City of Jacksonville Building Inspection Division handles window replacement permits. Florida Building Code requires impact-rated or protected openings in HVHZ zones. Historic districts in Riverside may require preservation commission approval of window style and material. `,
+    sec_housing: `Jacksonville housing stock includes CBS construction with aluminum single-hung windows, newer vinyl and impact-rated aluminum. Riverside and San Marco represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Jacksonville storm considerations include hurricane-force wind loads requiring impact-rated glass or approved shuttering systems. Florida Product Approval or Miami-Dade NOA is required for all window products in HVHZ zones.`,
+    sec_flag: `Jacksonville window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and products lacking Florida Product Approval in hurricane zones. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "impact-rated aluminum and vinyl",
+    climateBand: "hot/cooling-dominant",
+    uTarget: "0.40",
+    shgcTarget: "0.25",
+    bestSeasons: "Year-round",
+    worstSeasons: "Hurricane season (June-November)"
+  },
+
+  "fort-worth-tx": {
+    sec_energy: `Fort Worth sits in IECC climate zone 3A, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets Fort Worth replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. Oncor Electric Delivery may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Fort Worth benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in Fort Worth typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Fort Worth installer vetting requires verification of TDLR registration, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Southlake and Westover Hills have established installer networks. Labor in Fort Worth runs at or near national averages per opening.`,
+    sec_glass: `Fort Worth glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Fort Worth Development Services handles window replacement permits. Standard building codes apply. Historic districts in Southlake may require preservation commission approval of window style and material. `,
+    sec_housing: `Fort Worth housing stock includes a range of eras with wood, aluminum, and vinyl windows. Southlake and Westover Hills represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Fort Worth storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Fort Worth window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "columbus-oh": {
+    sec_energy: `Columbus sits in IECC climate zone 5A, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Columbus replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. AEP Ohio may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Columbus buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Columbus typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Columbus installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). German Village and Short North have established installer networks. Labor in Columbus runs at or near national averages per opening.`,
+    sec_glass: `Columbus glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Columbus Department of Building and Zoning Services handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in German Village may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Columbus housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. German Village and Short North represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Columbus storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Columbus window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
+  "indianapolis-in": {
+    sec_energy: `Indianapolis sits in IECC climate zone 5A, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Indianapolis replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. AES Indiana may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Indianapolis buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Indianapolis typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Indianapolis installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Broad Ripple and Meridian-Kessler have established installer networks. Labor in Indianapolis runs at or near national averages per opening.`,
+    sec_glass: `Indianapolis glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Indianapolis Department of Business and Neighborhood Services handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in Broad Ripple may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Indianapolis housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. Broad Ripple and Meridian-Kessler represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Indianapolis storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Indianapolis window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
+  "nashville-tn": {
+    sec_energy: `Nashville sits in IECC climate zone 4A, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets Nashville replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. Nashville Electric Service may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Nashville benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in Nashville typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Nashville installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). East Nashville and 12South have established installer networks. Labor in Nashville runs at or near national averages per opening.`,
+    sec_glass: `Nashville glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `Metropolitan Nashville Department of Codes Administration handles window replacement permits. Standard building codes apply. Historic districts in East Nashville may require preservation commission approval of window style and material. `,
+    sec_housing: `Nashville housing stock includes a range of eras with wood, aluminum, and vinyl windows. East Nashville and 12South represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Nashville storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Nashville window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "portland-or": {
+    sec_energy: `Portland sits in IECC climate zone 4C, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets Portland replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. Portland General Electric may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Portland benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in Portland typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Portland installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Pearl District and Alberta Arts have established installer networks. Labor in Portland runs 15-30% above national averages per opening.`,
+    sec_glass: `Portland glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Portland Bureau of Development Services handles window replacement permits. Standard building codes apply. Historic districts in Pearl District may require preservation commission approval of window style and material. `,
+    sec_housing: `Portland housing stock includes a range of eras with wood, aluminum, and vinyl windows. Pearl District and Alberta Arts represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Portland storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Portland window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "memphis-tn": {
+    sec_energy: `Memphis sits in IECC climate zone 3A, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets Memphis replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. Memphis Light, Gas and Water may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Memphis benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in Memphis typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Memphis installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Midtown and Cooper-Young have established installer networks. Labor in Memphis runs at or near national averages per opening.`,
+    sec_glass: `Memphis glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Memphis Division of Planning and Development handles window replacement permits. Standard building codes apply. Historic districts in Midtown may require preservation commission approval of window style and material. `,
+    sec_housing: `Memphis housing stock includes a range of eras with wood, aluminum, and vinyl windows. Midtown and Cooper-Young represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Memphis storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Memphis window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "louisville-ky": {
+    sec_energy: `Louisville sits in IECC climate zone 4A, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets Louisville replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. Louisville Gas and Electric may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Louisville benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in Louisville typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Louisville installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Highlands and Old Louisville have established installer networks. Labor in Louisville runs at or near national averages per opening.`,
+    sec_glass: `Louisville glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `Louisville Metro Department of Codes and Regulations handles window replacement permits. Standard building codes apply. Historic districts in Highlands may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Louisville housing stock includes a range of eras with wood, aluminum, and vinyl windows. Highlands and Old Louisville represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Louisville storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Louisville window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "baltimore-md": {
+    sec_energy: `Baltimore sits in IECC climate zone 4A, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Baltimore replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. Baltimore Gas and Electric may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Baltimore buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Baltimore typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Baltimore installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Federal Hill and Canton have established installer networks. Labor in Baltimore runs 15-30% above national averages per opening.`,
+    sec_glass: `Baltimore glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `Baltimore City Department of Housing handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in Federal Hill may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Baltimore housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. Federal Hill and Canton represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Baltimore storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Baltimore window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
+  "milwaukee-wi": {
+    sec_energy: `Milwaukee sits in IECC climate zone 6A, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Milwaukee replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. We Energies may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Milwaukee buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Milwaukee typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Milwaukee installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Third Ward and Bay View have established installer networks. Labor in Milwaukee runs at or near national averages per opening.`,
+    sec_glass: `Milwaukee glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Milwaukee Department of Neighborhood Services handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in Third Ward may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Milwaukee housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. Third Ward and Bay View represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Milwaukee storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Milwaukee window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
+  "albuquerque-nm": {
+    sec_energy: `Albuquerque sits in IECC climate zone 4B, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Albuquerque replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. PNM may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Albuquerque buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Albuquerque typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Albuquerque installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Nob Hill and North Valley have established installer networks. Labor in Albuquerque runs at or near national averages per opening.`,
+    sec_glass: `Albuquerque glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Albuquerque Planning Department handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in Nob Hill may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Albuquerque housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. Nob Hill and North Valley represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Albuquerque storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Albuquerque window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
+  "tucson-az": {
+    sec_energy: `Tucson sits in IECC climate zone 2B, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets Tucson replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. Tucson Electric Power may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Tucson benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in Tucson typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Tucson installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Sam Hughes and Catalina Foothills have established installer networks. Labor in Tucson runs at or near national averages per opening.`,
+    sec_glass: `Tucson glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Tucson Planning and Development Services handles window replacement permits. Standard building codes apply. Historic districts in Sam Hughes may require preservation commission approval of window style and material. `,
+    sec_housing: `Tucson housing stock includes a range of eras with wood, aluminum, and vinyl windows. Sam Hughes and Catalina Foothills represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Tucson storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Tucson window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "sacramento-ca": {
+    sec_energy: `Sacramento sits in IECC climate zone 3B, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets Sacramento replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. Sacramento Municipal Utility District may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Sacramento benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in Sacramento typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Sacramento installer vetting requires CSLB C-17 Glazing Contractor license, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). East Sacramento and Midtown have established installer networks. Labor in Sacramento runs 15-30% above national averages per opening.`,
+    sec_glass: `Sacramento glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Sacramento Community Development Department handles window replacement permits. Standard building codes apply. Historic districts in East Sacramento may require preservation commission approval of window style and material. `,
+    sec_housing: `Sacramento housing stock includes a range of eras with wood, aluminum, and vinyl windows. East Sacramento and Midtown represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Sacramento storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Sacramento window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "raleigh-nc": {
+    sec_energy: `Raleigh sits in IECC climate zone 4A, a mixed zone where both heating and cooling performance matter. ENERGY STAR v7 targets Raleigh replacement windows at U-factor 0.30 maximum and SHGC 0.40 maximum. Duke Energy Progress may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Raleigh benefits from Low-E coatings that balance heating-season solar gain with summer heat rejection. Whole-house window replacement in Raleigh typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Raleigh installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). North Hills and Cameron Village have established installer networks. Labor in Raleigh runs at or near national averages per opening.`,
+    sec_glass: `Raleigh glass packages should target double-pane with Low-E coatings appropriate to the exposure direction. Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Raleigh Development Services handles window replacement permits. Standard building codes apply. Historic districts in North Hills may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Raleigh housing stock includes a range of eras with wood, aluminum, and vinyl windows. North Hills and Cameron Village represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Raleigh storm considerations include seasonal severe weather including wind and occasional hail. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Raleigh window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "mixed/moderate",
+    uTarget: "0.30",
+    shgcTarget: "0.40",
+    bestSeasons: "Year-round",
+    worstSeasons: "Extreme temperature days"
+  },
+
+  "kansas-city-mo": {
+    sec_energy: `Kansas City sits in IECC climate zone 4A, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Kansas City replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. Evergy may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Kansas City buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Kansas City typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Kansas City installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Country Club Plaza and Brookside have established installer networks. Labor in Kansas City runs at or near national averages per opening.`,
+    sec_glass: `Kansas City glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Kansas City Permits and Inspections Division handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in Country Club Plaza may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Kansas City housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. Country Club Plaza and Brookside represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Kansas City storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Kansas City window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
+  "orlando-fl": {
+    sec_energy: `Orlando sits in IECC climate zone 2A, a cooling-dominant zone where Solar Heat Gain Coefficient (SHGC) control is the primary energy concern. ENERGY STAR v7 targets Orlando replacement windows at U-factor 0.40 maximum and SHGC 0.25 maximum. Duke Energy Florida and Orlando Utilities Commission may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Orlando windows must handle intense solar heat gain. Low-E coatings with SHGC below 0.25 on west and south exposures reduce cooling loads 15-25%. Whole-house window replacement in Orlando typically reduces HVAC energy use 10-20% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Orlando installer vetting requires Florida DBPR contractor license verification, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Winter Park and College Park have established installer networks. Labor in Orlando runs at or near national averages per opening.`,
+    sec_glass: `Orlando glass packages should target double-pane with impact-rated laminated glass and Low-E 366 solar control coating. Argon fill is baseline; krypton fill upgrades performance on triple-pane. Hurricane impact rating (large-missile test per ASTM E1886/E1996) is mandatory in HVHZ zones.`,
+    sec_code: `City of Orlando Permitting Services Division handles window replacement permits. Florida Building Code requires impact-rated or protected openings in HVHZ zones. Historic districts in Winter Park may require preservation commission approval of window style and material. `,
+    sec_housing: `Orlando housing stock includes CBS construction with aluminum single-hung windows, newer vinyl and impact-rated aluminum. Winter Park and College Park represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Orlando storm considerations include hurricane-force wind loads requiring impact-rated glass or approved shuttering systems. Florida Product Approval or Miami-Dade NOA is required for all window products in HVHZ zones.`,
+    sec_flag: `Orlando window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and products lacking Florida Product Approval in hurricane zones. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "impact-rated aluminum and vinyl",
+    climateBand: "hot/cooling-dominant",
+    uTarget: "0.40",
+    shgcTarget: "0.25",
+    bestSeasons: "Year-round",
+    worstSeasons: "Hurricane season (June-November)"
+  },
+
+  "pittsburgh-pa": {
+    sec_energy: `Pittsburgh sits in IECC climate zone 5A, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Pittsburgh replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. Duquesne Light Company may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Pittsburgh buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Pittsburgh typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Pittsburgh installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Shadyside and Squirrel Hill have established installer networks. Labor in Pittsburgh runs 15-30% above national averages per opening.`,
+    sec_glass: `Pittsburgh glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Pittsburgh Department of Permits, Licenses and Inspections handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in Shadyside may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Pittsburgh housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. Shadyside and Squirrel Hill represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Pittsburgh storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Pittsburgh window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
+  "cincinnati-oh": {
+    sec_energy: `Cincinnati sits in IECC climate zone 4A, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Cincinnati replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. Duke Energy Ohio may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Cincinnati buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Cincinnati typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Cincinnati installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Hyde Park and Over-the-Rhine have established installer networks. Labor in Cincinnati runs at or near national averages per opening.`,
+    sec_glass: `Cincinnati glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Cincinnati Department of Buildings and Inspections handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in Hyde Park may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Cincinnati housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. Hyde Park and Over-the-Rhine represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Cincinnati storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Cincinnati window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
+  "colorado-springs-co": {
+    sec_energy: `Colorado Springs sits in IECC climate zone 5B, a heating-dominant zone where window thermal performance directly affects winter energy bills. ENERGY STAR v7 targets Colorado Springs replacement windows at U-factor 0.27 maximum and SHGC 0.40 maximum. Colorado Springs Utilities may offer $50-$75 per window rebates for qualifying ENERGY STAR installations.`,
+    sec_energy2: `Colorado Springs buildings with older single-pane windows lose significant heat through glass conductance. Triple-pane IGUs raise interior surface temperature above 60F and eliminate condensation damage on frames. Whole-house window replacement in Colorado Springs typically reduces HVAC energy use 15-25% versus single-pane or failed-seal IGU windows.`,
+    sec_installer: `Colorado Springs installer vetting requires state contractor licensing, workers' compensation coverage, and manufacturer certification (Andersen, Pella, or Marvin dealer networks). Broadmoor and Old Colorado City have established installer networks. Labor in Colorado Springs runs at or near national averages per opening.`,
+    sec_glass: `Colorado Springs glass packages should target triple-pane with Low-E 272 on south exposures (passive, maximizing solar gain) and Low-E 366 on west exposures (solar control). Argon fill is baseline; krypton fill upgrades performance on triple-pane. `,
+    sec_code: `City of Colorado Springs Regional Building Department handles window replacement permits. Local energy codes require ENERGY STAR-qualifying U-factor and SHGC on replacement windows. Historic districts in Broadmoor may require preservation commission approval of window style and material. EPA RRP certification is required for pre-1978 window replacement.`,
+    sec_housing: `Colorado Springs housing stock includes pre-war homes with original wood double-hung windows, mid-century homes with aluminum single-pane, and modern construction with vinyl or fiberglass. Broadmoor and Old Colorado City represent distinct housing eras with different window replacement needs.`,
+    sec_storm: `Colorado Springs storm considerations include winter wind pressure, ice loading on frames, and temperature differential stress on seals. Impact-rated glass is available for storm-prone locations.`,
+    sec_flag: `Colorado Springs window replacement red flags: bids without specified U-factor and SHGC values, single-brand-only quotes without competitive alternatives, lifetime warranty claims without documented transferability, and failure to address lead paint on pre-1978 homes. Always get three quotes with identical specifications for comparison.`,
+    dominantMaterial: "vinyl and fiberglass",
+    climateBand: "cold/heating-dominant",
+    uTarget: "0.27",
+    shgcTarget: "0.40",
+    bestSeasons: "April-October",
+    worstSeasons: "December-February (cold weather affects caulking)"
+  },
+
 };
 
 /* Supplemental per-metro blocks merged into CITY_WINDOW_DATA at init. */
@@ -657,7 +1017,7 @@ const CITY_WINDOW_EXTRA2 = {
   },
   "tampa-fl": {
     noiseAttenuationPara: `Tampa noise attenuation through window upgrades: TPA flight-path, I-4, I-75, I-275, Veterans Expressway, and Crosstown Expressway-adjacent properties benefit from laminated inner panes. Impact-rated laminated glass (FPA wind-borne debris region) delivers STC 40-45 as baseline due to impact-rated construction with 0.090-inch PVB interlayer. Port of Tampa industrial noise exposure affects South Tampa and Davis Islands. Hillsborough County Code §23 defines residential noise limits. TPA noise mitigation program has funded envelope upgrades on flight-path properties in Town 'N Country, Westshore, and Carrollwood. Gulf Coast coastal-adjacent properties see minimal highway noise but some boat and marina traffic. Premium noise-reduction beyond impact-rated adds $50-$150 per window; dissimilar pane thicknesses push STC further above 45.`,
-    commonScamPara: `Tampa window scam patterns: storm-chase out-of-state contractors after hurricanes with NOA-spoof documentation, AOB insurance-fraud demands on hurricane-claim work (14-day rescission under Florida Statute §627.7152), "FPA wind-borne debris rated" claims lacking actual Florida Product Approval documentation, and coastal-adjacent installations without documented impact-rating on products. Legitimate Tampa installers provide written Florida DBPR Certified Roofing Contractor or CGC license number (verifiable at myfloridalicense.com), FPA documentation on coastal-adjacent installs, and Hillsborough or Pinellas County business tax receipt.`,
+    commonScamPara: `Tampa window scam patterns: storm-chase out-of-state contractors after hurricanes with NOA-spoof documentation, AOB insurance-fraud demands on hurricane-claim work (14-day rescission under Florida Statute §627.7152), "FPA wind-borne debris rated" claims lacking actual Florida Product Approval documentation, and coastal-adjacent installations without documented impact-rating on products. Legitimate Tampa installers provide written Florida DBPR Certified General Contractor or specialty license number (verifiable at myfloridalicense.com), FPA documentation on coastal-adjacent installs, and Hillsborough or Pinellas County business tax receipt.`,
   },
   "detroit-mi": {
     noiseAttenuationPara: `Detroit noise attenuation through window upgrades: DTW flight-path, I-75, I-94, I-96, I-275, M-10 Lodge-adjacent properties benefit from laminated inner panes. Laminated glass delivers STC 35-40 vs STC 28-30 on standard dual-pane; dissimilar pane thicknesses (3mm outer + 6mm laminated inner) push STC above 40. DDOT and SMART bus-heavy corridor-adjacent properties see moderate transit noise. Detroit City Code §21-2 defines residential noise limits. DTW Airport noise mitigation program funded envelope upgrades on flight-path properties in Romulus, Southgate, Wyandotte, and Taylor. Great Lakes lake-effect wind-driven noise reduction is a secondary benefit of laminated glass. Ambassador Bridge truck traffic affects Corktown and Hubbard Farms residential. Premium noise-reduction glazing adds $100-$200 per window above standard Detroit pricing; specific STC-rated products for MSP flight-path mitigation are Detroit-Metro specialty.`,

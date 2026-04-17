@@ -223,6 +223,408 @@ depending on project type, size, and finish.
 </section>
 
 
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+
+
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-CONCRETE-CONTENT -->
+
+<section class="section fp-section">
+<h2>Portland Neighborhood Pricing</h2>
+<p>Ranges reflect Knife River, CalPortland, and Cadman ready-mix rates plus local labor. Standard soil conditions keep excavation costs predictable. Labor rates in Portland are above the national average.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Driveway (400sf)</th>
+<th style="text-align:right; padding:12px 16px;">Patio (300sf)</th>
+<th style="text-align:right; padding:12px 16px;">Sidewalk (150sf)</th>
+<th style="text-align:right; padding:12px 16px;">Foundation Repair</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Alberta Arts</td>
+<td style="padding:12px 16px; text-align:right;">$6,005</td>
+<td style="padding:12px 16px; text-align:right;">$4,699</td>
+<td style="padding:12px 16px; text-align:right;">$2,154</td>
+<td style="padding:12px 16px; text-align:right;">$8,485</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Hawthorne</td>
+<td style="padding:12px 16px; text-align:right;">$5,893</td>
+<td style="padding:12px 16px; text-align:right;">$4,612</td>
+<td style="padding:12px 16px; text-align:right;">$2,114</td>
+<td style="padding:12px 16px; text-align:right;">$8,327</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Sellwood</td>
+<td style="padding:12px 16px; text-align:right;">$5,836</td>
+<td style="padding:12px 16px; text-align:right;">$4,568</td>
+<td style="padding:12px 16px; text-align:right;">$2,094</td>
+<td style="padding:12px 16px; text-align:right;">$8,247</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Northwest</td>
+<td style="padding:12px 16px; text-align:right;">$5,219</td>
+<td style="padding:12px 16px; text-align:right;">$4,085</td>
+<td style="padding:12px 16px; text-align:right;">$1,872</td>
+<td style="padding:12px 16px; text-align:right;">$7,375</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Laurelhurst</td>
+<td style="padding:12px 16px; text-align:right;">$5,331</td>
+<td style="padding:12px 16px; text-align:right;">$4,172</td>
+<td style="padding:12px 16px; text-align:right;">$1,912</td>
+<td style="padding:12px 16px; text-align:right;">$7,534</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Mississippi</td>
+<td style="padding:12px 16px; text-align:right;">$5,388</td>
+<td style="padding:12px 16px; text-align:right;">$4,216</td>
+<td style="padding:12px 16px; text-align:right;">$1,932</td>
+<td style="padding:12px 16px; text-align:right;">$7,613</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Portland Subgrade and Mix Design</h2>
+<p>Portland sits on Willamette River alluvium over Columbia River basalt with Portland Hills silt. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Pearl District, Alberta Arts, Lake Oswego.</p>
+<p>The Portland residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Knife River, CalPortland, and Cadman supply most of the Portland delivery radius. Cold-weather pours in January and February require protection protocols.</p>
+<p>Portland residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.</p>
+</section>
+<section class="section fp-section">
+<h2>Climate Impact on Portland Concrete</h2>
+<p>Portland averages about 15 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 43 inches of precipitation annually.</p>
+<p>Portland faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable Portland contractors reference these events when specifying protective measures.</p>
+</section>
+<section class="section fp-section">
+<h2>Portland Permits and Right-of-Way Rules</h2>
+<p>City of Portland Bureau of Development Services handles residential concrete permits. Pearl District and Lake Oswego have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+<p>Portland zoning code restricts driveway width and requires setbacks from property lines in residential zones. Pearl District and Alberta Arts lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</section>
+<section class="section fp-section">
+<h2>What Portland Concrete Contractors Actually Do</h2>
+<p>Residential concrete in Portland centers on stamped patios, integrally colored driveways, and decorative seat walls typical of neighborhoods like Pearl District and Alberta Arts.</p>
+<p>Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in Portland. Local pigment and aggregate supply match the regional aesthetic.</p>
+</section>
+<section class="section fp-section">
+<h2>Portland Concrete Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Bid ignores Portland mix spec</h3>
+<p>The Portland residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Knife River, CalPortland, and Cadman supply most of the Portland delivery radius. Cold-weather pours in January and February require protection protocols.</p>
+</div>
+<div class="fp-flag">
+<h3>Reinforcement weaker than the Portland baseline</h3>
+<p>Portland residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.</p>
+</div>
+<div class="fp-flag">
+<h3>Climate exposure unaddressed</h3>
+<p>Portland averages about 15 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 43 inches of precipitation annually.</p>
+</div>
+<div class="fp-flag">
+<h3>Missing disaster-informed detailing</h3>
+<p>Portland faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable Portland contractors reference these events when specifying protective measures.</p>
+</div>
+<div class="fp-flag">
+<h3>Setback or permit gaps</h3>
+<p>Portland zoning code restricts driveway width and requires setbacks from property lines in residential zones. Pearl District and Alberta Arts lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</div>
+<div class="fp-flag">
+<h3>Pour window mismatch</h3>
+<p>The Portland pour window runs year-round, with early morning pours recommended during summer to avoid afternoon heat.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>How Portland Concrete Fails</h2>
+<p>Portland averages about 15 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 43 inches of precipitation annually.</p>
+<p>Portland faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable Portland contractors reference these events when specifying protective measures.</p>
+<p>Portland zoning code restricts driveway width and requires setbacks from property lines in residential zones. Pearl District and Alberta Arts lots often have specific deed restrictions or HOA requirements layered on top of municipal code.</p>
+</section>
+<section class="section fp-section">
+<h2>What Your Portland Contract Should Spell Out</h2>
+<p><strong>Mix design.</strong> The Portland residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Knife River, CalPortland, and Cadman supply most of the Portland delivery radius. Cold-weather pours in January and February require protection protocols.</p>
+<p><strong>Reinforcement.</strong> Portland residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.</p>
+<p><strong>Subgrade preparation.</strong> Portland sits on Willamette River alluvium over Columbia River basalt with Portland Hills silt. Residential lots show variable depth to competent bearing across the metro, and geotechnical investigation is recommended before any structural slab work. The local soil profile drives both excavation difficulty and footing design across neighborhoods like Pearl District, Alberta Arts, Lake Oswego.</p>
+<p><strong>Permit package.</strong> City of Portland Bureau of Development Services handles residential concrete permits. Pearl District and Lake Oswego have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+</section>
+<section class="section fp-section">
+<h2>Portland Concrete Style and Finish Choices</h2>
+<p>Residential concrete in Portland centers on stamped patios, integrally colored driveways, and decorative seat walls typical of neighborhoods like Pearl District and Alberta Arts.</p>
+<p>Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in Portland. Local pigment and aggregate supply match the regional aesthetic.</p>
+<p>Standard soil conditions keep excavation costs predictable. Labor rates in Portland are above the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Portland Concrete Maintenance</h2>
+<p>undefined</p>
+<p>Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in Portland. Local pigment and aggregate supply match the regional aesthetic.</p>
+<p>The Portland pour window runs year-round, with early morning pours recommended during summer to avoid afternoon heat.</p>
+</section>
+<section class="section fp-section">
+<h2>Costly Portland Concrete Mistakes</h2>
+<p>undefined</p>
+<p>City of Portland Bureau of Development Services handles residential concrete permits. Pearl District and Lake Oswego have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+<p>Standard soil conditions keep excavation costs predictable. Labor rates in Portland are above the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Portland Concrete Contractor</h2>
+<p><strong>What mix spec will you pour?</strong> The Portland residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards. Knife River, CalPortland, and Cadman supply most of the Portland delivery radius. Cold-weather pours in January and February require protection protocols.</p>
+<p><strong>How are you reinforcing?</strong> Portland residential flatwork uses #4 rebar on 18-inch centers with plastic chairs. Standard rebar reinforcement handles the local soil conditions when properly detailed.</p>
+<p><strong>How does your bid address Portland climate exposure?</strong> Portland averages about 15 freeze-thaw cycles per year, so freeze-thaw is not a durability concern. The dominant threats are UV exposure and heat-driven plastic shrinkage cracking. The area receives approximately 43 inches of precipitation annually.</p>
+<p><strong>What local disaster informs your detailing?</strong> Portland faces extreme heat events that cause plastic-shrinkage cracking when contractors pour past 10am without retarder during summer months. Reputable Portland contractors reference these events when specifying protective measures.</p>
+<p><strong>Who pulls the permit?</strong> City of Portland Bureau of Development Services handles residential concrete permits. Pearl District and Lake Oswego have distinct permitting timelines. Local zoning overlays may restrict driveway width and impervious coverage in residential districts.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Pour Concrete in Portland</h2>
+<p>The Portland pour window runs year-round, with early morning pours recommended during summer to avoid afternoon heat.</p>
+<p>Standard soil conditions keep excavation costs predictable. Labor rates in Portland are above the national average.</p>
+</section>
+<section class="section fp-section">
+<h2>Portland Concrete Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">400 sqft Portland driveway</p>
+<p class="fp-scenario-total">$5.6K</p>
+<p class="fp-scenario-detail">Delivery from Knife River, CalPortland, and Cadman. The Portland residential concrete spec is 3,500-4,000 psi with no air-entrainment required, Type II cement for sulfate resistance, and compliance with local building department standards.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">350 sqft stamped patio, Portland</p>
+<p class="fp-scenario-total">$6.8K</p>
+<p class="fp-scenario-detail">Stamped patterns in regional stone tones, integrally colored desert or earth-tone driveways, and exposed-aggregate patios are the popular decorative choices in Portland. Residential concrete in Portland centers on stamped patios, integrally colored driveways, and decorative seat walls typical of neighborhoods like Pearl District and Alberta Arts..</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Portland full hardscape package</p>
+<p class="fp-scenario-total">$16.6K</p>
+<p class="fp-scenario-detail">Standard soil conditions keep excavation costs predictable. Labor rates in Portland are above the national average. City of Portland Bureau of Development Services handles residential concrete permits.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-CONCRETE-CONTENT -->
+
 <section class="section">
 <h2>Other Services in Portland</h2>
 <p>Compare contractor costs for other home services in Portland, OR.</p>

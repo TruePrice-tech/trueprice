@@ -219,6 +219,633 @@ depending on material, gutter height, and yard size.
 </div>
 </section>
 
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+<!-- FLAGSHIP-GUTTERS-CONTENT -->
+
+<section class="section fp-section">
+<h2>Colorado Springs Neighborhood Gutter Costs</h2>
+<p>Pricing varies block-to-block in Colorado Springs with labor rates, home height, and fascia condition. The figures below model 150 LF (typical single-story).</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Aluminum Seamless</th>
+<th style="text-align:right; padding:12px 16px;">Vinyl</th>
+<th style="text-align:right; padding:12px 16px;">Copper</th>
+<th style="text-align:right; padding:12px 16px;">Steel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Old North End</td>
+<td style="padding:12px 16px; text-align:right;">$1,600</td>
+<td style="padding:12px 16px; text-align:right;">$1,075</td>
+<td style="padding:12px 16px; text-align:right;">$6,675</td>
+<td style="padding:12px 16px; text-align:right;">$1,950</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Broadmoor</td>
+<td style="padding:12px 16px; text-align:right;">$1,550</td>
+<td style="padding:12px 16px; text-align:right;">$1,025</td>
+<td style="padding:12px 16px; text-align:right;">$6,425</td>
+<td style="padding:12px 16px; text-align:right;">$1,900</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Westside</td>
+<td style="padding:12px 16px; text-align:right;">$1,525</td>
+<td style="padding:12px 16px; text-align:right;">$1,025</td>
+<td style="padding:12px 16px; text-align:right;">$6,375</td>
+<td style="padding:12px 16px; text-align:right;">$1,875</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Briargate</td>
+<td style="padding:12px 16px; text-align:right;">$1,375</td>
+<td style="padding:12px 16px; text-align:right;">$900</td>
+<td style="padding:12px 16px; text-align:right;">$5,700</td>
+<td style="padding:12px 16px; text-align:right;">$1,675</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Black Forest</td>
+<td style="padding:12px 16px; text-align:right;">$1,425</td>
+<td style="padding:12px 16px; text-align:right;">$950</td>
+<td style="padding:12px 16px; text-align:right;">$5,950</td>
+<td style="padding:12px 16px; text-align:right;">$1,750</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Manitou Springs</td>
+<td style="padding:12px 16px; text-align:right;">$1,450</td>
+<td style="padding:12px 16px; text-align:right;">$950</td>
+<td style="padding:12px 16px; text-align:right;">$6,000</td>
+<td style="padding:12px 16px; text-align:right;">$1,750</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Numbers here assume Colorado Springs labor and 2026 material costs over 150 LF. Real-world Colorado Springs pricing shifts with building height, fascia state, corner count, and downspout quantity. <a href="/gutter-quote-analyzer.html?city=Colorado Springs&state=CO" style="color:var(--brand);">Upload your Colorado Springs quote for a side-by-side comparison.</a></p>
+</section>
+<section class="section fp-section">
+<h2>Colorado Springs Rainfall and Gutter Drainage</h2>
+<div class="fp-rainfall-stat" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px 20px;background:var(--bg-subtle,#f8fafc);border-radius:12px;border:1px solid var(--border,#e2e8f0);">
+<div style="font-size:32px;font-weight:800;color:var(--brand,#1d4ed8);line-height:1;">17 inches</div>
+<div style="font-size:14px;color:#64748b;">annual rainfall in Colorado Springs</div>
+</div>
+<p>Colorado Springs receives 17 inches of rain per year, concentrated in brief monsoon-season downpours. Gutters on Colorado Springs homes must handle concentrated high-intensity events despite long dry periods.</p>
+<h3>Colorado Springs-specific gutter sizing</h3>
+<p>A standard 5-inch K-style gutter in Colorado Springs handles about 1.2 gallons per second, fine up to roughly 2 inches per hour. When Colorado Springs storms exceed that rate (they do), 6-inch gutters carry 40% more water for $2-$3 more per linear foot on Old North End, Broadmoor, and Westside homes.</p>
+<h3>Downspout capacity and placement</h3>
+<p>Basement flooding from improper downspout routing is a common Colorado Springs issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Colorado Springs practice.</p>
+<p>Colorado Springs homes typically need one downspout per 20-30 linear feet of gutter run. A standard 2x3-inch downspout handles about 600 sq ft of roof area; 3x4-inch oversized downspouts move substantially more water and earn their upcharge on larger roof planes common in Old North End, Broadmoor, and Westside.</p>
+</section>
+<section class="section fp-section">
+<h2>Gutter Guard Analysis for Colorado Springs</h2>
+<p>Tree coverage in Colorado Springs is moderate to heavy, with ponderosa pine, blue spruce, Gambel oak dominant. The specific debris mix your Old North End, Broadmoor, and Westside gutters see determines which guard style actually performs — not every guard works in every market.</p>
+<h3>Primary debris types in Colorado Springs</h3>
+<p>Oak leaves, acorns, and pollen catkins.</p>
+<h3>Recommended guard style</h3>
+<p>Micro-mesh guards handle pine needles that slip through standard screen guards.</p>
+<div class="fp-guard-compare" style="margin:16px 0;padding:16px 20px;background:#f0fdf4;border-radius:12px;border:1px solid #a7f3d0;">
+<h3 style="margin:0 0 8px;font-size:15px;color:#166534;">Guard cost comparison for Colorado Springs</h3>
+<p style="margin:0;font-size:14px;color:#334155;">Colorado Springs pricing runs: micro-mesh $7-$15/LF, screen guards $4-$8/LF, surface-tension (reverse curve) $10-$18/LF, foam inserts $2-$5/LF (skip them). LeafFilter, Gutter Helmet, and similar national brands quote $15-$35/LF; independent Colorado Springs installers with equivalent micro-mesh quote 30-50% below that.</p>
+</div>
+<p>No gutter guard system is actually maintenance-free, regardless of type. Even top-tier micro-mesh needs surface brushing every 1-2 years to clear fine pollen and dust buildup in Colorado Springs. Any Colorado Springs contractor pitching "never clean your gutters again" is overselling.</p>
+</section>
+<section class="section fp-section">
+<h2>Winter Gutter Concerns in Colorado Springs</h2>
+<p><strong>Freeze risk level for Colorado Springs: high.</strong></p>
+<p>Colorado Springs experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Colorado Springs home and are a practical investment for persistent ice dam problems.</p>
+<h3>How ice dams damage gutters</h3>
+<p>Colorado Springs ice dams form when warm roof snow melts and refreezes at the cold eave edge. The expanding ice load pries hangers off fascia, cracks sectional seams, and crushes the channel itself. A single serious event in Old North End or Broadmoor can tear gutters down; seamless aluminum on heavy-duty hidden hangers spaced every 24 inches (versus the standard 36) holds up materially better than seamed or vinyl systems.</p>
+<h3>Heat cable options for Colorado Springs</h3>
+<p>Heat tape in the gutter channel and the top 3 feet of each downspout stops ice formation before it starts on Colorado Springs homes. The long-run economics are good — one avoided ice event pays for years of operation at $1-$3 per day during cold stretches.</p>
+</section>
+<section class="section fp-section">
+<h2>Keeping Colorado Springs Gutters Clean</h2>
+<div class="fp-maintenance-stat" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px 20px;background:#fefce8;border-radius:12px;border:1px solid #fde68a;">
+<div style="font-size:24px;font-weight:800;color:#92400e;line-height:1;">twice per year minimum (late fall after leaf drop and late spring after seed season)</div>
+</div>
+<p>Broadmoor and Old Colorado City neighborhoods with heavy ponderosa pine canopy may need a third cleaning. </p>
+<h3>Colorado Springs gutter cleaning pricing</h3>
+<p>Expect $100-$250 per cleaning on single-story Colorado Springs homes and $150-$350 on two-story. Pricing tracks footage, height, and how compacted the debris is. Regular schedules in Old North End, Broadmoor, and Westside keep costs low; long-deferred cleanings cost more due to flushing and blockage removal.</p>
+<h3>Colorado Springs DIY vs. hired-help tradeoff</h3>
+<p>Single-story Colorado Springs homes with easy ladder access are reasonable DIY jobs. Two-story, steep lots, and complex-rooflined homes in Old North End, Broadmoor, and Westside belong to professional crews. Ladder falls rank among the most common serious home-maintenance injuries in the US; a $150 professional cleaning beats an ER visit.</p>
+</section>
+<section class="section fp-section">
+<h2>What to Watch for in Colorado Springs Gutter Bids</h2>
+<p>Here are the Colorado Springs gutter-bid patterns that burn homeowners most often.</p>
+
+<div class="fp-flag">
+<h3>Bidding Colorado Springs roofs without rainfall context</h3>
+<p>A Colorado Springs bid that specifies 5-inch gutters without reference to 17 inches of annual rainfall or the specific Old North End, Broadmoor, and Westside roof area being drained is underthought. Any roof plane above 1,500 sq ft emptying to a single gutter run needs 6-inch in Colorado Springs.</p>
+</div>
+<div class="fp-flag">
+<h3>Colorado Springs gutter slope problems</h3>
+<p>Gutters should slope toward downspouts at about 1/4 inch per 10 feet of run. Flat gutters pool water, breed mosquitoes, and overflow in storms. After install, run a simple Colorado Springs water test: pour water at the high end and confirm steady flow to the downspout with no pooling. If water stands, pitch needs correction.</p>
+</div>
+<div class="fp-flag">
+<h3>No splash blocks or downspout extensions</h3>
+<p>Discharge routing is the half of a Colorado Springs gutter project contractors most often skip. Given 17 inches of Colorado Springs rainfall annually, dumping water at the foundation causes foundation movement, basement moisture, and yard erosion. A proper Colorado Springs bid addresses where the water goes, not just how it gets off the roof.</p>
+</div>
+<div class="fp-flag">
+<h3>"Seamless" that actually has seams</h3>
+<p>Real seamless means the installer rolls the full gutter run on your Colorado Springs property from continuous coil stock; seams appear only at corners, outlets, and end caps. A "seamless" Colorado Springs bid that mentions joining factory-cut sections with splice connectors is sectional gutter at seamless pricing — the single most common install-side scam.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>Best Time to Install Gutters in Colorado Springs</h2>
+<div class="fp-season-grid">
+<div class="fp-season-card fp-season-best">
+<h3>Best months</h3>
+<p class="fp-season-months">Late winter (January-February) and late summer (August-September)</p>
+<p>Scheduling Colorado Springs gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing.</p>
+</div>
+<div class="fp-season-card fp-season-worst">
+<h3>Peak pricing / low availability</h3>
+<p class="fp-season-months">Spring (March-May) after freeze damage and fall (October-November) during peak leaf season</p>
+<p>Expect 10-20% higher labor costs and longer lead times during Colorado Springs peak season. Emergency gutter repairs after Colorado Springs storms command premium pricing regardless of month.</p>
+</div>
+</div>
+</section>
+<section class="section fp-section">
+<h2>What Colorado Springs Gutter Projects Require</h2>
+<p>undefined</p>
+<p>undefined</p>
+</section>
+<section class="section fp-section">
+<h2>Colorado Springs Downspout and Drainage Routing</h2>
+<p>Basement flooding from improper downspout routing is a common Colorado Springs issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Colorado Springs practice.</p>
+<p>Broadmoor and Old Colorado City neighborhoods with heavy ponderosa pine canopy may need a third cleaning. </p>
+</section>
+<section class="section fp-section">
+<h2>What Your Colorado Springs Gutter Contract Should Include</h2>
+<p><strong>Material specification.</strong> Micro-mesh guards handle pine needles that slip through standard screen guards.</p>
+<p><strong>Cleaning schedule.</strong> twice per year minimum (late fall after leaf drop and late spring after seed season). Broadmoor and Old Colorado City neighborhoods with heavy ponderosa pine canopy may need a third cleaning. </p>
+<p><strong>Seasonal timing.</strong> Scheduling Colorado Springs gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing.</p>
+<p><strong>Warranty terms.</strong> undefined</p>
+</section>
+<section class="section fp-section">
+<h2>How Colorado Springs Climate Affects Gutters</h2>
+<p>Colorado Springs receives 17 inches of rain per year, concentrated in brief monsoon-season downpours. Gutters on Colorado Springs homes must handle concentrated high-intensity events despite long dry periods.</p>
+<p><strong>Debris profile.</strong> Colorado Springs tree coverage is moderate to heavy, with ponderosa pine, blue spruce, Gambel oak dominant. Primary debris: oak leaves, acorns, and pollen catkins.</p>
+<p><strong>Guard recommendation.</strong> Micro-mesh guards handle pine needles that slip through standard screen guards.</p>
+<p><strong>Freeze risk: high.</strong> Colorado Springs experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Colorado Springs home and are a practical investment for persistent ice dam problems.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a Colorado Springs Gutter Contractor</h2>
+<p><strong>What gauge aluminum are you installing?</strong> undefined</p>
+<p><strong>How are you sizing for Colorado Springs rainfall?</strong> Colorado Springs receives 17 inches annually. Colorado Springs receives 17 inches of rain per year, concentrated in brief monsoon-season downpours. Gutters on Colorado Springs homes must handle concentrated high-intensity events despite long dry periods.</p>
+<p><strong>What guard type works here?</strong> Micro-mesh guards handle pine needles that slip through standard screen guards.</p>
+<p><strong>What warranty terms apply?</strong> undefined</p>
+<p><strong>What is your cleaning recommendation?</strong> twice per year minimum (late fall after leaf drop and late spring after seed season). Broadmoor and Old Colorado City neighborhoods with heavy ponderosa pine canopy may need a third cleaning. </p>
+</section>
+<section class="section fp-section">
+<h2>What Gutters Actually Cost in Colorado Springs: 3 Scenarios</h2>
+<p>Real Colorado Springs gutter project pricing, using Colorado Springs-adjusted labor and material costs for 2026. Every scenario assumes 150 linear feet (average single-story Colorado Springs home).</p>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">vinyl gutters across 150 LF</p>
+<p class="fp-scenario-total">$1.0K</p>
+<p class="fp-scenario-detail">~$6.6/LF installed. Covers removal of the existing system, vinyl gutter and downspout install with basic splash blocks. The Colorado Springs cheapskate tier: 10-15 year expected life and temperature-crack susceptibility.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">aluminum seamless + leaf guards across 150 LF</p>
+<p class="fp-scenario-total">$3.7K</p>
+<p class="fp-scenario-detail">~$24.75/LF installed. Old gutter removal, 5-inch seamless aluminum, micro-mesh leaf guards, hidden hangers, downspouts with extensions, cleanup. The most common Colorado Springs choice and the best overall value for most Old North End, Broadmoor, and Westside homes.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">copper half-round with leaf guards across 150 LF</p>
+<p class="fp-scenario-total">$8.4K</p>
+<p class="fp-scenario-detail">~$56.1/LF installed. Copper half-round system with matching copper downspouts, micro-mesh guards, and all premium fittings. A 50+ year Colorado Springs install — copper patinas in 2-3 years and then just sits there indefinitely.</p>
+</div>
+</div>
+<p style="font-size:13px; color:var(--text-muted);">Two-story adds 15-25% to Colorado Springs gutter pricing. Any fascia replacement runs $5-$15/LF extra. Complex Old North End or Broadmoor rooflines with many corners need more fittings, which drives labor up. <a href="/gutter-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized Colorado Springs estimate.</a></p>
+</section>
+<!-- /FLAGSHIP-GUTTERS-CONTENT -->
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section h3 { font-size:17px; margin:18px 0 8px; color:#1e293b; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-season-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.fp-season-card { padding:20px; border-radius:12px; }
+.fp-season-best { background:#f0fdf4; border:1px solid #a7f3d0; }
+.fp-season-worst { background:#fff7ed; border:1px solid #fdba74; }
+.fp-season-card h3 { font-size:14px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-muted); margin:0 0 8px; }
+.fp-season-months { font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px; }
+.fp-season-card p { font-size:14px; margin:0; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) {
+  .fp-scenario-grid { grid-template-columns:1fr; }
+  .fp-season-grid { grid-template-columns:1fr; }
+}
+</style>
+
+
 
 <section class="section">
 <h2>Other Services in Colorado Springs</h2>
