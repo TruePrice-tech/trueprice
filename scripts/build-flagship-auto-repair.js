@@ -915,7 +915,7 @@ from oil changes to major engine work.
 <section class="section">
 <h2>Other Services in ${displayName}, ${state}</h2>
 <ul>
-<li><a href="/${metro.slug}-roofing-cost.html">Roofing Cost in ${displayName}</a></li>
+<li><a href="/${metro.slug}-roof-cost.html">Roofing Cost in ${displayName}</a></li>
 <li><a href="/${metro.slug}-hvac-cost.html">HVAC Cost in ${displayName}</a></li>
 <li><a href="/${metro.slug}-plumbing-cost.html">Plumbing Cost in ${displayName}</a></li>
 </ul>

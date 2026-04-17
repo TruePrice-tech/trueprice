@@ -865,7 +865,7 @@ ${rows.join("\n")}
   `${facts.displayName} labor rates and current material pricing are baked in for 150 LF. Actual ${facts.displayName} pricing varies with home height, fascia condition, corner count, and downspout count.`,
   `Numbers here assume ${facts.displayName} labor and 2026 material costs over 150 LF. Real-world ${facts.displayName} pricing shifts with building height, fascia state, corner count, and downspout quantity.`,
   `${facts.displayName} labor and material pricing for 150 LF drives these figures. Your actual ${facts.displayName} quote depends on building height, existing fascia condition, roof-corner count, and downspout needs.`,
-])} <a href="/gutter-quote-analyzer.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your ${facts.displayName} quote for a side-by-side comparison.</a></p>
+])} <a href="/gutters-quote-analyzer.html?city=${facts.displayName}&state=${facts.stateAbbr}" style="color:var(--brand);">Upload your ${facts.displayName} quote for a side-by-side comparison.</a></p>
 </section>`;
 }
 
@@ -1281,7 +1281,7 @@ ${scenarioCard("Budget", budget, "#22c55e")}
 ${scenarioCard("Mid-Range", mid, "#3b82f6")}
 ${scenarioCard("Premium", prem, "#8b5cf6")}
 </div>
-<p style="font-size:13px; color:var(--text-muted);">${caveat} <a href="/gutter-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized ${city} estimate.</a></p>
+<p style="font-size:13px; color:var(--text-muted);">${caveat} <a href="/gutters-quote-analyzer.html?mode=estimator" style="color:var(--brand);">Get a personalized ${city} estimate.</a></p>
 </section>`;
 }
 

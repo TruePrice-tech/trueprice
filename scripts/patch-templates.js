@@ -26,6 +26,7 @@ const ALL_SERVICES = [
   { slug: "foundation-cost", label: "Foundation" },
   { slug: "kitchen-remodel-cost", label: "Kitchen" },
   { slug: "insulation-cost", label: "Insulation" },
+  { slug: "gutter-cost", label: "Gutters" },
 ];
 
 // Map template filename to its service slug
@@ -44,6 +45,7 @@ const TEMPLATE_SERVICE_MAP = {
   "foundation-city-page-template.html": "foundation-cost",
   "kitchen-city-page-template.html": "kitchen-remodel-cost",
   "insulation-city-page-template.html": "insulation-cost",
+  "gutters-city-page-template.html": "gutter-cost",
 };
 
 // Map template filename to its service display name
@@ -62,6 +64,7 @@ const TEMPLATE_SERVICE_NAME = {
   "foundation-city-page-template.html": "Foundation Repair",
   "kitchen-city-page-template.html": "Kitchen Remodel",
   "insulation-city-page-template.html": "Insulation",
+  "gutters-city-page-template.html": "Gutter Installation",
 };
 
 const PILL_STYLE = 'style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;"';
@@ -135,6 +138,7 @@ const SERVICE_HUB_PAGES = {
   "foundation-cost": "foundation-repair-cost.html",
   "kitchen-remodel-cost": "kitchen-remodel-cost.html",
   "insulation-cost": "insulation-cost.html",
+  "gutter-cost": "gutters-cost.html",
 };
 
 let patchedCount = 0;
