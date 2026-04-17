@@ -113,14 +113,35 @@ def main():
         print(f"{v:14s} {len(texts):>5d} {avg_words:>9.0f} {avg_overlap:>11.1f}% {max_overlap:>11.1f}%  {worst[1]} / {worst[2]} ({worst[0]:.1f}%)")
 
     print()
-    print("Target: avg_overlap < 20% = pages mostly unique")
-    print("Current: any vertical > 30% needs rewrite of shared sections")
 
-    # Exit non-zero if any vertical > 30% average overlap (for CI gating later)
-    bad = [s for s in summary if s[3] > 30]
-    if bad:
-        print(f"\n{len(bad)}/{len(summary)} verticals exceed 30% overlap target")
+    # Hard quality gates — fail the build if ANY of these trip
+    AVG_OVERLAP_MAX = 10.0    # no vertical above 10% average overlap
+    MAX_OVERLAP_MAX = 15.0    # no metro pair above 15% overlap
+    MIN_AVG_WORDS = 1800      # every vertical must average 1800+ words
+
+    fail_avg = [s for s in summary if s[3] > AVG_OVERLAP_MAX]
+    fail_max = [s for s in summary if s[4] > MAX_OVERLAP_MAX]
+    fail_words = [s for s in summary if s[2] < MIN_AVG_WORDS]
+
+    if fail_avg:
+        print(f"FAIL: {len(fail_avg)} verticals exceed {AVG_OVERLAP_MAX}% avg overlap:")
+        for v, _, _, avg, _ in fail_avg:
+            print(f"  {v}: {avg:.1f}%")
+    if fail_max:
+        print(f"FAIL: {len(fail_max)} verticals exceed {MAX_OVERLAP_MAX}% max overlap:")
+        for v, _, _, _, mx in fail_max:
+            print(f"  {v}: {mx:.1f}%")
+    if fail_words:
+        print(f"FAIL: {len(fail_words)} verticals below {MIN_AVG_WORDS} avg words:")
+        for v, _, w, _, _ in fail_words:
+            print(f"  {v}: {w:.0f}")
+
+    if fail_avg or fail_max or fail_words:
+        total_fails = len(set(s[0] for s in fail_avg + fail_max + fail_words))
+        print(f"\n{total_fails} verticals FAILED quality gates. Do NOT ship until fixed.")
         sys.exit(1)
+
+    print("ALL PASS: every vertical under 10% avg overlap, 15% max overlap, 1800+ words")
     sys.exit(0)
 
 
