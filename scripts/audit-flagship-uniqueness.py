@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 METROS_PER_VERTICAL = {
+    "auto-repair": ("auto-repair",     "FLAGSHIP-AUTO-REPAIR-CONTENT"),
     "concrete":    ("concrete",        "FLAGSHIP-CONCRETE-CONTENT"),
     "electrical":  ("electrical",      "FLAGSHIP-ELECTRICAL-CONTENT"),
     "fence":       ("fence",           "FLAGSHIP-FENCING-CONTENT"),
@@ -26,6 +27,7 @@ METROS_PER_VERTICAL = {
     "insulation":  ("insulation",      "FLAGSHIP-INSULATION-CONTENT"),
     "kitchen":     ("kitchen-remodel", "FLAGSHIP-KITCHEN-CONTENT"),
     "landscaping": ("landscaping",     "FLAGSHIP-LANDSCAPING-CONTENT"),
+    "moving":      ("moving",          "FLAGSHIP-MOVING-CONTENT"),
     "painting":    ("painting",        "FLAGSHIP-PAINTING-CONTENT"),
     "plumbing":    ("plumbing",        "FLAGSHIP-PLUMBING-CONTENT"),
     "roof":        ("roof",            "FLAGSHIP-CONTENT"),
@@ -40,6 +42,11 @@ METROS = [
     "san-francisco-ca", "philadelphia-pa", "miami-fl", "boston-ma",
     "san-diego-ca", "tampa-fl", "detroit-mi", "minneapolis-mn",
     "charlotte-nc", "las-vegas-nv",
+    "san-antonio-tx", "jacksonville-fl", "fort-worth-tx", "columbus-oh",
+    "indianapolis-in", "nashville-tn", "portland-or", "memphis-tn",
+    "louisville-ky", "baltimore-md", "milwaukee-wi", "albuquerque-nm",
+    "tucson-az", "sacramento-ca", "raleigh-nc", "kansas-city-mo",
+    "orlando-fl", "pittsburgh-pa", "cincinnati-oh", "colorado-springs-co",
 ]
 
 
@@ -72,8 +79,8 @@ def main():
     print("=" * 64)
     print("FLAGSHIP PAGE UNIQUENESS AUDIT (8-word shingle overlap)")
     print("=" * 64)
-    print(f"{'vertical':14s} {'pages':>5s} {'avg_words':>9s} {'avg_overlap%':>12s} {'max_overlap%':>12s}")
-    print("-" * 64)
+    print(f"{'vertical':14s} {'pages':>5s} {'avg_words':>9s} {'avg_overlap%':>12s} {'max_overlap%':>12s}  worst_pair")
+    print("-" * 100)
 
     summary = []
     for v, (suffix, marker) in METROS_PER_VERTICAL.items():
@@ -88,15 +95,20 @@ def main():
             continue
         sh = {m: shingles(t) for m, t in texts.items()}
         overlaps = []
+        pairs = []
         for a, b in itertools.combinations(texts.keys(), 2):
             o = len(sh[a] & sh[b])
             avg = (len(sh[a]) + len(sh[b])) / 2
-            overlaps.append(o / avg * 100 if avg else 0)
+            pct = o / avg * 100 if avg else 0
+            overlaps.append(pct)
+            pairs.append((pct, a, b))
         avg_words = sum(len(t.split()) for t in texts.values()) / len(texts)
         avg_overlap = sum(overlaps) / len(overlaps)
         max_overlap = max(overlaps)
+        pairs.sort(reverse=True)
+        worst = pairs[0] if pairs else (0, "", "")
         summary.append((v, len(texts), avg_words, avg_overlap, max_overlap))
-        print(f"{v:14s} {len(texts):>5d} {avg_words:>9.0f} {avg_overlap:>11.1f}% {max_overlap:>11.1f}%")
+        print(f"{v:14s} {len(texts):>5d} {avg_words:>9.0f} {avg_overlap:>11.1f}% {max_overlap:>11.1f}%  {worst[1]} / {worst[2]} ({worst[0]:.1f}%)")
 
     print()
     print("Target: avg_overlap < 20% = pages mostly unique")
