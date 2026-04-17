@@ -1,7 +1,7 @@
 # Moving Test Results
 
 Run: 2026-04-08 12:26:01
-Endpoint: https://truepricehq.com/api/moving-estimate
+Endpoint: https://woogoro.com/api/moving-estimate
 Samples tested: 14
 
 **Counter at start:** 3895

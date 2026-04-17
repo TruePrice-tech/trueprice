@@ -2,7 +2,7 @@
 const puppeteer = require("puppeteer");
 const path = require("path");
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 const VERTICALS = [
   { name: "Plumbing", singleUrl: "/plumbing-quote-analyzer.html?path=quote", compareUrl: "/compare-plumbing-quotes.html", estimateUrl: "/plumbing-estimate.html",

@@ -3384,7 +3384,7 @@ function buildComparisonWinnerHtml(summary) {
           : "This is the quote to advance unless new scope issues appear.";
 
         const lines = [
-          "TruePrice Comparison Decision",
+          "Woogoro Comparison Decision",
           "",
           softened
             ? `Current leader: ${winner.contractor}`
@@ -4005,7 +4005,7 @@ function buildComparisonWinnerHtml(summary) {
             <div style="display:flex; align-items:center; gap:16px; margin-bottom:8px;">
               <img src="${trudyVerdictImg}" alt="${trudyVerdictAlt}" width="64" style="flex-shrink:0;" />
               <div style="flex:1;">
-                <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">TruePrice ${escapeHtml(a.serviceLabel || "Roofing")} Verdict</div>
+                <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">Woogoro ${escapeHtml(a.serviceLabel || "Roofing")} Verdict</div>
                 <div class="verdict-headline" style="margin:0;">${getVerdictHeadline(a.verdict)}</div>
               </div>
             </div>
@@ -4508,8 +4508,8 @@ function buildComparisonWinnerHtml(summary) {
         // Community data
         const analysisCount = parseInt(localStorage.getItem('tp_analysis_count') || '0', 10);
         const communityNote = analysisCount > 3
-          ? `<div style="margin-top:12px; padding:10px 14px; background:var(--bg-subtle, #f8fafc); border-radius:8px; font-size:13px; color:var(--text-muted);">Based on TruePrice pricing models covering 1,000+ U.S. cities. You have analyzed ${analysisCount} quotes.</div>`
-          : `<div style="margin-top:12px; padding:10px 14px; background:var(--bg-subtle, #f8fafc); border-radius:8px; font-size:13px; color:var(--text-muted);">Based on TruePrice pricing models covering 1,000+ U.S. cities.</div>`;
+          ? `<div style="margin-top:12px; padding:10px 14px; background:var(--bg-subtle, #f8fafc); border-radius:8px; font-size:13px; color:var(--text-muted);">Based on Woogoro pricing models covering 1,000+ U.S. cities. You have analyzed ${analysisCount} quotes.</div>`
+          : `<div style="margin-top:12px; padding:10px 14px; background:var(--bg-subtle, #f8fafc); border-radius:8px; font-size:13px; color:var(--text-muted);">Based on Woogoro pricing models covering 1,000+ U.S. cities.</div>`;
 
         return `
           <div class="market-panel">
@@ -4545,9 +4545,9 @@ function buildComparisonWinnerHtml(summary) {
         if (location) summaryLines.push("Location: " + location);
         if (a.low && a.high) summaryLines.push("Expected range: $" + Number(a.low).toLocaleString() + " - $" + Number(a.high).toLocaleString());
         summaryLines.push("");
-        summaryLines.push("Full analysis: https://truepricehq.com/roofing-quote-analyzer.html");
+        summaryLines.push("Full analysis: https://woogoro.com/roofing-quote-analyzer.html");
 
-        const subject = encodeURIComponent("My TruePrice " + (verdict || "Quote") + " Report" + (location ? " - " + location : ""));
+        const subject = encodeURIComponent("My Woogoro " + (verdict || "Quote") + " Report" + (location ? " - " + location : ""));
         const body = encodeURIComponent(summaryLines.join("\n"));
 
         return ``;
@@ -4568,7 +4568,7 @@ function buildComparisonWinnerHtml(summary) {
         return `
           <div class="share-module">
             <div style="font-size:16px; font-weight:600; margin-bottom:12px;">Save or share this result</div>
-            <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">${analysisCount > 0 ? 'You have analyzed ' + analysisCount + ' quote' + (analysisCount > 1 ? 's' : '') + ' with TruePrice' : ''}</div>
+            <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">${analysisCount > 0 ? 'You have analyzed ' + analysisCount + ' quote' + (analysisCount > 1 ? 's' : '') + ' with Woogoro' : ''}</div>
             ${historyHtml}
             <div class="action-buttons">
               <button class="btn secondary" onclick="copyShareableReportText()">Copy result</button>
@@ -6092,7 +6092,7 @@ function buildComparisonWinnerHtml(summary) {
         : [];
 
       const sections = [
-        "TruePrice " + (report.serviceLabel || "Roofing") + " Quote Decision Report",
+        "Woogoro " + (report.serviceLabel || "Roofing") + " Quote Decision Report",
         "",
         `${recommendationAction}`,
         recommendationReasoning,
@@ -6222,7 +6222,7 @@ function buildComparisonWinnerHtml(summary) {
 
       sections.push(
         "",
-        "Powered by TruePrice (truepricehq.com)"
+        "Powered by Woogoro (woogoro.com)"
       );
 
       return sections.join("\n");
@@ -6381,7 +6381,7 @@ function buildComparisonWinnerHtml(summary) {
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
                 <img src="/images/trudy-clipboard.png" alt="Trudy" width="40" />
                 <div>
-                  <div style="font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brand, #1e3a5f);">TruePrice ${escapeHtml(report.serviceLabel || "Roofing")} Decision Report</div>
+                  <div style="font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brand, #1e3a5f);">Woogoro ${escapeHtml(report.serviceLabel || "Roofing")} Decision Report</div>
                 </div>
               </div>
 
@@ -6535,8 +6535,8 @@ function buildComparisonWinnerHtml(summary) {
           ${shareRedFlagsHtml}
 
           <div style="text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid #e2e8f0;">
-            <a href="https://truepricehq.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;" target="_blank" rel="noopener">
-              <img src="/images/trudy-peeking.png" alt="" width="24" /> Powered by <strong style="color:#1e3a5f;">TruePrice</strong>
+            <a href="https://woogoro.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;" target="_blank" rel="noopener">
+              <img src="/images/trudy-peeking.png" alt="" width="24" /> Powered by <strong style="color:#1e3a5f;">Woogoro</strong>
             </a>
           </div>
         </div>
@@ -6884,7 +6884,7 @@ function buildComparisonWinnerHtml(summary) {
       });
 
       if (partialQuotes.length > 0) {
-        console.warn("TruePrice compare: partial quotes excluded from comparison", partialQuotes);
+        console.warn("Woogoro compare: partial quotes excluded from comparison", partialQuotes);
       }
 
       if (validQuotes.length < 2) {
@@ -8097,7 +8097,7 @@ function buildComparisonWinnerHtml(summary) {
       function doCapture() {
         html2canvas(resultEl, { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
           var link = document.createElement("a");
-          link.download = "trueprice-analysis.png";
+          link.download = "woogoro-analysis.png";
           link.href = canvas.toDataURL("image/png");
           link.click();
           track("analysis_saved_pdf", {});
@@ -8181,7 +8181,7 @@ function buildComparisonWinnerHtml(summary) {
         <div class="report-container">
           <div class="report-card">
             <div class="report-header">
-              <div class="tp-logo--report">TruePrice</div>
+              <div class="tp-logo--report">Woogoro</div>
               <div class="report-header-meta">
                 Quote Analysis Report<br>${escapeHtml(date)}
               </div>
@@ -8244,7 +8244,7 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div class="report-footer">
-              Generated by TruePrice &bull; truepricehq.com &bull; ${escapeHtml(date)}
+              Generated by Woogoro &bull; woogoro.com &bull; ${escapeHtml(date)}
             </div>
           </div>
 
@@ -8271,7 +8271,7 @@ function buildComparisonWinnerHtml(summary) {
     }
 
     function getBrandFooterText() {
-      return "Generated by TruePrice Roofing Quote Analyzer";
+      return "Generated by Woogoro Roofing Quote Analyzer";
     }
 
     window.setUploadStatus = setUploadStatus;

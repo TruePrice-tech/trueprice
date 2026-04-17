@@ -1,7 +1,7 @@
 # Solar Test Results
 
 Run: 2026-04-08 12:19:45
-Endpoint: https://truepricehq.com/api/solar-estimate
+Endpoint: https://woogoro.com/api/solar-estimate
 Samples tested: 16
 
 **Counter at start:** 3895

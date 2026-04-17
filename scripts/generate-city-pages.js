@@ -5,8 +5,8 @@ const ROOT = path.resolve(__dirname, "..");
 const DATA_PATH = path.join(ROOT, "data", "city-house-size-pricing.json");
 
 const PAGE_YEAR = "2026";
-const SITE_NAME = "TruePrice";
-const BASE_URL = "https://trueprice-tech.github.io/trueprice";
+const SITE_NAME = "Woogoro";
+const BASE_URL = "https://woogoro.com";
 
 const RELATED_GUIDES = [
   {
@@ -666,7 +666,7 @@ ${breadcrumbSchema}
 <body>
   <header class="site-header">
     <div class="container">
-      <a class="brand" href="./index.html">TruePrice</a>
+      <a class="brand" href="./index.html">Woogoro</a>
       <nav class="nav" aria-label="Main navigation">
         <a href="./index.html">Home</a>
         <a href="./roof-replacement-cost-calculator.html">Calculator</a>
@@ -727,7 +727,7 @@ ${breadcrumbSchema}
             ${escapeHtml(display)} roofing quotes can look similar at a glance while differing substantially in what is actually included. Roof replacement price is shaped by size, material, slope, tear off conditions, and the amount of accessory work included in the proposal.
           </p>
           <p>
-            That is why TruePrice uses reusable city by house size pricing data. It gives homeowners a cleaner baseline and a more structured way to review whether a contractor quote looks fair.
+            That is why Woogoro uses reusable city by house size pricing data. It gives homeowners a cleaner baseline and a more structured way to review whether a contractor quote looks fair.
           </p>
 
           <div class="pricing-callout">
@@ -797,7 +797,7 @@ ${breadcrumbSchema}
         </section>
 
         <section id="tools">
-          <h2>Use the TruePrice tools</h2>
+          <h2>Use the Woogoro tools</h2>
           <div class="tool-grid">
             <div class="tool-card">
               <h3>Roof replacement calculator</h3>
@@ -869,7 +869,7 @@ ${faqHtml}
             <li><a href="#pricing-overview">Pricing overview</a></li>
             <li><a href="#city-pricing-table">House size pricing table</a></li>
             <li><a href="#quote-guidance">Quote comparison guidance</a></li>
-            <li><a href="#tools">TruePrice tools</a></li>
+            <li><a href="#tools">Woogoro tools</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>
         </div>
@@ -887,7 +887,7 @@ ${faqHtml}
 
   <footer class="footer">
     <div class="container">
-      TruePrice helps homeowners estimate fair roofing prices and compare contractor quotes more clearly.
+      Woogoro helps homeowners estimate fair roofing prices and compare contractor quotes more clearly.
     </div>
   </footer>
 

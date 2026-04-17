@@ -47,7 +47,7 @@ async function screenshot(page, label) {
   const p1 = await browser.newPage();
   var jsErrors1 = [];
   p1.on("pageerror", err => jsErrors1.push(err.message.substring(0, 100)));
-  await p1.goto("https://truepricehq.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
+  await p1.goto("https://woogoro.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
 
   console.log("1. ADDRESS PAGE");
   await screenshot(p1, "Initial load");
@@ -190,7 +190,7 @@ async function screenshot(page, label) {
   const p2 = await browser.newPage();
   var jsErrors2 = [];
   p2.on("pageerror", err => jsErrors2.push(err.message.substring(0, 100)));
-  await p2.goto("https://truepricehq.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
+  await p2.goto("https://woogoro.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
 
   console.log("1. ADDRESS");
   await p2.waitForSelector("#journeyStreetAddress", { timeout: 5000 });
@@ -309,7 +309,7 @@ async function screenshot(page, label) {
   const p3 = await browser.newPage();
   var jsErrors3 = [];
   p3.on("pageerror", err => jsErrors3.push(err.message.substring(0, 100)));
-  await p3.goto("https://truepricehq.com/compare-roofing-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
+  await p3.goto("https://woogoro.com/compare-roofing-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
 
   console.log("1. COMPARE PAGE LOAD");
   snap = await screenshot(p3, "Compare page");

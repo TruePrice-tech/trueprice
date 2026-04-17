@@ -2,7 +2,7 @@
 const puppeteer = require("puppeteer");
 const path = require("path");
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 const TESTS = [
   {

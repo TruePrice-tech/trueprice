@@ -26,7 +26,7 @@ const ALL_CITIES_TEMPLATE_PATH = path.join(ROOT, "templates", "all-cities-templa
 
 const ALL_CITIES_PAGE_PATH = path.join(ROOT, "all-cities.html");
 
-const SITE_BASE_URL = "https://truepricehq.com";
+const SITE_BASE_URL = "https://woogoro.com";
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -1069,7 +1069,7 @@ function generateStatePageHtml(
 
   template = template.replaceAll(
     "{{STATE_PAGE_TITLE}}",
-    `Roof Replacement Cost in ${stateName} (2026) | TruePrice`
+    `Roof Replacement Cost in ${stateName} (2026) | Woogoro`
   );
   template = template.replaceAll(
     "{{STATE_META_DESCRIPTION}}",
@@ -1220,7 +1220,7 @@ function generateMaterialPageHtml(material, cityPricingArray, pricingModel) {
 
   template = template.replaceAll(
     "{{MATERIAL_PAGE_TITLE}}",
-    `${materialDisplayName} Roof Replacement Cost (2026) | TruePrice`
+    `${materialDisplayName} Roof Replacement Cost (2026) | Woogoro`
   );
   template = template.replaceAll(
     "{{MATERIAL_META_DESCRIPTION}}",

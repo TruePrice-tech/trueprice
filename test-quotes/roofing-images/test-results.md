@@ -1,7 +1,7 @@
 # Roofing Test Results
 
 Run: 2026-04-08 12:14:52
-Endpoint: https://truepricehq.com/api/parse-quote
+Endpoint: https://woogoro.com/api/parse-quote
 Samples tested: 16
 
 **Counter at start:** 3895

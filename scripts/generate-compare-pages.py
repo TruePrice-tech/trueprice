@@ -607,23 +607,23 @@ TEMPLATE = r"""<!DOCTYPE html>
   <meta charset="UTF-8" />
   <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>__TITLE__ | TruePrice</title>
+  <title>__TITLE__ | Woogoro</title>
   <meta name="description" content="__SUB__" />
-  <link rel="canonical" href="https://truepricehq.com/compare-__SLUG__-quotes.html" />
+  <link rel="canonical" href="https://woogoro.com/compare-__SLUG__-quotes.html" />
   <meta name="robots" content="index,follow" />
-  <meta property="og:title" content="__TITLE__ | TruePrice" />
+  <meta property="og:title" content="__TITLE__ | Woogoro" />
   <meta property="og:description" content="__SUB__" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://truepricehq.com/compare-__SLUG__-quotes.html" />
-  <meta property="og:site_name" content="TruePrice" />
-  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:url" content="https://woogoro.com/compare-__SLUG__-quotes.html" />
+  <meta property="og:site_name" content="Woogoro" />
+  <meta property="og:image" content="https://woogoro.com/images/trueprice-social.svg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="__TITLE__ | TruePrice" />
+  <meta name="twitter:title" content="__TITLE__ | Woogoro" />
   <meta name="twitter:description" content="__SUB__" />
-  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:image" content="https://woogoro.com/images/trueprice-social.svg" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice __TITLE__","url":"https://truepricehq.com/compare-__SLUG__-quotes.html","description":"__SUB__","applicationCategory":"UtilityApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"operatingSystem":"Web","provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Woogoro __TITLE__","url":"https://woogoro.com/compare-__SLUG__-quotes.html","description":"__SUB__","applicationCategory":"UtilityApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"operatingSystem":"Web","provider":{"@type":"Organization","name":"Woogoro","url":"https://woogoro.com"}}
   </script>
   <style>
     .cmp-wrap { max-width: 960px; margin: 40px auto; padding: 0 24px; }
@@ -692,7 +692,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 <body>
   <header class="site-header">
     <div class="container">
-      <a class="logo" href="/">TruePrice</a>
+      <a class="logo" href="/">Woogoro</a>
       <nav>
         <a href="/all-cities.html">Cities</a>
         <a href="/guides.html">Guides</a>
@@ -741,11 +741,11 @@ TEMPLATE = r"""<!DOCTYPE html>
   </main>
   <footer class="site-footer">
     <div class="container">
-      <p>TruePrice helps people analyze __NOUN__ quotes, compare prices, and avoid being overcharged.
+      <p>Woogoro helps people analyze __NOUN__ quotes, compare prices, and avoid being overcharged.
         <a href="/privacy.html" style="color:inherit;">Privacy</a> |
         <a href="/about.html" style="color:inherit;">About</a> |
         <a href="/methodology.html" style="color:inherit;">Methodology</a> |
-        <a href="mailto:hello@truepricehq.com" style="color:inherit;">Contact</a>
+        <a href="mailto:hello@woogoro.com" style="color:inherit;">Contact</a>
       </p>
     </div>
   </footer>
@@ -987,7 +987,7 @@ TEMPLATE = r"""<!DOCTYPE html>
       html += '<div class="cmp-winner-banner">';
       html += '<img src="' + TRUDY + '" alt="Trudy" />';
       html += '<div>';
-      html += '<p style="font-size:12px;font-weight:700;color:__COLOR__;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">TruePrice Quote Analysis</p>';
+      html += '<p style="font-size:12px;font-weight:700;color:__COLOR__;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {
         html += '<p class="cmp-winner-title">These quotes are closely matched</p>';
         html += '<p class="cmp-winner-sub">Scores are within 5 points. Review the details below to make your final call.</p>';

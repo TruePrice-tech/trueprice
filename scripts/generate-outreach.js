@@ -16,7 +16,7 @@ const OUTPUT_FILE = path.join(__dirname, 'outreach-ready.md');
 
 const SIG = `Geoff Lane
 704-906-4030 (text or call, seriously)
-truepricehq.com`;
+woogoro.com`;
 
 const templates = {
   home: {
@@ -27,11 +27,11 @@ I was reading your piece on ${t.article.toLowerCase()} and figured I'd reach out
 
 I'm Geoff. I built a free pricing widget that shows local home service costs, broken down by material and city. Roofing, HVAC, plumbing, the works. It pulls live data and auto-detects where your visitor is, so the numbers are always local to them.
 
-I thought it might be a good fit for your cost content since it gives readers actual numbers for their area instead of generic national ranges. Here's the widget page if you want to see it: truepricehq.com/widget.html
+I thought it might be a good fit for your cost content since it gives readers actual numbers for their area instead of generic national ranges. Here's the widget page if you want to see it: woogoro.com/widget.html
 
 The embed is literally one line of code:
 
-&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="${t.service || 'roofing'}" data-auto="true" async&gt;&lt;/script&gt;
+&lt;script src="https://woogoro.com/widget/tp-widget.js" data-service="${t.service || 'roofing'}" data-auto="true" async&gt;&lt;/script&gt;
 
 No signup, no ads, no affiliate stuff. I'm a real person, not a bot, and you're welcome to call me anytime if you want to talk about it.
 
@@ -46,11 +46,11 @@ Found your site while researching auto repair pricing and thought this might be 
 
 I'm Geoff. I built a free widget that shows local auto repair costs (brakes, timing belts, alternators, transmission, etc.). It auto-detects the reader's location so the prices are specific to their area, not some national average that doesn't help anyone.
 
-Figured it could be useful embedded alongside your repair content. Here's what it looks like: truepricehq.com/widget.html (pick "Auto Repair" from the dropdown)
+Figured it could be useful embedded alongside your repair content. Here's what it looks like: woogoro.com/widget.html (pick "Auto Repair" from the dropdown)
 
 One line to embed:
 
-&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="auto-repair" data-auto="true" async&gt;&lt;/script&gt;
+&lt;script src="https://woogoro.com/widget/tp-widget.js" data-service="auto-repair" data-auto="true" async&gt;&lt;/script&gt;
 
 Totally free, no catch. I'm just trying to get it in front of people who'd actually use it. Feel free to call or text me if you have questions.
 
@@ -67,11 +67,11 @@ I'm Geoff. I built a free widget that shows typical costs for common medical pro
 
 We also have a medical bill analyzer where someone can upload their hospital bill and get a line-by-line check against benchmark rates. It flags overcharges, duplicate charges, and upcoding.
 
-Here's the widget: truepricehq.com/widget.html (pick "Medical Costs")
+Here's the widget: woogoro.com/widget.html (pick "Medical Costs")
 
 One line to embed:
 
-&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="medical" data-auto="true" async&gt;&lt;/script&gt;
+&lt;script src="https://woogoro.com/widget/tp-widget.js" data-service="medical" data-auto="true" async&gt;&lt;/script&gt;
 
 No signup, no ads. I'm a real person building this because medical billing is broken and people deserve better tools. Call me anytime if you want to chat about it.
 
@@ -88,11 +88,11 @@ I'm Geoff. I made a free widget that shows typical legal fees by practice area (
 
 We have a legal fee analyzer too where someone can upload a retainer agreement and check if the rates make sense.
 
-Widget demo: truepricehq.com/widget.html (pick "Legal Fees")
+Widget demo: woogoro.com/widget.html (pick "Legal Fees")
 
 Embed code:
 
-&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="legal" data-auto="true" async&gt;&lt;/script&gt;
+&lt;script src="https://woogoro.com/widget/tp-widget.js" data-service="legal" data-auto="true" async&gt;&lt;/script&gt;
 
 Free, no signup, no strings. Happy to jump on a call if you want to talk through it. I'm a real human, I promise.
 
@@ -107,11 +107,11 @@ I follow ${t.blog} and thought I'd share something I built that might fit with y
 
 I'm Geoff. I made a free embeddable widget that shows local costs for home services, auto repair, medical procedures, and legal fees. It auto-detects where the reader is and shows pricing for their city. Useful for anyone budgeting for a roof, a mechanic visit, or trying to figure out if their doctor's bill is normal.
 
-Here's the widget page: truepricehq.com/widget.html
+Here's the widget page: woogoro.com/widget.html
 
 One line to embed, works with any of 19 services:
 
-&lt;script src="https://truepricehq.com/widget/tp-widget.js" data-service="${t.service || 'roofing'}" data-auto="true" async&gt;&lt;/script&gt;
+&lt;script src="https://woogoro.com/widget/tp-widget.js" data-service="${t.service || 'roofing'}" data-auto="true" async&gt;&lt;/script&gt;
 
 No signup, no ads, no affiliate links. Just a tool I think people would actually use. Feel free to call or text me, I'm happy to answer any questions.
 

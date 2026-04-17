@@ -1,7 +1,7 @@
 # Electrical Test Results
 
 Run: 2026-04-08 12:18:22
-Endpoint: https://truepricehq.com/api/electrical-estimate
+Endpoint: https://woogoro.com/api/electrical-estimate
 Samples tested: 16
 
 **Counter at start:** 3895

@@ -1,10 +1,10 @@
 /*
- * TruePrice Feedback Modal
+ * Woogoro Feedback Modal
  * ------------------------------------------------------------
- * Drop-in script that hijacks all `mailto:hello@truepricehq.com`
+ * Drop-in script that hijacks all `mailto:hello@woogoro.com`
  * links and replaces them with an inline modal. Posts user feedback
  * to /api/analytics (type=feedback) which stores it in Redis and
- * forwards to hello@truepricehq.com via Resend.
+ * forwards to hello@woogoro.com via Resend.
  *
  * Usage on any page:
  *   <script src="/js/feedback-modal.js" defer></script>
@@ -15,7 +15,7 @@
   if (window.__tpFeedbackModalLoaded) return;
   window.__tpFeedbackModalLoaded = true;
 
-  var TARGET_HREF_PATTERN = /^mailto:hello@truepricehq\.com/i;
+  var TARGET_HREF_PATTERN = /^mailto:hello@woogoro\.com/i;
   var MAX_COMMENT = 500;
 
   function buildModal(){
@@ -24,7 +24,7 @@
       + '<div id="tpFeedbackModal" class="tp-fb-overlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:99999;align-items:center;justify-content:center;padding:16px;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,sans-serif;">'
       + '  <div class="tp-fb-card" style="background:#fff;max-width:480px;width:100%;border-radius:16px;padding:24px;box-shadow:0 25px 60px rgba(15,23,42,0.35);">'
       + '    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
-      + '      <h3 style="margin:0;font-size:18px;color:#1e293b;font-weight:800;">Send TruePrice feedback</h3>'
+      + '      <h3 style="margin:0;font-size:18px;color:#1e293b;font-weight:800;">Send Woogoro feedback</h3>'
       + '      <button type="button" id="tpFbClose" aria-label="Close" style="background:none;border:none;font-size:22px;color:#94a3b8;cursor:pointer;line-height:1;padding:4px 8px;">&times;</button>'
       + '    </div>'
       + '    <p style="margin:0 0 14px;font-size:13px;color:#64748b;">Bug, suggestion, or anything we can fix? Goes straight to the team.</p>'
@@ -97,7 +97,7 @@
       })
       .catch(function(){
         status.style.color = "#dc2626";
-        status.textContent = "Could not send. Please try again or email hello@truepricehq.com directly.";
+        status.textContent = "Could not send. Please try again or email hello@woogoro.com directly.";
       })
       .finally(function(){
         sendBtn.disabled = false;
@@ -118,7 +118,7 @@
   // Expose globally so tpFb-style widgets can call it directly
   window.tpOpenFeedback = openModal;
 
-  // Hijack all mailto:hello@truepricehq.com links via event delegation
+  // Hijack all mailto:hello@woogoro.com links via event delegation
   document.addEventListener("click", function(ev){
     var a = ev.target.closest && ev.target.closest("a[href]");
     if (!a) return;

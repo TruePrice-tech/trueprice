@@ -1,7 +1,7 @@
 """
 audit-vertical-pricing-depth.py
 Score each vertical's pricing JSON and analyzer API on the dimensions that
-make a TruePrice vertical "best in class" per memory/project_best_in_class_definition.md.
+make a Woogoro vertical "best in class" per memory/project_best_in_class_definition.md.
 Outputs a ranked table — lowest score = highest priority for the next deep-dive sprint.
 
 Each dimension scored 0-10:

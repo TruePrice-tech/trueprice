@@ -99,7 +99,7 @@ function extractTitle(html) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "https://truepricehq.com");
+  res.setHeader("Access-Control-Allow-Origin", "https://woogoro.com");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -135,7 +135,7 @@ export default async function handler(req, res) {
   if (!isAllowedHost(parsed.hostname)) {
     return res.status(400).json({
       ok: false,
-      error: "We don't yet support quotes from " + parsed.hostname + ". Try uploading a PDF instead, or contact hello@truepricehq.com to request this site."
+      error: "We don't yet support quotes from " + parsed.hostname + ". Try uploading a PDF instead, or contact hello@woogoro.com to request this site."
     });
   }
 
@@ -155,7 +155,7 @@ export default async function handler(req, res) {
     response = await fetch(parsed.toString(), {
       method: "GET",
       headers: {
-        "User-Agent": "TruePriceQuoteFetcher/1.0 (+https://truepricehq.com/contact)",
+        "User-Agent": "WoogoroQuoteFetcher/1.0 (+https://woogoro.com/contact)",
         "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
       },

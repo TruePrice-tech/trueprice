@@ -6,22 +6,22 @@
   <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Is This Repair Needed? Free Auto Repair Check | TruePrice</title>
+  <title>Is This Repair Needed? Free Auto Repair Check | Woogoro</title>
   <meta name="description" content="The shop says you need a repair. Find out if it's actually urgent, what it should cost, and whether they're upselling you. Free, instant, no signup." />
-  <link rel="canonical" href="https://truepricehq.com/repair-check.html" />
+  <link rel="canonical" href="https://woogoro.com/repair-check.html" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="Is This Repair Needed? Free Auto Repair Check | TruePrice" />
+  <meta property="og:title" content="Is This Repair Needed? Free Auto Repair Check | Woogoro" />
   <meta property="og:description" content="The shop says you need a repair. Find out if it's actually urgent, what it should cost, and whether they're upselling you." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://truepricehq.com/repair-check.html" />
-  <meta property="og:site_name" content="TruePrice" />
-  <meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta property="og:url" content="https://woogoro.com/repair-check.html" />
+  <meta property="og:site_name" content="Woogoro" />
+  <meta property="og:image" content="https://woogoro.com/images/woogoro-social.svg" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Is This Repair Needed? Free Auto Repair Check | TruePrice" />
+  <meta name="twitter:title" content="Is This Repair Needed? Free Auto Repair Check | Woogoro" />
   <meta name="twitter:description" content="The shop says you need a repair. Find out if it's actually urgent, what it should cost, and whether they're upselling you." />
-  <meta name="twitter:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+  <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.svg" />
 
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#1d4ed8" />
@@ -31,17 +31,17 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "TruePrice Repair Check",
-    "url": "https://truepricehq.com/repair-check.html",
+    "name": "Woogoro Repair Check",
+    "url": "https://woogoro.com/repair-check.html",
     "description": "Free tool to check if a recommended auto repair is actually needed, what it should cost, and common upsell warnings.",
     "applicationCategory": "UtilityApplication",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "operatingSystem": "Web",
-    "provider": { "@type": "Organization", "name": "TruePrice", "url": "https://truepricehq.com" }
+    "provider": { "@type": "Organization", "name": "Woogoro", "url": "https://woogoro.com" }
   }
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Is This Repair Needed?"}]}
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://woogoro.com/"},{"@type":"ListItem","position":2,"name":"Is This Repair Needed?"}]}
   </script>
 
   <style>
@@ -169,7 +169,7 @@
   <a href="#main" class="skip-link">Skip to main content</a>
   <header class="site-header">
     <div class="container">
-      <a class="logo" href="/">TruePrice</a>
+      <a class="logo" href="/">Woogoro</a>
       <nav>
 <a href="/guides.html">Guides</a>
 </nav>
@@ -181,7 +181,7 @@
 
       <!-- Hero -->
       <div class="rc-hero">
-        <img src="/images/trudy-auto.png" alt="Trudy the TruePrice bunny" />
+        <img src="/images/trudy-auto.png" alt="Trudy the Woogoro bunny" />
         <h1>Is This Repair Actually Needed?</h1>
         <p>The shop says you need it. Here's what the data says.</p>
       </div>
@@ -289,7 +289,7 @@
   </div>
   <div class="tp-footer-col">
     <h4>About</h4>
-    <a href="/about.html">About TruePrice</a>
+    <a href="/about.html">About Woogoro</a>
     <a href="/methodology.html">Methodology</a>
     <a href="/accessibility.html">Accessibility</a>
     <a href="/privacy.html">Privacy</a>
@@ -297,7 +297,7 @@
   </div>
 </div>
 
-      <p>TruePrice helps car owners check repair urgency, compare shop prices, and avoid unnecessary upsells. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+      <p>Woogoro helps car owners check repair urgency, compare shop prices, and avoid unnecessary upsells. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
     </div>
   </footer>
 
@@ -709,8 +709,8 @@
       var urg = urgencyConfig[repair.urgency];
 
       var text = "The shop says I need " + repair.label.toLowerCase() + " on my " + vehicle + " at " + Number(mileage).toLocaleString() + " miles.\n" +
-        "TruePrice says: " + urg.label + ". Typical cost: " + fmt(price.low) + "-" + fmt(price.high) + ".\n" +
-        "Check yours: truepricehq.com/repair-check.html";
+        "Woogoro says: " + urg.label + ". Typical cost: " + fmt(price.low) + "-" + fmt(price.high) + ".\n" +
+        "Check yours: woogoro.com/repair-check.html";
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function() { showToast(); });

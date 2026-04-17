@@ -144,7 +144,7 @@ def build_position_label(quote_price, mid):
     return "In line with most quotes analyzed"
 
 
-class TruePriceHandler(SimpleHTTPRequestHandler):
+class WoogoroHandler(SimpleHTTPRequestHandler):
     def _send_json(self, payload, status=200):
         body = json.dumps(payload).encode("utf-8")
         self.send_response(status)
@@ -307,6 +307,6 @@ class TruePriceHandler(SimpleHTTPRequestHandler):
 if __name__ == "__main__":
     os.chdir(ROOT_DIR)
     port = 8000
-    server = ThreadingHTTPServer(("0.0.0.0", port), TruePriceHandler)
-    print(f"TruePrice server running at http://localhost:{port}")
+    server = ThreadingHTTPServer(("0.0.0.0", port), WoogoroHandler)
+    print(f"Woogoro server running at http://localhost:{port}")
     server.serve_forever()

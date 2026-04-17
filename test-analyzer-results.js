@@ -29,7 +29,7 @@ const toTest = requested.length ? VERTICALS.filter(v => requested.includes(v.nam
     page.on("pageerror", e => errors.push(e.message.slice(0, 100)));
 
     try {
-      await page.goto("https://truepricehq.com" + v.url, { waitUntil: "networkidle2", timeout: 20000 });
+      await page.goto("https://woogoro.com" + v.url, { waitUntil: "networkidle2", timeout: 20000 });
 
       const fileInput = await page.$("input[type='file']");
       if (!fileInput) { console.log("  NO FILE INPUT"); await page.close(); continue; }

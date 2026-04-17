@@ -60,7 +60,7 @@ async function checkRateLimit(ip) {
 }
 
 export default async function handler(req, res) {
-  const allowedOrigin = "https://truepricehq.com";
+  const allowedOrigin = "https://woogoro.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -334,11 +334,11 @@ Rules:
     const _calState = parsed.stateCode || parsed.state || "";
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "siding" });
 
-    if (req.headers["x-trueprice-test"] !== "1") captureAnonymizedData("siding", parsed);
-    // Test-mode skip: synthetic test fixtures (X-TruePrice-Test: 1)
+    if (req.headers["x-woogoro-test"] !== "1") captureAnonymizedData("siding", parsed);
+    // Test-mode skip: synthetic test fixtures (X-Woogoro-Test: 1)
     // do NOT count toward the public counter or feed pricing aggregates.
     // Only real-world quotes from real users should affect either.
-    const _isTestMode = req.headers["x-trueprice-test"] === "1";
+    const _isTestMode = req.headers["x-woogoro-test"] === "1";
     if (_isTestMode) {
       console.log("[test-mode] skipping flywheel writes for this request");
     }

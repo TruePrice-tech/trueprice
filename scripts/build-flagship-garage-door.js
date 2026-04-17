@@ -1075,7 +1075,7 @@ function redFlagsSection(city, g) {
   return `
 <section ${SECSTYLE}>
 <h2 ${H2STYLE}>${city}-Specific Bid Warning Signs</h2>
-<p ${PSTYLE}>Generic red-flag lists miss what matters in ${city}. These are the patterns that show up in ${city} bid reviews at TruePrice.</p>
+<p ${PSTYLE}>Generic red-flag lists miss what matters in ${city}. These are the patterns that show up in ${city} bid reviews at Woogoro.</p>
 ${flagsHTML}
 </section>`;
 }

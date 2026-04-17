@@ -15,7 +15,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-BASE = "https://truepricehq.com"
+BASE = "https://woogoro.com"
 
 VERTICAL_ENDPOINTS = {
     "auto": "auto-repair-estimate",
@@ -72,8 +72,8 @@ def post(endpoint, fpath):
         headers={
             "Content-Type": "application/json",
             "Origin": BASE,
-            "User-Agent": "Mozilla/5.0 (TruePriceTest)",
-            "X-TruePrice-Test": "1"
+            "User-Agent": "Mozilla/5.0 (WoogoroTest)",
+            "X-Woogoro-Test": "1"
         }
     )
     try:

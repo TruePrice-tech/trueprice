@@ -125,7 +125,7 @@ function getGeo(req) {
 }
 
 export default async function handler(req, res) {
-  const allowedOrigin = "https://truepricehq.com";
+  const allowedOrigin = "https://woogoro.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -171,7 +171,7 @@ export default async function handler(req, res) {
         }));
         await redis.ltrim("tp:feedback", 0, 1000);
 
-        // Forward to hello@truepricehq.com via Resend if there's actual content
+        // Forward to hello@woogoro.com via Resend if there's actual content
         let emailStatus = "skipped_empty";
         if (comment.length > 0) {
           // Daily email throttle: cap forwarded emails at 200/day to prevent
@@ -193,13 +193,13 @@ export default async function handler(req, res) {
           if (resendKey) {
             try {
               const body = {
-                from: "TruePrice Feedback <noreply@truepricehq.com>",
-                to: ["hello@truepricehq.com"],
-                subject: `[TruePrice Feedback] ${rating || "comment"} on ${page}`,
+                from: "Woogoro Feedback <noreply@woogoro.com>",
+                to: ["hello@woogoro.com"],
+                subject: `[Woogoro Feedback] ${rating || "comment"} on ${page}`,
                 html: `<div style="font-family:sans-serif;max-width:560px;padding:20px;">
-                  <h2 style="color:#1e293b;margin:0 0 12px;">New TruePrice Feedback</h2>
+                  <h2 style="color:#1e293b;margin:0 0 12px;">New Woogoro Feedback</h2>
                   <table style="font-size:14px;color:#475569;border-collapse:collapse;width:100%;">
-                    <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Page</td><td style="padding:6px 0;"><a href="https://truepricehq.com${page}">${page}</a></td></tr>
+                    <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Page</td><td style="padding:6px 0;"><a href="https://woogoro.com${page}">${page}</a></td></tr>
                     <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Rating</td><td style="padding:6px 0;">${rating || "(none)"}</td></tr>
                     <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Reply-to</td><td style="padding:6px 0;">${replyTo || "(none provided)"}</td></tr>
                     <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Device</td><td style="padding:6px 0;">${device}</td></tr>

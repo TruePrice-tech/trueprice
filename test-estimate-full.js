@@ -1,7 +1,7 @@
 // Full estimate path test: click through every step like a real user
 const puppeteer = require("puppeteer");
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 function pause(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function clickOption(page, val) {

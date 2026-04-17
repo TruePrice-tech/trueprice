@@ -4,18 +4,18 @@
 <meta charset="UTF-8" />
 <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Auto Repair Pricing | TruePrice</title>
+<title>Auto Repair Pricing | Woogoro</title>
 <meta name="description" content="Get a precise repair estimate or upload a mechanic quote for instant analysis. 43 repairs, AI-powered vehicle-specific pricing. Free." />
-<link rel="canonical" href="https://truepricehq.com/auto-repair.html" />
+<link rel="canonical" href="https://woogoro.com/auto-repair.html" />
 <meta name="robots" content="index,follow" />
-<meta property="og:title" content="Auto Repair Pricing | TruePrice" />
+<meta property="og:title" content="Auto Repair Pricing | Woogoro" />
 <meta property="og:description" content="Get a precise repair estimate or upload a mechanic quote for instant analysis. 43 repairs, AI-powered vehicle-specific pricing." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://truepricehq.com/auto-repair.html" />
-<meta property="og:site_name" content="TruePrice" />
-<meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+<meta property="og:url" content="https://woogoro.com/auto-repair.html" />
+<meta property="og:site_name" content="Woogoro" />
+<meta property="og:image" content="https://woogoro.com/images/woogoro-social.svg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Auto Repair Pricing | TruePrice" />
+<meta name="twitter:title" content="Auto Repair Pricing | Woogoro" />
 <meta name="twitter:description" content="Get a precise repair estimate or upload a mechanic quote for instant analysis. 43 repairs, AI-powered." />
 <link rel="stylesheet" href="/css/trueprice.min.css" />
 <style>
@@ -249,15 +249,15 @@
 }
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"TruePrice Auto Repair Quote Analyzer","url":"https://truepricehq.com/auto-repair.html","description":"Free analyzer for auto repair quotes. Get an estimate, upload a quote to check the price, or compare 2-3 quotes side by side. No email, no phone, no lead-selling.","applicationCategory":"UtilityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"}}
+{"@context":"https://schema.org","@type":"WebApplication","name":"Woogoro Auto Repair Quote Analyzer","url":"https://woogoro.com/auto-repair.html","description":"Free analyzer for auto repair quotes. Get an estimate, upload a quote to check the price, or compare 2-3 quotes side by side. No email, no phone, no lead-selling.","applicationCategory":"UtilityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"provider":{"@type":"Organization","name":"Woogoro","url":"https://woogoro.com"}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},{"@type":"ListItem","position":2,"name":"Auto Repair","item":"https://truepricehq.com/auto-repair.html"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://woogoro.com/"},{"@type":"ListItem","position":2,"name":"Auto Repair","item":"https://woogoro.com/auto-repair.html"}]}
 </script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
-<header class="site-header"><div class="container"><a class="logo" href="/">TruePrice</a><nav>
+<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav>
 <a href="/guides.html">Guides</a>
 </nav></div></header>
 
@@ -404,14 +404,14 @@ Estimates reflect metro-area average labor rates and industry-typical parts rang
   </div>
   <div class="tp-footer-col">
     <h4>About</h4>
-    <a href="/about.html">About TruePrice</a>
+    <a href="/about.html">About Woogoro</a>
     <a href="/methodology.html">Methodology</a>
     <a href="/accessibility.html">Accessibility</a>
     <a href="/privacy.html">Privacy</a>
     <a href="/terms.html">Terms</a>
   </div>
 </div>
-<p>TruePrice helps you understand fair auto repair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
+<p>Woogoro helps you understand fair auto repair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
 
 <!-- Vendor lib loader for PDF/image processing -->
 <script>
@@ -860,13 +860,13 @@ function renderEstimate(est,vehicleDesc,locationDesc,shopType,opts){
   var repair=est.repair;
   var shopLabel=shopType==="dealer"?"Dealership":shopType==="chain"?"Chain Shop":"Independent Shop";
   var h='<div class="ae-card" id="estimateCard">';
-  var shareText=repair.label+" for "+vehicleDesc+" in "+locationDesc+": "+fmt(est.totalLow)+" - "+fmt(est.totalHigh)+" (aftermarket parts, "+shopType+" shop). truepricehq.com/auto-repair.html";
+  var shareText=repair.label+" for "+vehicleDesc+" in "+locationDesc+": "+fmt(est.totalLow)+" - "+fmt(est.totalHigh)+" (aftermarket parts, "+shopType+" shop). woogoro.com/auto-repair.html";
   h+='<span class="ae-share" onclick="navigator.clipboard.writeText(\''+shareText.replace(/'/g,"\\'")+'\');this.textContent=\'Copied!\'">Share</span>';
   h+='<h3>'+repair.label;
   if(opts.complexity) h+='<span class="ae-complexity '+opts.complexity+'">'+opts.complexity+'</span>';
   h+='</h3>';
   h+='<div style="font-size:14px;color:#64748b;">'+vehicleDesc+' &bull; '+locationDesc+' &bull; '+est.vehicleLabel+' &bull; '+shopLabel+'</div>';
-  if(opts.aiSource) h+='<div style="font-size:11px;color:#16a34a;margin-top:4px;font-weight:600;">Vehicle-specific estimate from TruePrice AI</div>';
+  if(opts.aiSource) h+='<div style="font-size:11px;color:#16a34a;margin-top:4px;font-weight:600;">Vehicle-specific estimate from Woogoro AI</div>';
 
   h+='<div class="ae-total-box">';
   h+='<div style="font-size:13px;color:var(--text-muted,#6b7280);">Estimated Total for Your '+vehicleDesc+'</div>';
@@ -1107,10 +1107,10 @@ function renderReportHeader(vehicleDesc,locationDesc){
   return '<div class="tp-report-header">'+
     '<img src="/images/trudy-auto.png" alt="Trudy" width="78" height="78" />'+
     '<div>'+
-      '<div class="eyebrow">TruePrice '+(isParts?"DIY Parts Report":"Auto Repair Report")+'</div>'+
+      '<div class="eyebrow">Woogoro '+(isParts?"DIY Parts Report":"Auto Repair Report")+'</div>'+
       '<div class="title">'+(isParts?"Parts cost checked by Trudy":"Estimate prepared by Trudy")+'</div>'+
       '<div class="sub">'+vehicleDesc+' &bull; '+locationDesc+' &bull; '+dateStr+'</div>'+
-      '<div class="sub" style="font-size:11px;margin-top:4px;">truepricehq.com/auto-repair.html</div>'+
+      '<div class="sub" style="font-size:11px;margin-top:4px;">woogoro.com/auto-repair.html</div>'+
     '</div>'+
   '</div>';
 }
@@ -1133,7 +1133,7 @@ function shareReport(){
   if(inp.state) params.set("state",inp.state);
   var shareUrl=url+"?"+params.toString();
   if(navigator.share){
-    navigator.share({title:"TruePrice Auto Repair Estimate",text:"My auto repair estimate from TruePrice — checked by Trudy",url:shareUrl}).catch(function(){});
+    navigator.share({title:"Woogoro Auto Repair Estimate",text:"My auto repair estimate from Woogoro — checked by Trudy",url:shareUrl}).catch(function(){});
   } else {
     navigator.clipboard.writeText(shareUrl).then(function(){alert("Link copied to clipboard!");},function(){prompt("Copy this link:",shareUrl);});
   }
@@ -1349,7 +1349,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
 
     mh+='<div style="margin-bottom:10px;"><strong>What we DON\'T include.</strong> Diagnostic fees, towing, pre-existing damage discovered mid-repair, specialty tool fees, programming/coding charges (common on European cars and ADAS-equipped vehicles), or any premium for after-hours service.</div>';
 
-    mh+='<div style="margin-bottom:10px;"><strong>Crowdsourced calibration.</strong> When real users in your area submit shop quotes through TruePrice (and we have at least 3 quotes for the same repair in the same metro), we display the real average alongside our estimate as a sanity check. As more users contribute, the calibrated number gets more accurate.</div>';
+    mh+='<div style="margin-bottom:10px;"><strong>Crowdsourced calibration.</strong> When real users in your area submit shop quotes through Woogoro (and we have at least 3 quotes for the same repair in the same metro), we display the real average alongside our estimate as a sanity check. As more users contribute, the calibrated number gets more accurate.</div>';
 
     mh+='<div style="margin-bottom:10px;"><strong>What this estimate is NOT.</strong> This is a benchmark to help you spot unusually high or low quotes &mdash; not a guaranteed price, not an insurance appraisal, and not a substitute for a licensed appraiser\'s estimate in claims, warranty disputes, or legal matters. Always get at least three quotes from licensed local shops before committing.</div>';
 
@@ -1682,7 +1682,7 @@ window.downloadAnalysisReport=function(){
   var today=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
   var html='<div id="arReportCapture" style="padding:32px;max-width:680px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#fff;">';
   html+='<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1d4ed8;padding-bottom:12px;margin-bottom:20px;">';
-  html+='<div style="font-size:22px;font-weight:800;color:#1d4ed8;">TruePrice</div>';
+  html+='<div style="font-size:22px;font-weight:800;color:#1d4ed8;">Woogoro</div>';
   html+='<div style="font-size:13px;color:#64748b;">Auto Repair Analysis &middot; '+today+'</div></div>';
   var vColor=r.verdict.css==="fair"?"#16a34a":r.verdict.css==="high"?"#dc2626":"#ca8a04";
   var vBg=r.verdict.css==="fair"?"#f0fdf4":r.verdict.css==="high"?"#fef2f2":"#fefce8";
@@ -1697,7 +1697,7 @@ window.downloadAnalysisReport=function(){
     r.lineItems.forEach(function(item){var lineTotal=item.total||((item.partsCost||0)+(item.laborCost||0));html+='<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px;">'+item.description+'</td><td style="text-align:right;padding:6px;">'+fmtCents(lineTotal)+'</td></tr>';});
     html+='</table></div>';
   }
-  html+='<div style="margin-top:24px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;line-height:1.5;">This analysis is for informational purposes only. Generated by TruePrice (truepricehq.com).</div></div>';
+  html+='<div style="margin-top:24px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;line-height:1.5;">This analysis is for informational purposes only. Generated by Woogoro (woogoro.com).</div></div>';
 
   var container=document.createElement("div");
   container.style.position="fixed";container.style.left="-9999px";container.style.top="0";container.style.width="720px";container.style.background="#fff";
@@ -2153,7 +2153,7 @@ function initQuoteApp(){
     // Assemble
     appRoot.innerHTML='\
       <div class="ar-verdict-card '+verdictCss+'">\
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-auto.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">TruePrice Auto Repair Verdict</div></div>\
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-auto.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Auto Repair Verdict</div></div>\
         <div class="verdict-label">'+r.verdict.label+'</div>\
         <div class="verdict-price">'+priceDisplay+'</div>\
         <div class="verdict-range">'+rangeText+'</div>\

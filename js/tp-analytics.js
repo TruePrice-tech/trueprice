@@ -1,4 +1,4 @@
-// TruePrice lightweight analytics tracker
+// Woogoro lightweight analytics tracker
 // Sends page views, custom events, and session duration to /api/analytics
 (function() {
   if (typeof navigator !== "undefined" && navigator.doNotTrack === "1") return;

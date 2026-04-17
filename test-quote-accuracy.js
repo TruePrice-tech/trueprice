@@ -4,7 +4,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 // Only real quote images + comparison images for plumbing and roofing
 const TESTS = [
@@ -62,8 +62,8 @@ async function testImage(test) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Origin": "https://truepricehq.com",
-        "Referer": "https://truepricehq.com/",
+        "Origin": "https://woogoro.com",
+        "Referer": "https://woogoro.com/",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
       },
       body: JSON.stringify({ images: [dataUrl] }),

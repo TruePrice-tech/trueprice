@@ -26,7 +26,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
   async function walkEstimate(name, url) {
     console.log('\n=== ' + name + ' ESTIMATE ===');
-    await page.goto('https://truepricehq.com' + url, { waitUntil: 'networkidle2' });
+    await page.goto('https://woogoro.com' + url, { waitUntil: 'networkidle2' });
 
     // Fill address
     const fields = { '#addrStreet': '123 Main St', '#addrCity': 'Charlotte', '#addrState': 'NC', '#addrZip': '28202' };
@@ -105,7 +105,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
   // Auto repair - check the analyze link destination
   console.log('\n=== AUTO REPAIR ANALYZE PATH ===');
-  await page.goto('https://truepricehq.com/auto-repair.html', { waitUntil: 'networkidle2' });
+  await page.goto('https://woogoro.com/auto-repair.html', { waitUntil: 'networkidle2' });
   const analyzeHref = await page.evaluate(() => {
     const link = Array.from(document.querySelectorAll('a')).find(a => /Analyze a quote/i.test(a.textContent));
     return link ? link.href : 'not found';

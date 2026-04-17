@@ -9,7 +9,7 @@ global.document = { createElement: () => ({}) };
 eval(fs.readFileSync("js/analyzer-parser.js", "utf8"));
 eval(fs.readFileSync("js/analyzer-scope.js", "utf8"));
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 // Test images: messy fixtures + real Reddit images
 const TESTS = [
@@ -86,8 +86,8 @@ async function callApi(filePath, endpoint) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Origin": "https://truepricehq.com",
-        "Referer": "https://truepricehq.com/",
+        "Origin": "https://woogoro.com",
+        "Referer": "https://woogoro.com/",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
       },
       body: JSON.stringify({ images: [dataUrl] }),

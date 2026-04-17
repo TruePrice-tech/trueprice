@@ -59,11 +59,38 @@ Disallow: /
 User-agent: Google-Extended
 Disallow: /
 
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: img2dataset
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
 # Default: allow with crawl delay
 User-agent: *
 Allow: /
 Disallow: /api/
 Crawl-delay: 2
 
-Sitemap: https://truepricehq.com/sitemap.xml
-Sitemap: https://truepricehq.com/sitemap-index.xml
+Sitemap: https://woogoro.com/sitemap.xml
+Sitemap: https://woogoro.com/sitemap-index.xml

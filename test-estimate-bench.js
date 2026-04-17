@@ -16,7 +16,7 @@ const TESTS = [
 
   for (const t of TESTS) {
     const p = await browser.newPage();
-    await p.goto("https://truepricehq.com" + t.url, { waitUntil: "networkidle2", timeout: 15000 });
+    await p.goto("https://woogoro.com" + t.url, { waitUntil: "networkidle2", timeout: 15000 });
     await new Promise(r => setTimeout(r, 1500));
 
     // Already on estimate page via URL
@@ -68,7 +68,7 @@ const TESTS = [
     if (inRange) pass++;
 
     console.log(t.name);
-    console.log("  TruePrice: " + (estimate ? "$" + estimate.toLocaleString() : "NONE"));
+    console.log("  Woogoro: " + (estimate ? "$" + estimate.toLocaleString() : "NONE"));
     console.log("  Real:      $" + t.realRange[0].toLocaleString() + " - $" + t.realRange[1].toLocaleString());
     console.log("  " + (inRange ? "IN RANGE" : estimate ? "OUT OF RANGE" : "FAILED") + "\n");
     await p.close();

@@ -1,5 +1,5 @@
 """
-Scrape real public quote screenshots from Reddit across all TruePrice verticals.
+Scrape real public quote screenshots from Reddit across all Woogoro verticals.
 
 For each vertical, search relevant subreddits + queries, download up to N
 image-bearing posts, save to test-quotes/{vertical}-test-images/.
@@ -15,7 +15,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-UA = "TruePriceResearch/1.0 (contact: hello@truepricehq.com)"
+UA = "WoogoroResearch/1.0 (contact: hello@woogoro.com)"
 TARGET_PER_VERTICAL = 10
 
 VERTICALS = {
@@ -251,7 +251,7 @@ def download_samples(vertical, samples):
                     "is left as-is when the original poster published it that way; "
                     "where it was redacted in the original, it stays redacted. "
                     "If you (the original poster) want a sample removed, email "
-                    "hello@truepricehq.com.\n\n")
+                    "hello@woogoro.com.\n\n")
             f.write("## Samples\n\n")
             for r in results:
                 if r.get("status") == "ok":

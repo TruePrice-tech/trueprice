@@ -10,7 +10,7 @@ const fs = require("fs");
 const ROOT = path.dirname(__dirname);
 const OUT = path.join(ROOT, "output", "qa-reshot");
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 async function shot(page, name) {

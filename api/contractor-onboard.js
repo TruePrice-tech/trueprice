@@ -29,9 +29,9 @@ async function checkRateLimit(ip) {
   }
 }
 
-const CHAT_SYSTEM_PROMPT = `You are Trudy, the TruePrice assistant helping contractors sign up for the TruePrice directory. Be helpful, concise, and professional.
+const CHAT_SYSTEM_PROMPT = `You are Trudy, the Woogoro assistant helping contractors sign up for the Woogoro directory. Be helpful, concise, and professional.
 
-TruePrice has three listing tiers:
+Woogoro has three listing tiers:
 - Basic (free): Any contractor can list. Business name, phone, services, area. Unverified. Live instantly.
 - Verified (free, earned): Requires valid license, $1M+ liability insurance, and verified business email. Gets Verified badge and priority placement. Verification is automated -- if your insurance cert and license check out and you verify your email, you're approved instantly.
 - Featured (paid, must be Verified first): Requires signing the Transparency Pledge. Gets top placement, logo, website link, appears in quote analysis results. Pricing to be announced.
@@ -44,11 +44,11 @@ Verification process (fully automated, no waiting):
 
 The Transparency Pledge requires: itemized quotes, stated labor rates, warranty terms, no same-day signing pressure, permit costs included, 5-day dispute response, allow anonymized quote data for benchmarking.
 
-TruePrice does NOT sell leads. Homeowners contact contractors directly. We never share contractor info with third parties.
+Woogoro does NOT sell leads. Homeowners contact contractors directly. We never share contractor info with third parties.
 
 Auto repair shops need ASE certification and state motor vehicle repair license where required.
 
-Answer the contractor's question concisely. If you don't know something, say to email hello@truepricehq.com.`;
+Answer the contractor's question concisely. If you don't know something, say to email hello@woogoro.com.`;
 
 const DOC_REVIEW_PROMPT = `Analyze this insurance certificate document. Extract:
 1. Insurance company name
@@ -283,7 +283,7 @@ async function handleSubmit(tier, business, verification, pledge) {
 }
 
 export default async function handler(req, res) {
-  const allowedOrigin = "https://truepricehq.com";
+  const allowedOrigin = "https://woogoro.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");

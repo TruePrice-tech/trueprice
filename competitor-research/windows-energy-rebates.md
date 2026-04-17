@@ -39,7 +39,7 @@ Notes:
 
 Easiest reliable methods, in order of preference:
 1. **NFRC/ENERGY STAR ZIP lookup widget** — energystar.gov has a "Find products for your climate zone" tool that accepts ZIP and returns the zone. No public API, but the page is scrapable.
-2. **Static ZIP → county → zone CSV**: Build once from (a) HUD USPS ZIP-county crosswalk (free CSV, quarterly) + (b) the ENERGY STAR county-level climate zone list (published as an Excel file alongside the zone map PDF). Result: a ~42k-row ZIP→zone lookup table (~500 KB) shippable as a static JSON in the repo. **This is the recommended approach for TruePrice** — zero API calls, instant lookup, no rate limits.
+2. **Static ZIP → county → zone CSV**: Build once from (a) HUD USPS ZIP-county crosswalk (free CSV, quarterly) + (b) the ENERGY STAR county-level climate zone list (published as an Excel file alongside the zone map PDF). Result: a ~42k-row ZIP→zone lookup table (~500 KB) shippable as a static JSON in the repo. **This is the recommended approach for Woogoro** — zero API calls, instant lookup, no rate limits.
 3. **Approximation by state**: Acceptable fallback for states that are entirely in one zone (FL, GA, AL, MS, LA, HI = Southern; AK, ME, VT, NH, MN, ND, MT = Northern). Fails for CA/TX/AZ/NV/VA/NC where ZIP resolution is mandatory.
 
 Source: https://www.energystar.gov/products/residential_windows_doors_skylights/key_product_criteria
@@ -108,7 +108,7 @@ The **Energy Efficient Home Improvement Credit (Section 25C)**, revamped by the 
 
 ---
 
-## Synthesis: what TruePrice should surface in the windows estimate result
+## Synthesis: what Woogoro should surface in the windows estimate result
 
 Based on a user's ZIP code entered at the start of the estimate, the result page should automatically show:
 

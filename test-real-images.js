@@ -6,7 +6,7 @@ const puppeteer = require("puppeteer");
 const path = require("path");
 const fs = require("fs");
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 const VERTICALS = [
   { name: "plumbing", url: "/plumbing-quote-analyzer.html", dir: "plumbing-images", inputId: "fileInput" },

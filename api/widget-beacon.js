@@ -3,7 +3,7 @@
 // which verticals. No PII collected — only the embedding site's host,
 // the city/state/service the widget loaded for, and a timestamp.
 //
-// Wire: navigator.sendBeacon('https://truepricehq.com/api/widget-beacon', body)
+// Wire: navigator.sendBeacon('https://woogoro.com/api/widget-beacon', body)
 // fires from widget/tp-widget.js after a successful render.
 
 import { Redis } from "@upstash/redis";

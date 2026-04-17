@@ -1,7 +1,7 @@
 # Medical Test Results
 
 Run: 2026-04-08 12:21:21
-Endpoint: https://truepricehq.com/api/medical-bill-estimate
+Endpoint: https://woogoro.com/api/medical-bill-estimate
 Samples tested: 16
 
 **Counter at start:** 3895

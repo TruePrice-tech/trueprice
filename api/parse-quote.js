@@ -65,7 +65,7 @@ async function checkRateLimit(ip) {
 
 export default async function handler(req, res) {
   // CORS
-  const allowedOrigin = "https://truepricehq.com";
+  const allowedOrigin = "https://woogoro.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -262,7 +262,7 @@ CRITICAL EXTRACTION RULES:
     // improve future estimates (parse-quote previously only wrote to tp:pricing_data)
     try {
       const totalPrice = Number(parsed.price) || 0;
-      if (totalPrice > 0 && req.headers["x-trueprice-test"] !== "1") {
+      if (totalPrice > 0 && req.headers["x-woogoro-test"] !== "1") {
         const cityLc = _calCity.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = _calState;
         const weight = 0.3;

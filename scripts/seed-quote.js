@@ -8,7 +8,7 @@
  * The admin key must match the CAL_ADMIN_KEY env var in Vercel.
  */
 
-const API_URL = "https://truepricehq.com/api/calibration";
+const API_URL = "https://woogoro.com/api/calibration";
 
 // Add quotes here as you find them (Reddit, forums, real data, etc.)
 const quotes = [

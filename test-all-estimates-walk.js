@@ -15,7 +15,7 @@ const VERTICALS = [
 
 (async () => {
   const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
-  const BASE = "https://truepricehq.com";
+  const BASE = "https://woogoro.com";
 
   for (const v of VERTICALS) {
     console.log("========================================");

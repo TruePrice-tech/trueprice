@@ -9,7 +9,7 @@ const TEMPLATE_PATH = path.join(ROOT, "templates", "plumbing-city-page-template.
 const SITEMAP_PATH = path.join(ROOT, "sitemap-plumbing.xml");
 const CONTEXT_PATH = path.join(ROOT, "data", "plumbing-city-context.json");
 const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
-const SITE_BASE_URL = "https://truepricehq.com";
+const SITE_BASE_URL = "https://woogoro.com";
 
 function readJson(p) { return JSON.parse(fs.readFileSync(p, "utf8")); }
 

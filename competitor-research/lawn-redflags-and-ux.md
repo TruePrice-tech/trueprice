@@ -1,6 +1,6 @@
 # Landscaping / Lawn Install — Red Flags & Estimator UX Research
 
-Compiled 2026-04-07 for the TruePrice landscaping vertical. Sources cited inline; live web searches against BBB, ISA, ICPI, NALP, irrigation pros, and major estimator pages.
+Compiled 2026-04-07 for the Woogoro landscaping vertical. Sources cited inline; live web searches against BBB, ISA, ICPI, NALP, irrigation pros, and major estimator pages.
 
 ---
 
@@ -81,7 +81,7 @@ Compiled 2026-04-07 for the TruePrice landscaping vertical. Sources cited inline
 ### 15. Subcontracting tree/heavy work to uninsured day labor
 - **Looks like:** Bidder admits the climbers are "guys I bring in." No COI for the sub.
 - **Why it's a problem:** Homeowner is on the hook for the injured worker. Insist on subs being named on the COI.
-- **Scan pattern:** Manual flag — TruePrice should prompt the user "Is the bidder subcontracting tree work? Get the sub's COI."
+- **Scan pattern:** Manual flag — Woogoro should prompt the user "Is the bidder subcontracting tree work? Get the sub's COI."
 
 ### 16. Pre-payment for materials before delivery
 - **Looks like:** "Pay for plants up front so we can order them."
@@ -103,7 +103,7 @@ Compiled 2026-04-07 for the TruePrice landscaping vertical. Sources cited inline
 ### 20. Unrealistically low bid
 - **Looks like:** Bid is >25% below the median of other bids on the same scope.
 - **Why it's a problem:** Either the scope is missing pieces (and change orders will eat the savings), or labor is uninsured/undocumented, or materials are substituted down a grade.
-- **TruePrice action:** This is exactly where the comparison engine shines — flag bids more than 1.5 standard deviations below peers and explain *why* it's suspicious, not just *that* it's low.
+- **Woogoro action:** This is exactly where the comparison engine shines — flag bids more than 1.5 standard deviations below peers and explain *why* it's suspicious, not just *that* it's low.
 
 ---
 
@@ -128,7 +128,7 @@ Survey of estimator pages and the patterns that recur on the highest-converting 
 ### C. HomeGuide — `homeguide.com/costs/landscaping-costs`
 - **Inputs:** None (it's an article), but includes inline calculators per sub-scope.
 - **Result:** Tables broken out by sub-vertical: sod, mulch, trees, pavers, irrigation.
-- **Steal:** The sub-vertical table-per-scope is the cleanest mental model — TruePrice should mirror it (one estimator with sub-scope toggles).
+- **Steal:** The sub-vertical table-per-scope is the cleanest mental model — Woogoro should mirror it (one estimator with sub-scope toggles).
 
 ### D. Belgard paver cost estimator (manufacturer)
 - **Inputs:** Paver line, sq ft, ZIP.
@@ -173,7 +173,7 @@ Survey of estimator pages and the patterns that recur on the highest-converting 
 
 ---
 
-## PART 3 — Synthesis: TruePrice Lawn Estimator Spec
+## PART 3 — Synthesis: Woogoro Lawn Estimator Spec
 
 ### Required fields (4)
 1. **Address** (auto-pulls lot size, climate zone, USDA hardiness zone, current drought stage, local watering ordinance, rebate programs).
@@ -202,13 +202,13 @@ Survey of estimator pages and the patterns that recur on the highest-converting 
 
 ### Three most differentiated features (the moat)
 1. **Address-driven climate + drought + rebate intelligence.** No competitor does this nationally. Sunday does it for fertilizer; nobody does it for install.
-2. **Quote-upload red-flag scanner** with the 20 patterns above. Nobody is doing this in landscaping. This is the *thing* TruePrice does that no one else does.
+2. **Quote-upload red-flag scanner** with the 20 patterns above. Nobody is doing this in landscaping. This is the *thing* Woogoro does that no one else does.
 3. **DIY-vs-pro per sub-scope, with honest time/tool/risk math.** Lawn is the one vertical where DIY is real for half the line items. Treating homeowners like grown-ups builds trust the lead-gen mills can't match.
 
 ### The DIY-vs-pro callout (critical for this vertical)
 Lawn is unique. For each sub-scope, default recommendation:
 
-| Sub-scope | DIY realistic? | TruePrice default |
+| Sub-scope | DIY realistic? | Woogoro default |
 |---|---|---|
 | Mulch refresh / bed cleanup | Yes, very | DIY |
 | Plant install (under 15 plants) | Yes | DIY or pro |
@@ -225,7 +225,7 @@ Lawn is unique. For each sub-scope, default recommendation:
 | Outdoor low-voltage lighting | Yes | DIY |
 | Line-voltage lighting | No (electrician) | Pro |
 
-The DIY column is the vertical's signature trust move. Every other estimator pretends DIY doesn't exist because they sell leads. TruePrice doesn't, so it can be honest.
+The DIY column is the vertical's signature trust move. Every other estimator pretends DIY doesn't exist because they sell leads. Woogoro doesn't, so it can be honest.
 
 ---
 

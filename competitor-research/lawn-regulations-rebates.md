@@ -1,6 +1,6 @@
 # Lawn / landscaping regulations and rebates (2026)
 
-Research compiled for TruePrice's lawn/landscaping vertical. Goal: enable ZIP-aware estimates that surface hardiness zone, applicable rebates, license requirements, and permits.
+Research compiled for Woogoro's lawn/landscaping vertical. Goal: enable ZIP-aware estimates that surface hardiness zone, applicable rebates, license requirements, and permits.
 
 ---
 
@@ -32,7 +32,7 @@ USDA Plant Hardiness Zone Map updated November 2023 (replaces 2012 map). Based o
 - USDA does NOT publish an official ZIP CSV. Common community CSVs:
   - PlantMaps.com ZIP-to-zone (legacy 2012 map; needs 2023 refresh)
   - PRISM Climate Group GIS raster (the source data USDA uses) — free download, can be queried with any ZIP centroid.
-- Recommended TruePrice approach: download USDA 2023 GIS raster (GeoTIFF) once, batch-process all US ZIP centroids (from USPS or GeoNames), store in `zip_to_hardiness_zone` table. Re-run only when USDA publishes new map (~10 years).
+- Recommended Woogoro approach: download USDA 2023 GIS raster (GeoTIFF) once, batch-process all US ZIP centroids (from USPS or GeoNames), store in `zip_to_hardiness_zone` table. Re-run only when USDA publishes new map (~10 years).
 - Fallback: hit the USDA web service with ZIP at runtime and cache.
 
 ### Plant categories that thrive by zone (landscape install relevance)
@@ -110,7 +110,7 @@ USDA Plant Hardiness Zone Map updated November 2023 (replaces 2012 map). Based o
 
 ### Water restrictions affecting quote scope
 
-These can make a contractor's proposed scope **illegal**, so TruePrice should warn:
+These can make a contractor's proposed scope **illegal**, so Woogoro should warn:
 
 - **Las Vegas (SNWA)**: Non-functional turf banned by 2027 — any quote installing new ornamental grass is illegal. Watering days assigned by address, drip-only in some seasons.
 - **California statewide (SWRCB)**: Permanent ban on watering non-functional turf at commercial / institutional / industrial properties (2024 emergency reg made permanent). New developments restricted from non-functional turf.
@@ -132,7 +132,7 @@ These can make a contractor's proposed scope **illegal**, so TruePrice should wa
 | AK | General contractor license >$10k | $10k | AK DEC pesticide cert | No | — |
 | AZ | ROC C-21 Landscaping ($1,000+) or L-21 limited | $1,000 | AZ Dept of Ag QA / QP license | Included in C-21 | Bond required |
 | AR | No specific landscape; HIC if residential >$2k | $2,000 | AR Plant Board cert | No | — |
-| CA | **CSLB C-27 Landscaping Contractor** required for any job >$500 (labor+material). Separate **C-61/D-12 Synthetic Turf** classification. | $500 | CA DPR QAL/QAC license for any commercial pesticide app | C-27 covers landscape irrigation; large municipal needs C-27 + backflow cert | Most stringent state — TruePrice must verify CSLB # |
+| CA | **CSLB C-27 Landscaping Contractor** required for any job >$500 (labor+material). Separate **C-61/D-12 Synthetic Turf** classification. | $500 | CA DPR QAL/QAC license for any commercial pesticide app | C-27 covers landscape irrigation; large municipal needs C-27 + backflow cert | Most stringent state — Woogoro must verify CSLB # |
 | CO | No state license; city-level (Denver requires) | varies | CO Dept of Ag pesticide applicator | No | — |
 | CT | Home Improvement Contractor (HIC) >$200; Arborist license required for tree work | $200 | CT DEEP supervisory cert | No | CT Arborist license is one of only 4 statutory tree licenses in US |
 | DE | DE business license + contractor license | any | DE Dept of Ag cert | No | — |
@@ -214,9 +214,9 @@ The 18 most common landscape work permits / approvals:
 
 ---
 
-## Synthesis: what TruePrice's lawn estimate should surface based on ZIP
+## Synthesis: what Woogoro's lawn estimate should surface based on ZIP
 
-Given a ZIP, TruePrice's lawn/landscape estimator should auto-display:
+Given a ZIP, Woogoro's lawn/landscape estimator should auto-display:
 
 1. **USDA hardiness zone (with half letter)** — drives plant recommendations and sod type, and flags marginal-zone plant risk in the contractor quote.
 2. **Drought / restriction status** — if ZIP is in SoCal MWD, SNWA, AMWUA, CO Front Range, UT Wasatch, Austin/SAWS, or any FL fertilizer-banned county, show a warning banner with what scope is illegal or restricted.
@@ -229,7 +229,7 @@ Given a ZIP, TruePrice's lawn/landscape estimator should auto-display:
 9. **Watering schedule reality check** — show local watering days/restrictions so the user understands the irrigation system they're paying for has to comply.
 10. **Fertilizer / pesticide compliance** — in FL fertilizer-restricted counties and Chesapeake Bay states, flag any line item that proposes summer N.
 
-Quote red flag: any landscape quote in CA over $500 without a CSLB # is illegal. Any TX quote with sprinkler work without a TCEQ LI # is illegal. Any tree work in CT/MD/NH/NJ/RI without the state arborist/tree expert license is illegal. TruePrice should refuse to score these quotes as "good" regardless of price.
+Quote red flag: any landscape quote in CA over $500 without a CSLB # is illegal. Any TX quote with sprinkler work without a TCEQ LI # is illegal. Any tree work in CT/MD/NH/NJ/RI without the state arborist/tree expert license is illegal. Woogoro should refuse to score these quotes as "good" regardless of price.
 
 ---
 

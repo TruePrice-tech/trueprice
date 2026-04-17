@@ -47,7 +47,7 @@ const RESULTS_DIR = path.join(ROOT, 'test-results');
 const SHOTS_DIR = path.join(RESULTS_DIR, 'journey-screens');
 fs.mkdirSync(SHOTS_DIR, { recursive: true });
 
-const BASE = 'https://truepricehq.com';
+const BASE = 'https://woogoro.com';
 
 const VERTICALS = [
   'hvac', 'plumbing', 'electrical', 'solar', 'concrete',

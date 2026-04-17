@@ -34,7 +34,7 @@ function haversineKm(lat1, lon1, lat2, lon2) {
 }
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://truepricehq.com');
+  res.setHeader('Access-Control-Allow-Origin', 'https://woogoro.com');
   res.setHeader('Cache-Control', 'public, max-age=86400');
 
   if (req.method !== 'GET') {

@@ -1,6 +1,6 @@
 // Forward geocode an address, then query OSM for building footprint
 export default async function handler(req, res) {
-  const allowedOrigin = "https://truepricehq.com";
+  const allowedOrigin = "https://woogoro.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");

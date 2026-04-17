@@ -23,7 +23,7 @@ OUT_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 
 def main():
     print(f"Downloading {BLS_URL} ...")
-    req = urllib.request.Request(BLS_URL, headers={"User-Agent": "Mozilla/5.0 TruePrice"})
+    req = urllib.request.Request(BLS_URL, headers={"User-Agent": "Mozilla/5.0 Woogoro"})
     with urllib.request.urlopen(req, timeout=120) as resp:
         zip_bytes = resp.read()
     print(f"Downloaded {len(zip_bytes)} bytes")

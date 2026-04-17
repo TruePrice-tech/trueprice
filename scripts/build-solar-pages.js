@@ -9,7 +9,7 @@ const TEMPLATE_PATH = path.join(ROOT, "templates", "solar-city-page-template.htm
 const SITEMAP_PATH = path.join(ROOT, "sitemap-solar.xml");
 const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
 
-const SITE_BASE_URL = "https://truepricehq.com";
+const SITE_BASE_URL = "https://woogoro.com";
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));

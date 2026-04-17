@@ -641,20 +641,20 @@ function generateCityPageHTML(metro) {
 <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Medical Bill &amp; Healthcare Cost Guide: ${city}, ${stateAbbr} (2026) | TruePrice</title>
+<title>Medical Bill &amp; Healthcare Cost Guide: ${city}, ${stateAbbr} (2026) | Woogoro</title>
 <meta name="description" content="Average medical procedure costs in ${city}, ${stateAbbr}. Compare ER visits, imaging, hospital charges, and learn how to negotiate medical bills.">
-<link rel="canonical" href="https://truepricehq.com/${metro.file}">
+<link rel="canonical" href="https://woogoro.com/${metro.file}">
 <meta name="robots" content="index,follow">
 
-<meta property="og:title" content="Medical Bill &amp; Healthcare Cost Guide: ${city}, ${stateAbbr} | TruePrice">
+<meta property="og:title" content="Medical Bill &amp; Healthcare Cost Guide: ${city}, ${stateAbbr} | Woogoro">
 <meta property="og:description" content="See average healthcare costs in ${city}, ${stateAbbr} and learn how to negotiate medical bills.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://truepricehq.com/${metro.file}">
-<meta property="og:site_name" content="TruePrice">
-<meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg">
+<meta property="og:url" content="https://woogoro.com/${metro.file}">
+<meta property="og:site_name" content="Woogoro">
+<meta property="og:image" content="https://woogoro.com/images/woogoro-social.svg">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Medical Bill &amp; Healthcare Cost Guide: ${city}, ${stateAbbr} | TruePrice">
+<meta name="twitter:title" content="Medical Bill &amp; Healthcare Cost Guide: ${city}, ${stateAbbr} | Woogoro">
 <meta name="twitter:description" content="Compare healthcare costs in ${city}, ${stateAbbr}.">
 
 <link rel="stylesheet" href="/css/trueprice.min.css">
@@ -664,8 +664,8 @@ function generateCityPageHTML(metro) {
 "@context":"https://schema.org",
 "@type":"Article",
 "headline":"Medical Bill and Healthcare Cost Guide: ${city}, ${stateAbbr}",
-"author":{"@type":"Organization","name":"TruePrice"},
-"publisher":{"@type":"Organization","name":"TruePrice"},
+"author":{"@type":"Organization","name":"Woogoro"},
+"publisher":{"@type":"Organization","name":"Woogoro"},
 "datePublished":"2026-04-16","dateModified":"2026-04-16"
 }
 </script>
@@ -675,8 +675,8 @@ function generateCityPageHTML(metro) {
 "@context":"https://schema.org",
 "@type":"BreadcrumbList",
 "itemListElement":[
-{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},
-{"@type":"ListItem","position":2,"name":"Medical Cost Guide","item":"https://truepricehq.com/medical-cost-guide.html"},
+{"@type":"ListItem","position":1,"name":"Home","item":"https://woogoro.com/"},
+{"@type":"ListItem","position":2,"name":"Medical Cost Guide","item":"https://woogoro.com/medical-cost-guide.html"},
 {"@type":"ListItem","position":3,"name":"${city}"}
 ]
 }
@@ -689,7 +689,7 @@ function generateCityPageHTML(metro) {
 
 <header class="site-header">
 <div class="container">
-<a class="logo" href="/">TruePrice</a>
+<a class="logo" href="/">Woogoro</a>
 <nav>
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
@@ -780,7 +780,7 @@ and how to negotiate medical bills in the ${city} market.
   </div>
   <div class="tp-footer-col">
     <h4>About</h4>
-    <a href="/about.html">About TruePrice</a>
+    <a href="/about.html">About Woogoro</a>
     <a href="/methodology.html">Methodology</a>
     <a href="/accessibility.html">Accessibility</a>
     <a href="/privacy.html">Privacy</a>
@@ -788,7 +788,7 @@ and how to negotiate medical bills in the ${city} market.
   </div>
 </div>
 
-<p>TruePrice helps consumers understand healthcare costs, analyze medical bills, and find financial assistance programs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p>
+<p>Woogoro helps consumers understand healthcare costs, analyze medical bills, and find financial assistance programs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p>
 </div>
 </footer>
 

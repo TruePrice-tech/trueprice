@@ -2,7 +2,7 @@
 
 ## Part 1 — Red flags in HVAC quotes and installs
 
-The DOE has found that 70-90% of residential HVAC systems have at least one performance-affecting fault, and when duct leakage is included, fault prevalence approaches 100%. Most of these faults trace back to one or more of the red flags below — every TruePrice HVAC verdict should screen for them.
+The DOE has found that 70-90% of residential HVAC systems have at least one performance-affecting fault, and when duct leakage is included, fault prevalence approaches 100%. Most of these faults trace back to one or more of the red flags below — every Woogoro HVAC verdict should screen for them.
 
 ### Sizing and design red flags
 
@@ -116,12 +116,12 @@ The DOE has found that 70-90% of residential HVAC systems have at least one perf
 - Weakness: No interactive estimator, content-only.
 
 ### Common patterns observed
-- Every major competitor is either a (1) lead-gen funnel that hides price behind a contact gate, (2) static editorial article with national averages, or (3) manufacturer dealer locator. **Nobody combines a real personalized estimate with a verdict on a homeowner's actual quote.** That is TruePrice's wedge.
+- Every major competitor is either a (1) lead-gen funnel that hides price behind a contact gate, (2) static editorial article with national averages, or (3) manufacturer dealer locator. **Nobody combines a real personalized estimate with a verdict on a homeowner's actual quote.** That is Woogoro's wedge.
 - None ask for or use the AHRI matched-system number, the Manual J value, or the model numbers — i.e., none catch the actual red flags.
 - None show rebate stacking (federal + state + utility) personalized to ZIP and household income.
 - None compare quoted price against regional fair-price band by tier.
 
-## Part 3 — Synthesis: TruePrice HVAC estimator spec
+## Part 3 — Synthesis: Woogoro HVAC estimator spec
 
 ### 5 required inputs (any more and dropoff spikes)
 1. **ZIP code** — drives regional multiplier, climate zone (heating vs cooling load mix), utility rebate dataset, R-454B vs R-410A inventory rules.
@@ -151,8 +151,8 @@ The DOE has found that 70-90% of residential HVAC systems have at least one perf
 
 ### 3 differentiators vs every competitor
 1. **Quote analyzer with red-flag screen.** Nobody else lets a homeowner paste their actual proposal and get a sanity check + red flag report. This is the wedge.
-2. **Personalized rebate stack with HEEHRA income-AMI math.** Competitors hand-wave at "rebates available" — TruePrice computes the actual stacked dollar number for their ZIP and income bracket.
-3. **Franchise-vs-local price delta surfaced explicitly.** TruePrice shows "your One Hour Heating quote of $14,200 is $3,800 over the local-independent fair band of $9,500-$10,500 for the same equipment." Nobody else dares.
+2. **Personalized rebate stack with HEEHRA income-AMI math.** Competitors hand-wave at "rebates available" — Woogoro computes the actual stacked dollar number for their ZIP and income bracket.
+3. **Franchise-vs-local price delta surfaced explicitly.** Woogoro shows "your One Hour Heating quote of $14,200 is $3,800 over the local-independent fair band of $9,500-$10,500 for the same equipment." Nobody else dares.
 
 Sources:
 - [Procalcs Oversized HVAC Red Flags](https://procalcs.net/blog/load-calculations/oversized-hvac-system-red-flags/)

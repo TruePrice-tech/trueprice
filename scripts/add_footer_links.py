@@ -29,7 +29,7 @@ BLOCK = '''<div class="tp-footer-links">
   </div>
   <div class="tp-footer-col">
     <h4>About</h4>
-    <a href="/about.html">About TruePrice</a>
+    <a href="/about.html">About Woogoro</a>
     <a href="/methodology.html">Methodology</a>
     <a href="/privacy.html">Privacy</a>
     <a href="/terms.html">Terms</a>

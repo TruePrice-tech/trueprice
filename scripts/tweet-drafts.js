@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate and optionally post tweet drafts for @truepricehq.
+ * Generate and optionally post tweet drafts for @woogoro.
  *
  * Sources (in priority order):
  *   1. Live calibration data from Upstash Redis (cal:* keys) — real quote aggregates
@@ -146,7 +146,7 @@ function draftFromCalibration(entry) {
   const { cityLc, state, service, avgPrice, quotes } = entry;
   const readableCity = cityLc.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const vert = VERTICALS.find((v) => v.key === service) || { label: service, slugPath: "" };
-  const analyzerUrl = vert.slugPath ? `https://truepricehq.com/${vert.slugPath}` : "https://truepricehq.com";
+  const analyzerUrl = vert.slugPath ? `https://woogoro.com/${vert.slugPath}` : "https://woogoro.com";
   const overchargeThreshold = Math.round(avgPrice * 1.3);
   return [
     `Fair ${vert.label} price in ${readableCity}, ${state}: about ${fmtPrice(avgPrice)}.`,
@@ -177,7 +177,7 @@ function draftFromStatic(metro, vertical) {
   return [
     `Fair ${vertical.label} range in ${metro.city}, ${metro.state}: ${fmtPrice(lo)} to ${fmtPrice(hi)}.`,
     `Got a quote outside that range? Something's off. Check scope, warranty, and brand tier first.`,
-    `Full breakdown: https://truepricehq.com/${citySlug}-${costSlug}-cost.html`,
+    `Full breakdown: https://woogoro.com/${citySlug}-${costSlug}-cost.html`,
   ].join("\n\n");
 }
 
@@ -241,7 +241,7 @@ async function postDraftN(n) {
 
   const client = getXClient();
   const res = await client.v2.tweet(draft.text);
-  const url = `https://x.com/truepricehq/status/${res.data.id}`;
+  const url = `https://x.com/woogoro/status/${res.data.id}`;
   console.log(`✓ Posted: ${url}`);
 }
 

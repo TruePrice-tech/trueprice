@@ -6,7 +6,7 @@
 - **Status as of 2026: EXPIRED for installs completed Jan 1 2026 or later.** Original IRA timeline went through 2032; OBBB / FY26 reconciliation accelerated the sunset for 25C heat pump category at end of 2025. Customers who installed and took commissioning of a qualifying heat pump on or before Dec 31 2025 can still claim the credit on their 2025 return filed in 2026.
 - **Credit amount (for 2025-and-earlier installs being claimed on 2025 returns):** 30% of project cost up to $2,000 cap for heat pumps and heat pump water heaters; the broader 25C envelope is capped at $3,200/yr total.
 - **Qualifying equipment:** Must meet the highest CEE efficiency tier in effect at the time of install (varies by north/south climate zone). North zone air-source heat pumps must be ENERGY STAR Cold Climate certified.
-- **TruePrice should display:** "Federal 25C heat pump credit expired Dec 31 2025. If you installed before that date you can still claim up to $2,000 on your 2025 return."
+- **Woogoro should display:** "Federal 25C heat pump credit expired Dec 31 2025. If you installed before that date you can still claim up to $2,000 on your 2025 return."
 
 ### IRA Section 25D — Residential Clean Energy Credit (geothermal)
 - **Status: Active.** Geothermal heat pumps still qualify for the 30% uncapped credit. Sunsets to 26% in 2033, 22% in 2034, ends 2035.
@@ -141,7 +141,7 @@ HVAC licensing varies wildly. Categories:
 - Adding charge to an R-22 system is essentially never appropriate — it's a stop-gap until replacement.
 - Existing R-410A homeowners do not need to replace early; servicing remains legal.
 
-## 7. Quick-reference rebate stacking decision tree (TruePrice logic)
+## 7. Quick-reference rebate stacking decision tree (Woogoro logic)
 
 1. Is the install date 2026 or later?
    - Yes → 25C federal credit unavailable. Show HEEHRA + utility + state only.

@@ -31,7 +31,7 @@ const RESULTS_DIR = path.join(ROOT, 'test-results');
 const SHOTS_DIR = path.join(RESULTS_DIR, 'parsing-screens');
 fs.mkdirSync(SHOTS_DIR, { recursive: true });
 
-const BASE = 'https://truepricehq.com';
+const BASE = 'https://woogoro.com';
 const UNIVERSAL_FALLBACK = path.join(ROOT, 'test-images', 'Trudy comparing1.png');
 
 const VERTICALS = [

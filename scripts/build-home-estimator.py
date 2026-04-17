@@ -147,9 +147,9 @@ html = '''<!DOCTYPE html>
 <meta charset="UTF-8" />
 <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Home Service Cost Estimator | TruePrice</title>
+<title>Home Service Cost Estimator | Woogoro</title>
 <meta name="description" content="Get precise cost estimates for ''' + str(total_jobs) + ''' home services across 16 categories. Pick your project, enter your location, see labor + materials + tax. City-level pricing." />
-<link rel="canonical" href="https://truepricehq.com/home-estimate.html" />
+<link rel="canonical" href="https://woogoro.com/home-estimate.html" />
 <meta name="robots" content="index,follow" />
 <link rel="stylesheet" href="/css/trueprice.min.css" />
 <style>
@@ -180,7 +180,7 @@ html = '''<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container"><a class="logo" href="/">TruePrice</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
+<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
 
 <main class="he-wrap">
 <div class="he-hero">
@@ -213,7 +213,7 @@ Estimates based on industry labor guides, material pricing, and state-level cost
 </div>
 </main>
 
-<footer class="site-footer"><div class="container"><p>TruePrice helps homeowners understand fair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
+<footer class="site-footer"><div class="container"><p>Woogoro helps homeowners understand fair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
 
 <script>
 var JOBS=''' + jobs_js + ''';
@@ -290,7 +290,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   var totalHigh=adjHigh+Math.round(adjHigh*(1-laborPct)*taxRate);
 
   var locLabel=city?city+", "+state:state;
-  var shareText=j.l+" in "+locLabel+": "+fmt(totalLow)+" - "+fmt(totalHigh)+". truepricehq.com/home-estimate.html";
+  var shareText=j.l+" in "+locLabel+": "+fmt(totalLow)+" - "+fmt(totalHigh)+". woogoro.com/home-estimate.html";
 
   var h='<div class="he-card">';
   h+='<span class="he-share" onclick="navigator.clipboard.writeText(\\''+shareText.replace(/'/g,"\\\\'")+'\\'');this.textContent=\\'Copied!\\'">Share</span>';

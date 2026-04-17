@@ -93,7 +93,7 @@ function buildServiceSchema(serviceName) {
 "@context":"https://schema.org",
 "@type":"Service",
 "name":"${serviceName} in {{CITY_STATE}}",
-"provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"},
+"provider":{"@type":"Organization","name":"Woogoro","url":"https://woogoro.com"},
 "areaServed":{"@type":"City","name":"{{CITY_STATE}}"},
 "offers":{
 "@type":"AggregateOffer",
@@ -113,8 +113,8 @@ function buildBreadcrumbSchema(serviceLabel, serviceHubPage) {
 "@context":"https://schema.org",
 "@type":"BreadcrumbList",
 "itemListElement":[
-{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},
-{"@type":"ListItem","position":2,"name":"${serviceLabel}","item":"https://truepricehq.com/${serviceHubPage}"},
+{"@type":"ListItem","position":1,"name":"Home","item":"https://woogoro.com/"},
+{"@type":"ListItem","position":2,"name":"${serviceLabel}","item":"https://woogoro.com/${serviceHubPage}"},
 {"@type":"ListItem","position":3,"name":"{{CITY}}"}
 ]
 }
@@ -189,7 +189,7 @@ if (fs.existsSync(roofingTemplate)) {
 "@context":"https://schema.org",
 "@type":"Service",
 "name":"Roof Replacement in {{CITY_STATE}}",
-"provider":{"@type":"Organization","name":"TruePrice","url":"https://truepricehq.com"},
+"provider":{"@type":"Organization","name":"Woogoro","url":"https://woogoro.com"},
 "areaServed":{"@type":"City","name":"{{CITY_STATE}}"},
 "offers":{
 "@type":"AggregateOffer",

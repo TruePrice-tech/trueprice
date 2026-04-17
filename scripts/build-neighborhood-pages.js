@@ -9,7 +9,7 @@ const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "neighborhood-page-template.html");
 const SITEMAP_PATH = path.join(ROOT, "sitemap-neighborhoods.xml");
 
-const SITE_BASE_URL = "https://truepricehq.com";
+const SITE_BASE_URL = "https://woogoro.com";
 
 // ---------------------------------------------------------------------------
 // Neighborhood data for the top 10 US metros

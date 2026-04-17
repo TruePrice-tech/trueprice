@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Woogoro Favicon - Trudy's face at 32x32 -->
+
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#0f172a"/>
+
+  <!-- Left ear -->
+  <polygon points="7,14 9,3 13,11" fill="#f4a460"/>
+  <!-- Right ear -->
+  <polygon points="25,14 23,3 19,11" fill="#f4a460"/>
+
+  <!-- Head -->
+  <ellipse cx="16" cy="17" rx="9" ry="8.5" fill="#f4a460"/>
+  <!-- Face patch -->
+  <ellipse cx="16" cy="19" rx="6.5" ry="6" fill="#fdebd0"/>
+
+  <!-- Eyes -->
+  <circle cx="13" cy="16" r="1.8" fill="#1a1a2e"/>
+  <circle cx="19" cy="16" r="1.8" fill="#1a1a2e"/>
+  <circle cx="13.5" cy="15.5" r="0.6" fill="white"/>
+  <circle cx="19.5" cy="15.5" r="0.6" fill="white"/>
+
+  <!-- Nose -->
+  <ellipse cx="16" cy="19" rx="1.2" ry="0.8" fill="#1a1a2e"/>
+
+  <!-- Blue bow dot -->
+  <circle cx="24" cy="9" r="2.5" fill="#3b82f6"/>
+</svg>

@@ -1,6 +1,6 @@
 # Kitchen Remodel Red Flags + Estimator UX Reference
 
-For TruePrice kitchen vertical. Part 1: things to flag in a contractor quote. Part 2: best-in-class estimator UX teardown. Part 3: synthesis spec for our build.
+For Woogoro kitchen vertical. Part 1: things to flag in a contractor quote. Part 2: best-in-class estimator UX teardown. Part 3: synthesis spec for our build.
 
 ---
 
@@ -183,7 +183,7 @@ For TruePrice kitchen vertical. Part 1: things to flag in a contractor quote. Pa
 
 ---
 
-## PART 3 — Synthesis: Spec for TruePrice Kitchen Estimator
+## PART 3 — Synthesis: Spec for Woogoro Kitchen Estimator
 
 ### 5 Required Fields (must be in front of every estimate)
 1. **ZIP code** (regional multiplier)

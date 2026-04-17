@@ -6,7 +6,7 @@
  * homepage to results, using real messy images with varied formats.
  *
  * Critical improvements vs earlier scripts:
- *   - Runs against truepricehq.com (latest deployed code, working APIs)
+ *   - Runs against woogoro.com (latest deployed code, working APIs)
  *   - Handles the multi-step analyze flow (address -> confirm -> upload)
  *   - Uses page.waitForFileChooser for user-equivalent file upload
  *   - Waits for OCR + analysis (up to 60s per quote)
@@ -18,7 +18,7 @@ const fs = require("fs");
 
 const ROOT = path.dirname(__dirname);
 const OUT = path.join(ROOT, "output", "qa-human");
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 const ALL = [
   { slug: "roofing", label: "Roofing", fxDir: "roofing-images" },

@@ -1,6 +1,6 @@
 # Kitchen Remodel Regulations + Rebates Reference (2026)
 
-For TruePrice kitchen vertical. All rules current as of April 2026. Build agents should surface these at the right point in the funnel (typically after ZIP and home age are captured).
+For Woogoro kitchen vertical. All rules current as of April 2026. Build agents should surface these at the right point in the funnel (typically after ZIP and home age are captured).
 
 ---
 

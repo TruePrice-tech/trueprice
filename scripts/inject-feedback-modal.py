@@ -1,6 +1,6 @@
 """
 Inject /js/feedback-modal.min.js script tag into every HTML file that contains
-a mailto:hello@truepricehq.com link, so the modal hijacks the link.
+a mailto:hello@woogoro.com link, so the modal hijacks the link.
 
 Idempotent: skips files that already have the tag.
 
@@ -23,7 +23,7 @@ no_mailto = 0
 for f in glob.glob("*.html"):
     with open(f, "r", encoding="utf-8", errors="replace") as fh:
         content = fh.read()
-    if "mailto:hello@truepricehq.com" not in content:
+    if "mailto:hello@woogoro.com" not in content:
         no_mailto += 1
         continue
     if MARKER in content:

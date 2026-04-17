@@ -17,16 +17,16 @@ Hi Editor,
 
 I was reading "How Much Does It Cost to Replace a Roof" on Bob Vila and noticed you maintain a solid roundup of resources for home cost guides.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/guides.html
+https://woogoro.com/guides.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -38,16 +38,16 @@ Hi Editor,
 
 I was reading "Home Renovation Cost Guide" on This Old House and noticed you maintain a solid roundup of resources for home renovation cost guides.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/guides.html
+https://woogoro.com/guides.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -59,16 +59,16 @@ Hi Editor,
 
 I was reading "Home Improvement Budgeting Tools" on The Spruce and noticed you maintain a solid roundup of resources for home improvement cost calculators.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/widget.html
+https://woogoro.com/widget.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -80,16 +80,16 @@ Hi Editor,
 
 I was reading "PriceCheck reporting series" on ClearHealthCosts and noticed you maintain a solid roundup of resources for medical price transparency tools.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/medical-cost-lookup.html
+https://woogoro.com/medical-cost-lookup.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -101,16 +101,16 @@ Hi Editor,
 
 I was reading "medical debt advocacy resources" on Dollar For and noticed you maintain a solid roundup of resources for medical bill help resources.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/medical-bill-analyzer.html
+https://woogoro.com/medical-bill-analyzer.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -122,16 +122,16 @@ Hi Editor,
 
 I was reading "understanding your medical bill resources" on Patient Advocate Foundation and noticed you maintain a solid roundup of resources for patient billing resources.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/medical-bill-analyzer.html
+https://woogoro.com/medical-bill-analyzer.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -143,16 +143,16 @@ Hi Editor,
 
 I was reading "Types of Legal Fees guide" on FindLaw and noticed you maintain a solid roundup of resources for legal fee guides.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/legal-cost-guide.html
+https://woogoro.com/legal-cost-guide.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -164,16 +164,16 @@ Hi Editor,
 
 I was reading "money-saving tools and resources" on Clark Howard and noticed you maintain a solid roundup of resources for consumer cost lookup tools.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/widget.html
+https://woogoro.com/widget.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -185,16 +185,16 @@ Hi Editor,
 
 I was reading "estimating rehab costs for investors" on BiggerPockets and noticed you maintain a solid roundup of resources for rehab cost estimating tools.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/widget.html
+https://woogoro.com/widget.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -206,16 +206,16 @@ Hi Editor,
 
 I was reading "moving cost guides and tools" on MoveBuddha and noticed you maintain a solid roundup of resources for moving cost calculators.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
-https://truepricehq.com/moving-cost-calculator.html
+https://woogoro.com/moving-cost-calculator.html
 
 Either way, thanks for keeping that page maintained. It's a genuinely useful list.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 
 # SKYSCRAPER (4)
@@ -235,13 +235,13 @@ I just published a 2026 roof replacement cost guide that includes:
   - Material-tier breakdowns with $ ranges
   - A free quote analyzer if readers want to check their own quote
 
-Link: https://truepricehq.com/roofing-cost-calculator.html
+Link: https://woogoro.com/roofing-cost-calculator.html
 
 If you're refreshing the article, would you consider adding ours as a "for local pricing, see..." pointer? No pressure -- I know link edits are work. Just thought it'd be useful for your readers either way.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -258,13 +258,13 @@ I just published a 2026 HVAC replacement cost guide that includes:
   - Material-tier breakdowns with $ ranges
   - A free quote analyzer if readers want to check their own quote
 
-Link: https://truepricehq.com/hvac-cost-calculator.html
+Link: https://woogoro.com/hvac-cost-calculator.html
 
 If you're refreshing the article, would you consider adding ours as a "for local pricing, see..." pointer? No pressure -- I know link edits are work. Just thought it'd be useful for your readers either way.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -281,13 +281,13 @@ I just published a 2026 attorney fee benchmarks guide that includes:
   - Material-tier breakdowns with $ ranges
   - A free quote analyzer if readers want to check their own quote
 
-Link: https://truepricehq.com/legal-cost-guide.html
+Link: https://woogoro.com/legal-cost-guide.html
 
 If you're refreshing the article, would you consider adding ours as a "for local pricing, see..." pointer? No pressure -- I know link edits are work. Just thought it'd be useful for your readers either way.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -304,13 +304,13 @@ I just published a 2026 home repair budgeting guide that includes:
   - Material-tier breakdowns with $ ranges
   - A free quote analyzer if readers want to check their own quote
 
-Link: https://truepricehq.com/widget.html
+Link: https://woogoro.com/widget.html
 
 If you're refreshing the article, would you consider adding ours as a "for local pricing, see..." pointer? No pressure -- I know link edits are work. Just thought it'd be useful for your readers either way.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 
 # JOURNALIST (3)
@@ -325,19 +325,19 @@ Hi Bill McGinty,
 
 I saw your work on Get McGinty consumer reports -- thought you might find this useful for a future segment.
 
-I run TruePrice, an independent tool that tracks real contractor quotes across 700+ US cities. A few interesting recent data points relevant to your audience:
+I run Woogoro, an independent tool that tracks real contractor quotes across 700+ US cities. A few interesting recent data points relevant to your audience:
 
   - Roof replacement quotes in Charlotte are up ~14% YoY, with the spread between low and high bids widening to 2.1x
   - HVAC install quotes show a ~$4,500 gap between the lowest and highest tier of contractors for the same job
   - Most-overcharged repairs locally: panel upgrades and tankless water heaters
 
-Happy to pull more granular data anytime if a quote-driven angle ever fits a story. Methodology is published openly: truepricehq.com/methodology.html
+Happy to pull more granular data anytime if a quote-driven angle ever fits a story. Methodology is published openly: woogoro.com/methodology.html
 
-For your audience, our Charlotte contractor pricing trends page is here: https://truepricehq.com/charlotte-nc-roof-cost.html
+For your audience, our Charlotte contractor pricing trends page is here: https://woogoro.com/charlotte-nc-roof-cost.html
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -349,19 +349,19 @@ Hi Editor,
 
 I saw your work on Charlotte real estate coverage -- thought you might find this useful for a future segment.
 
-I run TruePrice, an independent tool that tracks real contractor quotes across 700+ US cities. A few interesting recent data points relevant to your audience:
+I run Woogoro, an independent tool that tracks real contractor quotes across 700+ US cities. A few interesting recent data points relevant to your audience:
 
   - Roof replacement quotes in Charlotte are up ~14% YoY, with the spread between low and high bids widening to 2.1x
   - HVAC install quotes show a ~$4,500 gap between the lowest and highest tier of contractors for the same job
   - Most-overcharged repairs locally: panel upgrades and tankless water heaters
 
-Happy to pull more granular data anytime if a quote-driven angle ever fits a story. Methodology is published openly: truepricehq.com/methodology.html
+Happy to pull more granular data anytime if a quote-driven angle ever fits a story. Methodology is published openly: woogoro.com/methodology.html
 
-For your audience, our Charlotte home repair costs page is here: https://truepricehq.com/charlotte-nc-hvac-cost.html
+For your audience, our Charlotte home repair costs page is here: https://woogoro.com/charlotte-nc-hvac-cost.html
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -373,19 +373,19 @@ Hi Editor,
 
 I saw your work on On Your Side consumer segment -- thought you might find this useful for a future segment.
 
-I run TruePrice, an independent tool that tracks real contractor quotes across 700+ US cities. A few interesting recent data points relevant to your audience:
+I run Woogoro, an independent tool that tracks real contractor quotes across 700+ US cities. A few interesting recent data points relevant to your audience:
 
   - Roof replacement quotes in Charlotte are up ~14% YoY, with the spread between low and high bids widening to 2.1x
   - HVAC install quotes show a ~$4,500 gap between the lowest and highest tier of contractors for the same job
   - Most-overcharged repairs locally: panel upgrades and tankless water heaters
 
-Happy to pull more granular data anytime if a quote-driven angle ever fits a story. Methodology is published openly: truepricehq.com/methodology.html
+Happy to pull more granular data anytime if a quote-driven angle ever fits a story. Methodology is published openly: woogoro.com/methodology.html
 
-For your audience, our Charlotte contractor disputes page is here: https://truepricehq.com/charlotte-nc-roof-cost.html
+For your audience, our Charlotte contractor disputes page is here: https://woogoro.com/charlotte-nc-roof-cost.html
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 
 # LIBRARY (2)
@@ -400,15 +400,15 @@ Hi Reference Librarian,
 
 I noticed NCSU Libraries Consumer Health maintains resources around consumer pricing research. I wanted to share a free, no-signup tool that may be useful to include for residents:
 
-  - truepricehq.com -- shows local pricing for roofing, HVAC, plumbing, and 17 other home services across 700+ US cities
+  - woogoro.com -- shows local pricing for roofing, HVAC, plumbing, and 17 other home services across 700+ US cities
   - No email required, no lead-gen sales calls, no advertising
-  - Methodology is published openly: https://truepricehq.com/methodology.html
+  - Methodology is published openly: https://woogoro.com/methodology.html
 
 The site is operated independently (not by a contractor or lead-generation company). Happy to answer any sourcing questions if it helps your evaluation.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 
 ---
 
@@ -420,13 +420,13 @@ Hi Extension Agent,
 
 I noticed NC Cooperative Extension maintains resources around homeowner financial education. I wanted to share a free, no-signup tool that may be useful to include for residents:
 
-  - truepricehq.com -- shows local pricing for roofing, HVAC, plumbing, and 17 other home services across 700+ US cities
+  - woogoro.com -- shows local pricing for roofing, HVAC, plumbing, and 17 other home services across 700+ US cities
   - No email required, no lead-gen sales calls, no advertising
-  - Methodology is published openly: https://truepricehq.com
+  - Methodology is published openly: https://woogoro.com
 
 The site is operated independently (not by a contractor or lead-generation company). Happy to answer any sourcing questions if it helps your evaluation.
 
 Lane Adams
-TruePrice
-truepricehq.com
+Woogoro
+woogoro.com
 

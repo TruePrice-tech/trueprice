@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1800">
+  <!-- Woogoro Brand Guide -->
+  <rect width="1200" height="1800" fill="white"/>
+
+  <!-- Header -->
+  <rect width="1200" height="200" fill="#0f172a"/>
+  <text x="80" y="100" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="64" fill="white" letter-spacing="-2">
+    W<tspan fill="#60a5fa">oo</tspan>goro
+  </text>
+  <text x="80" y="140" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="20" fill="#94a3b8" letter-spacing="4">BRAND GUIDELINES</text>
+  <text x="80" y="175" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="14" fill="#64748b">April 2026</text>
+
+  <!-- Section 1: Color Palette -->
+  <text x="80" y="260" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="28" fill="#0f172a">Color Palette</text>
+  <line x1="80" y1="275" x2="400" y2="275" stroke="#3b82f6" stroke-width="3"/>
+
+  <!-- Primary Colors -->
+  <text x="80" y="310" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#64748b">PRIMARY</text>
+
+  <rect x="80" y="325" width="120" height="80" rx="8" fill="#0f172a"/>
+  <text x="140" y="425" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">Navy</text>
+  <text x="140" y="440" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#0f172a</text>
+
+  <rect x="220" y="325" width="120" height="80" rx="8" fill="#1d4ed8"/>
+  <text x="280" y="425" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">Brand Blue</text>
+  <text x="280" y="440" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#1d4ed8</text>
+
+  <rect x="360" y="325" width="120" height="80" rx="8" fill="#3b82f6"/>
+  <text x="420" y="425" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">Blue</text>
+  <text x="420" y="440" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#3b82f6</text>
+
+  <rect x="500" y="325" width="120" height="80" rx="8" fill="#60a5fa"/>
+  <text x="560" y="425" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">Light Blue</text>
+  <text x="560" y="440" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#60a5fa</text>
+
+  <rect x="640" y="325" width="120" height="80" rx="8" fill="white" stroke="#e5e7eb"/>
+  <text x="700" y="425" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">White</text>
+  <text x="700" y="440" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#ffffff</text>
+
+  <!-- Mascot Colors -->
+  <text x="80" y="490" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#64748b">TRUDY (MASCOT)</text>
+
+  <rect x="80" y="505" width="120" height="80" rx="8" fill="#f4a460"/>
+  <text x="140" y="605" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">Fur</text>
+  <text x="140" y="620" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#f4a460</text>
+
+  <rect x="220" y="505" width="120" height="80" rx="8" fill="#fdebd0"/>
+  <text x="280" y="605" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">Light Fur</text>
+  <text x="280" y="620" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#fdebd0</text>
+
+  <rect x="360" y="505" width="120" height="80" rx="8" fill="#ffd4a8"/>
+  <text x="420" y="605" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">Inner Ear</text>
+  <text x="420" y="620" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#ffd4a8</text>
+
+  <rect x="500" y="505" width="120" height="80" rx="8" fill="#3b82f6"/>
+  <text x="560" y="605" text-anchor="middle" font-family="monospace" font-size="12" fill="#374151">Bow</text>
+  <text x="560" y="620" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">#3b82f6</text>
+
+  <!-- Section 2: Typography -->
+  <text x="80" y="690" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="28" fill="#0f172a">Typography</text>
+  <line x1="80" y1="705" x2="400" y2="705" stroke="#3b82f6" stroke-width="3"/>
+
+  <text x="80" y="745" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="36" fill="#0f172a">Segoe UI / Helvetica Neue</text>
+  <text x="80" y="775" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#64748b">Primary typeface. Used for all headings and body text.</text>
+
+  <text x="80" y="815" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="24" fill="#374151">ExtraBold 800 - Headlines</text>
+  <text x="80" y="845" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="24" fill="#374151">Bold 700 - Subheadings</text>
+  <text x="80" y="875" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="24" fill="#374151">Regular 400 - Body</text>
+  <text x="80" y="905" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="300" font-size="24" fill="#374151">Light 300 - Captions</text>
+
+  <!-- Wordmark rules -->
+  <text x="80" y="960" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#64748b">WORDMARK RULES</text>
+  <text x="80" y="990" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#374151">- The "oo" in Woogoro is always highlighted in brand blue</text>
+  <text x="80" y="1015" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#374151">- Letter-spacing: -1.5px for display sizes</text>
+  <text x="80" y="1040" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#374151">- Always capitalize only the W: "Woogoro" not "WOOGORO" or "woogoro"</text>
+  <text x="80" y="1065" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#374151">- Minimum size: 14px for digital, 8pt for print</text>
+
+  <!-- Section 3: Logo Variants -->
+  <text x="80" y="1130" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="28" fill="#0f172a">Logo Variants</text>
+  <line x1="80" y1="1145" x2="400" y2="1145" stroke="#3b82f6" stroke-width="3"/>
+
+  <text x="80" y="1180" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#1d4ed8">1. Wordmark</text>
+  <text x="80" y="1205" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="14" fill="#64748b">Primary use: headers, nav bars, document headers</text>
+
+  <text x="80" y="1240" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#1d4ed8">2. Combo (Fox + Wordmark)</text>
+  <text x="80" y="1265" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="14" fill="#64748b">Primary use: homepage hero, social media, presentations</text>
+
+  <text x="80" y="1300" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#1d4ed8">3. Stacked (Fox over Wordmark)</text>
+  <text x="80" y="1325" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="14" fill="#64748b">Use: square formats, app icon, social avatars</text>
+
+  <text x="80" y="1360" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#1d4ed8">4. Fox Icon</text>
+  <text x="80" y="1385" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="14" fill="#64748b">Use: favicon, app icon, watermark, small spaces</text>
+
+  <text x="80" y="1420" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#1d4ed8">5. Minimal W</text>
+  <text x="80" y="1445" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="14" fill="#64748b">Use: alternate favicon, monogram, embroidery</text>
+
+  <text x="80" y="1480" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="16" fill="#1d4ed8">6. Badge/Seal</text>
+  <text x="80" y="1505" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="14" fill="#64748b">Use: trust badges, verified seals, merchandise</text>
+
+  <!-- Section 4: Brand Voice -->
+  <text x="80" y="1570" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="28" fill="#0f172a">Brand Voice</text>
+  <line x1="80" y1="1585" x2="400" y2="1585" stroke="#3b82f6" stroke-width="3"/>
+
+  <text x="80" y="1620" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="16" fill="#374151">Tagline:</text>
+  <text x="160" y="1620" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#374151">Know what it really costs.</text>
+
+  <text x="80" y="1655" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="16" fill="#374151">Tone:</text>
+  <text x="140" y="1655" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#374151">Friendly, transparent, no-BS. Trudy is the guide.</text>
+
+  <text x="80" y="1690" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="16" fill="#374151">Values:</text>
+  <text x="145" y="1690" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#374151">No email. No phone. No lead selling. No ads. Ever.</text>
+
+  <text x="80" y="1725" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="16" fill="#374151">Mascot:</text>
+  <text x="155" y="1725" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="16" fill="#374151">Trudy, a fennec fox with a blue bow. Approachable, clever, always on your side.</text>
+
+  <!-- Footer -->
+  <rect y="1760" width="1200" height="40" fill="#0f172a"/>
+  <text x="600" y="1785" text-anchor="middle" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="13" fill="#64748b">woogoro.com</text>
+</svg>

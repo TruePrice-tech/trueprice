@@ -1,6 +1,6 @@
 # Kitchen Remodel Pricing Reference (2026)
 
-Build-agent reference for the TruePrice kitchen vertical. All numbers are 2026 installed unless otherwise noted. Sources cited inline.
+Build-agent reference for the Woogoro kitchen vertical. All numbers are 2026 installed unless otherwise noted. Sources cited inline.
 
 ---
 

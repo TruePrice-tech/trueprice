@@ -177,7 +177,7 @@
     widgetSection.className = "section";
     widgetSection.innerHTML = '<h2>Live Pricing Widget</h2><p>Interactive pricing for this area. <a href="/widget.html" style="color:var(--brand);">Embed on your site</a></p>';
     var widgetScript = document.createElement("script");
-    widgetScript.src = "https://truepricehq.com/widget/tp-widget.js";
+    widgetScript.src = "https://woogoro.com/widget/tp-widget.js";
     widgetScript.setAttribute("data-service", "roofing");
     widgetScript.setAttribute("data-auto", "true");
     widgetScript.async = true;

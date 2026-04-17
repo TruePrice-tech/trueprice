@@ -9,7 +9,7 @@
 const path = require("path");
 const puppeteer = require("puppeteer");
 
-const BASE_URL = process.env.BASE_URL || "https://truepricehq.com";
+const BASE_URL = process.env.BASE_URL || "https://woogoro.com";
 const FIXTURES = path.resolve(__dirname, "..", "..", "..", "test-quotes", "plumbing-images");
 const SMOKE = [
   { name: "comparison-wh-01-low.png",        expected: 1380 },  // easy: clean synthetic

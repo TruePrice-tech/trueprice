@@ -19,16 +19,16 @@ html = '''<!DOCTYPE html>
 <meta charset="UTF-8" />
 <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>What Should This Procedure Cost? | TruePrice</title>
+<title>What Should This Procedure Cost? | Woogoro</title>
 <meta name="description" content="Search 146 medical procedures by name or CPT code. See Medicare rate, commercial estimate, and fair price in your state. Compare facility costs. Free." />
-<link rel="canonical" href="https://truepricehq.com/medical-cost-lookup.html" />
+<link rel="canonical" href="https://woogoro.com/medical-cost-lookup.html" />
 <meta name="robots" content="index,follow" />
-<meta property="og:title" content="What Should This Procedure Cost? | TruePrice" />
+<meta property="og:title" content="What Should This Procedure Cost? | Woogoro" />
 <meta property="og:description" content="Search 146 procedures. See Medicare vs commercial pricing for your state." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://truepricehq.com/medical-cost-lookup.html" />
-<meta property="og:site_name" content="TruePrice" />
-<meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+<meta property="og:url" content="https://woogoro.com/medical-cost-lookup.html" />
+<meta property="og:site_name" content="Woogoro" />
+<meta property="og:image" content="https://woogoro.com/images/trueprice-social.svg" />
 <link rel="stylesheet" href="/css/trueprice.min.css" />
 <style>
 .mcl-wrap{max-width:800px;margin:0 auto;padding:32px 16px;}
@@ -63,7 +63,7 @@ html = '''<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container"><a class="logo" href="/">TruePrice</a><nav><a href="/guides.html">Guides</a><a href="/medical-bill-analyzer.html">Bill Analyzer</a><a class="nav-cta" href="/analyze-quote.html">Check My Price</a></nav></div></header>
+<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/medical-bill-analyzer.html">Bill Analyzer</a><a class="nav-cta" href="/analyze-quote.html">Check My Price</a></nav></div></header>
 
 <main class="mcl-wrap">
 <div class="mcl-hero">
@@ -93,7 +93,7 @@ Prices based on CMS Medicare Physician Fee Schedule 2026 and RAND commercial rat
 </div>
 </main>
 
-<footer class="site-footer"><div class="container"><p>TruePrice helps consumers understand healthcare costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
+<footer class="site-footer"><div class="container"><p>Woogoro helps consumers understand healthcare costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
 
 <script>
 var CPT=''' + codes_js + ''';
@@ -120,7 +120,7 @@ function doSearch(){
     var stL=st||"national";
     var asc=Math.round(c.medicareRate*sm*0.58),img=Math.round(c.medicareRate*sm*0.40),er=Math.round(c.medicareRate*sm*2.8),off=Math.round(c.medicareRate*sm*0.45);
     h+='<div class="mcl-card">';
-    h+='<span class="mcl-share" onclick="var t=\\''+esc(c.description)+' (CPT '+m.code+') in '+stL+': Medicare '+fmt(med)+', Commercial ~'+fmt(com)+'. truepricehq.com/medical-cost-lookup.html\\';navigator.clipboard.writeText(t);this.textContent=\\'Copied!\\'">Share</span>';
+    h+='<span class="mcl-share" onclick="var t=\\''+esc(c.description)+' (CPT '+m.code+') in '+stL+': Medicare '+fmt(med)+', Commercial ~'+fmt(com)+'. woogoro.com/medical-cost-lookup.html\\';navigator.clipboard.writeText(t);this.textContent=\\'Copied!\\'">Share</span>';
     h+='<h3>'+esc(c.description)+' <span class="cat">'+c.category.replace(/_/g," ")+'</span></h3>';
     h+='<div class="cpt">CPT '+m.code+'</div>';
     h+='<div class="mcl-prices">';

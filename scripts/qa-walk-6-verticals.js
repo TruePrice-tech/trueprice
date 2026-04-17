@@ -16,7 +16,7 @@ const path = require("path");
 
 const ROOT = path.dirname(__dirname);
 const OUT_DIR = path.join(ROOT, "output", "qa-walk");
-const BASE_URL = "https://truepricehq.com";
+const BASE_URL = "https://woogoro.com";
 
 // Pool of verticals (mix of home services + non-home)
 const ALL_VERTICALS = [

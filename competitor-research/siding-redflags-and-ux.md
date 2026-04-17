@@ -118,7 +118,7 @@ Looked at the siding cost-estimator flows on HomeAdvisor/Angi, Fixr, Forbes Home
 
 All major estimators are mobile-first (60-75% of traffic per SimilarWeb), single-column, sticky CTA. Form fields use native pickers. Image uploads are rare on cost calculators - only the lead-gen sites support photo upload, and only as a "send to contractor" feature, not analyzed.
 
-## Part 3 - Synthesis: TruePrice siding estimator should
+## Part 3 - Synthesis: Woogoro siding estimator should
 
 1. **Start from a quote, not from scratch.** Primary flow is "upload your siding quote PDF/photo, we'll grade it." Secondary flow is the traditional sqft + material estimator for people who don't have a quote yet.
 
@@ -134,8 +134,8 @@ All major estimators are mobile-first (60-75% of traffic per SimilarWeb), single
 
 7. **Hardie Elite Preferred lookup.** If the quote material is Hardie, prompt for the contractor name, link to the Hardie Elite Preferred directory, and adjust the warranty language in the output accordingly.
 
-8. **Photo capture.** Standard TruePrice dual-path - "estimate" path lets the user snap a few phone photos of two elevations, gable count, story count, and we estimate sqft via reference object scaling (window dimensions).
+8. **Photo capture.** Standard Woogoro dual-path - "estimate" path lets the user snap a few phone photos of two elevations, gable count, story count, and we estimate sqft via reference object scaling (window dimensions).
 
 9. **Disclaimers.** Always show: estimate not a guarantee, regional variance, material brand assumptions, lead/asbestos disclaimers, link to EPA RRP page.
 
-10. **Contractor handoff (optional, opt-in only).** If the homeowner wants three real bids, route through TruePrice's vetted contractor network with the existing standards. Never auto-share without consent.
+10. **Contractor handoff (optional, opt-in only).** If the homeowner wants three real bids, route through Woogoro's vetted contractor network with the existing standards. Never auto-share without consent.

@@ -13,7 +13,7 @@
           {
             "step": "click-estimate-card",
             "clicked": true,
-            "href": "https://truepricehq.com/get-an-estimate.html",
+            "href": "https://woogoro.com/get-an-estimate.html",
             "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
           },
           {
@@ -23,7 +23,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/roofing-quote-analyzer.html?mode=estimator",
+            "url": "https://woogoro.com/roofing-quote-analyzer.html?mode=estimator",
             "h1": "Roofing Quote Analyzer",
             "buttons": [
               "Get my estimate →"
@@ -53,7 +53,7 @@
             "hasDollar": true,
             "hasRange": true,
             "hasEstimate": true,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nAbout\nContact\nRoofing Quote Analyzer\n17064 Laurelmont Ct, Fort Mill, SC\nWhat would your roof actually cost?\n\nWe'll build a custom estimate using satellite data, regional labor rates, and your specific situat"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nAbout\nContact\nRoofing Quote Analyzer\n17064 Laurelmont Ct, Fort Mill, SC\nWhat would your roof actually cost?\n\nWe'll build a custom estimate using satellite data, regional labor rates, and your specific situat"
           }
         ],
         "errs": [],
@@ -66,7 +66,7 @@
           {
             "step": "click-analyze-card",
             "clicked": true,
-            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "href": "https://woogoro.com/analyze-my-quote.html",
             "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
           },
           {
@@ -89,7 +89,7 @@
             "hasVerdict": true,
             "hasScope": true,
             "hasError": false,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nAbout\nContact\nRoofing Quote Analyzer\nWe need your roof size to check this quote\nRoofing prices depend almost entirely on roof area. Without it, any verdict would be a guess. Enter your address (we'll measure it from satellite data) or your known roof size below and we'll re-check instantly.\nWant a more acc"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nAbout\nContact\nRoofing Quote Analyzer\nWe need your roof size to check this quote\nRoofing prices depend almost entirely on roof area. Without it, any verdict would be a guess. Enter your address (we'll measure it from satellite data) or your known roof size below and we'll re-check instantly.\nWant a more acc"
           }
         ],
         "errs": [],
@@ -105,7 +105,7 @@
           {
             "step": "click-compare-card",
             "clicked": true,
-            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "href": "https://woogoro.com/compare-quotes-picker.html",
             "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
           },
           {
@@ -115,7 +115,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/compare-quotes.html?service=roofing",
+            "url": "https://woogoro.com/compare-quotes.html?service=roofing",
             "h1": "Compare your roofing quotes",
             "fileInputs": 3
           },
@@ -140,7 +140,7 @@
             "hasTable": true,
             "hasScore": true,
             "hasError": false,
-            "snippet": "TruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nNot detected shows the best overall value\n\nBased on price, scope completeness, warranty, and transparency.\n\n\tNOT DETECTED BEST VALUE\tNOT DETECTED\nTotal Price\t$136,375\tN/A\nPrice / sq ft\tN/A\tN/A\nMaterial\tStanding seam metal roofing\t"
+            "snippet": "Woogoro\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nNot detected shows the best overall value\n\nBased on price, scope completeness, warranty, and transparency.\n\n\tNOT DETECTED BEST VALUE\tNOT DETECTED\nTotal Price\t$136,375\tN/A\nPrice / sq ft\tN/A\tN/A\nMaterial\tStanding seam metal roofing\t"
           }
         ],
         "uploaded": 2,
@@ -148,7 +148,7 @@
           "console: Failed to load resource: the server responded with a status of 400 ()"
         ],
         "reqFails": [
-          "https://truepricehq.com/images/trudy-thinking.png"
+          "https://woogoro.com/images/trudy-thinking.png"
         ]
       }
     },
@@ -165,7 +165,7 @@
           {
             "step": "click-estimate-card",
             "clicked": true,
-            "href": "https://truepricehq.com/get-an-estimate.html",
+            "href": "https://woogoro.com/get-an-estimate.html",
             "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
           },
           {
@@ -175,7 +175,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/hvac-estimate.html",
+            "url": "https://woogoro.com/hvac-estimate.html",
             "h1": "How much will your HVAC project cost?",
             "buttons": [
               "Get HVAC Estimate"
@@ -204,7 +204,7 @@
             "hasDollar": true,
             "hasRange": true,
             "hasEstimate": true,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your HVAC project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to HVAC p"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your HVAC project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to HVAC p"
           }
         ],
         "errs": [],
@@ -217,7 +217,7 @@
           {
             "step": "click-analyze-card",
             "clicked": true,
-            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "href": "https://woogoro.com/analyze-my-quote.html",
             "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
           },
           {
@@ -240,7 +240,7 @@
             "hasVerdict": true,
             "hasScope": false,
             "hasError": false,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nEnter your quote total\n\nWe couldn't read a price from your image. Enter your quote total:\n\n$\nAnalyze this price\nStart over with a different file\nAnalyze quotes for other services\nRoofing\nPlumbing\nElectrical\nSolar\nWindows\nPa"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nEnter your quote total\n\nWe couldn't read a price from your image. Enter your quote total:\n\n$\nAnalyze this price\nStart over with a different file\nAnalyze quotes for other services\nRoofing\nPlumbing\nElectrical\nSolar\nWindows\nPa"
           }
         ],
         "errs": [],
@@ -256,7 +256,7 @@
           {
             "step": "click-compare-card",
             "clicked": true,
-            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "href": "https://woogoro.com/compare-quotes-picker.html",
             "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
           },
           {
@@ -266,7 +266,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/compare-hvac-quotes.html",
+            "url": "https://woogoro.com/compare-hvac-quotes.html",
             "h1": "Compare your HVAC quotes",
             "fileInputs": 3
           },
@@ -291,7 +291,7 @@
             "hasTable": true,
             "hasScore": true,
             "hasError": false,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nServices amount shows the best overall value\n\nBased on price, scope transparency, and red flags.\n\nNote: One or more quotes are missing a price. Enter the "
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nServices amount shows the best overall value\n\nBased on price, scope transparency, and red flags.\n\nNote: One or more quotes are missing a price. Enter the "
           }
         ],
         "uploaded": 2,
@@ -312,7 +312,7 @@
           {
             "step": "click-estimate-card",
             "clicked": true,
-            "href": "https://truepricehq.com/get-an-estimate.html",
+            "href": "https://woogoro.com/get-an-estimate.html",
             "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
           },
           {
@@ -322,7 +322,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/insulation-estimate.html",
+            "url": "https://woogoro.com/insulation-estimate.html",
             "h1": "How much will your insulation project cost?",
             "buttons": [
               "Get Insulation Estimate"
@@ -351,7 +351,7 @@
             "hasDollar": true,
             "hasRange": true,
             "hasEstimate": true,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nHow much will your insulation project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to insulation pricing? Read our Insulation Cost Guide\n\nYou are getting an estimate.\nAlready ha"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nHow much will your insulation project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to insulation pricing? Read our Insulation Cost Guide\n\nYou are getting an estimate.\nAlready ha"
           }
         ],
         "errs": [],
@@ -364,7 +364,7 @@
           {
             "step": "click-analyze-card",
             "clicked": true,
-            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "href": "https://woogoro.com/analyze-my-quote.html",
             "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
           },
           {
@@ -387,7 +387,7 @@
             "hasVerdict": true,
             "hasScope": true,
             "hasError": false,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nWe found your quote total\n\nThis looks like a HVAC quote\n\nWant to analyze it with our HVAC tool instead?\n\nGo to HVAC Analyzer Continue here anyway\n$5,680\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over with a different file\nAnal"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nWe found your quote total\n\nThis looks like a HVAC quote\n\nWant to analyze it with our HVAC tool instead?\n\nGo to HVAC Analyzer Continue here anyway\n$5,680\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over with a different file\nAnal"
           }
         ],
         "errs": [],
@@ -403,7 +403,7 @@
           {
             "step": "click-compare-card",
             "clicked": true,
-            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "href": "https://woogoro.com/compare-quotes-picker.html",
             "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
           },
           {
@@ -413,7 +413,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/compare-insulation-quotes.html",
+            "url": "https://woogoro.com/compare-insulation-quotes.html",
             "h1": "Compare your insulation quotes",
             "fileInputs": 3
           },
@@ -438,7 +438,7 @@
             "hasTable": true,
             "hasScore": true,
             "hasError": false,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nThese quotes are closely matched\n\nScores are within 5 points. Review the details below to make your final call.\n\nNot detected\n60\nWhole-home performance Sp"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nThese quotes are closely matched\n\nScores are within 5 points. Review the details below to make your final call.\n\nNot detected\n60\nWhole-home performance Sp"
           }
         ],
         "uploaded": 2,
@@ -459,7 +459,7 @@
           {
             "step": "click-estimate-card",
             "clicked": true,
-            "href": "https://truepricehq.com/get-an-estimate.html",
+            "href": "https://woogoro.com/get-an-estimate.html",
             "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
           },
           {
@@ -469,7 +469,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/plumbing-estimate.html",
+            "url": "https://woogoro.com/plumbing-estimate.html",
             "h1": "How much will your plumbing project cost?",
             "buttons": [
               "Get Plumbing Estimate"
@@ -498,7 +498,7 @@
             "hasDollar": true,
             "hasRange": true,
             "hasEstimate": true,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your plumbing project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to pl"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your plumbing project cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to pl"
           }
         ],
         "errs": [],
@@ -511,7 +511,7 @@
           {
             "step": "click-analyze-card",
             "clicked": true,
-            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "href": "https://woogoro.com/analyze-my-quote.html",
             "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
           },
           {
@@ -534,7 +534,7 @@
             "hasVerdict": true,
             "hasScope": false,
             "hasError": false,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nWe found your quote total\n$581\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over\nAnalyze quotes for other services\nRoofing\nHVAC\nElectrical\nSolar\n"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nWe found your quote total\n$581\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over\nAnalyze quotes for other services\nRoofing\nHVAC\nElectrical\nSolar\n"
           }
         ],
         "errs": [],
@@ -550,7 +550,7 @@
           {
             "step": "click-compare-card",
             "clicked": true,
-            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "href": "https://woogoro.com/compare-quotes-picker.html",
             "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
           },
           {
@@ -560,7 +560,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/compare-plumbing-quotes.html",
+            "url": "https://woogoro.com/compare-plumbing-quotes.html",
             "h1": "Compare your plumbing quotes",
             "fileInputs": 3
           },
@@ -585,7 +585,7 @@
             "hasTable": true,
             "hasScore": true,
             "hasError": false,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nROOTER Roto-Rooter Services shows the best overall value\n\nBased on price, scope transparency, and red flags.\n\nNote: One or more quotes are missing a price"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nROOTER Roto-Rooter Services shows the best overall value\n\nBased on price, scope transparency, and red flags.\n\nNote: One or more quotes are missing a price"
           }
         ],
         "uploaded": 2,
@@ -606,7 +606,7 @@
           {
             "step": "click-estimate-card",
             "clicked": true,
-            "href": "https://truepricehq.com/get-an-estimate.html",
+            "href": "https://woogoro.com/get-an-estimate.html",
             "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
           },
           {
@@ -616,7 +616,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/medical-estimate.html",
+            "url": "https://woogoro.com/medical-estimate.html",
             "h1": "How much will your medical procedure cost?",
             "buttons": [
               "Get Medical Estimate"
@@ -646,7 +646,7 @@
             "hasDollar": false,
             "hasRange": false,
             "hasEstimate": true,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate.\nAlready have a bill? Analyze it →\nHow much will your medical procedure cost?\n\nFree cost estimate by procedure, insurance, and location. No email, no phone, no lead-selling.\n\nNew "
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are getting an estimate.\nAlready have a bill? Analyze it →\nHow much will your medical procedure cost?\n\nFree cost estimate by procedure, insurance, and location. No email, no phone, no lead-selling.\n\nNew "
           }
         ],
         "errs": [],
@@ -659,7 +659,7 @@
           {
             "step": "click-analyze-card",
             "clicked": true,
-            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "href": "https://woogoro.com/analyze-my-quote.html",
             "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
           },
           {
@@ -682,7 +682,7 @@
             "hasVerdict": true,
             "hasScope": false,
             "hasError": true,
-            "snippet": "TruePrice\nGuides\nYou are analyzing a medical bill.\nLook up a procedure price →\nMultiple bills? Compare →\nALL CLEAR\nNo obvious issues detected\nTOTAL BILLED\n$34,764\nINSURANCE PAID\n$0\nYOU OWE\n$34,764\nThis analysis is AI-generated and may contain errors. It is not a substitute for professional medical billing advice. Always verify findings with your insurance provider and healthcare facility.\nLine Ite"
+            "snippet": "Woogoro\nGuides\nYou are analyzing a medical bill.\nLook up a procedure price →\nMultiple bills? Compare →\nALL CLEAR\nNo obvious issues detected\nTOTAL BILLED\n$34,764\nINSURANCE PAID\n$0\nYOU OWE\n$34,764\nThis analysis is AI-generated and may contain errors. It is not a substitute for professional medical billing advice. Always verify findings with your insurance provider and healthcare facility.\nLine Ite"
           }
         ],
         "errs": [],
@@ -698,7 +698,7 @@
           {
             "step": "click-compare-card",
             "clicked": true,
-            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "href": "https://woogoro.com/compare-quotes-picker.html",
             "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
           },
           {
@@ -708,7 +708,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/compare-medical-quotes.html",
+            "url": "https://woogoro.com/compare-medical-quotes.html",
             "h1": "Compare your medical bills",
             "fileInputs": 3
           },
@@ -733,7 +733,7 @@
             "hasTable": true,
             "hasScore": true,
             "hasError": true,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are comparing medical bills.\nLook up a procedure price →\nAnalyze a single bill →\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nNot detected shows the best overall value\n\nBased on price, scope tran"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are comparing medical bills.\nLook up a procedure price →\nAnalyze a single bill →\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nNot detected shows the best overall value\n\nBased on price, scope tran"
           }
         ],
         "uploaded": 2,
@@ -754,7 +754,7 @@
           {
             "step": "click-estimate-card",
             "clicked": true,
-            "href": "https://truepricehq.com/get-an-estimate.html",
+            "href": "https://woogoro.com/get-an-estimate.html",
             "text": "Don't have a quote yet?\n          Get a fair-price estimate first.\n          \n  "
           },
           {
@@ -764,7 +764,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/auto-estimate.html",
+            "url": "https://woogoro.com/auto-estimate.html",
             "h1": "How much will your auto repair cost?",
             "buttons": [
               "Get Repair Estimate"
@@ -794,7 +794,7 @@
             "hasDollar": false,
             "hasRange": false,
             "hasEstimate": true,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your auto repair cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to auto re"
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are getting an estimate.\nAlready have a quote? Analyze it →\nMultiple quotes? Compare →\nHow much will your auto repair cost?\n\nFree city-level estimate. No email, no phone, no lead-selling.\n\nNew to auto re"
           }
         ],
         "errs": [],
@@ -807,7 +807,7 @@
           {
             "step": "click-analyze-card",
             "clicked": true,
-            "href": "https://truepricehq.com/analyze-my-quote.html",
+            "href": "https://woogoro.com/analyze-my-quote.html",
             "text": "Already got a quote?\n          Don't sign till Trudy checks it.\n          \n     "
           },
           {
@@ -830,7 +830,7 @@
             "hasVerdict": true,
             "hasScope": false,
             "hasError": false,
-            "snippet": "TruePrice\nGuides\nAuto Repair Pricing\n\nWhether you're shopping around or checking a quote you already have.\n\n🔎 I Need an Estimate\n\nSee fair prices for your car and repair\n\n📄 I Have a Quote\n\nUpload your mechanic quote for AI analysis\n\nWe found your quote total\n$83\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over with a "
+            "snippet": "Woogoro\nGuides\nAuto Repair Pricing\n\nWhether you're shopping around or checking a quote you already have.\n\n🔎 I Need an Estimate\n\nSee fair prices for your car and repair\n\n📄 I Have a Quote\n\nUpload your mechanic quote for AI analysis\n\nWe found your quote total\n$83\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over with a "
           }
         ],
         "errs": [
@@ -848,7 +848,7 @@
           {
             "step": "click-compare-card",
             "clicked": true,
-            "href": "https://truepricehq.com/compare-quotes-picker.html",
+            "href": "https://woogoro.com/compare-quotes-picker.html",
             "text": "Got multiple quotes?\n          Side-by-side check on each.\n          \n          "
           },
           {
@@ -858,7 +858,7 @@
           },
           {
             "step": "landed",
-            "url": "https://truepricehq.com/compare-auto-quotes.html",
+            "url": "https://woogoro.com/compare-auto-quotes.html",
             "h1": "Compare your mechanic quotes",
             "fileInputs": 3
           },
@@ -883,7 +883,7 @@
             "hasTable": true,
             "hasScore": true,
             "hasError": false,
-            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nThese quotes are closely matched\n\nScores are within 5 points. Price differences may reflect different parts quality (OEM vs aftermarket), labor rates, or "
+            "snippet": "✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\n← Upload different quotes\n\nTRUEPRICE QUOTE ANALYSIS\n\nThese quotes are closely matched\n\nScores are within 5 points. Price differences may reflect different parts quality (OEM vs aftermarket), labor rates, or "
           }
         ],
         "uploaded": 2,
@@ -897,13 +897,13 @@
       "sev": "MED",
       "vertical": "medical",
       "path": "estimate",
-      "issue": "estimate path didn't render a dollar amount. Snippet: \"✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate...\""
+      "issue": "estimate path didn't render a dollar amount. Snippet: \"✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are getting an estimate...\""
     },
     {
       "sev": "MED",
       "vertical": "auto-repair",
       "path": "estimate",
-      "issue": "estimate path didn't render a dollar amount. Snippet: \"✓ Free · No email · No phone · No signup · We never sell or share your data\nTruePrice\nGuides\nYou are getting an estimate...\""
+      "issue": "estimate path didn't render a dollar amount. Snippet: \"✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nYou are getting an estimate...\""
     }
   ]
 }

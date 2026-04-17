@@ -2,7 +2,7 @@
 Counter and calibration pollution audit.
 
 Snapshots tp:total_quotes plus a sampling of cal:* keys before and after
-running every analyzer endpoint with the X-TruePrice-Test header. Any
+running every analyzer endpoint with the X-Woogoro-Test header. Any
 non-zero delta means an endpoint is ignoring the test header and writing
 to live data — which is a flywheel-pollution bug.
 
@@ -16,7 +16,7 @@ import urllib.request, json, base64, time, glob, os, sys, io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
-BASE = "https://truepricehq.com"
+BASE = "https://woogoro.com"
 
 ENDPOINTS = {
     "auto": "auto-repair-estimate",
@@ -44,7 +44,7 @@ ENDPOINTS = {
 def get_counter():
     try:
         req = urllib.request.Request(f"{BASE}/api/analytics?counter=1",
-                                     headers={"User-Agent": "TruePriceAudit/1.0"})
+                                     headers={"User-Agent": "WoogoroAudit/1.0"})
         with urllib.request.urlopen(req, timeout=15) as r:
             return json.loads(r.read()).get("count")
     except Exception as e:
@@ -79,8 +79,8 @@ def post(endpoint, fpath):
         headers={
             "Content-Type": "application/json",
             "Origin": BASE,
-            "User-Agent": "Mozilla/5.0 (TruePriceAudit)",
-            "X-TruePrice-Test": "1",
+            "User-Agent": "Mozilla/5.0 (WoogoroAudit)",
+            "X-Woogoro-Test": "1",
         }
     )
     try:
@@ -93,7 +93,7 @@ def post(endpoint, fpath):
 def main():
     print("=== COUNTER POLLUTION AUDIT ===")
     print("Snapshotting tp:total_quotes before, hitting every analyzer with")
-    print("X-TruePrice-Test:1 + a real fixture, then re-snapshotting.\n")
+    print("X-Woogoro-Test:1 + a real fixture, then re-snapshotting.\n")
 
     start = get_counter()
     print(f"counter at start: {start}")
@@ -119,7 +119,7 @@ def main():
     print(f"counter delta: {delta:+d}" if delta is not None else "delta: ?")
 
     if delta == 0:
-        print("\nPASS: every endpoint honored X-TruePrice-Test (no counter pollution).")
+        print("\nPASS: every endpoint honored X-Woogoro-Test (no counter pollution).")
         return 0
     print(f"\nFAIL: counter moved by {delta}. At least one endpoint is writing")
     print("flywheel data despite the test header. Audit each endpoint's bridge.")

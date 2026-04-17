@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Woogoro Badge/Seal Logo -->
+  <!-- Circular badge with fox silhouette + brand name -->
+
+  <!-- Outer ring -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#3b82f6" stroke-width="3"/>
+  <circle cx="100" cy="100" r="88" fill="#0f172a"/>
+
+  <!-- Fox silhouette (simplified) -->
+  <g transform="translate(100, 85) scale(0.55)">
+    <!-- Ears -->
+    <polygon points="-50,-15 -42,-75 -18,-28" fill="#f4a460"/>
+    <polygon points="50,-15 42,-75 18,-28" fill="#f4a460"/>
+    <!-- Head -->
+    <ellipse cx="0" cy="5" rx="48" ry="44" fill="#f4a460"/>
+    <ellipse cx="0" cy="14" rx="34" ry="32" fill="#fdebd0"/>
+    <!-- Eyes -->
+    <ellipse cx="-16" cy="-2" rx="6" ry="7" fill="#1a1a2e"/>
+    <ellipse cx="-14" cy="-4" rx="2" ry="2.5" fill="white"/>
+    <ellipse cx="16" cy="-2" rx="6" ry="7" fill="#1a1a2e"/>
+    <ellipse cx="18" cy="-4" rx="2" ry="2.5" fill="white"/>
+    <!-- Nose -->
+    <ellipse cx="0" cy="11" rx="4" ry="2.8" fill="#1a1a2e"/>
+    <path d="M-3.5,14 Q0,19 3.5,14" fill="none" stroke="#1a1a2e" stroke-width="1.2"/>
+  </g>
+
+  <!-- Curved text - top -->
+  <path id="topArc" d="M30,100 a70,70 0 0,1 140,0" fill="none"/>
+  <text font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="14" fill="#94a3b8" letter-spacing="6">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">WOOGORO</textPath>
+  </text>
+
+  <!-- Bottom tagline -->
+  <path id="bottomArc" d="M25,115 a75,75 0 0,0 150,0" fill="none"/>
+  <text font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="9" fill="#64748b" letter-spacing="2">
+    <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">KNOW WHAT IT COSTS</textPath>
+  </text>
+
+  <!-- Blue bow accent -->
+  <circle cx="140" cy="52" r="5" fill="#3b82f6"/>
+</svg>

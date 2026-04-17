@@ -4,7 +4,7 @@
 // Exit code 0 = all clear, 1 = failures found
 const puppeteer = require("puppeteer");
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 const PAGES = [
   "/plumbing-quote-analyzer.html",

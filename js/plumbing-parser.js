@@ -1,4 +1,4 @@
-// TruePrice Plumbing Quote Parser
+// Woogoro Plumbing Quote Parser
 // Detects service type, equipment, brand, scope items from plumbing quotes
 
 const PLUMBING_SERVICE_PATTERNS = [

@@ -16,8 +16,8 @@ const TARGETS_FILE = path.join(__dirname, 'backlink-targets.json');
 const OUTPUT_FILE = path.join(__dirname, 'backlink-ready.md');
 
 const SIG = `Lane Adams
-TruePrice
-truepricehq.com`;
+Woogoro
+woogoro.com`;
 
 const templates = {
   resource: (t) => ({
@@ -26,7 +26,7 @@ const templates = {
 
 I was reading "${t.article}" on ${t.site} and noticed you maintain a solid roundup of resources for ${t.topic}.
 
-I run TruePrice (truepricehq.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
+I run Woogoro (woogoro.com), a free homeowner tool that breaks down local contractor pricing by city, material, and contractor tier. We show real ranges (not national averages) and let visitors paste their actual quote for a free analysis. No email gate, no lead-gen, no ads.
 
 If you ever update that resource list, this page might be a fit:
 ${t.ourPage}
@@ -60,13 +60,13 @@ ${SIG}`
 
 I saw your work on ${t.article} -- thought you might find this useful for a future segment.
 
-I run TruePrice, an independent tool that tracks real contractor quotes across 700+ US cities. A few interesting recent data points relevant to your audience:
+I run Woogoro, an independent tool that tracks real contractor quotes across 700+ US cities. A few interesting recent data points relevant to your audience:
 
   - Roof replacement quotes in Charlotte are up ~14% YoY, with the spread between low and high bids widening to 2.1x
   - HVAC install quotes show a ~$4,500 gap between the lowest and highest tier of contractors for the same job
   - Most-overcharged repairs locally: panel upgrades and tankless water heaters
 
-Happy to pull more granular data anytime if a quote-driven angle ever fits a story. Methodology is published openly: truepricehq.com/methodology.html
+Happy to pull more granular data anytime if a quote-driven angle ever fits a story. Methodology is published openly: woogoro.com/methodology.html
 
 For your audience, our ${t.topic} page is here: ${t.ourPage}
 
@@ -79,7 +79,7 @@ ${SIG}`
 
 I noticed ${t.site} maintains resources around ${t.topic}. I wanted to share a free, no-signup tool that may be useful to include for residents:
 
-  - truepricehq.com -- shows local pricing for roofing, HVAC, plumbing, and 17 other home services across 700+ US cities
+  - woogoro.com -- shows local pricing for roofing, HVAC, plumbing, and 17 other home services across 700+ US cities
   - No email required, no lead-gen sales calls, no advertising
   - Methodology is published openly: ${t.ourPage}
 

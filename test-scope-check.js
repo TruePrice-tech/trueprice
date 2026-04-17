@@ -10,7 +10,7 @@ const IMAGE = path.resolve("test-quotes/messy/plumbing--06-help-me-understand-th
   await page.setCacheEnabled(false);
 
   console.log("Loading plumbing analyzer...");
-  await page.goto("https://truepricehq.com/plumbing-quote-analyzer.html?_cb=" + Date.now(), { waitUntil: "networkidle2", timeout: 30000 });
+  await page.goto("https://woogoro.com/plumbing-quote-analyzer.html?_cb=" + Date.now(), { waitUntil: "networkidle2", timeout: 30000 });
 
   const input = await page.$("#fileInput");
   if (!input) { console.log("NO FILE INPUT"); await browser.close(); return; }

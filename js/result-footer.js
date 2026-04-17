@@ -1,5 +1,5 @@
 /*
- * TruePrice — Shared Result Footer (v2)
+ * Woogoro — Shared Result Footer (v2)
  * -------------------------------------
  * One consistent post-result footer every vertical's result page renders
  * after its analysis. Replaces the older js/trudy-footer.js (which is
@@ -79,8 +79,8 @@
   // Fallback feedback opener: only define if nothing else has.
   if (typeof window.tpOpenFeedback !== "function") {
     window.tpOpenFeedback = function (verticalLabel) {
-      var subj = "Feedback on " + (verticalLabel || "TruePrice") + " result";
-      window.location.href = "mailto:hello@truepricehq.com?subject=" + encodeURIComponent(subj);
+      var subj = "Feedback on " + (verticalLabel || "Woogoro") + " result";
+      window.location.href = "mailto:hello@woogoro.com?subject=" + encodeURIComponent(subj);
     };
   }
 
@@ -139,7 +139,7 @@
       + '    </button>'
       + '  </div>'
       + '  <div class="tp-footer-brand">'
-      + '    <a href="/"><img src="/images/trudy-peeking.png" alt="" width="28" />Powered by <strong style="color:#1e3a5f;">TruePrice</strong></a>'
+      + '    <a href="/"><img src="/images/trudy-peeking.png" alt="" width="28" />Powered by <strong style="color:#1e3a5f;">Woogoro</strong></a>'
       + '  </div>'
       + '</div>';
 

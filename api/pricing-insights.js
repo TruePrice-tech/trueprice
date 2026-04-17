@@ -1,5 +1,5 @@
 // ============================================================================
-// TruePrice Flywheel Feedback API
+// Woogoro Flywheel Feedback API
 // ============================================================================
 // The flywheel works like this:
 //   1. Users submit bills/quotes to our analyzers (medical, moving, etc.)
@@ -19,7 +19,7 @@ const RATE_LIMIT_MAX = 30;
 const RATE_LIMIT_WINDOW_SEC = 3600;
 const CACHE_TTL_SEC = 3600; // 1 hour
 
-const ALLOWED_ORIGIN = "https://truepricehq.com";
+const ALLOWED_ORIGIN = "https://woogoro.com";
 
 // --- Rate limiting (Redis-backed with in-memory fallback) ---
 

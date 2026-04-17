@@ -1,4 +1,4 @@
-// TruePrice HVAC Quote Parser
+// Woogoro HVAC Quote Parser
 // Detects system type, SEER rating, tonnage, brand, scope items from HVAC quotes
 
 const HVAC_SYSTEM_PATTERNS = [

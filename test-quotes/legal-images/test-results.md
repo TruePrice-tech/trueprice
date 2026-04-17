@@ -1,7 +1,7 @@
 # Legal Test Results
 
 Run: 2026-04-08 12:22:15
-Endpoint: https://truepricehq.com/api/legal-fee-estimate
+Endpoint: https://woogoro.com/api/legal-fee-estimate
 Samples tested: 14
 
 **Counter at start:** 3895

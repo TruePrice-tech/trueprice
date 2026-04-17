@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Woogoro Minimal "W" Mark -->
+  <!-- Bold W with fox ear accents -->
+
+  <!-- Background -->
+  <rect width="120" height="120" rx="24" fill="#0f172a"/>
+
+  <!-- Fox ear hints (subtle triangles at top) -->
+  <polygon points="25,30 32,12 39,30" fill="#f4a460" opacity="0.6"/>
+  <polygon points="81,30 88,12 95,30" fill="#f4a460" opacity="0.6"/>
+
+  <!-- Bold W -->
+  <text x="60" y="85" text-anchor="middle" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="72" fill="white">
+    W
+  </text>
+
+  <!-- Blue dot accent (Trudy's bow reference) -->
+  <circle cx="96" cy="20" r="6" fill="#3b82f6"/>
+</svg>

@@ -43,7 +43,7 @@ const VERTICALS = [
       page.on("pageerror", errorHandler);
 
       try {
-        await page.goto("https://truepricehq.com" + url, { waitUntil: "networkidle2", timeout: 15000 });
+        await page.goto("https://woogoro.com" + url, { waitUntil: "networkidle2", timeout: 15000 });
 
         const checks = await page.evaluate(() => {
           const body = document.body.innerText || "";

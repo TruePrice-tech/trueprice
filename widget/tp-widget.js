@@ -86,7 +86,7 @@
   var card = document.createElement('div');
   card.className = 'tp-card';
   card.setAttribute('role', 'region');
-  card.setAttribute('aria-label', 'TruePrice local pricing widget');
+  card.setAttribute('aria-label', 'Woogoro local pricing widget');
   shadow.appendChild(card);
 
   // Loading skeleton
@@ -109,7 +109,7 @@
         state: resolvedState,
         service: service
       });
-      var url = 'https://truepricehq.com/api/widget-beacon';
+      var url = 'https://woogoro.com/api/widget-beacon';
       if (navigator.sendBeacon) {
         var blob = new Blob([payload], { type: 'application/json' });
         navigator.sendBeacon(url, blob);
@@ -120,7 +120,7 @@
   }
 
   function loadWidget(resolvedCity, resolvedState) {
-    var url = 'https://truepricehq.com/api/widget-data?city=' +
+    var url = 'https://woogoro.com/api/widget-data?city=' +
       encodeURIComponent(resolvedCity) + '&state=' + encodeURIComponent(resolvedState) +
       '&service=' + encodeURIComponent(service);
 
@@ -160,8 +160,8 @@
     var displayCity = data.city || city;
     var displayState = data.state || state;
     var materials = data.materials || [];
-    var cityUrl = data.cityPageUrl || 'https://truepricehq.com';
-    var analyzerUrl = data.analyzerUrl || 'https://truepricehq.com/analyze-quote.html';
+    var cityUrl = data.cityPageUrl || 'https://woogoro.com';
+    var analyzerUrl = data.analyzerUrl || 'https://woogoro.com/analyze-quote.html';
     var isHourly = data.isHourly || false;
     var note = data.referenceSize ? 'for a typical ' + data.referenceSize : '';
 
@@ -180,9 +180,9 @@
 
     var html = [];
     html.push('<div class="tp-header">');
-    html.push('<img src="https://truepricehq.com/images/trudy-peeking.png" alt="Trudy" width="32" height="32" style="flex-shrink:0;" onerror="this.style.display=\'none\'" />');
+    html.push('<img src="https://woogoro.com/images/trudy-peeking.png" alt="Trudy" width="32" height="32" style="flex-shrink:0;" onerror="this.style.display=\'none\'" />');
     html.push('<div>');
-    html.push('<div class="tp-logo">TruePrice</div>');
+    html.push('<div class="tp-logo">Woogoro</div>');
     html.push('<div class="tp-title">' + esc(label) + ' Cost</div>');
     html.push('<div class="tp-subtitle">in ' + esc(displayCity) + ', ' + esc(displayState) + '</div>');
     html.push('</div></div>');
@@ -236,7 +236,7 @@
     html.push('<a class="tp-cta-primary" href="' + esc(analyzerUrl) + '" target="_blank" rel="noopener">Check your quote free &rarr;</a>');
     html.push('<div class="tp-footer-row">');
     html.push('<a class="tp-cta" href="' + esc(cityUrl) + '" target="_blank" rel="noopener">Full pricing details &rarr;</a>');
-    html.push('<a class="tp-powered" href="https://truepricehq.com/widget.html" target="_blank" rel="noopener"><img src="https://truepricehq.com/images/trudy-peeking.png" alt="" width="14" height="14" onerror="this.style.display=\'none\'" /> by TruePrice</a>');
+    html.push('<a class="tp-powered" href="https://woogoro.com/widget.html" target="_blank" rel="noopener"><img src="https://woogoro.com/images/trudy-peeking.png" alt="" width="14" height="14" onerror="this.style.display=\'none\'" /> by Woogoro</a>');
     html.push('</div>');
     if (data.updated) {
       html.push('<div class="tp-updated">Updated ' + esc(data.updated) + '</div>');
@@ -264,7 +264,7 @@
     card.innerHTML = [
       '<div class="tp-error">',
       '<div class="tp-error-text">Pricing data unavailable</div>',
-      '<a class="tp-cta-primary" href="https://truepricehq.com" target="_blank" rel="noopener">Visit TruePrice &rarr;</a>',
+      '<a class="tp-cta-primary" href="https://woogoro.com" target="_blank" rel="noopener">Visit Woogoro &rarr;</a>',
       '</div>'
     ].join('');
   }

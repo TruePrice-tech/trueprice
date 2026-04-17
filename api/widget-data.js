@@ -602,20 +602,20 @@ module.exports = async (req, res) => {
     // Build appropriate URLs per category
     let cityPageUrl, analyzerUrl;
     if (category === 'home') {
-      cityPageUrl = `https://truepricehq.com/${slugify(city)}-${stateUpper.toLowerCase()}-${config.urlSlug}-cost.html`;
-      analyzerUrl = 'https://truepricehq.com/analyze-quote.html';
+      cityPageUrl = `https://woogoro.com/${slugify(city)}-${stateUpper.toLowerCase()}-${config.urlSlug}-cost.html`;
+      analyzerUrl = 'https://woogoro.com/analyze-quote.html';
     } else if (category === 'auto') {
-      cityPageUrl = 'https://truepricehq.com/auto-repair-cost-guide.html';
-      analyzerUrl = 'https://truepricehq.com/auto-repair-quote-analyzer.html';
+      cityPageUrl = 'https://woogoro.com/auto-repair-cost-guide.html';
+      analyzerUrl = 'https://woogoro.com/auto-repair-quote-analyzer.html';
     } else if (category === 'medical') {
-      cityPageUrl = 'https://truepricehq.com/medical-cost-guide.html';
-      analyzerUrl = 'https://truepricehq.com/medical-bill-analyzer.html';
+      cityPageUrl = 'https://woogoro.com/medical-cost-guide.html';
+      analyzerUrl = 'https://woogoro.com/medical-bill-analyzer.html';
     } else if (category === 'legal') {
-      cityPageUrl = 'https://truepricehq.com/legal-cost-guide.html';
-      analyzerUrl = 'https://truepricehq.com/legal-fee-analyzer.html';
+      cityPageUrl = 'https://woogoro.com/legal-cost-guide.html';
+      analyzerUrl = 'https://woogoro.com/legal-fee-analyzer.html';
     } else if (category === 'moving') {
-      cityPageUrl = 'https://truepricehq.com/moving-cost-guide.html';
-      analyzerUrl = 'https://truepricehq.com/moving-quote-analyzer.html';
+      cityPageUrl = 'https://woogoro.com/moving-cost-guide.html';
+      analyzerUrl = 'https://woogoro.com/moving-quote-analyzer.html';
     }
 
     return res.status(200).json({

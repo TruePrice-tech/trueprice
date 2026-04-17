@@ -20,7 +20,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     console.log("  DIALOG: " + dialog.type() + " - " + dialog.message().substring(0, 100));
     await dialog.accept("2200");
   });
-  await p1.goto("https://truepricehq.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
+  await p1.goto("https://woogoro.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
 
   // Address
   console.log("1. Enter address");
@@ -158,7 +158,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p2 = await browser.newPage();
   var e2 = [];
   p2.on("pageerror", err => e2.push(err.message.substring(0, 150)));
-  await p2.goto("https://truepricehq.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
+  await p2.goto("https://woogoro.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
 
   // Check for file input on address page
   console.log("1. Address page");
@@ -252,7 +252,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p3 = await browser.newPage();
   var e3 = [];
   p3.on("pageerror", err => e3.push(err.message.substring(0, 150)));
-  await p3.goto("https://truepricehq.com/compare-roofing-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
+  await p3.goto("https://woogoro.com/compare-roofing-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
 
   console.log("1. Compare page loaded");
   var slots = await p3.evaluate(() => document.querySelectorAll("input[type=file]").length);

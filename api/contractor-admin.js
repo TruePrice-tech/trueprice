@@ -4,7 +4,7 @@ const redis = Redis.fromEnv();
 const ADMIN_KEY = process.env.ANALYTICS_ADMIN_KEY || "tp_admin_2026";
 
 function cors(res) {
-  res.setHeader("Access-Control-Allow-Origin", "https://truepricehq.com");
+  res.setHeader("Access-Control-Allow-Origin", "https://woogoro.com");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }

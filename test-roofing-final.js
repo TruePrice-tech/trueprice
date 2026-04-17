@@ -16,7 +16,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p1 = await browser.newPage();
   var jsErrors = [];
   p1.on("pageerror", err => jsErrors.push(err.message.substring(0, 150)));
-  await p1.goto("https://truepricehq.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
+  await p1.goto("https://woogoro.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
 
   // Address
   await p1.waitForSelector("#journeyStreetAddress", { timeout: 5000 });
@@ -186,7 +186,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p2 = await browser.newPage();
   var jsErrors2 = [];
   p2.on("pageerror", err => jsErrors2.push(err.message.substring(0, 150)));
-  await p2.goto("https://truepricehq.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
+  await p2.goto("https://woogoro.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
 
   console.log("1. Looking for upload on address page...");
   var hasUploadOnAddress = await p2.evaluate(() => {

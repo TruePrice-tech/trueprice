@@ -176,7 +176,7 @@ async function searchShops(city, state, repair) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "https://truepricehq.com");
+  res.setHeader("Access-Control-Allow-Origin", "https://woogoro.com");
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -214,7 +214,7 @@ export default async function handler(req, res) {
       if (!shopName || !state || !repair || !price) {
         return res.status(400).json({ error: "Missing required fields" });
       }
-      const isTestMode = req.headers["x-trueprice-test"] === "1";
+      const isTestMode = req.headers["x-woogoro-test"] === "1";
       const stored = await storeShopQuote({ shopName, city, state, repair, price: Number(price), laborHours: Number(laborHours) || null, laborRate: Number(laborRate) || null, partsType }, isTestMode);
       return res.status(200).json({ ok: stored });
     }

@@ -1,7 +1,7 @@
 # Concrete Test Results
 
 Run: 2026-04-08 12:23:18
-Endpoint: https://truepricehq.com/api/concrete-estimate
+Endpoint: https://woogoro.com/api/concrete-estimate
 Samples tested: 15
 
 **Counter at start:** 3895

@@ -9,7 +9,7 @@ const TEMPLATE_PATH = path.join(ROOT, "templates", "kitchen-city-page-template.h
 const SITEMAP_PATH = path.join(ROOT, "sitemap-kitchen.xml");
 const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
 
-const SITE_BASE_URL = "https://truepricehq.com";
+const SITE_BASE_URL = "https://woogoro.com";
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));

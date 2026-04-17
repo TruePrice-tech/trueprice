@@ -20,7 +20,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const CALIBRATION_URL = "https://truepricehq.com/api/calibration";
+const CALIBRATION_URL = "https://woogoro.com/api/calibration";
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const INFLATION_RATE = 0.03; // 3% annual
 
@@ -91,7 +91,7 @@ function sleep(ms) {
 async function fetchRedditJSON(url) {
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "TruePrice-QuoteSeed/1.0 (research; truepricehq.com)"
+      "User-Agent": "Woogoro-QuoteSeed/1.0 (research; woogoro.com)"
     }
   });
   if (!res.ok) {

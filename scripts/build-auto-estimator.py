@@ -48,16 +48,16 @@ html = '''<!DOCTYPE html>
 <meta charset="UTF-8" />
 <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Auto Repair Cost Estimator | TruePrice</title>
+<title>Auto Repair Cost Estimator | Woogoro</title>
 <meta name="description" content="Get a precise auto repair cost estimate for your car. Pick the repair, enter your vehicle and location. See labor, parts, tax, and total. 43 repairs, city-level pricing." />
-<link rel="canonical" href="https://truepricehq.com/auto-estimate.html" />
+<link rel="canonical" href="https://woogoro.com/auto-estimate.html" />
 <meta name="robots" content="index,follow" />
-<meta property="og:title" content="Auto Repair Cost Estimator | TruePrice" />
+<meta property="og:title" content="Auto Repair Cost Estimator | Woogoro" />
 <meta property="og:description" content="Precise repair estimates. 43 repairs, your car, your city." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://truepricehq.com/auto-estimate.html" />
-<meta property="og:site_name" content="TruePrice" />
-<meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+<meta property="og:url" content="https://woogoro.com/auto-estimate.html" />
+<meta property="og:site_name" content="Woogoro" />
+<meta property="og:image" content="https://woogoro.com/images/trueprice-social.svg" />
 <link rel="stylesheet" href="/css/trueprice.min.css" />
 <style>
 .ae-wrap{max-width:800px;margin:0 auto;padding:32px 16px;}
@@ -93,7 +93,7 @@ html = '''<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container"><a class="logo" href="/">TruePrice</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
+<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
 
 <main class="ae-wrap">
 <div class="ae-hero">
@@ -127,7 +127,7 @@ Estimates based on industry labor guides, parts pricing databases, and state-lev
 </div>
 </main>
 
-<footer class="site-footer"><div class="container"><p>TruePrice helps you understand fair auto repair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
+<footer class="site-footer"><div class="container"><p>Woogoro helps you understand fair auto repair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
 
 <script>
 var REPAIRS=''' + repairs_js + ''';
@@ -231,7 +231,7 @@ document.getElementById("estimateBtn").addEventListener("click", function(){
 
   // Build result
   var h = '<div class="ae-card">';
-  var shareText = repair.label + " for " + vehicleDesc + " in " + locationDesc + ": " + fmt(totalLow) + " - " + fmt(totalHigh) + " (aftermarket parts, " + shopType + " shop). truepricehq.com/auto-estimate.html";
+  var shareText = repair.label + " for " + vehicleDesc + " in " + locationDesc + ": " + fmt(totalLow) + " - " + fmt(totalHigh) + " (aftermarket parts, " + shopType + " shop). woogoro.com/auto-estimate.html";
   h += '<span class="ae-share" onclick="navigator.clipboard.writeText(\\''+shareText.replace(/'/g,"\\\\'")+'\\'');this.textContent=\\'Copied!\\'">Share</span>';
   h += '<h3>' + repair.label + '</h3>';
   h += '<div style="font-size:14px;color:#64748b;">' + vehicleDesc + ' &bull; ' + locationDesc + ' &bull; ' + vehicleLabel + ' &bull; ' + (shopType==="dealer"?"Dealership":shopType==="chain"?"Chain Shop":"Independent Shop") + '</div>';

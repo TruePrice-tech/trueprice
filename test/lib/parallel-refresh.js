@@ -35,7 +35,7 @@ module.exports = async function parallelRefresh(opts) {
   const workersFlagIdx = argv.indexOf("--workers");
   const cliWorkers = workersFlagIdx >= 0 ? Number(argv[workersFlagIdx + 1]) : null;
   const WORKERS = cliWorkers || Number(process.env.WORKERS) || defaultWorkers;
-  const BASE_URL = process.env.BASE_URL || "https://truepricehq.com";
+  const BASE_URL = process.env.BASE_URL || "https://woogoro.com";
 
   let files = fs.readdirSync(fixturesDir).filter(n => /\.(jpe?g|png|webp)$/i.test(n)).sort();
   if (ONLY) files = files.filter(n => n === ONLY);

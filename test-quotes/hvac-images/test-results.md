@@ -1,7 +1,7 @@
 # Hvac Test Results
 
 Run: 2026-04-08 12:16:01
-Endpoint: https://truepricehq.com/api/hvac-estimate
+Endpoint: https://woogoro.com/api/hvac-estimate
 Samples tested: 16
 
 **Counter at start:** 3895

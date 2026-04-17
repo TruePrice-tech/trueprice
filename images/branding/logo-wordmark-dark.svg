@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <!-- Woogoro Wordmark - Dark Background Version -->
+  <!-- The double-O forms a subtle binocular/lens motif = "seeing the true price" -->
+  <rect width="400" height="100" fill="#0f172a"/>
+
+  <!-- Accent bar -->
+  <rect x="30" y="72" width="60" height="4" rx="2" fill="#3b82f6"/>
+
+  <!-- Wordmark -->
+  <text x="30" y="62" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="48" fill="white" letter-spacing="-1.5">
+    W<tspan fill="#60a5fa">oo</tspan>goro
+  </text>
+</svg>

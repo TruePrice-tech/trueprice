@@ -1,7 +1,7 @@
 """
 Add test-mode skip to every analyzer endpoint's flywheel bridge.
 
-When the request includes header `X-TruePrice-Test: 1`, the bridge
+When the request includes header `X-Woogoro-Test: 1`, the bridge
 skips:
   1. tp:total_quotes counter increment
   2. cal:* calibration aggregate writes
@@ -28,7 +28,7 @@ MOVING_MARKER = "// Bridge to the unified calibration flywheel"
 
 # What we want to inject AT THE TOP of the bridge block
 TEST_SKIP_BLOCK = (
-    '    // Test-mode skip: synthetic test fixtures (X-TruePrice-Test: 1)\n'
+    '    // Test-mode skip: synthetic test fixtures (X-Woogoro-Test: 1)\n'
     '    // do NOT count toward the public counter or feed pricing aggregates.\n'
     '    // Only real-world quotes from real users should affect either.\n'
     '    const _isTestMode = req.headers["x-trueprice-test"] === "1";\n'

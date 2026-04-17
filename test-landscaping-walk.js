@@ -11,7 +11,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p1 = await browser.newPage();
   var e1 = [];
   p1.on("pageerror", err => e1.push(err.message.substring(0, 120)));
-  await p1.goto("https://truepricehq.com/landscaping-estimate.html", { waitUntil: "networkidle2", timeout: 15000 });
+  await p1.goto("https://woogoro.com/landscaping-estimate.html", { waitUntil: "networkidle2", timeout: 15000 });
 
   // 1. Address
   console.log("1. ADDRESS");
@@ -161,7 +161,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p2 = await browser.newPage();
   var e2 = [];
   p2.on("pageerror", e => e2.push(e.message.substring(0, 80)));
-  var r2 = await p2.goto("https://truepricehq.com/landscaping-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 15000 });
+  var r2 = await p2.goto("https://woogoro.com/landscaping-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 15000 });
   var hasUpload = await p2.evaluate(() => !!document.querySelector("input[type=file]") || document.body.innerText.includes("Upload"));
   console.log("   Status: " + r2.status() + " | Upload: " + hasUpload + " | JS errors: " + (e2.length ? e2.join("; ") : "NONE"));
   console.log("   PASS");
@@ -174,7 +174,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p3 = await browser.newPage();
   var e3 = [];
   p3.on("pageerror", e => e3.push(e.message.substring(0, 80)));
-  var r3 = await p3.goto("https://truepricehq.com/compare-landscaping-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
+  var r3 = await p3.goto("https://woogoro.com/compare-landscaping-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
   var slots = await p3.evaluate(() => document.querySelectorAll("input[type=file]").length);
   console.log("   Status: " + r3.status() + " | Slots: " + slots + " | JS errors: " + (e3.length ? e3.join("; ") : "NONE"));
   console.log("   PASS");

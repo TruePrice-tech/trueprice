@@ -13,7 +13,7 @@ const path = require('path');
 const https = require('https');
 
 const KEY = '998500a3bd45aa35665eeda2a8cc6057';
-const HOST = 'truepricehq.com';
+const HOST = 'woogoro.com';
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const ENDPOINT = 'https://api.indexnow.org/IndexNow';
 const BATCH_SIZE = 10000;

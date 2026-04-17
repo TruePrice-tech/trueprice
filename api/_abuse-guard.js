@@ -150,7 +150,7 @@ export async function runAbuseGuard(req, opts = {}) {
     return {
       ok: false,
       status: 403,
-      error: "Request blocked. Please open truepricehq.com directly in your browser to use this tool.",
+      error: "Request blocked. Please open woogoro.com directly in your browser to use this tool.",
     };
   }
 

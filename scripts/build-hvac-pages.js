@@ -10,7 +10,7 @@ const SITEMAP_PATH = path.join(ROOT, "sitemap-hvac.xml");
 const CONTEXT_PATH = path.join(ROOT, "data", "hvac-city-context.json");
 const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
 
-const SITE_BASE_URL = "https://truepricehq.com";
+const SITE_BASE_URL = "https://woogoro.com";
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));

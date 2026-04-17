@@ -1,7 +1,7 @@
 # Auto Test Results
 
 Run: 2026-04-08 12:13:16
-Endpoint: https://truepricehq.com/api/auto-repair-estimate
+Endpoint: https://woogoro.com/api/auto-repair-estimate
 Samples tested: 16
 
 **Counter at start:** 3895

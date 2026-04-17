@@ -106,7 +106,7 @@ async function fetchByDot(dotNumber) {
   const url = "https://safer.fmcsa.dot.gov/query.asp?searchtype=ANY&query_type=queryCarrierSnapshot&query_param=USDOT&query_string=" + encodeURIComponent(dotNumber);
   const r = await fetch(url, {
     headers: {
-      "User-Agent": "TruePriceUSDOTLookup/1.0 (+https://truepricehq.com)",
+      "User-Agent": "WoogoroUSDOTLookup/1.0 (+https://woogoro.com)",
       "Accept": "text/html"
     }
   });
@@ -119,7 +119,7 @@ async function fetchByName(name) {
   const url = "https://safer.fmcsa.dot.gov/keywordx.asp?searchstring=" + encodeURIComponent("*" + name + "*") + "&SEARCHTYPE=";
   const r = await fetch(url, {
     headers: {
-      "User-Agent": "TruePriceUSDOTLookup/1.0 (+https://truepricehq.com)",
+      "User-Agent": "WoogoroUSDOTLookup/1.0 (+https://woogoro.com)",
       "Accept": "text/html"
     }
   });
@@ -130,14 +130,14 @@ async function fetchByName(name) {
   if (!m) return null;
   const snapshotUrl = m[1].startsWith("http") ? m[1] : "https://safer.fmcsa.dot.gov/" + m[1];
   const r2 = await fetch(snapshotUrl, {
-    headers: { "User-Agent": "TruePriceUSDOTLookup/1.0", "Accept": "text/html" }
+    headers: { "User-Agent": "WoogoroUSDOTLookup/1.0", "Accept": "text/html" }
   });
   if (!r2.ok) return null;
   return parseSnapshot(await r2.text());
 }
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "https://truepricehq.com");
+  res.setHeader("Access-Control-Allow-Origin", "https://woogoro.com");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.status(204).end();

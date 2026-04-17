@@ -13,7 +13,7 @@ const path = require("path");
   const p1 = await browser.newPage();
   const e1 = [];
   p1.on("pageerror", err => e1.push(err.message.substring(0, 120)));
-  await p1.goto("https://truepricehq.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
+  await p1.goto("https://woogoro.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
 
   console.log("Step 1: Enter address...");
   await p1.waitForSelector("#journeyStreetAddress", { timeout: 5000 });
@@ -110,7 +110,7 @@ const path = require("path");
   const p2 = await browser.newPage();
   const e2 = [];
   p2.on("pageerror", err => e2.push(err.message.substring(0, 120)));
-  await p2.goto("https://truepricehq.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
+  await p2.goto("https://woogoro.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
 
   console.log("Step 1: Enter address...");
   await p2.waitForSelector("#journeyStreetAddress", { timeout: 5000 });
@@ -176,7 +176,7 @@ const path = require("path");
   const p3 = await browser.newPage();
   const e3 = [];
   p3.on("pageerror", err => e3.push(err.message.substring(0, 120)));
-  await p3.goto("https://truepricehq.com/compare-roofing-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
+  await p3.goto("https://woogoro.com/compare-roofing-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
 
   console.log("Step 1: Load compare page...");
   const compare = await p3.evaluate(() => {

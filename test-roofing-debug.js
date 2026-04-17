@@ -29,7 +29,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     }
   });
 
-  await p1.goto("https://truepricehq.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
+  await p1.goto("https://woogoro.com/roofing-quote-analyzer.html?mode=estimator", { waitUntil: "networkidle2", timeout: 20000 });
 
   // Enter address
   await p1.waitForSelector("#journeyStreetAddress", { timeout: 5000 });
@@ -267,7 +267,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
     }
   });
 
-  await p2.goto("https://truepricehq.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
+  await p2.goto("https://woogoro.com/roofing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 20000 });
 
   // Address
   await p2.waitForSelector("#journeyStreetAddress", { timeout: 5000 });

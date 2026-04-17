@@ -99,7 +99,7 @@ Approximately **74 million Americans (~30% of US households)** live in HOA-gover
 - Application 30-90 days in advance
 - Sometimes neighbor notification
 
-**Failure to get HOA approval before re-siding can result in forced removal** at the homeowner's expense. Real cases on record. The TruePrice estimator should always prompt for HOA status and surface a warning to get written approval before signing the contract.
+**Failure to get HOA approval before re-siding can result in forced removal** at the homeowner's expense. Real cases on record. The Woogoro estimator should always prompt for HOA status and surface a warning to get written approval before signing the contract.
 
 ## Historic district approval
 
@@ -169,7 +169,7 @@ Some jurisdictions (CA Title 24, WA, OR, NY) interpret a full re-side as trigger
 - **Coastal NC, SC, GA, TX**: similar wind-rated fastening, often local amendments to IRC.
 - **Tornado-prone Midwest**: no special siding code, but homeowners are increasingly choosing steel/Hardie/LP for hail resistance.
 
-## Quick reference: what to surface to a homeowner in the TruePrice estimator
+## Quick reference: what to surface to a homeowner in the Woogoro estimator
 
 Based on house age and zip:
 

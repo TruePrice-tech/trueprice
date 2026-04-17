@@ -15,7 +15,7 @@ const path = require("path");
 
 const BASE_URL = process.argv.includes("--local")
   ? "http://localhost:3000"
-  : "https://truepricehq.com";
+  : "https://woogoro.com";
 
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 
@@ -211,7 +211,7 @@ async function main() {
     ? TESTS.filter(function(t) { return t.vertical === targetVertical; })
     : TESTS;
 
-  console.log("=== TruePrice Vertical Test Suite ===");
+  console.log("=== Woogoro Vertical Test Suite ===");
   console.log("API Base: " + BASE_URL);
   console.log("Tests: " + tests.length);
   console.log("");

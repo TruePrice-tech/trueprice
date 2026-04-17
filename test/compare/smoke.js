@@ -12,7 +12,7 @@ const puppeteer = require("puppeteer");
 const path = require("path");
 const fs = require("fs");
 
-const BASE_URL = process.env.BASE_URL || "https://truepricehq.com";
+const BASE_URL = process.env.BASE_URL || "https://woogoro.com";
 const FIXTURES_ROOT = path.resolve(__dirname, "..", "..", "test-quotes");
 
 // Map vertical -> compare page path + fixture naming

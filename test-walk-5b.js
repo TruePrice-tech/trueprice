@@ -10,7 +10,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   page.setDefaultTimeout(20000);
   if (!fs.existsSync('test-results')) fs.mkdirSync('test-results');
 
-  const BASE = 'https://truepricehq.com';
+  const BASE = 'https://woogoro.com';
   const issues = [];
 
   function log(msg) { console.log(msg); }

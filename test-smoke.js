@@ -2,7 +2,7 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 const PAGES = [
   // Single-quote analyzers

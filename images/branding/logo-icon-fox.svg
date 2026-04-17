@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Woogoro Fox Icon - Geometric Trudy -->
+  <!-- Simplified fennec fox face as brand icon -->
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#0f172a"/>
+
+  <!-- Left ear -->
+  <polygon points="45,85 55,20 80,70" fill="#f4a460" stroke="#e8944a" stroke-width="2"/>
+  <!-- Left ear inner -->
+  <polygon points="52,75 58,35 73,65" fill="#ffd4a8"/>
+
+  <!-- Right ear -->
+  <polygon points="155,85 145,20 120,70" fill="#f4a460" stroke="#e8944a" stroke-width="2"/>
+  <!-- Right ear inner -->
+  <polygon points="148,75 142,35 127,65" fill="#ffd4a8"/>
+
+  <!-- Head/face -->
+  <ellipse cx="100" cy="105" rx="52" ry="48" fill="#f4a460"/>
+
+  <!-- Face patch (lighter) -->
+  <ellipse cx="100" cy="115" rx="38" ry="35" fill="#fdebd0"/>
+
+  <!-- Left eye -->
+  <ellipse cx="82" cy="98" rx="8" ry="9" fill="#1a1a2e"/>
+  <ellipse cx="84" cy="96" rx="3" ry="3.5" fill="white"/>
+
+  <!-- Right eye -->
+  <ellipse cx="118" cy="98" rx="8" ry="9" fill="#1a1a2e"/>
+  <ellipse cx="120" cy="96" rx="3" ry="3.5" fill="white"/>
+
+  <!-- Nose -->
+  <ellipse cx="100" cy="112" rx="5" ry="3.5" fill="#1a1a2e"/>
+
+  <!-- Mouth -->
+  <path d="M95,116 Q100,122 105,116" fill="none" stroke="#1a1a2e" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Blue bow (Trudy's signature) -->
+  <g transform="translate(140, 55)">
+    <path d="M0,0 Q-10,-8 -5,-15 Q0,-10 0,0" fill="#3b82f6"/>
+    <path d="M0,0 Q10,-8 5,-15 Q0,-10 0,0" fill="#3b82f6"/>
+    <path d="M0,0 Q-10,8 -5,15 Q0,10 0,0" fill="#3b82f6"/>
+    <path d="M0,0 Q10,8 5,15 Q0,10 0,0" fill="#3b82f6"/>
+    <circle cx="0" cy="0" r="3" fill="#60a5fa"/>
+  </g>
+</svg>

@@ -823,20 +823,20 @@ function createCityPageHTML(metro) {
 <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Auto Repair Cost in ${displayName}, ${state} (2026) | TruePrice</title>
+<title>Auto Repair Cost in ${displayName}, ${state} (2026) | Woogoro</title>
 <meta name="description" content="Average auto repair costs in ${displayName}, ${state}. Compare labor rates, common repair prices, and find fair pricing for your vehicle.">
-<link rel="canonical" href="https://truepricehq.com/${metro.file}">
+<link rel="canonical" href="https://woogoro.com/${metro.file}">
 <meta name="robots" content="index,follow">
 
-<meta property="og:title" content="Auto Repair Cost in ${displayName}, ${state} | TruePrice">
+<meta property="og:title" content="Auto Repair Cost in ${displayName}, ${state} | Woogoro">
 <meta property="og:description" content="See average auto repair costs in ${displayName}, ${state} and check if your quote looks fair.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://truepricehq.com/${metro.file}">
-<meta property="og:site_name" content="TruePrice">
-<meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg">
+<meta property="og:url" content="https://woogoro.com/${metro.file}">
+<meta property="og:site_name" content="Woogoro">
+<meta property="og:image" content="https://woogoro.com/images/woogoro-social.svg">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Auto Repair Cost in ${displayName}, ${state} | TruePrice">
+<meta name="twitter:title" content="Auto Repair Cost in ${displayName}, ${state} | Woogoro">
 <meta name="twitter:description" content="Compare auto repair prices in ${displayName}, ${state}.">
 
 <link rel="stylesheet" href="/css/trueprice.min.css">
@@ -846,8 +846,8 @@ function createCityPageHTML(metro) {
 "@context":"https://schema.org",
 "@type":"Article",
 "headline":"Auto Repair Cost in ${displayName}, ${state}",
-"author":{"@type":"Organization","name":"TruePrice"},
-"publisher":{"@type":"Organization","name":"TruePrice"},
+"author":{"@type":"Organization","name":"Woogoro"},
+"publisher":{"@type":"Organization","name":"Woogoro"},
 "datePublished":"2026-04-16","dateModified":"2026-04-16"
 }
 </script>
@@ -857,8 +857,8 @@ function createCityPageHTML(metro) {
 "@context":"https://schema.org",
 "@type":"BreadcrumbList",
 "itemListElement":[
-{"@type":"ListItem","position":1,"name":"Home","item":"https://truepricehq.com/"},
-{"@type":"ListItem","position":2,"name":"Auto Repair","item":"https://truepricehq.com/auto-repair.html"},
+{"@type":"ListItem","position":1,"name":"Home","item":"https://woogoro.com/"},
+{"@type":"ListItem","position":2,"name":"Auto Repair","item":"https://woogoro.com/auto-repair.html"},
 {"@type":"ListItem","position":3,"name":"${displayName}"}
 ]
 }
@@ -871,7 +871,7 @@ function createCityPageHTML(metro) {
 
 <header class="site-header">
 <div class="container">
-<a class="logo" href="/">TruePrice</a>
+<a class="logo" href="/">Woogoro</a>
 <nav>
 <a href="/all-cities.html">Cities</a>
 <a href="/guides.html">Guides</a>
@@ -945,14 +945,14 @@ from oil changes to major engine work.
   </div>
   <div class="tp-footer-col">
     <h4>About</h4>
-    <a href="/about.html">About TruePrice</a>
+    <a href="/about.html">About Woogoro</a>
     <a href="/methodology.html">Methodology</a>
     <a href="/accessibility.html">Accessibility</a>
     <a href="/privacy.html">Privacy</a>
     <a href="/terms.html">Terms</a>
   </div>
 </div>
-<p>TruePrice helps homeowners and vehicle owners analyze contractor quotes, compare bids, and estimate costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p>
+<p>Woogoro helps homeowners and vehicle owners analyze contractor quotes, compare bids, and estimate costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p>
 </div>
 </footer>
 

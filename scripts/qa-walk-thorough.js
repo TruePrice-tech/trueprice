@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * qa-walk-thorough.js — full human-like walkthrough of TruePrice flows.
+ * qa-walk-thorough.js — full human-like walkthrough of Woogoro flows.
  *
  * For each vertical and each path:
  *   1. Open page, wait until DOM is FULLY rendered + JS settled (not just networkidle)
@@ -19,7 +19,7 @@ const path = require("path");
 
 const ROOT = path.dirname(__dirname);
 const OUT_DIR = path.join(ROOT, "output", "qa-thorough");
-const BASE = "https://truepricehq.com";
+const BASE = "https://woogoro.com";
 
 // Wait helpers
 const sleep = ms => new Promise(r => setTimeout(r, ms));

@@ -37,7 +37,7 @@ def main():
     stamp = time.strftime("%Y-%m-%d-%H%M")
     log_path = f"test-results/run-{stamp}.md"
     log = open(log_path, "w", encoding="utf-8")
-    log.write(f"# TruePrice full test run — {stamp}\n\n")
+    log.write(f"# Woogoro full test run — {stamp}\n\n")
 
     failures = []
     for name, cmd in STEPS:

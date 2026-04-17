@@ -14,7 +14,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p1 = await browser.newPage();
   var e1 = [];
   p1.on("pageerror", err => e1.push(err.message.substring(0, 100)));
-  await p1.goto("https://truepricehq.com/fencing-estimate.html", { waitUntil: "networkidle2", timeout: 15000 });
+  await p1.goto("https://woogoro.com/fencing-estimate.html", { waitUntil: "networkidle2", timeout: 15000 });
 
   // Check address form visible
   var hasAddr = await p1.evaluate(() => !!document.getElementById("addrStreet"));
@@ -118,7 +118,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p2 = await browser.newPage();
   var e2 = [];
   p2.on("pageerror", err => e2.push(err.message.substring(0, 100)));
-  await p2.goto("https://truepricehq.com/fencing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 15000 });
+  await p2.goto("https://woogoro.com/fencing-quote-analyzer.html", { waitUntil: "networkidle2", timeout: 15000 });
   console.log("1. Page loaded: " + (await p2.evaluate(() => document.body.innerText.length)) + " chars");
   console.log("   Has upload: " + (await p2.evaluate(() => !!document.querySelector("input[type=file]") || document.body.innerText.includes("Upload"))));
   console.log("   JS errors: " + (e2.length ? e2.join("; ") : "NONE"));
@@ -133,7 +133,7 @@ async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   const p3 = await browser.newPage();
   var e3 = [];
   p3.on("pageerror", err => e3.push(err.message.substring(0, 100)));
-  await p3.goto("https://truepricehq.com/compare-fencing-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
+  await p3.goto("https://woogoro.com/compare-fencing-quotes.html", { waitUntil: "networkidle2", timeout: 15000 });
   var cmpState = await p3.evaluate(() => ({
     slots: document.querySelectorAll("input[type=file]").length,
     hasTitle: document.body.innerText.includes("Compare"),

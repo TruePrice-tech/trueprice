@@ -1,6 +1,6 @@
 # Windows red flags + estimator UX research
 
-_Compiled 2026-04-07 for TruePrice windows vertical. Sources listed at bottom._
+_Compiled 2026-04-07 for Woogoro windows vertical. Sources listed at bottom._
 
 ## Part 1: Red flags to detect in uploaded quotes
 
@@ -210,11 +210,11 @@ _Compiled 2026-04-07 for TruePrice windows vertical. Sources listed at bottom._
 - **Result format**: Filterable list of certified products with exact NFRC ratings.
 - **Trust signals**: Federal agency, manufacturer-verified data.
 - **Red flags in their UX**: None — it's a government reference tool.
-- **Worth stealing**: Climate-zone-aware U-factor/SHGC recommendation. TruePrice can ask for zip, derive climate zone, and tell user the target U-factor for their region.
+- **Worth stealing**: Climate-zone-aware U-factor/SHGC recommendation. Woogoro can ask for zip, derive climate zone, and tell user the target U-factor for their region.
 
 ---
 
-## Synthesis: what TruePrice's windows estimator should ask and show
+## Synthesis: what Woogoro's windows estimator should ask and show
 
 ### Required fields (4-5)
 1. **ZIP code** — drives city name in result, climate zone, labor rate, permit cost, tax credit availability.
@@ -245,7 +245,7 @@ _Compiled 2026-04-07 for TruePrice windows vertical. Sources listed at bottom._
 ### 3 most differentiated features
 1. **Upload-and-scan red flag detector**. No competitor has this. Runs the regex set from Part 1 against an uploaded PDF/image quote and returns a plain-English warning per hit. This is the moat.
 2. **Climate-zone U-factor/SHGC recommendation** tied to 25C tax credit eligibility, with a pre-filled checklist the user can hand to their contractor. Competitors mention ENERGY STAR but none tell the user the specific target numbers for their zip.
-3. **City-named, itemized, all-in result** with explicit disposal + permit + capping line items. Every competitor either hides these (lead-gen sites) or ignores them (cost guides). TruePrice's headline number is the only one that matches what will actually be on the final invoice.
+3. **City-named, itemized, all-in result** with explicit disposal + permit + capping line items. Every competitor either hides these (lead-gen sites) or ignores them (cost guides). Woogoro's headline number is the only one that matches what will actually be on the final invoice.
 
 ---
 

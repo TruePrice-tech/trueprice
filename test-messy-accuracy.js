@@ -56,7 +56,7 @@ function pad(s, n) { return (s + " ".repeat(n)).slice(0, n); }
       let gotPrice = 0, status = "?";
 
       try {
-        await page.goto("https://truepricehq.com" + v.url, { waitUntil: "networkidle2", timeout: 20000 });
+        await page.goto("https://woogoro.com" + v.url, { waitUntil: "networkidle2", timeout: 20000 });
         const fileInput = await page.$("input[type='file']");
         if (!fileInput) { status = "NO INPUT"; await page.close(); continue; }
 
@@ -118,7 +118,7 @@ function pad(s, n) { return (s + " ".repeat(n)).slice(0, n); }
     let s0 = "?", s1 = "?", status = "?";
 
     try {
-      await page.goto("https://truepricehq.com" + v.url, { waitUntil: "networkidle2", timeout: 20000 });
+      await page.goto("https://woogoro.com" + v.url, { waitUntil: "networkidle2", timeout: 20000 });
       const inputs = await page.$$("input[type='file']");
       if (inputs.length < 2) { status = "NO INPUTS"; await page.close(); continue; }
 

@@ -10,7 +10,7 @@ function generateCode() {
 }
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "https://truepricehq.com");
+  res.setHeader("Access-Control-Allow-Origin", "https://woogoro.com");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -50,13 +50,13 @@ export default async function handler(req, res) {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            from: "TruePrice <noreply@truepricehq.com>",
+            from: "Woogoro <noreply@woogoro.com>",
             to: [emailLower],
-            subject: "TruePrice Verification Code: " + verifyCode,
+            subject: "Woogoro Verification Code: " + verifyCode,
             html: `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px;">
-              <h2 style="color:#1e293b;">Your TruePrice Verification Code</h2>
+              <h2 style="color:#1e293b;">Your Woogoro Verification Code</h2>
               <div style="font-size:36px;font-weight:800;letter-spacing:8px;color:#1d4ed8;background:#f0f9ff;padding:20px;text-align:center;border-radius:12px;margin:20px 0;">${verifyCode}</div>
-              <p style="color:#475569;">Enter this code on the TruePrice contractor signup page to verify your business email.</p>
+              <p style="color:#475569;">Enter this code on the Woogoro contractor signup page to verify your business email.</p>
               <p style="color:#94a3b8;font-size:13px;">This code expires in 15 minutes. If you didn't request this, ignore this email.</p>
             </div>`
           })

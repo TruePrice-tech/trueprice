@@ -101,7 +101,7 @@ function pad(s, n) { return (s + " ".repeat(n)).slice(0, n); }
     let status = "?", price = 0, issues = [];
 
     try {
-      await page.goto("https://truepricehq.com" + v.url, { waitUntil: "networkidle2", timeout: 20000 });
+      await page.goto("https://woogoro.com" + v.url, { waitUntil: "networkidle2", timeout: 20000 });
 
       // Fill address
       const allInputs = await page.$$("input");

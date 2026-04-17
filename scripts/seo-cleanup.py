@@ -1,12 +1,12 @@
 """
-SEO cleanup script for TruePrice.
+SEO cleanup script for Woogoro.
 
 Phases:
   1. Delete numeric-prefixed roof-cost duplicate pages (build script bug)
      where a proper-slugged alternative already exists.
   2. Add canonical <link> tags to material-variant pages pointing back to
      the parent city page so Google de-duplicates them.
-  3. Inject a small "Other TruePrice tools" link block into city cost pages
+  3. Inject a small "Other Woogoro tools" link block into city cost pages
      so the new flagship tools (auto-repair, find-contractors)
      get internal links from 1500+ city pages.
   4. Regenerate sitemap.xml with fresh per-file lastmod dates and only the
@@ -121,7 +121,7 @@ def phase2_add_material_canonicals():
                 continue  # parent missing — leave as-is
             with open(f, "r", encoding="utf-8", errors="replace") as fh:
                 content = fh.read()
-            new_canon = f'<link rel="canonical" href="https://truepricehq.com/{parent}" />'
+            new_canon = f'<link rel="canonical" href="https://woogoro.com/{parent}" />'
             # Replace existing canonical (likely self-referential) with parent canonical
             new_content, n = re.subn(
                 r'<link rel="canonical"[^>]*/?>',
@@ -151,7 +151,7 @@ def phase2_add_material_canonicals():
 # ============================================================
 TOOLS_BLOCK = '''<!-- TP-INTERNAL-TOOLS-BLOCK -->
 <section class="tp-tools-block" style="margin:32px 0;padding:24px;background:#f8fafc;border-radius:14px;border:1px solid #e2e8f0;">
-  <h3 style="margin:0 0 12px;font-size:18px;color:#1e293b;">More TruePrice tools for {CITY_TITLE}</h3>
+  <h3 style="margin:0 0 12px;font-size:18px;color:#1e293b;">More Woogoro tools for {CITY_TITLE}</h3>
   <p style="margin:0 0 16px;font-size:14px;color:#64748b;">Free pricing tools that work anywhere in {CITY_TITLE} and across the US.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
     <a href="/auto-repair.html" style="display:block;padding:14px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-weight:600;font-size:14px;">Auto repair pricing &rarr;<div style="font-weight:400;color:#64748b;font-size:12px;margin-top:2px;">98 repairs, BLS-backed labor rates</div></a>
@@ -257,7 +257,7 @@ def phase4_regenerate_sitemap():
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             f.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
             for u, lm in urls:
-                f.write(f'  <url><loc>https://truepricehq.com/{u}</loc><lastmod>{lm}</lastmod></url>\n')
+                f.write(f'  <url><loc>https://woogoro.com/{u}</loc><lastmod>{lm}</lastmod></url>\n')
             f.write('</urlset>\n')
         print("  wrote sitemap.xml")
     else:
@@ -268,13 +268,13 @@ def phase4_regenerate_sitemap():
                 f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
                 f.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
                 for u, lm in chunk:
-                    f.write(f'  <url><loc>https://truepricehq.com/{u}</loc><lastmod>{lm}</lastmod></url>\n')
+                    f.write(f'  <url><loc>https://woogoro.com/{u}</loc><lastmod>{lm}</lastmod></url>\n')
                 f.write('</urlset>\n')
         with open("sitemap.xml","w",encoding="utf-8") as f:
             f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             f.write('<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
             for i in range(1, len(chunks)+1):
-                f.write(f'  <sitemap><loc>https://truepricehq.com/sitemap-{i}.xml</loc></sitemap>\n')
+                f.write(f'  <sitemap><loc>https://woogoro.com/sitemap-{i}.xml</loc></sitemap>\n')
             f.write('</sitemapindex>\n')
         print(f"  wrote {len(chunks)} sitemap chunks + sitemap.xml index")
     return len(urls)

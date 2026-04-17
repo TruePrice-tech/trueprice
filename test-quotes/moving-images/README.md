@@ -25,7 +25,7 @@ hidden. We never store user identity from these images and never link them
 back to the original Reddit account.
 
 If you (the original poster) want a sample removed, email
-hello@truepricehq.com and it will be deleted within 24 hours.
+hello@woogoro.com and it will be deleted within 24 hours.
 
 ## Samples
 

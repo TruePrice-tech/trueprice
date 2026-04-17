@@ -16,7 +16,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-BASE = "https://truepricehq.com"
+BASE = "https://woogoro.com"
 
 # Map test folder name -> API endpoint slug
 VERTICAL_ENDPOINTS = {
@@ -35,7 +35,7 @@ VERTICAL_ENDPOINTS = {
 
 def get_counter():
     try:
-        req = urllib.request.Request(f"{BASE}/api/analytics?counter=1", headers={"User-Agent":"TruePriceTest/1.0"})
+        req = urllib.request.Request(f"{BASE}/api/analytics?counter=1", headers={"User-Agent":"WoogoroTest/1.0"})
         with urllib.request.urlopen(req, timeout=10) as r:
             return json.loads(r.read()).get("count", 0)
     except:
@@ -98,10 +98,10 @@ def post_image(endpoint, fpath):
         headers={
             "Content-Type": "application/json",
             "Origin": BASE,
-            "User-Agent": "Mozilla/5.0 (TruePriceTest)",
+            "User-Agent": "Mozilla/5.0 (WoogoroTest)",
             # Test-mode header: tells endpoints to skip flywheel writes so
             # synthetic fixtures don't pollute counter or pricing aggregates.
-            "X-TruePrice-Test": "1"
+            "X-Woogoro-Test": "1"
         }
     )
     t0 = time.time()

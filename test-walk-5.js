@@ -10,7 +10,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   page.setDefaultTimeout(15000);
   if (!fs.existsSync('test-results')) fs.mkdirSync('test-results');
 
-  const BASE = 'https://truepricehq.com';
+  const BASE = 'https://woogoro.com';
   const issues = [];
 
   function log(msg) { console.log(msg); }
@@ -117,7 +117,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   await page.goto(BASE, { waitUntil: 'networkidle2' });
   log('Loaded: ' + page.url());
   const heroCards = await page.evaluate(() => {
-    return Array.from(document.querySelectorAll('a')).filter(a => a.href && /hvac|painting|fencing|auto|moving|roofing|plumbing|electrical|solar/i.test(a.href) && !a.href.includes('#')).map(a => ({text: a.textContent.trim().substring(0, 40), href: a.href.replace('https://truepricehq.com', '')})).slice(0, 25);
+    return Array.from(document.querySelectorAll('a')).filter(a => a.href && /hvac|painting|fencing|auto|moving|roofing|plumbing|electrical|solar/i.test(a.href) && !a.href.includes('#')).map(a => ({text: a.textContent.trim().substring(0, 40), href: a.href.replace('https://woogoro.com', '')})).slice(0, 25);
   });
   log('Vertical links: ' + heroCards.length);
   heroCards.forEach(l => log('  ' + l.text + ' -> ' + l.href));
@@ -128,7 +128,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   await page.goto(BASE + '/get-an-estimate.html', { waitUntil: 'networkidle2' });
   log('URL: ' + page.url());
   const estLinks = await page.evaluate(() => {
-    return Array.from(document.querySelectorAll('a')).filter(a => /estimator|estimate/i.test(a.href)).map(a => ({text: a.textContent.trim().substring(0, 40), href: a.href.replace('https://truepricehq.com', '')}));
+    return Array.from(document.querySelectorAll('a')).filter(a => /estimator|estimate/i.test(a.href)).map(a => ({text: a.textContent.trim().substring(0, 40), href: a.href.replace('https://woogoro.com', '')}));
   });
   log('Estimate links: ' + estLinks.length);
   estLinks.slice(0, 10).forEach(l => log('  ' + l.text + ' -> ' + l.href));
@@ -138,7 +138,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   await page.goto(BASE + '/analyze-my-quote.html', { waitUntil: 'networkidle2' });
   log('URL: ' + page.url());
   const anaLinks = await page.evaluate(() => {
-    return Array.from(document.querySelectorAll('a')).filter(a => /analyzer/i.test(a.href)).map(a => ({text: a.textContent.trim().substring(0, 40), href: a.href.replace('https://truepricehq.com', '')}));
+    return Array.from(document.querySelectorAll('a')).filter(a => /analyzer/i.test(a.href)).map(a => ({text: a.textContent.trim().substring(0, 40), href: a.href.replace('https://woogoro.com', '')}));
   });
   log('Analyzer links: ' + anaLinks.length);
   anaLinks.slice(0, 10).forEach(l => log('  ' + l.text + ' -> ' + l.href));
@@ -148,7 +148,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   await page.goto(BASE + '/compare-quotes-picker.html', { waitUntil: 'networkidle2' });
   log('URL: ' + page.url());
   const cmpPickLinks = await page.evaluate(() => {
-    return Array.from(document.querySelectorAll('a')).filter(a => /compare-.*-quotes/i.test(a.href)).map(a => ({text: a.textContent.trim().substring(0, 40), href: a.href.replace('https://truepricehq.com', '')}));
+    return Array.from(document.querySelectorAll('a')).filter(a => /compare-.*-quotes/i.test(a.href)).map(a => ({text: a.textContent.trim().substring(0, 40), href: a.href.replace('https://woogoro.com', '')}));
   });
   log('Compare vertical links: ' + cmpPickLinks.length);
   cmpPickLinks.slice(0, 10).forEach(l => log('  ' + l.text + ' -> ' + l.href));

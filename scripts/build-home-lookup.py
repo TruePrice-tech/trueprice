@@ -35,16 +35,16 @@ html = '''<!DOCTYPE html>
 <meta charset="UTF-8" />
 <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>What Should This Home Project Cost? | TruePrice</title>
+<title>What Should This Home Project Cost? | Woogoro</title>
 <meta name="description" content="Pick your home project and city. See fair price range for roofing, HVAC, plumbing, electrical, and 12 more services. Free instant estimates." />
-<link rel="canonical" href="https://truepricehq.com/home-cost-lookup.html" />
+<link rel="canonical" href="https://woogoro.com/home-cost-lookup.html" />
 <meta name="robots" content="index,follow" />
-<meta property="og:title" content="What Should This Home Project Cost? | TruePrice" />
+<meta property="og:title" content="What Should This Home Project Cost? | Woogoro" />
 <meta property="og:description" content="Pick a service and city. See fair prices for 16 home services." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://truepricehq.com/home-cost-lookup.html" />
-<meta property="og:site_name" content="TruePrice" />
-<meta property="og:image" content="https://truepricehq.com/images/trueprice-social.svg" />
+<meta property="og:url" content="https://woogoro.com/home-cost-lookup.html" />
+<meta property="og:site_name" content="Woogoro" />
+<meta property="og:image" content="https://woogoro.com/images/trueprice-social.svg" />
 <link rel="stylesheet" href="/css/trueprice.min.css" />
 <style>
 .hcl-wrap{max-width:800px;margin:0 auto;padding:32px 16px;}
@@ -75,7 +75,7 @@ html = '''<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container"><a class="logo" href="/">TruePrice</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
+<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
 
 <main class="hcl-wrap">
 <div class="hcl-hero">
@@ -99,7 +99,7 @@ Estimates based on national averages adjusted by local cost multipliers. Actual 
 </div>
 </main>
 
-<footer class="site-footer"><div class="container"><p>TruePrice helps homeowners understand fair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
+<footer class="site-footer"><div class="container"><p>Woogoro helps homeowners understand fair pricing. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/terms.html" style="color:inherit;">Terms</a></p></div></footer>
 
 <script>
 var SVCS=''' + svc_js + ''';
@@ -139,7 +139,7 @@ document.getElementById("lookupBtn").addEventListener("click", function(){
     var slug=(city?city.toLowerCase().replace(/\\s+/g,"-")+"-"+st.toLowerCase():"");
     var cityPageLink=slug?"/"+slug+"-"+svc.replace("_","-")+"-cost.html":"";
 
-    var shareText=s.label+" in "+locLabel+": "+fmt(lo)+" - "+fmt(hi)+". "+badgeText+". truepricehq.com/home-cost-lookup.html";
+    var shareText=s.label+" in "+locLabel+": "+fmt(lo)+" - "+fmt(hi)+". "+badgeText+". woogoro.com/home-cost-lookup.html";
 
     var h='<div class="hcl-card">';
     h+='<span class="hcl-share" onclick="navigator.clipboard.writeText(\\''+shareText.replace(/'/g,"\\\\'")+'\\'');this.textContent=\\'Copied!\\'">Share</span>';

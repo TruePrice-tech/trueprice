@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const OUTDIR = 'C:/tmp';
-const BASE = 'https://truepricehq.com';
+const BASE = 'https://woogoro.com';
 const FIXTURES = path.join(__dirname, 'test-quotes');
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }

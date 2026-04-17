@@ -2,7 +2,7 @@
 /**
  * cross-seed-calibration.js
  *
- * Populates calibration data from TruePrice's own pricing models.
+ * Populates calibration data from Woogoro's own pricing models.
  * Reads city multipliers + pricing models, computes mid-price estimates,
  * and POSTs them to the calibration API as admin-level seed data.
  *
@@ -23,7 +23,7 @@ const https = require('https');
 // Config
 // ---------------------------------------------------------------------------
 
-const API_HOST = 'truepricehq.com';
+const API_HOST = 'woogoro.com';
 const API_PATH = '/api/calibration';
 const RATE_LIMIT_MS = 200;
 const SAVE_EVERY = 10;

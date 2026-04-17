@@ -28,7 +28,7 @@ try {
   process.exit(1);
 }
 
-const BASE_URL = process.env.BASE_URL || "https://truepricehq.com";
+const BASE_URL = process.env.BASE_URL || "https://woogoro.com";
 const FIXTURES_DIR = path.resolve(__dirname, "..", "test-quotes", "plumbing-images");
 const RESULTS_DIR = path.resolve(__dirname, "..", "test-results", "plumbing");
 const TIMEOUT_MS = 180000; // 3 min per fixture (multi-pass Tesseract is slow on real photos)

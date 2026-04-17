@@ -14,7 +14,7 @@ const cases = [
   for (const c of cases) {
     const page = await browser.newPage();
     await page.setCacheEnabled(false);
-    await page.goto("https://truepricehq.com" + c.url + "?_cb=" + Date.now(), { waitUntil: "networkidle2", timeout: 30000 });
+    await page.goto("https://woogoro.com" + c.url + "?_cb=" + Date.now(), { waitUntil: "networkidle2", timeout: 30000 });
 
     await page.waitForSelector("#" + c.inputId, { timeout: 15000 }).catch(() => null);
     const input = await page.$("#" + c.inputId);

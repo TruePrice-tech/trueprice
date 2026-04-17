@@ -11,7 +11,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-UA = "TruePriceResearch/1.0 (contact: hello@truepricehq.com)"
+UA = "WoogoroResearch/1.0 (contact: hello@woogoro.com)"
 TARGET = 10
 START = time.time()
 TIME_BUDGET = 60 * 60  # 60 minutes hard cap
