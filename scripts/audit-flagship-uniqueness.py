@@ -27,6 +27,8 @@ METROS_PER_VERTICAL = {
     "insulation":  ("insulation",      "FLAGSHIP-INSULATION-CONTENT"),
     "kitchen":     ("kitchen-remodel", "FLAGSHIP-KITCHEN-CONTENT"),
     "landscaping": ("landscaping",     "FLAGSHIP-LANDSCAPING-CONTENT"),
+    "legal":       ("legal",           "FLAGSHIP-LEGAL-CONTENT"),
+    "medical":     ("medical",         "FLAGSHIP-MEDICAL-CONTENT"),
     "moving":      ("moving",          "FLAGSHIP-MOVING-CONTENT"),
     "painting":    ("painting",        "FLAGSHIP-PAINTING-CONTENT"),
     "plumbing":    ("plumbing",        "FLAGSHIP-PLUMBING-CONTENT"),
