@@ -5,603 +5,1278 @@
     "coverage": "Top 50 US cities by population + a few high-traffic secondary cities"
   },
   "new-york-ny": {
-    "displayName": "New York", "state": "New York", "stateAbbr": "NY",
-    "neighborhoods": ["Upper East Side", "Park Slope", "Astoria", "Forest Hills", "Riverdale", "Bay Ridge"],
+    "displayName": "New York",
+    "state": "New York",
+    "stateAbbr": "NY",
+    "neighborhoods": [
+      "Upper East Side",
+      "Park Slope",
+      "Astoria",
+      "Forest Hills",
+      "Riverdale",
+      "Bay Ridge"
+    ],
     "climate": "humid continental with 30+ inches of snow per year, freeze-thaw cycles from December through March, and noreaster wind events that can exceed 60 mph",
     "soil": "bedrock close to the surface in Manhattan but variable glacial till in the outer boroughs; foundation work is rare but expensive when needed",
     "permits": "NYC Department of Buildings (DOB) permits are required for nearly all exterior work and typically take 2-4 weeks; expediters are commonly used to navigate the process",
     "homeAge": "the median residential building was constructed before 1940 and many structures predate modern codes; older brownstones and walk-ups frequently need lead and asbestos abatement",
     "contractorMarket": "labor rates run roughly 40 percent above the national average due to union scale, parking permits, and the cost of staging equipment in dense neighborhoods",
     "roofCodeNote": "Local Law 11 (Facade Inspection Safety Program) requires building owners over six stories to inspect facades every five years",
-    "landmarks": ["Central Park", "Brooklyn Bridge", "Times Square"],
+    "landmarks": [
+      "Central Park",
+      "Brooklyn Bridge",
+      "Times Square"
+    ],
     "geographyNote": "five boroughs spanning Manhattan island, the Bronx, Queens, Brooklyn, and Staten Island, with very different housing stocks and contractor pools"
   },
   "los-angeles-ca": {
-    "displayName": "Los Angeles", "state": "California", "stateAbbr": "CA",
-    "neighborhoods": ["Silver Lake", "Echo Park", "Sherman Oaks", "Mar Vista", "Eagle Rock", "Highland Park"],
+    "displayName": "Los Angeles",
+    "state": "California",
+    "stateAbbr": "CA",
+    "neighborhoods": [
+      "Silver Lake",
+      "Echo Park",
+      "Sherman Oaks",
+      "Mar Vista",
+      "Eagle Rock",
+      "Highland Park"
+    ],
     "climate": "Mediterranean with mild wet winters and dry summers, but increasing wildfire risk in the foothills and Santa Ana wind events that drive embers miles from active fires",
     "soil": "expansive clay soils in the basin plus active fault zones; foundation and grading permits are scrutinized closely",
     "permits": "LADBS plan check can take 4-8 weeks for structural work and any home over 5,000 sqft requires a private plan check engineer",
     "homeAge": "lots of post-WWII bungalows in the 1945-1965 vintage that often need full electrical and plumbing upgrades during major renovations",
     "contractorMarket": "highly competitive but capacity tightens after every wildfire event; verify CSLB license at cslb.ca.gov",
     "roofCodeNote": "Title 24 energy code applies to almost all reroofs, requires cool-roof shingles in many zones, and adds 5-10 percent to material costs",
-    "landmarks": ["Griffith Observatory", "Hollywood Sign", "Santa Monica Pier"],
+    "landmarks": [
+      "Griffith Observatory",
+      "Hollywood Sign",
+      "Santa Monica Pier"
+    ],
     "geographyNote": "spans 469 square miles from coast to mountains; pricing varies meaningfully between coastal Westside and inland San Fernando Valley"
   },
   "chicago-il": {
-    "displayName": "Chicago", "state": "Illinois", "stateAbbr": "IL",
-    "neighborhoods": ["Lincoln Park", "Wicker Park", "Logan Square", "Lakeview", "Hyde Park", "Andersonville"],
+    "displayName": "Chicago",
+    "state": "Illinois",
+    "stateAbbr": "IL",
+    "neighborhoods": [
+      "Lincoln Park",
+      "Wicker Park",
+      "Logan Square",
+      "Lakeview",
+      "Hyde Park",
+      "Andersonville"
+    ],
     "climate": "harsh humid continental winters with lake-effect snow, freeze-thaw damage to flat roofs and gutters, and severe summer thunderstorms that drive hail claims",
     "soil": "heavy clay over glacial till; basements and foundation drainage are constant concerns and most homes have sump pumps",
     "permits": "City of Chicago permits go through the Department of Buildings and standard residential roof permits typically run 2-4 weeks",
     "homeAge": "vast inventory of brick bungalows and three-flats built between 1900-1940, often with deferred maintenance and original-era materials still in place",
     "contractorMarket": "established trades and strong union presence; off-season pricing (November-February) can save 10-15 percent if scheduling is flexible",
     "roofCodeNote": "Chicago Building Code requires Class A fire-rated assemblies on all residential roofing; modified bitumen and EPDM are common on flat roofs",
-    "landmarks": ["Millennium Park", "Navy Pier", "Wrigley Field"],
+    "landmarks": [
+      "Millennium Park",
+      "Navy Pier",
+      "Wrigley Field"
+    ],
     "geographyNote": "the city's grid layout and tightly-packed lots make staging and dumpster placement a real cost factor in dense neighborhoods like Wicker Park"
   },
   "houston-tx": {
-    "displayName": "Houston", "state": "Texas", "stateAbbr": "TX",
-    "neighborhoods": ["The Heights", "Montrose", "River Oaks", "West University", "Bellaire", "Memorial"],
+    "displayName": "Houston",
+    "state": "Texas",
+    "stateAbbr": "TX",
+    "neighborhoods": [
+      "The Heights",
+      "Montrose",
+      "River Oaks",
+      "West University",
+      "Bellaire",
+      "Memorial"
+    ],
     "climate": "humid subtropical with hurricane exposure from the Gulf of Mexico (Harvey, Ike, Beryl), oppressive 95+ degree summers, and frequent severe thunderstorms with hail",
     "soil": "expansive Beaumont clay that swells and shrinks dramatically with moisture, causing widespread foundation movement and slab cracking",
     "permits": "City of Houston permitting moved to an online portal and most residential roof permits issue within 1-3 days",
     "homeAge": "huge stock of 1960s-1990s ranch homes; many in flood-prone areas have been raised or rebuilt post-Harvey",
     "contractorMarket": "capacity tightens significantly after every named storm; verify TDLR license and require proof of windstorm certification (WPI-8) in coastal zones",
     "roofCodeNote": "Texas Department of Insurance windstorm requirements apply within 14 miles of the coast; non-WPI-8 roofs cannot be insured",
-    "landmarks": ["Buffalo Bayou", "Space Center Houston", "Hermann Park"],
+    "landmarks": [
+      "Buffalo Bayou",
+      "Space Center Houston",
+      "Hermann Park"
+    ],
     "geographyNote": "no zoning code citywide, which creates an unusually mixed housing fabric and makes comparable pricing tricky between adjacent blocks"
   },
   "phoenix-az": {
-    "displayName": "Phoenix", "state": "Arizona", "stateAbbr": "AZ",
-    "neighborhoods": ["Arcadia", "Biltmore", "Ahwatukee", "Desert Ridge", "Encanto", "Willo"],
+    "displayName": "Phoenix",
+    "state": "Arizona",
+    "stateAbbr": "AZ",
+    "neighborhoods": [
+      "Arcadia",
+      "Biltmore",
+      "Ahwatukee",
+      "Desert Ridge",
+      "Encanto",
+      "Willo"
+    ],
     "climate": "extreme desert heat with 100+ degree days from May through September, intense UV exposure that degrades exterior building materials 25-30 percent faster than the national average, and monsoon season storms in July-August",
     "soil": "caliche-laden desert soil; rocky and difficult for any excavation work which adds to landscaping and foundation pricing",
     "permits": "City of Phoenix online permits typically issue same-day for residential roofing; HOA approval often takes longer than the city permit",
     "homeAge": "rapid 1990s-2010s growth means lots of 20-30 year old roofs hitting end of life simultaneously, especially in master-planned communities",
     "contractorMarket": "competitive pricing in winter months when snowbirds drive demand; summer is brutal for roofers and many shut down midday",
     "roofCodeNote": "City requires reflective cool-roof coatings on commercial reroofs; residential cool-roof is incentivized but not mandated",
-    "landmarks": ["Camelback Mountain", "Desert Botanical Garden", "South Mountain"],
+    "landmarks": [
+      "Camelback Mountain",
+      "Desert Botanical Garden",
+      "South Mountain"
+    ],
     "geographyNote": "spans 519 square miles across the Valley of the Sun and pricing in Scottsdale and Paradise Valley runs 15-20 percent above central Phoenix"
   },
   "philadelphia-pa": {
-    "displayName": "Philadelphia", "state": "Pennsylvania", "stateAbbr": "PA",
-    "neighborhoods": ["Fishtown", "Northern Liberties", "Manayunk", "Chestnut Hill", "Fairmount", "Queen Village"],
+    "displayName": "Philadelphia",
+    "state": "Pennsylvania",
+    "stateAbbr": "PA",
+    "neighborhoods": [
+      "Fishtown",
+      "Northern Liberties",
+      "Manayunk",
+      "Chestnut Hill",
+      "Fairmount",
+      "Queen Village"
+    ],
     "climate": "humid continental with cold wet winters, occasional ice storms, and heavy summer thunderstorms that test gutter systems",
     "soil": "Wissahickon schist bedrock close to the surface in many neighborhoods; foundation work hits rock quickly which raises excavation pricing",
     "permits": "Philadelphia L&I permits typically take 1-2 weeks for residential work and require a licensed contractor on file",
     "homeAge": "city has the largest stock of pre-1900 rowhomes in the US; party-wall construction means many exterior projects require coordination with neighbors",
     "contractorMarket": "specialized rowhome roofing trade exists separate from suburban roofers; ask any contractor about flat/low-slope rowhome experience",
     "roofCodeNote": "Philadelphia requires lead-safe certification for any work disturbing painted surfaces in pre-1978 homes (most of the city)",
-    "landmarks": ["Liberty Bell", "Fairmount Park", "Reading Terminal Market"],
+    "landmarks": [
+      "Liberty Bell",
+      "Fairmount Park",
+      "Reading Terminal Market"
+    ],
     "geographyNote": "the rowhouse architecture means most repairs happen on flat or low-slope roofs with modified bitumen or rubber membrane"
   },
   "san-antonio-tx": {
-    "displayName": "San Antonio", "state": "Texas", "stateAbbr": "TX",
-    "neighborhoods": ["Alamo Heights", "Stone Oak", "Olmos Park", "Monte Vista", "King William", "Terrell Hills"],
+    "displayName": "San Antonio",
+    "state": "Texas",
+    "stateAbbr": "TX",
+    "neighborhoods": [
+      "Alamo Heights",
+      "Stone Oak",
+      "Olmos Park",
+      "Monte Vista",
+      "King William",
+      "Terrell Hills"
+    ],
     "climate": "hot semi-arid with 100+ degree summers, hail risk from spring storm systems, and occasional flash flooding in low-lying areas",
     "soil": "thin caliche over limestone bedrock; the Edwards Aquifer recharge zone restricts excavation in northern parts of the city",
     "permits": "City of San Antonio permits residential roofing within 3-5 days through the OneStop portal",
     "homeAge": "unique mix of 1920s-1940s craftsman in older central neighborhoods and 1990s-2010s tract housing in the north",
     "contractorMarket": "hail storms drive opportunistic out-of-state contractors; verify local license at TDLR.texas.gov before signing",
     "roofCodeNote": "Bexar County does not require state licensing for roofers but the city requires registration and proof of insurance",
-    "landmarks": ["The Alamo", "River Walk", "San Antonio Missions"],
+    "landmarks": [
+      "The Alamo",
+      "River Walk",
+      "San Antonio Missions"
+    ],
     "geographyNote": "Edwards Aquifer recharge zone restrictions affect any work north of Loop 1604 that involves grading or excavation"
   },
   "san-diego-ca": {
-    "displayName": "San Diego", "state": "California", "stateAbbr": "CA",
-    "neighborhoods": ["La Jolla", "North Park", "Hillcrest", "Pacific Beach", "Encinitas", "Carlsbad"],
+    "displayName": "San Diego",
+    "state": "California",
+    "stateAbbr": "CA",
+    "neighborhoods": [
+      "La Jolla",
+      "North Park",
+      "Hillcrest",
+      "Pacific Beach",
+      "Encinitas",
+      "Carlsbad"
+    ],
     "climate": "mild Mediterranean with rare extreme weather but salt air corrosion near the coast and wildfire risk in the inland canyons",
     "soil": "varies from sandy coastal to clay inland; Mission Valley and parts of Mira Mesa have known expansive clay issues",
     "permits": "San Diego DSD plan check averages 3-6 weeks for any structural work; over-the-counter permits available for simple residential projects",
     "homeAge": "mostly 1950s-1980s in central neighborhoods and newer 1990s-onwards in the suburbs; coastal homes often need salt-resistant materials",
     "contractorMarket": "competitive market with many bilingual crews; Spanish-language quotes are common and fully legitimate",
     "roofCodeNote": "Title 24 cool-roof requirements apply, plus seismic anchoring requirements for any roof structure changes",
-    "landmarks": ["Balboa Park", "Coronado Bridge", "La Jolla Cove"],
+    "landmarks": [
+      "Balboa Park",
+      "Coronado Bridge",
+      "La Jolla Cove"
+    ],
     "geographyNote": "coastal salt air ages exterior metal components 30-50 percent faster within 1 mile of the ocean; inland zones have very different material recommendations"
   },
   "dallas-tx": {
-    "displayName": "Dallas", "state": "Texas", "stateAbbr": "TX",
-    "neighborhoods": ["Highland Park", "Lakewood", "Bishop Arts", "Oak Cliff", "Preston Hollow", "Uptown"],
+    "displayName": "Dallas",
+    "state": "Texas",
+    "stateAbbr": "TX",
+    "neighborhoods": [
+      "Highland Park",
+      "Lakewood",
+      "Bishop Arts",
+      "Oak Cliff",
+      "Preston Hollow",
+      "Uptown"
+    ],
     "climate": "humid subtropical with violent spring hailstorms (DFW is in the heart of Hail Alley), 100+ degree summers, and occasional ice storms in winter",
     "soil": "Houston Black clay that shrinks and swells dramatically; foundation movement is endemic and slab work is a major local industry",
     "permits": "City of Dallas residential permits issue within 1-3 days online; insurance-driven hail repairs can flood the queue after major storms",
     "homeAge": "huge inventory of 1980s-2000s suburban tract homes; many original-era exterior systems are at end of life and due for replacement",
     "contractorMarket": "large hail events bring storm-chasing contractors from out of state; verify local address and TDLR registration",
     "roofCodeNote": "Texas FAIR Plan and many private insurers require Class 4 impact-resistant shingles for windstorm/hail coverage discounts",
-    "landmarks": ["Klyde Warren Park", "Reunion Tower", "Dallas Arboretum"],
+    "landmarks": [
+      "Klyde Warren Park",
+      "Reunion Tower",
+      "Dallas Arboretum"
+    ],
     "geographyNote": "the DFW metroplex is the most active hail damage market in the country, with many homes seeing roof claims every 5-7 years"
   },
   "austin-tx": {
-    "displayName": "Austin", "state": "Texas", "stateAbbr": "TX",
-    "neighborhoods": ["Hyde Park", "Travis Heights", "South Congress", "Tarrytown", "Mueller", "Zilker"],
+    "displayName": "Austin",
+    "state": "Texas",
+    "stateAbbr": "TX",
+    "neighborhoods": [
+      "Hyde Park",
+      "Travis Heights",
+      "South Congress",
+      "Tarrytown",
+      "Mueller",
+      "Zilker"
+    ],
     "climate": "humid subtropical with hot summers, occasional severe drought stress on materials, hail risk in spring, and rare but damaging ice storms (Feb 2021 and 2023)",
     "soil": "varies from limestone-shelf in west Austin (very rocky, hard to excavate) to expansive clay in east Austin",
     "permits": "City of Austin permits notoriously slow; residential roof permits typically take 2-4 weeks unless filed as a self-issued contractor permit",
     "homeAge": "rapid recent growth means lots of 5-15 year old construction in suburbs while central neighborhoods like Hyde Park have 1920s bungalows",
     "contractorMarket": "tight labor market driven by population boom; expect 20-30 percent premium over San Antonio for the same job",
     "roofCodeNote": "City of Austin Energy Conservation Code requires high-reflectivity roof materials in many cases for residential reroofs",
-    "landmarks": ["Lady Bird Lake", "Texas Capitol", "Zilker Park"],
+    "landmarks": [
+      "Lady Bird Lake",
+      "Texas Capitol",
+      "Zilker Park"
+    ],
     "geographyNote": "the Balcones Escarpment splits the city geologically; west Austin is on rock and east Austin is on clay, which dramatically affects foundation and excavation pricing"
   },
   "jacksonville-fl": {
-    "displayName": "Jacksonville", "state": "Florida", "stateAbbr": "FL",
-    "neighborhoods": ["Riverside", "Avondale", "San Marco", "Atlantic Beach", "Mandarin", "Springfield"],
+    "displayName": "Jacksonville",
+    "state": "Florida",
+    "stateAbbr": "FL",
+    "neighborhoods": [
+      "Riverside",
+      "Avondale",
+      "San Marco",
+      "Atlantic Beach",
+      "Mandarin",
+      "Springfield"
+    ],
     "climate": "humid subtropical with hurricane exposure from both the Atlantic and Gulf, year-round humidity that drives mold and rot, and intense UV",
     "soil": "sandy coastal soils; very few foundation movement issues but termite pressure is constant",
     "permits": "Duval County issues residential roof permits within 1-3 days; HVHZ wind requirements apply in coastal zones",
     "homeAge": "mix of 1920s-1940s wood-frame in historic Riverside and Avondale and 1980s-onwards tract homes in suburbs",
     "contractorMarket": "post-hurricane price spikes are common; out-of-state contractors flock in after named storms and many disappear before warranty work",
     "roofCodeNote": "Florida Building Code requires high-velocity hurricane zone (HVHZ) testing for roofing components in much of Duval County",
-    "landmarks": ["Jacksonville Landing", "St. Johns River", "Atlantic Beach"],
+    "landmarks": [
+      "Jacksonville Landing",
+      "St. Johns River",
+      "Atlantic Beach"
+    ],
     "geographyNote": "largest city by area in the contiguous US at 875 square miles, which means contractor service-area surcharges can apply to outlying neighborhoods"
   },
   "fort-worth-tx": {
-    "displayName": "Fort Worth", "state": "Texas", "stateAbbr": "TX",
-    "neighborhoods": ["TCU/West Cliff", "Arlington Heights", "Fairmount", "Westover Hills", "Tanglewood", "Rivercrest"],
+    "displayName": "Fort Worth",
+    "state": "Texas",
+    "stateAbbr": "TX",
+    "neighborhoods": [
+      "TCU/West Cliff",
+      "Arlington Heights",
+      "Fairmount",
+      "Westover Hills",
+      "Tanglewood",
+      "Rivercrest"
+    ],
     "climate": "humid subtropical with severe spring hailstorms (in the heart of Hail Alley), hot summers, and occasional ice storms",
     "soil": "Houston Black clay and similar expansive soils; foundation movement issues mirror Dallas",
     "permits": "City of Fort Worth permits typically issue within 1-3 days through the Accela portal",
     "homeAge": "lots of 1920s-1950s bungalows in central neighborhoods and 1990s-onwards in the suburbs",
     "contractorMarket": "shares hail-storm contractor flux with Dallas; verify local address before signing",
     "roofCodeNote": "Same Texas FAIR Plan Class 4 impact-resistant shingle discounts as Dallas; verify with insurer before purchasing",
-    "landmarks": ["Stockyards", "Sundance Square", "Trinity Park"],
+    "landmarks": [
+      "Stockyards",
+      "Sundance Square",
+      "Trinity Park"
+    ],
     "geographyNote": "shares the DFW hail belt with Dallas; insurance claim cycles drive most of the local roofing market"
   },
   "columbus-oh": {
-    "displayName": "Columbus", "state": "Ohio", "stateAbbr": "OH",
-    "neighborhoods": ["Short North", "German Village", "Clintonville", "Upper Arlington", "Bexley", "Worthington"],
+    "displayName": "Columbus",
+    "state": "Ohio",
+    "stateAbbr": "OH",
+    "neighborhoods": [
+      "Short North",
+      "German Village",
+      "Clintonville",
+      "Upper Arlington",
+      "Bexley",
+      "Worthington"
+    ],
     "climate": "humid continental with cold snowy winters, freeze-thaw cycles, and severe summer thunderstorms with occasional hail",
     "soil": "glacial till over shale; basement waterproofing is a major local trade",
     "permits": "City of Columbus permits typically issue within 1-2 weeks for residential roofing",
     "homeAge": "older central neighborhoods have 1900-1940 wood-frame homes; original sheathing and framing often need partial replacement during major exterior work",
     "contractorMarket": "stable established trades; OSU and state government employment cycles drive predictable construction demand",
     "roofCodeNote": "Ohio Residential Code references the IRC; ice and water shield is required at all eaves",
-    "landmarks": ["Scioto Mile", "Ohio State campus", "Franklin Park Conservatory"],
+    "landmarks": [
+      "Scioto Mile",
+      "Ohio State campus",
+      "Franklin Park Conservatory"
+    ],
     "geographyNote": "rapidly growing metro with new suburbs in Dublin, Delaware, and New Albany seeing significant residential construction"
   },
   "charlotte-nc": {
-    "displayName": "Charlotte", "state": "North Carolina", "stateAbbr": "NC",
-    "neighborhoods": ["Myers Park", "Dilworth", "Plaza Midwood", "South End", "NoDa", "Ballantyne"],
+    "displayName": "Charlotte",
+    "state": "North Carolina",
+    "stateAbbr": "NC",
+    "neighborhoods": [
+      "Myers Park",
+      "Dilworth",
+      "Plaza Midwood",
+      "South End",
+      "NoDa",
+      "Ballantyne"
+    ],
     "climate": "humid subtropical with hot summers averaging 90 degrees, occasional ice storms in January-February, and remnants of Atlantic hurricanes in late summer",
     "soil": "red Carolina clay with frequent foundation movement in older neighborhoods, especially in Myers Park and Dilworth",
     "permits": "Mecklenburg County issues residential permits within 3-5 business days; expedited service available for an additional fee",
     "homeAge": "many homes built between 1950-1985 in established neighborhoods need full tear-off rather than overlay due to multiple existing layers",
     "contractorMarket": "rapid population growth has stretched contractor capacity; book 4-6 weeks ahead during peak season (April-October)",
     "roofCodeNote": "North Carolina requires roofing contractors over $30,000 to be licensed by the NC Licensing Board for General Contractors; verify at nclbgc.org",
-    "landmarks": ["Bank of America Stadium", "Freedom Park", "Charlotte Motor Speedway"],
+    "landmarks": [
+      "Bank of America Stadium",
+      "Freedom Park",
+      "Charlotte Motor Speedway"
+    ],
     "geographyNote": "the Charlotte-Concord-Gastonia metro spans into South Carolina, and pricing in Fort Mill and Indian Land is typically slightly lower than central Charlotte"
   },
   "indianapolis-in": {
-    "displayName": "Indianapolis", "state": "Indiana", "stateAbbr": "IN",
-    "neighborhoods": ["Broad Ripple", "Meridian-Kessler", "Irvington", "Fountain Square", "Carmel", "Zionsville"],
+    "displayName": "Indianapolis",
+    "state": "Indiana",
+    "stateAbbr": "IN",
+    "neighborhoods": [
+      "Broad Ripple",
+      "Meridian-Kessler",
+      "Irvington",
+      "Fountain Square",
+      "Carmel",
+      "Zionsville"
+    ],
     "climate": "humid continental with cold winters, freeze-thaw damage to gutters and flashing, and severe summer storms with hail and straight-line winds",
     "soil": "glacial till with seasonal high water tables in many areas; basement and crawlspace water management is a constant",
     "permits": "City of Indianapolis permits typically issue within 1-2 weeks for residential roofing through the Department of Business and Neighborhood Services",
     "homeAge": "mix of 1900-1930 craftsman in central neighborhoods like Irvington and 1970s-2000s tract housing in suburbs",
     "contractorMarket": "stable competitive market; insurance-driven hail repair work is common in spring",
     "roofCodeNote": "Indiana adopts the IRC with state amendments; ice barrier required at all eaves",
-    "landmarks": ["Monument Circle", "Indianapolis Motor Speedway", "White River State Park"],
+    "landmarks": [
+      "Monument Circle",
+      "Indianapolis Motor Speedway",
+      "White River State Park"
+    ],
     "geographyNote": "mostly flat terrain makes staging easy and keeps labor costs lower than mountainous or coastal markets"
   },
   "san-francisco-ca": {
-    "displayName": "San Francisco", "state": "California", "stateAbbr": "CA",
-    "neighborhoods": ["Noe Valley", "Mission", "Sunset", "Richmond", "Pacific Heights", "Bernal Heights"],
+    "displayName": "San Francisco",
+    "state": "California",
+    "stateAbbr": "CA",
+    "neighborhoods": [
+      "Noe Valley",
+      "Mission",
+      "Sunset",
+      "Richmond",
+      "Pacific Heights",
+      "Bernal Heights"
+    ],
     "climate": "mild Mediterranean with cool foggy summers, wet winters, and salt air corrosion citywide due to proximity to the ocean and bay",
     "soil": "varies dramatically; serpentine and bedrock in the hills, fill in the Marina and SOMA (which liquefied in 1989), and sand in the Sunset",
     "permits": "SF DBI permits are notoriously slow; major residential exterior permits typically take 6-12 weeks unless the contractor uses an expediter",
     "homeAge": "huge stock of pre-1940 Victorian and Edwardian rowhouses with original cedar decking, knob-and-tube wiring, and lath-and-plaster walls",
     "contractorMarket": "labor rates among the highest in the US; union work and bay area cost of living drive minimum prices well above the national average",
     "roofCodeNote": "Title 24 cool-roof requirements apply, plus SF-specific seismic retrofit requirements for soft-story buildings",
-    "landmarks": ["Golden Gate Bridge", "Coit Tower", "Mission Dolores Park"],
+    "landmarks": [
+      "Golden Gate Bridge",
+      "Coit Tower",
+      "Mission Dolores Park"
+    ],
     "geographyNote": "49 square miles of dense urban infill; staging, parking permits, and dumpster placement add 5-15 percent to most exterior projects"
   },
   "seattle-wa": {
-    "displayName": "Seattle", "state": "Washington", "stateAbbr": "WA",
-    "neighborhoods": ["Capitol Hill", "Ballard", "Fremont", "Wallingford", "Queen Anne", "West Seattle"],
+    "displayName": "Seattle",
+    "state": "Washington",
+    "stateAbbr": "WA",
+    "neighborhoods": [
+      "Capitol Hill",
+      "Ballard",
+      "Fremont",
+      "Wallingford",
+      "Queen Anne",
+      "West Seattle"
+    ],
     "climate": "marine west coast with constant wet winters (150+ rain days per year), moss and algae growth on north-facing roofs, and rare but damaging windstorms",
     "soil": "glacial till over clay; landslide risk on steep hillside lots and constant drainage management",
     "permits": "Seattle DCI permits typically take 2-6 weeks for major residential exterior projects depending on whether structural changes are involved",
     "homeAge": "lots of 1920s-1940s craftsman bungalows in central neighborhoods that often need original cedar shake removal",
     "contractorMarket": "tight labor market with strong tech industry wages; off-season (November-February) discounts of 10-15 percent are common",
     "roofCodeNote": "Washington State Energy Code requires specific underlayment ratings; moss treatment is recommended every 2-3 years",
-    "landmarks": ["Space Needle", "Pike Place Market", "Discovery Park"],
+    "landmarks": [
+      "Space Needle",
+      "Pike Place Market",
+      "Discovery Park"
+    ],
     "geographyNote": "the wet climate means moss treatment, gutter cleaning, and drainage maintenance are ongoing costs that don't apply in drier markets"
   },
   "denver-co": {
-    "displayName": "Denver", "state": "Colorado", "stateAbbr": "CO",
-    "neighborhoods": ["Highlands", "Wash Park", "Cherry Creek", "Stapleton", "RiNo", "Capitol Hill"],
+    "displayName": "Denver",
+    "state": "Colorado",
+    "stateAbbr": "CO",
+    "neighborhoods": [
+      "Highlands",
+      "Wash Park",
+      "Cherry Creek",
+      "Stapleton",
+      "RiNo",
+      "Capitol Hill"
+    ],
     "climate": "semi-arid with intense UV exposure at altitude, heavy spring hailstorms (Front Range hail alley), and freeze-thaw cycles",
     "soil": "expansive bentonite clay in many areas; foundation heaving and slab issues are common",
     "permits": "City of Denver permits typically issue within 1-2 weeks; insurance-driven hail repair claims spike permit volume in late spring",
     "homeAge": "lots of 1900-1930 brick bungalows in central neighborhoods and 1990s-onwards in suburban Stapleton and Aurora",
     "contractorMarket": "hail damage drives most of the local roofing market; storm-chasing contractors are common, verify local license",
     "roofCodeNote": "Colorado does not license roofing contractors at the state level but Denver requires city registration and insurance",
-    "landmarks": ["Red Rocks", "Union Station", "Cherry Creek Trail"],
+    "landmarks": [
+      "Red Rocks",
+      "Union Station",
+      "Cherry Creek Trail"
+    ],
     "geographyNote": "mile-high elevation accelerates UV degradation of exterior building materials; expect 25-30 percent shorter lifespan than at sea level"
   },
   "washington-dc": {
-    "displayName": "Washington", "state": "District of Columbia", "stateAbbr": "DC",
-    "neighborhoods": ["Georgetown", "Capitol Hill", "Adams Morgan", "Dupont Circle", "Petworth", "Anacostia"],
+    "displayName": "Washington",
+    "state": "District of Columbia",
+    "stateAbbr": "DC",
+    "neighborhoods": [
+      "Georgetown",
+      "Capitol Hill",
+      "Adams Morgan",
+      "Dupont Circle",
+      "Petworth",
+      "Anacostia"
+    ],
     "climate": "humid subtropical with hot humid summers, cold wet winters, occasional ice storms, and remnants of Atlantic hurricanes",
     "soil": "varies from clay to gravel; many older neighborhoods built on filled creek beds have drainage issues",
     "permits": "DCRA/DOB permits for residential roofing typically take 1-3 weeks; historic district approval (Georgetown, Capitol Hill) adds significant time",
     "homeAge": "extensive stock of 1880s-1920s rowhouses with flat or low-slope roofs requiring modified bitumen or EPDM",
     "contractorMarket": "limited specialized rowhouse roofers; ask explicitly about flat-roof and parapet experience before hiring",
     "roofCodeNote": "Historic Preservation Review Board approval required for any visible exterior work in dozens of historic districts",
-    "landmarks": ["National Mall", "Tidal Basin", "Rock Creek Park"],
+    "landmarks": [
+      "National Mall",
+      "Tidal Basin",
+      "Rock Creek Park"
+    ],
     "geographyNote": "the District is small (68 sq mi) but historic district restrictions cover roughly 25 percent of the housing stock and meaningfully affect material choices"
   },
   "boston-ma": {
-    "displayName": "Boston", "state": "Massachusetts", "stateAbbr": "MA",
-    "neighborhoods": ["Beacon Hill", "South End", "Back Bay", "Jamaica Plain", "Charlestown", "Brighton"],
+    "displayName": "Boston",
+    "state": "Massachusetts",
+    "stateAbbr": "MA",
+    "neighborhoods": [
+      "Beacon Hill",
+      "South End",
+      "Back Bay",
+      "Jamaica Plain",
+      "Charlestown",
+      "Brighton"
+    ],
     "climate": "humid continental with heavy snow loads, ice dam formation a major roofing concern, freeze-thaw damage, and noreaster wind events",
     "soil": "bedrock close to surface in many areas, plus harbor fill in Back Bay (which sinks slowly, requiring periodic foundation work)",
     "permits": "City of Boston ISD permits typically take 2-4 weeks; landmark district approval needed in Back Bay and Beacon Hill",
     "homeAge": "huge stock of pre-1900 brick rowhouses and triple-deckers; ice and water shield required at eaves under MA code",
     "contractorMarket": "specialized triple-decker and rowhouse trades; verify Massachusetts Construction Supervisor License (CSL) at mass.gov",
     "roofCodeNote": "Massachusetts code requires ice and water shield at all eaves up the slope to a point 24 inches inside the warm wall",
-    "landmarks": ["Boston Common", "Fenway Park", "Freedom Trail"],
+    "landmarks": [
+      "Boston Common",
+      "Fenway Park",
+      "Freedom Trail"
+    ],
     "geographyNote": "ice dams are the dominant winter roofing problem; proper attic ventilation and ice shield placement are non-negotiable"
   },
   "portland-or": {
-    "displayName": "Portland", "state": "Oregon", "stateAbbr": "OR",
-    "neighborhoods": ["Alberta Arts", "Hawthorne", "Sellwood", "Northwest", "Laurelhurst", "Mississippi"],
+    "displayName": "Portland",
+    "state": "Oregon",
+    "stateAbbr": "OR",
+    "neighborhoods": [
+      "Alberta Arts",
+      "Hawthorne",
+      "Sellwood",
+      "Northwest",
+      "Laurelhurst",
+      "Mississippi"
+    ],
     "climate": "marine west coast like Seattle with constant winter rain, moss growth, and rare but damaging ice storms (Feb 2021)",
     "soil": "clay-heavy with many landslide-prone hillsides in the West Hills",
     "permits": "City of Portland BDS permits typically take 1-3 weeks for residential exterior work",
     "homeAge": "extensive stock of 1900-1940 Old Portland craftsman bungalows; many still have original wood-shake roofs that need complete tear-off",
     "contractorMarket": "tight labor market; off-season pricing in November-February is meaningfully cheaper",
     "roofCodeNote": "Oregon requires roofing contractors to be licensed by the Construction Contractors Board (CCB)",
-    "landmarks": ["Forest Park", "Powell's Books", "Mt. Tabor"],
+    "landmarks": [
+      "Forest Park",
+      "Powell's Books",
+      "Mt. Tabor"
+    ],
     "geographyNote": "wet climate makes drainage, moss treatment, and gutter capacity critical year-round expenses"
   },
   "las-vegas-nv": {
-    "displayName": "Las Vegas", "state": "Nevada", "stateAbbr": "NV",
-    "neighborhoods": ["Summerlin", "Henderson", "Green Valley", "Anthem", "Centennial Hills", "MacDonald Ranch"],
+    "displayName": "Las Vegas",
+    "state": "Nevada",
+    "stateAbbr": "NV",
+    "neighborhoods": [
+      "Summerlin",
+      "Henderson",
+      "Green Valley",
+      "Anthem",
+      "Centennial Hills",
+      "MacDonald Ranch"
+    ],
     "climate": "extreme desert heat with 110+ degree summers, intense UV that degrades exterior building materials 30 percent faster than the national average, and rare but heavy monsoon rains",
     "soil": "caliche over alluvial fan deposits; rocky and difficult for excavation",
     "permits": "Clark County and City of Las Vegas permits typically issue same-day for residential roofing",
     "homeAge": "rapid 1990s-2010s growth means many 20-30 year old roofs hitting end of life simultaneously in master-planned communities",
     "contractorMarket": "competitive winter market when snowbirds drive demand; summer shutdowns are common due to heat",
     "roofCodeNote": "Clark County requires registered contractors only; HOA rules in master-planned communities often dictate material and color",
-    "landmarks": ["Las Vegas Strip", "Red Rock Canyon", "Hoover Dam"],
+    "landmarks": [
+      "Las Vegas Strip",
+      "Red Rock Canyon",
+      "Hoover Dam"
+    ],
     "geographyNote": "the master-planned community model means HOA approval is often the longest step in any exterior project"
   },
   "nashville-tn": {
-    "displayName": "Nashville", "state": "Tennessee", "stateAbbr": "TN",
-    "neighborhoods": ["East Nashville", "12 South", "Germantown", "Sylvan Park", "The Gulch", "Belmont"],
+    "displayName": "Nashville",
+    "state": "Tennessee",
+    "stateAbbr": "TN",
+    "neighborhoods": [
+      "East Nashville",
+      "12 South",
+      "Germantown",
+      "Sylvan Park",
+      "The Gulch",
+      "Belmont"
+    ],
     "climate": "humid subtropical with hot summers, severe spring storms with tornado risk (March 2020 outbreak), and occasional ice storms",
     "soil": "limestone bedrock with thin clay topsoil; foundation movement is less common than in Texas markets",
     "permits": "Metro Nashville Codes Department permits typically issue within 3-5 business days",
     "homeAge": "mix of 1920s craftsman in central east Nashville and 2000s-onwards in rapidly growing suburbs like Brentwood and Franklin",
     "contractorMarket": "rapid growth has stretched local capacity; out-of-state contractors flock in after major hail or tornado events",
     "roofCodeNote": "Tennessee does not license roofing contractors at the state level; verify Metro Nashville business license and insurance",
-    "landmarks": ["Country Music Hall of Fame", "Centennial Park", "Broadway honky-tonks"],
+    "landmarks": [
+      "Country Music Hall of Fame",
+      "Centennial Park",
+      "Broadway honky-tonks"
+    ],
     "geographyNote": "Davidson County and surrounding Williamson and Sumner counties have very different permitting and pricing"
   },
   "detroit-mi": {
-    "displayName": "Detroit", "state": "Michigan", "stateAbbr": "MI",
-    "neighborhoods": ["Midtown", "Corktown", "Indian Village", "Boston-Edison", "Palmer Park", "Woodbridge"],
+    "displayName": "Detroit",
+    "state": "Michigan",
+    "stateAbbr": "MI",
+    "neighborhoods": [
+      "Midtown",
+      "Corktown",
+      "Indian Village",
+      "Boston-Edison",
+      "Palmer Park",
+      "Woodbridge"
+    ],
     "climate": "humid continental with heavy snow loads, ice dam formation common, freeze-thaw damage to mortar and flashing",
     "soil": "glacial till over clay; basement and foundation drainage are constant concerns",
     "permits": "City of Detroit BSEED permits typically take 1-3 weeks for residential roofing",
     "homeAge": "vast stock of 1900-1940 Detroit four-square and bungalow homes; many in transitional neighborhoods need full structural assessment before any roof work",
     "contractorMarket": "stable established trades; many homes in disinvested areas have insurance complications that affect financing",
     "roofCodeNote": "Michigan Residential Code requires ice barrier at all eaves; lead-safe certification for pre-1978 homes is enforced",
-    "landmarks": ["Belle Isle", "Detroit Riverwalk", "Eastern Market"],
+    "landmarks": [
+      "Belle Isle",
+      "Detroit Riverwalk",
+      "Eastern Market"
+    ],
     "geographyNote": "the city has the largest stock of single-family homes built before 1940 of any major US city, which dominates roofing material decisions"
   },
   "memphis-tn": {
-    "displayName": "Memphis", "state": "Tennessee", "stateAbbr": "TN",
-    "neighborhoods": ["Midtown", "Cooper-Young", "East Memphis", "Germantown", "Collierville", "Downtown"],
+    "displayName": "Memphis",
+    "state": "Tennessee",
+    "stateAbbr": "TN",
+    "neighborhoods": [
+      "Midtown",
+      "Cooper-Young",
+      "East Memphis",
+      "Germantown",
+      "Collierville",
+      "Downtown"
+    ],
     "climate": "humid subtropical with hot summers, severe spring thunderstorms with tornado risk, and occasional ice storms",
     "soil": "loess (windblown silt) over clay; bluff areas have drainage and erosion concerns",
     "permits": "City of Memphis Code Enforcement permits typically issue within 3-7 days",
     "homeAge": "mix of 1920s-1940s craftsman in midtown and 1980s-onwards in east Memphis and Germantown",
     "contractorMarket": "affordable labor market relative to coastal cities; verify Tennessee licensure and Shelby County registration",
     "roofCodeNote": "Tennessee does not license roofing contractors at state level; Memphis requires business license and insurance proof",
-    "landmarks": ["Beale Street", "Graceland", "Mississippi River"],
+    "landmarks": [
+      "Beale Street",
+      "Graceland",
+      "Mississippi River"
+    ],
     "geographyNote": "Memphis sits in the New Madrid Seismic Zone; major earthquakes are rare but possible and affect commercial structural work"
   },
   "louisville-ky": {
-    "displayName": "Louisville", "state": "Kentucky", "stateAbbr": "KY",
-    "neighborhoods": ["Highlands", "Crescent Hill", "Old Louisville", "Germantown", "Clifton", "St. Matthews"],
+    "displayName": "Louisville",
+    "state": "Kentucky",
+    "stateAbbr": "KY",
+    "neighborhoods": [
+      "Highlands",
+      "Crescent Hill",
+      "Old Louisville",
+      "Germantown",
+      "Clifton",
+      "St. Matthews"
+    ],
     "climate": "humid subtropical with hot summers, severe spring storms, occasional ice storms, and tornadoes possible",
     "soil": "limestone bedrock with thin clay topsoil; karst (sinkhole) features in some southern Jefferson County areas",
     "permits": "Louisville Metro Codes & Regulations permits typically issue within 3-5 days for residential roofing",
     "homeAge": "huge stock of 1880s-1920s Victorian homes in Old Louisville and the Highlands; many still have original slate or wood-shake roofs",
     "contractorMarket": "stable established market; specialized slate and historic restoration contractors exist for premier neighborhoods",
     "roofCodeNote": "Kentucky does not require state-level roofing license; Louisville Metro requires business license",
-    "landmarks": ["Churchill Downs", "Louisville Slugger Museum", "Waterfront Park"],
+    "landmarks": [
+      "Churchill Downs",
+      "Louisville Slugger Museum",
+      "Waterfront Park"
+    ],
     "geographyNote": "Old Louisville has one of the largest concentrations of Victorian mansions in the US; restoration roofing is a real local specialty"
   },
   "baltimore-md": {
-    "displayName": "Baltimore", "state": "Maryland", "stateAbbr": "MD",
-    "neighborhoods": ["Federal Hill", "Canton", "Fells Point", "Mount Vernon", "Hampden", "Roland Park"],
+    "displayName": "Baltimore",
+    "state": "Maryland",
+    "stateAbbr": "MD",
+    "neighborhoods": [
+      "Federal Hill",
+      "Canton",
+      "Fells Point",
+      "Mount Vernon",
+      "Hampden",
+      "Roland Park"
+    ],
     "climate": "humid subtropical with hot humid summers, moderate winters with occasional heavy snow, and remnants of Atlantic hurricanes",
     "soil": "varies widely; harbor fill in some inner-city areas, bedrock in others",
     "permits": "Baltimore City DHCD permits typically take 2-4 weeks for residential roofing",
     "homeAge": "iconic Baltimore rowhouses (formstone-clad and otherwise) from 1850-1920 with flat or low-slope roofs requiring specialized materials",
     "contractorMarket": "specialized rowhouse roofing trade; verify Maryland Home Improvement Commission (MHIC) license at mhic.maryland.gov",
     "roofCodeNote": "Baltimore requires lead paint inspection for any work disturbing painted surfaces in pre-1978 properties",
-    "landmarks": ["Inner Harbor", "Fort McHenry", "Camden Yards"],
+    "landmarks": [
+      "Inner Harbor",
+      "Fort McHenry",
+      "Camden Yards"
+    ],
     "geographyNote": "Baltimore's rowhouse stock means most local contractors specialize in flat or low-slope roofs and are less experienced with steep-slope suburban work"
   },
   "milwaukee-wi": {
-    "displayName": "Milwaukee", "state": "Wisconsin", "stateAbbr": "WI",
-    "neighborhoods": ["East Side", "Bay View", "Riverwest", "Walker's Point", "Brewers Hill", "Wauwatosa"],
+    "displayName": "Milwaukee",
+    "state": "Wisconsin",
+    "stateAbbr": "WI",
+    "neighborhoods": [
+      "East Side",
+      "Bay View",
+      "Riverwest",
+      "Walker's Point",
+      "Brewers Hill",
+      "Wauwatosa"
+    ],
     "climate": "humid continental with heavy lake-effect snow, severe freeze-thaw damage, ice dam formation common, and noreaster-style wind events",
     "soil": "glacial till; basement waterproofing is a major local trade",
     "permits": "City of Milwaukee DNS permits typically issue within 1-2 weeks for residential roofing",
     "homeAge": "lots of 1900-1940 Milwaukee bungalows and Polish flats; original cedar decking is common and may need replacement",
     "contractorMarket": "stable established market; off-season discounts in November-February are meaningful",
     "roofCodeNote": "Wisconsin Uniform Dwelling Code requires ice barrier at all eaves and specific underlayment ratings",
-    "landmarks": ["Milwaukee Art Museum", "Lake Michigan shoreline", "Miller Park"],
+    "landmarks": [
+      "Milwaukee Art Museum",
+      "Lake Michigan shoreline",
+      "Miller Park"
+    ],
     "geographyNote": "lake-effect snow can deposit 8-12 inches in a single event near the lakefront, affecting structural snow load calculations"
   },
   "albuquerque-nm": {
-    "displayName": "Albuquerque", "state": "New Mexico", "stateAbbr": "NM",
-    "neighborhoods": ["Nob Hill", "Old Town", "Northeast Heights", "Ridgecrest", "North Valley", "Corrales"],
+    "displayName": "Albuquerque",
+    "state": "New Mexico",
+    "stateAbbr": "NM",
+    "neighborhoods": [
+      "Nob Hill",
+      "Old Town",
+      "Northeast Heights",
+      "Ridgecrest",
+      "North Valley",
+      "Corrales"
+    ],
     "climate": "high desert with intense UV exposure at altitude (5,300 ft), wide diurnal temperature swings, monsoon rains in July-August, and rare snow",
     "soil": "sandy alluvial with caliche layers; rocky for excavation",
     "permits": "City of Albuquerque permits typically issue within 3-5 days for residential roofing",
     "homeAge": "mix of pueblo-revival adobe homes (real and stucco-imitation) and 1960s-1990s tract homes",
     "contractorMarket": "smaller market with established local trades; verify NM Construction Industries Division license",
     "roofCodeNote": "New Mexico requires GB-98 license classification for roofing contractors; verify at cid.rld.state.nm.us",
-    "landmarks": ["Sandia Peak", "Old Town Plaza", "Petroglyph National Monument"],
+    "landmarks": [
+      "Sandia Peak",
+      "Old Town Plaza",
+      "Petroglyph National Monument"
+    ],
     "geographyNote": "high altitude UV degrades exterior building materials 25-30 percent faster than at sea level; flat or low-slope adobe-style architecture is common"
   },
   "tucson-az": {
-    "displayName": "Tucson", "state": "Arizona", "stateAbbr": "AZ",
-    "neighborhoods": ["Sam Hughes", "El Encanto", "Catalina Foothills", "Oro Valley", "Civano", "Armory Park"],
+    "displayName": "Tucson",
+    "state": "Arizona",
+    "stateAbbr": "AZ",
+    "neighborhoods": [
+      "Sam Hughes",
+      "El Encanto",
+      "Catalina Foothills",
+      "Oro Valley",
+      "Civano",
+      "Armory Park"
+    ],
     "climate": "Sonoran desert with extreme summer heat, intense UV, monsoon flash flooding July-September, and rare hard freezes in winter",
     "soil": "caliche over alluvial fan deposits; very rocky and difficult for excavation",
     "permits": "City of Tucson permits typically issue within 3-5 days; Pima County for unincorporated areas has different timelines",
     "homeAge": "many 1950s-1970s adobe and stucco homes that often have flat or low-slope roofs requiring foam or modified bitumen",
     "contractorMarket": "smaller competitive market; verify ROC license at azroc.gov",
     "roofCodeNote": "Pima County and Tucson require registered contractors and have specific pool fence and stucco code requirements",
-    "landmarks": ["Saguaro National Park", "University of Arizona", "Mount Lemmon"],
+    "landmarks": [
+      "Saguaro National Park",
+      "University of Arizona",
+      "Mount Lemmon"
+    ],
     "geographyNote": "many Tucson homes have flat foam-coated roofs that need recoating every 5-7 years rather than full replacement"
   },
   "fresno-ca": {
-    "displayName": "Fresno", "state": "California", "stateAbbr": "CA",
-    "neighborhoods": ["Tower District", "Old Fig Garden", "Woodward Park", "Sunnyside", "Fig Garden Loop", "River Park"],
+    "displayName": "Fresno",
+    "state": "California",
+    "stateAbbr": "CA",
+    "neighborhoods": [
+      "Tower District",
+      "Old Fig Garden",
+      "Woodward Park",
+      "Sunnyside",
+      "Fig Garden Loop",
+      "River Park"
+    ],
     "climate": "Mediterranean Central Valley with very hot dry summers (105+ degrees), tule fog winters, and increasing wildfire smoke days",
     "soil": "alluvial valley soils, generally stable but with high water tables in some areas",
     "permits": "City of Fresno permits typically issue within 1 week for residential roofing",
     "homeAge": "lots of 1950s-1970s tract homes in older neighborhoods and 1990s-onwards in north Fresno and Clovis",
     "contractorMarket": "competitive market with bilingual crews common; verify CSLB license at cslb.ca.gov",
     "roofCodeNote": "Title 24 cool-roof requirements apply; reflective coating mandates affect material color choices",
-    "landmarks": ["Fresno Chaffee Zoo", "Forestiere Underground Gardens", "Woodward Park"],
+    "landmarks": [
+      "Fresno Chaffee Zoo",
+      "Forestiere Underground Gardens",
+      "Woodward Park"
+    ],
     "geographyNote": "hot Central Valley climate makes roof color and reflectivity meaningful for cooling costs; Title 24 enforces this"
   },
   "sacramento-ca": {
-    "displayName": "Sacramento", "state": "California", "stateAbbr": "CA",
-    "neighborhoods": ["East Sacramento", "Land Park", "Midtown", "Curtis Park", "Tahoe Park", "Natomas"],
+    "displayName": "Sacramento",
+    "state": "California",
+    "stateAbbr": "CA",
+    "neighborhoods": [
+      "East Sacramento",
+      "Land Park",
+      "Midtown",
+      "Curtis Park",
+      "Tahoe Park",
+      "Natomas"
+    ],
     "climate": "Mediterranean with hot dry summers, mild wet winters, and increasing wildfire smoke days from Sierra fires",
     "soil": "alluvial valley with some expansive clay; flood plains in parts of Natomas",
     "permits": "City of Sacramento permits typically issue within 1-2 weeks; County for unincorporated areas can vary",
     "homeAge": "lots of 1900-1940 craftsman bungalows in East Sacramento and Land Park; 1950s ranch homes in suburbs",
     "contractorMarket": "competitive market; CSLB license verification required at cslb.ca.gov",
     "roofCodeNote": "Title 24 cool-roof and solar-ready requirements apply to many residential reroofs",
-    "landmarks": ["California State Capitol", "Old Sacramento", "American River Parkway"],
+    "landmarks": [
+      "California State Capitol",
+      "Old Sacramento",
+      "American River Parkway"
+    ],
     "geographyNote": "wildfire risk in the foothills (Folsom, El Dorado Hills) makes Class A fire-rated assemblies a real concern, not just code compliance"
   },
   "atlanta-ga": {
-    "displayName": "Atlanta", "state": "Georgia", "stateAbbr": "GA",
-    "neighborhoods": ["Midtown", "Virginia-Highland", "Inman Park", "Decatur", "Buckhead", "Grant Park"],
+    "displayName": "Atlanta",
+    "state": "Georgia",
+    "stateAbbr": "GA",
+    "neighborhoods": [
+      "Midtown",
+      "Virginia-Highland",
+      "Inman Park",
+      "Decatur",
+      "Buckhead",
+      "Grant Park"
+    ],
     "climate": "humid subtropical with hot summers, severe spring thunderstorms with hail and tornado risk, and occasional ice storms",
     "soil": "Georgia red clay with frequent foundation movement issues in older neighborhoods",
     "permits": "City of Atlanta permits typically take 1-3 weeks; Fulton and DeKalb counties have separate processes",
     "homeAge": "lots of 1920s-1940s craftsman bungalows in Virginia-Highland and Inman Park; 1980s-onwards in north Fulton",
     "contractorMarket": "rapid growth has stretched contractor capacity; verify Georgia state license at sos.ga.gov",
     "roofCodeNote": "Georgia requires roofing contractor licensure for jobs over $2,500; verify at sos.ga.gov/index.php/licensing",
-    "landmarks": ["Piedmont Park", "Atlanta BeltLine", "Centennial Olympic Park"],
+    "landmarks": [
+      "Piedmont Park",
+      "Atlanta BeltLine",
+      "Centennial Olympic Park"
+    ],
     "geographyNote": "the metro spans 29 counties with very different permitting; Fulton and DeKalb are the densest and have stricter inspections"
   },
   "raleigh-nc": {
-    "displayName": "Raleigh", "state": "North Carolina", "stateAbbr": "NC",
-    "neighborhoods": ["Five Points", "Cameron Park", "Oakwood", "Boylan Heights", "North Hills", "ITB"],
+    "displayName": "Raleigh",
+    "state": "North Carolina",
+    "stateAbbr": "NC",
+    "neighborhoods": [
+      "Five Points",
+      "Cameron Park",
+      "Oakwood",
+      "Boylan Heights",
+      "North Hills",
+      "ITB"
+    ],
     "climate": "humid subtropical similar to Charlotte with hot summers, occasional ice storms, and remnants of Atlantic hurricanes",
     "soil": "Carolina clay with foundation movement common in older neighborhoods",
     "permits": "City of Raleigh permits typically issue within 3-5 days for residential roofing through the development services portal",
     "homeAge": "mix of 1920s-1950s in inside-the-Beltline neighborhoods and 1990s-onwards in north Raleigh and Cary",
     "contractorMarket": "rapid Triangle growth has stretched capacity; book 4-6 weeks ahead in peak season",
     "roofCodeNote": "North Carolina General Contractor licensure required for jobs over $30,000; verify at nclbgc.org",
-    "landmarks": ["NC State campus", "Pullen Park", "Umstead State Park"],
+    "landmarks": [
+      "NC State campus",
+      "Pullen Park",
+      "Umstead State Park"
+    ],
     "geographyNote": "the Triangle metro (Raleigh-Durham-Chapel Hill) shares contractor pools but pricing varies meaningfully between cities"
   },
   "miami-fl": {
-    "displayName": "Miami", "state": "Florida", "stateAbbr": "FL",
-    "neighborhoods": ["Coconut Grove", "Coral Gables", "Brickell", "Wynwood", "Edgewater", "Pinecrest"],
+    "displayName": "Miami",
+    "state": "Florida",
+    "stateAbbr": "FL",
+    "neighborhoods": [
+      "Coconut Grove",
+      "Coral Gables",
+      "Brickell",
+      "Wynwood",
+      "Edgewater",
+      "Pinecrest"
+    ],
     "climate": "tropical with hurricane season from June through November, year-round humidity driving mold and rot, and intense UV",
     "soil": "porous limestone with high water table; foundation work is rare but salt water intrusion is a real concern in coastal areas",
     "permits": "Miami-Dade County and City of Miami have separate permit processes; HVHZ requirements add review time",
     "homeAge": "mediterranean revival from the 1920s in Coral Gables, mid-century modern in many neighborhoods, and modern condos in Brickell",
     "contractorMarket": "post-hurricane price spikes are dramatic; out-of-state contractors flock in after named storms",
     "roofCodeNote": "Miami-Dade and Broward are HVHZ (High-Velocity Hurricane Zone) — every roofing component requires specific HVHZ approval",
-    "landmarks": ["South Beach", "Vizcaya", "Wynwood Walls"],
+    "landmarks": [
+      "South Beach",
+      "Vizcaya",
+      "Wynwood Walls"
+    ],
     "geographyNote": "HVHZ requirements make Miami-Dade and Broward roofing 25-40 percent more expensive than non-HVHZ Florida counties due to materials and inspection requirements"
   },
   "minneapolis-mn": {
-    "displayName": "Minneapolis", "state": "Minnesota", "stateAbbr": "MN",
-    "neighborhoods": ["Uptown", "Northeast", "Linden Hills", "Lowry Hill", "Powderhorn", "North Loop"],
+    "displayName": "Minneapolis",
+    "state": "Minnesota",
+    "stateAbbr": "MN",
+    "neighborhoods": [
+      "Uptown",
+      "Northeast",
+      "Linden Hills",
+      "Lowry Hill",
+      "Powderhorn",
+      "North Loop"
+    ],
     "climate": "harsh humid continental with heavy snow loads (50+ inches per year), extreme freeze-thaw cycles, ice dam formation a major concern",
     "soil": "glacial till with high water tables; basements and sump pumps are universal",
     "permits": "City of Minneapolis CPED permits typically issue within 1-3 weeks for residential roofing",
     "homeAge": "lots of 1900-1940 Minneapolis four-square and bungalow homes; many original-era systems are due for major upgrades to current code",
     "contractorMarket": "off-season pricing meaningful November-March when many crews are idle",
     "roofCodeNote": "Minnesota Residential Code requires ice barrier extending 24 inches inside the warm wall; this is the strictest in the country",
-    "landmarks": ["Minnehaha Falls", "Lake Harriet", "Mall of America (Bloomington)"],
+    "landmarks": [
+      "Minnehaha Falls",
+      "Lake Harriet",
+      "Mall of America (Bloomington)"
+    ],
     "geographyNote": "ice dams are the dominant winter roofing problem; proper ventilation and ice shield are non-negotiable"
   },
   "oakland-ca": {
-    "displayName": "Oakland", "state": "California", "stateAbbr": "CA",
-    "neighborhoods": ["Rockridge", "Temescal", "Piedmont Avenue", "Glenview", "Lake Merritt", "Montclair"],
+    "displayName": "Oakland",
+    "state": "California",
+    "stateAbbr": "CA",
+    "neighborhoods": [
+      "Rockridge",
+      "Temescal",
+      "Piedmont Avenue",
+      "Glenview",
+      "Lake Merritt",
+      "Montclair"
+    ],
     "climate": "Mediterranean coastal with mild fog-influenced summers and wet winters, plus wildfire risk in the East Bay hills",
     "soil": "varies dramatically; bedrock in the hills, fill in the flats, and the Hayward Fault runs through the city",
     "permits": "City of Oakland permits typically take 2-4 weeks for residential roofing",
     "homeAge": "extensive 1920s-1940s craftsman bungalow stock in Rockridge and Temescal; many homes need seismic retrofitting",
     "contractorMarket": "competitive Bay Area pricing; verify CSLB license; many crews are bilingual",
     "roofCodeNote": "Title 24 plus Alameda County hillside fire-safe requirements; Oakland Hills wildfire requires Class A roof assemblies",
-    "landmarks": ["Lake Merritt", "Jack London Square", "Redwood Regional Park"],
+    "landmarks": [
+      "Lake Merritt",
+      "Jack London Square",
+      "Redwood Regional Park"
+    ],
     "geographyNote": "the 1991 Oakland Hills firestorm shaped current building codes; Class A fire-rated roofing is non-negotiable in hill neighborhoods"
   },
   "tampa-fl": {
-    "displayName": "Tampa", "state": "Florida", "stateAbbr": "FL",
-    "neighborhoods": ["Hyde Park", "Seminole Heights", "South Tampa", "Davis Islands", "New Tampa", "Channelside"],
+    "displayName": "Tampa",
+    "state": "Florida",
+    "stateAbbr": "FL",
+    "neighborhoods": [
+      "Hyde Park",
+      "Seminole Heights",
+      "South Tampa",
+      "Davis Islands",
+      "New Tampa",
+      "Channelside"
+    ],
     "climate": "humid subtropical with hurricane exposure (Helene 2024, Milton 2024), year-round humidity, intense UV, and frequent summer thunderstorms",
     "soil": "sandy with high water table in many areas; stilted construction common in flood zones",
     "permits": "City of Tampa permits typically issue within 1-3 days; Hillsborough County varies",
     "homeAge": "mix of 1920s bungalows in Seminole Heights and 1990s-onwards in suburbs; many homes elevated post-flooding",
     "contractorMarket": "post-hurricane spikes are common; verify Florida license at myfloridalicense.com",
     "roofCodeNote": "Florida Building Code wind requirements vary by zone; Hillsborough County is in a high-wind zone but not HVHZ",
-    "landmarks": ["Tampa Riverwalk", "Busch Gardens", "Ybor City"],
+    "landmarks": [
+      "Tampa Riverwalk",
+      "Busch Gardens",
+      "Ybor City"
+    ],
     "geographyNote": "the 2024 hurricane season hit Tampa hard; insurance availability and pricing have shifted dramatically"
   },
   "orlando-fl": {
-    "displayName": "Orlando", "state": "Florida", "stateAbbr": "FL",
-    "neighborhoods": ["Winter Park", "Thornton Park", "College Park", "Audubon Park", "Lake Nona", "Baldwin Park"],
+    "displayName": "Orlando",
+    "state": "Florida",
+    "stateAbbr": "FL",
+    "neighborhoods": [
+      "Winter Park",
+      "Thornton Park",
+      "College Park",
+      "Audubon Park",
+      "Lake Nona",
+      "Baldwin Park"
+    ],
     "climate": "humid subtropical with hurricane exposure, intense UV, year-round humidity, and frequent severe summer thunderstorms",
     "soil": "sandy with karst features in some areas (sinkhole-prone)",
     "permits": "City of Orlando and Orange County both issue residential roof permits within 1-3 days",
     "homeAge": "rapid growth has produced lots of 1990s-2010s tract housing; older Winter Park and College Park have 1920s craftsman",
     "contractorMarket": "post-hurricane spikes are common; verify Florida license",
     "roofCodeNote": "Florida Building Code wind requirements apply; central Florida has lower wind ratings than coastal counties",
-    "landmarks": ["Lake Eola", "Winter Park Avenue", "Disney parks"],
+    "landmarks": [
+      "Lake Eola",
+      "Winter Park Avenue",
+      "Disney parks"
+    ],
     "geographyNote": "sinkhole risk in some areas affects insurance and foundation pricing more than roofing"
   },
   "pittsburgh-pa": {
-    "displayName": "Pittsburgh", "state": "Pennsylvania", "stateAbbr": "PA",
-    "neighborhoods": ["Lawrenceville", "Squirrel Hill", "Shadyside", "Mount Washington", "Strip District", "South Side"],
+    "displayName": "Pittsburgh",
+    "state": "Pennsylvania",
+    "stateAbbr": "PA",
+    "neighborhoods": [
+      "Lawrenceville",
+      "Squirrel Hill",
+      "Shadyside",
+      "Mount Washington",
+      "Strip District",
+      "South Side"
+    ],
     "climate": "humid continental with cold snowy winters, freeze-thaw damage, and severe summer thunderstorms",
     "soil": "shale and sandstone with frequent landslides on steep hillsides; foundation work in hill neighborhoods can be expensive",
     "permits": "City of Pittsburgh PLI permits typically issue within 1-2 weeks for residential roofing",
     "homeAge": "iconic stock of 1880s-1920s rowhouses and four-squares; many in steep hill neighborhoods with difficult access",
     "contractorMarket": "stable established trades; specialized hillside and roof-access skills needed for many neighborhoods",
     "roofCodeNote": "Pennsylvania Uniform Construction Code applies; ice barrier required at all eaves",
-    "landmarks": ["Three Rivers", "Mount Washington overlook", "PNC Park"],
+    "landmarks": [
+      "Three Rivers",
+      "Mount Washington overlook",
+      "PNC Park"
+    ],
     "geographyNote": "steep terrain in many neighborhoods requires special staging and access equipment, raising labor costs vs flat-terrain markets"
   },
   "cincinnati-oh": {
-    "displayName": "Cincinnati", "state": "Ohio", "stateAbbr": "OH",
-    "neighborhoods": ["Over-the-Rhine", "Hyde Park", "Oakley", "Mount Lookout", "Northside", "Mount Adams"],
+    "displayName": "Cincinnati",
+    "state": "Ohio",
+    "stateAbbr": "OH",
+    "neighborhoods": [
+      "Over-the-Rhine",
+      "Hyde Park",
+      "Oakley",
+      "Mount Lookout",
+      "Northside",
+      "Mount Adams"
+    ],
     "climate": "humid continental with cold winters, freeze-thaw damage, severe summer thunderstorms, and occasional ice storms",
     "soil": "limestone bedrock with clay topsoil; landslide risk in some hillside neighborhoods",
     "permits": "City of Cincinnati permits typically issue within 1-2 weeks for residential roofing",
     "homeAge": "OTR has the largest concentration of Italianate architecture in the US; specialized restoration trades exist",
     "contractorMarket": "stable established trades; specialized historic restoration roofers for OTR and the historic neighborhoods",
     "roofCodeNote": "Ohio Residential Code applies; ice barrier required at eaves",
-    "landmarks": ["Findlay Market", "Cincinnati Museum Center", "Great American Ball Park"],
+    "landmarks": [
+      "Findlay Market",
+      "Cincinnati Museum Center",
+      "Great American Ball Park"
+    ],
     "geographyNote": "Over-the-Rhine restoration market drives unique pricing for slate, tile, and other historic-appropriate roofing"
   },
   "kansas-city-mo": {
-    "displayName": "Kansas City", "state": "Missouri", "stateAbbr": "MO",
-    "neighborhoods": ["Westport", "Brookside", "Country Club Plaza", "Waldo", "River Market", "Crossroads"],
+    "displayName": "Kansas City",
+    "state": "Missouri",
+    "stateAbbr": "MO",
+    "neighborhoods": [
+      "Westport",
+      "Brookside",
+      "Country Club Plaza",
+      "Waldo",
+      "River Market",
+      "Crossroads"
+    ],
     "climate": "humid continental with hot humid summers, cold winters, severe spring thunderstorms with hail and tornado risk",
     "soil": "limestone bedrock with clay topsoil; foundation movement less common than Texas markets",
     "permits": "Kansas City Missouri permits typically issue within 3-5 days; Kansas City Kansas has separate process",
     "homeAge": "lots of 1900-1940 brick four-squares and craftsman; the Plaza area has 1920s Spanish revival",
     "contractorMarket": "competitive midwest pricing; hail-driven insurance work is common in spring",
     "roofCodeNote": "Missouri does not license roofing contractors at state level; KC requires city business license",
-    "landmarks": ["Country Club Plaza", "Union Station", "Crown Center"],
+    "landmarks": [
+      "Country Club Plaza",
+      "Union Station",
+      "Crown Center"
+    ],
     "geographyNote": "the metro spans Missouri and Kansas state lines with different permitting; Johnson County KS has stricter inspections"
   },
   "long-beach-ca": {
-    "displayName": "Long Beach", "state": "California", "stateAbbr": "CA",
-    "neighborhoods": ["Belmont Shore", "Naples", "Bixby Knolls", "Alamitos Heights", "Bluff Heights", "California Heights"],
+    "displayName": "Long Beach",
+    "state": "California",
+    "stateAbbr": "CA",
+    "neighborhoods": [
+      "Belmont Shore",
+      "Naples",
+      "Bixby Knolls",
+      "Alamitos Heights",
+      "Bluff Heights",
+      "California Heights"
+    ],
     "climate": "Mediterranean coastal with mild temperatures year-round and salt air corrosion within 1 mile of the coast",
     "soil": "sandy coastal with some fill areas; minimal foundation movement",
     "permits": "City of Long Beach permits typically take 2-4 weeks for residential roofing",
     "homeAge": "lots of 1920s-1940s Spanish revival and craftsman in central neighborhoods; midcentury modern in other areas",
     "contractorMarket": "competitive LA-area pricing; verify CSLB license",
     "roofCodeNote": "Title 24 cool-roof requirements apply; Long Beach has additional coastal zone restrictions",
-    "landmarks": ["Queen Mary", "Belmont Pier", "Aquarium of the Pacific"],
+    "landmarks": [
+      "Queen Mary",
+      "Belmont Pier",
+      "Aquarium of the Pacific"
+    ],
     "geographyNote": "salt air corrosion within a mile of the ocean shortens the lifespan of exterior metal components 30-50 percent vs inland; coastal homes need corrosion-resistant fasteners and finishes"
   },
   "colorado-springs-co": {
-    "displayName": "Colorado Springs", "state": "Colorado", "stateAbbr": "CO",
-    "neighborhoods": ["Old North End", "Broadmoor", "Westside", "Briargate", "Black Forest", "Manitou Springs"],
+    "displayName": "Colorado Springs",
+    "state": "Colorado",
+    "stateAbbr": "CO",
+    "neighborhoods": [
+      "Old North End",
+      "Broadmoor",
+      "Westside",
+      "Briargate",
+      "Black Forest",
+      "Manitou Springs"
+    ],
     "climate": "semi-arid mountain with intense UV at altitude (6,000+ ft), spring hailstorms, severe wildfire risk in foothill neighborhoods",
     "soil": "expansive clay in many areas; foundation heaving common",
     "permits": "City of Colorado Springs permits typically issue within 1-2 weeks; Pikes Peak Regional Building Department is the main authority",
     "homeAge": "lots of 1990s-2010s suburban tract housing in Briargate and northern areas; older 1900-1940 in Old North End",
     "contractorMarket": "hail damage drives most of the local roofing market; storm-chasers are common, verify local license",
     "roofCodeNote": "Colorado Springs requires Class 4 impact-resistant shingles for many insurance discounts due to hail risk",
-    "landmarks": ["Garden of the Gods", "Pikes Peak", "Air Force Academy"],
+    "landmarks": [
+      "Garden of the Gods",
+      "Pikes Peak",
+      "Air Force Academy"
+    ],
     "geographyNote": "Black Forest and west-side foothill homes are in WUI zones and require Class A fire-rated assemblies"
   },
   "virginia-beach-va": {
-    "displayName": "Virginia Beach", "state": "Virginia", "stateAbbr": "VA",
-    "neighborhoods": ["North End", "Great Neck", "Kempsville", "Princess Anne", "Sandbridge", "Pungo"],
+    "displayName": "Virginia Beach",
+    "state": "Virginia",
+    "stateAbbr": "VA",
+    "neighborhoods": [
+      "North End",
+      "Great Neck",
+      "Kempsville",
+      "Princess Anne",
+      "Sandbridge",
+      "Pungo"
+    ],
     "climate": "humid subtropical coastal with hurricane exposure, year-round humidity, salt air, and noreaster wind events",
     "soil": "sandy coastal; high water table near the beach",
     "permits": "City of Virginia Beach permits typically issue within 1 week for residential roofing",
     "homeAge": "mix of 1960s-1980s in established neighborhoods and newer construction in Princess Anne and Pungo",
     "contractorMarket": "post-hurricane spikes are possible; verify Virginia DPOR license",
     "roofCodeNote": "Virginia Building Code wind requirements apply; coastal zones have higher wind ratings",
-    "landmarks": ["Virginia Beach Boardwalk", "First Landing State Park", "Cape Henry"],
+    "landmarks": [
+      "Virginia Beach Boardwalk",
+      "First Landing State Park",
+      "Cape Henry"
+    ],
     "geographyNote": "salt air corrosion at the oceanfront shortens metal and copper lifespan; coastal materials add 10-15 percent to job costs"
   },
   "omaha-ne": {
-    "displayName": "Omaha", "state": "Nebraska", "stateAbbr": "NE",
-    "neighborhoods": ["Dundee", "Benson", "Old Market", "Aksarben", "West Omaha", "Bellevue"],
+    "displayName": "Omaha",
+    "state": "Nebraska",
+    "stateAbbr": "NE",
+    "neighborhoods": [
+      "Dundee",
+      "Benson",
+      "Old Market",
+      "Aksarben",
+      "West Omaha",
+      "Bellevue"
+    ],
     "climate": "humid continental with hot humid summers, severe spring storms with hail and tornado risk, cold snowy winters",
     "soil": "loess and glacial till; minimal foundation issues for most homes",
     "permits": "City of Omaha permits typically issue within 3-5 days for residential roofing",
     "homeAge": "lots of 1920s-1940s in Dundee and Benson; 1980s-onwards in west Omaha",
     "contractorMarket": "stable midwest market; hail repair is a major local trade",
     "roofCodeNote": "Nebraska does not license roofing contractors at state level; Omaha requires city registration",
-    "landmarks": ["Old Market", "Henry Doorly Zoo", "Joslyn Art Museum"],
+    "landmarks": [
+      "Old Market",
+      "Henry Doorly Zoo",
+      "Joslyn Art Museum"
+    ],
     "geographyNote": "Omaha sits in the central plains hail belt; severe storms drive up insurance claims and homeowners often get discounts for impact-rated exterior upgrades"
   },
   "tulsa-ok": {
-    "displayName": "Tulsa", "state": "Oklahoma", "stateAbbr": "OK",
-    "neighborhoods": ["Brookside", "Cherry Street", "Maple Ridge", "Midtown", "Jenks", "Broken Arrow"],
+    "displayName": "Tulsa",
+    "state": "Oklahoma",
+    "stateAbbr": "OK",
+    "neighborhoods": [
+      "Brookside",
+      "Cherry Street",
+      "Maple Ridge",
+      "Midtown",
+      "Jenks",
+      "Broken Arrow"
+    ],
     "climate": "humid subtropical with severe spring tornado season, intense hailstorms, and hot summers",
     "soil": "Oklahoma red clay with some foundation movement; bedrock close to surface in some areas",
     "permits": "City of Tulsa permits typically issue within 3-5 days for residential roofing",
     "homeAge": "iconic 1920s-1940s art deco and craftsman in Brookside and Maple Ridge; suburban tract in Jenks and Broken Arrow",
     "contractorMarket": "tornado and hail repair is a major industry; storm-chasing common, verify local CIB license",
     "roofCodeNote": "Oklahoma requires Construction Industries Board (CIB) registration for roofers",
-    "landmarks": ["Philbrook Museum", "Gathering Place", "BOK Center"],
+    "landmarks": [
+      "Philbrook Museum",
+      "Gathering Place",
+      "BOK Center"
+    ],
     "geographyNote": "Tornado Alley and Hail Alley overlap here; insurance-driven roof replacement cycles average 7-10 years for many homes"
   },
   "new-orleans-la": {
-    "displayName": "New Orleans", "state": "Louisiana", "stateAbbr": "LA",
-    "neighborhoods": ["French Quarter", "Garden District", "Marigny", "Bywater", "Uptown", "Mid-City"],
+    "displayName": "New Orleans",
+    "state": "Louisiana",
+    "stateAbbr": "LA",
+    "neighborhoods": [
+      "French Quarter",
+      "Garden District",
+      "Marigny",
+      "Bywater",
+      "Uptown",
+      "Mid-City"
+    ],
     "climate": "humid subtropical with hurricane exposure, year-round humidity that drives mold and rot, intense UV",
     "soil": "soft alluvial Mississippi River delta soils; foundation settling and pier-and-beam common; below sea level in many areas",
     "permits": "City of New Orleans Safety and Permits typically takes 2-4 weeks; historic district approvals add time",
     "homeAge": "huge stock of pre-1900 shotgun and creole cottages in the French Quarter, Marigny, and Bywater; HDLC approval needed for any visible exterior work",
     "contractorMarket": "post-Katrina rebuilding shaped the modern contractor market; verify Louisiana State Contractors license",
     "roofCodeNote": "Louisiana requires Class A windstorm rating for roofing in coastal zones; HDLC approval needed in historic districts",
-    "landmarks": ["French Quarter", "Jackson Square", "City Park"],
+    "landmarks": [
+      "French Quarter",
+      "Jackson Square",
+      "City Park"
+    ],
     "geographyNote": "high water table and historic district restrictions make New Orleans uniquely complex; many projects require both city permits and HDLC approval"
   },
   "wichita-ks": {
-    "displayName": "Wichita", "state": "Kansas", "stateAbbr": "KS",
-    "neighborhoods": ["Riverside", "College Hill", "Crown Heights", "Eastborough", "Old Town", "Delano"],
+    "displayName": "Wichita",
+    "state": "Kansas",
+    "stateAbbr": "KS",
+    "neighborhoods": [
+      "Riverside",
+      "College Hill",
+      "Crown Heights",
+      "Eastborough",
+      "Old Town",
+      "Delano"
+    ],
     "climate": "humid continental with severe spring tornado and hail season, hot summers, cold winters",
     "soil": "alluvial valley with some clay; minimal foundation issues",
     "permits": "City of Wichita permits typically issue within 3-5 days for residential roofing",
     "homeAge": "lots of 1920s-1950s bungalows in College Hill and Riverside; 1980s-onwards in east and west Wichita",
     "contractorMarket": "tornado and hail driven; many local crews specialize in insurance work",
     "roofCodeNote": "Kansas does not license roofing contractors at state level; Wichita requires city registration",
-    "landmarks": ["Old Town Wichita", "Botanica", "Keeper of the Plains"],
+    "landmarks": [
+      "Old Town Wichita",
+      "Botanica",
+      "Keeper of the Plains"
+    ],
     "geographyNote": "central plains hail belt; insurance claim cycles drive most roofing work and storm-chasing is common"
   },
   "cleveland-oh": {
-    "displayName": "Cleveland", "state": "Ohio", "stateAbbr": "OH",
-    "neighborhoods": ["Tremont", "Ohio City", "Detroit-Shoreway", "Lakewood", "Shaker Heights", "Cleveland Heights"],
+    "displayName": "Cleveland",
+    "state": "Ohio",
+    "stateAbbr": "OH",
+    "neighborhoods": [
+      "Tremont",
+      "Ohio City",
+      "Detroit-Shoreway",
+      "Lakewood",
+      "Shaker Heights",
+      "Cleveland Heights"
+    ],
     "climate": "humid continental with heavy lake-effect snow, severe freeze-thaw damage, ice dam formation common",
     "soil": "glacial till over shale; basement waterproofing is a major local trade",
     "permits": "City of Cleveland permits typically take 1-2 weeks for residential roofing",
     "homeAge": "vast stock of 1900-1940 wood-frame homes; many in transitional neighborhoods need full structural assessment",
     "contractorMarket": "stable established trades; off-season pricing meaningful November-February",
     "roofCodeNote": "Ohio Residential Code requires ice barrier at all eaves; lead-safe certification for pre-1978 homes is enforced",
-    "landmarks": ["Rock and Roll Hall of Fame", "West Side Market", "Cleveland Museum of Art"],
+    "landmarks": [
+      "Rock and Roll Hall of Fame",
+      "West Side Market",
+      "Cleveland Museum of Art"
+    ],
     "geographyNote": "lake-effect snow can deposit 6-12 inches in a single event near Lake Erie, affecting structural snow load calculations"
+  },
+  "st-louis-mo": {
+    "displayName": "St. Louis",
+    "state": "Missouri",
+    "stateAbbr": "MO",
+    "neighborhoods": [
+      "Central West End",
+      "Soulard",
+      "Tower Grove South",
+      "Clayton",
+      "Benton Park",
+      "The Hill"
+    ],
+    "climate": "humid continental with hot humid summers, cold winters, severe spring thunderstorms with tornado and hail risk",
+    "soil": "Missouri River alluvium and loess over Mississippian limestone; clay soils prone to seasonal movement",
+    "permits": "City of St. Louis Building Division handles permits; St. Louis County has a separate process for unincorporated areas",
+    "homeAge": "significant stock of 1880-1940 brick homes including Victorian and four-square styles; the Hill neighborhood has dense 1920s brick construction",
+    "contractorMarket": "competitive midwest pricing with strong union presence in the trades; labor rates track slightly below Chicago and above Indianapolis",
+    "roofCodeNote": "Missouri does not license roofing contractors at state level; the City of St. Louis requires contractor registration",
+    "landmarks": [
+      "Gateway Arch",
+      "Forest Park",
+      "Busch Stadium"
+    ],
+    "geographyNote": "the city of St. Louis is independent from St. Louis County, creating distinct permitting and inspection processes across the metro"
   }
 }

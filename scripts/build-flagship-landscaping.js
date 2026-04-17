@@ -41,6 +41,16 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-landscaping-cost.html", region: "midwest" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-landscaping-cost.html", region: "midwest" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-landscaping-cost.html", region: "southeast" },
+    { slug: "st-louis-mo", ctxKey: "St. Louis|MO", file: "st-louis-mo-landscaping-cost.html", region: "midwest" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-landscaping-cost.html", region: "southeast" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-landscaping-cost.html", region: "south" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-landscaping-cost.html", region: "west" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-landscaping-cost.html", region: "west" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-landscaping-cost.html", region: "northeast" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-landscaping-cost.html", region: "midwest" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-landscaping-cost.html", region: "midwest" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-landscaping-cost.html", region: "midwest" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-landscaping-cost.html", region: "southeast" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }
@@ -329,7 +339,216 @@ const CITY_LANDSCAPING_DATA = {
     commonScamPara: "The dominant Charlotte landscaping scam is the post-ice-storm or post-tornado door-to-door tree-cleanup crew offering limb removal and debris hauling for $800-$3,500 cash, demanding upfront payment, and disappearing. North Carolina Landscape Contractors Registration Board (NCLCRB) licenses landscape contractors bidding over $30,000 (through the NC LCL license). Verify the NC LCL license lookup, $20,000 bond minimum, and $300K general liability. NC Attorney General Consumer Protection tracks repeat complaints. NC Certified Plant Professional and ISA are baseline arborist credentials."
   },
 
+  "st-louis-mo": {
+    nativePlantPalettePara: "The St. Louis native palette centers on red oak, sweetgum, pin oak for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The St. Louis cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "St. Louis soil is Missouri River alluvium and Mississippian limestone. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. Central West End and Soulard yards show distinct soil profiles.",
+    irrigationRegsPara: "St. Louis does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "St. Louis hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like Central West End and Soulard. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "St. Louis does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "St. Louis invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The MO cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "St. Louis master-planned communities in Clayton have strict HOA landscape requirements. Established neighborhoods like Central West End and Soulard have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "St. Louis tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Central West End lots with canopy red oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "St. Louis maintenance peaks during the growing season with winter dormancy reducing the schedule. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "St. Louis stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Central West End and Soulard may have specific watershed protection overlays.",
+    commonScamPara: "Common St. Louis landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "orlando-fl": {
+    nativePlantPalettePara: "The Orlando native palette centers on live oak, cabbage palm, bald cypress for canopy and understory. Tropical and subtropical species including sabal palmetto, coontie, and muhly grass form the foundation planting. The Orlando cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Orlando soil is Central Florida sand over Ocala limestone. Sandy soil requires organic amendment and mulching to retain moisture. Winter Park and College Park yards show distinct soil profiles.",
+    irrigationRegsPara: "Orlando follows local water management district irrigation restrictions. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Orlando hardscape style runs to paver patios, shell-aggregate paths, and pool-cage-integrated outdoor living spaces in neighborhoods like Winter Park and College Park. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "St. Augustine (Floratam cultivar) is the dominant warm-season turf in Orlando, with Zoysia gaining share.",
+    turfAndXeriscapeRebatesPara: "Orlando does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Orlando invasive pest concerns include Brazilian pepper, air potato vine, and invasive iguanas. The FL cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Orlando master-planned communities in Dr. Phillips have strict HOA landscape requirements. Established neighborhoods like Winter Park and College Park have character expectations enforced through zoning or neighborhood associations. Florida statute limits HOA restrictions on Florida-Friendly landscaping.",
+    treeServicePara: "Orlando tree removal permits may be required for trees over 6 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Winter Park lots with canopy live oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Orlando requires year-round maintenance with peak growth March through October. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Orlando stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Winter Park and College Park may have specific watershed protection overlays.",
+    commonScamPara: "Common Orlando landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "san-antonio-tx": {
+    nativePlantPalettePara: "The San Antonio native palette centers on live oak, pecan, mountain laurel for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The San Antonio cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "San Antonio soil is Balcones Fault Zone clay and Edwards limestone. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. Alamo Heights and Stone Oak yards show distinct soil profiles.",
+    irrigationRegsPara: "San Antonio does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. SAWS (San Antonio) has among the strictest stage-based irrigation restrictions in Texas.",
+    hardscapeStylePara: "San Antonio hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like Alamo Heights and Stone Oak. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Bermuda grass and Zoysia are the dominant warm-season turfs, with buffalo grass gaining share for water conservation.",
+    turfAndXeriscapeRebatesPara: "San Antonio offers turf-replacement rebates of $1-$3 per sqft through the local water utility or conservation district. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "San Antonio invasive pest concerns include invasive species specific to the San Antonio region. The TX cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "San Antonio master-planned communities in King William have strict HOA landscape requirements. Established neighborhoods like Alamo Heights and Stone Oak have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "San Antonio tree removal permits may be required for trees over 19 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Alamo Heights lots with canopy live oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "San Antonio maintenance peaks during the growing season with year-round attention needed. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "San Antonio stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Alamo Heights and Stone Oak may have specific watershed protection overlays.",
+    commonScamPara: "Common San Antonio landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "portland-or": {
+    nativePlantPalettePara: "The Portland native palette centers on Douglas fir, western red cedar, bigleaf maple for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Portland cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Portland soil is Willamette River alluvium over Columbia River basalt. Local soil testing through the county extension service ($15-$40) is the starting point for amendment recommendations. Pearl District and Alberta Arts yards show distinct soil profiles.",
+    irrigationRegsPara: "Portland does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Portland hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like Pearl District and Alberta Arts. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Portland does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Portland invasive pest concerns include invasive species specific to the Portland region. The OR cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Portland master-planned communities in Lake Oswego have strict HOA landscape requirements. Established neighborhoods like Pearl District and Alberta Arts have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Portland tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Pearl District lots with canopy Douglas fir require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Portland maintenance peaks during the growing season with year-round attention needed. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Portland stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Pearl District and Alberta Arts may have specific watershed protection overlays.",
+    commonScamPara: "Common Portland landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "sacramento-ca": {
+    nativePlantPalettePara: "The Sacramento native palette centers on valley oak, coast live oak, Chinese pistache for canopy and understory. Drought-tolerant xeriscaping with native grasses, agave, and desert wildflowers is increasingly popular. The Sacramento cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Sacramento soil is Sacramento Valley alluvial clay and American River sand. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. East Sacramento and Midtown yards show distinct soil profiles.",
+    irrigationRegsPara: "Sacramento enforces water conservation ordinances with specific irrigation day/time restrictions. SMUD territory homes must comply with state Model Water Efficient Landscape Ordinance (MWELO).",
+    hardscapeStylePara: "Sacramento hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like East Sacramento and Midtown. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Sacramento offers turf-replacement rebates of $1-$3 per sqft through the local water utility or conservation district. California MWELO compliance drives landscape water budgets on new construction.",
+    invasivePestPara: "Sacramento invasive pest concerns include invasive species specific to the Sacramento region. The CA cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Sacramento master-planned communities in Elk Grove have strict HOA landscape requirements. Established neighborhoods like East Sacramento and Midtown have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Sacramento tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. East Sacramento lots with canopy valley oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Sacramento maintenance peaks during the growing season with year-round attention needed. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Sacramento stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. East Sacramento and Midtown may have specific watershed protection overlays.",
+    commonScamPara: "Common Sacramento landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "pittsburgh-pa": {
+    nativePlantPalettePara: "The Pittsburgh native palette centers on red oak, sugar maple, American beech for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Pittsburgh cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Pittsburgh soil is Allegheny Plateau sandstone and shale. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. Shadyside and Squirrel Hill yards show distinct soil profiles.",
+    irrigationRegsPara: "Pittsburgh does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Pittsburgh hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Shadyside and Squirrel Hill. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Pittsburgh residential lawns.",
+    turfAndXeriscapeRebatesPara: "Pittsburgh does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Pittsburgh invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The PA cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Pittsburgh master-planned communities in Lawrenceville have strict HOA landscape requirements. Established neighborhoods like Shadyside and Squirrel Hill have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Pittsburgh tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Shadyside lots with canopy red oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Pittsburgh landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Pittsburgh stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Shadyside and Squirrel Hill may have specific watershed protection overlays.",
+    commonScamPara: "Common Pittsburgh landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "columbus-oh": {
+    nativePlantPalettePara: "The Columbus native palette centers on sugar maple, red oak, Ohio buckeye for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Columbus cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Columbus soil is glacial till over Devonian shale and Ohio limestone. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. German Village and Short North yards show distinct soil profiles.",
+    irrigationRegsPara: "Columbus does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Columbus hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like German Village and Short North. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Columbus residential lawns.",
+    turfAndXeriscapeRebatesPara: "Columbus does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Columbus invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The OH cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Columbus master-planned communities in Upper Arlington have strict HOA landscape requirements. Established neighborhoods like German Village and Short North have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Columbus tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. German Village lots with canopy sugar maple require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Columbus landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Columbus stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. German Village and Short North may have specific watershed protection overlays.",
+    commonScamPara: "Common Columbus landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "kansas-city-mo": {
+    nativePlantPalettePara: "The Kansas City native palette centers on bur oak, eastern redbud, hackberry for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Kansas City cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Kansas City soil is Kansas City Group limestone and Missouri River loess. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. Country Club Plaza and Brookside yards show distinct soil profiles.",
+    irrigationRegsPara: "Kansas City does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Kansas City hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Country Club Plaza and Brookside. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Kansas City residential lawns.",
+    turfAndXeriscapeRebatesPara: "Kansas City does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Kansas City invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The MO cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Kansas City master-planned communities in Overland Park have strict HOA landscape requirements. Established neighborhoods like Country Club Plaza and Brookside have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Kansas City tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Country Club Plaza lots with canopy bur oak require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Kansas City landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Kansas City stormwater management requirements affect landscape design. Even in drier climates, stormwater management best practices protect foundations and prevent erosion. Country Club Plaza and Brookside may have specific watershed protection overlays.",
+    commonScamPara: "Common Kansas City landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "indianapolis-in": {
+    nativePlantPalettePara: "The Indianapolis native palette centers on tulip poplar, sweetgum, white ash for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Indianapolis cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Indianapolis soil is Wisconsin-age glacial till and Silurian-Devonian limestone. Alkaline soil with high pH limits species selection and benefits from sulfur amendment. Broad Ripple and Meridian-Kessler yards show distinct soil profiles.",
+    irrigationRegsPara: "Indianapolis does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Indianapolis hardscape style runs to bluestone or natural stone patios, fieldstone retaining walls, and paver driveways in neighborhoods like Broad Ripple and Meridian-Kessler. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Cool-season fescue and bluegrass blends dominate Indianapolis residential lawns.",
+    turfAndXeriscapeRebatesPara: "Indianapolis does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Indianapolis invasive pest concerns include spotted lanternfly, emerald ash borer, and Japanese beetle. The IN cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Indianapolis master-planned communities in Carmel have strict HOA landscape requirements. Established neighborhoods like Broad Ripple and Meridian-Kessler have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Indianapolis tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. Broad Ripple lots with canopy tulip poplar require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Indianapolis landscape maintenance runs March through November with winter dormancy. Fall leaf cleanup, winter snow removal, and spring cleanup are the major seasonal tasks.",
+    stormwaterPara: "Indianapolis stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. Broad Ripple and Meridian-Kessler may have specific watershed protection overlays.",
+    commonScamPara: "Common Indianapolis landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
+  "nashville-tn": {
+    nativePlantPalettePara: "The Nashville native palette centers on eastern red cedar, tulip poplar, hackberry for canopy and understory. Regional native perennials and grasses adapted to the local soil and rainfall pattern form the foundation planting. The Nashville cooperative extension service and local native plant societies provide definitive sourcing lists.",
+    soilAmendmentPara: "Nashville soil is Middle Tennessee Basin limestone and Ordovician phosphatic clay. Heavy clay requires gypsum amendment and raised beds for most ornamental plantings. East Nashville and 12South yards show distinct soil profiles.",
+    irrigationRegsPara: "Nashville does not enforce strict irrigation restrictions but backflow-prevention permits are required on new systems. Smart irrigation controllers with weather-based scheduling reduce consumption 20-30%.",
+    hardscapeStylePara: "Nashville hardscape style runs to stamped concrete patios, natural stone seat walls, and paver walkways in neighborhoods like East Nashville and 12South. Permeable paver installations qualify for stormwater management credits in many jurisdictions.",
+    lawnMaterialPara: "Warm-season turf (Bermuda, Zoysia) dominates with cool-season fescue in shaded areas.",
+    turfAndXeriscapeRebatesPara: "Nashville does not offer turf-replacement rebates but stormwater management incentives may apply. Native plant installations reduce long-term water and maintenance costs by 40-60%.",
+    invasivePestPara: "Nashville invasive pest concerns include invasive species specific to the Nashville region. The TN cooperative extension service publishes current invasive species alerts and management recommendations.",
+    HOAAestheticPara: "Nashville master-planned communities in Green Hills have strict HOA landscape requirements. Established neighborhoods like East Nashville and 12South have character expectations enforced through zoning or neighborhood associations. ",
+    treeServicePara: "Nashville tree removal permits may be required for trees over 6-12 inches DBH depending on local ordinance. Licensed arborists charge $800-$3,500 per mature tree removal. East Nashville lots with canopy eastern red cedar require specific root-zone protection during any landscape construction.",
+    seasonalMaintenancePara: "Nashville maintenance peaks during the growing season with winter dormancy reducing the schedule. Irrigation management and hurricane preparation (FL) are critical seasonal tasks.",
+    stormwaterPara: "Nashville stormwater management requirements affect landscape design. Rain gardens, bioswales, and permeable surfaces reduce runoff and may qualify for utility credits. East Nashville and 12South may have specific watershed protection overlays.",
+    commonScamPara: "Common Nashville landscaping scams include: quoting non-native 'miracle' species at premium prices, over-applying chemicals without soil testing, and promising instant results from sod installation on unprepared subgrade. Always require soil test results before accepting amendment recommendations."
+  },
+
 };
+
+
+const CITY_LANDSCAPING_EXTRA = {
+  "st-louis-mo": {
+    localMarketPara: `The St Louis landscaping market serves a metro of Central West End, Soulard, Clayton, The Hill, and surrounding communities. Ameren Missouri coordinates service for residential projects across the metro. Missouri has no statewide contractor license; city registration required. St Louis's 60 freeze-thaw cycles annually, 42 inches of rain, and severe spring thunderstorms drives plant selection and irrigation requirements.`,
+    localDetailPara: `Central West End and Soulard neighborhoods in St Louis show distinct landscaping patterns tied to their housing era. Lafayette Square, Soulard, and Compton Heights are the primary protected historic districts under the Cultural Resources Office; landscape changes on contributing structures may require preservation review. The April 2011 Good Friday EF4 tornado that devastated north county and Lambert Airport highlighted specific landscaping vulnerabilities in the St Louis market. Washington University and Saint Louis University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `St Louis's productive landscaping season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of St. Louis Building Division handles permits with typical 5-10 day turnaround. Spire coordinates gas service for applicable work. Off-peak scheduling in St Louis saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "orlando-fl": {
+    localMarketPara: `The Orlando landscaping market serves a metro of Winter Park, College Park, Dr. Phillips, Lake Nona, and surrounding communities. OUC and Duke Energy Florida coordinates service for residential projects across the metro. Florida DBPR licenses contractors; verify at myfloridalicense.com. Orlando's zero freeze-thaw cycles, 50 inches of rain concentrated in summer thunderstorms, and direct hurricane exposure drives plant selection and irrigation requirements.`,
+    localDetailPara: `Winter Park and College Park neighborhoods in Orlando show distinct landscaping patterns tied to their housing era. Lake Eola Heights, Colonialtown, and Thornton Park historic districts are under the Orlando Historic Preservation Board; landscape changes on contributing structures may require preservation review. Hurricane Ian 2022 and Hurricane Irma 2017 which both affected the Central Florida metro highlighted specific landscaping vulnerabilities in the Orlando market. University of Central Florida and Rollins College campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Orlando's landscaping work runs year-round with peak demand in October through March. City of Orlando Permitting Services handles permits with typical 5-10 day turnaround. TECO Peoples Gas coordinates gas service for applicable work. Off-peak scheduling in Orlando saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "san-antonio-tx": {
+    localMarketPara: `The San Antonio landscaping market serves a metro of Alamo Heights, Stone Oak, King William, The Pearl, and surrounding communities. CPS Energy coordinates service for residential projects across the metro. Texas has no statewide residential contractor license; TDLR registers mechanical and electrical trades only. San Antonio's 5 freeze-thaw cycles, 32 inches of rain, and extreme summer heat exceeding 100F for 30+ days drives plant selection and irrigation requirements.`,
+    localDetailPara: `Alamo Heights and Stone Oak neighborhoods in San Antonio show distinct landscaping patterns tied to their housing era. King William, Monte Vista, and Dignowity Hill are among 10+ historic districts under the HDRC; landscape changes on contributing structures may require preservation review. The February 2021 Winter Storm Uri that knocked out power across the entire ERCOT grid for 4-5 days highlighted specific landscaping vulnerabilities in the San Antonio market. UTSA, Trinity University, and the Alamo Colleges District campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `San Antonio's landscaping work runs year-round with peak demand in spring and early summer. City of San Antonio Development Services handles permits with typical 5-10 day turnaround. CPS Energy (combined utility) coordinates gas service for applicable work. Off-peak scheduling in San Antonio saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "portland-or": {
+    localMarketPara: `The Portland landscaping market serves a metro of Pearl District, Alberta Arts, Lake Oswego, Sellwood, and surrounding communities. Portland General Electric (PGE) coordinates service for residential projects across the metro. Oregon CCB license required; verify at ccb.oregon.gov. Portland's 15 freeze-thaw cycles, 43 inches of rain concentrated October-May, and persistent winter moisture drives plant selection and irrigation requirements.`,
+    localDetailPara: `Pearl District and Alberta Arts neighborhoods in Portland show distinct landscaping patterns tied to their housing era. Irvington, Ladd's Addition, Piedmont, and Lair Hill historic districts are under the Portland Historic Landmarks Commission; landscape changes on contributing structures may require preservation review. The January 2021 ice storm that coated the metro in 1-2 inches of ice and damaged thousands of homes highlighted specific landscaping vulnerabilities in the Portland market. Portland State University, Reed College, and Lewis & Clark College campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Portland's landscaping work runs year-round with peak demand in spring and early summer. City of Portland Bureau of Development Services handles permits with typical 5-10 day turnaround. NW Natural coordinates gas service for applicable work. Off-peak scheduling in Portland saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "sacramento-ca": {
+    localMarketPara: `The Sacramento landscaping market serves a metro of East Sacramento, Midtown, Elk Grove, Roseville, and surrounding communities. SMUD coordinates service for residential projects across the metro. California requires specific contractor licenses through CSLB; verify at cslb.ca.gov. Sacramento's 12 freeze-thaw cycles, only 18 inches of rain, and Central Valley summer heat exceeding 100F for 60+ days drives plant selection and irrigation requirements.`,
+    localDetailPara: `East Sacramento and Midtown neighborhoods in Sacramento show distinct landscaping patterns tied to their housing era. Alkali Flat, Boulevard Park, and Poverty Ridge are under the Sacramento Preservation Commission; landscape changes on contributing structures may require preservation review. The January 2023 atmospheric river sequence that produced record flooding across the Sacramento Valley highlighted specific landscaping vulnerabilities in the Sacramento market. UC Davis, Sacramento State, and McGeorge School of Law campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Sacramento's landscaping work runs year-round with peak demand in spring and early summer. City of Sacramento Community Development handles permits with typical 5-10 day turnaround. PG&E coordinates gas service for applicable work. Off-peak scheduling in Sacramento saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "pittsburgh-pa": {
+    localMarketPara: `The Pittsburgh landscaping market serves a metro of Shadyside, Squirrel Hill, Lawrenceville, Mt. Lebanon, and surrounding communities. Duquesne Light coordinates service for residential projects across the metro. Pennsylvania requires HIC registration under Act 132; verify at pago.state.pa.us. Pittsburgh's 75 freeze-thaw cycles, 38 inches of rain, and heavy winter snow loading from Great Lakes moisture drives plant selection and irrigation requirements.`,
+    localDetailPara: `Shadyside and Squirrel Hill neighborhoods in Pittsburgh show distinct landscaping patterns tied to their housing era. Allegheny West, Manchester, Mexican War Streets, and Deutschtown are under the Pittsburgh Historic Review Commission; landscape changes on contributing structures may require preservation review. The June 2012 derecho and the August 2019 windstorm that produced widespread damage across Allegheny County highlighted specific landscaping vulnerabilities in the Pittsburgh market. University of Pittsburgh and Carnegie Mellon University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Pittsburgh's productive landscaping season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of Pittsburgh PLI handles permits with typical 5-10 day turnaround. Peoples Gas coordinates gas service for applicable work. Off-peak scheduling in Pittsburgh saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "columbus-oh": {
+    localMarketPara: `The Columbus landscaping market serves a metro of German Village, Short North, Upper Arlington, Dublin, and surrounding communities. AEP Ohio coordinates service for residential projects across the metro. Ohio has no statewide residential contractor license; Columbus requires local registration. Columbus's 80 freeze-thaw cycles, 40 inches of rain, and occasional severe thunderstorms drives plant selection and irrigation requirements.`,
+    localDetailPara: `German Village and Short North neighborhoods in Columbus show distinct landscaping patterns tied to their housing era. German Village, Victorian Village, and Italian Village are under the Columbus Historic Preservation Commission; landscape changes on contributing structures may require preservation review. The June 2012 derecho that produced widespread power outages and property damage across Franklin County highlighted specific landscaping vulnerabilities in the Columbus market. The Ohio State University, Capital University, and Otterbein University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Columbus's productive landscaping season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of Columbus Building and Zoning Services handles permits with typical 5-10 day turnaround. Columbia Gas of Ohio coordinates gas service for applicable work. Off-peak scheduling in Columbus saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "kansas-city-mo": {
+    localMarketPara: `The Kansas City landscaping market serves a metro of Country Club Plaza, Brookside, Overland Park, Prairie Village, and surrounding communities. Evergy coordinates service for residential projects across the metro. Missouri has no statewide roofer license; Kansas requires contractor registration through the Attorney General. The metro straddles both states. Kansas City's 80 freeze-thaw cycles, 39 inches of rain, and severe spring supercells in the central US hail corridor drives plant selection and irrigation requirements.`,
+    localDetailPara: `Country Club Plaza and Brookside neighborhoods in Kansas City show distinct landscaping patterns tied to their housing era. Country Club Plaza, Pendleton Heights, and Janssen Place are under the KCMO Historic Preservation Commission; Kansas-side municipalities have limited historic protections; landscape changes on contributing structures may require preservation review. The May 2024 supercell hail event that produced widespread damage across Johnson County KS and the March 2022 tornado outbreak highlighted specific landscaping vulnerabilities in the Kansas City market. UMKC, University of Kansas (Lawrence), and Rockhurst University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Kansas City's productive landscaping season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. Kansas City Permits and Inspections handles permits with typical 5-10 day turnaround. Spire coordinates gas service for applicable work. Off-peak scheduling in Kansas City saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "indianapolis-in": {
+    localMarketPara: `The Indianapolis landscaping market serves a metro of Broad Ripple, Meridian-Kessler, Carmel, Fishers, and surrounding communities. AES Indiana coordinates service for residential projects across the metro. Indiana has no statewide residential contractor license but requires Marion County registration. Indianapolis's 85 freeze-thaw cycles, 42 inches of rain, and spring supercell exposure in the tornado corridor drives plant selection and irrigation requirements.`,
+    localDetailPara: `Broad Ripple and Meridian-Kessler neighborhoods in Indianapolis show distinct landscaping patterns tied to their housing era. Irvington, Lockerbie Square, Woodruff Place, and Herron-Morton Place are under the Indianapolis Historic Preservation Commission; landscape changes on contributing structures may require preservation review. The November 2013 EF2 tornado in Washington Township and the April 2023 spring hail event that damaged thousands of homes highlighted specific landscaping vulnerabilities in the Indianapolis market. Indiana University-Purdue University Indianapolis (IUPUI), Butler University, and Marian University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Indianapolis's productive landscaping season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. Indianapolis Department of Business and Neighborhood Services handles permits with typical 5-10 day turnaround. CenterPoint Energy Indiana coordinates gas service for applicable work. Off-peak scheduling in Indianapolis saves 10-15% on labor-intensive landscaping projects.`,
+  },
+  "nashville-tn": {
+    localMarketPara: `The Nashville landscaping market serves a metro of East Nashville, 12South, Green Hills, Franklin, and surrounding communities. Nashville Electric Service (NES) coordinates service for residential projects across the metro. Tennessee requires a Home Improvement License for projects over $3,000 through the Tennessee Board for Licensing Contractors. Nashville's 40 freeze-thaw cycles, 48 inches of rain, and severe spring thunderstorms in the Nashville Basin drives plant selection and irrigation requirements.`,
+    localDetailPara: `East Nashville and 12South neighborhoods in Nashville show distinct landscaping patterns tied to their housing era. East Nashville, Germantown, and Lockeland Springs are under the Metro Nashville Historic Zoning Commission; landscape changes on contributing structures may require preservation review. The March 2020 EF3 tornado that devastated East Nashville, Germantown, Donelson, and Mt. Juliet highlighted specific landscaping vulnerabilities in the Nashville market. Vanderbilt University, Belmont University, and Tennessee State University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Nashville's landscaping work runs year-round with peak demand in spring and early summer. Metro Nashville Department of Codes Administration handles permits with typical 5-10 day turnaround. Piedmont Natural Gas coordinates gas service for applicable work. Off-peak scheduling in Nashville saves 10-15% on labor-intensive landscaping projects.`,
+  },
+};
+
+// Merge extra content into primary dict
+for (const [slug, extra] of Object.entries(CITY_LANDSCAPING_EXTRA)) {
+  CITY_LANDSCAPING_DATA[slug] = Object.assign(CITY_LANDSCAPING_DATA[slug] || {}, extra);
+}
 
 /* ---------- Section 1: Neighborhood Pricing ---------- */
 function neighborhoodPricing(facts, mult, cd) {
@@ -556,8 +775,33 @@ function buildFlagshipContent(metro) {
   html += scamSection(city, cd);
   html += buyerQuestionsSection(city, cd);
   html += costScenarios(city, mult, cd);
+  html += extraLocalSection(city, cd);
   html += `\n${MARKER_END}\n`;
 
+  return html;
+}
+
+
+function extraLocalSection(city, d) {
+  let html = "";
+  if (d.localMarketPara) html += `<section class="section fp-section"><h2>${city} local market overview</h2><p>${d.localMarketPara}</p></section>`;
+  if (d.localDetailPara) html += `<section class="section fp-section"><h2>${city} neighborhood details</h2><p>${d.localDetailPara}</p></section>`;
+  if (d.seasonAndContractorPara) html += `<section class="section fp-section"><h2>${city} seasonal pricing and contractors</h2><p>${d.seasonAndContractorPara}</p></section>`;
+  if (d.localProjectPara) html += `<section class="section fp-section"><h2>${city} common projects</h2><p>${d.localProjectPara}</p></section>`;
+  if (d.weatherImpactPara) html += `<section class="section fp-section"><h2>${city} weather considerations</h2><p>${d.weatherImpactPara}</p></section>`;
+  if (d.contractorVerifyPara) html += `<section class="section fp-section"><h2>Verifying ${city} contractors</h2><p>${d.contractorVerifyPara}</p></section>`;
+  if (d.localUtilityPara) html += `<section class="section fp-section"><h2>${city} utility coordination</h2><p>${d.localUtilityPara}</p></section>`;
+  if (d.panelAndCodePara) html += `<section class="section fp-section"><h2>${city} panel upgrades and codes</h2><p>${d.panelAndCodePara}</p></section>`;
+  if (d.safetyAndLicensePara) html += `<section class="section fp-section"><h2>${city} safety concerns</h2><p>${d.safetyAndLicensePara}</p></section>`;
+  if (d.localMaterialPara) html += `<section class="section fp-section"><h2>${city} material preferences</h2><p>${d.localMaterialPara}</p></section>`;
+  if (d.hoaAndWildlifePara) html += `<section class="section fp-section"><h2>${city} HOA and wildlife considerations</h2><p>${d.hoaAndWildlifePara}</p></section>`;
+  if (d.seasonAndCostPara) html += `<section class="section fp-section"><h2>${city} seasonal costs</h2><p>${d.seasonAndCostPara}</p></section>`;
+  if (d.localGeologyPara) html += `<section class="section fp-section"><h2>${city} soil and geology</h2><p>${d.localGeologyPara}</p></section>`;
+  if (d.repairMethodPara) html += `<section class="section fp-section"><h2>${city} repair approaches</h2><p>${d.repairMethodPara}</p></section>`;
+  if (d.drainageAndMoisturePara) html += `<section class="section fp-section"><h2>${city} drainage management</h2><p>${d.drainageAndMoisturePara}</p></section>`;
+  if (d.localRainfallPara) html += `<section class="section fp-section"><h2>${city} rainfall and sizing</h2><p>${d.localRainfallPara}</p></section>`;
+  if (d.freezeAndMaintenancePara) html += `<section class="section fp-section"><h2>${city} freeze protection</h2><p>${d.freezeAndMaintenancePara}</p></section>`;
+  if (d.buyingGuidePara) html += `<section class="section fp-section"><h2>${city} buying guide</h2><p>${d.buyingGuidePara}</p></section>`;
   return html;
 }
 

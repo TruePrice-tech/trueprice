@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Expands all 16 flagship builders from 20 metros to 40 metros.
- * Adds 20 new metro entries + per-metro data dict entries to each builder.
+ * Expands all 16 flagship builders from 20 metros to 30 metros.
+ * Adds 10 new metro entries + per-metro data dict entries to each builder.
  *
  * Usage: node scripts/expand-flagship-metros.js
  */
@@ -10,28 +10,18 @@ const fs = require("fs");
 const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 
-// The 20 new metros to add
+// The 10 new metros to add (next-largest US metros by population)
 const NEW_METROS = [
+  { slug: "st-louis-mo", ctxKey: "St. Louis|MO", region: "midwest", state: "MO" },
+  { slug: "orlando-fl", ctxKey: "Orlando|FL", region: "southeast", state: "FL" },
   { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", region: "south", state: "TX" },
-  { slug: "jacksonville-fl", ctxKey: "Jacksonville|FL", region: "southeast", state: "FL" },
-  { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", region: "south", state: "TX" },
+  { slug: "portland-or", ctxKey: "Portland|OR", region: "west", state: "OR" },
+  { slug: "sacramento-ca", ctxKey: "Sacramento|CA", region: "west", state: "CA" },
+  { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", region: "northeast", state: "PA" },
   { slug: "columbus-oh", ctxKey: "Columbus|OH", region: "midwest", state: "OH" },
+  { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", region: "midwest", state: "MO" },
   { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", region: "midwest", state: "IN" },
   { slug: "nashville-tn", ctxKey: "Nashville|TN", region: "southeast", state: "TN" },
-  { slug: "portland-or", ctxKey: "Portland|OR", region: "west", state: "OR" },
-  { slug: "memphis-tn", ctxKey: "Memphis|TN", region: "southeast", state: "TN" },
-  { slug: "louisville-ky", ctxKey: "Louisville|KY", region: "southeast", state: "KY" },
-  { slug: "baltimore-md", ctxKey: "Baltimore|MD", region: "northeast", state: "MD" },
-  { slug: "milwaukee-wi", ctxKey: "Milwaukee|WI", region: "midwest", state: "WI" },
-  { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", region: "mountain", state: "NM" },
-  { slug: "tucson-az", ctxKey: "Tucson|AZ", region: "mountain", state: "AZ" },
-  { slug: "sacramento-ca", ctxKey: "Sacramento|CA", region: "west", state: "CA" },
-  { slug: "raleigh-nc", ctxKey: "Raleigh|NC", region: "southeast", state: "NC" },
-  { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", region: "midwest", state: "MO" },
-  { slug: "orlando-fl", ctxKey: "Orlando|FL", region: "southeast", state: "FL" },
-  { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", region: "northeast", state: "PA" },
-  { slug: "cincinnati-oh", ctxKey: "Cincinnati|OH", region: "midwest", state: "OH" },
-  { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", region: "mountain", state: "CO" },
 ];
 
 // Builder configurations
@@ -152,26 +142,16 @@ const BUILDERS = [
 
 // Insulation extra fields for each new metro
 const INSULATION_EXTRAS = {
+  "st-louis-mo": { ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
   "san-antonio-tx": { ieccZone: "2A", doeAttic: "R-30 to R-60", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
-  "jacksonville-fl": { ieccZone: "2A", doeAttic: "R-30 to R-60", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
-  "fort-worth-tx": { ieccZone: "3A", doeAttic: "R-30 to R-60", doeWall: "R-13 to R-15", codeAttic: "R-38", codeWall: "R-13" },
   "columbus-oh": { ieccZone: "5A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
   "indianapolis-in": { ieccZone: "5A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
   "nashville-tn": { ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
   "portland-or": { ieccZone: "4C", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
-  "memphis-tn": { ieccZone: "3A", doeAttic: "R-30 to R-60", doeWall: "R-13 to R-15", codeAttic: "R-38", codeWall: "R-13" },
-  "louisville-ky": { ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
-  "baltimore-md": { ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
-  "milwaukee-wi": { ieccZone: "6A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
-  "albuquerque-nm": { ieccZone: "4B", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
-  "tucson-az": { ieccZone: "2B", doeAttic: "R-30 to R-60", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
   "sacramento-ca": { ieccZone: "3B", doeAttic: "R-30 to R-60", doeWall: "R-13 to R-15", codeAttic: "R-30", codeWall: "R-13" },
-  "raleigh-nc": { ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
   "kansas-city-mo": { ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
   "orlando-fl": { ieccZone: "2A", doeAttic: "R-30 to R-60", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
   "pittsburgh-pa": { ieccZone: "5A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
-  "cincinnati-oh": { ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
-  "colorado-springs-co": { ieccZone: "5B", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
 };
 
 function buildMetroEntry(metro, builder) {
@@ -245,7 +225,7 @@ for (const builder of BUILDERS) {
   let src = fs.readFileSync(filePath, "utf8");
 
   // Check if already expanded
-  if (src.includes('"san-antonio-tx"')) {
+  if (src.includes('"st-louis-mo"')) {
     console.log(`  SKIP ${builder.file} (already expanded)`);
     continue;
   }
@@ -302,11 +282,11 @@ for (const builder of BUILDERS) {
   src = src.substring(0, insertDictPoint) + dataEntries + "\n" + src.substring(insertDictPoint);
 
   // 3. Update the docstring comment from "20" to "40"
-  src = src.replace(/for 20 flagship metro/g, "for 40 flagship metro");
-  src = src.replace(/for 10 flagship metro/g, "for 40 flagship metro");
+  src = src.replace(/for 20 flagship metro/g, "for 30 flagship metro");
+  src = src.replace(/for 10 flagship metro/g, "for 30 flagship metro");
 
   fs.writeFileSync(filePath, src, "utf8");
-  console.log(`  PATCHED ${builder.file} (+20 metros, ${keys.length} fields each)`);
+  console.log(`  PATCHED ${builder.file} (+10 metros, ${keys.length} fields each)`);
   totalPatched++;
 }
 
@@ -355,26 +335,16 @@ function generateMetroData(builder, metro, keys) {
 
 // ---- METRO DATA MAPS ----
 const M = {
+  "st-louis-mo": { soil: "Missouri River alluvium and Mississippian limestone with windblown loess on the bluffs", frost: 60, rain: 42, utility: "Ameren Missouri", permit: "City of St. Louis Building Division", neighborhoods: ["Central West End", "Soulard", "Clayton"], readyMix: "Buzzi Unicem, Holcim, and Fred Weber", trees: "red oak, sweetgum, pin oak", waterUtil: "Missouri American Water (Missouri River and groundwater)", hardness: "150-200 ppm (hard)" },
   "san-antonio-tx": { soil: "Balcones Fault Zone clay and Edwards limestone", frost: 5, rain: 32, utility: "CPS Energy", permit: "City of San Antonio Development Services", neighborhoods: ["Alamo Heights", "Stone Oak", "King William"], readyMix: "Alamo Concrete, Capitol Aggregates, and Martin Marietta", trees: "live oak, pecan, mountain laurel", waterUtil: "San Antonio Water System (SAWS)", hardness: "200-300 ppm (hard to very hard)" },
-  "jacksonville-fl": { soil: "sandy coastal soils over Ocala limestone with marsh peat near the St. Johns River", frost: 0, rain: 52, utility: "JEA (Jacksonville Electric Authority)", permit: "City of Jacksonville Building Inspection Division", neighborhoods: ["Riverside", "San Marco", "Ponte Vedra Beach"], readyMix: "Rinker Materials, CEMEX Jacksonville, and Argos USA", trees: "live oak, bald cypress, southern magnolia", waterUtil: "JEA Water", hardness: "150-250 ppm (moderately hard)" },
-  "fort-worth-tx": { soil: "Eagle Ford shale and Goodland limestone with expansive Benbrook clay", frost: 12, rain: 34, utility: "Oncor Electric Delivery", permit: "City of Fort Worth Development Services", neighborhoods: ["Southlake", "Westover Hills", "Fairmount"], readyMix: "Trinity Industries Ready-Mix, Martin Marietta, and TXI", trees: "post oak, cedar elm, Texas ash", waterUtil: "Fort Worth Water Department", hardness: "120-180 ppm (moderately hard)" },
   "columbus-oh": { soil: "glacial till over Devonian shale and Ohio limestone", frost: 80, rain: 40, utility: "AEP Ohio (American Electric Power)", permit: "City of Columbus Department of Building and Zoning Services", neighborhoods: ["German Village", "Short North", "Upper Arlington"], readyMix: "Shelly Company, Irving Materials, and Central Ohio Ready Mix", trees: "sugar maple, red oak, Ohio buckeye", waterUtil: "City of Columbus Division of Water", hardness: "150-200 ppm (hard)" },
   "indianapolis-in": { soil: "Wisconsin-age glacial till and Silurian-Devonian limestone", frost: 85, rain: 42, utility: "AES Indiana (formerly Indianapolis Power & Light)", permit: "City of Indianapolis Department of Business and Neighborhood Services", neighborhoods: ["Broad Ripple", "Meridian-Kessler", "Carmel"], readyMix: "Irving Materials, Milestone Contractors, and Prairie Supply", trees: "tulip poplar, sweetgum, white ash", waterUtil: "Citizens Water of Indianapolis", hardness: "250-350 ppm (very hard)" },
   "nashville-tn": { soil: "Middle Tennessee Basin limestone and Ordovician phosphatic clay", frost: 40, rain: 48, utility: "Nashville Electric Service (NES)", permit: "Metropolitan Nashville Department of Codes Administration", neighborhoods: ["East Nashville", "12South", "Green Hills"], readyMix: "Buzzi Unicem, Rogers Group, and Volunteer Ready Mix", trees: "eastern red cedar, tulip poplar, hackberry", waterUtil: "Nashville Metro Water Services", hardness: "100-160 ppm (moderately hard)" },
   "portland-or": { soil: "Willamette River alluvium over Columbia River basalt with Portland Hills silt", frost: 15, rain: 43, utility: "Portland General Electric (PGE)", permit: "City of Portland Bureau of Development Services", neighborhoods: ["Pearl District", "Alberta Arts", "Lake Oswego"], readyMix: "Knife River, CalPortland, and Cadman", trees: "Douglas fir, western red cedar, bigleaf maple", waterUtil: "Portland Water Bureau (Bull Run watershed)", hardness: "10-25 ppm (very soft)" },
-  "memphis-tn": { soil: "Mississippi River alluvium and loess (windblown silt) over Cretaceous clay", frost: 30, rain: 54, utility: "Memphis Light, Gas and Water (MLGW)", permit: "City of Memphis Division of Planning and Development", neighborhoods: ["Midtown", "Cooper-Young", "Germantown"], readyMix: "Memphis Ready Mix, Lehigh Hanson, and Buzzi Unicem", trees: "water oak, sweetgum, bald cypress", waterUtil: "MLGW (Memphis Sand Aquifer)", hardness: "40-80 ppm (soft)" },
-  "louisville-ky": { soil: "Ohio River floodplain alluvium over Devonian limestone and New Albany shale", frost: 60, rain: 45, utility: "Louisville Gas and Electric (LG&E)", permit: "Louisville Metro Department of Codes and Regulations", neighborhoods: ["Highlands", "Old Louisville", "St. Matthews"], readyMix: "Buzzi Unicem, Ernst Concrete, and Irving Materials", trees: "Kentucky coffeetree, white oak, tulip poplar", waterUtil: "Louisville Water Company (Ohio River source)", hardness: "100-150 ppm (moderately hard)" },
-  "baltimore-md": { soil: "Piedmont saprolite and Baltimore gneiss with Coastal Plain sediments east of the Fall Line", frost: 65, rain: 42, utility: "Baltimore Gas and Electric (BGE)", permit: "Baltimore City Department of Housing", neighborhoods: ["Federal Hill", "Canton", "Roland Park"], readyMix: "Chaney Enterprises, Lehigh Hanson, and Martin Marietta", trees: "red maple, American sycamore, white oak", waterUtil: "Baltimore City DPW (Loch Raven and Prettyboy reservoirs)", hardness: "80-120 ppm (slightly hard)" },
-  "milwaukee-wi": { soil: "Laurentide glacial till over Silurian dolomite and Niagara escarpment limestone", frost: 120, rain: 34, utility: "We Energies (Wisconsin Energy)", permit: "City of Milwaukee Department of Neighborhood Services", neighborhoods: ["Third Ward", "Bay View", "Wauwatosa"], readyMix: "Waukesha Concrete, We Energies Industrial, and Payne & Dolan", trees: "sugar maple, basswood, white pine", waterUtil: "Milwaukee Water Works (Lake Michigan source)", hardness: "120-160 ppm (hard)" },
-  "albuquerque-nm": { soil: "Rio Grande rift alluvium over Tertiary volcanic tuff and Santa Fe Formation sand", frost: 70, rain: 9, utility: "PNM (Public Service Company of New Mexico)", permit: "City of Albuquerque Planning Department", neighborhoods: ["Nob Hill", "North Valley", "Rio Rancho"], readyMix: "Vulcan Materials, Martin Marietta, and Rio Grande Ready Mix", trees: "Rio Grande cottonwood, desert willow, pinon pine", waterUtil: "Albuquerque Bernalillo County Water Utility Authority", hardness: "120-200 ppm (hard)" },
-  "tucson-az": { soil: "Sonoran Desert alluvium with caliche layers 12-30 inches below grade over Tucson Mountain rhyolite", frost: 12, rain: 12, utility: "Tucson Electric Power (TEP)", permit: "City of Tucson Planning and Development Services", neighborhoods: ["Sam Hughes", "Catalina Foothills", "Oro Valley"], readyMix: "CalPortland, Vulcan Materials, and Rinker Materials Southwest", trees: "mesquite, palo verde, ironwood", waterUtil: "Tucson Water (Central Arizona Project canal and groundwater)", hardness: "200-350 ppm (very hard)" },
   "sacramento-ca": { soil: "Sacramento Valley alluvial clay and American River sand with hardpan beneath east-side neighborhoods", frost: 12, rain: 18, utility: "Sacramento Municipal Utility District (SMUD)", permit: "City of Sacramento Community Development Department", neighborhoods: ["East Sacramento", "Midtown", "Elk Grove"], readyMix: "CalPortland, Teichert, and Pacific Coast Building Products", trees: "valley oak, coast live oak, Chinese pistache", waterUtil: "City of Sacramento Department of Utilities (American and Sacramento Rivers)", hardness: "30-60 ppm (soft)" },
-  "raleigh-nc": { soil: "Piedmont saprolite over felsic gneiss with Triassic basin mudstone in the eastern reaches", frost: 45, rain: 46, utility: "Duke Energy Progress", permit: "City of Raleigh Development Services", neighborhoods: ["North Hills", "Cameron Village", "Cary"], readyMix: "Carolina Sunrock, Chandler Concrete, and Chaney Enterprises", trees: "loblolly pine, red maple, willow oak", waterUtil: "City of Raleigh Public Utilities (Falls Lake reservoir)", hardness: "40-80 ppm (soft to slightly hard)" },
   "kansas-city-mo": { soil: "Kansas City Group limestone and Missouri River loess with expansive Pennsylvanian shale", frost: 80, rain: 39, utility: "Evergy (formerly Kansas City Power & Light)", permit: "City of Kansas City Permits and Inspections Division", neighborhoods: ["Country Club Plaza", "Brookside", "Overland Park"], readyMix: "Ash Grove Cement, Hunt Midwest, and Ready Mixed Concrete Co. of Kansas City", trees: "bur oak, eastern redbud, hackberry", waterUtil: "Kansas City Water Services (Missouri River source)", hardness: "150-200 ppm (hard)" },
   "orlando-fl": { soil: "Central Florida sand over Ocala limestone with karst sinkholes and high water table", frost: 0, rain: 50, utility: "Duke Energy Florida and Orlando Utilities Commission (OUC)", permit: "City of Orlando Permitting Services Division", neighborhoods: ["Winter Park", "College Park", "Dr. Phillips"], readyMix: "CEMEX Orlando, Titan Florida, and Argos USA", trees: "live oak, cabbage palm, bald cypress", waterUtil: "Orlando Utilities Commission (Floridan Aquifer)", hardness: "180-280 ppm (hard to very hard)" },
   "pittsburgh-pa": { soil: "Allegheny Plateau sandstone and shale with Pittsburgh red beds clay and abandoned mine subsidence risk", frost: 75, rain: 38, utility: "Duquesne Light Company", permit: "City of Pittsburgh Department of Permits, Licenses and Inspections", neighborhoods: ["Shadyside", "Squirrel Hill", "Lawrenceville"], readyMix: "Allegheny Mineral, Lafarge Holcim, and Pittsburgh Ready Mix", trees: "red oak, sugar maple, American beech", waterUtil: "Pittsburgh Water and Sewer Authority (Allegheny River source)", hardness: "80-130 ppm (slightly hard)" },
-  "cincinnati-oh": { soil: "Ohio River glacial outwash over Ordovician limestone and shale with hillside instability on Cincinnati Formation clay", frost: 70, rain: 42, utility: "Duke Energy Ohio", permit: "City of Cincinnati Department of Buildings and Inspections", neighborhoods: ["Hyde Park", "Over-the-Rhine", "Mount Adams"], readyMix: "Barrett Industries, Rumpke Concrete, and Hilltop Ready Mix", trees: "sugar maple, chinquapin oak, eastern redbud", waterUtil: "Greater Cincinnati Water Works (Ohio River source)", hardness: "150-220 ppm (hard)" },
-  "colorado-springs-co": { soil: "Pikes Peak granite alluvium and Pierre shale with expansive bentonite along the Front Range foothills", frost: 110, rain: 17, utility: "Colorado Springs Utilities", permit: "City of Colorado Springs Regional Building Department", neighborhoods: ["Broadmoor", "Old Colorado City", "Briargate"], readyMix: "Martin Marietta, Transit Mix Concrete, and Aggregate Industries", trees: "ponderosa pine, blue spruce, Gambel oak", waterUtil: "Colorado Springs Utilities (multiple mountain reservoir sources)", hardness: "60-100 ppm (slightly hard)" },
 };
 
 function generateConcreteData(slug, name, state, metro) {

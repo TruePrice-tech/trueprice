@@ -42,6 +42,16 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-hvac-cost.html" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-hvac-cost.html" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-hvac-cost.html" },
+    { slug: "st-louis-mo", ctxKey: "St. Louis|MO", file: "st-louis-mo-hvac-cost.html" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-hvac-cost.html" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-hvac-cost.html" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-hvac-cost.html" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-hvac-cost.html" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-hvac-cost.html" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-hvac-cost.html" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-hvac-cost.html" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-hvac-cost.html" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-hvac-cost.html" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n.toLocaleString()}`; }
@@ -511,7 +521,276 @@ const metroHVACData = {
     ductworkPara: "Las Vegas tract-home ductwork in Summerlin, Henderson, and Aliante runs through unconditioned attics that reach 160F+ in summer. A duct-leakage test costs $150-$300 and should accompany every Clark County system replacement. Leaking attic supply connections waste 20-30% of conditioned air into the hottest space in the house."
   },
 
+  "st-louis-mo": {
+    utilityCompanies: "Ameren Missouri",
+    avgElectricRate: 0.14, avgGasRate: 1.05,
+    coolingDominant: false, heatingDominant: true,
+    humidityIssue: "moderate",
+    extremeTemp: "hot summers above 95F and cold winters below 20F",
+    recommendedSEER: 16, recommendedAFUE: 96,
+    heatPumpViable: "viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events",
+    permitAuthority: "City of St. Louis Building Division",
+    permitDetail: "City of St. Louis Building Division issues HVAC permits for residential work. State licensing applies plus local contractor registration. St. Louis requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "October through February",
+    worstBuyMonths: "June through August",
+    seasonReason: "St. Louis HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "St. Louis has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.",
+    dominantEquipmentStyle: "Forced-air gas furnace plus central AC split system is the dominant St. Louis configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.",
+    localScam: "St. Louis homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "St. Louis building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.",
+    techNarrative: "St. Louis's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost.",
+    utilityRebatesQuirk: "Ameren Missouri offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "orlando-fl": {
+    utilityCompanies: "Duke Energy Florida and Orlando Utilities Commission (OUC)",
+    avgElectricRate: 0.14, avgGasRate: 1.80,
+    coolingDominant: true, heatingDominant: false,
+    humidityIssue: "high",
+    extremeTemp: "extreme summer heat exceeding 100F with tropical humidity",
+    recommendedSEER: 18, recommendedAFUE: 80,
+    heatPumpViable: "excellent; Orlando's mild winters make heat pumps the default recommendation for most homeowners",
+    permitAuthority: "City of Orlando Permitting Services Division",
+    permitDetail: "City of Orlando Permitting Services Division issues HVAC permits for residential work. Florida DBPR licenses HVAC contractors. Orlando requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "November through March",
+    worstBuyMonths: "June through September",
+    seasonReason: "Orlando HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "Orlando has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Rheem and Goodman also have significant market share through independent dealers.",
+    dominantEquipmentStyle: "Central AC split system or packaged heat pump is standard in Orlando, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.",
+    localScam: "Orlando homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "Florida requires Manual J load calculations for new installations, and Orlando building inspectors enforce this.",
+    techNarrative: "Orlando's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely.",
+    utilityRebatesQuirk: "Duke Energy Florida and Orlando Utilities Commission offers efficiency rebates for qualifying ENERGY STAR equipment. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "san-antonio-tx": {
+    utilityCompanies: "CPS Energy",
+    avgElectricRate: 0.12, avgGasRate: 1.10,
+    coolingDominant: true, heatingDominant: false,
+    humidityIssue: "moderate",
+    extremeTemp: "extreme summer heat exceeding 100F with arid conditions",
+    recommendedSEER: 18, recommendedAFUE: 80,
+    heatPumpViable: "excellent; San Antonio's mild winters make heat pumps the default recommendation for most homeowners",
+    permitAuthority: "City of San Antonio Development Services",
+    permitDetail: "City of San Antonio Development Services issues HVAC permits for residential work. TDLR licenses HVAC contractors statewide. San Antonio requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "November through March",
+    worstBuyMonths: "June through September",
+    seasonReason: "San Antonio HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "San Antonio has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Rheem and Goodman also have significant market share through independent dealers.",
+    dominantEquipmentStyle: "Central AC split system or packaged heat pump is standard in San Antonio, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.",
+    localScam: "San Antonio homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "San Antonio requires TDLR-licensed contractors for all HVAC work, and permits must be pulled before work begins, not after.",
+    techNarrative: "San Antonio's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely.",
+    utilityRebatesQuirk: "CPS Energy offers rebates through the Retail Electric Provider rather than the distribution utility. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "portland-or": {
+    utilityCompanies: "Portland General Electric (PGE)",
+    avgElectricRate: 0.13, avgGasRate: 1.20,
+    coolingDominant: true, heatingDominant: false,
+    humidityIssue: "moderate",
+    extremeTemp: "extreme summer heat exceeding 100F with arid conditions",
+    recommendedSEER: 18, recommendedAFUE: 80,
+    heatPumpViable: "excellent; Portland's mild winters make heat pumps the default recommendation for most homeowners",
+    permitAuthority: "City of Portland Bureau of Development Services",
+    permitDetail: "City of Portland Bureau of Development Services issues HVAC permits for residential work. State licensing applies plus local contractor registration. Portland requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "November through March",
+    worstBuyMonths: "June through September",
+    seasonReason: "Portland HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "Portland has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.",
+    dominantEquipmentStyle: "Central AC split system or packaged heat pump is standard in Portland, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.",
+    localScam: "Portland homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "Portland building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.",
+    techNarrative: "Portland's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely.",
+    utilityRebatesQuirk: "Portland General Electric offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "sacramento-ca": {
+    utilityCompanies: "Sacramento Municipal Utility District (SMUD)",
+    avgElectricRate: 0.28, avgGasRate: 1.20,
+    coolingDominant: true, heatingDominant: false,
+    humidityIssue: "moderate",
+    extremeTemp: "extreme summer heat exceeding 100F with arid conditions",
+    recommendedSEER: 18, recommendedAFUE: 80,
+    heatPumpViable: "excellent; Sacramento's mild winters make heat pumps the default recommendation for most homeowners",
+    permitAuthority: "City of Sacramento Community Development Department",
+    permitDetail: "City of Sacramento Community Development Department issues HVAC permits for residential work. State licensing applies plus local contractor registration. Sacramento requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "November through March",
+    worstBuyMonths: "June through September",
+    seasonReason: "Sacramento HVAC demand peaks during summer heat waves when AC units fail under maximum load. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "Sacramento has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.",
+    dominantEquipmentStyle: "Central AC split system or packaged heat pump is standard in Sacramento, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.",
+    localScam: "Sacramento homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "Sacramento building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.",
+    techNarrative: "Sacramento's extreme cooling loads mean proper Manual J sizing is critical. Oversized AC units short-cycle, fail to dehumidify, and wear out prematurely.",
+    utilityRebatesQuirk: "Sacramento Municipal Utility District offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "pittsburgh-pa": {
+    utilityCompanies: "Duquesne Light Company",
+    avgElectricRate: 0.20, avgGasRate: 1.60,
+    coolingDominant: false, heatingDominant: true,
+    humidityIssue: "moderate",
+    extremeTemp: "cold winters with sub-zero wind chills and summer humidity",
+    recommendedSEER: 16, recommendedAFUE: 96,
+    heatPumpViable: "viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events",
+    permitAuthority: "City of Pittsburgh Department of Permits, Licenses and Inspections",
+    permitDetail: "City of Pittsburgh Department of Permits, Licenses and Inspections issues HVAC permits for residential work. State licensing applies plus local contractor registration. Pittsburgh requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "October through February",
+    worstBuyMonths: "June through August",
+    seasonReason: "Pittsburgh HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "Pittsburgh has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.",
+    dominantEquipmentStyle: "Forced-air gas furnace plus central AC split system is the dominant Pittsburgh configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.",
+    localScam: "Pittsburgh homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "Pittsburgh building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.",
+    techNarrative: "Pittsburgh's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost.",
+    utilityRebatesQuirk: "Duquesne Light Company offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "columbus-oh": {
+    utilityCompanies: "AEP Ohio (American Electric Power)",
+    avgElectricRate: 0.14, avgGasRate: 1.05,
+    coolingDominant: false, heatingDominant: true,
+    humidityIssue: "moderate",
+    extremeTemp: "cold winters with sub-zero wind chills and summer humidity",
+    recommendedSEER: 16, recommendedAFUE: 96,
+    heatPumpViable: "viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events",
+    permitAuthority: "City of Columbus Department of Building and Zoning Services",
+    permitDetail: "City of Columbus Department of Building and Zoning Services issues HVAC permits for residential work. State licensing applies plus local contractor registration. Columbus requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "October through February",
+    worstBuyMonths: "June through August",
+    seasonReason: "Columbus HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "Columbus has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.",
+    dominantEquipmentStyle: "Forced-air gas furnace plus central AC split system is the dominant Columbus configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.",
+    localScam: "Columbus homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "Columbus building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.",
+    techNarrative: "Columbus's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost.",
+    utilityRebatesQuirk: "AEP Ohio offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "kansas-city-mo": {
+    utilityCompanies: "Evergy (formerly Kansas City Power & Light)",
+    avgElectricRate: 0.14, avgGasRate: 1.05,
+    coolingDominant: false, heatingDominant: true,
+    humidityIssue: "moderate",
+    extremeTemp: "cold winters with sub-zero wind chills and summer humidity",
+    recommendedSEER: 16, recommendedAFUE: 96,
+    heatPumpViable: "viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events",
+    permitAuthority: "City of Kansas City Permits and Inspections Division",
+    permitDetail: "City of Kansas City Permits and Inspections Division issues HVAC permits for residential work. State licensing applies plus local contractor registration. Kansas City requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "October through February",
+    worstBuyMonths: "June through August",
+    seasonReason: "Kansas City HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "Kansas City has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.",
+    dominantEquipmentStyle: "Forced-air gas furnace plus central AC split system is the dominant Kansas City configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.",
+    localScam: "Kansas City homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "Kansas City building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.",
+    techNarrative: "Kansas City's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost.",
+    utilityRebatesQuirk: "Evergy offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "indianapolis-in": {
+    utilityCompanies: "AES Indiana (formerly Indianapolis Power & Light)",
+    avgElectricRate: 0.14, avgGasRate: 1.05,
+    coolingDominant: false, heatingDominant: true,
+    humidityIssue: "moderate",
+    extremeTemp: "cold winters with sub-zero wind chills and summer humidity",
+    recommendedSEER: 16, recommendedAFUE: 96,
+    heatPumpViable: "viable with cold-climate models like Mitsubishi Hyper-Heat or Bosch IDS but dual-fuel with gas backup is still the dominant configuration for deep-cold events",
+    permitAuthority: "City of Indianapolis Department of Business and Neighborhood Services",
+    permitDetail: "City of Indianapolis Department of Business and Neighborhood Services issues HVAC permits for residential work. State licensing applies plus local contractor registration. Indianapolis requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "October through February",
+    worstBuyMonths: "June through August",
+    seasonReason: "Indianapolis HVAC demand peaks during summer AC failures and winter heating emergencies. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "Indianapolis has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Mitsubishi and Fujitsu ductless systems have growing market share for retrofit applications.",
+    dominantEquipmentStyle: "Forced-air gas furnace plus central AC split system is the dominant Indianapolis configuration, with boiler-to-furnace conversions in older neighborhoods and ductless mini-splits for additions serving the specialty upgrade market.",
+    localScam: "Indianapolis homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "Indianapolis building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.",
+    techNarrative: "Indianapolis's older homes often run oversized furnaces from the 1990s that waste 20-30% of gas input. Right-sizing with Manual J calculations typically drops the replacement tonnage by 0.5-1.0 ton and improves comfort while reducing operating cost.",
+    utilityRebatesQuirk: "AES Indiana offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
+  "nashville-tn": {
+    utilityCompanies: "Nashville Electric Service (NES)",
+    avgElectricRate: 0.13, avgGasRate: 1.20,
+    coolingDominant: false, heatingDominant: false,
+    humidityIssue: "high",
+    extremeTemp: "hot summers above 95F and cold winters below 20F",
+    recommendedSEER: 16, recommendedAFUE: 92,
+    heatPumpViable: "highly viable as the primary system; Nashville's moderate climate is ideal for standard heat pump efficiency",
+    permitAuthority: "Metropolitan Nashville Department of Codes Administration",
+    permitDetail: "Metropolitan Nashville Department of Codes Administration issues HVAC permits for residential work. State licensing applies plus local contractor registration. Nashville requires permit inspection for all new equipment installations including like-for-like replacements.",
+    bestBuyMonths: "November through March",
+    worstBuyMonths: "July through September",
+    seasonReason: "Nashville HVAC demand peaks during the transition seasons when homeowners discover failing equipment. Off-season scheduling saves 10-20% on labor and often includes manufacturer promotional pricing.",
+    localBrandNetworks: "Nashville has strong dealer networks for Trane, Carrier, and Lennox through local distributors. Rheem and Goodman also have significant market share through independent dealers.",
+    dominantEquipmentStyle: "Heat pump split systems are increasingly common in Nashville, with ductless mini-splits for room additions and historic home retrofits serving the specialty upgrade market.",
+    localScam: "Nashville homeowners should watch for: oversized equipment quotes that short-cycle and waste energy, condenser-only replacements that leave the mismatched indoor coil degrading efficiency, and refrigerant top-off services on systems with confirmed leaks rather than proper repair.",
+    localPermitQuirk: "Nashville building inspection enforces permit requirements on all HVAC equipment changes including like-for-like replacements.",
+    techNarrative: "Nashville's moderate climate makes it an ideal market for variable-speed heat pumps that handle both heating and cooling efficiently without the complexity of dual-fuel systems.",
+    utilityRebatesQuirk: "Nashville Electric Service offers rebates of $300-$1,500 for qualifying high-efficiency heat pumps and furnaces. Federal 25C tax credits (up to $2,000 for heat pumps) stack on top of utility rebates."
+  },
+
 };
+
+
+const metroHVACExtra = {
+  "st-louis-mo": {
+    localMarketPara: `The St Louis hvac market serves a metro of Central West End, Soulard, Clayton, The Hill, and surrounding communities. Ameren Missouri coordinates service for equipment installations and energy-efficiency programs across the metro. Missouri has no statewide contractor license; city registration required. St Louis's 60 freeze-thaw cycles annually, 42 inches of rain, and severe spring thunderstorms drives both heating and cooling demand.`,
+    localDetailPara: `Central West End and Soulard neighborhoods in St Louis show distinct hvac patterns tied to their housing era. Lafayette Square, Soulard, and Compton Heights are the primary protected historic districts under the Cultural Resources Office; visible exterior equipment on contributing structures may require preservation review. The April 2011 Good Friday EF4 tornado that devastated north county and Lambert Airport highlighted specific hvac vulnerabilities in the St Louis market. Washington University and Saint Louis University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `St Louis's productive hvac season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of St. Louis Building Division handles permits with typical 5-10 day turnaround. Spire coordinates gas service for furnace installations. Off-peak scheduling in St Louis saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "orlando-fl": {
+    localMarketPara: `The Orlando hvac market serves a metro of Winter Park, College Park, Dr. Phillips, Lake Nona, and surrounding communities. OUC and Duke Energy Florida coordinates service for equipment installations and energy-efficiency programs across the metro. Florida DBPR licenses contractors; verify at myfloridalicense.com. Orlando's zero freeze-thaw cycles, 50 inches of rain concentrated in summer thunderstorms, and direct hurricane exposure drives both heating and cooling demand.`,
+    localDetailPara: `Winter Park and College Park neighborhoods in Orlando show distinct hvac patterns tied to their housing era. Lake Eola Heights, Colonialtown, and Thornton Park historic districts are under the Orlando Historic Preservation Board; visible exterior equipment on contributing structures may require preservation review. Hurricane Ian 2022 and Hurricane Irma 2017 which both affected the Central Florida metro highlighted specific hvac vulnerabilities in the Orlando market. University of Central Florida and Rollins College campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Orlando's hvac work runs year-round with peak demand in October through March. City of Orlando Permitting Services handles permits with typical 5-10 day turnaround. TECO Peoples Gas coordinates gas service for furnace installations. Off-peak scheduling in Orlando saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "san-antonio-tx": {
+    localMarketPara: `The San Antonio hvac market serves a metro of Alamo Heights, Stone Oak, King William, The Pearl, and surrounding communities. CPS Energy coordinates service for equipment installations and energy-efficiency programs across the metro. Texas has no statewide residential contractor license; TDLR registers mechanical and electrical trades only. San Antonio's 5 freeze-thaw cycles, 32 inches of rain, and extreme summer heat exceeding 100F for 30+ days drives both heating and cooling demand.`,
+    localDetailPara: `Alamo Heights and Stone Oak neighborhoods in San Antonio show distinct hvac patterns tied to their housing era. King William, Monte Vista, and Dignowity Hill are among 10+ historic districts under the HDRC; visible exterior equipment on contributing structures may require preservation review. The February 2021 Winter Storm Uri that knocked out power across the entire ERCOT grid for 4-5 days highlighted specific hvac vulnerabilities in the San Antonio market. UTSA, Trinity University, and the Alamo Colleges District campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `San Antonio's hvac work runs year-round with peak demand in spring and early summer. City of San Antonio Development Services handles permits with typical 5-10 day turnaround. CPS Energy (combined utility) coordinates gas service for furnace installations. Off-peak scheduling in San Antonio saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "portland-or": {
+    localMarketPara: `The Portland hvac market serves a metro of Pearl District, Alberta Arts, Lake Oswego, Sellwood, and surrounding communities. Portland General Electric (PGE) coordinates service for equipment installations and energy-efficiency programs across the metro. Oregon CCB license required; verify at ccb.oregon.gov. Portland's 15 freeze-thaw cycles, 43 inches of rain concentrated October-May, and persistent winter moisture drives both heating and cooling demand.`,
+    localDetailPara: `Pearl District and Alberta Arts neighborhoods in Portland show distinct hvac patterns tied to their housing era. Irvington, Ladd's Addition, Piedmont, and Lair Hill historic districts are under the Portland Historic Landmarks Commission; visible exterior equipment on contributing structures may require preservation review. The January 2021 ice storm that coated the metro in 1-2 inches of ice and damaged thousands of homes highlighted specific hvac vulnerabilities in the Portland market. Portland State University, Reed College, and Lewis & Clark College campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Portland's hvac work runs year-round with peak demand in spring and early summer. City of Portland Bureau of Development Services handles permits with typical 5-10 day turnaround. NW Natural coordinates gas service for furnace installations. Off-peak scheduling in Portland saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "sacramento-ca": {
+    localMarketPara: `The Sacramento hvac market serves a metro of East Sacramento, Midtown, Elk Grove, Roseville, and surrounding communities. SMUD coordinates service for equipment installations and energy-efficiency programs across the metro. California requires specific contractor licenses through CSLB; verify at cslb.ca.gov. Sacramento's 12 freeze-thaw cycles, only 18 inches of rain, and Central Valley summer heat exceeding 100F for 60+ days drives both heating and cooling demand.`,
+    localDetailPara: `East Sacramento and Midtown neighborhoods in Sacramento show distinct hvac patterns tied to their housing era. Alkali Flat, Boulevard Park, and Poverty Ridge are under the Sacramento Preservation Commission; visible exterior equipment on contributing structures may require preservation review. The January 2023 atmospheric river sequence that produced record flooding across the Sacramento Valley highlighted specific hvac vulnerabilities in the Sacramento market. UC Davis, Sacramento State, and McGeorge School of Law campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Sacramento's hvac work runs year-round with peak demand in spring and early summer. City of Sacramento Community Development handles permits with typical 5-10 day turnaround. PG&E coordinates gas service for furnace installations. Off-peak scheduling in Sacramento saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "pittsburgh-pa": {
+    localMarketPara: `The Pittsburgh hvac market serves a metro of Shadyside, Squirrel Hill, Lawrenceville, Mt. Lebanon, and surrounding communities. Duquesne Light coordinates service for equipment installations and energy-efficiency programs across the metro. Pennsylvania requires HIC registration under Act 132; verify at pago.state.pa.us. Pittsburgh's 75 freeze-thaw cycles, 38 inches of rain, and heavy winter snow loading from Great Lakes moisture drives both heating and cooling demand.`,
+    localDetailPara: `Shadyside and Squirrel Hill neighborhoods in Pittsburgh show distinct hvac patterns tied to their housing era. Allegheny West, Manchester, Mexican War Streets, and Deutschtown are under the Pittsburgh Historic Review Commission; visible exterior equipment on contributing structures may require preservation review. The June 2012 derecho and the August 2019 windstorm that produced widespread damage across Allegheny County highlighted specific hvac vulnerabilities in the Pittsburgh market. University of Pittsburgh and Carnegie Mellon University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Pittsburgh's productive hvac season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of Pittsburgh PLI handles permits with typical 5-10 day turnaround. Peoples Gas coordinates gas service for furnace installations. Off-peak scheduling in Pittsburgh saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "columbus-oh": {
+    localMarketPara: `The Columbus hvac market serves a metro of German Village, Short North, Upper Arlington, Dublin, and surrounding communities. AEP Ohio coordinates service for equipment installations and energy-efficiency programs across the metro. Ohio has no statewide residential contractor license; Columbus requires local registration. Columbus's 80 freeze-thaw cycles, 40 inches of rain, and occasional severe thunderstorms drives both heating and cooling demand.`,
+    localDetailPara: `German Village and Short North neighborhoods in Columbus show distinct hvac patterns tied to their housing era. German Village, Victorian Village, and Italian Village are under the Columbus Historic Preservation Commission; visible exterior equipment on contributing structures may require preservation review. The June 2012 derecho that produced widespread power outages and property damage across Franklin County highlighted specific hvac vulnerabilities in the Columbus market. The Ohio State University, Capital University, and Otterbein University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Columbus's productive hvac season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of Columbus Building and Zoning Services handles permits with typical 5-10 day turnaround. Columbia Gas of Ohio coordinates gas service for furnace installations. Off-peak scheduling in Columbus saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "kansas-city-mo": {
+    localMarketPara: `The Kansas City hvac market serves a metro of Country Club Plaza, Brookside, Overland Park, Prairie Village, and surrounding communities. Evergy coordinates service for equipment installations and energy-efficiency programs across the metro. Missouri has no statewide roofer license; Kansas requires contractor registration through the Attorney General. The metro straddles both states. Kansas City's 80 freeze-thaw cycles, 39 inches of rain, and severe spring supercells in the central US hail corridor drives both heating and cooling demand.`,
+    localDetailPara: `Country Club Plaza and Brookside neighborhoods in Kansas City show distinct hvac patterns tied to their housing era. Country Club Plaza, Pendleton Heights, and Janssen Place are under the KCMO Historic Preservation Commission; Kansas-side municipalities have limited historic protections; visible exterior equipment on contributing structures may require preservation review. The May 2024 supercell hail event that produced widespread damage across Johnson County KS and the March 2022 tornado outbreak highlighted specific hvac vulnerabilities in the Kansas City market. UMKC, University of Kansas (Lawrence), and Rockhurst University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Kansas City's productive hvac season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. Kansas City Permits and Inspections handles permits with typical 5-10 day turnaround. Spire coordinates gas service for furnace installations. Off-peak scheduling in Kansas City saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "indianapolis-in": {
+    localMarketPara: `The Indianapolis hvac market serves a metro of Broad Ripple, Meridian-Kessler, Carmel, Fishers, and surrounding communities. AES Indiana coordinates service for equipment installations and energy-efficiency programs across the metro. Indiana has no statewide residential contractor license but requires Marion County registration. Indianapolis's 85 freeze-thaw cycles, 42 inches of rain, and spring supercell exposure in the tornado corridor drives both heating and cooling demand.`,
+    localDetailPara: `Broad Ripple and Meridian-Kessler neighborhoods in Indianapolis show distinct hvac patterns tied to their housing era. Irvington, Lockerbie Square, Woodruff Place, and Herron-Morton Place are under the Indianapolis Historic Preservation Commission; visible exterior equipment on contributing structures may require preservation review. The November 2013 EF2 tornado in Washington Township and the April 2023 spring hail event that damaged thousands of homes highlighted specific hvac vulnerabilities in the Indianapolis market. Indiana University-Purdue University Indianapolis (IUPUI), Butler University, and Marian University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Indianapolis's productive hvac season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. Indianapolis Department of Business and Neighborhood Services handles permits with typical 5-10 day turnaround. CenterPoint Energy Indiana coordinates gas service for furnace installations. Off-peak scheduling in Indianapolis saves 10-15% on labor-intensive hvac projects.`,
+  },
+  "nashville-tn": {
+    localMarketPara: `The Nashville hvac market serves a metro of East Nashville, 12South, Green Hills, Franklin, and surrounding communities. Nashville Electric Service (NES) coordinates service for equipment installations and energy-efficiency programs across the metro. Tennessee requires a Home Improvement License for projects over $3,000 through the Tennessee Board for Licensing Contractors. Nashville's 40 freeze-thaw cycles, 48 inches of rain, and severe spring thunderstorms in the Nashville Basin drives both heating and cooling demand.`,
+    localDetailPara: `East Nashville and 12South neighborhoods in Nashville show distinct hvac patterns tied to their housing era. East Nashville, Germantown, and Lockeland Springs are under the Metro Nashville Historic Zoning Commission; visible exterior equipment on contributing structures may require preservation review. The March 2020 EF3 tornado that devastated East Nashville, Germantown, Donelson, and Mt. Juliet highlighted specific hvac vulnerabilities in the Nashville market. Vanderbilt University, Belmont University, and Tennessee State University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Nashville's hvac work runs year-round with peak demand in spring and early summer. Metro Nashville Department of Codes Administration handles permits with typical 5-10 day turnaround. Piedmont Natural Gas coordinates gas service for furnace installations. Off-peak scheduling in Nashville saves 10-15% on labor-intensive hvac projects.`,
+  },
+};
+
+// Merge extra content into primary dict
+for (const [slug, extra] of Object.entries(metroHVACExtra)) {
+  metroHVACData[slug] = Object.assign(metroHVACData[slug] || {}, extra);
+}
 
 /* ===================================================================
  * Section generators
@@ -612,6 +891,30 @@ function redFlagsSection(city, hd) {
 <p>${hd.localScam || ""}</p>
 <p>${hd.techNarrative || ""}</p>
 </section>`;
+}
+
+
+function extraLocalSection(city, d) {
+  let html = "";
+  if (d.localMarketPara) html += `<section class="section fp-section"><h2>${city} local market overview</h2><p>${d.localMarketPara}</p></section>`;
+  if (d.localDetailPara) html += `<section class="section fp-section"><h2>${city} neighborhood details</h2><p>${d.localDetailPara}</p></section>`;
+  if (d.seasonAndContractorPara) html += `<section class="section fp-section"><h2>${city} seasonal pricing and contractors</h2><p>${d.seasonAndContractorPara}</p></section>`;
+  if (d.localProjectPara) html += `<section class="section fp-section"><h2>${city} common projects</h2><p>${d.localProjectPara}</p></section>`;
+  if (d.weatherImpactPara) html += `<section class="section fp-section"><h2>${city} weather considerations</h2><p>${d.weatherImpactPara}</p></section>`;
+  if (d.contractorVerifyPara) html += `<section class="section fp-section"><h2>Verifying ${city} contractors</h2><p>${d.contractorVerifyPara}</p></section>`;
+  if (d.localUtilityPara) html += `<section class="section fp-section"><h2>${city} utility coordination</h2><p>${d.localUtilityPara}</p></section>`;
+  if (d.panelAndCodePara) html += `<section class="section fp-section"><h2>${city} panel upgrades and codes</h2><p>${d.panelAndCodePara}</p></section>`;
+  if (d.safetyAndLicensePara) html += `<section class="section fp-section"><h2>${city} safety concerns</h2><p>${d.safetyAndLicensePara}</p></section>`;
+  if (d.localMaterialPara) html += `<section class="section fp-section"><h2>${city} material preferences</h2><p>${d.localMaterialPara}</p></section>`;
+  if (d.hoaAndWildlifePara) html += `<section class="section fp-section"><h2>${city} HOA and wildlife considerations</h2><p>${d.hoaAndWildlifePara}</p></section>`;
+  if (d.seasonAndCostPara) html += `<section class="section fp-section"><h2>${city} seasonal costs</h2><p>${d.seasonAndCostPara}</p></section>`;
+  if (d.localGeologyPara) html += `<section class="section fp-section"><h2>${city} soil and geology</h2><p>${d.localGeologyPara}</p></section>`;
+  if (d.repairMethodPara) html += `<section class="section fp-section"><h2>${city} repair approaches</h2><p>${d.repairMethodPara}</p></section>`;
+  if (d.drainageAndMoisturePara) html += `<section class="section fp-section"><h2>${city} drainage management</h2><p>${d.drainageAndMoisturePara}</p></section>`;
+  if (d.localRainfallPara) html += `<section class="section fp-section"><h2>${city} rainfall and sizing</h2><p>${d.localRainfallPara}</p></section>`;
+  if (d.freezeAndMaintenancePara) html += `<section class="section fp-section"><h2>${city} freeze protection</h2><p>${d.freezeAndMaintenancePara}</p></section>`;
+  if (d.buyingGuidePara) html += `<section class="section fp-section"><h2>${city} buying guide</h2><p>${d.buyingGuidePara}</p></section>`;
+  return html;
 }
 
 function maintenanceSection(city, hd) {
@@ -747,6 +1050,7 @@ function buildFlagshipContent(metro) {
   html += heatPumpDeep(city, hd);
   html += emergencyPrep(city, hd);
   html += localMarket(city, hd);
+  html += extraLocalSection(city, hd);
   html += `\n${MARKER_END}\n`;
   return html;
 }

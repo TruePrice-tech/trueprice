@@ -41,6 +41,16 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-solar-cost.html", region: "midwest" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-solar-cost.html", region: "midwest" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-solar-cost.html", region: "southeast" },
+    { slug: "st-louis-mo", ctxKey: "St. Louis|MO", file: "st-louis-mo-solar-cost.html", region: "midwest" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-solar-cost.html", region: "southeast" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-solar-cost.html", region: "south" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-solar-cost.html", region: "west" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-solar-cost.html", region: "west" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-solar-cost.html", region: "northeast" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-solar-cost.html", region: "midwest" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-solar-cost.html", region: "midwest" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-solar-cost.html", region: "midwest" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-solar-cost.html", region: "southeast" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n.toLocaleString()}`; }
@@ -433,7 +443,256 @@ const SOLAR_DATA = {
     uniqueInsightPara: "Charlotte's solar market faces transitional headwinds with Duke's new Solar Choice rate structure but federal ITC and rising retail rates still support reasonable payback. The North Carolina Clean Energy Technology Center at NC State University tracks state policy and provides neutral technical consultation. Solar United Neighbors Charlotte Co-op runs group-purchase rounds 2-3 times per year with 10-15 percent savings. Charlotte's Tree Ordinance compliance adds arborist letter requirements that reputable installers handle routinely.",
   },
 
+  "st-louis-mo": {
+    peakSunHours: 4.2,
+    paybackYears: "7-10 years",
+    utility: "Ameren Missouri",
+    bestInstallMonth: "March-May",
+    sunPara: "St. Louis averages 4.2 peak sun hours daily with strong seasonal production variation. Production peaks June through August and drops in winter months. Central West End and Clayton receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "St. Louis residential solar operates under the state's net metering framework with Ameren Missouri handling interconnection.",
+    interconnectPara: "Ameren Missouri interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of St. Louis Building Division issues the electrical and building permits. Central West End and Clayton may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The St. Louis installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. State electrical contractor licensing applies. Typical St. Louis residential quote runs $2.80-$3.60 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. State-level incentives vary; check with Ameren Missouri for current rebate programs. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "St. Louis rooftop stock is primarily composition shingle with flat-membrane on commercial-adjacent multifamily. Central West End roof types may differ from Clayton based on construction era.",
+    hoaAndRestrictPara: "St. Louis HOA restrictions on solar vary; review CC&Rs carefully. Master-planned communities in Clayton may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of St. Louis Building Division issues solar permits through the online portal in 1-3 weeks for standard residential installs. Central West End historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in St. Louis is driven primarily by resilience and potential time-of-use rate arbitrage. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "St. Louis solar climate risks include seasonal severe weather and occasional hail. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in St. Louis runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The March-May installation window targets peak production months.",
+    uniqueInsightPara: "St. Louis's solar market benefits from favorable solar resource and improving economics as equipment costs decline. Ameren Missouri utility programs shape the local incentive landscape."
+  },
+
+  "orlando-fl": {
+    peakSunHours: 4.8,
+    paybackYears: "8-11 years",
+    utility: "Duke Energy Florida and Orlando Utilities Commission (OUC)",
+    bestInstallMonth: "October-February",
+    sunPara: "Orlando averages 4.8 peak sun hours daily with strong seasonal production variation. Afternoon thunderstorms from June through September clip 10-15% off theoretical summer production. Winter Park and Dr. Phillips receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "Orlando operates under Florida net metering rules with 1-for-1 retail-rate credits for exported energy.",
+    interconnectPara: "Duke Energy Florida and Orlando Utilities Commission interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of Orlando Permitting Services Division issues the electrical and building permits. Winter Park and Dr. Phillips may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The Orlando installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. State electrical contractor licensing applies. Typical Orlando residential quote runs $2.80-$3.60 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. Florida exempts solar from sales tax and property tax through 2037. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "Orlando rooftop stock is primarily concrete tile and composition shingle, with tile requiring specialty mounting hardware that adds 15-25% to installation cost. Winter Park roof types may differ from Dr. Phillips based on construction era.",
+    hoaAndRestrictPara: "Florida statute 163.04 prevents HOAs from prohibiting solar installations. Master-planned communities in Dr. Phillips may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of Orlando Permitting Services Division issues solar permits through the online portal in 1-3 weeks for standard residential installs. Winter Park historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in Orlando is driven primarily by hurricane-season outage resilience. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "Orlando solar climate risks include hurricane wind uplift exceeding 150 mph design loads, coastal salt spray corrosion, and summer lightning. Module racking must be spec'd for the local wind and snow load zone. Florida Product Approval is required for all mounting hardware.",
+    timelinePara: "Full timeline from contract to Permission to Operate in Orlando runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The October-February installation window targets peak production months.",
+    uniqueInsightPara: "Orlando's solar market benefits from strong net metering and state tax exemptions that improve payback. Duke Energy Florida and Orlando Utilities Commission utility programs shape the local incentive landscape."
+  },
+
+  "san-antonio-tx": {
+    peakSunHours: 4.8,
+    paybackYears: "9-12 years",
+    utility: "CPS Energy",
+    bestInstallMonth: "October-February",
+    sunPara: "San Antonio averages 4.8 peak sun hours daily with strong seasonal production variation. Production peaks June through August and drops in winter months. Alamo Heights and King William receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "San Antonio operates in the deregulated ERCOT retail market. No statewide net metering mandate exists. Solar buyback plans from retail providers credit exported energy at $0.04-$0.09 per kWh against retail rates.",
+    interconnectPara: "CPS Energy interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of San Antonio Development Services issues the electrical and building permits. Alamo Heights and King William may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The San Antonio installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. Texas TDLR electrical contractor license is required. Typical San Antonio residential quote runs $2.80-$3.60 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. Texas offers no state tax credit or rebate; the federal ITC plus local utility buyback rates drive economics. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "San Antonio rooftop stock is primarily composition shingle with flat-membrane on commercial-adjacent multifamily. Alamo Heights roof types may differ from King William based on construction era.",
+    hoaAndRestrictPara: "Texas Property Code Section 202.010 prevents HOAs from prohibiting solar but allows reasonable placement restrictions. Master-planned communities in King William may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of San Antonio Development Services issues solar permits through the online portal in 1-3 weeks for standard residential installs. Alamo Heights historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in San Antonio is driven primarily by ERCOT grid reliability concerns after Winter Storm Uri. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "San Antonio solar climate risks include seasonal severe weather and occasional hail. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in San Antonio runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The October-February installation window targets peak production months.",
+    uniqueInsightPara: "San Antonio's solar market benefits from competitive retail electricity rates that shape the self-consumption optimization strategy. CPS Energy competitive retail providers shape the local incentive landscape."
+  },
+
+  "portland-or": {
+    peakSunHours: 4.5,
+    paybackYears: "7-10 years",
+    utility: "Portland General Electric (PGE)",
+    bestInstallMonth: "October-February",
+    sunPara: "Portland averages 4.5 peak sun hours daily with strong seasonal production variation. Production peaks June through August and drops in winter months. Pearl District and Lake Oswego receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "Portland residential solar operates under the state's net metering framework with Portland General Electric handling interconnection.",
+    interconnectPara: "Portland General Electric interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of Portland Bureau of Development Services issues the electrical and building permits. Pearl District and Lake Oswego may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The Portland installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. State electrical contractor licensing applies. Typical Portland residential quote runs $3.20-$4.00 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. State-level incentives vary; check with Portland General Electric for current rebate programs. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "Portland rooftop stock is primarily composition shingle with flat-membrane on commercial-adjacent multifamily. Pearl District roof types may differ from Lake Oswego based on construction era.",
+    hoaAndRestrictPara: "Portland HOA restrictions on solar vary; review CC&Rs carefully. Master-planned communities in Lake Oswego may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of Portland Bureau of Development Services issues solar permits through the online portal in 1-3 weeks for standard residential installs. Pearl District historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in Portland is driven primarily by resilience and potential time-of-use rate arbitrage. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "Portland solar climate risks include seasonal severe weather and occasional hail. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in Portland runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The October-February installation window targets peak production months.",
+    uniqueInsightPara: "Portland's solar market benefits from favorable solar resource and improving economics as equipment costs decline. Portland General Electric utility programs shape the local incentive landscape."
+  },
+
+  "sacramento-ca": {
+    peakSunHours: 4.5,
+    paybackYears: "5-7 years",
+    utility: "Sacramento Municipal Utility District (SMUD)",
+    bestInstallMonth: "October-February",
+    sunPara: "Sacramento averages 4.5 peak sun hours daily with strong seasonal production variation. Production peaks June through August and drops in winter months. East Sacramento and Elk Grove receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "Sacramento falls under California NEM 3.0 tariff which significantly reduces export credit value versus the legacy NEM 2.0 program.",
+    interconnectPara: "Sacramento Municipal Utility District interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of Sacramento Community Development Department issues the electrical and building permits. East Sacramento and Elk Grove may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The Sacramento installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. California CSLB C-46 Solar or C-10 Electrical license is required. Typical Sacramento residential quote runs $3.20-$4.00 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. California exempts solar from property tax reassessment through 2026 and offers SGIP battery storage rebates. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "Sacramento rooftop stock is primarily composition shingle with flat-membrane on commercial-adjacent multifamily. East Sacramento roof types may differ from Elk Grove based on construction era.",
+    hoaAndRestrictPara: "California Civil Code Section 714 (Solar Rights Act) prohibits HOAs from banning solar installations. Master-planned communities in Elk Grove may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of Sacramento Community Development Department issues solar permits through the online portal in 1-3 weeks for standard residential installs. East Sacramento historic district parcels may require additional preservation review. California Solar Permitting Guidebook standards apply.",
+    batteryPara: "Battery storage in Sacramento is driven primarily by resilience and potential time-of-use rate arbitrage. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. California SGIP provides $150-$1,000 per kWh storage rebate.",
+    climateRiskPara: "Sacramento solar climate risks include seasonal severe weather and occasional hail. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in Sacramento runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The October-February installation window targets peak production months.",
+    uniqueInsightPara: "Sacramento's solar market benefits from the strongest solar policy framework in the country despite NEM 3.0 export rate reductions. Sacramento Municipal Utility District utility programs shape the local incentive landscape."
+  },
+
+  "pittsburgh-pa": {
+    peakSunHours: 3.8,
+    paybackYears: "8-11 years",
+    utility: "Duquesne Light Company",
+    bestInstallMonth: "March-May",
+    sunPara: "Pittsburgh averages 3.8 peak sun hours daily with strong seasonal production variation. Winter production drops to 1.8-2.5 kWh per kW per day because of shortened days and cloud cover. Shadyside and Lawrenceville receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "Pittsburgh residential solar operates under the state's net metering framework with Duquesne Light Company handling interconnection.",
+    interconnectPara: "Duquesne Light Company interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of Pittsburgh Department of Permits, Licenses and Inspections issues the electrical and building permits. Shadyside and Lawrenceville may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The Pittsburgh installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. State electrical contractor licensing applies. Typical Pittsburgh residential quote runs $3.20-$4.00 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. State-level incentives vary; check with Duquesne Light Company for current rebate programs. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "Pittsburgh rooftop stock is primarily composition shingle with some slate and flat-membrane on older homes. Shadyside roof types may differ from Lawrenceville based on construction era.",
+    hoaAndRestrictPara: "Pittsburgh HOA restrictions on solar vary; review CC&Rs carefully. Master-planned communities in Lawrenceville may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of Pittsburgh Department of Permits, Licenses and Inspections issues solar permits through the standard plan review process in 2-6 weeks. Shadyside historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in Pittsburgh is driven primarily by winter storm outage protection. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "Pittsburgh solar climate risks include snow loading, wind uplift during winter storms, and hail damage. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in Pittsburgh runs 14-22 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The March-May installation window targets peak production months.",
+    uniqueInsightPara: "Pittsburgh's solar market benefits from growing cold-climate solar adoption as panel efficiency improves. Duquesne Light Company utility programs shape the local incentive landscape."
+  },
+
+  "columbus-oh": {
+    peakSunHours: 3.8,
+    paybackYears: "8-11 years",
+    utility: "AEP Ohio (American Electric Power)",
+    bestInstallMonth: "March-May",
+    sunPara: "Columbus averages 3.8 peak sun hours daily with strong seasonal production variation. Winter production drops to 1.8-2.5 kWh per kW per day because of shortened days and cloud cover. German Village and Upper Arlington receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "Columbus residential solar operates under the state's net metering framework with AEP Ohio handling interconnection.",
+    interconnectPara: "AEP Ohio interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of Columbus Department of Building and Zoning Services issues the electrical and building permits. German Village and Upper Arlington may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The Columbus installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. State electrical contractor licensing applies. Typical Columbus residential quote runs $2.80-$3.60 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. State-level incentives vary; check with AEP Ohio for current rebate programs. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "Columbus rooftop stock is primarily composition shingle with some slate and flat-membrane on older homes. German Village roof types may differ from Upper Arlington based on construction era.",
+    hoaAndRestrictPara: "Columbus HOA restrictions on solar vary; review CC&Rs carefully. Master-planned communities in Upper Arlington may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of Columbus Department of Building and Zoning Services issues solar permits through the online portal in 1-3 weeks for standard residential installs. German Village historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in Columbus is driven primarily by winter storm outage protection. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "Columbus solar climate risks include snow loading, wind uplift during winter storms, and hail damage. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in Columbus runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The March-May installation window targets peak production months.",
+    uniqueInsightPara: "Columbus's solar market benefits from growing cold-climate solar adoption as panel efficiency improves. AEP Ohio utility programs shape the local incentive landscape."
+  },
+
+  "kansas-city-mo": {
+    peakSunHours: 3.8,
+    paybackYears: "8-11 years",
+    utility: "Evergy (formerly Kansas City Power & Light)",
+    bestInstallMonth: "March-May",
+    sunPara: "Kansas City averages 3.8 peak sun hours daily with strong seasonal production variation. Winter production drops to 1.8-2.5 kWh per kW per day because of shortened days and cloud cover. Country Club Plaza and Overland Park receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "Kansas City residential solar operates under the state's net metering framework with Evergy handling interconnection.",
+    interconnectPara: "Evergy interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of Kansas City Permits and Inspections Division issues the electrical and building permits. Country Club Plaza and Overland Park may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The Kansas City installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. State electrical contractor licensing applies. Typical Kansas City residential quote runs $2.80-$3.60 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. State-level incentives vary; check with Evergy for current rebate programs. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "Kansas City rooftop stock is primarily composition shingle with some slate and flat-membrane on older homes. Country Club Plaza roof types may differ from Overland Park based on construction era.",
+    hoaAndRestrictPara: "Kansas City HOA restrictions on solar vary; review CC&Rs carefully. Master-planned communities in Overland Park may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of Kansas City Permits and Inspections Division issues solar permits through the online portal in 1-3 weeks for standard residential installs. Country Club Plaza historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in Kansas City is driven primarily by winter storm outage protection. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "Kansas City solar climate risks include snow loading, wind uplift during winter storms, and hail damage. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in Kansas City runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The March-May installation window targets peak production months.",
+    uniqueInsightPara: "Kansas City's solar market benefits from growing cold-climate solar adoption as panel efficiency improves. Evergy utility programs shape the local incentive landscape."
+  },
+
+  "indianapolis-in": {
+    peakSunHours: 3.8,
+    paybackYears: "8-11 years",
+    utility: "AES Indiana (formerly Indianapolis Power & Light)",
+    bestInstallMonth: "March-May",
+    sunPara: "Indianapolis averages 3.8 peak sun hours daily with strong seasonal production variation. Winter production drops to 1.8-2.5 kWh per kW per day because of shortened days and cloud cover. Broad Ripple and Carmel receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "Indianapolis residential solar operates under the state's net metering framework with AES Indiana handling interconnection.",
+    interconnectPara: "AES Indiana interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. City of Indianapolis Department of Business and Neighborhood Services issues the electrical and building permits. Broad Ripple and Carmel may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The Indianapolis installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. State electrical contractor licensing applies. Typical Indianapolis residential quote runs $2.80-$3.60 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. State-level incentives vary; check with AES Indiana for current rebate programs. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "Indianapolis rooftop stock is primarily composition shingle with some slate and flat-membrane on older homes. Broad Ripple roof types may differ from Carmel based on construction era.",
+    hoaAndRestrictPara: "Indianapolis HOA restrictions on solar vary; review CC&Rs carefully. Master-planned communities in Carmel may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "City of Indianapolis Department of Business and Neighborhood Services issues solar permits through the online portal in 1-3 weeks for standard residential installs. Broad Ripple historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in Indianapolis is driven primarily by winter storm outage protection. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "Indianapolis solar climate risks include snow loading, wind uplift during winter storms, and hail damage. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in Indianapolis runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The March-May installation window targets peak production months.",
+    uniqueInsightPara: "Indianapolis's solar market benefits from growing cold-climate solar adoption as panel efficiency improves. AES Indiana utility programs shape the local incentive landscape."
+  },
+
+  "nashville-tn": {
+    peakSunHours: 4.2,
+    paybackYears: "7-10 years",
+    utility: "Nashville Electric Service (NES)",
+    bestInstallMonth: "October-February",
+    sunPara: "Nashville averages 4.2 peak sun hours daily with strong seasonal production variation. Production peaks June through August and drops in winter months. East Nashville and Green Hills receive varying insolation based on tree coverage and building orientation.",
+    tariffPara: "Nashville residential solar operates under the state's net metering framework with Nashville Electric Service handling interconnection.",
+    interconnectPara: "Nashville Electric Service interconnection for residential systems runs 4-12 weeks depending on system size and feeder capacity. Metropolitan Nashville Department of Codes Administration issues the electrical and building permits. East Nashville and Green Hills may have different hosting capacity on their local feeders.",
+    installerLandscapePara: "The Nashville installer market includes national players (Sunrun, Tesla Energy, Freedom Forever) and strong regional firms. State electrical contractor licensing applies. Typical Nashville residential quote runs $2.80-$3.60 per watt before incentives.",
+    incentivesPara: "The 30% federal Investment Tax Credit (Section 25D) is the anchor incentive. State-level incentives vary; check with Nashville Electric Service for current rebate programs. Combined incentives can reduce a $24,000 system to $12,000-$16,000 effective cost.",
+    roofLandscapePara: "Nashville rooftop stock is primarily composition shingle with flat-membrane on commercial-adjacent multifamily. East Nashville roof types may differ from Green Hills based on construction era.",
+    hoaAndRestrictPara: "Nashville HOA restrictions on solar vary; review CC&Rs carefully. Master-planned communities in Green Hills may have architectural review requirements that delay but cannot prevent installation.",
+    permitProcessPara: "Metropolitan Nashville Department of Codes Administration issues solar permits through the online portal in 1-3 weeks for standard residential installs. East Nashville historic district parcels may require additional preservation review. ",
+    batteryPara: "Battery storage in Nashville is driven primarily by resilience and potential time-of-use rate arbitrage. Tesla Powerwall 3 and Enphase IQ Battery are the dominant residential products. Federal ITC applies to battery storage paired with solar.",
+    climateRiskPara: "Nashville solar climate risks include seasonal severe weather and occasional hail. Module racking must be spec'd for the local wind and snow load zone. ",
+    timelinePara: "Full timeline from contract to Permission to Operate in Nashville runs 8-16 weeks: site assessment, permitting, installation, inspection, and utility interconnection. The October-February installation window targets peak production months.",
+    uniqueInsightPara: "Nashville's solar market benefits from favorable solar resource and improving economics as equipment costs decline. Nashville Electric Service utility programs shape the local incentive landscape."
+  },
+
 };
+
+
+const SOLAR_EXTRA = {
+  "st-louis-mo": {
+    localMarketPara: `The St Louis solar market serves a metro of Central West End, Soulard, Clayton, The Hill, and surrounding communities. Ameren Missouri coordinates service for net-metering interconnection across the metro. Missouri has no statewide contractor license; city registration required. St Louis's 60 freeze-thaw cycles annually, 42 inches of rain, and severe spring thunderstorms drives solar production patterns.`,
+    localDetailPara: `Central West End and Soulard neighborhoods in St Louis show distinct solar patterns tied to their housing era. Lafayette Square, Soulard, and Compton Heights are the primary protected historic districts under the Cultural Resources Office; visible exterior work on contributing structures may require preservation review. The April 2011 Good Friday EF4 tornado that devastated north county and Lambert Airport highlighted specific solar vulnerabilities in the St Louis market. Washington University and Saint Louis University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `St Louis's productive solar season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of St. Louis Building Division handles permits with typical 5-10 day turnaround. Spire coordinates gas service for applicable work. Off-peak scheduling in St Louis saves 10-15% on labor-intensive solar projects.`,
+  },
+  "orlando-fl": {
+    localMarketPara: `The Orlando solar market serves a metro of Winter Park, College Park, Dr. Phillips, Lake Nona, and surrounding communities. OUC and Duke Energy Florida coordinates service for net-metering interconnection across the metro. Florida DBPR licenses contractors; verify at myfloridalicense.com. Orlando's zero freeze-thaw cycles, 50 inches of rain concentrated in summer thunderstorms, and direct hurricane exposure drives solar production patterns.`,
+    localDetailPara: `Winter Park and College Park neighborhoods in Orlando show distinct solar patterns tied to their housing era. Lake Eola Heights, Colonialtown, and Thornton Park historic districts are under the Orlando Historic Preservation Board; visible exterior work on contributing structures may require preservation review. Hurricane Ian 2022 and Hurricane Irma 2017 which both affected the Central Florida metro highlighted specific solar vulnerabilities in the Orlando market. University of Central Florida and Rollins College campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Orlando's solar work runs year-round with peak demand in October through March. City of Orlando Permitting Services handles permits with typical 5-10 day turnaround. TECO Peoples Gas coordinates gas service for applicable work. Off-peak scheduling in Orlando saves 10-15% on labor-intensive solar projects.`,
+  },
+  "san-antonio-tx": {
+    localMarketPara: `The San Antonio solar market serves a metro of Alamo Heights, Stone Oak, King William, The Pearl, and surrounding communities. CPS Energy coordinates service for net-metering interconnection across the metro. Texas has no statewide residential contractor license; TDLR registers mechanical and electrical trades only. San Antonio's 5 freeze-thaw cycles, 32 inches of rain, and extreme summer heat exceeding 100F for 30+ days drives solar production patterns.`,
+    localDetailPara: `Alamo Heights and Stone Oak neighborhoods in San Antonio show distinct solar patterns tied to their housing era. King William, Monte Vista, and Dignowity Hill are among 10+ historic districts under the HDRC; visible exterior work on contributing structures may require preservation review. The February 2021 Winter Storm Uri that knocked out power across the entire ERCOT grid for 4-5 days highlighted specific solar vulnerabilities in the San Antonio market. UTSA, Trinity University, and the Alamo Colleges District campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `San Antonio's solar work runs year-round with peak demand in spring and early summer. City of San Antonio Development Services handles permits with typical 5-10 day turnaround. CPS Energy (combined utility) coordinates gas service for applicable work. Off-peak scheduling in San Antonio saves 10-15% on labor-intensive solar projects.`,
+  },
+  "portland-or": {
+    localMarketPara: `The Portland solar market serves a metro of Pearl District, Alberta Arts, Lake Oswego, Sellwood, and surrounding communities. Portland General Electric (PGE) coordinates service for net-metering interconnection across the metro. Oregon CCB license required; verify at ccb.oregon.gov. Portland's 15 freeze-thaw cycles, 43 inches of rain concentrated October-May, and persistent winter moisture drives solar production patterns.`,
+    localDetailPara: `Pearl District and Alberta Arts neighborhoods in Portland show distinct solar patterns tied to their housing era. Irvington, Ladd's Addition, Piedmont, and Lair Hill historic districts are under the Portland Historic Landmarks Commission; visible exterior work on contributing structures may require preservation review. The January 2021 ice storm that coated the metro in 1-2 inches of ice and damaged thousands of homes highlighted specific solar vulnerabilities in the Portland market. Portland State University, Reed College, and Lewis & Clark College campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Portland's solar work runs year-round with peak demand in spring and early summer. City of Portland Bureau of Development Services handles permits with typical 5-10 day turnaround. NW Natural coordinates gas service for applicable work. Off-peak scheduling in Portland saves 10-15% on labor-intensive solar projects.`,
+  },
+  "sacramento-ca": {
+    localMarketPara: `The Sacramento solar market serves a metro of East Sacramento, Midtown, Elk Grove, Roseville, and surrounding communities. SMUD coordinates service for net-metering interconnection across the metro. California requires specific contractor licenses through CSLB; verify at cslb.ca.gov. Sacramento's 12 freeze-thaw cycles, only 18 inches of rain, and Central Valley summer heat exceeding 100F for 60+ days drives solar production patterns.`,
+    localDetailPara: `East Sacramento and Midtown neighborhoods in Sacramento show distinct solar patterns tied to their housing era. Alkali Flat, Boulevard Park, and Poverty Ridge are under the Sacramento Preservation Commission; visible exterior work on contributing structures may require preservation review. The January 2023 atmospheric river sequence that produced record flooding across the Sacramento Valley highlighted specific solar vulnerabilities in the Sacramento market. UC Davis, Sacramento State, and McGeorge School of Law campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Sacramento's solar work runs year-round with peak demand in spring and early summer. City of Sacramento Community Development handles permits with typical 5-10 day turnaround. PG&E coordinates gas service for applicable work. Off-peak scheduling in Sacramento saves 10-15% on labor-intensive solar projects.`,
+  },
+  "pittsburgh-pa": {
+    localMarketPara: `The Pittsburgh solar market serves a metro of Shadyside, Squirrel Hill, Lawrenceville, Mt. Lebanon, and surrounding communities. Duquesne Light coordinates service for net-metering interconnection across the metro. Pennsylvania requires HIC registration under Act 132; verify at pago.state.pa.us. Pittsburgh's 75 freeze-thaw cycles, 38 inches of rain, and heavy winter snow loading from Great Lakes moisture drives solar production patterns.`,
+    localDetailPara: `Shadyside and Squirrel Hill neighborhoods in Pittsburgh show distinct solar patterns tied to their housing era. Allegheny West, Manchester, Mexican War Streets, and Deutschtown are under the Pittsburgh Historic Review Commission; visible exterior work on contributing structures may require preservation review. The June 2012 derecho and the August 2019 windstorm that produced widespread damage across Allegheny County highlighted specific solar vulnerabilities in the Pittsburgh market. University of Pittsburgh and Carnegie Mellon University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Pittsburgh's productive solar season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of Pittsburgh PLI handles permits with typical 5-10 day turnaround. Peoples Gas coordinates gas service for applicable work. Off-peak scheduling in Pittsburgh saves 10-15% on labor-intensive solar projects.`,
+  },
+  "columbus-oh": {
+    localMarketPara: `The Columbus solar market serves a metro of German Village, Short North, Upper Arlington, Dublin, and surrounding communities. AEP Ohio coordinates service for net-metering interconnection across the metro. Ohio has no statewide residential contractor license; Columbus requires local registration. Columbus's 80 freeze-thaw cycles, 40 inches of rain, and occasional severe thunderstorms drives solar production patterns.`,
+    localDetailPara: `German Village and Short North neighborhoods in Columbus show distinct solar patterns tied to their housing era. German Village, Victorian Village, and Italian Village are under the Columbus Historic Preservation Commission; visible exterior work on contributing structures may require preservation review. The June 2012 derecho that produced widespread power outages and property damage across Franklin County highlighted specific solar vulnerabilities in the Columbus market. The Ohio State University, Capital University, and Otterbein University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Columbus's productive solar season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of Columbus Building and Zoning Services handles permits with typical 5-10 day turnaround. Columbia Gas of Ohio coordinates gas service for applicable work. Off-peak scheduling in Columbus saves 10-15% on labor-intensive solar projects.`,
+  },
+  "kansas-city-mo": {
+    localMarketPara: `The Kansas City solar market serves a metro of Country Club Plaza, Brookside, Overland Park, Prairie Village, and surrounding communities. Evergy coordinates service for net-metering interconnection across the metro. Missouri has no statewide roofer license; Kansas requires contractor registration through the Attorney General. The metro straddles both states. Kansas City's 80 freeze-thaw cycles, 39 inches of rain, and severe spring supercells in the central US hail corridor drives solar production patterns.`,
+    localDetailPara: `Country Club Plaza and Brookside neighborhoods in Kansas City show distinct solar patterns tied to their housing era. Country Club Plaza, Pendleton Heights, and Janssen Place are under the KCMO Historic Preservation Commission; Kansas-side municipalities have limited historic protections; visible exterior work on contributing structures may require preservation review. The May 2024 supercell hail event that produced widespread damage across Johnson County KS and the March 2022 tornado outbreak highlighted specific solar vulnerabilities in the Kansas City market. UMKC, University of Kansas (Lawrence), and Rockhurst University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Kansas City's productive solar season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. Kansas City Permits and Inspections handles permits with typical 5-10 day turnaround. Spire coordinates gas service for applicable work. Off-peak scheduling in Kansas City saves 10-15% on labor-intensive solar projects.`,
+  },
+  "indianapolis-in": {
+    localMarketPara: `The Indianapolis solar market serves a metro of Broad Ripple, Meridian-Kessler, Carmel, Fishers, and surrounding communities. AES Indiana coordinates service for net-metering interconnection across the metro. Indiana has no statewide residential contractor license but requires Marion County registration. Indianapolis's 85 freeze-thaw cycles, 42 inches of rain, and spring supercell exposure in the tornado corridor drives solar production patterns.`,
+    localDetailPara: `Broad Ripple and Meridian-Kessler neighborhoods in Indianapolis show distinct solar patterns tied to their housing era. Irvington, Lockerbie Square, Woodruff Place, and Herron-Morton Place are under the Indianapolis Historic Preservation Commission; visible exterior work on contributing structures may require preservation review. The November 2013 EF2 tornado in Washington Township and the April 2023 spring hail event that damaged thousands of homes highlighted specific solar vulnerabilities in the Indianapolis market. Indiana University-Purdue University Indianapolis (IUPUI), Butler University, and Marian University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Indianapolis's productive solar season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. Indianapolis Department of Business and Neighborhood Services handles permits with typical 5-10 day turnaround. CenterPoint Energy Indiana coordinates gas service for applicable work. Off-peak scheduling in Indianapolis saves 10-15% on labor-intensive solar projects.`,
+  },
+  "nashville-tn": {
+    localMarketPara: `The Nashville solar market serves a metro of East Nashville, 12South, Green Hills, Franklin, and surrounding communities. Nashville Electric Service (NES) coordinates service for net-metering interconnection across the metro. Tennessee requires a Home Improvement License for projects over $3,000 through the Tennessee Board for Licensing Contractors. Nashville's 40 freeze-thaw cycles, 48 inches of rain, and severe spring thunderstorms in the Nashville Basin drives solar production patterns.`,
+    localDetailPara: `East Nashville and 12South neighborhoods in Nashville show distinct solar patterns tied to their housing era. East Nashville, Germantown, and Lockeland Springs are under the Metro Nashville Historic Zoning Commission; visible exterior work on contributing structures may require preservation review. The March 2020 EF3 tornado that devastated East Nashville, Germantown, Donelson, and Mt. Juliet highlighted specific solar vulnerabilities in the Nashville market. Vanderbilt University, Belmont University, and Tennessee State University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Nashville's solar work runs year-round with peak demand in spring and early summer. Metro Nashville Department of Codes Administration handles permits with typical 5-10 day turnaround. Piedmont Natural Gas coordinates gas service for applicable work. Off-peak scheduling in Nashville saves 10-15% on labor-intensive solar projects.`,
+  },
+};
+
+// Merge extra content into primary dict
+for (const [slug, extra] of Object.entries(SOLAR_EXTRA)) {
+  SOLAR_DATA[slug] = Object.assign(SOLAR_DATA[slug] || {}, extra);
+}
 
 /* --- Section 1: Neighborhood Solar Potential --- */
 function neighborhoodSolarPotential(facts, solar) {
@@ -728,12 +987,37 @@ function buildFlagshipContent(metro) {
   html += redFlagsSection(city, solar);
   html += buyerQuestions(city, solar);
   html += costScenarios(city, state, solar, mult);
+  html += extraLocalSection(city, solar);
   html += `\n${MARKER_END}\n`;
 
   return html;
 }
 
 /* ---------- Main ---------- */
+
+function extraLocalSection(city, d) {
+  let html = "";
+  if (d.localMarketPara) html += `<section class="section fp-section"><h2>${city} local market overview</h2><p>${d.localMarketPara}</p></section>`;
+  if (d.localDetailPara) html += `<section class="section fp-section"><h2>${city} neighborhood details</h2><p>${d.localDetailPara}</p></section>`;
+  if (d.seasonAndContractorPara) html += `<section class="section fp-section"><h2>${city} seasonal pricing and contractors</h2><p>${d.seasonAndContractorPara}</p></section>`;
+  if (d.localProjectPara) html += `<section class="section fp-section"><h2>${city} common projects</h2><p>${d.localProjectPara}</p></section>`;
+  if (d.weatherImpactPara) html += `<section class="section fp-section"><h2>${city} weather considerations</h2><p>${d.weatherImpactPara}</p></section>`;
+  if (d.contractorVerifyPara) html += `<section class="section fp-section"><h2>Verifying ${city} contractors</h2><p>${d.contractorVerifyPara}</p></section>`;
+  if (d.localUtilityPara) html += `<section class="section fp-section"><h2>${city} utility coordination</h2><p>${d.localUtilityPara}</p></section>`;
+  if (d.panelAndCodePara) html += `<section class="section fp-section"><h2>${city} panel upgrades and codes</h2><p>${d.panelAndCodePara}</p></section>`;
+  if (d.safetyAndLicensePara) html += `<section class="section fp-section"><h2>${city} safety concerns</h2><p>${d.safetyAndLicensePara}</p></section>`;
+  if (d.localMaterialPara) html += `<section class="section fp-section"><h2>${city} material preferences</h2><p>${d.localMaterialPara}</p></section>`;
+  if (d.hoaAndWildlifePara) html += `<section class="section fp-section"><h2>${city} HOA and wildlife considerations</h2><p>${d.hoaAndWildlifePara}</p></section>`;
+  if (d.seasonAndCostPara) html += `<section class="section fp-section"><h2>${city} seasonal costs</h2><p>${d.seasonAndCostPara}</p></section>`;
+  if (d.localGeologyPara) html += `<section class="section fp-section"><h2>${city} soil and geology</h2><p>${d.localGeologyPara}</p></section>`;
+  if (d.repairMethodPara) html += `<section class="section fp-section"><h2>${city} repair approaches</h2><p>${d.repairMethodPara}</p></section>`;
+  if (d.drainageAndMoisturePara) html += `<section class="section fp-section"><h2>${city} drainage management</h2><p>${d.drainageAndMoisturePara}</p></section>`;
+  if (d.localRainfallPara) html += `<section class="section fp-section"><h2>${city} rainfall and sizing</h2><p>${d.localRainfallPara}</p></section>`;
+  if (d.freezeAndMaintenancePara) html += `<section class="section fp-section"><h2>${city} freeze protection</h2><p>${d.freezeAndMaintenancePara}</p></section>`;
+  if (d.buyingGuidePara) html += `<section class="section fp-section"><h2>${city} buying guide</h2><p>${d.buyingGuidePara}</p></section>`;
+  return html;
+}
+
 function main() {
   let processed = 0;
   let skipped = 0;

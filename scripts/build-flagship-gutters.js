@@ -41,6 +41,16 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-gutter-cost.html" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-gutter-cost.html" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-gutter-cost.html" },
+    { slug: "st-louis-mo", ctxKey: "St. Louis|MO", file: "st-louis-mo-gutter-cost.html" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-gutter-cost.html" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-gutter-cost.html" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-gutter-cost.html" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-gutter-cost.html" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-gutter-cost.html" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-gutter-cost.html" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-gutter-cost.html" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-gutter-cost.html" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-gutter-cost.html" },
 ];
 
 function fmtD(n) { return "$" + n.toLocaleString("en-US"); }
@@ -443,7 +453,236 @@ const CITY_GUTTER_DATA = {
     warrantyPara: "Valley gutter warranties must address monsoon microburst exclusions explicitly. A warranty capping at 50 mph is meaningless in a metro where NWS Las Vegas logs 65-80 mph outflow gusts multiple times each monsoon season. Demand 90-mph rated installation with a warranty that does not carve out convective-wind events."
   },
 
+  "st-louis-mo": {
+    annualRainfall: "42 inches",
+    rainfallNote: "St. Louis receives 42 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on St. Louis homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard St. Louis practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "red oak, sweetgum, pin oak",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for St. Louis's debris mix",
+    freezeRisk: "moderate",
+    iceNote: "St. Louis gets occasional freezing that can cause ice dam issues in severe winters. Heated cables are optional but valuable for north-facing slopes.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Central West End and Soulard neighborhoods with heavy red oak canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling St. Louis gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "orlando-fl": {
+    annualRainfall: "50 inches",
+    rainfallNote: "Orlando receives 50 inches of rain per year, with intense summer thunderstorms and hurricane-season deluges that can deliver 3-5 inches in 24 hours. Gutters on Orlando homes must handle both sustained rainfall and sudden high-volume events.",
+    downspoutNote: "High water tables in Orlando require downspout discharge away from foundations to prevent saturation. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Orlando practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "live oak, cabbage palm, bald cypress",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Orlando's debris mix",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Orlando. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Winter Park and College Park neighborhoods with heavy live oak canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "Post-hurricane emergency demand periods",
+    buyingNote: "Scheduling Orlando gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "san-antonio-tx": {
+    annualRainfall: "32 inches",
+    rainfallNote: "San Antonio receives 32 inches of rain per year, spread across the seasons with spring and fall peaks. Gutters on San Antonio homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard San Antonio practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "live oak, pecan, mountain laurel",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for San Antonio's debris mix",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in San Antonio. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Alamo Heights and Stone Oak neighborhoods with heavy live oak canopy may need a third cleaning. ",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling San Antonio gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "portland-or": {
+    annualRainfall: "43 inches",
+    rainfallNote: "Portland receives 43 inches of rain per year, spread across the seasons with spring and fall peaks. Gutters on Portland homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Portland practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "Douglas fir, western red cedar, bigleaf maple",
+    debrisType: "maple samaras (helicopter seeds) and heavy autumn leaf drop",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Portland's debris mix",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Portland. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Pearl District and Alberta Arts neighborhoods with heavy Douglas fir canopy may need a third cleaning. ",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Portland gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "sacramento-ca": {
+    annualRainfall: "18 inches",
+    rainfallNote: "Sacramento receives 18 inches of rain per year, concentrated in the November-March wet season. Gutters on Sacramento homes must handle concentrated high-intensity events despite long dry periods.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Sacramento practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "valley oak, coast live oak, Chinese pistache",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Reverse-curve or surface-tension guards shed the occasional heavy rain effectively",
+    freezeRisk: "low to none",
+    iceNote: "Freeze risk is essentially zero in Sacramento. Heated gutter systems are unnecessary.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "East Sacramento and Midtown neighborhoods with heavy valley oak canopy may need a third cleaning. ",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Sacramento gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
+  "pittsburgh-pa": {
+    annualRainfall: "38 inches",
+    rainfallNote: "Pittsburgh receives 38 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Pittsburgh homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Pittsburgh issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Pittsburgh practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "red oak, sugar maple, American beech",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Pittsburgh's debris mix",
+    freezeRisk: "high",
+    iceNote: "Pittsburgh experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Pittsburgh home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Shadyside and Squirrel Hill neighborhoods with heavy red oak canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Pittsburgh gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "columbus-oh": {
+    annualRainfall: "40 inches",
+    rainfallNote: "Columbus receives 40 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Columbus homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Columbus issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Columbus practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "sugar maple, red oak, Ohio buckeye",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Columbus's debris mix",
+    freezeRisk: "high",
+    iceNote: "Columbus experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Columbus home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "German Village and Short North neighborhoods with heavy sugar maple canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Columbus gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "kansas-city-mo": {
+    annualRainfall: "39 inches",
+    rainfallNote: "Kansas City receives 39 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Kansas City homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Kansas City issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Kansas City practice.",
+    treeCoverage: "moderate to heavy",
+    dominantTrees: "bur oak, eastern redbud, hackberry",
+    debrisType: "oak leaves, acorns, and pollen catkins",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Kansas City's debris mix",
+    freezeRisk: "high",
+    iceNote: "Kansas City experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Kansas City home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year minimum (late fall after leaf drop and late spring after seed season)",
+    cleaningNote: "Country Club Plaza and Brookside neighborhoods with heavy bur oak canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Kansas City gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "indianapolis-in": {
+    annualRainfall: "42 inches",
+    rainfallNote: "Indianapolis receives 42 inches of rain per year, spread across the seasons with snow and ice adding to the load. Gutters on Indianapolis homes must handle moderate year-round precipitation and occasional heavy storms.",
+    downspoutNote: "Basement flooding from improper downspout routing is a common Indianapolis issue. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Indianapolis practice.",
+    treeCoverage: "low to moderate",
+    dominantTrees: "tulip poplar, sweetgum, white ash",
+    debrisType: "mixed deciduous leaf drop and seasonal seed debris",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Indianapolis's debris mix",
+    freezeRisk: "high",
+    iceNote: "Indianapolis experiences regular freeze-thaw cycling from November through March. Ice dams form at the eaves where warm attic air melts snow. Heated gutter cables run $500-$1,200 for a typical Indianapolis home and are a practical investment for persistent ice dam problems.",
+    cleaningFrequency: "twice per year (spring and fall)",
+    cleaningNote: "Broad Ripple and Meridian-Kessler neighborhoods with heavy tulip poplar canopy may need a third cleaning. ",
+    buyingBest: "Late winter (January-February) and late summer (August-September)",
+    buyingWorst: "Spring (March-May) after freeze damage and fall (October-November) during peak leaf season",
+    buyingNote: "Scheduling Indianapolis gutter installation during the quieter summer months typically saves 10-15% on labor. Winter storm damage drives spring emergency demand and premium pricing."
+  },
+
+  "nashville-tn": {
+    annualRainfall: "48 inches",
+    rainfallNote: "Nashville receives 48 inches of rain per year, with intense summer thunderstorms and severe storm events that can deliver 3-5 inches in 24 hours. Gutters on Nashville homes must handle both sustained rainfall and sudden high-volume events.",
+    downspoutNote: "Proper downspout routing away from foundations prevents settlement and moisture intrusion. Downspout extensions of 4-6 feet from the foundation and connection to underground drainage are standard Nashville practice.",
+    treeCoverage: "low to moderate",
+    dominantTrees: "eastern red cedar, tulip poplar, hackberry",
+    debrisType: "mixed deciduous leaf drop and seasonal seed debris",
+    bestGuardStyle: "Micro-mesh guards provide the best all-around protection for Nashville's debris mix",
+    freezeRisk: "moderate",
+    iceNote: "Nashville gets occasional freezing that can cause ice dam issues in severe winters. Heated cables are optional but valuable for north-facing slopes.",
+    cleaningFrequency: "twice per year (spring and fall)",
+    cleaningNote: "East Nashville and 12South neighborhoods with heavy eastern red cedar canopy may need a third cleaning. Pre-hurricane-season gutter cleaning is essential.",
+    buyingBest: "Dry season months when contractor demand is lowest",
+    buyingWorst: "During and immediately after severe weather events",
+    buyingNote: "Scheduling Nashville gutter installation during the quieter off-peak months typically saves 10-15% on labor. "
+  },
+
 };
+
+
+const CITY_GUTTER_EXTRA = {
+  "st-louis-mo": {
+    localRainfallPara: `St Louis's 60 freeze-thaw cycles annually, 42 inches of rain, and severe spring thunderstorms creates specific gutter sizing requirements. St Louis's heavy annual rainfall demands properly sized 6-inch K-style gutters with 3x4 downspouts to handle intense storm events. Central West End and Soulard properties with mature red oak canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `St Louis experiences 60 freeze-thaw cycles annually, driving ice-dam risk at eave-gutter transitions. Heated gutter cables run $500-$1,200 and are a practical investment for persistent ice-dam homes in Central West End and Soulard. The April 2011 Good Friday EF4 tornado that devastated north county and Lambert Airport demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `City of St. Louis Building Division handles gutter permits when required (typically only for structural fascia modifications). Missouri has no statewide contractor license; city registration required. Scheduling St Louis gutter installation during off-peak months saves 10-15% on labor. The Hill and Tower Grove South newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on Lafayette Square historic properties.`,
+  },
+  "orlando-fl": {
+    localRainfallPara: `Orlando's zero freeze-thaw cycles, 50 inches of rain concentrated in summer thunderstorms, and direct hurricane exposure creates specific gutter sizing requirements. Orlando's heavy annual rainfall demands properly sized 6-inch K-style gutters with 3x4 downspouts to handle intense storm events. Winter Park and College Park properties with mature live oak canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `Freeze risk is essentially zero in Orlando. Heated gutter systems are unnecessary. The primary maintenance concern is debris from live oak and  cabbage palm that clogs unprotected gutters. Hurricane Ian 2022 and Hurricane Irma 2017 which both affected the Central Florida metro demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `City of Orlando Permitting Services handles gutter permits when required (typically only for structural fascia modifications). Florida DBPR licenses contractors; verify at myfloridalicense.com. Scheduling Orlando gutter installation during off-peak months saves 10-15% on labor. Lake Nona and Windermere newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on Winter Park historic properties.`,
+  },
+  "san-antonio-tx": {
+    localRainfallPara: `San Antonio's 5 freeze-thaw cycles, 32 inches of rain, and extreme summer heat exceeding 100F for 30+ days creates specific gutter sizing requirements. San Antonio's moderate rainfall of 32 inches requires standard 6-inch K-style gutters with proper downspout routing. Alamo Heights and Stone Oak properties with mature live oak canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `San Antonio gets occasional freezing that can cause ice-dam issues in severe winters. live oak debris is the primary ongoing maintenance concern. The February 2021 Winter Storm Uri that knocked out power across the entire ERCOT grid for 4-5 days demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `City of San Antonio Development Services handles gutter permits when required (typically only for structural fascia modifications). Texas has no statewide residential contractor license; TDLR registers mechanical and electrical trades only. Scheduling San Antonio gutter installation during off-peak months saves 10-15% on labor. The Pearl and Boerne newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on King William historic properties.`,
+  },
+  "portland-or": {
+    localRainfallPara: `Portland's 15 freeze-thaw cycles, 43 inches of rain concentrated October-May, and persistent winter moisture creates specific gutter sizing requirements. Portland's heavy annual rainfall demands properly sized 6-inch K-style gutters with 3x4 downspouts to handle intense storm events. Pearl District and Alberta Arts properties with mature Douglas fir canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `Portland gets occasional freezing that can cause ice-dam issues in severe winters. Douglas fir debris is the primary ongoing maintenance concern. The January 2021 ice storm that coated the metro in 1-2 inches of ice and damaged thousands of homes demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `City of Portland Bureau of Development Services handles gutter permits when required (typically only for structural fascia modifications). Oregon CCB license required; verify at ccb.oregon.gov. Scheduling Portland gutter installation during off-peak months saves 10-15% on labor. Sellwood and Laurelhurst newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on Pearl District historic properties.`,
+  },
+  "sacramento-ca": {
+    localRainfallPara: `Sacramento's 12 freeze-thaw cycles, only 18 inches of rain, and Central Valley summer heat exceeding 100F for 60+ days creates specific gutter sizing requirements. Sacramento receives only 18 inches of rain annually, concentrated in winter atmospheric-river events that can deliver 1-3 inches in 24 hours despite long dry periods. East Sacramento and Midtown properties with mature valley oak canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `Sacramento gets occasional freezing that can cause ice-dam issues in severe winters. valley oak debris is the primary ongoing maintenance concern. The January 2023 atmospheric river sequence that produced record flooding across the Sacramento Valley demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `City of Sacramento Community Development handles gutter permits when required (typically only for structural fascia modifications). California requires specific contractor licenses through CSLB; verify at cslb.ca.gov. Scheduling Sacramento gutter installation during off-peak months saves 10-15% on labor. Roseville and Folsom newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on East Sacramento historic properties.`,
+  },
+  "pittsburgh-pa": {
+    localRainfallPara: `Pittsburgh's 75 freeze-thaw cycles, 38 inches of rain, and heavy winter snow loading from Great Lakes moisture creates specific gutter sizing requirements. Pittsburgh's moderate rainfall of 38 inches requires standard 6-inch K-style gutters with proper downspout routing. Shadyside and Squirrel Hill properties with mature red oak canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `Pittsburgh experiences 75 freeze-thaw cycles annually, driving ice-dam risk at eave-gutter transitions. Heated gutter cables run $500-$1,200 and are a practical investment for persistent ice-dam homes in Shadyside and Squirrel Hill. The June 2012 derecho and the August 2019 windstorm that produced widespread damage across Allegheny County demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `City of Pittsburgh PLI handles gutter permits when required (typically only for structural fascia modifications). Pennsylvania requires HIC registration under Act 132; verify at pago.state.pa.us. Scheduling Pittsburgh gutter installation during off-peak months saves 10-15% on labor. Mt. Lebanon and Fox Chapel newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on Allegheny West historic properties.`,
+  },
+  "columbus-oh": {
+    localRainfallPara: `Columbus's 80 freeze-thaw cycles, 40 inches of rain, and occasional severe thunderstorms creates specific gutter sizing requirements. Columbus's moderate rainfall of 40 inches requires standard 6-inch K-style gutters with proper downspout routing. German Village and Short North properties with mature sugar maple canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `Columbus experiences 80 freeze-thaw cycles annually, driving ice-dam risk at eave-gutter transitions. Heated gutter cables run $500-$1,200 and are a practical investment for persistent ice-dam homes in German Village and Short North. The June 2012 derecho that produced widespread power outages and property damage across Franklin County demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `City of Columbus Building and Zoning Services handles gutter permits when required (typically only for structural fascia modifications). Ohio has no statewide residential contractor license; Columbus requires local registration. Scheduling Columbus gutter installation during off-peak months saves 10-15% on labor. Dublin and Worthington newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on German Village historic properties.`,
+  },
+  "kansas-city-mo": {
+    localRainfallPara: `Kansas City's 80 freeze-thaw cycles, 39 inches of rain, and severe spring supercells in the central US hail corridor creates specific gutter sizing requirements. Kansas City's moderate rainfall of 39 inches requires standard 6-inch K-style gutters with proper downspout routing. Country Club Plaza and Brookside properties with mature bur oak canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `Kansas City experiences 80 freeze-thaw cycles annually, driving ice-dam risk at eave-gutter transitions. Heated gutter cables run $500-$1,200 and are a practical investment for persistent ice-dam homes in Country Club Plaza and Brookside. The May 2024 supercell hail event that produced widespread damage across Johnson County KS and the March 2022 tornado outbreak demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `Kansas City Permits and Inspections handles gutter permits when required (typically only for structural fascia modifications). Missouri has no statewide roofer license; Kansas requires contractor registration through the Attorney General. The metro straddles both states. Scheduling Kansas City gutter installation during off-peak months saves 10-15% on labor. Prairie Village and Lee's Summit newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on Country Club Plaza historic properties.`,
+  },
+  "indianapolis-in": {
+    localRainfallPara: `Indianapolis's 85 freeze-thaw cycles, 42 inches of rain, and spring supercell exposure in the tornado corridor creates specific gutter sizing requirements. Indianapolis's heavy annual rainfall demands properly sized 6-inch K-style gutters with 3x4 downspouts to handle intense storm events. Broad Ripple and Meridian-Kessler properties with mature tulip poplar canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `Indianapolis experiences 85 freeze-thaw cycles annually, driving ice-dam risk at eave-gutter transitions. Heated gutter cables run $500-$1,200 and are a practical investment for persistent ice-dam homes in Broad Ripple and Meridian-Kessler. The November 2013 EF2 tornado in Washington Township and the April 2023 spring hail event that damaged thousands of homes demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `Indianapolis Department of Business and Neighborhood Services handles gutter permits when required (typically only for structural fascia modifications). Indiana has no statewide residential contractor license but requires Marion County registration. Scheduling Indianapolis gutter installation during off-peak months saves 10-15% on labor. Fishers and Zionsville newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on Broad Ripple historic properties.`,
+  },
+  "nashville-tn": {
+    localRainfallPara: `Nashville's 40 freeze-thaw cycles, 48 inches of rain, and severe spring thunderstorms in the Nashville Basin creates specific gutter sizing requirements. Nashville's heavy annual rainfall demands properly sized 6-inch K-style gutters with 3x4 downspouts to handle intense storm events. East Nashville and 12South properties with mature eastern red cedar canopy face heavy debris loads that justify gutter guards at $5-$12 per linear foot.`,
+    freezeAndMaintenancePara: `Nashville gets occasional freezing that can cause ice-dam issues in severe winters. eastern red cedar debris is the primary ongoing maintenance concern. The March 2020 EF3 tornado that devastated East Nashville, Germantown, Donelson, and Mt. Juliet demonstrated the importance of properly functioning gutter systems during extreme events.`,
+    buyingGuidePara: `Metro Nashville Department of Codes Administration handles gutter permits when required (typically only for structural fascia modifications). Tennessee requires a Home Improvement License for projects over $3,000 through the Tennessee Board for Licensing Contractors. Scheduling Nashville gutter installation during off-peak months saves 10-15% on labor. Franklin and Brentwood newer subdivisions often include gutter-to-underground-drain connections per HOA and subdivision standards. Copper gutters appear on East Nashville historic properties.`,
+  },
+};
+
+// Merge extra content into primary dict
+for (const [slug, extra] of Object.entries(CITY_GUTTER_EXTRA)) {
+  CITY_GUTTER_DATA[slug] = Object.assign(CITY_GUTTER_DATA[slug] || {}, extra);
+}
 
 /* --- Dict-only section builders --- */
 
@@ -593,6 +832,30 @@ function climateDeep(city, d) {
 </section>`;
 }
 
+
+function extraLocalSection(city, d) {
+  let html = "";
+  if (d.localMarketPara) html += `<section class="section fp-section"><h2>${city} local market overview</h2><p>${d.localMarketPara}</p></section>`;
+  if (d.localDetailPara) html += `<section class="section fp-section"><h2>${city} neighborhood details</h2><p>${d.localDetailPara}</p></section>`;
+  if (d.seasonAndContractorPara) html += `<section class="section fp-section"><h2>${city} seasonal pricing and contractors</h2><p>${d.seasonAndContractorPara}</p></section>`;
+  if (d.localProjectPara) html += `<section class="section fp-section"><h2>${city} common projects</h2><p>${d.localProjectPara}</p></section>`;
+  if (d.weatherImpactPara) html += `<section class="section fp-section"><h2>${city} weather considerations</h2><p>${d.weatherImpactPara}</p></section>`;
+  if (d.contractorVerifyPara) html += `<section class="section fp-section"><h2>Verifying ${city} contractors</h2><p>${d.contractorVerifyPara}</p></section>`;
+  if (d.localUtilityPara) html += `<section class="section fp-section"><h2>${city} utility coordination</h2><p>${d.localUtilityPara}</p></section>`;
+  if (d.panelAndCodePara) html += `<section class="section fp-section"><h2>${city} panel upgrades and codes</h2><p>${d.panelAndCodePara}</p></section>`;
+  if (d.safetyAndLicensePara) html += `<section class="section fp-section"><h2>${city} safety concerns</h2><p>${d.safetyAndLicensePara}</p></section>`;
+  if (d.localMaterialPara) html += `<section class="section fp-section"><h2>${city} material preferences</h2><p>${d.localMaterialPara}</p></section>`;
+  if (d.hoaAndWildlifePara) html += `<section class="section fp-section"><h2>${city} HOA and wildlife considerations</h2><p>${d.hoaAndWildlifePara}</p></section>`;
+  if (d.seasonAndCostPara) html += `<section class="section fp-section"><h2>${city} seasonal costs</h2><p>${d.seasonAndCostPara}</p></section>`;
+  if (d.localGeologyPara) html += `<section class="section fp-section"><h2>${city} soil and geology</h2><p>${d.localGeologyPara}</p></section>`;
+  if (d.repairMethodPara) html += `<section class="section fp-section"><h2>${city} repair approaches</h2><p>${d.repairMethodPara}</p></section>`;
+  if (d.drainageAndMoisturePara) html += `<section class="section fp-section"><h2>${city} drainage management</h2><p>${d.drainageAndMoisturePara}</p></section>`;
+  if (d.localRainfallPara) html += `<section class="section fp-section"><h2>${city} rainfall and sizing</h2><p>${d.localRainfallPara}</p></section>`;
+  if (d.freezeAndMaintenancePara) html += `<section class="section fp-section"><h2>${city} freeze protection</h2><p>${d.freezeAndMaintenancePara}</p></section>`;
+  if (d.buyingGuidePara) html += `<section class="section fp-section"><h2>${city} buying guide</h2><p>${d.buyingGuidePara}</p></section>`;
+  return html;
+}
+
 function maintenanceDeep(city, d) {
   return `
 <section class="section fp-section">
@@ -662,6 +925,7 @@ ${MARKER_START}
   html += climateDeep(city, d);
   html += maintenanceDeep(city, d);
   html += redFlagsSimple(city, d);
+  html += extraLocalSection(city, d);
   html += `\n${MARKER_END}\n`;
   return html;
 }

@@ -39,6 +39,16 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-fence-cost.html", region: "midwest" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-fence-cost.html", region: "midwest" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-fence-cost.html", region: "southeast" },
+    { slug: "st-louis-mo", ctxKey: "St. Louis|MO", file: "st-louis-mo-fence-cost.html", region: "midwest" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-fence-cost.html", region: "southeast" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-fence-cost.html", region: "south" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-fence-cost.html", region: "west" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-fence-cost.html", region: "west" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-fence-cost.html", region: "northeast" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-fence-cost.html", region: "midwest" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-fence-cost.html", region: "midwest" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-fence-cost.html", region: "midwest" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-fence-cost.html", region: "southeast" },
 ];
 
 function fmtD(n) { return `$${n.toLocaleString("en-US")}`; }
@@ -346,7 +356,196 @@ const CITY_FENCING_DATA = {
     mistakePara: "The costliest Charlotte fencing mistake is excavating within the tree-save zone of a protected canopy oak. The Charlotte Tree Ordinance requires replacement plantings at 3:1 ratio and fines reaching $5,000-$15,000 per tree.",
   },
 
+  "st-louis-mo": {
+    materialsPara: "St. Louis's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Central West End and Soulard. ",
+    hoaPara: "St. Louis master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Central West End and Soulard may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "St. Louis zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "St. Louis soil is Missouri River alluvium and Mississippian limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "St. Louis experiences 60 freeze-thaw cycles per year, a moderate load that still requires impact-rated vinyl and deep post footings. Annual precipitation of 42 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "St. Louis wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of St. Louis Building Division handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Central West End and Clayton may have distinct permitting requirements.",
+    stylePara: "Signature St. Louis residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "St. Louis fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "St. Louis fencing season runs essentially year-round with the most comfortable conditions October-May."
+  },
+
+  "orlando-fl": {
+    materialsPara: "Orlando's dominant residential fencing is aluminum ornamental (hurricane-resistant), vinyl privacy, and chain link in neighborhoods like Winter Park and College Park. ",
+    hoaPara: "Orlando master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Winter Park and College Park may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Orlando zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Florida state code (48 inches minimum). Corner lot sight-triangle reductions apply.",
+    soilPara: "Orlando soil is Central Florida sand over Ocala limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Orlando essentially does not freeze, so the dominant concerns are hurricane wind loads and coastal corrosion. Annual precipitation of 50 inches creates aggressive wood-rot conditions.",
+    wildlifePara: "Orlando wildlife pressure includes raccoons, opossums, and occasional alligators near canals and ponds. Pool-safety compliance dominates most fencing decisions.",
+    permitPara: "City of Orlando Permitting Services Division handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Winter Park and Dr. Phillips may have distinct permitting requirements.",
+    stylePara: "Signature Orlando residential fencing is hurricane-rated aluminum ornamental, vinyl privacy in newer subdivisions, and pool-code-compliant barrier fencing.",
+    costContext: "Orlando fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Orlando fencing season runs year-round, with the November-May dry season as the ideal window."
+  },
+
+  "san-antonio-tx": {
+    materialsPara: "San Antonio's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like Alamo Heights and Stone Oak. Wood is less common because intense UV weathers cedar within 3-4 years.",
+    hoaPara: "San Antonio master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Alamo Heights and Stone Oak may have deed restrictions or neighborhood character expectations. Texas deed restrictions effectively function as HOAs in many neighborhoods.",
+    heightPara: "San Antonio zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet Texas Health and Safety Code pool barrier requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "San Antonio soil is Balcones Fault Zone clay and Edwards limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "San Antonio essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 32 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "San Antonio wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of San Antonio Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Alamo Heights and King William may have distinct permitting requirements.",
+    stylePara: "Signature San Antonio residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "San Antonio fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "San Antonio fencing season runs year-round, with October-April offering the best working conditions."
+  },
+
+  "portland-or": {
+    materialsPara: "Portland's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like Pearl District and Alberta Arts. ",
+    hoaPara: "Portland master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Pearl District and Alberta Arts may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Portland zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Portland soil is Willamette River alluvium over Columbia River basalt. Standard 24-30 inch post depth with concrete footings is adequate for most residential installations.",
+    climatePara: "Portland essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 43 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Portland wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Portland Bureau of Development Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Pearl District and Lake Oswego may have distinct permitting requirements.",
+    stylePara: "Signature Portland residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "Portland fencing labor runs 15-25% above the national average. HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Portland fencing season runs year-round, with October-April offering the best working conditions."
+  },
+
+  "sacramento-ca": {
+    materialsPara: "Sacramento's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like East Sacramento and Midtown. ",
+    hoaPara: "Sacramento master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like East Sacramento and Midtown may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Sacramento zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Sacramento soil is Sacramento Valley alluvial clay and American River sand. Expansive clay requires 36-inch post depth with concrete footings and expansion material.",
+    climatePara: "Sacramento essentially does not freeze, so the dominant concerns are UV degradation and monsoon wind events. Annual precipitation of 18 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Sacramento wildlife pressure includes deer in outer neighborhoods requiring 8-foot exclusion fencing, coyotes, and rattlesnakes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Sacramento Community Development Department handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. East Sacramento and Elk Grove may have distinct permitting requirements.",
+    stylePara: "Signature Sacramento residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "Sacramento fencing labor runs 15-25% above the national average. HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Sacramento fencing season runs year-round, with October-April offering the best working conditions."
+  },
+
+  "pittsburgh-pa": {
+    materialsPara: "Pittsburgh's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Shadyside and Squirrel Hill. ",
+    hoaPara: "Pittsburgh master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Shadyside and Squirrel Hill may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Pittsburgh zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Pittsburgh soil is Allegheny Plateau sandstone and shale. Expansive clay requires 36-inch post depth with concrete footings and expansion material.",
+    climatePara: "Pittsburgh averages 75 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 38 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Pittsburgh wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Pittsburgh Department of Permits, Licenses and Inspections handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Shadyside and Lawrenceville may have distinct permitting requirements.",
+    stylePara: "Signature Pittsburgh residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Pittsburgh fencing labor runs 15-25% above the national average. Deep footing requirements add $100-$300 per post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Pittsburgh fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "columbus-oh": {
+    materialsPara: "Columbus's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like German Village and Short North. ",
+    hoaPara: "Columbus master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like German Village and Short North may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Columbus zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Columbus soil is glacial till over Devonian shale and Ohio limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Columbus averages 80 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 40 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Columbus wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Columbus Department of Building and Zoning Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. German Village and Upper Arlington may have distinct permitting requirements.",
+    stylePara: "Signature Columbus residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Columbus fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Columbus fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "kansas-city-mo": {
+    materialsPara: "Kansas City's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Country Club Plaza and Brookside. ",
+    hoaPara: "Kansas City master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Country Club Plaza and Brookside may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Kansas City zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Kansas City soil is Kansas City Group limestone and Missouri River loess. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Kansas City averages 80 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 39 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Kansas City wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Kansas City Permits and Inspections Division handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Country Club Plaza and Overland Park may have distinct permitting requirements.",
+    stylePara: "Signature Kansas City residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Kansas City fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Kansas City fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "indianapolis-in": {
+    materialsPara: "Indianapolis's dominant residential fencing is cedar privacy (stockade and shadowbox), black aluminum ornamental, and chain link in neighborhoods like Broad Ripple and Meridian-Kessler. ",
+    hoaPara: "Indianapolis master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like Broad Ripple and Meridian-Kessler may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Indianapolis zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Indianapolis soil is Wisconsin-age glacial till and Silurian-Devonian limestone. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Indianapolis averages 85 freeze-thaw cycles annually combined with deicing salt applications that corrode metal fasteners. Annual precipitation of 42 inches is moderate and manageable with proper wood treatment.",
+    wildlifePara: "Indianapolis wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "City of Indianapolis Department of Business and Neighborhood Services handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. Broad Ripple and Carmel may have distinct permitting requirements.",
+    stylePara: "Signature Indianapolis residential fencing is cedar shadowbox privacy, black steel ornamental matching historic architecture, and chain link in working-class neighborhoods.",
+    costContext: "Indianapolis fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "The productive Indianapolis fencing season is mid-May through early November. Frozen ground limits winter digging."
+  },
+
+  "nashville-tn": {
+    materialsPara: "Nashville's dominant residential fencing is cedar and pressure-treated pine privacy, black ornamental aluminum, and chain link in neighborhoods like East Nashville and 12South. ",
+    hoaPara: "Nashville master-planned communities and newer subdivisions often have strict HOAs with architectural review. Established neighborhoods like East Nashville and 12South may have deed restrictions or neighborhood character expectations. ",
+    heightPara: "Nashville zoning typically limits residential fences to 4 feet in front yards and 6-8 feet in rear and side yards. Pool barrier fencing must meet state pool-code requirements. Corner lot sight-triangle reductions apply.",
+    soilPara: "Nashville soil is Middle Tennessee Basin limestone and Ordovician phosphatic clay. Caliche or limestone layers require pneumatic breakers for post-hole digging.",
+    climatePara: "Nashville experiences 40 freeze-thaw cycles per year, a moderate load that still requires impact-rated vinyl and deep post footings. Annual precipitation of 48 inches creates aggressive wood-rot conditions.",
+    wildlifePara: "Nashville wildlife pressure includes deer in suburban neighborhoods, raccoons, and coyotes. Standard 6-foot privacy fencing manages most urban wildlife concerns.",
+    permitPara: "Metropolitan Nashville Department of Codes Administration handles fence permits for installations exceeding standard height limits. HOA architectural review in master-planned communities may take 2-6 weeks parallel to building permits. East Nashville and Green Hills may have distinct permitting requirements.",
+    stylePara: "Signature Nashville residential fencing is cedar privacy fencing, black ornamental aluminum in established neighborhoods, and pipe-rail with hog wire on larger lots.",
+    costContext: "Nashville fencing labor runs at or near the national average. Rock excavation adds $100-$400 per difficult post.HOA compliance adds 2-5 weeks to project timelines in master-planned communities.",
+    seasonPara: "Nashville fencing season runs essentially year-round with the most comfortable conditions October-May."
+  },
+
 };
+
+
+const CITY_FENCING_EXTRA = {
+  "st-louis-mo": {
+    localMaterialPara: `St Louis's dominant residential fencing reflects the cold-climate requirement for deep post footings (42-48 inches) and freeze-resistant materials. Central West End and Soulard neighborhoods show distinct fencing styles tied to housing era and HOA requirements. City of St. Louis Building Division handles fence permits for non-standard height installations. red oak and  sweetgum root systems in established St Louis neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `St Louis master-planned communities in The Hill and Tower Grove South have strict HOA architectural review for fencing. Lafayette Square, Soulard, and Compton Heights are the primary protected historic districts under the Cultural Resources Office; fencing in these districts may face additional review. Missouri River alluvium and Mississippian limestone with windblown loess creates rocky excavation conditions that add $100-$400 per difficult post hole. Wildlife pressure in outer St Louis suburbs includes deer, which may require 8-foot exclusion fencing in Tower Grove South and Benton Park properties.`,
+    seasonAndCostPara: `The productive St Louis fencing season runs mid-May through early November. Frozen ground limits winter post-hole digging and adds $100-$300 per post for pneumatic breaking. Missouri has no statewide contractor license; city registration required. Labor rates in St Louis run at the national average for fencing installation.`,
+  },
+  "orlando-fl": {
+    localMaterialPara: `Orlando's dominant residential fencing reflects the local climate and soil conditions that allow standard 24-30 inch post depth. Winter Park and College Park neighborhoods show distinct fencing styles tied to housing era and HOA requirements. City of Orlando Permitting Services handles fence permits for non-standard height installations. live oak and  cabbage palm root systems in established Orlando neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `Orlando master-planned communities in Lake Nona and Windermere have strict HOA architectural review for fencing. Lake Eola Heights, Colonialtown, and Thornton Park historic districts are under the Orlando Historic Preservation Board; fencing in these districts may face additional review. Central Florida sand over Ocala limestone with karst sinkholes and high water table creates rocky excavation conditions that add $100-$400 per difficult post hole. Wildlife pressure in outer Orlando suburbs includes deer, which may require 8-foot exclusion fencing in Windermere and Celebration properties.`,
+    seasonAndCostPara: `Orlando fencing installation runs year-round with the most comfortable conditions in the November-May dry season. Florida DBPR licenses contractors; verify at myfloridalicense.com. Labor rates in Orlando run at or slightly below the national average for fencing installation.`,
+  },
+  "san-antonio-tx": {
+    localMaterialPara: `San Antonio's dominant residential fencing reflects the expansive soil conditions that require 36-inch post depth with concrete footings. Alamo Heights and Stone Oak neighborhoods show distinct fencing styles tied to housing era and HOA requirements. City of San Antonio Development Services handles fence permits for non-standard height installations. live oak and  pecan root systems in established San Antonio neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `San Antonio master-planned communities in The Pearl and Boerne have strict HOA architectural review for fencing. King William, Monte Vista, and Dignowity Hill are among 10+ historic districts under the HDRC; fencing in these districts may face additional review. Balcones Fault Zone clay and Edwards limestone with shrink-swell soils creates rocky excavation conditions that add $100-$400 per difficult post hole. Wildlife pressure in outer San Antonio suburbs includes deer, which may require 8-foot exclusion fencing in Boerne and Helotes properties.`,
+    seasonAndCostPara: `San Antonio fencing installation runs year-round with the most comfortable conditions in October through May. Texas has no statewide residential contractor license; TDLR registers mechanical and electrical trades only. Labor rates in San Antonio run at or slightly below the national average for fencing installation.`,
+  },
+  "portland-or": {
+    localMaterialPara: `Portland's dominant residential fencing reflects the local climate and soil conditions that allow standard 24-30 inch post depth. Pearl District and Alberta Arts neighborhoods show distinct fencing styles tied to housing era and HOA requirements. City of Portland Bureau of Development Services handles fence permits for non-standard height installations. Douglas fir and  western red cedar root systems in established Portland neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `Portland master-planned communities in Sellwood and Laurelhurst have strict HOA architectural review for fencing. Irvington, Ladd's Addition, Piedmont, and Lair Hill historic districts are under the Portland Historic Landmarks Commission; fencing in these districts may face additional review. Willamette River alluvium over Columbia River basalt with Portland Hills silt creates standard excavation conditions for most post installations. Wildlife pressure in outer Portland suburbs includes deer, which may require 8-foot exclusion fencing in Laurelhurst and Hawthorne properties.`,
+    seasonAndCostPara: `Portland fencing installation runs year-round with the most comfortable conditions in October through May. Oregon CCB license required; verify at ccb.oregon.gov. Labor rates in Portland run above the national average for fencing installation.`,
+  },
+  "sacramento-ca": {
+    localMaterialPara: `Sacramento's dominant residential fencing reflects the expansive soil conditions that require 36-inch post depth with concrete footings. East Sacramento and Midtown neighborhoods show distinct fencing styles tied to housing era and HOA requirements. City of Sacramento Community Development handles fence permits for non-standard height installations. valley oak and  coast live oak root systems in established Sacramento neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `Sacramento master-planned communities in Roseville and Folsom have strict HOA architectural review for fencing. Alkali Flat, Boulevard Park, and Poverty Ridge are under the Sacramento Preservation Commission; fencing in these districts may face additional review. Sacramento Valley alluvial clay and American River sand with hardpan beneath east-side neighborhoods creates expansive soil conditions that require deeper footings and expansion material around posts. Wildlife pressure in outer Sacramento suburbs includes deer, which may require 8-foot exclusion fencing in Folsom and Land Park properties.`,
+    seasonAndCostPara: `Sacramento fencing installation runs year-round with the most comfortable conditions in October through May. California requires specific contractor licenses through CSLB; verify at cslb.ca.gov. Labor rates in Sacramento run above the national average for fencing installation.`,
+  },
+  "pittsburgh-pa": {
+    localMaterialPara: `Pittsburgh's dominant residential fencing reflects the cold-climate requirement for deep post footings (42-48 inches) and freeze-resistant materials. Shadyside and Squirrel Hill neighborhoods show distinct fencing styles tied to housing era and HOA requirements. City of Pittsburgh PLI handles fence permits for non-standard height installations. red oak and  sugar maple root systems in established Pittsburgh neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `Pittsburgh master-planned communities in Mt. Lebanon and Fox Chapel have strict HOA architectural review for fencing. Allegheny West, Manchester, Mexican War Streets, and Deutschtown are under the Pittsburgh Historic Review Commission; fencing in these districts may face additional review. Allegheny Plateau sandstone and shale with Pittsburgh red beds clay and abandoned mine subsidence risk creates rocky excavation conditions that add $100-$400 per difficult post hole. Wildlife pressure in outer Pittsburgh suburbs includes deer, which may require 8-foot exclusion fencing in Fox Chapel and South Side properties.`,
+    seasonAndCostPara: `The productive Pittsburgh fencing season runs mid-May through early November. Frozen ground limits winter post-hole digging and adds $100-$300 per post for pneumatic breaking. Pennsylvania requires HIC registration under Act 132; verify at pago.state.pa.us. Labor rates in Pittsburgh run at the Midwest average for fencing installation.`,
+  },
+  "columbus-oh": {
+    localMaterialPara: `Columbus's dominant residential fencing reflects the cold-climate requirement for deep post footings (42-48 inches) and freeze-resistant materials. German Village and Short North neighborhoods show distinct fencing styles tied to housing era and HOA requirements. City of Columbus Building and Zoning Services handles fence permits for non-standard height installations. sugar maple and  red oak root systems in established Columbus neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `Columbus master-planned communities in Dublin and Worthington have strict HOA architectural review for fencing. German Village, Victorian Village, and Italian Village are under the Columbus Historic Preservation Commission; fencing in these districts may face additional review. glacial till over Devonian shale and Ohio limestone creates rocky excavation conditions that add $100-$400 per difficult post hole. Wildlife pressure in outer Columbus suburbs includes deer, which may require 8-foot exclusion fencing in Worthington and Clintonville properties.`,
+    seasonAndCostPara: `The productive Columbus fencing season runs mid-May through early November. Frozen ground limits winter post-hole digging and adds $100-$300 per post for pneumatic breaking. Ohio has no statewide residential contractor license; Columbus requires local registration. Labor rates in Columbus run at the national average for fencing installation.`,
+  },
+  "kansas-city-mo": {
+    localMaterialPara: `Kansas City's dominant residential fencing reflects the cold-climate requirement for deep post footings (42-48 inches) and freeze-resistant materials. Country Club Plaza and Brookside neighborhoods show distinct fencing styles tied to housing era and HOA requirements. Kansas City Permits and Inspections handles fence permits for non-standard height installations. bur oak and  eastern redbud root systems in established Kansas City neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `Kansas City master-planned communities in Prairie Village and Lee's Summit have strict HOA architectural review for fencing. Country Club Plaza, Pendleton Heights, and Janssen Place are under the KCMO Historic Preservation Commission; Kansas-side municipalities have limited historic protections; fencing in these districts may face additional review. Kansas City Group limestone and Missouri River loess with expansive Pennsylvanian shale creates rocky excavation conditions that add $100-$400 per difficult post hole. Wildlife pressure in outer Kansas City suburbs includes deer, which may require 8-foot exclusion fencing in Lee's Summit and Waldo properties.`,
+    seasonAndCostPara: `The productive Kansas City fencing season runs mid-May through early November. Frozen ground limits winter post-hole digging and adds $100-$300 per post for pneumatic breaking. Missouri has no statewide roofer license; Kansas requires contractor registration through the Attorney General. The metro straddles both states. Labor rates in Kansas City run at the national average for fencing installation.`,
+  },
+  "indianapolis-in": {
+    localMaterialPara: `Indianapolis's dominant residential fencing reflects the cold-climate requirement for deep post footings (42-48 inches) and freeze-resistant materials. Broad Ripple and Meridian-Kessler neighborhoods show distinct fencing styles tied to housing era and HOA requirements. Indianapolis Department of Business and Neighborhood Services handles fence permits for non-standard height installations. tulip poplar and  sweetgum root systems in established Indianapolis neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `Indianapolis master-planned communities in Fishers and Zionsville have strict HOA architectural review for fencing. Irvington, Lockerbie Square, Woodruff Place, and Herron-Morton Place are under the Indianapolis Historic Preservation Commission; fencing in these districts may face additional review. Wisconsin-age glacial till and Silurian-Devonian limestone creates rocky excavation conditions that add $100-$400 per difficult post hole. Wildlife pressure in outer Indianapolis suburbs includes deer, which may require 8-foot exclusion fencing in Zionsville and Noblesville properties.`,
+    seasonAndCostPara: `The productive Indianapolis fencing season runs mid-May through early November. Frozen ground limits winter post-hole digging and adds $100-$300 per post for pneumatic breaking. Indiana has no statewide residential contractor license but requires Marion County registration. Labor rates in Indianapolis run at the Midwest average for fencing installation.`,
+  },
+  "nashville-tn": {
+    localMaterialPara: `Nashville's dominant residential fencing reflects the expansive soil conditions that require 36-inch post depth with concrete footings. East Nashville and 12South neighborhoods show distinct fencing styles tied to housing era and HOA requirements. Metro Nashville Department of Codes Administration handles fence permits for non-standard height installations. eastern red cedar and  tulip poplar root systems in established Nashville neighborhoods require careful post placement to avoid root damage.`,
+    hoaAndWildlifePara: `Nashville master-planned communities in Franklin and Brentwood have strict HOA architectural review for fencing. East Nashville, Germantown, and Lockeland Springs are under the Metro Nashville Historic Zoning Commission; fencing in these districts may face additional review. Middle Tennessee Basin limestone and Ordovician phosphatic clay creates rocky excavation conditions that add $100-$400 per difficult post hole. Wildlife pressure in outer Nashville suburbs includes deer, which may require 8-foot exclusion fencing in Brentwood and Mt. Juliet properties.`,
+    seasonAndCostPara: `Nashville fencing installation runs year-round with the most comfortable conditions in October through May. Tennessee requires a Home Improvement License for projects over $3,000 through the Tennessee Board for Licensing Contractors. Labor rates in Nashville run at the national average for fencing installation.`,
+  },
+};
+
+// Merge extra content into primary dict
+for (const [slug, extra] of Object.entries(CITY_FENCING_EXTRA)) {
+  CITY_FENCING_DATA[slug] = Object.assign(CITY_FENCING_DATA[slug] || {}, extra);
+}
 
 /* Sections */
 function neighborhoodPricing(facts, mult, cd) {
@@ -492,6 +691,30 @@ function commonMistakes(city, cd) {
 </section>`;
 }
 
+
+function extraLocalSection(city, d) {
+  let html = "";
+  if (d.localMarketPara) html += `<section class="section fp-section"><h2>${city} local market overview</h2><p>${d.localMarketPara}</p></section>`;
+  if (d.localDetailPara) html += `<section class="section fp-section"><h2>${city} neighborhood details</h2><p>${d.localDetailPara}</p></section>`;
+  if (d.seasonAndContractorPara) html += `<section class="section fp-section"><h2>${city} seasonal pricing and contractors</h2><p>${d.seasonAndContractorPara}</p></section>`;
+  if (d.localProjectPara) html += `<section class="section fp-section"><h2>${city} common projects</h2><p>${d.localProjectPara}</p></section>`;
+  if (d.weatherImpactPara) html += `<section class="section fp-section"><h2>${city} weather considerations</h2><p>${d.weatherImpactPara}</p></section>`;
+  if (d.contractorVerifyPara) html += `<section class="section fp-section"><h2>Verifying ${city} contractors</h2><p>${d.contractorVerifyPara}</p></section>`;
+  if (d.localUtilityPara) html += `<section class="section fp-section"><h2>${city} utility coordination</h2><p>${d.localUtilityPara}</p></section>`;
+  if (d.panelAndCodePara) html += `<section class="section fp-section"><h2>${city} panel upgrades and codes</h2><p>${d.panelAndCodePara}</p></section>`;
+  if (d.safetyAndLicensePara) html += `<section class="section fp-section"><h2>${city} safety concerns</h2><p>${d.safetyAndLicensePara}</p></section>`;
+  if (d.localMaterialPara) html += `<section class="section fp-section"><h2>${city} material preferences</h2><p>${d.localMaterialPara}</p></section>`;
+  if (d.hoaAndWildlifePara) html += `<section class="section fp-section"><h2>${city} HOA and wildlife considerations</h2><p>${d.hoaAndWildlifePara}</p></section>`;
+  if (d.seasonAndCostPara) html += `<section class="section fp-section"><h2>${city} seasonal costs</h2><p>${d.seasonAndCostPara}</p></section>`;
+  if (d.localGeologyPara) html += `<section class="section fp-section"><h2>${city} soil and geology</h2><p>${d.localGeologyPara}</p></section>`;
+  if (d.repairMethodPara) html += `<section class="section fp-section"><h2>${city} repair approaches</h2><p>${d.repairMethodPara}</p></section>`;
+  if (d.drainageAndMoisturePara) html += `<section class="section fp-section"><h2>${city} drainage management</h2><p>${d.drainageAndMoisturePara}</p></section>`;
+  if (d.localRainfallPara) html += `<section class="section fp-section"><h2>${city} rainfall and sizing</h2><p>${d.localRainfallPara}</p></section>`;
+  if (d.freezeAndMaintenancePara) html += `<section class="section fp-section"><h2>${city} freeze protection</h2><p>${d.freezeAndMaintenancePara}</p></section>`;
+  if (d.buyingGuidePara) html += `<section class="section fp-section"><h2>${city} buying guide</h2><p>${d.buyingGuidePara}</p></section>`;
+  return html;
+}
+
 function maintenanceCalendar(city, cd) {
   return `
 <section class="section fp-section">
@@ -587,6 +810,7 @@ function buildFlagshipContent(metro) {
   html += maintenanceCalendar(city, cd);
   html += seasonalGuide(city, cd);
   html += costScenarios(city, mult, cd);
+  html += extraLocalSection(city, cd);
   html += `\n${MARKER_END}\n`;
 
   return html;

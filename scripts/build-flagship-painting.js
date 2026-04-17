@@ -41,6 +41,16 @@ const METROS = [
   { slug: "detroit-mi", ctxKey: "Detroit|MI", file: "detroit-mi-painting-cost.html", region: "midwest" },
   { slug: "minneapolis-mn", ctxKey: "Minneapolis|MN", file: "minneapolis-mn-painting-cost.html", region: "midwest" },
   { slug: "charlotte-nc", ctxKey: "Charlotte|NC", file: "charlotte-nc-painting-cost.html", region: "southeast" },
+    { slug: "st-louis-mo", ctxKey: "St. Louis|MO", file: "st-louis-mo-painting-cost.html", region: "midwest" },
+    { slug: "orlando-fl", ctxKey: "Orlando|FL", file: "orlando-fl-painting-cost.html", region: "southeast" },
+    { slug: "san-antonio-tx", ctxKey: "San Antonio|TX", file: "san-antonio-tx-painting-cost.html", region: "south" },
+    { slug: "portland-or", ctxKey: "Portland|OR", file: "portland-or-painting-cost.html", region: "west" },
+    { slug: "sacramento-ca", ctxKey: "Sacramento|CA", file: "sacramento-ca-painting-cost.html", region: "west" },
+    { slug: "pittsburgh-pa", ctxKey: "Pittsburgh|PA", file: "pittsburgh-pa-painting-cost.html", region: "northeast" },
+    { slug: "columbus-oh", ctxKey: "Columbus|OH", file: "columbus-oh-painting-cost.html", region: "midwest" },
+    { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-painting-cost.html", region: "midwest" },
+    { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-painting-cost.html", region: "midwest" },
+    { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-painting-cost.html", region: "southeast" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }
@@ -310,7 +320,206 @@ const CITY_PAINTING_DATA = {
     localPainterLandscapePara: "Charlotte painter market fragments into three tiers: PCA-affiliated firms (Diamond Painting, Piedmont Painting Professionals, Certa Pro Painters Charlotte Metro) for Dilworth, Myers Park, and Eastover high-end residential at $4-$6 per square foot exterior; mid-market crews (Carolina Custom Painters, CLT Pro Painting) serving Ballantyne and the north-Charlotte suburban ring at $2.50-$4 per square foot; and independent Hispanic immigrant crews handling below-$8K whole-house repaints across East Charlotte and Cotswold. Lake Norman waterfront and Waxhaw luxury custom work routes through regional specialists including Monument Painters and Heritage Painting of the Carolinas."
   },
 
+  "st-louis-mo": {
+    climateParaByUV: "St. Louis paint exposure is moderate UV with seasonal humidity variation. South-facing facades lose gloss 30-40% faster than north-facing in St. Louis. Exterior paint longevity in St. Louis runs 6-8 years on properly prepped substrates.",
+    sidingMaterialPara: "St. Louis exterior substrates include vinyl, fiber cement, wood, and brick across neighborhoods like Central West End and Soulard. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "Central West End and Soulard may include historic districts with color review requirements. Historic preservation commissions may require Benjamin Moore Historic Collection or Sherwin-Williams Preservation Palette codes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the St. Louis baseline for residential repaint. Standard premium acrylic latex handles the local climate well. ",
+    prepCultureByEraPara: "St. Louis prep requirements vary by housing era.  Power washing, scraping, and spot-priming are standard prep steps. Central West End older homes may have multiple paint layers requiring more aggressive preparation than newer Clayton construction.",
+    permitAndLeadPara: "EPA RRP certification is mandatory for any painting contractor disturbing over 6 sqft of pre-1978 painted surface. City of St. Louis Building Division handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "St. Louis exterior painting season runs March through November. Summer heat above 90F can cause paint to blister if applied in direct sun. ",
+    commonUpsellPara: "Common St. Louis painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and exterior trim restoration with wood repair as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "St. Louis's 42 inches of annual rainfall is moderate and requires attention to moisture management. Mildew-resistant additives and proper surface prep are essential in St. Louis.",
+    coatingsCultureByClimate: "St. Louis coating preferences reflect the local climate: standard acrylic latex with appropriate primers for each substrate.",
+    localPainterLandscapePara: "St. Louis's painting market includes competitive independent crews operating in Central West End, Soulard, and surrounding areas. Verify insurance, references, and EPA RRP certification on pre-1978 homes. Multi-room interior pricing in St. Louis runs $2-$4 per sqft including prep."
+  },
+
+  "orlando-fl": {
+    climateParaByUV: "Orlando paint exposure is intense UV combined with tropical humidity. West-facing walls degrade fastest in Orlando due to afternoon sun exposure. Exterior paint longevity in Orlando runs 5-8 years on properly prepped substrates.",
+    sidingMaterialPara: "Orlando exterior substrates include stucco, CBS block, fiber cement, and aluminum across neighborhoods like Winter Park and College Park. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "Winter Park and College Park have neighborhood character expectations that influence color choices. Regional color preferences in Orlando trend toward tropical and coastal palettes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the Orlando baseline for residential repaint. Mildew-resistant formulations are mandatory in the tropical humidity. ",
+    prepCultureByEraPara: "Orlando prep requirements vary by housing era.  Stucco prep requires pressure washing and elastomeric crack repair. Winter Park older homes may have multiple paint layers requiring more aggressive preparation than newer Dr. Phillips construction.",
+    permitAndLeadPara: "EPA RRP rules apply to pre-1978 homes. City of Orlando Permitting Services Division handles permits for exterior work in historic districts. Florida does not require painting contractor licensing but insurance verification is essential.",
+    seasonalWindowPara: "Orlando exterior painting season runs year-round with the November-May dry season preferred. Summer heat above 90F can cause paint to blister if applied in direct sun. Afternoon rain in summer narrows the daily work window.",
+    commonUpsellPara: "Common Orlando painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and pressure washing and concrete staining as add-on services. Legitimate premium upgrades include mold-resistant coatings.",
+    moistureAndMildewPara: "Orlando's 50 inches of annual rainfall creates aggressive mold and mildew conditions. Mildew-resistant additives and proper surface prep are essential in Orlando.",
+    coatingsCultureByClimate: "Orlando coating preferences reflect the local climate: elastomeric for stucco crack-bridging, acrylic with mildewcide for humidity, and marine-grade for coastal exposure.",
+    localPainterLandscapePara: "Orlando's painting market includes competitive independent crews operating in Winter Park, College Park, and surrounding areas. Verify insurance, references, and proper licensing. Multi-room interior pricing in Orlando runs $2-$4 per sqft including prep."
+  },
+
+  "san-antonio-tx": {
+    climateParaByUV: "San Antonio paint exposure is moderate UV with seasonal humidity variation. West-facing walls degrade fastest in San Antonio due to afternoon sun exposure. Exterior paint longevity in San Antonio runs 6-8 years on properly prepped substrates.",
+    sidingMaterialPara: "San Antonio exterior substrates include vinyl, fiber cement, wood, and brick across neighborhoods like Alamo Heights and Stone Oak. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "Alamo Heights and Stone Oak have neighborhood character expectations that influence color choices. Regional color preferences in San Antonio trend toward traditional and contemporary palettes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the San Antonio baseline for residential repaint. Standard premium acrylic latex handles the local climate well. ",
+    prepCultureByEraPara: "San Antonio prep requirements vary by housing era.  Power washing, scraping, and spot-priming are standard prep steps. Alamo Heights older homes may have multiple paint layers requiring more aggressive preparation than newer King William construction.",
+    permitAndLeadPara: "EPA RRP rules apply to pre-1978 homes. City of San Antonio Development Services handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "San Antonio exterior painting season runs March through November. Summer heat above 90F can cause paint to blister if applied in direct sun. ",
+    commonUpsellPara: "Common San Antonio painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and pressure washing and concrete staining as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "San Antonio's 32 inches of annual rainfall is low enough that moisture is a secondary concern. ",
+    coatingsCultureByClimate: "San Antonio coating preferences reflect the local climate: standard acrylic latex with appropriate primers for each substrate.",
+    localPainterLandscapePara: "San Antonio's painting market includes competitive independent crews operating in Alamo Heights, Stone Oak, and surrounding areas. Verify insurance, references, and proper licensing. Multi-room interior pricing in San Antonio runs $2-$4 per sqft including prep."
+  },
+
+  "portland-or": {
+    climateParaByUV: "Portland paint exposure is moderate UV with seasonal humidity variation. West-facing walls degrade fastest in Portland due to afternoon sun exposure. Exterior paint longevity in Portland runs 6-8 years on properly prepped substrates.",
+    sidingMaterialPara: "Portland exterior substrates include vinyl, fiber cement, wood, and brick across neighborhoods like Pearl District and Alberta Arts. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "Pearl District and Alberta Arts have neighborhood character expectations that influence color choices. Regional color preferences in Portland trend toward traditional and contemporary palettes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the Portland baseline for residential repaint. Standard premium acrylic latex handles the local climate well. ",
+    prepCultureByEraPara: "Portland prep requirements vary by housing era.  Power washing, scraping, and spot-priming are standard prep steps. Pearl District older homes may have multiple paint layers requiring more aggressive preparation than newer Lake Oswego construction.",
+    permitAndLeadPara: "EPA RRP rules apply to pre-1978 homes. City of Portland Bureau of Development Services handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "Portland exterior painting season runs March through November. Summer heat above 90F can cause paint to blister if applied in direct sun. ",
+    commonUpsellPara: "Common Portland painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and pressure washing and concrete staining as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "Portland's 43 inches of annual rainfall is moderate and requires attention to moisture management. Mildew-resistant additives and proper surface prep are essential in Portland.",
+    coatingsCultureByClimate: "Portland coating preferences reflect the local climate: standard acrylic latex with appropriate primers for each substrate.",
+    localPainterLandscapePara: "Portland's painting market includes union and non-union crews with a 20-30% price spread operating in Pearl District, Alberta Arts, and surrounding areas. Verify insurance, references, and proper licensing. Multi-room interior pricing in Portland runs $3-$5 per sqft including prep."
+  },
+
+  "sacramento-ca": {
+    climateParaByUV: "Sacramento paint exposure is moderate UV with seasonal humidity variation. West-facing walls degrade fastest in Sacramento due to afternoon sun exposure. Exterior paint longevity in Sacramento runs 6-8 years on properly prepped substrates.",
+    sidingMaterialPara: "Sacramento exterior substrates include vinyl, fiber cement, wood, and brick across neighborhoods like East Sacramento and Midtown. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "East Sacramento and Midtown have neighborhood character expectations that influence color choices. Regional color preferences in Sacramento trend toward traditional and contemporary palettes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the Sacramento baseline for residential repaint. Standard premium acrylic latex handles the local climate well. ",
+    prepCultureByEraPara: "Sacramento prep requirements vary by housing era.  Power washing, scraping, and spot-priming are standard prep steps. East Sacramento older homes may have multiple paint layers requiring more aggressive preparation than newer Elk Grove construction.",
+    permitAndLeadPara: "EPA RRP rules apply to pre-1978 homes. City of Sacramento Community Development Department handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "Sacramento exterior painting season runs March through November. Summer heat above 90F can cause paint to blister if applied in direct sun. ",
+    commonUpsellPara: "Common Sacramento painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and pressure washing and concrete staining as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "Sacramento's 18 inches of annual rainfall is low enough that moisture is a secondary concern. ",
+    coatingsCultureByClimate: "Sacramento coating preferences reflect the local climate: standard acrylic latex with appropriate primers for each substrate.",
+    localPainterLandscapePara: "Sacramento's painting market includes union and non-union crews with a 20-30% price spread operating in East Sacramento, Midtown, and surrounding areas. Verify insurance, references, and proper licensing. Multi-room interior pricing in Sacramento runs $3-$5 per sqft including prep."
+  },
+
+  "pittsburgh-pa": {
+    climateParaByUV: "Pittsburgh paint exposure is moderate UV but heavy freeze-thaw cycling and deicing salt. South-facing facades lose gloss 30-40% faster than north-facing in Pittsburgh. Exterior paint longevity in Pittsburgh runs 5-7 years on properly prepped substrates.",
+    sidingMaterialPara: "Pittsburgh exterior substrates include vinyl siding, fiber cement (HardiePlank), wood clapboard, and brick across neighborhoods like Shadyside and Squirrel Hill. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "Shadyside and Squirrel Hill may include historic districts with color review requirements. Historic preservation commissions may require Benjamin Moore Historic Collection or Sherwin-Williams Preservation Palette codes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the Pittsburgh baseline for residential repaint. Standard premium acrylic latex handles the local climate well. Lead-encapsulating primers are a staple for pre-1978 housing stock.",
+    prepCultureByEraPara: "Pittsburgh prep requirements vary by housing era. Pre-1978 homes require EPA RRP-certified crews for any work disturbing lead paint. Power washing, scraping, and spot-priming are standard prep steps. Shadyside older homes may have multiple paint layers requiring more aggressive preparation than newer Lawrenceville construction.",
+    permitAndLeadPara: "EPA RRP certification is mandatory for any painting contractor disturbing over 6 sqft of pre-1978 painted surface. City of Pittsburgh Department of Permits, Licenses and Inspections handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "Pittsburgh exterior painting season runs mid-April through early November. Cold-weather exterior work below 50F requires specialty low-temperature latex. ",
+    commonUpsellPara: "Common Pittsburgh painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and exterior trim restoration with wood repair as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "North-facing shaded surfaces in Pittsburgh develop mold and efflorescence from winter moisture retention. Mildew-resistant additives and proper surface prep are essential in Pittsburgh.",
+    coatingsCultureByClimate: "Pittsburgh coating preferences reflect the local climate: high-build acrylic for freeze-thaw resistance, elastomeric for crack-bridging, and penetrating stains for wood.",
+    localPainterLandscapePara: "Pittsburgh's painting market includes union and non-union crews with a 20-30% price spread operating in Shadyside, Squirrel Hill, and surrounding areas. Verify insurance, references, and EPA RRP certification on pre-1978 homes. Multi-room interior pricing in Pittsburgh runs $3-$5 per sqft including prep."
+  },
+
+  "columbus-oh": {
+    climateParaByUV: "Columbus paint exposure is moderate UV but heavy freeze-thaw cycling and deicing salt. South-facing facades lose gloss 30-40% faster than north-facing in Columbus. Exterior paint longevity in Columbus runs 5-7 years on properly prepped substrates.",
+    sidingMaterialPara: "Columbus exterior substrates include vinyl siding, fiber cement (HardiePlank), wood clapboard, and brick across neighborhoods like German Village and Short North. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "German Village and Short North may include historic districts with color review requirements. Historic preservation commissions may require Benjamin Moore Historic Collection or Sherwin-Williams Preservation Palette codes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the Columbus baseline for residential repaint. Standard premium acrylic latex handles the local climate well. Lead-encapsulating primers are a staple for pre-1978 housing stock.",
+    prepCultureByEraPara: "Columbus prep requirements vary by housing era. Pre-1978 homes require EPA RRP-certified crews for any work disturbing lead paint. Power washing, scraping, and spot-priming are standard prep steps. German Village older homes may have multiple paint layers requiring more aggressive preparation than newer Upper Arlington construction.",
+    permitAndLeadPara: "EPA RRP certification is mandatory for any painting contractor disturbing over 6 sqft of pre-1978 painted surface. City of Columbus Department of Building and Zoning Services handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "Columbus exterior painting season runs mid-April through early November. Cold-weather exterior work below 50F requires specialty low-temperature latex. ",
+    commonUpsellPara: "Common Columbus painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and exterior trim restoration with wood repair as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "North-facing shaded surfaces in Columbus develop mold and efflorescence from winter moisture retention. Mildew-resistant additives and proper surface prep are essential in Columbus.",
+    coatingsCultureByClimate: "Columbus coating preferences reflect the local climate: high-build acrylic for freeze-thaw resistance, elastomeric for crack-bridging, and penetrating stains for wood.",
+    localPainterLandscapePara: "Columbus's painting market includes competitive independent crews operating in German Village, Short North, and surrounding areas. Verify insurance, references, and EPA RRP certification on pre-1978 homes. Multi-room interior pricing in Columbus runs $2-$4 per sqft including prep."
+  },
+
+  "kansas-city-mo": {
+    climateParaByUV: "Kansas City paint exposure is moderate UV but heavy freeze-thaw cycling and deicing salt. South-facing facades lose gloss 30-40% faster than north-facing in Kansas City. Exterior paint longevity in Kansas City runs 5-7 years on properly prepped substrates.",
+    sidingMaterialPara: "Kansas City exterior substrates include vinyl siding, fiber cement (HardiePlank), wood clapboard, and brick across neighborhoods like Country Club Plaza and Brookside. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "Country Club Plaza and Brookside may include historic districts with color review requirements. Historic preservation commissions may require Benjamin Moore Historic Collection or Sherwin-Williams Preservation Palette codes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the Kansas City baseline for residential repaint. Standard premium acrylic latex handles the local climate well. Lead-encapsulating primers are a staple for pre-1978 housing stock.",
+    prepCultureByEraPara: "Kansas City prep requirements vary by housing era. Pre-1978 homes require EPA RRP-certified crews for any work disturbing lead paint. Power washing, scraping, and spot-priming are standard prep steps. Country Club Plaza older homes may have multiple paint layers requiring more aggressive preparation than newer Overland Park construction.",
+    permitAndLeadPara: "EPA RRP certification is mandatory for any painting contractor disturbing over 6 sqft of pre-1978 painted surface. City of Kansas City Permits and Inspections Division handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "Kansas City exterior painting season runs mid-April through early November. Cold-weather exterior work below 50F requires specialty low-temperature latex. ",
+    commonUpsellPara: "Common Kansas City painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and exterior trim restoration with wood repair as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "North-facing shaded surfaces in Kansas City develop mold and efflorescence from winter moisture retention. Mildew-resistant additives and proper surface prep are essential in Kansas City.",
+    coatingsCultureByClimate: "Kansas City coating preferences reflect the local climate: high-build acrylic for freeze-thaw resistance, elastomeric for crack-bridging, and penetrating stains for wood.",
+    localPainterLandscapePara: "Kansas City's painting market includes competitive independent crews operating in Country Club Plaza, Brookside, and surrounding areas. Verify insurance, references, and EPA RRP certification on pre-1978 homes. Multi-room interior pricing in Kansas City runs $2-$4 per sqft including prep."
+  },
+
+  "indianapolis-in": {
+    climateParaByUV: "Indianapolis paint exposure is moderate UV but heavy freeze-thaw cycling and deicing salt. South-facing facades lose gloss 30-40% faster than north-facing in Indianapolis. Exterior paint longevity in Indianapolis runs 5-7 years on properly prepped substrates.",
+    sidingMaterialPara: "Indianapolis exterior substrates include vinyl siding, fiber cement (HardiePlank), wood clapboard, and brick across neighborhoods like Broad Ripple and Meridian-Kessler. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "Broad Ripple and Meridian-Kessler may include historic districts with color review requirements. Historic preservation commissions may require Benjamin Moore Historic Collection or Sherwin-Williams Preservation Palette codes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the Indianapolis baseline for residential repaint. Standard premium acrylic latex handles the local climate well. Lead-encapsulating primers are a staple for pre-1978 housing stock.",
+    prepCultureByEraPara: "Indianapolis prep requirements vary by housing era. Pre-1978 homes require EPA RRP-certified crews for any work disturbing lead paint. Power washing, scraping, and spot-priming are standard prep steps. Broad Ripple older homes may have multiple paint layers requiring more aggressive preparation than newer Carmel construction.",
+    permitAndLeadPara: "EPA RRP certification is mandatory for any painting contractor disturbing over 6 sqft of pre-1978 painted surface. City of Indianapolis Department of Business and Neighborhood Services handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "Indianapolis exterior painting season runs mid-April through early November. Cold-weather exterior work below 50F requires specialty low-temperature latex. ",
+    commonUpsellPara: "Common Indianapolis painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and exterior trim restoration with wood repair as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "North-facing shaded surfaces in Indianapolis develop mold and efflorescence from winter moisture retention. Mildew-resistant additives and proper surface prep are essential in Indianapolis.",
+    coatingsCultureByClimate: "Indianapolis coating preferences reflect the local climate: high-build acrylic for freeze-thaw resistance, elastomeric for crack-bridging, and penetrating stains for wood.",
+    localPainterLandscapePara: "Indianapolis's painting market includes competitive independent crews operating in Broad Ripple, Meridian-Kessler, and surrounding areas. Verify insurance, references, and EPA RRP certification on pre-1978 homes. Multi-room interior pricing in Indianapolis runs $2-$4 per sqft including prep."
+  },
+
+  "nashville-tn": {
+    climateParaByUV: "Nashville paint exposure is moderate UV with seasonal humidity variation. West-facing walls degrade fastest in Nashville due to afternoon sun exposure. Exterior paint longevity in Nashville runs 6-8 years on properly prepped substrates.",
+    sidingMaterialPara: "Nashville exterior substrates include vinyl, fiber cement, wood, and brick across neighborhoods like East Nashville and 12South. Each substrate requires specific primer and topcoat systems for optimal adhesion and longevity.",
+    historicColorPalettePara: "East Nashville and 12South have neighborhood character expectations that influence color choices. Regional color preferences in Nashville trend toward traditional and contemporary palettes.",
+    paintProductRecsPara: "Benjamin Moore Aura Exterior and Sherwin-Williams Duration Exterior are the Nashville baseline for residential repaint. Standard premium acrylic latex handles the local climate well. ",
+    prepCultureByEraPara: "Nashville prep requirements vary by housing era.  Power washing, scraping, and spot-priming are standard prep steps. East Nashville older homes may have multiple paint layers requiring more aggressive preparation than newer Green Hills construction.",
+    permitAndLeadPara: "EPA RRP rules apply to pre-1978 homes. Metropolitan Nashville Department of Codes Administration handles permits for exterior work in historic districts. Verify contractor licensing and insurance before signing.",
+    seasonalWindowPara: "Nashville exterior painting season runs March through November. Summer heat above 90F can cause paint to blister if applied in direct sun. Afternoon rain in summer narrows the daily work window.",
+    commonUpsellPara: "Common Nashville painting upsells include: cabinet painting ($3,500-$9,000 per kitchen), deck staining, and pressure washing and concrete staining as add-on services. Legitimate premium upgrades include high-build primers for rough substrates.",
+    moistureAndMildewPara: "Nashville's 48 inches of annual rainfall creates aggressive mold and mildew conditions. Mildew-resistant additives and proper surface prep are essential in Nashville.",
+    coatingsCultureByClimate: "Nashville coating preferences reflect the local climate: standard acrylic latex with appropriate primers for each substrate.",
+    localPainterLandscapePara: "Nashville's painting market includes competitive independent crews operating in East Nashville, 12South, and surrounding areas. Verify insurance, references, and proper licensing. Multi-room interior pricing in Nashville runs $2-$4 per sqft including prep."
+  },
+
 };
+
+
+const CITY_PAINTING_EXTRA = {
+  "st-louis-mo": {
+    localMarketPara: `The St Louis painting market serves a metro of Central West End, Soulard, Clayton, The Hill, and surrounding communities. Ameren Missouri coordinates service for residential projects across the metro. Missouri has no statewide contractor license; city registration required. St Louis's 60 freeze-thaw cycles annually, 42 inches of rain, and severe spring thunderstorms drives paint selection and application timing.`,
+    localDetailPara: `Central West End and Soulard neighborhoods in St Louis show distinct painting patterns tied to their housing era. Lafayette Square, Soulard, and Compton Heights are the primary protected historic districts under the Cultural Resources Office; exterior paint colors on contributing structures may require preservation review. The April 2011 Good Friday EF4 tornado that devastated north county and Lambert Airport highlighted specific painting vulnerabilities in the St Louis market. Washington University and Saint Louis University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `St Louis's productive painting season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of St. Louis Building Division handles permits with typical 5-10 day turnaround. Spire coordinates gas service for applicable work. Off-peak scheduling in St Louis saves 10-15% on labor-intensive painting projects.`,
+  },
+  "orlando-fl": {
+    localMarketPara: `The Orlando painting market serves a metro of Winter Park, College Park, Dr. Phillips, Lake Nona, and surrounding communities. OUC and Duke Energy Florida coordinates service for residential projects across the metro. Florida DBPR licenses contractors; verify at myfloridalicense.com. Orlando's zero freeze-thaw cycles, 50 inches of rain concentrated in summer thunderstorms, and direct hurricane exposure drives paint selection and application timing.`,
+    localDetailPara: `Winter Park and College Park neighborhoods in Orlando show distinct painting patterns tied to their housing era. Lake Eola Heights, Colonialtown, and Thornton Park historic districts are under the Orlando Historic Preservation Board; exterior paint colors on contributing structures may require preservation review. Hurricane Ian 2022 and Hurricane Irma 2017 which both affected the Central Florida metro highlighted specific painting vulnerabilities in the Orlando market. University of Central Florida and Rollins College campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Orlando's painting work runs year-round with peak demand in October through March. City of Orlando Permitting Services handles permits with typical 5-10 day turnaround. TECO Peoples Gas coordinates gas service for applicable work. Off-peak scheduling in Orlando saves 10-15% on labor-intensive painting projects.`,
+  },
+  "san-antonio-tx": {
+    localMarketPara: `The San Antonio painting market serves a metro of Alamo Heights, Stone Oak, King William, The Pearl, and surrounding communities. CPS Energy coordinates service for residential projects across the metro. Texas has no statewide residential contractor license; TDLR registers mechanical and electrical trades only. San Antonio's 5 freeze-thaw cycles, 32 inches of rain, and extreme summer heat exceeding 100F for 30+ days drives paint selection and application timing.`,
+    localDetailPara: `Alamo Heights and Stone Oak neighborhoods in San Antonio show distinct painting patterns tied to their housing era. King William, Monte Vista, and Dignowity Hill are among 10+ historic districts under the HDRC; exterior paint colors on contributing structures may require preservation review. The February 2021 Winter Storm Uri that knocked out power across the entire ERCOT grid for 4-5 days highlighted specific painting vulnerabilities in the San Antonio market. UTSA, Trinity University, and the Alamo Colleges District campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `San Antonio's painting work runs year-round with peak demand in spring and early summer. City of San Antonio Development Services handles permits with typical 5-10 day turnaround. CPS Energy (combined utility) coordinates gas service for applicable work. Off-peak scheduling in San Antonio saves 10-15% on labor-intensive painting projects.`,
+  },
+  "portland-or": {
+    localMarketPara: `The Portland painting market serves a metro of Pearl District, Alberta Arts, Lake Oswego, Sellwood, and surrounding communities. Portland General Electric (PGE) coordinates service for residential projects across the metro. Oregon CCB license required; verify at ccb.oregon.gov. Portland's 15 freeze-thaw cycles, 43 inches of rain concentrated October-May, and persistent winter moisture drives paint selection and application timing.`,
+    localDetailPara: `Pearl District and Alberta Arts neighborhoods in Portland show distinct painting patterns tied to their housing era. Irvington, Ladd's Addition, Piedmont, and Lair Hill historic districts are under the Portland Historic Landmarks Commission; exterior paint colors on contributing structures may require preservation review. The January 2021 ice storm that coated the metro in 1-2 inches of ice and damaged thousands of homes highlighted specific painting vulnerabilities in the Portland market. Portland State University, Reed College, and Lewis & Clark College campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Portland's painting work runs year-round with peak demand in spring and early summer. City of Portland Bureau of Development Services handles permits with typical 5-10 day turnaround. NW Natural coordinates gas service for applicable work. Off-peak scheduling in Portland saves 10-15% on labor-intensive painting projects.`,
+  },
+  "sacramento-ca": {
+    localMarketPara: `The Sacramento painting market serves a metro of East Sacramento, Midtown, Elk Grove, Roseville, and surrounding communities. SMUD coordinates service for residential projects across the metro. California requires specific contractor licenses through CSLB; verify at cslb.ca.gov. Sacramento's 12 freeze-thaw cycles, only 18 inches of rain, and Central Valley summer heat exceeding 100F for 60+ days drives paint selection and application timing.`,
+    localDetailPara: `East Sacramento and Midtown neighborhoods in Sacramento show distinct painting patterns tied to their housing era. Alkali Flat, Boulevard Park, and Poverty Ridge are under the Sacramento Preservation Commission; exterior paint colors on contributing structures may require preservation review. The January 2023 atmospheric river sequence that produced record flooding across the Sacramento Valley highlighted specific painting vulnerabilities in the Sacramento market. UC Davis, Sacramento State, and McGeorge School of Law campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Sacramento's painting work runs year-round with peak demand in spring and early summer. City of Sacramento Community Development handles permits with typical 5-10 day turnaround. PG&E coordinates gas service for applicable work. Off-peak scheduling in Sacramento saves 10-15% on labor-intensive painting projects.`,
+  },
+  "pittsburgh-pa": {
+    localMarketPara: `The Pittsburgh painting market serves a metro of Shadyside, Squirrel Hill, Lawrenceville, Mt. Lebanon, and surrounding communities. Duquesne Light coordinates service for residential projects across the metro. Pennsylvania requires HIC registration under Act 132; verify at pago.state.pa.us. Pittsburgh's 75 freeze-thaw cycles, 38 inches of rain, and heavy winter snow loading from Great Lakes moisture drives paint selection and application timing.`,
+    localDetailPara: `Shadyside and Squirrel Hill neighborhoods in Pittsburgh show distinct painting patterns tied to their housing era. Allegheny West, Manchester, Mexican War Streets, and Deutschtown are under the Pittsburgh Historic Review Commission; exterior paint colors on contributing structures may require preservation review. The June 2012 derecho and the August 2019 windstorm that produced widespread damage across Allegheny County highlighted specific painting vulnerabilities in the Pittsburgh market. University of Pittsburgh and Carnegie Mellon University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Pittsburgh's productive painting season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of Pittsburgh PLI handles permits with typical 5-10 day turnaround. Peoples Gas coordinates gas service for applicable work. Off-peak scheduling in Pittsburgh saves 10-15% on labor-intensive painting projects.`,
+  },
+  "columbus-oh": {
+    localMarketPara: `The Columbus painting market serves a metro of German Village, Short North, Upper Arlington, Dublin, and surrounding communities. AEP Ohio coordinates service for residential projects across the metro. Ohio has no statewide residential contractor license; Columbus requires local registration. Columbus's 80 freeze-thaw cycles, 40 inches of rain, and occasional severe thunderstorms drives paint selection and application timing.`,
+    localDetailPara: `German Village and Short North neighborhoods in Columbus show distinct painting patterns tied to their housing era. German Village, Victorian Village, and Italian Village are under the Columbus Historic Preservation Commission; exterior paint colors on contributing structures may require preservation review. The June 2012 derecho that produced widespread power outages and property damage across Franklin County highlighted specific painting vulnerabilities in the Columbus market. The Ohio State University, Capital University, and Otterbein University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Columbus's productive painting season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. City of Columbus Building and Zoning Services handles permits with typical 5-10 day turnaround. Columbia Gas of Ohio coordinates gas service for applicable work. Off-peak scheduling in Columbus saves 10-15% on labor-intensive painting projects.`,
+  },
+  "kansas-city-mo": {
+    localMarketPara: `The Kansas City painting market serves a metro of Country Club Plaza, Brookside, Overland Park, Prairie Village, and surrounding communities. Evergy coordinates service for residential projects across the metro. Missouri has no statewide roofer license; Kansas requires contractor registration through the Attorney General. The metro straddles both states. Kansas City's 80 freeze-thaw cycles, 39 inches of rain, and severe spring supercells in the central US hail corridor drives paint selection and application timing.`,
+    localDetailPara: `Country Club Plaza and Brookside neighborhoods in Kansas City show distinct painting patterns tied to their housing era. Country Club Plaza, Pendleton Heights, and Janssen Place are under the KCMO Historic Preservation Commission; Kansas-side municipalities have limited historic protections; exterior paint colors on contributing structures may require preservation review. The May 2024 supercell hail event that produced widespread damage across Johnson County KS and the March 2022 tornado outbreak highlighted specific painting vulnerabilities in the Kansas City market. UMKC, University of Kansas (Lawrence), and Rockhurst University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Kansas City's productive painting season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. Kansas City Permits and Inspections handles permits with typical 5-10 day turnaround. Spire coordinates gas service for applicable work. Off-peak scheduling in Kansas City saves 10-15% on labor-intensive painting projects.`,
+  },
+  "indianapolis-in": {
+    localMarketPara: `The Indianapolis painting market serves a metro of Broad Ripple, Meridian-Kessler, Carmel, Fishers, and surrounding communities. AES Indiana coordinates service for residential projects across the metro. Indiana has no statewide residential contractor license but requires Marion County registration. Indianapolis's 85 freeze-thaw cycles, 42 inches of rain, and spring supercell exposure in the tornado corridor drives paint selection and application timing.`,
+    localDetailPara: `Broad Ripple and Meridian-Kessler neighborhoods in Indianapolis show distinct painting patterns tied to their housing era. Irvington, Lockerbie Square, Woodruff Place, and Herron-Morton Place are under the Indianapolis Historic Preservation Commission; exterior paint colors on contributing structures may require preservation review. The November 2013 EF2 tornado in Washington Township and the April 2023 spring hail event that damaged thousands of homes highlighted specific painting vulnerabilities in the Indianapolis market. Indiana University-Purdue University Indianapolis (IUPUI), Butler University, and Marian University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Indianapolis's productive painting season compresses into the April-November window, concentrating demand and pushing lead times to 6-12 weeks during peak months. Indianapolis Department of Business and Neighborhood Services handles permits with typical 5-10 day turnaround. CenterPoint Energy Indiana coordinates gas service for applicable work. Off-peak scheduling in Indianapolis saves 10-15% on labor-intensive painting projects.`,
+  },
+  "nashville-tn": {
+    localMarketPara: `The Nashville painting market serves a metro of East Nashville, 12South, Green Hills, Franklin, and surrounding communities. Nashville Electric Service (NES) coordinates service for residential projects across the metro. Tennessee requires a Home Improvement License for projects over $3,000 through the Tennessee Board for Licensing Contractors. Nashville's 40 freeze-thaw cycles, 48 inches of rain, and severe spring thunderstorms in the Nashville Basin drives paint selection and application timing.`,
+    localDetailPara: `East Nashville and 12South neighborhoods in Nashville show distinct painting patterns tied to their housing era. East Nashville, Germantown, and Lockeland Springs are under the Metro Nashville Historic Zoning Commission; exterior paint colors on contributing structures may require preservation review. The March 2020 EF3 tornado that devastated East Nashville, Germantown, Donelson, and Mt. Juliet highlighted specific painting vulnerabilities in the Nashville market. Vanderbilt University, Belmont University, and Tennessee State University campus-area properties face additional scheduling and access considerations.`,
+    seasonAndContractorPara: `Nashville's painting work runs year-round with peak demand in spring and early summer. Metro Nashville Department of Codes Administration handles permits with typical 5-10 day turnaround. Piedmont Natural Gas coordinates gas service for applicable work. Off-peak scheduling in Nashville saves 10-15% on labor-intensive painting projects.`,
+  },
+};
+
+// Merge extra content into primary dict
+for (const [slug, extra] of Object.entries(CITY_PAINTING_EXTRA)) {
+  CITY_PAINTING_DATA[slug] = Object.assign(CITY_PAINTING_DATA[slug] || {}, extra);
+}
 
 function neighborhoodPricing(facts, mult, cd) {
   if (!facts?.neighborhoods?.length) return "";
@@ -529,8 +738,33 @@ function buildFlagshipContent(metro) {
   html += redFlagsSection(city, cd);
   html += buyerQuestionsSection(city, cd);
   html += costScenarios(city, mult, cd);
+  html += extraLocalSection(city, cd);
   html += `\n${MARKER_END}\n`;
 
+  return html;
+}
+
+
+function extraLocalSection(city, d) {
+  let html = "";
+  if (d.localMarketPara) html += `<section class="section fp-section"><h2>${city} local market overview</h2><p>${d.localMarketPara}</p></section>`;
+  if (d.localDetailPara) html += `<section class="section fp-section"><h2>${city} neighborhood details</h2><p>${d.localDetailPara}</p></section>`;
+  if (d.seasonAndContractorPara) html += `<section class="section fp-section"><h2>${city} seasonal pricing and contractors</h2><p>${d.seasonAndContractorPara}</p></section>`;
+  if (d.localProjectPara) html += `<section class="section fp-section"><h2>${city} common projects</h2><p>${d.localProjectPara}</p></section>`;
+  if (d.weatherImpactPara) html += `<section class="section fp-section"><h2>${city} weather considerations</h2><p>${d.weatherImpactPara}</p></section>`;
+  if (d.contractorVerifyPara) html += `<section class="section fp-section"><h2>Verifying ${city} contractors</h2><p>${d.contractorVerifyPara}</p></section>`;
+  if (d.localUtilityPara) html += `<section class="section fp-section"><h2>${city} utility coordination</h2><p>${d.localUtilityPara}</p></section>`;
+  if (d.panelAndCodePara) html += `<section class="section fp-section"><h2>${city} panel upgrades and codes</h2><p>${d.panelAndCodePara}</p></section>`;
+  if (d.safetyAndLicensePara) html += `<section class="section fp-section"><h2>${city} safety concerns</h2><p>${d.safetyAndLicensePara}</p></section>`;
+  if (d.localMaterialPara) html += `<section class="section fp-section"><h2>${city} material preferences</h2><p>${d.localMaterialPara}</p></section>`;
+  if (d.hoaAndWildlifePara) html += `<section class="section fp-section"><h2>${city} HOA and wildlife considerations</h2><p>${d.hoaAndWildlifePara}</p></section>`;
+  if (d.seasonAndCostPara) html += `<section class="section fp-section"><h2>${city} seasonal costs</h2><p>${d.seasonAndCostPara}</p></section>`;
+  if (d.localGeologyPara) html += `<section class="section fp-section"><h2>${city} soil and geology</h2><p>${d.localGeologyPara}</p></section>`;
+  if (d.repairMethodPara) html += `<section class="section fp-section"><h2>${city} repair approaches</h2><p>${d.repairMethodPara}</p></section>`;
+  if (d.drainageAndMoisturePara) html += `<section class="section fp-section"><h2>${city} drainage management</h2><p>${d.drainageAndMoisturePara}</p></section>`;
+  if (d.localRainfallPara) html += `<section class="section fp-section"><h2>${city} rainfall and sizing</h2><p>${d.localRainfallPara}</p></section>`;
+  if (d.freezeAndMaintenancePara) html += `<section class="section fp-section"><h2>${city} freeze protection</h2><p>${d.freezeAndMaintenancePara}</p></section>`;
+  if (d.buyingGuidePara) html += `<section class="section fp-section"><h2>${city} buying guide</h2><p>${d.buyingGuidePara}</p></section>`;
   return html;
 }
 
