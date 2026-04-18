@@ -63,6 +63,12 @@ const METROS = [
   { slug: "cincinnati-oh", city: "Cincinnati", state: "OH", file: "cincinnati-oh-auto-repair-cost.html", region: "midwest" },
   { slug: "colorado-springs-co", city: "Colorado Springs", state: "CO", file: "colorado-springs-co-auto-repair-cost.html", region: "mountain" },
   { slug: "st-louis-mo", city: "St. Louis", state: "MO", file: "st-louis-mo-auto-repair-cost.html", region: "midwest" },
+  { slug: "san-jose-ca", city: "San Jose", state: "CA", file: "san-jose-ca-auto-repair-cost.html", region: "west" },
+  { slug: "el-paso-tx", city: "El Paso", state: "TX", file: "el-paso-tx-auto-repair-cost.html", region: "south" },
+  { slug: "fresno-ca", city: "Fresno", state: "CA", file: "fresno-ca-auto-repair-cost.html", region: "west" },
+  { slug: "long-beach-ca", city: "Long Beach", state: "CA", file: "long-beach-ca-auto-repair-cost.html", region: "west" },
+  { slug: "mesa-az", city: "Mesa", state: "AZ", file: "mesa-az-auto-repair-cost.html", region: "west" },
+  { slug: "virginia-beach-va", city: "Virginia Beach", state: "VA", file: "virginia-beach-va-auto-repair-cost.html", region: "southeast" },
 ];
 
 /* Labor rate multipliers by region */

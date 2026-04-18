@@ -51,6 +51,16 @@ const METROS = [
     { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-insulation-cost.html", region: "midwest", ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
     { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-insulation-cost.html", region: "midwest", ieccZone: "5A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
     { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-insulation-cost.html", region: "southeast", ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
+    { slug: "san-jose-ca", ctxKey: "San Jose|CA", file: "san-jose-ca-insulation-cost.html", region: "west", ieccZone: "3C", doeAttic: "R-38 to R-49", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-insulation-cost.html", region: "south", ieccZone: "3A", doeAttic: "R-38 to R-49", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
+    { slug: "el-paso-tx", ctxKey: "El Paso|TX", file: "el-paso-tx-insulation-cost.html", region: "south", ieccZone: "3B", doeAttic: "R-38 to R-49", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-insulation-cost.html", region: "northeast", ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-insulation-cost.html", region: "mountain", ieccZone: "4B", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
+    { slug: "fresno-ca", ctxKey: "Fresno|CA", file: "fresno-ca-insulation-cost.html", region: "west", ieccZone: "3B", doeAttic: "R-38 to R-49", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
+    { slug: "long-beach-ca", ctxKey: "Long Beach|CA", file: "long-beach-ca-insulation-cost.html", region: "west", ieccZone: "3B", doeAttic: "R-38 to R-49", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
+    { slug: "mesa-az", ctxKey: "Mesa|AZ", file: "mesa-az-insulation-cost.html", region: "west", ieccZone: "2B", doeAttic: "R-38", doeWall: "R-13", codeAttic: "R-38", codeWall: "R-13" },
+    { slug: "virginia-beach-va", ctxKey: "Virginia Beach|VA", file: "virginia-beach-va-insulation-cost.html", region: "southeast", ieccZone: "4A", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-13+5ci" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-insulation-cost.html", region: "mountain", ieccZone: "5B", doeAttic: "R-49 to R-60", doeWall: "R-13 to R-21", codeAttic: "R-49", codeWall: "R-20+5ci" },
 ];
 
 function fmtD(n) { return "$" + n.toLocaleString("en-US"); }
@@ -770,6 +780,8 @@ function flagshipCSS() {
 }
 
 /* ---- Build full flagship block ---- */
+
+
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];
   const ctx = cityContext[metro.ctxKey];

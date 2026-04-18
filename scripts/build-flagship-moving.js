@@ -63,6 +63,12 @@ const METROS = [
   { slug: "cincinnati-oh", city: "Cincinnati", state: "OH", file: "cincinnati-oh-moving-cost.html", region: "midwest" },
   { slug: "colorado-springs-co", city: "Colorado Springs", state: "CO", file: "colorado-springs-co-moving-cost.html", region: "mountain" },
   { slug: "st-louis-mo", city: "St. Louis", state: "MO", file: "st-louis-mo-moving-cost.html", region: "midwest" },
+  { slug: "san-jose-ca", city: "San Jose", state: "CA", file: "san-jose-ca-moving-cost.html", region: "west" },
+  { slug: "el-paso-tx", city: "El Paso", state: "TX", file: "el-paso-tx-moving-cost.html", region: "south" },
+  { slug: "fresno-ca", city: "Fresno", state: "CA", file: "fresno-ca-moving-cost.html", region: "west" },
+  { slug: "long-beach-ca", city: "Long Beach", state: "CA", file: "long-beach-ca-moving-cost.html", region: "west" },
+  { slug: "mesa-az", city: "Mesa", state: "AZ", file: "mesa-az-moving-cost.html", region: "west" },
+  { slug: "virginia-beach-va", city: "Virginia Beach", state: "VA", file: "virginia-beach-va-moving-cost.html", region: "southeast" },
 ];
 
 function getMultiplier(region) {

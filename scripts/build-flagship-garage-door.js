@@ -52,6 +52,16 @@ const METROS = [
     { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-garage-door-cost.html" },
     { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-garage-door-cost.html" },
     { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-garage-door-cost.html" },
+    { slug: "san-jose-ca", ctxKey: "San Jose|CA", file: "san-jose-ca-garage-door-cost.html" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-garage-door-cost.html" },
+    { slug: "el-paso-tx", ctxKey: "El Paso|TX", file: "el-paso-tx-garage-door-cost.html" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-garage-door-cost.html" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-garage-door-cost.html" },
+    { slug: "fresno-ca", ctxKey: "Fresno|CA", file: "fresno-ca-garage-door-cost.html" },
+    { slug: "long-beach-ca", ctxKey: "Long Beach|CA", file: "long-beach-ca-garage-door-cost.html" },
+    { slug: "mesa-az", ctxKey: "Mesa|AZ", file: "mesa-az-garage-door-cost.html" },
+    { slug: "virginia-beach-va", ctxKey: "Virginia Beach|VA", file: "virginia-beach-va-garage-door-cost.html" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-garage-door-cost.html" },
 ];
 
 const STATE_TO_REGION = {
@@ -1666,6 +1676,8 @@ function flagshipCSS() {
 }
 
 /* ---------- Build + Inject ---------- */
+
+
 
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];

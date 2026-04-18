@@ -52,6 +52,16 @@ const METROS = [
     { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-roof-cost.html" },
     { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-roof-cost.html" },
     { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-roof-cost.html" },
+    { slug: "san-jose-ca", ctxKey: "San Jose|CA", file: "san-jose-ca-roof-cost.html" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-roof-cost.html" },
+    { slug: "el-paso-tx", ctxKey: "El Paso|TX", file: "el-paso-tx-roof-cost.html" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-roof-cost.html" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-roof-cost.html" },
+    { slug: "fresno-ca", ctxKey: "Fresno|CA", file: "fresno-ca-roof-cost.html" },
+    { slug: "long-beach-ca", ctxKey: "Long Beach|CA", file: "long-beach-ca-roof-cost.html" },
+    { slug: "mesa-az", ctxKey: "Mesa|AZ", file: "mesa-az-roof-cost.html" },
+    { slug: "virginia-beach-va", ctxKey: "Virginia Beach|VA", file: "virginia-beach-va-roof-cost.html" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-roof-cost.html" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }
@@ -1113,6 +1123,8 @@ function flagshipCSS() {
 @media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>`;
 }
+
+
 
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];

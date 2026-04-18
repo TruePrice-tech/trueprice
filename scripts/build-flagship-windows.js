@@ -52,6 +52,16 @@ const METROS = [
     { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-window-cost.html" },
     { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-window-cost.html" },
     { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-window-cost.html" },
+    { slug: "san-jose-ca", ctxKey: "San Jose|CA", file: "san-jose-ca-window-cost.html" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-window-cost.html" },
+    { slug: "el-paso-tx", ctxKey: "El Paso|TX", file: "el-paso-tx-window-cost.html" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-window-cost.html" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-window-cost.html" },
+    { slug: "fresno-ca", ctxKey: "Fresno|CA", file: "fresno-ca-window-cost.html" },
+    { slug: "long-beach-ca", ctxKey: "Long Beach|CA", file: "long-beach-ca-window-cost.html" },
+    { slug: "mesa-az", ctxKey: "Mesa|AZ", file: "mesa-az-window-cost.html" },
+    { slug: "virginia-beach-va", ctxKey: "Virginia Beach|VA", file: "virginia-beach-va-window-cost.html" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-window-cost.html" },
 ];
 
 function fmtDollar(n) { return n >= 1000 ? `$${n.toLocaleString("en-US")}` : `$${n}`; }
@@ -1181,6 +1191,8 @@ function flagshipCSS() {
 @media(max-width:700px) { .fp-section h2 { font-size:20px; } }
 </style>`;
 }
+
+
 
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];

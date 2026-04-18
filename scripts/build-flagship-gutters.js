@@ -51,6 +51,16 @@ const METROS = [
     { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-gutter-cost.html" },
     { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-gutter-cost.html" },
     { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-gutter-cost.html" },
+    { slug: "san-jose-ca", ctxKey: "San Jose|CA", file: "san-jose-ca-gutter-cost.html" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-gutter-cost.html" },
+    { slug: "el-paso-tx", ctxKey: "El Paso|TX", file: "el-paso-tx-gutter-cost.html" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-gutter-cost.html" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-gutter-cost.html" },
+    { slug: "fresno-ca", ctxKey: "Fresno|CA", file: "fresno-ca-gutter-cost.html" },
+    { slug: "long-beach-ca", ctxKey: "Long Beach|CA", file: "long-beach-ca-gutter-cost.html" },
+    { slug: "mesa-az", ctxKey: "Mesa|AZ", file: "mesa-az-gutter-cost.html" },
+    { slug: "virginia-beach-va", ctxKey: "Virginia Beach|VA", file: "virginia-beach-va-gutter-cost.html" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-gutter-cost.html" },
 ];
 
 function fmtD(n) { return "$" + n.toLocaleString("en-US"); }
@@ -916,6 +926,8 @@ function flagshipCSS() {
 @media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>`;
 }
+
+
 
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];

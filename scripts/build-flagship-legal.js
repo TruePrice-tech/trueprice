@@ -62,6 +62,12 @@ const METROS = [
   { slug: "cincinnati-oh", display: "Cincinnati", state: "Ohio", stateAbbr: "OH", file: "cincinnati-oh-legal-cost.html", region: "midwest" },
   { slug: "colorado-springs-co", display: "Colorado Springs", state: "Colorado", stateAbbr: "CO", file: "colorado-springs-co-legal-cost.html", region: "mountain" },
   { slug: "st-louis-mo", display: "St. Louis", state: "Missouri", stateAbbr: "MO", file: "st-louis-mo-legal-cost.html", region: "midwest" },
+  { slug: "san-jose-ca", display: "San Jose", state: "California", stateAbbr: "CA", file: "san-jose-ca-legal-cost.html", region: "west" },
+  { slug: "el-paso-tx", display: "El Paso", state: "Texas", stateAbbr: "TX", file: "el-paso-tx-legal-cost.html", region: "south" },
+  { slug: "fresno-ca", display: "Fresno", state: "California", stateAbbr: "CA", file: "fresno-ca-legal-cost.html", region: "west" },
+  { slug: "long-beach-ca", display: "Long Beach", state: "California", stateAbbr: "CA", file: "long-beach-ca-legal-cost.html", region: "west" },
+  { slug: "mesa-az", display: "Mesa", state: "Arizona", stateAbbr: "AZ", file: "mesa-az-legal-cost.html", region: "west" },
+  { slug: "virginia-beach-va", display: "Virginia Beach", state: "Virginia", stateAbbr: "VA", file: "virginia-beach-va-legal-cost.html", region: "southeast" },
 ];
 
 /* ========== PER-METRO LEGAL DATA DICT ========== */

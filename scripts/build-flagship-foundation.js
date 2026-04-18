@@ -50,6 +50,16 @@ const METROS = [
     { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-foundation-cost.html", region: "midwest" },
     { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-foundation-cost.html", region: "midwest" },
     { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-foundation-cost.html", region: "southeast" },
+    { slug: "san-jose-ca", ctxKey: "San Jose|CA", file: "san-jose-ca-foundation-cost.html", region: "west" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-foundation-cost.html", region: "south" },
+    { slug: "el-paso-tx", ctxKey: "El Paso|TX", file: "el-paso-tx-foundation-cost.html", region: "south" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-foundation-cost.html", region: "northeast" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-foundation-cost.html", region: "mountain" },
+    { slug: "fresno-ca", ctxKey: "Fresno|CA", file: "fresno-ca-foundation-cost.html", region: "west" },
+    { slug: "long-beach-ca", ctxKey: "Long Beach|CA", file: "long-beach-ca-foundation-cost.html", region: "west" },
+    { slug: "mesa-az", ctxKey: "Mesa|AZ", file: "mesa-az-foundation-cost.html", region: "west" },
+    { slug: "virginia-beach-va", ctxKey: "Virginia Beach|VA", file: "virginia-beach-va-foundation-cost.html", region: "southeast" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-foundation-cost.html", region: "mountain" },
 ];
 
 function fmtK(n) { return n >= 1000 ? `$${(n / 1000).toFixed(1)}K` : `$${n}`; }
@@ -765,6 +775,8 @@ function flagshipCSS() {
 }
 
 /* ---------- Build ---------- */
+
+
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];
   const ctx = cityContext[metro.ctxKey];

@@ -1278,5 +1278,80 @@
       "Busch Stadium"
     ],
     "geographyNote": "the city of St. Louis is independent from St. Louis County, creating distinct permitting and inspection processes across the metro"
+  },
+  "san-jose-ca": {
+    "displayName": "San Jose",
+    "state": "California",
+    "stateAbbr": "CA",
+    "neighborhoods": [
+      "Willow Glen",
+      "Almaden Valley",
+      "Cambrian Park",
+      "Evergreen",
+      "Naglee Park",
+      "Rose Garden"
+    ],
+    "climate": "Mediterranean with dry summers reaching 95-105F during September heat domes and mild wet winters rarely dropping below 35F; the Santa Cruz Mountains block direct Pacific fog except during marine-layer intrusions",
+    "soil": "Bay Mud and alluvial deposits in the flatlands north of Downtown with expansive clay in Evergreen and Almaden Valley that causes moderate foundation movement during wet-dry cycling",
+    "permits": "PBCE (Planning, Building and Code Enforcement) issues permits through an online portal with 3-5 day turnaround for residential work; California Title 24 Part 6 energy compliance is mandatory",
+    "homeAge": "the suburban ranch-house belt in Cambrian Park, Almaden Valley, and Evergreen was built in the 1960s-70s and represents the bulk of the replacement market; Willow Glen and Naglee Park have older 1920s-40s Craftsman and Victorian stock",
+    "contractorMarket": "Silicon Valley labor rates run 25-35 percent above the national average; the tech-affluent homeowner base expects premium equipment and smart-home integration as standard options",
+    "roofCodeNote": "California CSLB C-39 license required for roofing; Title 24 cool-roof requirements apply to re-roofing in the Bay Area",
+    "landmarks": [
+      "SAP Center",
+      "Winchester Mystery House",
+      "Santana Row"
+    ],
+    "geographyNote": "Silicon Valley geography creates distinct microclimates: coastal-influenced west San Jose stays 10-15 degrees cooler than inland Evergreen during heat domes"
+  },
+  "el-paso-tx": {
+    "displayName": "El Paso",
+    "state": "Texas",
+    "stateAbbr": "TX",
+    "neighborhoods": [
+      "Sunset Heights",
+      "Kern Place",
+      "Upper Valley",
+      "Westside",
+      "Northeast",
+      "Lower Valley"
+    ],
+    "climate": "Chihuahuan Desert with 300+ days of sunshine, 30-40 days above 100F, single-digit humidity during May-June, and a July-August monsoon season that brings brief but intense thunderstorms",
+    "soil": "caliche and desert alluvium with shallow bedrock in the Franklin Mountains foothills; expansive clay in the Lower Valley and Canutillo causes foundation heave during monsoon-season moisture events",
+    "permits": "Development Services Department issues permits with 2-5 day turnaround; TDLR (Texas Department of Licensing and Regulation) contractor licensing is mandatory. The Texas-New Mexico border splits the metro, with Sunland Park and Anthony under separate NM jurisdiction",
+    "homeAge": "Sunset Heights and Kern Place have 1920s adobe homes with thick walls and single-plenum evaporative cooler infrastructure; post-war tract housing in the Northeast and Eastside dates from the 1960s-80s; rapid growth in the Far Westside adds newer construction",
+    "contractorMarket": "labor rates run 20-25 percent below the national average but the metro's geographic isolation from DFW and San Antonio means no nearby surge capacity during peak demand",
+    "roofCodeNote": "TDLR does not require a separate roofing license in Texas; general contractor registration covers roofing work",
+    "landmarks": [
+      "Franklin Mountains State Park",
+      "Chamizal National Memorial",
+      "El Paso Museum of Art"
+    ],
+    "geographyNote": "El Paso sits at the western tip of Texas on the US-Mexico border, 600 miles from the nearest major Texas metro (San Antonio), making it functionally isolated from the DFW and Houston contractor markets"
+  },
+  "mesa-az": {
+    "displayName": "Mesa",
+    "state": "Arizona",
+    "stateAbbr": "AZ",
+    "neighborhoods": [
+      "Dobson Ranch",
+      "Superstition Springs",
+      "Red Mountain",
+      "East Mesa",
+      "Downtown Mesa",
+      "Lehi"
+    ],
+    "climate": "Sonoran Desert with extreme summer heat reaching 115-118F in the East Valley heat island, a July-August monsoon season bringing violent dust storms (haboobs) and lightning-driven power outages, and mild winters with occasional frost events in the 30s",
+    "soil": "caliche hardpan at 12-36 inches depth across most of the city with decomposed granite fill in master-planned communities; the caliche layer complicates any below-grade work including fence-post setting and foundation repair",
+    "permits": "Development Services Department issues permits with same-day turnaround for like-for-like residential replacements, the fastest in the Phoenix metro. Arizona ROC (Registrar of Contractors) license is mandatory for all trades",
+    "homeAge": "the original Mesa townsite east of Country Club Drive has 1960s-80s block-on-slab construction with flat roofs; Dobson Ranch and Superstition Springs represent the 1980s-90s master-planned era; East Mesa and Red Mountain have 2000s-era newer construction",
+    "contractorMarket": "competitive East Valley pricing with access to the full Phoenix metro contractor pool; Mesa's fast permit processing attracts high-quality contractors who prefer the turnaround speed over Phoenix or Scottsdale",
+    "roofCodeNote": "Arizona ROC CR-42 license required for roofing; the 2021 IRC adoption requires cool-roof compliance on re-roofing in Maricopa County",
+    "landmarks": [
+      "Mesa Arts Center",
+      "Sloan Park (Cubs spring training)",
+      "Usery Mountain Regional Park"
+    ],
+    "geographyNote": "Mesa stretches 30 miles east to west across the East Valley, with distinct microclimates: downtown Mesa near the Salt River sits lower and hotter while East Mesa near the Usery Mountains is 500 feet higher with slightly cooler summer evenings"
   }
 }

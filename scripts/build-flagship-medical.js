@@ -62,6 +62,12 @@ const METROS = [
   { slug: "cincinnati-oh", display: "Cincinnati", state: "Ohio", stateAbbr: "OH", file: "cincinnati-oh-medical-cost.html", region: "midwest" },
   { slug: "colorado-springs-co", display: "Colorado Springs", state: "Colorado", stateAbbr: "CO", file: "colorado-springs-co-medical-cost.html", region: "mountain" },
   { slug: "st-louis-mo", display: "St. Louis", state: "Missouri", stateAbbr: "MO", file: "st-louis-mo-medical-cost.html", region: "midwest" },
+  { slug: "san-jose-ca", display: "San Jose", state: "California", stateAbbr: "CA", file: "san-jose-ca-medical-cost.html", region: "west" },
+  { slug: "el-paso-tx", display: "El Paso", state: "Texas", stateAbbr: "TX", file: "el-paso-tx-medical-cost.html", region: "south" },
+  { slug: "fresno-ca", display: "Fresno", state: "California", stateAbbr: "CA", file: "fresno-ca-medical-cost.html", region: "west" },
+  { slug: "long-beach-ca", display: "Long Beach", state: "California", stateAbbr: "CA", file: "long-beach-ca-medical-cost.html", region: "west" },
+  { slug: "mesa-az", display: "Mesa", state: "Arizona", stateAbbr: "AZ", file: "mesa-az-medical-cost.html", region: "west" },
+  { slug: "virginia-beach-va", display: "Virginia Beach", state: "Virginia", stateAbbr: "VA", file: "virginia-beach-va-medical-cost.html", region: "southeast" },
 ];
 
 /* ========== PER-METRO MEDICAL DATA DICT ========== */

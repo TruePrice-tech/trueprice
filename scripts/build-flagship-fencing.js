@@ -49,6 +49,16 @@ const METROS = [
     { slug: "kansas-city-mo", ctxKey: "Kansas City|MO", file: "kansas-city-mo-fence-cost.html", region: "midwest" },
     { slug: "indianapolis-in", ctxKey: "Indianapolis|IN", file: "indianapolis-in-fence-cost.html", region: "midwest" },
     { slug: "nashville-tn", ctxKey: "Nashville|TN", file: "nashville-tn-fence-cost.html", region: "southeast" },
+    { slug: "san-jose-ca", ctxKey: "San Jose|CA", file: "san-jose-ca-fence-cost.html", region: "west" },
+    { slug: "fort-worth-tx", ctxKey: "Fort Worth|TX", file: "fort-worth-tx-fence-cost.html", region: "south" },
+    { slug: "el-paso-tx", ctxKey: "El Paso|TX", file: "el-paso-tx-fence-cost.html", region: "south" },
+    { slug: "baltimore-md", ctxKey: "Baltimore|MD", file: "baltimore-md-fence-cost.html", region: "northeast" },
+    { slug: "albuquerque-nm", ctxKey: "Albuquerque|NM", file: "albuquerque-nm-fence-cost.html", region: "mountain" },
+    { slug: "fresno-ca", ctxKey: "Fresno|CA", file: "fresno-ca-fence-cost.html", region: "west" },
+    { slug: "long-beach-ca", ctxKey: "Long Beach|CA", file: "long-beach-ca-fence-cost.html", region: "west" },
+    { slug: "mesa-az", ctxKey: "Mesa|AZ", file: "mesa-az-fence-cost.html", region: "west" },
+    { slug: "virginia-beach-va", ctxKey: "Virginia Beach|VA", file: "virginia-beach-va-fence-cost.html", region: "southeast" },
+    { slug: "colorado-springs-co", ctxKey: "Colorado Springs|CO", file: "colorado-springs-co-fence-cost.html", region: "mountain" },
 ];
 
 function fmtD(n) { return `$${n.toLocaleString("en-US")}`; }
@@ -785,6 +795,8 @@ function flagshipCSS() {
 @media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>`;
 }
+
+
 
 function buildFlagshipContent(metro) {
   const facts = localFacts[metro.slug];

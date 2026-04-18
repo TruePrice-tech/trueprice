@@ -1,0 +1,122 @@
+{
+  "san-jose-ca": {
+    "sec_material": "San Jose siding material selection is driven by Mediterranean dry summers to 105F during September heat domes. Fiber cement, vinyl, and engineered wood all perform well; material choice is driven more by aesthetics and budget than climate requirements. Willow Glen and Almaden Valley favor high-quality vinyl with lifetime color warranty.",
+    "sec_climate": "San Jose's Mediterranean dry summers to 105F during September heat domes affects siding differently than interior trades: windborne debris from September heat domes and wildfire smoke from Santa Cruz Mountains creates impact risk that affects material selection and insurance requirements. Willow Glen homes face the full climate exposure while Cambrian Park properties may be partially sheltered.",
+    "sec_code": "PBCE (Planning, Building and Code Enforcement) regulates siding replacement in San Jose. CSLB license; Title 24 Part 6 with HERS rater verification. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Hensley and Naglee Park) require additional design review. ",
+    "sec_insurance": "Siding damage claims in San Jose follow September heat domes and wildfire smoke from Santa Cruz Mountains events. Standard homeowners insurance covers weather-related siding damage; verify your policy terms for matching and depreciation. San Jose homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "San Jose's large market supports material-specific siding contractors who work faster and price lower than general contractors.  For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Willow Glen and Almaden Valley generate the highest siding replacement volume.",
+    "sec_flag": "San Jose siding red flags: fiber cement installers without James Hardie or LP manufacturer training. Storm-chaser crews appearing after weather events with aggressive door-to-door solicitation are the highest-risk operators.",
+    "dominantMaterial": "engineered wood (LP SmartSide)",
+    "climateBand": "moderate",
+    "bestSeasons": "March through May",
+    "worstSeasons": "December through February (weather delays)"
+  },
+  "fort-worth-tx": {
+    "sec_material": "Fort Worth siding material selection is driven by hot-humid summers with 20+ days above 100F. Fiber cement and engineered wood handle the moisture better than vinyl (which warps under direct sun) or natural wood (which rots in 8-12 years). Salt-air corrosion at the waterfront demands stainless-steel or hot-dipped galvanized fasteners. Ridglea and Westover Hills favor LP SmartSide engineered wood for its natural appearance.",
+    "sec_climate": "Fort Worth's hot-humid summers with 20+ days above 100F affects siding differently than interior trades: the constant moisture drives fastener corrosion and joint expansion that contractors must anticipate during installation. Ridglea homes face the full climate exposure while Arlington Heights properties may be partially sheltered.",
+    "sec_code": "Development Services Department regulates siding replacement in Fort Worth. TDLR licensing per trade specialty. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Fairmount-Southside, Camp Bowie Boulevard) require additional design review. ",
+    "sec_insurance": "Siding damage claims in Fort Worth follow severe hail 3-5 events/year events. Hail damage to siding is covered under most homeowners policies with standard deductibles; verify your policy covers matching (replacing all sides to match, not just the damaged side). Fort Worth homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "Fort Worth's large market supports material-specific siding contractors who work faster and price lower than general contractors. Rapid growth has attracted siding contractors from outside the metro; verify local licensing. For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Ridglea and Westover Hills generate the highest siding replacement volume.",
+    "sec_flag": "Fort Worth siding red flags: quotes that omit house-wrap replacement behind new siding. Any contractor who asks for more than 30% upfront before materials are ordered is a red flag.",
+    "dominantMaterial": "vinyl (CertainTeed, Alside)",
+    "climateBand": "mixed-humid",
+    "bestSeasons": "April through June",
+    "worstSeasons": "July through August (extreme heat)"
+  },
+  "el-paso-tx": {
+    "sec_material": "El Paso siding material selection is driven by Chihuahuan Desert with 300+ sunny days. Fiber cement and engineered wood handle the moisture better than vinyl (which warps under direct sun) or natural wood (which rots in 8-12 years). Salt-air corrosion at the waterfront demands stainless-steel or hot-dipped galvanized fasteners. Sunset Heights and Kern Place favor high-quality vinyl with lifetime color warranty.",
+    "sec_climate": "El Paso's Chihuahuan Desert with 300+ sunny days affects siding differently than interior trades: windborne debris from extreme UV creates impact risk that affects material selection and insurance requirements. Sunset Heights homes face the full climate exposure while Upper Valley properties may be partially sheltered.",
+    "sec_code": "Development Services Department regulates siding replacement in El Paso. TDLR licensing; TX-NM border creates dual-jurisdiction licensing requirements. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Sunset Heights, Manhattan Heights) require additional design review. ",
+    "sec_insurance": "Siding damage claims in El Paso follow extreme UV events. Wind damage claims may trigger minimum wind-speed requirements for replacement materials. El Paso homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "El Paso's large market supports material-specific siding contractors who work faster and price lower than general contractors.  For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Sunset Heights and Kern Place generate the highest siding replacement volume.",
+    "sec_flag": "El Paso siding red flags: fiber cement installers without James Hardie or LP manufacturer training. Storm-chaser crews appearing after weather events with aggressive door-to-door solicitation are the highest-risk operators.",
+    "dominantMaterial": "engineered wood (LP SmartSide)",
+    "climateBand": "mixed-humid",
+    "bestSeasons": "March through May",
+    "worstSeasons": "December through February (weather delays)"
+  },
+  "baltimore-md": {
+    "sec_material": "Baltimore siding material selection is driven by humid subtropical with Chesapeake Bay moisture driving summer dew points into the mid-70s. Fiber cement and engineered wood handle the moisture better than vinyl (which warps under direct sun) or natural wood (which rots in 8-12 years). Salt-air corrosion at the waterfront demands stainless-steel or hot-dipped galvanized fasteners. Fells Point and Federal Hill favor LP SmartSide engineered wood for its natural appearance.",
+    "sec_climate": "Baltimore's humid subtropical with Chesapeake Bay moisture driving summer dew points into the mid-70s affects siding differently than interior trades: the constant moisture drives fastener corrosion and joint expansion that contractors must anticipate during installation. Fells Point homes face the full climate exposure while Canton properties may be partially sheltered.",
+    "sec_code": "Department of Housing and Community Development regulates siding replacement in Baltimore. Maryland DLLR trade-specific licensing. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Federal Hill, Fells Point, Mount Vernon, Bolton Hill (CHAP review adds 4-8 weeks)) require additional design review. ",
+    "sec_insurance": "Siding damage claims in Baltimore follow Chesapeake Bay salt-moisture corrosion events. Wind damage claims may trigger minimum wind-speed requirements for replacement materials. Baltimore homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "Baltimore's large market supports material-specific siding contractors who work faster and price lower than general contractors.  For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Fells Point and Federal Hill generate the highest siding replacement volume.",
+    "sec_flag": "Baltimore siding red flags: quotes that omit house-wrap replacement behind new siding. Any contractor who asks for more than 30% upfront before materials are ordered is a red flag.",
+    "dominantMaterial": "vinyl (CertainTeed, Alside)",
+    "climateBand": "mixed-humid",
+    "bestSeasons": "April through June",
+    "worstSeasons": "July through August (extreme heat)"
+  },
+  "albuquerque-nm": {
+    "sec_material": "Albuquerque siding material selection is driven by high desert at 5. Stucco and fiber cement dominate because UV degrades standard vinyl within 8-10 years. Wood siding dries and cracks in the intense sun. North Valley and South Valley favor LP SmartSide engineered wood for its natural appearance.",
+    "sec_climate": "Albuquerque's high desert at 5 affects siding differently than interior trades: the seasonal temperature cycling drives fastener corrosion and joint expansion that contractors must anticipate during installation. North Valley homes face the full climate exposure while Old Town properties may be partially sheltered.",
+    "sec_code": "Building Safety Division, Planning Department regulates siding replacement in Albuquerque. NM Construction Industries Division (CID) license, strictly enforced. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Downtown, Old Town, Huning Highland (Landmarks and Urban Conservation Commission)) require additional design review. ",
+    "sec_insurance": "Siding damage claims in Albuquerque follow intense UV at altitude events. Wind damage claims may trigger minimum wind-speed requirements for replacement materials. Albuquerque homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "Albuquerque's large market supports material-specific siding contractors who work faster and price lower than general contractors.  For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. North Valley and South Valley generate the highest siding replacement volume.",
+    "sec_flag": "Albuquerque siding red flags: quotes that omit house-wrap replacement behind new siding. Any contractor who asks for more than 30% upfront before materials are ordered is a red flag.",
+    "dominantMaterial": "vinyl (CertainTeed, Alside)",
+    "climateBand": "hot-dry",
+    "bestSeasons": "April through June",
+    "worstSeasons": "July through August (extreme heat)"
+  },
+  "fresno-ca": {
+    "sec_material": "Fresno siding material selection is driven by extreme Central Valley heat with 30-45 days above 100F peaking at 112-115F. Fiber cement, vinyl, and engineered wood all perform well; material choice is driven more by aesthetics and budget than climate requirements. Tower District and Fig Garden favor fiber cement (James Hardie) for its longevity and paint-holding ability.",
+    "sec_climate": "Fresno's extreme Central Valley heat with 30-45 days above 100F peaking at 112-115F affects siding differently than interior trades: UV intensity on south and west exposures accelerates color fading and material degradation 30-40% faster than shaded or north-facing surfaces. Tower District homes face the full climate exposure while Woodward Park properties may be partially sheltered.",
+    "sec_code": "Development and Resource Management Department regulates siding replacement in Fresno. CSLB license; Title 24 Part 6 with HERS rater verification. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Tower District (Cultural Arts District designation)) require additional design review. ",
+    "sec_insurance": "Siding damage claims in Fresno follow extreme heat (115F+) events. Standard homeowners insurance covers weather-related siding damage; verify your policy terms for matching and depreciation. Fresno homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "Fresno's large market supports material-specific siding contractors who work faster and price lower than general contractors.  For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Tower District and Fig Garden generate the highest siding replacement volume.",
+    "sec_flag": "Fresno siding red flags: contractors who don't specify caulk/sealant brand and type at joints. Bids that are 30%+ below other quotes usually indicate shortcuts on house-wrap, flashing, or fastener quality.",
+    "dominantMaterial": "fiber cement (James Hardie)",
+    "climateBand": "moderate",
+    "bestSeasons": "September through November",
+    "worstSeasons": "January through March (cold and wet)"
+  },
+  "long-beach-ca": {
+    "sec_material": "Long Beach siding material selection is driven by coastal marine layer keeps beachfront below 85F while inland North Long Beach hits 100F+ during Santa Ana events; salt air corrosion along the waterfront. Fiber cement and engineered wood handle the moisture better than vinyl (which warps under direct sun) or natural wood (which rots in 8-12 years). Salt-air corrosion at the waterfront demands stainless-steel or hot-dipped galvanized fasteners. Belmont Heights and Belmont Shore favor high-quality vinyl with lifetime color warranty.",
+    "sec_climate": "Long Beach's coastal marine layer keeps beachfront below 85F while inland North Long Beach hits 100F+ during Santa Ana events; salt air corrosion along the waterfront affects siding differently than interior trades: windborne debris from Santa Ana wind events creates impact risk that affects material selection and insurance requirements. Belmont Heights homes face the full climate exposure while Naples properties may be partially sheltered.",
+    "sec_code": "Department of Development Services regulates siding replacement in Long Beach. CSLB license; Title 24 Part 6 with HERS rater verification. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Belmont Heights, Bluff Park, Drake Park (Long Beach Heritage Coalition review)) require additional design review. ",
+    "sec_insurance": "Siding damage claims in Long Beach follow Santa Ana wind events events. Wind damage claims may trigger minimum wind-speed requirements for replacement materials. Long Beach homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "Long Beach's mid-size market has a mix of dedicated siding contractors and general exterior contractors.  For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Belmont Heights and Belmont Shore generate the highest siding replacement volume.",
+    "sec_flag": "Long Beach siding red flags: fiber cement installers without James Hardie or LP manufacturer training. Storm-chaser crews appearing after weather events with aggressive door-to-door solicitation are the highest-risk operators.",
+    "dominantMaterial": "engineered wood (LP SmartSide)",
+    "climateBand": "moderate",
+    "bestSeasons": "March through May",
+    "worstSeasons": "December through February (weather delays)"
+  },
+  "mesa-az": {
+    "sec_material": "Mesa siding material selection is driven by Sonoran Desert extreme heat to 115-118F in the East Valley heat island. Fiber cement, vinyl, and engineered wood all perform well; material choice is driven more by aesthetics and budget than climate requirements. Dobson Ranch and Superstition Springs favor high-quality vinyl with lifetime color warranty.",
+    "sec_climate": "Mesa's Sonoran Desert extreme heat to 115-118F in the East Valley heat island affects siding differently than interior trades: windborne debris from extreme heat (118F) creates impact risk that affects material selection and insurance requirements. Dobson Ranch homes face the full climate exposure while Red Mountain properties may be partially sheltered.",
+    "sec_code": "Development Services Department (same-day permit processing, fastest in Phoenix metro) regulates siding replacement in Mesa. Arizona ROC (Registrar of Contractors) trade-specific license. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Downtown Mesa (limited historic designation)) require additional design review. ",
+    "sec_insurance": "Siding damage claims in Mesa follow extreme heat (118F) events. Standard homeowners insurance covers weather-related siding damage; verify your policy terms for matching and depreciation. Mesa homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "Mesa's mid-size market has a mix of dedicated siding contractors and general exterior contractors. Rapid growth has attracted siding contractors from outside the metro; verify local licensing. For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Dobson Ranch and Superstition Springs generate the highest siding replacement volume.",
+    "sec_flag": "Mesa siding red flags: fiber cement installers without James Hardie or LP manufacturer training. Storm-chaser crews appearing after weather events with aggressive door-to-door solicitation are the highest-risk operators.",
+    "dominantMaterial": "engineered wood (LP SmartSide)",
+    "climateBand": "moderate",
+    "bestSeasons": "March through May",
+    "worstSeasons": "December through February (weather delays)"
+  },
+  "virginia-beach-va": {
+    "sec_material": "Virginia Beach siding material selection is driven by humid subtropical with Chesapeake Bay and Atlantic moisture driving summer dew points into the mid-70s. Fiber cement and engineered wood handle the moisture better than vinyl (which warps under direct sun) or natural wood (which rots in 8-12 years). Salt-air corrosion at the waterfront demands stainless-steel or hot-dipped galvanized fasteners. Great Neck and Kempsville favor fiber cement (James Hardie) for its longevity and paint-holding ability.",
+    "sec_climate": "Virginia Beach's humid subtropical with Chesapeake Bay and Atlantic moisture driving summer dew points into the mid-70s affects siding differently than interior trades: UV intensity on south and west exposures accelerates color fading and material degradation 30-40% faster than shaded or north-facing surfaces. Great Neck homes face the full climate exposure while Sandbridge properties may be partially sheltered.",
+    "sec_code": "Department of Planning and Community Development regulates siding replacement in Virginia Beach. Virginia DPOR (Department of Professional and Occupational Regulation) trade license. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Cape Henry (limited local designation)) require additional design review. Wind-speed design requirements may mandate specific fastener patterns and installation methods.",
+    "sec_insurance": "Siding damage claims in Virginia Beach follow nor'easter coastal flooding events. Wind damage claims may trigger minimum wind-speed requirements for replacement materials. Virginia Beach homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "Virginia Beach's mid-size market has a mix of dedicated siding contractors and general exterior contractors.  For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Great Neck and Kempsville generate the highest siding replacement volume.",
+    "sec_flag": "Virginia Beach siding red flags: contractors who don't specify caulk/sealant brand and type at joints. Bids that are 30%+ below other quotes usually indicate shortcuts on house-wrap, flashing, or fastener quality.",
+    "dominantMaterial": "fiber cement (James Hardie)",
+    "climateBand": "mixed-humid",
+    "bestSeasons": "September through November",
+    "worstSeasons": "January through March (cold and wet)"
+  },
+  "colorado-springs-co": {
+    "sec_material": "Colorado Springs siding material selection is driven by semi-arid at 6. Fiber cement and engineered wood handle the moisture better than vinyl (which warps under direct sun) or natural wood (which rots in 8-12 years). Salt-air corrosion at the waterfront demands stainless-steel or hot-dipped galvanized fasteners. Briargate and Stetson Hills favor high-quality vinyl with lifetime color warranty.",
+    "sec_climate": "Colorado Springs's semi-arid at 6 affects siding differently than interior trades: windborne debris from altitude-reduced air density (18% below sea level) creates impact risk that affects material selection and insurance requirements. Briargate homes face the full climate exposure while Old Colorado City properties may be partially sheltered.",
+    "sec_code": "Pikes Peak Regional Building Department (unified city-county authority) regulates siding replacement in Colorado Springs. No state HVAC license required; CSU registration for gas; Pikes Peak Regional permits. Most like-for-like siding replacements require permits; changes to material type, wall structure, or exterior appearance in historic districts (Old Colorado City, North End (limited local designation)) require additional design review. ",
+    "sec_insurance": "Siding damage claims in Colorado Springs follow altitude-reduced air density (18% below sea level) events. Hail damage to siding is covered under most homeowners policies with standard deductibles; verify your policy covers matching (replacing all sides to match, not just the damaged side). Colorado Springs homeowners should document existing siding condition annually with dated photos.",
+    "sec_contractor": "Colorado Springs's mid-size market has a mix of dedicated siding contractors and general exterior contractors. Rapid growth has attracted siding contractors from outside the metro; verify local licensing. For fiber cement (James Hardie), verify the crew has Hardie-specific installation certification; improper installation voids the 30-year material warranty. Briargate and Stetson Hills generate the highest siding replacement volume.",
+    "sec_flag": "Colorado Springs siding red flags: fiber cement installers without James Hardie or LP manufacturer training. Storm-chaser crews appearing after weather events with aggressive door-to-door solicitation are the highest-risk operators.",
+    "dominantMaterial": "engineered wood (LP SmartSide)",
+    "climateBand": "mixed-humid",
+    "bestSeasons": "March through May",
+    "worstSeasons": "December through February (weather delays)"
+  }
+}

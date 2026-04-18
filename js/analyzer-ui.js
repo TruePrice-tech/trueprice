@@ -9755,7 +9755,7 @@ function buildComparisonWinnerHtml(summary) {
                 <input type="number" id="estHomeSize" placeholder="e.g. 2400" value="${journeyState.osmHomeSize ? String(journeyState.osmHomeSize) : ""}" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
                 <span style="font-size:14px; color:#64748b;">sq ft</span>
               </div>
-              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data. Adjusted for home type selected above.' : 'Total living area. Check your listing, tax records, or Zillow if unsure.'}</div>
+              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data. Select stories above to adjust.' : 'Total living area. Check your listing, tax records, or Zillow if unsure.'}</div>
             </div>
 
             <!-- Ownership -->
@@ -9796,9 +9796,9 @@ function buildComparisonWinnerHtml(summary) {
             journeyState.estimatorAnswers[group] = value;
 
             // When user selects stories, estimate total living area from footprint.
-            // Roof calc still uses raw osmFootprint for roof area.
+            // This adjusted value feeds into the estimate calc.
             if (group === "propertyType" && journeyState.osmFootprint) {
-              var livingMults = { single: 1.0, two_story: 1.4, townhome: 1.8 };
+              var livingMults = { single: 1.0, two_story: 1.35, townhome: 2.0 };
               var lm = livingMults[value] || 1.0;
               var estLiving = Math.round(journeyState.osmFootprint * lm);
               journeyState.osmHomeSize = estLiving;
@@ -9967,7 +9967,7 @@ function buildComparisonWinnerHtml(summary) {
       const CURRENT_SEASONAL_MULT = SEASONAL_MULT_BY_MONTH[now.getMonth() + 1] || 1.0;
 
       // Multipliers from user selections
-      const storyMultipliers = { single: 1.0, two_story: 0.55, townhome: 0.45 };
+      const storyMultipliers = { single: 1.0, two_story: 0.741, townhome: 0.50 };
       const pitchFactors = { flat: 1.0, normal: 1.12, steep: 1.25, very_steep: 1.40 };
       const complexityFactors = { normal: 1.0, complex: 1.15, very_complex: 1.30 };
       const tearOffFactors = { replacement: 1.0, repair: 0.35, proactive: 1.0 };
@@ -10029,27 +10029,13 @@ function buildComparisonWinnerHtml(summary) {
         : journeyState.osmHomeSize > 0 ? journeyState.osmHomeSize
         : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
 
-      if (journeyState.osmFootprint && journeyState.osmFootprint > 400) {
-        // We have the actual building footprint from satellite -- use it
-        // directly for roof area. The roof covers the footprint regardless
-        // of how many stories. The displayed home size is living area.
-        baseArea = journeyState.osmFootprint * ROOF_AREA_RATIO;
-        footprintSource = "osm_footprint";
-      } else if (homeSize) {
-        // No satellite footprint -- user entered total living area,
-        // convert to estimated footprint via story multiplier
-        const footprint = homeSize * storyMult;
-        baseArea = footprint * ROOF_AREA_RATIO;
-        footprintSource = "user_home_size";
-
-        // Cross-check with API result if available
-        if (footprintSqFt && footprintSqFt > footprint * 0.8) {
-          const osmRoofSize = footprintSqFt * ROOF_AREA_RATIO;
-          if (osmRoofSize > baseArea) {
-            baseArea = osmRoofSize;
-            footprintSource = "osm_footprint";
-          }
-        }
+      if (homeSize) {
+        // homeSize is the story-adjusted value the user sees.
+        // When OSM footprint is available, it was already multiplied by
+        // the living-area factor (e.g. footprint*1.4 for 2-story).
+        // Use it directly -- no further storyMult conversion.
+        baseArea = homeSize * ROOF_AREA_RATIO;
+        footprintSource = journeyState.osmFootprint ? "osm_footprint" : "user_home_size";
       } else if (footprintSqFt) {
         // OSM footprint available, no home size entered
         baseArea = footprintSqFt * pitchFact;
@@ -10411,4 +10397,28 @@ function buildComparisonWinnerHtml(summary) {
           root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;"><div class="progress-phase">Reading your quote...</div><div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;"><div style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div></div></div>';
           try {
             const parsedBundle = await parseUploadedComparisonFile(file);
-            latestParsed = parsedBundle?.pa
+            latestParsed = parsedBundle?.parsed || parsedBundle || {};
+            journeyState.propertyConfirmed = true;
+            confirmProperty();
+          } catch (err) {
+            root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:24px;"><p>Could not read the quote. Please try again.</p><button class="btn secondary" onclick="setJourneyStep(\'address\')">Back</button></div>';
+          }
+        });
+      }
+    };
+
+    // ── End Guided Estimator ────────────────────────────────────────────
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          if (typeof window.renderApp === "function") {
+            window.renderApp();
+          }
+        });
+      } else {
+        if (typeof window.renderApp === "function") {
+          window.renderApp();
+        }
+      }
+
+      })();
