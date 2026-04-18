@@ -291,11 +291,31 @@ depending on the type of work, home size, and complexity.
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
 @media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
 <!-- FLAGSHIP-ELECTRICAL-CONTENT -->
 
 <section class="section fp-section">
 <h2>St. Louis Neighborhood Pricing</h2>
-<p>St. Louis electrical labor runs at or slightly above the national average. Ameren Missouri coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<p>STL electrical labor sits at the national average. The city/county jurisdictional split means contractors working both sides carry dual registrations and know two different inspection cultures, which filters out less-experienced operators.</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
@@ -356,96 +376,96 @@ depending on the type of work, home size, and complexity.
 </section>
 <section class="section fp-section">
 <h2>St. Louis Utility and Code Context</h2>
-<p>Ameren Missouri serves the St. Louis metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
-<p>St. Louis follows the NEC as adopted by the state with local amendments. Romex is permitted for residential wiring, keeping labor costs competitive in St. Louis.</p>
+<p>Ameren Missouri operates the distribution grid across the city and county while Spire handles natural gas. Because St. Louis City is independent from St. Louis County, meter-coordination paperwork for a Clayton panel upgrade files through a different Ameren service center than an identical job in Soulard. Service-entrance cutover requests through Ameren's contractor portal typically run 12-18 business days.</p>
+<p>Missouri adopts the 2020 NEC at the state level. The City of St. Louis Building Division enforces local amendments including mandatory AFCI protection on all bedroom circuits in pre-1970 housing rewires. Romex is permitted, which keeps residential wiring labor 25-35% below conduit-mandatory markets like Chicago.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Home Stock and Panel Realities</h2>
-<p>St. Louis housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Ameren Missouri. Neighborhoods like Central West End and Soulard show distinct housing-era panel profiles.</p>
-<p>St. Louis homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Central West End and Clayton represent different construction eras with distinct wiring access challenges.</p>
+<p>Central West End brownstones built in the 1890s-1920s still carry 60-amp fused services with porcelain cutout bases. Soulard two-families from the 1870s often have combined meter cabinets in the cellar serving both units. Clayton ranch homes from the 1950s-60s typically upgraded to 100-amp panels but now need 200-amp service for heat-pump and EV conversions.</p>
+<p>The city's brick two-family housing stock dominates neighborhoods from Tower Grove South through Benton Park, with full basements providing accessible wiring runs. The Hill's shotgun-style Italian-heritage homes have limited attic access, pushing rewires through basement conduit runs along the ceiling joists. Fox Park's 1880s mansions feature 14-foot ceilings that make vertical wire pulls expensive.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Licensing and Permits</h2>
-<p>State licensing applies and St. Louis may require additional local registration. St. Louis homeowners should verify both state licensure and local business registration before signing.</p>
-<p>City of St. Louis Building Division issues electrical permits, typically in 1-4 weeks for standard residential work. Ameren Missouri service coordination runs 2-4 weeks parallel to the city permit. Historic districts in Central West End or Soulard may add preservation commission review for visible exterior work.</p>
+<p>Missouri has no statewide electrical contractor license. The City of St. Louis requires a separate city electrical license with a written exam and proof of insurance. St. Louis County jurisdictions (Clayton, Ladue, Webster Groves) accept the state journeyman card but require their own business registration. Verify city license status through the Building Division before signing.</p>
+<p>City Building Division electrical permits process in 2-3 weeks. Ameren Missouri service coordination adds 2-3 weeks parallel. Lafayette Square, Compton Heights, and Soulard fall under the Cultural Resources Office, which reviews visible exterior panel relocations and conduit runs for compatibility with the historic streetscape.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Hidden Hazards and Renovation Triggers</h2>
-<p>Federal Pacific Stab-Lok panels are common in 1960s-70s St. Louis homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Ice-storm-damaged service masts and frozen exterior disconnects are recurring hazard categories.</p>
-<p>EV charger installation is the fastest-growing residential electrical scope in St. Louis. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
+<p>Federal Pacific Stab-Lok panels are widespread in 1960s-70s homes across Affton and Lemay. Knob-and-tube wiring remains active in some pre-1920 Soulard and Lafayette Square houses that have never been fully rewired. The February 2021 Uri ice storm exposed a pattern of frozen exterior disconnects across Tower Grove South that created fire hazards when power was restored.</p>
+<p>EV charger installation drives the fastest-growing residential electrical scope because Ameren Missouri's off-peak EV rate creates strong financial incentive. A typical 48-amp hardwired Level 2 charger in a Benton Park garage runs $1,800-$3,200. Whole-house generator transfer switches grew 30% after the April 2011 tornado knocked power out for 5 days across north county.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Electrical Red Flags</h2>
 
 <div class="fp-flag">
 <h3>Ignoring the St. Louis utility process</h3>
-<p>Ameren Missouri serves the St. Louis metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
+<p>Ameren Missouri operates the distribution grid across the city and county while Spire handles natural gas. Because St. Louis City is independent from St. Louis County, meter-coordination paperwork for a Clayton panel upgrade files through a different Ameren service center than an identical job in Soulard. Service-entrance cutover requests through Ameren's contractor portal typically run 12-18 business days.</p>
 </div>
 <div class="fp-flag">
 <h3>Mismatch with St. Louis code amendments</h3>
-<p>St. Louis follows the NEC as adopted by the state with local amendments. Romex is permitted for residential wiring, keeping labor costs competitive in St. Louis.</p>
+<p>Missouri adopts the 2020 NEC at the state level. The City of St. Louis Building Division enforces local amendments including mandatory AFCI protection on all bedroom circuits in pre-1970 housing rewires. Romex is permitted, which keeps residential wiring labor 25-35% below conduit-mandatory markets like Chicago.</p>
 </div>
 <div class="fp-flag">
 <h3>Wrong panel size for St. Louis load</h3>
-<p>St. Louis housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Ameren Missouri. Neighborhoods like Central West End and Soulard show distinct housing-era panel profiles.</p>
+<p>Central West End brownstones built in the 1890s-1920s still carry 60-amp fused services with porcelain cutout bases. Soulard two-families from the 1870s often have combined meter cabinets in the cellar serving both units. Clayton ranch homes from the 1950s-60s typically upgraded to 100-amp panels but now need 200-amp service for heat-pump and EV conversions.</p>
 </div>
 <div class="fp-flag">
 <h3>Missing license verification</h3>
-<p>State licensing applies and St. Louis may require additional local registration. St. Louis homeowners should verify both state licensure and local business registration before signing.</p>
+<p>Missouri has no statewide electrical contractor license. The City of St. Louis requires a separate city electrical license with a written exam and proof of insurance. St. Louis County jurisdictions (Clayton, Ladue, Webster Groves) accept the state journeyman card but require their own business registration. Verify city license status through the Building Division before signing.</p>
 </div>
 <div class="fp-flag">
 <h3>Hazard not disclosed</h3>
-<p>Federal Pacific Stab-Lok panels are common in 1960s-70s St. Louis homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Ice-storm-damaged service masts and frozen exterior disconnects are recurring hazard categories.</p>
+<p>Federal Pacific Stab-Lok panels are widespread in 1960s-70s homes across Affton and Lemay. Knob-and-tube wiring remains active in some pre-1920 Soulard and Lafayette Square houses that have never been fully rewired. The February 2021 Uri ice storm exposed a pattern of frozen exterior disconnects across Tower Grove South that created fire hazards when power was restored.</p>
 </div>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Scope Checklist</h2>
-<p><strong>Utility coordination.</strong> Ameren Missouri serves the St. Louis metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
-<p><strong>Applicable code.</strong> St. Louis follows the NEC as adopted by the state with local amendments. Romex is permitted for residential wiring, keeping labor costs competitive in St. Louis.</p>
-<p><strong>Permit process.</strong> City of St. Louis Building Division issues electrical permits, typically in 1-4 weeks for standard residential work. Ameren Missouri service coordination runs 2-4 weeks parallel to the city permit. Historic districts in Central West End or Soulard may add preservation commission review for visible exterior work.</p>
-<p><strong>Pricing context.</strong> St. Louis electrical labor runs at or slightly above the national average. Ameren Missouri coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<p><strong>Utility coordination.</strong> Ameren Missouri operates the distribution grid across the city and county while Spire handles natural gas. Because St. Louis City is independent from St. Louis County, meter-coordination paperwork for a Clayton panel upgrade files through a different Ameren service center than an identical job in Soulard. Service-entrance cutover requests through Ameren's contractor portal typically run 12-18 business days.</p>
+<p><strong>Applicable code.</strong> Missouri adopts the 2020 NEC at the state level. The City of St. Louis Building Division enforces local amendments including mandatory AFCI protection on all bedroom circuits in pre-1970 housing rewires. Romex is permitted, which keeps residential wiring labor 25-35% below conduit-mandatory markets like Chicago.</p>
+<p><strong>Permit process.</strong> City Building Division electrical permits process in 2-3 weeks. Ameren Missouri service coordination adds 2-3 weeks parallel. Lafayette Square, Compton Heights, and Soulard fall under the Cultural Resources Office, which reviews visible exterior panel relocations and conduit runs for compatibility with the historic streetscape.</p>
+<p><strong>Pricing context.</strong> STL electrical labor sits at the national average. The city/county jurisdictional split means contractors working both sides carry dual registrations and know two different inspection cultures, which filters out less-experienced operators.</p>
 </section>
 <section class="section fp-section">
 <h2>Questions to Ask a St. Louis Electrician</h2>
-<p><strong>Which utility coordinates this work?</strong> Ameren Missouri serves the St. Louis metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
-<p><strong>What code edition applies?</strong> St. Louis follows the NEC as adopted by the state with local amendments. Romex is permitted for residential wiring, keeping labor costs competitive in St. Louis.</p>
-<p><strong>What hazards did you find?</strong> Federal Pacific Stab-Lok panels are common in 1960s-70s St. Louis homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Ice-storm-damaged service masts and frozen exterior disconnects are recurring hazard categories.</p>
-<p><strong>What renovation trigger applies?</strong> EV charger installation is the fastest-growing residential electrical scope in St. Louis. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
-<p><strong>What is your license?</strong> State licensing applies and St. Louis may require additional local registration. St. Louis homeowners should verify both state licensure and local business registration before signing.</p>
+<p><strong>Which utility coordinates this work?</strong> Ameren Missouri operates the distribution grid across the city and county while Spire handles natural gas. Because St. Louis City is independent from St. Louis County, meter-coordination paperwork for a Clayton panel upgrade files through a different Ameren service center than an identical job in Soulard. Service-entrance cutover requests through Ameren's contractor portal typically run 12-18 business days.</p>
+<p><strong>What code edition applies?</strong> Missouri adopts the 2020 NEC at the state level. The City of St. Louis Building Division enforces local amendments including mandatory AFCI protection on all bedroom circuits in pre-1970 housing rewires. Romex is permitted, which keeps residential wiring labor 25-35% below conduit-mandatory markets like Chicago.</p>
+<p><strong>What hazards did you find?</strong> Federal Pacific Stab-Lok panels are widespread in 1960s-70s homes across Affton and Lemay. Knob-and-tube wiring remains active in some pre-1920 Soulard and Lafayette Square houses that have never been fully rewired. The February 2021 Uri ice storm exposed a pattern of frozen exterior disconnects across Tower Grove South that created fire hazards when power was restored.</p>
+<p><strong>What renovation trigger applies?</strong> EV charger installation drives the fastest-growing residential electrical scope because Ameren Missouri's off-peak EV rate creates strong financial incentive. A typical 48-amp hardwired Level 2 charger in a Benton Park garage runs $1,800-$3,200. Whole-house generator transfer switches grew 30% after the April 2011 tornado knocked power out for 5 days across north county.</p>
+<p><strong>What is your license?</strong> Missouri has no statewide electrical contractor license. The City of St. Louis requires a separate city electrical license with a written exam and proof of insurance. St. Louis County jurisdictions (Clayton, Ladue, Webster Groves) accept the state journeyman card but require their own business registration. Verify city license status through the Building Division before signing.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Renovation Context and Common Upgrades</h2>
-<p>EV charger installation is the fastest-growing residential electrical scope in St. Louis. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
-<p>St. Louis homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Central West End and Clayton represent different construction eras with distinct wiring access challenges.</p>
-<p>St. Louis housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with Ameren Missouri. Neighborhoods like Central West End and Soulard show distinct housing-era panel profiles.</p>
+<p>EV charger installation drives the fastest-growing residential electrical scope because Ameren Missouri's off-peak EV rate creates strong financial incentive. A typical 48-amp hardwired Level 2 charger in a Benton Park garage runs $1,800-$3,200. Whole-house generator transfer switches grew 30% after the April 2011 tornado knocked power out for 5 days across north county.</p>
+<p>The city's brick two-family housing stock dominates neighborhoods from Tower Grove South through Benton Park, with full basements providing accessible wiring runs. The Hill's shotgun-style Italian-heritage homes have limited attic access, pushing rewires through basement conduit runs along the ceiling joists. Fox Park's 1880s mansions feature 14-foot ceilings that make vertical wire pulls expensive.</p>
+<p>Central West End brownstones built in the 1890s-1920s still carry 60-amp fused services with porcelain cutout bases. Soulard two-families from the 1870s often have combined meter cabinets in the cellar serving both units. Clayton ranch homes from the 1950s-60s typically upgraded to 100-amp panels but now need 200-amp service for heat-pump and EV conversions.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Electrical Hazards to Test For</h2>
-<p>Federal Pacific Stab-Lok panels are common in 1960s-70s St. Louis homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Ice-storm-damaged service masts and frozen exterior disconnects are recurring hazard categories.</p>
-<p>Ameren Missouri serves the St. Louis metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
+<p>Federal Pacific Stab-Lok panels are widespread in 1960s-70s homes across Affton and Lemay. Knob-and-tube wiring remains active in some pre-1920 Soulard and Lafayette Square houses that have never been fully rewired. The February 2021 Uri ice storm exposed a pattern of frozen exterior disconnects across Tower Grove South that created fire hazards when power was restored.</p>
+<p>Ameren Missouri operates the distribution grid across the city and county while Spire handles natural gas. Because St. Louis City is independent from St. Louis County, meter-coordination paperwork for a Clayton panel upgrade files through a different Ameren service center than an identical job in Soulard. Service-entrance cutover requests through Ameren's contractor portal typically run 12-18 business days.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Electrical Maintenance</h2>
 <p>undefined</p>
-<p>Federal Pacific Stab-Lok panels are common in 1960s-70s St. Louis homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Ice-storm-damaged service masts and frozen exterior disconnects are recurring hazard categories.</p>
+<p>Federal Pacific Stab-Lok panels are widespread in 1960s-70s homes across Affton and Lemay. Knob-and-tube wiring remains active in some pre-1920 Soulard and Lafayette Square houses that have never been fully rewired. The February 2021 Uri ice storm exposed a pattern of frozen exterior disconnects across Tower Grove South that created fire hazards when power was restored.</p>
 <p>undefined</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Emergency Electrical Service</h2>
 <p>undefined</p>
-<p>St. Louis homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Central West End and Clayton represent different construction eras with distinct wiring access challenges.</p>
-<p>St. Louis electrical labor runs at or slightly above the national average. Ameren Missouri coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<p>The city's brick two-family housing stock dominates neighborhoods from Tower Grove South through Benton Park, with full basements providing accessible wiring runs. The Hill's shotgun-style Italian-heritage homes have limited attic access, pushing rewires through basement conduit runs along the ceiling joists. Fox Park's 1880s mansions feature 14-foot ceilings that make vertical wire pulls expensive.</p>
+<p>STL electrical labor sits at the national average. The city/county jurisdictional split means contractors working both sides carry dual registrations and know two different inspection cultures, which filters out less-experienced operators.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Electrical Scope and Utility Context</h2>
-<p><strong>Utility coordination.</strong> Ameren Missouri serves the St. Louis metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. The utility handles all meter and service-entrance coordination for residential upgrades.</p>
-<p><strong>Common renovation trigger.</strong> EV charger installation is the fastest-growing residential electrical scope in St. Louis. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
-<p><strong>Licensing.</strong> State licensing applies and St. Louis may require additional local registration. St. Louis homeowners should verify both state licensure and local business registration before signing.</p>
+<p><strong>Utility coordination.</strong> Ameren Missouri operates the distribution grid across the city and county while Spire handles natural gas. Because St. Louis City is independent from St. Louis County, meter-coordination paperwork for a Clayton panel upgrade files through a different Ameren service center than an identical job in Soulard. Service-entrance cutover requests through Ameren's contractor portal typically run 12-18 business days.</p>
+<p><strong>Common renovation trigger.</strong> EV charger installation drives the fastest-growing residential electrical scope because Ameren Missouri's off-peak EV rate creates strong financial incentive. A typical 48-amp hardwired Level 2 charger in a Benton Park garage runs $1,800-$3,200. Whole-house generator transfer switches grew 30% after the April 2011 tornado knocked power out for 5 days across north county.</p>
+<p><strong>Licensing.</strong> Missouri has no statewide electrical contractor license. The City of St. Louis requires a separate city electrical license with a written exam and proof of insurance. St. Louis County jurisdictions (Clayton, Ladue, Webster Groves) accept the state journeyman card but require their own business registration. Verify city license status through the Building Division before signing.</p>
 </section>
 <section class="section fp-section">
 <h2>When to Schedule St. Louis Electrical Work</h2>
-<p>St. Louis electrical demand peaks April-June and September-October. Winter ice storms drive emergency service-mast repairs. Off-peak scheduling saves 8-15% on labor.</p>
-<p>St. Louis electrical labor runs at or slightly above the national average. Ameren Missouri coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<p>Demand peaks in April-June pre-summer AC season and September-October pre-heating season. Winter ice storms along the I-64 corridor drive emergency service-mast repair surges. Cardinals home-game traffic affects delivery schedules for downtown-adjacent projects.</p>
+<p>STL electrical labor sits at the national average. The city/county jurisdictional split means contractors working both sides carry dual registrations and know two different inspection cultures, which filters out less-experienced operators.</p>
 </section>
 <section class="section fp-section">
 <h2>St. Louis Project Scenarios</h2>
@@ -455,24 +475,24 @@ depending on the type of work, home size, and complexity.
 <h3>Budget</h3>
 <p class="fp-scenario-material">200A panel upgrade in St. Louis</p>
 <p class="fp-scenario-total">$2.8K</p>
-<p class="fp-scenario-detail">St. City of St.</p>
+<p class="fp-scenario-detail">Central West End brownstones built in the 1890s-1920s still carry 60-amp fused services with porcelain cutout bases. City Building Division electrical permits process in 2-3 weeks.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">St. Louis whole-house rewire</p>
 <p class="fp-scenario-total">$12.2K</p>
-<p class="fp-scenario-detail">St. St.</p>
+<p class="fp-scenario-detail">The city's brick two-family housing stock dominates neighborhoods from Tower Grove South through Benton Park, with full basements providing accessible wiring runs. Missouri adopts the 2020 NEC at the state level.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">Smart + EV + panel in St. Louis</p>
 <p class="fp-scenario-total">$8.8K</p>
-<p class="fp-scenario-detail">EV charger installation is the fastest-growing residential electrical scope in St. Louis. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity. St.</p>
+<p class="fp-scenario-detail">EV charger installation drives the fastest-growing residential electrical scope because Ameren Missouri's off-peak EV rate creates strong financial incentive. A typical 48-amp hardwired Level 2 charger in a Benton Park garage runs $1,800-$3,200. Whole-house generator transfer switches grew 30% after the April 2011 tornado knocked power out for 5 days across north county. STL electrical labor sits at the national average.</p>
 </div>
 </div>
-</section><section class="section fp-section"><h2>St. Louis utility coordination</h2><p>Ameren Missouri serves the St Louis metro with residential service coordination for panel upgrades typically running 10-20 business days. Spire handles gas service where applicable. St Louis's housing stock across Central West End and Soulard spans construction eras from pre-war to modern, with corresponding electrical infrastructure ranging from 60-amp fuse panels to modern 200-amp breaker service. The April 2011 Good Friday EF4 tornado that devastated north county and Lambert Airport highlighted the importance of whole-house generator systems, which have become a standard residential electrical scope in St Louis.</p></section><section class="section fp-section"><h2>St. Louis panel upgrades and codes</h2><p>City of St. Louis Building Division handles electrical permits. Missouri has no statewide contractor license; city registration required. St Louis homes in Central West End and Clayton show distinct housing-era electrical profiles: pre-1965 construction may have aluminum branch wiring or Federal Pacific Stab-Lok panels (documented fire hazards), while post-2000 construction typically has 200-amp service with AFCI protection on bedroom circuits. EV charger installation is the fastest-growing residential electrical scope in St Louis, with Level 2 (240V, 40-amp) installations running $1,400-$3,500 depending on panel capacity and circuit length.</p></section><section class="section fp-section"><h2>St. Louis safety concerns</h2><p>Lafayette Square, Soulard, and Compton Heights are the primary protected historic districts under the Cultural Resources Office; visible exterior electrical work on contributing structures may require preservation commission review. Missouri does not require annual vehicle safety inspections but requires emissions testing in the St. Louis metro. Federal Pacific Stab-Lok panels and Zinsco panels are documented fire hazards found in 1960s-1970s St Louis homes; replacement with modern Siemens, Square D, or Eaton panels is a safety-critical upgrade. Washington University and Saint Louis University area properties in Central West End may have rental-grade electrical systems that need upgrading for owner-occupancy.</p></section>
+</section><section class="section fp-section"><h2>St. Louis utility coordination</h2><p>Ameren Missouri's Laclede Station service center handles city-proper coordination while the Chesterfield office covers county addresses. Spire gas coordination runs parallel when panel relocations affect the gas meter. The April 2011 Good Friday EF4 tornado that devastated Bridgeton and Lambert Airport drove a surge in whole-house generator demand that Ameren's contractor portal tracked as a 40% increase in transfer-switch interconnection filings through 2012.</p></section><section class="section fp-section"><h2>St. Louis panel upgrades and codes</h2><p>City Building Division processes permits in 2-3 weeks with same-day inspection scheduling available. Missouri has no statewide contractor license; separate city registration required for work inside city limits. Central West End brownstones show 60-100 amp fused services with cast-iron meter bases; Soulard two-families often have combined cellar meters serving both units. Ameren Missouri's off-peak EV rate drives Level 2 charger demand at $1,800-$3,200 per installation in Benton Park and Tower Grove South.</p></section><section class="section fp-section"><h2>St. Louis safety concerns</h2><p>The Cultural Resources Office governs visible exterior electrical work in Lafayette Square, Soulard, Compton Heights, and Fox Park. Federal Pacific and Zinsco panels remain widespread in 1960s-70s Affton and Lemay homes; replacement with Siemens or Square D panels runs $2,500-$4,500. Washington University Medical Center campus along Euclid Avenue and Saint Louis University along Grand Boulevard restrict delivery staging during business hours. Missouri requires emissions testing in the St. Louis metro for contractor vehicles.</p></section>
 <!-- /FLAGSHIP-ELECTRICAL-CONTENT -->
 <!-- TP-LOCAL-INJECTED-V2 -->
 <section class="section" style="background:#fafbff;padding:24px;border-radius:14px;border:1px solid #e2e8f0;margin:32px 0;">

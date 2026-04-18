@@ -511,11 +511,31 @@ depending on the type of work, home size, and complexity.
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
 @media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
 <!-- FLAGSHIP-ELECTRICAL-CONTENT -->
 
 <section class="section fp-section">
 <h2>San Antonio Neighborhood Pricing</h2>
-<p>San Antonio electrical labor runs at or near the national average. CPS Energy coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<p>SA electrical labor sits at the national average. CPS Energy's combined utility model simplifies coordination but the utility's post-Uri grid-hardening program has extended service-upgrade timelines by 3-5 days compared to pre-2021 norms.</p>
 <div style="overflow-x:auto;">
 <table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
 <thead>
@@ -576,96 +596,96 @@ depending on the type of work, home size, and complexity.
 </section>
 <section class="section fp-section">
 <h2>San Antonio Utility and Code Context</h2>
-<p>CPS Energy serves the San Antonio metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while CPS Energy handles physical distribution.</p>
-<p>Texas adopted the 2023 NEC statewide through TDLR. San Antonio enforces the code through local building inspection. Romex is permitted for residential wiring, keeping labor costs competitive in San Antonio.</p>
+<p>CPS Energy is a municipally owned combined electric-and-gas utility serving San Antonio proper, one of the few metros where a single entity handles both services. This simplifies coordination because one service center manages both the electric meter and gas meter for panel relocations. CPS service-upgrade coordination runs 10-15 business days. Boerne and Helotes fall under separate utility providers.</p>
+<p>Texas adopted the 2023 NEC statewide through TDLR, making it one of the most current code environments in the country. San Antonio Development Services enforces additional requirements for outdoor circuit weatherproofing driven by the extreme UV and heat environment. Romex is permitted. EV-ready conduit stub-out is required on all new single-family construction citywide.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Home Stock and Panel Realities</h2>
-<p>San Antonio housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with CPS Energy. Neighborhoods like Alamo Heights and Stone Oak show distinct housing-era panel profiles.</p>
-<p>San Antonio homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Alamo Heights and King William represent different construction eras with distinct wiring access challenges.</p>
+<p>King William's 1890s Victorian homes carry original 40-60 amp fused services with cast-iron meter bases. Alamo Heights' 1930s-50s Tudor-style homes typically have 100-amp panels upgraded from the original 60-amp fuse boxes. Stone Oak's 2000s-era tract homes come with 200-amp service but increasingly need 320-amp upgrades for dual-EV-charger households.</p>
+<p>San Antonio is predominantly slab-on-grade construction with unconditioned attic spaces that exceed 150F in summer. Attic wiring in homes along Broadway and Hildebrand near Brackenridge Park uses THHN conductor as baseline, and any rewire work on existing circuits reveals insulation breakdown from decades of thermal cycling. The Pearl's converted brewery lofts present unique industrial-to-residential wiring challenges.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Licensing and Permits</h2>
-<p>Texas TDLR licenses Master Electricians, Journeyman Electricians, and Residential Wiremen. Verify at tdlr.texas.gov. San Antonio homeowners should verify both state licensure and local business registration before signing.</p>
-<p>City of San Antonio Development Services issues electrical permits, typically in 1-4 weeks for standard residential work. CPS Energy service coordination runs 2-4 weeks parallel to the city permit. Historic districts in Alamo Heights or Stone Oak may add preservation commission review for visible exterior work.</p>
+<p>Texas TDLR licenses Master Electricians (12,000 supervised hours) and Journeyman Electricians (8,000 hours). Only Masters can pull permits. CPS Energy requires separate contractor registration beyond TDLR licensure. Verify TDLR status at tdlr.texas.gov and CPS registration through the utility portal. Alamo Heights has its own permitting requirements independent of the city.</p>
+<p>City of San Antonio Development Services permits in 3-7 business days. Alamo Heights operates its own building department with faster turnaround but stricter design review. King William, Monte Vista, and Dignowity Hill historic districts require HDRC Certificate of Appropriateness for visible exterior panel work, adding 4-6 weeks.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Hidden Hazards and Renovation Triggers</h2>
-<p>Federal Pacific Stab-Lok panels are common in 1960s-70s San Antonio homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
-<p>EV charger installation is the fastest-growing residential electrical scope in San Antonio. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
+<p>Federal Pacific panels are widespread in 1960s-70s homes along Bandera Road and in the Medical Center area. Aluminum branch wiring from the copper-shortage era shows up in Windcrest and Converse subdivisions. Winter Storm Uri in 2021 exposed frozen exterior disconnects across Southtown that created arc-flash hazards when CPS restored power after 4 days of grid failure.</p>
+<p>Whole-house generator installations surged after Uri proved the ERCOT grid's vulnerability. A 22kW standby unit with automatic transfer switch runs $9,000-$15,000. EV charger installations are the second-fastest scope, with CPS Energy's time-of-use EV rate driving demand for hardwired Level 2 units at $1,800-$3,500.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Electrical Red Flags</h2>
 
 <div class="fp-flag">
 <h3>Ignoring the San Antonio utility process</h3>
-<p>CPS Energy serves the San Antonio metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while CPS Energy handles physical distribution.</p>
+<p>CPS Energy is a municipally owned combined electric-and-gas utility serving San Antonio proper, one of the few metros where a single entity handles both services. This simplifies coordination because one service center manages both the electric meter and gas meter for panel relocations. CPS service-upgrade coordination runs 10-15 business days. Boerne and Helotes fall under separate utility providers.</p>
 </div>
 <div class="fp-flag">
 <h3>Mismatch with San Antonio code amendments</h3>
-<p>Texas adopted the 2023 NEC statewide through TDLR. San Antonio enforces the code through local building inspection. Romex is permitted for residential wiring, keeping labor costs competitive in San Antonio.</p>
+<p>Texas adopted the 2023 NEC statewide through TDLR, making it one of the most current code environments in the country. San Antonio Development Services enforces additional requirements for outdoor circuit weatherproofing driven by the extreme UV and heat environment. Romex is permitted. EV-ready conduit stub-out is required on all new single-family construction citywide.</p>
 </div>
 <div class="fp-flag">
 <h3>Wrong panel size for San Antonio load</h3>
-<p>San Antonio housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with CPS Energy. Neighborhoods like Alamo Heights and Stone Oak show distinct housing-era panel profiles.</p>
+<p>King William's 1890s Victorian homes carry original 40-60 amp fused services with cast-iron meter bases. Alamo Heights' 1930s-50s Tudor-style homes typically have 100-amp panels upgraded from the original 60-amp fuse boxes. Stone Oak's 2000s-era tract homes come with 200-amp service but increasingly need 320-amp upgrades for dual-EV-charger households.</p>
 </div>
 <div class="fp-flag">
 <h3>Missing license verification</h3>
-<p>Texas TDLR licenses Master Electricians, Journeyman Electricians, and Residential Wiremen. Verify at tdlr.texas.gov. San Antonio homeowners should verify both state licensure and local business registration before signing.</p>
+<p>Texas TDLR licenses Master Electricians (12,000 supervised hours) and Journeyman Electricians (8,000 hours). Only Masters can pull permits. CPS Energy requires separate contractor registration beyond TDLR licensure. Verify TDLR status at tdlr.texas.gov and CPS registration through the utility portal. Alamo Heights has its own permitting requirements independent of the city.</p>
 </div>
 <div class="fp-flag">
 <h3>Hazard not disclosed</h3>
-<p>Federal Pacific Stab-Lok panels are common in 1960s-70s San Antonio homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
+<p>Federal Pacific panels are widespread in 1960s-70s homes along Bandera Road and in the Medical Center area. Aluminum branch wiring from the copper-shortage era shows up in Windcrest and Converse subdivisions. Winter Storm Uri in 2021 exposed frozen exterior disconnects across Southtown that created arc-flash hazards when CPS restored power after 4 days of grid failure.</p>
 </div>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Scope Checklist</h2>
-<p><strong>Utility coordination.</strong> CPS Energy serves the San Antonio metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while CPS Energy handles physical distribution.</p>
-<p><strong>Applicable code.</strong> Texas adopted the 2023 NEC statewide through TDLR. San Antonio enforces the code through local building inspection. Romex is permitted for residential wiring, keeping labor costs competitive in San Antonio.</p>
-<p><strong>Permit process.</strong> City of San Antonio Development Services issues electrical permits, typically in 1-4 weeks for standard residential work. CPS Energy service coordination runs 2-4 weeks parallel to the city permit. Historic districts in Alamo Heights or Stone Oak may add preservation commission review for visible exterior work.</p>
-<p><strong>Pricing context.</strong> San Antonio electrical labor runs at or near the national average. CPS Energy coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<p><strong>Utility coordination.</strong> CPS Energy is a municipally owned combined electric-and-gas utility serving San Antonio proper, one of the few metros where a single entity handles both services. This simplifies coordination because one service center manages both the electric meter and gas meter for panel relocations. CPS service-upgrade coordination runs 10-15 business days. Boerne and Helotes fall under separate utility providers.</p>
+<p><strong>Applicable code.</strong> Texas adopted the 2023 NEC statewide through TDLR, making it one of the most current code environments in the country. San Antonio Development Services enforces additional requirements for outdoor circuit weatherproofing driven by the extreme UV and heat environment. Romex is permitted. EV-ready conduit stub-out is required on all new single-family construction citywide.</p>
+<p><strong>Permit process.</strong> City of San Antonio Development Services permits in 3-7 business days. Alamo Heights operates its own building department with faster turnaround but stricter design review. King William, Monte Vista, and Dignowity Hill historic districts require HDRC Certificate of Appropriateness for visible exterior panel work, adding 4-6 weeks.</p>
+<p><strong>Pricing context.</strong> SA electrical labor sits at the national average. CPS Energy's combined utility model simplifies coordination but the utility's post-Uri grid-hardening program has extended service-upgrade timelines by 3-5 days compared to pre-2021 norms.</p>
 </section>
 <section class="section fp-section">
 <h2>Questions to Ask a San Antonio Electrician</h2>
-<p><strong>Which utility coordinates this work?</strong> CPS Energy serves the San Antonio metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while CPS Energy handles physical distribution.</p>
-<p><strong>What code edition applies?</strong> Texas adopted the 2023 NEC statewide through TDLR. San Antonio enforces the code through local building inspection. Romex is permitted for residential wiring, keeping labor costs competitive in San Antonio.</p>
-<p><strong>What hazards did you find?</strong> Federal Pacific Stab-Lok panels are common in 1960s-70s San Antonio homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
-<p><strong>What renovation trigger applies?</strong> EV charger installation is the fastest-growing residential electrical scope in San Antonio. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
-<p><strong>What is your license?</strong> Texas TDLR licenses Master Electricians, Journeyman Electricians, and Residential Wiremen. Verify at tdlr.texas.gov. San Antonio homeowners should verify both state licensure and local business registration before signing.</p>
+<p><strong>Which utility coordinates this work?</strong> CPS Energy is a municipally owned combined electric-and-gas utility serving San Antonio proper, one of the few metros where a single entity handles both services. This simplifies coordination because one service center manages both the electric meter and gas meter for panel relocations. CPS service-upgrade coordination runs 10-15 business days. Boerne and Helotes fall under separate utility providers.</p>
+<p><strong>What code edition applies?</strong> Texas adopted the 2023 NEC statewide through TDLR, making it one of the most current code environments in the country. San Antonio Development Services enforces additional requirements for outdoor circuit weatherproofing driven by the extreme UV and heat environment. Romex is permitted. EV-ready conduit stub-out is required on all new single-family construction citywide.</p>
+<p><strong>What hazards did you find?</strong> Federal Pacific panels are widespread in 1960s-70s homes along Bandera Road and in the Medical Center area. Aluminum branch wiring from the copper-shortage era shows up in Windcrest and Converse subdivisions. Winter Storm Uri in 2021 exposed frozen exterior disconnects across Southtown that created arc-flash hazards when CPS restored power after 4 days of grid failure.</p>
+<p><strong>What renovation trigger applies?</strong> Whole-house generator installations surged after Uri proved the ERCOT grid's vulnerability. A 22kW standby unit with automatic transfer switch runs $9,000-$15,000. EV charger installations are the second-fastest scope, with CPS Energy's time-of-use EV rate driving demand for hardwired Level 2 units at $1,800-$3,500.</p>
+<p><strong>What is your license?</strong> Texas TDLR licenses Master Electricians (12,000 supervised hours) and Journeyman Electricians (8,000 hours). Only Masters can pull permits. CPS Energy requires separate contractor registration beyond TDLR licensure. Verify TDLR status at tdlr.texas.gov and CPS registration through the utility portal. Alamo Heights has its own permitting requirements independent of the city.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Renovation Context and Common Upgrades</h2>
-<p>EV charger installation is the fastest-growing residential electrical scope in San Antonio. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
-<p>San Antonio homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Alamo Heights and King William represent different construction eras with distinct wiring access challenges.</p>
-<p>San Antonio housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. Modern all-electric retrofits with heat pumps and EV chargers routinely require 200-amp service upgrades coordinated with CPS Energy. Neighborhoods like Alamo Heights and Stone Oak show distinct housing-era panel profiles.</p>
+<p>Whole-house generator installations surged after Uri proved the ERCOT grid's vulnerability. A 22kW standby unit with automatic transfer switch runs $9,000-$15,000. EV charger installations are the second-fastest scope, with CPS Energy's time-of-use EV rate driving demand for hardwired Level 2 units at $1,800-$3,500.</p>
+<p>San Antonio is predominantly slab-on-grade construction with unconditioned attic spaces that exceed 150F in summer. Attic wiring in homes along Broadway and Hildebrand near Brackenridge Park uses THHN conductor as baseline, and any rewire work on existing circuits reveals insulation breakdown from decades of thermal cycling. The Pearl's converted brewery lofts present unique industrial-to-residential wiring challenges.</p>
+<p>King William's 1890s Victorian homes carry original 40-60 amp fused services with cast-iron meter bases. Alamo Heights' 1930s-50s Tudor-style homes typically have 100-amp panels upgraded from the original 60-amp fuse boxes. Stone Oak's 2000s-era tract homes come with 200-amp service but increasingly need 320-amp upgrades for dual-EV-charger households.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Electrical Hazards to Test For</h2>
-<p>Federal Pacific Stab-Lok panels are common in 1960s-70s San Antonio homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
-<p>CPS Energy serves the San Antonio metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while CPS Energy handles physical distribution.</p>
+<p>Federal Pacific panels are widespread in 1960s-70s homes along Bandera Road and in the Medical Center area. Aluminum branch wiring from the copper-shortage era shows up in Windcrest and Converse subdivisions. Winter Storm Uri in 2021 exposed frozen exterior disconnects across Southtown that created arc-flash hazards when CPS restored power after 4 days of grid failure.</p>
+<p>CPS Energy is a municipally owned combined electric-and-gas utility serving San Antonio proper, one of the few metros where a single entity handles both services. This simplifies coordination because one service center manages both the electric meter and gas meter for panel relocations. CPS service-upgrade coordination runs 10-15 business days. Boerne and Helotes fall under separate utility providers.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Electrical Maintenance</h2>
 <p>undefined</p>
-<p>Federal Pacific Stab-Lok panels are common in 1960s-70s San Antonio homes and remain a documented fire hazard. Aluminum branch circuit wiring shows up in 1965-1975 construction. Heat-damaged attic wire insulation is a concern in homes with decades of thermal cycling.</p>
+<p>Federal Pacific panels are widespread in 1960s-70s homes along Bandera Road and in the Medical Center area. Aluminum branch wiring from the copper-shortage era shows up in Windcrest and Converse subdivisions. Winter Storm Uri in 2021 exposed frozen exterior disconnects across Southtown that created arc-flash hazards when CPS restored power after 4 days of grid failure.</p>
 <p>undefined</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Emergency Electrical Service</h2>
 <p>undefined</p>
-<p>San Antonio homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Alamo Heights and King William represent different construction eras with distinct wiring access challenges.</p>
-<p>San Antonio electrical labor runs at or near the national average. CPS Energy coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<p>San Antonio is predominantly slab-on-grade construction with unconditioned attic spaces that exceed 150F in summer. Attic wiring in homes along Broadway and Hildebrand near Brackenridge Park uses THHN conductor as baseline, and any rewire work on existing circuits reveals insulation breakdown from decades of thermal cycling. The Pearl's converted brewery lofts present unique industrial-to-residential wiring challenges.</p>
+<p>SA electrical labor sits at the national average. CPS Energy's combined utility model simplifies coordination but the utility's post-Uri grid-hardening program has extended service-upgrade timelines by 3-5 days compared to pre-2021 norms.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Electrical Scope and Utility Context</h2>
-<p><strong>Utility coordination.</strong> CPS Energy serves the San Antonio metro area. Service coordination for residential panel upgrades runs 10-20 business days from completed application. Texas deregulated retail market means homeowners choose a retail electric provider while CPS Energy handles physical distribution.</p>
-<p><strong>Common renovation trigger.</strong> EV charger installation is the fastest-growing residential electrical scope in San Antonio. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity.</p>
-<p><strong>Licensing.</strong> Texas TDLR licenses Master Electricians, Journeyman Electricians, and Residential Wiremen. Verify at tdlr.texas.gov. San Antonio homeowners should verify both state licensure and local business registration before signing.</p>
+<p><strong>Utility coordination.</strong> CPS Energy is a municipally owned combined electric-and-gas utility serving San Antonio proper, one of the few metros where a single entity handles both services. This simplifies coordination because one service center manages both the electric meter and gas meter for panel relocations. CPS service-upgrade coordination runs 10-15 business days. Boerne and Helotes fall under separate utility providers.</p>
+<p><strong>Common renovation trigger.</strong> Whole-house generator installations surged after Uri proved the ERCOT grid's vulnerability. A 22kW standby unit with automatic transfer switch runs $9,000-$15,000. EV charger installations are the second-fastest scope, with CPS Energy's time-of-use EV rate driving demand for hardwired Level 2 units at $1,800-$3,500.</p>
+<p><strong>Licensing.</strong> Texas TDLR licenses Master Electricians (12,000 supervised hours) and Journeyman Electricians (8,000 hours). Only Masters can pull permits. CPS Energy requires separate contractor registration beyond TDLR licensure. Verify TDLR status at tdlr.texas.gov and CPS registration through the utility portal. Alamo Heights has its own permitting requirements independent of the city.</p>
 </section>
 <section class="section fp-section">
 <h2>When to Schedule San Antonio Electrical Work</h2>
-<p>San Antonio electrical demand peaks March-May and October-November. Summer heat limits attic work productivity. Off-peak scheduling saves 8-15% on labor.</p>
-<p>San Antonio electrical labor runs at or near the national average. CPS Energy coordination delays can push panel-upgrade timelines 2-4 weeks beyond initial estimates.</p>
+<p>Demand peaks March-May and October-November. Summer attic work is restricted to 6am-10am because of 150F+ attic temperatures. Winter Storm Uri demonstrated that January-February cold events, though rare, produce emergency panel-replacement surges.</p>
+<p>SA electrical labor sits at the national average. CPS Energy's combined utility model simplifies coordination but the utility's post-Uri grid-hardening program has extended service-upgrade timelines by 3-5 days compared to pre-2021 norms.</p>
 </section>
 <section class="section fp-section">
 <h2>San Antonio Project Scenarios</h2>
@@ -675,24 +695,24 @@ depending on the type of work, home size, and complexity.
 <h3>Budget</h3>
 <p class="fp-scenario-material">200A panel upgrade in San Antonio</p>
 <p class="fp-scenario-total">$2.6K</p>
-<p class="fp-scenario-detail">San Antonio housing stock includes pre-war and mid-century homes with 60-150 amp panels and newer construction with 200-amp service. City of San Antonio Development Services issues electrical permits, typically in 1-4 weeks for standard residential work.</p>
+<p class="fp-scenario-detail">King William's 1890s Victorian homes carry original 40-60 amp fused services with cast-iron meter bases. City of San Antonio Development Services permits in 3-7 business days.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
 <h3>Mid-Range</h3>
 <p class="fp-scenario-material">San Antonio whole-house rewire</p>
 <p class="fp-scenario-total">$11.5K</p>
-<p class="fp-scenario-detail">San Antonio homes range from slab-on-grade and crawl-space construction in older neighborhoods to modern tract homes in the suburbs. Texas adopted the 2023 NEC statewide through TDLR.</p>
+<p class="fp-scenario-detail">San Antonio is predominantly slab-on-grade construction with unconditioned attic spaces that exceed 150F in summer. Texas adopted the 2023 NEC statewide through TDLR, making it one of the most current code environments in the country.</p>
 </div>
 
 <div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
 <h3>Premium</h3>
 <p class="fp-scenario-material">Smart + EV + panel in San Antonio</p>
 <p class="fp-scenario-total">$8.3K</p>
-<p class="fp-scenario-detail">EV charger installation is the fastest-growing residential electrical scope in San Antonio. A typical installation runs $1,400-$3,500 depending on circuit length and panel capacity. San Antonio electrical labor runs at or near the national average.</p>
+<p class="fp-scenario-detail">Whole-house generator installations surged after Uri proved the ERCOT grid's vulnerability. A 22kW standby unit with automatic transfer switch runs $9,000-$15,000. EV charger installations are the second-fastest scope, with CPS Energy's time-of-use EV rate driving demand for hardwired Level 2 units at $1,800-$3,500. SA electrical labor sits at the national average.</p>
 </div>
 </div>
-</section><section class="section fp-section"><h2>San Antonio utility coordination</h2><p>CPS Energy serves the San Antonio metro with residential service coordination for panel upgrades typically running 10-20 business days. CPS Energy (combined utility) handles gas service where applicable. San Antonio's housing stock across Alamo Heights and Stone Oak spans construction eras from pre-war to modern, with corresponding electrical infrastructure ranging from 60-amp fuse panels to modern 200-amp breaker service. The February 2021 Winter Storm Uri that knocked out power across the entire ERCOT grid for 4-5 days highlighted the importance of whole-house generator systems, which have become a standard residential electrical scope in San Antonio.</p></section><section class="section fp-section"><h2>San Antonio panel upgrades and codes</h2><p>City of San Antonio Development Services handles electrical permits. Texas has no statewide residential contractor license; TDLR registers mechanical and electrical trades only. San Antonio homes in Alamo Heights and King William show distinct housing-era electrical profiles: pre-1965 construction may have aluminum branch wiring or Federal Pacific Stab-Lok panels (documented fire hazards), while post-2000 construction typically has 200-amp service with AFCI protection on bedroom circuits. EV charger installation is the fastest-growing residential electrical scope in San Antonio, with Level 2 (240V, 40-amp) installations running $1,400-$3,500 depending on panel capacity and circuit length.</p></section><section class="section fp-section"><h2>San Antonio safety concerns</h2><p>King William, Monte Vista, and Dignowity Hill are among 10+ historic districts under the HDRC; visible exterior electrical work on contributing structures may require preservation commission review. Texas requires annual safety and emissions inspection at $25.50 combined fee. Federal Pacific Stab-Lok panels and Zinsco panels are documented fire hazards found in 1960s-1970s San Antonio homes; replacement with modern Siemens, Square D, or Eaton panels is a safety-critical upgrade. UTSA, Trinity University, and the Alamo Colleges District area properties in Alamo Heights may have rental-grade electrical systems that need upgrading for owner-occupancy.</p></section>
+</section><section class="section fp-section"><h2>San Antonio utility coordination</h2><p>CPS Energy's combined electric-and-gas model simplifies coordination because a single service center handles both meters. Panel-upgrade requests process in 10-15 business days. Winter Storm Uri in February 2021 shut down the ERCOT grid for 4 days and drove a 50% surge in whole-house generator filings that CPS tracked through 2022. Boerne and Helotes fall under separate utility providers with independent coordination processes.</p></section><section class="section fp-section"><h2>San Antonio panel upgrades and codes</h2><p>City of San Antonio Development Services permits in 3-7 business days. TDLR licenses Master Electricians statewide; verify at tdlr.texas.gov. King William's 1890s Victorians carry 40-60 amp fused services with cast-iron meter bases. Alamo Heights operates its own building department independent from the city. Stone Oak's 2000s-era tract homes increasingly need 320-amp upgrades for dual-EV households. EV charger installations run $1,800-$3,500 with CPS Energy's time-of-use EV rate providing financial incentive.</p></section><section class="section fp-section"><h2>San Antonio safety concerns</h2><p>King William, Monte Vista, Dignowity Hill, Lavaca, and Tobin Hill historic districts fall under the HDRC with Certificate of Appropriateness requirements for visible exterior panel work. Texas requires annual safety and emissions inspection at $25.50 combined fee. Federal Pacific panels in 1960s-70s Bandera Road and Medical Center homes remain documented fire hazards. UTSA along UTSA Boulevard and Trinity University along Hildebrand restrict delivery staging during the academic year.</p></section>
 <!-- /FLAGSHIP-ELECTRICAL-CONTENT -->
 <!-- TP-LOCAL-INJECTED-V2 -->
 <section class="section" style="background:#fafbff;padding:24px;border-radius:14px;border:1px solid #e2e8f0;margin:32px 0;">
