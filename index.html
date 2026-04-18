@@ -35,158 +35,6 @@
   <meta name="apple-mobile-web-app-title" content="Woogoro" />
   <link rel="apple-touch-icon" href="/images/trudy.png" />
 
-  <style>
-    /* Entrance animations */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .anim-1 { animation: fadeUp 0.6s ease-out both; }
-    .anim-2 { animation: fadeUp 0.6s ease-out 0.15s both; }
-    .anim-3 { animation: fadeUp 0.6s ease-out 0.3s both; }
-    .anim-4 { animation: fadeUp 0.6s ease-out 0.45s both; }
-    .anim-5 { animation: fadeIn 0.8s ease-out 0.6s both; }
-
-    .hp-hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); padding: 64px 0 56px; color: #fff; position: relative; overflow: hidden; }
-    .hp-hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.08) 0%, transparent 50%); pointer-events: none; }
-    .hp-hero h1 { font-size: 48px; max-width: 100%; color: #fff; margin-bottom: 16px; letter-spacing: -0.03em; line-height: 1.08; }
-    .hp-hero p.hp-sub { font-size: 19px; color: rgba(255,255,255,0.8); max-width: 580px; margin-bottom: 32px; line-height: 1.6; }
-    .hp-hero .btn { font-size: 17px; padding: 14px 28px; }
-    .hp-hero .btn-outline { font-size: 17px; padding: 14px 28px; background: transparent; color: #fff; border-color: rgba(255,255,255,0.3); }
-    .hp-hero .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
-    .hp-cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 32px; }
-    .hp-proof { display: flex; flex-wrap: wrap; gap: 32px; font-size: 14px; color: rgba(255,255,255,0.6); }
-    .hp-proof strong { color: #fff; font-size: 20px; display: block; margin-bottom: 2px; }
-
-    .hp-service-select { display: inline-flex; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 4px; gap: 2px; }
-    .hp-service-select a { padding: 10px 18px; border-radius: 10px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; }
-    .hp-service-select a:hover { background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
-    .hp-service-select a.active { background: #fff; color: #1d4ed8; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-
-    .hp-hero-cta { display: inline-block; background: #fff; color: #1d4ed8; font-size: 18px; font-weight: 700; padding: 16px 44px; border-radius: 14px; text-decoration: none; box-shadow: 0 4px 24px rgba(0,0,0,0.2); transition: all 0.2s; }
-    .hp-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); text-decoration: none; }
-    .hp-hero-cta:active { transform: translateY(0); }
-
-    .hp-live-counter { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; padding: 6px 16px; font-size: 13px; color: rgba(255,255,255,0.6); }
-    .hp-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse-dot 2s ease-in-out infinite; }
-    @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-    .hp-testimonial { padding: 24px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); position: relative; }
-    .hp-testimonial::before { content: '\201C'; position: absolute; top: 12px; left: 16px; font-size: 48px; color: #e2e8f0; font-family: Georgia, serif; line-height: 1; }
-    .hp-testimonial p { padding-left: 24px; }
-    .hp-stars { color: #f59e0b; font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; }
-
-    .hp-demo-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: var(--shadow-lg); }
-    .hp-demo-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 12px; }
-    .hp-demo-verdict { font-size: 24px; font-weight: 800; margin-bottom: 8px; color: #166534; }
-    .hp-demo-delta { font-size: 15px; color: var(--text-secondary); margin-bottom: 16px; }
-    .hp-demo-stats { display: flex; gap: 24px; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid var(--border); margin-bottom: 16px; }
-    .hp-demo-stat { display: flex; flex-direction: column; }
-    .hp-demo-stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
-    .hp-demo-stat-value { font-size: 18px; font-weight: 700; }
-    .hp-demo-scope { display: flex; flex-wrap: wrap; gap: 6px; }
-    .hp-demo-pill { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; }
-    .hp-demo-pill--green { background: #ecfdf5; color: #166534; border: 1px solid #a7f3d0; }
-    .hp-demo-pill--amber { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
-
-    .hp-section { padding: 48px 0; border-bottom: 1px solid var(--border); }
-    .hp-section:last-of-type { border-bottom: none; }
-    .hp-section h2 { margin-top: 0; font-size: 28px; text-align: center; }
-    .hp-section-intro { color: var(--text-secondary); max-width: 720px; margin: 0 auto; }
-
-    .hp-featured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 20px; }
-    .hp-featured-card { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 12px; background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%) !important; border: 1px solid #cbd5e1; border-bottom: 3px solid #94a3b8; border-radius: var(--radius); text-decoration: none; color: var(--text); transition: all 0.2s; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08); }
-    .hp-featured-card:hover { border-color: var(--brand); border-bottom-color: var(--brand); box-shadow: 0 8px 16px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.1); transform: translateY(-3px); text-decoration: none; }
-    .hp-featured-card:active { transform: translateY(1px); border-bottom-width: 1px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-    .hp-featured-icon { font-size: 32px; }
-    .hp-featured-label { font-size: 14px; font-weight: 700; }
-    .hp-featured-price { font-size: 12px; color: var(--text-muted); }
-
-    .hp-more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 16px; }
-    .hp-more-grid a { display: block; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; color: var(--brand); text-decoration: none; transition: border-color 0.15s; }
-    .hp-more-grid a:hover { border-color: var(--border-hover); }
-    .hp-cost-card:hover { border-color: var(--brand) !important; box-shadow: var(--shadow) !important; transform: translateY(-2px); }
-
-    .hp-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 24px; }
-    .hp-step { padding: 24px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); }
-    .hp-step-num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: var(--brand); color: #fff; font-weight: 700; font-size: 14px; margin-bottom: 12px; }
-    .hp-step h3 { font-size: 16px; margin-bottom: 6px; }
-    .hp-step p { font-size: 14px; color: var(--text-secondary); margin: 0; }
-    .hp-step .hp-step-example { margin-top: 10px; padding: 10px; background: var(--bg-subtle); border-radius: 6px; font-size: 13px; color: var(--text-muted); }
-
-    .hp-why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
-    .hp-why-card { padding: 24px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); }
-    .hp-why-card h3 { font-size: 16px; margin: 8px 0 6px; }
-    .hp-why-card p { font-size: 14px; color: var(--text-secondary); margin: 0; line-height: 1.6; }
-    .hp-why-icon { font-size: 24px; }
-    .hp-trust-card { padding: 24px 22px 26px; background: var(--bg); border: 1px solid var(--border); border-radius: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; }
-    .hp-trust-img { width: auto; height: 140px; max-width: 100%; object-fit: contain; margin: 0 0 14px; background: transparent; }
-    @media (max-width: 700px) {
-      .hp-trust-img { height: 120px; }
-    }
-
-    /* New three-intent hero */
-    .tp-hero-section { position: relative; z-index: 1; padding: 88px 0 48px; background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); color: #fff; overflow: hidden; }
-    .tp-hero-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.08) 0%, transparent 50%); pointer-events: none; }
-    .tp-hero-section .container { position: relative; z-index: 1; }
-    .tp-slogan { font-size: 56px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; color: #fff; text-align: center; margin: 0 auto 18px; max-width: 900px; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
-    .tp-subhead { text-align: center; max-width: 760px; margin: 0 auto 56px; font-size: 18px; line-height: 1.5; color: rgba(255,255,255,0.82); }
-    .tp-intent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
-    .tp-intent-card { background: #fff; border-radius: 16px; padding: 18px 16px 18px; text-align: center; box-shadow: 0 8px 28px rgba(0,0,0,0.18); display: flex; flex-direction: column; align-items: center; border: 2px solid rgba(255,255,255,0.15); border-top: 5px solid var(--accent, #1d4ed8); transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; cursor: pointer; position: relative; }
-    .tp-intent-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.24); border-color: var(--accent, #1d4ed8); text-decoration: none; }
-    .tp-intent-card h2 { font-size: 20px; margin: 0 0 4px; color: #0f172a; line-height: 1.2; }
-    .tp-intent-card p.tp-sub { font-size: 14px; color: #475569; margin: 0 0 10px; line-height: 1.4; }
-    .tp-intent-card img { max-height: 200px; width: auto; height: auto; object-fit: contain; margin: 0 0 14px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.18)); flex: 1; display: flex; align-items: center; }
-    .tp-intent-cta { display: inline-block; background: var(--accent, #1d4ed8); color: #fff; font-weight: 700; font-size: 16px; padding: 13px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; margin-top: auto; letter-spacing: -0.01em; transition: transform 0.15s, box-shadow 0.15s; }
-    /* Subtle compare card emphasis */
-    .tp-intent-card.tp-card-popular { border-top-width: 7px; transform: translateY(-4px); box-shadow: 0 14px 36px rgba(29,78,216,0.22); }
-    .tp-intent-card.tp-card-popular:hover { transform: translateY(-8px); }
-    .tp-intent-card.tp-card-popular::before { content: 'Most popular'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #1d4ed8; color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; box-shadow: 0 4px 12px rgba(29,78,216,0.4); }
-    .tp-counter { text-align: center; margin: 28px auto 8px; }
-    .tp-counter-num { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.01em; line-height: 1; }
-    .tp-counter-label { font-size: 14px; color: rgba(255,255,255,0.7); margin-left: 8px; }
-    .tp-trust-line { text-align: center; margin: 4px auto 0; font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 600; }
-
-    @media (max-width: 700px) {
-      .tp-hero-section { padding: 56px 0 32px; }
-      .tp-slogan { font-size: 36px; margin-bottom: 12px; }
-      .tp-subhead { font-size: 15px; max-width: 92%; margin-bottom: 32px; }
-      .tp-intent-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .tp-intent-card { padding: 14px 12px 14px; border-top-width: 5px; }
-      .tp-intent-card.tp-card-popular { border-top-width: 7px; }
-      .tp-intent-card img { max-height: 150px; margin-bottom: 10px; }
-      .tp-intent-card h2 { font-size: 17px; }
-      .tp-intent-card p.tp-sub { font-size: 13px; margin-bottom: 10px; }
-      .tp-intent-cta { font-size: 14px; padding: 10px 16px; }
-      .tp-intent-card.tp-card-popular { grid-column: 1 / -1; }
-      .tp-counter { margin-top: 28px; }
-      .tp-counter-num { font-size: 26px; }
-    }
-    @media (max-width: 480px) {
-      .tp-slogan { font-size: 30px; }
-      .tp-subhead { font-size: 14px; }
-    }
-    @media (max-width: 700px) {
-      .hp-hero { padding: 40px 0 36px; }
-      .hp-hero .container { flex-direction: column !important; }
-      .hp-hero h1 { font-size: 28px; white-space: normal !important; }
-      .hp-hero p.hp-sub { font-size: 16px; }
-      .hp-hero-cta { font-size: 16px; padding: 14px 32px; width: 100%; text-align: center; box-sizing: border-box; }
-      .hp-service-select { flex-wrap: wrap; justify-content: center; }
-      .hp-service-select a { padding: 8px 14px; font-size: 13px; }
-      .hp-section { padding: 36px 0; }
-      .hp-section h2 { font-size: 22px; }
-      .hp-demo-card { padding: 18px !important; }
-      .hp-demo-stats { gap: 16px !important; }
-      .hp-demo-stat-value { font-size: 16px !important; }
-      .hp-demo-scope { gap: 4px; }
-      .hp-demo-pill { font-size: 11px; padding: 3px 8px; }
-      .hp-proof { gap: 16px; flex-direction: column; }
-      .hp-why-grid { grid-template-columns: 1fr; }
-      .hp-steps { grid-template-columns: 1fr; }
-      .hp-testimonials { grid-template-columns: 1fr !important; }
-      .hp-proof-row { gap: 16px !important; flex-wrap: wrap; }
-      .hp-cost-card div[style*="font-size:22px"] { font-size: 18px !important; }
-    }
-  </style>
 
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"Woogoro","url":"https://woogoro.com","potentialAction":{"@type":"SearchAction","target":"https://woogoro.com/all-cities.html?q={search_term_string}","query-input":"required name=search_term_string"}}
@@ -223,7 +71,7 @@
 
       <h1 class="tp-slogan anim-1">Don't guess. Know.</h1>
       <p class="tp-subhead anim-1">Free price checks for 20 trades. No email, no phone, no lead-selling.</p>
-      <p class="anim-1" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.45); margin:-8px auto 20px; max-width:640px;">Roofing, HVAC, plumbing, electrical, solar, auto repair, medical bills, and 13 more.</p>
+      <p class="anim-1" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.45); margin:-8px auto 20px; max-width:640px;">Meet Trudy, your free AI quote checker. Roofing, HVAC, plumbing, electrical, solar, auto repair, medical bills, and 13 more.</p>
 
       <div class="tp-counter anim-1" style="margin:0 auto 36px;">
         <span class="tp-counter-num"><span id="liveCounterTop">3,895</span></span><span class="tp-counter-label">quotes checked and counting</span>
@@ -314,6 +162,9 @@
     <!-- HOW IT WORKS -->
     <section class="hp-section">
       <h2>How it works</h2>
+      <div style="text-align:center; margin:16px auto 24px; max-width:600px;">
+        <img src="/images/woogoro-demo-flow.gif" alt="Woogoro quote analysis flow: upload, analyze, get verdict" width="600" height="400" loading="lazy" style="width:100%; height:auto; border-radius:12px; border:1px solid var(--border); box-shadow:var(--shadow);" />
+      </div>
       <div class="hp-steps">
         <div class="hp-step">
           <div class="hp-step-num">1</div>
@@ -377,7 +228,7 @@
       <h2>Popular cost guides by city</h2>
       <p class="hp-section-intro">Average project costs in major U.S. metros. Click through for local pricing details.</p>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px; margin-top:24px;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px; margin-top:24px;" id="cityLinksGrid">
 
         <div>
           <div style="font-weight:700; font-size:15px; margin-bottom:8px; color:var(--text);">Roofing cost by city</div>
@@ -386,14 +237,14 @@
             <li><a href="/los-angeles-ca-roof-cost.html" style="color:var(--brand);">Los Angeles, CA</a></li>
             <li><a href="/chicago-il-roof-cost.html" style="color:var(--brand);">Chicago, IL</a></li>
             <li><a href="/houston-tx-roof-cost.html" style="color:var(--brand);">Houston, TX</a></li>
-            <li><a href="/phoenix-az-roof-cost.html" style="color:var(--brand);">Phoenix, AZ</a></li>
-            <li><a href="/dallas-tx-roof-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
-            <li><a href="/atlanta-ga-roof-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
-            <li><a href="/miami-fl-roof-cost.html" style="color:var(--brand);">Miami, FL</a></li>
-            <li><a href="/charlotte-nc-roof-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
-            <li><a href="/denver-co-roof-cost.html" style="color:var(--brand);">Denver, CO</a></li>
-            <li><a href="/seattle-wa-roof-cost.html" style="color:var(--brand);">Seattle, WA</a></li>
-            <li><a href="/nashville-tn-roof-cost.html" style="color:var(--brand);">Nashville, TN</a></li>
+            <li class="city-extra" hidden><a href="/phoenix-az-roof-cost.html" style="color:var(--brand);">Phoenix, AZ</a></li>
+            <li class="city-extra" hidden><a href="/dallas-tx-roof-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
+            <li class="city-extra" hidden><a href="/atlanta-ga-roof-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
+            <li class="city-extra" hidden><a href="/miami-fl-roof-cost.html" style="color:var(--brand);">Miami, FL</a></li>
+            <li class="city-extra" hidden><a href="/charlotte-nc-roof-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
+            <li class="city-extra" hidden><a href="/denver-co-roof-cost.html" style="color:var(--brand);">Denver, CO</a></li>
+            <li class="city-extra" hidden><a href="/seattle-wa-roof-cost.html" style="color:var(--brand);">Seattle, WA</a></li>
+            <li class="city-extra" hidden><a href="/nashville-tn-roof-cost.html" style="color:var(--brand);">Nashville, TN</a></li>
           </ul>
         </div>
 
@@ -404,14 +255,14 @@
             <li><a href="/los-angeles-ca-hvac-cost.html" style="color:var(--brand);">Los Angeles, CA</a></li>
             <li><a href="/chicago-il-hvac-cost.html" style="color:var(--brand);">Chicago, IL</a></li>
             <li><a href="/houston-tx-hvac-cost.html" style="color:var(--brand);">Houston, TX</a></li>
-            <li><a href="/phoenix-az-hvac-cost.html" style="color:var(--brand);">Phoenix, AZ</a></li>
-            <li><a href="/dallas-tx-hvac-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
-            <li><a href="/atlanta-ga-hvac-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
-            <li><a href="/miami-fl-hvac-cost.html" style="color:var(--brand);">Miami, FL</a></li>
-            <li><a href="/tampa-fl-hvac-cost.html" style="color:var(--brand);">Tampa, FL</a></li>
-            <li><a href="/san-antonio-tx-hvac-cost.html" style="color:var(--brand);">San Antonio, TX</a></li>
-            <li><a href="/jacksonville-fl-hvac-cost.html" style="color:var(--brand);">Jacksonville, FL</a></li>
-            <li><a href="/indianapolis-in-hvac-cost.html" style="color:var(--brand);">Indianapolis, IN</a></li>
+            <li class="city-extra" hidden><a href="/phoenix-az-hvac-cost.html" style="color:var(--brand);">Phoenix, AZ</a></li>
+            <li class="city-extra" hidden><a href="/dallas-tx-hvac-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
+            <li class="city-extra" hidden><a href="/atlanta-ga-hvac-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
+            <li class="city-extra" hidden><a href="/miami-fl-hvac-cost.html" style="color:var(--brand);">Miami, FL</a></li>
+            <li class="city-extra" hidden><a href="/tampa-fl-hvac-cost.html" style="color:var(--brand);">Tampa, FL</a></li>
+            <li class="city-extra" hidden><a href="/san-antonio-tx-hvac-cost.html" style="color:var(--brand);">San Antonio, TX</a></li>
+            <li class="city-extra" hidden><a href="/jacksonville-fl-hvac-cost.html" style="color:var(--brand);">Jacksonville, FL</a></li>
+            <li class="city-extra" hidden><a href="/indianapolis-in-hvac-cost.html" style="color:var(--brand);">Indianapolis, IN</a></li>
           </ul>
         </div>
 
@@ -422,14 +273,14 @@
             <li><a href="/los-angeles-ca-fence-cost.html" style="color:var(--brand);">Los Angeles, CA</a></li>
             <li><a href="/chicago-il-fence-cost.html" style="color:var(--brand);">Chicago, IL</a></li>
             <li><a href="/houston-tx-fence-cost.html" style="color:var(--brand);">Houston, TX</a></li>
-            <li><a href="/dallas-tx-fence-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
-            <li><a href="/austin-tx-fence-cost.html" style="color:var(--brand);">Austin, TX</a></li>
-            <li><a href="/atlanta-ga-fence-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
-            <li><a href="/charlotte-nc-fence-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
-            <li><a href="/nashville-tn-fence-cost.html" style="color:var(--brand);">Nashville, TN</a></li>
-            <li><a href="/denver-co-fence-cost.html" style="color:var(--brand);">Denver, CO</a></li>
-            <li><a href="/phoenix-az-fence-cost.html" style="color:var(--brand);">Phoenix, AZ</a></li>
-            <li><a href="/columbus-oh-fence-cost.html" style="color:var(--brand);">Columbus, OH</a></li>
+            <li class="city-extra" hidden><a href="/dallas-tx-fence-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
+            <li class="city-extra" hidden><a href="/austin-tx-fence-cost.html" style="color:var(--brand);">Austin, TX</a></li>
+            <li class="city-extra" hidden><a href="/atlanta-ga-fence-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
+            <li class="city-extra" hidden><a href="/charlotte-nc-fence-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
+            <li class="city-extra" hidden><a href="/nashville-tn-fence-cost.html" style="color:var(--brand);">Nashville, TN</a></li>
+            <li class="city-extra" hidden><a href="/denver-co-fence-cost.html" style="color:var(--brand);">Denver, CO</a></li>
+            <li class="city-extra" hidden><a href="/phoenix-az-fence-cost.html" style="color:var(--brand);">Phoenix, AZ</a></li>
+            <li class="city-extra" hidden><a href="/columbus-oh-fence-cost.html" style="color:var(--brand);">Columbus, OH</a></li>
           </ul>
         </div>
 
@@ -440,14 +291,14 @@
             <li><a href="/chicago-il-insulation-cost.html" style="color:var(--brand);">Chicago, IL</a></li>
             <li><a href="/houston-tx-insulation-cost.html" style="color:var(--brand);">Houston, TX</a></li>
             <li><a href="/philadelphia-pa-insulation-cost.html" style="color:var(--brand);">Philadelphia, PA</a></li>
-            <li><a href="/dallas-tx-insulation-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
-            <li><a href="/atlanta-ga-insulation-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
-            <li><a href="/indianapolis-in-insulation-cost.html" style="color:var(--brand);">Indianapolis, IN</a></li>
-            <li><a href="/columbus-oh-insulation-cost.html" style="color:var(--brand);">Columbus, OH</a></li>
-            <li><a href="/denver-co-insulation-cost.html" style="color:var(--brand);">Denver, CO</a></li>
-            <li><a href="/seattle-wa-insulation-cost.html" style="color:var(--brand);">Seattle, WA</a></li>
-            <li><a href="/charlotte-nc-insulation-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
-            <li><a href="/nashville-tn-insulation-cost.html" style="color:var(--brand);">Nashville, TN</a></li>
+            <li class="city-extra" hidden><a href="/dallas-tx-insulation-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
+            <li class="city-extra" hidden><a href="/atlanta-ga-insulation-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
+            <li class="city-extra" hidden><a href="/indianapolis-in-insulation-cost.html" style="color:var(--brand);">Indianapolis, IN</a></li>
+            <li class="city-extra" hidden><a href="/columbus-oh-insulation-cost.html" style="color:var(--brand);">Columbus, OH</a></li>
+            <li class="city-extra" hidden><a href="/denver-co-insulation-cost.html" style="color:var(--brand);">Denver, CO</a></li>
+            <li class="city-extra" hidden><a href="/seattle-wa-insulation-cost.html" style="color:var(--brand);">Seattle, WA</a></li>
+            <li class="city-extra" hidden><a href="/charlotte-nc-insulation-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
+            <li class="city-extra" hidden><a href="/nashville-tn-insulation-cost.html" style="color:var(--brand);">Nashville, TN</a></li>
           </ul>
         </div>
 
@@ -458,14 +309,14 @@
             <li><a href="/los-angeles-ca-concrete-cost.html" style="color:var(--brand);">Los Angeles, CA</a></li>
             <li><a href="/chicago-il-concrete-cost.html" style="color:var(--brand);">Chicago, IL</a></li>
             <li><a href="/houston-tx-concrete-cost.html" style="color:var(--brand);">Houston, TX</a></li>
-            <li><a href="/phoenix-az-concrete-cost.html" style="color:var(--brand);">Phoenix, AZ</a></li>
-            <li><a href="/dallas-tx-concrete-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
-            <li><a href="/atlanta-ga-concrete-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
-            <li><a href="/miami-fl-concrete-cost.html" style="color:var(--brand);">Miami, FL</a></li>
-            <li><a href="/charlotte-nc-concrete-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
-            <li><a href="/nashville-tn-concrete-cost.html" style="color:var(--brand);">Nashville, TN</a></li>
-            <li><a href="/tampa-fl-concrete-cost.html" style="color:var(--brand);">Tampa, FL</a></li>
-            <li><a href="/denver-co-concrete-cost.html" style="color:var(--brand);">Denver, CO</a></li>
+            <li class="city-extra" hidden><a href="/phoenix-az-concrete-cost.html" style="color:var(--brand);">Phoenix, AZ</a></li>
+            <li class="city-extra" hidden><a href="/dallas-tx-concrete-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
+            <li class="city-extra" hidden><a href="/atlanta-ga-concrete-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
+            <li class="city-extra" hidden><a href="/miami-fl-concrete-cost.html" style="color:var(--brand);">Miami, FL</a></li>
+            <li class="city-extra" hidden><a href="/charlotte-nc-concrete-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
+            <li class="city-extra" hidden><a href="/nashville-tn-concrete-cost.html" style="color:var(--brand);">Nashville, TN</a></li>
+            <li class="city-extra" hidden><a href="/tampa-fl-concrete-cost.html" style="color:var(--brand);">Tampa, FL</a></li>
+            <li class="city-extra" hidden><a href="/denver-co-concrete-cost.html" style="color:var(--brand);">Denver, CO</a></li>
           </ul>
         </div>
 
@@ -476,20 +327,24 @@
             <li><a href="/chicago-il-gutter-cost.html" style="color:var(--brand);">Chicago, IL</a></li>
             <li><a href="/houston-tx-gutter-cost.html" style="color:var(--brand);">Houston, TX</a></li>
             <li><a href="/dallas-tx-gutter-cost.html" style="color:var(--brand);">Dallas, TX</a></li>
-            <li><a href="/atlanta-ga-gutter-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
-            <li><a href="/miami-fl-gutter-cost.html" style="color:var(--brand);">Miami, FL</a></li>
-            <li><a href="/charlotte-nc-gutter-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
-            <li><a href="/tampa-fl-gutter-cost.html" style="color:var(--brand);">Tampa, FL</a></li>
-            <li><a href="/columbus-oh-gutter-cost.html" style="color:var(--brand);">Columbus, OH</a></li>
-            <li><a href="/indianapolis-in-gutter-cost.html" style="color:var(--brand);">Indianapolis, IN</a></li>
-            <li><a href="/denver-co-gutter-cost.html" style="color:var(--brand);">Denver, CO</a></li>
-            <li><a href="/seattle-wa-gutter-cost.html" style="color:var(--brand);">Seattle, WA</a></li>
+            <li class="city-extra" hidden><a href="/atlanta-ga-gutter-cost.html" style="color:var(--brand);">Atlanta, GA</a></li>
+            <li class="city-extra" hidden><a href="/miami-fl-gutter-cost.html" style="color:var(--brand);">Miami, FL</a></li>
+            <li class="city-extra" hidden><a href="/charlotte-nc-gutter-cost.html" style="color:var(--brand);">Charlotte, NC</a></li>
+            <li class="city-extra" hidden><a href="/tampa-fl-gutter-cost.html" style="color:var(--brand);">Tampa, FL</a></li>
+            <li class="city-extra" hidden><a href="/columbus-oh-gutter-cost.html" style="color:var(--brand);">Columbus, OH</a></li>
+            <li class="city-extra" hidden><a href="/indianapolis-in-gutter-cost.html" style="color:var(--brand);">Indianapolis, IN</a></li>
+            <li class="city-extra" hidden><a href="/denver-co-gutter-cost.html" style="color:var(--brand);">Denver, CO</a></li>
+            <li class="city-extra" hidden><a href="/seattle-wa-gutter-cost.html" style="color:var(--brand);">Seattle, WA</a></li>
           </ul>
         </div>
 
       </div>
 
-      <div style="text-align:center; margin-top:28px;">
+      <div style="text-align:center; margin-top:20px;">
+        <button id="cityToggle" onclick="var extras=document.querySelectorAll('.city-extra');var show=extras[0].hidden;extras.forEach(function(el){el.hidden=!show});this.textContent=show?'Show fewer cities':'Show all cities';" style="background:none; border:1px solid var(--border); border-radius:999px; padding:8px 20px; font-size:14px; font-weight:600; color:var(--brand); cursor:pointer; font-family:inherit;">Show all cities</button>
+      </div>
+
+      <div style="text-align:center; margin-top:12px;">
         <a href="/guides.html" style="font-size:14px; color:var(--brand); font-weight:600; text-decoration:none;">See cost guides in 12,000+ cities &rarr;</a>
       </div>
     </section>
@@ -579,17 +434,11 @@
   </div>
 </div>
 
-      <p>Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, compare bids, and estimate project costs.
-        <a href="/privacy.html" style="color:inherit;">Privacy</a> |
-        <a href="/terms.html" style="color:inherit;">Terms</a> |
-        <a href="/accessibility.html" style="color:inherit;">Accessibility</a> |
-        <a href="/about.html" style="color:inherit;">About</a> |
-        <a href="/guides.html" style="color:inherit;">Guides</a> |
-        <a href="/find-contractors.html" style="color:inherit;">Find Contractors</a> |
-        <a href="mailto:hello@woogoro.com" style="color:inherit;">Contact</a> |
-        <a href="/widget.html" style="color:inherit;">Free Widget</a> |
-        <a href="/methodology.html" style="color:inherit;">Methodology</a>
+      <p style="margin-bottom:8px; display:flex; align-items:center; justify-content:center; gap:10px;">
+        <img src="/images/geoff-lane.jpg" alt="Geoff Lane" width="40" height="40" style="border-radius:50%; object-fit:cover;" loading="lazy" />
+        Built by Geoff Lane in Charlotte, NC.
       </p>
+      <p>Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, compare bids, and estimate project costs.</p>
     </div>
   </footer>
 <script src="/js/tp-analytics.min.js" async></script>
