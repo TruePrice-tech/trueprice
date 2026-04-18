@@ -272,6 +272,209 @@ depending on the type of work, home size, and complexity.
 .fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
 @media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
 </style>
+
+
+
+<style>
+.fp-section { margin-top:32px; }
+.fp-section h2 { font-size:22px; margin-bottom:12px; color:#0f172a; }
+.fp-section p { font-size:15px; line-height:1.7; color:#334155; margin-bottom:12px; }
+.fp-table { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; }
+.fp-table tbody tr:nth-child(even) { background:var(--bg-subtle,#f8fafc); }
+.fp-flag { padding:16px 20px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; margin-bottom:12px; }
+.fp-flag h3 { font-size:15px; font-weight:700; color:#b91c1c; margin:0 0 6px; }
+.fp-flag p { margin:0; font-size:14px; line-height:1.6; color:#7f1d1d; }
+.fp-scenario-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:16px 0; }
+.fp-scenario-card { padding:20px; background:#fff; border:1px solid var(--border,#e2e8f0); border-radius:12px; }
+.fp-scenario-card h3 { font-size:16px; font-weight:700; margin:0 0 8px; color:#0f172a; }
+.fp-scenario-material { font-size:13px; color:var(--text-muted); margin:0 0 4px; }
+.fp-scenario-total { font-size:28px; font-weight:800; color:var(--brand,#1d4ed8); margin:0 0 8px; }
+.fp-scenario-detail { font-size:13px; color:#64748b; margin:0; }
+@media(max-width:700px) { .fp-scenario-grid { grid-template-columns:1fr; } }
+</style>
+<!-- FLAGSHIP-ELECTRICAL-CONTENT -->
+
+<section class="section fp-section">
+<h2>San Jose Neighborhood Pricing</h2>
+<p>Silicon Valley electrical labor runs 25-35% above the national average, reflecting the Bay Area's high cost of living and the competition for skilled tradespeople from the commercial tech-campus construction market. A standard 200-amp panel upgrade that costs $2,000-$2,500 in a median-cost market runs $2,500-$4,000 in San Jose. EV charger installation (Level 2, 240V/50A) runs $1,500-$3,000 including panel circuit, conduit run, and NEMA 14-50 outlet or hardwired unit. Within the premium, quotes still vary 30-50% between contractors for identical scope -- getting 3 bids is essential.</p>
+<div style="overflow-x:auto;">
+<table class="price-table fp-table" style="width:100%; border-collapse:collapse; font-size:14px;">
+<thead>
+<tr style="border-bottom:2px solid var(--border); background:var(--bg-subtle,#f8fafc);">
+<th style="text-align:left; padding:12px 16px;">Neighborhood</th>
+<th style="text-align:right; padding:12px 16px;">Panel Upgrade</th>
+<th style="text-align:right; padding:12px 16px;">Whole-House Rewire</th>
+<th style="text-align:right; padding:12px 16px;">Outlet Install</th>
+<th style="text-align:right; padding:12px 16px;">EV Charger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Willow Glen</td>
+<td style="padding:12px 16px; text-align:right;">$3,500</td>
+<td style="padding:12px 16px; text-align:right;">$15.2K</td>
+<td style="padding:12px 16px; text-align:right;">$300</td>
+<td style="padding:12px 16px; text-align:right;">$2,150</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Almaden Valley</td>
+<td style="padding:12px 16px; text-align:right;">$3,350</td>
+<td style="padding:12px 16px; text-align:right;">$14.6K</td>
+<td style="padding:12px 16px; text-align:right;">$290</td>
+<td style="padding:12px 16px; text-align:right;">$2,100</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Cambrian Park</td>
+<td style="padding:12px 16px; text-align:right;">$3,350</td>
+<td style="padding:12px 16px; text-align:right;">$14.4K</td>
+<td style="padding:12px 16px; text-align:right;">$280</td>
+<td style="padding:12px 16px; text-align:right;">$2,050</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Evergreen</td>
+<td style="padding:12px 16px; text-align:right;">$2,950</td>
+<td style="padding:12px 16px; text-align:right;">$12.9K</td>
+<td style="padding:12px 16px; text-align:right;">$250</td>
+<td style="padding:12px 16px; text-align:right;">$1,850</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Naglee Park</td>
+<td style="padding:12px 16px; text-align:right;">$3,100</td>
+<td style="padding:12px 16px; text-align:right;">$13.4K</td>
+<td style="padding:12px 16px; text-align:right;">$260</td>
+<td style="padding:12px 16px; text-align:right;">$1,950</td>
+</tr>
+<tr>
+<td style="padding:12px 16px; font-weight:600;">Rose Garden</td>
+<td style="padding:12px 16px; text-align:right;">$3,150</td>
+<td style="padding:12px 16px; text-align:right;">$13.6K</td>
+<td style="padding:12px 16px; text-align:right;">$270</td>
+<td style="padding:12px 16px; text-align:right;">$1,950</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="section fp-section">
+<h2>San Jose Utility and Code Context</h2>
+<p>PG&E delivers electricity to San Jose at $0.30+/kWh (among the highest residential rates in the US), with San Jose Clean Energy (SJCE) serving as the community-choice aggregator that provides the generation component while PG&E handles transmission and distribution. The high electricity cost makes every electrical upgrade a ROI calculation: a 200-amp panel upgrade that enables EV charging, heat-pump HVAC, and induction cooking recovers its $2,500-$4,000 cost through avoided infrastructure charges within 3-5 years as homeowners electrify away from PG&E gas service. SJCE's 100% carbon-free electricity default rate accelerates the electrification trend that is reshaping Silicon Valley's residential electrical market.</p>
+<p>California Electrical Code (based on NEC with state amendments) is enforced by PBCE with particular attention to Title 24 Part 6 energy compliance. PBCE inspectors are among the most rigorous in the state: arc-fault circuit interrupter (AFCI) protection, GFCI at all required locations, and proper grounding and bonding are verified at final inspection without exception. The Naglee Park and Hensley Historic Districts under the Preservation Action Council may review visible exterior electrical work (panel and conduit placement) on contributing structures, adding 4-6 weeks for approval.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Home Stock and Panel Realities</h2>
+<p>San Jose's 1960s-70s ranch-house belt across Cambrian Park, Almaden Valley, and Evergreen was built with 100-150 amp panels that cannot support the modern Silicon Valley lifestyle: EV charger (50A circuit), heat-pump HVAC (40-50A circuit), induction cooktop (50A circuit), and home-office equipment. Panel upgrades to 200 amps ($2,500-$4,000) are the single most common electrical project in San Jose. Properties converting fully from gas to electric under SJCE's carbon-free rate may need 300-400 amp service, which requires PG&E transformer-side upgrades at $3,000-$8,000 and 6-12 week lead times.</p>
+<p>San Jose's housing stock splits electrically: 1920s-40s homes in Willow Glen and Naglee Park may have original knob-and-tube wiring in walls and attics that must be remediated before adding insulation or penetrating walls for renovation work. 1960s-70s ranch houses across Cambrian Park and Evergreen have aluminum branch wiring (1965-1975 era) in approximately 15-20% of homes, which poses a fire risk at connections and requires either full rewiring ($8,000-$15,000) or approved aluminum-to-copper pigtailing at every outlet and switch ($2,000-$4,000). Post-1976 homes have copper wiring that generally meets modern safety standards.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Licensing and Permits</h2>
+<p>CSLB C-10 electrical contractor license is mandatory in California; verify at cslb.ca.gov. California also requires individual electrician certification through the Division of Apprenticeship Standards. San Jose's tech-affluent homeowner base drives demand for specialized electrical services (EV infrastructure, home automation, solar interconnect, whole-home battery systems) that general electricians from lower-tech markets may lack experience with. The South Bay supports 50+ active residential electrical contractors; verify both CSLB licensing and specific experience with the project type before signing.</p>
+<p>PBCE issues electrical permits with 3-5 business day turnaround for residential work. Panel upgrades, new circuits, subpanel installations, and EV charger circuits all require permits and inspection. Outlet additions under 20 amps on existing circuits generally do not. PG&E coordinates meter and service-entrance upgrades on their timeline (3-8 weeks for service upgrades involving transformer-side work), which is the single largest scheduling constraint on major electrical projects in San Jose. Campbell, Los Gatos, and Cupertino adjacent to San Jose have separate permit authorities.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Hidden Hazards and Renovation Triggers</h2>
+<p>San Jose's earthquake risk (Hayward Fault 10 miles west, Calaveras Fault 5 miles east) creates specific electrical concerns: seismic-rated panel mounting, flexible conduit at building-to-conduit transitions, and earthquake-actuated gas shutoff valves ($200-$400 installed) are increasingly specified on San Jose electrical work. The 1989 Loma Prieta earthquake disrupted PG&E service for 3-7 days across the South Bay, driving the current surge in whole-home battery installations (Tesla Powerwall, Enphase IQ) at $10,000-$15,000 per unit. Wildfire smoke events from Santa Cruz Mountains fires produce fine particulate that accelerates outdoor electrical component degradation.</p>
+<p>San Jose renovation electrical work in Willow Glen Craftsman and Naglee Park Victorian homes commonly involves bringing pre-1950 wiring up to current California Electrical Code: AFCI on all bedroom circuits, GFCI at all wet locations, grounding and bonding to current NEC standards, and minimum 20-amp circuits for kitchen and bathroom receptacles. These code-catch-up items add $3,000-$8,000 to a renovation budget. Silicon Valley kitchen renovations routinely include induction-cooktop circuits (50A dedicated), under-cabinet USB/receptacle runs, and smart-switch wiring that lower-tech markets rarely specify as standard scope.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Electrical Red Flags</h2>
+
+<div class="fp-flag">
+<h3>Ignoring the San Jose utility process</h3>
+<p>PG&E delivers electricity to San Jose at $0.30+/kWh (among the highest residential rates in the US), with San Jose Clean Energy (SJCE) serving as the community-choice aggregator that provides the generation component while PG&E handles transmission and distribution. The high electricity cost makes every electrical upgrade a ROI calculation: a 200-amp panel upgrade that enables EV charging, heat-pump HVAC, and induction cooking recovers its $2,500-$4,000 cost through avoided infrastructure charges within 3-5 years as homeowners electrify away from PG&E gas service. SJCE's 100% carbon-free electricity default rate accelerates the electrification trend that is reshaping Silicon Valley's residential electrical market.</p>
+</div>
+<div class="fp-flag">
+<h3>Mismatch with San Jose code amendments</h3>
+<p>California Electrical Code (based on NEC with state amendments) is enforced by PBCE with particular attention to Title 24 Part 6 energy compliance. PBCE inspectors are among the most rigorous in the state: arc-fault circuit interrupter (AFCI) protection, GFCI at all required locations, and proper grounding and bonding are verified at final inspection without exception. The Naglee Park and Hensley Historic Districts under the Preservation Action Council may review visible exterior electrical work (panel and conduit placement) on contributing structures, adding 4-6 weeks for approval.</p>
+</div>
+<div class="fp-flag">
+<h3>Wrong panel size for San Jose load</h3>
+<p>San Jose's 1960s-70s ranch-house belt across Cambrian Park, Almaden Valley, and Evergreen was built with 100-150 amp panels that cannot support the modern Silicon Valley lifestyle: EV charger (50A circuit), heat-pump HVAC (40-50A circuit), induction cooktop (50A circuit), and home-office equipment. Panel upgrades to 200 amps ($2,500-$4,000) are the single most common electrical project in San Jose. Properties converting fully from gas to electric under SJCE's carbon-free rate may need 300-400 amp service, which requires PG&E transformer-side upgrades at $3,000-$8,000 and 6-12 week lead times.</p>
+</div>
+<div class="fp-flag">
+<h3>Missing license verification</h3>
+<p>CSLB C-10 electrical contractor license is mandatory in California; verify at cslb.ca.gov. California also requires individual electrician certification through the Division of Apprenticeship Standards. San Jose's tech-affluent homeowner base drives demand for specialized electrical services (EV infrastructure, home automation, solar interconnect, whole-home battery systems) that general electricians from lower-tech markets may lack experience with. The South Bay supports 50+ active residential electrical contractors; verify both CSLB licensing and specific experience with the project type before signing.</p>
+</div>
+<div class="fp-flag">
+<h3>Hazard not disclosed</h3>
+<p>San Jose's earthquake risk (Hayward Fault 10 miles west, Calaveras Fault 5 miles east) creates specific electrical concerns: seismic-rated panel mounting, flexible conduit at building-to-conduit transitions, and earthquake-actuated gas shutoff valves ($200-$400 installed) are increasingly specified on San Jose electrical work. The 1989 Loma Prieta earthquake disrupted PG&E service for 3-7 days across the South Bay, driving the current surge in whole-home battery installations (Tesla Powerwall, Enphase IQ) at $10,000-$15,000 per unit. Wildfire smoke events from Santa Cruz Mountains fires produce fine particulate that accelerates outdoor electrical component degradation.</p>
+</div>
+</section>
+<section class="section fp-section">
+<h2>San Jose Scope Checklist</h2>
+<p><strong>Utility coordination.</strong> PG&E delivers electricity to San Jose at $0.30+/kWh (among the highest residential rates in the US), with San Jose Clean Energy (SJCE) serving as the community-choice aggregator that provides the generation component while PG&E handles transmission and distribution. The high electricity cost makes every electrical upgrade a ROI calculation: a 200-amp panel upgrade that enables EV charging, heat-pump HVAC, and induction cooking recovers its $2,500-$4,000 cost through avoided infrastructure charges within 3-5 years as homeowners electrify away from PG&E gas service. SJCE's 100% carbon-free electricity default rate accelerates the electrification trend that is reshaping Silicon Valley's residential electrical market.</p>
+<p><strong>Applicable code.</strong> California Electrical Code (based on NEC with state amendments) is enforced by PBCE with particular attention to Title 24 Part 6 energy compliance. PBCE inspectors are among the most rigorous in the state: arc-fault circuit interrupter (AFCI) protection, GFCI at all required locations, and proper grounding and bonding are verified at final inspection without exception. The Naglee Park and Hensley Historic Districts under the Preservation Action Council may review visible exterior electrical work (panel and conduit placement) on contributing structures, adding 4-6 weeks for approval.</p>
+<p><strong>Permit process.</strong> PBCE issues electrical permits with 3-5 business day turnaround for residential work. Panel upgrades, new circuits, subpanel installations, and EV charger circuits all require permits and inspection. Outlet additions under 20 amps on existing circuits generally do not. PG&E coordinates meter and service-entrance upgrades on their timeline (3-8 weeks for service upgrades involving transformer-side work), which is the single largest scheduling constraint on major electrical projects in San Jose. Campbell, Los Gatos, and Cupertino adjacent to San Jose have separate permit authorities.</p>
+<p><strong>Pricing context.</strong> Silicon Valley electrical labor runs 25-35% above the national average, reflecting the Bay Area's high cost of living and the competition for skilled tradespeople from the commercial tech-campus construction market. A standard 200-amp panel upgrade that costs $2,000-$2,500 in a median-cost market runs $2,500-$4,000 in San Jose. EV charger installation (Level 2, 240V/50A) runs $1,500-$3,000 including panel circuit, conduit run, and NEMA 14-50 outlet or hardwired unit. Within the premium, quotes still vary 30-50% between contractors for identical scope -- getting 3 bids is essential.</p>
+</section>
+<section class="section fp-section">
+<h2>Questions to Ask a San Jose Electrician</h2>
+<p><strong>Which utility coordinates this work?</strong> PG&E delivers electricity to San Jose at $0.30+/kWh (among the highest residential rates in the US), with San Jose Clean Energy (SJCE) serving as the community-choice aggregator that provides the generation component while PG&E handles transmission and distribution. The high electricity cost makes every electrical upgrade a ROI calculation: a 200-amp panel upgrade that enables EV charging, heat-pump HVAC, and induction cooking recovers its $2,500-$4,000 cost through avoided infrastructure charges within 3-5 years as homeowners electrify away from PG&E gas service. SJCE's 100% carbon-free electricity default rate accelerates the electrification trend that is reshaping Silicon Valley's residential electrical market.</p>
+<p><strong>What code edition applies?</strong> California Electrical Code (based on NEC with state amendments) is enforced by PBCE with particular attention to Title 24 Part 6 energy compliance. PBCE inspectors are among the most rigorous in the state: arc-fault circuit interrupter (AFCI) protection, GFCI at all required locations, and proper grounding and bonding are verified at final inspection without exception. The Naglee Park and Hensley Historic Districts under the Preservation Action Council may review visible exterior electrical work (panel and conduit placement) on contributing structures, adding 4-6 weeks for approval.</p>
+<p><strong>What hazards did you find?</strong> San Jose's earthquake risk (Hayward Fault 10 miles west, Calaveras Fault 5 miles east) creates specific electrical concerns: seismic-rated panel mounting, flexible conduit at building-to-conduit transitions, and earthquake-actuated gas shutoff valves ($200-$400 installed) are increasingly specified on San Jose electrical work. The 1989 Loma Prieta earthquake disrupted PG&E service for 3-7 days across the South Bay, driving the current surge in whole-home battery installations (Tesla Powerwall, Enphase IQ) at $10,000-$15,000 per unit. Wildfire smoke events from Santa Cruz Mountains fires produce fine particulate that accelerates outdoor electrical component degradation.</p>
+<p><strong>What renovation trigger applies?</strong> San Jose renovation electrical work in Willow Glen Craftsman and Naglee Park Victorian homes commonly involves bringing pre-1950 wiring up to current California Electrical Code: AFCI on all bedroom circuits, GFCI at all wet locations, grounding and bonding to current NEC standards, and minimum 20-amp circuits for kitchen and bathroom receptacles. These code-catch-up items add $3,000-$8,000 to a renovation budget. Silicon Valley kitchen renovations routinely include induction-cooktop circuits (50A dedicated), under-cabinet USB/receptacle runs, and smart-switch wiring that lower-tech markets rarely specify as standard scope.</p>
+<p><strong>What is your license?</strong> CSLB C-10 electrical contractor license is mandatory in California; verify at cslb.ca.gov. California also requires individual electrician certification through the Division of Apprenticeship Standards. San Jose's tech-affluent homeowner base drives demand for specialized electrical services (EV infrastructure, home automation, solar interconnect, whole-home battery systems) that general electricians from lower-tech markets may lack experience with. The South Bay supports 50+ active residential electrical contractors; verify both CSLB licensing and specific experience with the project type before signing.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Renovation Context and Common Upgrades</h2>
+<p>San Jose renovation electrical work in Willow Glen Craftsman and Naglee Park Victorian homes commonly involves bringing pre-1950 wiring up to current California Electrical Code: AFCI on all bedroom circuits, GFCI at all wet locations, grounding and bonding to current NEC standards, and minimum 20-amp circuits for kitchen and bathroom receptacles. These code-catch-up items add $3,000-$8,000 to a renovation budget. Silicon Valley kitchen renovations routinely include induction-cooktop circuits (50A dedicated), under-cabinet USB/receptacle runs, and smart-switch wiring that lower-tech markets rarely specify as standard scope.</p>
+<p>San Jose's housing stock splits electrically: 1920s-40s homes in Willow Glen and Naglee Park may have original knob-and-tube wiring in walls and attics that must be remediated before adding insulation or penetrating walls for renovation work. 1960s-70s ranch houses across Cambrian Park and Evergreen have aluminum branch wiring (1965-1975 era) in approximately 15-20% of homes, which poses a fire risk at connections and requires either full rewiring ($8,000-$15,000) or approved aluminum-to-copper pigtailing at every outlet and switch ($2,000-$4,000). Post-1976 homes have copper wiring that generally meets modern safety standards.</p>
+<p>San Jose's 1960s-70s ranch-house belt across Cambrian Park, Almaden Valley, and Evergreen was built with 100-150 amp panels that cannot support the modern Silicon Valley lifestyle: EV charger (50A circuit), heat-pump HVAC (40-50A circuit), induction cooktop (50A circuit), and home-office equipment. Panel upgrades to 200 amps ($2,500-$4,000) are the single most common electrical project in San Jose. Properties converting fully from gas to electric under SJCE's carbon-free rate may need 300-400 amp service, which requires PG&E transformer-side upgrades at $3,000-$8,000 and 6-12 week lead times.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Electrical Hazards to Test For</h2>
+<p>San Jose's earthquake risk (Hayward Fault 10 miles west, Calaveras Fault 5 miles east) creates specific electrical concerns: seismic-rated panel mounting, flexible conduit at building-to-conduit transitions, and earthquake-actuated gas shutoff valves ($200-$400 installed) are increasingly specified on San Jose electrical work. The 1989 Loma Prieta earthquake disrupted PG&E service for 3-7 days across the South Bay, driving the current surge in whole-home battery installations (Tesla Powerwall, Enphase IQ) at $10,000-$15,000 per unit. Wildfire smoke events from Santa Cruz Mountains fires produce fine particulate that accelerates outdoor electrical component degradation.</p>
+<p>PG&E delivers electricity to San Jose at $0.30+/kWh (among the highest residential rates in the US), with San Jose Clean Energy (SJCE) serving as the community-choice aggregator that provides the generation component while PG&E handles transmission and distribution. The high electricity cost makes every electrical upgrade a ROI calculation: a 200-amp panel upgrade that enables EV charging, heat-pump HVAC, and induction cooking recovers its $2,500-$4,000 cost through avoided infrastructure charges within 3-5 years as homeowners electrify away from PG&E gas service. SJCE's 100% carbon-free electricity default rate accelerates the electrification trend that is reshaping Silicon Valley's residential electrical market.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Electrical Maintenance</h2>
+<p>undefined</p>
+<p>San Jose's earthquake risk (Hayward Fault 10 miles west, Calaveras Fault 5 miles east) creates specific electrical concerns: seismic-rated panel mounting, flexible conduit at building-to-conduit transitions, and earthquake-actuated gas shutoff valves ($200-$400 installed) are increasingly specified on San Jose electrical work. The 1989 Loma Prieta earthquake disrupted PG&E service for 3-7 days across the South Bay, driving the current surge in whole-home battery installations (Tesla Powerwall, Enphase IQ) at $10,000-$15,000 per unit. Wildfire smoke events from Santa Cruz Mountains fires produce fine particulate that accelerates outdoor electrical component degradation.</p>
+<p>undefined</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Emergency Electrical Service</h2>
+<p>undefined</p>
+<p>San Jose's housing stock splits electrically: 1920s-40s homes in Willow Glen and Naglee Park may have original knob-and-tube wiring in walls and attics that must be remediated before adding insulation or penetrating walls for renovation work. 1960s-70s ranch houses across Cambrian Park and Evergreen have aluminum branch wiring (1965-1975 era) in approximately 15-20% of homes, which poses a fire risk at connections and requires either full rewiring ($8,000-$15,000) or approved aluminum-to-copper pigtailing at every outlet and switch ($2,000-$4,000). Post-1976 homes have copper wiring that generally meets modern safety standards.</p>
+<p>Silicon Valley electrical labor runs 25-35% above the national average, reflecting the Bay Area's high cost of living and the competition for skilled tradespeople from the commercial tech-campus construction market. A standard 200-amp panel upgrade that costs $2,000-$2,500 in a median-cost market runs $2,500-$4,000 in San Jose. EV charger installation (Level 2, 240V/50A) runs $1,500-$3,000 including panel circuit, conduit run, and NEMA 14-50 outlet or hardwired unit. Within the premium, quotes still vary 30-50% between contractors for identical scope -- getting 3 bids is essential.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Electrical Scope and Utility Context</h2>
+<p><strong>Utility coordination.</strong> PG&E delivers electricity to San Jose at $0.30+/kWh (among the highest residential rates in the US), with San Jose Clean Energy (SJCE) serving as the community-choice aggregator that provides the generation component while PG&E handles transmission and distribution. The high electricity cost makes every electrical upgrade a ROI calculation: a 200-amp panel upgrade that enables EV charging, heat-pump HVAC, and induction cooking recovers its $2,500-$4,000 cost through avoided infrastructure charges within 3-5 years as homeowners electrify away from PG&E gas service. SJCE's 100% carbon-free electricity default rate accelerates the electrification trend that is reshaping Silicon Valley's residential electrical market.</p>
+<p><strong>Common renovation trigger.</strong> San Jose renovation electrical work in Willow Glen Craftsman and Naglee Park Victorian homes commonly involves bringing pre-1950 wiring up to current California Electrical Code: AFCI on all bedroom circuits, GFCI at all wet locations, grounding and bonding to current NEC standards, and minimum 20-amp circuits for kitchen and bathroom receptacles. These code-catch-up items add $3,000-$8,000 to a renovation budget. Silicon Valley kitchen renovations routinely include induction-cooktop circuits (50A dedicated), under-cabinet USB/receptacle runs, and smart-switch wiring that lower-tech markets rarely specify as standard scope.</p>
+<p><strong>Licensing.</strong> CSLB C-10 electrical contractor license is mandatory in California; verify at cslb.ca.gov. California also requires individual electrician certification through the Division of Apprenticeship Standards. San Jose's tech-affluent homeowner base drives demand for specialized electrical services (EV infrastructure, home automation, solar interconnect, whole-home battery systems) that general electricians from lower-tech markets may lack experience with. The South Bay supports 50+ active residential electrical contractors; verify both CSLB licensing and specific experience with the project type before signing.</p>
+</section>
+<section class="section fp-section">
+<h2>When to Schedule San Jose Electrical Work</h2>
+<p>Electrical work in San Jose is less seasonal than outdoor trades but peaks during the March-September construction season when renovation projects that include electrical scope are most active. EV charger installations surge after each new Tesla delivery wave and during California Clean Vehicle Rebate Project enrollment windows. PG&E service-entrance upgrade scheduling (3-8 weeks) is the primary bottleneck regardless of season. Scheduling 2-3 weeks ahead is standard for planned work; emergency service (panel trips, outlet failures) is available same-day from multiple South Bay providers.</p>
+<p>Silicon Valley electrical labor runs 25-35% above the national average, reflecting the Bay Area's high cost of living and the competition for skilled tradespeople from the commercial tech-campus construction market. A standard 200-amp panel upgrade that costs $2,000-$2,500 in a median-cost market runs $2,500-$4,000 in San Jose. EV charger installation (Level 2, 240V/50A) runs $1,500-$3,000 including panel circuit, conduit run, and NEMA 14-50 outlet or hardwired unit. Within the premium, quotes still vary 30-50% between contractors for identical scope -- getting 3 bids is essential.</p>
+</section>
+<section class="section fp-section">
+<h2>San Jose Project Scenarios</h2>
+<div class="fp-scenario-grid">
+
+<div class="fp-scenario-card" style="border-top:4px solid #22c55e;">
+<h3>Budget</h3>
+<p class="fp-scenario-material">200A panel upgrade in San Jose</p>
+<p class="fp-scenario-total">$3.3K</p>
+<p class="fp-scenario-detail">San Jose's 1960s-70s ranch-house belt across Cambrian Park, Almaden Valley, and Evergreen was built with 100-150 amp panels that cannot support the modern Silicon Valley lifestyle: EV charger (50A circuit), heat-pump HVAC (40-50A circuit), induction cooktop (50A circuit), and home-office equipment. PBCE issues electrical permits with 3-5 business day turnaround for residential work.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #3b82f6;">
+<h3>Mid-Range</h3>
+<p class="fp-scenario-material">San Jose whole-house rewire</p>
+<p class="fp-scenario-total">$14.1K</p>
+<p class="fp-scenario-detail">San Jose's housing stock splits electrically: 1920s-40s homes in Willow Glen and Naglee Park may have original knob-and-tube wiring in walls and attics that must be remediated before adding insulation or penetrating walls for renovation work. California Electrical Code (based on NEC with state amendments) is enforced by PBCE with particular attention to Title 24 Part 6 energy compliance.</p>
+</div>
+
+<div class="fp-scenario-card" style="border-top:4px solid #8b5cf6;">
+<h3>Premium</h3>
+<p class="fp-scenario-material">Smart + EV + panel in San Jose</p>
+<p class="fp-scenario-total">$10.2K</p>
+<p class="fp-scenario-detail">San Jose renovation electrical work in Willow Glen Craftsman and Naglee Park Victorian homes commonly involves bringing pre-1950 wiring up to current California Electrical Code: AFCI on all bedroom circuits, GFCI at all wet locations, grounding and bonding to current NEC standards, and minimum 20-amp circuits for kitchen and bathroom receptacles. These code-catch-up items add $3,000-$8,000 to a renovation budget. Silicon Valley kitchen renovations routinely include induction-cooktop circuits (50A dedicated), under-cabinet USB/receptacle runs, and smart-switch wiring that lower-tech markets rarely specify as standard scope. Silicon Valley electrical labor runs 25-35% above the national average, reflecting the Bay Area's high cost of living and the competition for skilled tradespeople from the commercial tech-campus construction market.</p>
+</div>
+</div>
+</section>
+<!-- /FLAGSHIP-ELECTRICAL-CONTENT -->
 <!-- TP-LOCAL-INJECTED-V2 -->
 <section class="section" style="background:#fafbff;padding:24px;border-radius:14px;border:1px solid #e2e8f0;margin:32px 0;">
 <h2>electrical work pricing explained: San Jose, CA</h2>
