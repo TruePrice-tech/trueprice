@@ -48,25 +48,27 @@ export default async function handler(req, res) {
       "https://maps.mail.ru/osm/tools/overpass/api/interpreter"
     ];
 
+    // Race all Overpass servers in parallel — first valid JSON wins
     let overpassData = null;
-    for (const overpassUrl of overpassServers) {
-      try {
+    const overpassResults = await Promise.allSettled(
+      overpassServers.map(async (overpassUrl) => {
         const overpassRes = await fetch(overpassUrl, {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: "data=" + encodeURIComponent(overpassQuery),
-          signal: AbortSignal.timeout(8000)
+          signal: AbortSignal.timeout(6000)
         });
         const text = await overpassRes.text();
-        // Overpass sometimes returns HTML/XML errors instead of JSON
         if (text.startsWith("{")) {
-          overpassData = JSON.parse(text);
-          break;
-        } else {
-          console.log("[property-signals] Non-JSON from " + overpassUrl.split("/")[2] + ", trying next");
+          return JSON.parse(text);
         }
-      } catch (e) {
-        console.log("[property-signals] " + overpassUrl.split("/")[2] + " failed: " + e.message);
+        throw new Error("Non-JSON from " + overpassUrl.split("/")[2]);
+      })
+    );
+    for (const result of overpassResults) {
+      if (result.status === "fulfilled" && result.value) {
+        overpassData = result.value;
+        break;
       }
     }
 

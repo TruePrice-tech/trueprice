@@ -9694,16 +9694,6 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
 
-            <!-- Property type -->
-            <div class="est-section">
-              <div class="est-section-label">Describe your home</div>
-              <div class="est-options" id="estPropertyType">
-                ${makeOptionCard("propertyType", "single", "Single story", "Ranch, bungalow")}
-                ${makeOptionCard("propertyType", "two_story", "Two story", "Colonial, traditional")}
-                ${makeOptionCard("propertyType", "townhome", "Townhome / Condo", "Shared walls")}
-              </div>
-            </div>
-
             <!-- Material — framed as preference, not knowledge -->
             <div class="est-section">
               <div class="est-section-label">What look do you want?</div>
@@ -9745,6 +9735,16 @@ function buildComparisonWinnerHtml(summary) {
                 ${makeOptionCard("insurance", "no", "No", "Paying out of pocket")}
                 ${makeOptionCard("insurance", "yes", "Yes", "Storm or damage claim")}
                 ${makeOptionCard("insurance", "maybe", "Not sure yet", "Adjuster hasn't been out")}
+              </div>
+            </div>
+
+            <!-- Property type / stories -->
+            <div class="est-section">
+              <div class="est-section-label">How many stories?</div>
+              <div class="est-options" id="estPropertyType">
+                ${makeOptionCard("propertyType", "single", "Single story", "Ranch, bungalow")}
+                ${makeOptionCard("propertyType", "two_story", "Two story", "Colonial, traditional")}
+                ${makeOptionCard("propertyType", "townhome", "Townhome / Condo", "Shared walls")}
               </div>
             </div>
 
@@ -9795,17 +9795,20 @@ function buildComparisonWinnerHtml(summary) {
             if (!journeyState.estimatorAnswers) journeyState.estimatorAnswers = {};
             journeyState.estimatorAnswers[group] = value;
 
-            // When user selects stories (propertyType), keep footprint as-is for roofing
-            // The roof covers the building footprint regardless of how many stories
+            // When user selects stories, estimate total living area from footprint.
+            // Roof calc still uses raw osmFootprint for roof area.
             if (group === "propertyType" && journeyState.osmFootprint) {
-              journeyState.osmHomeSize = journeyState.osmFootprint;
+              var livingMults = { single: 1.0, two_story: 1.4, townhome: 1.8 };
+              var lm = livingMults[value] || 1.0;
+              var estLiving = Math.round(journeyState.osmFootprint * lm);
+              journeyState.osmHomeSize = estLiving;
               const _inp = document.getElementById("estHomeSize");
               if (_inp) {
-                _inp.value = String(journeyState.osmFootprint);
+                _inp.value = String(estLiving);
                 const _hint = document.getElementById("estHomeSizeHint");
                 if (_hint) {
                   var storyLabel = value === "two_story" ? "2-story" : value === "townhome" ? "townhome" : "single-story";
-                  _hint.textContent = "\u2713 " + journeyState.osmFootprint.toLocaleString() + " sq ft building footprint from satellite data (" + storyLabel + ")";
+                  _hint.textContent = "\u2713 ~" + estLiving.toLocaleString() + " sq ft estimated (" + storyLabel + ", " + journeyState.osmFootprint.toLocaleString() + " sq ft footprint). Edit if you know exact.";
                   _hint.style.color = "#16a34a";
                 }
               }
@@ -9832,7 +9835,7 @@ function buildComparisonWinnerHtml(summary) {
           const _inp = document.getElementById("estHomeSize");
           if (_inp && !_inp.value) _inp.value = String(journeyState.osmHomeSize);
           if (_hint) {
-            _hint.textContent = "\u2713 Pre-filled from satellite data. Select your home type above to adjust for stories.";
+            _hint.textContent = "\u2713 Pre-filled from satellite data. Select stories above to estimate total living area.";
             _hint.style.color = "#16a34a";
           }
           return true;
@@ -10026,17 +10029,22 @@ function buildComparisonWinnerHtml(summary) {
         : journeyState.osmHomeSize > 0 ? journeyState.osmHomeSize
         : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
 
-      if (homeSize) {
-        // If OSM footprint was used and user didn't manually override,
-        // the input already IS the footprint — don't apply story multiplier
-        const isOsmFootprint = journeyState.osmFootprint && homeSize === journeyState.osmFootprint;
-        const footprint = isOsmFootprint ? homeSize : homeSize * storyMult;
+      if (journeyState.osmFootprint && journeyState.osmFootprint > 400) {
+        // We have the actual building footprint from satellite -- use it
+        // directly for roof area. The roof covers the footprint regardless
+        // of how many stories. The displayed home size is living area.
+        baseArea = journeyState.osmFootprint * ROOF_AREA_RATIO;
+        footprintSource = "osm_footprint";
+      } else if (homeSize) {
+        // No satellite footprint -- user entered total living area,
+        // convert to estimated footprint via story multiplier
+        const footprint = homeSize * storyMult;
         baseArea = footprint * ROOF_AREA_RATIO;
-        footprintSource = isOsmFootprint ? "osm_footprint" : "user_home_size";
+        footprintSource = "user_home_size";
 
-        // Cross-check with OSM if available — use larger of the two for safety
+        // Cross-check with API result if available
         if (footprintSqFt && footprintSqFt > footprint * 0.8) {
-          const osmRoofSize = footprintSqFt * pitchFact;
+          const osmRoofSize = footprintSqFt * ROOF_AREA_RATIO;
           if (osmRoofSize > baseArea) {
             baseArea = osmRoofSize;
             footprintSource = "osm_footprint";
@@ -10403,28 +10411,4 @@ function buildComparisonWinnerHtml(summary) {
           root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;"><div class="progress-phase">Reading your quote...</div><div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:18px 0;"><div style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div></div></div>';
           try {
             const parsedBundle = await parseUploadedComparisonFile(file);
-            latestParsed = parsedBundle?.parsed || parsedBundle || {};
-            journeyState.propertyConfirmed = true;
-            confirmProperty();
-          } catch (err) {
-            root.innerHTML = '<div style="max-width:720px; margin:80px auto; text-align:center; padding:24px;"><p>Could not read the quote. Please try again.</p><button class="btn secondary" onclick="setJourneyStep(\'address\')">Back</button></div>';
-          }
-        });
-      }
-    };
-
-    // ── End Guided Estimator ────────────────────────────────────────────
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", function () {
-          if (typeof window.renderApp === "function") {
-            window.renderApp();
-          }
-        });
-      } else {
-        if (typeof window.renderApp === "function") {
-          window.renderApp();
-        }
-      }
-
-      })();
+            latestParsed = parsedBundle?.pa
