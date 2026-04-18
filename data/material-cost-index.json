@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "source": "BLS Producer Price Index (PPI)",
+    "baseYear": 2026,
+    "lastUpdated": "2026-04-18",
+    "description": "Material cost adjustment ratios vs Jan of baseYear. Apply to material portion of estimates."
+  },
+  "series": {
+    "WPU0811": {
+      "name": "Softwood lumber",
+      "baseline": 260.002,
+      "baselinePeriod": "2026-01",
+      "latest": 267.927,
+      "latestPeriod": "2026-03",
+      "ratio": 1.0305,
+      "changePercent": 3,
+      "verticals": [
+        "roofing",
+        "fencing",
+        "siding",
+        "framing"
+      ]
+    },
+    "WPU1017": {
+      "name": "Concrete products",
+      "baseline": 315.366,
+      "baselinePeriod": "2026-01",
+      "latest": 331.671,
+      "latestPeriod": "2026-03",
+      "ratio": 1.0517,
+      "changePercent": 5.2,
+      "verticals": [
+        "concrete",
+        "foundation"
+      ]
+    },
+    "WPU1022": {
+      "name": "Asphalt roofing/siding",
+      "baseline": 501.863,
+      "baselinePeriod": "2026-01",
+      "latest": 521.826,
+      "latestPeriod": "2026-03",
+      "ratio": 1.0398,
+      "changePercent": 4,
+      "verticals": [
+        "roofing",
+        "siding"
+      ]
+    },
+    "WPU1025": {
+      "name": "Gypsum products",
+      "baseline": 360.384,
+      "baselinePeriod": "2026-01",
+      "latest": 377.695,
+      "latestPeriod": "2026-03",
+      "ratio": 1.048,
+      "changePercent": 4.8,
+      "verticals": [
+        "insulation",
+        "kitchen",
+        "painting"
+      ]
+    },
+    "WPU102": {
+      "name": "Copper and brass",
+      "baseline": 500.461,
+      "baselinePeriod": "2026-01",
+      "latest": 511.553,
+      "latestPeriod": "2026-03",
+      "ratio": 1.0222,
+      "changePercent": 2.2,
+      "verticals": [
+        "plumbing",
+        "electrical",
+        "hvac"
+      ]
+    },
+    "WPU1012": {
+      "name": "Steel mill products",
+      "baseline": 570.318,
+      "baselinePeriod": "2026-01",
+      "latest": 615.955,
+      "latestPeriod": "2026-03",
+      "ratio": 1.08,
+      "changePercent": 8,
+      "verticals": [
+        "garage-doors",
+        "fencing",
+        "foundation"
+      ]
+    },
+    "WPU0553": {
+      "name": "Plastic pipe",
+      "baseline": 243.786,
+      "baselinePeriod": "2026-01",
+      "latest": 246.959,
+      "latestPeriod": "2026-03",
+      "ratio": 1.013,
+      "changePercent": 1.3,
+      "verticals": [
+        "plumbing",
+        "hvac",
+        "insulation"
+      ]
+    }
+  },
+  "verticalAdjustments": {
+    "roofing": 1.0352,
+    "fencing": 1.0553,
+    "siding": 1.0352,
+    "framing": 1.0305,
+    "concrete": 1.0517,
+    "foundation": 1.0659,
+    "insulation": 1.0305,
+    "kitchen": 1.048,
+    "painting": 1.048,
+    "plumbing": 1.0176,
+    "electrical": 1.0222,
+    "hvac": 1.0176,
+    "garage-doors": 1.08
+  }
+}

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Inflation and seasonal adjustments
+// Inflation, seasonal, and material cost adjustments
 let _adjustments = null;
 function getAdjustments() {
   if (!_adjustments) {
@@ -24,6 +24,22 @@ function getSeasonalMultiplier(service) {
   const serviceSeasonal = adj.seasonalMultipliers[service];
   if (!serviceSeasonal) return 1.0;
   return serviceSeasonal[month] || 1.0;
+}
+
+let _materialIndex = null;
+function getMaterialAdjustment(service) {
+  if (!_materialIndex) {
+    try { _materialIndex = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'material-cost-index.json'), 'utf-8')); }
+    catch(e) { _materialIndex = { verticalAdjustments: {} }; }
+  }
+  // Material adjustment captures PPI-based cost changes since base prices were set.
+  // Subtract the general inflation already applied to avoid double-counting.
+  const raw = _materialIndex.verticalAdjustments[service] || 1.0;
+  const inflation = getInflationMultiplier();
+  // Material-specific deviation: if materials went up 5% but general inflation is 3%, net = 1.05/1.03 = 1.019
+  const net = raw / inflation;
+  // Clamp to prevent wild swings from a single month's data anomaly
+  return Math.max(0.90, Math.min(1.15, net));
 }
 
 const SERVICE_CONFIG = {
@@ -548,7 +564,8 @@ module.exports = async (req, res) => {
     if (category === 'home') {
       const inflationMult = getInflationMultiplier();
       const seasonalMult = getSeasonalMultiplier(service);
-      totalMult = inflationMult * seasonalMult;
+      const materialMult = getMaterialAdjustment(service);
+      totalMult = inflationMult * seasonalMult * materialMult;
 
       // Check for calibration data from real quotes
       try {
@@ -617,7 +634,26 @@ module.exports = async (req, res) => {
       analyzerUrl = 'https://woogoro.com/moving-quote-analyzer.html';
     }
 
-    return res.status(200).json({
+    // Energy price enrichment for solar/HVAC/insulation
+    let energyData = null;
+    if (['solar', 'hvac', 'insulation'].includes(service)) {
+      try {
+        const ep = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'state-energy-prices.json'), 'utf-8'));
+        const elec = ep.electricity?.[stateUpper];
+        const gas = ep.gas?.[stateUpper];
+        energyData = {};
+        if (elec) energyData.electricityRate = elec;
+        if (gas) energyData.gasRate = gas;
+        if (service === 'solar' && elec && ep.nationalAvg?.electricity) {
+          energyData.solarPaybackMultiplier = Math.round((elec / ep.nationalAvg.electricity) * 1000) / 1000;
+        }
+        if (service === 'hvac' && ep.heatPumpFavorability?.[stateUpper]) {
+          energyData.heatPumpFavorability = ep.heatPumpFavorability[stateUpper];
+        }
+      } catch(e) { /* energy data unavailable */ }
+    }
+
+    const response = {
       city,
       state: stateUpper,
       service,
@@ -633,7 +669,9 @@ module.exports = async (req, res) => {
       cityPageUrl,
       analyzerUrl,
       updated: new Date().toISOString().split('T')[0],
-    });
+    };
+    if (energyData) response.energyData = energyData;
+    return res.status(200).json(response);
   } catch (err) {
     console.error('widget-data error:', err);
     return res.status(500).json({ error: 'Failed to compute pricing data' });
