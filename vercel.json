@@ -7,7 +7,7 @@
   ],
   "functions": {
     "api/parse-quote.js": {
-      "maxDuration": 30
+      "maxDuration": 60
     },
     "api/geocode-suggest.js": {
       "maxDuration": 10

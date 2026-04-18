@@ -99,20 +99,19 @@ function computeRoofing(model, mult) {
 }
 
 function computeHvac(model, mult) {
-  const tons = 2.5;
-  const overhead = model.overheadMultiplier || 1.15;
-  const systems = model.basePriceBySystem;
+  const systems = model.systemTypes;
   const show = [
-    { key: 'central_ac', seer: '16_seer' },
-    { key: 'heat_pump', seer: '16_seer' },
-    { key: 'full_system', seer: '16_seer_90_afue' },
+    { key: 'central_ac', eff: '16_seer' },
+    { key: 'heat_pump', eff: '16_seer' },
+    { key: 'full_system', eff: '16_90' },
   ];
-  const materials = show.map(({ key, seer }) => {
+  const materials = show.map(({ key, eff }) => {
     const sys = systems[key];
-    const price = sys.pricePerTon[seer];
-    const total = price * tons * mult * overhead;
-    return { label: sys.label, low: smartRound(total * 0.9), high: smartRound(total * 1.1) };
-  });
+    if (!sys) return null;
+    const pricing = sys.pricingByEfficiency?.[eff];
+    if (!pricing || !pricing.total) return null;
+    return { label: sys.label, low: smartRound(pricing.total[0] * mult), high: smartRound(pricing.total[1] * mult) };
+  }).filter(Boolean);
   const allTotals = materials.map(m => [m.low, m.high]).flat();
   return {
     materials,

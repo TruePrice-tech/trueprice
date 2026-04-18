@@ -218,11 +218,15 @@
     }
 
     try {
+      var controller = new AbortController();
+      var aiTimeout = setTimeout(function () { controller.abort(); }, 45000);
       var resp = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        signal: controller.signal
       });
+      clearTimeout(aiTimeout);
       if (!resp.ok) {
         console.warn("[TP_Engine] AI backup HTTP " + resp.status);
         return null;
