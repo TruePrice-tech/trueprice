@@ -9953,9 +9953,9 @@ function buildComparisonWinnerHtml(summary) {
       const WASTE_FACTOR = 1.0;
       const OVERHEAD_MULT = 1.0;
 
-      // Inflation adjustment: 3% annual from 2025 baseline
+      // Inflation adjustment: 2.7% annual from 2025 baseline (BLS CPI CUUR0000SEHA)
       const INFLATION_BASE_YEAR = 2025;
-      const INFLATION_RATE = 0.03;
+      const INFLATION_RATE = 0.027;
       const now = new Date();
       const yearsElapsed = now.getFullYear() - INFLATION_BASE_YEAR + (now.getMonth() / 12);
       const INFLATION_MULT = Math.pow(1 + INFLATION_RATE, Math.max(0, yearsElapsed));

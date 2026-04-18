@@ -570,6 +570,8 @@ const SERVICE_TRADE_WEIGHTS = {
   "garage-doors": { carpenters: 0.5, electricians: 0.3, construction_laborers: 0.3 },
   solar: { electricians: 1.0, construction_laborers: 0.5 },
   kitchen: { carpenters: 0.6, plumbers: 0.4, electricians: 0.4, painters: 0.3 },
+  gutters: { sheet_metal_workers: 0.8, construction_laborers: 0.5 },
+  moving: { construction_laborers: 1.0, maintenance_workers: 0.5 },
 };
 
 function parseCsv(text) {
@@ -610,11 +612,15 @@ function main() {
   const stateRegions = JSON.parse(fs.readFileSync(STATE_REGIONS, "utf8"));
   const cities = parseCsv(fs.readFileSync(CITIES_CSV, "utf8"));
 
-  // Parse RPP data
+  // Parse RPP data -- use LineCode 2 ("Goods") instead of 1 ("All Items")
+  // "Goods" is a better proxy for construction materials because "All Items"
+  // includes housing rents and services that diverge from actual material costs.
+  // In cheap-housing areas, All Items understates material costs by 5-15 points;
+  // in expensive areas, it overstates them.
   const rppRows = parseCsv(fs.readFileSync(RPP_CSV, "utf8"));
   const msaRpp = {};
   for (const row of rppRows) {
-    if (row.LineCode !== "1") continue;
+    if (row.LineCode !== "2") continue;
     const geoName = row.GeoName || "";
     if (!geoName.includes("Metropolitan")) continue;
     let rpp = parseFloat(row["2024"]);
