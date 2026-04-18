@@ -33,12 +33,21 @@ with open("data/city-cost-multipliers.json", "r", encoding="utf-8") as f:
     MULT = json.load(f)
 HVAC_CTX = {}
 PLUMB_CTX = {}
+VERT_CTX = {}  # per-vertical context: slug -> {cityKey -> {climateNote, materialTip, ...}}
 if os.path.exists("data/hvac-city-context.json"):
     with open("data/hvac-city-context.json", "r", encoding="utf-8") as f:
         HVAC_CTX = json.load(f)
 if os.path.exists("data/plumbing-city-context.json"):
     with open("data/plumbing-city-context.json", "r", encoding="utf-8") as f:
         PLUMB_CTX = json.load(f)
+# Load all per-vertical context files
+for _vslug in ["electrical", "solar", "painting", "kitchen-remodel", "fence",
+               "concrete", "landscaping", "foundation", "garage-door", "siding",
+               "window", "insulation", "gutter"]:
+    _path = f"data/{_vslug}-city-context.json"
+    if os.path.exists(_path):
+        with open(_path, "r", encoding="utf-8") as f:
+            VERT_CTX[_vslug] = json.load(f)
 
 VERTICALS = {
     "roof": ("roofing", "roofing"),
@@ -240,23 +249,32 @@ def population_phrase(pop):
         return f"At {pop:,} residents, the local pool is moderate; expect 4-6 active contractors for most standard residential work."
     return f"With a smaller population of {pop:,}, the local contractor pool is limited and pricing is sticky; consider contractors from nearby larger cities for competitive bids."
 
-def get_vertical_tip(climate_zone, vertical_slug, hvac_extra=None, plumb_extra=None):
+def get_vertical_tip(climate_zone, vertical_slug, hvac_extra=None, plumb_extra=None, city_key=None):
     if vertical_slug == "hvac" and hvac_extra:
-        # Use the rich pre-generated HVAC content
         bits = [hvac_extra.get("climateNote",""), hvac_extra.get("systemTip","")]
         return " ".join(b for b in bits if b)
     if vertical_slug == "plumbing" and plumb_extra:
         bits = [plumb_extra.get("waterNote",""), plumb_extra.get("materialTip","")]
         return " ".join(b for b in bits if b)
+    # Check per-vertical context files for all other verticals
+    if city_key and vertical_slug in VERT_CTX:
+        vc = VERT_CTX[vertical_slug].get(city_key, {})
+        bits = [vc.get("climateNote",""), vc.get("materialTip","")]
+        result = " ".join(b for b in bits if b)
+        if result:
+            return result
     return CLIMATE_TIPS.get(climate_zone, {}).get(vertical_slug) or FALLBACK_TIP.get(vertical_slug, "")
 
 def build_local_grid_html(city, state, ctx, mult, vlabel, climate_zone, hvac_extra, plumb_extra, vslug):
-    vert_tip = get_vertical_tip(climate_zone, vslug, hvac_extra, plumb_extra)
-    # weatherNote and permitNote in city-context.json are roofing-specific;
-    # only use them for roofing pages
-    weather = ctx.get("weatherNote") or "" if vslug == "roof" else ""
-    permit = ctx.get("permitNote") or "" if vslug == "roof" else ""
-    insight = ctx.get("localInsight") or ""
+    city_key = f"{city}|{state}"
+    vert_tip = get_vertical_tip(climate_zone, vslug, hvac_extra, plumb_extra, city_key=city_key)
+    # weatherNote, permitNote, and localInsight in city-context.json are
+    # roofing-specific; only use them for roofing pages.
+    # NOTE: parentheses are REQUIRED around the ternary to avoid Python
+    # precedence bugs (the `or` operator binds tighter than `if/else`).
+    weather = (ctx.get("weatherNote") or "") if vslug == "roof" else ""
+    permit = (ctx.get("permitNote") or "") if vslug == "roof" else ""
+    insight = (ctx.get("localInsight") or "") if vslug == "roof" else ""
     home_age = ctx.get("avgHomeAge")
     age_phrase = f"The local housing stock averages around {home_age} years old, " if home_age else "Local housing varies widely in age, "
     return f'''<section class="section">
@@ -289,14 +307,15 @@ def build_about_section_html(city, state, ctx, mult, vlabel, climate_zone, hvac_
     service_mult = (mult.get("serviceMultipliers") or {}).get(VERTICALS[vslug][1])
     labor_mult = mult.get("laborMult")
     pop = mult.get("population")
-    vert_tip = get_vertical_tip(climate_zone, vslug, hvac_extra, plumb_extra)
+    city_key = f"{city}|{state}"
+    vert_tip = get_vertical_tip(climate_zone, vslug, hvac_extra, plumb_extra, city_key=city_key)
     # permitNote, weatherNote, and materialTip in city-context.json are
     # roofing-specific (e.g. "hail risk", "impact-resistant shingles");
     # only use them for roofing pages to prevent cross-vertical contamination.
-    # Other verticals get their content from CLIMATE_TIPS[zone][vertical].
-    permit = ctx.get("permitNote") or "" if vslug == "roof" else ""
-    weather = ctx.get("weatherNote") or "" if vslug == "roof" else ""
-    material_tip = ctx.get("materialTip") or "" if vslug == "roof" else ""
+    # NOTE: parentheses are REQUIRED around the ternary.
+    permit = (ctx.get("permitNote") or "") if vslug == "roof" else ""
+    weather = (ctx.get("weatherNote") or "") if vslug == "roof" else ""
+    material_tip = (ctx.get("materialTip") or "") if vslug == "roof" else ""
     home_age = ctx.get("avgHomeAge")
     hail = ctx.get("hailRisk")
     snow = ctx.get("snowLoad")

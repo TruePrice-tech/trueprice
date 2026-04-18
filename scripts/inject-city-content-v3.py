@@ -1,4 +1,4 @@
-"""inject-city-content-v3.py — break the same-state 93% similarity for short-body verticals.
+"""inject-city-content-v3.py — break the same-state similarity for all verticals.
 
 V2 already injected a "About {vertical}" block but left several unique per-city
 fields unused. V3 adds a SEPARATE block ("Local factors: {vertical} in {city}")
@@ -6,13 +6,10 @@ that uses the unused verbatim text fields (permitNote, weatherNote, materialTip,
 localInsight) plus derived content from avgHomeAge, hoaPrevalence, growthRate,
 climate-specific months.
 
-Targets verticals where V2 body content was short enough that same-state pages
-stayed 93%+ similar:
-  - hvac, insulation, siding, window, electrical
-
-Each page gets 400-600 words of genuinely unique content because every field
-used is either unique per-city (permitNote, weatherNote, localInsight,
-materialTip) or combines with climate/state data to produce unique phrasing.
+Covers all 16 verticals with city pages. Each page gets 400-600 words of
+genuinely unique content because every field used is either unique per-city
+(permitNote, weatherNote, localInsight, materialTip) or combines with
+climate/state data to produce unique phrasing.
 
 Run:
     python scripts/inject-city-content-v3.py
@@ -34,7 +31,17 @@ if (ROOT / "data" / "city-local-facts.json").exists():
     with open(ROOT / "data" / "city-local-facts.json", encoding="utf-8") as f:
         LOCAL_FACTS = json.load(f)
 
-# Verticals to process (short-body verticals with same-state similarity issues)
+# Load all per-vertical context files for richer per-city content
+VERT_CTX = {}
+for _vslug in ["electrical", "solar", "painting", "kitchen-remodel", "fence",
+               "concrete", "landscaping", "foundation", "garage-door", "siding",
+               "window", "insulation", "gutter", "hvac", "plumbing"]:
+    _path = ROOT / "data" / f"{_vslug}-city-context.json"
+    if _path.exists():
+        with open(_path, encoding="utf-8") as f:
+            VERT_CTX[_vslug] = json.load(f)
+
+# Verticals to process — all 16 verticals with city pages
 VERTICALS = {
     "hvac": {
         "label": "HVAC replacement",
@@ -75,6 +82,94 @@ VERTICALS = {
         "urgent_season_hot": "summer — panels trip under AC demand",
         "best_season_cold": "spring/fall",
         "best_season_hot": "spring/fall",
+    },
+    "roof": {
+        "label": "roof replacement",
+        "label_noun": "roofing project",
+        "urgent_season_cold": "March through May — winter storm damage drives emergency tear-offs",
+        "urgent_season_hot": "August through October — hurricane and hail season repairs spike demand 30-50%",
+        "best_season_cold": "June through September (dry, long days, lowest leak risk)",
+        "best_season_hot": "November through February (cooler temps, contractors less booked)",
+    },
+    "plumbing": {
+        "label": "plumbing work",
+        "label_noun": "plumbing project",
+        "urgent_season_cold": "January through March — frozen pipe bursts spike emergency calls 40-60%",
+        "urgent_season_hot": "June through August — sewer line backups from root growth and storm runoff",
+        "best_season_cold": "September through November (before freeze risk, after summer rush)",
+        "best_season_hot": "March through May (before summer heat drives emergency demand)",
+    },
+    "painting": {
+        "label": "exterior painting",
+        "label_noun": "painting project",
+        "urgent_season_cold": "May through June — homeowners rush to paint before summer events",
+        "urgent_season_hot": "March through May — before UV damage worsens through summer",
+        "best_season_cold": "August through October (mild temps, low humidity, paint cures properly)",
+        "best_season_hot": "October through March (cooler temps, contractors more available)",
+    },
+    "kitchen-remodel": {
+        "label": "kitchen remodel",
+        "label_noun": "kitchen renovation",
+        "urgent_season_cold": "January through March — new year renovation rush hits contractors hard",
+        "urgent_season_hot": "January through March — post-holiday renovation starts pile up",
+        "best_season_cold": "June through September (contractors finish outdoor jobs, shift to interiors)",
+        "best_season_hot": "June through September (summer slowdown for interior trades)",
+    },
+    "solar": {
+        "label": "solar panel installation",
+        "label_noun": "solar project",
+        "urgent_season_cold": "March through May — homeowners book before summer to maximize first-year production",
+        "urgent_season_hot": "February through April — installers book out 6-8 weeks ahead of peak season",
+        "best_season_cold": "October through December (shorter wait, installers offer off-season discounts)",
+        "best_season_hot": "November through January (lower demand, faster permitting, same equipment prices)",
+    },
+    "garage-door": {
+        "label": "garage door replacement",
+        "label_noun": "garage door project",
+        "urgent_season_cold": "November through January — broken springs and openers fail in cold weather",
+        "urgent_season_hot": "June through August — curb appeal projects peak before listing season",
+        "best_season_cold": "March through May (weather cooperates, installers less booked than summer)",
+        "best_season_hot": "September through November (post-summer lull, good install weather)",
+    },
+    "fence": {
+        "label": "fence installation",
+        "label_noun": "fencing project",
+        "urgent_season_cold": "April through June — spring storms damage fences, replacements spike",
+        "urgent_season_hot": "March through May — homeowners want fencing before summer pool season",
+        "best_season_cold": "September through November (ground is workable, contractors less booked)",
+        "best_season_hot": "October through February (cooler digging conditions, off-peak pricing)",
+    },
+    "concrete": {
+        "label": "concrete work",
+        "label_noun": "concrete project",
+        "urgent_season_cold": "April through June — winter frost-heave damage drives spring repairs",
+        "urgent_season_hot": "March through May — homeowners want driveways and patios before summer",
+        "best_season_cold": "September through October (ideal curing temps, less rain than spring)",
+        "best_season_hot": "October through November (cooler temps allow proper curing without retarders)",
+    },
+    "landscaping": {
+        "label": "landscaping",
+        "label_noun": "landscaping project",
+        "urgent_season_cold": "April through June — spring planting window drives 40-50% of annual demand",
+        "urgent_season_hot": "March through May — irrigation and planting before summer heat sets in",
+        "best_season_cold": "September through October (fall planting establishes roots before winter)",
+        "best_season_hot": "October through December (cooler temps, lower demand, plants establish before summer)",
+    },
+    "foundation": {
+        "label": "foundation repair",
+        "label_noun": "foundation project",
+        "urgent_season_cold": "March through May — frost heave and spring thaw expose winter damage",
+        "urgent_season_hot": "August through October — drought-induced soil shrinkage causes settling",
+        "best_season_cold": "June through September (stable ground conditions, dry weather for excavation)",
+        "best_season_hot": "November through February (soil moisture stabilizes, contractors less booked)",
+    },
+    "gutter": {
+        "label": "gutter installation",
+        "label_noun": "gutter project",
+        "urgent_season_cold": "March through May — ice dam damage from winter drives spring replacements",
+        "urgent_season_hot": "September through November — pre-rainy-season installs spike",
+        "best_season_cold": "July through September (dry weather, easy install conditions)",
+        "best_season_hot": "January through March (dry season lull, contractors more available)",
     },
 }
 
@@ -211,7 +306,13 @@ def neighborhoods_sentence(local, city, vlabel):
     )
 
 
-def landmark_sentence(local, city):
+ROOF_TERMS_RE = re.compile(
+    r"\broof(ing)?\b|\bshingle|\bice dam|\beaves\b|\bflashing\b",
+    re.IGNORECASE,
+)
+
+
+def landmark_sentence(local, city, vslug=""):
     if not local:
         return ""
     land = local.get("landmarks") or ""
@@ -224,6 +325,10 @@ def landmark_sentence(local, city):
         geo = ". ".join(str(x) for x in geo).strip()
     else:
         geo = str(geo).strip()
+    # geographyNote in city-local-facts.json sometimes contains
+    # roofing-specific text. Strip it for non-roofing verticals.
+    if vslug != "roof" and geo and ROOF_TERMS_RE.search(geo):
+        geo = ""
     parts = []
     if land: parts.append(land)
     if geo: parts.append(geo)
@@ -240,19 +345,30 @@ def build_section(city_display, state_code, vslug, vcfg, ctx, mult, local):
     permit_note = (ctx.get("permitNote") or "").strip()
     weather_note = (ctx.get("weatherNote") or "").strip()
     material_tip = (ctx.get("materialTip") or "").strip()
-    local_insight = (ctx.get("localInsight") or "").strip()
+    # localInsight in city-context.json is roofing-specific (references "roof
+    # replacement", "roofing contractors", etc). Gate it to roof pages only.
+    local_insight = (ctx.get("localInsight") or "").strip() if vslug == "roof" else ""
     avg_home_age = ctx.get("avgHomeAge")
     growth_rate = ctx.get("growthRate")
     hoa = ctx.get("hoaPrevalence")
     climate_zone = ctx.get("climateZone")
 
+    # Pull per-vertical context if available
+    vert_ctx_key = f"{city_display}|{state_code}"
+    vert_ctx = VERT_CTX.get(vslug, {}).get(vert_ctx_key, {})
+    vert_season = (vert_ctx.get("seasonNote") or "").strip()
+    vert_local = (vert_ctx.get("localInsight") or "").strip()
+
     # Compose paragraphs
     home_age_p = home_age_sentence(avg_home_age, city_display, vlabel)
     growth_p = growth_rate_sentence(growth_rate, city_display)
     hoa_p = hoa_sentence(hoa, city_display, vlabel)
-    climate_p = climate_months_guidance(climate_zone, vcfg, city_display, vlabel)
+    climate_p = vert_season if vert_season else climate_months_guidance(climate_zone, vcfg, city_display, vlabel)
     hoods_p = neighborhoods_sentence(local, city_display, vlabel)
-    landmark_p = landmark_sentence(local, city_display)
+    landmark_p = landmark_sentence(local, city_display, vslug)
+    # Use per-vertical local insight if available, otherwise fall back to generic growth + roofLocalInsight
+    if vert_local:
+        local_insight = vert_local
 
     # Weather / permit / material unique text
     paras = []
@@ -306,6 +422,14 @@ def build_section(city_display, state_code, vslug, vcfg, ctx, mult, local):
     if landmark_p:
         paras.append(f"<p><strong>Geography note.</strong> {landmark_p}</p>")
 
+    # Per-vertical cost driver and red flag notes (from enriched context files)
+    vert_cost = (vert_ctx.get("costDriverNote") or "").strip()
+    vert_flag = (vert_ctx.get("redFlagNote") or "").strip()
+    if vert_cost:
+        paras.append(f"<p><strong>What drives cost.</strong> {vert_cost}</p>")
+    if vert_flag:
+        paras.append(f"<p><strong>Red flags to watch for.</strong> {vert_flag}</p>")
+
     if not paras:
         return None
 
@@ -320,10 +444,19 @@ def build_section(city_display, state_code, vslug, vcfg, ctx, mult, local):
     return section
 
 
+def strip_v3_block(text):
+    """Remove existing V3 block so re-runs are idempotent."""
+    marker = "<!-- TP-LOCAL-INJECTED-V3 -->"
+    if marker not in text:
+        return text
+    pattern = re.compile(re.escape(marker) + r'\s*<section[^>]*>.*?</section>\s*', re.DOTALL)
+    return pattern.sub("", text, count=1)
+
+
 def process_file(path, vslug, vcfg):
     text = path.read_text(encoding="utf-8", errors="replace")
-    if "TP-LOCAL-INJECTED-V3" in text:
-        return "skip_existing"
+    # Strip existing V3 so re-runs are idempotent
+    text = strip_v3_block(text)
 
     # Parse city-state from filename: e.g. dayton-oh-hvac-cost.html
     fname = path.name
@@ -369,7 +502,7 @@ def process_file(path, vslug, vcfg):
 
 
 def main():
-    stats = {"added": 0, "skip_existing": 0, "skip_no_ctx": 0, "skip_bad_name": 0,
+    stats = {"added": 0, "skip_no_ctx": 0, "skip_bad_name": 0,
              "skip_no_content": 0, "fail_no_anchor": 0}
     for vslug, vcfg in VERTICALS.items():
         files = sorted(ROOT.glob(f"*-{vslug}-cost.html"))

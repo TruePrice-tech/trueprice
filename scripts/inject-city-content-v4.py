@@ -35,21 +35,22 @@ with open(ROOT / "data" / "city-cost-multipliers.json", encoding="utf-8") as f:
 # Ballpark national typical range per vertical (low, high) in dollars.
 # These get scaled per-city via labor + materials multipliers.
 BASE_RANGES = {
-    "roof":        (8500, 16000),
-    "hvac":        (6000, 14000),
-    "fence":       (2500, 6500),
-    "insulation":  (1500, 5000),
-    "siding":      (10000, 20000),
-    "window":      (4500, 12000),
-    "concrete":    (3000, 10000),
-    "gutter":      (800, 3500),
-    "painting":    (2500, 7000),
-    "plumbing":    (400, 2500),
-    "electrical":  (800, 3500),
-    "foundation":  (4500, 15000),
-    "garage-door": (800, 3500),
-    "solar":       (15000, 30000),
-    "landscaping": (3500, 12000),
+    "roof":            (8500, 16000),
+    "hvac":            (6000, 14000),
+    "fence":           (2500, 6500),
+    "insulation":      (1500, 5000),
+    "siding":          (10000, 20000),
+    "window":          (4500, 12000),
+    "concrete":        (3000, 10000),
+    "gutter":          (800, 3500),
+    "painting":        (2500, 7000),
+    "plumbing":        (400, 2500),
+    "electrical":      (800, 3500),
+    "foundation":      (4500, 15000),
+    "garage-door":     (800, 3500),
+    "solar":           (15000, 30000),
+    "landscaping":     (3500, 12000),
+    "kitchen-remodel": (22000, 120000),
 }
 
 VERTICAL_LABELS = {
@@ -59,6 +60,7 @@ VERTICAL_LABELS = {
     "painting": "House painting", "plumbing": "Plumbing work", "electrical": "Electrical work",
     "foundation": "Foundation repair", "garage-door": "Garage door replacement",
     "solar": "Solar installation", "landscaping": "Landscaping",
+    "kitchen-remodel": "Kitchen remodel",
 }
 
 VERTICAL_UNIT_NOTE = {
@@ -77,6 +79,7 @@ VERTICAL_UNIT_NOTE = {
     "garage-door": "for a standard 2-car garage door with opener",
     "solar": "for a residential system after federal tax credit",
     "landscaping": "for a mid-size yard makeover",
+    "kitchen-remodel": "for a full kitchen renovation (minor to major scope)",
 }
 
 
@@ -128,7 +131,7 @@ def compute_city_range(vslug, city_info):
         "siding": "siding", "window": "windows", "concrete": "concrete", "gutter": "gutters",
         "painting": "painting", "plumbing": "plumbing", "electrical": "electrical",
         "foundation": "foundation", "garage-door": "garage-door",
-        "solar": "solar", "landscaping": "landscaping",
+        "solar": "solar", "landscaping": "landscaping", "kitchen-remodel": "kitchen",
     }
     svc_key = svc_key_map.get(vslug, vslug)
     svc_mult = city_info["service_mults"].get(svc_key, city_info.get("multiplier", 1.0))
