@@ -266,7 +266,7 @@
     var ENDPOINT = "/api/insulation-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Insulation Type", "field": "insulationType", "type": "text"}, {"label": "R-Value", "field": "rValue", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Areas Covered", "field": "areasCovered", "type": "text"}, {"label": "Air Sealing Included", "field": "airSealingIncluded", "type": "yesno"}];
-    var SCOPE_ITEMS = [{"key":"removal","label":"Old insulation removal"},{"key":"air_sealing","label":"Air sealing"},{"key":"vapor_barrier","label":"Vapor barrier"},{"key":"ventilation","label":"Ventilation check"},{"key":"r_value","label":"R-value specified"},{"key":"blower_door","label":"Blower door test"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"}];
+    var SCOPE_ITEMS = [{"key":"air_sealing","label":"Air sealing"},{"key":"baffles","label":"Baffles/ventilation"},{"key":"vapor_barrier","label":"Vapor barrier"},{"key":"removal","label":"Old insulation removal"},{"key":"rebate","label":"Rebate eligible"},{"key":"cleanup","label":"Cleanup/disposal"},{"key":"hatch","label":"Hatch insulation"},{"key":"energy_audit","label":"Energy audit"}];
     var TRUDY = "/images/trudy-insulation.png";
     var SINGLE_PAGE = "/insulation-quote-analyzer.html";
     var GUIDE_PAGE = "/insulation-cost-guide.html";
@@ -455,28 +455,29 @@
     }
 
     function scoreQuote(q, all) {
-      // Price 50%, scope 30%, red flags -20%
+      // Price 40%, Scope 40%, Transparency 10%, Red Flags -10%
       var prices = all.map(function(a) { return a.price; }).filter(function(p) { return p > 0; });
       var priceScore = 0;
       if (q.price > 0 && prices.length >= 2) {
         var avg = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
         var ratio = q.price / avg;
-        if (ratio < 0.5) priceScore = 25; // suspiciously low
-        else if (ratio <= 1) priceScore = 35 + (1 - ratio) * 30;
-        else priceScore = Math.max(10, 35 - (ratio - 1) * 35);
-      } else if (q.price > 0) priceScore = 30;
-      else priceScore = 0; // no price = can't evaluate
+        if (ratio < 0.5) priceScore = 20;
+        else if (ratio <= 1) priceScore = 30 + (1 - ratio) * 20;
+        else priceScore = Math.max(5, 30 - (ratio - 1) * 30);
+      } else if (q.price > 0) priceScore = 20;
+      else priceScore = 0;
 
       var confirmed = 0;
       SCOPE_ITEMS.forEach(function(it) {
         var v = (q.scopeItems && q.scopeItems[it.key]) || "";
         if (v === "included" || v === "yes" || v === true) confirmed++;
       });
-      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 30 : 0;
+      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 40 : 0;
 
-      var flagPenalty = Math.min(20, (q.redFlags || []).length * 5);
+      var transparencyScore = Math.min(10, confirmed * 1.5);
+      var flagPenalty = Math.min(15, (q.redFlags || []).length * 5);
 
-      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + 20 - flagPenalty)));
+      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + transparencyScore - flagPenalty)));
       return { total: total, scopeCount: confirmed, priceScore: Math.round(priceScore), scopeScore: Math.round(scopeScore), flagPenalty: flagPenalty };
     }
 
