@@ -369,17 +369,18 @@
           result.source = "regex";
         }
 
-        // Post-processing: prefer explicit "total" lines over subtotals
-        // Catches cases where parser picked subtotal ($800) over "Total job price" ($610)
-        var _totalOverride = result.ocrText.match(/(?:total\s*(?:job|service|repair|project)?\s*(?:price|cost|amount|due)|grand\s*total|amount\s*due|balance\s*due)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i);
+        // Post-processing: prefer explicitly labeled "TOTAL" over line items
+        // Matches: "TOTAL $X", "Grand Total $X", "Total job price $X", etc.
+        var _totalOverride = result.ocrText.match(/(?:\btotal\b)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/i);
+        if (!_totalOverride) {
+          _totalOverride = result.ocrText.match(/(?:total\s*(?:job|service|repair|project)?\s*(?:price|cost|amount|due)|grand\s*total|amount\s*due|balance\s*due)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i);
+        }
         if (_totalOverride) {
           var _overrideVal = parseFloat(_totalOverride[1].replace(/,/g, ""));
           if (_overrideVal >= 10 && _overrideVal <= 500000 && _overrideVal !== result.price) {
-            // Only override if the explicit total is LESS than what we found (subtotal > total after discount)
-            if (!result.price || _overrideVal < result.price) {
-              result.price = _overrideVal;
-              result.source = "regex";
-            }
+            // Always prefer the explicit total -- it's the labeled final price
+            result.price = _overrideVal;
+            result.source = "regex";
           }
         }
 
