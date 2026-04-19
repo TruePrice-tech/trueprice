@@ -48,7 +48,7 @@ const VERTICALS = [
   { name: "landscaping", pattern: "-landscaping-cost.html" },
   { name: "foundation", pattern: "-foundation-cost.html" },
   { name: "insulation", pattern: "-insulation-cost.html" },
-  { name: "gutters", pattern: "-gutters-cost.html" },
+  { name: "gutter", pattern: "-gutter-cost.html" },
   { name: "auto-repair", pattern: "-auto-repair-cost.html" },
   { name: "medical", pattern: "-medical-cost.html" },
   { name: "legal", pattern: "-legal-cost.html" },
