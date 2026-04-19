@@ -15,7 +15,7 @@
   <meta property="og:title" content="Gutter Cost Calculator 2026 — Free Estimate by City | Woogoro" />
   <meta property="og:description" content="Free gutter cost calculator. See typical pricing for aluminum, copper, and seamless gutters per linear foot. Real data from 12,000+ US cities. No email required." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://woogoro.com/gutters-quote-analyzer.html" />
+  <meta property="og:url" content="https://woogoro.com/gutters-estimate.html" />
   <meta property="og:site_name" content="Woogoro" />
 
   <meta name="twitter:card" content="summary_large_image" />
@@ -604,7 +604,7 @@
       function doRender() {
         html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 800 }).then(function(canvas) {
           document.body.removeChild(report);
-          var link = document.createElement("a"); link.download = "trueprice-analysis-report.png"; link.href = canvas.toDataURL("image/png"); link.click();
+          var link = document.createElement("a"); link.download = "woogoro-analysis-report.png"; link.href = canvas.toDataURL("image/png"); link.click();
         }).catch(function() { document.body.removeChild(report); });
       }
       if (typeof html2canvas === "undefined") { window.loadVendorLibs && window.loadVendorLibs().then(doRender); } else { doRender(); }
