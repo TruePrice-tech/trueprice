@@ -487,6 +487,10 @@ function extractPriceCandidates(text) {
     sourceType = "final_total_phrase";
     
     } else if (
+      /kwh|kilowatt.?hour|annual.*production|yearly.*production|estimated.*production/i.test(lineText)
+    ) {
+      sourceType = "energy_production_not_price";
+    } else if (
 
       /roof size|roof area|sq\.?\s*f[tf]|square feet|square foot|\bsf\b|\bsquares\b/.test(lineText) &&
       !strongTotalLineRegex.test(lineText)
@@ -2273,6 +2277,7 @@ function parseExtractedText(extractedText, options = {}) {
     balance_or_acv: -1,
     subtotal_line: -2,
     deposit_or_deductible: -3,
+    energy_production_not_price: -5,
     roof_size_like: -4,
     zip_or_address_candidate: -5,
     date_like_year_candidate: -6
