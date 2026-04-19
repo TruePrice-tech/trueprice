@@ -1016,9 +1016,15 @@ function main() {
     }
 
     if (insertAt < 0) {
-      console.log(`  SKIP ${metro.file} (no injection point found)`);
-      skipped++;
-      continue;
+      // Fallback: insert before </main>
+      const mainEnd = content.indexOf('</main>');
+      if (mainEnd >= 0) {
+        insertAt = mainEnd;
+      } else {
+        console.log(`  SKIP ${metro.file} (no injection point found)`);
+        skipped++;
+        continue;
+      }
     }
 
     content = content.slice(0, insertAt) + nl + flagshipContent + content.slice(insertAt);
