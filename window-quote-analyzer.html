@@ -532,9 +532,12 @@
       var t = text.toLowerCase();
       // Look for explicit count patterns
       var patterns = [
+        /(\d+)\s+(?:double[- ]hung|single[- ]hung|casement|slider|awning|picture|bay|bow)?\s*windows?/i,
         /(\d+)\s*(?:windows?|units?|openings?)/i,
+        /windows?\s*[,:]\s*(\d+)\s*(?:total|units|each)?/i,
         /(?:qty|quantity|count)[:\s]*(\d+)/i,
-        /(?:replace|install)\s+(\d+)/i
+        /(?:replace|install)\s+(\d+)/i,
+        /(\d+)\s+total/i
       ];
       for (var i = 0; i < patterns.length; i++) {
         var match = t.match(patterns[i]);
