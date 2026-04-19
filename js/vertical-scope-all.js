@@ -158,7 +158,7 @@
         { key: "ridge_cap", label: "Ridge cap", patterns: [/ridge cap/i, /hip.*cap/i, /timbertex/i, /hip and ridge/i, /seal.?a.?ridge/i, /z.?ridge/i] },
         { key: "starter", label: "Starter strip", patterns: [/starter shingle/i, /starter strip/i, /prostart/i, /starter/i, /weatherblocker/i] },
         { key: "pipe_boots", label: "Pipe boots/vents", patterns: [/pipe boot/i, /roof vent/i, /pipe jack/i, /pipe collar/i, /vent boot/i, /plumbing.*boot/i] },
-        { key: "decking", label: "Deck repair", patterns: [/deck(?:ing)?\s*repair/i, /replace.*(?:plywood|osb)/i, /rotten.*wood/i, /damaged.*deck/i, /wood.*repair/i, /sheathing/i] },
+        { key: "decking", label: "Deck repair", patterns: [/deck(?:ing)?.*repair/i, /deck.*inspect/i, /replace.*(?:plywood|osb)/i, /rotten.*wood/i, /damaged.*deck/i, /wood.*repair/i, /sheathing/i, /roof\s*deck/i] },
         { key: "disposal", label: "Debris disposal", patterns: [/dumpster/i, /debris/i, /haul.?(?:away|off)/i, /disposal/i, /dump fee/i] },
         { key: "permit", label: "Permit", patterns: [/permit/i, /inspection fee/i, /code.*inspect/i] },
         { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /magnetic sweep/i, /yard clean/i, /site.*clean/i, /nail.*sweep/i] },
