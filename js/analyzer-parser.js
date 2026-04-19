@@ -991,7 +991,7 @@ function detectContractor(text) {
     }
 
     if (
-      /\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|tear-off|underlayment|shingles|permit|sales tax|remove existing|install \d|install new|install synthetic|install .*plywood|install .*panel|install .*steel|install .*insulation|replace all|roof cover|cement fiber|standing seam|new roof|existing roof|disposal|dumpster|haul off|clean up|debris|nailboard|plywood|fiber board|steel panel)\b/i.test(normalizedForMatch)
+      /\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|tear-off|underlayment|shingles|permit|sales tax|remove existing|install \d|install new|install synthetic|install .*plywood|install .*panel|install .*steel|install .*insulation|replace all|roof cover|cement fiber|standing seam|new roof|existing roof|disposal|dumpster|haul off|clean up|debris|nailboard|plywood|fiber board|steel panel|services amount|services\s+amount|description of work|scope of work|total job price|job price|total price|grand total|amount due|balance due)\b/i.test(normalizedForMatch)
     ) {
       return false;
     }
