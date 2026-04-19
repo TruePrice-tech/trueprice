@@ -847,11 +847,18 @@ setProgress(90, "Almost done...");
         renderPriceConfirmation(appRoot, quotePrice, "conc", function(confirmedPrice) {
 
 
-        // If area not detected, estimate from price (avoids $750 benchmark on $12K quotes)
+        // Area sanity check: if detected area produces absurd per-sqft cost, re-estimate from price
         var effectiveArea = area;
+        if (effectiveArea && quotePrice > 0) {
+          var _perSqft = quotePrice / effectiveArea;
+          if (_perSqft > 80) {
+            // Over $80/sqft is unreasonable for any concrete work -- area detection is likely wrong
+            effectiveArea = null;
+          }
+        }
         if (!effectiveArea && quotePrice > 0) {
           var proj = CONC_PRICING.basePricePerSqft[concreteType.value] || CONC_PRICING.basePricePerSqft.standard_driveway;
-          effectiveArea = Math.round(quotePrice / (proj.mid * 1.1)); // estimate area from price / typical rate
+          effectiveArea = Math.round(quotePrice / (proj.mid * 1.1));
           if (effectiveArea < 100) effectiveArea = 100;
           if (effectiveArea > 5000) effectiveArea = 5000;
         }
