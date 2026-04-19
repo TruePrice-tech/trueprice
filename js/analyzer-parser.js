@@ -36,7 +36,7 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
   const lineClass = classifyMoneyLine(line);
 
   const totalPhraseRegex =
-    /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|final total|final amount|amount due|amount owed|total due|total estimated cost|totol estimated cost|project amount|total investment|total cost/;
+    /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|final total|final amount|amount due|amount owed|total due|total estimated cost|totol estimated cost|project amount|total investment|total cost|total job price|total job cost|total service cost|total repair cost|total charges/;
 
   const datePhraseRegex =
     /invoice date|due date|payment due date|proposal date|issue date|issued|date issued|expires|expiration date|valid through|valid until|date|signed on|customer signature date/;
@@ -210,7 +210,7 @@ function repairBrokenLeadingMoney(raw, contextText = "") {
   const digits = text.replace(/[^\d]/g, "");
   if (!digits) return NaN;
 
-  if (/grand total|total estimated cost|proposal total|contract total|total due|amount due|total cost|final total/.test(ctx)) {
+  if (/grand total|total estimated cost|proposal total|contract total|total due|amount due|total cost|final total|total job price|total job cost|total service cost|total repair cost/.test(ctx)) {
     const repaired8 = Number("8" + digits);
     if (isFinite(repaired8) && repaired8 >= 3000 && repaired8 <= 250000) return repaired8;
 
@@ -349,7 +349,7 @@ function extractPriceCandidates(text) {
     }
 
     const strongTotalLineRegex =
-      /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|total estimated cost|totol estimated cost|total due|estimated cost|total cost|final total|amount due|\btotal\b/;
+      /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|total estimated cost|totol estimated cost|total due|estimated cost|total cost|final total|amount due|total job price|total job cost|total service cost|total repair cost|\btotal\b/;
 
     const candidateIndexInLine = start - lineStart;
     const totalPhraseIndexInLine = lineText.search(strongTotalLineRegex);
