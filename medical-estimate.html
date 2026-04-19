@@ -646,11 +646,15 @@
       var sub = svc.subtypes[est.subType];
       if (!sub) { est.subType = null; render(); return; }
 
+      // Inflation multiplier (3% per year from 2025 baseline)
+      var _now = new Date();
+      var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
+
       var regionMult = MEDICAL_PRICING.regionMultipliers[state.region] || 1.0;
 
       // Base cost (facility billed amount)
-      var baseLow = Math.round(sub.baseLow * regionMult);
-      var baseHigh = Math.round(sub.baseHigh * regionMult);
+      var baseLow = Math.round(sub.baseLow * regionMult * INFLATION_MULT);
+      var baseHigh = Math.round(sub.baseHigh * regionMult * INFLATION_MULT);
 
       // Determine insurance key
       var insKey;

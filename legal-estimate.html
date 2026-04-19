@@ -588,6 +588,10 @@
       var sub = svc.subTypes[est.subType];
       if (!sub) return;
 
+      // Inflation multiplier (3% per year from 2025 baseline)
+      var _now = new Date();
+      var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
+
       var complexMult = LEGAL_PRICING.complexityMultipliers[est.complexity] ? LEGAL_PRICING.complexityMultipliers[est.complexity].multiplier : 1.0;
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
       var regionMult = cityMult || (LEGAL_PRICING.regionMultipliers[region] || 1.0);
@@ -601,8 +605,8 @@
         high = sub.pctHigh || 40;
         mid = Math.round((low + high) / 2);
       } else {
-        low = roundTo50(sub.low * complexMult * regionMult);
-        high = roundTo50(sub.high * complexMult * regionMult);
+        low = roundTo50(sub.low * complexMult * regionMult * INFLATION_MULT);
+        high = roundTo50(sub.high * complexMult * regionMult * INFLATION_MULT);
         mid = roundTo50((low + high) / 2);
       }
 
