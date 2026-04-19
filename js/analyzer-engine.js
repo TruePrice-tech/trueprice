@@ -369,6 +369,20 @@
           result.source = "regex";
         }
 
+        // Post-processing: prefer explicit "total" lines over subtotals
+        // Catches cases where parser picked subtotal ($800) over "Total job price" ($610)
+        var _totalOverride = result.ocrText.match(/(?:total\s*(?:job|service|repair|project)?\s*(?:price|cost|amount|due)|grand\s*total|amount\s*due|balance\s*due)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i);
+        if (_totalOverride) {
+          var _overrideVal = parseFloat(_totalOverride[1].replace(/,/g, ""));
+          if (_overrideVal >= 10 && _overrideVal <= 500000 && _overrideVal !== result.price) {
+            // Only override if the explicit total is LESS than what we found (subtotal > total after discount)
+            if (!result.price || _overrideVal < result.price) {
+              result.price = _overrideVal;
+              result.source = "regex";
+            }
+          }
+        }
+
         result.contractor = parsed.contractor || null;
         result.material = parsed.material || null;
         result.materialLabel = parsed.materialLabel || null;
