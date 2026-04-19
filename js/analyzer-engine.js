@@ -370,10 +370,10 @@
         }
 
         // Post-processing: prefer explicitly labeled "TOTAL" over line items
-        // Matches: "TOTAL $X", "Grand Total $X", "Total job price $X", etc.
-        var _totalOverride = result.ocrText.match(/(?:\btotal\b)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/i);
+        // Must be at line start or after newline (not "12 total" mid-sentence)
+        var _totalOverride = result.ocrText.match(/(?:^|\n)\s*(?:TOTAL|Total|grand\s*total)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/m);
         if (!_totalOverride) {
-          _totalOverride = result.ocrText.match(/(?:total\s*(?:job|service|repair|project)?\s*(?:price|cost|amount|due)|grand\s*total|amount\s*due|balance\s*due)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/i);
+          _totalOverride = result.ocrText.match(/(?:^|\n)\s*(?:total\s*(?:job|service|repair|project)?\s*(?:price|cost|amount|due)|amount\s*due|balance\s*due)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
         }
         if (_totalOverride) {
           var _overrideVal = parseFloat(_totalOverride[1].replace(/,/g, ""));
