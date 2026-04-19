@@ -1258,11 +1258,15 @@
       var region = getRegionFromState(state.address.stateCode);
       var systemKw = kwFromSize(est.systemSize, est.customKw);
 
+      // Inflation multiplier (3% per year from 2025 baseline)
+      var _now = new Date();
+      var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
+
       var benchmark = calcSolarBenchmark(systemKw, est.panelTier, est.inverterType, est.battery, region, est.roofCondition);
 
       // Urgency adjustment
       var urgMult = est.urgency === "asap" ? 1.06 : est.urgency === "this_year" ? 1.02 : 1.0;
-      benchmark = roundTo100(benchmark * urgMult);
+      benchmark = roundTo100(benchmark * urgMult * INFLATION_MULT);
 
       var low = roundTo100(benchmark * 0.88);
       var high = roundTo100(benchmark * 1.15);

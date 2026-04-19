@@ -560,6 +560,8 @@
       }
       if (typeof html2canvas === "undefined") { window.loadVendorLibs && window.loadVendorLibs().then(doRender); } else { doRender(); }
     };
+    window.foundStartOver = function() { state.step = "address"; render(); };
+
 
     // ── Render functions ──
     function render() {

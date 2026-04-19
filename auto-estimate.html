@@ -512,7 +512,7 @@
       var laborHigh = roundTo10(laborRateHigh * laborHrsHigh * INFLATION_MULT);
 
       // Parts
-      var partsLow = roundTo10(subtype.partsLow * stateMult * INFLATION_MULT);
+      var partsLow = roundTo10(subtype.partsLow * vMult * stateMult * INFLATION_MULT);
       var partsMid = roundTo10(((subtype.partsLow + subtype.partsHigh) / 2) * vMult * stateMult * INFLATION_MULT);
       var partsHigh = roundTo10(subtype.partsHigh * vMult * stateMult * INFLATION_MULT);
 

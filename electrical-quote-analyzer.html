@@ -642,6 +642,7 @@
     }
 
     // ── Render functions ──
+    window.elecStartOver = function() { state.step = "address"; render(); };
     function render() {
       switch (state.step) {
         case "address": renderAddress(); break;
@@ -892,7 +893,7 @@ setProgress(90, "Almost done...");
               <input type="number" id="manualPrice" placeholder="e.g. 2800" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
             </div>\
             <button class="elec-btn elec-btn-primary" id="manualPriceBtn">Analyze this price</button>\
-            <div style="margin-top:14px;"><button class="elec-btn elec-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
+            <div style="margin-top:14px;"><button class="elec-btn elec-btn-secondary" onclick="elecStartOver();">Start over</button></div>\
           </div>';
         document.getElementById("manualPriceBtn").addEventListener("click", function() {
           var price = parseFloat(document.getElementById("manualPrice").value);

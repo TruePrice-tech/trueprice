@@ -492,7 +492,7 @@
           }
         }
 
-        var price = parseFloat(String(p.totalPrice || p.price || p.finalPrice || 0).replace(/[^0-9.]/g, "")) || 0;
+        var price = parseFloat(String(p.totalPrice || p.quoteTotal || p.price || p.finalPrice || 0).replace(/[^0-9.]/g, "")) || 0;
         var shopName = p.shopName || p.contractor || "Shop " + (idx + 1);
 
         quotes[idx] = {

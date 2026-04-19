@@ -522,7 +522,7 @@
     };
 
     // ── Helpers ──
-    function fmt(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+    function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + Math.round(v).toLocaleString("en-US"); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
     function zipToState(zip) { if (!zip || zip.length < 3) return null; return ZIP_STATE[zip.substring(0, 3)] || null; }
     function stateToZone(st) { return STATE_ZONE[st] || "NC"; }
