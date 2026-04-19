@@ -452,6 +452,25 @@
       " ocrConf=" + Math.round(result.ocrConfidence) + "%" +
       " aiCalled=" + result.aiCalled);
 
+    // Track parser metrics (fire-and-forget)
+    try {
+      fetch("/api/parser-metrics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vertical: options.vertical || "unknown",
+          ocrChars: result.ocrText.length,
+          ocrConfidence: Math.round(result.ocrConfidence),
+          regexFoundPrice: result.source === "regex",
+          aiCalled: result.aiCalled,
+          aiFoundPrice: result.source === "ai",
+          priceFound: !!result.price,
+          finalSource: result.source || "none",
+          ts: new Date().toISOString()
+        })
+      }).catch(function() {});
+    } catch (e) {}
+
     // Capture anonymized pricing data for flywheel (fires on EVERY quote, not just AI)
     if (result.price && result.price > 0) {
       try {
