@@ -28,6 +28,44 @@ function hash(s) {
 }
 function pick(arr, seed) { return arr[seed % arr.length]; }
 
+// Load city context for compositional heading generation
+let cityContext = {};
+try { cityContext = require(path.join(ROOT, "data/city-context.json")); } catch(e) {}
+
+// Compositional qualifiers derived from city data
+function getCityQualifier(cityName, stateCode, seed) {
+  const key = `${cityName}|${stateCode}`;
+  const ctx = cityContext[key] || {};
+  const climateMap = {
+    hot_humid: "warm-climate", hot_dry: "desert", cold: "cold-weather",
+    mixed_humid: "mid-Atlantic", mixed_dry: "inland", marine: "coastal",
+    very_cold: "northern", subarctic: "far-north"
+  };
+  const climateAdj = climateMap[ctx.climateZone] || "local";
+  const ageGroup = ctx.avgHomeAge > 50 ? "older-home" : ctx.avgHomeAge > 30 ? "established" : "newer-development";
+  const growthAdj = ctx.growthRate === "high" ? "fast-growing" : ctx.growthRate === "low" ? "stable" : "growing";
+
+  const qualifiers = [
+    `in the ${cityName} metro`,
+    `across ${cityName} neighborhoods`,
+    `for ${cityName}-area homeowners`,
+    `in ${cityName} and surrounding areas`,
+    `for properties in ${cityName}`,
+    `in the greater ${cityName} area`,
+    `around ${cityName}, ${stateCode}`,
+    `for ${cityName} residents`,
+    `in ${cityName}'s ${climateAdj} market`,
+    `for ${cityName}'s ${ageGroup} housing stock`,
+    `in ${growthAdj} ${cityName}`,
+    `across the ${cityName}, ${stateCode} region`,
+    `in ${cityName}'s ${climateAdj} climate`,
+    `for ${cityName} and nearby ${stateCode} areas`,
+    `in ${cityName}'s contractor market`,
+    `for ${cityName}-area properties`,
+  ];
+  return pick(qualifiers, seed);
+}
+
 // ─── HEADING VARIATIONS ─────────────────────────────────────────────────
 // Each key is the normalized heading pattern (with CITY placeholder).
 // Values are arrays of alternative phrasings.
@@ -80,6 +118,52 @@ const H2_VARIATIONS = {
     (city) => `See ${city} pricing`,
     (city) => `${city} cost comparison`,
   ],
+  // "X in CITY, ST: what locals should know" -- compositional: template x qualifier
+  "locals_should_know": [
+    (trade, _cs, q) => `${trade} ${q}: what to know`,
+    (trade, _cs, q) => `What homeowners ${q} need to know about ${trade}`,
+    (trade, _cs, q) => `${trade} ${q}: a local perspective`,
+    (trade, _cs, q) => `Local ${trade} advice ${q}`,
+    (trade, _cs, q) => `${trade} ${q}: insider knowledge`,
+    (trade, _cs, q) => `${trade} ${q}: homeowner essentials`,
+    (trade, _cs, q) => `What makes ${trade} different ${q}`,
+    (trade, _cs, q) => `${trade} landscape ${q}`,
+    (trade, _cs, q) => `${trade} cost guide ${q}`,
+    (trade, _cs, q) => `${trade} realities ${q}`,
+    (trade, _cs, q) => `Navigating ${trade} costs ${q}`,
+    (trade, _cs, q) => `${trade} ${q}: local context`,
+    (trade, _cs, q) => `${trade} market snapshot ${q}`,
+    (trade, _cs, q) => `${trade} ${q}: key facts`,
+    (trade, _cs, q) => `${trade} ${q}: conditions and costs`,
+    (trade, _cs, q) => `Understanding ${trade} ${q}`,
+    (trade, _cs, q) => `${trade} considerations ${q}`,
+    (trade, _cs, q) => `${trade} overview ${q}`,
+    (trade, _cs, q) => `${trade} ${q}: the local angle`,
+    (trade, _cs, q) => `${trade} basics ${q}`,
+  ],
+  // "X cost in nearby ST cities" -- compositional with city qualifier
+  "nearby_cities": [
+    (trade, state, q) => `${trade} cost in nearby ${state} cities`,
+    (trade, state, q) => `How nearby ${state} cities compare on ${trade}`,
+    (trade, state, q) => `${trade} pricing across the ${state} region`,
+    (trade, state, q) => `${state} neighbors: ${trade} cost comparison`,
+    (trade, state, q) => `What other ${state} cities pay for ${trade}`,
+    (trade, state, q) => `${trade} rates in surrounding ${state} areas`,
+    (trade, state, q) => `Nearby ${state} ${trade} pricing`,
+    (trade, state, q) => `${trade} costs: ${state} city-by-city`,
+    (trade, state, q) => `Compare ${trade} rates in ${state}`,
+    (trade, state, q) => `${state} regional ${trade} pricing`,
+    (trade, state, q) => `Other ${state} cities for ${trade} quotes`,
+    (trade, state, q) => `${trade} in other ${state} metros`,
+    (trade, state, q) => `${state} ${trade} pricing: nearby cities`,
+    (trade, state, q) => `Regional ${trade} cost data for ${state}`,
+    (trade, state, q) => `${trade} costs across ${state}`,
+    (trade, state, q) => `${state} cities: ${trade} price ranges`,
+    (trade, state, q) => `How ${trade} prices compare in ${state}`,
+    (trade, state, q) => `${trade} in neighboring ${state} areas`,
+    (trade, state, q) => `Nearby ${trade} markets in ${state}`,
+    (trade, state, q) => `${state} ${trade}: regional rate comparison`,
+  ],
   // V2: "About X in CITY, ST"
   "about_section": [
     (trade, cityState) => `About ${trade} in ${cityState}`,
@@ -88,6 +172,20 @@ const H2_VARIATIONS = {
     (trade, cityState) => `${trade} pricing explained: ${cityState}`,
     (trade, cityState) => `What shapes ${trade} pricing in ${cityState}`,
     (trade, cityState) => `${cityState}: ${trade} cost factors`,
+    (trade, cityState) => `${trade} market conditions in ${cityState}`,
+    (trade, cityState) => `How ${trade} pricing works in ${cityState}`,
+    (trade, cityState) => `${cityState} ${trade} cost landscape`,
+    (trade, cityState) => `What influences ${trade} rates in ${cityState}`,
+    (trade, cityState) => `${trade} economics in ${cityState}`,
+    (trade, cityState) => `${cityState}: understanding ${trade} pricing`,
+    (trade, cityState) => `The ${cityState} ${trade} market explained`,
+    (trade, cityState) => `${trade} cost overview for ${cityState}`,
+    (trade, cityState) => `${cityState} ${trade}: market context`,
+    (trade, cityState) => `Decoding ${trade} costs in ${cityState}`,
+    (trade, cityState) => `${trade} pricing trends in ${cityState}`,
+    (trade, cityState) => `${cityState} ${trade} rates: what to know`,
+    (trade, cityState) => `Inside ${cityState} ${trade} pricing`,
+    (trade, cityState) => `${trade} in ${cityState}: cost dynamics`,
   ],
   // V3: "Local factors: X in CITY, ST"
   "local_factors": [
@@ -97,6 +195,20 @@ const H2_VARIATIONS = {
     (trade, cityState) => `${trade} in ${cityState}: the local picture`,
     (trade, cityState) => `${cityState}-specific ${trade} considerations`,
     (trade, cityState) => `${trade} insights for ${cityState}`,
+    (trade, cityState) => `${cityState} ${trade}: what the data shows`,
+    (trade, cityState) => `${trade} conditions unique to ${cityState}`,
+    (trade, cityState) => `Local ${trade} factors in ${cityState}`,
+    (trade, cityState) => `${trade} in ${cityState}: ground-level details`,
+    (trade, cityState) => `${cityState} residents: ${trade} specifics`,
+    (trade, cityState) => `What sets ${cityState} apart for ${trade}`,
+    (trade, cityState) => `${trade} nuances in the ${cityState} area`,
+    (trade, cityState) => `${cityState} ${trade}: neighborhood-level context`,
+    (trade, cityState) => `On-the-ground ${trade} info for ${cityState}`,
+    (trade, cityState) => `${trade} reality check: ${cityState}`,
+    (trade, cityState) => `${cityState} area ${trade}: local intel`,
+    (trade, cityState) => `Hyper-local ${trade} details for ${cityState}`,
+    (trade, cityState) => `${trade} in ${cityState}: beyond the averages`,
+    (trade, cityState) => `${cityState} ${trade}: practical local info`,
   ],
   // V4: "Pricing snapshot & nearby comparisons: CITY, ST"
   "pricing_snapshot": [
@@ -105,6 +217,21 @@ const H2_VARIATIONS = {
     (cityState) => `How ${cityState} compares to nearby markets`,
     (cityState) => `${cityState} cost comparison with neighbors`,
     (cityState) => `Regional pricing context: ${cityState}`,
+    (cityState) => `${cityState} vs. the region: cost comparison`,
+    (cityState) => `How ${cityState} stacks up regionally`,
+    (cityState) => `${cityState} pricing in regional context`,
+    (cityState) => `Comparing ${cityState} to surrounding areas`,
+    (cityState) => `${cityState} cost position among neighbors`,
+    (cityState) => `Regional cost benchmarks for ${cityState}`,
+    (cityState) => `${cityState}: where you stand on pricing`,
+    (cityState) => `Nearby market comparison for ${cityState}`,
+    (cityState) => `${cityState} pricing relative to neighbors`,
+    (cityState) => `Cost landscape around ${cityState}`,
+    (cityState) => `${cityState} in the regional pricing picture`,
+    (cityState) => `How ${cityState} rates compare locally`,
+    (cityState) => `${cityState} area: comparative pricing data`,
+    (cityState) => `Regional rate check: ${cityState}`,
+    (cityState) => `${cityState} vs. nearby: who pays what`,
   ],
   // V5: "What tradespeople earn in CITY, ST"
   "tradespeople_earn": [
@@ -113,6 +240,21 @@ const H2_VARIATIONS = {
     (cityState) => `Labor rates in ${cityState}`,
     (cityState) => `${cityState} contractor wages: BLS data`,
     (cityState) => `Trade labor costs in ${cityState}`,
+    (cityState) => `${cityState} wage data for contractors`,
+    (cityState) => `What contractors earn in ${cityState}`,
+    (cityState) => `${cityState} labor market: trade wages`,
+    (cityState) => `Contractor pay rates in ${cityState}`,
+    (cityState) => `${cityState}: skilled trade wages`,
+    (cityState) => `BLS wage data for ${cityState} trades`,
+    (cityState) => `${cityState} contractor compensation`,
+    (cityState) => `Trade worker earnings in ${cityState}`,
+    (cityState) => `${cityState} labor costs: by the numbers`,
+    (cityState) => `What ${cityState} pays its contractors`,
+    (cityState) => `Wage benchmarks for ${cityState} trades`,
+    (cityState) => `${cityState} trade labor: earnings data`,
+    (cityState) => `Contractor rates in the ${cityState} market`,
+    (cityState) => `${cityState}: trade wage overview`,
+    (cityState) => `Labor cost data for ${cityState}`,
   ],
 };
 
@@ -519,8 +661,11 @@ function processFile(filepath) {
   const { cityName, stateCode, cityState, vslug, info } = parsed;
   let html = fs.readFileSync(filepath, "utf8");
 
-  // Skip if already processed
-  if (html.includes("TP-STRUCT-DIV-V3")) return "skip_existing";
+  // Skip if already processed with V5 (compositional + H3/H4 variation)
+  if (html.includes("TP-STRUCT-DIV-V6")) return "skip_existing";
+
+  // Strip old markers so we can re-process with expanded pools
+  html = html.replace(/<!-- TP-STRUCT-DIV-V[0-9]+ -->\n?/g, "");
 
   const seed = hash(filename);
   const { trade, noun, sizeLabel } = info;
@@ -572,7 +717,73 @@ function processFile(filepath) {
     html = html.replace(ctaRe, `$1${variant(cityName)}$2`);
   }
 
-  // === 6. Vary V2 "About X in CITY, ST" ===
+  // Generate city-specific qualifier for compositional headings
+  const qualifier = getCityQualifier(cityName, stateCode, seed + 100);
+
+  // === 6a. Vary "X in CITY, ST: what locals should know" (and its existing variants) ===
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const localsPatterns = [
+    `(?:${trade}|${noun})\\s+in\\s+${esc(cityName)},\\s*${stateCode}:\\s*what locals should know`,
+    `What\\s+${esc(cityState)}\\s+homeowners\\s+need\\s+to\\s+know\\s+about`,
+    `${esc(cityState)}\\s+(?:${esc(noun)}|${esc(trade)}):\\s*a local perspective`,
+    `(?:${esc(noun)}|${esc(trade)})\\s+tips\\s+specific\\s+to\\s+${esc(cityState)}`,
+    `Local\\s+(?:${esc(noun)}|${esc(trade)})\\s+advice\\s+for\\s+${esc(cityState)}`,
+    `(?:${esc(noun)}|${esc(trade)})\\s+in\\s+${esc(cityState)}:\\s*homeowner\\s+essentials`,
+    `What\\s+makes\\s+(?:${esc(noun)}|${esc(trade)})\\s+different\\s+in`,
+    `(?:${esc(noun)}|${esc(trade)})\\s+landscape:\\s*what\\s+to\\s+expect`,
+    `The\\s+${esc(cityState)}\\s+guide\\s+to`,
+    `(?:${esc(noun)}|${esc(trade)})\\s+realities\\s+for`,
+    `${esc(cityState)}-specific`,
+    `Navigating\\s+(?:${esc(noun)}|${esc(trade)})\\s+costs\\s+in`,
+    `(?:${esc(noun)}|${esc(trade)})\\s+in\\s+${esc(cityState)}:\\s*local\\s+context`,
+    `${esc(cityState)}\\s+homeowners:\\s*(?:${esc(noun)}|${esc(trade)})`,
+    `(?:${esc(noun)}|${esc(trade)})\\s+market\\s+snapshot\\s+for`,
+    `What\\s+${esc(cityState)}\\s+locals\\s+say`,
+    `(?:${esc(noun)}|${esc(trade)})\\s+in\\s+the\\s+${esc(cityState)}\\s+area`,
+    `A\\s+homeowner.*take\\s+on`,
+    `${esc(cityState)}\\s+(?:${esc(noun)}|${esc(trade)}):\\s*local\\s+conditions`,
+    `${esc(cityState)}\\s+(?:${esc(noun)}|${esc(trade)}):\\s*insider`,
+  ];
+  const localsRe = new RegExp(
+    `(<h2[^>]*>)\\s*(?:${localsPatterns.join("|")})[^<]*\\s*(</h2>)`,
+    "i"
+  );
+  if (localsRe.test(html)) {
+    const variant = pick(H2_VARIATIONS.locals_should_know, seed + 10);
+    html = html.replace(localsRe, `$1${variant(noun, cityState, qualifier)}$2`);
+  }
+
+  // === 6b. Vary "X cost in nearby ST cities" (and its existing variants) ===
+  const nearbyPatterns = [
+    `(?:${trade}|${noun})\\s+cost\\s+in\\s+nearby\\s+${stateCode}\\s+cities`,
+    `How\\s+nearby\\s+${stateCode}\\s+cities\\s+compare`,
+    `(?:${trade}|${noun})\\s+pricing\\s+across\\s+the\\s+${stateCode}`,
+    `${stateCode}\\s+neighbors:`,
+    `What\\s+other\\s+${stateCode}\\s+cities\\s+pay`,
+    `(?:${trade}|${noun})\\s+rates\\s+in\\s+surrounding\\s+${stateCode}`,
+    `Nearby\\s+${stateCode}\\s+(?:${esc(noun)}|${esc(trade)})\\s+pricing`,
+    `(?:${trade}|${noun})\\s+costs:\\s*${stateCode}\\s+city`,
+    `Compare\\s+(?:${trade}|${noun})\\s+rates\\s+in\\s+${stateCode}`,
+    `${stateCode}\\s+regional\\s+(?:${esc(noun)}|${esc(trade)})`,
+    `Other\\s+${stateCode}\\s+cities`,
+    `(?:${trade}|${noun})\\s+in\\s+other\\s+${stateCode}\\s+metros`,
+    `Regional\\s+(?:${esc(noun)}|${esc(trade)})\\s+cost\\s+data`,
+    `(?:${trade}|${noun})\\s+costs\\s+across\\s+${stateCode}`,
+    `${stateCode}\\s+cities:\\s*(?:${esc(noun)}|${esc(trade)})`,
+    `How\\s+(?:${esc(noun)}|${esc(trade)})\\s+prices\\s+compare\\s+in\\s+${stateCode}`,
+    `(?:${trade}|${noun})\\s+in\\s+neighboring\\s+${stateCode}`,
+    `Nearby\\s+(?:${esc(noun)}|${esc(trade)})\\s+markets`,
+  ];
+  const nearbyRe = new RegExp(
+    `(<h2[^>]*>)\\s*(?:${nearbyPatterns.join("|")})[^<]*\\s*(</h2>)`,
+    "i"
+  );
+  if (nearbyRe.test(html)) {
+    const variant = pick(H2_VARIATIONS.nearby_cities, seed + 11);
+    html = html.replace(nearbyRe, `$1${variant(noun, stateCode)}$2`);
+  }
+
+  // === 7. Vary V2 "About X in CITY, ST" ===
   const aboutRe = new RegExp(
     `(<h2[^>]*>)\\s*About [^<]+ in ${cityName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')},\\s*${stateCode}\\s*(</h2>)`,
     "i"
@@ -653,8 +864,139 @@ function processFile(filepath) {
     }
   }
 
+  // === 11. Vary local-card H3 headings (these are 100% shared across all pages) ===
+  const h3ClimateVariants = [
+    "Climate &amp; site factors", "Weather &amp; environmental factors", "Climate conditions",
+    "Environmental considerations", "Weather impact", "Site &amp; climate",
+    "Local weather factors", "Climate &amp; conditions", "Environmental context",
+    "Weather &amp; site conditions", "Climate profile", "Regional weather",
+    "Local environment", "Weather considerations", "Climate &amp; soil",
+    "Environmental factors", "Local climate", "Site conditions",
+    "Regional climate", "Weather &amp; location",
+  ];
+  const h3HousingVariants = [
+    "Local housing stock", "Area home characteristics", "Neighborhood housing",
+    "Residential building stock", "Home construction profile", "Housing landscape",
+    "Property characteristics", "Area homes", "Local building stock",
+    "Residential profile", "Housing overview", "Home age &amp; type",
+    "Property landscape", "Neighborhood homes", "Local residences",
+    "Housing composition", "Building inventory", "Home construction mix",
+    "Residential makeup", "Area housing",
+  ];
+  const h3PermitVariants = [
+    "Permits &amp; licensing", "Code &amp; permit requirements", "Licensing &amp; codes",
+    "Regulatory requirements", "Permit process", "Local codes",
+    "Building permits", "Code requirements", "License &amp; permit info",
+    "Compliance requirements", "Permit &amp; code info", "Regulatory landscape",
+    "Local permit rules", "Code &amp; licensing", "Permit requirements",
+    "Building code info", "Local regulations", "Permitting details",
+    "Licensing requirements", "Codes &amp; permits",
+  ];
+  const h3MarketVariants = [
+    "Local market", "Contractor landscape", "Market conditions",
+    "Local competition", "Contractor availability", "Market dynamics",
+    "Service market", "Local contractors", "Competitive landscape",
+    "Market overview", "Contractor market", "Local pricing dynamics",
+    "Service availability", "Market profile", "Contractor supply",
+    "Pricing environment", "Local service market", "Competition &amp; pricing",
+    "Market context", "Contractor pool",
+  ];
+
+  const climateRe = new RegExp(`<h3>(?:${h3ClimateVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h3>`, 'i');
+  const housingRe = new RegExp(`<h3>(?:${h3HousingVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h3>`, 'i');
+  const permitRe = new RegExp(`<h3>(?:${h3PermitVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h3>`, 'i');
+  const marketRe = new RegExp(`<h3>(?:${h3MarketVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h3>`, 'i');
+  html = html.replace(climateRe, `<h3>${pick(h3ClimateVariants, seed + 20)}</h3>`);
+  html = html.replace(housingRe, `<h3>${pick(h3HousingVariants, seed + 21)}</h3>`);
+  html = html.replace(permitRe, `<h3>${pick(h3PermitVariants, seed + 22)}</h3>`);
+  html = html.replace(marketRe, `<h3>${pick(h3MarketVariants, seed + 23)}</h3>`);
+
+  // === 12. Vary tools block H3 ===
+  const toolsH3Variants = [
+    (c) => `More Woogoro tools for ${c}`,
+    (c) => `Free tools for ${c} homeowners`,
+    (c) => `${c} pricing tools`,
+    (c) => `Explore more for ${c}`,
+    (c) => `Additional ${c} resources`,
+    (c) => `${c} cost calculators`,
+    (c) => `Tools for ${c} projects`,
+    (c) => `${c} home improvement tools`,
+    (c) => `Free ${c} estimators`,
+    (c) => `More ${c} tools`,
+    (c) => `${c} project resources`,
+    (c) => `Pricing tools for ${c}`,
+    (c) => `${c} contractor tools`,
+    (c) => `Home project tools for ${c}`,
+    (c) => `${c} cost resources`,
+    (c) => `Free estimators for ${c}`,
+    (c) => `${c} analysis tools`,
+    (c) => `Project calculators for ${c}`,
+    (c) => `${c} comparison tools`,
+    (c) => `Tools &amp; resources for ${c}`,
+  ];
+  // Match any existing tools H3 variant (they all contain city name)
+  const toolsH3Patterns = toolsH3Variants.map(fn => fn(cityName).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const toolsH3Re = new RegExp(`(<h3[^>]*>)\\s*(?:${toolsH3Patterns.join('|')})\\s*(</h3>)`, "i");
+  if (toolsH3Re.test(html)) {
+    html = html.replace(toolsH3Re, `$1${pick(toolsH3Variants, seed + 24)(cityName)}$2`);
+  }
+
+  // === 13. Vary CTA H3 "Get free pricing guides" ===
+  const ctaH3Variants = [
+    "Get free pricing guides", "Free cost guides", "Download pricing guides",
+    "Free project guides", "Get your free guide", "Cost guide library",
+    "Free homeowner guides", "Pricing guide downloads", "Free estimate guides",
+    "Get informed for free", "Free pricing resources", "Homeowner cost guides",
+    "Free project resources", "Download free guides", "Cost reference guides",
+    "Free renovation guides", "Project pricing guides", "Free cost references",
+    "Homeowner pricing guides", "Get free cost data",
+  ];
+  const ctaH3Re = new RegExp(`<h3([^>]*)>(?:${ctaH3Variants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h3>`, 'i');
+  html = html.replace(ctaH3Re, `<h3$1>${pick(ctaH3Variants, seed + 25)}</h3>`);
+
+  // === 14. Vary footer H4s ===
+  const footerBrowseVariants = [
+    "Browse", "Explore", "Services", "Categories", "Find services",
+    "Cost guides", "All services", "Service areas", "Pricing guides",
+    "Project types", "Home services", "Browse services", "Service categories",
+    "All guides", "Explore services", "Guide library", "Browse guides",
+    "Project guides", "Service types", "All categories",
+  ];
+  const footerTopTradesVariants = [
+    "Top trades", "Popular services", "Most requested", "Trending",
+    "In demand", "Top categories", "Popular trades", "Most popular",
+    "High demand", "Top services", "Featured trades", "Common projects",
+    "Frequently quoted", "Top picks", "Popular projects", "Most searched",
+    "Trending trades", "Key services", "Top requests", "Hot categories",
+  ];
+  // Match any of the existing variants for Browse and Top trades
+  const browseRe = new RegExp(`<h4>(?:${footerBrowseVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h4>`, 'i');
+  const topTradesRe = new RegExp(`<h4>(?:${footerTopTradesVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h4>`, 'i');
+  html = html.replace(browseRe, `<h4>${pick(footerBrowseVariants, seed + 26)}</h4>`);
+  html = html.replace(topTradesRe, `<h4>${pick(footerTopTradesVariants, seed + 27)}</h4>`);
+
+  // Footer "Get a Price" and "About" H4s
+  const footerPriceVariants = [
+    "Get a Price", "Get an Estimate", "Free Quotes", "Pricing",
+    "Cost Estimates", "Get Started", "Your Estimate", "Free Pricing",
+    "Check Costs", "Start Here", "Quote Tools", "Price Check",
+    "Estimate Tools", "Get Pricing", "Cost Tools", "Free Estimates",
+    "Your Quote", "Price Lookup", "Cost Finder", "Estimate Now",
+  ];
+  const footerAboutVariants = [
+    "About", "About Us", "Company", "Who We Are",
+    "Our Mission", "About Woogoro", "Learn More", "The Team",
+    "Our Story", "Why Woogoro", "Background", "About the Project",
+    "Meet Woogoro", "Our Approach", "What We Do", "Info",
+    "Company Info", "About the Company", "Overview", "Our Vision",
+  ];
+  const priceRe = new RegExp(`<h4>(?:${footerPriceVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h4>`, 'i');
+  const aboutRe2 = new RegExp(`<h4>(?:${footerAboutVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h4>`, 'i');
+  html = html.replace(priceRe, `<h4>${pick(footerPriceVariants, seed + 28)}</h4>`);
+  html = html.replace(aboutRe2, `<h4>${pick(footerAboutVariants, seed + 29)}</h4>`);
+
   // Add processing marker (invisible comment at end of body)
-  html = html.replace("</body>", "<!-- TP-STRUCT-DIV-V3 -->\n</body>");
+  html = html.replace("</body>", "<!-- TP-STRUCT-DIV-V6 -->\n</body>");
 
   fs.writeFileSync(filepath, html, "utf8");
   return "updated";
