@@ -942,53 +942,6 @@
 
         setProgress(70, "Building analysis...");
 
-        state.extractedText = text;
-
-        // ── Regex parser first (no network cost) ──
-        var parsed = null;
-        try {
-          if (typeof parseExtractedText === "function") {
-            parsed = parseExtractedText(text);
-          }
-        } catch (parseErr) {
-          console.warn("Parser error, falling back to regex:", parseErr);
-        }
-
-        // ── AI backup: only fires when regex fails to find a price ──
-        var _regexFoundPrice = (parsed && (Number(parsed.finalPrice) > 100 || Number(parsed.finalBestPrice) > 100 || Number(parsed.price) > 100));
-        var apiResult = null;
-        if (!_regexFoundPrice) {
-          try {
-            setProgress(60, "Getting a second opinion...");
-            var apiPayload = { text: text };
-            if (file.type !== "application/pdf") {
-              apiPayload.images = [await fileToBase64(file)];
-            }
-            var apiResponse = await fetch("/api/hvac-estimate", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(apiPayload)
-            });
-            if (apiResponse.ok) {
-              apiResult = await apiResponse.json();
-            }
-            // Track AI backup call
-            try { fetch("/api/ai-counter", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({vertical:"hvac",action:"increment"}) }).catch(function(){}); } catch(e){}
-          } catch (apiErr) {
-            console.warn("HVAC API unavailable, falling back to local parsing:", apiErr);
-          }
-
-          // If API returned good data, use it
-          if (apiResult && (apiResult.quoteTotal || apiResult.finalPrice)) {
-            setProgress(100, "Done!");
-            state.result = buildResultFromAPI(apiResult);
-            if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "hvac", source: "api" });
-            state.step = "result";
-            setTimeout(render, 400);
-            return;
-          }
-        }
-
         // Fallback price extraction if parser fails or returns nothing
         if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
           var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
@@ -1070,10 +1023,7 @@
           parsed: parsed
         };
 
-        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "hvac" });
-        
-        
-          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"hvac", source: _origPrice > 0 ? "upload" : "manual"});
+        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"hvac", source: _origPrice > 0 ? "upload" : "manual"});
           state.step = "result";
           render();
         });

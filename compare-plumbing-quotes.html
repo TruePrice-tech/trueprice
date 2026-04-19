@@ -349,7 +349,7 @@
     function fmtNumber(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? n.toLocaleString() : "N/A"; }
     function fmtYears(n) { n = parseFloat(n); return (n && n > 0) ? n + (n === 1 ? " yr" : " yrs") : "N/A"; }
     function fmtYesNo(v) { if (v === true || v === "yes" || v === "Yes" || v === "true") return '<span class="cmp-scope-check">&#10003; Yes</span>'; if (v === false || v === "no" || v === "No" || v === "false") return '<span class="cmp-scope-no">&#10007; No</span>'; return '<span class="cmp-scope-missing">? Unclear</span>'; }
-    function fmtText(v) { if (v == null || v === "" || v === "Unknown" || v === "unknown") return "Not stated"; var s = String(v).replace(/_/g, " ").replace(/bw/g, function(c) { return c.toUpperCase(); }).replace(/bAcb/g, "AC").replace(/bHvacb/g, "HVAC").replace(/bSeerb/g, "SEER").replace(/bAfueb/g, "AFUE"); return escHtml(s); }
+    function fmtText(v) { if (v == null || v === "" || v === "Unknown" || v === "unknown") return "Not stated"; var s = String(v).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); }).replace(/\bAc\b/g, "AC").replace(/\bHvac\b/g, "HVAC").replace(/\bSeer\b/g, "SEER").replace(/\bAfue\b/g, "AFUE"); return escHtml(s); }
 
     function readPrice(api) {
       for (var i = 0; i < PRICE_FIELDS.length; i++) {

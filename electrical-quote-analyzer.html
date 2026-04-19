@@ -817,18 +817,6 @@
 
         setProgress(70, "Building analysis...");
 
-        state.extractedText = text;
-
-        // Use analyzer-parser.js for price extraction
-        var parsed = null;
-        try {
-          if (typeof parseExtractedText === "function") {
-            parsed = parseExtractedText(text);
-          }
-        } catch (parseErr) {
-          console.warn("Parser error, falling back to regex:", parseErr);
-        }
-
         // Fallback price extraction if parser fails or returns nothing
         if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
           var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
@@ -886,10 +874,7 @@ setProgress(90, "Almost done...");
           parsed: parsed
         };
 
-        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "electrical" });
-        
-        
-          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"electrical", source: _origPrice > 0 ? "upload" : "manual"});
+        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", {service:"electrical", source: _origPrice > 0 ? "upload" : "manual"});
           state.step = "result";
           render();
         });

@@ -254,7 +254,7 @@
     function fmtNumber(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? n.toLocaleString() : "N/A"; }
     function fmtYears(n) { n = parseFloat(n); return (n && n > 0) ? n + (n === 1 ? " yr" : " yrs") : "N/A"; }
     function fmtYesNo(v) { if (v === true || v === "yes" || v === "Yes" || v === "true") return '<span class="cmp-scope-check">&#10003; Yes</span>'; if (v === false || v === "no" || v === "No" || v === "false") return '<span class="cmp-scope-no">&#10007; No</span>'; return '<span class="cmp-scope-missing">? Unclear</span>'; }
-    function fmtText(v) { if (v == null || v === "" || v === "Unknown" || v === "unknown") return "Not stated"; var s = String(v).replace(/_/g, " ").replace(/bw/g, function(c) { return c.toUpperCase(); }).replace(/bAcb/g, "AC").replace(/bHvacb/g, "HVAC").replace(/bSeerb/g, "SEER").replace(/bAfueb/g, "AFUE"); return escHtml(s); }
+    function fmtText(v) { if (v == null || v === "" || v === "Unknown" || v === "unknown") return "Not stated"; var s = String(v).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); }).replace(/\bAc\b/g, "AC").replace(/\bHvac\b/g, "HVAC").replace(/\bSeer\b/g, "SEER").replace(/\bAfue\b/g, "AFUE"); return escHtml(s); }
 
     function readPrice(api) {
       for (var i = 0; i < PRICE_FIELDS.length; i++) {
@@ -744,16 +744,16 @@
         });
       }
 
-      // Standardized: Next Steps before signing (HVAC-specific bullets)
+      // Standardized: Next Steps before signing (roofing-specific bullets)
       html += '<section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:24px 0 16px;">';
       html += '<h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>';
       html += '<ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">';
-      html += '<li>Match scope line-by-line &mdash; a $5K cheaper quote usually means missing equipment, not better value</li>';
-      html += '<li>Confirm warranty terms (parts AND labor years) on each quote &mdash; labor warranty is the bigger gap</li>';
-      html += '<li>Ask for a Manual J load calculation if any contractor didn&#39;t perform one</li>';
-      html += '<li>Verify R-410A compliance &mdash; do not accept R-410A in new 2026+ installs (EPA AIM Act)</li>';
-      html += '<li>Check the contractor&#39;s license, insurance, EPA 608 certification, and recent reviews</li>';
-      html += '<li>Get every promised inclusion (thermostat, pad, drain line, haul-off) in writing before deposit</li>';
+      html += '<li>Match scope line-by-line &mdash; a cheaper quote often means no tear-off, thinner underlayment, or missing flashing</li>';
+      html += '<li>Confirm warranty terms: manufacturer shingle warranty AND contractor workmanship warranty (labor) separately</li>';
+      html += '<li>Verify the quote includes ice &amp; water shield in valleys and along eaves (code-required in freeze zones)</li>';
+      html += '<li>Check that drip edge, ridge vent, and pipe boot replacement are explicitly listed &mdash; not assumed</li>';
+      html += '<li>Ask about haul-off and dump fees &mdash; some quotes exclude disposal of old shingles</li>';
+      html += '<li>Check the contractor&#39;s license, insurance (liability + workers&#39; comp), and recent reviews</li>';
       html += '</ul>';
       html += '</section>';
 
