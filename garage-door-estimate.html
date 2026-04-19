@@ -1303,6 +1303,7 @@
         render();
       };
 
+      window.__tpResultContext = { city: state.address.city, stateCode: state.address.stateCode };
       if (window.tpRenderResultFooter) {
         var footerHtml = window.tpRenderResultFooter({
           vertical: "garage-door",

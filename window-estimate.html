@@ -1099,6 +1099,7 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       };
 
+      window.__tpResultContext = { city: state.address.city, stateCode: state.address.stateCode };
       if (window.tpRenderResultFooter) {
         appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
           vertical: "windows",
