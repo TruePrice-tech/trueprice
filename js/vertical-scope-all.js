@@ -875,13 +875,25 @@
     var config = VERTICALS[vertical] || VERTICALS["plumbing"];
     var t = String(text || "");
 
-    // Scope detection
+    // Scope detection (with negation handling)
     var scope = [];
+    var negationPattern = /\bnot\s+included\b|\bnot\s+available\b|\bexcluded\b|\bnot\s+covered\b|\blimited\s+to\s+existing\b|\bowner\s+responsible\b|\bextra\s+cost\b|\badditional\s+charge\b/i;
     if (config.scope) {
       var tLower = t.toLowerCase();
+      var lines = tLower.split(/\n/);
       for (var i = 0; i < config.scope.length; i++) {
         var item = config.scope[i];
-        var found = item.patterns.some(function (p) { return p.test(tLower); });
+        var found = false;
+        for (var li = 0; li < lines.length; li++) {
+          var line = lines[li];
+          if (item.patterns.some(function (p) { return p.test(line); })) {
+            // Check if this line negates the item
+            if (!negationPattern.test(line)) {
+              found = true;
+              break;
+            }
+          }
+        }
         scope.push({ key: item.key, label: item.label, detected: found });
       }
     }
