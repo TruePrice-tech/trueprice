@@ -74,7 +74,7 @@
       <p class="anim-1" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.45); margin:-8px auto 20px; max-width:640px;">Meet Trudy, your free AI quote checker. Roofing, HVAC, plumbing, electrical, solar, auto repair, medical bills, and 13 more.</p>
 
       <div class="tp-counter anim-1" style="margin:0 auto 36px;">
-        <span class="tp-counter-num"><span id="liveCounterTop">3,895</span></span><span class="tp-counter-label">quotes checked and counting</span>
+        <span class="tp-counter-num"><span id="liveCounterTop">4,860</span></span><span class="tp-counter-label">quotes checked and counting</span>
       </div>
 
       <div class="tp-intent-grid anim-2">
@@ -468,15 +468,18 @@
     requestAnimationFrame(step);
   }
 
-  // Start at 0 visually; fall back to a sane default if the API is slow
+  // Start at 0 visually; use localStorage to remember last known count
   el.textContent = "0";
+  var fallback = 4860;
+  try { var saved = localStorage.getItem("wg_counter"); if (saved) fallback = parseInt(saved, 10) || fallback; } catch(e) {}
   fetch("/api/analytics?counter=1")
     .then(function(r) { return r.json(); })
     .then(function(d) {
-      var n = (d && d.count) ? parseInt(d.count, 10) : 3895;
+      var n = (d && d.count) ? parseInt(d.count, 10) : fallback;
+      try { localStorage.setItem("wg_counter", n); } catch(e) {}
       animate(n);
     })
-    .catch(function() { animate(3895); });
+    .catch(function() { animate(fallback); });
 })();
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
