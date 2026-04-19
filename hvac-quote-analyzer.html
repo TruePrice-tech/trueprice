@@ -971,13 +971,11 @@
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 
-        // Determine price
-        var quotePrice = 0;
-        if (parsed && parsed.finalPrice && parsed.finalPrice > 500) {
+        // Determine price -- start with engine price, override with parser if better
+        if (!quotePrice && parsed && parsed.finalPrice && parsed.finalPrice > 500) {
           quotePrice = parsed.finalPrice;
-        } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
-          // pick highest-scored candidate in HVAC range
-          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 1500 && c.value <= 50000; });
+        } else if (!quotePrice && parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
+          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 500 && c.value <= 50000; });
           candidates.sort(function(a, b) { return b.score - a.score; });
           if (candidates.length) quotePrice = candidates[0].value;
         }
