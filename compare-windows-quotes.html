@@ -268,7 +268,7 @@
     var ENDPOINT = "/api/windows-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Window Brand", "field": "brand", "type": "text"}, {"label": "Frame Material", "field": "frameMaterial", "type": "text"}, {"label": "Window Count", "field": "windowCount", "type": "number"}, {"label": "$/window", "field": "_dollarsPerWindow", "type": "computed"}, {"label": "Glass Package", "field": "glassPackage", "type": "text"}, {"label": "U-Factor", "field": "uFactor", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key":"removal","label":"Old window removal"},{"key":"trim","label":"Interior/exterior trim"},{"key":"flashing","label":"Flashing/waterproofing"},{"key":"insulation","label":"Insulation/foam"},{"key":"screens","label":"Screens included"},{"key":"hardware","label":"Hardware/locks"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"}];
+    var SCOPE_ITEMS = [{"key":"haul_away","label":"Old window removal"},{"key":"trim","label":"Trim/capping"},{"key":"flashing","label":"Flashing/waterproofing"},{"key":"caulk","label":"Caulk/insulation"},{"key":"low_e","label":"Low-E glass"},{"key":"argon","label":"Argon filled"},{"key":"screens","label":"Screens included"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"},{"key":"permit","label":"Permit"},{"key":"glass_package","label":"Glass package"},{"key":"install_method","label":"Install method"}];
     var TRUDY = "/images/trudy-windows.png";
     var SINGLE_PAGE = "/windows-quote-analyzer.html";
     var GUIDE_PAGE = "/windows-cost-guide.html";
@@ -457,16 +457,16 @@
     }
 
     function scoreQuote(q, all) {
-      // Price 50%, scope 30%, red flags -20%
+      // Price 40%, Scope 40%, Transparency 10%, Red Flags -10%
       var prices = all.map(function(a) { return a.price; }).filter(function(p) { return p > 0; });
       var priceScore = 0;
       if (q.price > 0 && prices.length >= 2) {
         var avg = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
         var ratio = q.price / avg;
-        if (ratio < 0.5) priceScore = 25; // suspiciously low
-        else if (ratio <= 1) priceScore = 35 + (1 - ratio) * 30;
-        else priceScore = Math.max(10, 35 - (ratio - 1) * 35);
-      } else if (q.price > 0) priceScore = 30;
+        if (ratio < 0.5) priceScore = 20; // suspiciously low
+        else if (ratio <= 1) priceScore = 30 + (1 - ratio) * 20;
+        else priceScore = Math.max(5, 30 - (ratio - 1) * 30);
+      } else if (q.price > 0) priceScore = 20;
       else priceScore = 0; // no price = can't evaluate
 
       var confirmed = 0;
@@ -474,11 +474,12 @@
         var v = (q.scopeItems && q.scopeItems[it.key]) || "";
         if (v === "included" || v === "yes" || v === true) confirmed++;
       });
-      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 30 : 0;
+      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 40 : 0;
 
-      var flagPenalty = Math.min(20, (q.redFlags || []).length * 5);
+      var transparencyScore = Math.min(10, confirmed * 1.5);
+      var flagPenalty = Math.min(15, (q.redFlags || []).length * 5);
 
-      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + 20 - flagPenalty)));
+      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + transparencyScore - flagPenalty)));
       return { total: total, scopeCount: confirmed, priceScore: Math.round(priceScore), scopeScore: Math.round(scopeScore), flagPenalty: flagPenalty };
     }
 

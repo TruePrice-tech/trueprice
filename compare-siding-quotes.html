@@ -267,7 +267,7 @@
     var ENDPOINT = "/api/siding-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Material", "field": "material", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Insulation Backing", "field": "insulationBacking", "type": "yesno"}, {"label": "Trim Color", "field": "trimColor", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key":"removal","label":"Old siding removal"},{"key":"housewrap","label":"House wrap"},{"key":"trim","label":"Trim/corners"},{"key":"flashing","label":"Flashing"},{"key":"insulation","label":"Insulation board"},{"key":"soffit_fascia","label":"Soffit/fascia"},{"key":"caulking","label":"Caulking"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"}];
+    var SCOPE_ITEMS = [{"key":"old_removal","label":"Old siding removal"},{"key":"insulation","label":"Insulation board"},{"key":"soffit_fascia","label":"Soffit/fascia"},{"key":"trim_wrap","label":"Trim wrap"},{"key":"housewrap","label":"House wrap"},{"key":"permit","label":"Permit"},{"key":"cleanup","label":"Cleanup"},{"key":"flashing","label":"Flashing"},{"key":"warranty","label":"Warranty"},{"key":"caulking","label":"Caulking/sealing"}];
     var TRUDY = "/images/trudy-siding.png";
     var SINGLE_PAGE = "/siding-quote-analyzer.html";
     var GUIDE_PAGE = "/siding-cost-guide.html";
@@ -459,16 +459,16 @@
     }
 
     function scoreQuote(q, all) {
-      // Price 50%, scope 30%, red flags -20%
+      // Price 40%, Scope 40%, Transparency 10%, Red Flags -10%
       var prices = all.map(function(a) { return a.price; }).filter(function(p) { return p > 0; });
       var priceScore = 0;
       if (q.price > 0 && prices.length >= 2) {
         var avg = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
         var ratio = q.price / avg;
-        if (ratio < 0.5) priceScore = 25; // suspiciously low
-        else if (ratio <= 1) priceScore = 35 + (1 - ratio) * 30;
-        else priceScore = Math.max(10, 35 - (ratio - 1) * 35);
-      } else if (q.price > 0) priceScore = 30;
+        if (ratio < 0.5) priceScore = 20; // suspiciously low
+        else if (ratio <= 1) priceScore = 30 + (1 - ratio) * 20;
+        else priceScore = Math.max(5, 30 - (ratio - 1) * 30);
+      } else if (q.price > 0) priceScore = 20;
       else priceScore = 0; // no price = can't evaluate
 
       var confirmed = 0;
@@ -476,11 +476,12 @@
         var v = (q.scopeItems && q.scopeItems[it.key]) || "";
         if (v === "included" || v === "yes" || v === true) confirmed++;
       });
-      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 30 : 0;
+      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 40 : 0;
 
-      var flagPenalty = Math.min(20, (q.redFlags || []).length * 5);
+      var transparencyScore = Math.min(10, confirmed * 1.5);
+      var flagPenalty = Math.min(15, (q.redFlags || []).length * 5);
 
-      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + 20 - flagPenalty)));
+      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + transparencyScore - flagPenalty)));
       return { total: total, scopeCount: confirmed, priceScore: Math.round(priceScore), scopeScore: Math.round(scopeScore), flagPenalty: flagPenalty };
     }
 
