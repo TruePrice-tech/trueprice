@@ -928,6 +928,21 @@
         state.step = "address";
         render();
       });
+
+      window.autoStartOver = function() {
+        state.est = { repairType: null, subType: null, vehicleCat: null, shopType: null, urgency: null };
+        state.result = null;
+        state.step = "address";
+        render();
+      };
+
+      if (window.tpRenderResultFooter) {
+        appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
+          vertical: "auto-repair",
+          verticalLabel: "Auto Repair",
+          onStartOver: "autoStartOver"
+        }));
+      }
     }
 
     // ── Init ──
@@ -936,5 +951,6 @@
   })();
   </script>
   <script src="/js/tp-analytics.min.js" async></script>
+  <script src="/js/result-footer.min.js" defer></script>
 </body>
 </html>

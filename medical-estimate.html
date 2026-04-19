@@ -839,6 +839,21 @@
         state.step = "address";
         render();
       });
+
+      window.medStartOver = function() {
+        state.est = { serviceType: null, subType: null, insurance: null, network: null };
+        state.result = null;
+        state.step = "address";
+        render();
+      };
+
+      if (window.tpRenderResultFooter) {
+        appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
+          vertical: "medical",
+          verticalLabel: "Medical",
+          onStartOver: "medStartOver"
+        }));
+      }
     }
 
     window.submitFeedback = function(response) {
@@ -857,6 +872,7 @@
 
   })();
   </script>
+  <script src="/js/result-footer.min.js" defer></script>
 
 </body>
 </html>
