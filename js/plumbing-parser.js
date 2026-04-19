@@ -106,13 +106,17 @@ function detectPlumbingServiceType(text) {
 
 function detectWaterHeaterType(text) {
   const normalized = String(text || "").toLowerCase();
+  // Indirect (boiler-fed) -- expensive, $3K-$7K installed
+  if (/\bindirect\b/.test(normalized)) return "indirect";
   if (/\btankless\b/.test(normalized) && /\bgas\b/.test(normalized)) return "tankless_gas";
   if (/\btankless\b/.test(normalized)) return "tankless_electric";
   if (/\bheat pump\b/.test(normalized) || /\bhybrid\b/.test(normalized)) return "hybrid_heat_pump";
-  if (/\b50\s*gal/i.test(normalized) && /\bgas\b/.test(normalized)) return "tank_50_gas";
+  // Match any gallon size for gas
+  if (/\b\d{2,3}\s*gal/i.test(normalized) && /\bgas\b/.test(normalized)) return "tank_50_gas";
   if (/\b50\s*gal/i.test(normalized)) return "tank_50_electric";
-  if (/\b40\s*gal/i.test(normalized) && /\bgas\b/.test(normalized)) return "tank_40_gas";
   if (/\b40\s*gal/i.test(normalized)) return "tank_40_electric";
+  if (/\b60\s*gal/i.test(normalized)) return "tank_50_electric"; // 60gal maps to 50gal pricing (closest)
+  if (/\b75\s*gal/i.test(normalized) || /\b80\s*gal/i.test(normalized)) return "tank_50_gas"; // large tanks
   if (/\bgas\b/.test(normalized)) return "tank_50_gas";
   return "tank_50_electric";
 }
