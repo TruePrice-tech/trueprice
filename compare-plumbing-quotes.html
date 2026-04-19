@@ -338,7 +338,7 @@
     var ENDPOINT = "/api/plumbing-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Fixture / Equipment", "field": "fixtureType", "type": "text"}, {"label": "Brand", "field": "brand", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty", "field": "warrantyYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key": "permit", "label": "Permit pulled"}, {"key": "warranty", "label": "Warranty stated"}, {"key": "code", "label": "Code compliance noted"}, {"key": "shutoff", "label": "Shut-off valves included"}, {"key": "cleanup", "label": "Cleanup included"}, {"key": "diagnosticFee", "label": "Diagnostic fee disclosed"}];
+    var SCOPE_ITEMS = [{"key":"permit","label":"Permit included"},{"key":"warranty_parts","label":"Parts warranty"},{"key":"warranty_labor","label":"Labor warranty"},{"key":"disposal","label":"Old unit disposal"},{"key":"labor_rate","label":"Labor rate disclosed"},{"key":"code_compliance","label":"Code compliance"},{"key":"camera_inspection","label":"Camera inspection"},{"key":"expansion_tank","label":"Expansion tank"},{"key":"shutoff_valve","label":"Shut-off valve"},{"key":"cleanup","label":"Cleanup"},{"key":"pressure_test","label":"Pressure test"}];
     var TRUDY = "/images/trudy-plumbing.png";
     var SINGLE_PAGE = "/plumbing-quote-analyzer.html";
     var GUIDE_PAGE = "/plumbing-cost-guide.html";

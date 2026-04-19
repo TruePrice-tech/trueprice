@@ -267,7 +267,7 @@
     var ENDPOINT = "/api/concrete-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "Thickness", "field": "thickness", "type": "text"}, {"label": "PSI Rating", "field": "psiRating", "type": "text"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}];
-    var SCOPE_ITEMS = [{"key": "rebar", "label": "Rebar / mesh"}, {"key": "gradePrep", "label": "Grade prep / base"}, {"key": "controlJoints", "label": "Control joints"}, {"key": "sealer", "label": "Sealer included"}, {"key": "demolition", "label": "Demo included"}, {"key": "permit", "label": "Permit included"}, {"key": "drainage", "label": "Drainage planning"}];
+    var SCOPE_ITEMS = [{"key":"permit","label":"Permit"},{"key":"rebar","label":"Rebar/wire mesh"},{"key":"grading","label":"Grading/compaction"},{"key":"forms","label":"Formwork"},{"key":"finish","label":"Finish type"},{"key":"sealer","label":"Sealer/curing"},{"key":"demo","label":"Demo/removal"},{"key":"disposal","label":"Disposal"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"}];
     var TRUDY = "/images/trudy-concrete.png";
     var SINGLE_PAGE = "/concrete-quote-analyzer.html";
     var GUIDE_PAGE = "/concrete-cost-guide.html";

@@ -268,7 +268,7 @@
     var ENDPOINT = "/api/windows-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Window Brand", "field": "brand", "type": "text"}, {"label": "Frame Material", "field": "frameMaterial", "type": "text"}, {"label": "Window Count", "field": "windowCount", "type": "number"}, {"label": "$/window", "field": "_dollarsPerWindow", "type": "computed"}, {"label": "Glass Package", "field": "glassPackage", "type": "text"}, {"label": "U-Factor", "field": "uFactor", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key": "removal", "label": "Old window removal"}, {"key": "haulOff", "label": "Haul-off included"}, {"key": "wrap", "label": "Trim wrap included"}, {"key": "caulking", "label": "Caulking/sealing"}, {"key": "interiorTrim", "label": "Interior trim restored"}, {"key": "warranty", "label": "Warranty stated"}, {"key": "cleanup", "label": "Cleanup included"}];
+    var SCOPE_ITEMS = [{"key":"removal","label":"Old window removal"},{"key":"trim","label":"Interior/exterior trim"},{"key":"flashing","label":"Flashing/waterproofing"},{"key":"insulation","label":"Insulation/foam"},{"key":"screens","label":"Screens included"},{"key":"hardware","label":"Hardware/locks"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"}];
     var TRUDY = "/images/trudy-windows.png";
     var SINGLE_PAGE = "/windows-quote-analyzer.html";
     var GUIDE_PAGE = "/windows-cost-guide.html";

@@ -268,7 +268,7 @@
     var ENDPOINT = "/api/garage-door-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Door Style", "field": "doorStyle", "type": "text"}, {"label": "Material", "field": "material", "type": "text"}, {"label": "Insulation R-value", "field": "rValue", "type": "text"}, {"label": "Door Size", "field": "doorSize", "type": "text"}, {"label": "Opener Brand", "field": "openerBrand", "type": "text"}, {"label": "Opener HP", "field": "openerHp", "type": "text"}, {"label": "Warranty (door)", "field": "warrantyDoorYears", "type": "years"}, {"label": "Warranty (opener)", "field": "warrantyOpenerYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key": "removal", "label": "Old door removal"}, {"key": "haulOff", "label": "Haul-off included"}, {"key": "springType", "label": "Spring type stated"}, {"key": "weatherSeal", "label": "Weather seal included"}, {"key": "smartFeatures", "label": "Smart/Wi-Fi opener"}, {"key": "warranty", "label": "Warranty stated"}];
+    var SCOPE_ITEMS = [{"key":"removal","label":"Old door removal"},{"key":"opener","label":"Opener included"},{"key":"hardware","label":"Hardware/tracks"},{"key":"insulation","label":"Insulation"},{"key":"weatherseal","label":"Weather seal"},{"key":"safety","label":"Safety features"},{"key":"warranty","label":"Warranty"},{"key":"cleanup","label":"Cleanup"}];
     var TRUDY = "/images/trudy-garage.png";
     var SINGLE_PAGE = "/garage-door-quote-analyzer.html";
     var GUIDE_PAGE = "/garage-door-cost-guide.html";

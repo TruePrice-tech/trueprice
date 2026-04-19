@@ -267,7 +267,7 @@
     var ENDPOINT = "/api/painting-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Paint Brand", "field": "paintBrand", "type": "text"}, {"label": "Number of Coats", "field": "coats", "type": "number"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key": "prep", "label": "Surface prep stated"}, {"key": "primer", "label": "Primer included"}, {"key": "caulking", "label": "Caulking/repair"}, {"key": "drywallRepair", "label": "Drywall repair"}, {"key": "trim", "label": "Trim included"}, {"key": "warranty", "label": "Warranty stated"}, {"key": "cleanup", "label": "Cleanup included"}];
+    var SCOPE_ITEMS = [{"key":"power_wash","label":"Power wash"},{"key":"scraping","label":"Scrape/sand prep"},{"key":"priming","label":"Primer"},{"key":"caulking","label":"Caulk/wood repair"},{"key":"trim","label":"Trim painting"},{"key":"ceiling","label":"Ceiling included"},{"key":"two_coats","label":"Two coats"},{"key":"furniture_move","label":"Furniture moved"},{"key":"drop_cloth","label":"Drop cloths/protection"},{"key":"cleanup","label":"Cleanup"},{"key":"paint_brand","label":"Paint brand specified"},{"key":"warranty","label":"Warranty"}];
     var TRUDY = "/images/trudy-painting.png";
     var SINGLE_PAGE = "/painting-quote-analyzer.html";
     var GUIDE_PAGE = "/painting-cost-guide.html";

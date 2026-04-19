@@ -266,7 +266,7 @@
     var ENDPOINT = "/api/foundation-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Repair Method", "field": "repairMethod", "type": "text"}, {"label": "Pier Count", "field": "pierCount", "type": "number"}, {"label": "Pier Type", "field": "pierType", "type": "text"}, {"label": "Engineer Report", "field": "engineerReport", "type": "yesno"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}, {"label": "Lifetime Transferable", "field": "lifetimeTransferable", "type": "yesno"}];
-    var SCOPE_ITEMS = [{"key": "engineer", "label": "Structural engineer involved"}, {"key": "permit", "label": "Permit pulled"}, {"key": "drainage", "label": "Drainage assessment"}, {"key": "warrantyTransferable", "label": "Warranty transferable"}, {"key": "soilTest", "label": "Soil test included"}, {"key": "cleanup", "label": "Cleanup included"}];
+    var SCOPE_ITEMS = [{"key":"engineering","label":"Engineering report"},{"key":"permit","label":"Permit"},{"key":"waterproofing","label":"Waterproofing"},{"key":"drainage","label":"Drainage"},{"key":"warranty","label":"Warranty"},{"key":"cleanup","label":"Cleanup"},{"key":"monitoring","label":"Post-repair monitoring"}];
     var TRUDY = "/images/trudy-foundation.png";
     var SINGLE_PAGE = "/foundation-quote-analyzer.html";
     var GUIDE_PAGE = "/foundation-cost-guide.html";

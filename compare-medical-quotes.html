@@ -272,7 +272,7 @@
     var ENDPOINT = "/api/medical-bill-estimate";
     var PRICE_FIELDS = ["totalBilled", "patientResponsibility", "totalPrice", "total"];
     var ROWS = [{"label": "Provider", "field": "providerName", "type": "text"}, {"label": "Service / CPT", "field": "serviceDescription", "type": "text"}, {"label": "Total Billed", "field": "totalBilled", "type": "money"}, {"label": "Patient Responsibility", "field": "patientResponsibility", "type": "money"}, {"label": "Insurance Adjustment", "field": "insuranceAdjustment", "type": "money"}, {"label": "Facility Type", "field": "facilityType", "type": "text"}];
-    var SCOPE_ITEMS = [{"key": "cptCodes", "label": "CPT codes itemized"}, {"key": "facilityFee", "label": "Facility fee disclosed"}, {"key": "physicianFee", "label": "Physician fee disclosed"}, {"key": "goodFaithEstimate", "label": "Good Faith Estimate format"}, {"key": "insuranceApplied", "label": "Insurance applied"}, {"key": "noSurpriseAct", "label": "No Surprises Act notice"}];
+    var SCOPE_ITEMS = [{"key":"cpt_codes","label":"CPT codes listed"},{"key":"itemized","label":"Itemized charges"},{"key":"insurance_adj","label":"Insurance adjustments"},{"key":"patient_resp","label":"Patient responsibility"},{"key":"facility_fee","label":"Facility fee"},{"key":"provider_fee","label":"Provider fee"},{"key":"payment_plan","label":"Payment plan"}];
     var TRUDY = "/images/trudy-medical.png";
     var SINGLE_PAGE = "/medical-bill-analyzer.html";
     var GUIDE_PAGE = "/medical-cost-guide.html";

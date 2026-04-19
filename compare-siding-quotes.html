@@ -267,7 +267,7 @@
     var ENDPOINT = "/api/siding-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Material", "field": "material", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Insulation Backing", "field": "insulationBacking", "type": "yesno"}, {"label": "Trim Color", "field": "trimColor", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key": "removal", "label": "Old siding removal"}, {"key": "wrap", "label": "House wrap included"}, {"key": "flashing", "label": "Flashing included"}, {"key": "trimWrap", "label": "Trim wrapping"}, {"key": "warranty", "label": "Warranty stated"}, {"key": "cleanup", "label": "Cleanup included"}, {"key": "permit", "label": "Permit pulled"}];
+    var SCOPE_ITEMS = [{"key":"removal","label":"Old siding removal"},{"key":"housewrap","label":"House wrap"},{"key":"trim","label":"Trim/corners"},{"key":"flashing","label":"Flashing"},{"key":"insulation","label":"Insulation board"},{"key":"soffit_fascia","label":"Soffit/fascia"},{"key":"caulking","label":"Caulking"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"}];
     var TRUDY = "/images/trudy-siding.png";
     var SINGLE_PAGE = "/siding-quote-analyzer.html";
     var GUIDE_PAGE = "/siding-cost-guide.html";

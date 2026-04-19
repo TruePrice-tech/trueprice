@@ -272,7 +272,7 @@
     var ENDPOINT = "/api/electrical-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Panel Size (amps)", "field": "panelAmps", "type": "text"}, {"label": "Wire Gauge", "field": "wireGauge", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty", "field": "warrantyYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key": "permit", "label": "Permit pulled"}, {"key": "inspection", "label": "Inspection included"}, {"key": "loadCalc", "label": "Load calculation"}, {"key": "groundingBonding", "label": "Grounding/bonding"}, {"key": "afciGfci", "label": "AFCI/GFCI noted"}, {"key": "cleanup", "label": "Cleanup included"}];
+    var SCOPE_ITEMS = [{"key":"permit","label":"Permit"},{"key":"grounding","label":"Grounding"},{"key":"afci_gfci","label":"AFCI/GFCI"},{"key":"panel","label":"Panel work"},{"key":"wiring","label":"New wiring"},{"key":"utility_coord","label":"Utility coordination"},{"key":"code_upgrade","label":"Code upgrade"},{"key":"cleanup","label":"Cleanup"},{"key":"labeling","label":"Panel labeling"}];
     var TRUDY = "/images/trudy-electrical.png";
     var SINGLE_PAGE = "/electrical-quote-analyzer.html";
     var GUIDE_PAGE = "/electrical-cost-guide.html";

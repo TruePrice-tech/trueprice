@@ -266,7 +266,7 @@
     var ENDPOINT = "/api/insulation-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Insulation Type", "field": "insulationType", "type": "text"}, {"label": "R-Value", "field": "rValue", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Areas Covered", "field": "areasCovered", "type": "text"}, {"label": "Air Sealing Included", "field": "airSealingIncluded", "type": "yesno"}];
-    var SCOPE_ITEMS = [{"key": "airSealing", "label": "Air sealing included"}, {"key": "ventilation", "label": "Ventilation addressed"}, {"key": "moistureBarrier", "label": "Moisture barrier"}, {"key": "demoOldInsulation", "label": "Old insulation removal"}, {"key": "permit", "label": "Permit included"}, {"key": "cleanup", "label": "Cleanup included"}];
+    var SCOPE_ITEMS = [{"key":"removal","label":"Old insulation removal"},{"key":"air_sealing","label":"Air sealing"},{"key":"vapor_barrier","label":"Vapor barrier"},{"key":"ventilation","label":"Ventilation check"},{"key":"r_value","label":"R-value specified"},{"key":"blower_door","label":"Blower door test"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"}];
     var TRUDY = "/images/trudy-insulation.png";
     var SINGLE_PAGE = "/insulation-quote-analyzer.html";
     var GUIDE_PAGE = "/insulation-cost-guide.html";
