@@ -61,7 +61,7 @@
 ]
 }
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between chain and belt drive openers?","acceptedAnswer":{"@type":"Answer","text":"Chain drive is cheaper ($150-$250) but louder. Belt drive ($200-$350) is whisper-quiet and ideal when bedrooms are above or adjacent to the garage. Both have similar reliability."}},{"@type":"Question","name":"Should I repair or replace my garage door?","acceptedAnswer":{"@type":"Answer","text":"Repair if damage is limited to one or two panels and replacements are available. Replace if the door is over 15 years old, panels are no longer manufactured, or you want better insulation and security."}},{"@type":"Question","name":"Does a new garage door increase home value?","acceptedAnswer":{"@type":"Answer","text":"A garage door replacement recovers 90-100% of its cost at resale, making it one of the highest-ROI home improvements. It also dramatically improves curb appeal."}},{"@type":"Question","name":"How long does a garage door last?","acceptedAnswer":{"@type":"Answer","text":"Steel garage doors last 20-30 years. Wood doors last 15-20 years with maintenance. Aluminum lasts 20+ years. Springs last 7-12 years (torsion) or 5-7 years (extension), depending on usage cycles."}}]}50) is whisper-quiet and ideal when bedrooms are above or adjacent to the garage. Both have similar reliability."}},{"@type":"Question","name":"Should I repair or replace my garage door?","acceptedAnswer":{"@type":"Answer","text":"Repair if damage is limited to one or two panels and replacements are available. Replace if the door is over 15 years old, panels are no longer manufactured, or you want better insulation and security."}},{"@type":"Question","name":"Does a new garage door increase home value?","acceptedAnswer":{"@type":"Answer","text":"A garage door replacement recovers 90-100% of its cost at resale, making it one of the highest-ROI home improvements. It also dramatically improves curb appeal."}},{"@type":"Question","name":"How long does a garage door last?","acceptedAnswer":{"@type":"Answer","text":"Steel garage doors last 20-30 years. Wood doors last 15-20 years with maintenance. Aluminum lasts 20+ years. Springs last 7-12 years (torsion) or 5-7 years (extension), depending on usage cycles."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I keep my garage cool in Brookhaven?","acceptedAnswer":{"@type":"Answer","text":"An insulated garage door (R-8 minimum) blocks radiant heat and can keep garage temperatures 10-20 degrees cooler than an uninsulated door. Light-colored doors reflect more heat than dark ones. Adding a radiant barrier to the ceiling and ensuring the weatherstrip seals tightly at the floor and sides also help. If you use the garage as a workspace, a ventilation fan or mini-split adds comfort without the cost of insulating the entire garage envelope."}},{"@type":"Question","name":"Should I repair or replace my garage door in Brookhaven?","acceptedAnswer":{"@type":"Answer","text":"Repair if the damage is limited to one or two panels, a single spring, or the opener mechanism. Replace when the door is over 15 years old, panels are discontinued, the door lacks insulation you want, or you are planning to sell. A garage door replacement recovers 90-100% of its cost at resale, making it one of the highest-ROI home improvements available."}},{"@type":"Question","name":"When is the best time to replace a garage door in Brookhaven?","acceptedAnswer":{"@type":"Answer","text":"Schedule your Brookhaven garage door replacement for fall or winter, cooler weather makes the installation more comfortable and demand is lower. Off-peak timing can save 5-10% on installation costs and gets you a wider selection of available styles and colors. Spring is the busiest season for garage door companies since broken springs peak after winter cold stress."}},{"@type":"Question","name":"What is the difference between chain and belt drive openers?","acceptedAnswer":{"@type":"Answer","text":"Chain drive is cheaper ($150-$250) but louder. Belt drive ($200-$350) is whisper-quiet and ideal when bedrooms are above or adjacent to the garage. Both have similar reliability."}},{"@type":"Question","name":"Should I repair or replace my garage door?","acceptedAnswer":{"@type":"Answer","text":"Repair if damage is limited to one or two panels and replacements are available. Replace if the door is over 15 years old, panels are no longer manufactured, or you want better insulation and security."}},{"@type":"Question","name":"Does a new garage door increase home value?","acceptedAnswer":{"@type":"Answer","text":"A garage door replacement recovers 90-100% of its cost at resale, making it one of the highest-ROI home improvements. It also dramatically improves curb appeal."}},{"@type":"Question","name":"How long does a garage door last?","acceptedAnswer":{"@type":"Answer","text":"Steel garage doors last 20-30 years. Wood doors last 15-20 years with maintenance. Aluminum lasts 20+ years. Springs last 7-12 years (torsion) or 5-7 years (extension), depending on usage cycles."}}]}50) is whisper-quiet and ideal when bedrooms are above or adjacent to the garage. Both have similar reliability."}},{"@type":"Question","name":"Should I repair or replace my garage door?","acceptedAnswer":{"@type":"Answer","text":"Repair if damage is limited to one or two panels and replacements are available. Replace if the door is over 15 years old, panels are no longer manufactured, or you want better insulation and security."}},{"@type":"Question","name":"Does a new garage door increase home value?","acceptedAnswer":{"@type":"Answer","text":"A garage door replacement recovers 90-100% of its cost at resale, making it one of the highest-ROI home improvements. It also dramatically improves curb appeal."}},{"@type":"Question","name":"How long does a garage door last?","acceptedAnswer":{"@type":"Answer","text":"Steel garage doors last 20-30 years. Wood doors last 15-20 years with maintenance. Aluminum lasts 20+ years. Springs last 7-12 years (torsion) or 5-7 years (extension), depending on usage cycles."}}]}
 </script>
 </head>
 
@@ -355,36 +355,4 @@ depending on door size, material, and whether an opener is included.
     <a href="/methodology.html">Methodology</a>
     <a href="/accessibility.html">Accessibility</a>
     <a href="/privacy.html">Privacy</a>
-    <a href="/terms.html">Terms</a>
-  </div>
-</div>
-
-<p>Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, compare bids, and estimate project costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/widget.html" style="color:inherit;">Free Widget</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p>
-</div>
-</footer>
-
-<script>
-(function() {
-  var form = document.querySelector('.city-email-form');
-  if (!form) return;
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var email = document.getElementById('cityEmail').value.trim();
-    var status = document.querySelector('.city-email-status');
-    var btn = form.querySelector('button');
-    btn.disabled = true; btn.textContent = 'Sending...';
-    fetch('/api/analytics', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type:'email_signup', email:email, source:'city_page'}) })
-      .then(function(r){return r.json()})
-      .then(function(d){ status.style.color='#166534'; status.textContent='Thanks! We will keep you posted.'; form.reset(); localStorage.setItem('tp_subscribed','1'); })
-      .catch(function(){ status.style.color='#b91c1c'; status.textContent='Something went wrong. Try again.'; });
-    btn.disabled = false; btn.textContent = 'Send guides';
-  });
-})();
-</script>
-<script src="/js/exit-intent.min.js" defer></script>
-<script src="/js/city-enhance.min.js" defer></script>
-<!-- TP-STRUCT-DIV-V1 -->
-<!-- TP-STRUCT-DIV-V2 -->
-<!-- TP-STRUCT-DIV-V3 -->
-</body>
-</html>
+    <a h

@@ -51,7 +51,7 @@
 ]
 }
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does a plumber charge per hour in Apache Junction?","acceptedAnswer":{"@type":"Answer","text":"Plumbers in Apache Junction typically charge $75-$150 per hour. Emergency and after-hours calls add a $100-$200 trip fee on top of the hourly rate."}},{"@type":"Question","name":"How often should I have my drains cleaned in Apache Junction?","acceptedAnswer":{"@type":"Answer","text":"Annual drain maintenance is recommended for most Apache Junction homes. Older homes with mature trees nearby may need semi-annual service to prevent root intrusion."}},{"@type":"Question","name":"Can I do plumbing repairs myself?","acceptedAnswer":{"@type":"Answer","text":"Simple tasks like replacing a faucet cartridge or fixing a running toilet are DIY-friendly. Anything involving supply lines, gas connections, sewer work, or permits should be left to a licensed plumber."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Apache Junction's hard water damage plumbing?","acceptedAnswer":{"@type":"Answer","text":"Yes. Hard water in the Apache Junction area deposits mineral scale inside pipes, reduces water heater efficiency by 20-30%, and shortens fixture lifespan. A water softener ($1,500-$3,000 installed) or whole-house water conditioner addresses the problem at the source. Descaling your water heater annually adds 3-5 years to its lifespan. If you notice white buildup on faucets or reduced shower pressure, scale is the likely cause."}},{"@type":"Question","name":"What should a plumbing quote include in Apache Junction?","acceptedAnswer":{"@type":"Answer","text":"A professional plumbing quote in Apache Junction should itemize: labor hours, material costs and brands, permit fees if applicable, cleanup, and warranty terms. The quote should include the plumber's license number and proof of insurance. Get three written quotes for any job over $500 to ensure fair pricing."}},{"@type":"Question","name":"When is the best time to schedule plumbing work in Apache Junction?","acceptedAnswer":{"@type":"Answer","text":"For non-emergency plumbing in Apache Junction, schedule during fall or spring, moderate temperatures make excavation work easier and contractor schedules are less congested. Emergency calls cost 50-100% more than scheduled work, so replacing aging water heaters, supply lines, and fixtures proactively during off-peak months saves significantly versus waiting for a failure."}},{"@type":"Question","name":"How much does a plumber charge per hour in Apache Junction?","acceptedAnswer":{"@type":"Answer","text":"Plumbers in Apache Junction typically charge $75-$150 per hour. Emergency and after-hours calls add a $100-$200 trip fee on top of the hourly rate."}},{"@type":"Question","name":"How often should I have my drains cleaned in Apache Junction?","acceptedAnswer":{"@type":"Answer","text":"Annual drain maintenance is recommended for most Apache Junction homes. Older homes with mature trees nearby may need semi-annual service to prevent root intrusion."}},{"@type":"Question","name":"Can I do plumbing repairs myself?","acceptedAnswer":{"@type":"Answer","text":"Simple tasks like replacing a faucet cartridge or fixing a running toilet are DIY-friendly. Anything involving supply lines, gas connections, sewer work, or permits should be left to a licensed plumber."}}]}
 </script>
 </head>
 
@@ -331,31 +331,4 @@
   </div>
 </div>
 
-<p>Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, compare bids, and estimate project costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/widget.html" style="color:inherit;">Free Widget</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p>
-</div>
-</footer>
-<script>
-(function() {
-  var form = document.querySelector('.city-email-form');
-  if (!form) return;
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var email = document.getElementById('cityEmail').value.trim();
-    var status = document.querySelector('.city-email-status');
-    var btn = form.querySelector('button');
-    btn.disabled = true; btn.textContent = 'Sending...';
-    fetch('/api/analytics', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({type:'email_signup', email:email, source:'city_page'}) })
-      .then(function(r){return r.json()})
-      .then(function(d){ status.style.color='#166534'; status.textContent='Thanks! We will keep you posted.'; form.reset(); localStorage.setItem('tp_subscribed','1'); })
-      .catch(function(){ status.style.color='#b91c1c'; status.textContent='Something went wrong. Try again.'; });
-    btn.disabled = false; btn.textContent = 'Send guides';
-  });
-})();
-</script>
-<script src="/js/exit-intent.min.js" defer></script>
-<script src="/js/city-enhance.min.js" defer></script>
-<!-- TP-STRUCT-DIV-V1 -->
-<!-- TP-STRUCT-DIV-V2 -->
-<!-- TP-STRUCT-DIV-V3 -->
-</body>
-</html>
+<p>W
