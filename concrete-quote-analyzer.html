@@ -847,7 +847,15 @@ setProgress(90, "Almost done...");
         renderPriceConfirmation(appRoot, quotePrice, "conc", function(confirmedPrice) {
 
 
-        var effectiveArea = area || 400;
+        // If area not detected, estimate from price (avoids $750 benchmark on $12K quotes)
+        var effectiveArea = area;
+        if (!effectiveArea && quotePrice > 0) {
+          var proj = CONC_PRICING.basePricePerSqft[concreteType.value] || CONC_PRICING.basePricePerSqft.standard_driveway;
+          effectiveArea = Math.round(quotePrice / (proj.mid * 1.1)); // estimate area from price / typical rate
+          if (effectiveArea < 100) effectiveArea = 100;
+          if (effectiveArea > 5000) effectiveArea = 5000;
+        }
+        if (!effectiveArea) effectiveArea = 400;
         var thicknessMult = (thickness && thickness.value >= 6) ? 1.30 : 1.0;
         // Check if demolition is mentioned for demo multiplier
         var demoMult = (scopeSignals.demolition && scopeSignals.demolition.status === "included") ? 1.15 : 1.0;
