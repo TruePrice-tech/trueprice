@@ -248,6 +248,12 @@ export default async function handler(req, res) {
       score = 40;
       reasons = ["photo_feedback_directional"];
       weight = 0.15;
+    } else if (source === "user_submitted_actual") {
+      // User self-reported what they actually paid via post-result capture form.
+      // No document proof, but explicit user action with context (city, service already known).
+      score = 60;
+      reasons = ["user_submitted_actual_price"];
+      weight = 0.5;
     } else if (source === "compare_upload") {
       // Quote uploaded via compare tool - real quote, no document flag
       const modelEstimate = Number(body.modelEstimate) || 0;
@@ -304,13 +310,28 @@ export default async function handler(req, res) {
       if (repairKey) await bumpAggregate(`cal:metro:${quote.stateCode}:${service}:${repairKey}`);
     }
 
+    // Read back the aggregate so the frontend can show comparison
+    let aggregate = null;
+    if (quote.stateCode) {
+      const cityLc = (quote.city || "").toLowerCase();
+      const aggKey = cityLc ? `cal:${cityLc}:${quote.stateCode}:${service}` : `cal:metro:${quote.stateCode}:${service}`;
+      try {
+        const raw = await redis.get(aggKey);
+        if (raw) {
+          const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+          aggregate = { avgPrice: parsed.avgPrice, quotes: parsed.quotes };
+        }
+      } catch (e) { /* non-critical */ }
+    }
+
     return res.status(200).json({
       ok: true,
       trustScore: score,
       trustReasons: reasons,
       influenceWeight: weight,
       accepted: weight > 0,
-      source: quote.source
+      source: quote.source,
+      aggregate: aggregate
     });
   }
 

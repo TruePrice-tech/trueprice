@@ -62,7 +62,24 @@
       + '.tp-action-icon { width:32px; height:32px; border-radius:50%; object-fit:cover; }'
       + '@media (max-width:600px) { .tp-action-row { grid-template-columns:1fr 1fr; } }'
       + '@media (max-width:400px) { .tp-action-row { grid-template-columns:1fr; } }'
-      + '@media print { .tp-result-footer { display:none !important; } }';
+      + '@media print { .tp-result-footer { display:none !important; } }'
+      + '.tp-qc { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:20px; margin:20px 0; }'
+      + '.tp-qc-title { font-size:15px; font-weight:700; color:#166534; margin:0 0 4px; }'
+      + '.tp-qc-sub { font-size:13px; color:#475569; margin:0 0 14px; }'
+      + '.tp-qc-fields { display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; }'
+      + '.tp-qc-field { display:flex; flex-direction:column; gap:2px; flex:1; min-width:120px; }'
+      + '.tp-qc-field label { font-size:11px; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:0.5px; }'
+      + '.tp-qc-input { padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; font-family:inherit; width:100%; box-sizing:border-box; }'
+      + '.tp-qc-input:focus { outline:none; border-color:#22c55e; box-shadow:0 0 0 2px rgba(34,197,94,0.15); }'
+      + '.tp-qc-loc { display:flex; gap:8px; }'
+      + '.tp-qc-loc .tp-qc-field:last-child { flex:0 0 70px; min-width:70px; }'
+      + '.tp-qc-btn { padding:8px 18px; background:#16a34a; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.15s; }'
+      + '.tp-qc-btn:hover { background:#15803d; }'
+      + '.tp-qc-btn:disabled { background:#86efac; cursor:not-allowed; }'
+      + '.tp-qc-privacy { font-size:11px; color:#6b7280; margin:8px 0 0; }'
+      + '.tp-qc-err { font-size:13px; color:#dc2626; margin:6px 0 0; }'
+      + '.tp-qc-thanks { font-size:14px; color:#166534; line-height:1.5; }'
+      + '.tp-qc-thanks strong { font-weight:700; }';
     document.head.appendChild(s);
   }
 
@@ -119,6 +136,25 @@
       + '    </button>'
       + '    <div class="tp-feedback-thanks" hidden>Thanks! Your feedback helps us get better.</div>'
       + '  </div>'
+      + '  <div class="tp-qc" data-qc-vertical="' + slug + '">'
+      + '    <div class="tp-qc-title">Got a real quote? Share it anonymously</div>'
+      + '    <p class="tp-qc-sub">Help neighbors in <strong class="tp-qc-location-label">your area</strong> get fair prices</p>'
+      + '    <div class="tp-qc-form">'
+      + '      <div class="tp-qc-fields">'
+      + '        <div class="tp-qc-field"><label>What did you pay?</label><input type="number" class="tp-qc-input tp-qc-price" placeholder="$ amount" min="1" step="1" /></div>'
+      + '        <div class="tp-qc-field"><label>Contractor (optional)</label><input type="text" class="tp-qc-input tp-qc-contractor" placeholder="Company name" maxlength="100" /></div>'
+      + '      </div>'
+      + '      <div class="tp-qc-loc" style="display:none;">'
+      + '        <div class="tp-qc-field"><label>City</label><input type="text" class="tp-qc-input tp-qc-city" placeholder="City" maxlength="60" /></div>'
+      + '        <div class="tp-qc-field"><label>State</label><input type="text" class="tp-qc-input tp-qc-state" placeholder="ST" maxlength="2" /></div>'
+      + '      </div>'
+      + '      <div style="margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+      + '        <button type="button" class="tp-qc-btn">Share anonymously</button>'
+      + '        <span class="tp-qc-privacy">Never shared with contractors.</span>'
+      + '      </div>'
+      + '      <div class="tp-qc-err" hidden></div>'
+      + '    </div>'
+      + '  </div>'
       + '  <hr class="tp-footer-divider" />'
       + '  <div class="tp-action-row">'
       + '    <button type="button" class="tp-action tp-action-primary" onclick="' + startOverHandler + '">'
@@ -143,8 +179,11 @@
       + '  </div>'
       + '</div>';
 
-    // Wire thumbs handler after the DOM has the footer
-    setTimeout(function () { wireThumbs(vertical); }, 0);
+    // Wire thumbs handler and quote capture after the DOM has the footer
+    setTimeout(function () {
+      wireThumbs(vertical);
+      wireQuoteCapture(vertical);
+    }, 0);
 
     return html;
   };
@@ -201,6 +240,140 @@
         window.tpTrack("feedback_thumbs", { vertical: vertical, vote: vote });
       }
     } catch (e) {}
+  }
+
+  // ---- quote capture handler ---------------------------------------------
+  function wireQuoteCapture(vertical) {
+    var cards = document.querySelectorAll('.tp-qc[data-qc-vertical="' + cssEscape(vertical) + '"]');
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      if (card.__tpQcWired) continue;
+      card.__tpQcWired = true;
+      (function (root, vert) {
+        // Auto-detect city/state
+        var city = "", st = "";
+        // 1. Try address form inputs
+        var cEl = document.getElementById("addrCity");
+        var sEl = document.getElementById("addrState");
+        if (cEl && cEl.value) city = cEl.value.trim();
+        if (sEl && sEl.value) st = sEl.value.trim().toUpperCase();
+        // 2. Try analyzer global
+        if (!city && window.__latestAnalysis) {
+          city = window.__latestAnalysis.city || "";
+          st = (window.__latestAnalysis.stateCode || "").toUpperCase();
+        }
+        // 3. Try __tpResultContext
+        if (!city && window.__tpResultContext) {
+          city = window.__tpResultContext.city || "";
+          st = (window.__tpResultContext.stateCode || "").toUpperCase();
+        }
+
+        // Update location label
+        var label = root.querySelector(".tp-qc-location-label");
+        if (city && st && label) {
+          label.textContent = city + ", " + st;
+        }
+
+        // Show city/state fields if not auto-detected
+        var locRow = root.querySelector(".tp-qc-loc");
+        if (!city && locRow) locRow.style.display = "flex";
+
+        // Submit handler
+        var btn = root.querySelector(".tp-qc-btn");
+        var errEl = root.querySelector(".tp-qc-err");
+        if (!btn) return;
+
+        btn.addEventListener("click", function () {
+          var priceInput = root.querySelector(".tp-qc-price");
+          var contractorInput = root.querySelector(".tp-qc-contractor");
+          var cityInput = root.querySelector(".tp-qc-city");
+          var stateInput = root.querySelector(".tp-qc-state");
+
+          var price = parseFloat((priceInput && priceInput.value) || "0");
+          var contractor = (contractorInput && contractorInput.value) || "";
+          var subCity = city || (cityInput && cityInput.value ? cityInput.value.trim() : "");
+          var subState = st || (stateInput && stateInput.value ? stateInput.value.trim().toUpperCase() : "");
+
+          // Validation
+          if (!price || price <= 0) {
+            if (errEl) { errEl.textContent = "Please enter the amount you paid."; errEl.hidden = false; }
+            return;
+          }
+          if (price > 500000) {
+            if (errEl) { errEl.textContent = "That price seems too high. Please double-check."; errEl.hidden = false; }
+            return;
+          }
+          if (errEl) errEl.hidden = true;
+
+          btn.disabled = true;
+          btn.textContent = "Submitting...";
+
+          var payload = {
+            price: price,
+            contractor: contractor,
+            city: subCity,
+            stateCode: subState,
+            service: vert,
+            source: "user_submitted_actual"
+          };
+
+          fetch("/api/calibration", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.error) {
+              if (errEl) { errEl.textContent = data.error; errEl.hidden = false; }
+              btn.disabled = false;
+              btn.textContent = "Share anonymously";
+              return;
+            }
+
+            // Build thanks message
+            var formattedPrice = "$" + price.toLocaleString();
+            var thanksHtml = "<strong>Thanks!</strong> ";
+            if (data.aggregate && data.aggregate.avgPrice && data.aggregate.quotes > 1) {
+              var avg = data.aggregate.avgPrice;
+              var pctDiff = Math.round(((price - avg) / avg) * 100);
+              var dir = pctDiff > 0 ? "above" : "below";
+              var absPct = Math.abs(pctDiff);
+              if (absPct <= 3) {
+                thanksHtml += "Your " + formattedPrice + " is right in line with the " + data.aggregate.quotes + "-quote average for this area.";
+              } else {
+                thanksHtml += "Your " + formattedPrice + " is " + absPct + "% " + dir + " the " + data.aggregate.quotes + "-quote average";
+                if (subCity && subState) thanksHtml += " in " + subCity + ", " + subState;
+                thanksHtml += ".";
+              }
+            } else {
+              thanksHtml += "Your " + formattedPrice + " helps establish pricing data";
+              if (subCity && subState) thanksHtml += " for " + subCity + ", " + subState;
+              thanksHtml += ".";
+            }
+            thanksHtml += "<br>This helps calibrate estimates for everyone in your area.";
+
+            // Replace form with thanks
+            var formEl = root.querySelector(".tp-qc-form");
+            if (formEl) formEl.style.display = "none";
+            var sub = root.querySelector(".tp-qc-sub");
+            if (sub) sub.style.display = "none";
+            var title = root.querySelector(".tp-qc-title");
+            if (title) title.style.display = "none";
+
+            var thanksDiv = document.createElement("div");
+            thanksDiv.className = "tp-qc-thanks";
+            thanksDiv.innerHTML = thanksHtml;
+            root.appendChild(thanksDiv);
+          })
+          .catch(function () {
+            if (errEl) { errEl.textContent = "Something went wrong. Please try again."; errEl.hidden = false; }
+            btn.disabled = false;
+            btn.textContent = "Share anonymously";
+          });
+        });
+      })(card, vertical);
+    }
   }
 
   // Tiny CSS.escape polyfill for selector safety
