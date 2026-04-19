@@ -37,7 +37,12 @@
       var note = document.createElement("div");
       note.className = "tp-benchmark-footnote";
       note.style.cssText = "padding:8px 14px; margin:8px auto 16px; font-size:12px; color:#94a3b8; text-align:center; max-width:720px;";
-      var cityLabel = payload.city ? String(payload.city).replace(/[<>&]/g, "") : "your area";
+      var rawCity = payload.city ? String(payload.city).replace(/[<>&]/g, "") : "";
+      // Fix OCR letter-spacing artifacts (e.g. "E V A N S" -> "EVANS", "E V Ans" -> "Evans")
+      if (rawCity && /^[A-Z]\s[A-Z\s]/.test(rawCity)) {
+        rawCity = rawCity.replace(/\b([A-Z])\s(?=[A-Z]\b|\s)/g, "$1").replace(/^([A-Z]+)/, function(m) { return m.charAt(0) + m.slice(1).toLowerCase(); });
+      }
+      var cityLabel = rawCity || "your area";
       note.innerHTML = "&#10003; Added to our anonymized local benchmark for " + cityLabel + ". No personal info shared. " +
                        "<a href=\"#\" onclick=\"event.preventDefault();if(confirm('Exclude future analyses from anonymized benchmarks?')){localStorage.setItem('tp_benchmark_optout','1');this.parentNode.innerHTML='&#10003; You have opted out.';}\" style=\"color:#94a3b8; text-decoration:underline; margin-left:6px;\">opt out</a>";
       anchor.parentNode ? anchor.parentNode.insertBefore(note, anchor.nextSibling) : anchor.appendChild(note);

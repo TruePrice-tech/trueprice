@@ -954,6 +954,9 @@ function detectContractor(text) {
     );
 
     name = name
+      .replace(/^\s*(please\s+)?make\s+all\s+checks\s+payable\s+to\s*/i, "")
+      .replace(/^\s*pay\s+to\s+the\s+order\s+of\s*/i, "")
+      .replace(/^\s*checks?\s+payable\s+to\s*/i, "")
       .replace(/^\s*(contractor|company|roofing company|proposal by|prepared by|submitted by|from|provider|shop|business)\s*[:\-]\s*/i, "")
       .replace(/[:\-|,\s]+$/g, "")
       .trim();
