@@ -365,8 +365,16 @@
         var regexPrice = parsed.finalBestPrice || parsed.price || null;
         if (regexPrice) regexPrice = Number(String(regexPrice).replace(/[$,]/g, ""));
         if (regexPrice && regexPrice >= 10 && regexPrice <= 500000) {
-          result.price = regexPrice;
-          result.source = "regex";
+          // Filter out kWh production values mistaken as prices (solar quotes)
+          var _priceStr = String(Math.round(regexPrice));
+          var _kwhCheck = result.ocrText.match(new RegExp(_priceStr.replace(/,/g, "[,\\s]?") + "\\s*(?:kwh|kWh|kilowatt)", "i"));
+          if (_kwhCheck) {
+            // This price is actually a kWh production value, skip it
+            console.warn("[TP_Engine] Filtered kWh value from price: " + regexPrice);
+          } else {
+            result.price = regexPrice;
+            result.source = "regex";
+          }
         }
 
         // Post-processing: prefer explicitly labeled "TOTAL" over line items
