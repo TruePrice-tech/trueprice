@@ -991,7 +991,7 @@ function detectContractor(text) {
     }
 
     if (
-      /\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|underlayment|shingles|permit|sales tax)\b/i.test(normalizedForMatch)
+      /\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|tear-off|underlayment|shingles|permit|sales tax|remove existing|install new|replace all|roof cover|cement fiber|standing seam|new roof|existing roof|repair|replacement|disposal|dumpster|haul off|clean up|debris)\b/i.test(normalizedForMatch)
     ) {
       return false;
     }

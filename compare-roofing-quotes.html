@@ -452,7 +452,8 @@
             }
           } catch(pe) { console.warn("Parser fallback error:", pe); }
         }
-        var name = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || (NOUN_SHORT + " " + (idx + 1));
+        var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
+        var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
         // Compute derived fields
         if (price > 0) {
