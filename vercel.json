@@ -149,7 +149,7 @@
     },
     {
       "source": "/:id(\\d+)-roof-cost.html",
-      "destination": "/roofing-estimate.html",
+      "destination": "/roofing-quote-analyzer.html?mode=estimator",
       "permanent": true
     },
     {
