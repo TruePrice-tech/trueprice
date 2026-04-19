@@ -203,25 +203,59 @@ def build_v4_block(vslug, origin_info, city_index):
     labor_text = f"{labor_pct:+d}% vs national" if abs(labor_pct) > 1 else "at the national average"
     mat_text = f"{mat_pct:+d}% vs national" if abs(mat_pct) > 1 else "at the national average"
 
-    pricing_paragraph = (
-        f"<p><strong>Typical cost range in {origin_info['display']}.</strong> "
-        f"For {vlabel.lower()} {unit}, {origin_info['display']} homeowners typically see "
-        f"<strong>${low:,} to ${high:,}</strong> — {mult_note}. "
-        f"Local labor rates run {labor_text}, and materials run {mat_text}. "
-        f"Your own quote can fall outside this band depending on scope, materials tier, "
-        f"and contractor, but this is the middle 60-70% of quotes we see in the "
-        f"{origin_info['display']} area.</p>"
-    )
+    def _cseed(s):
+        h = 2166136261
+        for ch in s:
+            h = ((h ^ ord(ch)) * 16777619) & 0xFFFFFFFF
+        return h
+
+    seed = _cseed(origin_info['display'])
+    city = origin_info['display']
+
+    pricing_templates = [
+        (f"<p><strong>Typical cost range in {city}.</strong> "
+         f"For {vlabel.lower()} {unit}, {city} homeowners typically see "
+         f"<strong>${low:,} to ${high:,}</strong> — {mult_note}. "
+         f"Local labor rates run {labor_text}, and materials run {mat_text}. "
+         f"Your own quote can fall outside this band depending on scope, materials tier, "
+         f"and contractor, but this is the middle 60-70% of quotes we see in the {city} area.</p>"),
+        (f"<p><strong>What {city} homeowners pay.</strong> "
+         f"Based on our pricing data, {vlabel.lower()} {unit} in {city} runs "
+         f"<strong>${low:,} to ${high:,}</strong>, which is {mult_note}. "
+         f"Labor here tracks at {labor_text} and materials at {mat_text}. "
+         f"Individual quotes vary with project scope and material grade, but this range covers "
+         f"the central 60-70% of what we see locally.</p>"),
+        (f"<p><strong>{city} pricing snapshot.</strong> "
+         f"Most {vlabel.lower()} projects {unit} in {city} come in at "
+         f"<strong>${low:,} to ${high:,}</strong> — {mult_note}. "
+         f"The local labor market runs {labor_text}, materials {mat_text}. "
+         f"Specific quotes depend on scope details and contractor overhead, but this band "
+         f"represents the realistic middle ground for the {city} market.</p>"),
+        (f"<p><strong>Cost reality in {city}.</strong> "
+         f"Our data puts {vlabel.lower()} {unit} in {city} between "
+         f"<strong>${low:,} and ${high:,}</strong>, sitting {mult_note}. "
+         f"Local labor costs run {labor_text} while materials track {mat_text}. "
+         f"Where your project lands in this range depends on scope complexity, material selections, "
+         f"and which contractor you choose.</p>"),
+    ]
+    pricing_paragraph = pricing_templates[seed % len(pricing_templates)]
 
     # Population + metro context
     pop = origin_info.get("population")
     pop_sentence = ""
     if pop:
-        pop_sentence = (
-            f"With approximately {pop:,} residents, {origin_info['display']} supports a "
-            f"{'crowded' if pop >= 500000 else 'competitive' if pop >= 100000 else 'smaller'} "
-            f"contractor market — get at least three quotes before signing anything."
-        )
+        market_desc = 'deep and competitive' if pop >= 500000 else 'competitive' if pop >= 100000 else 'smaller but functional'
+        pop_templates = [
+            (f"With approximately {pop:,} residents, {city} supports a "
+             f"{market_desc} contractor market — get at least three quotes before signing anything."),
+            (f"{city}'s population of {pop:,} sustains a {market_desc} "
+             f"contractor pool. Always compare at least three written quotes before committing."),
+            (f"At {pop:,} people, the {city} area has a {market_desc} "
+             f"base of contractors. Multiple competitive bids are readily available."),
+            (f"The {city} metro ({pop:,} residents) supports a {market_desc} "
+             f"contractor market. Three or more quotes is the standard practice here."),
+        ]
+        pop_sentence = pop_templates[seed % len(pop_templates)]
 
     # Nearest cities cross-links
     neighbors = nearest_cities(origin_info, city_index, limit=7)

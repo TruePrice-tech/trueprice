@@ -230,24 +230,74 @@ LEGACY_MARKER = "<!-- TP-LOCAL-INJECTED -->"
 def slug(name):
     return name.lower().replace(" ", "-").replace(".", "").replace("'", "").replace(",", "")
 
-def labor_phrase(mult):
+def _city_seed(city):
+    h = 2166136261
+    for ch in city:
+        h = ((h ^ ord(ch)) * 16777619) & 0xFFFFFFFF
+    return h
+
+def _pick(options, seed):
+    return options[seed % len(options)]
+
+def labor_phrase(mult, city=""):
     if mult is None: return ""
     pct = round((mult - 1.0) * 100)
+    seed = _city_seed(city)
     if pct >= 8:
-        return f"Labor rates here run roughly {pct}% above the national average per BLS metro data, which is the single biggest driver of how this city's pricing differs from the national midpoint."
-    if pct <= -8:
-        return f"Labor rates here run roughly {abs(pct)}% below the national average per BLS metro data, which is the main reason this city's pricing sits below the national midpoint."
-    return "Labor rates here track within a few points of the national average, so most of the price variation comes from material costs and local market dynamics rather than wage differentials."
+        templates = [
+            f"Labor rates here run roughly {pct}% above the national average per BLS metro data, which is the single biggest driver of how this city's pricing differs from the national midpoint.",
+            f"BLS wage data shows local labor costs running about {pct}% above the US median. This premium is the primary factor separating {city} pricing from national benchmarks.",
+            f"Contractor labor in {city} commands a {pct}% premium over the national average, driven by local cost of living and trade demand. This wage differential flows directly into every quote you receive.",
+            f"At {pct}% above national average labor rates, {city}'s contractor pricing starts from a higher baseline than most US markets. The gap reflects both local wages and regional demand for skilled trades.",
+        ]
+    elif pct <= -8:
+        templates = [
+            f"Labor rates here run roughly {abs(pct)}% below the national average per BLS metro data, which is the main reason this city's pricing sits below the national midpoint.",
+            f"BLS data shows {city}'s trade labor rates at about {abs(pct)}% below the US median. This cost advantage is the biggest reason quotes here come in lower than national averages.",
+            f"Contractor wages in {city} track roughly {abs(pct)}% below national norms, which translates directly into more competitive project pricing. The savings are real and consistent across most trade categories.",
+            f"{city}'s labor market runs about {abs(pct)}% below the national median for skilled trades. This wage differential is the primary driver of the area's below-average project costs.",
+        ]
+    else:
+        templates = [
+            "Labor rates here track within a few points of the national average, so most of the price variation comes from material costs and local market dynamics rather than wage differentials.",
+            f"Trade wages in {city} run close to the national median. Price differences from one contractor to another here are driven more by overhead, efficiency, and material choices than by labor cost.",
+            f"BLS data puts {city}'s skilled trade wages near the national midpoint. The local pricing you see is shaped more by material costs, permit fees, and competition than by labor rate differences.",
+            f"Contractor labor rates in {city} are roughly average for the US. The real pricing variation between quotes here comes down to scope interpretation, material tiers, and contractor overhead.",
+        ]
+    return _pick(templates, seed + 10)
 
-def population_phrase(pop):
+def population_phrase(pop, city=""):
     if not pop: return ""
+    seed = _city_seed(city)
     if pop >= 500000:
-        return f"As a major metro of {pop:,} residents, the local contractor market is deep — expect 10+ legitimate bidders on any standard residential job."
-    if pop >= 100000:
-        return f"With a population of {pop:,}, the local market has enough contractors to drive real competition on price, but you should still get three quotes."
-    if pop >= 30000:
-        return f"At {pop:,} residents, the local pool is moderate; expect 4-6 active contractors for most standard residential work."
-    return f"With a smaller population of {pop:,}, the local contractor pool is limited and pricing is sticky; consider contractors from nearby larger cities for competitive bids."
+        templates = [
+            f"As a major metro of {pop:,} residents, the local contractor market is deep. Expect 10+ legitimate bidders on any standard residential job.",
+            f"With {pop:,} residents, {city} supports one of the deeper contractor pools in the region. Competition is strong, and getting 5-10 bids on a standard project is realistic.",
+            f"{city}'s population of {pop:,} sustains a large and competitive contractor market. Pricing transparency is high here since so many shops compete for the same jobs.",
+            f"At {pop:,} people, {city} has the market depth to support dozens of qualified contractors per trade. Use that competition to your advantage and collect at least 3-5 quotes.",
+        ]
+    elif pop >= 100000:
+        templates = [
+            f"With a population of {pop:,}, the local market has enough contractors to drive real competition on price, but you should still get three quotes.",
+            f"{city}'s {pop:,} residents support a healthy contractor market. Competition keeps pricing fair, though the pool is not so large that you can skip due diligence on references.",
+            f"At {pop:,} people, {city} has enough trade professionals to give homeowners real choices. Three competitive quotes is the minimum for any project over $1,000.",
+            f"The {pop:,}-person {city} market supports sufficient contractor competition to keep pricing honest. Collect at least three written quotes before committing.",
+        ]
+    elif pop >= 30000:
+        templates = [
+            f"At {pop:,} residents, the local pool is moderate; expect 4-6 active contractors for most standard residential work.",
+            f"With {pop:,} people, {city}'s contractor pool is mid-sized. You will find 4-6 established shops for most trades, which provides enough competition for fair pricing.",
+            f"{city}'s population of {pop:,} supports a workable contractor market. For specialized trades, you may need to expand your search to neighboring cities for a third quote.",
+            f"At {pop:,} residents, {city} has a moderate contractor base. Most homeowners can find 3-5 qualified bidders without searching beyond the immediate area.",
+        ]
+    else:
+        templates = [
+            f"With a smaller population of {pop:,}, the local contractor pool is limited and pricing is sticky; consider contractors from nearby larger cities for competitive bids.",
+            f"At {pop:,} residents, {city}'s contractor market is small. You may need to reach out to shops in neighboring cities to get three competitive quotes.",
+            f"{city}'s compact market ({pop:,} residents) means fewer contractors competing for your job. Casting a wider geographic net for bids often yields 15-25% savings.",
+            f"With only {pop:,} people, {city}'s trade contractor pool is limited. Consider bidders from within a 30-40 mile radius to ensure you are seeing competitive market pricing.",
+        ]
+    return _pick(templates, seed + 11)
 
 def get_vertical_tip(climate_zone, vertical_slug, hvac_extra=None, plumb_extra=None, city_key=None):
     if vertical_slug == "hvac" and hvac_extra:
@@ -334,35 +384,72 @@ def build_about_section_html(city, state, ctx, mult, vlabel, climate_zone, hvac_
         # For non-roofing verticals, use a generic climate reference
         risk_phrase = "local climate conditions that affect project scheduling and material choices"
 
+    seed = _city_seed(city)
     if service_mult is not None:
         sm_pct = round((service_mult - 1.0) * 100)
         if sm_pct >= 5:
-            price_phrase = f"For {vlabel} specifically, our cost-multiplier model puts {city} at roughly {sm_pct}% above the national midpoint."
+            price_templates = [
+                f"For {vlabel} specifically, our cost-multiplier model puts {city} at roughly {sm_pct}% above the national midpoint.",
+                f"On {vlabel}, {city} runs about {sm_pct}% above the US average based on our pricing data across metro areas.",
+                f"Our data shows {vlabel} costs in {city} tracking roughly {sm_pct}% higher than the national baseline.",
+                f"{city}'s {vlabel} pricing sits approximately {sm_pct}% above national norms based on our cost analysis.",
+            ]
+            price_phrase = _pick(price_templates, seed + 20)
         elif sm_pct <= -5:
-            price_phrase = f"For {vlabel} specifically, our cost-multiplier model puts {city} at roughly {abs(sm_pct)}% below the national midpoint."
+            price_templates = [
+                f"For {vlabel} specifically, our cost-multiplier model puts {city} at roughly {abs(sm_pct)}% below the national midpoint.",
+                f"On {vlabel}, {city} comes in about {abs(sm_pct)}% under the national average based on our metro pricing data.",
+                f"Our analysis shows {vlabel} in {city} running roughly {abs(sm_pct)}% below the US baseline.",
+                f"{city}'s {vlabel} costs track approximately {abs(sm_pct)}% below national averages in our pricing model.",
+            ]
+            price_phrase = _pick(price_templates, seed + 20)
         else:
-            price_phrase = f"For {vlabel} specifically, {city} sits within a few points of the national midpoint on our cost model."
+            price_templates = [
+                f"For {vlabel} specifically, {city} sits within a few points of the national midpoint on our cost model.",
+                f"On {vlabel}, {city}'s pricing closely mirrors the national average in our data.",
+                f"Our cost model shows {vlabel} in {city} tracking right at the national baseline.",
+                f"{city}'s {vlabel} costs are essentially average for the US market in our analysis.",
+            ]
+            price_phrase = _pick(price_templates, seed + 20)
     else:
         price_phrase = ""
 
     growth_phrase = ""
     if growth == "high":
-        growth_phrase = f"{city}'s rapid recent growth has tightened the contractor market — expect longer lead times and less negotiating room than smaller markets."
+        growth_templates = [
+            f"{city}'s rapid recent growth has tightened the contractor market. Expect longer lead times and less negotiating room than smaller markets.",
+            f"Fast growth in {city} has created a seller's market for contractors. Wait times are longer and pricing flexibility is lower than in stable markets.",
+            f"The {city} area's booming growth means contractors have more work than they can handle. This shifts pricing power toward the contractor side of the table.",
+            f"{city}'s expansion has outpaced trade workforce growth. The practical effect: longer booking windows and firmer pricing than you would find in slower-growth cities.",
+        ]
+        growth_phrase = _pick(growth_templates, seed + 21)
     elif growth == "moderate":
-        growth_phrase = f"{city} has seen steady growth, which means a healthy supply of established contractors with multi-year track records."
+        growth_templates = [
+            f"{city} has seen steady growth, which means a healthy supply of established contractors with multi-year track records.",
+            f"Moderate growth in {city} supports a balanced contractor market. Enough work to keep good shops busy, enough competition to keep pricing reasonable.",
+            f"The {city} market has grown at a steady pace, producing a solid base of experienced contractors without the severe backlogs of booming cities.",
+            f"{city}'s measured growth has built a reliable contractor ecosystem. Lead times are manageable and pricing competition is healthy.",
+        ]
+        growth_phrase = _pick(growth_templates, seed + 21)
     elif growth == "low":
-        growth_phrase = f"{city}'s stable population means contractor capacity rarely tightens, so off-season pricing (typically Nov-Feb) can save 10-15% on non-emergency work."
+        growth_templates = [
+            f"{city}'s stable population means contractor capacity rarely tightens, so off-season pricing (typically Nov-Feb) can save 10-15% on non-emergency work.",
+            f"In {city}'s steady market, contractors work harder to earn each job. Off-peak scheduling often yields meaningful savings that booming markets cannot match.",
+            f"The {city} area's flat growth keeps contractor availability high year-round. Seasonal discounts of 10-15% are realistic for flexible project timelines.",
+            f"{city}'s stable population base means the contractor market is not stretched thin. Homeowners benefit from competitive pricing and shorter lead times.",
+        ]
+        growth_phrase = _pick(growth_templates, seed + 21)
 
     return f'''{INJECTED_MARKER}
 <section class="section" style="background:#fafbff;padding:24px;border-radius:14px;border:1px solid #e2e8f0;margin:32px 0;">
 <h2>About {vlabel} in {city}, {state}</h2>
-<p><strong>Why pricing varies in {city}.</strong> {labor_phrase(labor_mult)} {price_phrase}</p>
+<p><strong>Why pricing varies in {city}.</strong> {labor_phrase(labor_mult, city)} {price_phrase}</p>
 
 <p><strong>Local conditions.</strong> {weather + " " + city + " sees " + risk_phrase + "." if weather else city + " has " + risk_phrase + "."} {vert_tip}</p>
 
 <p><strong>Permits, codes, and licensing.</strong> {permit or f"Most {vlabel} projects in {city} require a permit; confirm with the local building department before signing."} {material_tip}</p>
 
-<p><strong>Contractor market.</strong> {population_phrase(pop)} {growth_phrase}</p>
+<p><strong>Contractor market.</strong> {population_phrase(pop, city)} {growth_phrase}</p>
 </section>
 '''
 

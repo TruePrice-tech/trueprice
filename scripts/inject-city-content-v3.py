@@ -192,88 +192,201 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+def _pick(options, seed):
+    """Deterministic pick from a list based on seed."""
+    return options[seed % len(options)]
+
+
+def _city_seed(city):
+    """FNV-1a hash of city name for deterministic variation."""
+    h = 2166136261
+    for ch in city:
+        h = ((h ^ ord(ch)) * 16777619) & 0xFFFFFFFF
+    return h
+
+
 def home_age_sentence(age, city, label):
-    """Generate unique home-age-specific guidance."""
+    """Generate unique home-age-specific guidance with sentence variation."""
     if not isinstance(age, (int, float)):
         return ""
     age = int(age)
+    seed = _city_seed(city)
+
     if age >= 65:
-        return (
-            f"With an average home age around {age} years, {city}'s housing stock skews older. "
-            f"Plan on {label} projects encountering mid-century systems, knob-and-tube wiring in pockets, "
-            f"lath-and-plaster wall cavities, and grandfathered code exemptions that may no longer qualify "
-            f"under current inspection standards. Budget an extra 10-20% for surprise-code-catch-up work."
-        )
+        templates = [
+            (f"With an average home age around {age} years, {city}'s housing stock skews older. "
+             f"Plan on {label} projects encountering mid-century systems, knob-and-tube wiring in pockets, "
+             f"lath-and-plaster wall cavities, and grandfathered code exemptions that may no longer qualify "
+             f"under current inspection standards. Budget an extra 10-20% for surprise-code-catch-up work."),
+            (f"{city} homes average {age} years old, placing them firmly in the pre-modern-code era. "
+             f"Contractors bidding {label} here routinely discover outdated wiring, original cast iron plumbing, "
+             f"and structural details that predate current load requirements. A 10-20% contingency for hidden issues is standard practice."),
+            (f"At roughly {age} years old on average, {city}'s residential buildings reflect construction practices "
+             f"from a very different era. {label} work in homes this age commonly involves bringing systems up to current code, "
+             f"which adds time and cost that newer-home owners rarely face. Factor in extra scope for compliance upgrades."),
+            (f"The average {city} home has stood for around {age} years. That history means {label} contractors "
+             f"encounter original systems, outdated materials, and code gaps that require remediation before or during the project. "
+             f"Experienced local crews price this in; less experienced ones miss it and issue change orders later."),
+        ]
     elif age >= 50:
-        return (
-            f"The typical {city} home is around {age} years old. Most systems are past their first-replacement "
-            f"cycle and approaching their second. Expect {label} quotes to include mentions of "
-            f"upgraded electrical service, ductwork adjustments, or insulation retrofits that newer homes wouldn't need."
-        )
+        templates = [
+            (f"The typical {city} home is around {age} years old. Most systems are past their first-replacement "
+             f"cycle and approaching their second. Expect {label} quotes to include mentions of "
+             f"upgraded electrical service, ductwork adjustments, or insulation retrofits that newer homes wouldn't need."),
+            (f"{city}'s housing stock, averaging {age} years, is at the age where second-generation replacements "
+             f"are becoming necessary. Original upgrades from the 1990s-2000s are now aging out themselves. "
+             f"{label} projects here often uncover previous work that was done to older code standards."),
+            (f"Homes in {city} average about {age} years in age. At this stage, most have already had at least one "
+             f"major system replacement. {label} work here often involves matching or upgrading around previous renovations "
+             f"rather than dealing with purely original construction."),
+            (f"With a median home age near {age} years, {city} straddles the line between mid-century and modern construction. "
+             f"{label} contractors frequently encounter a mix of original and previously updated systems, "
+             f"which can complicate scope assessment. Get a thorough pre-work inspection."),
+        ]
     elif age >= 35:
-        return (
-            f"With average home age near {age} years, {city} homes are at the typical first-replacement milestone "
-            f"for major systems. Original furnaces, AC units, water heaters, and roofs installed when the homes were "
-            f"built are aging out — {label} is hitting peak demand in this age band."
-        )
+        templates = [
+            (f"With average home age near {age} years, {city} homes are at the typical first-replacement milestone "
+             f"for major systems. Original furnaces, AC units, water heaters, and roofs installed when the homes were "
+             f"built are aging out. {label} is hitting peak demand in this age band."),
+            (f"{city}'s homes, averaging {age} years, are entering the window where original-equipment replacements "
+             f"become unavoidable. This is the sweet spot for {label} work since systems are aging but the homes "
+             f"are modern enough to avoid major code-upgrade surprises."),
+            (f"At an average of {age} years, {city} housing is squarely in the first-replacement cycle. The original "
+             f"components installed during construction are reaching end of life. {label} demand is strong in this age range, "
+             f"and contractors are familiar with the common building patterns."),
+            (f"Most {city} homes were built about {age} years ago, which means their original systems are approaching "
+             f"or past their expected lifespan. {label} projects at this stage are typically straightforward since "
+             f"the construction meets modern code with minimal surprises."),
+        ]
     elif age >= 20:
-        return (
-            f"{city}'s housing stock averages {age} years old — relatively recent construction that was largely "
-            f"built to modern code. {label} projects here tend to be simpler: fewer surprise compliance issues, "
-            f"quicker permit turnaround, and contractors who can quote from memory."
-        )
+        templates = [
+            (f"{city}'s housing stock averages {age} years old, relatively recent construction that was largely "
+             f"built to modern code. {label} projects here tend to be simpler: fewer surprise compliance issues, "
+             f"quicker permit turnaround, and contractors who can quote from memory."),
+            (f"With homes averaging just {age} years old, {city} has a relatively new building stock. Most {label} "
+             f"work involves upgrades and efficiency improvements rather than end-of-life replacements. Code compliance "
+             f"is rarely an issue since these homes were built to recent standards."),
+            (f"{city} homes are about {age} years old on average, young enough that most original systems still have "
+             f"useful life remaining. {label} demand here centers on upgrades, improvements, and the occasional early "
+             f"failure rather than wholesale replacement."),
+            (f"The average {city} home is only {age} years old. {label} projects in newer construction typically "
+             f"go smoothly since the building methods and materials are standardized. Contractors can estimate accurately "
+             f"and encounter few surprises."),
+        ]
     else:
-        return (
-            f"{city} has an unusually young housing stock (average {age} years). Most homes are still running "
-            f"their original systems and components. {label} demand skews toward upgrades (efficiency, smart controls) "
-            f"rather than full replacement — ask contractors about tune-ups and partial upgrades before committing to a replacement."
-        )
+        templates = [
+            (f"{city} has an unusually young housing stock (average {age} years). Most homes are still running "
+             f"their original systems and components. {label} demand skews toward upgrades (efficiency, smart controls) "
+             f"rather than full replacement. Ask contractors about tune-ups and partial upgrades before committing to a replacement."),
+            (f"With an average home age of just {age} years, {city}'s housing stock is among the newest in the region. "
+             f"Most {label} work here involves optional upgrades rather than necessary replacements. Original equipment "
+             f"is still well within its expected lifespan."),
+            (f"{city}'s homes average only {age} years old, meaning most are still under or near their original warranty periods "
+             f"for major systems. {label} is primarily driven by enhancement and efficiency upgrades rather than wear-related necessity."),
+            (f"At just {age} years average, {city}'s housing stock is quite new. {label} contractors here focus mainly on "
+             f"upgrades and additions rather than replacements. Check whether existing warranties cover your planned work "
+             f"before hiring a contractor."),
+        ]
+    return _pick(templates, seed)
 
 
 def growth_rate_sentence(growth, city):
-    """Local market dynamics based on growth rate."""
+    """Local market dynamics based on growth rate with sentence variation."""
     growth = (growth or "").lower()
+    seed = _city_seed(city)
+
     if growth == "high":
-        return (
-            f"{city}'s high growth rate means contractor demand consistently exceeds supply. "
-            f"Expect 3-6 week booking delays in season. Get on a contractor's calendar as soon as "
-            f"you know you need work — waiting rarely improves pricing here."
-        )
+        templates = [
+            (f"{city}'s high growth rate means contractor demand consistently exceeds supply. "
+             f"Expect 3-6 week booking delays in season. Get on a contractor's calendar as soon as "
+             f"you know you need work. Waiting rarely improves pricing here."),
+            (f"Rapid growth in {city} has stretched the local contractor workforce thin. Lead times "
+             f"of 3-6 weeks are common during peak season, and the best-reviewed companies book out even further. "
+             f"Planning ahead is the single biggest way to control costs."),
+            (f"{city} is growing fast, and the construction trades have not kept pace with housing demand. "
+             f"This means longer wait times, less willingness to negotiate on price, and fewer available quotes "
+             f"to compare. Start your search early."),
+            (f"The {city} metro's rapid expansion has created a seller's market for contractors. "
+             f"Booking windows stretch 3-6 weeks, premium pricing holds even in off-season, and the most experienced "
+             f"crews are booked months ahead. Schedule proactively."),
+        ]
     elif growth == "moderate":
-        return (
-            f"{city} has moderate construction activity. Contractors are busy but accessible with 1-3 weeks' notice. "
-            f"Off-season quotes (contractor-dependent) can run 8-15% below peak rates."
-        )
+        templates = [
+            (f"{city} has moderate construction activity. Contractors are busy but accessible with 1-3 weeks' notice. "
+             f"Off-season quotes can run 8-15% below peak rates."),
+            (f"The {city} contractor market is balanced: enough work to keep shops busy, but enough competition "
+             f"that homeowners can still get timely service. Booking 1-3 weeks ahead typically secures your preferred contractor."),
+            (f"With steady but not explosive growth, {city}'s contractor market offers reasonable availability. "
+             f"Most shops can schedule work within 1-3 weeks, and shopping for quotes is straightforward."),
+            (f"{city}'s moderate growth keeps the contractor pipeline moving without the extreme backlogs "
+             f"seen in booming metros. Off-peak scheduling can yield 8-15% savings over peak-season rates."),
+        ]
     else:
-        return (
-            f"{city} has a stable, lower-growth construction market, which usually means more competitive "
-            f"contractor pricing than fast-growing metros. The tradeoff: smaller contractor pool, so reputation and "
-            f"reviews matter more — a few bad actors can dominate the local landscape."
-        )
+        templates = [
+            (f"{city} has a stable, lower-growth construction market, which usually means more competitive "
+             f"contractor pricing than fast-growing metros. The tradeoff: smaller contractor pool, so reputation and "
+             f"reviews matter more. A few bad actors can dominate the local landscape."),
+            (f"The {city} area's stable population means contractors compete harder for each job. "
+             f"Pricing tends to be 10-20% below fast-growing markets, but the smaller pool of licensed contractors "
+             f"means doing your homework on reputation is essential."),
+            (f"{city}'s flat growth pattern keeps contractor pricing competitive. You will likely find more "
+             f"willingness to negotiate and shorter lead times than in booming cities. However, fewer contractors "
+             f"means fewer quotes to compare, so check references carefully."),
+            (f"In a mature market like {city}, contractors rely on repeat business and referrals rather than "
+             f"new-construction volume. This tends to produce fair pricing and motivated service, but the smaller "
+             f"contractor pool means a bad choice is harder to recover from."),
+        ]
+    return _pick(templates, seed + 1)
 
 
 def hoa_sentence(hoa, city, label):
     hoa = (hoa or "").lower()
+    seed = _city_seed(city)
+
     if hoa == "high":
-        return (
-            f"HOAs are common in {city}. For {label}, factor in 2-4 weeks of HOA architectural review before starting, "
-            f"and collect pre-approval of materials in writing. HOA rejections after project start can be expensive."
-        )
+        templates = [
+            (f"HOAs are common in {city}. For {label}, factor in 2-4 weeks of HOA architectural review before starting, "
+             f"and collect pre-approval of materials in writing. HOA rejections after project start can be expensive."),
+            (f"Most {city} subdivisions operate under HOA governance. Before starting {label} work, submit your plans "
+             f"to the architectural committee and wait for written approval. Starting without approval risks fines and forced rework."),
+            (f"HOA oversight is the norm across {city}'s residential communities. {label} projects require advance approval "
+             f"of materials, colors, and sometimes contractors. Build 2-4 weeks of review time into your project schedule."),
+            (f"If you live in one of {city}'s many HOA-governed neighborhoods, get architectural approval before "
+             f"signing a {label} contract. The committee's material and color restrictions may narrow your options, "
+             f"so check first and avoid paying for an unapproved choice."),
+        ]
     elif hoa == "moderate":
-        return (
-            f"HOA prevalence in {city} is moderate. If you're in a managed community, check covenants before signing "
-            f"a {label} contract — material color, visible fixture type, or warranty requirements may affect your selection."
-        )
+        templates = [
+            (f"HOA prevalence in {city} is moderate. If you live in a managed community, check covenants before signing "
+             f"a {label} contract. Material color, visible fixture type, or warranty requirements may affect your selection."),
+            (f"Some {city} neighborhoods have HOA requirements that affect {label} projects. If your community has a "
+             f"homeowners association, review the CC&Rs for material and appearance restrictions before committing to a contractor."),
+            (f"About half of {city}'s newer subdivisions have HOA governance. Check whether your community requires "
+             f"architectural review for {label} work. Even when HOAs exist here, approval timelines tend to be shorter "
+             f"than in heavily regulated markets."),
+            (f"HOA rules affect some but not all {city} homeowners. If applicable, confirm your HOA's requirements for "
+             f"{label} before getting quotes. This avoids the situation where your preferred material or color "
+             f"gets rejected after you have already signed a contract."),
+        ]
     else:
-        return (
-            f"HOA involvement is uncommon in {city}, so most {label} projects avoid architectural review delays. "
-            f"City permitting alone governs the process."
-        )
+        templates = [
+            (f"HOA involvement is uncommon in {city}, so most {label} projects avoid architectural review delays. "
+             f"City permitting alone governs the process."),
+            (f"Few {city} properties fall under HOA governance, which simplifies {label} project planning. "
+             f"You deal only with city building codes and permits, not architectural committees."),
+            (f"{city} homeowners generally have free rein over material and style choices for {label} projects. "
+             f"HOA restrictions are rare here, so city code compliance is the only regulatory hurdle."),
+            (f"The absence of widespread HOA governance in {city} means fewer approval delays for {label} work. "
+             f"You can move straight from permits to construction without waiting for committee review."),
+        ]
+    return _pick(templates, seed + 2)
 
 
 def climate_months_guidance(climate_zone, vcfg, city, vlabel):
-    """Season-specific guidance tuned to climate zone."""
+    """Season-specific guidance tuned to climate zone with sentence variation."""
     zone = (climate_zone or "").lower()
+    seed = _city_seed(city)
+
     if zone == "cold":
         peak = vcfg["urgent_season_cold"]
         best = vcfg["best_season_cold"]
@@ -283,11 +396,19 @@ def climate_months_guidance(climate_zone, vcfg, city, vlabel):
     else:
         peak = "peak weather stress months"
         best = "shoulder seasons"
-    return (
-        f"Seasonally in {city}, {peak}. "
-        f"The best window for non-emergency {vlabel} is {best} — quieter contractor schedules, "
-        f"better prices, and less pressure to accept the first quote."
-    )
+
+    templates = [
+        (f"Seasonally in {city}, {peak}. "
+         f"The best window for non-emergency {vlabel} is {best}. Quieter contractor schedules, "
+         f"better prices, and less pressure to accept the first quote."),
+        (f"Timing matters in {city}: {peak}. "
+         f"If your {vlabel} project is not urgent, schedule during {best} for shorter wait times and better pricing."),
+        (f"In {city}, demand peaks during {peak}. "
+         f"Planning your {vlabel} work for {best} gives you more contractor options and typically saves 10-15%."),
+        (f"{city}'s seasonal cycle drives {vlabel} demand: {peak}. "
+         f"The smartest scheduling move is booking during {best}, when contractors are hungrier for work and more flexible on price."),
+    ]
+    return _pick(templates, seed + 3)
 
 
 def neighborhoods_sentence(local, city, vlabel):
