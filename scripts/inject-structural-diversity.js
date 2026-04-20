@@ -661,8 +661,8 @@ function processFile(filepath) {
   const { cityName, stateCode, cityState, vslug, info } = parsed;
   let html = fs.readFileSync(filepath, "utf8");
 
-  // Skip if already processed with V5 (compositional + H3/H4 variation)
-  if (html.includes("TP-STRUCT-DIV-V6")) return "skip_existing";
+  // Skip if already processed with V7 (flagship H3 variation)
+  if (html.includes("TP-STRUCT-DIV-V7")) return "skip_existing";
 
   // Strip old markers so we can re-process with expanded pools
   html = html.replace(/<!-- TP-STRUCT-DIV-V[0-9]+ -->\n?/g, "");
@@ -995,8 +995,87 @@ function processFile(filepath) {
   html = html.replace(priceRe, `<h4>${pick(footerPriceVariants, seed + 28)}</h4>`);
   html = html.replace(aboutRe2, `<h4>${pick(footerAboutVariants, seed + 29)}</h4>`);
 
+  // === 15. Vary flagship cost-scenario H3s: Budget / Mid-range / Premium ===
+  const budgetVariants = [
+    "Budget", "Economy tier", "Value option", "Budget range", "Entry level",
+    "Cost-conscious", "Affordable option", "Basic tier", "Starter range", "Lean budget",
+    "Budget-friendly", "Economy range", "Value tier", "Thrifty option", "Low end",
+    "Baseline", "Economical choice", "Budget pick", "Value range", "Savings tier",
+  ];
+  const midVariants = [
+    "Mid-range", "Mid-Range", "Standard range", "Middle tier", "Typical range",
+    "Moderate option", "Average range", "Standard tier", "Mid tier", "Popular range",
+    "Balanced option", "Mainstream pick", "Median range", "Common tier", "Middle ground",
+    "Standard option", "Moderate range", "Mid-level", "Center range", "Typical tier",
+  ];
+  const premiumVariants = [
+    "Premium", "High-end", "Premium tier", "Luxury range", "Top tier",
+    "Deluxe option", "Upscale range", "Elite tier", "First-class", "Superior range",
+    "Premium range", "High-end tier", "Top-of-line", "Quality tier", "Platinum range",
+    "Premium pick", "Upmarket option", "Prime range", "Select tier", "Prestige range",
+  ];
+  const budgetRe = new RegExp(`<h3((?:\\s+style="[^"]*")?)>(?:${budgetVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h3>`, 'i');
+  const midRe = new RegExp(`<h3((?:\\s+style="[^"]*")?)>(?:${midVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h3>`, 'i');
+  const premiumRe = new RegExp(`<h3((?:\\s+style="[^"]*")?)>(?:${premiumVariants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})</h3>`, 'i');
+  html = html.replace(budgetRe, `<h3$1>${pick(budgetVariants, seed + 30)}</h3>`);
+  html = html.replace(midRe, `<h3$1>${pick(midVariants, seed + 31)}</h3>`);
+  html = html.replace(premiumRe, `<h3$1>${pick(premiumVariants, seed + 32)}</h3>`);
+
+  // === 16. Vary per-vertical flagship red-flag H3s (no city name = identical across metros) ===
+  const redFlagVariants = {
+    // Plumbing
+    "Licensing gap": ["Licensing gap", "License verification", "Contractor licensing issue", "Credentials shortfall", "License compliance gap", "Licensing red flag", "Missing credentials", "License concern"],
+    "Pipe-material misdiagnosis": ["Pipe-material misdiagnosis", "Wrong pipe material call", "Material mismatch", "Pipe spec error", "Piping material issue", "Misidentified pipe type", "Material misdiagnosis", "Pipe assessment error"],
+    "Emergency vs scheduled pricing": ["Emergency vs scheduled pricing", "Urgent vs planned pricing", "Emergency rate spread", "Rush vs regular pricing", "Emergency markup gap", "Scheduled vs emergency cost", "After-hours price gap", "Priority pricing concern"],
+    "Common issue overlooked": ["Common issue overlooked", "Frequently missed issue", "Overlooked concern", "Easy-to-miss problem", "Commonly skipped item", "Under-the-radar issue", "Often-ignored factor", "Missed consideration"],
+    // Electrical
+    "Missing license verification": ["Missing license verification", "License check skipped", "Unverified credentials", "No license confirmation", "Credentials not checked", "License gap", "Missing credential check", "Unconfirmed licensing"],
+    "Hazard not disclosed": ["Hazard not disclosed", "Undisclosed safety risk", "Hidden hazard", "Safety concern omitted", "Risk not flagged", "Hazard left unmentioned", "Safety gap undisclosed", "Unreported hazard"],
+    // Foundation
+    "Misapplied repair method": ["Misapplied repair method", "Wrong repair approach", "Repair method mismatch", "Technique misapplication", "Incorrect repair strategy", "Mismatched repair type", "Wrong fix applied", "Method selection error"],
+    "Permit and engineering gaps": ["Permit and engineering gaps", "Engineering oversight", "Permit compliance gap", "Structural review missing", "Engineering sign-off gap", "Permit shortfall", "Structural approval gap", "Engineering compliance issue"],
+    "Drainage approach mismatch": ["Drainage approach mismatch", "Water management gap", "Drainage spec error", "Moisture control mismatch", "Grading and drainage issue", "Water diversion problem", "Drainage design gap", "Moisture management error"],
+    "Warranty coverage holes": ["Warranty coverage holes", "Warranty gaps", "Coverage exclusions", "Warranty fine print", "Protection gaps", "Warranty limitations", "Coverage shortfall", "Warranty blind spots"],
+    // Concrete
+    "Climate exposure unaddressed": ["Climate exposure unaddressed", "Weather exposure gap", "Climate risk overlooked", "Environmental exposure issue", "Weathering not addressed", "Climate impact unplanned", "Exposure risk ignored", "Weather factor missed"],
+    "Missing disaster-informed detailing": ["Missing disaster-informed detailing", "Disaster prep omitted", "Storm-readiness gap", "Natural hazard oversight", "Disaster resilience missing", "Hazard detailing skipped", "Storm hardening absent", "Disaster planning gap"],
+    "Setback or permit gaps": ["Setback or permit gaps", "Zoning compliance gap", "Setback violation risk", "Permit process gap", "Property line issue", "Zoning setback concern", "Regulatory gap", "Code compliance risk"],
+    "Pour window mismatch": ["Pour window mismatch", "Timing and cure concern", "Pour schedule issue", "Curing window problem", "Seasonal timing mismatch", "Pour timing error", "Concrete timing gap", "Weather window risk"],
+    // Painting
+    "Historic or HOA color review ignored": ["Historic or HOA color review ignored", "Color approval skipped", "HOA review missing", "Historic palette check skipped", "Color compliance gap", "Design review omitted", "HOA color check absent", "Palette approval missed"],
+    "Lead paint compliance missing": ["Lead paint compliance missing", "Lead safety gap", "RRP compliance absent", "Lead abatement oversight", "Lead testing skipped", "EPA lead rule gap", "Lead hazard unaddressed", "RRP protocol missing"],
+    "Seasonal window mismatched": ["Seasonal window mismatched", "Wrong season for painting", "Application timing issue", "Weather window missed", "Seasonal timing error", "Paint schedule concern", "Temperature window wrong", "Seasonal planning gap"],
+    // Kitchen
+    "Appliance spec mismatched to local utility": ["Appliance spec mismatched to local utility", "Utility compatibility gap", "Appliance hookup mismatch", "Service compatibility issue", "Utility spec conflict", "Appliance connection gap", "Local utility mismatch", "Service hookup concern"],
+    "Historic-district review skipped": ["Historic-district review skipped", "Heritage review omitted", "Historic preservation gap", "District compliance skipped", "Landmark review missing", "Historic approval absent", "Preservation check skipped", "Heritage compliance gap"],
+    "Surprise gotchas not priced": ["Surprise gotchas not priced", "Hidden costs unquoted", "Change order risk", "Unpriced contingencies", "Hidden extras not included", "Cost surprises ahead", "Unquoted add-ons", "Contingency gaps"],
+    // Solar
+    "Climate-risk engineering shortfall": ["Climate-risk engineering shortfall", "Weather resilience gap", "Climate engineering oversight", "Storm rating concern", "Environmental load gap", "Climate hardening absent", "Weather risk unaddressed", "Structural climate gap"],
+    // Fence
+    "Climate-mismatch spec": ["Climate-mismatch spec", "Weather-material mismatch", "Climate suitability gap", "Material-climate conflict", "Environmental spec error", "Weather compatibility issue", "Climate rating mismatch", "Material weathering risk"],
+    "Skipped HOA review": ["Skipped HOA review", "HOA approval missing", "Community review skipped", "HOA compliance gap", "Association review absent", "HOA check omitted", "Covenant review missing", "HOA sign-off skipped"],
+    "Missing wildlife provisions": ["Missing wildlife provisions", "Wildlife accommodation gap", "Animal passage missing", "Wildlife code unmet", "Habitat provision absent", "Wildlife compliance gap", "Animal access omitted", "Wildlife planning missing"],
+    // Moving
+    "No license or registration number": ["No license or registration number", "Missing USDOT credentials", "License number absent", "Registration unverified", "No DOT number provided", "Licensing credentials missing", "Registration gap", "Carrier license unconfirmed"],
+    "Quote far below market rate": ["Quote far below market rate", "Suspiciously low bid", "Below-market pricing", "Unrealistic low quote", "Red flag pricing", "Too-good-to-be-true bid", "Lowball estimate warning", "Under-market quote concern"],
+    "Demands large cash deposit": ["Demands large cash deposit", "Excessive upfront payment", "Large deposit red flag", "Cash-only deposit demand", "Upfront payment warning", "Deposit amount concern", "Pre-move payment risk", "Large advance required"],
+    "No written estimate provided": ["No written estimate provided", "Verbal-only quote", "Missing written quote", "No documentation offered", "Estimate not in writing", "Undocumented pricing", "Written quote absent", "No formal estimate"],
+    // Insulation-specific cost tiers
+    "Budget attic top-up": ["Budget attic top-up", "Basic attic refresh", "Economy attic layer", "Value attic insulation", "Starter attic upgrade", "Attic top-up (economy)", "Basic attic addition", "Affordable attic layer"],
+    "Mid-range attic plus air seal": ["Mid-range attic plus air seal", "Standard attic and seal package", "Attic insulation with air sealing", "Full attic treatment", "Attic upgrade with seal", "Complete attic package", "Standard insulation and seal", "Attic plus weatherization"],
+    "Premium whole-house package": ["Premium whole-house package", "Complete home insulation", "Whole-house upgrade", "Full-home energy package", "Comprehensive insulation", "Total home treatment", "Whole-property package", "Premium full-house job"],
+  };
+  for (const [original, variants] of Object.entries(redFlagVariants)) {
+    const escaped = original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const allVariantsEsc = variants.map(v => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const rfRe = new RegExp(`<h3((?:\\s+style="[^"]*")?)>(?:${allVariantsEsc.join('|')})</h3>`, 'i');
+    if (rfRe.test(html)) {
+      html = html.replace(rfRe, `<h3$1>${pick(variants, seed + 33)}</h3>`);
+    }
+  }
+
   // Add processing marker (invisible comment at end of body)
-  html = html.replace("</body>", "<!-- TP-STRUCT-DIV-V6 -->\n</body>");
+  html = html.replace("</body>", "<!-- TP-STRUCT-DIV-V7 -->\n</body>");
 
   fs.writeFileSync(filepath, html, "utf8");
   return "updated";

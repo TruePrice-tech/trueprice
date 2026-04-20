@@ -72,6 +72,11 @@ function extractBody(html) {
   text = text.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, " ");
   text = text.replace(/<script[^>]*>[^<]*/gi, " ");
   text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, " ");
+  // Chrome exclusion: strip non-content sections that Google de-weights
+  text = text.replace(/<header[^>]*>[\s\S]*?<\/header>/gi, " ");
+  text = text.replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, " ");
+  text = text.replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, " ");
+  text = text.replace(/<form[^>]*>[\s\S]*?<\/form>/gi, " ");
   text = text.replace(/<!--[\s\S]*?-->/g, " ");
   return text;
 }

@@ -76,6 +76,19 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+def _city_seed(city):
+    """FNV-1a hash of city name for deterministic variation."""
+    h = 2166136261
+    for ch in city:
+        h = ((h ^ ord(ch)) * 16777619) & 0xFFFFFFFF
+    return h
+
+
+def _pick(options, seed):
+    """Deterministic pick from a list based on seed."""
+    return options[seed % len(options)]
+
+
 try:
     with open(ROOT / "data" / "city-coordinates.json", encoding="utf-8") as f:
         COORDS = json.load(f)
@@ -181,12 +194,23 @@ def build_v5_block(city_display, state_code, vslug, metro_name, metro_data):
     else:
         direction = "right at"
 
-    # Build primary sentence
-    primary_sentence = (
-        f"According to BLS data, {primary_display} in the "
-        f"{metro_name} metro earn a median of <strong>${primary_wage:.2f}/hr</strong> "
-        f"({direction} the national median of ${national_wage:.2f}/hr)."
-    )
+    # Build primary sentence (4 variants, city-seeded)
+    seed = _city_seed(city_display)
+    primary_templates = [
+        (f"According to BLS data, {primary_display} in the "
+         f"{metro_name} metro earn a median of <strong>${primary_wage:.2f}/hr</strong> "
+         f"({direction} the national median of ${national_wage:.2f}/hr)."),
+        (f"Bureau of Labor Statistics data shows {primary_display} in the "
+         f"{metro_name} area averaging <strong>${primary_wage:.2f}/hr</strong>, "
+         f"which is {direction} the ${national_wage:.2f}/hr national median."),
+        (f"The BLS reports that {primary_display} working in the "
+         f"{metro_name} metro earn <strong>${primary_wage:.2f}/hr</strong> at the median, "
+         f"putting them {direction} the national figure of ${national_wage:.2f}/hr."),
+        (f"Local wage data from the BLS puts {primary_display} in "
+         f"{metro_name} at <strong>${primary_wage:.2f}/hr</strong> (median), "
+         f"{direction} the ${national_wage:.2f}/hr national benchmark."),
+    ]
+    primary_sentence = _pick(primary_templates, seed)
 
     # Secondary trade if available
     secondary_sentence = ""
@@ -202,33 +226,68 @@ def build_v5_block(city_display, state_code, vslug, metro_name, metro_data):
                 sec_dir = f"{abs(sec_pct)}% below"
             else:
                 sec_dir = "near"
-            secondary_sentence = (
-                f" {sec_display.capitalize()} earn ${sec_wage:.2f}/hr "
-                f"({sec_dir} the ${sec_national:.2f}/hr national median)."
-            )
+            sec_templates = [
+                (f" {sec_display.capitalize()} earn ${sec_wage:.2f}/hr "
+                 f"({sec_dir} the ${sec_national:.2f}/hr national median)."),
+                (f" Additionally, {sec_display} in the area earn "
+                 f"${sec_wage:.2f}/hr, {sec_dir} the ${sec_national:.2f}/hr national rate."),
+                (f" For context, {sec_display} in the same metro earn "
+                 f"${sec_wage:.2f}/hr ({sec_dir} ${sec_national:.2f}/hr nationally)."),
+                (f" {sec_display.capitalize()} see ${sec_wage:.2f}/hr locally, "
+                 f"{sec_dir} the ${sec_national:.2f}/hr national average."),
+            ]
+            secondary_sentence = _pick(sec_templates, seed + 1)
 
-    # Cost impact sentence
+    # Cost impact sentence (4 variants per condition)
     if pct_diff > 10:
-        impact = (
-            f"These higher labor costs are the primary reason {vlabel} "
-            f"quotes in {city_display} run above the national average."
-        )
+        impact_templates = [
+            (f"These higher labor costs are the primary reason {vlabel} "
+             f"quotes in {city_display} run above the national average."),
+            (f"The wage premium here is the dominant factor pushing {vlabel} "
+             f"prices in {city_display} above national norms."),
+            (f"Higher contractor wages explain much of why {vlabel} "
+             f"costs in {city_display} exceed the national average."),
+            (f"Elevated trade wages are the biggest driver of above-average "
+             f"{vlabel} pricing in {city_display}."),
+        ]
     elif pct_diff < -10:
-        impact = (
-            f"Lower labor costs are the main reason {vlabel} "
-            f"quotes in {city_display} come in below the national average."
-        )
+        impact_templates = [
+            (f"Lower labor costs are the main reason {vlabel} "
+             f"quotes in {city_display} come in below the national average."),
+            (f"Below-average wages for tradespeople help keep {vlabel} "
+             f"costs in {city_display} more affordable than most metros."),
+            (f"The labor cost advantage here is why {vlabel} "
+             f"pricing in {city_display} tends to undercut the national average."),
+            (f"Competitive trade wages give {city_display} homeowners a pricing "
+             f"edge on {vlabel} compared to the national average."),
+        ]
     else:
-        impact = (
-            f"With labor costs near the national average, material costs and "
-            f"project scope are the bigger pricing levers for {vlabel} in {city_display}."
-        )
+        impact_templates = [
+            (f"With labor costs near the national average, material costs and "
+             f"project scope are the bigger pricing levers for {vlabel} in {city_display}."),
+            (f"Since trade wages here track close to national norms, materials "
+             f"and job complexity drive most of the variation in {city_display} {vlabel} quotes."),
+            (f"Labor costs in {city_display} are roughly in line with the nation, "
+             f"so material choices and project scope matter more for your {vlabel} quote."),
+            (f"With wages near the national median, what you pay for {vlabel} "
+             f"in {city_display} depends more on materials and scope than labor rates."),
+        ]
+    impact = _pick(impact_templates, seed + 2)
+
+    # Boilerplate closing (4 variants)
+    boilerplate_templates = [
+        f"Labor typically represents 40-60% of a {vlabel} quote, so even a few percentage points above or below the national median shows up in your bottom line.",
+        f"Since labor accounts for roughly 40-60% of {vlabel} costs, these wage differences translate directly into what you pay.",
+        f"Labor usually runs 40-60% of the total {vlabel} price, making local wage levels one of the strongest predictors of your final cost.",
+        f"With labor making up 40-60% of a typical {vlabel} project, local wage data is one of the most reliable indicators of what your quote will look like.",
+    ]
+    boilerplate = _pick(boilerplate_templates, seed + 3)
 
     section = f"""<!-- TP-LOCAL-INJECTED-V5 -->
 <section class="section" style="background:#fefce8;padding:24px;border-radius:14px;border:1px solid #fde68a;margin:32px 0;">
 <h2>What tradespeople earn in {city_display}, {state_code}</h2>
 <p>{primary_sentence}{secondary_sentence}</p>
-<p>{impact} Labor typically represents 40-60% of a {vlabel} quote, so even a few percentage points above or below the national median shows up in your bottom line.</p>
+<p>{impact} {boilerplate}</p>
 <p style="font-size:12px; color:var(--text-secondary); margin-top:12px;">Source: Bureau of Labor Statistics Occupational Employment and Wage Statistics (OEWS), most recent annual release.</p>
 </section>
 """
