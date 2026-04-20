@@ -28,6 +28,44 @@
   <meta name="twitter:description" content="Get an estimate, compare quotes, or upload a quote. 20 trades. No email, no phone, no lead-selling." />
   <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
 
+  <style>
+  /* Critical hero CSS — inline to prevent LCP render-block */
+  :root{--brand:#1d4ed8;--text:#111827;--text-secondary:#4b5563;--bg:#fff;--border:#e2e8f0}
+  *,*::before,*::after{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;margin:0;color:var(--text);background:var(--bg);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--brand);text-decoration:none}
+  p{margin:0 0 16px}
+  img{max-width:100%}
+  .container{max-width:1080px;margin:0 auto;padding:0 24px}
+  .site-header{background:var(--bg);border-bottom:1px solid var(--border)}
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .site-header .logo{font-size:19px;font-weight:800;color:var(--brand);text-decoration:none;letter-spacing:-0.03em}
+  .skip-link{position:absolute;left:-9999px;top:0}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .anim-1{animation:fadeUp .6s ease-out both}
+  .anim-2{animation:fadeUp .6s ease-out .15s both}
+  .anim-3{animation:fadeUp .6s ease-out .3s both}
+  .tp-hero-section{position:relative;z-index:1;padding:88px 0 48px;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);color:#fff;overflow:hidden}
+  .tp-hero-section::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(59,130,246,0.08) 0%,transparent 50%);pointer-events:none}
+  .tp-hero-section .container{position:relative;z-index:1}
+  .tp-slogan{font-size:56px;font-weight:800;letter-spacing:-0.025em;line-height:1.05;color:#fff;text-align:center;margin:0 auto 18px;max-width:900px;text-shadow:0 2px 24px rgba(0,0,0,0.25)}
+  .tp-subhead{text-align:center;max-width:760px;margin:0 auto 56px;font-size:18px;line-height:1.5;color:rgba(255,255,255,0.82)}
+  .tp-counter{text-align:center;margin:28px auto 8px}
+  .tp-counter-num{font-size:32px;font-weight:800;color:#fff;letter-spacing:-0.01em;line-height:1}
+  .tp-counter-label{font-size:14px;color:rgba(255,255,255,0.7);margin-left:8px}
+  .tp-intent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto}
+  .tp-intent-card{background:#fff;border-radius:16px;padding:18px 16px;text-align:center;box-shadow:0 8px 28px rgba(0,0,0,0.18);display:flex;flex-direction:column;align-items:center;border:2px solid rgba(255,255,255,0.15);border-top:5px solid var(--accent,#1d4ed8);text-decoration:none;position:relative}
+  .tp-intent-card h2{font-size:20px;margin:0 0 4px;color:#0f172a;line-height:1.2}
+  .tp-intent-card p.tp-sub{font-size:14px;color:#475569;margin:0 0 10px;line-height:1.4}
+  .tp-intent-card img{max-height:200px;width:auto;height:auto;object-fit:contain;margin:0 0 14px;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.18));flex:1;display:flex;align-items:center}
+  .tp-intent-cta{display:inline-block;background:var(--accent,#1d4ed8);color:#fff;font-weight:700;font-size:16px;padding:13px 28px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.18);pointer-events:none;margin-top:auto;letter-spacing:-0.01em}
+  .tp-intent-card.tp-card-popular{border-top-width:7px;transform:translateY(-4px);box-shadow:0 14px 36px rgba(29,78,216,0.22)}
+  .tp-intent-card.tp-card-popular::before{content:'Most popular';position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#1d4ed8;color:#fff;font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px;box-shadow:0 4px 12px rgba(29,78,216,0.4)}
+  @media (max-width:700px){.tp-hero-section{padding:56px 0 32px}.tp-slogan{font-size:36px;margin-bottom:12px}.tp-subhead{font-size:15px;max-width:92%;margin-bottom:32px}.tp-intent-grid{grid-template-columns:1fr 1fr;gap:12px}.tp-intent-card{padding:14px 12px;border-top-width:5px}.tp-intent-card.tp-card-popular{border-top-width:7px;grid-column:1/-1}.tp-intent-card img{max-height:150px;margin-bottom:10px}.tp-intent-card h2{font-size:17px}.tp-intent-card p.tp-sub{font-size:13px;margin-bottom:10px}.tp-intent-cta{font-size:14px;padding:10px 16px}.tp-counter{margin-top:28px}.tp-counter-num{font-size:26px}}
+  @media (max-width:480px){.tp-slogan{font-size:30px}.tp-subhead{font-size:14px}}
+  </style>
+  <link rel="preload" href="/images/trudy-estimate-hero.webp" as="image" fetchpriority="high" />
+  <link rel="preload" href="/images/trudy-analyze-hero.webp" as="image" fetchpriority="high" />
   <link rel="stylesheet" href="/css/trueprice.min.css" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
