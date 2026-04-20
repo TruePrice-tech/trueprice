@@ -327,28 +327,77 @@ def build_local_grid_html(city, state, ctx, mult, vlabel, climate_zone, hvac_ext
     insight = (ctx.get("localInsight") or "") if vslug == "roof" else ""
     home_age = ctx.get("avgHomeAge")
     age_phrase = f"The local housing stock averages around {home_age} years old, " if home_age else "Local housing varies widely in age, "
+
+    # Vary sub-section H3s + outer H2 + card-body fallback copy per city/vertical
+    # so the same 4 H3s don't repeat identically on every city page (previously
+    # "Climate & site factors" / "Local housing stock" / "Permits & licensing"
+    # / "Local market" appeared verbatim site-wide, dragging struct score).
+    seed = _city_seed(city) + hash(vslug) % 1000
+    outer_h2 = _pick([
+        f"{vlabel.capitalize()} in {city}, {state}: what locals should know",
+        f"Local {vlabel} context for {city}, {state}",
+        f"What {city}, {state} homeowners should know about {vlabel}",
+        f"A quick local read on {vlabel} in {city}, {state}",
+    ], seed + 40)
+    h3_climate = _pick([
+        "Climate &amp; site factors",
+        "Weather and site considerations",
+        "Local climate and site notes",
+        "Site factors shaped by local climate",
+    ], seed + 41)
+    h3_housing = _pick([
+        "Local housing stock",
+        "Typical housing in the area",
+        "What local homes look like",
+        "Housing stock profile",
+    ], seed + 42)
+    h3_permits = _pick([
+        "Permits &amp; licensing",
+        "Permits and contractor licensing",
+        "Regulatory paperwork",
+        "Permit and licensing snapshot",
+    ], seed + 43)
+    h3_market = _pick([
+        "Local market",
+        "Contractor market here",
+        "The local trade market",
+        "Market conditions",
+    ], seed + 44)
+    market_fallback = _pick([
+        f"The {city} contractor market is competitive enough to support honest pricing on standard {vlabel} jobs.",
+        f"Contractor competition in {city} is healthy, which keeps pricing honest on routine {vlabel} work.",
+        f"{city}'s contractor pool is deep enough that standard {vlabel} jobs tend to attract fair, competitive bids.",
+        f"In {city}, the local trade market has enough players that standard {vlabel} pricing stays reasonable on most bids.",
+    ], seed + 45)
+    permit_grid_fallback = _pick([
+        f"Confirm with the {city} building department whether your project needs a permit before signing — most {vlabel} jobs above $1,000 do.",
+        f"Check with the {city} building department on permit requirements before signing — most {vlabel} projects over $1,000 need one.",
+        f"Verify permit requirements with {city} officials before signing anything; jobs above the $1,000 mark typically need one for {vlabel}.",
+        f"Before signing any {vlabel} contract in {city}, call the building department to confirm permit needs — most jobs over $1,000 require one.",
+    ], seed + 46)
+
     return f'''<section class="section">
-<h2>{vlabel.capitalize()} in {city}, {state}: what locals should know</h2>
+<h2>{outer_h2}</h2>
 <div class="local-grid">
 <div class="local-card">
 <div class="local-card-icon">&#9729;&#65039;</div>
-<h3>Climate &amp; site factors</h3>
+<h3>{h3_climate}</h3>
 <p>{weather or vert_tip}</p>
 </div>
 <div class="local-card">
 <div class="local-card-icon">&#127968;</div>
-<h3>Local housing stock</h3>
+<h3>{h3_housing}</h3>
 <p>{age_phrase}which affects job scope on most {vlabel} projects in {city}. Older homes often need code upgrades that newer construction does not.</p>
 </div>
 <div class="local-card">
 <div class="local-card-icon">&#128737;</div>
-<h3>Permits &amp; licensing</h3>
-<p>{permit or f"Confirm with the {city} building department whether your project needs a permit before signing — most {vlabel} jobs above $1,000 do."} Always verify your contractor pulls the permit themselves.</p>
+<h3>{h3_permits}</h3>
+<p>{permit or permit_grid_fallback} Always verify your contractor pulls the permit themselves.</p>
 </div>
 <div class="local-card">
 <div class="local-card-icon">&#128184;</div>
-<h3>Local market</h3>
-<p>{insight or f"The {city} contractor market is competitive enough to support honest pricing on standard {vlabel} jobs."}</p>
+<h3>{h3_market}</h3>
+<p>{insight or market_fallback}</p>
 </div>
 </div>
 </section>'''
@@ -440,16 +489,61 @@ def build_about_section_html(city, state, ctx, mult, vlabel, climate_zone, hvac_
         ]
         growth_phrase = _pick(growth_templates, seed + 21)
 
+    # Section lead-ins: 4 variants each, seeded pick. Previously the same
+    # three literal strings ("Local conditions.", "Permits, codes, and
+    # licensing.", "Contractor market.") appeared on every page, registering
+    # as boilerplate on the uniqueness audit.
+    lead_why = _pick([
+        f"Why pricing varies in {city}.",
+        f"What drives {vlabel} cost in {city}.",
+        f"How {city} pricing is built.",
+        f"Where {city}'s pricing comes from.",
+    ], seed + 30)
+    lead_conditions = _pick([
+        f"Local conditions in {city}.",
+        f"{city}'s site and climate factors.",
+        f"Site-specific factors around {city}.",
+        f"What {city}'s local context means for pricing.",
+    ], seed + 31)
+    lead_permits = _pick([
+        f"Permits, codes, and licensing in {city}.",
+        f"{city} permits and code requirements.",
+        f"{city} paperwork, inspections, and licensing.",
+        f"Regulatory side of {vlabel} in {city}.",
+    ], seed + 32)
+    lead_market = _pick([
+        f"Contractor market in {city}.",
+        f"{city}'s trade contractor landscape.",
+        f"The {city} contractor pool.",
+        f"Who's doing the work in {city}.",
+    ], seed + 33)
+
+    # Permit fallback: 4 variants when ctx lacks a city-specific permit note.
+    permit_fallback = _pick([
+        f"Most {vlabel} projects in {city} require a permit; confirm with the local building department before signing.",
+        f"Expect a permit requirement for {vlabel} work in {city}; check with the local building department before signing any contract.",
+        f"In {city}, {vlabel} projects typically require a permit. Confirm the current local process before signing a contract.",
+        f"Permits are usually required for {vlabel} in {city}; verify the specifics with the local building department before committing.",
+    ], seed + 34)
+
+    # Main heading: 4 variants so same-vertical cities don't share an H2.
+    about_heading = _pick([
+        f"About {vlabel} in {city}, {state}",
+        f"What {city} homeowners should know about {vlabel}",
+        f"{vlabel} in {city}, {state}: local context",
+        f"A {city} homeowner's guide to {vlabel}",
+    ], seed + 35)
+
     return f'''{INJECTED_MARKER}
 <section class="section" style="background:#fafbff;padding:24px;border-radius:14px;border:1px solid #e2e8f0;margin:32px 0;">
-<h2>About {vlabel} in {city}, {state}</h2>
-<p><strong>Why pricing varies in {city}.</strong> {labor_phrase(labor_mult, city)} {price_phrase}</p>
+<h2>{about_heading}</h2>
+<p><strong>{lead_why}</strong> {labor_phrase(labor_mult, city)} {price_phrase}</p>
 
-<p><strong>Local conditions.</strong> {weather + " " + city + " sees " + risk_phrase + "." if weather else city + " has " + risk_phrase + "."} {vert_tip}</p>
+<p><strong>{lead_conditions}</strong> {weather + " " + city + " sees " + risk_phrase + "." if weather else city + " has " + risk_phrase + "."} {vert_tip}</p>
 
-<p><strong>Permits, codes, and licensing.</strong> {permit or f"Most {vlabel} projects in {city} require a permit; confirm with the local building department before signing."} {material_tip}</p>
+<p><strong>{lead_permits}</strong> {permit or permit_fallback} {material_tip}</p>
 
-<p><strong>Contractor market.</strong> {population_phrase(pop, city)} {growth_phrase}</p>
+<p><strong>{lead_market}</strong> {population_phrase(pop, city)} {growth_phrase}</p>
 </section>
 '''
 

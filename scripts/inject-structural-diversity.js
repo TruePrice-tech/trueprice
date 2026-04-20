@@ -664,7 +664,11 @@ function processFile(filepath) {
   const { cityName, stateCode, cityState, vslug, info } = parsed;
   let html = fs.readFileSync(filepath, "utf8");
 
-  // Skip if already processed with V13 (proper 32-bit seed mixing via Math.imul)
+  // Skip if already processed with V13 (proper 32-bit seed mixing via Math.imul).
+  // Keeping V13 marker (not bumping) because re-running rule 17 over varied H2s
+  // compounds transformations -- the input no longer matches the original pattern
+  // cleanly and later passes can produce "for CITY homeowners homeowners" style
+  // breakage. Ship changes via HEAD-reset + fresh pipeline run, not re-run.
   if (html.includes("TP-STRUCT-DIV-V13")) return "skip_existing";
 
   // Strip old markers so we can re-process with expanded pools

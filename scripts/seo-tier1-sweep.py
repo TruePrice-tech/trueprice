@@ -101,11 +101,29 @@ def build_nearby_html(current_file, city, state, vslug, vlabel):
     random.seed(state + vslug)
     siblings_sample = random.sample(siblings, min(6, len(siblings))) if siblings else []
     guide = GUIDE_FOR_VERTICAL.get(vslug, "")
+    # Seed a deterministic per-city-per-vertical pick so same-state cities
+    # don't all get the same intro sentence (previous fixed string was
+    # flagged as boilerplate by the uniqueness audit).
+    lead_seed = sum(ord(c) for c in city + state + vslug) % 4
+    lead_options = [
+        f"Compare {vlabel.lower()} pricing across {state} to see how {city} stacks up. Each city page has local labor rates, permits, and rebates.",
+        f"See how {city}'s {vlabel.lower()} costs compare to other {state} cities. Each linked page has its own local pricing, permit notes, and rebate info.",
+        f"{vlabel} pricing varies across {state}. These nearby cities show the local spread and let you benchmark {city} against similar markets with their own labor rates and permit rules.",
+        f"Use these {state} neighbors to benchmark {city}'s {vlabel.lower()} pricing. Each linked page carries its own contractor rates, permit details, and any local rebates.",
+    ]
+    intro = lead_options[lead_seed]
+    heading_options = [
+        f"{vlabel} cost in nearby {state} cities",
+        f"Nearby {state} cities for {vlabel.lower()} comparison",
+        f"{vlabel} pricing in cities near {city}",
+        f"Compare {city} to other {state} cities for {vlabel.lower()}",
+    ]
+    heading = heading_options[lead_seed]
     parts = [INJECTED_NEARBY,
              '<section class="section" style="margin:32px 0;">',
-             f'<h2>{vlabel} cost in nearby {state} cities</h2>',
+             f'<h2>{heading}</h2>',
              '<p style="color:var(--text-secondary); margin-bottom:14px;">'
-             f'Compare {vlabel.lower()} pricing across {state} to see how {city} stacks up. Each city page has local labor rates, permits, and rebates.</p>',
+             f'{intro}</p>',
              '<div style="display:flex; flex-wrap:wrap; gap:8px;">']
     for sf in siblings_sample:
         # extract city slug
@@ -165,15 +183,23 @@ for f, city_slug, state, vslug in city_files:
             c = c2
             meta_updated += 1
 
-    # 2. Nearby cities section (idempotent)
-    if INJECTED_NEARBY not in c:
-        nearby_html = build_nearby_html(f, city, state, vslug, vlabel_short)
-        # Insert before the standard "Other Services in {city}" footer or before the result-footer JS
-        if "<!-- TP-INTERNAL-TOOLS-BLOCK -->" in c:
-            c = c.replace("<!-- TP-INTERNAL-TOOLS-BLOCK -->", nearby_html + "<!-- TP-INTERNAL-TOOLS-BLOCK -->", 1)
-        elif "</main>" in c:
-            c = c.replace("</main>", nearby_html + "</main>", 1)
-        nearby_added += 1
+    # 2. Nearby cities section (idempotent: strip any existing block, then inject fresh)
+    if INJECTED_NEARBY in c:
+        # Strip existing block so updated intro/heading variants take effect
+        c = re.sub(
+            re.escape(INJECTED_NEARBY) + r".*?</section>\s*",
+            "",
+            c,
+            count=1,
+            flags=re.DOTALL,
+        )
+    nearby_html = build_nearby_html(f, city, state, vslug, vlabel_short)
+    # Insert before the standard "Other Services in {city}" footer or before the result-footer JS
+    if "<!-- TP-INTERNAL-TOOLS-BLOCK -->" in c:
+        c = c.replace("<!-- TP-INTERNAL-TOOLS-BLOCK -->", nearby_html + "<!-- TP-INTERNAL-TOOLS-BLOCK -->", 1)
+    elif "</main>" in c:
+        c = c.replace("</main>", nearby_html + "</main>", 1)
+    nearby_added += 1
 
     if c != orig:
         with open(f, "w", encoding="utf-8") as fp: fp.write(c)
