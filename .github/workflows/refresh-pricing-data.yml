@@ -1,0 +1,49 @@
+name: Monthly Pricing Data Refresh
+
+on:
+  schedule:
+    # 1st of every month at 6:00 AM UTC
+    - cron: '0 6 1 * *'
+  workflow_dispatch: # allow manual trigger
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Refresh BLS CPI inflation rate
+        run: node scripts/refresh-inflation-rate.js
+
+      - name: Refresh BLS PPI material costs
+        run: node scripts/refresh-material-ppi.js
+
+      - name: Refresh EIA energy prices
+        run: node scripts/refresh-energy-prices.js
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet data/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Files changed:"
+            git diff --stat data/
+          fi
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/pricing-adjustments.json data/material-cost-index.json data/state-energy-prices.json
+          git commit -m "Monthly pricing data refresh ($(date +%Y-%m-%d))
+
+          Automated update of BLS CPI, BLS PPI, and EIA energy prices.
+          Triggered by GitHub Actions cron schedule."
+          git push
