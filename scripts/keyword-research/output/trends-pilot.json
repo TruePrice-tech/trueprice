@@ -1,0 +1,550 @@
+[
+  {
+    "seed": "hvac cost",
+    "vertical": "hvac",
+    "relatedQueries": [
+      {
+        "query": "new hvac cost",
+        "value": 100,
+        "kind": "top"
+      },
+      {
+        "query": "how much does hvac cost",
+        "value": 90,
+        "kind": "top"
+      },
+      {
+        "query": "average hvac cost",
+        "value": 60,
+        "kind": "top"
+      },
+      {
+        "query": "replace hvac cost",
+        "value": 58,
+        "kind": "top"
+      },
+      {
+        "query": "how much does a new hvac cost",
+        "value": 14,
+        "kind": "top"
+      },
+      {
+        "query": "hvac cost per square foot",
+        "value": 10,
+        "kind": "top"
+      },
+      {
+        "query": "new hvac cost",
+        "value": 1458850,
+        "kind": "rising"
+      },
+      {
+        "query": "how much does a new hvac cost",
+        "value": 207400,
+        "kind": "rising"
+      },
+      {
+        "query": "hvac cost per square foot",
+        "value": 139200,
+        "kind": "rising"
+      },
+      {
+        "query": "how much does hvac cost",
+        "value": 180,
+        "kind": "rising"
+      },
+      {
+        "query": "replace hvac cost",
+        "value": 130,
+        "kind": "rising"
+      }
+    ],
+    "relatedError": null,
+    "geoMetros": [
+      {
+        "metro": "Wilmington NC",
+        "interest": 100
+      },
+      {
+        "metro": "Raleigh-Durham (Fayetteville) NC",
+        "interest": 94
+      },
+      {
+        "metro": "Norfolk-Portsmouth-Newport News VA",
+        "interest": 91
+      },
+      {
+        "metro": "Nashville TN",
+        "interest": 91
+      },
+      {
+        "metro": "Charleston SC",
+        "interest": 91
+      },
+      {
+        "metro": "Salisbury MD",
+        "interest": 88
+      },
+      {
+        "metro": "Charlotte NC",
+        "interest": 86
+      },
+      {
+        "metro": "Baltimore MD",
+        "interest": 83
+      },
+      {
+        "metro": "North Platte NE",
+        "interest": 78
+      },
+      {
+        "metro": "Huntsville-Decatur (Florence) AL",
+        "interest": 78
+      }
+    ],
+    "geoError": null
+  },
+  {
+    "seed": "ac replacement cost",
+    "vertical": "hvac",
+    "relatedQueries": [],
+    "relatedError": "Unexpected token '<', \"<html lang\"... is not valid JSON",
+    "geoMetros": [
+      {
+        "metro": "Houston TX",
+        "interest": 100
+      },
+      {
+        "metro": "Tampa-St. Petersburg (Sarasota) FL",
+        "interest": 100
+      },
+      {
+        "metro": "Jacksonville FL",
+        "interest": 95
+      },
+      {
+        "metro": "Biloxi-Gulfport MS",
+        "interest": 87
+      },
+      {
+        "metro": "Phoenix AZ",
+        "interest": 87
+      },
+      {
+        "metro": "Baton Rouge LA",
+        "interest": 87
+      },
+      {
+        "metro": "West Palm Beach-Ft. Pierce FL",
+        "interest": 87
+      },
+      {
+        "metro": "Austin TX",
+        "interest": 83
+      },
+      {
+        "metro": "Panama City FL",
+        "interest": 79
+      },
+      {
+        "metro": "Ft. Myers-Naples FL",
+        "interest": 79
+      }
+    ],
+    "geoError": null
+  },
+  {
+    "seed": "furnace cost",
+    "vertical": "hvac",
+    "relatedQueries": [
+      {
+        "query": "new furnace cost",
+        "value": 100,
+        "kind": "top"
+      },
+      {
+        "query": "gas furnace cost",
+        "value": 79,
+        "kind": "top"
+      },
+      {
+        "query": "how much does a furnace cost",
+        "value": 57,
+        "kind": "top"
+      },
+      {
+        "query": "replace furnace cost",
+        "value": 50,
+        "kind": "top"
+      },
+      {
+        "query": "furnace cost to replace",
+        "value": 45,
+        "kind": "top"
+      },
+      {
+        "query": "home furnace cost",
+        "value": 41,
+        "kind": "top"
+      },
+      {
+        "query": "average furnace cost",
+        "value": 39,
+        "kind": "top"
+      },
+      {
+        "query": "heating furnace cost",
+        "value": 36,
+        "kind": "top"
+      },
+      {
+        "query": "house furnace cost",
+        "value": 30,
+        "kind": "top"
+      },
+      {
+        "query": "oil furnace cost",
+        "value": 28,
+        "kind": "top"
+      },
+      {
+        "query": "water furnace cost",
+        "value": 27,
+        "kind": "top"
+      },
+      {
+        "query": "electric furnace cost",
+        "value": 24,
+        "kind": "top"
+      },
+      {
+        "query": "how much does new furnace cost",
+        "value": 19,
+        "kind": "top"
+      },
+      {
+        "query": "how much does a gas furnace cost",
+        "value": 9,
+        "kind": "top"
+      },
+      {
+        "query": "high efficiency furnace cost",
+        "value": 6,
+        "kind": "top"
+      },
+      {
+        "query": "what does a new furnace cost",
+        "value": 3,
+        "kind": "top"
+      },
+      {
+        "query": "how much does a furnace cost",
+        "value": 1302750,
+        "kind": "rising"
+      },
+      {
+        "query": "how much does a gas furnace cost",
+        "value": 211000,
+        "kind": "rising"
+      },
+      {
+        "query": "high efficiency furnace cost",
+        "value": 144700,
+        "kind": "rising"
+      },
+      {
+        "query": "what does a new furnace cost",
+        "value": 79200,
+        "kind": "rising"
+      },
+      {
+        "query": "replace furnace cost",
+        "value": 300,
+        "kind": "rising"
+      },
+      {
+        "query": "average furnace cost",
+        "value": 250,
+        "kind": "rising"
+      },
+      {
+        "query": "house furnace cost",
+        "value": 190,
+        "kind": "rising"
+      },
+      {
+        "query": "how much does new furnace cost",
+        "value": 190,
+        "kind": "rising"
+      },
+      {
+        "query": "furnace cost to replace",
+        "value": 130,
+        "kind": "rising"
+      },
+      {
+        "query": "electric furnace cost",
+        "value": 80,
+        "kind": "rising"
+      },
+      {
+        "query": "water furnace cost",
+        "value": 70,
+        "kind": "rising"
+      }
+    ],
+    "relatedError": null,
+    "geoMetros": [
+      {
+        "metro": "Glendive MT",
+        "interest": 100
+      },
+      {
+        "metro": "Zanesville OH",
+        "interest": 86
+      },
+      {
+        "metro": "Youngstown OH",
+        "interest": 79
+      },
+      {
+        "metro": "Grand Rapids-Kalamazoo-Battle Creek MI",
+        "interest": 76
+      },
+      {
+        "metro": "Wheeling WV-Steubenville OH",
+        "interest": 76
+      },
+      {
+        "metro": "Lansing MI",
+        "interest": 73
+      },
+      {
+        "metro": "Minneapolis-St. Paul MN",
+        "interest": 73
+      },
+      {
+        "metro": "Alpena MI",
+        "interest": 73
+      },
+      {
+        "metro": "Ft. Wayne IN",
+        "interest": 73
+      },
+      {
+        "metro": "Traverse City-Cadillac MI",
+        "interest": 72
+      }
+    ],
+    "geoError": null
+  },
+  {
+    "seed": "heat pump cost",
+    "vertical": "hvac",
+    "relatedQueries": [
+      {
+        "query": "how much does heat pump cost",
+        "value": 100,
+        "kind": "top"
+      },
+      {
+        "query": "how much does a heat pump cost",
+        "value": 81,
+        "kind": "top"
+      },
+      {
+        "query": "electric heat pump cost",
+        "value": 71,
+        "kind": "top"
+      },
+      {
+        "query": "geothermal heat pump cost",
+        "value": 68,
+        "kind": "top"
+      },
+      {
+        "query": "new heat pump cost",
+        "value": 64,
+        "kind": "top"
+      },
+      {
+        "query": "trane heat pump cost",
+        "value": 37,
+        "kind": "top"
+      },
+      {
+        "query": "pool heat pump cost",
+        "value": 30,
+        "kind": "top"
+      },
+      {
+        "query": "ductless heat pump cost",
+        "value": 28,
+        "kind": "top"
+      },
+      {
+        "query": "3 ton heat pump cost",
+        "value": 28,
+        "kind": "top"
+      },
+      {
+        "query": "heat pump cost calculator",
+        "value": 21,
+        "kind": "top"
+      },
+      {
+        "query": "4 ton heat pump cost",
+        "value": 17,
+        "kind": "top"
+      },
+      {
+        "query": "5 ton heat pump cost",
+        "value": 15,
+        "kind": "top"
+      },
+      {
+        "query": "how much does a heat pump cost",
+        "value": 944100,
+        "kind": "rising"
+      },
+      {
+        "query": "pool heat pump cost",
+        "value": 347050,
+        "kind": "rising"
+      },
+      {
+        "query": "ductless heat pump cost",
+        "value": 328300,
+        "kind": "rising"
+      },
+      {
+        "query": "3 ton heat pump cost",
+        "value": 327250,
+        "kind": "rising"
+      },
+      {
+        "query": "heat pump cost calculator",
+        "value": 243050,
+        "kind": "rising"
+      },
+      {
+        "query": "4 ton heat pump cost",
+        "value": 201250,
+        "kind": "rising"
+      },
+      {
+        "query": "5 ton heat pump cost",
+        "value": 176450,
+        "kind": "rising"
+      },
+      {
+        "query": "how much does heat pump cost",
+        "value": 350,
+        "kind": "rising"
+      },
+      {
+        "query": "new heat pump cost",
+        "value": 250,
+        "kind": "rising"
+      },
+      {
+        "query": "electric heat pump cost",
+        "value": 60,
+        "kind": "rising"
+      }
+    ],
+    "relatedError": null,
+    "geoMetros": [
+      {
+        "metro": "Bangor ME",
+        "interest": 100
+      },
+      {
+        "metro": "Presque Isle ME",
+        "interest": 99
+      },
+      {
+        "metro": "Tri-Cities TN-VA",
+        "interest": 80
+      },
+      {
+        "metro": "Portland-Auburn ME",
+        "interest": 78
+      },
+      {
+        "metro": "Bluefield-Beckley-Oak Hill WV",
+        "interest": 63
+      },
+      {
+        "metro": "Eugene OR",
+        "interest": 55
+      },
+      {
+        "metro": "Burlington VT-Plattsburgh NY",
+        "interest": 51
+      },
+      {
+        "metro": "Harrisonburg VA",
+        "interest": 51
+      },
+      {
+        "metro": "Salisbury MD",
+        "interest": 49
+      },
+      {
+        "metro": "Bend OR",
+        "interest": 46
+      }
+    ],
+    "geoError": null
+  },
+  {
+    "seed": "hvac quote",
+    "vertical": "hvac",
+    "relatedQueries": [],
+    "relatedError": "Unexpected token '<', \"<html lang\"... is not valid JSON",
+    "geoMetros": [
+      {
+        "metro": "Bluefield-Beckley-Oak Hill WV",
+        "interest": 100
+      },
+      {
+        "metro": "Baltimore MD",
+        "interest": 25
+      },
+      {
+        "metro": "Atlanta GA",
+        "interest": 25
+      },
+      {
+        "metro": "Tulsa OK",
+        "interest": 25
+      },
+      {
+        "metro": "Austin TX",
+        "interest": 25
+      },
+      {
+        "metro": "Columbia SC",
+        "interest": 25
+      },
+      {
+        "metro": "Charlotte NC",
+        "interest": 25
+      },
+      {
+        "metro": "Nashville TN",
+        "interest": 25
+      },
+      {
+        "metro": "Raleigh-Durham (Fayetteville) NC",
+        "interest": 25
+      },
+      {
+        "metro": "Greensboro-High Point-Winston Salem NC",
+        "interest": 25
+      }
+    ],
+    "geoError": null
+  }
+]

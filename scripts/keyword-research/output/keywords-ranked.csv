@@ -1,0 +1,481 @@
+priority,query,vertical,seed,value,kind,commercialScore,existingPage,newPageNeeded
+160.0,"auto repair cost estimate",auto-repair,"auto repair cost",100,top,6,,true
+150.0,"how much does heat pump cost",hvac,"heat pump cost",100,top,5,,true
+150.0,"how much new roof cost",roof,"new roof cost",100,top,5,,true
+150.0,"how much does a metal roof cost",roof,"metal roof cost",100,top,5,,true
+150.0,"how much does plumbing cost",plumbing,"plumbing cost",100,top,5,,true
+150.0,"how much does plumber cost",plumbing,"plumber cost",100,top,5,,true
+150.0,"how much does electrician cost",electrical,"electrician cost",100,top,5,,true
+150.0,"average solar installation cost",solar,"solar installation cost",100,top,5,,true
+150.0,"how much does concrete cost",concrete,"concrete cost",100,top,5,,true
+150.0,"concrete per square foot cost",concrete,"concrete per square foot",100,top,5,,true
+150.0,"interior painting cost per square foot",painting,"interior painting cost",100,top,5,,true
+150.0,"how much does a painter cost",painting,"painter cost",100,top,5,,true
+150.0,"how much does a fence cost",fence,"fence cost",100,top,5,,true
+150.0,"how much does vinyl fence cost",fence,"vinyl fence cost",100,top,5,,true
+150.0,"cost of fence per linear foot",fence,"fence per linear foot",100,top,5,,true
+150.0,"how much does vinyl siding cost",siding,"vinyl siding cost",100,top,5,,true
+150.0,"how much does a new window cost",window,"new window cost",100,top,5,,true
+150.0,"how much does attic insulation cost",insulation,"attic insulation cost",100,top,5,,true
+150.0,"how much does blown in insulation cost",insulation,"blown in insulation cost",100,top,5,,true
+150.0,"average gutter cost",gutter,"gutter cost",100,top,5,,true
+150.0,"how much does gutter guard cost",gutter,"gutter guard cost",100,top,5,,true
+150.0,"how much does landscape design cost",landscaping,"landscape design cost",100,top,5,,true
+150.0,"how much does kitchen remodel cost",kitchen-remodel,"kitchen remodel cost",100,top,5,,true
+150.0,"average kitchen cabinet cost",kitchen-remodel,"kitchen cabinet cost",100,top,5,,true
+150.0,"how much garage door cost",garage-door,"garage door cost",100,top,5,,true
+150.0,"average brake job cost",auto-repair,"brake job cost",100,top,5,,true
+150.0,"how much does a lawyer cost",legal,"lawyer cost",100,top,5,,true
+150.0,"how much does a divorce lawyer cost",legal,"divorce lawyer cost",100,top,5,,true
+150.0,"how much does estate planning cost",legal,"estate planning cost",100,top,5,,true
+150.0,"how much does moving cost",moving,"moving cost",100,top,5,,true
+150.0,"how much does a mover cost",moving,"mover cost",100,top,5,,true
+150.0,"how much does moving company cost",moving,"moving company cost",100,top,5,,true
+148.0,"how much does a brake job cost",auto-repair,"brake job cost",98,top,5,,true
+146.0,"how much does a garage door opener cost",garage-door,"garage door opener cost",96,top,5,,true
+144.0,"how much solar panels cost",solar,"solar panels cost",94,top,5,,true
+144.0,"how much does interior painting cost",painting,"interior painting cost",94,top,5,,true
+144.0,"how much does window installation cost",window,"window installation cost",94,top,5,,true
+143.0,"how much does a roof cost",roof,"roof cost",93,top,5,,true
+143.0,"how much does foundation repair cost",foundation,"foundation repair cost",93,top,5,,true
+140.0,"how much does hvac cost",hvac,"hvac cost",90,top,5,,true
+134.0,"average roof cost",roof,"roof cost",84,top,5,,true
+134.0,"how much does a kitchen remodel cost",kitchen-remodel,"kitchen remodel cost",84,top,5,,true
+133.0,"average moving cost",moving,"moving cost",83,top,5,,true
+132.0,"average fence installation cost",fence,"fence installation cost",82,top,5,,true
+132.0,"how much does a moving company cost",moving,"moving company cost",82,top,5,,true
+131.0,"how much does a heat pump cost",hvac,"heat pump cost",81,top,5,,true
+131.0,"how much does a driveway cost",concrete,"driveway cost",81,top,5,,true
+130.0,"new hvac cost",hvac,"hvac cost",100,top,3,,true
+130.0,"car ac replacement cost",hvac,"ac replacement cost",100,top,3,,true
+130.0,"new furnace cost",hvac,"furnace cost",100,top,3,,true
+130.0,"hvac quotes",hvac,"hvac quote",100,top,3,,true
+130.0,"metal roof cost",roof,"roof cost",100,top,3,metal-roof-cost.html,false
+130.0,"cost of roof replacement",roof,"roof replacement cost",100,top,3,,true
+130.0,"roofing quotes",roof,"roofing quote",100,top,3,,true
+130.0,"hot water heater cost",plumbing,"water heater cost",100,top,3,,true
+130.0,"pex repipe cost",plumbing,"repipe cost",100,top,3,,true
+130.0,"plumbing estimates",plumbing,"plumbing estimate",100,top,3,,true
+130.0,"electrical quotes",electrical,"electrical quote",100,top,3,,true
+130.0,"cost of solar panels",solar,"solar panels cost",100,top,3,,true
+130.0,"the solar quote",solar,"solar quote",100,top,3,,true
+130.0,"asphalt driveway cost",concrete,"driveway cost",100,top,3,,true
+130.0,"stamped concrete patio cost",concrete,"concrete patio cost",100,top,3,,true
+130.0,"house painting cost exterior",painting,"house painting cost",100,top,3,,true
+130.0,"painting quotes",painting,"painting quote",100,top,3,,true
+130.0,"wood fence cost per foot",fence,"wood fence cost",100,top,3,,true
+130.0,"vinyl fence installation cost",fence,"fence installation cost",100,top,3,,true
+130.0,"house foundation repair cost",foundation,"foundation repair cost",100,top,3,,true
+130.0,"foundation quotes",foundation,"foundation quote",100,top,3,,true
+130.0,"vinyl siding cost",siding,"siding cost",100,top,3,,true
+130.0,"vinyl siding installation cost",siding,"siding installation cost",100,top,3,,true
+130.0,"window installation cost home depot",window,"window installation cost",100,top,3,,true
+130.0,"window quotes",window,"window quote",100,top,3,,true
+130.0,"foam insulation cost",insulation,"insulation cost",100,top,3,,true
+130.0,"insulation spray foam cost",insulation,"spray foam cost",100,top,3,,true
+130.0,"roof gutter replacement cost",gutter,"gutter replacement cost",100,top,3,,true
+130.0,"how much does kitchen renovation cost",kitchen-remodel,"kitchen renovation cost",80,top,5,,true
+130.0,"new garage door opener cost",garage-door,"garage door opener cost",100,top,3,,true
+130.0,"home depot garage door installation cost",garage-door,"garage door installation cost",100,top,3,,true
+130.0,"car transmission repair cost",auto-repair,"transmission repair cost",100,top,3,,true
+130.0,"eye surgery cost",medical,"surgery cost",100,top,3,,true
+128.0,"how much does new roof cost",roof,"new roof cost",78,top,5,,true
+128.0,"chain link fence cost",fence,"fence cost",98,top,3,,true
+127.0,"chain fence cost",fence,"fence cost",97,top,3,,true
+127.0,"how much does a wood fence cost",fence,"wood fence cost",77,top,5,,true
+127.0,"chain link fence installation cost",fence,"fence installation cost",97,top,3,,true
+126.0,"tankless water heater cost",plumbing,"water heater cost",96,top,3,,true
+126.0,"home solar installation cost",solar,"solar installation cost",96,top,3,,true
+125.0,"how much does a plumber cost",plumbing,"plumber cost",75,top,5,,true
+125.0,"lowes garage door installation cost",garage-door,"garage door installation cost",95,top,3,,true
+124.0,"how much does concrete patio cost",concrete,"concrete patio cost",74,top,5,,true
+124.0,"how much does fence installation cost",fence,"fence installation cost",74,top,5,,true
+122.0,"how much does a new roof cost",roof,"new roof cost",72,top,5,,true
+122.0,"wood fence installation cost",fence,"fence installation cost",92,top,3,,true
+122.0,"gutter cost per foot",gutter,"gutter cost",92,top,3,,true
+121.0,"new window installation cost",window,"window installation cost",91,top,3,,true
+120.0,"fence installation cost per foot",fence,"fence installation cost",90,top,3,,true
+120.0,"average moving company cost",moving,"moving company cost",70,top,5,,true
+119.0,"average cost roof replacement",roof,"roof replacement cost",69,top,5,,true
+119.0,"how much does a vinyl fence cost",fence,"vinyl fence cost",69,top,5,,true
+119.0,"house siding cost",siding,"siding cost",89,top,3,,true
+119.0,"how much does transmission repair cost",auto-repair,"transmission repair cost",69,top,5,,true
+116.0,"cost for solar panels",solar,"solar panels cost",86,top,3,,true
+116.0,"spray insulation cost",insulation,"insulation cost",86,top,3,,true
+114.0,"auto repair costs",auto-repair,"auto repair cost",84,top,3,,true
+113.0,"vinyl fence cost per foot",fence,"vinyl fence cost",83,top,3,,true
+113.0,"front brake job cost",auto-repair,"brake job cost",83,top,3,,true
+112.0,"wood fence cost",fence,"fence cost",82,top,3,,true
+112.0,"privacy fence cost",fence,"fence cost",82,top,3,,true
+111.0,"replacement window quote",window,"window quote",81,top,3,,true
+110.0,"average hvac cost",hvac,"hvac cost",60,top,5,,true
+110.0,"average fence cost",fence,"fence cost",60,top,5,,true
+110.0,"bathroom remodel cost",kitchen-remodel,"kitchen remodel cost",80,top,3,,true
+109.0,"gas furnace cost",hvac,"furnace cost",79,top,3,,true
+109.0,"how much does a kitchen renovation cost",kitchen-remodel,"kitchen renovation cost",59,top,5,,true
+108.0,"how much does a concrete patio cost",concrete,"concrete patio cost",58,top,5,,true
+108.0,"fence cost per foot",fence,"fence cost",78,top,3,,true
+107.0,"how much does a furnace cost",hvac,"furnace cost",57,top,5,,true
+107.0,"how much does an electrician cost",electrical,"electrician cost",57,top,5,,true
+106.0,"how much does solar installation cost",solar,"solar installation cost",56,top,5,,true
+104.0,"replace roof cost",roof,"roof cost",74,top,3,,true
+104.0,"foam spray insulation cost",insulation,"insulation cost",74,top,3,,true
+104.0,"how much does a garage door cost",garage-door,"garage door cost",54,top,5,,true
+103.0,"how much does siding cost",siding,"siding cost",53,top,5,,true
+102.0,"home depot fence installation cost",fence,"fence installation cost",72,top,3,,true
+101.0,"electric heat pump cost",hvac,"heat pump cost",71,top,3,,true
+101.0,"cost for roof replacement",roof,"roof replacement cost",71,top,3,,true
+101.0,"blown in attic insulation cost",insulation,"attic insulation cost",71,top,3,,true
+100.0,"average plumbing cost",plumbing,"plumbing cost",50,top,5,,true
+100.0,"stamped concrete patio",concrete,"stamped concrete cost",100,top,0,,true
+100.0,"house painting",painting,"exterior painting cost",100,top,0,,true
+100.0,"home foundation repair cost",foundation,"foundation repair cost",70,top,3,,true
+100.0,"replacement windows",window,"window replacement cost",100,top,0,,true
+100.0,"glass window replacement",window,"replacement window cost",100,top,0,,true
+100.0,"bathroom renovation",kitchen-remodel,"kitchen renovation cost",100,top,0,,true
+99.0,"standing seam metal roof cost",roof,"metal roof cost",69,top,3,standing-seam-metal-roof-cost.html,false
+99.0,"metal roof cost per square",roof,"metal roof cost",69,top,3,,true
+98.0,"geothermal heat pump cost",hvac,"heat pump cost",68,top,3,,true
+98.0,"metal roof cost per square foot",roof,"metal roof cost",48,top,5,,true
+98.0,"plumbing estimate software",plumbing,"plumbing estimate",68,top,3,,true
+98.0,"how much does solar panels cost",solar,"solar panels cost",48,top,5,,true
+97.0,"hot water heater",plumbing,"water heater cost",97,top,0,,true
+97.0,"average plumber cost",plumbing,"plumber cost",47,top,5,,true
+96.0,"driveway concrete cost",concrete,"concrete cost",66,top,3,,true
+96.0,"how much does insulation cost",insulation,"insulation cost",46,top,5,,true
+96.0,"lasik surgery cost",medical,"surgery cost",66,top,3,,true
+95.0,"privacy fence installation cost",fence,"fence installation cost",65,top,3,,true
+94.0,"new heat pump cost",hvac,"heat pump cost",64,top,3,,true
+94.0,"liftmaster garage door opener cost",garage-door,"garage door opener cost",64,top,3,,true
+93.0,"how much roof replacement cost",roof,"roof replacement cost",43,top,5,,true
+93.0,"spray foam attic insulation cost",insulation,"attic insulation cost",63,top,3,,true
+91.0,"how much does a water heater cost",plumbing,"water heater cost",41,top,5,,true
+91.0,"how much to solar panels cost",solar,"solar panels cost",41,top,5,,true
+90.0,"concrete cost calculator",concrete,"concrete cost",50,top,4,,true
+90.0,"concrete cost per square foot",concrete,"concrete cost",40,top,5,,true
+90.0,"vinyl fence cost",fence,"fence cost",60,top,3,,true
+90.0,"vinyl siding cost per square",siding,"vinyl siding cost",60,top,3,,true
+90.0,"car repair near me",auto-repair,"car repair cost",100,top,-1,,true
+89.0,"average furnace cost",hvac,"furnace cost",39,top,5,,true
+89.0,"lowes window installation cost",window,"window installation cost",59,top,3,,true
+88.0,"replace hvac cost",hvac,"hvac cost",58,top,3,,true
+88.0,"how much do solar panels cost",solar,"solar panels cost",38,top,5,,true
+88.0,"how much does window replacement cost",window,"window replacement cost",38,top,5,,true
+88.0,"average cost of window replacement",window,"replacement window cost",38,top,5,,true
+87.0,"window replacement cost car",window,"window replacement cost",57,top,3,,true
+87.0,"glass window replacement cost",window,"window replacement cost",57,top,3,,true
+86.0,"average ac replacement cost",hvac,"ac replacement cost",36,top,5,,true
+86.0,"white vinyl fence cost",fence,"vinyl fence cost",56,top,3,,true
+86.0,"lowes fence installation cost",fence,"fence installation cost",56,top,3,,true
+86.0,"vinyl siding cost per square foot",siding,"vinyl siding cost",36,top,5,,true
+86.0,"plastic surgery cost",medical,"surgery cost",56,top,3,,true
+85.0,"home ac replacement cost",hvac,"ac replacement cost",55,top,3,,true
+84.0,"gutter replacement cost per foot",gutter,"gutter replacement cost",54,top,3,,true
+84.0,"new garage door cost",garage-door,"garage door cost",54,top,3,,true
+83.0,"gas water heater cost",plumbing,"water heater cost",53,top,3,,true
+83.0,"wood fence cost calculator",fence,"wood fence cost",43,top,4,,true
+83.0,"egress window installation cost",window,"window installation cost",53,top,3,,true
+83.0,"ac car repair cost",auto-repair,"car repair cost",53,top,3,,true
+83.0,"lasik eye surgery cost",medical,"surgery cost",53,top,3,,true
+82.0,"metal roof cost vs shingles",roof,"metal roof cost",52,top,3,,true
+82.0,"average garage door cost",garage-door,"garage door cost",32,top,5,,true
+81.0,"average cost of roof replacement",roof,"roof replacement cost",31,top,5,,true
+81.0,"concrete patio cost per square foot",concrete,"concrete patio cost",31,top,5,,true
+80.0,"replace furnace cost",hvac,"furnace cost",50,top,3,,true
+80.0,"bathroom remodel",kitchen-remodel,"kitchen remodel cost",80,top,0,,true
+79.0,"average water heater cost",plumbing,"water heater cost",29,top,5,,true
+79.0,"kitchen renovation costs",kitchen-remodel,"kitchen renovation cost",49,top,3,,true
+78.0,"3 ton heat pump cost",hvac,"heat pump cost",28,top,5,,true
+78.0,"basement foundation repair cost",foundation,"foundation repair cost",48,top,3,,true
+77.0,"how much does roof replacement cost",roof,"roof replacement cost",27,top,5,,true
+77.0,"yard of concrete cost",concrete,"concrete cost",47,top,3,,true
+77.0,"how much does stamped concrete cost",concrete,"stamped concrete cost",27,top,5,,true
+77.0,"how much should a brake job cost",auto-repair,"brake job cost",27,top,5,,true
+76.0,"roof cost per square foot",roof,"roof cost",26,top,5,,true
+76.0,"solar panel cost",solar,"solar panels cost",46,top,3,,true
+76.0,"window quote online",window,"window quote",46,top,3,,true
+76.0,"small kitchen renovation cost",kitchen-remodel,"kitchen renovation cost",46,top,3,,true
+76.0,"car scratch repair cost",auto-repair,"car repair cost",46,top,3,,true
+76.0,"moving cost calculator",moving,"moving cost",36,top,4,,true
+75.0,"furnace cost to replace",hvac,"furnace cost",45,top,3,,true
+75.0,"seamless gutter cost",gutter,"gutter cost",45,top,3,,true
+74.0,"driveway cost per square foot",concrete,"driveway cost",24,top,5,,true
+74.0,"piano mover cost",moving,"mover cost",44,top,3,,true
+73.0,"hvac replacement cost",hvac,"ac replacement cost",43,top,3,hvac-replacement-cost-guide.html,false
+73.0,"how much does a window replacement cost",window,"window replacement cost",23,top,5,,true
+73.0,"new gutter cost",gutter,"gutter cost",43,top,3,,true
+73.0,"small kitchen remodel cost",kitchen-remodel,"kitchen remodel cost",43,top,3,,true
+73.0,"moving company cost estimate",moving,"moving company cost",13,top,6,,true
+72.0,"solar roof cost",roof,"roof cost",42,top,3,,true
+72.0,"metal roof cost calculator",roof,"metal roof cost",32,top,4,,true
+72.0,"roof replacement cost estimate",roof,"roof replacement cost",12,top,6,,true
+72.0,"home window replacement cost",window,"window replacement cost",42,top,3,,true
+72.0,"insulation cost per square foot",insulation,"insulation cost",22,top,5,,true
+71.0,"home furnace cost",hvac,"furnace cost",41,top,3,,true
+71.0,"home insulation cost",insulation,"insulation cost",41,top,3,,true
+71.0,"rain gutter cost",gutter,"gutter cost",41,top,3,,true
+71.0,"kitchen renovation cost calculator",kitchen-remodel,"kitchen renovation cost",31,top,4,,true
+70.0,"how much does a roof replacement cost",roof,"roof replacement cost",20,top,5,,true
+70.0,"how much does a wooden fence cost",fence,"fence cost",60100,rising,5,,true
+70.0,"how much does lap band surgery cost",medical,"surgery cost",26300,rising,5,,true
+70.0,"how much does bariatric surgery cost",medical,"surgery cost",20850,rising,5,,true
+69.0,"furnace and ac replacement cost",hvac,"ac replacement cost",39,top,3,,true
+69.0,"how much does new furnace cost",hvac,"furnace cost",19,top,5,,true
+69.0,"shingle roof cost",roof,"roof cost",39,top,3,,true
+69.0,"electric water heater cost",plumbing,"water heater cost",39,top,3,,true
+69.0,"how much does exterior painting cost",painting,"exterior painting cost",19,top,5,,true
+69.0,"house window replacement cost",window,"replacement window cost",39,top,3,,true
+68.0,"stamped concrete cost per square foot",concrete,"stamped concrete cost",18,top,5,,true
+68.0,"fence cost calculator",fence,"fence cost",28,top,4,,true
+68.0,"siding cost per square foot",siding,"siding cost",18,top,5,,true
+67.7,"how much does skin removal surgery cost",medical,"surgery cost",17700,rising,5,,true
+67.0,"4 ton heat pump cost",hvac,"heat pump cost",17,top,5,,true
+67.0,"average cost for roof replacement",roof,"roof replacement cost",17,top,5,,true
+67.0,"replace water heater cost",plumbing,"water heater cost",37,top,3,,true
+67.0,"home solar panels cost",solar,"solar panels cost",37,top,3,,true
+67.0,"average cost of solar panels",solar,"solar panels cost",17,top,5,,true
+67.0,"how much is solar panels cost",solar,"solar panels cost",17,top,5,,true
+67.0,"concrete patio cost calculator",concrete,"concrete patio cost",27,top,4,,true
+67.0,"breast surgery cost",medical,"surgery cost",37,top,3,,true
+66.0,"heating furnace cost",hvac,"furnace cost",36,top,3,,true
+66.0,"how much is a new roof cost",roof,"new roof cost",16,top,5,,true
+66.0,"paving driveway cost",concrete,"driveway cost",36,top,3,,true
+66.0,"driveway cost calculator",concrete,"driveway cost",26,top,4,,true
+66.0,"how much does spray foam cost",insulation,"spray foam cost",16,top,5,,true
+65.0,"5 ton heat pump cost",hvac,"heat pump cost",15,top,5,,true
+65.0,"gutter cost per linear foot",gutter,"gutter cost",15,top,5,,true
+64.0,"how much does a new hvac cost",hvac,"hvac cost",14,top,5,,true
+64.0,"cost of a roof replacement",roof,"roof replacement cost",34,top,3,,true
+64.0,"50 gallon water heater cost",plumbing,"water heater cost",14,top,5,,true
+64.0,"new driveway cost",concrete,"driveway cost",34,top,3,,true
+64.0,"vinyl fence cost vs wood",fence,"vinyl fence cost",34,top,3,,true
+64.0,"how much divorce lawyer cost",legal,"lawyer cost",14,top,5,,true
+63.0,"roof cost calculator",roof,"roof cost",23,top,4,roof-cost-calculator.html,false
+63.0,"home roof replacement cost",roof,"roof replacement cost",33,top,3,,true
+63.0,"how much does a hot water heater cost",plumbing,"water heater cost",13,top,5,,true
+63.0,"house solar panels cost",solar,"solar panels cost",33,top,3,,true
+63.0,"install solar panels cost",solar,"solar panels cost",33,top,3,,true
+63.0,"how much does a privacy fence cost",fence,"fence cost",13,top,5,,true
+63.0,"vinyl siding cost calculator",siding,"vinyl siding cost",23,top,4,,true
+63.0,"divorce lawyer cost",legal,"lawyer cost",33,top,3,,true
+63.0,"moving company costs",moving,"moving company cost",33,top,3,,true
+62.0,"roof replacement cost per square foot",roof,"roof replacement cost",12,top,5,,true
+62.0,"exterior painting cost per square foot",painting,"exterior painting cost",12,top,5,,true
+62.0,"professional painter cost",painting,"painter cost",32,top,3,,true
+62.0,"house painting quote",painting,"painting quote",32,top,3,,true
+62.0,"blown insulation cost",insulation,"insulation cost",32,top,3,,true
+62.0,"pod moving cost",moving,"moving cost",32,top,3,,true
+61.0,"heat pump cost calculator",hvac,"heat pump cost",21,top,4,,true
+61.0,"price of concrete per square foot",concrete,"concrete per square foot",11,top,5,,true
+61.0,"concrete foundation repair cost",foundation,"foundation repair cost",31,top,3,,true
+61.0,"house insulation cost",insulation,"insulation cost",31,top,3,,true
+61.0,"how much does foam insulation cost",insulation,"insulation cost",11,top,5,,true
+60.0,"hvac cost per square foot",hvac,"hvac cost",10,top,5,,true
+60.0,"house furnace cost",hvac,"furnace cost",30,top,3,,true
+60.0,"slab foundation repair cost",foundation,"foundation repair cost",30,top,3,,true
+60.0,"how much does spray insulation cost",insulation,"insulation cost",10,top,5,,true
+60.0,"gutter replacement cost estimator",gutter,"gutter replacement cost",30,top,3,,true
+60.0,"how much does a new garage door cost",garage-door,"garage door cost",10,top,5,,true
+60.0,"moving costs",moving,"moving cost",30,top,3,,true
+59.0,"how much does a gas furnace cost",hvac,"furnace cost",9,top,5,,true
+59.0,"new roof cost per square foot",roof,"new roof cost",9,top,5,,true
+59.0,"new water heater cost",plumbing,"water heater cost",29,top,3,,true
+59.0,"solar power panels cost",solar,"solar panels cost",29,top,3,,true
+59.0,"spray foam cost per square foot",insulation,"spray foam cost",9,top,5,,true
+59.0,"car repair costs",auto-repair,"car repair cost",29,top,3,,true
+59.0,"estate planning costs",legal,"estate planning cost",29,top,3,,true
+58.0,"oil furnace cost",hvac,"furnace cost",28,top,3,,true
+58.0,"ductless heat pump cost",hvac,"heat pump cost",28,top,3,,true
+58.0,"roof replacement cost calculator",roof,"roof replacement cost",18,top,4,,true
+58.0,"how much does a tankless water heater cost",plumbing,"water heater cost",8,top,5,,true
+58.0,"pave driveway cost",concrete,"driveway cost",28,top,3,,true
+58.0,"how much does a chain link fence cost",fence,"fence cost",8,top,5,,true
+58.0,"how much does spray foam insulation cost",insulation,"insulation cost",8,top,5,,true
+58.0,"leaf guard gutter cost",gutter,"gutter cost",28,top,3,,true
+58.0,"ikea kitchen renovation cost",kitchen-remodel,"kitchen renovation cost",28,top,3,,true
+57.0,"water furnace cost",hvac,"furnace cost",27,top,3,,true
+57.0,"stamped concrete cost",concrete,"concrete cost",27,top,3,,true
+57.0,"how much does a new driveway cost",concrete,"driveway cost",7,top,5,,true
+57.0,"painter cost per hour",painting,"painter cost",27,top,3,,true
+57.0,"how much does a fence cost per foot",fence,"fence cost",7,top,5,,true
+57.0,"kitchen remodel cost calculator",kitchen-remodel,"kitchen remodel cost",17,top,4,,true
+56.0,"new roof cost",roof,"roof replacement cost",26,top,3,,true
+56.0,"cost to replace roof",roof,"roof replacement cost",26,top,3,,true
+56.0,"the cost of solar panels",solar,"solar panels cost",26,top,3,,true
+56.0,"concrete calculator",concrete,"concrete cost",46,top,1,,true
+56.0,"how much is concrete per square foot",concrete,"concrete per square foot",16,top,4,,true
+56.0,"new fence cost",fence,"fence cost",26,top,3,,true
+56.0,"how much does a new fence cost",fence,"fence cost",6,top,5,,true
+56.0,"hardie siding cost",siding,"siding cost",26,top,3,,true
+56.0,"rear window replacement cost",window,"window replacement cost",26,top,3,,true
+55.0,"how much should a new roof cost",roof,"new roof cost",5,top,5,,true
+55.0,"average plumber cost per hour",plumbing,"plumber cost",5,top,5,,true
+55.0,"how much do solar panels cost for a house",solar,"solar panels cost",5,top,5,,true
+55.0,"how much is a yard of concrete cost",concrete,"concrete cost",5,top,5,,true
+55.0,"exterior house painting cost per square foot",painting,"house painting cost",5,top,5,,true
+55.0,"wooden fence cost",fence,"fence cost",25,top,3,,true
+55.0,"car window replacement",window,"window replacement cost",55,top,0,,true
+55.0,"side window replacement cost",window,"window replacement cost",25,top,3,,true
+55.0,"full brake job cost",auto-repair,"brake job cost",25,top,3,,true
+54.0,"electric furnace cost",hvac,"furnace cost",24,top,3,,true
+54.0,"roof repair cost",roof,"roof replacement cost",24,top,3,,true
+54.0,"plumber cost per hour",plumbing,"plumber cost",24,top,3,,true
+54.0,"cost to install solar panels",solar,"solar panels cost",24,top,3,,true
+54.0,"how much does concrete cost per yard",concrete,"concrete cost",4,top,5,,true
+54.0,"pool fence cost",fence,"fence cost",24,top,3,,true
+54.0,"blown in insulation cost",insulation,"insulation cost",24,top,3,,true
+54.0,"how much does a criminal lawyer cost",legal,"lawyer cost",4,top,5,,true
+54.0,"how much does a custody lawyer cost",legal,"lawyer cost",4,top,5,,true
+53.0,"water heater cost home depot",plumbing,"water heater cost",23,top,3,,true
+53.0,"how much does an asphalt driveway cost",concrete,"driveway cost",3,top,5,,true
+53.0,"vinyl vs wood fence cost",fence,"wood fence cost",23,top,3,,true
+53.0,"wood siding cost",siding,"siding cost",23,top,3,,true
+53.0,"vinyl siding cost home depot",siding,"vinyl siding cost",23,top,3,,true
+53.0,"home depot kitchen remodel cost",kitchen-remodel,"kitchen remodel cost",23,top,3,,true
+53.0,"ikea kitchen remodel cost",kitchen-remodel,"kitchen remodel cost",23,top,3,,true
+53.0,"how much does a family lawyer cost",legal,"lawyer cost",3,top,5,,true
+53.0,"how much does cataract surgery cost",medical,"surgery cost",3,top,5,,true
+53.0,"how much does laser eye surgery cost",medical,"surgery cost",3,top,5,,true
+53.0,"how much does weight loss surgery cost",medical,"surgery cost",3,top,5,,true
+52.0,"iron fence cost",fence,"fence cost",22,top,3,,true
+52.0,"new siding cost",siding,"siding cost",22,top,3,,true
+52.0,"cataract surgery cost",medical,"surgery cost",22,top,3,,true
+52.0,"how much does top surgery cost",medical,"surgery cost",2,top,5,,true
+51.0,"new roof cost calculator",roof,"new roof cost",11,top,4,,true
+51.0,"blacktop driveway cost",concrete,"driveway cost",21,top,3,,true
+51.0,"heated driveway cost",concrete,"driveway cost",21,top,3,,true
+51.0,"crack in foundation repair cost",foundation,"foundation repair cost",21,top,3,,true
+51.0,"insulation cost calculator",insulation,"insulation cost",11,top,4,,true
+50.0,"roof replacement cost per square",roof,"roof replacement cost",20,top,3,,true
+50.0,"solar quotes",solar,"solar quote",20,top,3,,true
+50.0,"cracked foundation repair cost",foundation,"foundation repair cost",20,top,3,,true
+50.0,"ac repair",auto-repair,"car repair cost",50,top,0,,true
+50.0,"eye laser surgery cost",medical,"surgery cost",20,top,3,,true
+50.0,"vsg surgery cost",medical,"surgery cost",25700,rising,3,,true
+50.0,"ptosis surgery cost",medical,"surgery cost",23400,rising,3,,true
+50.0,"forehead reduction surgery cost",medical,"surgery cost",23300,rising,3,,true
+49.1,"strabismus surgery cost",medical,"surgery cost",19100,rising,3,,true
+49.0,"roof solar panels cost",solar,"solar panels cost",19,top,3,,true
+48.2,"vaginal rejuvenation surgery cost",medical,"surgery cost",18200,rising,3,,true
+48.0,"plumbing cost calculator",plumbing,"plumbing cost",8,top,4,,true
+48.0,"stamped concrete cost calculator",concrete,"stamped concrete cost",8,top,4,,true
+48.0,"wall insulation cost",insulation,"insulation cost",18,top,3,,true
+48.0,"brake job cost near me",auto-repair,"brake job cost",28,top,2,,true
+48.0,"luxating patella surgery cost",medical,"surgery cost",18000,rising,3,,true
+47.5,"ingrown toenail surgery cost",medical,"surgery cost",17450,rising,3,,true
+47.0,"get solar quote",solar,"solar quote",17,top,3,,true
+47.0,"asphalt driveway cost calculator",concrete,"driveway cost",7,top,4,,true
+47.0,"wedding painter cost",painting,"painter cost",17,top,3,,true
+47.0,"aluminum fence cost",fence,"fence cost",17,top,3,,true
+47.0,"cedar siding cost",siding,"siding cost",17,top,3,,true
+47.0,"auto window replacement cost",window,"window replacement cost",17,top,3,,true
+47.0,"window replacement cost calculator",window,"window replacement cost",7,top,4,,true
+47.0,"spray in insulation cost",insulation,"insulation cost",17,top,3,,true
+47.0,"immigration lawyer cost",legal,"lawyer cost",17,top,3,,true
+46.0,"tankless hot water heater cost",plumbing,"water heater cost",16,top,3,,true
+46.0,"free solar quote",solar,"solar quote",16,top,3,,true
+46.0,"cement siding cost",siding,"siding cost",16,top,3,,true
+46.0,"back window replacement cost",window,"window replacement cost",16,top,3,,true
+46.0,"fiberglass insulation cost",insulation,"insulation cost",16,top,3,,true
+46.0,"roof insulation cost",insulation,"insulation cost",16,top,3,,true
+46.0,"lowes kitchen remodel cost",kitchen-remodel,"kitchen remodel cost",16,top,3,,true
+46.0,"nose surgery cost",medical,"surgery cost",16,top,3,,true
+45.0,"metal roof replacement cost",roof,"roof replacement cost",15,top,3,metal-roof-replacement-cost.html,false
+45.0,"front window replacement cost",window,"window replacement cost",15,top,3,,true
+45.0,"family lawyer cost",legal,"lawyer cost",15,top,3,,true
+45.0,"weight loss surgery cost",medical,"surgery cost",15,top,3,,true
+45.0,"detroit people mover cost",moving,"mover cost",15,top,3,,true
+44.0,"flat roof replacement cost",roof,"roof replacement cost",14,top,3,,true
+44.0,"solar panel",solar,"solar panels cost",44,top,0,,true
+44.0,"poured concrete patio cost",concrete,"concrete patio cost",14,top,3,,true
+44.0,"metal siding cost",siding,"siding cost",14,top,3,,true
+44.0,"passenger window replacement cost",window,"window replacement cost",14,top,3,,true
+44.0,"blow in insulation cost",insulation,"insulation cost",14,top,3,,true
+44.0,"small kitchen remodel",kitchen-remodel,"kitchen remodel cost",44,top,0,,true
+44.0,"hail damage car repair cost",auto-repair,"car repair cost",14,top,3,,true
+44.0,"breast reduction surgery cost",medical,"surgery cost",14,top,3,,true
+44.0,"long distance moving cost",moving,"moving cost",14,top,3,,true
+43.0,"what does a new roof cost",roof,"new roof cost",13,top,3,,true
+43.0,"new roof cost per square",roof,"new roof cost",13,top,3,,true
+43.0,"water heater installation",plumbing,"water heater cost",43,top,0,,true
+43.0,"gravel driveway cost calculator",concrete,"driveway cost",3,top,4,,true
+43.0,"brick siding cost",siding,"siding cost",13,top,3,,true
+43.0,"window replacement cost per window",window,"window replacement cost",13,top,3,,true
+43.0,"car paint scratch repair cost",auto-repair,"car repair cost",13,top,3,,true
+43.0,"dui lawyer cost",legal,"lawyer cost",13,top,3,,true
+43.0,"knee surgery cost",medical,"surgery cost",13,top,3,,true
+42.0,"ivdd surgery cost",medical,"surgery cost",12050,rising,3,,true
+42.0,"plumbing costs",plumbing,"plumbing cost",12,top,3,,true
+42.0,"water heater replacement",plumbing,"water heater cost",42,top,0,,true
+42.0,"garage insulation cost",insulation,"insulation cost",12,top,3,,true
+42.0,"custody lawyer cost",legal,"lawyer cost",12,top,3,,true
+42.0,"eyelid surgery cost",medical,"surgery cost",12,top,3,,true
+42.0,"hernia surgery cost",medical,"surgery cost",12,top,3,,true
+42.0,"tummy tuck surgery cost",medical,"surgery cost",12,top,3,,true
+42.0,"lap band surgery cost",medical,"surgery cost",12,top,3,,true
+41.0,"cost of new roof",roof,"roof replacement cost",11,top,3,,true
+41.0,"hardie board siding cost",siding,"siding cost",11,top,3,,true
+41.0,"insulated vinyl siding cost",siding,"vinyl siding cost",11,top,3,,true
+41.0,"single garage door cost",garage-door,"garage door cost",11,top,3,,true
+41.0,"car door dent repair cost",auto-repair,"car repair cost",11,top,3,,true
+41.0,"bankruptcy lawyer cost",legal,"lawyer cost",11,top,3,,true
+40.0,"plumbing cost for new house",plumbing,"plumbing cost",10,top,3,,true
+40.0,"repave driveway cost",concrete,"driveway cost",10,top,3,,true
+40.0,"closed cell spray foam cost",insulation,"spray foam cost",10,top,3,,true
+40.0,"kitchen remodel costs",kitchen-remodel,"kitchen remodel cost",10,top,3,,true
+40.0,"coolant leak repair cost",auto-repair,"car repair cost",10,top,3,,true
+40.0,"traffic lawyer cost",legal,"lawyer cost",10,top,3,,true
+40.0,"real estate lawyer cost",legal,"lawyer cost",10,top,3,,true
+39.0,"resurface driveway cost",concrete,"driveway cost",9,top,3,,true
+39.0,"goodfellas painting quote",painting,"painting quote",9,top,3,,true
+39.0,"painting quote template",painting,"painting quote",9,top,3,,true
+38.0,"new roof cost florida",roof,"new roof cost",8,top,3,,true
+38.0,"asphalt roof replacement cost",roof,"roof replacement cost",8,top,3,,true
+38.0,"new construction plumbing cost",plumbing,"plumbing cost",8,top,3,,true
+38.0,"emergency plumber cost",plumbing,"plumber cost",8,top,3,,true
+38.0,"pressure wash driveway cost",concrete,"driveway cost",8,top,3,,true
+38.0,"privacy fence cost per foot",fence,"fence cost",8,top,3,,true
+38.0,"brick fence cost",fence,"fence cost",8,top,3,,true
+38.0,"double pane window replacement cost",window,"window replacement cost",8,top,3,,true
+38.0,"crawl space insulation cost",insulation,"insulation cost",8,top,3,,true
+38.0,"skin removal surgery cost",medical,"surgery cost",8,top,3,,true
+37.0,"tile roof replacement cost",roof,"roof replacement cost",7,top,3,,true
+37.0,"heat pump water heater cost",plumbing,"water heater cost",7,top,3,,true
+37.0,"paved driveway cost",concrete,"driveway cost",7,top,3,,true
+37.0,"whole house painting cost",painting,"house painting cost",7,top,3,,true
+37.0,"driver side window replacement cost",window,"window replacement cost",7,top,3,,true
+37.0,"probate lawyer cost",legal,"lawyer cost",7,top,3,,true
+36.0,"high efficiency furnace cost",hvac,"furnace cost",6,top,3,,true
+36.0,"plumber cost to snake a drain",plumbing,"plumber cost",6,top,3,,true
+36.0,"electrician costs",electrical,"electrician cost",6,top,3,,true
+36.0,"home solar panels",solar,"solar panels cost",36,top,0,,true
+36.0,"polished concrete cost",concrete,"concrete cost",6,top,3,,true
+36.0,"asphalt vs concrete driveway cost",concrete,"driveway cost",6,top,3,,true
+36.0,"board and batten siding cost",siding,"siding cost",6,top,3,,true
+35.0,"pressure washing driveway cost",concrete,"driveway cost",5,top,3,,true
+35.0,"house painting cost estimator",painting,"house painting cost",5,top,3,,true
+35.0,"strong foundation quotes",foundation,"foundation quote",5,top,3,,true
+35.0,"james hardie siding cost",siding,"siding cost",5,top,3,,true
+35.0,"speeding ticket lawyer cost",legal,"lawyer cost",5,top,3,,true
+35.0,"personal injury lawyer cost",legal,"lawyer cost",5,top,3,,true
+35.0,"bbl surgery cost",medical,"surgery cost",5,top,3,,true
+34.0,"solar panels cost per watt",solar,"solar panels cost",4,top,3,,true
+34.0,"goodfellas dog painting quote",painting,"painting quote",4,top,3,,true
+34.0,"cement board siding cost",siding,"siding cost",4,top,3,,true
+33.0,"what does a new furnace cost",hvac,"furnace cost",3,top,3,,true
+33.0,"roofing",roof,"roof replacement cost",33,top,0,,true
+33.0,"gyno surgery cost",medical,"surgery cost",3,top,3,,true
+33.0,"labiaplasty surgery cost",medical,"surgery cost",3,top,3,,true
+33.0,"double chin surgery cost",medical,"surgery cost",3,top,3,,true
+32.0,"lp smart siding cost",siding,"siding cost",2,top,3,,true
+32.0,"window replacement near me",window,"replacement window cost",42,top,-1,,true
+32.0,"brazilian butt lift surgery cost",medical,"surgery cost",2,top,3,,true
+28.0,"solar energy",solar,"solar panels cost",28,top,0,,true
+27.0,"hardie siding",siding,"siding cost",27,top,0,,true
+23.0,"solar panels for home",solar,"solar panels cost",23,top,0,,true
+19.0,"auto repair near me",auto-repair,"car repair cost",29,top,-1,,true
+18.0,"solar system",solar,"solar panels cost",18,top,0,,true
+13.0,"foundation repair near me",foundation,"foundation repair cost",23,top,-1,,true
+12.0,"best solar panels",solar,"solar panels cost",12,top,0,,true
+0.0,"roof replacement near me",roof,"roof replacement cost",10,top,-1,,true
+-3.0,"car ac repair near me",auto-repair,"car repair cost",7,top,-1,,true

@@ -1,0 +1,36 @@
+{
+  "verticals": {
+    "hvac": ["hvac cost", "ac replacement cost", "furnace cost", "heat pump cost", "hvac quote"],
+    "roof": ["roof cost", "new roof cost", "roof replacement cost", "roofing quote", "metal roof cost"],
+    "plumbing": ["plumbing cost", "water heater cost", "repipe cost", "plumber cost", "plumbing estimate"],
+    "electrical": ["electrician cost", "electrical panel upgrade cost", "rewire house cost", "electrical quote", "electrician hourly rate"],
+    "solar": ["solar panels cost", "solar installation cost", "home solar cost", "solar quote", "residential solar cost"],
+    "concrete": ["concrete cost", "driveway cost", "concrete per square foot", "concrete patio cost", "stamped concrete cost"],
+    "painting": ["house painting cost", "interior painting cost", "exterior painting cost", "painter cost", "painting quote"],
+    "fence": ["fence cost", "wood fence cost", "vinyl fence cost", "fence per linear foot", "fence installation cost"],
+    "foundation": ["foundation repair cost", "foundation crack repair cost", "slab foundation cost", "foundation quote"],
+    "siding": ["siding cost", "vinyl siding cost", "fiber cement siding cost", "siding installation cost", "hardieplank cost"],
+    "window": ["window replacement cost", "new window cost", "replacement window cost", "window installation cost", "window quote"],
+    "insulation": ["insulation cost", "attic insulation cost", "spray foam cost", "blown in insulation cost"],
+    "gutter": ["gutter cost", "gutter replacement cost", "gutter installation cost", "gutter guard cost"],
+    "landscaping": ["landscaping cost", "lawn care cost", "sod cost", "landscape design cost"],
+    "kitchen-remodel": ["kitchen remodel cost", "kitchen renovation cost", "kitchen cabinet cost"],
+    "garage-door": ["garage door cost", "garage door opener cost", "garage door installation cost"],
+    "auto-repair": ["car repair cost", "auto repair cost", "mechanic cost", "transmission repair cost", "brake job cost"],
+    "legal": ["lawyer cost", "attorney fees", "divorce lawyer cost", "estate planning cost"],
+    "medical": ["medical bill cost", "hospital bill cost", "er bill cost", "surgery cost"],
+    "moving": ["moving cost", "mover cost", "long distance move cost", "moving company cost"]
+  },
+  "meta": [
+    "how to negotiate contractor quote",
+    "is angi worth it",
+    "alternative to angi",
+    "alternative to homeadvisor",
+    "contractor deposit how much",
+    "contractor red flags",
+    "how to check contractor quote",
+    "contractor quote too high",
+    "get contractor quotes without phone",
+    "quote analyzer"
+  ]
+}

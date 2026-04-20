@@ -1,0 +1,4500 @@
+[
+  {
+    "canonicalQuery": "auto repair cost estimate",
+    "vertical": "auto-repair",
+    "priority": 160,
+    "kind": "top",
+    "value": 100,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "auto repair cost estimate"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does heat pump cost",
+    "vertical": "hvac",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 7,
+    "variants": [
+      "how much does heat pump cost",
+      "how much does a heat pump cost",
+      "electric heat pump cost",
+      "geothermal heat pump cost",
+      "new heat pump cost",
+      "ductless heat pump cost",
+      "heat pump cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much new roof cost",
+    "vertical": "roof",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 9,
+    "variants": [
+      "how much new roof cost",
+      "how much does a roof cost",
+      "how much does new roof cost",
+      "how much does a new roof cost",
+      "new roof cost",
+      "how much is a new roof cost",
+      "what does a new roof cost",
+      "cost of new roof",
+      "how much should a new roof cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a metal roof cost",
+    "vertical": "roof",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 4,
+    "variants": [
+      "how much does a metal roof cost",
+      "metal roof cost",
+      "metal roof cost calculator",
+      "metal roof replacement cost"
+    ],
+    "newPageNeeded": false,
+    "existingPage": "metal-roof-cost.html"
+  },
+  {
+    "canonicalQuery": "how much does plumbing cost",
+    "vertical": "plumbing",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does plumbing cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does plumber cost",
+    "vertical": "plumbing",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "how much does plumber cost",
+      "how much does a plumber cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does electrician cost",
+    "vertical": "electrical",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "how much does electrician cost",
+      "how much does an electrician cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average solar installation cost",
+    "vertical": "solar",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "average solar installation cost",
+      "how much does solar installation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does concrete cost",
+    "vertical": "concrete",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does concrete cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "concrete per square foot cost",
+    "vertical": "concrete",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 5,
+    "variants": [
+      "concrete per square foot cost",
+      "concrete cost per square foot",
+      "concrete patio cost per square foot",
+      "stamped concrete cost per square foot",
+      "how much is concrete per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "interior painting cost per square foot",
+    "vertical": "painting",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "interior painting cost per square foot",
+      "exterior painting cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a painter cost",
+    "vertical": "painting",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does a painter cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a fence cost",
+    "vertical": "fence",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "how much does a fence cost",
+      "new fence cost",
+      "how much does a new fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does vinyl fence cost",
+    "vertical": "fence",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 5,
+    "variants": [
+      "how much does vinyl fence cost",
+      "vinyl fence installation cost",
+      "how much does a vinyl fence cost",
+      "vinyl fence cost",
+      "white vinyl fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "cost of fence per linear foot",
+    "vertical": "fence",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "cost of fence per linear foot",
+      "fence cost per foot",
+      "how much does a fence cost per foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does vinyl siding cost",
+    "vertical": "siding",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 5,
+    "variants": [
+      "how much does vinyl siding cost",
+      "vinyl siding cost",
+      "vinyl siding installation cost",
+      "vinyl siding cost calculator",
+      "insulated vinyl siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a new window cost",
+    "vertical": "window",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does a new window cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does attic insulation cost",
+    "vertical": "insulation",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "how much does attic insulation cost",
+      "blown in attic insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does blown in insulation cost",
+    "vertical": "insulation",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "how much does blown in insulation cost",
+      "blown insulation cost",
+      "blown in insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average gutter cost",
+    "vertical": "gutter",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average gutter cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does gutter guard cost",
+    "vertical": "gutter",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "how much does gutter guard cost",
+      "leaf guard gutter cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does landscape design cost",
+    "vertical": "landscaping",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does landscape design cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does kitchen remodel cost",
+    "vertical": "kitchen-remodel",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 6,
+    "variants": [
+      "how much does kitchen remodel cost",
+      "how much does a kitchen remodel cost",
+      "small kitchen remodel cost",
+      "ikea kitchen remodel cost",
+      "kitchen remodel cost calculator",
+      "lowes kitchen remodel cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average kitchen cabinet cost",
+    "vertical": "kitchen-remodel",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average kitchen cabinet cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much garage door cost",
+    "vertical": "garage-door",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 8,
+    "variants": [
+      "how much garage door cost",
+      "new garage door opener cost",
+      "how much does a garage door opener cost",
+      "how much does a garage door cost",
+      "new garage door cost",
+      "average garage door cost",
+      "single garage door cost",
+      "how much does a new garage door cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average brake job cost",
+    "vertical": "auto-repair",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "average brake job cost",
+      "how much does a brake job cost",
+      "how much should a brake job cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a lawyer cost",
+    "vertical": "legal",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does a lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a divorce lawyer cost",
+    "vertical": "legal",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "how much does a divorce lawyer cost",
+      "divorce lawyer cost",
+      "how much divorce lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does estate planning cost",
+    "vertical": "legal",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does estate planning cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does moving cost",
+    "vertical": "moving",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does moving cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a mover cost",
+    "vertical": "moving",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does a mover cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does moving company cost",
+    "vertical": "moving",
+    "priority": 150,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 4,
+    "variants": [
+      "how much does moving company cost",
+      "how much does a moving company cost",
+      "average moving company cost",
+      "moving company cost estimate"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does interior painting cost",
+    "vertical": "painting",
+    "priority": 144,
+    "kind": "top",
+    "value": 94,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does interior painting cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does window installation cost",
+    "vertical": "window",
+    "priority": 144,
+    "kind": "top",
+    "value": 94,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 4,
+    "variants": [
+      "how much does window installation cost",
+      "new window installation cost",
+      "lowes window installation cost",
+      "egress window installation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average roof cost",
+    "vertical": "roof",
+    "priority": 134,
+    "kind": "top",
+    "value": 84,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 4,
+    "variants": [
+      "average roof cost",
+      "average cost roof replacement",
+      "average cost of roof replacement",
+      "average cost for roof replacement"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average moving cost",
+    "vertical": "moving",
+    "priority": 133,
+    "kind": "top",
+    "value": 83,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average moving cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average fence installation cost",
+    "vertical": "fence",
+    "priority": 132,
+    "kind": "top",
+    "value": 82,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "average fence installation cost",
+      "how much does fence installation cost",
+      "average fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a driveway cost",
+    "vertical": "concrete",
+    "priority": 131,
+    "kind": "top",
+    "value": 81,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "how much does a driveway cost",
+      "new driveway cost",
+      "how much does a new driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "cost of solar panels",
+    "vertical": "solar",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 16,
+    "variants": [
+      "cost of solar panels",
+      "how much solar panels cost",
+      "cost for solar panels",
+      "how much does solar panels cost",
+      "how much to solar panels cost",
+      "how much do solar panels cost",
+      "home solar panels cost",
+      "house solar panels cost",
+      "install solar panels cost",
+      "solar power panels cost",
+      "the cost of solar panels",
+      "cost to install solar panels",
+      "roof solar panels cost",
+      "average cost of solar panels",
+      "how much is solar panels cost",
+      "how much do solar panels cost for a house"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "house foundation repair cost",
+    "vertical": "foundation",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 8,
+    "variants": [
+      "house foundation repair cost",
+      "how much does foundation repair cost",
+      "home foundation repair cost",
+      "basement foundation repair cost",
+      "concrete foundation repair cost",
+      "slab foundation repair cost",
+      "crack in foundation repair cost",
+      "cracked foundation repair cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "new hvac cost",
+    "vertical": "hvac",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "new hvac cost",
+      "how much does hvac cost",
+      "how much does a new hvac cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "car ac replacement cost",
+    "vertical": "hvac",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "car ac replacement cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "new furnace cost",
+    "vertical": "hvac",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 4,
+    "variants": [
+      "new furnace cost",
+      "how much does a furnace cost",
+      "how much does new furnace cost",
+      "what does a new furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "hvac quotes",
+    "vertical": "hvac",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "hvac quotes"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "cost of roof replacement",
+    "vertical": "roof",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 13,
+    "variants": [
+      "cost of roof replacement",
+      "roof gutter replacement cost",
+      "cost for roof replacement",
+      "how much roof replacement cost",
+      "cost of a roof replacement",
+      "home roof replacement cost",
+      "how much does roof replacement cost",
+      "how much does a roof replacement cost",
+      "roof replacement cost calculator",
+      "flat roof replacement cost",
+      "roof replacement cost estimate",
+      "asphalt roof replacement cost",
+      "tile roof replacement cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "roofing quotes",
+    "vertical": "roof",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "roofing quotes"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "hot water heater cost",
+    "vertical": "plumbing",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 6,
+    "variants": [
+      "hot water heater cost",
+      "hot water heater",
+      "how much does a water heater cost",
+      "new water heater cost",
+      "tankless hot water heater cost",
+      "how much does a hot water heater cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "pex repipe cost",
+    "vertical": "plumbing",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "pex repipe cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "plumbing estimates",
+    "vertical": "plumbing",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "plumbing estimates"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "electrical quotes",
+    "vertical": "electrical",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "electrical quotes"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "the solar quote",
+    "vertical": "solar",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "the solar quote"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "asphalt driveway cost",
+    "vertical": "concrete",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "asphalt driveway cost",
+      "asphalt driveway cost calculator",
+      "how much does an asphalt driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "stamped concrete patio cost",
+    "vertical": "concrete",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 6,
+    "variants": [
+      "stamped concrete patio cost",
+      "stamped concrete patio",
+      "how much does concrete patio cost",
+      "how much does a concrete patio cost",
+      "how much does stamped concrete cost",
+      "stamped concrete cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "house painting cost exterior",
+    "vertical": "painting",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "house painting cost exterior",
+      "how much does exterior painting cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "painting quotes",
+    "vertical": "painting",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "painting quotes"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "wood fence cost per foot",
+    "vertical": "fence",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "wood fence cost per foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "foundation quotes",
+    "vertical": "foundation",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "foundation quotes"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "window installation cost home depot",
+    "vertical": "window",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "window installation cost home depot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "window quotes",
+    "vertical": "window",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "window quotes"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "foam insulation cost",
+    "vertical": "insulation",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 5,
+    "variants": [
+      "foam insulation cost",
+      "insulation spray foam cost",
+      "foam spray insulation cost",
+      "how much does foam insulation cost",
+      "how much does spray foam insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does kitchen renovation cost",
+    "vertical": "kitchen-remodel",
+    "priority": 130,
+    "kind": "top",
+    "value": 80,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 5,
+    "variants": [
+      "how much does kitchen renovation cost",
+      "how much does a kitchen renovation cost",
+      "small kitchen renovation cost",
+      "kitchen renovation cost calculator",
+      "ikea kitchen renovation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "home depot garage door installation cost",
+    "vertical": "garage-door",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "home depot garage door installation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "car transmission repair cost",
+    "vertical": "auto-repair",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "car transmission repair cost",
+      "how much does transmission repair cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "eye surgery cost",
+    "vertical": "medical",
+    "priority": 130,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 4,
+    "variants": [
+      "eye surgery cost",
+      "lasik eye surgery cost",
+      "eye laser surgery cost",
+      "how much does laser eye surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "chain link fence cost",
+    "vertical": "fence",
+    "priority": 128,
+    "kind": "top",
+    "value": 98,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 4,
+    "variants": [
+      "chain link fence cost",
+      "chain fence cost",
+      "chain link fence installation cost",
+      "how much does a chain link fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "tankless water heater cost",
+    "vertical": "plumbing",
+    "priority": 126,
+    "kind": "top",
+    "value": 96,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "tankless water heater cost",
+      "how much does a tankless water heater cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "home solar installation cost",
+    "vertical": "solar",
+    "priority": 126,
+    "kind": "top",
+    "value": 96,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "home solar installation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "lowes garage door installation cost",
+    "vertical": "garage-door",
+    "priority": 125,
+    "kind": "top",
+    "value": 95,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "lowes garage door installation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "wood fence installation cost",
+    "vertical": "fence",
+    "priority": 122,
+    "kind": "top",
+    "value": 92,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 4,
+    "variants": [
+      "wood fence installation cost",
+      "wood fence cost",
+      "how much does a wood fence cost",
+      "wood fence cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "gutter cost per foot",
+    "vertical": "gutter",
+    "priority": 122,
+    "kind": "top",
+    "value": 92,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "gutter cost per foot",
+      "gutter replacement cost per foot",
+      "gutter cost per linear foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "fence installation cost per foot",
+    "vertical": "fence",
+    "priority": 120,
+    "kind": "top",
+    "value": 90,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "fence installation cost per foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "house siding cost",
+    "vertical": "siding",
+    "priority": 119,
+    "kind": "top",
+    "value": 89,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "house siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "spray insulation cost",
+    "vertical": "insulation",
+    "priority": 116,
+    "kind": "top",
+    "value": 86,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "spray insulation cost",
+      "spray in insulation cost",
+      "how much does spray insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "auto repair costs",
+    "vertical": "auto-repair",
+    "priority": 114,
+    "kind": "top",
+    "value": 84,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "auto repair costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "vinyl fence cost per foot",
+    "vertical": "fence",
+    "priority": 113,
+    "kind": "top",
+    "value": 83,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "vinyl fence cost per foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "front brake job cost",
+    "vertical": "auto-repair",
+    "priority": 113,
+    "kind": "top",
+    "value": 83,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "front brake job cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "privacy fence cost",
+    "vertical": "fence",
+    "priority": 112,
+    "kind": "top",
+    "value": 82,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "privacy fence cost",
+      "privacy fence installation cost",
+      "how much does a privacy fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "replacement window quote",
+    "vertical": "window",
+    "priority": 111,
+    "kind": "top",
+    "value": 81,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "replacement window quote"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average hvac cost",
+    "vertical": "hvac",
+    "priority": 110,
+    "kind": "top",
+    "value": 60,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average hvac cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "bathroom remodel cost",
+    "vertical": "kitchen-remodel",
+    "priority": 110,
+    "kind": "top",
+    "value": 80,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "bathroom remodel cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "gas furnace cost",
+    "vertical": "hvac",
+    "priority": 109,
+    "kind": "top",
+    "value": 79,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "gas furnace cost",
+      "how much does a gas furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "replace roof cost",
+    "vertical": "roof",
+    "priority": 104,
+    "kind": "top",
+    "value": 74,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "replace roof cost",
+      "cost to replace roof"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does siding cost",
+    "vertical": "siding",
+    "priority": 103,
+    "kind": "top",
+    "value": 53,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "how much does siding cost",
+      "new siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "home depot fence installation cost",
+    "vertical": "fence",
+    "priority": 102,
+    "kind": "top",
+    "value": 72,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "home depot fence installation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average plumbing cost",
+    "vertical": "plumbing",
+    "priority": 100,
+    "kind": "top",
+    "value": 50,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average plumbing cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "house painting",
+    "vertical": "painting",
+    "priority": 100,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "house painting"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "replacement windows",
+    "vertical": "window",
+    "priority": 100,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "replacement windows"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "glass window replacement",
+    "vertical": "window",
+    "priority": 100,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "glass window replacement",
+      "glass window replacement cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "bathroom renovation",
+    "vertical": "kitchen-remodel",
+    "priority": 100,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "bathroom renovation"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "standing seam metal roof cost",
+    "vertical": "roof",
+    "priority": 99,
+    "kind": "top",
+    "value": 69,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "standing seam metal roof cost"
+    ],
+    "newPageNeeded": false,
+    "existingPage": "standing-seam-metal-roof-cost.html"
+  },
+  {
+    "canonicalQuery": "metal roof cost per square",
+    "vertical": "roof",
+    "priority": 99,
+    "kind": "top",
+    "value": 69,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "metal roof cost per square",
+      "metal roof cost per square foot",
+      "new roof cost per square"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "plumbing estimate software",
+    "vertical": "plumbing",
+    "priority": 98,
+    "kind": "top",
+    "value": 68,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "plumbing estimate software"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average plumber cost",
+    "vertical": "plumbing",
+    "priority": 97,
+    "kind": "top",
+    "value": 47,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average plumber cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "driveway concrete cost",
+    "vertical": "concrete",
+    "priority": 96,
+    "kind": "top",
+    "value": 66,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "driveway concrete cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does insulation cost",
+    "vertical": "insulation",
+    "priority": 96,
+    "kind": "top",
+    "value": 46,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "lasik surgery cost",
+    "vertical": "medical",
+    "priority": 96,
+    "kind": "top",
+    "value": 66,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "lasik surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "liftmaster garage door opener cost",
+    "vertical": "garage-door",
+    "priority": 94,
+    "kind": "top",
+    "value": 64,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "liftmaster garage door opener cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "spray foam attic insulation cost",
+    "vertical": "insulation",
+    "priority": 93,
+    "kind": "top",
+    "value": 63,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "spray foam attic insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "concrete cost calculator",
+    "vertical": "concrete",
+    "priority": 90,
+    "kind": "top",
+    "value": 50,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 3,
+    "variants": [
+      "concrete cost calculator",
+      "concrete patio cost calculator",
+      "stamped concrete cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "vinyl siding cost per square",
+    "vertical": "siding",
+    "priority": 90,
+    "kind": "top",
+    "value": 60,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "vinyl siding cost per square",
+      "vinyl siding cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "car repair near me",
+    "vertical": "auto-repair",
+    "priority": 90,
+    "kind": "top",
+    "value": 100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "car repair near me",
+      "car ac repair near me"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average furnace cost",
+    "vertical": "hvac",
+    "priority": 89,
+    "kind": "top",
+    "value": 39,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "replace hvac cost",
+    "vertical": "hvac",
+    "priority": 88,
+    "kind": "top",
+    "value": 58,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "replace hvac cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "window replacement cost car",
+    "vertical": "window",
+    "priority": 87,
+    "kind": "top",
+    "value": 57,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 14,
+    "variants": [
+      "window replacement cost car",
+      "home window replacement cost",
+      "house window replacement cost",
+      "how much does window replacement cost",
+      "average cost of window replacement",
+      "rear window replacement cost",
+      "side window replacement cost",
+      "how much does a window replacement cost",
+      "auto window replacement cost",
+      "back window replacement cost",
+      "front window replacement cost",
+      "passenger window replacement cost",
+      "window replacement cost per window",
+      "window replacement cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average ac replacement cost",
+    "vertical": "hvac",
+    "priority": 86,
+    "kind": "top",
+    "value": 36,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average ac replacement cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "lowes fence installation cost",
+    "vertical": "fence",
+    "priority": 86,
+    "kind": "top",
+    "value": 56,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "lowes fence installation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "plastic surgery cost",
+    "vertical": "medical",
+    "priority": 86,
+    "kind": "top",
+    "value": 56,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "plastic surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "home ac replacement cost",
+    "vertical": "hvac",
+    "priority": 85,
+    "kind": "top",
+    "value": 55,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "home ac replacement cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "gas water heater cost",
+    "vertical": "plumbing",
+    "priority": 83,
+    "kind": "top",
+    "value": 53,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "gas water heater cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "ac car repair cost",
+    "vertical": "auto-repair",
+    "priority": 83,
+    "kind": "top",
+    "value": 53,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "ac car repair cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "metal roof cost vs shingles",
+    "vertical": "roof",
+    "priority": 82,
+    "kind": "top",
+    "value": 52,
+    "intent": "commercial",
+    "template": "comparison",
+    "memberCount": 1,
+    "variants": [
+      "metal roof cost vs shingles"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "replace furnace cost",
+    "vertical": "hvac",
+    "priority": 80,
+    "kind": "top",
+    "value": 50,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "replace furnace cost",
+      "furnace cost to replace"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "bathroom remodel",
+    "vertical": "kitchen-remodel",
+    "priority": 80,
+    "kind": "top",
+    "value": 80,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "bathroom remodel"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "average water heater cost",
+    "vertical": "plumbing",
+    "priority": 79,
+    "kind": "top",
+    "value": 29,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "average water heater cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "kitchen renovation costs",
+    "vertical": "kitchen-remodel",
+    "priority": 79,
+    "kind": "top",
+    "value": 49,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "kitchen renovation costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "3 ton heat pump cost",
+    "vertical": "hvac",
+    "priority": 78,
+    "kind": "top",
+    "value": 28,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "3 ton heat pump cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "yard of concrete cost",
+    "vertical": "concrete",
+    "priority": 77,
+    "kind": "top",
+    "value": 47,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "yard of concrete cost",
+      "how much is a yard of concrete cost",
+      "how much does concrete cost per yard"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "roof cost per square foot",
+    "vertical": "roof",
+    "priority": 76,
+    "kind": "top",
+    "value": 26,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "roof cost per square foot",
+      "roof replacement cost per square foot",
+      "new roof cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "solar panel cost",
+    "vertical": "solar",
+    "priority": 76,
+    "kind": "top",
+    "value": 46,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "solar panel cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "window quote online",
+    "vertical": "window",
+    "priority": 76,
+    "kind": "top",
+    "value": 46,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "window quote online"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "car scratch repair cost",
+    "vertical": "auto-repair",
+    "priority": 76,
+    "kind": "top",
+    "value": 46,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "car scratch repair cost",
+      "car paint scratch repair cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "moving cost calculator",
+    "vertical": "moving",
+    "priority": 76,
+    "kind": "top",
+    "value": 36,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "moving cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "seamless gutter cost",
+    "vertical": "gutter",
+    "priority": 75,
+    "kind": "top",
+    "value": 45,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "seamless gutter cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "driveway cost per square foot",
+    "vertical": "concrete",
+    "priority": 74,
+    "kind": "top",
+    "value": 24,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "driveway cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "piano mover cost",
+    "vertical": "moving",
+    "priority": 74,
+    "kind": "top",
+    "value": 44,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "piano mover cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "hvac replacement cost",
+    "vertical": "hvac",
+    "priority": 73,
+    "kind": "top",
+    "value": 43,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "hvac replacement cost"
+    ],
+    "newPageNeeded": false,
+    "existingPage": "hvac-replacement-cost-guide.html"
+  },
+  {
+    "canonicalQuery": "new gutter cost",
+    "vertical": "gutter",
+    "priority": 73,
+    "kind": "top",
+    "value": 43,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "new gutter cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "solar roof cost",
+    "vertical": "roof",
+    "priority": 72,
+    "kind": "top",
+    "value": 42,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "solar roof cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "insulation cost per square foot",
+    "vertical": "insulation",
+    "priority": 72,
+    "kind": "top",
+    "value": 22,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "insulation cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "home furnace cost",
+    "vertical": "hvac",
+    "priority": 71,
+    "kind": "top",
+    "value": 41,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "home furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "home insulation cost",
+    "vertical": "insulation",
+    "priority": 71,
+    "kind": "top",
+    "value": 41,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "home insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "rain gutter cost",
+    "vertical": "gutter",
+    "priority": 71,
+    "kind": "top",
+    "value": 41,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "rain gutter cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does bariatric surgery cost",
+    "vertical": "medical",
+    "priority": 70,
+    "kind": "rising",
+    "value": 20850,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does bariatric surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "furnace and ac replacement cost",
+    "vertical": "hvac",
+    "priority": 69,
+    "kind": "top",
+    "value": 39,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "furnace and ac replacement cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "shingle roof cost",
+    "vertical": "roof",
+    "priority": 69,
+    "kind": "top",
+    "value": 39,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "shingle roof cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "electric water heater cost",
+    "vertical": "plumbing",
+    "priority": 69,
+    "kind": "top",
+    "value": 39,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "electric water heater cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "fence cost calculator",
+    "vertical": "fence",
+    "priority": 68,
+    "kind": "top",
+    "value": 28,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "fence cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "siding cost per square foot",
+    "vertical": "siding",
+    "priority": 68,
+    "kind": "top",
+    "value": 18,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "siding cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "4 ton heat pump cost",
+    "vertical": "hvac",
+    "priority": 67,
+    "kind": "top",
+    "value": 17,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "4 ton heat pump cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "replace water heater cost",
+    "vertical": "plumbing",
+    "priority": 67,
+    "kind": "top",
+    "value": 37,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "replace water heater cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "breast surgery cost",
+    "vertical": "medical",
+    "priority": 67,
+    "kind": "top",
+    "value": 37,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "breast surgery cost",
+      "breast reduction surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "heating furnace cost",
+    "vertical": "hvac",
+    "priority": 66,
+    "kind": "top",
+    "value": 36,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "heating furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "paving driveway cost",
+    "vertical": "concrete",
+    "priority": 66,
+    "kind": "top",
+    "value": 36,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "paving driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "driveway cost calculator",
+    "vertical": "concrete",
+    "priority": 66,
+    "kind": "top",
+    "value": 26,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 2,
+    "variants": [
+      "driveway cost calculator",
+      "gravel driveway cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does spray foam cost",
+    "vertical": "insulation",
+    "priority": 66,
+    "kind": "top",
+    "value": 16,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does spray foam cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "5 ton heat pump cost",
+    "vertical": "hvac",
+    "priority": 65,
+    "kind": "top",
+    "value": 15,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "5 ton heat pump cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "50 gallon water heater cost",
+    "vertical": "plumbing",
+    "priority": 64,
+    "kind": "top",
+    "value": 14,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "50 gallon water heater cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "vinyl fence cost vs wood",
+    "vertical": "fence",
+    "priority": 64,
+    "kind": "top",
+    "value": 34,
+    "intent": "commercial",
+    "template": "comparison",
+    "memberCount": 2,
+    "variants": [
+      "vinyl fence cost vs wood",
+      "vinyl vs wood fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "roof cost calculator",
+    "vertical": "roof",
+    "priority": 63,
+    "kind": "top",
+    "value": 23,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 2,
+    "variants": [
+      "roof cost calculator",
+      "new roof cost calculator"
+    ],
+    "newPageNeeded": false,
+    "existingPage": "roof-cost-calculator.html"
+  },
+  {
+    "canonicalQuery": "moving company costs",
+    "vertical": "moving",
+    "priority": 63,
+    "kind": "top",
+    "value": 33,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "moving company costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "professional painter cost",
+    "vertical": "painting",
+    "priority": 62,
+    "kind": "top",
+    "value": 32,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "professional painter cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "house painting quote",
+    "vertical": "painting",
+    "priority": 62,
+    "kind": "top",
+    "value": 32,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "house painting quote"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "pod moving cost",
+    "vertical": "moving",
+    "priority": 62,
+    "kind": "top",
+    "value": 32,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "pod moving cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "price of concrete per square foot",
+    "vertical": "concrete",
+    "priority": 61,
+    "kind": "top",
+    "value": 11,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "price of concrete per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "house insulation cost",
+    "vertical": "insulation",
+    "priority": 61,
+    "kind": "top",
+    "value": 31,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "house insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "hvac cost per square foot",
+    "vertical": "hvac",
+    "priority": 60,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "hvac cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "house furnace cost",
+    "vertical": "hvac",
+    "priority": 60,
+    "kind": "top",
+    "value": 30,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "house furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "gutter replacement cost estimator",
+    "vertical": "gutter",
+    "priority": 60,
+    "kind": "top",
+    "value": 30,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "gutter replacement cost estimator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "moving costs",
+    "vertical": "moving",
+    "priority": 60,
+    "kind": "top",
+    "value": 30,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "moving costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "spray foam cost per square foot",
+    "vertical": "insulation",
+    "priority": 59,
+    "kind": "top",
+    "value": 9,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "spray foam cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "car repair costs",
+    "vertical": "auto-repair",
+    "priority": 59,
+    "kind": "top",
+    "value": 29,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "car repair costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "estate planning costs",
+    "vertical": "legal",
+    "priority": 59,
+    "kind": "top",
+    "value": 29,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "estate planning costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "oil furnace cost",
+    "vertical": "hvac",
+    "priority": 58,
+    "kind": "top",
+    "value": 28,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "oil furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "pave driveway cost",
+    "vertical": "concrete",
+    "priority": 58,
+    "kind": "top",
+    "value": 28,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "pave driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "water furnace cost",
+    "vertical": "hvac",
+    "priority": 57,
+    "kind": "top",
+    "value": 27,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "water furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "painter cost per hour",
+    "vertical": "painting",
+    "priority": 57,
+    "kind": "top",
+    "value": 27,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "painter cost per hour"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "concrete calculator",
+    "vertical": "concrete",
+    "priority": 56,
+    "kind": "top",
+    "value": 46,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "concrete calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "hardie siding cost",
+    "vertical": "siding",
+    "priority": 56,
+    "kind": "top",
+    "value": 26,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 3,
+    "variants": [
+      "hardie siding cost",
+      "hardie board siding cost",
+      "james hardie siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "wooden fence cost",
+    "vertical": "fence",
+    "priority": 55,
+    "kind": "top",
+    "value": 25,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "wooden fence cost",
+      "how much does a wooden fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "exterior house painting cost per square foot",
+    "vertical": "painting",
+    "priority": 55,
+    "kind": "top",
+    "value": 5,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "exterior house painting cost per square foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "car window replacement",
+    "vertical": "window",
+    "priority": 55,
+    "kind": "top",
+    "value": 55,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "car window replacement"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "full brake job cost",
+    "vertical": "auto-repair",
+    "priority": 55,
+    "kind": "top",
+    "value": 25,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "full brake job cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "plumber cost per hour",
+    "vertical": "plumbing",
+    "priority": 54,
+    "kind": "top",
+    "value": 24,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "plumber cost per hour",
+      "average plumber cost per hour"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "electric furnace cost",
+    "vertical": "hvac",
+    "priority": 54,
+    "kind": "top",
+    "value": 24,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "electric furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "roof repair cost",
+    "vertical": "roof",
+    "priority": 54,
+    "kind": "top",
+    "value": 24,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "roof repair cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "pool fence cost",
+    "vertical": "fence",
+    "priority": 54,
+    "kind": "top",
+    "value": 24,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "pool fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does a criminal lawyer cost",
+    "vertical": "legal",
+    "priority": 54,
+    "kind": "top",
+    "value": 4,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does a criminal lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "water heater cost home depot",
+    "vertical": "plumbing",
+    "priority": 53,
+    "kind": "top",
+    "value": 23,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "water heater cost home depot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "wood siding cost",
+    "vertical": "siding",
+    "priority": 53,
+    "kind": "top",
+    "value": 23,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "wood siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "vinyl siding cost home depot",
+    "vertical": "siding",
+    "priority": 53,
+    "kind": "top",
+    "value": 23,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "vinyl siding cost home depot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "home depot kitchen remodel cost",
+    "vertical": "kitchen-remodel",
+    "priority": 53,
+    "kind": "top",
+    "value": 23,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "home depot kitchen remodel cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "cataract surgery cost",
+    "vertical": "medical",
+    "priority": 52,
+    "kind": "top",
+    "value": 22,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "cataract surgery cost",
+      "how much does cataract surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "iron fence cost",
+    "vertical": "fence",
+    "priority": 52,
+    "kind": "top",
+    "value": 22,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "iron fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "how much does top surgery cost",
+    "vertical": "medical",
+    "priority": 52,
+    "kind": "top",
+    "value": 2,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "how much does top surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "blacktop driveway cost",
+    "vertical": "concrete",
+    "priority": 51,
+    "kind": "top",
+    "value": 21,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "blacktop driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "heated driveway cost",
+    "vertical": "concrete",
+    "priority": 51,
+    "kind": "top",
+    "value": 21,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "heated driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "insulation cost calculator",
+    "vertical": "insulation",
+    "priority": 51,
+    "kind": "top",
+    "value": 11,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "insulation cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "roof replacement cost per square",
+    "vertical": "roof",
+    "priority": 50,
+    "kind": "top",
+    "value": 20,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "roof replacement cost per square"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "solar quotes",
+    "vertical": "solar",
+    "priority": 50,
+    "kind": "top",
+    "value": 20,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "solar quotes"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "ac repair",
+    "vertical": "auto-repair",
+    "priority": 50,
+    "kind": "top",
+    "value": 50,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "ac repair"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "vsg surgery cost",
+    "vertical": "medical",
+    "priority": 50,
+    "kind": "rising",
+    "value": 25700,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "vsg surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "ptosis surgery cost",
+    "vertical": "medical",
+    "priority": 50,
+    "kind": "rising",
+    "value": 23400,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "ptosis surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "forehead reduction surgery cost",
+    "vertical": "medical",
+    "priority": 50,
+    "kind": "rising",
+    "value": 23300,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "forehead reduction surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "strabismus surgery cost",
+    "vertical": "medical",
+    "priority": 49.1,
+    "kind": "rising",
+    "value": 19100,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "strabismus surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "vaginal rejuvenation surgery cost",
+    "vertical": "medical",
+    "priority": 48.2,
+    "kind": "rising",
+    "value": 18200,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "vaginal rejuvenation surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "plumbing cost calculator",
+    "vertical": "plumbing",
+    "priority": 48,
+    "kind": "top",
+    "value": 8,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "plumbing cost calculator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "wall insulation cost",
+    "vertical": "insulation",
+    "priority": 48,
+    "kind": "top",
+    "value": 18,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "wall insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "brake job cost near me",
+    "vertical": "auto-repair",
+    "priority": 48,
+    "kind": "top",
+    "value": 28,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "brake job cost near me"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "luxating patella surgery cost",
+    "vertical": "medical",
+    "priority": 48,
+    "kind": "rising",
+    "value": 18000,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "luxating patella surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "ingrown toenail surgery cost",
+    "vertical": "medical",
+    "priority": 47.45,
+    "kind": "rising",
+    "value": 17450,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "ingrown toenail surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "get solar quote",
+    "vertical": "solar",
+    "priority": 47,
+    "kind": "top",
+    "value": 17,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "get solar quote"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "wedding painter cost",
+    "vertical": "painting",
+    "priority": 47,
+    "kind": "top",
+    "value": 17,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "wedding painter cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "aluminum fence cost",
+    "vertical": "fence",
+    "priority": 47,
+    "kind": "top",
+    "value": 17,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "aluminum fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "cedar siding cost",
+    "vertical": "siding",
+    "priority": 47,
+    "kind": "top",
+    "value": 17,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "cedar siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "immigration lawyer cost",
+    "vertical": "legal",
+    "priority": 47,
+    "kind": "top",
+    "value": 17,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "immigration lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "free solar quote",
+    "vertical": "solar",
+    "priority": 46,
+    "kind": "top",
+    "value": 16,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "free solar quote"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "cement siding cost",
+    "vertical": "siding",
+    "priority": 46,
+    "kind": "top",
+    "value": 16,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "cement siding cost",
+      "cement board siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "fiberglass insulation cost",
+    "vertical": "insulation",
+    "priority": 46,
+    "kind": "top",
+    "value": 16,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "fiberglass insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "roof insulation cost",
+    "vertical": "insulation",
+    "priority": 46,
+    "kind": "top",
+    "value": 16,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "roof insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "nose surgery cost",
+    "vertical": "medical",
+    "priority": 46,
+    "kind": "top",
+    "value": 16,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "nose surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "family lawyer cost",
+    "vertical": "legal",
+    "priority": 45,
+    "kind": "top",
+    "value": 15,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "family lawyer cost",
+      "how much does a family lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "weight loss surgery cost",
+    "vertical": "medical",
+    "priority": 45,
+    "kind": "top",
+    "value": 15,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "weight loss surgery cost",
+      "how much does weight loss surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "detroit people mover cost",
+    "vertical": "moving",
+    "priority": 45,
+    "kind": "top",
+    "value": 15,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "detroit people mover cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "solar panel",
+    "vertical": "solar",
+    "priority": 44,
+    "kind": "top",
+    "value": 44,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "solar panel"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "poured concrete patio cost",
+    "vertical": "concrete",
+    "priority": 44,
+    "kind": "top",
+    "value": 14,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "poured concrete patio cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "metal siding cost",
+    "vertical": "siding",
+    "priority": 44,
+    "kind": "top",
+    "value": 14,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "metal siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "blow in insulation cost",
+    "vertical": "insulation",
+    "priority": 44,
+    "kind": "top",
+    "value": 14,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "blow in insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "small kitchen remodel",
+    "vertical": "kitchen-remodel",
+    "priority": 44,
+    "kind": "top",
+    "value": 44,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "small kitchen remodel"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "hail damage car repair cost",
+    "vertical": "auto-repair",
+    "priority": 44,
+    "kind": "top",
+    "value": 14,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "hail damage car repair cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "long distance moving cost",
+    "vertical": "moving",
+    "priority": 44,
+    "kind": "top",
+    "value": 14,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "long distance moving cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "water heater installation",
+    "vertical": "plumbing",
+    "priority": 43,
+    "kind": "top",
+    "value": 43,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "water heater installation"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "brick siding cost",
+    "vertical": "siding",
+    "priority": 43,
+    "kind": "top",
+    "value": 13,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "brick siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "dui lawyer cost",
+    "vertical": "legal",
+    "priority": 43,
+    "kind": "top",
+    "value": 13,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "dui lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "knee surgery cost",
+    "vertical": "medical",
+    "priority": 43,
+    "kind": "top",
+    "value": 13,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "knee surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "ivdd surgery cost",
+    "vertical": "medical",
+    "priority": 42.05,
+    "kind": "rising",
+    "value": 12050,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "ivdd surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "lap band surgery cost",
+    "vertical": "medical",
+    "priority": 42,
+    "kind": "top",
+    "value": 12,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "lap band surgery cost",
+      "how much does lap band surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "custody lawyer cost",
+    "vertical": "legal",
+    "priority": 42,
+    "kind": "top",
+    "value": 12,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "custody lawyer cost",
+      "how much does a custody lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "plumbing costs",
+    "vertical": "plumbing",
+    "priority": 42,
+    "kind": "top",
+    "value": 12,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "plumbing costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "water heater replacement",
+    "vertical": "plumbing",
+    "priority": 42,
+    "kind": "top",
+    "value": 42,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "water heater replacement"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "garage insulation cost",
+    "vertical": "insulation",
+    "priority": 42,
+    "kind": "top",
+    "value": 12,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "garage insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "eyelid surgery cost",
+    "vertical": "medical",
+    "priority": 42,
+    "kind": "top",
+    "value": 12,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "eyelid surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "hernia surgery cost",
+    "vertical": "medical",
+    "priority": 42,
+    "kind": "top",
+    "value": 12,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "hernia surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "tummy tuck surgery cost",
+    "vertical": "medical",
+    "priority": 42,
+    "kind": "top",
+    "value": 12,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "tummy tuck surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "car door dent repair cost",
+    "vertical": "auto-repair",
+    "priority": 41,
+    "kind": "top",
+    "value": 11,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "car door dent repair cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "bankruptcy lawyer cost",
+    "vertical": "legal",
+    "priority": 41,
+    "kind": "top",
+    "value": 11,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "bankruptcy lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "plumbing cost for new house",
+    "vertical": "plumbing",
+    "priority": 40,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "plumbing cost for new house"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "repave driveway cost",
+    "vertical": "concrete",
+    "priority": 40,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "repave driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "closed cell spray foam cost",
+    "vertical": "insulation",
+    "priority": 40,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "closed cell spray foam cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "kitchen remodel costs",
+    "vertical": "kitchen-remodel",
+    "priority": 40,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "kitchen remodel costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "coolant leak repair cost",
+    "vertical": "auto-repair",
+    "priority": 40,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "coolant leak repair cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "traffic lawyer cost",
+    "vertical": "legal",
+    "priority": 40,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "traffic lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "real estate lawyer cost",
+    "vertical": "legal",
+    "priority": 40,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "real estate lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "resurface driveway cost",
+    "vertical": "concrete",
+    "priority": 39,
+    "kind": "top",
+    "value": 9,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "resurface driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "goodfellas painting quote",
+    "vertical": "painting",
+    "priority": 39,
+    "kind": "top",
+    "value": 9,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 2,
+    "variants": [
+      "goodfellas painting quote",
+      "goodfellas dog painting quote"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "painting quote template",
+    "vertical": "painting",
+    "priority": 39,
+    "kind": "top",
+    "value": 9,
+    "intent": "transactional",
+    "template": "transactional",
+    "memberCount": 1,
+    "variants": [
+      "painting quote template"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "skin removal surgery cost",
+    "vertical": "medical",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "skin removal surgery cost",
+      "how much does skin removal surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "new roof cost florida",
+    "vertical": "roof",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "new roof cost florida"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "new construction plumbing cost",
+    "vertical": "plumbing",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "new construction plumbing cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "emergency plumber cost",
+    "vertical": "plumbing",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "emergency plumber cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "pressure wash driveway cost",
+    "vertical": "concrete",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "pressure wash driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "privacy fence cost per foot",
+    "vertical": "fence",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "privacy fence cost per foot"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "brick fence cost",
+    "vertical": "fence",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "brick fence cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "double pane window replacement cost",
+    "vertical": "window",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "double pane window replacement cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "crawl space insulation cost",
+    "vertical": "insulation",
+    "priority": 38,
+    "kind": "top",
+    "value": 8,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "crawl space insulation cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "heat pump water heater cost",
+    "vertical": "plumbing",
+    "priority": 37,
+    "kind": "top",
+    "value": 7,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "heat pump water heater cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "paved driveway cost",
+    "vertical": "concrete",
+    "priority": 37,
+    "kind": "top",
+    "value": 7,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "paved driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "whole house painting cost",
+    "vertical": "painting",
+    "priority": 37,
+    "kind": "top",
+    "value": 7,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "whole house painting cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "driver side window replacement cost",
+    "vertical": "window",
+    "priority": 37,
+    "kind": "top",
+    "value": 7,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "driver side window replacement cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "probate lawyer cost",
+    "vertical": "legal",
+    "priority": 37,
+    "kind": "top",
+    "value": 7,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "probate lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "high efficiency furnace cost",
+    "vertical": "hvac",
+    "priority": 36,
+    "kind": "top",
+    "value": 6,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "high efficiency furnace cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "plumber cost to snake a drain",
+    "vertical": "plumbing",
+    "priority": 36,
+    "kind": "top",
+    "value": 6,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "plumber cost to snake a drain"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "electrician costs",
+    "vertical": "electrical",
+    "priority": 36,
+    "kind": "top",
+    "value": 6,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "electrician costs"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "home solar panels",
+    "vertical": "solar",
+    "priority": 36,
+    "kind": "top",
+    "value": 36,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 2,
+    "variants": [
+      "home solar panels",
+      "solar panels for home"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "polished concrete cost",
+    "vertical": "concrete",
+    "priority": 36,
+    "kind": "top",
+    "value": 6,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "polished concrete cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "asphalt vs concrete driveway cost",
+    "vertical": "concrete",
+    "priority": 36,
+    "kind": "top",
+    "value": 6,
+    "intent": "commercial",
+    "template": "comparison",
+    "memberCount": 1,
+    "variants": [
+      "asphalt vs concrete driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "board and batten siding cost",
+    "vertical": "siding",
+    "priority": 36,
+    "kind": "top",
+    "value": 6,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "board and batten siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "pressure washing driveway cost",
+    "vertical": "concrete",
+    "priority": 35,
+    "kind": "top",
+    "value": 5,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "pressure washing driveway cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "house painting cost estimator",
+    "vertical": "painting",
+    "priority": 35,
+    "kind": "top",
+    "value": 5,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "house painting cost estimator"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "strong foundation quotes",
+    "vertical": "foundation",
+    "priority": 35,
+    "kind": "top",
+    "value": 5,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "strong foundation quotes"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "speeding ticket lawyer cost",
+    "vertical": "legal",
+    "priority": 35,
+    "kind": "top",
+    "value": 5,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "speeding ticket lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "personal injury lawyer cost",
+    "vertical": "legal",
+    "priority": 35,
+    "kind": "top",
+    "value": 5,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "personal injury lawyer cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "bbl surgery cost",
+    "vertical": "medical",
+    "priority": 35,
+    "kind": "top",
+    "value": 5,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "bbl surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "solar panels cost per watt",
+    "vertical": "solar",
+    "priority": 34,
+    "kind": "top",
+    "value": 4,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "solar panels cost per watt"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "roofing",
+    "vertical": "roof",
+    "priority": 33,
+    "kind": "top",
+    "value": 33,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "roofing"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "gyno surgery cost",
+    "vertical": "medical",
+    "priority": 33,
+    "kind": "top",
+    "value": 3,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "gyno surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "labiaplasty surgery cost",
+    "vertical": "medical",
+    "priority": 33,
+    "kind": "top",
+    "value": 3,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "labiaplasty surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "double chin surgery cost",
+    "vertical": "medical",
+    "priority": 33,
+    "kind": "top",
+    "value": 3,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "double chin surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "lp smart siding cost",
+    "vertical": "siding",
+    "priority": 32,
+    "kind": "top",
+    "value": 2,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "lp smart siding cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "window replacement near me",
+    "vertical": "window",
+    "priority": 32,
+    "kind": "top",
+    "value": 42,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "window replacement near me"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "brazilian butt lift surgery cost",
+    "vertical": "medical",
+    "priority": 32,
+    "kind": "top",
+    "value": 2,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "brazilian butt lift surgery cost"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "solar energy",
+    "vertical": "solar",
+    "priority": 28,
+    "kind": "top",
+    "value": 28,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "solar energy"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "hardie siding",
+    "vertical": "siding",
+    "priority": 27,
+    "kind": "top",
+    "value": 27,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "hardie siding"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "auto repair near me",
+    "vertical": "auto-repair",
+    "priority": 19,
+    "kind": "top",
+    "value": 29,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "auto repair near me"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "solar system",
+    "vertical": "solar",
+    "priority": 18,
+    "kind": "top",
+    "value": 18,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "solar system"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "foundation repair near me",
+    "vertical": "foundation",
+    "priority": 13,
+    "kind": "top",
+    "value": 23,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "foundation repair near me"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "best solar panels",
+    "vertical": "solar",
+    "priority": 12,
+    "kind": "top",
+    "value": 12,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "best solar panels"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  },
+  {
+    "canonicalQuery": "roof replacement near me",
+    "vertical": "roof",
+    "priority": 0,
+    "kind": "top",
+    "value": 10,
+    "intent": "commercial",
+    "template": "table-led",
+    "memberCount": 1,
+    "variants": [
+      "roof replacement near me"
+    ],
+    "newPageNeeded": true,
+    "existingPage": null
+  }
+]
