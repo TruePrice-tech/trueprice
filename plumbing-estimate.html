@@ -1524,7 +1524,7 @@
         render();
       };
 
-      window.__tpResultContext = { city: state.address.city, stateCode: state.address.stateCode };
+      window.__tpResultContext = { city: state.address.city, stateCode: state.address.stateCode, result: state.result };
       if (window.tpRenderResultFooter) {
         appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
           vertical: "plumbing",

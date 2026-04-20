@@ -165,24 +165,25 @@
       + '      <img src="/images/trudy-clipboard.png" alt="" class="tp-action-icon" />'
       + '      <span class="tp-action-label">Save as PDF</span>'
       + '    </button>'
-      + '    <a class="tp-action tp-action-tertiary" href="/">'
+      + '    <button type="button" class="tp-action tp-action-tertiary tp-share-btn" data-share-vertical="' + slug + '">'
+      + '      <img src="/images/trudy-peeking.png" alt="" class="tp-action-icon" />'
+      + '      <span class="tp-action-label">Share link</span>'
+      + '    </button>'
+      + '    <a class="tp-action tp-action-ghost" href="/">'
       + '      <img src="/images/trudy-peeking.png" alt="" class="tp-action-icon" />'
       + '      <span class="tp-action-label">Home</span>'
       + '    </a>'
-      + '    <button type="button" class="tp-action tp-action-ghost" onclick="' + feedbackHandler + '">'
-      + '      <img src="/images/trudy-curious.png" alt="" class="tp-action-icon" />'
-      + '      <span class="tp-action-label">Send feedback</span>'
-      + '    </button>'
       + '  </div>'
       + '  <div class="tp-footer-brand">'
       + '    <a href="/"><img src="/images/trudy-peeking.png" alt="" width="28" />Powered by <strong style="color:#1e3a5f;">Woogoro</strong></a>'
       + '  </div>'
       + '</div>';
 
-    // Wire thumbs handler and quote capture after the DOM has the footer
+    // Wire thumbs handler, quote capture, and share after the DOM has the footer
     setTimeout(function () {
       wireThumbs(vertical);
       wireQuoteCapture(vertical);
+      wireShareBtn(vertical, verticalLabel);
     }, 0);
 
     return html;
@@ -373,6 +374,92 @@
           });
         });
       })(card, vertical);
+    }
+  }
+
+  // ---- share link handler -------------------------------------------------
+  function wireShareBtn(vertical, verticalLabel) {
+    var btns = document.querySelectorAll('.tp-share-btn[data-share-vertical="' + cssEscape(vertical) + '"]');
+    for (var i = 0; i < btns.length; i++) {
+      var btn = btns[i];
+      if (btn.__tpShareWired) continue;
+      btn.__tpShareWired = true;
+      (function (el, vert, vLabel) {
+        el.addEventListener("click", function () {
+          var labelEl = el.querySelector(".tp-action-label");
+          if (!labelEl) return;
+
+          // Gather result data from available sources
+          var result = null;
+          var city = "", st = "";
+
+          if (window.__latestAnalysis) {
+            result = window.__latestAnalysis;
+            city = result.city || "";
+            st = result.stateCode || "";
+          }
+          if (window.__tpResultContext) {
+            city = city || window.__tpResultContext.city || "";
+            st = st || window.__tpResultContext.stateCode || "";
+            if (window.__tpResultContext.result) result = window.__tpResultContext.result;
+          }
+
+          if (!result) {
+            labelEl.textContent = "No data to share";
+            setTimeout(function () { labelEl.textContent = "Share link"; }, 2000);
+            return;
+          }
+
+          labelEl.textContent = "Saving...";
+          el.disabled = true;
+
+          var payload = {
+            vertical: vert,
+            verticalLabel: vLabel,
+            result: result,
+            city: city,
+            stateCode: st
+          };
+
+          fetch("/api/share-estimate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.error) {
+              labelEl.textContent = data.error;
+              el.disabled = false;
+              setTimeout(function () { labelEl.textContent = "Share link"; }, 3000);
+              return;
+            }
+
+            var shareUrl = window.location.origin + data.url;
+
+            // Copy to clipboard
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(shareUrl).then(function () {
+                labelEl.textContent = "Link copied!";
+              }).catch(function () {
+                labelEl.textContent = "Link ready";
+                prompt("Copy this link:", shareUrl);
+              });
+            } else {
+              labelEl.textContent = "Link ready";
+              prompt("Copy this link:", shareUrl);
+            }
+
+            el.disabled = false;
+            setTimeout(function () { labelEl.textContent = "Share link"; }, 4000);
+          })
+          .catch(function () {
+            labelEl.textContent = "Failed";
+            el.disabled = false;
+            setTimeout(function () { labelEl.textContent = "Share link"; }, 3000);
+          });
+        });
+      })(btn, vertical, verticalLabel);
     }
   }
 

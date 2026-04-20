@@ -39,6 +39,9 @@
     "api/calibration.js": {
       "maxDuration": 10
     },
+    "api/share-estimate.js": {
+      "maxDuration": 10
+    },
     "api/contractor-score.js": {
       "maxDuration": 10
     }
@@ -124,6 +127,10 @@
   "routes": [
     {
       "handle": "filesystem"
+    },
+    {
+      "src": "/s/([a-z0-9]+)",
+      "dest": "/shared-estimate.html"
     },
     {
       "src": "/(.*)",
