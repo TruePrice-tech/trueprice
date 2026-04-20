@@ -1043,6 +1043,24 @@ input, textarea, [contenteditable="true"] { caret-color: auto; }
 }
 
 /* ============================================================
+   City-nav widget: related cities + cross-vertical links
+   Appears above footer on every city cost page.
+   ============================================================ */
+
+.tp-city-nav { padding: 40px 0 48px; background: var(--bg-subtle); border-top: 1px solid var(--border); margin-top: 32px; }
+.tp-city-nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 960px; margin: 0 auto; }
+.tp-city-nav h3 { font-size: 13px; margin: 0 0 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
+.tp-city-nav ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+.tp-city-nav li { font-size: 14px; line-height: 1.6; }
+.tp-city-nav a { color: var(--text-secondary); }
+.tp-city-nav a:hover { color: var(--brand); }
+@media (max-width: 700px) {
+  .tp-city-nav { padding: 32px 0 40px; }
+  .tp-city-nav-grid { grid-template-columns: 1fr; gap: 28px; }
+  .tp-city-nav ul { grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+}
+
+/* ============================================================
    Accessibility utilities (WCAG 2.1 AA)
    ============================================================ */
 
