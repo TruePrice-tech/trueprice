@@ -326,7 +326,31 @@ def build_local_grid_html(city, state, ctx, mult, vlabel, climate_zone, hvac_ext
     permit = (ctx.get("permitNote") or "") if vslug == "roof" else ""
     insight = (ctx.get("localInsight") or "") if vslug == "roof" else ""
     home_age = ctx.get("avgHomeAge")
-    age_phrase = f"The local housing stock averages around {home_age} years old, " if home_age else "Local housing varies widely in age, "
+    # Vary the age-phrase opening so it doesn't repeat word-for-word across
+    # every city in a vertical. Previously "The local housing stock averages
+    # around X years old, which affects job scope..." was flagged as shared
+    # by 9 of 10 sampled pages.
+    age_seed = _city_seed(city) + (hash(vslug) & 0xFFFFFFF)
+    if home_age:
+        age_phrase = _pick([
+            f"The local housing stock averages around {home_age} years old, ",
+            f"Homes in {city} run about {home_age} years old on average, ",
+            f"The typical {city} home is around {home_age} years old, ",
+            f"Average home age in the {city} area is roughly {home_age} years, ",
+        ], age_seed + 50)
+    else:
+        age_phrase = _pick([
+            f"Local housing varies widely in age, ",
+            f"The {city} housing stock is a mix of older and newer builds, ",
+            f"{city}'s residential age profile is mixed, ",
+            f"Home age varies significantly across the {city} area, ",
+        ], age_seed + 50)
+    housing_tail = _pick([
+        f"which affects job scope on most {vlabel} projects in {city}. Older homes often need code upgrades that newer construction does not.",
+        f"which matters for {vlabel} scope: older {city} homes frequently require code-upgrade work that newer builds can skip entirely.",
+        f"and that age profile drives scope on most {vlabel} jobs in {city}. Older builds typically need code-driven upgrade work.",
+        f"which tends to shape {vlabel} scope here. Older {city} homes commonly need bring-to-code work during major projects.",
+    ], age_seed + 51)
 
     # Vary sub-section H3s + outer H2 + card-body fallback copy per city/vertical
     # so the same 4 H3s don't repeat identically on every city page (previously
@@ -387,7 +411,7 @@ def build_local_grid_html(city, state, ctx, mult, vlabel, climate_zone, hvac_ext
 <div class="local-card">
 <div class="local-card-icon">&#127968;</div>
 <h3>{h3_housing}</h3>
-<p>{age_phrase}which affects job scope on most {vlabel} projects in {city}. Older homes often need code upgrades that newer construction does not.</p>
+<p>{age_phrase}{housing_tail}</p>
 </div>
 <div class="local-card">
 <div class="local-card-icon">&#128737;</div>

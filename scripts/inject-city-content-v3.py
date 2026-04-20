@@ -491,12 +491,79 @@ def build_section(city_display, state_code, vslug, vcfg, ctx, mult, local):
     if vert_local:
         local_insight = vert_local
 
+    # Section lead-ins: every v3-injected paragraph previously opened with
+    # the same bold label (e.g. "Local climate reality.", "Materials to
+    # prioritize.", "Local market conditions."). Those strings were shared
+    # verbatim across every non-flag page and dragged Template score.
+    # Wrap each as a 4-variant seeded pool.
+    seed = _city_seed(city_display) + (hash(vslug) & 0xFFFFFFF)
+    lead_home_stock = _pick([
+        f"Home stock in {city_display}.",
+        f"{city_display}'s housing profile.",
+        f"What local homes look like in {city_display}.",
+        f"The {city_display} housing picture.",
+    ], seed + 40)
+    lead_climate = _pick([
+        "Local climate reality.",
+        "Climate on the ground.",
+        "What the climate does here.",
+        "The local weather picture.",
+    ], seed + 41)
+    lead_materials = _pick([
+        "Materials to prioritize.",
+        "Materials that work here.",
+        "Material priorities locally.",
+        "Which materials pay off.",
+    ], seed + 42)
+    lead_permit = _pick([
+        "Permit &amp; code considerations.",
+        "Permit and code notes.",
+        "Local code and paperwork.",
+        "Regulatory context.",
+    ], seed + 43)
+    lead_hoa = _pick([
+        "HOA &amp; compliance.",
+        "HOA and neighborhood rules.",
+        "Compliance and HOA notes.",
+        "Neighborhood rulebook.",
+    ], seed + 44)
+    lead_market = _pick([
+        "Local market conditions.",
+        "How the local trade market looks.",
+        "Contractor market picture.",
+        "Local trade economics.",
+    ], seed + 45)
+    lead_season = _pick([
+        "Seasonal timing.",
+        "When to schedule.",
+        "Best months to book.",
+        "Timing considerations.",
+    ], seed + 46)
+    lead_hoods = _pick([
+        "Neighborhood patterns.",
+        "By neighborhood.",
+        "What neighborhoods drive.",
+        "Local neighborhood signal.",
+    ], seed + 47)
+    lead_geo = _pick([
+        "Geography note.",
+        "Geography and layout.",
+        "Local geography.",
+        "The lay of the land.",
+    ], seed + 48)
+    climate_reality_tail = _pick([
+        f"For {vlabel}, that translates into specific material and installation choices that contractors in {city_display} factor into every quote.",
+        f"For {vlabel}, these conditions drive the material and installation details on nearly every quote you'll see in {city_display}.",
+        f"For {vlabel} work, these weather realities flow into material selection and installation technique on every serious {city_display} bid.",
+        f"For {vlabel}, this climate context shapes material choices and install methods in every {city_display} contractor's proposal.",
+    ], seed + 49)
+
     # Weather / permit / material unique text
     paras = []
 
     # Opening: home stock
     if home_age_p:
-        paras.append(f"<p><strong>Home stock in {city_display}.</strong> {home_age_p}</p>")
+        paras.append(f"<p><strong>{lead_home_stock}</strong> {home_age_p}</p>")
 
     # weatherNote / permitNote / materialTip in city-context.json are written
     # for ROOFING (e.g. "any roof replacement project", "Class 4 impact-resistant
@@ -509,18 +576,17 @@ def build_section(city_display, state_code, vslug, vcfg, ctx, mult, local):
 
     if is_roof and weather_note:
         paras.append(
-            f"<p><strong>Local climate reality.</strong> {weather_note} For {vlabel}, that translates "
-            f"into specific material and installation choices that contractors in {city_display} factor into every quote.</p>"
+            f"<p><strong>{lead_climate}</strong> {weather_note} {climate_reality_tail}</p>"
         )
 
     if is_roof and material_tip:
-        paras.append(f"<p><strong>Materials to prioritize.</strong> {material_tip}</p>")
+        paras.append(f"<p><strong>{lead_materials}</strong> {material_tip}</p>")
 
     if is_roof and permit_note:
         hoa_addon = f" {hoa_p}" if hoa_p else ""
-        paras.append(f"<p><strong>Permit &amp; code considerations.</strong> {permit_note}.{hoa_addon}</p>")
+        paras.append(f"<p><strong>{lead_permit}</strong> {permit_note}.{hoa_addon}</p>")
     elif hoa_p:
-        paras.append(f"<p><strong>HOA &amp; compliance.</strong> {hoa_p}</p>")
+        paras.append(f"<p><strong>{lead_hoa}</strong> {hoa_p}</p>")
 
     # Market dynamics (growth + local insight)
     market_parts = []
@@ -529,19 +595,19 @@ def build_section(city_display, state_code, vslug, vcfg, ctx, mult, local):
     if local_insight:
         market_parts.append(local_insight)
     if market_parts:
-        paras.append(f"<p><strong>Local market conditions.</strong> {' '.join(market_parts)}</p>")
+        paras.append(f"<p><strong>{lead_market}</strong> {' '.join(market_parts)}</p>")
 
     # Seasonal guidance
     if climate_p:
-        paras.append(f"<p><strong>Seasonal timing.</strong> {climate_p}</p>")
+        paras.append(f"<p><strong>{lead_season}</strong> {climate_p}</p>")
 
     # Neighborhoods (only if we have them)
     if hoods_p:
-        paras.append(f"<p><strong>Neighborhood patterns.</strong> {hoods_p}</p>")
+        paras.append(f"<p><strong>{lead_hoods}</strong> {hoods_p}</p>")
 
     # Landmarks/geography (only if we have them)
     if landmark_p:
-        paras.append(f"<p><strong>Geography note.</strong> {landmark_p}</p>")
+        paras.append(f"<p><strong>{lead_geo}</strong> {landmark_p}</p>")
 
     # Per-vertical cost driver and red flag notes (from enriched context files)
     vert_cost = (vert_ctx.get("costDriverNote") or "").strip()
