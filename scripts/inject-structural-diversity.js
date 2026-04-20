@@ -27,6 +27,9 @@ function hash(s) {
   return h;
 }
 function pick(arr, seed) { return arr[seed % arr.length]; }
+// Lowercase preserving acronyms (HVAC, BLS, HOA, UV, etc.)
+function smartLower(s) { return s.split(' ').map(w => /^[A-Z]{2,}/.test(w) ? w : w.toLowerCase()).join(' '); }
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
 // Load city context for compositional heading generation
 let cityContext = {};
@@ -661,8 +664,8 @@ function processFile(filepath) {
   const { cityName, stateCode, cityState, vslug, info } = parsed;
   let html = fs.readFileSync(filepath, "utf8");
 
-  // Skip if already processed with V7 (flagship H3 variation)
-  if (html.includes("TP-STRUCT-DIV-V7")) return "skip_existing";
+  // Skip if already processed with V13 (proper 32-bit seed mixing via Math.imul)
+  if (html.includes("TP-STRUCT-DIV-V13")) return "skip_existing";
 
   // Strip old markers so we can re-process with expanded pools
   html = html.replace(/<!-- TP-STRUCT-DIV-V[0-9]+ -->\n?/g, "");
@@ -1074,8 +1077,234 @@ function processFile(filepath) {
     }
   }
 
+  // === 17. Vary flagship H2 headings ===
+  // Flagship pages share identical H2 structures with only city name varying.
+  // Wrapper names include: FLAGSHIP-CONTENT, FLAGSHIP-HVAC-CONTENT, FLAGSHIP-AUTO-REPAIR-CONTENT,
+  // FLAGSHIP-GARAGE-CONTENT, FLAGSHIP-MEDICAL-CONTENT, FLAGSHIP-LEGAL-CONTENT, etc.
+  // Regex must tolerate hyphens inside and the bare "FLAGSHIP-CONTENT" form.
+  const flagshipSectionRe = /<!-- FLAGSHIP(?:-[A-Z][A-Z-]*)?-CONTENT -->([\s\S]*?)<!-- \/FLAGSHIP(?:-[A-Z][A-Z-]*)?-CONTENT -->/;
+  const flagshipSectionMatch = html.match(flagshipSectionRe);
+  if (flagshipSectionMatch) {
+    let fHtml = flagshipSectionMatch[1];
+    const cEsc = cityName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    fHtml = fHtml.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (full, attrs, content) => {
+      const text = content.trim();
+      const ci = cityName;
+      if (!text.includes(ci)) return full;
+      // Seed mixes city seed + H2 text hash -> uncorrelated picks per (city, heading) pair.
+      // Avoids mod-N collisions where two cities pick the same variant for every H2.
+      // Use Math.imul to preserve 32-bit precision (plain * loses bits past 2^53).
+      const h2Seed = (Math.imul(seed, 2654435761) + Math.imul(hash(text), 2246822519) + 0x9E3779B9) >>> 0;
+
+      // --- "Questions to Ask/for [a/your] CITY [tradesperson]" ---
+      const qRe = new RegExp(`^Questions\\s+(?:to\\s+[Aa]sk\\s+a|for\\s+your)\\s+${cEsc}\\s+(.+)$`, 'i');
+      const qm = text.match(qRe);
+      if (qm) {
+        const tp = qm[1];
+        const tpl = tp.toLowerCase();
+        const v = [
+          `Questions to ask a ${ci} ${tp}`,
+          `What to ask your ${ci} ${tp}`,
+          `${ci} ${tp}: key questions`,
+          `Interviewing a ${ci} ${tp}`,
+          `Key questions for a ${ci} ${tp}`,
+          `Before hiring a ${ci} ${tp}`,
+          `${ci} ${tp} vetting questions`,
+          `Must-ask questions for ${ci} ${tpl}s`,
+          `Vetting a ${ci} ${tp}: what to ask`,
+          `Smart questions for a ${ci} ${tp}`,
+          `${ci} ${tp} interview guide`,
+          `Hiring a ${ci} ${tp}? Ask these`,
+          `${ci} ${tp}: the right questions`,
+          `A ${ci} ${tp} checklist`,
+          `Screening ${ci} ${tpl}s`,
+          `How to vet a ${ci} ${tp}`,
+        ];
+        return `<h2${attrs}>${pick(v, h2Seed)}</h2>`;
+      }
+
+      // --- "What Your CITY X Should Cover/Spell Out" ---
+      const wcRe = new RegExp(`^What\\s+[Yy]our\\s+${cEsc}\\s+(.+?)\\s+[Ss]hould\\s+(?:[Cc]over|[Ss]pell\\s+[Oo]ut)$`);
+      const wcm = text.match(wcRe);
+      if (wcm) {
+        const tp = wcm[1].toLowerCase();
+        const v = [
+          `What your ${ci} ${tp} should include`,
+          `${ci} ${tp} contract essentials`,
+          `Key items for a ${ci} ${tp} agreement`,
+          `Your ${ci} ${tp} contract checklist`,
+          `What a ${ci} ${tp} contract needs`,
+          `${ci} ${tp}: contract must-haves`,
+          `Essential terms for ${ci} ${tp} work`,
+          `${ci} ${tp} agreement basics`,
+          `Reading a ${ci} ${tp} contract`,
+          `${ci} ${tp} paperwork to verify`,
+          `What belongs in a ${ci} ${tp} contract`,
+          `Contract line items for ${ci} ${tp}`,
+          `${ci} ${tp}: written agreement points`,
+          `Before you sign a ${ci} ${tp} contract`,
+          `${ci} ${tp} contract review guide`,
+          `Auditing a ${ci} ${tp} agreement`,
+        ];
+        return `<h2${attrs}>${pick(v, h2Seed)}</h2>`;
+      }
+
+      // --- "When to [verb] CITY [noun phrase]" ---
+      const wtcRe = new RegExp(`^When\\s+to\\s+(.+?)\\s+${cEsc}\\s+(.+)$`, 'i');
+      const wtcm = text.match(wtcRe);
+      if (wtcm) {
+        const verb = wtcm[1].toLowerCase();
+        const rest = wtcm[2].toLowerCase();
+        const v = [
+          `When to ${verb} ${ci} ${rest}`,
+          `Best timing for ${ci} ${rest}`,
+          `${ci} ${rest}: scheduling guide`,
+          `Timing your ${ci} ${rest}`,
+          `Optimal timing for ${ci} ${rest}`,
+          `When to book ${ci} ${rest}`,
+          `${ci} ${rest}: when to start`,
+          `Planning ${ci} ${rest} timing`,
+          `${ci} ${rest} scheduling window`,
+          `The right time for ${ci} ${rest}`,
+          `${ci} ${rest}: calendar considerations`,
+          `Seasonal timing for ${ci} ${rest}`,
+          `When ${ci} ${rest} makes sense`,
+          `Timing a ${ci} ${rest} project`,
+          `${ci} ${rest}: when to pull the trigger`,
+          `${ci} ${rest}: best months to book`,
+        ];
+        return `<h2${attrs}>${pick(v, h2Seed)}</h2>`;
+      }
+
+      // --- "When to [verb phrase] in CITY" ---
+      const wtiRe = new RegExp(`^When\\s+to\\s+(.+?)\\s+in\\s+${cEsc}$`, 'i');
+      const wtim2 = text.match(wtiRe);
+      if (wtim2) {
+        const al = wtim2[1].toLowerCase();
+        const v = [
+          `When to ${al} in ${ci}`,
+          `Best time to ${al} in ${ci}`,
+          `${ci}: timing guide for ${al}`,
+          `Scheduling ${al} in ${ci}`,
+          `Ideal timing to ${al} in ${ci}`,
+          `${ci} ${al} timing`,
+          `${al} scheduling for ${ci}`,
+          `Planning to ${al} in ${ci}`,
+          `${ci}: when to ${al}`,
+          `Optimal ${ci} ${al} timing`,
+          `Seasonal timing to ${al} in ${ci}`,
+          `${ci}: the right moment to ${al}`,
+          `Timing your ${ci} ${al} plans`,
+          `${al} calendar for ${ci}`,
+          `${ci} ${al}: booking window`,
+          `${ci}: month-by-month guide to ${al}`,
+        ];
+        return `<h2${attrs}>${pick(v, h2Seed)}</h2>`;
+      }
+
+      // --- "[topic] in/around/for/across CITY[: subtitle]" (city at end) ---
+      const teRe = new RegExp(`^(.+?)\\s+(?:in|around|for|across|near)\\s+${cEsc}(.*)$`, 'i');
+      const tem = text.match(teRe);
+      if (tem) {
+        const topic = tem[1];
+        const suffix = tem[2] || '';
+        const sl = smartLower(topic);
+        // Only use the "homeowners" variant when there's no suffix after city — otherwise it
+        // produces "Price Transparency Tools for CITY homeowners Patients".
+        const canHomeowners = suffix.trim().length === 0;
+        const v = [
+          `${topic} in ${ci}${suffix}`,
+          `${ci} ${sl}${suffix}`,
+          canHomeowners ? `${topic} for ${ci} homeowners` : `${topic} across ${ci}${suffix}`,
+          `${topic} across ${ci}${suffix}`,
+          `${ci}-area ${sl}${suffix}`,
+          `${topic} around ${ci}${suffix}`,
+          `${ci} ${sl}: overview${suffix}`,
+          `${topic} near ${ci}${suffix}`,
+          canHomeowners ? `Understanding ${sl} in ${ci}` : `${ci} ${sl}: the basics${suffix}`,
+          `${topic} throughout ${ci}${suffix}`,
+          `${ci}'s ${sl}${suffix}`,
+          `A ${ci} guide: ${sl}${suffix}`,
+          canHomeowners ? `${topic}: a ${ci} breakdown` : `${topic} serving ${ci}${suffix}`,
+          `${topic} specific to ${ci}${suffix}`,
+          `${ci}: ${sl}${suffix}`,
+          `${cap(sl)} within ${ci}${suffix}`,
+        ];
+        return `<h2${attrs}>${pick(v, h2Seed)}</h2>`;
+      }
+
+      // --- "[prefix] CITY [suffix]" (city in middle) ---
+      // Only transform "How <thing> in CITY is/are/does..." or "How CITY's X Y Z" patterns.
+      // Generic middle-city patterns rearrange awkwardly; skip them.
+      const howCmRe = new RegExp(`^How\\s+${cEsc}(?:'s)?\\s+(.+)$`, 'i');
+      const howCm = text.match(howCmRe);
+      if (howCm) {
+        const rest = howCm[1];
+        const rl = rest.toLowerCase();
+        const v = [
+          `How ${ci}'s ${rl}`,
+          `How ${ci} ${rl}`,
+          `${ci}: how ${rl}`,
+          `${ci}'s impact: ${rl}`,
+          `${cap(rl)} in ${ci}`,
+          `Understanding ${ci}: ${rl}`,
+          `Why ${ci}'s ${rl}`,
+          `${ci} and ${rl}: what to know`,
+          `${ci}: ${rl}`,
+          `The ${ci} angle on ${rl}`,
+          `${cap(rl)} across ${ci}`,
+          `${ci} specifics: ${rl}`,
+          `A ${ci} perspective: ${rl}`,
+          `${ci} homeowners and ${rl}`,
+          `Local view: ${rl} in ${ci}`,
+          `${ci} context for ${rl}`,
+        ];
+        return `<h2${attrs}>${pick(v, h2Seed)}</h2>`;
+      }
+      const cmRe = new RegExp(`^(.+?)\\s+${cEsc}\\s+(.+)$`, 'i');
+      if (cmRe.test(text)) {
+        return full;
+      }
+
+      // --- "CITY [Topic]" (city at start, most common) ---
+      const csRe = new RegExp(`^${cEsc}(?:'s)?\\s+(.+)$`, 'i');
+      const csm = text.match(csRe);
+      if (csm) {
+        const topic = csm[1];
+        const sl = smartLower(topic);
+        const v = [
+          `${ci} ${topic}`,
+          `${cap(sl)} in ${ci}`,
+          `${ci}'s ${sl}`,
+          `${cap(sl)} for ${ci} homeowners`,
+          `${cap(sl)} across ${ci}`,
+          `${ci}-area ${sl}`,
+          `Understanding ${sl} in ${ci}`,
+          `${cap(sl)}: a ${ci} guide`,
+          `${cap(sl)} around ${ci}`,
+          `${cap(sl)} throughout ${ci}`,
+          `${ci}: ${sl}`,
+          `${cap(sl)} near ${ci}`,
+          `${cap(sl)} within ${ci}`,
+          `A ${ci} look at ${sl}`,
+          `${cap(sl)}: ${ci} edition`,
+          `${ci} and ${sl}`,
+        ];
+        return `<h2${attrs}>${pick(v, h2Seed)}</h2>`;
+      }
+
+      return full;
+    });
+
+    // Replace flagship section content (use function to avoid $-replacement)
+    const openTag = flagshipSectionMatch[0].match(/<!-- FLAGSHIP(?:-[A-Z][A-Z-]*)?-CONTENT -->/)[0];
+    const closeTag = flagshipSectionMatch[0].match(/<!-- \/FLAGSHIP(?:-[A-Z][A-Z-]*)?-CONTENT -->/)[0];
+    html = html.replace(flagshipSectionMatch[0], () => openTag + fHtml + closeTag);
+  }
+
   // Add processing marker (invisible comment at end of body)
-  html = html.replace("</body>", "<!-- TP-STRUCT-DIV-V7 -->\n</body>");
+  html = html.replace("</body>", "<!-- TP-STRUCT-DIV-V13 -->\n</body>");
 
   fs.writeFileSync(filepath, html, "utf8");
   return "updated";
