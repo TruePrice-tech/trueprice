@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unsubscribe | Woogoro</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="canonical" href="https://woogoro.com/unsubscribe.html" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <style>
+    .unsub-wrap { max-width:560px; margin:64px auto; padding:32px 24px; text-align:center; }
+    .unsub-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:40px 28px; }
+    .unsub-status { font-size:18px; color:#475569; margin:16px 0; }
+    .unsub-status.ok { color:#166534; }
+    .unsub-status.err { color:#b91c1c; }
+    .unsub-note { font-size:14px; color:#64748b; margin-top:20px; }
+    .unsub-cta { display:inline-block; margin-top:20px; padding:10px 20px; background:#1e3a5f; color:#fff; border-radius:8px; text-decoration:none; font-weight:600; font-size:14px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">Woogoro</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="unsub-wrap">
+      <div class="unsub-card">
+        <h1 style="margin:0 0 8px;font-size:22px;">Unsubscribe</h1>
+        <div id="unsubStatus" class="unsub-status">Processing your unsubscribe request&hellip;</div>
+        <p class="unsub-note">If anything goes wrong, email <a href="mailto:privacy@woogoro.com">privacy@woogoro.com</a> and we will remove you manually within 10 business days.</p>
+        <a href="/" class="unsub-cta">Back to Woogoro</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var qs = new URLSearchParams(location.search);
+      var e = qs.get("e");
+      var t = qs.get("t");
+      var status = document.getElementById("unsubStatus");
+
+      if (!e || !t) {
+        status.className = "unsub-status err";
+        status.textContent = "This link is missing required information. Please email privacy@woogoro.com.";
+        return;
+      }
+
+      fetch("/api/email-unsubscribe?e=" + encodeURIComponent(e) + "&t=" + encodeURIComponent(t), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+      .then(function (resp) {
+        if (resp.ok && resp.data && resp.data.success) {
+          status.className = "unsub-status ok";
+          status.textContent = "You've been unsubscribed. You will not receive any further emails from Woogoro.";
+        } else {
+          status.className = "unsub-status err";
+          status.textContent = (resp.data && resp.data.error) || "Unable to unsubscribe. Please email privacy@woogoro.com.";
+        }
+      })
+      .catch(function () {
+        status.className = "unsub-status err";
+        status.textContent = "Network error. Please email privacy@woogoro.com to unsubscribe manually.";
+      });
+    })();
+  </script>
+</body>
+</html>

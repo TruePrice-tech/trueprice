@@ -79,7 +79,21 @@
       + '.tp-qc-privacy { font-size:11px; color:#6b7280; margin:8px 0 0; }'
       + '.tp-qc-err { font-size:13px; color:#dc2626; margin:6px 0 0; }'
       + '.tp-qc-thanks { font-size:14px; color:#166534; line-height:1.5; }'
-      + '.tp-qc-thanks strong { font-weight:700; }';
+      + '.tp-qc-thanks strong { font-weight:700; }'
+      + '.tp-em { background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:16px 0 20px; }'
+      + '.tp-em-title { font-size:15px; font-weight:700; color:#1e3a5f; margin:0 0 4px; }'
+      + '.tp-em-sub { font-size:13px; color:#475569; margin:0 0 14px; }'
+      + '.tp-em-row { display:flex; gap:8px; flex-wrap:wrap; align-items:stretch; }'
+      + '.tp-em-input { flex:1; min-width:180px; padding:9px 12px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; font-family:inherit; box-sizing:border-box; }'
+      + '.tp-em-input:focus { outline:none; border-color:#1e3a5f; box-shadow:0 0 0 2px rgba(30,58,95,0.15); }'
+      + '.tp-em-btn { padding:9px 18px; background:#1e3a5f; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.15s; }'
+      + '.tp-em-btn:hover { background:#152b47; }'
+      + '.tp-em-btn:disabled { background:#94a3b8; cursor:not-allowed; }'
+      + '.tp-em-privacy { font-size:11px; color:#6b7280; margin:10px 0 0; }'
+      + '.tp-em-privacy a { color:#475569; text-decoration:underline; }'
+      + '.tp-em-err { font-size:13px; color:#dc2626; margin:6px 0 0; }'
+      + '.tp-em-thanks { font-size:14px; color:#1e3a5f; line-height:1.5; }'
+      + '.tp-em-thanks strong { font-weight:700; }';
     document.head.appendChild(s);
   }
 
@@ -155,6 +169,18 @@
       + '      <div class="tp-qc-err" hidden></div>'
       + '    </div>'
       + '  </div>'
+      + '  <div class="tp-em" data-em-vertical="' + slug + '">'
+      + '    <div class="tp-em-title">Get notified if ' + label.toLowerCase() + ' prices change in <span class="tp-em-location-label">your area</span></div>'
+      + '    <p class="tp-em-sub">A few emails a year, only when pricing moves enough to matter. Opt-in only, one-click unsubscribe.</p>'
+      + '    <div class="tp-em-form">'
+      + '      <div class="tp-em-row">'
+      + '        <input type="email" class="tp-em-input" placeholder="your@email.com" autocomplete="email" maxlength="254" />'
+      + '        <button type="button" class="tp-em-btn">Notify me</button>'
+      + '      </div>'
+      + '      <p class="tp-em-privacy">We never sell, share, or rent your email. See our <a href="/privacy.html#5.1-price-alert-email-notifications-opt-in" target="_blank" rel="noopener">privacy policy</a>.</p>'
+      + '      <div class="tp-em-err" hidden></div>'
+      + '    </div>'
+      + '  </div>'
       + '  <hr class="tp-footer-divider" />'
       + '  <div class="tp-action-row">'
       + '    <button type="button" class="tp-action tp-action-primary" onclick="' + startOverHandler + '">'
@@ -179,10 +205,11 @@
       + '  </div>'
       + '</div>';
 
-    // Wire thumbs handler, quote capture, and share after the DOM has the footer
+    // Wire thumbs handler, quote capture, email capture, and share after the DOM has the footer
     setTimeout(function () {
       wireThumbs(vertical);
       wireQuoteCapture(vertical);
+      wireEmailCapture(vertical);
       wireShareBtn(vertical, verticalLabel);
     }, 0);
 
@@ -394,6 +421,101 @@
             btn.disabled = false;
             btn.textContent = "Share anonymously";
           });
+        });
+      })(card, vertical);
+    }
+  }
+
+  // ---- email capture handler --------------------------------------------
+  function wireEmailCapture(vertical) {
+    var cards = document.querySelectorAll('.tp-em[data-em-vertical="' + cssEscape(vertical) + '"]');
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      if (card.__tpEmWired) continue;
+      card.__tpEmWired = true;
+      (function (root, vert) {
+        var city = "", st = "";
+        var cEl = document.getElementById("addrCity");
+        var sEl = document.getElementById("addrState");
+        if (cEl && cEl.value) city = cEl.value.trim();
+        if (sEl && sEl.value) st = sEl.value.trim().toUpperCase();
+        if (window.__latestAnalysis) {
+          city = city || window.__latestAnalysis.city || "";
+          st = st || (window.__latestAnalysis.stateCode || "").toUpperCase();
+        }
+        if (window.__tpResultContext) {
+          city = city || window.__tpResultContext.city || "";
+          st = st || (window.__tpResultContext.stateCode || "").toUpperCase();
+        }
+
+        var label = root.querySelector(".tp-em-location-label");
+        if (city && st && label) label.textContent = city + ", " + st;
+
+        var btn = root.querySelector(".tp-em-btn");
+        var input = root.querySelector(".tp-em-input");
+        var errEl = root.querySelector(".tp-em-err");
+        if (!btn || !input) return;
+
+        function submit() {
+          var email = (input.value || "").trim();
+          var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!email || !emailRe.test(email)) {
+            if (errEl) { errEl.textContent = "Please enter a valid email address."; errEl.hidden = false; }
+            return;
+          }
+          if (errEl) errEl.hidden = true;
+
+          btn.disabled = true;
+          btn.textContent = "Saving...";
+
+          fetch("/api/email-signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: email,
+              city: city,
+              stateCode: st,
+              service: vert,
+              source: "result_page"
+            })
+          })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+          .then(function (resp) {
+            if (!resp.ok || !resp.data || resp.data.error) {
+              if (errEl) {
+                errEl.textContent = (resp.data && resp.data.error) || "Something went wrong. Please try again.";
+                errEl.hidden = false;
+              }
+              btn.disabled = false;
+              btn.textContent = "Notify me";
+              return;
+            }
+            var formEl = root.querySelector(".tp-em-form");
+            var sub = root.querySelector(".tp-em-sub");
+            var title = root.querySelector(".tp-em-title");
+            if (formEl) formEl.style.display = "none";
+            if (sub) sub.style.display = "none";
+            if (title) title.style.display = "none";
+
+            var thanks = document.createElement("div");
+            thanks.className = "tp-em-thanks";
+            var area = (city && st) ? (city + ", " + st) : "your area";
+            thanks.innerHTML = "<strong>You're on the list.</strong> We'll email you only when " + escHtml(vert) + " prices move meaningfully in " + escHtml(area) + ". Every email has one-click unsubscribe.";
+            root.appendChild(thanks);
+          })
+          .catch(function () {
+            if (errEl) { errEl.textContent = "Network error. Please try again."; errEl.hidden = false; }
+            btn.disabled = false;
+            btn.textContent = "Notify me";
+          });
+        }
+
+        btn.addEventListener("click", submit);
+        input.addEventListener("keydown", function (ev) {
+          if (ev.key === "Enter" || ev.keyCode === 13) {
+            ev.preventDefault();
+            submit();
+          }
         });
       })(card, vertical);
     }
