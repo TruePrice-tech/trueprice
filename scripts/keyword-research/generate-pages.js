@@ -11,7 +11,22 @@
 
 const fs = require('fs');
 const path = require('path');
-const { tableLedTemplate, slug } = require('./page-templates');
+const {
+  tableLedTemplate,
+  transactionalTemplate,
+  comparisonTemplate,
+  decisionTemplate,
+  howToTemplate,
+  slug,
+} = require('./page-templates');
+
+const TEMPLATE_MAP = {
+  'table-led':     tableLedTemplate,
+  'transactional': transactionalTemplate,
+  'comparison':    comparisonTemplate,
+  'decision':      decisionTemplate,
+  'how-to':        howToTemplate,
+};
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const IN_FILE = path.join(__dirname, 'output', 'clusters.json');
@@ -44,24 +59,22 @@ if (args.all) toGenerate = gaps;
 else if (args.top) toGenerate = gaps.slice(0, args.top);
 else toGenerate = gaps.slice(0, args.sample);
 
-// Only table-led template implemented in this pass. Filter to that template.
-const tableClusters = toGenerate.filter(c => c.template === 'table-led');
-const skippedTemplates = {};
-for (const c of toGenerate.filter(c => c.template !== 'table-led')) {
-  skippedTemplates[c.template] = (skippedTemplates[c.template] || 0) + 1;
+// Dispatch each cluster to the right template
+const byTemplate = {};
+for (const c of toGenerate) {
+  byTemplate[c.template] = (byTemplate[c.template] || 0) + 1;
 }
-
 console.log(`Clusters selected: ${toGenerate.length}`);
-console.log(`  table-led (generated): ${tableClusters.length}`);
-for (const [t, n] of Object.entries(skippedTemplates)) {
-  console.log(`  ${t} (skipped — template not yet implemented): ${n}`);
+for (const [t, n] of Object.entries(byTemplate)) {
+  const impl = TEMPLATE_MAP[t] ? '' : ' (no template — falls back to table-led)';
+  console.log(`  ${t}: ${n}${impl}`);
 }
 console.log('');
 
 let written = 0, skippedExisting = 0, errors = 0;
 const generated = [];
 
-for (const c of tableClusters) {
+for (const c of toGenerate) {
   const filename = slug(c.canonicalQuery) + '.html';
   const filePath = path.join(ROOT, filename);
 
@@ -71,15 +84,16 @@ for (const c of tableClusters) {
   }
 
   try {
-    const html = tableLedTemplate(c);
+    const tmpl = TEMPLATE_MAP[c.template] || tableLedTemplate;
+    const html = tmpl(c);
     if (args.dryRun) {
-      console.log(`[DRY] would write ${filename}  (cluster: "${c.canonicalQuery}", ${c.memberCount} variants)`);
+      console.log(`[DRY] ${c.template.padEnd(13)} → ${filename}  (${c.memberCount} variants)`);
     } else {
       fs.writeFileSync(filePath, html, 'utf8');
-      console.log(`  wrote ${filename}  (${c.memberCount} variants)`);
+      console.log(`  ${c.template.padEnd(13)} → ${filename}`);
     }
     written++;
-    generated.push({ filename, canonicalQuery: c.canonicalQuery, vertical: c.vertical });
+    generated.push({ filename, canonicalQuery: c.canonicalQuery, vertical: c.vertical, template: c.template });
   } catch (e) {
     errors++;
     console.error(`  ERROR on "${c.canonicalQuery}": ${e.message}`);

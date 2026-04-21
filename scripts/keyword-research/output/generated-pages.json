@@ -1,22 +1,182 @@
 [
   {
+    "filename": "auto-repair-cost-estimate.html",
+    "canonicalQuery": "auto repair cost estimate",
+    "vertical": "auto-repair",
+    "template": "transactional"
+  },
+  {
     "filename": "how-much-does-heat-pump-cost.html",
     "canonicalQuery": "how much does heat pump cost",
-    "vertical": "hvac"
+    "vertical": "hvac",
+    "template": "table-led"
   },
   {
     "filename": "how-much-new-roof-cost.html",
     "canonicalQuery": "how much new roof cost",
-    "vertical": "roof"
+    "vertical": "roof",
+    "template": "table-led"
   },
   {
     "filename": "how-much-does-plumbing-cost.html",
     "canonicalQuery": "how much does plumbing cost",
-    "vertical": "plumbing"
+    "vertical": "plumbing",
+    "template": "table-led"
   },
   {
     "filename": "how-much-does-plumber-cost.html",
     "canonicalQuery": "how much does plumber cost",
-    "vertical": "plumbing"
+    "vertical": "plumbing",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-electrician-cost.html",
+    "canonicalQuery": "how much does electrician cost",
+    "vertical": "electrical",
+    "template": "table-led"
+  },
+  {
+    "filename": "average-solar-installation-cost.html",
+    "canonicalQuery": "average solar installation cost",
+    "vertical": "solar",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-concrete-cost.html",
+    "canonicalQuery": "how much does concrete cost",
+    "vertical": "concrete",
+    "template": "table-led"
+  },
+  {
+    "filename": "concrete-per-square-foot-cost.html",
+    "canonicalQuery": "concrete per square foot cost",
+    "vertical": "concrete",
+    "template": "table-led"
+  },
+  {
+    "filename": "interior-painting-cost-per-square-foot.html",
+    "canonicalQuery": "interior painting cost per square foot",
+    "vertical": "painting",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-a-painter-cost.html",
+    "canonicalQuery": "how much does a painter cost",
+    "vertical": "painting",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-a-fence-cost.html",
+    "canonicalQuery": "how much does a fence cost",
+    "vertical": "fence",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-vinyl-fence-cost.html",
+    "canonicalQuery": "how much does vinyl fence cost",
+    "vertical": "fence",
+    "template": "table-led"
+  },
+  {
+    "filename": "cost-of-fence-per-linear-foot.html",
+    "canonicalQuery": "cost of fence per linear foot",
+    "vertical": "fence",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-vinyl-siding-cost.html",
+    "canonicalQuery": "how much does vinyl siding cost",
+    "vertical": "siding",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-a-new-window-cost.html",
+    "canonicalQuery": "how much does a new window cost",
+    "vertical": "window",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-attic-insulation-cost.html",
+    "canonicalQuery": "how much does attic insulation cost",
+    "vertical": "insulation",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-blown-in-insulation-cost.html",
+    "canonicalQuery": "how much does blown in insulation cost",
+    "vertical": "insulation",
+    "template": "table-led"
+  },
+  {
+    "filename": "average-gutter-cost.html",
+    "canonicalQuery": "average gutter cost",
+    "vertical": "gutter",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-gutter-guard-cost.html",
+    "canonicalQuery": "how much does gutter guard cost",
+    "vertical": "gutter",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-landscape-design-cost.html",
+    "canonicalQuery": "how much does landscape design cost",
+    "vertical": "landscaping",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-kitchen-remodel-cost.html",
+    "canonicalQuery": "how much does kitchen remodel cost",
+    "vertical": "kitchen-remodel",
+    "template": "table-led"
+  },
+  {
+    "filename": "average-kitchen-cabinet-cost.html",
+    "canonicalQuery": "average kitchen cabinet cost",
+    "vertical": "kitchen-remodel",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-garage-door-cost.html",
+    "canonicalQuery": "how much garage door cost",
+    "vertical": "garage-door",
+    "template": "table-led"
+  },
+  {
+    "filename": "average-brake-job-cost.html",
+    "canonicalQuery": "average brake job cost",
+    "vertical": "auto-repair",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-a-lawyer-cost.html",
+    "canonicalQuery": "how much does a lawyer cost",
+    "vertical": "legal",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-a-divorce-lawyer-cost.html",
+    "canonicalQuery": "how much does a divorce lawyer cost",
+    "vertical": "legal",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-estate-planning-cost.html",
+    "canonicalQuery": "how much does estate planning cost",
+    "vertical": "legal",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-moving-cost.html",
+    "canonicalQuery": "how much does moving cost",
+    "vertical": "moving",
+    "template": "table-led"
+  },
+  {
+    "filename": "how-much-does-a-mover-cost.html",
+    "canonicalQuery": "how much does a mover cost",
+    "vertical": "moving",
+    "template": "table-led"
   }
 ]

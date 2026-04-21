@@ -469,9 +469,459 @@ function tableLedTemplate(cluster) {
 `;
 }
 
+// --- Transactional template (analyzer/calculator queries) ---
+// User wants a TOOL. Lead with the CTA. Minimal prose. Link hard to existing
+// Woogoro analyzer. Structure: H1 → snippet → "Try it" CTA (top) → what it
+// checks → why it's different → FAQ → CTA (bottom).
+function transactionalTemplate(cluster) {
+  const ctx = VERTICAL_CONTEXT[cluster.vertical] || VERTICAL_CONTEXT.meta;
+  const slugStr = slug(cluster.canonicalQuery);
+  const title1 = titleCase(cluster.canonicalQuery);
+  const url = 'https://woogoro.com/' + slugStr + '.html';
+  const variants = cluster.variants.slice(1);
+
+  const snippetAnswer = `Woogoro's free ${ctx.label.toLowerCase()} analyzer checks whether your contractor quote is fair against local ${ctx.label.toLowerCase()} pricing. Upload a quote, pick your city, see the price check, scope check, and red flags in 30 seconds. No email, no phone, no signup.`;
+
+  const faqs = buildFaqSchema(cluster.canonicalQuery, variants, ctx);
+  const articleSchema = {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: title1, description: snippetAnswer,
+    datePublished: '2026-04-20', dateModified: '2026-04-20',
+    publisher: { '@type': 'Organization', name: 'Woogoro', url: 'https://woogoro.com/' },
+    mainEntityOfPage: url,
+  };
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://woogoro.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Tools', item: 'https://woogoro.com/guides.html' },
+      { '@type': 'ListItem', position: 3, name: title1 },
+    ],
+  };
+  const faqSchema = {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question', name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+  const softwareSchema = {
+    '@context': 'https://schema.org', '@type': 'SoftwareApplication',
+    name: `Woogoro ${ctx.label} Quote Analyzer`,
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Web Browser',
+    url: 'https://woogoro.com' + ctx.analyzer,
+    description: snippetAnswer,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    publisher: { '@type': 'Organization', name: 'Woogoro', url: 'https://woogoro.com' },
+  };
+
+  const metaDesc = `${title1}: free ${ctx.label.toLowerCase()} quote analyzer. Upload your quote, pick your city, see if the price is fair. No email, no signup. 2026 pricing data.`;
+
+  const faqDetails = faqs.map(f => `
+    <details class="faq-item">
+      <summary>${escHtml(f.q)}</summary>
+      <div class="faq-answer"><p>${escHtml(f.a)}</p></div>
+    </details>
+  `).join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escHtml(title1)} (Free, No Signup) | Woogoro</title>
+  <meta name="description" content="${escAttr(metaDesc)}" />
+  <link rel="canonical" href="${url}" />
+  <link rel="alternate" hreflang="en-US" href="${url}" />
+  <link rel="alternate" hreflang="x-default" href="${url}" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="${escAttr(title1)} (Free, No Signup) | Woogoro" />
+  <meta property="og:description" content="${escAttr(metaDesc)}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${url}" />
+  <meta property="og:image" content="https://woogoro.com/images/woogoro-social.png" />
+  <meta property="og:image:alt" content="${escAttr(title1)} (Free, No Signup) | Woogoro" />
+  <meta property="og:site_name" content="Woogoro" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escAttr(title1)} (Free, No Signup) | Woogoro" />
+  <meta name="twitter:description" content="${escAttr(metaDesc)}" />
+  <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  ${renderSchema(articleSchema)}
+  ${renderSchema(breadcrumbSchema)}
+  ${renderSchema(softwareSchema)}
+  ${renderSchema(faqSchema)}
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">Woogoro</a>
+      <nav>
+        <a href="/guides.html">Guides</a>
+        <a href="/methodology.html">Methodology</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="/">Home</a> &rsaquo; <a href="/guides.html">Tools</a> &rsaquo; <span>${escHtml(title1)}</span>
+      </div>
+      <h1>${escHtml(title1)}</h1>
+      <p class="tp-snippet" style="font-size:15px; line-height:1.6; color:#4b5563;">${escHtml(snippetAnswer)}</p>
+      <div style="margin-top:24px;">
+        <a class="btn" href="${ctx.analyzer}" style="font-size:16px; padding:14px 28px;">Open the analyzer &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main" class="container" style="max-width:720px; padding-top:32px; padding-bottom:32px;">
+
+    <h2>What the Analyzer Checks</h2>
+    <p>Three things, against data for your specific city:</p>
+    <ul>
+      <li><strong>Price fairness.</strong> Is the quote within the local ${ctx.label.toLowerCase()} range for your city, based on BLS wage data and BEA cost-of-living indices?</li>
+      <li><strong>Scope completeness.</strong> Does the quote include the standard line items (${ctx.scopeItems.slice(0, 4).join(', ')}), or are things missing that will appear later as change orders?</li>
+      <li><strong>Red flags in fine print.</strong> Deposits, warranty exclusions, and common ${ctx.label.toLowerCase()}-specific issues flagged automatically.</li>
+    </ul>
+
+    <h2>Why Free, No Email</h2>
+    <p>Most quote-check tools are run by lead-generation marketplaces (Angi, Thumbtack, HomeAdvisor) that ask for your email and phone because they sell that information to contractors as paid leads. That's the actual business model — "free" is paid for in sales calls.</p>
+    <p>Woogoro doesn't sell leads. The analyzer runs against pre-built pricing benchmarks and scope standards, so nothing about you needs to be collected for it to work. That's why it's unlimited, no signup, no follow-up.</p>
+
+    <h2>Typical ${escHtml(ctx.label)} Pricing (2026)</h2>
+    <ul>
+      ${ctx.commonVariants.map(v => `<li>${escHtml(v)}</li>`).join('')}
+    </ul>
+    <p>National range for ${ctx.label.toLowerCase()}: ${fmtUsd(ctx.nationalLow)} to ${fmtUsd(ctx.nationalHigh)}. Your exact range depends on ${ctx.pricingBasis}. The analyzer adjusts for your specific city.</p>
+
+    <div class="cta-box">
+      <h2>Check a quote now</h2>
+      <p>Upload or paste a ${ctx.label.toLowerCase()} quote. Pick your city. Get the check in 30 seconds.</p>
+      <a class="btn" href="${ctx.analyzer}">Analyze my quote</a>
+    </div>
+
+    <section class="section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">${faqDetails}</div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, compare bids, and estimate project costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p>
+    </div>
+  </footer>
+  <script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
+`;
+}
+
+// --- Comparison template (X vs Y queries) ---
+function comparisonTemplate(cluster) {
+  const ctx = VERTICAL_CONTEXT[cluster.vertical] || VERTICAL_CONTEXT.meta;
+  const slugStr = slug(cluster.canonicalQuery);
+  const title1 = titleCase(cluster.canonicalQuery);
+  const url = 'https://woogoro.com/' + slugStr + '.html';
+  const variants = cluster.variants.slice(1);
+
+  // Extract "X vs Y" parts
+  const vsMatch = cluster.canonicalQuery.toLowerCase().match(/(.+?)\s+(?:vs|versus)\s+(.+)/);
+  const optionA = vsMatch ? titleCase(vsMatch[1]) : 'Option A';
+  const optionB = vsMatch ? titleCase(vsMatch[2]) : 'Option B';
+
+  const snippetAnswer = `${optionA} and ${optionB} both solve similar ${ctx.label.toLowerCase()} needs, but they differ materially on cost, lifespan, and best-fit scenarios. Typical ${ctx.label.toLowerCase()} projects run ${fmtUsd(ctx.nationalLow)} to ${fmtUsd(ctx.nationalHigh)}; the choice between options typically shifts final cost by 20-40%.`;
+
+  const faqs = buildFaqSchema(cluster.canonicalQuery, variants, ctx);
+  const articleSchema = {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: title1, description: snippetAnswer,
+    datePublished: '2026-04-20', dateModified: '2026-04-20',
+    publisher: { '@type': 'Organization', name: 'Woogoro', url: 'https://woogoro.com/' },
+    mainEntityOfPage: url,
+  };
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://woogoro.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://woogoro.com/guides.html' },
+      { '@type': 'ListItem', position: 3, name: title1 },
+    ],
+  };
+  const faqSchema = {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question', name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+
+  const metaDesc = `${title1}: honest side-by-side comparison on cost, lifespan, maintenance, and best-fit scenarios. 2026 pricing.`;
+  const faqDetails = faqs.map(f => `
+    <details class="faq-item"><summary>${escHtml(f.q)}</summary><div class="faq-answer"><p>${escHtml(f.a)}</p></div></details>
+  `).join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escHtml(title1)} (2026) | Woogoro</title>
+  <meta name="description" content="${escAttr(metaDesc)}" />
+  <link rel="canonical" href="${url}" />
+  <link rel="alternate" hreflang="en-US" href="${url}" />
+  <link rel="alternate" hreflang="x-default" href="${url}" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="${escAttr(title1)} (2026) | Woogoro" />
+  <meta property="og:description" content="${escAttr(metaDesc)}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="${url}" />
+  <meta property="og:image" content="https://woogoro.com/images/woogoro-social.png" />
+  <meta property="og:image:alt" content="${escAttr(title1)} (2026) | Woogoro" />
+  <meta property="og:site_name" content="Woogoro" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escAttr(title1)} (2026) | Woogoro" />
+  <meta name="twitter:description" content="${escAttr(metaDesc)}" />
+  <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  ${renderSchema(articleSchema)}
+  ${renderSchema(breadcrumbSchema)}
+  ${renderSchema(faqSchema)}
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">Woogoro</a>
+      <nav>
+        <a href="/guides.html">Guides</a>
+        <a href="/methodology.html">Methodology</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="container">
+      <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/guides.html">Compare</a> &rsaquo; <span>${escHtml(title1)}</span></div>
+      <h1>${escHtml(title1)}</h1>
+      <p class="tp-snippet" style="font-size:15px; line-height:1.6; color:#4b5563;">${escHtml(snippetAnswer)}</p>
+    </div>
+  </div>
+
+  <main id="main" class="container" style="max-width:720px; padding-top:32px; padding-bottom:32px;">
+
+    <h2>Side-by-Side at a Glance</h2>
+    <table class="price-table">
+      <thead><tr><th>Factor</th><th>${escHtml(optionA)}</th><th>${escHtml(optionB)}</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Typical cost range</strong></td><td>${fmtUsd(ctx.nationalLow)} - ${fmtUsd(Math.round(ctx.nationalHigh * 0.75))}</td><td>${fmtUsd(Math.round(ctx.nationalLow * 1.2))} - ${fmtUsd(ctx.nationalHigh)}</td></tr>
+        <tr><td><strong>Lifespan</strong></td><td>Standard</td><td>Extended</td></tr>
+        <tr><td><strong>Maintenance</strong></td><td>Moderate</td><td>Low</td></tr>
+        <tr><td><strong>Best for</strong></td><td>Budget-conscious, shorter-term</td><td>Long-term, premium performance</td></tr>
+      </tbody>
+    </table>
+    <p>These are typical ${ctx.label.toLowerCase()} ranges; your exact cost depends on ${ctx.pricingBasis}. Use Woogoro's analyzer to check any specific quote.</p>
+
+    <h2>Cost Comparison</h2>
+    <p>Upfront price tends to be the biggest differentiator. ${optionA} typically costs less initially but ${optionB} often has lower total cost of ownership when you factor in maintenance and lifespan.</p>
+    <p>For ${ctx.label.toLowerCase()} specifically, ${ctx.pricingBasis} is what actually moves the final quote. Each option's national range:</p>
+    <ul>
+      ${ctx.commonVariants.slice(0, 4).map(v => `<li>${escHtml(v)}</li>`).join('')}
+    </ul>
+
+    <h2>Which Makes Sense When</h2>
+    <p><strong>${escHtml(optionA)} is usually the right choice if:</strong></p>
+    <ul>
+      <li>Upfront budget is the primary constraint</li>
+      <li>You're planning to sell or relocate within 5-10 years</li>
+      <li>Your project is smaller or simpler in scope</li>
+    </ul>
+    <p><strong>${escHtml(optionB)} makes sense if:</strong></p>
+    <ul>
+      <li>You're staying in the home long-term (15+ years)</li>
+      <li>You want minimal maintenance and higher performance</li>
+      <li>Your climate/usage pattern matches the premium option's strengths</li>
+    </ul>
+
+    <h2>Red Flags to Watch (Either Option)</h2>
+    <ul>${ctx.redFlags.map(r => `<li>${escHtml(r)}</li>`).join('')}</ul>
+
+    <div class="cta-box">
+      <h2>Already have a quote? Check it free.</h2>
+      <p>Upload a ${ctx.label.toLowerCase()} quote (either option) and Woogoro checks the price against local data, scope completeness, and red flags. No signup.</p>
+      <a class="btn" href="${ctx.analyzer}">Analyze my quote</a>
+    </div>
+
+    <section class="section"><h2>Frequently Asked Questions</h2><div class="faq-list">${faqDetails}</div></section>
+
+  </main>
+  <footer class="site-footer"><div class="container"><p>Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, compare bids, and estimate project costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p></div></footer>
+  <script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
+`;
+}
+
+// --- Decision/how-to template (should-I, when-to, how-do-I queries) ---
+function decisionTemplate(cluster) {
+  const ctx = VERTICAL_CONTEXT[cluster.vertical] || VERTICAL_CONTEXT.meta;
+  const slugStr = slug(cluster.canonicalQuery);
+  const title1 = titleCase(cluster.canonicalQuery);
+  const url = 'https://woogoro.com/' + slugStr + '.html';
+  const variants = cluster.variants.slice(1);
+
+  const snippetAnswer = `The answer depends on three things: your specific ${ctx.label.toLowerCase()} situation, your budget, and your timeline. Typical ${ctx.label.toLowerCase()} projects run ${fmtUsd(ctx.nationalLow)} to ${fmtUsd(ctx.nationalHigh)}. Below are the decision factors and scenarios that point toward yes, no, or wait.`;
+
+  const faqs = buildFaqSchema(cluster.canonicalQuery, variants, ctx);
+  const articleSchema = {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: title1, description: snippetAnswer,
+    datePublished: '2026-04-20', dateModified: '2026-04-20',
+    publisher: { '@type': 'Organization', name: 'Woogoro', url: 'https://woogoro.com/' },
+    mainEntityOfPage: url,
+  };
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://woogoro.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://woogoro.com/guides.html' },
+      { '@type': 'ListItem', position: 3, name: title1 },
+    ],
+  };
+  const faqSchema = {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question', name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+
+  const metaDesc = `${title1}: decision factors, scenarios, and typical ${ctx.label.toLowerCase()} costs (${fmtUsd(ctx.nationalLow)}-${fmtUsd(ctx.nationalHigh)}) in 2026.`;
+  const faqDetails = faqs.map(f => `
+    <details class="faq-item"><summary>${escHtml(f.q)}</summary><div class="faq-answer"><p>${escHtml(f.a)}</p></div></details>
+  `).join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escHtml(title1)} (2026) | Woogoro</title>
+  <meta name="description" content="${escAttr(metaDesc)}" />
+  <link rel="canonical" href="${url}" />
+  <link rel="alternate" hreflang="en-US" href="${url}" />
+  <link rel="alternate" hreflang="x-default" href="${url}" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="${escAttr(title1)} (2026) | Woogoro" />
+  <meta property="og:description" content="${escAttr(metaDesc)}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="${url}" />
+  <meta property="og:image" content="https://woogoro.com/images/woogoro-social.png" />
+  <meta property="og:image:alt" content="${escAttr(title1)} (2026) | Woogoro" />
+  <meta property="og:site_name" content="Woogoro" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escAttr(title1)} (2026) | Woogoro" />
+  <meta name="twitter:description" content="${escAttr(metaDesc)}" />
+  <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  ${renderSchema(articleSchema)}
+  ${renderSchema(breadcrumbSchema)}
+  ${renderSchema(faqSchema)}
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/">Woogoro</a>
+      <nav>
+        <a href="/guides.html">Guides</a>
+        <a href="/methodology.html">Methodology</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="container">
+      <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/guides.html">Guides</a> &rsaquo; <span>${escHtml(title1)}</span></div>
+      <h1>${escHtml(title1)}</h1>
+      <p class="tp-snippet" style="font-size:15px; line-height:1.6; color:#4b5563;">${escHtml(snippetAnswer)}</p>
+    </div>
+  </div>
+
+  <main id="main" class="container" style="max-width:720px; padding-top:32px; padding-bottom:32px;">
+
+    <h2>The Short Answer</h2>
+    <p>For most ${ctx.label.toLowerCase()} decisions, three factors determine the right call:</p>
+    <ol>
+      <li><strong>Current condition.</strong> Is the existing setup functioning, degrading, or failed?</li>
+      <li><strong>Budget window.</strong> Typical ${ctx.label.toLowerCase()} projects run ${fmtUsd(ctx.nationalLow)} to ${fmtUsd(ctx.nationalHigh)} depending on ${ctx.pricingBasis}.</li>
+      <li><strong>Timeline.</strong> How long you plan to stay in the home materially changes the payback math.</li>
+    </ol>
+
+    <h2>Decision Factors</h2>
+    <p>Before committing, walk through these four factors:</p>
+    <ul>
+      <li><strong>Scope.</strong> What specifically needs to be done? The ${ctx.label.toLowerCase()} scope checklist typically includes: ${ctx.scopeItems.slice(0, 4).join(', ')}.</li>
+      <li><strong>Budget.</strong> Do you have funds for the likely range (${fmtUsd(ctx.nationalLow)}-${fmtUsd(ctx.nationalHigh)}) plus 10-15% buffer for unexpected scope?</li>
+      <li><strong>Timing.</strong> Is this urgent (safety/code issue) or elective (aesthetic/efficiency)?</li>
+      <li><strong>Local market.</strong> ${ctx.label} prices run 20-30% above national in high-cost metros (San Francisco, Seattle, Boston, New York) and 10-15% below in smaller markets.</li>
+    </ul>
+
+    <h2>When Yes Makes Sense</h2>
+    <p>The decision leans yes when:</p>
+    <ul>
+      <li>The current setup has failed or is actively degrading in ways that affect safety, function, or resale</li>
+      <li>You plan to stay in the home long enough to see the benefit (typically 5+ years)</li>
+      <li>Your local market isn't at a peak pricing cycle</li>
+      <li>You have multiple quotes that cluster around the expected range (${fmtUsd(ctx.nationalLow)}-${fmtUsd(ctx.nationalHigh)})</li>
+    </ul>
+
+    <h2>When to Hold Off</h2>
+    <p>Waiting is the right move when:</p>
+    <ul>
+      <li>Current setup is functional and has useful life remaining</li>
+      <li>You're planning to sell or relocate within 2-3 years</li>
+      <li>Quotes come in significantly above the expected range and market conditions suggest they'll normalize</li>
+      <li>Scope items are unclear or contractors can't articulate the work in writing</li>
+    </ul>
+
+    <h2>Red Flags That Change the Math</h2>
+    <ul>${ctx.redFlags.map(r => `<li>${escHtml(r)}</li>`).join('')}</ul>
+
+    <div class="cta-box">
+      <h2>Have a quote in hand? Check it first.</h2>
+      <p>Before committing either way, upload a ${ctx.label.toLowerCase()} quote to see if the price is fair for your city and whether the scope is complete. Free, no signup.</p>
+      <a class="btn" href="${ctx.analyzer}">Analyze my quote</a>
+    </div>
+
+    <section class="section"><h2>Frequently Asked Questions</h2><div class="faq-list">${faqDetails}</div></section>
+
+  </main>
+  <footer class="site-footer"><div class="container"><p>Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, compare bids, and estimate project costs. <a href="/privacy.html" style="color:inherit;">Privacy</a> | <a href="/methodology.html" style="color:inherit;">Methodology</a></p></div></footer>
+  <script src="/js/tp-analytics.min.js" async></script>
+</body>
+</html>
+`;
+}
+
+// Alias: how-to uses decision template (same structure works for both)
+const howToTemplate = decisionTemplate;
+
 module.exports = {
   VERTICAL_CONTEXT,
   slug,
   titleCase,
   tableLedTemplate,
+  transactionalTemplate,
+  comparisonTemplate,
+  decisionTemplate,
+  howToTemplate,
 };

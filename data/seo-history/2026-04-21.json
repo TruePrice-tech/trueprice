@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-04-21T00:27:04.520Z",
+  "scoredAt": "2026-04-21T00:47:22.673Z",
   "collectors": {
     "schemas": {
-      "scoredAt": "2026-04-21T00:27:04.529Z",
+      "scoredAt": "2026-04-21T00:47:22.681Z",
       "totalPages": 12289,
       "pagesWithSchema": 12200,
       "totalSchemas": 57640,
@@ -22,6 +22,7 @@
         "GeoCoordinates": 10764,
         "PostalAddress": 10764,
         "CollectionPage": 2,
+        "Person": 15,
         "WebApplication": 67,
         "Offer": 88,
         "SoftwareApplication": 21,
@@ -48,7 +49,7 @@
       }
     },
     "indexation": {
-      "scoredAt": "2026-04-21T00:27:05.746Z",
+      "scoredAt": "2026-04-21T00:47:23.878Z",
       "source": "duckduckgo",
       "indexedCount": null,
       "sitemapCount": 12272,
@@ -56,7 +57,7 @@
       "error": null
     },
     "bwt": {
-      "scoredAt": "2026-04-21T00:27:06.492Z",
+      "scoredAt": "2026-04-21T00:47:24.514Z",
       "configured": true,
       "topQueries": [],
       "topPages": [],
