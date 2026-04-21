@@ -456,7 +456,7 @@ For each red flag found, populate redFlagDetails with name, severity, the exact 
         const cityLc = String(_calCity)
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String(_calState).toUpperCase();
-        await guardedFlywheelBump(redis, "landscaping", totalPrice, cityLc, st);
+        await guardedFlywheelBump(redis, "landscaping", totalPrice, cityLc, st, { incRealQuote: !!_imageBuf });
       }
     } catch (calErr) {
       console.log("[landscaping-estimate] flywheel bridge error:", calErr.message);

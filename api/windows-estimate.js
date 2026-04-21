@@ -458,7 +458,7 @@ For each red flag found, populate redFlagDetails with the name, severity, the ex
         const cityLc = String(_calCity)
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String(_calState).toUpperCase();
-        await guardedFlywheelBump(redis, "windows", totalPrice, cityLc, st);
+        await guardedFlywheelBump(redis, "windows", totalPrice, cityLc, st, { incRealQuote: !!_imageBuf });
       }
     } catch (calErr) {
       console.log("[windows-estimate] flywheel bridge error:", calErr.message);

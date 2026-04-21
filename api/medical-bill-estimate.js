@@ -398,6 +398,11 @@ CRITICAL ANALYSIS RULES:
           };
           if (cityLc) await bump(`cal:${cityLc}:${st}:medical`);
           await bump(`cal:metro:${st}:medical`);
+
+          // Counter tick — real image uploads only, never synthetic
+          if (_imageBuf) {
+            try { await redis.incr("tp:total_quotes"); } catch (_) { /* best-effort */ }
+          }
         }
       }
     } catch (calErr) {

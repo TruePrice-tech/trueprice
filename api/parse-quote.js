@@ -281,6 +281,9 @@ CRITICAL EXTRACTION RULES:
         if (st) {
           if (cityLc) await bump(`cal:${cityLc}:${st}:roofing`);
           await bump(`cal:metro:${st}:roofing`);
+
+          // Counter tick — parse-quote is always a real image upload
+          try { await redis.incr("tp:total_quotes"); } catch (_) { /* best-effort */ }
         }
       }
     } catch (_) { /* flywheel bridge is best-effort */ }

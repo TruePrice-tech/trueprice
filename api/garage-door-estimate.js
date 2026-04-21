@@ -371,7 +371,7 @@ Rules:
         const cityLc = String(_calCity)
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String(_calState).toUpperCase();
-        await guardedFlywheelBump(redis, "garage-door", totalPrice, cityLc, st);
+        await guardedFlywheelBump(redis, "garage-door", totalPrice, cityLc, st, { incRealQuote: !!_imageBuf });
       }
     } catch (calErr) {
       console.log("[garage-door-estimate] flywheel bridge error:", calErr.message);

@@ -61,14 +61,28 @@ function validateFlywheelPrice(price, service) {
  * Guarded flywheel bump: writes to cal:* keys only if price passes validation.
  * Drop-in replacement for the inline bump() functions in estimate APIs.
  *
+ * Can also INCR the public quote counter (tp:total_quotes) when the caller
+ * indicates the request represents a REAL user quote (image upload or user-
+ * submitted price), per project_counter_real_only policy. Synthetic "Get an
+ * estimate" flows must pass incRealQuote: false (the default) so the counter
+ * only reflects real activity.
+ *
  * @param {object} redis - Upstash Redis client
  * @param {string} service - Vertical key (e.g. "roofing")
  * @param {number} totalPrice - The quote total
  * @param {string} city - City name (lowercase, underscored)
  * @param {string} state - 2-letter state code (uppercase)
- * @param {number} weight - Blending weight (default 0.3)
+ * @param {object|number} optsOrWeight - Either a weight (legacy) or an options
+ *   object: { weight?: number, incRealQuote?: boolean }.
+ * @returns {boolean} true if cal:* was bumped (price passed guard + state set).
  */
-async function guardedFlywheelBump(redis, service, totalPrice, city, state, weight = 0.3) {
+async function guardedFlywheelBump(redis, service, totalPrice, city, state, optsOrWeight = {}) {
+  const opts = (typeof optsOrWeight === "number")
+    ? { weight: optsOrWeight }
+    : (optsOrWeight || {});
+  const weight = typeof opts.weight === "number" ? opts.weight : 0.3;
+  const incRealQuote = !!opts.incRealQuote;
+
   const check = validateFlywheelPrice(totalPrice, service);
   if (!check.ok) {
     console.log(`[flywheel-guard] REJECTED: ${check.reason}`);
@@ -95,6 +109,13 @@ async function guardedFlywheelBump(redis, service, totalPrice, city, state, weig
 
   if (cityLc) await bump(`cal:${cityLc}:${st}:${service}`);
   await bump(`cal:metro:${st}:${service}`);
+
+  if (incRealQuote) {
+    try {
+      await redis.incr("tp:total_quotes");
+    } catch (err) { /* counter is best-effort */ }
+  }
+
   return true;
 }
 

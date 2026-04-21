@@ -410,6 +410,11 @@ Return ONLY the JSON object, no markdown, no explanation.`
           };
           if (cityLc) await bump(`cal:${cityLc}:${st}:legal`);
           await bump(`cal:metro:${st}:legal`);
+
+          // Counter tick — real image uploads only, never synthetic
+          if (_imageBuf) {
+            try { await redis.incr("tp:total_quotes"); } catch (_) { /* best-effort */ }
+          }
         }
       }
     } catch (calErr) {

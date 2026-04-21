@@ -278,8 +278,16 @@ export default async function handler(req, res) {
     const quoteKey = `cal_quote:${quote.city.toLowerCase()}:${quote.stateCode}:${service}:${Date.now()}`;
     await redis.set(quoteKey, JSON.stringify(quote), { ex: 365 * 24 * 60 * 60 }); // 1 year TTL
 
-    // Increment global quote counter (used by public counter endpoint)
-
+    // Increment global quote counter (used by public counter endpoint).
+    // Each /api/calibration POST is a REAL user quote (user-submitted actual,
+    // compare_upload, or trust-weighted import). Test-mode callers pass
+    // X-Woogoro-Test:1 and are excluded per project_counter_real_only policy.
+    const _calIsTest = req.headers["x-woogoro-test"] === "1";
+    if (!_calIsTest) {
+      try {
+        await redis.incr("tp:total_quotes");
+      } catch (err) { /* counter is best-effort */ }
+    }
 
     // Update the city calibration aggregate.
     // Threshold: score >= 30 (lower than before so scraped data with score 35 still flows in,

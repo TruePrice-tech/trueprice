@@ -535,7 +535,7 @@ Rules:
         const cityLc = String(_calCity)
           .toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
         const st = String(_calState).toUpperCase();
-        await guardedFlywheelBump(redis, "electrical", totalPrice, cityLc, st);
+        await guardedFlywheelBump(redis, "electrical", totalPrice, cityLc, st, { incRealQuote: !!_imageBuf });
       }
     } catch (calErr) {
       console.log("[electrical-estimate] flywheel bridge error:", calErr.message);

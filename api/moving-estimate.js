@@ -324,6 +324,11 @@ OTHER RULES:
           await bump(`cal:metro:${st}:${service}`);
           if (homeSize !== "unknown") await bump(`cal:metro:${st}:${service}:${homeSize}`);
           if (moveType !== "unknown") await bump(`cal:metro:${st}:${service}:movetype_${moveType}`);
+
+          // Counter tick — only for real image uploads, never synthetic estimates
+          if (_imageBuf) {
+            try { await redis.incr("tp:total_quotes"); } catch (_) { /* best-effort */ }
+          }
         }
       }
     } catch (calErr) {
