@@ -1,32 +1,32 @@
 {
-  "scoredAt": "2026-04-21T00:17:17.082Z",
+  "scoredAt": "2026-04-21T00:27:04.520Z",
   "collectors": {
     "schemas": {
-      "scoredAt": "2026-04-21T00:17:17.090Z",
+      "scoredAt": "2026-04-21T00:27:04.529Z",
       "totalPages": 12289,
       "pagesWithSchema": 12200,
-      "totalSchemas": 57639,
-      "parseErrors": 12,
+      "totalSchemas": 57640,
+      "parseErrors": 0,
       "typesCount": {
         "Article": 11350,
-        "Organization": 11458,
+        "Organization": 11459,
         "Service": 12012,
         "City": 12012,
         "AggregateOffer": 12012,
-        "BreadcrumbList": 12149,
-        "ListItem": 12149,
-        "FAQPage": 11216,
-        "Question": 11216,
-        "Answer": 11216,
-        "Place": 10783,
+        "BreadcrumbList": 12150,
+        "ListItem": 12150,
+        "FAQPage": 11227,
+        "Question": 11227,
+        "Answer": 11227,
+        "Place": 10784,
         "GeoCoordinates": 10764,
         "PostalAddress": 10764,
         "CollectionPage": 2,
         "WebApplication": 67,
         "Offer": 88,
         "SoftwareApplication": 21,
-        "Dataset": 20,
-        "DataDownload": 19,
+        "Dataset": 21,
+        "DataDownload": 20,
         "HowTo": 21,
         "MonetaryAmount": 20,
         "HowToTool": 20,
@@ -38,52 +38,7 @@
         "WebPage": 1,
         "PropertyValue": 1
       },
-      "errorPages": [
-        {
-          "file": "auto-repair-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "concrete-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "electrical-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "foundation-repair-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "garage-door-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "hvac-replacement-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "landscaping-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "legal-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "medical-cost-guide.html",
-          "errors": 2
-        },
-        {
-          "file": "plumbing-cost-guide.html",
-          "errors": 1
-        },
-        {
-          "file": "solar-installation-cost-guide.html",
-          "errors": 1
-        }
-      ],
+      "errorPages": [],
       "pagesByType": {
         "city-cost": 12016,
         "other": 65,
@@ -93,7 +48,7 @@
       }
     },
     "indexation": {
-      "scoredAt": "2026-04-21T00:17:18.293Z",
+      "scoredAt": "2026-04-21T00:27:05.746Z",
       "source": "duckduckgo",
       "indexedCount": null,
       "sitemapCount": 12272,
@@ -101,7 +56,7 @@
       "error": null
     },
     "bwt": {
-      "scoredAt": "2026-04-21T00:17:19.050Z",
+      "scoredAt": "2026-04-21T00:27:06.492Z",
       "configured": true,
       "topQueries": [],
       "topPages": [],
@@ -109,230 +64,7 @@
       "error": null
     },
     "uniqueness": {
-      "scoredAt": "2026-04-21T00:17:20.159Z",
-      "verticals": [
-        {
-          "vertical": "hvac",
-          "pages": 739,
-          "words": 2779,
-          "template": 86,
-          "semantic": 88,
-          "infoDensity": 100,
-          "structural": 87,
-          "composite": 90,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "roof",
-          "pages": 855,
-          "words": 3151,
-          "template": 90,
-          "semantic": 92,
-          "infoDensity": 100,
-          "structural": 58,
-          "composite": 86,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "plumbing",
-          "pages": 740,
-          "words": 3230,
-          "template": 86,
-          "semantic": 89,
-          "infoDensity": 100,
-          "structural": 83,
-          "composite": 89,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "electrical",
-          "pages": 739,
-          "words": 2677,
-          "template": 88,
-          "semantic": 90,
-          "infoDensity": 100,
-          "structural": 78,
-          "composite": 89,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "solar",
-          "pages": 740,
-          "words": 3127,
-          "template": 78,
-          "semantic": 85,
-          "infoDensity": 100,
-          "structural": 79,
-          "composite": 85,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "kitchen",
-          "pages": 740,
-          "words": 2704,
-          "template": 82,
-          "semantic": 87,
-          "infoDensity": 100,
-          "structural": 78,
-          "composite": 86,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "window",
-          "pages": 739,
-          "words": 2386,
-          "template": 84,
-          "semantic": 89,
-          "infoDensity": 100,
-          "structural": 80,
-          "composite": 88,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "siding",
-          "pages": 739,
-          "words": 2282,
-          "template": 84,
-          "semantic": 89,
-          "infoDensity": 100,
-          "structural": 78,
-          "composite": 88,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "painting",
-          "pages": 739,
-          "words": 2674,
-          "template": 84,
-          "semantic": 89,
-          "infoDensity": 100,
-          "structural": 78,
-          "composite": 88,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "garage-door",
-          "pages": 739,
-          "words": 2834,
-          "template": 82,
-          "semantic": 87,
-          "infoDensity": 100,
-          "structural": 74,
-          "composite": 85,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "fence",
-          "pages": 740,
-          "words": 3145,
-          "template": 82,
-          "semantic": 87,
-          "infoDensity": 100,
-          "structural": 76,
-          "composite": 86,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "concrete",
-          "pages": 739,
-          "words": 3001,
-          "template": 86,
-          "semantic": 87,
-          "infoDensity": 100,
-          "structural": 78,
-          "composite": 87,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "landscaping",
-          "pages": 739,
-          "words": 2799,
-          "template": 86,
-          "semantic": 89,
-          "infoDensity": 100,
-          "structural": 68,
-          "composite": 86,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "foundation",
-          "pages": 739,
-          "words": 2902,
-          "template": 86,
-          "semantic": 88,
-          "infoDensity": 100,
-          "structural": 84,
-          "composite": 89,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "insulation",
-          "pages": 739,
-          "words": 2958,
-          "template": 87,
-          "semantic": 89,
-          "infoDensity": 100,
-          "structural": 75,
-          "composite": 88,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "gutter",
-          "pages": 739,
-          "words": 2510,
-          "template": 84,
-          "semantic": 86,
-          "infoDensity": 100,
-          "structural": 82,
-          "composite": 87,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "auto-repair",
-          "pages": 47,
-          "words": 2282,
-          "template": 90,
-          "semantic": 92,
-          "infoDensity": 100,
-          "structural": 56,
-          "composite": 86,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "medical",
-          "pages": 47,
-          "words": 2333,
-          "template": 89,
-          "semantic": 88,
-          "infoDensity": 100,
-          "structural": 53,
-          "composite": 84,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "legal",
-          "pages": 47,
-          "words": 2070,
-          "template": 87,
-          "semantic": 90,
-          "infoDensity": 100,
-          "structural": 54,
-          "composite": 84,
-          "grade": "GOOD"
-        },
-        {
-          "vertical": "moving",
-          "pages": 47,
-          "words": 3326,
-          "template": 84,
-          "semantic": 87,
-          "infoDensity": 100,
-          "structural": 75,
-          "composite": 86,
-          "grade": "GOOD"
-        }
-      ],
-      "errors": []
+      "skipped": true
     },
     "lighthouse": {
       "skipped": true
