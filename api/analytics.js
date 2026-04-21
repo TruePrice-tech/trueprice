@@ -499,7 +499,7 @@ export default async function handler(req, res) {
       });
     } catch (e) {
       console.error("Analytics GET error:", e);
-      return res.status(500).json({ error: "Failed to load analytics" });
+      return res.status(500).json({ error: "Failed to load analytics", message: e && e.message, stack: e && e.stack && e.stack.split("\n").slice(0, 6) });
     }
   }
 
