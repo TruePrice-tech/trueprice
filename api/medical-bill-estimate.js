@@ -89,7 +89,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "medical-bill", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "medical-bill:v2-medical-prompt", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -202,12 +202,13 @@ Return this exact JSON structure:
 }
 
 CRITICAL EXTRACTION RULES:
-- ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
-- If you cannot find an explicit total, SUM the individual line item amounts.
-- redFlags: ALWAYS identify at least one concern. Check for: missing warranty, missing itemization, no labor rate disclosed, no parts type specified, no permit mentioned, excessive fees. Real quotes almost always have transparency gaps.
-- Never return null for a price field if there are dollar amounts visible anywhere in the document.
+- ALWAYS extract dollar amounts. If ANY dollar figure is visible anywhere in the document (balance due, total charges, amount billed, patient responsibility, remaining balance, "you owe", "due now"), extract it.
+- totalBilled is the headline number: use "Total Charges" or "Billed to Insurance" or "Billed" if present; otherwise use "Amount Due" / "Balance Due" / "You Owe" / patient responsibility as a fallback.
+- If only line-item amounts are shown, SUM them for totalBilled.
+- Never return null for totalBilled, patientResponsibility, or chargedAmount when any dollar figure is visible. If truly no numbers exist, return null.
+- redFlags: ALWAYS identify at least one concern on every itemized bill. Medical-relevant checks only — see CRITICAL ANALYSIS RULES below.
 
-- summary: ALWAYS explain WHY a price is high, low, or fair. Reference specific factors: material choice, scope breadth, warranty quality, labor complexity, brand premium. Never just say "above average" -- say "above average, likely due to premium materials and comprehensive warranty." This helps users understand the quote rather than weaponize a number against contractors.
+- summary: ALWAYS explain WHY the bill total is high, low, or fair in MEDICAL terms. Reference specific factors: facility type (hospital outpatient is typically 2-3x an ambulatory surgery center for the same procedure), CPT complexity and typical commercial vs Medicare rates, emergency vs scheduled care, in-network vs out-of-network status, whether the patient had met their deductible. Never reference materials, labor rates, permits, or warranties — those do not apply to medical bills.
 
 CRITICAL ANALYSIS RULES:
 - Extract ALL line items you can find
@@ -260,7 +261,7 @@ CRITICAL ANALYSIS RULES:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("medical-bill", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("medical-bill:v2-medical-prompt", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
