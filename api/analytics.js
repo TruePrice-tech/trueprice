@@ -342,6 +342,28 @@ export default async function handler(req, res) {
       }
     }
 
+    // Admin: peek at recent raw pageviews (for identifying a specific visitor).
+    if (req.query.recentPageviews) {
+      const adminKey = req.query.key || "";
+      if (adminKey !== ADMIN_KEY) return res.status(403).json({ error: "Unauthorized" });
+      try {
+        const n = Math.min(parseInt(req.query.recentPageviews) || 20, 200);
+        const raw = await redis.lrange("tp:pageviews", 0, n - 1);
+        const match = String(req.query.pathMatch || "").toLowerCase();
+        const rows = raw.map(r => typeof r === "string" ? JSON.parse(r) : r)
+          .filter(pv => !match || (pv.path || "").toLowerCase().includes(match))
+          .map(pv => ({
+            ts: pv.ts, time: new Date(pv.ts).toISOString(),
+            path: pv.path, ipHash: pv.ipHash,
+            city: pv.city, region: pv.region, country: pv.country,
+            device: pv.device, browser: pv.browser, referrer: pv.referrer
+          }));
+        return res.status(200).json({ ok: true, count: rows.length, rows });
+      } catch (e) {
+        return res.status(500).json({ error: "peek failed", message: e && e.message });
+      }
+    }
+
     // Admin: purge pageviews by city (comma-separated, case-insensitive).
     // One-off cleanup after tightening the DATA_CENTER_CITIES list.
     if (req.query.purgeCities) {
