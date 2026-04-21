@@ -64,7 +64,9 @@ const DATA_CENTER_CITIES = new Set([
   "naaldwijk", "meppel",
   // Cloud provider data center towns (not major metros)
   "hillsboro", "quincy", "lenoir", "lithia springs",
-  "manassas", "sterling", "reston", "herndon", "chantilly"
+  "manassas", "sterling", "reston", "herndon", "chantilly",
+  // Equinix NY metro colo (NY4/NY5/NY6) and Hetzner DE
+  "secaucus", "falkenstein"
 ]);
 
 // Track request volume per IP to detect bots from real cities
