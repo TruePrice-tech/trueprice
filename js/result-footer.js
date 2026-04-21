@@ -138,6 +138,29 @@
     var label = escHtml(verticalLabel);
     var slug  = escHtml(vertical);
 
+    // Feature flag: email capture is built end-to-end (endpoints, privacy
+    // policy, unsubscribe) but hidden until send infra is ready (virtual
+    // mailbox + DKIM/SPF/DMARC + send provider). Flip on by setting
+    // `window.WOOGORO_EMAIL_CAPTURE = true` on the host page before
+    // result-footer.js runs, or by changing the default here to true.
+    var emailCaptureEnabled = (window.WOOGORO_EMAIL_CAPTURE === true);
+
+    var emailCaptureHtml = emailCaptureEnabled
+      ? (''
+        + '  <div class="tp-em" data-em-vertical="' + slug + '">'
+        + '    <div class="tp-em-title">Get notified if ' + label.toLowerCase() + ' prices change in <span class="tp-em-location-label">your area</span></div>'
+        + '    <p class="tp-em-sub">A few emails a year, only when pricing moves enough to matter. Opt-in only, one-click unsubscribe.</p>'
+        + '    <div class="tp-em-form">'
+        + '      <div class="tp-em-row">'
+        + '        <input type="email" class="tp-em-input" placeholder="your@email.com" autocomplete="email" maxlength="254" />'
+        + '        <button type="button" class="tp-em-btn">Notify me</button>'
+        + '      </div>'
+        + '      <p class="tp-em-privacy">We never sell, share, or rent your email. See our <a href="/privacy.html#5.1-price-alert-email-notifications-opt-in" target="_blank" rel="noopener">privacy policy</a>.</p>'
+        + '      <div class="tp-em-err" hidden></div>'
+        + '    </div>'
+        + '  </div>')
+      : '';
+
     var html = ''
       + '<div class="tp-result-footer" data-vertical="' + slug + '">'
       + '  <div class="tp-feedback-row">'
@@ -169,18 +192,7 @@
       + '      <div class="tp-qc-err" hidden></div>'
       + '    </div>'
       + '  </div>'
-      + '  <div class="tp-em" data-em-vertical="' + slug + '">'
-      + '    <div class="tp-em-title">Get notified if ' + label.toLowerCase() + ' prices change in <span class="tp-em-location-label">your area</span></div>'
-      + '    <p class="tp-em-sub">A few emails a year, only when pricing moves enough to matter. Opt-in only, one-click unsubscribe.</p>'
-      + '    <div class="tp-em-form">'
-      + '      <div class="tp-em-row">'
-      + '        <input type="email" class="tp-em-input" placeholder="your@email.com" autocomplete="email" maxlength="254" />'
-      + '        <button type="button" class="tp-em-btn">Notify me</button>'
-      + '      </div>'
-      + '      <p class="tp-em-privacy">We never sell, share, or rent your email. See our <a href="/privacy.html#5.1-price-alert-email-notifications-opt-in" target="_blank" rel="noopener">privacy policy</a>.</p>'
-      + '      <div class="tp-em-err" hidden></div>'
-      + '    </div>'
-      + '  </div>'
+      + emailCaptureHtml
       + '  <hr class="tp-footer-divider" />'
       + '  <div class="tp-action-row">'
       + '    <button type="button" class="tp-action tp-action-primary" onclick="' + startOverHandler + '">'
@@ -205,11 +217,11 @@
       + '  </div>'
       + '</div>';
 
-    // Wire thumbs handler, quote capture, email capture, and share after the DOM has the footer
+    // Wire thumbs handler, quote capture, email capture (if enabled), and share after the DOM has the footer
     setTimeout(function () {
       wireThumbs(vertical);
       wireQuoteCapture(vertical);
-      wireEmailCapture(vertical);
+      if (emailCaptureEnabled) wireEmailCapture(vertical);
       wireShareBtn(vertical, verticalLabel);
     }, 0);
 
