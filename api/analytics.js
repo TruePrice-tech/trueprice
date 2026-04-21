@@ -427,7 +427,7 @@ export default async function handler(req, res) {
 
       const recentEvents = filteredEvents.slice(0, 50).map(ev => ({
         event: ev.event, meta: ev.meta, path: ev.path,
-        device: ev.device, time: new Date(ev.ts).toISOString()
+        device: ev.device, time: (() => { const n = Number(ev.ts); return Number.isFinite(n) && n > 0 ? new Date(n).toISOString() : null; })()
       }));
 
       // Geo
@@ -469,10 +469,15 @@ export default async function handler(req, res) {
 
       // Feedback
       const allFeedback = rawFeedback.map(r => typeof r === "string" ? JSON.parse(r) : r);
+      const safeIso = (ts) => {
+        const n = Number(ts);
+        if (!Number.isFinite(n) || n <= 0) return null;
+        try { return new Date(n).toISOString(); } catch { return null; }
+      };
       const recentFeedback = allFeedback.slice(0, 50).map(f => ({
         rating: f.rating, comment: f.comment, page: f.page,
         city: f.city, region: f.region, device: f.device,
-        time: new Date(f.ts).toISOString()
+        time: safeIso(f.ts)
       }));
       const feedbackYes = allFeedback.filter(f => f.rating === "yes").length;
       const feedbackNo = allFeedback.filter(f => f.rating === "no").length;
@@ -499,7 +504,7 @@ export default async function handler(req, res) {
       });
     } catch (e) {
       console.error("Analytics GET error:", e);
-      return res.status(500).json({ error: "Failed to load analytics", message: e && e.message, stack: e && e.stack && e.stack.split("\n").slice(0, 6) });
+      return res.status(500).json({ error: "Failed to load analytics" });
     }
   }
 
