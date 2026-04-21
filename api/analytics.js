@@ -342,6 +342,45 @@ export default async function handler(req, res) {
       }
     }
 
+    // Admin: purge pageviews by city (comma-separated, case-insensitive).
+    // One-off cleanup after tightening the DATA_CENTER_CITIES list.
+    if (req.query.purgeCities) {
+      const adminKey = req.query.key || "";
+      if (adminKey !== ADMIN_KEY) return res.status(403).json({ error: "Unauthorized" });
+      try {
+        const targets = new Set(
+          String(req.query.purgeCities).split(",").map(s => s.trim().toLowerCase()).filter(Boolean)
+        );
+        const raw = await redis.lrange("tp:pageviews", 0, -1);
+        const before = raw.length;
+        const kept = [];
+        let removed = 0;
+        const removedSamples = [];
+        for (const r of raw) {
+          const obj = typeof r === "string" ? JSON.parse(r) : r;
+          const city = (obj.city || "").toLowerCase();
+          if (targets.has(city)) {
+            removed++;
+            if (removedSamples.length < 5) removedSamples.push({ city: obj.city, path: obj.path, ts: obj.ts });
+          } else {
+            kept.push(typeof r === "string" ? r : JSON.stringify(obj));
+          }
+        }
+        if (removed === 0) {
+          return res.status(200).json({ ok: true, before, removed: 0, after: before, note: "no matching cities found" });
+        }
+        await redis.del("tp:pageviews");
+        // lrange returned newest→oldest; rpush in that order preserves index 0 = newest (matches lpush writer semantics)
+        const CHUNK = 500;
+        for (let i = 0; i < kept.length; i += CHUNK) {
+          await redis.rpush("tp:pageviews", ...kept.slice(i, i + CHUNK));
+        }
+        return res.status(200).json({ ok: true, before, removed, after: kept.length, targets: [...targets], removedSamples });
+      } catch (e) {
+        return res.status(500).json({ error: "purge failed", message: e && e.message });
+      }
+    }
+
     // Dashboard (auth required)
     const key = req.query.key || "";
     if (key !== ADMIN_KEY) {
