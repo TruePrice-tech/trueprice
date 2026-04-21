@@ -1753,20 +1753,23 @@ function initQuoteApp(){
     });
     fileInput.addEventListener("change",function(){if(fileInput.files.length) handleFile(fileInput.files[0]);});
 
-    document.getElementById("btnManualAnalyze").addEventListener("click",function(){
-      var total=parseFloat(document.getElementById("manualTotal").value);
-      if(!total||total<50){alert("Please enter a valid quote total.");return;}
-      var rawState=(document.getElementById("manualState").value||"").trim().toUpperCase();
-      qState.stateCode=STATE_REGIONS[rawState]?rawState:"TX";
-      qState.shopType=document.getElementById("manualShopType").value||"independent";
-      var laborRate=parseFloat(document.getElementById("manualLaborRate").value)||null;
-      var region=getRegionFromState(qState.stateCode);
-      var regionalRates=getRegionalLaborRate(qState.shopType,region);
-      var quoteBenchmark=total*(regionalRates.mid/(AUTO_REPAIR_PRICING.laborRatesByShopType[qState.shopType]||AUTO_REPAIR_PRICING.laborRatesByShopType.independent).mid);
-      var totalRatio=total/quoteBenchmark;
-      qState.result={source:"manual",quoteTotal:total,benchmark:quoteBenchmark,ratio:totalRatio,verdict:verdictFromRatio(totalRatio),lineItems:[],laborRate:laborRate,laborHours:null,partsTotal:null,laborTotal:null,shopType:qState.shopType,partsType:null,region:region,regionalRates:regionalRates,laborFlag:laborRate?laborRateFlag(laborRate,regionalRates):null,scopeSignals:{},parsed:null};
-      qState.step="result";qRender();
-    });
+    var btnManualAnalyze=document.getElementById("btnManualAnalyze");
+    if(btnManualAnalyze){
+      btnManualAnalyze.addEventListener("click",function(){
+        var total=parseFloat(document.getElementById("manualTotal").value);
+        if(!total||total<50){alert("Please enter a valid quote total.");return;}
+        var rawState=(document.getElementById("manualState").value||"").trim().toUpperCase();
+        qState.stateCode=STATE_REGIONS[rawState]?rawState:"TX";
+        qState.shopType=document.getElementById("manualShopType").value||"independent";
+        var laborRate=parseFloat(document.getElementById("manualLaborRate").value)||null;
+        var region=getRegionFromState(qState.stateCode);
+        var regionalRates=getRegionalLaborRate(qState.shopType,region);
+        var quoteBenchmark=total*(regionalRates.mid/(AUTO_REPAIR_PRICING.laborRatesByShopType[qState.shopType]||AUTO_REPAIR_PRICING.laborRatesByShopType.independent).mid);
+        var totalRatio=total/quoteBenchmark;
+        qState.result={source:"manual",quoteTotal:total,benchmark:quoteBenchmark,ratio:totalRatio,verdict:verdictFromRatio(totalRatio),lineItems:[],laborRate:laborRate,laborHours:null,partsTotal:null,laborTotal:null,shopType:qState.shopType,partsType:null,region:region,regionalRates:regionalRates,laborFlag:laborRate?laborRateFlag(laborRate,regionalRates):null,scopeSignals:{},parsed:null};
+        qState.step="result";qRender();
+      });
+    }
   }
 
   function handleFile(file){
