@@ -251,22 +251,24 @@
       if (card.__tpQcWired) continue;
       card.__tpQcWired = true;
       (function (root, vert) {
-        // Auto-detect city/state
-        var city = "", st = "";
-        // 1. Try address form inputs
+        // Auto-detect city/state + model estimate from whichever global the
+        // host page exposes. Estimate pages set __tpResultContext; analyzer
+        // pages set __latestAnalysis.
+        var city = "", st = "", modelEstimate = 0;
         var cEl = document.getElementById("addrCity");
         var sEl = document.getElementById("addrState");
         if (cEl && cEl.value) city = cEl.value.trim();
         if (sEl && sEl.value) st = sEl.value.trim().toUpperCase();
-        // 2. Try analyzer global
-        if (!city && window.__latestAnalysis) {
-          city = window.__latestAnalysis.city || "";
-          st = (window.__latestAnalysis.stateCode || "").toUpperCase();
+        if (window.__latestAnalysis) {
+          city = city || window.__latestAnalysis.city || "";
+          st = st || (window.__latestAnalysis.stateCode || "").toUpperCase();
+          modelEstimate = Number(window.__latestAnalysis.totalPrice) || modelEstimate;
         }
-        // 3. Try __tpResultContext
-        if (!city && window.__tpResultContext) {
-          city = window.__tpResultContext.city || "";
-          st = (window.__tpResultContext.stateCode || "").toUpperCase();
+        if (window.__tpResultContext) {
+          city = city || window.__tpResultContext.city || "";
+          st = st || (window.__tpResultContext.stateCode || "").toUpperCase();
+          var ctxResult = window.__tpResultContext.result || {};
+          modelEstimate = Number(ctxResult.totalPrice || ctxResult.midPrice || ctxResult.estimate) || modelEstimate;
         }
 
         // Update location label
@@ -315,7 +317,8 @@
             city: subCity,
             stateCode: subState,
             service: vert,
-            source: "user_submitted_actual"
+            source: "user_submitted_actual",
+            modelEstimate: modelEstimate || 0
           };
 
           fetch("/api/calibration", {
@@ -332,26 +335,45 @@
               return;
             }
 
-            // Build thanks message
+            // Build thanks message. Prefer model delta (instant feedback,
+            // always available on estimate pages) over aggregate delta
+            // (only useful once 2+ quotes in the area).
             var formattedPrice = "$" + price.toLocaleString();
             var thanksHtml = "<strong>Thanks!</strong> ";
+            var didPrimary = false;
+
+            if (modelEstimate > 0) {
+              var mDiff = Math.round(((price - modelEstimate) / modelEstimate) * 100);
+              var mAbs = Math.abs(mDiff);
+              var fmtModel = "$" + Math.round(modelEstimate).toLocaleString();
+              if (mAbs <= 5) {
+                thanksHtml += "Your " + formattedPrice + " is right in line with our estimate of " + fmtModel + ".";
+              } else {
+                thanksHtml += "Your " + formattedPrice + " is " + mAbs + "% " + (mDiff > 0 ? "above" : "below") + " our estimate of " + fmtModel + ".";
+              }
+              didPrimary = true;
+            }
+
             if (data.aggregate && data.aggregate.avgPrice && data.aggregate.quotes > 1) {
               var avg = data.aggregate.avgPrice;
               var pctDiff = Math.round(((price - avg) / avg) * 100);
-              var dir = pctDiff > 0 ? "above" : "below";
               var absPct = Math.abs(pctDiff);
+              var area = (subCity && subState) ? (subCity + ", " + subState) : "your area";
+              thanksHtml += (didPrimary ? " " : "");
               if (absPct <= 3) {
-                thanksHtml += "Your " + formattedPrice + " is right in line with the " + data.aggregate.quotes + "-quote average for this area.";
+                thanksHtml += "It's in line with the " + data.aggregate.quotes + "-quote average for " + area + ".";
               } else {
-                thanksHtml += "Your " + formattedPrice + " is " + absPct + "% " + dir + " the " + data.aggregate.quotes + "-quote average";
-                if (subCity && subState) thanksHtml += " in " + subCity + ", " + subState;
-                thanksHtml += ".";
+                thanksHtml += "It's " + absPct + "% " + (pctDiff > 0 ? "above" : "below") + " the " + data.aggregate.quotes + "-quote average for " + area + ".";
               }
-            } else {
+              didPrimary = true;
+            }
+
+            if (!didPrimary) {
               thanksHtml += "Your " + formattedPrice + " helps establish pricing data";
               if (subCity && subState) thanksHtml += " for " + subCity + ", " + subState;
               thanksHtml += ".";
             }
+
             thanksHtml += "<br>This helps calibrate estimates for everyone in your area.";
 
             // Replace form with thanks
