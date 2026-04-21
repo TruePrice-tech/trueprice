@@ -19,6 +19,23 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..', '..');
+
+// Tiny .env loader — no new npm dep. Reads KEY=value lines from .env at the
+// repo root and merges into process.env (without overwriting anything that's
+// already set, so command-line env wins). Skip if file doesn't exist.
+(function loadDotEnv() {
+  const envPath = path.join(ROOT, '.env');
+  if (!fs.existsSync(envPath)) return;
+  const text = fs.readFileSync(envPath, 'utf8');
+  for (const line of text.split(/\r?\n/)) {
+    if (!line || line.trim().startsWith('#')) continue;
+    const eq = line.indexOf('=');
+    if (eq < 0) continue;
+    const key = line.slice(0, eq).trim();
+    const value = line.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
+    if (key && !(key in process.env)) process.env[key] = value;
+  }
+})();
 const SNAPSHOT_PATH = path.join(ROOT, 'data', 'seo-snapshot.json');
 const HISTORY_DIR = path.join(ROOT, 'data', 'seo-history');
 

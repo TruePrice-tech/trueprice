@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-04-21T00:10:52.235Z",
+  "scoredAt": "2026-04-21T00:17:17.082Z",
   "collectors": {
     "schemas": {
-      "scoredAt": "2026-04-21T00:10:52.243Z",
+      "scoredAt": "2026-04-21T00:17:17.090Z",
       "totalPages": 12289,
       "pagesWithSchema": 12200,
       "totalSchemas": 57639,
@@ -93,23 +93,23 @@
       }
     },
     "indexation": {
-      "scoredAt": "2026-04-21T00:10:53.508Z",
+      "scoredAt": "2026-04-21T00:17:18.293Z",
       "source": "duckduckgo",
       "indexedCount": null,
       "sitemapCount": 12272,
       "gap": null,
-      "error": "HTTP 403"
+      "error": null
     },
     "bwt": {
-      "scoredAt": "2026-04-21T00:10:54.318Z",
-      "configured": false,
+      "scoredAt": "2026-04-21T00:17:19.050Z",
+      "configured": true,
       "topQueries": [],
       "topPages": [],
-      "crawlStats": null,
-      "error": "BWT_API_KEY not set. Generate at https://www.bing.com/webmasters/ → Settings & Security → API Access. Set as env var or .env file."
+      "crawlStats": [],
+      "error": null
     },
     "uniqueness": {
-      "scoredAt": "2026-04-21T00:10:54.319Z",
+      "scoredAt": "2026-04-21T00:17:20.159Z",
       "verticals": [
         {
           "vertical": "hvac",
