@@ -58,6 +58,46 @@ function validateFlywheelPrice(price, service) {
 }
 
 /**
+ * Quote validity gate. Fires BEFORE counter increment and cal:* bump.
+ * Rejects uploads that look like garbage (blank pages, screenshots of
+ * non-quote content, OCR failures) so they don't inflate the public
+ * counter or poison pricing aggregates.
+ *
+ * Per Lane's rule: "any actual uploaded (valid) quote should get counted.
+ * An estimate does not count. A real, valid image of a quote, providing
+ * it is not a fake quote should count."
+ *
+ * Signals required for validity:
+ *   - price: must be present and pass the per-vertical price range guard
+ *   - state: 2-letter state code must be present
+ *   - ocrTextLength: when caller knows it, must be >= 100 chars
+ *     (real contractor quotes run 200-2000 chars of OCR text; under
+ *     100 usually means a blank page, a receipt, or a meme)
+ *
+ * @param {object} args
+ * @param {number} args.price
+ * @param {string} args.service - vertical key
+ * @param {string} args.state - 2-letter code
+ * @param {string} [args.city] - optional; missing city falls back to state-wide
+ * @param {number} [args.ocrTextLength] - optional OCR length signal
+ * @returns {{ ok: boolean, reason?: string }}
+ */
+function isValidQuote({ price, service, state, city, ocrTextLength }) {
+  const priceCheck = validateFlywheelPrice(price, service);
+  if (!priceCheck.ok) return priceCheck;
+
+  if (!state || String(state).trim().length !== 2) {
+    return { ok: false, reason: "missing or invalid state code" };
+  }
+
+  if (ocrTextLength !== undefined && ocrTextLength < 100) {
+    return { ok: false, reason: `ocr text too short (${ocrTextLength} chars) — likely not a quote` };
+  }
+
+  return { ok: true };
+}
+
+/**
  * Guarded flywheel bump: writes to cal:* keys only if price passes validation.
  * Drop-in replacement for the inline bump() functions in estimate APIs.
  *
@@ -119,4 +159,4 @@ async function guardedFlywheelBump(redis, service, totalPrice, city, state, opts
   return true;
 }
 
-export { validateFlywheelPrice, guardedFlywheelBump, PRICE_GUARDS };
+export { validateFlywheelPrice, isValidQuote, guardedFlywheelBump, PRICE_GUARDS };

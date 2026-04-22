@@ -3,6 +3,16 @@ import fs from "fs";
 import path from "path";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 import { enrichWithCalibration } from "./_flywheel-read.js";
+import { guardedFlywheelBump, isValidQuote } from "./_flywheel-guard.js";
+
+// Map frontend vertical strings to PRICE_GUARDS keys.
+function normalizeVertical(v) {
+  const s = String(v || "").toLowerCase().trim();
+  if (!s) return "roofing";
+  if (s === "auto-repair" || s === "auto_repair") return "auto";
+  if (s === "garage-doors" || s === "garage_doors" || s === "garage") return "garage-door";
+  return s;
+}
 
 const redis = Redis.fromEnv();
 
@@ -90,7 +100,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    let { text, images } = req.body;
+    let { text, images, vertical } = req.body;
+    const svc = normalizeVertical(vertical);
 
     if (!text && (!images || images.length === 0)) {
       return res.status(400).json({ error: "No text or images provided" });
@@ -254,37 +265,37 @@ CRITICAL EXTRACTION RULES:
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || "";
     const _calState = (parsed.stateCode || "").toUpperCase();
-    await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "roofing" });
+    await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: svc });
 
     captureAnonymizedData("home", parsed); // fire and forget
 
-    // FLYWHEEL BRIDGE: write to cal:* aggregates so compare-flow quotes
-    // improve future estimates (parse-quote previously only wrote to tp:pricing_data)
+    // FLYWHEEL BRIDGE + COUNTER: a parse-quote hit is always an image upload.
+    // Gate counter + cal:* bump on the shared validity check so garbage uploads
+    // (blank pages, receipts, memes) don't pollute aggregates or inflate the
+    // public counter. Per Lane's rule: only valid, non-fake quotes count.
     try {
-      const totalPrice = Number(parsed.price) || 0;
-      if (totalPrice > 0 && req.headers["x-woogoro-test"] !== "1") {
-        const cityLc = _calCity.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
-        const st = _calState;
-        const weight = 0.3;
-        const bump = async (k) => {
-          try {
-            const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
-            const e = typeof ex === "string" ? JSON.parse(ex) : ex;
-            e.quotes += 1;
-            e.weightedSum += totalPrice * weight;
-            e.totalWeight += weight;
-            e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
-            e.lastUpdated = Date.now();
-            await redis.set(k, JSON.stringify(e));
-          } catch (_) { /* best-effort */ }
-        };
-        if (st) {
-          if (cityLc) await bump(`cal:${cityLc}:${st}:roofing`);
-          await bump(`cal:metro:${st}:roofing`);
-
-          // Counter tick — parse-quote is always a real image upload
-          try { await redis.incr("tp:total_quotes"); } catch (_) { /* best-effort */ }
-        }
+      const isTest = req.headers["x-woogoro-test"] === "1";
+      // OCR length check only applies when we actually have OCR text.
+      // Vision-only uploads (OCR failed, Claude read the image) are trusted
+      // based on price-range + state presence alone.
+      const validity = isValidQuote({
+        price: Number(parsed.price) || 0,
+        service: svc,
+        state: _calState,
+        city: _calCity,
+        ocrTextLength: (text && text.length > 0) ? text.length : undefined
+      });
+      if (!isTest && validity.ok) {
+        await guardedFlywheelBump(
+          redis,
+          svc,
+          Number(parsed.price),
+          _calCity,
+          _calState,
+          { incRealQuote: true }
+        );
+      } else if (!validity.ok) {
+        console.log(`[parse-quote] skipped counter+flywheel: ${validity.reason}`);
       }
     } catch (_) { /* flywheel bridge is best-effort */ }
 

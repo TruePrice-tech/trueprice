@@ -216,6 +216,11 @@
         body.images = [imageDataUrl];
       }
     }
+    // Pass vertical so parse-quote writes to the correct cal:* bucket
+    // and applies the correct per-vertical price guard.
+    if (options.vertical) {
+      body.vertical = options.vertical;
+    }
 
     try {
       var controller = new AbortController();

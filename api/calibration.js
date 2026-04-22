@@ -278,17 +278,6 @@ export default async function handler(req, res) {
     const quoteKey = `cal_quote:${quote.city.toLowerCase()}:${quote.stateCode}:${service}:${Date.now()}`;
     await redis.set(quoteKey, JSON.stringify(quote), { ex: 365 * 24 * 60 * 60 }); // 1 year TTL
 
-    // Increment global quote counter (used by public counter endpoint).
-    // Each /api/calibration POST is a REAL user quote (user-submitted actual,
-    // compare_upload, or trust-weighted import). Test-mode callers pass
-    // X-Woogoro-Test:1 and are excluded per project_counter_real_only policy.
-    const _calIsTest = req.headers["x-woogoro-test"] === "1";
-    if (!_calIsTest) {
-      try {
-        await redis.incr("tp:total_quotes");
-      } catch (err) { /* counter is best-effort */ }
-    }
-
     // Update the city calibration aggregate.
     // Threshold: score >= 30 (lower than before so scraped data with score 35 still flows in,
     // but its 0.15 influence weight keeps it from dominating real user quotes).
@@ -303,7 +292,14 @@ export default async function handler(req, res) {
       await redis.set(key, JSON.stringify(e));
     }
 
-    if (weight > 0 && score >= 30 && quote.stateCode) {
+    // Counter + cal:* updates are gated on the same validity criteria.
+    // Per Lane's rule: only valid quotes count AND update pricing. No splitting
+    // the two paths — if a quote is good enough to feed the flywheel, it counts;
+    // if it isn't, it doesn't tick the public counter either.
+    const _calIsTest = req.headers["x-woogoro-test"] === "1";
+    const _calValid = weight > 0 && score >= 30 && quote.stateCode && quote.price > 0;
+
+    if (_calValid) {
       const cityLc = (quote.city || "").toLowerCase();
       const repairKey = quote.repair ? quote.repair.toLowerCase().replace(/[^a-z0-9_]/g, "_") : null;
 
@@ -316,6 +312,10 @@ export default async function handler(req, res) {
       if (cityLc && repairKey) await bumpAggregate(`cal:${cityLc}:${quote.stateCode}:${service}:${repairKey}`);
       await bumpAggregate(`cal:metro:${quote.stateCode}:${service}`);
       if (repairKey) await bumpAggregate(`cal:metro:${quote.stateCode}:${service}:${repairKey}`);
+
+      if (!_calIsTest) {
+        try { await redis.incr("tp:total_quotes"); } catch (err) { /* counter is best-effort */ }
+      }
     }
 
     // Read back the aggregate so the frontend can show comparison
