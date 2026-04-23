@@ -155,10 +155,19 @@
     transition: filter 0.15s;
   }
   .accessory-slot.slot-background { z-index: 1; }
-  .accessory-slot.slot-bandana { z-index: 3; }
-  .accessory-slot.slot-hat { z-index: 4; }
-  .accessory-slot.slot-glasses { z-index: 5; }
-  .accessory-slot svg { display: block; width: 100%; height: 100%; }
+  .accessory-slot.slot-coat { z-index: 3; }
+  .accessory-slot.slot-bandana { z-index: 4; }
+  .accessory-slot.slot-hat { z-index: 5; }
+  .accessory-slot.slot-glasses { z-index: 6; }
+  .accessory-slot.slot-feet { z-index: 7; }
+  .accessory-slot svg,
+  .accessory-slot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
 
   .canvas.calib .accessory-slot {
     pointer-events: auto;
@@ -202,7 +211,8 @@
   aside.inventory { overflow: hidden; }
   .tabs {
     display: flex;
-    gap: 4px;
+    gap: 3px;
+    flex-wrap: wrap;
     margin-bottom: 10px;
     border-bottom: 1px solid var(--border);
     padding-bottom: 8px;
@@ -211,8 +221,8 @@
     background: transparent;
     color: var(--text-dim);
     border: 0;
-    font-size: 12px;
-    padding: 6px 10px;
+    font-size: 11px;
+    padding: 5px 8px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
@@ -247,17 +257,69 @@
     color: var(--good);
     font-weight: 700;
   }
-  .item-card svg {
+  .item-card .thumb {
     width: 56px;
     height: 56px;
     display: block;
     margin: 0 auto 4px;
+  }
+  .item-card .thumb svg,
+  .item-card .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
   .item-card .item-name {
     font-size: 10px;
     color: var(--text-dim);
     line-height: 1.2;
   }
+  .item-card .item-del {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: rgba(248,113,113,0.9);
+    color: #fff;
+    border: 0;
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+    display: none;
+    padding: 0;
+  }
+  .item-card:hover .item-del { display: block; }
+  .item-card .item-badge {
+    position: absolute;
+    bottom: 2px; left: 2px;
+    font-size: 8px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: rgba(0,0,0,0.45);
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 11px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(125,211,252,0.08);
+    color: var(--text);
+  }
+  .drop-zone strong { color: var(--accent); }
+  .drop-zone input[type=file] { display: none; }
 
   .readout {
     font-size: 11px;
@@ -320,6 +382,11 @@
   <aside class="inventory">
     <h3 class="label">Inventory</h3>
     <div class="tabs" id="tabs"></div>
+    <label class="drop-zone" id="dropZone">
+      <strong>Drop PNG here</strong> or click to pick<br>
+      <span style="opacity:0.6">adds to the active tab, saved locally only</span>
+      <input type="file" id="fileInput" accept="image/png,image/webp,image/svg+xml" multiple>
+    </label>
     <div class="items-grid" id="itemsGrid"></div>
   </aside>
 </main>
@@ -373,41 +440,56 @@ const SVG = {
 // slots & their default anchor (% of canvas, -- these are the starting positions)
 // each accessory renders as a box centered on (x,y) with the given widthPct.
 // height auto-scales with the SVG aspect ratio in CSS.
-const SLOTS = ['background', 'bandana', 'hat', 'glasses'];
+const SLOTS = ['background', 'coat', 'bandana', 'hat', 'glasses', 'feet'];
 const DEFAULT_ANCHORS = {
   hat:        { x: 50, y: 22, widthPct: 44, aspect: 1.0 },
-  glasses:    { x: 50, y: 42, widthPct: 52, aspect: 3.0 },
-  bandana:    { x: 50, y: 60, widthPct: 62, aspect: 2.0 },
+  glasses:    { x: 50, y: 42, widthPct: 50, aspect: 2.0 },
+  bandana:    { x: 50, y: 56, widthPct: 48, aspect: 1.0 },
+  coat:       { x: 50, y: 68, widthPct: 78, aspect: 1.0 },
+  feet:       { x: 50, y: 94, widthPct: 24, aspect: 1.2 },
   background: { x: 50, y: 50, widthPct: 120, aspect: 1.0 },
 };
 
-// catalog: which accessories live in which slot
-const CATALOG = {
+// Built-in catalog per slot. Real art from /images/Accessories/ first, SVG placeholders after.
+const BUILT_IN = {
   hat: [
-    {id:'tophat',    name:'Top Hat'},
-    {id:'beanie',    name:'Beanie'},
-    {id:'partycone', name:'Party Cone'},
-    {id:'hardhat',   name:'Hard Hat'},
-    {id:'crown',     name:'Crown'},
-    {id:'flatcap',   name:'Flat Cap'},
+    {id:'rainbowBucket', name:'Rainbow Bucket Hat', kind:'img', src:'/images/Accessories/Hat.png'},
+    {id:'tophat',    name:'Top Hat',    kind:'svg'},
+    {id:'beanie',    name:'Beanie',     kind:'svg'},
+    {id:'partycone', name:'Party Cone', kind:'svg'},
+    {id:'hardhat',   name:'Hard Hat',   kind:'svg'},
+    {id:'crown',     name:'Crown',      kind:'svg'},
+    {id:'flatcap',   name:'Flat Cap',   kind:'svg'},
   ],
   bandana: [
-    {id:'neckRed',   name:'Red Bandana'},
-    {id:'neckBlue',  name:'Blue Bandana'},
-    {id:'bowtie',    name:'Bow Tie'},
-    {id:'capeRed',   name:'Red Cape'},
+    {id:'paisleyRed', name:'Paisley Bandana', kind:'img', src:'/images/Accessories/Bandana.png'},
+    {id:'neckRed',   name:'Red Bandana',  kind:'svg'},
+    {id:'neckBlue',  name:'Blue Bandana', kind:'svg'},
+    {id:'bowtie',    name:'Bow Tie',      kind:'svg'},
+    {id:'capeRed',   name:'Red Cape',     kind:'svg'},
+  ],
+  coat: [
+    {id:'rainbowCoat', name:'Rainbow Fluffy Coat', kind:'img', src:'/images/Accessories/Coat.png'},
   ],
   glasses: [
-    {id:'sunglasses',   name:'Sunglasses'},
-    {id:'roundGlasses', name:'Round Glasses'},
-    {id:'monocle',      name:'Monocle'},
+    {id:'galaxyShades', name:'Galaxy Sunglasses', kind:'img', src:'/images/Accessories/Sunglasses.png'},
+    {id:'sunglasses',   name:'Sunglasses',     kind:'svg'},
+    {id:'roundGlasses', name:'Round Glasses',  kind:'svg'},
+    {id:'monocle',      name:'Monocle',        kind:'svg'},
+  ],
+  feet: [
+    {id:'toeRing', name:'Silver Toe Ring', kind:'img', src:'/images/Accessories/Toe_ring.png'},
   ],
   background: [
-    {id:'sparkles', name:'Sparkles'},
-    {id:'sunbeam',  name:'Sunbeam'},
-    {id:'confetti', name:'Confetti'},
+    {id:'sparkles', name:'Sparkles', kind:'svg'},
+    {id:'sunbeam',  name:'Sunbeam',  kind:'svg'},
+    {id:'confetti', name:'Confetti', kind:'svg'},
   ],
 };
+
+// Items loaded from /experiments/accessories/manifest.json at boot.
+// Shape: { hat: [{id, name, kind:'img', src:'/experiments/accessories/hat/foo.png'}], ... }
+let MANIFEST = { hat: [], bandana: [], coat: [], glasses: [], feet: [], background: [] };
 
 // --- state -----------------------------------------------------------------
 
@@ -434,7 +516,14 @@ const state = Object.assign({
   calib: false,
   equipped: {},
   anchors: {},
+  // user-uploaded PNGs per slot: { hat: [{id, name, kind:'img', src:dataUrl}], ... }
+  uploads: { hat: [], bandana: [], coat: [], glasses: [], feet: [], background: [] },
 }, loadState());
+// backfill if an older state shape is hydrated
+if (!state.uploads) state.uploads = {};
+for (const s of SLOTS) {
+  if (!state.uploads[s]) state.uploads[s] = [];
+}
 
 // --- render ----------------------------------------------------------------
 
@@ -459,7 +548,7 @@ function renderPicker() {
 function renderTabs() {
   const tabs = $('tabs');
   tabs.innerHTML = '';
-  for (const slot of ['hat', 'bandana', 'glasses', 'background']) {
+  for (const slot of ['hat', 'bandana', 'coat', 'glasses', 'feet', 'background']) {
     const btn = document.createElement('button');
     btn.className = 'tab' + (slot === state.activeTab ? ' active' : '');
     btn.textContent = slot.charAt(0).toUpperCase() + slot.slice(1);
@@ -473,16 +562,57 @@ function renderTabs() {
   }
 }
 
+function itemsForSlot(slot) {
+  return [
+    ...BUILT_IN[slot],
+    ...MANIFEST[slot],
+    ...state.uploads[slot],
+  ];
+}
+
+function findItem(slot, id) {
+  return itemsForSlot(slot).find(x => x.id === id);
+}
+
+function renderItemThumb(item) {
+  if (item.kind === 'svg') return SVG[item.id] || '';
+  if (item.kind === 'img') return `<img src="${item.src}" alt="${item.name}">`;
+  return '';
+}
+
+function badgeFor(item) {
+  if (item.kind === 'img' && item.src && item.src.startsWith('data:')) return `<span class="item-badge">local</span>`;
+  if (item.kind === 'img') return `<span class="item-badge">repo</span>`;
+  return '';
+}
+
 function renderInventory() {
   const grid = $('itemsGrid');
   grid.innerHTML = '';
   const slot = state.activeTab;
   const equippedForThis = (state.equipped[state.selectedId] || {})[slot];
-  for (const item of CATALOG[slot]) {
+  const items = itemsForSlot(slot);
+  for (const item of items) {
     const card = document.createElement('div');
     card.className = 'item-card' + (equippedForThis === item.id ? ' equipped' : '');
-    card.innerHTML = `${SVG[item.id]}<div class="item-name">${item.name}</div>`;
-    card.addEventListener('click', () => toggleEquip(slot, item.id));
+    const isUpload = state.uploads[slot].some(u => u.id === item.id);
+    card.innerHTML = `
+      <div class="thumb">${renderItemThumb(item)}</div>
+      <div class="item-name">${item.name}</div>
+      ${badgeFor(item)}
+      ${isUpload ? `<button class="item-del" title="Delete upload">×</button>` : ''}
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.classList.contains('item-del')) return;
+      toggleEquip(slot, item.id);
+    });
+    const delBtn = card.querySelector('.item-del');
+    if (delBtn) {
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteUpload(slot, item.id);
+      });
+    }
     grid.appendChild(card);
   }
 }
@@ -503,6 +633,8 @@ function renderCanvas() {
   for (const slot of SLOTS) {
     const accId = equipped[slot];
     if (!accId) continue;
+    const item = findItem(slot, accId);
+    if (!item) continue;
     const anchor = getAnchor(state.selectedId, slot);
     const el = document.createElement('div');
     el.className = `accessory-slot slot-${slot}`;
@@ -511,7 +643,7 @@ function renderCanvas() {
     el.style.top = anchor.y + '%';
     el.style.width = anchor.widthPct + '%';
     el.style.aspectRatio = DEFAULT_ANCHORS[slot].aspect;
-    el.innerHTML = SVG[accId];
+    el.innerHTML = renderItemThumb(item);
     layer.appendChild(el);
     wireDrag(el, slot);
   }
@@ -630,13 +762,16 @@ $('resetBtn').addEventListener('click', () => {
 
 $('shuffleBtn').addEventListener('click', () => {
   const id = state.selectedId;
-  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  state.equipped[id] = {
-    hat: pick(CATALOG.hat).id,
-    bandana: pick(CATALOG.bandana).id,
-    glasses: Math.random() > 0.5 ? pick(CATALOG.glasses).id : null,
-    background: Math.random() > 0.4 ? pick(CATALOG.background).id : null,
-  };
+  const pick = (arr) => arr.length ? arr[Math.floor(Math.random() * arr.length)] : null;
+  const maybe = (p) => Math.random() < p;
+  const look = {};
+  const hat = pick(itemsForSlot('hat'));         if (hat) look.hat = hat.id;
+  const bandana = pick(itemsForSlot('bandana')); if (bandana && maybe(0.7)) look.bandana = bandana.id;
+  const coat = pick(itemsForSlot('coat'));       if (coat && maybe(0.5)) look.coat = coat.id;
+  const glasses = pick(itemsForSlot('glasses')); if (glasses && maybe(0.6)) look.glasses = glasses.id;
+  const feet = pick(itemsForSlot('feet'));       if (feet && maybe(0.3)) look.feet = feet.id;
+  const bg = pick(itemsForSlot('background'));   if (bg && maybe(0.5)) look.background = bg.id;
+  state.equipped[id] = look;
   saveState();
   renderInventory();
   renderCanvas();
@@ -658,7 +793,8 @@ $('exportBtn').addEventListener('click', () => {
 $('copyBtn').addEventListener('click', async () => {
   const data = {
     anchors: state.anchors,
-    catalog: CATALOG,
+    builtIn: BUILT_IN,
+    manifest: MANIFEST,
     slots: SLOTS,
     defaultAnchors: DEFAULT_ANCHORS,
   };
@@ -672,6 +808,100 @@ $('copyBtn').addEventListener('click', async () => {
     $('readout').classList.add('show');
   }
 });
+
+// --- upload + delete ------------------------------------------------------
+
+function slugify(name) {
+  return name.toLowerCase().replace(/\.[^.]+$/, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'upload';
+}
+
+function addUpload(file) {
+  if (!file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const dataUrl = ev.target.result;
+    const slot = state.activeTab;
+    const base = slugify(file.name);
+    let id = 'user_' + base;
+    let n = 2;
+    while (itemsForSlot(slot).some(x => x.id === id)) { id = 'user_' + base + '_' + n++; }
+    state.uploads[slot].push({
+      id,
+      name: file.name.replace(/\.[^.]+$/, '').slice(0, 20),
+      kind: 'img',
+      src: dataUrl,
+    });
+    try {
+      saveState();
+    } catch (e) {
+      alert('localStorage is full — delete some uploads or commit them to /experiments/accessories/ instead.');
+      state.uploads[slot].pop();
+      return;
+    }
+    renderInventory();
+  };
+  reader.readAsDataURL(file);
+}
+
+function deleteUpload(slot, id) {
+  state.uploads[slot] = state.uploads[slot].filter(x => x.id !== id);
+  // also unequip from every Woogoro that had this item
+  for (const wId of Object.keys(state.equipped)) {
+    if (state.equipped[wId] && state.equipped[wId][slot] === id) {
+      delete state.equipped[wId][slot];
+    }
+  }
+  saveState();
+  renderInventory();
+  renderCanvas();
+}
+
+const dropZone = $('dropZone');
+const fileInput = $('fileInput');
+fileInput.addEventListener('change', (e) => {
+  for (const f of e.target.files) addUpload(f);
+  e.target.value = '';
+});
+['dragenter', 'dragover'].forEach(evt => {
+  dropZone.addEventListener(evt, (e) => {
+    e.preventDefault(); e.stopPropagation();
+    dropZone.classList.add('drag-over');
+  });
+});
+['dragleave', 'drop'].forEach(evt => {
+  dropZone.addEventListener(evt, (e) => {
+    e.preventDefault(); e.stopPropagation();
+    dropZone.classList.remove('drag-over');
+  });
+});
+dropZone.addEventListener('drop', (e) => {
+  const files = e.dataTransfer && e.dataTransfer.files;
+  if (!files) return;
+  for (const f of files) addUpload(f);
+});
+
+// --- manifest --------------------------------------------------------------
+
+async function loadManifest() {
+  try {
+    const res = await fetch('/experiments/accessories/manifest.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    for (const slot of Object.keys(MANIFEST)) {
+      if (Array.isArray(data[slot])) {
+        MANIFEST[slot] = data[slot].map(it => ({
+          id: it.id || slugify(it.file || it.name),
+          name: it.name || it.id || it.file,
+          kind: 'img',
+          src: `/experiments/accessories/${slot}/${it.file}`,
+        }));
+      }
+    }
+    renderInventory();
+  } catch (err) {
+    // manifest missing is fine — means no committed PNGs yet
+  }
+}
 
 function updateReadout() {
   if (!state.calib) {
@@ -691,6 +921,7 @@ function updateReadout() {
 // --- boot ------------------------------------------------------------------
 
 renderAll();
+loadManifest();
 </script>
 </body>
 </html>
