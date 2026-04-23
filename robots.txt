@@ -1,23 +1,28 @@
-# Search engines (welcome, but API endpoints are off-limits)
+# Search engines (welcome, but API endpoints + internal experiments are off-limits)
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
+Disallow: /experiments/
 
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
+Disallow: /experiments/
 
 User-agent: Slurp
 Allow: /
 Disallow: /api/
+Disallow: /experiments/
 
 User-agent: DuckDuckBot
 Allow: /
 Disallow: /api/
+Disallow: /experiments/
 
 User-agent: Applebot
 Allow: /
 Disallow: /api/
+Disallow: /experiments/
 
 # Known scrapers and AI trainers (blocked)
 User-agent: AhrefsBot
@@ -90,6 +95,7 @@ Disallow: /
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /experiments/
 Crawl-delay: 2
 
 Sitemap: https://woogoro.com/sitemap.xml
