@@ -600,7 +600,7 @@
         { key: "air_sealing", label: "Air sealing", patterns: [/air seal/i, /seal.*penetrat/i, /foam.*seal/i, /top plate/i, /can light/i] },
         { key: "baffles", label: "Baffles", patterns: [/baffle/i, /soffit vent/i, /rafter vent/i, /ventilation.*\d+/i] },
         { key: "vapor_barrier", label: "Vapor barrier", patterns: [/vapor barrier/i, /moisture barrier/i] },
-        { key: "removal", label: "Old insulation removal", patterns: [/remov.*(?:old|existing).*insul/i, /existing.*insul.*not.*remov/i, /NOT.*remov/i] },
+        { key: "removal", label: "Old insulation removal", patterns: [/remov.*(?:old|existing).*insul/i, /insul.*remov/i] },
         { key: "rebate", label: "Rebate eligible", patterns: [/rebate/i, /incentive/i, /tax credit/i, /utility rebate/i, /eligible/i] },
         { key: "cleanup", label: "Cleanup/disposal", patterns: [/cleanup/i, /clean.?up/i, /disposal/i, /haul/i] },
         { key: "hatch", label: "Hatch insulation", patterns: [/hatch/i, /attic.*access/i, /attic.*door/i] },
@@ -877,7 +877,7 @@
 
     // Scope detection (with negation handling)
     var scope = [];
-    var negationPattern = /\bnot\s+included\b|\bnot\s+available\b|\bexcluded\b|\bnot\s+covered\b|\blimited\s+to\s+existing\b|\bowner\s+responsible\b|\bextra\s+cost\b|\badditional\s+charge\b/i;
+    var negationPattern = /\bnot\s+included\b|\bnot\s+available\b|\bexcluded\b|\bnot\s+covered\b|\blimited\s+to\s+existing\b|\bowner\s+responsible\b|\bextra\s+cost\b|\badditional\s+charge\b|\bnon-\w+ed\b|\bnon\s+insulated\b/i;
     if (config.scope) {
       var tLower = t.toLowerCase();
       var lines = tLower.split(/\n/);

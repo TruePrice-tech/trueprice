@@ -1,0 +1,155 @@
+[
+  {
+    "path": "/fencing-cost-guide.html",
+    "label": "fencing-cost-guide",
+    "reason": "JSON-LD fix",
+    "title": "Fence Installation Cost Guide (2026) | Woogoro",
+    "h1": "Fence Installation Cost Guide",
+    "finalUrl": "http://127.0.0.1:4329/fencing-cost-guide.html",
+    "errs": []
+  },
+  {
+    "path": "/kitchen-remodel-cost-guide.html",
+    "label": "kitchen-remodel-cost-guide",
+    "reason": "JSON-LD fix",
+    "title": "Kitchen Remodel Cost Guide (2026) | Woogoro",
+    "h1": "Kitchen Remodel Cost Guide",
+    "finalUrl": "http://127.0.0.1:4329/kitchen-remodel-cost-guide.html",
+    "errs": []
+  },
+  {
+    "path": "/painting-cost-guide.html",
+    "label": "painting-cost-guide",
+    "reason": "JSON-LD fix",
+    "title": "House Painting Cost Guide (2026) | Woogoro",
+    "h1": "House Painting Cost Guide",
+    "finalUrl": "http://127.0.0.1:4329/painting-cost-guide.html",
+    "errs": []
+  },
+  {
+    "path": "/siding-cost-guide.html",
+    "label": "siding-cost-guide",
+    "reason": "JSON-LD fix",
+    "title": "Siding Replacement Cost Guide (2026) | Woogoro",
+    "h1": "Siding Replacement Cost Guide",
+    "finalUrl": "http://127.0.0.1:4329/siding-cost-guide.html",
+    "errs": []
+  },
+  {
+    "path": "/how-to-compare-roofing-quotes.html",
+    "label": "how-to-compare-roofing",
+    "reason": "orphan JSON-LD fix",
+    "title": "How to Compare Roofing Quotes (2026 Guide) | Woogoro",
+    "h1": "How to Compare Roofing Quotes",
+    "finalUrl": "http://127.0.0.1:4329/how-to-compare-roofing-quotes.html",
+    "errs": []
+  },
+  {
+    "path": "/columbus-oh-roof-cost.html",
+    "label": "columbus-roof",
+    "reason": "double-html truncation",
+    "title": "Roof Replacement Cost in Columbus, OH (2026) | Woogoro",
+    "h1": "Roof Replacement Cost in Columbus, OH",
+    "finalUrl": "http://127.0.0.1:4329/columbus-oh-roof-cost.html",
+    "errs": []
+  },
+  {
+    "path": "/texas-roof-cost.html",
+    "label": "texas-roof",
+    "reason": "stray </script> removal",
+    "title": "Roof Replacement Cost in Texas (2026) | Woogoro",
+    "h1": "Roof Replacement Cost in Texas (2026)",
+    "finalUrl": "http://127.0.0.1:4329/texas-roof-cost.html",
+    "errs": []
+  },
+  {
+    "path": "/solar-cost.html",
+    "label": "solar-cost",
+    "reason": "stray </script> removal",
+    "title": "Solar Panel Installation Cost Guide (2026) | Woogoro",
+    "h1": "Solar Panel Installation Cost Guide (2026)",
+    "finalUrl": "http://127.0.0.1:4329/solar-cost.html",
+    "errs": []
+  },
+  {
+    "path": "/compare-hvac-quotes.html",
+    "label": "compare-hvac",
+    "reason": "cost-guide link fix + how-to-compare removal",
+    "title": "Compare HVAC Quotes Side by Side | Woogoro",
+    "h1": "Compare your HVAC quotes",
+    "finalUrl": "http://127.0.0.1:4329/compare-hvac-quotes.html",
+    "errs": []
+  },
+  {
+    "path": "/compare-windows-quotes.html",
+    "label": "compare-windows",
+    "reason": "analyzer typo + cost-guide fix",
+    "title": "Compare Window Installation Quotes Side by Side | Woogoro",
+    "h1": "Compare your window quotes",
+    "finalUrl": "http://127.0.0.1:4329/compare-windows-quotes.html",
+    "errs": []
+  },
+  {
+    "path": "/compare-legal-quotes.html",
+    "label": "compare-legal",
+    "reason": "analyzer typo fix",
+    "title": "Compare Attorney Quotes Side by Side | Woogoro",
+    "h1": "Compare attorney quotes",
+    "finalUrl": "http://127.0.0.1:4329/compare-legal-quotes.html",
+    "errs": []
+  },
+  {
+    "path": "/compare-medical-quotes.html",
+    "label": "compare-medical",
+    "reason": "analyzer typo fix",
+    "title": "Compare Medical Bills Side by Side | Woogoro",
+    "h1": "Compare your medical bills",
+    "finalUrl": "http://127.0.0.1:4329/compare-medical-quotes.html",
+    "errs": []
+  },
+  {
+    "path": "/compare-roofing-quotes.html",
+    "label": "compare-roofing",
+    "reason": "cost-guide repoint",
+    "title": "Compare Roofing Quotes Side by Side | Woogoro",
+    "h1": "Compare your roofing quotes",
+    "finalUrl": "http://127.0.0.1:4329/compare-roofing-quotes.html",
+    "errs": []
+  },
+  {
+    "path": "/st-louis-mo-auto-repair-cost.html",
+    "label": "stlouis-auto",
+    "reason": "canonical state-code fix",
+    "title": "Auto Repair Cost in St. Louis, MO (2026) | Woogoro",
+    "h1": "Auto Repair Cost in St. Louis, MO",
+    "finalUrl": "http://127.0.0.1:4329/st-louis-mo-auto-repair-cost.html",
+    "errs": []
+  },
+  {
+    "path": "/roof-replacement-cost-guide.html",
+    "label": "roof-redirect-stub",
+    "reason": "new redirect stub",
+    "title": "Roof Cost by Material | Woogoro",
+    "h1": "Roof Replacement Cost by Material",
+    "finalUrl": "http://127.0.0.1:4329/roof-cost-by-material.html",
+    "errs": []
+  },
+  {
+    "path": "/get-an-estimate.html",
+    "label": "get-estimate",
+    "reason": "contact → mailto fix",
+    "title": "Get an estimate | Woogoro",
+    "h1": "Get an estimate",
+    "finalUrl": "http://127.0.0.1:4329/get-an-estimate.html",
+    "errs": []
+  },
+  {
+    "path": "/hvac-estimate.html",
+    "label": "hvac-estimate",
+    "reason": "quote capture card still renders",
+    "title": "HVAC Cost Calculator 2026 — Free Estimate by City | Woogoro",
+    "h1": "How much will your HVAC project cost?",
+    "finalUrl": "http://127.0.0.1:4329/hvac-estimate.html",
+    "errs": []
+  }
+]
